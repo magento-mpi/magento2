@@ -71,7 +71,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_BundleDyna
             'order_item_id' => '53',
             'additional_data' => NULL,
             'description' => NULL,
-            'name' => $this->_getHelper()->__('Bundle product dynamic price'),
+            'name' => __('Bundle product dynamic price'),
             'sku' => 'dynamic price',
         );
     }
@@ -95,7 +95,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_BundleDyna
                 'order_item_id' => '54',
                 'additional_data' => NULL,
                 'description' => NULL,
-                'name' => $this->_getHelper()->__('Crucial 1GB PC4200 DDR2 533MHz Memory'),
+                'name' => __('Crucial 1GB PC4200 DDR2 533MHz Memory'),
                 'sku' => '1gbdimm',
             ),
             array (
@@ -109,7 +109,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_BundleDyna
                 'order_item_id' => '55',
                 'additional_data' => NULL,
                 'description' => NULL,
-                'name' => $this->_getHelper()->__('Logitech diNovo Edge Keyboard'),
+                'name' => __('Logitech diNovo Edge Keyboard'),
                 'sku' => 'logidinovo',
             ),
         );

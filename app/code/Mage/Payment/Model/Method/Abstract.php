@@ -316,7 +316,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function getCode()
     {
         if (empty($this->_code)) {
-            Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('We cannot retrieve the payment method code.'));
+            Mage::throwException(__('We cannot retrieve the payment method code.'));
         }
         return $this->_code;
     }
@@ -350,7 +350,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         $instance = $this->getData('info_instance');
         if (!($instance instanceof Mage_Payment_Model_Info)) {
-            Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('We cannot retrieve the payment information object instance.'));
+            Mage::throwException(__('We cannot retrieve the payment information object instance.'));
         }
         return $instance;
     }
@@ -372,7 +372,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
              $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
          }
          if (!$this->canUseForCountry($billingCountry)) {
-             Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('You can\'t use the payment type you selected to make payments to the billing country.'));
+             Mage::throwException(__('You can\'t use the payment type you selected to make payments to the billing country.'));
          }
          return $this;
     }
@@ -388,7 +388,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function order(Varien_Object $payment, $amount)
     {
         if (!$this->canOrder()) {
-            Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('The order action is not available.'));
+            Mage::throwException(__('The order action is not available.'));
         }
         return $this;
     }
@@ -404,7 +404,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function authorize(Varien_Object $payment, $amount)
     {
         if (!$this->canAuthorize()) {
-            Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('The authorize action is not available.'));
+            Mage::throwException(__('The authorize action is not available.'));
         }
         return $this;
     }
@@ -420,7 +420,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function capture(Varien_Object $payment, $amount)
     {
         if (!$this->canCapture()) {
-            Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('Th capture action is not available.'));
+            Mage::throwException(__('Th capture action is not available.'));
         }
 
         return $this;
@@ -467,7 +467,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function refund(Varien_Object $payment, $amount)
     {
         if (!$this->canRefund()) {
-            Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('The refund action is not available.'));
+            Mage::throwException(__('The refund action is not available.'));
         }
         return $this;
     }
@@ -506,7 +506,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function void(Varien_Object $payment)
     {
         if (!$this->canVoid($payment)) {
-            Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('Void action is not available.'));
+            Mage::throwException(__('Void action is not available.'));
         }
         return $this;
     }
@@ -533,7 +533,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function acceptPayment(Mage_Payment_Model_Info $payment)
     {
         if (!$this->canReviewPayment($payment)) {
-            Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('The payment review action is unavailable.'));
+            Mage::throwException(__('The payment review action is unavailable.'));
         }
         return false;
     }
@@ -548,7 +548,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     public function denyPayment(Mage_Payment_Model_Info $payment)
     {
         if (!$this->canReviewPayment($payment)) {
-            Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('The payment review action is unavailable.'));
+            Mage::throwException(__('The payment review action is unavailable.'));
         }
         return false;
     }

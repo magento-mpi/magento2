@@ -109,9 +109,9 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
                             && isset($flagData['source']) && !empty($flagData['source'])
                             && isset($flagData['destination']) && !empty($flagData['destination'])
                         ) {
-                            $result['message'] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Synchronizing %s to %s', $flagData['source'], $flagData['destination']);
+                            $result['message'] = __('Synchronizing %s to %s', $flagData['source'], $flagData['destination']);
                         } else {
-                            $result['message'] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Synchronizing...');
+                            $result['message'] = __('Synchronizing...');
                         }
                         break;
                     } else {
@@ -120,7 +120,7 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
                             && !(isset($flagData['timeout_reached']) && $flagData['timeout_reached'])
                         ) {
                             Mage::logException(new Mage_Exception(
-                                Mage::helper('Mage_Adminhtml_Helper_Data')->__('The timeout limit for response from synchronize process was reached.')
+                                __('The timeout limit for response from synchronize process was reached.')
                             ));
 
                             $state = Mage_Core_Model_File_Storage_Flag::STATE_FINISHED;

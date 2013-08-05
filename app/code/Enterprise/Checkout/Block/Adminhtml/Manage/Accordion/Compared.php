@@ -29,7 +29,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
         $this->setId('source_compared');
         if ($this->_getStore()) {
             $this->setHeaderText(
-                Mage::helper('Enterprise_Checkout_Helper_Data')->__('Products in the Comparison List (%s)', $this->getItemsCount())
+                __('Products in the Comparison List (%s)', $this->getItemsCount())
             );
         }
     }

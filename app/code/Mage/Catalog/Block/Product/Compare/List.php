@@ -80,7 +80,7 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
     {
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Mage_Catalog_Helper_Data')->__('Products Comparison List') . ' - ' . $headBlock->getDefaultTitle());
+            $headBlock->setTitle(__('Products Comparison List') . ' - ' . $headBlock->getDefaultTitle());
         }
         return parent::_prepareLayout();
     }
@@ -142,7 +142,7 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
     public function getProductAttributeValue($product, $attribute)
     {
         if (!$product->hasData($attribute->getAttributeCode())) {
-            return Mage::helper('Mage_Catalog_Helper_Data')->__('N/A');
+            return __('N/A');
         }
 
         if ($attribute->getSourceModel()
@@ -153,7 +153,7 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
         } else {
             $value = $product->getData($attribute->getAttributeCode());
         }
-        return ((string)$value == '') ? Mage::helper('Mage_Catalog_Helper_Data')->__('No') : $value;
+        return ((string)$value == '') ? __('No') : $value;
     }
 
     /**

@@ -52,21 +52,18 @@ class Mage_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCase
         $this->_model = null;
     }
 
-    /**
-     * @dataProvider validateValueDataProvider
-     * @param mixed $inputValue
-     * @param mixed $expectedResult
-     */
-    public function testValidateValue($inputValue, $expectedResult)
+    public function testValidateValueString()
     {
+        $inputValue = '0';
+        $expectedResult = true;
         $this->assertEquals($expectedResult, $this->_model->validateValue($inputValue));
     }
 
-    public static function validateValueDataProvider()
+    public function testValidateValueInteger()
     {
-        return array(
-            'zero string'  => array('0', true),
-            'zero integer' => array(0, array('"%s" is a required value.'))
-        );
+        $inputValue = 0;
+        $expectedResult = array('"Test" is a required value.');
+        $result = $this->_model->validateValue($inputValue);
+        $this->assertEquals($expectedResult, array((string)$result[0]));
     }
 }

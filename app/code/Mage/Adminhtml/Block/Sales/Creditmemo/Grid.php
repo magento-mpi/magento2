@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Credit Memo'),
+            'header'    => __('Credit Memo'),
             'index'     => 'increment_id',
             'type'      => 'text',
             'header_css_class'  => 'col-memo-number',
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Created'),
+            'header'    => __('Created'),
             'index'     => 'created_at',
             'type'      => 'datetime',
             'header_css_class'  => 'col-period',
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('order_increment_id', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order'),
+            'header'    => __('Order'),
             'index'     => 'order_increment_id',
             'type'      => 'text',
             'header_css_class'  => 'col-order-number',
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('order_created_at', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order Date'),
+            'header'    => __('Order Date'),
             'index'     => 'order_created_at',
             'type'      => 'datetime',
             'header_css_class'  => 'col-period',
@@ -77,14 +77,14 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('billing_name', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Bill-to Name'),
+            'header' => __('Bill-to Name'),
             'index' => 'billing_name',
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('state', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
+            'header'    => __('Status'),
             'index'     => 'state',
             'type'      => 'options',
             'options'   => Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->getStates(),
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('grand_total', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Refunded'),
+            'header'    => __('Refunded'),
             'index'     => 'grand_total',
             'type'      => 'currency',
             'currency'  => 'order_currency_code',
@@ -103,12 +103,12 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Action'),
+                'header'    => __('Action'),
                 'type'      => 'action',
                 'getter'     => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('Mage_Sales_Helper_Data')->__('View'),
+                        'caption' => __('View'),
                         'url'     => array('base'=>'*/sales_creditmemo/view'),
                         'field'   => 'creditmemo_id'
                     )
@@ -120,8 +120,8 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
                 'column_css_class'  => 'col-actions'
         ));
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('Mage_Sales_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportExcel', Mage::helper('Mage_Sales_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportCsv', __('CSV'));
+        $this->addExportType('*/*/exportExcel', __('Excel XML'));
 
         return parent::_prepareColumns();
     }
@@ -133,7 +133,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
         $this->getMassactionBlock()->setUseSelectAll(false);
 
         $this->getMassactionBlock()->addItem('pdfcreditmemos_order', array(
-             'label'=> Mage::helper('Mage_Sales_Helper_Data')->__('PDF Credit Memos'),
+             'label'=> __('PDF Credit Memos'),
              'url'  => $this->getUrl('*/sales_creditmemo/pdfcreditmemos'),
         ));
 

@@ -65,7 +65,7 @@
         if ($this->isCustomerLoggedIn()) {
             $options = array(array(
                 'value' => Enterprise_GiftRegistry_Helper_Data::ADDRESS_NONE,
-                'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('None')
+                'label' => __('None')
             ));
             foreach ($this->getCustomer()->getAddresses() as $address) {
                 $options[] = array(
@@ -75,7 +75,7 @@
             }
             $options[] = array(
                 'value' => Enterprise_GiftRegistry_Helper_Data::ADDRESS_NEW,
-                'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('New Address')
+                'label' => __('New Address')
             );
 
             $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')

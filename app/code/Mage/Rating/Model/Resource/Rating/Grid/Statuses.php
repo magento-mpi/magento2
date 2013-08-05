@@ -38,8 +38,8 @@ class Mage_Rating_Model_Resource_Rating_Grid_Statuses implements Mage_Core_Model
     public function toOptionArray()
     {
         return array(
-            '1' => $this->_helper->__('Active'),
-            '0' => $this->_helper->__('Inactive')
+            '1' => __('Active'),
+            '0' => __('Inactive')
         );
     }
 }

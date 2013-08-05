@@ -59,7 +59,7 @@ $_colspan = ($this->getIsAddAfter()) ? 'colspan="2"' : '';
 //<![CDATA[
 if (window.printedTemplateType === undefined) {
     $('widget_options_saas_printedtemplate_widget_itemsGrid').innerHTML =
-        '<ul id="printedtemplate_widget_warning" class="messages"><li class="error-msg"><ul><li><?php echo $this->jsQuoteEscape($this->__("This widget is available only for printed templates.")) ?></li></ul></li></ul>';
+        '<ul id="printedtemplate_widget_warning" class="messages"><li class="error-msg"><ul><li><?php echo $this->jsQuoteEscape(__("This widget is available only for printed templates.")) ?></li></ul></li></ul>';
 } else {
 
 $('parameter_type').value = "$" + printedTemplateType;
@@ -93,9 +93,9 @@ var arrayRow<?php echo $_htmlId ?> = {
     <?php endif; ?>
 <?php endforeach;?>
 <?php if ($this->getIsAddAfter()) : ?>
-            +'<td><button onclick="" class="scalable add" type="button" id="addAfterBtn#{_id}"><span><span><span><?php echo $this->jsQuoteEscape($this->__('Add after')) ?><\/span><\/span><\/span><\/button><\/td>'
+            +'<td><button onclick="" class="scalable add" type="button" id="addAfterBtn#{_id}"><span><span><span><?php echo $this->jsQuoteEscape(__('Add after')) ?><\/span><\/span><\/span><\/button><\/td>'
 <?php endif;?>
-            +'<td><button onclick="" class="scalable delete" type="button" id="deleteBtn#{_id}"><span><span><span><?php echo $this->jsQuoteEscape($this->__('Delete')) ?><\/span><\/span><\/span><\/button><\/td>'
+            +'<td><button onclick="" class="scalable delete" type="button" id="deleteBtn#{_id}"><span><span><span><?php echo $this->jsQuoteEscape(__('Delete')) ?><\/span><\/span><\/span><\/button><\/td>'
         +'<\/tr>'
         )
     },

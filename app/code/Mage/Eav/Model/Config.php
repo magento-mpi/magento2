@@ -309,7 +309,7 @@ class Mage_Eav_Model_Config
             }
 
             if (!$entityType->getId()) {
-                Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Invalid entity_type specified: %s', $code));
+                Mage::throwException(__('Invalid entity_type specified: %s', $code));
             }
         }
         $this->_addEntityTypeReference($entityType->getId(), $entityType->getEntityTypeCode());

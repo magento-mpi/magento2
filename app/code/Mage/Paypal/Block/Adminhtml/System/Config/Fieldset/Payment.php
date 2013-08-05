@@ -74,16 +74,16 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
             . $disabledClassString . '" id="' . $htmlId
             . '-head" onclick="paypalToggleSolution.call(this, \'' . $htmlId . "', '"
             . $this->getUrl('*/*/state') . '\'); return false;"><span class="state-closed">'
-            . $this->__('Configure') . '</span><span class="state-opened">'
-            . $this->__('Close') . '</span></button>';
+            . __('Configure') . '</span><span class="state-opened">'
+            . __('Close') . '</span></button>';
 
         if (!empty($groupConfig['more_url'])) {
             $html .= '<a class="link-more" href="' . $groupConfig['more_url'] . '" target="_blank">'
-                . $this->__('Learn More') . '</a>';
+                . __('Learn More') . '</a>';
         }
         if (!empty($groupConfig['demo_url'])) {
             $html .= '<a class="link-demo" href="' . $groupConfig['demo_url'] . '" target="_blank">'
-                . $this->__('View Demo') . '</a>';
+                . __('View Demo') . '</a>';
         }
 
             $html .='</div></div>';

@@ -84,7 +84,7 @@ class Saas_Launcher_TesttransactionController extends Mage_Core_Controller_Front
                 $this->_cartModel->save();
                 $this->_checkoutSession->setCartWasUpdated(true);
             } else {
-                $this->_checkoutSession->addNotice($this->_launcherHelper->__(
+                $this->_checkoutSession->addNotice(__(
                     'You need to have at least one Simple or Virtual Product to run test transaction.'
                 ));
             }

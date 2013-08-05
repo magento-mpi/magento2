@@ -66,7 +66,7 @@ class Mage_Sales_Block_Order_Invoice_Items extends Mage_Sales_Block_Items_Abstra
         $comments = $this->getChildBlock('invoice_comments');
         if ($comments) {
             $comments->setEntity($invoice)
-                ->setTitle(Mage::helper('Mage_Sales_Helper_Data')->__('About Your Invoice'));
+                ->setTitle(__('About Your Invoice'));
             $html = $comments->toHtml();
         }
         return $html;

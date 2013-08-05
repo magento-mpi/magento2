@@ -66,12 +66,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Advanced Inventory');
+        return __('Advanced Inventory');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Advanced Inventory');
+        return __('Advanced Inventory');
     }
 
     public function canShowTab()

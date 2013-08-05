@@ -41,8 +41,8 @@ class Enterprise_TargetRule_Model_Rule_Options_Status implements Mage_Core_Model
     public function toOptionArray()
     {
         return array(
-            1 => $this->_helper->__('Active'),
-            0 => $this->_helper->__('Inactive'),
+            1 => __('Active'),
+            0 => __('Inactive'),
         );
     }
 }

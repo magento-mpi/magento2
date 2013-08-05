@@ -39,6 +39,6 @@ class Saas_Limitation_Model_Dictionary
         if (!isset($this->_messages[$code])) {
             throw new InvalidArgumentException("Message '$code' has not been defined.");
         }
-        return $this->_translationHelper->__($this->_messages[$code]);
+        return __($this->_messages[$code]);
     }
 }

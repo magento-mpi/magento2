@@ -118,7 +118,7 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
 
     /**
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage We can't find theme "%s".
+     * @expectedExceptionMessage We can't find theme "1".
      */
     public function testSetEditableThemeByIdWrongThemeId()
     {
@@ -180,7 +180,7 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
 
     /**
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Theme "%s" is not editable.
+     * @expectedExceptionMessage Theme "" is not editable.
      */
     public function testGetStagingThemeWrongType()
     {

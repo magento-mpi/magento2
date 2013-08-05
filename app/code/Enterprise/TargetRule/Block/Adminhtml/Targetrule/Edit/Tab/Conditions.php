@@ -33,7 +33,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset   = $form->addFieldset('conditions_fieldset', array(
-            'legend' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product Match Conditions (leave blank for matching all products)'))
+            'legend' => __('Product Match Conditions (leave blank for matching all products)'))
         );
         $newCondUrl = $this->getUrl('*/targetrule/newConditionHtml/', array(
             'form'  => $fieldset->getHtmlId()
@@ -66,7 +66,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
      */
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Products to Match');
+        return __('Products to Match');
     }
 
     /**
@@ -76,7 +76,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
      */
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Products to Match');
+        return __('Products to Match');
     }
 
     /**

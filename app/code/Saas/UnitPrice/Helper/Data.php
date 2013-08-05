@@ -66,14 +66,14 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
         );
         $basePrice = $basePriceModel->getUnitPrice($productAmount, $productUnit, $productPrice);
 
-        $label = $this->__($this->getConfig('frontend_label'));
+        $label = __($this->getConfig('frontend_label'));
         $label = str_replace('{{unitprice}}', $this->currency($basePrice), $label);
         $label = str_replace('{{product_amount}}', $productAmount, $label);
-        $label = str_replace('{{product_unit}}', $this->__($productUnit), $label);
-        $label = str_replace('{{product_unit_short}}', $this->__($productUnit . ' short'), $label);
+        $label = str_replace('{{product_unit}}', __($productUnit), $label);
+        $label = str_replace('{{product_unit_short}}', __($productUnit . ' short'), $label);
         $label = str_replace('{{reference_amount}}', $referenceAmount, $label);
-        $label = str_replace('{{reference_unit}}', $this->__($referenceUnit), $label);
-        $label = str_replace('{{reference_unit_short}}', $this->__($referenceUnit . ' short'), $label);
+        $label = str_replace('{{reference_unit}}', __($referenceUnit), $label);
+        $label = str_replace('{{reference_unit_short}}', __($referenceUnit . ' short'), $label);
 
         return $label;
     }

@@ -70,7 +70,6 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      protected $_dataServiceGraph;
 
     /**
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_App $application
      * @param Mage_Backend_Model_Config_BackendFactory $backendFactory
      * @param Mage_Backend_Model_Config_SourceFactory $sourceFactory
@@ -80,7 +79,6 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      * @param Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_App $application,
         Mage_Backend_Model_Config_BackendFactory $backendFactory,
         Mage_Backend_Model_Config_SourceFactory $sourceFactory,
@@ -89,7 +87,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
         Mage_Core_Model_DataService_Graph $dataServiceGraph,
         Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
     ) {
-        parent::__construct($helperFactory, $application);
+        parent::__construct($application);
         $this->_backendFactory = $backendFactory;
         $this->_sourceFactory = $sourceFactory;
         $this->_commentFactory = $commentFactory;
@@ -108,7 +106,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     {
         $label = '';
         if ($labelPrefix) {
-            $label .= $this->_helperFactory->get($this->_getTranslationModule())->__($labelPrefix) . ' ';
+            $label .= __($labelPrefix) . ' ';
         }
         $label .= parent::getLabel();
         return $label;
@@ -455,8 +453,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
      */
     private function _translateLabel($label)
     {
-        return $this->_helperFactory->get(
-            $this->_getTranslationModule())->__($label);
+        return __($label);
     }
 
     /**

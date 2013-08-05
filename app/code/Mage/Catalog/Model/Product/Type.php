@@ -123,7 +123,7 @@ class Mage_Catalog_Model_Product_Type
     {
         $options = array();
         foreach (self::getTypes() as $typeId => $type) {
-            $options[$typeId] = Mage::helper('Mage_Catalog_Helper_Data')->__($type['label']);
+            $options[$typeId] = __($type['label']);
         }
 
         return $options;
@@ -203,7 +203,7 @@ class Mage_Catalog_Model_Product_Type
                 if (isset($productConfig['@']['module'])) {
                     $moduleName = $productConfig['@']['module'];
                 }
-                $translatedLabel = Mage::helper($moduleName)->__($productConfig['label']);
+                $translatedLabel = __($productConfig['label']);
                 $productTypes[$productKey]['label'] = $translatedLabel;
             }
             self::$_types = $productTypes;

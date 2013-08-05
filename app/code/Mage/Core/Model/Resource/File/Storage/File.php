@@ -157,7 +157,7 @@ class Mage_Core_Model_Resource_File_Storage_File
             $this->_filesystem->ensureDirectoryExists($path);
         } catch (Exception $e) {
             $this->_logger->log($e->getMessage());
-            Mage::throwException($this->_helper->__('Unable to create directory: %s', $path));
+            Mage::throwException(__('Unable to create directory: %s', $path));
         }
 
         return true;
@@ -184,7 +184,7 @@ class Mage_Core_Model_Resource_File_Storage_File
             }
         } catch (Magento_Filesystem_Exception $e) {
             $this->_logger->log($e->getMessage());
-            Mage::throwException($this->_helper->__('Unable to save file: %s', $filePath));
+            Mage::throwException(__('Unable to save file: %s', $filePath));
         }
 
         return false;

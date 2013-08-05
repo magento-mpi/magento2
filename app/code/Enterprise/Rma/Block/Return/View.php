@@ -300,10 +300,10 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         return $this->getLayout()
             ->createBlock('Mage_Core_Block_Html_Link')
             ->setData(array(
-                'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'),
+                'label'   => __('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
             ))
-            ->setAnchorText(Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'))
+            ->setAnchorText(__('Print Shipping Label'))
             ->toHtml();
     }
 
@@ -318,13 +318,13 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
             ->createBlock('Mage_Core_Block_Html_Link')
             ->setData(array(
                 'href'      => "javascript:void(0)",
-                'title'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Show Packages'),
+                'title'     => __('Show Packages'),
                 'onclick'   => "popWin(
                         '".$this->helper('Enterprise_Rma_Helper_Data')->getPackagePopupUrlByRmaModel($this->getRma())."',
                         'package',
                         'width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
             ))
-            ->setAnchorText(Mage::helper('Enterprise_Rma_Helper_Data')->__('Show Packages'))
+            ->setAnchorText(__('Show Packages'))
             ->toHtml();
     }
 
@@ -342,9 +342,9 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
                     $this->getRma(),
                     'printlabel'
                 ),
-                'title'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'),
+                'title'     => __('Print Shipping Label'),
             ))
-            ->setAnchorText(Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'))
+            ->setAnchorText(__('Print Shipping Label'))
             ->toHtml();
     }
 

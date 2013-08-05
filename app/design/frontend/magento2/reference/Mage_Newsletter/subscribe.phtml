@@ -13,15 +13,15 @@
     <div class="content">
         <form action="<?php echo $this->getFormActionUrl() ?>" method="post" id="newsletter-validate-detail">
             <div class="field newsletter">
-                <label class="label" for="newsletter"><?php echo $this->__('Sign Up for Our Newsletter:') ?></label>
+                <label class="label" for="newsletter"><?php echo __('Sign Up for Our Newsletter:') ?></label>
                 <div class="control">
                     <input name="email" type="text" id="newsletter"
-                                  placeholder="<?php echo $this->__('Enter your email address') ?>"
+                                  placeholder="<?php echo __('Enter your email address') ?>"
                                   data-validate="{required:true, 'validate-email':true}"/>
                 </div>
                 <div class="actions">
-                    <button class="action subscribe" title="<?php echo $this->__('Subscribe') ?>" type="submit">
-                        <span><?php echo $this->__('Subscribe') ?></span>
+                    <button class="action subscribe" title="<?php echo __('Subscribe') ?>" type="submit">
+                        <span><?php echo __('Subscribe') ?></span>
                     </button>
                 </div>
             </div>
@@ -39,7 +39,7 @@
             "<?php echo $this->getViewFileUrl('Mage_Newsletter::newsletter.js')?>", function() {
                 $('#newsletter').newsletter({
                     formSelector: '#newsletter-validate-detail'
-                    //placeholder: '<?php echo $this->__('Enter your email address') ?>'
+                    //placeholder: '<?php echo __('Enter your email address') ?>'
                 });
             });
     })(jQuery);

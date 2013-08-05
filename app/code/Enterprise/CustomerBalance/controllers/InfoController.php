@@ -43,7 +43,7 @@ class Enterprise_CustomerBalance_InfoController extends Mage_Core_Controller_Fro
         $this->loadLayoutUpdates();
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store Credit'));
+            $headBlock->setTitle(__('Store Credit'));
         }
         $this->renderLayout();
     }

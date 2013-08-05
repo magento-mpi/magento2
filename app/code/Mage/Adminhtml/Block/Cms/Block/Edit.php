@@ -25,11 +25,11 @@ class Mage_Adminhtml_Block_Cms_Block_Edit extends Mage_Adminhtml_Block_Widget_Fo
 
         parent::_construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Cms_Helper_Data')->__('Save Block'));
-        $this->_updateButton('delete', 'label', Mage::helper('Mage_Cms_Helper_Data')->__('Delete Block'));
+        $this->_updateButton('save', 'label', __('Save Block'));
+        $this->_updateButton('delete', 'label', __('Delete Block'));
 
         $this->_addButton('saveandcontinue', array(
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save and Continue Edit'),
+            'label'     => __('Save and Continue Edit'),
             'class'     => 'save',
             'data_attribute'  => array(
                 'mage-init' => array(
@@ -57,10 +57,10 @@ class Mage_Adminhtml_Block_Cms_Block_Edit extends Mage_Adminhtml_Block_Widget_Fo
     public function getHeaderText()
     {
         if (Mage::registry('cms_block')->getId()) {
-            return Mage::helper('Mage_Cms_Helper_Data')->__("Edit Block '%s'", $this->escapeHtml(Mage::registry('cms_block')->getTitle()));
+            return __("Edit Block '%s'", $this->escapeHtml(Mage::registry('cms_block')->getTitle()));
         }
         else {
-            return Mage::helper('Mage_Cms_Helper_Data')->__('New Block');
+            return __('New Block');
         }
     }
 

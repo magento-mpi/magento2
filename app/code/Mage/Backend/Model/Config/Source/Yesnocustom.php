@@ -23,9 +23,9 @@ class Mage_Backend_Model_Config_Source_Yesnocustom implements Mage_Core_Model_Op
     public function toOptionArray()
     {
         return array(
-            array('value' => 1, 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('Yes')),
-            array('value' => 0, 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('No')),
-            array('value' => 2, 'label'=>Mage::helper('Mage_Backend_Helper_Data')->__('Specified'))
+            array('value' => 1, 'label'=>__('Yes')),
+            array('value' => 0, 'label'=>__('No')),
+            array('value' => 2, 'label'=>__('Specified'))
         );
     }
 

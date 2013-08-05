@@ -38,6 +38,6 @@ class Mage_Tag_Block_Adminhtml_Pending extends Mage_Adminhtml_Block_Template
 
     public function getHeaderHtml()
     {
-        return Mage::helper('Mage_Tag_Helper_Data')->__('Pending Tags');
+        return __('Pending Tags');
     }
 }

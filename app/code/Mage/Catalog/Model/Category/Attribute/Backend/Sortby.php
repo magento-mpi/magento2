@@ -50,7 +50,7 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Sortby
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('The value of attribute "%s" must be unique.', $label));
+                Mage::throwException(__('The value of attribute "%s" must be unique.', $label));
             }
         }
 
@@ -62,11 +62,11 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Sortby
                 $data = (!in_array('default_sort_by', $postDataConfig))? $object->getData($attributeCode):
                        Mage::getStoreConfig("catalog/frontend/default_sort_by");
                 if (!in_array($data, $available)) {
-                    Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Default Product Listing Sort by does not exist in Available Product Listing Sort By.'));
+                    Mage::throwException(__('Default Product Listing Sort by does not exist in Available Product Listing Sort By.'));
                 }
             } else {
                 if (!in_array('available_sort_by', $postDataConfig)) {
-                    Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('Default Product Listing Sort by does not exist in Available Product Listing Sort By.'));
+                    Mage::throwException(__('Default Product Listing Sort by does not exist in Available Product Listing Sort By.'));
                 }
             }
         }

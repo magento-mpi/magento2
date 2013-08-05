@@ -29,7 +29,7 @@ class Saas_UnitPrice_Model_Config_Source_Unitprice_Unit extends Mage_Eav_Model_E
         $helper = $this->_getHelper();
 
         foreach (explode(',', $helper->getConfig('units')) as $unit) {
-            $options[] = array('value' => $unit, 'label' => $helper->__($unit));
+            $options[] = array('value' => $unit, 'label' => __($unit));
         }
 
         return $options;

@@ -60,8 +60,8 @@
                     swapNotices: false,
                     isOldMode: <?php print $_isOldDisplayMode; ?>,
                     messages: {
-                        noticeDefault: '<?php echo $this->jsQuoteEscape($this->__("Click on image to zoom")) ?>',
-                        loadingMessage: '<?php echo $this->jsQuoteEscape($this->__("Loading...")) ?>'
+                        noticeDefault: '<?php echo $this->jsQuoteEscape(__("Click on image to zoom")) ?>',
+                        loadingMessage: '<?php echo $this->jsQuoteEscape(__("Loading...")) ?>'
                     }
                 });
             <?php else: ?>
@@ -76,8 +76,8 @@
                     swapNotices: true,
                     isOldMode: <?php print $_isOldDisplayMode; ?>,
                     messages: {
-                        noticeDefault: '<?php echo $this->jsQuoteEscape($this->__("Click on image to zoom")) ?>',
-                        noticeLightBox: '<?php echo $this->jsQuoteEscape($this->__("Click on image to view it full sized")) ?>', loadingMessage: '<?php echo $this->jsQuoteEscape($this->__("Loading...")) ?>'
+                        noticeDefault: '<?php echo $this->jsQuoteEscape(__("Click on image to zoom")) ?>',
+                        noticeLightBox: '<?php echo $this->jsQuoteEscape(__("Click on image to view it full sized")) ?>', loadingMessage: '<?php echo $this->jsQuoteEscape(__("Loading...")) ?>'
                     }
                 });
             <?php endif; ?>
@@ -93,7 +93,7 @@
     $thumbHeight =  $this->getVar("product_page_more_views:height") ? : $thumbWidth;
 ?>
 <div class="product photo thumbs">
-    <strong class="title"><?php echo $this->__('More Views') ?></strong>
+    <strong class="title"><?php echo __('More Views') ?></strong>
     <ul class="items thumbs">
     <?php foreach ($this->getGalleryImages() as $_image): ?>
         <?php if ($_isOldDisplayMode) {

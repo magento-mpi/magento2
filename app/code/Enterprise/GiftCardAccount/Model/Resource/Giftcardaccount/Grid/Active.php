@@ -42,9 +42,9 @@ class Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Grid_Active
     {
         return array(
             Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED =>
-            $this->_helper->__('Yes'),
+            __('Yes'),
             Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_DISABLED =>
-            $this->_helper->__('No'),
+            __('No'),
         );
     }
 }

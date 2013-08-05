@@ -218,10 +218,10 @@ class Mage_Widget_Model_Widget extends Varien_Object
                 $helper = $widget->getAttribute('module') ? $widget->getAttribute('module') : 'Mage_Widget_Helper_Data';
                 $helper = Mage::helper($helper);
                 $result[$widget->getName()] = array(
-                    'name'          => $helper->__((string)$widget->name),
+                    'name'          => __((string)$widget->name),
                     'code'          => $widget->getName(),
                     'type'          => $widget->getAttribute('type'),
-                    'description'   => $helper->__((string)$widget->description)
+                    'description'   => __((string)$widget->description)
                 );
             }
             usort($result, array($this, "_sortWidgets"));

@@ -18,7 +18,7 @@
 //<![CDATA[
     if (window.printedTemplateType !== 'invoice' && window.printedTemplateType !== 'creditmemo') {
         $('widget_options_saas_printedtemplate_widget_taxGrid').innerHTML =
-            '<ul id="printedtemplate_widget_warning" class="messages"><li class="error-msg"><ul><li><?php echo $this->jsQuoteEscape($this->__("This widget is available only for printed templates.")) ?></li></ul></li></ul>';
+            '<ul id="printedtemplate_widget_warning" class="messages"><li class="error-msg"><ul><li><?php echo $this->jsQuoteEscape(__("This widget is available only for printed templates.")) ?></li></ul></li></ul>';
     } else {
         $('parameter_type').value = '$' + printedTemplateType;
     }

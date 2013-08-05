@@ -191,7 +191,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
         $headers = $io->streamReadCsv();
         if ($headers === false || count($headers) < 5) {
             $io->streamClose();
-            Mage::throwException(Mage::helper('Mage_Shipping_Helper_Data')->__('Please correct Table Rates File Format.'));
+            Mage::throwException(__('Please correct Table Rates File Format.'));
         }
 
         if ($object->getData('groups/tablerate/fields/condition_name/inherit') == '1') {
@@ -245,13 +245,13 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
             $adapter->rollback();
             $io->streamClose();
             Mage::logException($e);
-            Mage::throwException(Mage::helper('Mage_Shipping_Helper_Data')->__('Something went wrong while importing table rates.'));
+            Mage::throwException(__('Something went wrong while importing table rates.'));
         }
 
         $adapter->commit();
 
         if ($this->_importErrors) {
-            $error = Mage::helper('Mage_Shipping_Helper_Data')->__('We couldn\'t import this file because of these errors: %s', implode(" \n", $this->_importErrors));
+            $error = __('We couldn\'t import this file because of these errors: %s', implode(" \n", $this->_importErrors));
             Mage::throwException($error);
         }
 
@@ -332,7 +332,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
     {
         // validate row
         if (count($row) < 5) {
-            $this->_importErrors[] = Mage::helper('Mage_Shipping_Helper_Data')->__('Please correct Table Rates format in the Row #%s.', $rowNumber);
+            $this->_importErrors[] = __('Please correct Table Rates format in the Row #%s.', $rowNumber);
             return false;
         }
 
@@ -349,7 +349,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
         } elseif ($row[0] == '*' || $row[0] == '') {
             $countryId = '0';
         } else {
-            $this->_importErrors[] = Mage::helper('Mage_Shipping_Helper_Data')->__('Please correct Country "%s" in the Row #%s.', $row[0], $rowNumber);
+            $this->_importErrors[] = __('Please correct Country "%s" in the Row #%s.', $row[0], $rowNumber);
             return false;
         }
 
@@ -359,7 +359,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
         } elseif ($row[1] == '*' || $row[1] == '') {
             $regionId = 0;
         } else {
-            $this->_importErrors[] = Mage::helper('Mage_Shipping_Helper_Data')->__('Please correct Region/State "%s" in the Row #%s.', $row[1], $rowNumber);
+            $this->_importErrors[] = __('Please correct Region/State "%s" in the Row #%s.', $row[1], $rowNumber);
             return false;
         }
 
@@ -373,21 +373,21 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
         // validate condition value
         $value = $this->_parseDecimalValue($row[3]);
         if ($value === false) {
-            $this->_importErrors[] = Mage::helper('Mage_Shipping_Helper_Data')->__('Please correct %s "%s" in the Row #%s.', $this->_getConditionFullName($this->_importConditionName), $row[3], $rowNumber);
+            $this->_importErrors[] = __('Please correct %s "%s" in the Row #%s.', $this->_getConditionFullName($this->_importConditionName), $row[3], $rowNumber);
             return false;
         }
 
         // validate price
         $price = $this->_parseDecimalValue($row[4]);
         if ($price === false) {
-            $this->_importErrors[] = Mage::helper('Mage_Shipping_Helper_Data')->__('Please correct Shipping Price "%s" in the Row #%s.', $row[4], $rowNumber);
+            $this->_importErrors[] = __('Please correct Shipping Price "%s" in the Row #%s.', $row[4], $rowNumber);
             return false;
         }
 
         // protect from duplicate
         $hash = sprintf("%s-%d-%s-%F", $countryId, $regionId, $zipCode, $value);
         if (isset($this->_importUniqueHash[$hash])) {
-            $this->_importErrors[] = Mage::helper('Mage_Shipping_Helper_Data')->__('Duplicate Row #%s (Country "%s", Region/State "%s", Zip "%s" and Value "%s")', $rowNumber, $row[0], $row[1], $zipCode, $value);
+            $this->_importErrors[] = __('Duplicate Row #%s (Country "%s", Region/State "%s", Zip "%s" and Value "%s")', $rowNumber, $row[0], $row[1], $zipCode, $value);
             return false;
         }
         $this->_importUniqueHash[$hash] = true;

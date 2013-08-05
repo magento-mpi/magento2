@@ -55,8 +55,8 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'qty'  => Mage::helper('Mage_SalesRule_Helper_Data')->__('total quantity'),
-            'base_row_total'  => Mage::helper('Mage_SalesRule_Helper_Data')->__('total amount'),
+            'qty'  => __('total quantity'),
+            'base_row_total'  => __('total amount'),
         ));
         return $this;
     }
@@ -75,14 +75,14 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('Mage_Rule_Helper_Data')->__('is'),
-            '!='  => Mage::helper('Mage_Rule_Helper_Data')->__('is not'),
-            '>='  => Mage::helper('Mage_Rule_Helper_Data')->__('equals or greater than'),
-            '<='  => Mage::helper('Mage_Rule_Helper_Data')->__('equals or less than'),
-            '>'   => Mage::helper('Mage_Rule_Helper_Data')->__('greater than'),
-            '<'   => Mage::helper('Mage_Rule_Helper_Data')->__('less than'),
-            '()'  => Mage::helper('Mage_Rule_Helper_Data')->__('is one of'),
-            '!()' => Mage::helper('Mage_Rule_Helper_Data')->__('is not one of'),
+            '=='  => __('is'),
+            '!='  => __('is not'),
+            '>='  => __('equals or greater than'),
+            '<='  => __('equals or less than'),
+            '>'   => __('greater than'),
+            '<'   => __('less than'),
+            '()'  => __('is one of'),
+            '!()' => __('is not one of'),
         ));
         return $this;
     }
@@ -101,7 +101,7 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
     public function asHtml()
     {
         $html = $this->getTypeElement()->getHtml()
-            . Mage::helper('Mage_SalesRule_Helper_Data')->__("If %s %s %s for a subselection of items in cart matching %s of these conditions:", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml(), $this->getValueElement()->getHtml(), $this->getAggregatorElement()->getHtml());
+            . __("If %s %s %s for a subselection of items in cart matching %s of these conditions:", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml(), $this->getValueElement()->getHtml(), $this->getAggregatorElement()->getHtml());
         if ($this->getId() != '1') {
             $html .= $this->getRemoveLinkHtml();
         }

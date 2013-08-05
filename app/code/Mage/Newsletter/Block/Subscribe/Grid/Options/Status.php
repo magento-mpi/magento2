@@ -30,10 +30,10 @@ class Mage_Newsletter_Block_Subscribe_Grid_Options_Status implements Mage_Core_M
     public function toOptionArray()
     {
         return array(
-            Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE   => $this->_helper->__('Not Activated'),
-            Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED   => $this->_helper->__('Subscribed'),
-            Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED => $this->_helper->__('Unsubscribed'),
-            Mage_Newsletter_Model_Subscriber::STATUS_UNCONFIRMED => $this->_helper->__('Unconfirmed'),
+            Mage_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE   => __('Not Activated'),
+            Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED   => __('Subscribed'),
+            Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED => __('Unsubscribed'),
+            Mage_Newsletter_Model_Subscriber::STATUS_UNCONFIRMED => __('Unconfirmed'),
         );
     }
 }

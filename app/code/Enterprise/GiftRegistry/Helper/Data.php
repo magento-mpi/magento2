@@ -87,7 +87,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
             if (empty($customValues[$field])) {
                 if ((!empty($data['frontend'])) && is_array($data['frontend'])
                     && (!empty($data['frontend']['is_required']))) {
-                    $errors[] = $this->__('Please enter the "%s".', $data['label']);
+                    $errors[] = __('Please enter the "%s".', $data['label']);
                 }
             } else {
                 if (($data['type']) == 'select' && is_array($data['options'])) {
@@ -99,7 +99,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
                         }
                     }
                     if (!$found) {
-                        $errors[] = $this->__('Please enter the correct "%s".', $data['label']);
+                        $errors[] = __('Please enter the correct "%s".', $data['label']);
                     }
                 }
             }

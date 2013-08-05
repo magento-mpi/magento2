@@ -71,7 +71,7 @@ class Mage_Core_Model_Theme_Label
      */
     public function getLabelsCollectionForSystemConfiguration()
     {
-        return $this->getLabelsCollection($this->_helper->__('-- No Theme --'));
+        return $this->getLabelsCollection(__('-- No Theme --'));
     }
 
     /**
@@ -84,7 +84,7 @@ class Mage_Core_Model_Theme_Label
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($collection as $theme) {
             if (!$theme->isThemeCompatible()) {
-                $theme->setThemeTitle($this->_helper->__('%s (incompatible version)', $theme->getThemeTitle()));
+                $theme->setThemeTitle(__('%s (incompatible version)', $theme->getThemeTitle()));
             }
         }
     }

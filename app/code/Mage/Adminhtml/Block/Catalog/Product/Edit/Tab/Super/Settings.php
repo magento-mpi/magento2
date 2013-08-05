@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
             . $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getContinueUrl())
             . ").addClass('ignore-validate').submit();";
         $this->addChild('continue_button', 'Mage_Backend_Block_Widget_Button', array(
-            'label'   => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variations'),
+            'label'   => __('Generate Variations'),
             'onclick' => $onclick,
             'class'   => 'save',
         ));
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
     {
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset('settings', array(
-            'legend' => Mage::helper('Mage_Catalog_Helper_Data')->__('Select Configurable Attributes')
+            'legend' => __('Select Configurable Attributes')
         ));
 
         $fieldset->addField('configurable-attribute-selector', 'text', array(

@@ -39,7 +39,7 @@ class Saas_ImportExport_Model_Source_Import_Behavior_Image
     public function toArray()
     {
         return array(
-            Mage_ImportExport_Model_Import::BEHAVIOR_APPEND => $this->_helper->__('Add/Update Images'),
+            Mage_ImportExport_Model_Import::BEHAVIOR_APPEND => __('Add/Update Images'),
         );
     }
 

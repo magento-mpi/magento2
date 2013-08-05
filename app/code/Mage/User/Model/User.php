@@ -175,22 +175,22 @@ class Mage_User_Model_User
     {
         $userNameNotEmpty = new Zend_Validate_NotEmpty();
         $userNameNotEmpty->setMessage(
-            Mage::helper('Mage_User_Helper_Data')->__('User Name is a required field.'),
+            __('User Name is a required field.'),
             Zend_Validate_NotEmpty::IS_EMPTY
         );
         $firstNameNotEmpty = new Zend_Validate_NotEmpty();
         $firstNameNotEmpty->setMessage(
-            Mage::helper('Mage_User_Helper_Data')->__('First Name is a required field.'),
+            __('First Name is a required field.'),
             Zend_Validate_NotEmpty::IS_EMPTY
         );
         $lastNameNotEmpty = new Zend_Validate_NotEmpty();
         $lastNameNotEmpty->setMessage(
-            Mage::helper('Mage_User_Helper_Data')->__('Last Name is a required field.'),
+            __('Last Name is a required field.'),
             Zend_Validate_NotEmpty::IS_EMPTY
         );
         $emailValidity = new Zend_Validate_EmailAddress();
         $emailValidity->setMessage(
-            Mage::helper('Mage_User_Helper_Data')->__('Please enter a valid email.'),
+            __('Please enter a valid email.'),
             Zend_Validate_EmailAddress::INVALID
         );
 
@@ -218,19 +218,18 @@ class Mage_User_Model_User
     {
         $passwordNotEmpty = new Zend_Validate_NotEmpty();
         $passwordNotEmpty->setMessage(
-            Mage::helper('Mage_User_Helper_Data')->__('Password is required field.'),
+            __('Password is required field.'),
             Zend_Validate_NotEmpty::IS_EMPTY
         );
         $minPassLength = self::MIN_PASSWORD_LENGTH;
         $passwordLength = new Zend_Validate_StringLength(array('min' => $minPassLength, 'encoding' => 'UTF-8'));
         $passwordLength->setMessage(
-            Mage::helper('Mage_User_Helper_Data')->__('Your password must be at least %d characters.', $minPassLength),
+            __('Your password must be at least %d characters.', $minPassLength),
             Zend_Validate_StringLength::TOO_SHORT
         );
         $passwordChars = new Zend_Validate_Regex('/[a-z].*\d|\d.*[a-z]/iu');
         $passwordChars->setMessage(
-            Mage::helper('Mage_User_Helper_Data')
-                ->__('Your password must include both numeric and alphabetic characters.'),
+            __('Your password must include both numeric and alphabetic characters.'),
             Zend_Validate_Regex::NOT_MATCH
         );
         $validator
@@ -241,7 +240,7 @@ class Mage_User_Model_User
         if ($this->hasPasswordConfirmation()) {
             $passwordConfirmation = new Zend_Validate_Identical($this->getPasswordConfirmation());
             $passwordConfirmation->setMessage(
-                Mage::helper('Mage_User_Helper_Data')->__('Your password confirmation must match your password.'),
+                __('Your password confirmation must match your password.'),
                 Zend_Validate_Identical::NOT_SAME
             );
             $validator->addRule($passwordConfirmation, 'password');
@@ -461,12 +460,12 @@ class Mage_User_Model_User
             ) {
                 if ($this->getIsActive() != '1') {
                     throw new Mage_Backend_Model_Auth_Exception(
-                        Mage::helper('Mage_User_Helper_Data')->__('This account is inactive.')
+                        __('This account is inactive.')
                     );
                 }
                 if (!$this->hasAssigned2Role($this->getId())) {
                     throw new Mage_Backend_Model_Auth_Exception(
-                        Mage::helper('Mage_User_Helper_Data')->__('Access denied.')
+                        __('Access denied.')
                     );
                 }
                 $result = true;
@@ -568,7 +567,7 @@ class Mage_User_Model_User
         if (!is_string($newToken) || empty($newToken)) {
             Mage::throwException(
                 'Mage_Core',
-                Mage::helper('Mage_User_Helper_Data')->__('Please correct the password reset token.')
+                __('Please correct the password reset token.')
             );
         }
         $this->setRpToken($newToken);

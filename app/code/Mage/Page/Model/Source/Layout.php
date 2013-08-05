@@ -68,7 +68,7 @@ class Mage_Page_Model_Source_Layout
         }
 
         if ($withEmpty) {
-            array_unshift($options, array('value'=>'', 'label'=>Mage::helper('Mage_Page_Helper_Data')->__('-- Please Select --')));
+            array_unshift($options, array('value'=>'', 'label'=>__('-- Please Select --')));
         }
 
         return $options;

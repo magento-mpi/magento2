@@ -34,7 +34,7 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
      */
     public function indexAction()
     {
-        $this->_title($this->__('System'))->_title($this->__('Refresh Search Index'));
+        $this->_title(__('System'))->_title(__('Refresh Search Index'));
         $this->loadLayout();
         $this->renderLayout();
     }

@@ -138,11 +138,11 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
 
         parent::__construct($context, $data);
 
-        $this->setEmptyText($this->_helper->__(
+        $this->setEmptyText(__(
             isset($data['empty_text'])? $data['empty_text'] : 'We couldn\'t find any records.'
         ));
 
-        $this->setEmptyCellLabel($this->_helper->__(
+        $this->setEmptyCellLabel(__(
             isset($data['empty_cell_label'])? $data['empty_cell_label'] : 'We couldn\'t find any records.'
         ));
 

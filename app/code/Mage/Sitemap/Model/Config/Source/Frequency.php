@@ -14,13 +14,13 @@ class Mage_Sitemap_Model_Config_Source_Frequency implements Mage_Core_Model_Opti
     public function toOptionArray()
     {
         return array(
-            array('value'=>'always', 'label'=>Mage::helper('Mage_Sitemap_Helper_Data')->__('Always')),
-            array('value'=>'hourly', 'label'=>Mage::helper('Mage_Sitemap_Helper_Data')->__('Hourly')),
-            array('value'=>'daily', 'label'=>Mage::helper('Mage_Sitemap_Helper_Data')->__('Daily')),
-            array('value'=>'weekly', 'label'=>Mage::helper('Mage_Sitemap_Helper_Data')->__('Weekly')),
-            array('value'=>'monthly', 'label'=>Mage::helper('Mage_Sitemap_Helper_Data')->__('Monthly')),
-            array('value'=>'yearly', 'label'=>Mage::helper('Mage_Sitemap_Helper_Data')->__('Yearly')),
-            array('value'=>'never', 'label'=>Mage::helper('Mage_Sitemap_Helper_Data')->__('Never')),
+            array('value'=>'always', 'label'=>__('Always')),
+            array('value'=>'hourly', 'label'=>__('Hourly')),
+            array('value'=>'daily', 'label'=>__('Daily')),
+            array('value'=>'weekly', 'label'=>__('Weekly')),
+            array('value'=>'monthly', 'label'=>__('Monthly')),
+            array('value'=>'yearly', 'label'=>__('Yearly')),
+            array('value'=>'never', 'label'=>__('Never')),
         );
     }
 }

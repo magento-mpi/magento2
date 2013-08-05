@@ -52,7 +52,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'   => $this->__('Back'),
+                        'label'   => __('Back'),
                         'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
                         'class'   => 'back'
                     )
@@ -62,7 +62,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'   => $this->__('Reset'),
+                        'label'   => __('Reset'),
                         'onclick' => 'window.location.href = window.location.href'
                     )
                 )
@@ -71,7 +71,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'   => $this->__('Delete Template'),
+                        'label'   => __('Delete Template'),
                         'onclick' => 'templateControl.deleteTemplate();',
                         'class'   => 'delete'
                     )
@@ -81,7 +81,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'   => $this->__('Preview HTML'),
+                        'label'   => __('Preview HTML'),
                         'onclick' => "templateControl.preview('" . $this->getPreviewHtmlUrl() . "');"
                     )
                 )
@@ -91,7 +91,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'   => $this->__('Preview PDF'),
+                        'label'   => __('Preview PDF'),
                         'onclick' => "templateControl.preview('" . $this->getPreviewPdfUrl() . "');"
                     )
                 )
@@ -101,7 +101,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'   => $this->__('Save'),
+                        'label'   => __('Save'),
                         'onclick' => 'templateControl.save();',
                         'class'   => 'save'
                     )
@@ -112,7 +112,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'   => $this->__('Save And Continue Edit'),
+                        'label'   => __('Save And Continue Edit'),
                         'onclick' => 'templateControl.saveAndContinue();',
                         'class'   => 'save'
                     )
@@ -124,7 +124,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'   => $this->__('Load Template'),
+                        'label'   => __('Load Template'),
                         'onclick' => 'templateControl.load();',
                         'type'    => 'button',
                         'class'   => 'save'
@@ -187,7 +187,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
             }
 
             if (isset($row['entity_type']) && $row['entity_type'] == $this->getPrintedTemplate()->getEntityType()) {
-                $idLabel[$templateId] = Mage::helper($module)->__($row['label']);
+                $idLabel[$templateId] = Mage::helper(__($row['label']);
             }
         }
 
@@ -376,14 +376,14 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
      */
     public function getTemplateType()
     {
-        $str = $this->__('Unknown');
+        $str = __('Unknown');
         $types = Mage::getSingleton('Saas_PrintedTemplate_Model_Source_Type')->getAllOptions();
         $currentType = $this->getPrintedTemplate()->getEntityType();
         if (isset($types[$currentType])) {
             $str = $types[$currentType];
         }
 
-        return $this->__($str);
+        return __($str);
     }
 
     /**
@@ -393,6 +393,6 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
      */
     public function getHeaderText()
     {
-        return $this->__('Edit Printed Template (%s)', $this->getTemplateType());
+        return __('Edit Printed Template (%s)', $this->getTemplateType());
     }
 }

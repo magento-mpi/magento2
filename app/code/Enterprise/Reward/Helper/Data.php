@@ -212,9 +212,9 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
         $points = sprintf($pointsFormat, $points);
         if ((null !== $amount) && $this->getHasRates()) {
             $amount = sprintf($amountFormat, $this->formatAmount($amount, true, $storeId));
-            return $this->__('%s Reward points (%s)', $points, $amount);
+            return __('%s Reward points (%s)', $points, $amount);
         }
-        return $this->__('%s Reward points', $points);
+        return __('%s Reward points', $points);
     }
 
     /**

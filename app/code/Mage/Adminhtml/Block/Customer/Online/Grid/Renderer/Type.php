@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Customer_Online_Grid_Renderer_Type extends Mage_Admin
 
     public function render(Varien_Object $row)
     {
-        return ($row->getCustomerId() > 0 ) ? Mage::helper('Mage_Customer_Helper_Data')->__('Customer') : Mage::helper('Mage_Customer_Helper_Data')->__('Visitor') ;
+        return ($row->getCustomerId() > 0 ) ? __('Customer') : __('Visitor') ;
     }
 
 }

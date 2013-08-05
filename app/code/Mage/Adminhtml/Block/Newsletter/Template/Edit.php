@@ -48,26 +48,26 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
         }
 
         $this->addChild('back_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Back'),
+            'label'     => __('Back'),
             'onclick'   => "window.location.href = '" . $this->getUrl('*/*') . "'",
             'class'     => 'action-back'
         ));
 
         $this->addChild('reset_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Reset'),
+            'label'     => __('Reset'),
             'onclick'   => 'window.location.href = window.location.href',
             'class'     => 'reset'
         ));
 
         $this->addChild('to_plain_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Convert to Plain Text'),
+            'label'     => __('Convert to Plain Text'),
             'onclick'   => 'templateControl.stripTags();',
             'id'            => 'convert_button',
             'class'     => 'convert'
         ));
 
         $this->addChild('to_html_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Return HTML Version'),
+            'label'     => __('Return HTML Version'),
             'onclick'   => 'templateControl.unStripTags();',
             'id'            => 'convert_button_back',
             'style'     => 'display:none',
@@ -75,25 +75,25 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
         ));
 
         $this->addChild('save_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Save Template'),
+            'label'     => __('Save Template'),
             'onclick'   => 'templateControl.save();',
             'class'     => 'save primary'
         ));
 
         $this->addChild('save_as_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Save As'),
+            'label'     => __('Save As'),
             'onclick'   => 'templateControl.saveAs();',
             'class'     => 'save-as'
         ));
 
         $this->addChild('preview_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Preview Template'),
+            'label'     => __('Preview Template'),
             'onclick'   => 'templateControl.preview();',
             'class'     => 'preview'
         ));
 
         $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Delete Template'),
+            'label'     => __('Delete Template'),
             'onclick'   => 'templateControl.deleteTemplate();',
             'class'     => 'delete'
         ));
@@ -211,10 +211,10 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     public function getHeaderText()
     {
         if ($this->getEditMode()) {
-            return Mage::helper('Mage_Newsletter_Helper_Data')->__('Edit Newsletter Template');
+            return __('Edit Newsletter Template');
         }
 
-        return  Mage::helper('Mage_Newsletter_Helper_Data')->__('New Newsletter Template');
+        return  __('New Newsletter Template');
     }
 
     /**

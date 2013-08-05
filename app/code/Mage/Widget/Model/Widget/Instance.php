@@ -175,7 +175,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         if ($this->isCompleteToCreate()) {
             return true;
         }
-        return Mage::helper('Mage_Widget_Helper_Data')->__('We cannot create the widget instance because it is missing required information.');
+        return __('We cannot create the widget instance because it is missing required information.');
     }
 
     /**
@@ -323,13 +323,13 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
                         : 'Mage_Widget_Helper_Data';
                     $templates[(string)$name] = array(
                         'value' => (string)$template->value,
-                        'label' => Mage::helper($helper)->__((string)$template->label)
+                        'label' => Mage::helper(__((string)$template->label)
                     );
                 }
             } elseif ($configTemplates->value) {
                 $templates['default'] = array(
                     'value' => (string)$configTemplates->value,
-                    'label' => Mage::helper('Mage_Widget_Helper_Data')->__('Default Template')
+                    'label' => __('Default Template')
                 );
             }
         }

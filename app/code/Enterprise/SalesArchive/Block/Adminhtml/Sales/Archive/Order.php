@@ -18,6 +18,6 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order extends Enterp
     protected function _construct()
     {
         $this->_controller = 'sales_order';
-        $this->_headerText = Mage::helper('Enterprise_SalesArchive_Helper_Data')->__('Orders Archive');
+        $this->_headerText = __('Orders Archive');
     }
 }

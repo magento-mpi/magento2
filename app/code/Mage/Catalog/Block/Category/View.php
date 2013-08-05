@@ -41,7 +41,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
             want to show rss feed in the url
             */
             if ($this->IsRssCatalogEnable() && $this->IsTopCategory()) {
-                $title = $this->helper('Mage_Rss_Helper_Data')->__('%s RSS Feed',$this->getCurrentCategory()->getName());
+                $title = __('%s RSS Feed',$this->getCurrentCategory()->getName());
                 $headBlock->addRss($title, $this->getRssLink());
             }
             $pageMainTitle = $this->getLayout()->getBlock('page.main.title');

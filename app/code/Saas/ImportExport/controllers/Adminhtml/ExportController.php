@@ -86,7 +86,7 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
         if ($this->getRequest()->isDispatched() && $this->_stateHelper->isInProgress()
             && $this->getRequest()->getActionName() !== 'check'
         ) {
-            $this->_getSession()->addError($this->__('Another export is in progress.'));
+            $this->_getSession()->addError(__('Another export is in progress.'));
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->_redirect('*/*/index');
         }
@@ -106,14 +106,14 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
                 $this->_eventManager->dispatch($this->_getEventName(), array(
                     'export_params' => $this->getRequest()->getParams()
                 ));
-                $this->_getSession()->addSuccess($this->__('Export task has been added to queue.'));
+                $this->_getSession()->addSuccess(__('Export task has been added to queue.'));
             } catch (Exception $e) {
                 $this->_stateHelper->saveTaskAsNotified();
                 $this->_logger->logException($e);
-                $this->_getSession()->addError($this->__('No valid data sent.'));
+                $this->_getSession()->addError(__('No valid data sent.'));
             }
         } else {
-            $this->_getSession()->addError($this->__('No valid data sent.'));
+            $this->_getSession()->addError(__('No valid data sent.'));
         }
         $this->_redirect('*/*/index');
     }
@@ -126,7 +126,7 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
     public function downloadAction()
     {
         if (!$this->_fileHelper->isExist()) {
-            $this->_getSession()->addError($this->__('Export file does not exist.'));
+            $this->_getSession()->addError(__('Export file does not exist.'));
             $this->_redirect('*/*/index');
             return;
         }
@@ -137,11 +137,11 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
             ), $this->_fileHelper->getMimeType());
         } catch (Magento_Filesystem_Exception $fe) {
             $this->_fileHelper->removeLastExportFile();
-            $this->_getSession()->addError($this->__('Export file does not exist.'));
+            $this->_getSession()->addError(__('Export file does not exist.'));
             $this->_redirect('*/*/index');
         } catch (Exception $e) {
             $this->_logger->logException($e);
-            $this->_getSession()->addError($this->__('Cannot download file.'));
+            $this->_getSession()->addError(__('Cannot download file.'));
             $this->_redirect('*/*/index');
         }
     }
@@ -155,9 +155,9 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
     {
         try {
             $this->_fileHelper->removeLastExportFile();
-            $this->_getSession()->addSuccess($this->__('Export file has been removed.'));
+            $this->_getSession()->addSuccess(__('Export file has been removed.'));
         } catch (Magento_Filesystem_Exception $e) {
-            $this->_getSession()->addError($this->__('File has not been removed.'));
+            $this->_getSession()->addError(__('File has not been removed.'));
         }
         $this->_redirect('*/*/index');
     }

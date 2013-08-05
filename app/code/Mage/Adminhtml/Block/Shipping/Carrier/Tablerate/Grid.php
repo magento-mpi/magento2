@@ -116,19 +116,19 @@ class Mage_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid extends Mage_Adminhtm
     protected function _prepareColumns()
     {
         $this->addColumn('dest_country', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Country'),
+            'header'    => __('Country'),
             'index'     => 'dest_country',
             'default'   => '*',
         ));
 
         $this->addColumn('dest_region', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Region/State'),
+            'header'    => __('Region/State'),
             'index'     => 'dest_region',
             'default'   => '*',
         ));
 
         $this->addColumn('dest_zip', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Zip/Postal Code'),
+            'header'    => __('Zip/Postal Code'),
             'index'     => 'dest_zip',
             'default'   => '*',
         ));
@@ -141,7 +141,7 @@ class Mage_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid extends Mage_Adminhtm
         ));
 
         $this->addColumn('price', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Shipping Price'),
+            'header'    => __('Shipping Price'),
             'index'     => 'price',
         ));
 

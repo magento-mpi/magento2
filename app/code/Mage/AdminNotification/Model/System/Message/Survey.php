@@ -101,7 +101,7 @@ class Mage_AdminNotification_Model_System_Message_Survey
                 ),
             ),
         );
-        return $this->_helperFactory->get('Mage_AdminNotification_Helper_Data')->__('We appreciate our merchants\' feedback. Please <a href="#" data-mage-init=%s>take our survey</a> and tell us about features you\'d like to see in Magento.', json_encode($params, JSON_FORCE_OBJECT));
+        return __('We appreciate our merchants\' feedback. Please <a href="#" data-mage-init=%s>take our survey</a> and tell us about features you\'d like to see in Magento.', json_encode($params, JSON_FORCE_OBJECT));
     }
 
     /**

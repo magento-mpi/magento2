@@ -14,31 +14,31 @@
         <a href="<?php echo $this->getPrintAllCreditmemosUrl($_order) ?>"
            onclick="this.target='_blank'"
            class="action print">
-            <span><?php echo $this->__('Print All Refunds') ?></span>
+            <span><?php echo __('Print All Refunds') ?></span>
         </a>
     </div>
 </div>
 <?php foreach ($_order->getCreditmemosCollection() as $_creditmemo): ?>
 <div class="order title">
-    <strong><?php echo $this->__('Refund #') ?><?php echo $_creditmemo->getIncrementId(); ?> </strong>
+    <strong><?php echo __('Refund #') ?><?php echo $_creditmemo->getIncrementId(); ?> </strong>
     <a href="<?php echo $this->getPrintCreditmemoUrl($_creditmemo) ?>"
        onclick="this.target='_blank'"
        class="action print">
-        <span><?php echo $this->__('Print Refund') ?></span>
+        <span><?php echo __('Print Refund') ?></span>
     </a>
 </div>
 
-<div class="order subtitle caption"><strong><?php echo $this->__('Items Refunded') ?></strong></div>
+<div class="order subtitle caption"><strong><?php echo __('Items Refunded') ?></strong></div>
 <table class="data table order items creditmemo" id="my-refund-table-<?php echo $_creditmemo->getId(); ?>">
     <thead>
         <tr>
-            <th class="col name"><?php echo $this->__('Product Name') ?></th>
-            <th class="col sku"><?php echo $this->__('SKU') ?></th>
-            <th class="col price"><?php echo $this->__('Price') ?></th>
-            <th class="col qty"><?php echo $this->__('Qty') ?></th>
-            <th class="col subtotal"><?php echo $this->__('Subtotal') ?></th>
-            <th class="col discount"><?php echo $this->__('Discount Amount') ?></th>
-            <th class="col total"><?php echo $this->__('Row Total') ?></th>
+            <th class="col name"><?php echo __('Product Name') ?></th>
+            <th class="col sku"><?php echo __('SKU') ?></th>
+            <th class="col price"><?php echo __('Price') ?></th>
+            <th class="col qty"><?php echo __('Qty') ?></th>
+            <th class="col subtotal"><?php echo __('Subtotal') ?></th>
+            <th class="col discount"><?php echo __('Discount Amount') ?></th>
+            <th class="col total"><?php echo __('Row Total') ?></th>
         </tr>
     </thead>
     <tfoot>

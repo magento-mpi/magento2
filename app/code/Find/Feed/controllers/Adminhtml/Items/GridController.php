@@ -73,9 +73,9 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
             try {
                 $updateAction->updateAttributes($idList, $attrData, Mage::app()->getStore()->getId());
                 Mage::getModel('Find_Feed_Model_Import')->processImport();
-                $this->_getSession()->addSuccess(Mage::helper('Find_Feed_Helper_Data')->__("%s product in feed", $updatedProducts));
+                $this->_getSession()->addSuccess(__("%s product in feed", $updatedProducts));
             } catch (Exception $e) {
-                $this->_getSession()->addError(Mage::helper('Find_Feed_Helper_Data')->__("We are unable to process an import.") . $e->getMessage());
+                $this->_getSession()->addError(__("We are unable to process an import.") . $e->getMessage());
             }
         }
         $this->_redirect('*/*/index');
@@ -94,7 +94,7 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
         }
         if ($updatedProducts) {
             Mage::getModel('Find_Feed_Model_Import')->processImport();
-            $this->_getSession()->addSuccess(Mage::helper('Find_Feed_Helper_Data')->__("%s product not in feed", $updatedProducts));
+            $this->_getSession()->addSuccess(__("%s product not in feed", $updatedProducts));
         }
         $this->_redirect('*/*/index');
     }

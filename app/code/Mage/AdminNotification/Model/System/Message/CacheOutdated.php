@@ -88,12 +88,10 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdated
      */
     public function getText()
     {
-        /** @var $helper Mage_AdminNotification_Helper_Data */
-        $helper = $this->_helperFactory->get('Mage_AdminNotification_Helper_Data');
         $cacheTypes = implode(', ', $this->_getCacheTypesForRefresh());
-        $message = $helper->__('One or more of the Cache Types are invalidated: %s. ', $cacheTypes) . ' ';
+        $message = __('One or more of the Cache Types are invalidated: %s. ', $cacheTypes) . ' ';
         $url = $this->_urlBuilder->getUrl('adminhtml/cache');
-        $message .= $helper->__('Please go to <a href="%s">Cache Management</a> and refresh cache types.', $url);
+        $message .= __('Please go to <a href="%s">Cache Management</a> and refresh cache types.', $url);
         return $message;
     }
 

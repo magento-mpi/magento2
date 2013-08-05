@@ -36,7 +36,7 @@
                 </td>
                 <td class="col actions">
                     <a href="<?php echo $this->getReviewLink() ?>id/<?php echo $_review->getReviewId() ?>" class="action more">
-                        <span><?php echo $this->__('View Details') ?></span>
+                        <span><?php echo __('View Details') ?></span>
                     </a>
                 </td>
             </tr>
@@ -47,12 +47,12 @@
         <?php echo $this->getToolbarHtml() ?>
     </div>
 <?php else: ?>
-    <p class="empty"><?php echo $this->__('You have submitted no reviews.') ?></p>
+    <p class="empty"><?php echo __('You have submitted no reviews.') ?></p>
 <?php endif; ?>
 <div class="actions">
     <div class="secondary">
         <a class="action back" href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>">
-            <span><?php echo $this->__('Back') ?></span>
+            <span><?php echo __('Back') ?></span>
         </a>
     </div>
 </div>

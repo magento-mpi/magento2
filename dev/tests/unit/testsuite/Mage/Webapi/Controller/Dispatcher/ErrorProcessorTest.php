@@ -197,8 +197,8 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Frame
             'Masked exception code is invalid.'
         );
         /** Assert masked exception message. */
-        $this->assertEquals(
-            'Internal Error. Details are available in Magento log file. Report ID: "%s"',
+        $this->assertContains(
+            'Internal Error. Details are available in Magento log file. Report ID: "webapi-',
             $maskedException->getMessage(),
             'Masked exception message is invalid.'
         );

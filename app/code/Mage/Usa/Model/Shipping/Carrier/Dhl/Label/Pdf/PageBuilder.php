@@ -160,7 +160,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $this->_page->saveGS();
         $this->_page->setFont($this->_fontBold, 9);
         if (!strlen($name)) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Product name is missing'));
+            throw new InvalidArgumentException(__('Product name is missing'));
         }
         $this->_page->drawText($name, $this->_x(8), $this->_y(12));
         $this->_page->restoreGS();
@@ -183,7 +183,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
             'DOM' => 0
         );
         if (!key_exists($code, $codes)) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Product content code is invalid'));
+            throw new InvalidArgumentException(__('Product content code is invalid'));
         }
         $font = null;
         if ($codes[$code]) {
@@ -253,7 +253,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
             (string)$sender->Contact->PersonName))
         );
         if (!$contactName) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Sender contact name is missing'));
+            throw new InvalidArgumentException(__('Sender contact name is missing'));
         }
         $this->_page->drawText($contactName, $this->_x(25), $this->_y(36));
 
@@ -266,14 +266,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $divisionCode = (string)(strlen($sender->DivisionCode) ? $sender->DivisionCode . ' ' : null);
         $cityInfo = implode(' ', array_filter(array($sender->City, $divisionCode, $sender->PostalCode)));
         if (!strlen($cityInfo)) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Sender city info is missing'));
+            throw new InvalidArgumentException(__('Sender city info is missing'));
         }
         $this->_page->drawText($cityInfo, $this->_x(25), $pageY);
 
         $this->_page->setFont($this->_fontBold, 6);
         $countryInfo = (string)(($sender->CountryName) ? $sender->CountryName : $sender->CountryCode);
         if (!strlen($countryInfo)) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Sender country info is missing'));
+            throw new InvalidArgumentException(__('Sender country info is missing'));
         }
         $this->_page->drawText($countryInfo, $this->_x(25), $pageY - $this->_page->getFontSize());
 
@@ -321,7 +321,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     public function addOriginInfo($serviceAreaCode)
     {
         if (strlen(!$serviceAreaCode)) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Origin serviceAreaCode is missing'));
+            throw new InvalidArgumentException(__('Origin serviceAreaCode is missing'));
         }
         $this->_page->saveGS();
         $this->_page->setFont($this->_fontNormal, 6);
@@ -388,7 +388,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $code = implode('-', array_filter(array($countryCode, $serviceAreaCode, $facilityCode)));
 
         if (!strlen($code)) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Destination facility code is empty'));
+            throw new InvalidArgumentException(__('Destination facility code is empty'));
         }
         $this->_page->drawText($code, $this->_x(144), $this->_y(186), null,
             Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page::ALIGN_CENTER
@@ -446,9 +446,9 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
 
         $refCode = $data->getOrder()->getIncrementId();
         if (!$refCode) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Reference code is missing'));
+            throw new InvalidArgumentException(__('Reference code is missing'));
         }
-        $this->_page->drawText('Ref Code: ' . Mage::helper('Mage_Usa_Helper_Data')->__('Order #%s', $refCode), $this->_x(8),
+        $this->_page->drawText('Ref Code: ' . __('Order #%s', $refCode), $this->_x(8),
             $this->_y(224)
         );
         $this->_page->restoreGS();
@@ -486,7 +486,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
 
         $units = array("K" => 'kg', "L" => 'lb');
         if (!isset($units[$unit])) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Weight unit is invalid'));
+            throw new InvalidArgumentException(__('Weight unit is invalid'));
         }
         $unit = $units[$unit];
 
@@ -511,7 +511,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $this->_page->saveGS();
         $this->_page->setFont($this->_fontNormal, 6);
         if (empty($package)) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Package content is missing'));
+            throw new InvalidArgumentException(__('Package content is missing'));
         }
 
         $x = 225;
@@ -542,7 +542,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $this->_page->saveGS();
 
         if(!strlen($number) || !strlen($barCode)) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Waybill barcode information is missing'));
+            throw new InvalidArgumentException(__('Waybill barcode information is missing'));
         }
         $image = new Zend_Pdf_Resource_Image_Png("data://image/png;base64," . $barCode);
         $this->_page->drawImage($image, $this->_x(0), $this->_y(296), $this->_x(232), $this->_y(375));
@@ -569,7 +569,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $this->_page->saveGS();
 
         if(!$barCode) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Routing barcode is missing'));
+            throw new InvalidArgumentException(__('Routing barcode is missing'));
         }
 
         $image = new Zend_Pdf_Resource_Image_Png("data://image/png;base64," . $barCode);
@@ -597,7 +597,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $this->_page->saveGS();
 
         if (!strlen($barCode)) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Piece Id barcode is missing'));
+            throw new InvalidArgumentException(__('Piece Id barcode is missing'));
         }
 
         $image = new Zend_Pdf_Resource_Image_Png('data://image/png;base64,' . $barCode);
@@ -626,7 +626,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         $this->_page->saveGS();
 
         if (!$pieceNumber || !$piecesTotal) {
-            throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Piece number information is missing'));
+            throw new InvalidArgumentException(__('Piece number information is missing'));
         }
 
         $this->_page->setFont($this->_fontNormal, 6);

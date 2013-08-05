@@ -14,16 +14,16 @@
     <article class="entry">
         <ul class="promote-actions">
             <?php $trackerLink = $this->getTrackerLink('adminhtml/cms_page/edit', array('page_id' => 2)); ?>
-            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Create Home Page'); ?></a></li>
+            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo __('Create Home Page'); ?></a></li>
             <?php $trackerLink = $this->getTrackerLink('adminhtml/system_config/edit', array('section' => 'design', '_fragment' => 'design_head-link')); ?>
-            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Create Home Page Metadata'); ?></a></li>
+            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo __('Create Home Page Metadata'); ?></a></li>
         </ul>
         <div class="promote-content">
             <div class="promote-content-section">
-                <p><?php echo $this->__('Your home page is the most important page on your site. It\'s where most visitors first enter your store and form lasting impressions of your brand. It\'s also the first place search engines look.') ?> </p>
+                <p><?php echo __('Your home page is the most important page on your site. It\'s where most visitors first enter your store and form lasting impressions of your brand. It\'s also the first place search engines look.') ?> </p>
             </div>
             <div class="promote-content-section">
-                <p><?php echo $this->__('So build your home page with products and metadata that accurately represent the rest of your site. And remember to make your guests feel welcome – it\'s called a "home" page, after all.') ?> </p>
+                <p><?php echo __('So build your home page with products and metadata that accurately represent the rest of your site. And remember to make your guests feel welcome – it\'s called a "home" page, after all.') ?> </p>
             </div>
         </div>
     </article>

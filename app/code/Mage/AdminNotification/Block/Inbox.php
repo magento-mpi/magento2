@@ -15,7 +15,7 @@ class Mage_AdminNotification_Block_Inbox extends Mage_Backend_Block_Widget_Grid_
     {
         $this->_controller = 'adminhtml';
         $this->_blockGroup = 'Mage_AdminNotification';
-        $this->_headerText = $this->_helperFactory->get('Mage_AdminNotification_Helper_Data')->__('Messages Inbox');
+        $this->_headerText = __('Messages Inbox');
         parent::_construct();
     }
 

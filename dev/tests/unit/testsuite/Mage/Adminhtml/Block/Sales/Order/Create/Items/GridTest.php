@@ -72,10 +72,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_Fra
      */
     public function testTierPriceInfo($itemData, $expectedMessage, $productType)
     {
-        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
-
         $itemMock = $this->_prepareItem($itemData, $productType);
         $result = $this->_block->getTierHtml($itemMock);
+
         $this->assertEquals($expectedMessage, $result);
     }
 
@@ -86,31 +85,25 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_Fra
      */
     public function tierPriceDataProvider()
     {
-        $endSign = '<br/>';
-        $bundleMessage = '%1$s with %2$s discount each';
-        $defaultMessage = '%s for %s';
-        $bundleMessages = $bundleMessage . $endSign . $bundleMessage;
-        $defaultMessages = $defaultMessage . $endSign . $defaultMessage;
-
         return array(
             array(
                 array(array('price' => 100, 'price_qty' => 1)),
-                $bundleMessage,
+                '1 with 100% discount each',
                 Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
             ),
             array(
                 array(array('price' => 100, 'price_qty' => 1), array('price' => 200, 'price_qty' => 2)),
-                $bundleMessages,
+                '1 with 100% discount each<br/>2 with 200% discount each',
                 Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
             ),
             array(
                 array(array('price' => 50, 'price_qty' => 2)),
-                $defaultMessage,
+                '2 for 50',
                 Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
             ),
             array(
                 array(array('price' => 50, 'price_qty' => 2), array('price' => 150, 'price_qty' => 3)),
-                $defaultMessages,
+                '2 for 50<br/>3 for 150',
                 Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
             ),
             array(

@@ -26,6 +26,6 @@ class Saas_Launcher_Block_Adminhtml_Promotestore_Relatedproducts_Drawer extends 
      */
     public function getTileHeader()
     {
-        return $this->helper('Saas_Launcher_Helper_Data')->__('Cross-Sells, Up-Sells, Related Products');
+        return __('Cross-Sells, Up-Sells, Related Products');
     }
 }

@@ -60,7 +60,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Simple extend
             'weight' => '0.3000',
             'is_virtual' => '0',
             'sku' => 'HTC Touch Diamond',
-            'name' => $this->_getHelper()->__('HTC Touch Diamond'),
+            'name' => __('HTC Touch Diamond'),
             'description' => NULL,
             'applied_rule_ids' => '1',
             'additional_data' => NULL,

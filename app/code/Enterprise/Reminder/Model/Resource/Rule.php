@@ -448,7 +448,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
             case '<=':
                 return $operator;
             default:
-                Mage::throwException(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Unknown operator specified.'));
+                Mage::throwException(__('Unknown operator specified.'));
         }
     }
 

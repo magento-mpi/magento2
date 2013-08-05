@@ -25,7 +25,7 @@ $_helper = $this->helper('Mage_Catalog_Helper_Output');
     </script>
         <fieldset class="fieldset bundle options">
             <legend id="customizeTitle" class="legend">
-                <span><?php echo $this->__('Customize %s', $_helper->productAttribute($_product, $_product->getName(), 'name')) ?></span>
+                <span><?php echo __('Customize %s', $_helper->productAttribute($_product, $_product->getName(), 'name')) ?></span>
             </legend><br />
         <?php foreach ($_options as $_option): ?>
             <?php if (!$_option->getSelections()): ?>
@@ -35,6 +35,6 @@ $_helper = $this->helper('Mage_Catalog_Helper_Output');
         <?php endforeach; ?>
         </fieldset>
     <?php else: ?>
-        <p><?php echo $this->__('No options of this product are available.') ?></p>
+        <p><?php echo __('No options of this product are available.') ?></p>
     <?php endif; ?>
 <?php endif;?>

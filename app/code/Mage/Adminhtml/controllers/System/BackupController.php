@@ -22,7 +22,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
      */
     public function indexAction()
     {
-        $this->_title($this->__('Backups'));
+        $this->_title(__('Backups'));
 
         if($this->getRequest()->getParam('ajax')) {
             $this->_forward('grid');
@@ -31,9 +31,9 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Backup::system_tools_backup');
-        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('System'));
-        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Tools'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Tools'));
-        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Backups'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Backup'));
+        $this->_addBreadcrumb(__('System'), __('System'));
+        $this->_addBreadcrumb(__('Tools'), __('Tools'));
+        $this->_addBreadcrumb(__('Backups'), __('Backup'));
 
         $this->renderLayout();
     }
@@ -88,10 +88,10 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
                 if (!$turnedOn) {
                     $response->setError(
-                        Mage::helper('Mage_Backup_Helper_Data')->__('You need more permissions to activate maintenance mode right now.')
-                            . ' ' . Mage::helper('Mage_Backup_Helper_Data')->__('To continue with the backup, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
+                        __('You need more permissions to activate maintenance mode right now.')
+                            . ' ' . __('To continue with the backup, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
                     );
-                    $backupManager->setErrorMessage(Mage::helper('Mage_Backup_Helper_Data')->__("Something went wrong putting your store into maintenance mode."));
+                    $backupManager->setErrorMessage(__("Something went wrong putting your store into maintenance mode."));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }
@@ -109,13 +109,13 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
             $response->setRedirectUrl($this->getUrl('*/*/index'));
         } catch (Mage_Backup_Exception_NotEnoughFreeSpace $e) {
-            $errorMessage = Mage::helper('Mage_Backup_Helper_Data')->__('You need more free space to create a backup.');
+            $errorMessage = __('You need more free space to create a backup.');
         } catch (Mage_Backup_Exception_NotEnoughPermissions $e) {
             Mage::log($e->getMessage());
-            $errorMessage = Mage::helper('Mage_Backup_Helper_Data')->__('You need more permissions to create a backup.');
+            $errorMessage = __('You need more permissions to create a backup.');
         } catch (Exception  $e) {
             Mage::log($e->getMessage());
-            $errorMessage = Mage::helper('Mage_Backup_Helper_Data')->__('Something went wrong creating the backup.');
+            $errorMessage = __('Something went wrong creating the backup.');
         }
 
         if (!empty($errorMessage)) {
@@ -206,8 +206,8 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             );
 
             if (!$passwordValid) {
-                $response->setError(Mage::helper('Mage_Backup_Helper_Data')->__('Please correct the password.'));
-                $backupManager->setErrorMessage(Mage::helper('Mage_Backup_Helper_Data')->__('Please correct the password.'));
+                $response->setError(__('Please correct the password.'));
+                $backupManager->setErrorMessage(__('Please correct the password.'));
                 return $this->getResponse()->setBody($response->toJson());
             }
 
@@ -216,10 +216,10 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
                 if (!$turnedOn) {
                     $response->setError(
-                        Mage::helper('Mage_Backup_Helper_Data')->__('You need more permissions to activate maintenance mode right now.')
-                            . ' ' . Mage::helper('Mage_Backup_Helper_Data')->__('To continue with the rollback, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
+                        __('You need more permissions to activate maintenance mode right now.')
+                            . ' ' . __('To continue with the rollback, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
                     );
-                    $backupManager->setErrorMessage(Mage::helper('Mage_Backup_Helper_Data')->__("Something went wrong putting your store into maintenance mode."));
+                    $backupManager->setErrorMessage(__("Something went wrong putting your store into maintenance mode."));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }
@@ -249,17 +249,17 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
             $response->setRedirectUrl($this->getUrl('*'));
         } catch (Mage_Backup_Exception_CantLoadSnapshot $e) {
-            $errorMsg = Mage::helper('Mage_Backup_Helper_Data')->__('The backup file was not found.');
+            $errorMsg = __('The backup file was not found.');
         } catch (Mage_Backup_Exception_FtpConnectionFailed $e) {
-            $errorMsg = Mage::helper('Mage_Backup_Helper_Data')->__('We couldn\'t connect to the FTP.');
+            $errorMsg = __('We couldn\'t connect to the FTP.');
         } catch (Mage_Backup_Exception_FtpValidationFailed $e) {
-            $errorMsg = Mage::helper('Mage_Backup_Helper_Data')->__('Failed to validate FTP');
+            $errorMsg = __('Failed to validate FTP');
         } catch (Mage_Backup_Exception_NotEnoughPermissions $e) {
             Mage::log($e->getMessage());
-            $errorMsg = Mage::helper('Mage_Backup_Helper_Data')->__('You need more permissions to create a backup.');
+            $errorMsg = __('You need more permissions to create a backup.');
         } catch (Exception $e) {
             Mage::log($e->getMessage());
-            $errorMsg = Mage::helper('Mage_Backup_Helper_Data')->__('Failed to rollback');
+            $errorMsg = __('Failed to rollback');
         }
 
         if (!empty($errorMsg)) {
@@ -294,7 +294,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         $resultData->setDeleteResult(array());
         Mage::register('backup_manager', $resultData);
 
-        $deleteFailMessage = Mage::helper('Mage_Backup_Helper_Data')->__('We couldn\'t delete one or more backups.');
+        $deleteFailMessage = __('We couldn\'t delete one or more backups.');
 
         try {
             $allBackupsDeleted = true;
@@ -307,9 +307,9 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
                 if ($backupModel->exists()) {
                     $allBackupsDeleted = false;
-                    $result = Mage::helper('Mage_Adminhtml_Helper_Data')->__('failed');
+                    $result = __('failed');
                 } else {
-                    $result = Mage::helper('Mage_Adminhtml_Helper_Data')->__('successful');
+                    $result = __('successful');
                 }
 
                 $resultData->setDeleteResult(
@@ -320,7 +320,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             $resultData->setIsSuccess(true);
             if ($allBackupsDeleted) {
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Backup_Helper_Data')->__('The selected backup(s) has been deleted.')
+                    __('The selected backup(s) has been deleted.')
                 );
             }
             else {

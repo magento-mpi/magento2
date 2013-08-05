@@ -38,9 +38,9 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Grid_State implements Mage_Co
     public function toOptionArray()
     {
         return array(
-            0 => $this->_helper->__('Lister Block'),
-            Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE => $this->_helper->__('Category Page'),
-            Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE  => $this->_helper->__('Product Page'),
+            0 => __('Lister Block'),
+            Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
+            Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE  => __('Product Page'),
         );
     }
 }

@@ -31,8 +31,8 @@ class Mage_SalesRule_Model_Resource_Rule_Quote_StatusesArray implements Mage_Cor
     public function toOptionArray()
     {
         return array(
-            '1' => $this->_helper->__('Active'),
-            '0' => $this->_helper->__('Inactive'),
+            '1' => __('Active'),
+            '0' => __('Inactive'),
         );
     }
 }

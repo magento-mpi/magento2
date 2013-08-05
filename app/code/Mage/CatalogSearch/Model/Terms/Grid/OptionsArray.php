@@ -39,8 +39,8 @@ class Mage_CatalogSearch_Model_Terms_Grid_OptionsArray implements Mage_Core_Mode
     public function toOptionArray()
     {
         return array(
-            '1' => $this->_helper->__('Yes'),
-            '0' => $this->_helper->__('No'),
+            '1' => __('Yes'),
+            '0' => __('No'),
         );
     }
 }

@@ -117,8 +117,7 @@ class Mage_Core_Model_StoreManager implements Mage_Core_Model_StoreManagerInterf
             }
 
             Mage::throwException(
-                $this->_helperFactory->get('Mage_Core_Helper_Data')
-                    ->__('Requested invalid store "%s"', $id)
+                __('Requested invalid store "%s"', $id)
             );
         }
     }

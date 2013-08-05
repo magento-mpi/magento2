@@ -56,22 +56,22 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Authentication
             $this->_roleLocator->setRoleId($user->getRoleId());
         } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_NonceUsedException $e) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('WS-Security UsernameToken Nonce is already used.'),
+                __('WS-Security UsernameToken Nonce is already used.'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_TimestampRefusedException $e) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('WS-Security UsernameToken Created timestamp is refused.'),
+                __('WS-Security UsernameToken Created timestamp is refused.'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException $e) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('Invalid Username or Password.'),
+                __('Invalid Username or Password.'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         } catch (Mage_Webapi_Model_Soap_Security_UsernameToken_InvalidDateException $e) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('Invalid UsernameToken Created date.'),
+                __('Invalid UsernameToken Created date.'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }

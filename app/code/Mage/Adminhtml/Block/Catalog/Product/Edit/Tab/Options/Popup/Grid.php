@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid extends M
         $this->setMassactionIdField('entity_id');
         $this->getMassactionBlock()
             ->setFormFieldName('product')
-            ->addItem('import', array('label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Import')));
+            ->addItem('import', array('label' => __('Import')));
 
         return $this;
     }

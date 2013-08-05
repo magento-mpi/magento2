@@ -47,15 +47,15 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Minsaleqty
     protected function _prepareToRender()
     {
         $this->addColumn('customer_group_id', array(
-            'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Customer Group'),
+            'label' => __('Customer Group'),
             'renderer' => $this->_getGroupRenderer(),
         ));
         $this->addColumn('min_sale_qty', array(
-            'label' => Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Minimum Qty'),
+            'label' => __('Minimum Qty'),
             'style' => 'width:100px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Add Minimum Qty');
+        $this->_addButtonLabel = __('Add Minimum Qty');
     }
 
     /**

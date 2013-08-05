@@ -238,12 +238,10 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {
             if ($this->getRequest()->isPost()) {
                 $_isValidFormKey = $this->_validateFormKey();
-                $_keyErrorMsg = Mage::helper('Mage_Backend_Helper_Data')
-                    ->__('Invalid Form Key. Please refresh the page.');
+                $_keyErrorMsg = __('Invalid Form Key. Please refresh the page.');
             } elseif (Mage::getSingleton('Mage_Backend_Model_Url')->useSecretKey()) {
                 $_isValidSecretKey = $this->_validateSecretKey();
-                $_keyErrorMsg = Mage::helper('Mage_Backend_Helper_Data')
-                    ->__('You entered an invalid Secret Key. Please refresh the page.');
+                $_keyErrorMsg = __('You entered an invalid Secret Key. Please refresh the page.');
             }
         }
         if (!$_isValidFormKey || !$_isValidSecretKey) {

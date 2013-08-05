@@ -41,10 +41,11 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Source_EngineTest extends 
     {
         $options = $this->_model->toOptionArray();
         $this->assertNotEmpty($options);
+        $labels = array('MySql Fulltext', 'Solr');
         foreach ($options as $option) {
             $this->assertArrayHasKey('label', $option);
             $this->assertArrayHasKey('value', $option);
-            $this->assertEquals($option['label'], 'Search_Translation');
+            $this->assertContains((string)$option['label'], $labels);
             $this->assertTrue(class_exists($option['value']));
         }
     }

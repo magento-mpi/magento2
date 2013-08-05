@@ -44,7 +44,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
         return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
             . $this->_viewUrl->getViewFileUrl('images/rule_chooser_trigger.gif')
             . '" alt="" class="v-middle rule-chooser-trigger" title="'
-            . Mage::helper('Mage_Rule_Helper_Data')->__('Open Chooser') . '" /></a>';
+            . __('Open Chooser') . '" /></a>';
     }
 
     /**
@@ -89,7 +89,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     {
         $this->_valueElement = $this->getValueElement();
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Customer Segment %s %s', $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
+            . __('If Customer Segment %s %s', $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
             . $this->getRemoveLinkHtml()
             . '<div class="rule-chooser" url="' . $this->getValueElementChooserUrl() . '"></div>';
     }
@@ -103,10 +103,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('matches'),
-            '!='  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('does not match'),
-            '()'  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('is one of'),
-            '!()' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('is not one of'),
+            '=='  => __('matches'),
+            '!='  => __('does not match'),
+            '()'  => __('is one of'),
+            '!()' => __('is not one of'),
         ));
         return $this;
     }

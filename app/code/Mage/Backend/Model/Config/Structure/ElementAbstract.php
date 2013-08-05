@@ -26,13 +26,6 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     protected $_scope;
 
     /**
-     * Helper factory
-     *
-     * @var Mage_Core_Model_Factory_Helper
-     */
-    protected $_helperFactory;
-
-    /**
      * Application object
      *
      * @var Mage_Core_Model_App
@@ -40,14 +33,11 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     protected $_application;
 
     /**
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_App $application
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_App $application
     ) {
-        $this->_helperFactory = $helperFactory;
         $this->_application = $application;
     }
 
@@ -72,7 +62,7 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
         if (false == array_key_exists($code, $this->_data)) {
             return '';
         }
-        return $this->_helperFactory->get($this->_getTranslationModule())->__($this->_data[$code]);
+        return __($this->_data[$code]);
     }
 
     /**

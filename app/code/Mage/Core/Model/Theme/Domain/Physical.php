@@ -102,7 +102,7 @@ class Mage_Core_Model_Theme_Domain_Physical
         $title = sprintf(
             "%s - %s #%s",
             $theme->getThemeTitle(),
-            $this->_helper->__('Copy'),
+            __('Copy'),
             ($themeCopyCount + 1)
         );
         return $title;

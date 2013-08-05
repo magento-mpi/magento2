@@ -21,8 +21,11 @@ define('BP', realpath(__DIR__ . '/../../../../'));
 define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
 define('DS', DIRECTORY_SEPARATOR);
 if (is_dir(TESTS_TEMP_DIR)) {
+
     Varien_Io_File::rmdirRecursive(TESTS_TEMP_DIR);
 }
 mkdir(TESTS_TEMP_DIR);
+
+Magento_Phrase::setRenderer(new Magento_Phrase_Renderer_Placeholder());
 
 Mage::setIsSerializable(false);

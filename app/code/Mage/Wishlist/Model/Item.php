@@ -148,7 +148,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
             $this->_optionsByCode[$option->getCode()] = $option;
         }
         else {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('An item option with code %s already exists.', $option->getCode()));
+            Mage::throwException(__('An item option with code %s already exists.', $option->getCode()));
         }
         return $this;
     }
@@ -226,10 +226,10 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     public function validate()
     {
         if (!$this->getWishlistId()) {
-            Mage::throwException(Mage::helper('Mage_Wishlist_Helper_Data')->__('We can\'t specify a wish list.'));
+            Mage::throwException(__('We can\'t specify a wish list.'));
         }
         if (!$this->getProductId()) {
-            Mage::throwException(Mage::helper('Mage_Wishlist_Helper_Data')->__('Cannot specify product.'));
+            Mage::throwException(__('Cannot specify product.'));
         }
 
         return true;
@@ -289,7 +289,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
         $product = $this->_getData('product');
         if (is_null($product)) {
             if (!$this->getProductId()) {
-                Mage::throwException(Mage::helper('Mage_Wishlist_Helper_Data')->__('Cannot specify product.'));
+                Mage::throwException(__('Cannot specify product.'));
             }
 
             $product = Mage::getModel('Mage_Catalog_Model_Product')
@@ -589,7 +589,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
                ->setProduct($option->getProduct())
                ->setItem($this);
         } else {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Invalid item option format.'));
+            Mage::throwException(__('Invalid item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());

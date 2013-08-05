@@ -166,6 +166,6 @@ class Mage_Core_Model_Layout_Translator
      */
     protected function _translateValue($value, $moduleName)
     {
-        return $this->_helperFactory->get($moduleName)->__($value);
+        return __($value);
     }
 }

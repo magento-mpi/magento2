@@ -72,14 +72,14 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
         parent::_prepareColumns();
 
         $this->addColumn('added_at', array(
-            'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Added'),
+            'header'    => __('Added'),
             'index'     => 'added_at',
             'type'      => 'datetime',
             'header_css_class'  => 'col-period',
             'column_css_class'  => 'col-period'
         ));
         $this->addColumn('customer_name', array(
-            'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Customer'),
+            'header'    => __('Customer'),
             'index'     => 'customer_name',
             'filter'    => false,
             'header_css_class'  => 'col-name',
@@ -87,26 +87,26 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
         ));
 
         $this->addColumn('wishlist_name', array(
-            'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wishlist'),
+            'header'    => __('Wishlist'),
             'index'     => 'wishlist_name',
             'header_css_class'  => 'col-whishlist-name',
             'column_css_class'  => 'col-whishlist-name'
         ));
 
         $this->addColumn('visibility', array(
-            'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Status'),
+            'header'    => __('Status'),
             'index'     => 'visibility',
             'type'      => 'options',
             'options'   => array(
-                1 => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Public'),
-                0 => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Private'),
+                1 => __('Public'),
+                0 => __('Private'),
             ),
             'header_css_class'  => 'col-whishlist-status',
             'column_css_class'  => 'col-whishlist-status'
         ));
 
         $this->addColumn('prouduct_name', array(
-            'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Product'),
+            'header'    => __('Product'),
             'index'     => 'product_name',
             'sortable'  => false,
             'filter'    => false,
@@ -115,7 +115,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
         ));
 
         $this->addColumn('prouduct_sku', array(
-            'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('SKU'),
+            'header'    => __('SKU'),
             'index'     => 'product_sku',
             'filter'    => false,
             'sortable'  => false,
@@ -124,14 +124,14 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
         ));
 
         $this->addColumn('item_comment', array(
-            'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Comment'),
+            'header'    => __('Comment'),
             'index'     => 'description',
             'header_css_class'  => 'col-comment',
             'column_css_class'  => 'col-comment'
         ));
 
         $this->addColumn('item_qty', array(
-            'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wishlist Quantity'),
+            'header'    => __('Wishlist Quantity'),
             'index'     => 'item_qty',
             'type'      => 'number',
             'header_css_class'  => 'col-whishlist-qty',
@@ -140,7 +140,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
 
         if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
             $this->addColumn('product_qty', array(
-                'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Store Quantity'),
+                'header'    => __('Store Quantity'),
                 'index'     => 'product_qty',
                 'type'      => 'number',
                 'header_css_class'  => 'col-available-qty',
@@ -148,7 +148,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
             ));
 
             $this->addColumn('qty_diff', array(
-                'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Surplus / Deficit'),
+                'header'    => __('Surplus / Deficit'),
                 'index'     => 'qty_diff',
                 'type'      => 'number',
                 'header_css_class'  => 'col-qty-diff',
@@ -159,7 +159,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
         $store = Mage::app()->getStore((int) $storeIds[0]);
 
         $this->addColumn('product_price', array(
-            'header'            => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Price'),
+            'header'            => __('Price'),
             'index'             => 'product_price',
             'sortable'          => false,
             'filter'            => false,
@@ -169,8 +169,8 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
             'column_css_class'  => 'col-price'
         ));
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('Mage_Adminhtml_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportExcel', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportCsv', __('CSV'));
+        $this->addExportType('*/*/exportExcel', __('Excel XML'));
 
         return $this;
     }

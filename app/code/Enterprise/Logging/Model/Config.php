@@ -126,7 +126,7 @@ class Enterprise_Logging_Model_Config
                 if (!$helperName) {
                     $helperName = 'Enterprise_Logging_Helper_Data';
                 }
-                $this->_labels[$labelNode->getParent()->getName()] = Mage::helper($helperName)->__((string)$labelNode);
+                $this->_labels[$labelNode->getParent()->getName()] = Mage::helper(__((string)$labelNode);
             }
             asort($this->_labels);
         }
@@ -152,7 +152,7 @@ class Enterprise_Logging_Model_Config
         $module = $actionLabelNode->getParent()->getAttribute('module');
         $helper = $module ? Mage::helper($module) : Mage::helper('Enterprise_Logging_Helper_Data');
 
-        return $helper->__($label);
+        return __($label);
     }
 
     /**

@@ -71,7 +71,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
         $mainFieldsetHtmlId = 'options_fieldset' . md5($this->getWidgetType());
         $this->setMainFieldsetHtmlId($mainFieldsetHtmlId);
         $fieldset = $this->getForm()->addFieldset($mainFieldsetHtmlId, array(
-            'legend'    => $this->helper('Mage_Widget_Helper_Data')->__('Widget Options'),
+            'legend'    => __('Widget Options'),
             'class'     => 'fieldset-wide',
         ));
         $this->setData('main_fieldset', $fieldset);
@@ -92,7 +92,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
     {
         // get configuration node and translation helper
         if (!$this->getWidgetType()) {
-            Mage::throwException($this->__('Please specify a Widget Type.'));
+            Mage::throwException(__('Please specify a Widget Type.'));
         }
         $config = Mage::getSingleton('Mage_Widget_Model_Widget')->getConfigAsObject($this->getWidgetType());
         if (!$config->getParameters()) {
@@ -122,10 +122,10 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
         $fieldName = $parameter->getKey();
         $data = array(
             'name'      => $form->addSuffixToName($fieldName, 'parameters'),
-            'label'     => $this->_translationHelper->__($parameter->getLabel()),
+            'label'     => __($parameter->getLabel()),
             'required'  => $parameter->getRequired(),
             'class'     => 'widget-option',
-            'note'      => $this->_translationHelper->__($parameter->getDescription()),
+            'note'      => __($parameter->getDescription()),
         );
 
         if ($values = $this->getWidgetValues()) {
@@ -145,7 +145,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
             $data['values'] = array();
             foreach ($values as $option) {
                 $data['values'][] = array(
-                    'label' => $this->_translationHelper->__($option['label']),
+                    'label' => __($option['label']),
                     'value' => $option['value']
                 );
             }

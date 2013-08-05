@@ -71,7 +71,7 @@ class Saas_ImportExport_Model_Import_Image_Result
         $result = '';
         if ($this->_result['invalid']) {
             $indent = self::MESSAGE_INDENT;
-            $result = $this->_helper->__('Product images errors (next image files will be ignored):');
+            $result = __('Product images errors (next image files will be ignored):');
 
             foreach ($this->_result['invalid'] as $file) {
                 $result .= '<br />' . $indent . $file['message'] . '<br />' . $indent . $indent . $file['file'];
@@ -94,24 +94,24 @@ class Saas_ImportExport_Model_Import_Image_Result
 
         if (!$this->_result['invalid'] && $this->_result['valid']) {
             // @codingStandardsIgnoreStart
-            $message = $this->_helper->__('Image Archive File is valid. All image files successfully uploaded to media storage.');
+            $message = __('Image Archive File is valid. All image files successfully uploaded to media storage.');
             // @codingStandardsIgnoreEnd
 
-            $message .= '<br />' . $indent . $this->_helper->__('Checked images: ') . $totalImages . '<br />' . $indent
-                . $this->_helper->__('Valid images: ') . $totalValid;
+            $message .= '<br />' . $indent . __('Checked images: ') . $totalImages . '<br />' . $indent
+                . __('Valid images: ') . $totalValid;
             return array('is_success' => true, 'message' => $message);
 
         } elseif ($this->_result['invalid'] && $this->_result['valid']) {
-            $message = $this->_helper->__('Remainder image files, were successfully uploaded to media storage.')
+            $message = __('Remainder image files, were successfully uploaded to media storage.')
                 . '<br />' . $indent
-                . $this->_helper->__('Checked images: ') . $totalImages
-                . '<br />' . $indent . $this->_helper->__('Valid images: ') . $totalValid
-                . '<br />' . $indent . $this->_helper->__('Invalid images: ') . $totalInvalid;
+                . __('Checked images: ') . $totalImages
+                . '<br />' . $indent . __('Valid images: ') . $totalValid
+                . '<br />' . $indent . __('Invalid images: ') . $totalInvalid;
             return array('is_success' => true, 'message' => $message);
 
         } else {
-            $message = $this->_helper->__('There are no valid images in archive')
-                . '<br />' . $indent . $this->_helper->__('Checked images: ') . $totalImages;
+            $message = __('There are no valid images in archive')
+                . '<br />' . $indent . __('Checked images: ') . $totalImages;
             return array('is_success' => false, 'message' => $message);
         }
     }

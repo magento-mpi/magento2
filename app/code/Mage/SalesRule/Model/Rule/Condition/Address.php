@@ -14,15 +14,15 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
     public function loadAttributeOptions()
     {
         $attributes = array(
-            'base_subtotal' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Subtotal'),
-            'total_qty' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Total Items Quantity'),
-            'weight' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Total Weight'),
-            'payment_method' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Payment Method'),
-            'shipping_method' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Shipping Method'),
-            'postcode' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Shipping Postcode'),
-            'region' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Shipping Region'),
-            'region_id' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Shipping State/Province'),
-            'country_id' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Shipping Country'),
+            'base_subtotal' => __('Subtotal'),
+            'total_qty' => __('Total Items Quantity'),
+            'weight' => __('Total Weight'),
+            'payment_method' => __('Payment Method'),
+            'shipping_method' => __('Shipping Method'),
+            'postcode' => __('Shipping Postcode'),
+            'region' => __('Shipping Region'),
+            'region_id' => __('Shipping State/Province'),
+            'country_id' => __('Shipping Country'),
         );
 
         $this->setAttributeOption($attributes);

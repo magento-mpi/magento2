@@ -41,7 +41,7 @@ class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribu
      */
     public function getAllOptions($withEmpty = true)
     {
-        $label = $withEmpty ? $this->_helper->__('-- Please Select --') : $withEmpty;
+        $label = $withEmpty ? __('-- Please Select --') : $withEmpty;
         return $this->_options = $this->_themeLabel->getLabelsCollection($label);
     }
 }

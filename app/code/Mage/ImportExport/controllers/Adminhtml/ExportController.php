@@ -35,7 +35,7 @@ class Mage_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
      */
     protected function _initAction()
     {
-        $this->_title($this->__('Import/Export'))
+        $this->_title(__('Import/Export'))
             ->loadLayout()
             ->_setActiveMenu('Mage_ImportExport::system_convert_export');
 
@@ -74,10 +74,10 @@ class Mage_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError($this->__('Please correct the data sent.'));
+                $this->_getSession()->addError(__('Please correct the data sent.'));
             }
         } else {
-            $this->_getSession()->addError($this->__('Please correct the data sent.'));
+            $this->_getSession()->addError(__('Please correct the data sent.'));
         }
         return $this->_redirect('*/*/index');
     }
@@ -90,8 +90,8 @@ class Mage_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
     public function indexAction()
     {
         $this->_initAction()
-            ->_title($this->__('Export'))
-            ->_addBreadcrumb($this->__('Export'), $this->__('Export'));
+            ->_title(__('Export'))
+            ->_addBreadcrumb(__('Export'), __('Export'));
 
         $this->renderLayout();
     }
@@ -125,7 +125,7 @@ class Mage_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
                 $this->_getSession()->addError($e->getMessage());
             }
         } else {
-            $this->_getSession()->addError($this->__('Please correct the data sent.'));
+            $this->_getSession()->addError(__('Please correct the data sent.'));
         }
         $this->_redirect('*/*/index');
     }

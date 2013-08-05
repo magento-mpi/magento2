@@ -96,10 +96,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
             ->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue(array($expectedMetadata)));
-        $this->_helperMock->expects($this->once())
-            ->method('__')
-            ->with('Server cannot understand Content-Type HTTP header media type "%s"', 'text_xml')
-            ->will($this->returnValue('Server cannot understand Content-Type HTTP header media type "text_xml"'));
+
         $this->setExpectedException(
             'Mage_Webapi_Exception',
             'Server cannot understand Content-Type HTTP header media type "text_xml"',

@@ -42,7 +42,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Store
         $value = $this->getColumn()->getValue();
         if ($allShow) {
             $html .= '<option value="0"' . ($value == 0 ? ' selected="selected"' : '') . '>'
-                  . Mage::helper('Mage_Backend_Helper_Data')->__('All Store Views') . '</option>';
+                  . __('All Store Views') . '</option>';
         } else {
             $html .= '<option value=""' . (!$value ? ' selected="selected"' : '') . '></option>';
         }
@@ -78,7 +78,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Store
         }
         if ($this->getColumn()->getDisplayDeleted()) {
             $selected = ($this->getValue() == '_deleted_') ? ' selected' : '';
-            $html.= '<option value="_deleted_"'.$selected.'>'.$this->__('[ deleted ]').'</option>';
+            $html.= '<option value="_deleted_"'.$selected.'>'.__('[ deleted ]').'</option>';
         }
         $html .= '</select>';
         return $html;

@@ -37,20 +37,20 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condit
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($url);
         $fieldset = $form->addFieldset('conditions_fieldset', array(
-            'legend' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
+            'legend' => __('Conditions'),
             'class' => 'fieldset',
         ))->setRenderer($renderer);
 
         $fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
-            'title' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
+            'label' => __('Conditions'),
+            'title' => __('Conditions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Conditions'));
 
         if (Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED == $model->getApplyTo()) {
             $fieldset->addField('conditions-label', 'label', array(
-                'note' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('* applicable to visitors and registered customers'),
+                'note' => __('* applicable to visitors and registered customers'),
             ));
         }
 

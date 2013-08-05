@@ -488,7 +488,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
             }
             if (! $model instanceof Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract) {
                 Mage::throwException(
-                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Entity type model must be an instance of Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract')
+                    __('Entity type model must be an instance of Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract')
                 );
             }
             if ($model->isSuitable()) {

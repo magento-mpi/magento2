@@ -41,11 +41,11 @@ class Mage_Newsletter_Model_Queue_Options_Status implements Mage_Core_Model_Opti
     public function toOptionArray()
     {
         return array(
-            Mage_Newsletter_Model_Queue::STATUS_SENT 	=> $this->_helper->__('Sent'),
-            Mage_Newsletter_Model_Queue::STATUS_CANCEL	=> $this->_helper->__('Cancelled'),
-            Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> $this->_helper->__('Not Sent'),
-            Mage_Newsletter_Model_Queue::STATUS_SENDING => $this->_helper->__('Sending'),
-            Mage_Newsletter_Model_Queue::STATUS_PAUSE 	=> $this->_helper->__('Paused'),
+            Mage_Newsletter_Model_Queue::STATUS_SENT 	=> __('Sent'),
+            Mage_Newsletter_Model_Queue::STATUS_CANCEL	=> __('Cancelled'),
+            Mage_Newsletter_Model_Queue::STATUS_NEVER 	=> __('Not Sent'),
+            Mage_Newsletter_Model_Queue::STATUS_SENDING => __('Sending'),
+            Mage_Newsletter_Model_Queue::STATUS_PAUSE 	=> __('Paused'),
         );
     }
 }

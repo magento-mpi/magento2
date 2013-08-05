@@ -26,12 +26,12 @@ class Saas_PrintedTemplate_Model_Source_StoreVariables extends Mage_Core_Model_S
         $options = parent::toOptionArray($withGroup);
         $logoOption = array(
             'value' => '{{var config.store_logo_url}}',
-            'label' => Mage::helper('Saas_PrintedTemplate_Helper_Data')->__('Store Logo URL'.
+            'label' => __('Store Logo URL'.
                     ' (Configuration -> Sales -> Invoice and Packing Slip Design -> Logo for PDF Print-outs)'),
         );
         $addressOption = array(
             'value' => '{{var config.store_address}}',
-            'label' => Mage::helper('Saas_PrintedTemplate_Helper_Data')->__('Store Address '.
+            'label' => __('Store Address '.
                     '(Configuration -> Sales -> Invoice and Packing Slip Design -> Address)'),
         );
 

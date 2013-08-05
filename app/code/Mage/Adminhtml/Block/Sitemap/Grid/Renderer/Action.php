@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Action extends Mage_Adminhtml_B
     {
         $this->getColumn()->setActions(array(array(
             'url'     => $this->getUrl('*/sitemap/generate', array('sitemap_id' => $row->getSitemapId())),
-            'caption' => Mage::helper('Mage_Sitemap_Helper_Data')->__('Generate'),
+            'caption' => __('Generate'),
         )));
         return parent::render($row);
     }

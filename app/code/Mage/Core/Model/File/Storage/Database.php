@@ -88,7 +88,7 @@ class Mage_Core_Model_File_Storage_Database extends Mage_Core_Model_File_Storage
      */
     public function getStorageName()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->__('database "%s"', $this->getConnectionName());
+        return __('database "%s"', $this->getConnectionName());
     }
 
     /**

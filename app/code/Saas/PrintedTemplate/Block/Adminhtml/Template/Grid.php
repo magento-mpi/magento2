@@ -25,7 +25,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid extends Mage_Backend_Bl
         parent::_construct();
 
         $this->setId('templatesGrid');
-        $this->setEmptyText($this->__('No Templates Found'));
+        $this->setEmptyText(__('No Templates Found'));
     }
 
     /**
@@ -50,39 +50,39 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid extends Mage_Backend_Bl
     {
         $this->addColumn('template_id',
             array(
-                  'header' => $this->__('ID'),
+                  'header' => __('ID'),
                   'index'  =>'template_id'
             )
         );
         $this->addColumn('name',
             array(
-                'header' => $this->__('Template Name'),
+                'header' => __('Template Name'),
                 'index'  => 'name'
         ));
         $this->addColumn('created_at',
             array(
-                'header'    => $this->__('Date Added'),
+                'header'    => __('Date Added'),
                 'index'     => 'created_at',
                 'gmtoffset' => true,
                 'type'      => 'datetime'
         ));
         $this->addColumn('updated_at',
             array(
-                'header'    => $this->__('Date Updated'),
+                'header'    => __('Date Updated'),
                 'index'     => 'updated_at',
                 'gmtoffset' => true,
                 'type'      => 'datetime'
         ));
         $this->addColumn('entity_type',
             array(
-                'header'   => $this->__('Template Type'),
+                'header'   => __('Template Type'),
                 'index'    => 'entity_type',
                 'filter'   => 'Saas_PrintedTemplate_Block_Adminhtml_Template_Grid_Filter_Type',
                 'renderer' => 'Saas_PrintedTemplate_Block_Adminhtml_Template_Grid_Renderer_Type'
         ));
         $this->addColumn('action',
             array(
-                'header'   => $this->__('Action'),
+                'header'   => __('Action'),
                 'index'    => 'template_id',
                 'sortable' => false,
                 'filter'   => false,

@@ -128,7 +128,7 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/new';
         if((bool)Mage::getStoreConfig($path)){
-            $this->addRssFeed($path, $this->__('New Products'));
+            $this->addRssFeed($path, __('New Products'));
         }
     }
 
@@ -136,7 +136,7 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/special';
         if((bool)Mage::getStoreConfig($path)){
-            $this->addRssFeed($path, $this->__('Special Products'),array(),true);
+            $this->addRssFeed($path, __('Special Products'),array(),true);
         }
     }
 
@@ -144,7 +144,7 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
     {
         $path = self::XML_PATH_RSS_METHODS.'/catalog/salesrule';
         if((bool)Mage::getStoreConfig($path)){
-            $this->addRssFeed($path, $this->__('Coupons/Discounts'),array(),true);
+            $this->addRssFeed($path, __('Coupons/Discounts'),array(),true);
         }
     }
 

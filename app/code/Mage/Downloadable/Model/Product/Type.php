@@ -295,7 +295,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
             return $result;
         }
         if ($this->getLinkSelectionRequired($product) && $this->_isStrictProcessMode($processMode)) {
-            return Mage::helper('Mage_Downloadable_Helper_Data')->__('Please specify product link(s).');
+            return __('Please specify product link(s).');
         }
         return $result;
     }
@@ -323,7 +323,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                     $product->addCustomOption('info_buyRequest', serialize($buyRequest->getData()));
                 } else {
                     Mage::throwException(
-                        Mage::helper('Mage_Downloadable_Helper_Data')->__('Please specify product link(s).')
+                        __('Please specify product link(s).')
                     );
                 }
             }

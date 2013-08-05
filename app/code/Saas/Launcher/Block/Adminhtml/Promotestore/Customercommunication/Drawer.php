@@ -27,6 +27,6 @@ class Saas_Launcher_Block_Adminhtml_Promotestore_Customercommunication_Drawer
      */
     public function getTileHeader()
     {
-        return $this->helper('Saas_Launcher_Helper_Data')->__('Customer Communication');
+        return __('Customer Communication');
     }
 }

@@ -28,15 +28,13 @@ class Mage_Backend_Model_Config_Backend_Email_Sender extends Mage_Core_Model_Con
         $value = $this->getValue();
         if (!preg_match("/^[\S ]+$/", $value)) {
             Mage::throwException(
-                Mage::helper('Mage_Backend_Helper_Data')
-                    ->__('The sender name "%s" is not valid. Please use only visible characters and spaces.', $value)
+                __('The sender name "%s" is not valid. Please use only visible characters and spaces.', $value)
             );
         }
 
         if (strlen($value) > 255) {
             Mage::throwException(
-                Mage::helper('Mage_Backend_Helper_Data')
-                    ->__('Maximum sender name length is 255. Please correct your settings.')
+                __('Maximum sender name length is 255. Please correct your settings.')
             );
         }
         return $this;

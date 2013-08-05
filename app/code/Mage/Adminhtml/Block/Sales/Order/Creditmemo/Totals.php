@@ -50,13 +50,13 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Totals extends Mage_Adminhtml_
             'code'      => 'adjustment_positive',
             'value'     => $this->getSource()->getAdjustmentPositive(),
             'base_value'=> $this->getSource()->getBaseAdjustmentPositive(),
-            'label'     => $this->helper('Mage_Sales_Helper_Data')->__('Adjustment Refund')
+            'label'     => __('Adjustment Refund')
         )));
         $this->addTotal(new Varien_Object(array(
             'code'      => 'adjustment_negative',
             'value'     => $this->getSource()->getAdjustmentNegative(),
             'base_value'=> $this->getSource()->getBaseAdjustmentNegative(),
-            'label'     => $this->helper('Mage_Sales_Helper_Data')->__('Adjustment Fee')
+            'label'     => __('Adjustment Fee')
         )));
         return $this;
     }

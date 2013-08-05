@@ -26,6 +26,6 @@ class Saas_Launcher_Block_Adminhtml_Promotestore_Reports_Drawer extends Saas_Lau
      */
     public function getTileHeader()
     {
-        return $this->helper('Saas_Launcher_Helper_Data')->__('Reports');
+        return __('Reports');
     }
 }

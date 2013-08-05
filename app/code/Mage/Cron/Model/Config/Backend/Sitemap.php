@@ -57,7 +57,7 @@ class Mage_Cron_Model_Config_Backend_Sitemap extends Mage_Core_Model_Config_Data
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
         } catch (Exception $e) {
-            throw new Exception(Mage::helper('Mage_Cron_Helper_Data')->__("We can't save the cron expression."));
+            throw new Exception(__("We can't save the cron expression."));
         }
     }
 

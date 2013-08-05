@@ -33,7 +33,7 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
      */
     protected function _initAction()
     {
-        $this->_title($this->__('Import/Export'))
+        $this->_title(__('Import/Export'))
             ->loadLayout()
             ->_setActiveMenu('Mage_ImportExport::system_convert_import');
         return $this;
@@ -56,7 +56,7 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
     {
         $this->_getSession()->addNotice($this->_objectManager->get('Mage_ImportExport_Helper_Data')
             ->getMaxUploadSizeMessage());
-        $this->_initAction()->_title($this->__('Import'))->_addBreadcrumb($this->__('Import'), $this->__('Import'));
+        $this->_initAction()->_title(__('Import'))->_addBreadcrumb(__('Import'), __('Import'));
         $this->renderLayout();
     }
 
@@ -78,14 +78,14 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
                 $importModel->importSource();
                 $importModel->invalidateIndex();
                 $resultBlock->addAction('show', 'import_validation_container')
-                    ->addAction('innerHTML', 'import_validation_container_header', $this->__('Status'));
+                    ->addAction('innerHTML', 'import_validation_container_header', __('Status'));
             } catch (Exception $e) {
                 $resultBlock->addError($e->getMessage());
                 $this->renderLayout();
                 return;
             }
             $resultBlock->addAction('hide', array('edit_form', 'upload_button', 'messages'))
-                ->addSuccess($this->__('Import successfully done'));
+                ->addSuccess(__('Import successfully done'));
             $this->renderLayout();
         } else {
             $this->_redirect('*/*/index');
@@ -116,41 +116,41 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
                 $validationResult = $import->validateSource($source);
 
                 if (!$import->getProcessedRowsCount()) {
-                    $resultBlock->addError($this->__('File does not contain data. Please upload another one'));
+                    $resultBlock->addError(__('File does not contain data. Please upload another one'));
                 } else {
                     if (!$validationResult) {
                         $this->_processValidationError($import, $resultBlock);
                     } else {
                         if ($import->isImportAllowed()) {
                             $resultBlock->addSuccess(
-                                $this->__('File is valid! To start import process press "Import" button'), true
+                                __('File is valid! To start import process press "Import" button'), true
                             );
                         } else {
                             $resultBlock->addError(
-                                $this->__('File is valid, but import is not possible'), false
+                                __('File is valid, but import is not possible'), false
                             );
                         }
                     }
                     $resultBlock->addNotice($import->getNotices());
                     $resultBlock->addNotice(
-                        $this->__('Checked rows: %d, checked entities: %d, invalid rows: %d, total errors: %d',
+                        __('Checked rows: %d, checked entities: %d, invalid rows: %d, total errors: %d',
                             $import->getProcessedRowsCount(), $import->getProcessedEntitiesCount(),
                             $import->getInvalidRowsCount(), $import->getErrorsCount()
                         )
                     );
                 }
             } catch (Exception $e) {
-                $resultBlock->addNotice($this->__('Please fix errors and re-upload file.'))
+                $resultBlock->addNotice(__('Please fix errors and re-upload file.'))
                     ->addError($e->getMessage());
             }
             $this->renderLayout();
         } elseif ($this->getRequest()->isPost() && empty($_FILES)) {
             $this->loadLayout(false);
             $resultBlock = $this->getLayout()->getBlock('import.frame.result');
-            $resultBlock->addError($this->__('File was not uploaded'));
+            $resultBlock->addError(__('File was not uploaded'));
             $this->renderLayout();
         } else {
-            $this->_getSession()->addError($this->__('Data is invalid or file is not uploaded'));
+            $this->_getSession()->addError(__('Data is invalid or file is not uploaded'));
             $this->_redirect('*/*/index');
         }
     }
@@ -166,30 +166,30 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
     ) {
         if ($import->getProcessedRowsCount() == $import->getInvalidRowsCount()) {
             $resultBlock->addNotice(
-                $this->__('File is totally invalid. Please fix errors and re-upload file.')
+                __('File is totally invalid. Please fix errors and re-upload file.')
             );
         } elseif ($import->getErrorsCount() >= $import->getErrorsLimit()) {
             $resultBlock->addNotice(
-                $this->__('Errors limit (%d) reached. Please fix errors and re-upload file.',
+                __('Errors limit (%d) reached. Please fix errors and re-upload file.',
                     $import->getErrorsLimit()
                 )
             );
         } else {
             if ($import->isImportAllowed()) {
                 $resultBlock->addNotice(
-                    $this->__('Please fix errors and re-upload file or simply press "Import" button'
+                    __('Please fix errors and re-upload file or simply press "Import" button'
                         . ' to skip rows with errors'),
                     true
                 );
             } else {
                 $resultBlock->addNotice(
-                    $this->__('File is partially valid, but import is not possible'), false
+                    __('File is partially valid, but import is not possible'), false
                 );
             }
         }
         // errors info
         foreach ($import->getErrors() as $errorCode => $rows) {
-            $error = $errorCode . ' ' . $this->__('in rows:') . ' ' . implode(', ', $rows);
+            $error = $errorCode . ' ' . __('in rows:') . ' ' . implode(', ', $rows);
             $resultBlock->addError($error);
         }
     }

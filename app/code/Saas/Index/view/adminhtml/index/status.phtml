@@ -16,9 +16,9 @@ $isTaskAdded = $this->isTaskAdded();
 <div id="index-status" <?php echo !$isTaskAdded ? 'style="display:none"' : '';?>>
     <?php if ($isTaskAdded):?>
         <?php if ($this->isTaskProcessing()):?>
-            <?php echo $this->__('The search index refresh has already started. Please wait until it finishes.')?>
+            <?php echo __('The search index refresh has already started. Please wait until it finishes.')?>
         <?php else: ?>
-            <?php echo $this->__('The search index refresh is already in queue.')?>
+            <?php echo __('The search index refresh is already in queue.')?>
         <?php endif; ?>
     <?php endif; ?>
 </div>

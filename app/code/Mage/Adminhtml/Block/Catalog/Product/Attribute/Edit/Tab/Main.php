@@ -51,12 +51,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         $additionalTypes = array(
             array(
                 'value' => 'price',
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Price')
+                'label' => __('Price')
             ),
         );
         $additionalReadOnlyTypes = array(
-            'media_image' => Mage::helper('Mage_Catalog_Helper_Data')->__('Media Image'),
-            'gallery'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Gallery')
+            'media_image' => __('Media Image'),
+            'gallery'     => __('Gallery')
         );
         if (isset($additionalReadOnlyTypes[$attributeObject->getFrontendInput()])) {
             $additionalTypes[] = array(

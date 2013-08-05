@@ -24,7 +24,7 @@
         <div class="modes">
             <?php $_modes = $this->getModes(); ?>
             <?php if ($_modes && count($_modes) > 1): ?>
-            <strong class="label"><?php echo $this->__('View as') ?></strong>
+            <strong class="label"><?php echo __('View as') ?></strong>
             <?php foreach ($this->getModes() as $_code => $_label): ?>
                 <?php if ($this->isModeActive($_code)): ?>
                     <strong class="mode active <?php echo strtolower($_code); ?>" title="<?php echo $_label ?>">
@@ -42,23 +42,23 @@
         <?php endif; ?>
 
         <div class="sorter">
-            <label class="label" for="sorter"><?php echo $this->__('Sort By') ?></label>
+            <label class="label" for="sorter"><?php echo __('Sort By') ?></label>
             <select id="sorter" data-mage-redirect="{'event':'change'}">
                 <?php foreach ($this->getAvailableOrders() as $_key => $_order): ?>
                 <option
                     value="<?php echo $this->getOrderUrl($_key, 'asc') ?>"<?php if ($this->isOrderCurrent($_key)): ?>
                     selected="selected"<?php endif; ?>>
-                    <?php echo $this->__($_order) ?>
+                    <?php echo __($_order) ?>
                 </option>
                 <?php endforeach; ?>
             </select>
             <?php if ($this->getCurrentDirection() == 'desc'): ?>
-            <a title="<?php echo $this->__('Set Ascending Direction') ?>" href="<?php echo $this->getOrderUrl(null, 'asc') ?>" class="action sort desc">
-                <span><?php echo $this->__('Set Ascending Direction') ?></span>
+            <a title="<?php echo __('Set Ascending Direction') ?>" href="<?php echo $this->getOrderUrl(null, 'asc') ?>" class="action sort desc">
+                <span><?php echo __('Set Ascending Direction') ?></span>
             </a>
             <?php else: ?>
-            <a title="<?php echo $this->__('Set Descending Direction') ?>" href="<?php echo $this->getOrderUrl(null, 'desc') ?>" class="action sort asc">
-                <span><?php echo $this->__('Set Descending Direction') ?></span>
+            <a title="<?php echo __('Set Descending Direction') ?>" href="<?php echo $this->getOrderUrl(null, 'desc') ?>" class="action sort asc">
+                <span><?php echo __('Set Descending Direction') ?></span>
             </a>
             <?php endif; ?>
         </div>
@@ -69,16 +69,16 @@
     <div class="pager">
         <p class="amount">
             <?php if ($this->getLastPageNum() > 1): ?>
-            <?php echo $this->__('Items %s-%s of %s', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
+            <?php echo __('Items %s-%s of %s', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
             <?php elseif ($this->getLastPageNum() == 1): ?>
-            <?php echo $this->__('%s Item', $this->getTotalNum()) ?>
+            <?php echo __('%s Item', $this->getTotalNum()) ?>
             <?php else: ?>
-            <?php echo $this->__('%s Item(s)', $this->getTotalNum()) ?>
+            <?php echo __('%s Item(s)', $this->getTotalNum()) ?>
             <?php endif; ?>
         </p>
 
         <div class="limiter">
-            <strong class="label"><?php echo $this->__('Show') ?></strong>
+            <strong class="label"><?php echo __('Show') ?></strong>
             <select id="limiter" data-mage-redirect="{'event':'change'}">
                 <?php foreach ($this->getAvailableLimit() as $_key => $_limit): ?>
                 <option value="<?php echo $this->getLimitUrl($_key) ?>"<?php if ($this->isLimitCurrent($_key)): ?>
@@ -87,7 +87,7 @@
                 </option>
                 <?php endforeach; ?>
             </select> 
-            <span class="text"><?php echo $this->__('per page') ?></span>
+            <span class="text"><?php echo __('per page') ?></span>
         </div>
 
         <?php echo $this->getPagerHtml() ?>

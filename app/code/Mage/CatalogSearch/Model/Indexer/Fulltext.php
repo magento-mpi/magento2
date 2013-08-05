@@ -92,7 +92,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     public function getName()
     {
-        return Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Catalog Search');
+        return __('Catalog Search');
     }
 
     /**
@@ -102,7 +102,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
      */
     public function getDescription()
     {
-        return Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Rebuild Catalog product fulltext search index');
+        return __('Rebuild Catalog product fulltext search index');
     }
 
     /**

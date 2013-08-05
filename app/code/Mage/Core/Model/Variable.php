@@ -104,11 +104,11 @@ class Mage_Core_Model_Variable extends Mage_Core_Model_Abstract
         if ($this->getCode() && $this->getName()) {
             $variable = $this->getResource()->getVariableByCode($this->getCode());
             if (!empty($variable) && $variable['variable_id'] != $this->getId()) {
-                return Mage::helper('Mage_Core_Helper_Data')->__('Variable Code must be unique.');
+                return __('Variable Code must be unique.');
             }
             return true;
         }
-        return Mage::helper('Mage_Core_Helper_Data')->__('Validation has failed.');
+        return __('Validation has failed.');
     }
 
     /**
@@ -125,12 +125,12 @@ class Mage_Core_Model_Variable extends Mage_Core_Model_Abstract
         foreach ($collection->toOptionArray() as $variable) {
             $variables[] = array(
                 'value' => '{{customVar code=' . $variable['value'] . '}}',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('%s', $variable['label'])
+                'label' => __('%s', $variable['label'])
             );
         }
         if ($withGroup && $variables) {
             $variables = array(
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('Custom Variables'),
+                'label' => __('Custom Variables'),
                 'value' => $variables
             );
         }

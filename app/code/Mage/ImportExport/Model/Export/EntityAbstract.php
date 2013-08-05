@@ -326,8 +326,8 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
         $messages = array();
         foreach ($this->_errors as $errorCode => $errorRows) {
             $message = isset($this->_messageTemplates[$errorCode])
-                ? $this->_translator->__($this->_messageTemplates[$errorCode])
-                : $this->_translator->__("Please correct the value for '%s' column", $errorCode);
+                ? __($this->_messageTemplates[$errorCode])
+                : __("Please correct the value for '%s' column", $errorCode);
             $messages[$message] = $errorRows;
         }
 
@@ -383,7 +383,7 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
     public function getWriter()
     {
         if (!$this->_writer) {
-            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Please specify writer.'));
+            Mage::throwException(__('Please specify writer.'));
         }
 
         return $this->_writer;

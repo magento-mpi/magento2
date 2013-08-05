@@ -42,7 +42,7 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
         $this->_setFontBold($style, 10);
 
         if (!(is_array($rmaArray) && (count($rmaArray) == 1))){
-            Mage::throwException(Mage::helper('Enterprise_Rma_Helper_Data')->__('Only one RMA is available for printing'));
+            Mage::throwException(__('Only one RMA is available for printing'));
         }
         $rma = $rmaArray[0];
 
@@ -76,14 +76,14 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
         $this->_setFontRegular($page);
 
         $page->drawText(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('Return # ') . $rma->getIncrementId() . ' - ' . $rma->getStatusLabel(),
+            __('Return # ') . $rma->getIncrementId() . ' - ' . $rma->getStatusLabel(),
             35,
             $this->y - 40,
             'UTF-8'
         );
 
         $page->drawText(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('Return Date: ') .
+            __('Return Date: ') .
                 Mage::helper('Mage_Core_Helper_Data')->formatDate($rma->getDateRequested(), 'medium', false),
             35,
             $this->y - 50,
@@ -91,13 +91,13 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
         );
 
         $page->drawText(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('Order # ') . $rma->getOrder()->getIncrementId(),
+            __('Order # ') . $rma->getOrder()->getIncrementId(),
             35,
             $this->y - 60,
             'UTF-8'
         );
 
-        $text = Mage::helper('Enterprise_Rma_Helper_Data')->__('Order Date: ');
+        $text = __('Order Date: ');
         $text .= Mage::helper('Mage_Core_Helper_Data')->formatDate(
             $rma->getOrder()->getCreatedAtStoreDate(),
             'medium',
@@ -127,9 +127,9 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
 
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
         $this->_setFontRegular($page);
-        $page->drawText(Mage::helper('Enterprise_Rma_Helper_Data')->__('Shipping Address:'), 35, $this->y - 10, 'UTF-8');
+        $page->drawText(__('Shipping Address:'), 35, $this->y - 10, 'UTF-8');
 
-        $page->drawText(Mage::helper('Enterprise_Rma_Helper_Data')->__('Return Address:'), 315, $this->y - 10, 'UTF-8');
+        $page->drawText(__('Return Address:'), 315, $this->y - 10, 'UTF-8');
 
         $y = $this->y - 15 - (max(count($shippingAddress), count($returnAddress)) * 10 + 5);
 
@@ -216,43 +216,43 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
 
         $page->setFillColor(new Zend_Pdf_Color_RGB(0.4, 0.4, 0.4));
         $page->drawText(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('Product Name'),
+            __('Product Name'),
             $this->getProductNameX(),
             $this->y,
             'UTF-8'
         );
         $page->drawText(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('SKU'),
+            __('SKU'),
             $this->getProductSkuX(),
             $this->y,
             'UTF-8'
         );
         $page->drawText(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('Condition'),
+            __('Condition'),
             $this->getConditionX(),
             $this->y,
             'UTF-8'
         );
         $page->drawText(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('Resolution'),
+            __('Resolution'),
             $this->getResolutionX(),
             $this->y,
             'UTF-8'
         );
         $page->drawText(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('Requested Qty'),
+            __('Requested Qty'),
             $this->getQtyRequestedX(),
             $this->y,
             'UTF-8'
         );
         $page->drawText(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('Qty'),
+            __('Qty'),
             $this->getQtyX(),
             $this->y,
             'UTF-8'
         );
         $page->drawText(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('Status'),
+            __('Status'),
             $this->getStatusX(),
             $this->y,
             'UTF-8'

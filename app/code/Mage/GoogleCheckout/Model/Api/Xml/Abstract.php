@@ -124,7 +124,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
         $merchantId = $this->getMerchantId();
         $merchantKey = $this->getMerchantKey();
         if (empty($merchantId) || empty($merchantKey)) {
-            Mage::throwException(Mage::helper('Mage_GoogleCheckout_Helper_Data')->__('GoogleCheckout is not configured'));
+            Mage::throwException(__('GoogleCheckout is not configured'));
         }
         if (!$this->hasData('g_response')) {
             $this->setData('g_response', new GoogleResponse(
@@ -194,7 +194,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
             );
         }
         if ($result->getName() == 'error') {
-            $this->setError($this->__('Google Checkout: %s', (string)$result->{'error-message'}));
+            $this->setError(__('Google Checkout: %s', (string)$result->{'error-message'}));
             $this->setWarnings((array)$result->{'warning-messages'});
         } else {
             $this->unsError()->unsWarnings();

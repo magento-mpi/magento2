@@ -17,7 +17,7 @@
         <?php echo $this->getStatusHistoryRssUrl($_order) ?>
     </div>
     <dl class="order info">
-        <dt><?php echo $this->__('About This Order:') ?></dt>
+        <dt><?php echo __('About This Order:') ?></dt>
         <dd>
             <?php $_links = $this->getLinks(); ?>
             <ul class="items">
@@ -31,22 +31,22 @@
             </ul>
         </dd>
     </dl>
-    <p class="order date"><?php echo $this->__('<span class="label">Order Date:</span> %s', '<date>' . $this->formatDate($_order->getCreatedAtStoreDate(), 'long') . '</date>' ) ?></p>
+    <p class="order date"><?php echo __('<span class="label">Order Date:</span> %s', '<date>' . $this->formatDate($_order->getCreatedAtStoreDate(), 'long') . '</date>' ) ?></p>
 <?php if (!$_order->getIsVirtual()): ?>
     <div class="block order shipping address">
-        <div class="title"><strong><?php echo $this->__('Shipping Address') ?></strong></div>
+        <div class="title"><strong><?php echo __('Shipping Address') ?></strong></div>
         <div class="content">
             <address><?php echo $_order->getShippingAddress()->format('html') ?></address>
         </div>
     </div>
 
     <div class="block order shipping method">
-        <div class="title"><strong><?php echo $this->__('Shipping Method') ?></strong></div>
+        <div class="title"><strong><?php echo __('Shipping Method') ?></strong></div>
         <div class="content">
         <?php if ($_order->getShippingDescription()): ?>
             <?php echo $this->escapeHtml($_order->getShippingDescription()) ?>
         <?php else: ?>
-            <?php echo $this->helper('Mage_Sales_Helper_Data')->__('No shipping information available'); ?>
+            <?php echo __('No shipping information available'); ?>
         <?php endif; ?>
         </div>
     </div>
@@ -54,7 +54,7 @@
 <?php endif; ?>
     <div class="block order billing address">
         <div class="title">
-            <strong><?php echo $this->__('Billing Address') ?></strong>
+            <strong><?php echo __('Billing Address') ?></strong>
         </div>
         <div class="content">
             <address><?php echo $_order->getBillingAddress()->format('html') ?></address>
@@ -62,7 +62,7 @@
     </div>
     <div class="block order billing method">
         <div class="title">
-            <strong><?php echo $this->__('Payment Method') ?></strong>
+            <strong><?php echo __('Payment Method') ?></strong>
         </div>
         <div class="content">
             <?php echo $this->getPaymentInfoHtml() ?>

@@ -144,16 +144,16 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
         $headerValue = $this->getHeader('Content-Type');
 
         if (!$headerValue) {
-            throw new Mage_Webapi_Exception($this->_helper->__('Content-Type header is empty.'),
+            throw new Mage_Webapi_Exception(__('Content-Type header is empty.'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         if (!preg_match('~^([a-z\d/\-+.]+)(?:; *charset=(.+))?$~Ui', $headerValue, $matches)) {
-            throw new Mage_Webapi_Exception($this->_helper->__('Content-Type header is invalid.'),
+            throw new Mage_Webapi_Exception(__('Content-Type header is invalid.'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         // request encoding check if it is specified in header
         if (isset($matches[2]) && self::REQUEST_CHARSET != strtolower($matches[2])) {
-            throw new Mage_Webapi_Exception($this->_helper->__('UTF-8 is the only supported charset.'),
+            throw new Mage_Webapi_Exception(__('UTF-8 is the only supported charset.'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 
@@ -169,7 +169,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
     public function getHttpMethod()
     {
         if (!$this->isGet() && !$this->isPost() && !$this->isPut() && !$this->isDelete()) {
-            throw new Mage_Webapi_Exception($this->_helper->__('Request method is invalid.'),
+            throw new Mage_Webapi_Exception(__('Request method is invalid.'),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
         // Map HTTP methods to classic CRUD verbs
@@ -251,7 +251,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
             $versionNumber = (int)$matches[1];
         } else {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__("Resource version is not specified or invalid one is specified."),
+                __("Resource version is not specified or invalid one is specified."),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }
@@ -283,7 +283,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
         $httpMethod = $this->getHttpMethod();
         $resourceType = $this->getResourceType();
         if (!isset($restMethodsMap[$resourceType . $httpMethod])) {
-            throw new Mage_Webapi_Exception($this->_helper->__('Requested method does not exist.'),
+            throw new Mage_Webapi_Exception(__('Requested method does not exist.'),
                 Mage_Webapi_Exception::HTTP_NOT_FOUND);
         }
         $methodName = $restMethodsMap[$resourceType . $httpMethod];

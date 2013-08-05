@@ -50,7 +50,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer extends Saas_Launch
      */
     public function getTileHeader()
     {
-        return $this->helper('Saas_Launcher_Helper_Data')->__('Tax Rules');
+        return __('Tax Rules');
     }
 
     /**

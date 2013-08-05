@@ -39,7 +39,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
     {
         $form = $this->getForm();
         $themeFieldset = $form->addFieldset('theme_js', array(
-            'legend' => $this->__('Theme Java Script'),
+            'legend' => __('Theme Java Script'),
         ));
         $customization = $this->_getCurrentTheme()->getCustomization();
         $customJsFiles = $customization->getFilesByType(Mage_Core_Model_Theme_Customization_File_Js::TYPE);
@@ -54,8 +54,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
 
         $themeFieldset->addField('js_files_uploader', 'js_files', array(
             'name'     => 'js_files_uploader',
-            'label'    => $this->__('Select JS Files to Upload'),
-            'title'    => $this->__('Select JS Files to Upload'),
+            'label'    => __('Select JS Files to Upload'),
+            'title'    => __('Select JS Files to Upload'),
             'accept'   => 'application/x-javascript',
             'multiple' => '',
             'note'     => $this->_getUploadJsFileNote()
@@ -63,7 +63,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
 
         $themeFieldset->addField('js_uploader_button', 'button', array(
             'name'     => 'js_uploader_button',
-            'value'    => $this->__('Upload JS Files'),
+            'value'    => __('Upload JS Files'),
             'disabled' => 'disabled',
         ));
 
@@ -89,7 +89,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
      */
     public function getTabLabel()
     {
-        return $this->__('JS Editor');
+        return __('JS Editor');
     }
 
     /**
@@ -109,6 +109,6 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
      */
     protected function _getUploadJsFileNote()
     {
-        return $this->__('Allowed file types *.js.');
+        return __('Allowed file types *.js.');
     }
 }

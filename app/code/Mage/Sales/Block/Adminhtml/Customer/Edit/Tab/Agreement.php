@@ -41,7 +41,7 @@ class Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
      */
     public function getTabLabel()
     {
-        return $this->__('Billing Agreements');
+        return __('Billing Agreements');
     }
 
     /**
@@ -51,7 +51,7 @@ class Mage_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
      */
     public function getTabTitle()
     {
-        return $this->__('Billing Agreements');
+        return __('Billing Agreements');
     }
 
     /**

@@ -96,7 +96,7 @@ class Mage_Theme_Model_Uploader_Service
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getCssUploadMaxSize());
         if (!$isValidFileSize) {
-            throw new Mage_Core_Exception($this->_helper->__(
+            throw new Mage_Core_Exception(__(
                 'The CSS file must be less than %sM.', $this->getCssUploadMaxSizeInMb()
             ));
         }
@@ -122,7 +122,7 @@ class Mage_Theme_Model_Uploader_Service
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getJsUploadMaxSize());
         if (!$isValidFileSize) {
-            throw new Mage_Core_Exception($this->_helper->__(
+            throw new Mage_Core_Exception(__(
                 'The JS file must be less than %sM.', $this->getJsUploadMaxSizeInMb()
             ));
         }

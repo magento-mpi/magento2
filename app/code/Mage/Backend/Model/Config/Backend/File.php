@@ -116,8 +116,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
         if ($this->_maxFileSize > 0
             && $this->_filesystem->getFileSize($filePath, dirname($filePath)) > ($this->_maxFileSize * 1024)) {
             throw Mage::exception(
-                'Mage_Core', Mage::helper('Mage_Backend_Helper_Data')
-                    ->__('The file you\'re uploading exceeds the server size limit of %.2f kilobytes.',
+                'Mage_Core', __('The file you\'re uploading exceeds the server size limit of %.2f kilobytes.',
                          $this->_maxFileSize)
             );
         }
@@ -148,7 +147,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
 
         if (!array_key_exists('upload_dir', $fieldConfig)) {
             Mage::throwException(
-                Mage::helper('Mage_Catalog_Helper_Data')->__('The base directory to upload file is not specified.')
+                __('The base directory to upload file is not specified.')
             );
         }
 

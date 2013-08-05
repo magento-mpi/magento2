@@ -15,17 +15,17 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     {
         $this->loadLayout()
             ->_setActiveMenu('Mage_CatalogSearch::catalog_search')
-            ->_addBreadcrumb(Mage::helper('Mage_Catalog_Helper_Data')->__('Search'), Mage::helper('Mage_Catalog_Helper_Data')->__('Search'))
+            ->_addBreadcrumb(__('Search'), __('Search'))
         ;
         return $this;
     }
 
     public function indexAction()
     {
-        $this->_title($this->__('Search Terms'));
+        $this->_title(__('Search Terms'));
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'));
+            ->_addBreadcrumb(__('Catalog'), __('Catalog'));
             $this->renderLayout();
     }
 
@@ -36,7 +36,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
 
     public function editAction()
     {
-        $this->_title($this->__('Search Terms'));
+        $this->_title(__('Search Terms'));
 
         $id = $this->getRequest()->getParam('id');
         $model = Mage::getModel('Mage_CatalogSearch_Model_Query');
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('This search no longer exists.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('This search no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
@@ -60,7 +60,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
 
         $this->_initAction();
 
-        $this->_title($id ? $model->getQueryText() : $this->__('New Search'));
+        $this->_title($id ? $model->getQueryText() : __('New Search'));
 
         $this->getLayout()->getBlock('head')->setCanLoadRulesJs(true);
 
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
             ->setData('action', $this->getUrl('*/catalog_search/save'));
 
         $this
-            ->_addBreadcrumb($id ? Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Search') : Mage::helper('Mage_Catalog_Helper_Data')->__('New Search'), $id ? Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Search') : Mage::helper('Mage_Catalog_Helper_Data')->__('New Search'));
+            ->_addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'));
 
         $this->renderLayout();
     }
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
                     $model->loadByQueryText($queryText);
                     if ($model->getId() && $model->getId() != $queryId) {
                         Mage::throwException(
-                            Mage::helper('Mage_Catalog_Helper_Data')->__('You already have an identical search term query.')
+                            __('You already have an identical search term query.')
                         );
                     } else if (!$model->getId() && $queryId) {
                         $model->load($queryId);
@@ -114,7 +114,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
                 $hasError = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Mage_Catalog_Helper_Data')->__('Something went wrong while saving the search query.')
+                    __('Something went wrong while saving the search query.')
                 );
                 $hasError = true;
             }
@@ -135,7 +135,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
                 $model = Mage::getModel('Mage_CatalogSearch_Model_Query');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('You deleted the search.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(__('You deleted the search.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -145,7 +145,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
                 return;
             }
         }
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('We can\'t find a search term to delete.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('We can\'t find a search term to delete.'));
         $this->_redirect('*/*/');
     }
 
@@ -153,7 +153,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
     {
         $searchIds = $this->getRequest()->getParam('search');
         if(!is_array($searchIds)) {
-             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please select catalog searches.'));
+             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('Please select catalog searches.'));
         } else {
             try {
                 foreach ($searchIds as $searchId) {
@@ -161,7 +161,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
                     $model->delete();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total of %d record(s) were deleted', count($searchIds))
+                    __('Total of %d record(s) were deleted', count($searchIds))
                 );
             } catch (Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());

@@ -248,7 +248,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
     {
         if (!$this->getData('template_text') && !$this->getId()) {
             $this->setData('template_text',
-                Mage::helper('Mage_Newsletter_Helper_Data')->__('Follow this link to unsubscribe <!-- This tag is for unsubscribe link  --><a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a>')
+                __('Follow this link to unsubscribe <!-- This tag is for unsubscribe link  --><a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a>')
             );
         }
 

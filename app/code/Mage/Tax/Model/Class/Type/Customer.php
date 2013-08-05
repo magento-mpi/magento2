@@ -68,6 +68,6 @@ class Mage_Tax_Model_Class_Type_Customer
      */
     public function getObjectTypeName()
     {
-        return $this->_helper->__('customer group');
+        return __('customer group');
     }
 }

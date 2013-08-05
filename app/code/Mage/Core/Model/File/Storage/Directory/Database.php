@@ -183,7 +183,7 @@ class Mage_Core_Model_File_Storage_Directory_Database extends Mage_Core_Model_Fi
                     $directory->setUploadTime($dateSingleton->date());
                     $directory->save();
                 } else {
-                    Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Parent directory does not exist: %s', $dir['path']));
+                    Mage::throwException(__('Parent directory does not exist: %s', $dir['path']));
                 }
             } catch (Exception $e) {
                 Mage::logException($e);

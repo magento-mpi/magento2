@@ -141,7 +141,7 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
             if ($inputType) {
                 $element = $form->addField($attribute->getAttributeCode(), $inputType, array(
                     'name'      => $attribute->getAttributeCode(),
-                    'label'     => $this->__($attribute->getStoreLabel()),
+                    'label'     => __($attribute->getStoreLabel()),
                     'class'     => $attribute->getFrontend()->getClass(),
                     'required'  => $attribute->getIsRequired(),
                 ));

@@ -52,8 +52,8 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine
     public function toOptionArray()
     {
         $engines = array(
-            self::FULLTEXT => $this->_getHelper()->__('MySql Fulltext'),
-            self::SOLR => $this->_getHelper()->__('Solr')
+            self::FULLTEXT => __('MySql Fulltext'),
+            self::SOLR => __('Solr')
         );
         $options = array();
         foreach ($engines as $k => $v) {

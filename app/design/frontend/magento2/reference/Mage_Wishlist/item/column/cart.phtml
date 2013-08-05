@@ -23,12 +23,12 @@ $options = $this->getChildBlock('customer.wishlist.item.options')
                    value="<?php echo $this->getAddToCartQty($item) * 1 ?>"/>
         <?php endif; ?>
         <?php if ($product->isSaleable()): ?>
-            <button type="button" title="<?php echo $this->__('Add to Cart') ?>" data-item-id="<?php echo $item->getId()?>" class="action tocart"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+            <button type="button" title="<?php echo __('Add to Cart') ?>" data-item-id="<?php echo $item->getId()?>" class="action tocart"><span><span><?php echo __('Add to Cart') ?></span></span></button>
         <?php else: ?>
             <?php if ($product->getIsSalable()): ?>
-                <p class="available stock" title="<?php echo $this->__('Availability') ?>"><span><?php echo $this->__('In stock') ?></span></p>
+                <p class="available stock" title="<?php echo __('Availability') ?>"><span><?php echo __('In stock') ?></span></p>
             <?php else: ?>
-                <p class="unavailable stock" title="<?php echo $this->__('Availability') ?>"><span><?php echo $this->__('Out of stock') ?></span></p>
+                <p class="unavailable stock" title="<?php echo __('Availability') ?>"><span><?php echo __('Out of stock') ?></span></p>
             <?php endif; ?>
         <?php endif; ?>
     </div>
@@ -36,7 +36,7 @@ $options = $this->getChildBlock('customer.wishlist.item.options')
         <?php echo $this->getLayout()->renderElement($childName, false); ?>
     <?php endforeach;?>
     <?php if ($product->isVisibleInSiteVisibility()): ?>
-        <p><a class="action edit" href="<?php echo $this->getItemConfigureUrl($item) ?>"><span><?php echo $this->__('Edit') ?></span></a>
+        <p><a class="action edit" href="<?php echo $this->getItemConfigureUrl($item) ?>"><span><?php echo __('Edit') ?></span></a>
     </p>
     <?php endif ?>
 

@@ -185,7 +185,7 @@ class Mage_Centinel_Model_Api extends Varien_Object
         $currencyNumber = isset(self::$_iso4217Currencies[$currencyCode]) ? self::$_iso4217Currencies[$currencyCode] : '';
         if (!$currencyNumber) {
             return $result->setErrorNo(1)->setErrorDesc(
-                Mage::helper('Mage_Payment_Helper_Data')->__('Unsupported currency code: %s.', $currencyCode)
+                __('Unsupported currency code: %s.', $currencyCode)
             );
         }
 

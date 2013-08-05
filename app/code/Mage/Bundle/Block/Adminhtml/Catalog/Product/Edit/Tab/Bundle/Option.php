@@ -110,19 +110,19 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
     {
         $this->addChild('add_selection_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'id'    => $this->getFieldId() . '_{{index}}_add_button',
-            'label' => Mage::helper('Mage_Bundle_Helper_Data')->__('Add Products to Option'),
+            'label' => __('Add Products to Option'),
             'class' => 'add add-selection'
         ));
 
         $this->addChild('close_search_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'id'    => $this->getFieldId().'_{{index}}_close_button',
-            'label'     => Mage::helper('Mage_Bundle_Helper_Data')->__('Close'),
+            'label'     => __('Close'),
             'on_click'   => 'bSelection.closeSearch(event)',
             'class' => 'back no-display'
         ));
 
         $this->addChild('option_delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Option'),
+            'label' => __('Delete Option'),
             'class' => 'action-delete',
             'on_click' => 'bOption.remove(event)'
         ));

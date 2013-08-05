@@ -128,7 +128,7 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
         // Standard algorithm to prepare and rendern product view page
         $product = $productHelper->initProduct($productId, $controller, $params);
         if (!$product) {
-            throw new Mage_Core_Exception($this->__('Product is not loaded'), $this->ERR_NO_PRODUCT_LOADED);
+            throw new Mage_Core_Exception(__('Product is not loaded'), $this->ERR_NO_PRODUCT_LOADED);
         }
 
         $buyRequest = $params->getBuyRequest();
@@ -157,7 +157,7 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
             }
         } else {
             throw new Mage_Core_Exception(
-                $this->__('Bad controller interface for showing product'),
+                __('Bad controller interface for showing product'),
                 $this->ERR_BAD_CONTROLLER_INTERFACE
             );
         }

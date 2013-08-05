@@ -20,10 +20,10 @@
 <?php switch ($this->getType()): ?>
 <?php case 'onepage_checkout': ?>
     <div class="add-gift-message no-display" id="add-gift-options-<?php echo $this->getEntity()->getId() ?>">
-        <h3><?php echo $this->__('Do you have any gift items in your order?'); ?></h3>
+        <h3><?php echo __('Do you have any gift items in your order?'); ?></h3>
         <p>
             <input type="checkbox" name="allow_gift_options" id="allow_gift_options" value="1" data-selector='{"id":"#allow-gift-options-container"}'<?php if($this->getItemsHasMesssages() || $this->getEntityHasMessage()): ?> checked="checked"<?php endif; ?> class="checkbox" />
-            <label for="allow_gift_options"><?php echo $this->__('Add gift options') ?></label>
+            <label for="allow_gift_options"><?php echo __('Add gift options') ?></label>
         </p>
     </div>
 
@@ -31,10 +31,10 @@
     <div class="inner-box">
 
         <div id="add-gift-options-for-order-<?php echo $this->getEntity()->getId() ?>" class="no-display">
-            <h4><?php echo $this->__('Gift Options for the Entire Order'); ?></h4>
+            <h4><?php echo __('Gift Options for the Entire Order'); ?></h4>
             <p>
                 <input type="checkbox" name="allow_gift_messages_for_order" id="allow_gift_options_for_order" value="1" data-selector='{"id":"#allow-gift-options-for-order-container"}'<?php if($this->getEntityHasMessage()): ?> checked="checked"<?php endif; ?> class="checkbox" />
-                <label for="allow_gift_options_for_order"><?php echo $this->__('Add gift options for the Entire Order') ?></label>
+                <label for="allow_gift_options_for_order"><?php echo __('Add gift options for the Entire Order') ?></label>
             </p>
         </div>
 
@@ -43,30 +43,30 @@
             <input type="hidden" name="giftoptions[<?php echo $this->getEntity()->getId() ?>][type]" value="quote" />
 
             <?php if ($this->isMessagesAvailable()): ?>
-            <div><a href="#" data-mage-init='{toggleAdvanced: {selectorsToggleClass:"no-display", toggleContainers:"#allow-gift-messages-for-order-container"}}'><?php echo $this->__('Gift Message') ?></a></div>
+            <div><a href="#" data-mage-init='{toggleAdvanced: {selectorsToggleClass:"no-display", toggleContainers:"#allow-gift-messages-for-order-container"}}'><?php echo __('Gift Message') ?></a></div>
             <div id="allow-gift-messages-for-order-container" class="no-display">
                 <div class="fieldset">
                     <input type="hidden" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][type]"  value="quote" />
-                    <p><?php echo $this->__('If you don\'t want to leave a gift message for the entire order, leave this box blank.') ?></p>
+                    <p><?php echo __('If you don\'t want to leave a gift message for the entire order, leave this box blank.') ?></p>
                     <ul class="form-list">
                         <li class="fields">
                             <div class="field">
-                                <label for="gift-message-whole-from"><?php echo $this->__('From') ?></label>
+                                <label for="gift-message-whole-from"><?php echo __('From') ?></label>
                                 <div class="input-box">
-                                    <input type="text" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][from]" id="gift-message-whole-from" title="<?php echo $this->__('From') ?>"  value="<?php echo $this->getEscaped($this->getMessage()->getSender(), $this->getDefaultFrom()) ?>" class="input-text"/>
+                                    <input type="text" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][from]" id="gift-message-whole-from" title="<?php echo __('From') ?>"  value="<?php echo $this->getEscaped($this->getMessage()->getSender(), $this->getDefaultFrom()) ?>" class="input-text"/>
                                 </div>
                             </div>
                             <div class="field">
-                                <label for="gift-message-whole-to"><?php echo $this->__('To') ?></label>
+                                <label for="gift-message-whole-to"><?php echo __('To') ?></label>
                                 <div class="input-box">
-                                    <input type="text" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][to]" id="gift-message-whole-to" title="<?php echo $this->__('To') ?>" value="<?php echo $this->getEscaped($this->getMessage()->getRecipient(), $this->getDefaultTo()) ?>" class="input-text"/>
+                                    <input type="text" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][to]" id="gift-message-whole-to" title="<?php echo __('To') ?>" value="<?php echo $this->getEscaped($this->getMessage()->getRecipient(), $this->getDefaultTo()) ?>" class="input-text"/>
                                 </div>
                             </div>
                         </li>
                         <li>
-                            <label for="gift-message-whole-message"><?php echo $this->__('Message') ?></label>
+                            <label for="gift-message-whole-message"><?php echo __('Message') ?></label>
                             <div class="input-box">
-                                <textarea id="gift-message-whole-message" class="input-text giftmessage-area" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][message]" title="<?php echo $this->__('Message') ?>" rows="5" cols="10"><?php echo $this->getEscaped($this->getMessage()->getMessage()) ?></textarea>
+                                <textarea id="gift-message-whole-message" class="input-text giftmessage-area" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][message]" title="<?php echo __('Message') ?>" rows="5" cols="10"><?php echo $this->getEscaped($this->getMessage()->getMessage()) ?></textarea>
                             </div>
                         </li>
                     </ul>
@@ -80,10 +80,10 @@
         </div>
     <?php if ($this->isItemsAvailable()): ?>
     <div id="add-gift-options-for-items-<?php echo $this->getEntity()->getId() ?>">
-        <h4><?php echo $this->__('Gift Options for Individual Items'); ?></h4>
+        <h4><?php echo __('Gift Options for Individual Items'); ?></h4>
         <p>
             <input type="checkbox" name="allow_gift_options_for_items" id="allow_gift_options_for_items" value="1" data-selector='{"id":"#allow-gift-options-for-items-container"}'<?php if($this->getItemsHasMesssages()): ?> checked="checked"<?php endif; ?> class="checkbox" />
-            <label for="allow_gift_options_for_items"><?php echo $this->__('Add gift options for Individual Items') ?></label>
+            <label for="allow_gift_options_for_items"><?php echo __('Add gift options for Individual Items') ?></label>
         </p>
     </div>
 
@@ -93,7 +93,7 @@
         <?php $_product=$_item->getProduct() ?>
 
         <li class="gift-item">
-             <p class="number"><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></p>
+             <p class="number"><?php echo __('Item %d of %d', $_index+1, $this->countItems()) ?></p>
              <div class="product-img-box">
                  <p class="product-image">
                      <img src="<?php echo $this->getThumbnailUrl($_product); ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($_product->getName()) ?>"title="<?php echo $this->escapeHtml($_product->getName()) ?>" />
@@ -105,29 +105,29 @@
                  <div class="options-items-container" id="options-items-container-<?php echo $this->getEntity()->getId() ?>-<?php echo $_item->getId() ?>"></div>
 
                  <?php if ($this->isItemMessagesAvailable($_item)): ?>
-                 <p><a href="#" data-mage-init='{toggleAdvanced: {selectorsToggleClass:"no-display", toggleContainers:"#gift-messages-for-item-container-<?php echo $_item->getId() ?>"}}'><?php echo $this->__('Gift Message') ?></a></p>
+                 <p><a href="#" data-mage-init='{toggleAdvanced: {selectorsToggleClass:"no-display", toggleContainers:"#gift-messages-for-item-container-<?php echo $_item->getId() ?>"}}'><?php echo __('Gift Message') ?></a></p>
                  <div id="gift-messages-for-item-container-<?php echo $_item->getId() ?>"  class="no-display">
-                 <p><?php echo $this->__('You can leave a box blank if you don\'t wish to add a gift message for the item.') ?></p>
+                 <p><?php echo __('You can leave a box blank if you don\'t wish to add a gift message for the item.') ?></p>
                  <input type="hidden" name="giftmessage[<?php echo $_item->getId() ?>][type]" value="quote_item" />
                   <ul class="form-list">
                      <li class="fields">
                          <div class="field">
-                             <label for="gift-message-<?php echo $_item->getId() ?>-from"><?php echo $this->__('From') ?></label>
+                             <label for="gift-message-<?php echo $_item->getId() ?>-from"><?php echo __('From') ?></label>
                              <div class="input-box">
-                                 <input type="text" name="giftmessage[<?php echo $_item->getId() ?>][from]" id="gift-message-<?php echo $_item->getId() ?>-from" title="<?php echo $this->__('From') ?>" value="<?php echo $this->getEscaped($this->getMessage($_item)->getSender(), $this->getDefaultFrom()) ?>" class="input-text"/>
+                                 <input type="text" name="giftmessage[<?php echo $_item->getId() ?>][from]" id="gift-message-<?php echo $_item->getId() ?>-from" title="<?php echo __('From') ?>" value="<?php echo $this->getEscaped($this->getMessage($_item)->getSender(), $this->getDefaultFrom()) ?>" class="input-text"/>
                              </div>
                          </div>
                          <div class="field">
-                            <label for="gift-message-<?php echo $_item->getId() ?>-to"><?php echo $this->__('To') ?></label>
+                            <label for="gift-message-<?php echo $_item->getId() ?>-to"><?php echo __('To') ?></label>
                             <div class="input-box">
-                                <input type="text" name="giftmessage[<?php echo $_item->getId() ?>][to]" id="gift-message-<?php echo $_item->getId() ?>-to" title="<?php echo $this->__('To') ?>" value="<?php echo $this->getEscaped($this->getMessage($_item)->getRecipient(), $this->getDefaultTo()) ?>" class="input-text"/>
+                                <input type="text" name="giftmessage[<?php echo $_item->getId() ?>][to]" id="gift-message-<?php echo $_item->getId() ?>-to" title="<?php echo __('To') ?>" value="<?php echo $this->getEscaped($this->getMessage($_item)->getRecipient(), $this->getDefaultTo()) ?>" class="input-text"/>
                             </div>
                          </div>
                      </li>
                      <li>
-                         <label for="gift-message-<?php echo $_item->getId() ?>-message"><?php echo $this->__('Message') ?></label>
+                         <label for="gift-message-<?php echo $_item->getId() ?>-message"><?php echo __('Message') ?></label>
                          <div class="input-box">
-                            <textarea id="gift-message-<?php echo $_item->getId() ?>-message" class="input-text giftmessage-area" name="giftmessage[<?php echo $_item->getId() ?>][message]" title="<?php echo $this->__('Message') ?>" rows="5" cols="40"><?php echo $this->getEscaped($this->getMessage($_item)->getMessage()) ?></textarea>
+                            <textarea id="gift-message-<?php echo $_item->getId() ?>-message" class="input-text giftmessage-area" name="giftmessage[<?php echo $_item->getId() ?>][message]" title="<?php echo __('Message') ?>" rows="5" cols="40"><?php echo $this->getEscaped($this->getMessage($_item)->getMessage()) ?></textarea>
                          </div>
                      </li>
                  </ul>
@@ -162,10 +162,10 @@
 <?php case 'multishipping_address': ?>
 
     <div class="add-gift-message no-display" id="add-gift-options-<?php echo $this->getEntity()->getId() ?>">
-        <h3><?php echo $this->__('Do you have any gift items in your order?'); ?></h3>
+        <h3><?php echo __('Do you have any gift items in your order?'); ?></h3>
         <p>
             <input type="checkbox" name="allow_gift_options_<?php echo $this->getEntity()->getId() ?>" id="allow_gift_options_<?php echo $this->getEntity()->getId() ?>" value="1" data-selector='{"id":"#allow-gift-options-container-<?php echo $this->getEntity()->getId() ?>"}'<?php if($this->getItemsHasMesssages() || $this->getEntityHasMessage()): ?> checked="checked"<?php endif; ?> class="checkbox" />
-            <label for="allow_gift_options_<?php echo $this->getEntity()->getId() ?>"><?php echo $this->__('Add gift options') ?></label>
+            <label for="allow_gift_options_<?php echo $this->getEntity()->getId() ?>"><?php echo __('Add gift options') ?></label>
         </p>
     </div>
 
@@ -173,10 +173,10 @@
     <div class="inner-box">
 
         <div id="add-gift-options-for-order-<?php echo $this->getEntity()->getId() ?>" class="no-display">
-            <h4><?php echo $this->__('Gift Options for this address.'); ?></h4>
+            <h4><?php echo __('Gift Options for this address.'); ?></h4>
             <p>
                 <input type="checkbox" name="allow_gift_options_for_order_<?php echo $this->getEntity()->getId() ?>" id="allow_gift_options_for_order_<?php echo $this->getEntity()->getId() ?>" value="1" data-selector='{"id":"#allow-gift-options-for-order-container-<?php echo $this->getEntity()->getId() ?>"}'<?php if($this->getEntityHasMessage()): ?> checked="checked"<?php endif; ?> class="checkbox" />
-                <label for="allow_gift_options_for_order_<?php echo $this->getEntity()->getId() ?>"><?php echo $this->__('Add gift options for the Entire Order') ?></label>
+                <label for="allow_gift_options_for_order_<?php echo $this->getEntity()->getId() ?>"><?php echo __('Add gift options for the Entire Order') ?></label>
             </p>
         </div>
 
@@ -185,30 +185,30 @@
             <input type="hidden" name="giftoptions[<?php echo $this->getEntity()->getId() ?>][type]" value="quote_address" />
             <?php if ($this->isMessagesAvailable()): ?>
                 <?php $_giftMessage = true; ?>
-                <div><a href="#" data-mage-init='{toggleAdvanced: {selectorsToggleClass:"no-display", toggleContainers:"#gift-messages-for-order-container-<?php echo $this->getEntity()->getId() ?>"}}'><?php echo $this->__('Gift Message') ?></a></div>
+                <div><a href="#" data-mage-init='{toggleAdvanced: {selectorsToggleClass:"no-display", toggleContainers:"#gift-messages-for-order-container-<?php echo $this->getEntity()->getId() ?>"}}'><?php echo __('Gift Message') ?></a></div>
                 <div id="gift-messages-for-order-container-<?php echo $this->getEntity()->getId() ?>" class="no-display">
-                <p><?php echo $this->__('You can leave this box blank if you do not wish to add a gift message for this address.') ?></p>
+                <p><?php echo __('You can leave this box blank if you do not wish to add a gift message for this address.') ?></p>
                 <div class="fieldset">
                 <input type="hidden" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][type]" value="quote_address" />
                 <ul class="form-list">
                      <li class="fields">
                         <div class="field">
-                            <label for="gift-message-<?php echo $this->getEntity()->getId() ?>-from"><?php echo $this->__('From') ?></label>
+                            <label for="gift-message-<?php echo $this->getEntity()->getId() ?>-from"><?php echo __('From') ?></label>
                             <div class="input-box">
-                                <input type="text" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][from]" id="gift-message-<?php echo $this->getEntity()->getId() ?>-from" title="<?php echo $this->__('From') ?>" value="<?php echo $this->getEscaped($this->getMessage()->getSender(), $this->getDefaultFrom()) ?>" class="input-text"/>
+                                <input type="text" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][from]" id="gift-message-<?php echo $this->getEntity()->getId() ?>-from" title="<?php echo __('From') ?>" value="<?php echo $this->getEscaped($this->getMessage()->getSender(), $this->getDefaultFrom()) ?>" class="input-text"/>
                             </div>
                         </div>
                         <div class="field">
-                            <label for="gift-message-<?php echo $this->getEntity()->getId() ?>-to"><?php echo $this->__('To') ?></label>
+                            <label for="gift-message-<?php echo $this->getEntity()->getId() ?>-to"><?php echo __('To') ?></label>
                             <div class="input-box">
-                                <input type="text" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][to]" id="gift-message-<?php echo $this->getEntity()->getId() ?>-to" title="<?php echo $this->__('To') ?>" value="<?php echo $this->getEscaped($this->getMessage()->getRecipient(), $this->getDefaultTo()) ?>" class="input-text"/>
+                                <input type="text" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][to]" id="gift-message-<?php echo $this->getEntity()->getId() ?>-to" title="<?php echo __('To') ?>" value="<?php echo $this->getEscaped($this->getMessage()->getRecipient(), $this->getDefaultTo()) ?>" class="input-text"/>
                             </div>
                         </div>
                     </li>
                     <li>
-                        <label for="gift-message-<?php echo $this->getEntity()->getId() ?>-message"><?php echo $this->__('Message') ?></label>
+                        <label for="gift-message-<?php echo $this->getEntity()->getId() ?>-message"><?php echo __('Message') ?></label>
                         <div class="input-box">
-                            <textarea id="gift-message-<?php echo $this->getEntity()->getId() ?>-message" class="input-text giftmessage-area" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][message]" title="<?php echo $this->__('Message') ?>" rows="5" cols="40"><?php echo $this->getEscaped($this->getMessage()->getMessage()) ?></textarea>
+                            <textarea id="gift-message-<?php echo $this->getEntity()->getId() ?>-message" class="input-text giftmessage-area" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][message]" title="<?php echo __('Message') ?>" rows="5" cols="40"><?php echo $this->getEscaped($this->getMessage()->getMessage()) ?></textarea>
                         </div>
                     </li>
                 </ul>
@@ -219,10 +219,10 @@
 
         <?php if ($this->isItemsAvailable()): ?>
         <div id="add-gift-options-for-items-<?php echo $this->getEntity()->getId() ?>" class="no-display">
-            <h4><?php echo $this->__('Gift Options for Individual Items'); ?></h4>
+            <h4><?php echo __('Gift Options for Individual Items'); ?></h4>
             <p>
                 <input type="checkbox" name="allow_gift_options_for_items_<?php echo $this->getEntity()->getId() ?>" id="allow_gift_options_for_items_<?php echo $this->getEntity()->getId() ?>" value="1" data-selector='{"id":"#allow-gift-options-for-items-container-<?php echo $this->getEntity()->getId() ?>"}'<?php if($this->getItemsHasMesssages()): ?> checked="checked"<?php endif; ?> class="checkbox" />
-                <label for="allow_gift_options_for_items_<?php echo $this->getEntity()->getId() ?>"><?php echo $this->__('Add gift options for Individual Items') ?></label>
+                <label for="allow_gift_options_for_items_<?php echo $this->getEntity()->getId() ?>"><?php echo __('Add gift options for Individual Items') ?></label>
             </p>
         </div>
 
@@ -231,7 +231,7 @@
              <?php foreach($this->getItems() as $_index=>$_item): ?>
              <?php $_product=$_item->getProduct() ?>
                  <li class="gift-item">
-                     <p class="number"><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></p>
+                     <p class="number"><?php echo __('Item %d of %d', $_index+1, $this->countItems()) ?></p>
                      <div class="product-img-box">
                          <p class="product-image"><img src="<?php echo $this->getThumbnailUrl($_product); ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($_product->getName()) ?>" title="<?php echo $this->escapeHtml($_product->getName()) ?>" /></p>
                          <h5 class="product-name"><?php echo $this->escapeHtml($_product->getName()) ?></h5>
@@ -243,31 +243,31 @@
 
                          <?php if ($this->isItemMessagesAvailable($_item)): ?>
                          <?php $_giftMessage = true; ?>
-                         <p><a href="#" data-mage-init='{toggleAdvanced: {selectorsToggleClass:"no-display", toggleContainers:"#gift-messages-for-item-container-<?php echo $_item->getId() ?>"}}'><?php echo $this->__('Gift Message') ?></a></p>
+                         <p><a href="#" data-mage-init='{toggleAdvanced: {selectorsToggleClass:"no-display", toggleContainers:"#gift-messages-for-item-container-<?php echo $_item->getId() ?>"}}'><?php echo __('Gift Message') ?></a></p>
                          <div id="gift-messages-for-item-container-<?php echo $_item->getId() ?>" class="no-display">
-                         <p><small><?php echo $this->__('You can leave this box blank if you do not wish to add a gift message for the item.') ?></small></p>
+                         <p><small><?php echo __('You can leave this box blank if you do not wish to add a gift message for the item.') ?></small></p>
                          <input type="hidden" name="giftmessage[<?php echo $_item->getId() ?>][type]" value="quote_address_item" />
                          <input type="hidden" name="giftmessage[<?php echo $_item->getId() ?>][address]" value="<?php echo $this->getEntity()->getId()?>" />
 
                          <ul class="form-list">
                              <li class="fields">
                                  <div class="field">
-                                     <label for="gift-message-<?php echo $_item->getId() ?>-from"><?php echo $this->__('From') ?></label>
+                                     <label for="gift-message-<?php echo $_item->getId() ?>-from"><?php echo __('From') ?></label>
                                      <div class="input-box">
-                                         <input type="text" name="giftmessage[<?php echo $_item->getId() ?>][from]" id="gift-message-<?php echo $_item->getId() ?>-from" title="<?php echo $this->__('From') ?>"  value="<?php echo $this->getEscaped($this->getMessage($_item)->getSender(), $this->getDefaultFrom()) ?>" class="input-text"/>
+                                         <input type="text" name="giftmessage[<?php echo $_item->getId() ?>][from]" id="gift-message-<?php echo $_item->getId() ?>-from" title="<?php echo __('From') ?>"  value="<?php echo $this->getEscaped($this->getMessage($_item)->getSender(), $this->getDefaultFrom()) ?>" class="input-text"/>
                                      </div>
                                  </div>
                                  <div class="field">
-                                    <label for="gift-message-<?php echo $_item->getId() ?>-to"><?php echo $this->__('To') ?></label>
+                                    <label for="gift-message-<?php echo $_item->getId() ?>-to"><?php echo __('To') ?></label>
                                     <div class="input-box">
-                                        <input type="text" name="giftmessage[<?php echo $_item->getId() ?>][to]" id="gift-message-<?php echo $_item->getId() ?>-to" title="<?php echo $this->__('To') ?>" value="<?php echo $this->getEscaped($this->getMessage($_item)->getRecipient(), $this->getDefaultTo()) ?>" class="input-text"/>
+                                        <input type="text" name="giftmessage[<?php echo $_item->getId() ?>][to]" id="gift-message-<?php echo $_item->getId() ?>-to" title="<?php echo __('To') ?>" value="<?php echo $this->getEscaped($this->getMessage($_item)->getRecipient(), $this->getDefaultTo()) ?>" class="input-text"/>
                                     </div>
                                 </div>
                              </li>
                              <li>
-                                 <label for="gift-message-<?php echo $_item->getId() ?>-message"><?php echo $this->__('Message') ?></label>
+                                 <label for="gift-message-<?php echo $_item->getId() ?>-message"><?php echo __('Message') ?></label>
                                  <div class="input-box">
-                                    <textarea id="gift-message-<?php echo $_item->getId() ?>-message" class="input-text giftmessage-area" name="giftmessage[<?php echo $_item->getId() ?>][message]" title="<?php echo $this->__('Message') ?>" rows="5" cols="10"><?php echo $this->getEscaped($this->getMessage($_item)->getMessage()) ?></textarea>
+                                    <textarea id="gift-message-<?php echo $_item->getId() ?>-message" class="input-text giftmessage-area" name="giftmessage[<?php echo $_item->getId() ?>][message]" title="<?php echo __('Message') ?>" rows="5" cols="10"><?php echo $this->getEscaped($this->getMessage($_item)->getMessage()) ?></textarea>
                                  </div>
                              </li>
                          </ul>

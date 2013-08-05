@@ -52,7 +52,7 @@ class Mage_Rule_Block_Editable
             if ($element->getExplicitApply()) {
                 $html .= ' <a href="javascript:void(0)" class="rule-param-apply"><img src="'
                     . $this->getViewFileUrl('images/rule_component_apply.gif') . '" class="v-middle" alt="'
-                    . $this->__('Apply') . '" title="' . $this->__('Apply') . '" /></a> ';
+                    . __('Apply') . '" title="' . __('Apply') . '" /></a> ';
             }
 
             $html .= '</span></span>&nbsp;';

@@ -30,11 +30,11 @@ class Saas_Launcher_Adminhtml_Storelauncher_Shipping_DrawerController
             $saveHandler = $tileModel->getSaveHandler();
             $saveHandler->saveOriginAddress($data);
             $responseContent = $this->_composeAjaxResponseContent(
-                Mage::helper('Saas_Launcher_Helper_Data')->__('Configuration has been successfully saved.'), true
+                __('Configuration has been successfully saved.'), true
             );
         } catch (Exception $e) {
             $responseContent = $this->_composeAjaxResponseContent(
-                Mage::helper('Saas_Launcher_Helper_Data')->__($e->getMessage()), false
+                __($e->getMessage()), false
             );
         }
         $this->getResponse()->setBody($responseContent);
@@ -53,11 +53,11 @@ class Saas_Launcher_Adminhtml_Storelauncher_Shipping_DrawerController
             $saveHandler = $tileModel->getSaveHandler();
             $saveHandler->saveShippingMethod($data);
             $responseContent = $this->_composeAjaxResponseContent(
-                Mage::helper('Saas_Launcher_Helper_Data')->__('Configuration has been successfully saved.'), true
+                __('Configuration has been successfully saved.'), true
             );
         } catch (Exception $e) {
             $responseContent = $this->_composeAjaxResponseContent(
-                Mage::helper('Saas_Launcher_Helper_Data')->__($e->getMessage()), false
+                __($e->getMessage()), false
             );
         }
         $this->getResponse()->setBody($responseContent);

@@ -24,7 +24,7 @@ class Mage_Tag_Block_Adminhtml_Report_Customer_Detail extends Mage_Backend_Block
 
         $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($this->getRequest()->getParam('id'));
         $customerName = $this->escapeHtml($customer->getName());
-        $this->_headerText = Mage::helper('Mage_Tag_Helper_Data')->__('Tags Submitted by %s', $customerName);
+        $this->_headerText = __('Tags Submitted by %s', $customerName);
         parent::_construct();
         $this->_removeButton('add');
         $this->setBackUrl($this->getUrl('*/report_tag/customer/'));

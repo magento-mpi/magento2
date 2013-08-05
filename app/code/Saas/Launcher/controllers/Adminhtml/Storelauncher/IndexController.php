@@ -79,7 +79,7 @@ class Saas_Launcher_Adminhtml_Storelauncher_IndexController extends Saas_Launche
         } else {
             $responseContent = array(
                 'success' => false,
-                'error_message' => $this->_launcherHelper->__('All Tiles have to be completed before this action.')
+                'error_message' => __('All Tiles have to be completed before this action.')
             );
         }
 

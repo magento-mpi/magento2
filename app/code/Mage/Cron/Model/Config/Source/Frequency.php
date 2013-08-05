@@ -23,15 +23,15 @@ class Mage_Cron_Model_Config_Source_Frequency implements Mage_Core_Model_Option_
         if (!self::$_options) {
             self::$_options = array(
                 array(
-                    'label' => Mage::helper('Mage_Cron_Helper_Data')->__('Daily'),
+                    'label' => __('Daily'),
                     'value' => self::CRON_DAILY,
                 ),
                 array(
-                    'label' => Mage::helper('Mage_Cron_Helper_Data')->__('Weekly'),
+                    'label' => __('Weekly'),
                     'value' => self::CRON_WEEKLY,
                 ),
                 array(
-                    'label' => Mage::helper('Mage_Cron_Helper_Data')->__('Monthly'),
+                    'label' => __('Monthly'),
                     'value' => self::CRON_MONTHLY,
                 ),
             );

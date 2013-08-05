@@ -123,7 +123,7 @@ class Saas_PrintedTemplate_Model_Converter_PdfAdapter_Wkhtmltopdf
         $path = Mage::getStoreConfig(self::XML_PATH_WKHTMLTOPDF_BINARY);
 
         if (!file_exists($path)) {
-            Mage::throwException(Mage::helper('Saas_PrintedTemplate_Helper_Data')->__(
+            Mage::throwException(__(
                 'Incorrect path to wkhtmltopdf binary; fix it in configuration file.'
             ));
         }
@@ -161,7 +161,7 @@ EOT;
         if ($result['return'] > 0) {
             $exception = new Exception('PDF conversion error: ' . $result['stderr']);
             Mage::logException($exception);
-            Mage::throwException(Mage::helper('Saas_PrintedTemplate_Helper_Data')->__(
+            Mage::throwException(__(
                 'Cannot generate PDF for current template. Please, check the template.'
             ));
         }

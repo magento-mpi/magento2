@@ -78,7 +78,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wish List Search'));
+            $headBlock->setTitle(__('Wish List Search'));
         }
         $this->renderLayout();
     }
@@ -94,7 +94,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
             $params = $this->getRequest()->getParam('params');
             if (empty($params) || !is_array($params) || empty($params['search'])) {
                 Mage::throwException(
-                    Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Please specify correct search options.')
+                    __('Please specify correct search options.')
                 );
             };
 
@@ -108,7 +108,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
                     break;
                 default:
                     Mage::throwException(
-                        Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Please specify correct search options.')
+                        __('Please specify correct search options.')
                     );
             }
 
@@ -121,13 +121,13 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError(Mage::helper('Enterprise_Wishlist_Helper_Data')->__('We could not perform the search.'));
+            $this->_getSession()->addError(__('We could not perform the search.'));
         }
 
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wish List Search'));
+            $headBlock->setTitle(__('Wish List Search'));
         }
         $this->renderLayout();
     }
@@ -192,11 +192,11 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
                     } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                         $hasOptions[] = $item;
                     } else {
-                        $messages[] = $this->__('%s for "%s"', trim($e->getMessage(), '.'), $item->getProduct()->getName());
+                        $messages[] = __('%s for "%s"', trim($e->getMessage(), '.'), $item->getProduct()->getName());
                     }
                 } catch (Exception $e) {
                     Mage::logException($e);
-                    $messages[] = Mage::helper('Enterprise_Wishlist_Helper_Data')->__('We could not add the item to shopping cart.');
+                    $messages[] = __('We could not add the item to shopping cart.');
                 }
             }
         }
@@ -212,7 +212,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
             foreach ($notSalable as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = Mage::helper('Mage_Wishlist_Helper_Data')->__('Cannot add the following product(s) to shopping cart: %s.', join(', ', $products));
+            $messages[] = __('Cannot add the following product(s) to shopping cart: %s.', join(', ', $products));
         }
 
         if ($hasOptions) {
@@ -220,7 +220,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
             foreach ($hasOptions as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = Mage::helper('Mage_Wishlist_Helper_Data')->__('Product(s) %s have required options. Each product can only be added individually.', join(', ', $products));
+            $messages[] = __('Product(s) %s have required options. Each product can only be added individually.', join(', ', $products));
         }
 
         if ($messages) {
@@ -242,7 +242,7 @@ class Enterprise_Wishlist_SearchController extends Mage_Core_Controller_Front_Ac
             }
 
             Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
-                Mage::helper('Mage_Wishlist_Helper_Data')->__('%d product(s) have been added to shopping cart: %s.', count($addedItems), join(', ', $products))
+                __('%d product(s) have been added to shopping cart: %s.', count($addedItems), join(', ', $products))
             );
         }
 

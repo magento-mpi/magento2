@@ -10,8 +10,8 @@
 ?>
 <?php $_total=$this->getItems()->getSize() ?>
 <?php if($_total): ?>
-<a href="#" class="action print" title="<?php echo $this->__('Print This Page') ?>">
-    <span><?php echo $this->__('Print This Page') ?></span>
+<a href="#" class="action print" title="<?php echo __('Print This Page') ?>">
+    <span><?php echo __('Print This Page') ?></span>
 </a>
 <?php $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image'); ?>
 <div class="comparison wrapper">
@@ -25,8 +25,8 @@
                     <th class="cell label remove">&nbsp;</th>
                 <?php endif; ?>
                 <td class="cell remove product">
-                    <a href="<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getRemoveUrl($_item) ?>" class="action delete" title="<?php echo $this->__('Remove Product') ?>">
-                        <span><?php echo $this->__('Remove Product') ?></span>
+                    <a href="<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getRemoveUrl($_item) ?>" class="action delete" title="<?php echo __('Remove Product') ?>">
+                        <span><?php echo __('Remove Product') ?></span>
                     </a>
                 </td>
             <?php endforeach; ?>
@@ -56,20 +56,20 @@
                         <div class="primary">
                     <?php if($_item->isSaleable()): ?>
                         <button type="button" class="action tocart" data-url="<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>">
-                            <span><?php echo $this->__('Add to Cart') ?></span>
+                            <span><?php echo __('Add to Cart') ?></span>
                         </button>
                     <?php else: ?>
                         <?php if ($_item->getIsSalable()): ?>
-                            <p class="stock available"><span><?php echo $this->__('In stock') ?></span></p>
+                            <p class="stock available"><span><?php echo __('In stock') ?></span></p>
                         <?php else: ?>
-                            <p class="stock unavailable"><span><?php echo $this->__('Out of stock') ?></span></p>
+                            <p class="stock unavailable"><span><?php echo __('Out of stock') ?></span></p>
                         <?php endif; ?>
                     <?php endif; ?>
                         </div>
                     <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
                         <div class="secondary addto links">
                             <a href="<?php echo $this->helper('Mage_Catalog_Helper_Product_Compare')->getAddToWishlistUrl($_item) ?>" class="action towishlist" data-action="add-to-wishlist">
-                                <span><?php echo $this->__('Add to Wishlist') ?></span>
+                                <span><?php echo __('Add to Wishlist') ?></span>
                             </a>
                         </div>
                     <?php endif; ?>
@@ -86,7 +86,7 @@
                 <?php if($_i++==0): ?>
                 <th class="cell label">
                     <span class="attribute label">
-                        <?php echo $_attribute->getStoreLabel() ? $_attribute->getStoreLabel() : $this->__($_attribute->getFrontendLabel()) ?>
+                        <?php echo $_attribute->getStoreLabel() ? $_attribute->getStoreLabel() : __($_attribute->getFrontendLabel()) ?>
                     </span>
                 </th>
                 <?php endif; ?>
@@ -113,7 +113,7 @@
 </div>
 </div>
 <?php else: ?>
-    <p class="empty"><?php echo $this->__('You have no items to compare.') ?></p>
+    <p class="empty"><?php echo __('You have no items to compare.') ?></p>
 <?php endif; ?>
 
 <script type="text/javascript">

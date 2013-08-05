@@ -23,7 +23,7 @@
         <p class="view-mode">
             <?php $_modes = $this->getModes(); ?>
             <?php if ($_modes && count($_modes) > 1): ?>
-            <label><?php echo $this->__('View as') ?>:</label>
+            <label><?php echo __('View as') ?>:</label>
             <?php $_i = 1;
             $_fix = '';
             foreach ($this->getModes() as $_code => $_label): ?>
@@ -41,24 +41,24 @@
         <?php endif; ?>
 
         <div class="sort-by">
-            <label><?php echo $this->__('Sort By') ?></label>
+            <label><?php echo __('Sort By') ?></label>
             <select data-mage-redirect="{'event':'change'}">
                 <?php foreach ($this->getAvailableOrders() as $_key => $_order): ?>
                 <option
                     value="<?php echo $this->getOrderUrl($_key, 'asc') ?>"<?php if ($this->isOrderCurrent($_key)): ?>
                     selected="selected"<?php endif; ?>>
-                    <?php echo $this->__($_order) ?>
+                    <?php echo __($_order) ?>
                 </option>
                 <?php endforeach; ?>
             </select>
             <?php if ($this->getCurrentDirection() == 'desc'): ?>
             <a href="<?php echo $this->getOrderUrl(null, 'asc') ?>"><img
                 src="<?php echo $this->getViewFileUrl('images/sort_desc_arrow.gif') ?>"
-                alt="<?php echo $this->__('Set Ascending Direction') ?>" class="v-middle"/></a>
+                alt="<?php echo __('Set Ascending Direction') ?>" class="v-middle"/></a>
             <?php else: ?>
             <a href="<?php echo $this->getOrderUrl(null, 'desc') ?>"><img
                 src="<?php echo $this->getViewFileUrl('images/sort_asc_arrow.gif') ?>"
-                alt="<?php echo $this->__('Set Descending Direction') ?>" class="v-middle"/></a>
+                alt="<?php echo __('Set Descending Direction') ?>" class="v-middle"/></a>
             <?php endif; ?>
         </div>
     </div>
@@ -67,14 +67,14 @@
     <div class="pager">
         <p class="amount">
             <?php if ($this->getLastPageNum() > 1): ?>
-            <?php echo $this->__('Items %s-%s of %s', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
+            <?php echo __('Items %s-%s of %s', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
             <?php else: ?>
-            <?php echo $this->__('%s Item(s)', $this->getTotalNum()) ?>
+            <?php echo __('%s Item(s)', $this->getTotalNum()) ?>
             <?php endif; ?>
         </p>
 
         <div class="limiter">
-            <label><?php echo $this->__('Show') ?></label>
+            <label><?php echo __('Show') ?></label>
             <select data-mage-redirect="{'event':'change'}">
                 <?php foreach ($this->getAvailableLimit() as $_key => $_limit): ?>
                 <option value="<?php echo $this->getLimitUrl($_key) ?>"<?php if ($this->isLimitCurrent($_key)): ?>
@@ -82,7 +82,7 @@
                     <?php echo $_limit ?>
                 </option>
                 <?php endforeach; ?>
-            </select> <?php echo $this->__('per page') ?>
+            </select> <?php echo __('per page') ?>
         </div>
 
         <?php echo $this->getPagerHtml() ?>

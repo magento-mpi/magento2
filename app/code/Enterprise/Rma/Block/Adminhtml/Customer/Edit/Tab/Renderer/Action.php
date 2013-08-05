@@ -31,7 +31,7 @@ class Enterprise_Rma_Block_Adminhtml_Customer_Edit_Tab_Renderer_Action
         if ($row->getIsReturnable()) {
             $actions[] = array(
                     '@' =>  array('href' => $this->getUrl('*/rma/new', array('order_id'=>$row->getId()))),
-                    '#' =>  Mage::helper('Enterprise_Rma_Helper_Data')->__('Return')
+                    '#' =>  __('Return')
             );
         }
         $link1 = parent::render($row);

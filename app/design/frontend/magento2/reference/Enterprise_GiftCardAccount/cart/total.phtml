@@ -19,10 +19,10 @@ if (!$_cards) {
     <tr class="giftcard total">
         <td colspan="<?php echo $this->getColspan(); ?>" style="<?php echo $this->getTotal()->getStyle() ?>" class="mark">
             <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?><strong><?php endif; ?>
-                <?php $_title = $this->__('Remove'); ?>
+                <?php $_title = __('Remove'); ?>
                 <?php $_url = Mage::getUrl('enterprise_giftcardaccount/cart/remove', array('code'=>$_c['c'])); ?>
-                <a href="<?php echo $_url; ?>" title="<?php echo $_title; ?>" class="action delete"><span><?php echo $this->__('Remove')?></span></a>
-                <?php echo $this->__('Gift Card (%s)', $_c['c']); ?>
+                <a href="<?php echo $_url; ?>" title="<?php echo $_title; ?>" class="action delete"><span><?php echo __('Remove')?></span></a>
+                <?php echo __('Gift Card (%s)', $_c['c']); ?>
             <?php if ($this->getRenderingArea() == $this->getTotal()->getArea()): ?></strong><?php endif; ?>
         </td>
         <td style="<?php echo $this->getTotal()->getStyle() ?>" class="amount">

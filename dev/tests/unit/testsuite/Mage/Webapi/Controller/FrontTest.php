@@ -139,7 +139,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
         /** Assert Mage_Webapi_Exception type and message. */
         $this->setExpectedException(
             'Mage_Webapi_Exception',
-            'The "%s" API type is not defined.',
+            'The "invalidApiType" API type is not defined.',
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
         $this->_frontControllerMock->determineApiType();

@@ -22,7 +22,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => $this->__('Role Information'))
+            'legend' => __('Role Information'))
         );
 
         $role = $this->getApiRole();
@@ -38,8 +38,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_
             'id' => 'role_name',
             'class' => 'required-entry',
             'required' => true,
-            'label' => $this->__('Role Name'),
-            'title' => $this->__('Role Name'),
+            'label' => __('Role Name'),
+            'title' => __('Role Name'),
         ));
 
         $fieldset->addField('in_role_user', 'hidden',

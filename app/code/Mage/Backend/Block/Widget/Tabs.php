@@ -98,7 +98,7 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
             $this->_addTabByName($tab, $tabId);
         } else {
             throw new Exception(
-                Mage::helper('Mage_Backend_Helper_Data')->__('Please correct the tab configuration and try again.')
+                __('Please correct the tab configuration and try again.')
             );
         }
 
@@ -145,7 +145,7 @@ class Mage_Backend_Block_Widget_Tabs extends Mage_Backend_Block_Widget
 
         if (!($this->_tabs[$tabId] instanceof Mage_Backend_Block_Widget_Tab_Interface)) {
             throw new Exception(
-                Mage::helper('Mage_Backend_Helper_Data')->__('Please correct the tab configuration and try again.')
+                __('Please correct the tab configuration and try again.')
             );
         }
     }

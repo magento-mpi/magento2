@@ -69,7 +69,7 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
 
     /**
      * @expectedException Enterprise_Reward_Model_Reward_Balance_Exception
-     * @expectedExceptionMessage Not enough Reward Points to complete this Order.
+     * @expectedExceptionMessage You don't have enough reward points to pay for this purchase.
      */
     public function testValidateWhenBalanceNotEnoughToPlaceOrder()
     {
@@ -82,9 +82,7 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
         $reward->expects($this->once())->method('getPointsBalance')->will($this->returnValue(0.5));
         $this->_sessionMock->expects($this->once())->method('setUpdateSection')->with('payment-method');
         $this->_sessionMock->expects($this->once())->method('setGotoSection')->with('payment');
-        $this->_helperMock->expects(
-            $this->once())->method('__')->will($this->returnValue('Not enough Reward Points to complete this Order.')
-        );
+
         $this->_model->validate($this->_orderMock);
     }
 }

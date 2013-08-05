@@ -38,16 +38,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_Fra
      */
     protected function _getBlockArguments(array $params)
     {
-        $helper = $this->getMock('Mage_DesignEditor_Helper_Data', array('__'), array(), '', false);
-        $helper->expects($this->once())
-            ->method('__')
-            ->with($params['expectedTranslation'])
-            ->will($this->returnValue($params['expectedTranslation']));
-
         $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper', array('get'));
-        $helperFactory->expects($this->once())
-            ->method('get')
-            ->will($this->returnValue($helper));
 
         return array(
             'urlBuilder'    => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),

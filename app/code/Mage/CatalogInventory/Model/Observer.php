@@ -296,13 +296,13 @@ class Mage_CatalogInventory_Model_Observer
                 $quoteItem->addErrorInfo(
                     'cataloginventory',
                     Mage_CatalogInventory_Helper_Data::ERROR_QTY,
-                    Mage::helper('Mage_CatalogInventory_Helper_Data')->__('This product is out of stock.')
+                    __('This product is out of stock.')
                 );
                 $quoteItem->getQuote()->addErrorInfo(
                     'stock',
                     'cataloginventory',
                     Mage_CatalogInventory_Helper_Data::ERROR_QTY,
-                    Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Some of the products are currently out of stock.')
+                    __('Some of the products are currently out of stock.')
                 );
                 return $this;
             } else {
@@ -357,7 +357,7 @@ class Mage_CatalogInventory_Model_Observer
                 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
                 if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
                     Mage::throwException(
-                        Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The stock item for Product in option is not valid.')
+                        __('The stock item for Product in option is not valid.')
                     );
                 }
 
@@ -424,7 +424,7 @@ class Mage_CatalogInventory_Model_Observer
         } else {
             /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
             if (!$stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
-                Mage::throwException(Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The stock item for Product is not valid.'));
+                Mage::throwException(__('The stock item for Product is not valid.'));
             }
 
             /**

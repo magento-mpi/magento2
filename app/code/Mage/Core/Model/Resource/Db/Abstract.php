@@ -224,7 +224,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     public function getIdFieldName()
     {
         if (empty($this->_idFieldName)) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Empty identifier field name'));
+            Mage::throwException(__('Empty identifier field name'));
         }
         return $this->_idFieldName;
     }
@@ -238,7 +238,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     public function getMainTable()
     {
         if (empty($this->_mainTable)) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Empty main table name'));
+            Mage::throwException(__('Empty main table name'));
         }
         return $this->getTable($this->_mainTable);
     }
@@ -605,9 +605,9 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
 
         if (!empty($existent)) {
             if (count($existent) == 1 ) {
-                $error = Mage::helper('Mage_Core_Helper_Data')->__('%s already exists.', $existent[0]);
+                $error = __('%s already exists.', $existent[0]);
             } else {
-                $error = Mage::helper('Mage_Core_Helper_Data')->__('%s already exist.', implode(', ', $existent));
+                $error = __('%s already exist.', implode(', ', $existent));
             }
             Mage::throwException($error);
         }

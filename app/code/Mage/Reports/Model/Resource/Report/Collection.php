@@ -263,9 +263,9 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
     public function getPeriods()
     {
         return array(
-            'day'   => $this->_helper->__('Day'),
-            'month' => $this->_helper->__('Month'),
-            'year'  => $this->_helper->__('Year')
+            'day'   => __('Day'),
+            'month' => __('Month'),
+            'year'  => __('Year')
         );
     }
 

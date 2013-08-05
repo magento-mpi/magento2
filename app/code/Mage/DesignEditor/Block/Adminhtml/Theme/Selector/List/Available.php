@@ -24,7 +24,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
      */
     public function getTabTitle()
     {
-        return $this->__('Available Themes');
+        return __('Available Themes');
     }
 
     /**
@@ -52,7 +52,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
         /** @var $assignButton Mage_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $assignButton->setData(array(
-            'label' => $this->__('Edit'),
+            'label' => __('Edit'),
             'data_attribute' => array(
                 'mage-init' => array(
                     'button' => array(

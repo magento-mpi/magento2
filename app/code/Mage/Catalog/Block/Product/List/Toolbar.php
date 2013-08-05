@@ -157,19 +157,19 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
 
         switch (Mage::getStoreConfig('catalog/frontend/list_mode')) {
             case 'grid':
-                $this->_availableMode = array('grid' => $this->__('Grid'));
+                $this->_availableMode = array('grid' => __('Grid'));
                 break;
 
             case 'list':
-                $this->_availableMode = array('list' => $this->__('List'));
+                $this->_availableMode = array('list' => __('List'));
                 break;
 
             case 'grid-list':
-                $this->_availableMode = array('grid' => $this->__('Grid'), 'list' =>  $this->__('List'));
+                $this->_availableMode = array('grid' => __('Grid'), 'list' =>  __('List'));
                 break;
 
             case 'list-grid':
-                $this->_availableMode = array('list' => $this->__('List'), 'grid' => $this->__('Grid'));
+                $this->_availableMode = array('list' => __('List'), 'grid' => __('Grid'));
                 break;
         }
 
@@ -697,7 +697,7 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
         $perPageValues = explode(',', $perPageValues);
         $perPageValues = array_combine($perPageValues, $perPageValues);
         if (Mage::getStoreConfigFlag('catalog/frontend/list_allow_all')) {
-            return ($perPageValues + array('all'=>$this->__('All')));
+            return ($perPageValues + array('all'=>__('All')));
         } else {
             return $perPageValues;
         }

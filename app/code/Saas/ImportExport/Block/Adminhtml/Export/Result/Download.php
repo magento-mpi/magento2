@@ -36,13 +36,13 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result_Download extends Mage_Back
         $this->setTemplate('Saas_ImportExport::export/result/download.phtml');
 
         $this->_addButton('download_export', array(
-            'label' => $this->__('Download'),
+            'label' => __('Download'),
             'class' => 'download',
             'onclick' => 'return setLocation("' . $this->getDownloadUrl() . '")',
         ));
 
         $this->_addButton('remove_export', array(
-            'label' => $this->__('Remove'),
+            'label' => __('Remove'),
             'class' => 'remove',
             'onclick' => 'return setLocation("' . $this->getRemoveUrl() . '")',
         ));

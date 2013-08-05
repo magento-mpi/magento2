@@ -75,7 +75,7 @@ class Mage_Core_Model_Theme_Image_Uploader
             return false;
         }
         if (!$this->_transferAdapter->isValid($scope)) {
-            throw new Mage_Core_Exception($this->_helper->__('Uploaded image is not valid'));
+            throw new Mage_Core_Exception(__('Uploaded image is not valid'));
         }
         $upload = $this->_uploaderFactory->create(array('fileId' => $scope));
         $upload->setAllowCreateFolders(true);
@@ -84,10 +84,10 @@ class Mage_Core_Model_Theme_Image_Uploader
         $upload->setFilesDispersion(false);
 
         if (!$upload->checkAllowedExtension($upload->getFileExtension())) {
-            throw new Mage_Core_Exception($this->_helper->__('Invalid image file type.'));
+            throw new Mage_Core_Exception(__('Invalid image file type.'));
         }
         if (!$upload->save($destinationPath)) {
-            throw new Mage_Core_Exception($this->_helper->__('Image can not be saved.'));
+            throw new Mage_Core_Exception(__('Image can not be saved.'));
         }
         return $destinationPath . DIRECTORY_SEPARATOR . $upload->getUploadedFileName();
     }

@@ -205,13 +205,13 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
         $attributeSetName = $this->getAttributeSetName();
         if ($attributeSetName == '') {
             throw Mage::exception('Mage_Eav',
-                $this->_helper('Mage_Eav_Helper_Data')->__('Attribute set name is empty.')
+                __('Attribute set name is empty.')
             );
         }
 
         if (!$this->_getResource()->validate($this, $attributeSetName)) {
             throw Mage::exception('Mage_Eav',
-                $this->_helper('Mage_Eav_Helper_Data')->__('An attribute set with the "%s" name already exists.', $attributeSetName)
+                __('An attribute set with the "%s" name already exists.', $attributeSetName)
             );
         }
 

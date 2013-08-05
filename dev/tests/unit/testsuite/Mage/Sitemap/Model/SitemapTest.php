@@ -109,7 +109,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      * Check not exists sitemap path validation
      *
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Please create the specified folder "%s" before saving the sitemap.
+     * @expectedExceptionMessage Please create the specified folder "/" before saving the sitemap.
      */
     public function testPathNotExists()
     {
@@ -134,7 +134,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      * Check not writable sitemap path validation
      *
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Please make sure that "%s" is writable by the web-server.
+     * @expectedExceptionMessage Please make sure that "/" is writable by the web-server.
      */
     public function testPathNotWritable()
     {

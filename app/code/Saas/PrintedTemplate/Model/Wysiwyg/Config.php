@@ -35,10 +35,8 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
             'buttons_to_remove' => 'media',
             'footer_separator' => '<!-- FOOTER SEPARATOR -->',
             'header_separator' => '<!-- HEADER SEPARATOR -->',
-            'header_error_message' => Mage::helper('Saas_PrintedTemplate_Helper_Data')
-                ->__('The template can contain only one header separator.'),
-            'footer_error_message' => Mage::helper('Saas_PrintedTemplate_Helper_Data')
-                ->__('The template can contain only one footer separator.'),
+            'header_error_message' => __('The template can contain only one header separator.'),
+            'footer_error_message' => __('The template can contain only one footer separator.'),
             'page_break_separator' =>
                 '<div style="height: 0; clear: both; page-break-after: always;"><!-- pagebreak --></div>',
         ));
@@ -91,7 +89,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
             'name' => 'magentovariable',
             'src' => $this->getWysiwygJsPluginSrc(),
             'options' => array(
-                'title' => Mage::helper('Saas_PrintedTemplate_Helper_Data')->__('Insert Variable...'),
+                'title' => __('Insert Variable...'),
                 'url' => $this->getVariablesWysiwygActionUrl(),
                 'onclick' => $onclickParts,
                 'class'   => 'add-variable plugin'
@@ -128,7 +126,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
                     'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/editor_plugin.js'
                 ),
                 'options' => array(
-                    'title'   => Mage::helper('Saas_PrintedTemplate_Helper_Data')->__('Insert Footer Separator'),
+                    'title'   => __('Insert Footer Separator'),
                     'onclick' => "tinymce.plugins.MagentoheaderfooterPlugin.insertSeparatorToTextarea(
                         'printedtemplate_content',
                         '{$this->getFooterSeparator()}',
@@ -141,7 +139,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
                     'Saas_PrintedTemplate::wysiwyg/tiny_mce/plugins/magentoheaderfooter/editor_plugin.js'
                 ),
                 'options' => array(
-                    'title'   => Mage::helper('Saas_PrintedTemplate_Helper_Data')->__('Insert Header Separator'),
+                    'title'   => __('Insert Header Separator'),
                     'onclick' => "tinymce.plugins.MagentoheaderfooterPlugin.insertSeparatorToTextarea(
                         'printedtemplate_content',
                         '{$this->getHeaderSeparator()}',

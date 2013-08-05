@@ -28,7 +28,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit extends Mage_Adminhtml_Block
 
         $this->removeButton('back')
             ->removeButton('reset')
-            ->_updateButton('save', 'label', $this->__('Check Data'))
+            ->_updateButton('save', 'label', __('Check Data'))
             ->_updateButton('save', 'id', 'upload_button')
             ->_updateButton('save', 'onclick', 'varienImport.postToFrame();')
             ->_updateButton('save', 'data_attribute', '');
@@ -45,6 +45,6 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit extends Mage_Adminhtml_Block
      */
     public function getHeaderText()
     {
-        return Mage::helper('Mage_ImportExport_Helper_Data')->__('Import');
+        return __('Import');
     }
 }

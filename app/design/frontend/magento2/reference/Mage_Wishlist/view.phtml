@@ -11,7 +11,7 @@
 ?>
 <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
     <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isRssAllow() && $this->hasWishlistItems()): ?>
-        <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="action rss wishlist"><span><?php echo $this->__('RSS Feed') ?></span></a>
+        <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getRssUrl($this->getWishlistInstance()->getId()); ?>" class="action rss wishlist"><span><?php echo __('RSS Feed') ?></span></a>
     <?php endif; ?>
     <form class="form wishlist items" id="wishlist-view-form" action="<?php echo $this->getUrl('*/*/update', array('wishlist_id' => $this->getWishlistInstance()->getId())) ?>" method="post">
         <?php echo $this->getChildHtml('top'); ?>
@@ -20,12 +20,12 @@
                 <?php $this->getChildBlock('items')->setItems($this->getWishlistItems()); ?>
                 <?php echo $this->getChildHtml('items');?>
         <?php else: ?>
-            <p class="empty"><?php echo $this->__('You have no items in your wish list.') ?></p>
+            <p class="empty"><?php echo __('You have no items in your wish list.') ?></p>
         <?php endif ?>
         <?php echo $this->getChildHtml('bottom'); ?>
         <div class="actions">
             <div class="primary"><?php echo $this->getChildHtml('control_buttons');?></div>
-            <div class="secondary"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo $this->__('Back') ?></span></a></div>
+            <div class="secondary"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a></div>
         </div>
     </form>
     <script id="form-tmpl" type="text/x-jQuery-tmpl">
@@ -55,7 +55,7 @@
                         commentInputType: 'textarea',
                         infoList: false,
                         addToCartUrl: '<?php echo $this->getItemAddToCartUrl('%item%');?>' ,
-                        confirmRemoveMessage: '<?php echo $this->__('Are you sure you want to remove this product from your wishlist?') ?>',
+                        confirmRemoveMessage: '<?php echo __('Are you sure you want to remove this product from your wishlist?') ?>',
                         addAllToCartUrl : '<?php echo $this->getUrl('*/*/allcart', array('wishlist_id' => $this->getWishlistInstance()->getId())) ?>',
                         commentString : ''
                     });

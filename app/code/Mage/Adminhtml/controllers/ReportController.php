@@ -20,21 +20,20 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reports'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Reports'));
+            ->_addBreadcrumb(__('Reports'), __('Reports'));
         return $this;
     }
 
 
     public function searchAction()
     {
-        $this->_title($this->__('Search Terms Report'));
+        $this->_title(__('Search Terms Report'));
 
         $this->_eventManager->dispatch('on_view_report', array('report' => 'search'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_search')
-            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')
-            ->__('Search Terms'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search Terms'))
+            ->_addBreadcrumb(__('Search Terms'), __('Search Terms'))
             ->renderLayout();
     }
 

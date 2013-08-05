@@ -76,7 +76,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements
         /** Process errors during XML parsing. */
         if ($this->_errorMessage !== null) {
             if (!$this->_app->isDeveloperMode()) {
-                $exceptionMessage = $this->_helper->__('Decoding error.');
+                $exceptionMessage = __('Decoding error.');
             } else {
                 $exceptionMessage = 'Decoding Error: ' . $this->_errorMessage;
             }

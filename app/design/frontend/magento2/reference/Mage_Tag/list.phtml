@@ -10,12 +10,12 @@
 ?>
 <div class="block product tags">
     <div class="title">
-        <strong><?php echo $this->__('Product Tags'); ?></strong>
+        <strong><?php echo __('Product Tags'); ?></strong>
     </div>
     <div class="content">
         <?php echo $this->getChildHtml('list_before')?>
         <?php if($this->getCount()): ?>
-        <strong class="subtitle"><?php echo $this->__('Other people marked this product with these tags:') ?></strong>
+        <strong class="subtitle"><?php echo __('Other people marked this product with these tags:') ?></strong>
             <ul class="product tags items">
                 <?php echo $this->renderTags('<li class="tag item"><a class="tag text" href="%1$s">%2$s</a><span class="amount">%3$s</span></li>') ?>
             </ul>
@@ -23,16 +23,16 @@
         <form id="addTagForm" class="form add tag" action="<?php echo $this->getFormAction(); ?>" method="get">
             <div class="field">
                 <label class="label" for="productTagName">
-                    <span><?php echo $this->__('Add Your Tags:') ?></span>
+                    <span><?php echo __('Add Your Tags:') ?></span>
                 </label>
                 <div class="control">
                     <input type="text" class="input-text" data-validate="{required:true}" name="productTagName" id="productTagName" />
-                    <p class="note"><?php echo $this->__("Use spaces to separate tags. Use single quotes (') for phrases.") ?></p>
+                    <p class="note"><?php echo __("Use spaces to separate tags. Use single quotes (') for phrases.") ?></p>
                 </div>
             </div>
             <div class="actions">
                 <button type="submit" class="action add tag">
-                    <span><?php echo $this->__('Add Tags') ?></span>
+                    <span><?php echo __('Add Tags') ?></span>
                 </button>
             </div>
         </form>

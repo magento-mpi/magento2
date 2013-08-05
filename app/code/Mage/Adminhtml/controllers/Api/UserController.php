@@ -14,16 +14,16 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout()
             ->_setActiveMenu('Mage_Api::system_legacy_api_users')
-            ->_addBreadcrumb($this->__('Web Services'), $this->__('Web Services'))
-            ->_addBreadcrumb($this->__('Permissions'), $this->__('Permissions'))
-            ->_addBreadcrumb($this->__('Users'), $this->__('Users'))
+            ->_addBreadcrumb(__('Web Services'), __('Web Services'))
+            ->_addBreadcrumb(__('Permissions'), __('Permissions'))
+            ->_addBreadcrumb(__('Users'), __('Users'))
         ;
         return $this;
     }
 
     public function indexAction()
     {
-        $this->_title($this->__('Users'));
+        $this->_title(__('Users'));
 
         $this->_initAction()
             ->renderLayout();
@@ -36,7 +36,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
 
     public function editAction()
     {
-        $this->_title($this->__('Users'));
+        $this->_title(__('Users'));
 
         $id = $this->getRequest()->getParam('user_id');
         $model = Mage::getModel('Mage_Api_Model_User');
@@ -44,13 +44,13 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('This user no longer exists.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('This user no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
         }
 
-        $this->_title($model->getId() ? $model->getName() : $this->__('New User'));
+        $this->_title($model->getId() ? $model->getName() : __('New User'));
 
         // Restore previously entered form data from session
         $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getUserData(true);
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
         Mage::register('api_user', $model);
 
         $this->_initAction()
-            ->_addBreadcrumb($id ? $this->__('Edit User') : $this->__('New User'), $id ? $this->__('Edit User') : $this->__('New User'))
+            ->_addBreadcrumb($id ? __('Edit User') : __('New User'), $id ? __('Edit User') : __('New User'))
             ->_addContent($this->getLayout()
                 ->createBlock('Mage_Adminhtml_Block_Api_User_Edit')
                 ->setData('action', $this->getUrl('*/api_user/save')))
@@ -80,7 +80,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
             $id = $this->getRequest()->getPost('user_id', false);
             $model = Mage::getModel('Mage_Api_Model_User')->load($id);
             if (!$model->getId() && $id) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('This user no longer exists.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('This user no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -102,7 +102,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
                         $model->setRoleIds( $rs )->setRoleUserId( $model->getUserId() )->saveRelations();
                     }
                 }
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('You saved the user.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(__('You saved the user.'));
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->setUserData(false);
                 $this->_redirect('*/*/edit', array('user_id' => $model->getUserId()));
                 return;
@@ -123,7 +123,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
             try {
                 $model = Mage::getModel('Mage_Api_Model_User')->load($id);
                 $model->delete();
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('You deleted the user.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(__('You deleted the user.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -133,7 +133,7 @@ class Mage_Adminhtml_Api_UserController extends Mage_Adminhtml_Controller_Action
                 return;
             }
         }
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('We can\'t find a user to delete.'));
+        Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('We can\'t find a user to delete.'));
         $this->_redirect('*/*/');
     }
 

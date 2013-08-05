@@ -64,7 +64,7 @@ class Mage_Directory_Model_Config_Source_Country implements Mage_Core_Model_Opti
         if (!$isMultiselect) {
             array_unshift($options, array(
                 'value' => '',
-                'label' => $this->_directoryHelper->__('--Please Select--'),
+                'label' => __('--Please Select--'),
             ));
         }
 

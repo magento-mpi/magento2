@@ -13,7 +13,7 @@ $billingBlock = $this->getChildBlock('billing')->setFieldNamePrefix('billing')->
 $shippingAddress = $this->getShippingAddress();
 ?>
 <hgroup class="page title">
-    <h1 class="title"><span class="base"><?php echo $this->__('Review Order') ?></span></h1>
+    <h1 class="title"><span class="base"><?php echo __('Review Order') ?></span></h1>
 </hgroup>
 <?php echo $this->getMessagesBlock()->toHtml() ?>
 <div class="paypal review view">
@@ -22,19 +22,19 @@ $shippingAddress = $this->getShippingAddress();
     <form method="post" id="order-review-form" action="<?php echo $this->getPlaceOrderUrl() ?>" class="form paypal review">
         <?php if(!$billingBlock->isCustomerLoggedIn()): ?>
             <fieldset class="fieldset customer email">
-                <legend class="legend"><span><?php echo $this->__('Customer Information') ?></span></legend>
+                <legend class="legend"><span><?php echo __('Customer Information') ?></span></legend>
                 <br>
                 <div id="customer-info-form" class="field email required">
-                    <label for="customer:email" class="label"><?php echo $this->__('Email Address') ?></label>
+                    <label for="customer:email" class="label"><?php echo __('Email Address') ?></label>
                     <div class="control">
-                        <input type="text" name="customer-email" id="customer:email" value="<?php echo $this->escapeHtml($billingBlock->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text" />
+                        <input type="text" name="customer-email" id="customer:email" value="<?php echo $this->escapeHtml($billingBlock->getAddress()->getEmail()) ?>" title="<?php echo __('Email Address') ?>" class="input-text" />
                     </div>
                 </div>
             </fieldset>
         <?php endif ?>
 
         <fieldset class="fieldset billing address" id="billing-address">
-            <legend class="legend"><span><?php echo $this->__('Billing Address') ?></span></legend>
+            <legend class="legend"><span><?php echo __('Billing Address') ?></span></legend>
             <br>
             <?php if ($shippingAddress): ?>
                 <?php echo $billingBlock->setShowAsShippingCheckbox(true)->toHtml(); ?>
@@ -45,13 +45,13 @@ $shippingAddress = $this->getShippingAddress();
 
         <?php if ($shippingAddress): ?>
             <fieldset class="fieldset shipping address" id="shipping-address">
-                <legend class="legend"><span><?php echo $this->__('Shipping Address') ?></span></legend>
+                <legend class="legend"><span><?php echo __('Shipping Address') ?></span></legend>
                 <br>
                 <?php echo $this->getChildBlock('shipping')->setFieldNamePrefix('shipping')->setHideEmailAddress(true)->toHtml(); ?>
             </fieldset>
 
             <fieldset class="fieldset shipping method">
-                <legend class="legend"><span><?php echo $this->__('Shipping Method') ?></span></legend>
+                <legend class="legend"><span><?php echo __('Shipping Method') ?></span></legend>
                 <br>
                 <?php echo $this->getChildBlock('shipping_method')->toHtml(); ?>
             </fieldset>
@@ -59,8 +59,8 @@ $shippingAddress = $this->getShippingAddress();
 
         <div class="paypal review items">
             <div class="paypal subtitle caption">
-                <strong><?php echo $this->__('Items in Your Shopping Cart') ?></strong>
-                <a href="<?php echo $this->getUrl('checkout/cart') ?>" class="action edit"><?php echo $this->__('Edit Shopping Cart') ?></a>
+                <strong><?php echo __('Items in Your Shopping Cart') ?></strong>
+                <a href="<?php echo $this->getUrl('checkout/cart') ?>" class="action edit"><?php echo __('Edit Shopping Cart') ?></a>
             </div>
 
             <div id="details-reload">
@@ -70,11 +70,11 @@ $shippingAddress = $this->getShippingAddress();
 
         <?php echo $this->getChildHtml('agreements'); ?>
         <div class="actions" id="review-buttons-container">
-            <button type="button" id="review-button" value="<?php echo $this->__('Place Order') ?>" class="action checkout"><span><?php echo $this->__('Place Order') ?></span></button>
-            <button type="button" id="review-submit" value="<?php echo $this->__('Place Order') ?>" class="action checkout"><span><?php echo $this->__('Place Order') ?></span></button>
-            <button type="button" id="update-order" class="action update"><span><?php echo $this->__('Update Order Data') ?></span></button>
+            <button type="button" id="review-button" value="<?php echo __('Place Order') ?>" class="action checkout"><span><?php echo __('Place Order') ?></span></button>
+            <button type="button" id="review-submit" value="<?php echo __('Place Order') ?>" class="action checkout"><span><?php echo __('Place Order') ?></span></button>
+            <button type="button" id="update-order" class="action update"><span><?php echo __('Update Order Data') ?></span></button>
             <span class="please-wait load indicator" id="review-please-wait" style="display:none;">
-               <span><?php echo $this->__('Submitting order information...') ?></span>
+               <span><?php echo __('Submitting order information...') ?></span>
             </span>
         </div>
     </form>

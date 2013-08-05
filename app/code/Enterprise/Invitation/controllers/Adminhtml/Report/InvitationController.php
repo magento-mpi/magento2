@@ -26,12 +26,12 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     {
         $this->loadLayout()
             ->_addBreadcrumb(
-                Mage::helper('Mage_Reports_Helper_Data')->__('Reports'),
-                Mage::helper('Mage_Reports_Helper_Data')->__('Reports')
+                __('Reports'),
+                __('Reports')
             )
             ->_addBreadcrumb(
-                Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitations'),
-                Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitations')
+                __('Invitations'),
+                __('Invitations')
             );
         return $this;
     }
@@ -41,12 +41,12 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     public function indexAction()
     {
-        $this->_title($this->__('Invitations Report'));
+        $this->_title(__('Invitations Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Enterprise_Invitation::report_enterprise_invitation_general')
-            ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('General Report'),
-            Mage::helper('Enterprise_Invitation_Helper_Data')->__('General Report'))
+            ->_addBreadcrumb(__('General Report'),
+            __('General Report'))
             ->renderLayout();
     }
 
@@ -79,12 +79,12 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     public function customerAction()
     {
-        $this->_title($this->__('Invited Customers Report'));
+        $this->_title(__('Invited Customers Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Enterprise_Invitation::report_enterprise_invitation_customer')
-            ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Customers'),
-            Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Customers'))
+            ->_addBreadcrumb(__('Invitation Report by Customers'),
+            __('Invitation Report by Customers'))
             ->renderLayout();
     }
 
@@ -117,11 +117,11 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     public function orderAction()
     {
-        $this->_title($this->__('Conversion Rate Report'));
+        $this->_title(__('Conversion Rate Report'));
 
         $this->_initAction()->_setActiveMenu('Enterprise_Invitation::report_enterprise_invitation_order')
-            ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Customers'),
-            Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Order Conversion Rate'))
+            ->_addBreadcrumb(__('Invitation Report by Customers'),
+            __('Invitation Report by Order Conversion Rate'))
             ->renderLayout();
     }
 

@@ -58,7 +58,7 @@ class Mage_Page_Model_Config
         }
         foreach (Mage::getConfig()->getNode($xmlPath)->children() as $layoutCode => $layoutConfig) {
             $this->_pageLayouts[$layoutCode] = new Varien_Object(array(
-                'label'         => Mage::helper('Mage_Page_Helper_Data')->__((string)$layoutConfig->label),
+                'label'         => __((string)$layoutConfig->label),
                 'code'          => $layoutCode,
                 'template'      => (string)$layoutConfig->template,
                 'layout_handle' => (string)$layoutConfig->layout_handle,

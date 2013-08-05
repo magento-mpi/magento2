@@ -19,35 +19,35 @@
 <div class="account-login<?php if (!$this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed()) echo ' login-only' ?>">
     <div class="page-title">
         <h1><?php if ($this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed()): ?>
-            <?php echo $this->__('Login or Create an Account') ?>
+            <?php echo __('Login or Create an Account') ?>
             <?php else: ?>
-            <?php echo $this->__('Login'); ?>
+            <?php echo __('Login'); ?>
             <?php endif; ?></h1>
     </div>
     */
 ?>
 <div class="block customer login">
-    <div class="title"><strong><?php echo $this->__('Registered Customers') ?></strong></div>
+    <div class="title"><strong><?php echo __('Registered Customers') ?></strong></div>
     <div class="content">
         <form class="form login" action="<?php echo $this->getPostActionUrl() ?>" method="post" id="login-form">
-            <fieldset class="fieldset login" data-hasrequired="<?php echo $this->__('* Required Fields') ?>">
-                <p class="field note"><?php echo $this->__('If you have an account with us, log in using your email address.') ?></p>
+            <fieldset class="fieldset login" data-hasrequired="<?php echo __('* Required Fields') ?>">
+                <p class="field note"><?php echo __('If you have an account with us, log in using your email address.') ?></p>
                 <div class="field email required">
-                    <label class="label" for="email"><span><?php echo $this->__('Email Address') ?></span></label>
+                    <label class="label" for="email"><span><?php echo __('Email Address') ?></span></label>
                     <div class="control">
-                        <input name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" id="email" type="text" class="input-text" title="<?php echo $this->__('Email Address') ?>" data-validate="{required:true, 'validate-email':true}" />
+                        <input name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" id="email" type="text" class="input-text" title="<?php echo __('Email Address') ?>" data-validate="{required:true, 'validate-email':true}" />
                     </div>
                 </div>
                 <div class="field password required">
-                    <label for="pass" class="label"><span><?php echo $this->__('Password') ?></span></label>
+                    <label for="pass" class="label"><span><?php echo __('Password') ?></span></label>
                     <div class="control">
-                        <input name="login[password]" type="password" class="input-text" id="pass" title="<?php echo $this->__('Password') ?>" data-validate="{required:true, 'validate-password':true}"  />
+                        <input name="login[password]" type="password" class="input-text" id="pass" title="<?php echo __('Password') ?>" data-validate="{required:true, 'validate-password':true}"  />
                     </div>
                 </div>
                 <?php echo $this->getChildHtml('form_additional_info'); ?>
                 <div class="actions">
-                    <div class="primary"><button type="submit" class="action login" name="send" id="send2"><span><?php echo $this->__('Login') ?></span></button></div>
-                    <div class="secondary"><a class="action remind" href="<?php echo $this->getForgotPasswordUrl() ?>"><span><?php echo $this->__('Forgot Your Password?') ?></span></a></div>
+                    <div class="primary"><button type="submit" class="action login" name="send" id="send2"><span><?php echo __('Login') ?></span></button></div>
+                    <div class="secondary"><a class="action remind" href="<?php echo $this->getForgotPasswordUrl() ?>"><span><?php echo __('Forgot Your Password?') ?></span></a></div>
                 </div>
             </fieldset>
         </form>

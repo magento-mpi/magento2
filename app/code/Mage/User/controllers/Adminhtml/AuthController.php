@@ -48,15 +48,15 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
                 }
                 // @codingStandardsIgnoreStart
                 $this->_getSession()
-                    ->addSuccess(Mage::helper('Mage_User_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('Mage_User_Helper_Data')->escapeHtml($email)));
+                    ->addSuccess(__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('Mage_User_Helper_Data')->escapeHtml($email)));
                 // @codingStandardsIgnoreEnd
                 $this->getResponse()->setRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
                 return;
             } else {
-                $this->_getSession()->addError($this->__('Please correct this email address:'));
+                $this->_getSession()->addError(__('Please correct this email address:'));
             }
         } elseif (!empty($params)) {
-            $this->_getSession()->addError(Mage::helper('Mage_User_Helper_Data')->__('The email address is empty.'));
+            $this->_getSession()->addError(__('The email address is empty.'));
         }
         $this->loadLayout();
         $this->renderLayout();
@@ -85,7 +85,7 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
             $this->renderLayout();
         } catch (Exception $exception) {
             $this->_getSession()->addError(
-                Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.')
+                __('Your password reset link has expired.')
             );
             $this->_redirect('*/auth/forgotpassword', array('_nosecret' => true));
             return;
@@ -108,7 +108,7 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
             $this->_validateResetPasswordLinkToken($userId, $passwordResetToken);
         } catch (Exception $exception) {
             $this->_getSession()->addError(
-                Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.')
+                __('Your password reset link has expired.')
             );
             $this->getResponse()->setRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
             return;
@@ -128,7 +128,7 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
         try {
             $user->save();
             $this->_getSession()->addSuccess(
-                Mage::helper('Mage_User_Helper_Data')->__('Your password has been updated.')
+                __('Your password has been updated.')
             );
             $this->getResponse()->setRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
         } catch (Mage_Core_Exception $exception) {
@@ -160,7 +160,7 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
         ) {
             throw Mage::exception(
                 'Mage_Core',
-                Mage::helper('Mage_User_Helper_Data')->__('Please correct the password reset token.')
+                __('Please correct the password reset token.')
             );
         }
 
@@ -169,7 +169,7 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
         if (!$user->getId()) {
             throw Mage::exception(
                 'Mage_Core',
-                Mage::helper('Mage_User_Helper_Data')->__('Please specify the correct account and try again.')
+                __('Please specify the correct account and try again.')
             );
         }
 
@@ -177,7 +177,7 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
         if (strcmp($userToken, $resetPasswordToken) != 0 || $user->isResetPasswordLinkTokenExpired()) {
             throw Mage::exception(
                 'Mage_Core',
-                Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.')
+                __('Your password reset link has expired.')
             );
         }
     }

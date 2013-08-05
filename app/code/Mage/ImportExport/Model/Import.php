@@ -87,15 +87,14 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
                 } catch (Exception $e) {
                     Mage::logException($e);
                     Mage::throwException(
-                        Mage::helper('Mage_ImportExport_Helper_Data')->__('Please enter a correct entity model')
+                        __('Please enter a correct entity model')
                     );
                 }
                 if (!($this->_entityAdapter instanceof Mage_ImportExport_Model_Import_Entity_Abstract)
                     && !($this->_entityAdapter instanceof Mage_ImportExport_Model_Import_EntityAbstract)
                 ) {
                     Mage::throwException(
-                        Mage::helper('Mage_ImportExport_Helper_Data')
-                            ->__('Entity adapter object must be an instance of %s or %s',
+                        __('Entity adapter object must be an instance of %s or %s',
                                 'Mage_ImportExport_Model_Import_Entity_Abstract',
                                 'Mage_ImportExport_Model_Import_EntityAbstract'));
                 }
@@ -103,12 +102,11 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
                 // check for entity codes integrity
                 if ($this->getEntity() != $this->_entityAdapter->getEntityTypeCode()) {
                     Mage::throwException(
-                        Mage::helper('Mage_ImportExport_Helper_Data')
-                            ->__('The input entity code is not equal to entity adapter code.')
+                        __('The input entity code is not equal to entity adapter code.')
                     );
                 }
             } else {
-                Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Please enter a correct entity.'));
+                Mage::throwException(__('Please enter a correct entity.'));
             }
             $this->_entityAdapter->setParameters($this->getData());
         }
@@ -138,47 +136,40 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
         if ($this->getProcessedRowsCount()) {
             if (!$validationResult) {
                 if ($this->getProcessedRowsCount() == $this->getInvalidRowsCount()) {
-                    $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')
-                        ->__('File is totally invalid. Please fix errors and re-upload file.');
+                    $messages[] = __('File is totally invalid. Please fix errors and re-upload file.');
                 } elseif ($this->getErrorsCount() >= $this->getErrorsLimit()) {
-                    $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')
-                        ->__('Errors limit (%d) reached. Please fix errors and re-upload file.',
+                    $messages[] = __('Errors limit (%d) reached. Please fix errors and re-upload file.',
                             $this->getErrorsLimit());
                 } else {
                     if ($this->isImportAllowed()) {
-                        $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')
-                            ->__('Please fix errors and re-upload file.');
+                        $messages[] = __('Please fix errors and re-upload file.');
                     } else {
-                        $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')
-                            ->__('File is partially valid, but import is not possible');
+                        $messages[] = __('File is partially valid, but import is not possible');
                     }
                 }
                 // errors info
                 foreach ($this->getErrors() as $errorCode => $rows) {
                     $error = $errorCode . ' '
-                        . Mage::helper('Mage_ImportExport_Helper_Data')->__('in rows') . ': '
+                        . __('in rows') . ': '
                         . implode(', ', $rows);
                     $messages[] = $error;
                 }
             } else {
                 if ($this->isImportAllowed()) {
-                    $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')
-                        ->__('Validation finished successfully');
+                    $messages[] = __('Validation finished successfully');
                 } else {
-                    $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')
-                        ->__('File is valid, but import is not possible');
+                    $messages[] = __('File is valid, but import is not possible');
                 }
             }
             $notices = $this->getNotices();
             if (is_array($notices)) {
                 $messages = array_merge($messages, $notices);
             }
-            $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')
-                ->__('Checked rows: %d, checked entities: %d, invalid rows: %d, total errors: %d',
+            $messages[] = __('Checked rows: %d, checked entities: %d, invalid rows: %d, total errors: %d',
                     $this->getProcessedRowsCount(), $this->getProcessedEntitiesCount(),
                     $this->getInvalidRowsCount(), $this->getErrorsCount());
         } else {
-            $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')->__('File does not contain data.');
+            $messages[] = __('File does not contain data.');
         }
         return $messages;
     }
@@ -231,7 +222,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
     public function getEntity()
     {
         if (empty($this->_data['entity'])) {
-            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Entity is unknown'));
+            Mage::throwException(__('Entity is unknown'));
         }
         return $this->_data['entity'];
     }
@@ -329,8 +320,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
         ));
 
         $this->addLogComment(
-            Mage::helper('Mage_ImportExport_Helper_Data')
-                ->__('Begin import of "%s" with "%s" behavior',
+            __('Begin import of "%s" with "%s" behavior',
                     $this->getEntity(),
                     $this->getBehavior()
                 )
@@ -339,14 +329,13 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
         $result = $this->_getEntityAdapter()->importData();
 
         $this->addLogComment(array(
-            Mage::helper('Mage_ImportExport_Helper_Data')
-                ->__('Checked rows: %d, checked entities: %d, invalid rows: %d, total errors: %d',
+            __('Checked rows: %d, checked entities: %d, invalid rows: %d, total errors: %d',
                     $this->getProcessedRowsCount(),
                     $this->getProcessedEntitiesCount(),
                     $this->getInvalidRowsCount(),
                     $this->getErrorsCount()
                 ),
-            Mage::helper('Mage_ImportExport_Helper_Data')->__('Import has been done successfuly.')
+            __('Import has been done successfuly.')
         ));
 
         return $result;
@@ -429,7 +418,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
             if ($errors[0] == Zend_Validate_File_Upload::INI_SIZE) {
                 $errorMessage = Mage::helper('Mage_ImportExport_Helper_Data')->getMaxUploadSizeMessage();
             } else {
-                $errorMessage = Mage::helper('Mage_ImportExport_Helper_Data')->__('File was not uploaded.');
+                $errorMessage = __('File was not uploaded.');
             }
             Mage::throwException($errorMessage);
         }
@@ -444,7 +433,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
         $uploadedFile = $result['path'] . $result['file'];
         if (!$extension) {
             unlink($uploadedFile);
-            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Uploaded file has no extension'));
+            Mage::throwException(__('Uploaded file has no extension'));
         }
         $sourceFile = self::getWorkingDir() . $entity;
 
@@ -456,7 +445,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
             }
 
             if (!@rename($uploadedFile, $sourceFile)) {
-                Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Source file moving failed'));
+                Mage::throwException(__('Source file moving failed'));
             }
         }
         $this->_removeBom($sourceFile);
@@ -494,14 +483,14 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
      */
     public function validateSource(Mage_ImportExport_Model_Import_SourceAbstract $source)
     {
-        $this->addLogComment(Mage::helper('Mage_ImportExport_Helper_Data')->__('Begin data validation'));
+        $this->addLogComment(__('Begin data validation'));
         $adapter = $this->_getEntityAdapter()->setSource($source);
         $result = $adapter->isDataValid();
 
         $messages = $this->getOperationResultMessages($result);
         $this->addLogComment($messages);
         if ($result) {
-            $this->addLogComment(Mage::helper('Mage_ImportExport_Helper_Data')->__('Done import data validation'));
+            $this->addLogComment(__('Done import data validation'));
         }
         return $result;
     }
@@ -556,7 +545,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
                 );
             } else {
                 Mage::throwException(
-                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Invalid behavior token for %s', $entityCode)
+                    __('Invalid behavior token for %s', $entityCode)
                 );
             }
         }

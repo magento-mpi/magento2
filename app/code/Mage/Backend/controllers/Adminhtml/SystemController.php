@@ -22,8 +22,8 @@ class Mage_Backend_Adminhtml_SystemController extends Mage_Backend_Controller_Ac
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Adminhtml::system');
         $this->_addBreadcrumb(
-            $this->_helper->__('System'),
-            $this->_helper->__('System')
+            __('System'),
+            __('System')
         );
         $this->renderLayout();
     }

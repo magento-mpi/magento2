@@ -103,7 +103,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
         }
 
         if ($this->_isFormEmpty($form)) {
-            $hintMessage = $this->__('Sorry, but you cannot edit these theme styles.');
+            $hintMessage = __('Sorry, but you cannot edit these theme styles.');
             $form->addField($data['tab'] . '-tab-error', 'note', array(
                 'after_element_html' => '<p class="error-notice">' . $hintMessage . '</p>'
             ), '^');
@@ -198,7 +198,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      */
     protected function _buildElementConfig($htmlId, $positionData, $control)
     {
-        $label = $this->__($positionData['title']);
+        $label = __($positionData['title']);
 
         $config = array(
             'name'  => $htmlId,

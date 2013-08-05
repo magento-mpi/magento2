@@ -88,12 +88,12 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
     {
         $code = explode(':', $code, 2);
         if (count($code) != 2) {
-            Mage::throwException(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Please correct the invitation code.'));
+            Mage::throwException(__('Please correct the invitation code.'));
         }
         list($id, $protectionCode) = $code;
         $this->load($id);
         if (!$this->getId() || $this->getProtectionCode() != $protectionCode) {
-            Mage::throwException(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Please correct the invitation code.'));
+            Mage::throwException(__('Please correct the invitation code.'));
         }
         return $this;
     }
@@ -122,7 +122,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
                     $this->setGroupId($inviter->getGroupId());
                 }
                 if (!$this->hasGroupId()) {
-                    throw new Mage_Core_Exception(Mage::helper('Enterprise_Invitation_Helper_Data')->__('You need to specify a customer ID group.'), self::ERROR_INVALID_DATA);
+                    throw new Mage_Core_Exception(__('You need to specify a customer ID group.'), self::ERROR_INVALID_DATA);
                 }
             }
             else {
@@ -130,13 +130,13 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
             }
 
             if (!(int)$this->getStoreId()) {
-                throw new Mage_Core_Exception(Mage::helper('Enterprise_Invitation_Helper_Data')->__('The wrong store is specified.'), self::ERROR_INVALID_DATA);
+                throw new Mage_Core_Exception(__('The wrong store is specified.'), self::ERROR_INVALID_DATA);
             }
             $this->makeSureCustomerNotExists();
         }
         else {
             if ($this->dataHasChangedFor('message') && !$this->canMessageBeUpdated()) {
-                throw new Mage_Core_Exception(Mage::helper('Enterprise_Invitation_Helper_Data')->__("You can't update this message.", self::ERROR_STATUS));
+                throw new Mage_Core_Exception(__("You can't update this message.", self::ERROR_STATUS));
             }
         }
         return parent::_beforeSave();
@@ -196,7 +196,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
     public function getInvitationCode()
     {
         if (!$this->getId()) {
-            Mage::throwException(Mage::helper('Enterprise_Invitation_Helper_Data')->__("We can't generate encrypted code."));
+            Mage::throwException(__("We can't generate encrypted code."));
         }
         return $this->getId() . ':' . $this->getProtectionCode();
     }
@@ -223,15 +223,15 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
     public function makeSureCanBeSent()
     {
         if (!$this->getId()) {
-            throw new Mage_Core_Exception(Mage::helper('Enterprise_Invitation_Helper_Data')->__("We couldn't find an ID for this invitation."), self::ERROR_INVALID_DATA);
+            throw new Mage_Core_Exception(__("We couldn't find an ID for this invitation."), self::ERROR_INVALID_DATA);
         }
         if ($this->getStatus() !== self::STATUS_NEW) {
             throw new Mage_Core_Exception(
-                Mage::helper('Enterprise_Invitation_Helper_Data')->__('We cannot send an invitation with status "%s".', $this->getStatus()), self::ERROR_STATUS
+                __('We cannot send an invitation with status "%s".', $this->getStatus()), self::ERROR_STATUS
             );
         }
         if (!$this->getEmail() || !Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            throw new Mage_Core_Exception(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Please correct the invalid or empty invitation email.'), self::ERROR_INVALID_DATA);
+            throw new Mage_Core_Exception(__('Please correct the invalid or empty invitation email.'), self::ERROR_INVALID_DATA);
         }
         $this->makeSureCustomerNotExists();
     }
@@ -249,13 +249,13 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
             $websiteId = Mage::app()->getStore($this->getStoreId())->getWebsiteId();
         }
         if (!$websiteId) {
-            throw new Mage_Core_Exception(Mage::helper('Enterprise_Invitation_Helper_Data')->__("We can't identify the proper website."), self::ERROR_INVALID_DATA);
+            throw new Mage_Core_Exception(__("We can't identify the proper website."), self::ERROR_INVALID_DATA);
         }
         if (null === $email) {
             $email = $this->getEmail();
         }
         if (!$email) {
-            throw new Mage_Core_Exception(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Please specify an email.'), self::ERROR_INVALID_DATA);
+            throw new Mage_Core_Exception(__('Please specify an email.'), self::ERROR_INVALID_DATA);
         }
 
         // lookup customer by specified email/website id
@@ -267,7 +267,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
             return;
         }
         throw new Mage_Core_Exception(
-            Mage::helper('Enterprise_Invitation_Helper_Data')->__('This invitation is addressed to a current customer: "%s".', $email), self::ERROR_CUSTOMER_EXISTS
+            __('This invitation is addressed to a current customer: "%s".', $email), self::ERROR_CUSTOMER_EXISTS
         );
     }
 
@@ -279,7 +279,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
      */
     public function makeSureCanBeAccepted($websiteId = null)
     {
-        $messageInvalid = Mage::helper('Enterprise_Invitation_Helper_Data')->__('This invitation is not valid.');
+        $messageInvalid = __('This invitation is not valid.');
         if (!$this->getId()) {
             throw new Mage_Core_Exception($messageInvalid, self::ERROR_STATUS);
         }
@@ -398,7 +398,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
         $errors = array();
 
         if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            $errors[] = Mage::helper('Enterprise_Invitation_Helper_Data')->__('Please correct the invitation email.');
+            $errors[] = __('Please correct the invitation email.');
         }
 
         if (!empty($errors)) {

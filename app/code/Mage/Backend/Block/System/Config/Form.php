@@ -148,9 +148,9 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         $this->_coreConfig = $coreConfig;
 
         $this->_scopeLabels = array(
-            self::SCOPE_DEFAULT  => $this->helper('Mage_Backend_Helper_Data')->__('[GLOBAL]'),
-            self::SCOPE_WEBSITES => $this->helper('Mage_Backend_Helper_Data')->__('[WEBSITE]'),
-            self::SCOPE_STORES   => $this->helper('Mage_Backend_Helper_Data')->__('[STORE VIEW]'),
+            self::SCOPE_DEFAULT  => __('[GLOBAL]'),
+            self::SCOPE_WEBSITES => __('[WEBSITE]'),
+            self::SCOPE_STORES   => __('[STORE VIEW]'),
         );
     }
 

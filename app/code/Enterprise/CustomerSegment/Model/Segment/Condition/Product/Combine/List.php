@@ -78,8 +78,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            self::CART      => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Shopping Cart'),
-            self::WISHLIST  => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Wish List'),
+            self::CART      => __('Shopping Cart'),
+            self::WISHLIST  => __('Wish List'),
         ));
         return $this;
     }
@@ -127,8 +127,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('Mage_Rule_Helper_Data')->__('found'),
-            '!='  => Mage::helper('Mage_Rule_Helper_Data')->__('not found')
+            '=='  => __('found'),
+            '!='  => __('not found')
         ));
         return $this;
     }
@@ -141,7 +141,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Product is %s in the %s with %s of these Conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . __('If Product is %s in the %s with %s of these Conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

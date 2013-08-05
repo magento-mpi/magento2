@@ -68,15 +68,12 @@ class Mage_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPUnit
             'google-experiment-form'
         )->will($this->returnValue($block));
 
-        $this->_helperMock->expects($this->once())->method('__')->with('Category View Optimization')
-            ->will($this->returnValue('Category View Optimization Translated'));
-
         $event = $this->getMock('Varien_Event', array('getTabs'), array(), '', false);
         $event->expects($this->once())->method('getTabs')->will($this->returnValue($this->_tabsMock));
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
         $this->_tabsMock->expects($this->once())->method('addTab')->with('google-experiment-tab', array(
-            'label' => 'Category View Optimization Translated',
+            'label' => new Magento_Phrase('Category View Optimization'),
             'content' => 'generated html',
         ));
 

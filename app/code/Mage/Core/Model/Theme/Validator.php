@@ -54,10 +54,10 @@ class Mage_Core_Model_Theme_Validator
     {
         $versionValidators = array(
             array('name' => 'not_empty', 'class' => 'Zend_Validate_NotEmpty', 'break' => true, 'options' => array(),
-                  'message' => $this->_helper->__('Field can\'t be empty')),
+                  'message' => __('Field can\'t be empty')),
             array('name' => 'available', 'class' => 'Zend_Validate_Regex', 'break' => true,
                   'options' => array('pattern' => '/^(\d+\.\d+\.\d+\.\d+(\-[a-zA-Z0-9]+)?)$|^\*$/'),
-                  'message' => $this->_helper->__('Theme version has not compatible format'))
+                  'message' => __('Theme version has not compatible format'))
         );
 
         $this->addDataValidators('theme_version', $versionValidators)
@@ -80,7 +80,7 @@ class Mage_Core_Model_Theme_Validator
                 'class' => 'Zend_Validate_NotEmpty',
                 'break' => true,
                 'options' => array(),
-                'message' => $this->_helper->__('Field title can\'t be empty')
+                'message' => __('Field title can\'t be empty')
             )
         );
 
@@ -101,14 +101,14 @@ class Mage_Core_Model_Theme_Validator
                 'class' => 'Zend_Validate_NotEmpty',
                 'break' => true,
                 'options' => array(),
-                'message' => $this->_helper->__('Field can\'t be empty')
+                'message' => __('Field can\'t be empty')
             ),
             array(
                 'name' => 'available',
                 'class' => 'Zend_Validate_InArray',
                 'break' => true,
                 'options' => array('haystack' => Mage_Core_Model_Theme::$types),
-                'message' => $this->_helper->__('Theme type is invalid')
+                'message' => __('Theme type is invalid')
             )
         );
 

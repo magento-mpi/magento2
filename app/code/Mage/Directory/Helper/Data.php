@@ -141,7 +141,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
                     }
                     $regions[$region->getCountryId()][$region->getRegionId()] = array(
                         'code' => $region->getCode(),
-                        'name' => $this->__($region->getName())
+                        'name' => __($region->getName())
                     );
                 }
                 $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($regions);

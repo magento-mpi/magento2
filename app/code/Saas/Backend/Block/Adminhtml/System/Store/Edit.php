@@ -53,9 +53,9 @@ class Saas_Backend_Block_Adminhtml_System_Store_Edit extends Mage_Adminhtml_Bloc
             $title = 'Store View';
             $url = $this->getUrl('*/*/deleteStorePost', array('item_id' => $this->getRequest()->getParam('store_id')));
             // @codingStandardsIgnoreStart
-            $message = $this->__('Deleting a %1$s will not delete the information associated with the %1$s (e.g. categories, products, etc.), but the %1$s will not be able to be restored.', $title);
+            $message = __('Deleting a %1$s will not delete the information associated with the %1$s (e.g. categories, products, etc.), but the %1$s will not be able to be restored.', $title);
             // @codingStandardsIgnoreEnd
-            $message .= ' ' . $this->__('Are you sure you want to do this?');
+            $message .= ' ' . __('Are you sure you want to do this?');
             $message = $this->quoteEscape($message, true);
 
             $this->_updateButton('delete', 'onclick', "deleteConfirm('{$message}', '{$url}')");

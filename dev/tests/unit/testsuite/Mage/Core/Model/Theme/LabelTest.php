@@ -51,7 +51,6 @@ class Mage_Core_Model_Theme_LabelTest extends PHPUnit_Framework_TestCase
      */
     public function testCheckThemeCompatible($themeData, $expected)
     {
-
         $collectionMock = $this->_collection;
         $collectionMock->expects($this->atLeastOnce())->method('setOrder')->with('theme_title', $this->anything());
         $collectionMock->expects($this->atLeastOnce())->method('filterVisibleThemes')->will($this->returnSelf());

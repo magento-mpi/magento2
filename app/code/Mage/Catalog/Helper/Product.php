@@ -525,6 +525,6 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
      */
     public function getTypeSwitcherControlLabel()
     {
-        return $this->__((string)Mage::getConfig()->getNode(self::XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL));
+        return __((string)Mage::getConfig()->getNode(self::XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL));
     }
 }

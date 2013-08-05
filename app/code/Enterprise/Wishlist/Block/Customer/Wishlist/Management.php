@@ -110,9 +110,9 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_B
     {
         $count = Mage::helper('Enterprise_Wishlist_Helper_Data')->getWishlistItemCount($wishlist);
         if ($count == 1) {
-            return Mage::helper('Enterprise_Wishlist_Helper_Data')->__('1 item');
+            return __('1 item');
         } else {
-            return Mage::helper('Enterprise_Wishlist_Helper_Data')->__('%d items', $count);
+            return __('%d items', $count);
         }
     }
 

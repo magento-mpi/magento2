@@ -47,7 +47,7 @@ class Saas_JobNotification_Service_Notification
         $model->load($notificationId);
 
         if (false == $model->getId()) {
-            throw new InvalidArgumentException($this->_helper->__('Invalid notification id'));
+            throw new InvalidArgumentException(__('Invalid notification id'));
         }
 
         try {
@@ -68,7 +68,7 @@ class Saas_JobNotification_Service_Notification
     public function massUpdate($notificationIds, array $data = array())
     {
         if (false == is_array($notificationIds) || empty($notificationIds)) {
-            throw new InvalidArgumentException($this->_helper->__('Invalid notification ids list'));
+            throw new InvalidArgumentException(__('Invalid notification ids list'));
         }
 
         foreach ($notificationIds as $notificationId) {

@@ -36,7 +36,7 @@ class Mage_Customer_Model_Resource_Group extends Mage_Core_Model_Resource_Db_Abs
         $this->_uniqueFields = array(
             array(
                 'field' => 'customer_group_code',
-                'title' => Mage::helper('Mage_Customer_Helper_Data')->__('Customer Group')
+                'title' => __('Customer Group')
             ));
 
         return $this;
@@ -52,7 +52,7 @@ class Mage_Customer_Model_Resource_Group extends Mage_Core_Model_Resource_Db_Abs
     protected function _beforeDelete(Mage_Core_Model_Abstract $group)
     {
         if ($group->usesAsDefault()) {
-            Mage::throwException(Mage::helper('Mage_Customer_Helper_Data')->__('The group "%s" cannot be deleted', $group->getCode()));
+            Mage::throwException(__('The group "%s" cannot be deleted', $group->getCode()));
         }
         return parent::_beforeDelete($group);
     }

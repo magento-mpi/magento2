@@ -28,7 +28,7 @@ class Saas_PrintedTemplate_Model_Source_PageOrientation
         $orientations = $this->_getConfigModel()->getConfigSectionArray('page_orientation');
 
         foreach ($orientations as $key => $item) {
-            $options[$key] = $this->_getHelper()->__($item['label']);
+            $options[$key] = __($item['label']);
         }
 
         return $options;

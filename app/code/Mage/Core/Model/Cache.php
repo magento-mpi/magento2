@@ -229,8 +229,8 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
                 }
                 $types[$type] = new Varien_Object(array(
                     'id'            => $type,
-                    'cache_type'    => $helper->__((string)$node->label),
-                    'description'   => $helper->__((string)$node->description),
+                    'cache_type'    => __((string)$node->label),
+                    'description'   => __((string)$node->description),
                     'tags'          => $typeTags,
                     'status'        => (int)$this->canUse($type),
                 ));

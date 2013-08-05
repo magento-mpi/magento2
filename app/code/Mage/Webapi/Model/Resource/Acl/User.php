@@ -44,7 +44,7 @@ class Mage_Webapi_Model_Resource_Acl_User extends Mage_Core_Model_Resource_Db_Ab
         $this->_uniqueFields = array(
             array(
                 'field' => 'api_key',
-                'title' => $this->_helper->__('API Key')
+                'title' => __('API Key')
             ),
         );
         return $this;

@@ -15,8 +15,8 @@ store name = $_order->getStore()->getGroup()->getName()
 ?>
 <?php $_order=$this->getOrder() ?>
 <div>
-<?php echo $this->__('Customer Name: %s', $_order->getCustomerFirstname()?$_order->getCustomerName():$_order->getBillingAddress()->getName()) ?><br />
-<?php echo $this->__('Purchased From: %s', $_order->getStore()->getGroup()->getName()) ?><br />
+<?php echo __('Customer Name: %s', $_order->getCustomerFirstname()?$_order->getCustomerName():$_order->getBillingAddress()->getName()) ?><br />
+<?php echo __('Purchased From: %s', $_order->getStore()->getGroup()->getName()) ?><br />
 </div>
 <table cellspacing="0" cellpadding="0" border="0" width="100%" style="border:1px solid #bebcb7; background:#f8f7f5;">
     <thead>
@@ -32,10 +32,10 @@ store name = $_order->getStore()->getGroup()->getName()
         <tr <?php echo $i%2?'bgcolor="#eeeded"':'' ?>>
             <td align="left" valign="top" style="padding:3px 9px"><strong><?php echo $this->escapeHtml($_item->getName()) ?></strong>
             <?php if($_item->getGiftMessageId() && $_giftMessage = $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage($_item->getGiftMessageId())): ?>
-            <br /><strong><?php echo $this->__('Gift Message') ?></strong>
-            <br /><?php echo $this->__('From:'); ?> <?php echo $this->escapeHtml($_giftMessage->getSender()) ?>
-            <br /><?php echo $this->__('To:'); ?> <?php echo $this->escapeHtml($_giftMessage->getRecipient()) ?>
-            <br /><?php echo $this->__('Message:'); ?><br /> <?php echo $this->escapeHtml($_giftMessage->getMessage()) ?>
+            <br /><strong><?php echo __('Gift Message') ?></strong>
+            <br /><?php echo __('From:'); ?> <?php echo $this->escapeHtml($_giftMessage->getSender()) ?>
+            <br /><?php echo __('To:'); ?> <?php echo $this->escapeHtml($_giftMessage->getRecipient()) ?>
+            <br /><?php echo __('Message:'); ?><br /> <?php echo $this->escapeHtml($_giftMessage->getMessage()) ?>
             <?php endif; ?>
             </td>
             <td align="center" valign="top" style="padding:3px 9px"><?php echo $_item->getQtyOrdered()*1 ?></td>
@@ -48,37 +48,37 @@ store name = $_order->getStore()->getGroup()->getName()
     <?php if($_order->getGiftMessageId() && $_giftMessage = $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage($_order->getGiftMessageId())): ?>
         <tr>
             <td colspan="3" align="left" style="padding:3px 9px">
-            <strong><?php echo $this->__('Gift Message') ?></strong>
-            <br /><?php echo $this->__('From:'); ?> <?php echo $this->escapeHtml($_giftMessage->getSender()) ?>
-            <br /><?php echo $this->__('To:'); ?> <?php echo $this->escapeHtml($_giftMessage->getRecipient()) ?>
-            <br /><?php echo $this->__('Message:'); ?><br /> <?php echo $this->escapeHtml($_giftMessage->getMessage()) ?>
+            <strong><?php echo __('Gift Message') ?></strong>
+            <br /><?php echo __('From:'); ?> <?php echo $this->escapeHtml($_giftMessage->getSender()) ?>
+            <br /><?php echo __('To:'); ?> <?php echo $this->escapeHtml($_giftMessage->getRecipient()) ?>
+            <br /><?php echo __('Message:'); ?><br /> <?php echo $this->escapeHtml($_giftMessage->getMessage()) ?>
             </td>
         </tr>
      <?php endif; ?>
         <tr>
-            <td colspan="2" align="right" style="padding:3px 9px"><?php echo $this->__('Subtotal') ?></td>
+            <td colspan="2" align="right" style="padding:3px 9px"><?php echo __('Subtotal') ?></td>
             <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_order->getSubtotal()) ?></td>
         </tr>
         <?php if ($_order->getDiscountAmount() > 0): ?>
             <tr>
-                <td colspan="2" align="right" style="padding:3px 9px"><?php echo (($_order->getCouponCode())? $this->__('Discount (%s)', $_order->getCouponCode()) : $this->__('Discount')) ?></td>
+                <td colspan="2" align="right" style="padding:3px 9px"><?php echo (($_order->getCouponCode())? __('Discount (%s)', $_order->getCouponCode()) : __('Discount')) ?></td>
                 <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice(0.00 - $_order->getDiscountAmount()) ?></td>
             </tr>
         <?php endif; ?>
         <?php if ($_order->getShippingAmount() || $_order->getShippingDescription()): ?>
             <tr>
-                <td colspan="2" align="right" style="padding:3px 9px"><?php echo $this->__('Shipping &amp; Handling') ?></td>
+                <td colspan="2" align="right" style="padding:3px 9px"><?php echo __('Shipping &amp; Handling') ?></td>
                 <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_order->getShippingAmount()) ?></td>
             </tr>
         <?php endif; ?>
         <?php if ($_order->getTaxAmount() > 0): ?>
             <tr>
-                <td colspan="2" align="right" style="padding:3px 9px"><?php echo $this->__('Tax') ?></td>
+                <td colspan="2" align="right" style="padding:3px 9px"><?php echo __('Tax') ?></td>
                 <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_order->getTaxAmount()) ?></td>
             </tr>
         <?php endif; ?>
         <tr bgcolor="#DEE5E8">
-            <td colspan="2" align="right" style="padding:3px 9px"><strong><big><?php echo $this->__('Grand Total') ?></big></strong></td>
+            <td colspan="2" align="right" style="padding:3px 9px"><strong><big><?php echo __('Grand Total') ?></big></strong></td>
             <td align="right" style="padding:6px 9px"><strong><big><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></big></strong></td>
         </tr>
     </tfoot>

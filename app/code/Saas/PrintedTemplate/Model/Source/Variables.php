@@ -36,12 +36,12 @@ class Saas_PrintedTemplate_Model_Source_Variables
             foreach ($options['fields'] as $fieldName => $variable) {
                 $optionArrayVariables[] = array(
                     'value' => '{{var ' . $entity . '.' . $fieldName . '}}',
-                    'label' => $this->_getHelper()->__($variable['label'])
+                    'label' => __($variable['label'])
                 );
             }
             $label = isset($options['label']) ? $options['label'] : $entity;
             $optionArray[] = array(
-                'label' => $this->_getHelper()->__($label),
+                'label' => __($label),
                 'value' => $optionArrayVariables
             );
         }

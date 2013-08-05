@@ -71,7 +71,7 @@ class Saas_ImportExport_Adminhtml_Import_ImagesController extends Mage_Adminhtml
             $resultBlock = $this->getLayout()->getBlock('import.frame.result');
 
             if (empty($_FILES)) {
-                $resultBlock->addError($this->__('File was not uploaded.'));
+                $resultBlock->addError(__('File was not uploaded.'));
             } else {
                 try {
                     $result = $this->_importService->import();
@@ -97,7 +97,7 @@ class Saas_ImportExport_Adminhtml_Import_ImagesController extends Mage_Adminhtml
             }
             $this->renderLayout();
         } else {
-            $this->_getSession()->addError($this->__('Data is invalid or file is not uploaded'));
+            $this->_getSession()->addError(__('Data is invalid or file is not uploaded'));
             $this->_redirect('adminhtml/import/index');
         }
     }

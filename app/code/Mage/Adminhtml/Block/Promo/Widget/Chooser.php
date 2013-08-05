@@ -100,27 +100,27 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser extends Mage_Adminhtml_Block_Wid
     protected function _prepareColumns()
     {
        $this->addColumn('rule_id', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'align'     => 'right',
             'width'     => '50px',
             'index'     => 'rule_id',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Rule'),
+            'header'    => __('Rule'),
             'align'     => 'left',
             'index'     => 'name',
         ));
 
         $this->addColumn('coupon_code', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Coupon Code'),
+            'header'    => __('Coupon Code'),
             'align'     => 'left',
             'width'     => '150px',
             'index'     => 'code',
         ));
 
         $this->addColumn('from_date', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Start on'),
+            'header'    => __('Start on'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -128,7 +128,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser extends Mage_Adminhtml_Block_Wid
         ));
 
         $this->addColumn('to_date', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('End on'),
+            'header'    => __('End on'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -137,7 +137,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser extends Mage_Adminhtml_Block_Wid
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Status'),
+            'header'    => __('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',

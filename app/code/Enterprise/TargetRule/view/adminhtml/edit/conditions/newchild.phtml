@@ -20,8 +20,8 @@
     <?php echo $element->getValueName();?>
 </a>
 <span class="element">
-    <?php echo Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Please choose a condition to add.') ?>
-    <a href="javascript:setValueToElementValueChanger('<?php echo $elementId;?>', false);void(0)"><?php echo Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Close') ?></a>
+    <?php echo __('Please choose a condition to add.') ?>
+    <a href="javascript:setValueToElementValueChanger('<?php echo $elementId;?>', false);void(0)"><?php echo __('Close') ?></a>
 
     <?php echo $element->getElementHtml();?>
     <?php if($values = $element->getValues()):?>

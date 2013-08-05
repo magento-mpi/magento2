@@ -15,14 +15,14 @@
 <?php $_skipSaleableCheck = Mage::helper('Mage_Catalog_Helper_Product')->getSkipSaleableCheck(); ?>
 <?php if (($_product->isSaleable() || $_skipSaleableCheck) && count($_attributes)):?>
 <fieldset id="catalog_product_composite_configure_fields_configurable" class="fieldset">
-    <legend class="legend"><span><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Associated Products') ?></span></legend>
+    <legend class="legend"><span><?php echo __('Associated Products') ?></span></legend>
     <div class="product-options">
         <div class="field required">
         <?php foreach($_attributes as $_attribute): ?>
             <label class="label"><?php echo $_attribute->getLabel() ?></label>
             <div class="control<?php if ($_attribute->getDecoratedIsLast()):?> last<?php endif; ?>">
                 <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute-select">
-                    <option><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Choose an Option...') ?></option>
+                    <option><?php echo __('Choose an Option...') ?></option>
                 </select>
             </div>
         <?php endforeach; ?>

@@ -9,4 +9,4 @@
  */
 ?>
 <p><?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?></p>
-<p><?php echo Mage::helper('Mage_Payment_Helper_Data')->__('Purchase Order Number: %s', $this->escapeHtml($this->getInfo()->getPoNumber())) ?></p>
+<p><?php echo __('Purchase Order Number: %s', $this->escapeHtml($this->getInfo()->getPoNumber())) ?></p>

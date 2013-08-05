@@ -95,7 +95,7 @@ class Mage_Backend_Model_Auth
         }
 
         self::throwException(
-            Mage::helper('Mage_Backend_Helper_Data')->__('There are no authentication credential storage.')
+            __('There are no authentication credential storage.')
         );
     }
 
@@ -121,7 +121,7 @@ class Mage_Backend_Model_Auth
     {
         if (empty($username) || empty($password)) {
             self::throwException(
-                Mage::helper('Mage_Backend_Helper_Data')->__('Please correct the user name or password.')
+                __('Please correct the user name or password.')
             );
         }
 
@@ -138,7 +138,7 @@ class Mage_Backend_Model_Auth
 
             if (!$this->getAuthStorage()->getUser()) {
                 self::throwException(
-                    Mage::helper('Mage_Backend_Helper_Data')->__('Please correct the user name or password.')
+                    __('Please correct the user name or password.')
                 );
             }
 
@@ -148,7 +148,7 @@ class Mage_Backend_Model_Auth
         } catch (Mage_Core_Exception $e) {
             Mage::dispatchEvent('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
             self::throwException(
-                Mage::helper('Mage_Backend_Helper_Data')->__('Please correct the user name or password.')
+                __('Please correct the user name or password.')
             );
         }
     }
@@ -185,7 +185,7 @@ class Mage_Backend_Model_Auth
     public static function throwException($msg = null, $code = null)
     {
         if (is_null($msg)) {
-            $msg = Mage::helper('Mage_Backend_Helper_Data')->__('Authentication error occurred.');
+            $msg = __('Authentication error occurred.');
         }
         throw new Mage_Backend_Model_Auth_Exception($msg, $code);
     }

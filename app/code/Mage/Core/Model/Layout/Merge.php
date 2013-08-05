@@ -657,7 +657,7 @@ class Mage_Core_Model_Layout_Merge
         /** @var $oneContainerNode Mage_Core_Model_Layout_Element */
         foreach ($containerNodes as $oneContainerNode) {
             $helper = Mage::helper(Mage_Core_Model_Layout::findTranslationModuleName($oneContainerNode));
-            $result[$oneContainerNode->getAttribute('name')] = $helper->__($oneContainerNode->getAttribute('label'));
+            $result[$oneContainerNode->getAttribute('name')] = __($oneContainerNode->getAttribute('label'));
         }
         return $result;
     }
