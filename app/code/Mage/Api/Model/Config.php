@@ -233,11 +233,6 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         }
         /* @var $faultsNode Varien_Simplexml_Element */
 
-        $translateModule = 'Mage_Api';
-        if (isset($faultsNode['module'])) {
-           $translateModule = (string) $faultsNode['module'];
-        }
-
         $faults = array();
         foreach ($faultsNode->children() as $faultName => $fault) {
             $faults[$faultName] = array(

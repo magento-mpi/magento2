@@ -25,8 +25,6 @@ class Mage_Catalog_Model_Config_Source_Product_Options_Type implements Mage_Core
             array('value' => '', 'label' => __('-- Please select --'))
         );
 
-        $helper = Mage::helper('Mage_Catalog_Helper_Data');
-
         foreach (Mage::getConfig()->getNode(self::PRODUCT_OPTIONS_GROUPS_PATH)->children() as $group) {
             $types = array();
             $typesPath = self::PRODUCT_OPTIONS_GROUPS_PATH . '/' . $group->getName() . '/types';
