@@ -35,6 +35,10 @@ downloader/skin/install/images/enterprise.gif
 downloader/template/enterprise
 lib/Apache
 pub/errors/enterprise
+app/code/Magento/AdminGws
+dev/tests/unit/testsuite/Magento/AdminGws
+dev/tests/integration/testsuite/Magento/AdminGws
+dev/tests/static/testsuite/Legacy/Magento/AdminGws
 app/code/Magento/BannerCustomerSegment
 dev/tests/unit/testsuite/Magento/BannerCustomerSegment
 dev/tests/integration/testsuite/Magento/BannerCustomerSegment

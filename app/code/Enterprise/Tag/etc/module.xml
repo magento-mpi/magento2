@@ -12,7 +12,7 @@
         <depends>
             <module name="Magento_Tag" />
             <module name="Enterprise_Reward" />
-            <module name="Enterprise_AdminGws" />
+            <module name="Magento_AdminGws" />
         </depends>
     </module>
 </config>

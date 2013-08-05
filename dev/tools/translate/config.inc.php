@@ -343,8 +343,8 @@ $CONFIG['translates'] = array(
     'translate' => array(
         'app/design/frontend/base/default/template/callouts/',
     ),
-    'Enterprise_AdminGws' => array(
-        'app/code/Enterprise/AdminGws/',
+    'Magento_AdminGws' => array(
+        'app/code/Magento/AdminGws/',
         'app/design/adminhtml/default/default/layout/enterprise/admingws.xml',
         'app/design/adminhtml/default/default/template/enterprise/admingws/',
     ),
@@ -631,7 +631,7 @@ $CONFIG['helpers']  = array(
     'weee'              => 'Magento_Weee',
     'wishlist'          => 'Magento_Wishlist',
     'widget'            => 'Magento_Widget',
-    'enterprise_admingws'           => 'Enterprise_AdminGws',
+    'magento_admingws'           => 'Magento_AdminGws',
     'enterprise_banner'             => 'Enterprise_Banner',
     'enterprise_catalogevent'       => 'Enterprise_CatalogEvent',
     'enterprise_catalogpermissions' => 'Enterprise_CatalogPermissions',
