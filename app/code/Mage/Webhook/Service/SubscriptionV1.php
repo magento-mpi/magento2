@@ -11,7 +11,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_SubscriptionV1Interface
+class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_SubscriptionInterfaceV1
 {
     /** @var Mage_Webhook_Model_Subscription_Factory $_subscriptionFactory */
     private $_subscriptionFactory;

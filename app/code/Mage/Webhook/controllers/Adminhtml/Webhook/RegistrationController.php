@@ -29,7 +29,7 @@ class Mage_Webhook_Adminhtml_Webhook_RegistrationController extends Mage_Backend
     /** @var Mage_Core_Model_Registry */
     private $_registry;
 
-    /** @var Mage_Webhook_Service_SubscriptionV1Interface */
+    /** @var Mage_Webhook_Service_SubscriptionInterfaceV1 */
     private $_subscriptionService;
 
     /** @var Mage_Webhook_Model_Webapi_User_Factory */
@@ -38,14 +38,14 @@ class Mage_Webhook_Adminhtml_Webhook_RegistrationController extends Mage_Backend
 
     /**
      * @param Mage_Webhook_Model_Webapi_User_Factory $userFactory
-     * @param Mage_Webhook_Service_SubscriptionV1Interface $subscriptionService
+     * @param Mage_Webhook_Service_SubscriptionInterfaceV1 $subscriptionService
      * @param Mage_Core_Model_Registry $registry
      * @param Mage_Backend_Controller_Context $context
      * @param string $areaCode
      */
     public function __construct(
         Mage_Webhook_Model_Webapi_User_Factory $userFactory,
-        Mage_Webhook_Service_SubscriptionV1Interface $subscriptionService,
+        Mage_Webhook_Service_SubscriptionInterfaceV1 $subscriptionService,
         Mage_Core_Model_Registry $registry,
         Mage_Backend_Controller_Context $context,
         $areaCode = null

@@ -32,20 +32,20 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionController extends Mage_Backend
     /** @var Mage_Core_Model_Registry  */
     private $_registry;
 
-    /** @var Mage_Webhook_Service_SubscriptionV1Interface */
+    /** @var Mage_Webhook_Service_SubscriptionInterfaceV1 */
     private $_subscriptionService;
 
     /**
      * Class constructor
      *
      * @param Mage_Core_Model_Registry $registry
-     * @param Mage_Webhook_Service_SubscriptionV1Interface $subscriptionService
+     * @param Mage_Webhook_Service_SubscriptionInterfaceV1 $subscriptionService
      * @param Mage_Backend_Controller_Context $context
      * @param string $areaCode
      */
     public function __construct(
         Mage_Core_Model_Registry $registry,
-        Mage_Webhook_Service_SubscriptionV1Interface $subscriptionService,
+        Mage_Webhook_Service_SubscriptionInterfaceV1 $subscriptionService,
         Mage_Backend_Controller_Context $context,
         $areaCode = null
     ) {
