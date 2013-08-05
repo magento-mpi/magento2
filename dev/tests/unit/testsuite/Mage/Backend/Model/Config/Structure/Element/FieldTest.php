@@ -23,11 +23,6 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_factoryHelperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_applicationMock;
 
     /**
@@ -70,18 +65,6 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         $this->_iteratorMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Iterator', array(), array(), '', false
         );
-        $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
-        $helperMock->expects($this->any())
-            ->method('__')
-            ->will($this->returnCallback(
-                    function ($arg) {
-                        return 'translated ' . $arg;
-                    }
-                )
-            );
-        $this->_factoryHelperMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
-        $this->_factoryHelperMock->expects($this->any())->method('get')
-            ->will($this->returnValue($helperMock));
         $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $this->_backendFactoryMock = $this->getMock(
             'Mage_Backend_Model_Config_BackendFactory', array(), array(), '', false
@@ -103,7 +86,6 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         );
 
         $this->_model = new Mage_Backend_Model_Config_Structure_Element_Field(
-            $this->_factoryHelperMock,
             $this->_applicationMock,
             $this->_backendFactoryMock,
             $this->_sourceFactoryMock,
@@ -122,7 +104,6 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
         unset($this->_sourceFactoryMock);
         unset($this->_commentFactoryMock);
         unset($this->_depMapperMock);
-        unset($this->_factoryHelperMock);
         unset($this->_model);
         unset($this->_blockFactoryMock);
     }
