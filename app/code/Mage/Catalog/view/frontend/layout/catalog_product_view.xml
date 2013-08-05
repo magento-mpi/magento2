@@ -23,11 +23,6 @@
         <update handle="page_calendar"/>
         <reference name="content">
             <block type="Mage_Catalog_Block_Product_View" name="product.info" template="product/view.phtml">
-                <!--
-                <action method="addReviewSummaryTemplate"><type>default</type><template>helper/summary.phtml</template></action>
-                <action method="addReviewSummaryTemplate"><type>short</type><template>helper/summary_short.phtml</template></action>
-                <action method="addReviewSummaryTemplate"><type>...</type><template>...</template></action>
-                -->
                 <block type="Mage_Catalog_Block_Product_View_Media" name="product.info.media" as="media" template="product/view/media.phtml"/>
                 <container name="alert.urls" as="alert_urls" label="Alert Urls"/>
                 <block type="Mage_Catalog_Block_Product_List_Upsell" name="product.info.upsell" as="upsell_products" template="product/list/upsell.phtml">

@@ -152,6 +152,7 @@ return array(
     array('addKey', 'Magento_DB_Adapter_Pdo_Mysql'),
     array('addObserver', 'Mage'),
     array('addPageHandles', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),
+    array('addReviewSummaryTemplate', 'Mage_Catalog_Block_Product_Abstract'),
     array('addSaleableFilterToCollection'),
     array('addSearchQfFilter'),
     array('addStoresFilter', 'Mage_Poll_Model_Resource_Poll_Collection'),
