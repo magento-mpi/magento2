@@ -14,8 +14,8 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::marketing">
-                    <resource id="Mage_CatalogRule::promo" module="Mage_CatalogRule" title="Promotions" sortOrder="10">
-                        <resource id="Mage_CatalogRule::promo_catalog" module="Mage_CatalogRule" title="Catalog Price Rules" sortOrder="10" />
+                    <resource id="Mage_CatalogRule::promo" title="Promotions" sortOrder="10">
+                        <resource id="Mage_CatalogRule::promo_catalog" title="Catalog Price Rules" sortOrder="10" />
                     </resource>
                 </resource>
             </resource>

@@ -13,7 +13,7 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::all" title="Allow everything" />
-            <resource id="Mage_Adminhtml::admin" module="Mage_Adminhtml" title="Magento Admin">
+            <resource id="Mage_Adminhtml::admin" title="Magento Admin">
                 <resource id="Mage_Adminhtml::dashboard" title="Dashboard" sortOrder="0" />
                 <resource id="Mage_Adminhtml::system" title="System" sortOrder="90">
                     <resource id="Mage_Adminhtml::store" title="Manage Stores" />

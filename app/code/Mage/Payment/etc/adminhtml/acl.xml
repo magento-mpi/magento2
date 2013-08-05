@@ -16,8 +16,8 @@
                 <resource id="Mage_Adminhtml::stores">
                     <resource id="Mage_Adminhtml::stores_settings">
                         <resource id="Mage_Adminhtml::config">
-                            <resource id="Mage_Payment::payment" module="Mage_Payment" title="Payment Methods Section" />
-                            <resource id="Mage_Payment::payment_services" module="Mage_Payment" title="Payment Services" />
+                            <resource id="Mage_Payment::payment" title="Payment Methods Section" />
+                            <resource id="Mage_Payment::payment_services" title="Payment Services" />
                         </resource>
                     </resource>
                 </resource>

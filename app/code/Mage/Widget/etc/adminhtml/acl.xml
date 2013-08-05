@@ -15,7 +15,7 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::content">
                     <resource id="Mage_Adminhtml::content_elements">
-                        <resource id="Mage_Widget::widget_instance" module="Mage_Widget" title="Frontend Apps" sortOrder="50" />
+                        <resource id="Mage_Widget::widget_instance" title="Frontend Apps" sortOrder="50" />
                     </resource>
                 </resource>
             </resource>
