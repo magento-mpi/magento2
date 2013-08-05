@@ -20,9 +20,10 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
     /**#@+
      * Nodes that can appear in Detail node of SOAP fault.
      */
-    const DETAIL_ERROR_CODE = 'ErrorCode';
-    const DETAIL_PARAMETERS = 'Parameters';
-    const DETAIL_EXCEPTION_TRACE = 'ExceptionTrace';
+    const NODE_ERROR_DETAIL_CODE = 'Code';
+    const NODE_ERROR_DETAIL_PARAMETERS = 'Parameters';
+    const NODE_ERROR_DETAIL_TRACE = 'Trace';
+    const NODE_ERROR_DETAILS = 'ErrorDetails';
     /**#@-*/
 
     /** @var string */
@@ -72,13 +73,13 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
     public function toXml($isDeveloperMode = false)
     {
         if ($isDeveloperMode) {
-            $this->addDetails(array(self::DETAIL_EXCEPTION_TRACE => "<![CDATA[{$this->getTraceAsString()}]]>"));
+            $this->addDetails(array(self::NODE_ERROR_DETAIL_TRACE => "<![CDATA[{$this->getTraceAsString()}]]>"));
         }
         if ($this->getParameters()) {
-            $this->addDetails(array(self::DETAIL_PARAMETERS => $this->getParameters()));
+            $this->addDetails(array(self::NODE_ERROR_DETAIL_PARAMETERS => $this->getParameters()));
         }
         if ($this->getErrorCode()) {
-            $this->addDetails(array(self::DETAIL_ERROR_CODE => $this->getErrorCode()));
+            $this->addDetails(array(self::NODE_ERROR_DETAIL_CODE => $this->getErrorCode()));
         }
 
         // TODO: Implement Current language definition
@@ -151,7 +152,10 @@ class Mage_Webapi_Model_Soap_Fault extends RuntimeException
     {
         if (is_array($details) && !empty($details)) {
             $detailsXml = $this->_convertDetailsToXml($details);
-            $detailsXml = $detailsXml ? "<env:Detail>" . $detailsXml . "</env:Detail>" : '';
+            $errorDetailsNode = self::NODE_ERROR_DETAILS;
+            $detailsXml = $detailsXml
+                ? "<env:Detail><m:{$errorDetailsNode}>" . $detailsXml . "</m:{$errorDetailsNode}></env:Detail>"
+                : '';
         } else {
             $detailsXml = '';
         }
