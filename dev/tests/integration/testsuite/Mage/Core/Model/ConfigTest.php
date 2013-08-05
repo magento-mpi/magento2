@@ -20,7 +20,9 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        Mage::app()->getCacheInstance()->banUse('config');
+        /** @var Mage_Core_Model_Cache_StateInterface $cacheState */
+        $cacheState = Mage::getObjectManager()->get('Mage_Core_Model_Cache_StateInterface');
+        $cacheState->setEnabled('config', false);
     }
 
     public function testSetNode()

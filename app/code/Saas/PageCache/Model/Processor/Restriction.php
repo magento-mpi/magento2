@@ -31,7 +31,7 @@ class Saas_PageCache_Model_Processor_Restriction
             return false;
         }
 
-        if (!$this->_cache->canUse('full_page')) {
+        if (!$this->_cacheState->isEnabled('full_page')) {
             return false;
         }
 

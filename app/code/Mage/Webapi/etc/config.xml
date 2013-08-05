@@ -26,15 +26,6 @@
                 </setup>
             </webapi_setup>
         </resources>
-        <cache>
-            <types>
-                <config_webservice translate="label,description" module="Mage_Webapi">
-                    <label>Web Services Configuration</label>
-                    <description>REST and SOAP configurations, generated WSDL file.</description>
-                    <class>Mage_Webapi_Model_Cache_Type</class>
-                </config_webservice>
-            </types>
-        </cache>
         <webapi>
             <rest>
                 <request>

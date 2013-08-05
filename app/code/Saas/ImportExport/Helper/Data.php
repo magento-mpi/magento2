@@ -17,24 +17,24 @@ class Saas_ImportExport_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Cache object
      *
-     * @var Mage_Core_Model_CacheInterface
+     * @var Mage_Core_Model_Cache_TypeListInterface
      */
-    protected $_cache;
+    protected $_cacheTypeList;
 
     /**
      * @param Mage_Core_Helper_Context $context
      * @param Magento_File_Size $fileSize
-     * @param Mage_Core_Model_CacheInterface $cache
+     * @param Mage_Core_Model_Cache_TypeListInterface $cacheTypeList
      */
     public function __construct(
         Mage_Core_Helper_Context $context,
         Magento_File_Size $fileSize,
-        Mage_Core_Model_CacheInterface $cache
+        Mage_Core_Model_Cache_TypeListInterface $cacheTypeList
     ) {
         parent::__construct($context);
 
         $this->_fileSize = $fileSize;
-        $this->_cache = $cache;
+        $this->_cacheTypeList = $cacheTypeList;
     }
 
     /**
@@ -68,7 +68,7 @@ class Saas_ImportExport_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function cleanPageCache()
     {
-        $this->_cache->invalidateType(Enterprise_PageCache_Model_Cache_Type::TYPE_IDENTIFIER);
-        $this->_cache->invalidateType(Mage_Core_Model_Cache_Type_Block::TYPE_IDENTIFIER);
+        $this->_cacheTypeList->invalidate(Enterprise_PageCache_Model_Cache_Type::TYPE_IDENTIFIER);
+        $this->_cacheTypeList->invalidate(Mage_Core_Model_Cache_Type_Block::TYPE_IDENTIFIER);
     }
 }

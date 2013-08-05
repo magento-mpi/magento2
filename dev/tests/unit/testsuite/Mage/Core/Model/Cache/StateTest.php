@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Cache_TypesTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Cache_StateTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Cache_Types
+     * @var Mage_Core_Model_Cache_StateInterface
      */
     protected $_model;
 
@@ -88,7 +88,7 @@ class Mage_Core_Model_Cache_TypesTest extends PHPUnit_Framework_TestCase
      * @param array|false $resourceTypeOptions
      * @param bool $appInstalled
      * @param bool $banAll
-     * @return Mage_Core_Model_Cache_Types
+     * @return Mage_Core_Model_Cache_StateInterface
      */
     protected function _buildModel(
         $cacheTypeOptions,
@@ -99,7 +99,7 @@ class Mage_Core_Model_Cache_TypesTest extends PHPUnit_Framework_TestCase
         $this->_cacheFrontend = $this->getMock('Magento_Cache_FrontendInterface');
         $this->_cacheFrontend->expects($this->any())
             ->method('load')
-            ->with(Mage_Core_Model_Cache_Types::CACHE_ID)
+            ->with(Mage_Core_Model_Cache_State::CACHE_ID)
             ->will($this->returnValue(
             $cacheTypeOptions === false ? false : serialize($cacheTypeOptions)
         ));
@@ -119,7 +119,7 @@ class Mage_Core_Model_Cache_TypesTest extends PHPUnit_Framework_TestCase
             ->method('isInstalled')
             ->will($this->returnValue($appInstalled));
 
-        $this->_model = new Mage_Core_Model_Cache_Types($this->_resource, $cacheFrontendPool, $appState, $banAll);
+        $this->_model = new Mage_Core_Model_Cache_State($this->_resource, $cacheFrontendPool, $appState, $banAll);
 
         return $this->_model;
     }
@@ -157,7 +157,7 @@ class Mage_Core_Model_Cache_TypesTest extends PHPUnit_Framework_TestCase
             ->with($cacheTypes);
         $this->_cacheFrontend->expects($this->once())
             ->method('remove')
-            ->with(Mage_Core_Model_Cache_Types::CACHE_ID);
+            ->with(Mage_Core_Model_Cache_State::CACHE_ID);
 
         $model->persist();
     }

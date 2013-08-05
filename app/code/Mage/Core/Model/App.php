@@ -463,18 +463,6 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     }
 
     /**
-     * Check whether to use cache for specific component
-     *
-     * @param null|string $type
-     * @return boolean
-     * @deprecated deprecated after 2.0.0.0-dev42 in favour of Mage_Core_Model_Cache_Types::isEnabled()
-     */
-    public function useCache($type = null)
-    {
-        return $this->_cache->canUse($type);
-    }
-
-    /**
      * Deletes all session files
      *
      * @return Mage_Core_Model_App

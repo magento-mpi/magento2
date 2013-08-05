@@ -12,6 +12,8 @@
     <preference for="Mage_Core_Model_AppInterface" type="Mage_Core_Model_App_Proxy" />
     <preference for="Mage_Core_Model_Config_InvalidatorInterface" type="Mage_Core_Model_Config_Invalidator_Proxy" />
     <preference for="Mage_Core_Model_CacheInterface" type="Mage_Core_Model_Cache_Proxy" />
+    <preference for="Mage_Core_Model_Cache_StateInterface" type="Mage_Core_Model_Cache_State" />
+    <preference for="Mage_Core_Model_Cache_TypeListInterface" type="Mage_Core_Model_Cache_TypeList" />
     <preference for="Mage_Core_Model_Store_ConfigInterface" type="Mage_Core_Model_Store_Config" />
     <preference for="Mage_Core_Model_StoreManagerInterface" type="Mage_Core_Model_StoreManager" />
     <preference for="Mage_Core_Model_View_DesignInterface" type="Mage_Core_Model_View_Design" />
@@ -47,7 +49,7 @@
             <value type="argument">Mage::PARAM_CACHE_OPTIONS</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Cache_Types">
+    <type name="Mage_Core_Model_Cache_State">
         <param name="banAll">
             <value type="argument">Mage::PARAM_BAN_CACHE</value>
         </param>
@@ -58,14 +60,6 @@
         </param>
         <param name="scopeType">
             <value type="argument">Mage::PARAM_RUN_TYPE</value>
-        </param>
-    </type>
-    <type name="Mage_Core_Model_Cache">
-        <param name="cacheTypes">
-            <instance type="Mage_Core_Model_Cache_Types_Proxy" />
-        </param>
-        <param name="config">
-            <instance type="Mage_Core_Model_Config_Proxy" />
         </param>
     </type>
     <type name="Mage_Core_Model_Config">
@@ -203,6 +197,16 @@
     <type name="Mage_Core_Model_ObjectManager_ConfigCache">
         <param name="cacheFrontend">
             <instance type="Mage_Core_Model_Cache_Type_Config"/>
+        </param>
+    </type>
+    <type name="Mage_Core_Model_Cache_Config_Reader">
+        <param name="fileName">
+            <value>cache.xml</value>
+        </param>
+    </type>
+    <type name="Mage_Core_Model_Cache_Config_Data">
+        <param name="cacheId">
+            <value>config_cache</value>
         </param>
     </type>
 </config>

@@ -62,14 +62,16 @@ class Mage_Adminhtml_CacheControllerTest extends Mage_Backend_Utility_Controller
         $this->getRequest()->setParams(array('types' => $typesToEnable));
         $this->dispatch('backend/admin/cache/massEnable');
 
-        $types = array_keys(Mage::getModel('Mage_Core_Model_Cache')->getTypes());
-        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
-        $cacheTypes = Mage::getModel('Mage_Core_Model_Cache_Types');
+        /** @var  Mage_Core_Model_Cache_TypeListInterface$cacheTypeList */
+        $cacheTypeList = Mage::getModel('Mage_Core_Model_Cache_TypeListInterface');
+        $types = array_keys($cacheTypeList->getTypes());
+        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getModel('Mage_Core_Model_Cache_StateInterface');
         foreach ($types as $type) {
             if (in_array($type, $typesToEnable)) {
-                $this->assertTrue($cacheTypes->isEnabled($type), "Type '$type' has not been enabled");
+                $this->assertTrue($cacheState->isEnabled($type), "Type '$type' has not been enabled");
             } else {
-                $this->assertFalse($cacheTypes->isEnabled($type), "Type '$type' must remain disabled");
+                $this->assertFalse($cacheState->isEnabled($type), "Type '$type' must remain disabled");
             }
         }
     }
@@ -84,14 +86,16 @@ class Mage_Adminhtml_CacheControllerTest extends Mage_Backend_Utility_Controller
         $this->getRequest()->setParams(array('types' => $typesToDisable));
         $this->dispatch('backend/admin/cache/massDisable');
 
-        $types = array_keys(Mage::getModel('Mage_Core_Model_Cache')->getTypes());
-        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
-        $cacheTypes = Mage::getModel('Mage_Core_Model_Cache_Types');
+        /** @var  Mage_Core_Model_Cache_TypeListInterface$cacheTypeList */
+        $cacheTypeList = Mage::getModel('Mage_Core_Model_Cache_TypeListInterface');
+        $types = array_keys($cacheTypeList->getTypes());
+        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getModel('Mage_Core_Model_Cache_StateInterface');
         foreach ($types as $type) {
             if (in_array($type, $typesToDisable)) {
-                $this->assertFalse($cacheTypes->isEnabled($type), "Type '$type' has not been disabled");
+                $this->assertFalse($cacheState->isEnabled($type), "Type '$type' has not been disabled");
             } else {
-                $this->assertTrue($cacheTypes->isEnabled($type), "Type '$type' must remain enabled");
+                $this->assertTrue($cacheState->isEnabled($type), "Type '$type' must remain enabled");
             }
         }
     }
@@ -106,9 +110,9 @@ class Mage_Adminhtml_CacheControllerTest extends Mage_Backend_Utility_Controller
         $this->getRequest()->setParams(array('types' => $typesToRefresh));
         $this->dispatch('backend/admin/cache/massRefresh');
 
-        /** @var $cache Mage_Core_Model_Cache */
-        $cache = Mage::getModel('Mage_Core_Model_Cache');
-        $invalidatedTypes = array_keys($cache->getInvalidatedTypes());
+        /** @var $cacheTypeList Mage_Core_Model_Cache_TypeListInterface */
+        $cacheTypeList = Mage::getModel('Mage_Core_Model_Cache_TypeListInterface');
+        $invalidatedTypes = array_keys($cacheTypeList->getInvalidated());
         $failed = array_intersect($typesToRefresh, $invalidatedTypes);
         $this->assertEmpty($failed, 'Could not refresh following cache types: ' . join(', ', $failed));
 

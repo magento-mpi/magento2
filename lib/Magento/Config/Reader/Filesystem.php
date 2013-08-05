@@ -90,7 +90,7 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
         $this->_fileName = $fileName;
         $this->_idAttributes = array_replace($this->_idAttributes, $idAttributes);
         $this->_schemaFile = $schema;
-        $this->_perFileSchema = $perFileSchema && $isValidated ? $perFileSchema : null;;
+        $this->_perFileSchema = $perFileSchema && $isValidated ? $perFileSchema : null;
         $this->_isValidated = $isValidated;
         $this->_domDocumentClass = $domDocumentClass;
     }
@@ -133,6 +133,11 @@ class Magento_Config_Reader_Filesystem implements Magento_Config_ReaderInterface
                 throw new Magento_Exception($message . implode("\n", $errors));
             }
         }
-        return $this->_converter->convert($domDocument->getDom());
+
+        $output = array();
+        if ($domDocument) {
+            $output = $this->_converter->convert($domDocument->getDom());
+        }
+        return $output;
     }
 }

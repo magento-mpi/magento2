@@ -43,9 +43,30 @@
             </value>
         </param>
     </type>
+    <type name="Enterprise_PageCache_Model_Http_Handler">
+        <param name="requestProcessors">
+            <value>
+                <ee>
+                    <class>Enterprise_PageCache_Model_Processor</class>
+                    <sortOrder>50</sortOrder>
+                </ee>
+            </value>
+        </param>
+    </type>
     <type name="Enterprise_Queue_Model_Queue">
         <param name="taskNamePrefix">
             <value type="argument">Enterprise_Queue_Model_Queue::PARAM_TASK_NAME_PREFIX</value>
+        </param>
+    </type>
+    <type name="Mage_Core_Model_Cache_Frontend_Pool">
+        <param name="advancedSettings">
+            <value>
+                <full_page>
+                    <backend_options>
+                        <cache_dir>full_page_cache</cache_dir>
+                    </backend_options>
+                </full_page>
+            </value>
         </param>
     </type>
 </config>

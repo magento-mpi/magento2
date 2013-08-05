@@ -1,17 +1,13 @@
 <?php
 /**
+ * An ultimate accessor to cache types' statuses
+ *
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * An ultimate accessor to cache types' statuses
- */
-class Mage_Core_Model_Cache_Types
+class Mage_Core_Model_Cache_State implements Mage_Core_Model_Cache_StateInterface
 {
     /**
      * Cache identifier used to store cache type statuses

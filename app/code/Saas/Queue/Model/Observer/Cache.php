@@ -14,16 +14,16 @@
 class Saas_Queue_Model_Observer_Cache extends Saas_Queue_Model_ObserverAbstract
 {
     /**
-     * @var Mage_Core_Model_CacheInterface $_cache
+     * @var Mage_Core_Model_Cache_TypeListInterface
      */
-    protected $_cache;
+    protected $_cacheTypeList;
 
     /**
-     * @param Mage_Core_Model_CacheInterface $cache
+     * @param Mage_Core_Model_Cache_TypeListInterface $cacheTypeList
      */
-    public function __construct(Mage_Core_Model_CacheInterface $cache)
+    public function __construct(Mage_Core_Model_Cache_TypeListInterface $cacheTypeList)
     {
-        $this->_cache = $cache;
+        $this->_cacheTypeList = $cacheTypeList;
     }
 
     /**
@@ -40,14 +40,14 @@ class Saas_Queue_Model_Observer_Cache extends Saas_Queue_Model_ObserverAbstract
      * Task to refresh cache with defined type
      *
      * @param  Magento_Event_Observer $observer
-     * @return Saas_Queue_Model_Worker_Cache
+     * @return Saas_Queue_Model_Observer_Cache
      */
     public function processRefreshCache(Magento_Event_Observer $observer)
     {
         $cacheTypes = $observer->getEvent()->getCacheTypes();
         if ($cacheTypes) {
             foreach ($cacheTypes as $type) {
-                $this->_cache->cleanType($type);
+                $this->_cacheTypeList->cleanType($type);
             }
         } else {
             $this->processRefreshAllCache();
@@ -58,14 +58,13 @@ class Saas_Queue_Model_Observer_Cache extends Saas_Queue_Model_ObserverAbstract
     /**
      * Refresh all cache
      *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     *
-     * @return Saas_Queue_Model_Worker_Cache
+     * @return Saas_Queue_Model_Observer_Cache
      */
     public function processRefreshAllCache()
     {
-        foreach ($this->_cache->getTypes() as $type => $typeDescription) {
-            $this->_cache->cleanType($type);
+        $types = array_keys($this->_cacheTypeList->getTypes());
+        foreach ($types as $type) {
+            $this->_cacheTypeList->cleanType($type);
         }
         return $this;
     }

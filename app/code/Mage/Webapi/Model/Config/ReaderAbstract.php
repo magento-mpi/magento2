@@ -50,21 +50,29 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     protected $_data = array();
 
     /**
+     * @var Mage_Core_Model_Cache_StateInterface
+     */
+    protected $_cacheState;
+
+    /**
      * @param Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector
      * @param Mage_Core_Model_Config $appConfig
      * @param Mage_Core_Model_CacheInterface $cache
      * @param Mage_Core_Model_ModuleListInterface $moduleList
+     * @param Mage_Core_Model_Cache_StateInterface $cacheState
      */
     public function __construct(
         Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector,
         Mage_Core_Model_Config $appConfig,
         Mage_Core_Model_CacheInterface $cache,
-        Mage_Core_Model_ModuleListInterface $moduleList
+        Mage_Core_Model_ModuleListInterface $moduleList,
+        Mage_Core_Model_Cache_StateInterface $cacheState
     ) {
         $this->_classReflector = $classReflector;
         $this->_applicationConfig = $appConfig;
         $this->_cache = $cache;
         $this->_moduleList = $moduleList;
+        $this->_cacheState = $cacheState;
     }
 
     /**
@@ -165,7 +173,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     protected function _loadDataFromCache()
     {
         $isLoaded = false;
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cacheState->isEnabled(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $cachedData = $this->_cache->load($this->getCacheId());
             if ($cachedData !== false) {
                 $this->_data = unserialize($cachedData);
@@ -180,7 +188,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
      */
     protected function _saveDataToCache()
     {
-        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cacheState->isEnabled(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $this->_cache->save(
                 serialize($this->_data),
                 $this->getCacheId(),

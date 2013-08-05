@@ -18,15 +18,6 @@
                 </setup>
             </enterprise_pagecache_setup>
         </resources>
-        <cache>
-            <types>
-                <full_page translate="label,description" module="Enterprise_PageCache">
-                    <label>Page Cache</label>
-                    <description>Full page caching.</description>
-                    <class>Enterprise_PageCache_Model_Cache_Type</class>
-                </full_page>
-            </types>
-        </cache>
         <ignore_user_agents>
             <cache_crawler>MagentoCrawler</cache_crawler>
         </ignore_user_agents>

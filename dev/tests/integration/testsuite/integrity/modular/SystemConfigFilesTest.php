@@ -16,9 +16,9 @@ class Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Framework_TestCase
         $objectManager = Mage::getObjectManager();
 
         // disable config caching to not pollute it
-        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
-        $cacheTypes = $objectManager->get('Mage_Core_Model_Cache_Types');
-        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, false);
+        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+        $cacheState = $objectManager->get('Mage_Core_Model_Cache_StateInterface');
+        $cacheState->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, false);
 
         /** @var $dirs Mage_Core_Model_Dir */
         $dirs = $objectManager->get('Mage_Core_Model_Dir');

@@ -65,9 +65,9 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_urlModelFactory;
 
     /**
-     * @var Mage_Core_Model_Cache|PHPUnit_Framework_MockObject_MockObject
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_cacheManager;
+    protected $_cacheStateMock;
 
     /**
      * @var Mage_DesignEditor_Helper_Data|PHPUnit_Framework_MockObject_MockObject
@@ -110,7 +110,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_urlModelFactory = $this->getMock('Mage_DesignEditor_Model_Url_Factory', array('replaceClassName'),
             array(), '', false
         );
-        $this->_cacheTypes = $this->getMockBuilder('Mage_Core_Model_Cache_Types')
+        $this->_cacheStateMock = $this->getMockBuilder('Mage_Core_Model_Cache_StateInterface')
             ->disableOriginalConstructor()->getMock();
 
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
@@ -158,7 +158,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             $this->_backendSession,
             $this->_layoutFactory,
             $this->_urlModelFactory,
-            $this->_cacheTypes,
+            $this->_cacheStateMock,
             $this->_dataHelper,
             $this->_objectManager,
             $this->_application,
@@ -171,7 +171,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($this->_backendSession, '_backendSession', $this->_model);
         $this->assertAttributeEquals($this->_layoutFactory, '_layoutFactory', $this->_model);
         $this->assertAttributeEquals($this->_urlModelFactory, '_urlModelFactory', $this->_model);
-        $this->assertAttributeEquals($this->_cacheTypes, '_cacheTypes', $this->_model);
+        $this->assertAttributeEquals($this->_cacheStateMock, '_cacheState', $this->_model);
         $this->assertAttributeEquals($this->_dataHelper, '_dataHelper', $this->_model);
         $this->assertAttributeEquals($this->_objectManager, '_objectManager', $this->_model);
     }
@@ -182,20 +182,20 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->method('getDisabledCacheTypes')
             ->will($this->returnValue($this->_cacheTypeList));
 
-        $this->_cacheTypes->expects($this->at(0))
+        $this->_cacheStateMock->expects($this->at(0))
             ->method('isEnabled')
             ->with('type1')
             ->will($this->returnValue(true));
-        $this->_cacheTypes->expects($this->at(1))
+        $this->_cacheStateMock->expects($this->at(1))
             ->method('setEnabled')
             ->with('type1', false)
             ->will($this->returnSelf());
 
-        $this->_cacheTypes->expects($this->at(2))
+        $this->_cacheStateMock->expects($this->at(2))
             ->method('isEnabled')
             ->with('type2')
             ->will($this->returnValue(true));
-        $this->_cacheTypes->expects($this->at(3))
+        $this->_cacheStateMock->expects($this->at(3))
             ->method('setEnabled')
             ->with('type2', false)
             ->will($this->returnSelf());

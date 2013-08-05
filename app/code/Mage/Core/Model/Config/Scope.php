@@ -17,7 +17,7 @@ class Mage_Core_Model_Config_Scope implements Magento_Config_ScopeInterface
     /**
      * @param string $defaultScope
      */
-    public function __construct($defaultScope = 'primary')
+    public function __construct($defaultScope = 'global')
     {
         $this->_currentScope = $defaultScope;
     }

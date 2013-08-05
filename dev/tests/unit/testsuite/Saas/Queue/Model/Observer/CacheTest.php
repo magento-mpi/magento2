@@ -8,19 +8,19 @@
 class Saas_Queue_Model_Observer_CacheTest extends PHPUnit_Framework_TestCase
 {
     /*
-     * @var PHPUnit_Framework_MockObject_MockObject $_cache
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_cache;
+    protected $_cacheTypeListMock;
 
     /**
-     * @var Saas_Queue_Model_Observer_Cache $_jobCache
+     * @var Saas_Queue_Model_Observer_Cache
      */
     protected $_jobCache;
 
     public function setUp()
     {
-        $this->_cache = $this->getMockBuilder('Mage_Core_Model_Cache')->disableOriginalConstructor()->getMock();
-        $this->_jobCache = new Saas_Queue_Model_Observer_Cache($this->_cache);
+        $this->_cacheTypeListMock = $this->getMock('Mage_Core_Model_Cache_TypeListInterface');
+        $this->_jobCache = new Saas_Queue_Model_Observer_Cache($this->_cacheTypeListMock);
     }
 
     public function testUseInEmailNotification()
@@ -38,7 +38,7 @@ class Saas_Queue_Model_Observer_CacheTest extends PHPUnit_Framework_TestCase
         $observer = new Magento_Event_Observer();
         $observer->setEvent($event);
 
-        $this->_cache->expects($this->exactly(count($types)))->method('cleanType');
+        $this->_cacheTypeListMock->expects($this->exactly(count($types)))->method('cleanType');
         $this->_jobCache->processRefreshCache($observer);
     }
 
@@ -52,12 +52,12 @@ class Saas_Queue_Model_Observer_CacheTest extends PHPUnit_Framework_TestCase
         $observer = new Magento_Event_Observer();
         $observer->setEvent($event);
 
-        $this->_cache
+        $this->_cacheTypeListMock
             ->expects($this->once())
             ->method('getTypes')
             ->will($this->returnValue($types));
 
-        $this->_cache->expects($this->exactly(count($types)))->method('cleanType');
+        $this->_cacheTypeListMock->expects($this->exactly(count($types)))->method('cleanType');
         $this->_jobCache->processRefreshCache($observer);
     }
 
@@ -67,11 +67,11 @@ class Saas_Queue_Model_Observer_CacheTest extends PHPUnit_Framework_TestCase
      */
     public function testRefreshAllCache($types)
     {
-        $this->_cache
+        $this->_cacheTypeListMock
             ->expects($this->once())
             ->method('getTypes')
             ->will($this->returnValue($types));
-        $this->_cache->expects($this->exactly(count($types)))->method('cleanType');
+        $this->_cacheTypeListMock->expects($this->exactly(count($types)))->method('cleanType');
         $this->_jobCache->processRefreshAllCache();
     }
 

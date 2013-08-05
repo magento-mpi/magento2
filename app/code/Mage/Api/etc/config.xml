@@ -16,15 +16,6 @@
                 <api />
             </entities>
         </ignoredModules>
-        <cache>
-            <types>
-                <config_api translate="label,description" module="Mage_Api">
-                    <label>Legacy API Configuration</label>
-                    <description>Web Services definition files (api.xml).</description>
-                    <class>Mage_Api_Model_Cache_Type</class>
-                </config_api>
-            </types>
-        </cache>
         <resources>
             <api_setup>
                 <setup>

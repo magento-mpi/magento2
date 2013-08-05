@@ -17,7 +17,9 @@ class Saas_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_T
 
     public static function setUpBeforeClass()
     {
-        Mage::app()->getCacheInstance()->allowUse('full_page');
+        /** @var $cacheState Mage_Core_Model_Cache_StateInterface */
+        $cacheState = Mage::getModel('Mage_Core_Model_Cache_StateInterface');
+        $cacheState->setEnabled('full_page', true);
     }
 
     protected function setUp()

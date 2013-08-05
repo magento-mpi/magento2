@@ -19,7 +19,7 @@ class Saas_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_T
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_cacheMock;
+    protected $_cacheStateMock;
 
     /**
      * Test request id
@@ -39,9 +39,9 @@ class Saas_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_T
         $this->_environmentMock = $this->getMock(
             'Enterprise_PageCache_Model_Environment', array(), array(), '', false
         );
-        $this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
+        $this->_cacheStateMock = $this->getMock('Mage_Core_Model_Cache_StateInterface');
         $this->_model = new Saas_PageCache_Model_Processor_Restriction(
-            $this->_cacheMock, $this->_environmentMock
+            $this->_cacheStateMock, $this->_environmentMock
         );
     }
 
@@ -49,7 +49,7 @@ class Saas_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_T
     {
         $this->_environmentMock->expects($this->never())->method('getServer');
         $this->_environmentMock->expects($this->never())->method('hasQuery');
-        $this->_cacheMock->expects($this->never())->method('canUse');
+        $this->_cacheStateMock->expects($this->never())->method('isEnabled');
 
         $this->assertFalse($this->_model->isAllowed(''));
     }
@@ -58,7 +58,7 @@ class Saas_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_T
     {
         $this->_environmentMock->expects($this->never())->method('getServer');
         $this->_environmentMock->expects($this->never())->method('hasCookie');
-        $this->_cacheMock->expects($this->never())->method('canUse');
+        $this->_cacheStateMock->expects($this->never())->method('isEnabled');
 
         $this->_model->setIsDenied();
         $this->assertFalse($this->_model->isAllowed($this->_requestId));
@@ -67,7 +67,7 @@ class Saas_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_T
     public function testIsAllowedWithHTTPS()
     {
         $this->_environmentMock->expects($this->never())->method('hasQuery');
-        $this->_cacheMock->expects($this->never())->method('canUse');
+        $this->_cacheStateMock->expects($this->never())->method('isEnabled');
 
         $this->_environmentMock->expects($this->once())
             ->method('getServer')->with('HTTPS')->will($this->returnValue('on'));
@@ -77,7 +77,7 @@ class Saas_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_T
 
     public function testIsAllowedWithSIDInGetParam()
     {
-        $this->_cacheMock->expects($this->never())->method('canUse');
+        $this->_cacheStateMock->expects($this->never())->method('isEnabled');
 
         $this->_environmentMock->expects($this->once())
             ->method('getServer')->with('HTTPS')->will($this->returnValue('off'));
@@ -99,7 +99,7 @@ class Saas_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_T
             ->method('hasQuery')
             ->will($this->returnValue(false));
 
-        $this->_cacheMock->expects($this->once())->method('canUse')->with('full_page')->will($this->returnValue(false));
+        $this->_cacheStateMock->expects($this->once())->method('isEnabled')->with('full_page')->will($this->returnValue(false));
 
         $this->assertFalse($this->_model->isAllowed($this->_requestId));
     }
@@ -113,7 +113,7 @@ class Saas_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_T
             ->method('hasQuery')
             ->will($this->returnValue(false));
 
-        $this->_cacheMock->expects($this->once())->method('canUse')->with('full_page')->will($this->returnValue(true));
+        $this->_cacheStateMock->expects($this->once())->method('isEnabled')->with('full_page')->will($this->returnValue(true));
 
         $this->assertTrue($this->_model->isAllowed($this->_requestId));
     }

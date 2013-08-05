@@ -19,15 +19,6 @@
                 </setup>
             </eav_setup>
         </resources>
-        <cache>
-            <types>
-                <eav translate="label,description" module="Mage_Eav">
-                    <label>EAV types and attributes</label>
-                    <description>Entity types declaration cache.</description>
-                    <class>Mage_Eav_Model_Cache_Type</class>
-                </eav>
-            </types>
-        </cache>
         <eav_frontendclasses />
         <eav_attributes />
     </global>

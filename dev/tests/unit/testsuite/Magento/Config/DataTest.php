@@ -59,6 +59,7 @@ class Magento_Config_DataTest extends PHPUnit_Framework_TestCase
                 ),
             )
         );
+        $this->_cacheMock->expects($this->any())->method('get')->will($this->returnValue(array()));
         $this->_model->merge($testData);
         $this->assertEquals($expectedValue, $this->_model->get($path, $default));
     }

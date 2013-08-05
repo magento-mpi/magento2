@@ -17,9 +17,8 @@ class Mage_Core_Model_Config_ValidationState implements Magento_Config_Validatio
     /**
      * @param Mage_Core_Model_App_State $appState
      */
-    public function __construct(
-        Mage_Core_Model_App_State $appState
-    ) {
+    public function __construct(Mage_Core_Model_App_State $appState)
+    {
         $this->_appState = $appState;
     }
 
