@@ -12,7 +12,7 @@ class Magento_Translate implements Magento_Translate_TranslateInterface
     /**
      * {@inheritdoc}
      */
-    public function translate()
+    public function translate($args)
     {
 
     }
