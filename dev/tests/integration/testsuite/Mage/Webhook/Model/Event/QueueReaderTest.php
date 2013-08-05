@@ -1,0 +1,24 @@
+<?php
+/**
+ * Mage_Webhook_Model_Event_QueueReader
+ *
+ * @magentoDbIsolation enabled
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+class Mage_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_TestCase
+{
+    public function testPoll()
+    {
+        $event = Mage::getModel('Mage_Webhook_Model_Event')
+            ->setDataChanges(true)
+            ->save();
+        /** @var Mage_Webhook_Model_Event_QueueReader $queue */
+        $queue = Mage::getObjectManager()->create('Mage_Webhook_Model_Event_QueueReader');
+        $this->assertEquals($event->getId(), $queue->poll()->getId());
+        $event->delete();
+    }
+}
