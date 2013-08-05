@@ -130,7 +130,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             case 'php':
                 //Removing php comments
                 $contents = preg_replace('~/\*.*?\*/~s', '', $contents);
-                $contents = preg_replace('~^\s*//.*$~sm', '', $contents);
+                $contents = preg_replace('~^\s*//.*$~m', '', $contents);
                 break;
             case 'layout':
             case 'config':
