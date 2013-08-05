@@ -64,18 +64,18 @@ class Magento_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framewo
         // Check thumbnail attribute
         $this->assertEmpty($products[1]->getThumbnail(), 'Thumbnail attribute was loaded');
         $this->assertEmpty($products[4]->getImage(), 'Image attribute was loaded');
-        $this->assertEquals('/m/a/magento_imagento_sitemap.png', $products[4]->getThumbnail(), 'Incorrect thumbnail');
+        $this->assertEquals('/m/a/magento_image_sitemap.png', $products[4]->getThumbnail(), 'Incorrect thumbnail');
 
         // Check images loading
         $this->assertEmpty($products[1]->getImages(), 'Images were loaded');
         $this->assertNotEmpty($products[4]->getImages(), 'Images were not loaded');
         $this->assertEquals('Simple Images', $products[4]->getImages()->getTitle(), 'Incorrect title');
-        $this->assertEquals('catalog/product/m/a/magento_imagento_sitemap.png', $products[4]->getImages()->getThumbnail(),
+        $this->assertEquals('catalog/product/m/a/magento_image_sitemap.png', $products[4]->getImages()->getThumbnail(),
             'Incorrect thumbnail');
         $this->assertCount(2, $products[4]->getImages()->getCollection(), 'Not all images were loaded');
 
         $imagesCollection = $products[4]->getImages()->getCollection();
-        $this->assertEquals('catalog/product/m/a/magento_imagento_sitemap.png', $imagesCollection[0]->getUrl(),
+        $this->assertEquals('catalog/product/m/a/magento_image_sitemap.png', $imagesCollection[0]->getUrl(),
             'Incorrect image url');
         $this->assertEquals('catalog/product/s/e/second_image.png', $imagesCollection[1]->getUrl(),
             'Incorrect image url');

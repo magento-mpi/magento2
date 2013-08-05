@@ -17,7 +17,7 @@ $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 /** @var Magento_Filesystem $filesystem */
 $filesystem = Mage::getObjectManager()->create('Magento_Filesystem');
 $filesystem->setIsAllowCreateDirectories(true);
-$filesystem->copy(dirname(__FILE__) . '/magento_imagento_sitemap.png', $baseTmpMediaPath . '/magento_imagento_sitemap.png');
+$filesystem->copy(dirname(__FILE__) . '/magento_image_sitemap.png', $baseTmpMediaPath . '/magento_image_sitemap.png');
 $filesystem->copy(dirname(__FILE__) . '/second_image.png', $baseTmpMediaPath . '/second_image.png');
 
 $product = Mage::getModel('Magento_Catalog_Model_Product');
@@ -71,9 +71,9 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
     ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setImage('/s/e/second_image.png')
-    ->setSmallImage('/m/a/magento_imagento_sitemap.png')
-    ->setThumbnail('/m/a/magento_imagento_sitemap.png')
-    ->addImageToMediaGallery($baseTmpMediaPath . '/magento_imagento_sitemap.png', null, false, false)
+    ->setSmallImage('/m/a/magento_image_sitemap.png')
+    ->setThumbnail('/m/a/magento_image_sitemap.png')
+    ->addImageToMediaGallery($baseTmpMediaPath . '/magento_image_sitemap.png', null, false, false)
     ->addImageToMediaGallery($baseTmpMediaPath . '/second_image.png', null, false, false)
     ->setWebsiteIds(array(1))
     ->setStockData(array('qty' => 100, 'is_in_stock' => 1))
@@ -90,7 +90,7 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
     ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setImage('no_selection')
-    ->setSmallImage('/m/a/magento_imagento_sitemap.png')
+    ->setSmallImage('/m/a/magento_image_sitemap.png')
     ->setThumbnail('no_selection')
     ->addImageToMediaGallery($baseTmpMediaPath . '/second_image.png', null, false, false)
     ->setWebsiteIds(array(1))
