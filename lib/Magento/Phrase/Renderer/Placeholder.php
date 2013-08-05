@@ -9,7 +9,6 @@
  */
 class Magento_Phrase_Renderer_Placeholder implements Magento_Phrase_RendererInterface
 {
-
     /**
      * Render result text
      *
@@ -20,7 +19,7 @@ class Magento_Phrase_Renderer_Placeholder implements Magento_Phrase_RendererInte
     public function render($text, array $arguments = array())
     {
         $result = $text;
-        if ((strpos($text, '%s') !== false || strpos($text, '$s') !== false) !== false && count($arguments) != 0) {
+        if ((strpos($text, '%s') !== false || strpos($text, '$s') !== false) && count($arguments) != 0) {
             $result = call_user_func_array('sprintf', array_merge(array($text), $arguments));
         }
 

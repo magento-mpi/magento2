@@ -83,10 +83,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
             ->method('getWebsites')
             ->will($this->returnCallback(array($this, 'getWebsites')));
 
-        $translator = $this->getMock('stdClass', array('__'));
-        $translator->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
+        $translator = $this->getMock('stdClass');
 
         /** @var $attributeCollection Varien_Data_Collection|PHPUnit_Framework_TestCase */
         $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));

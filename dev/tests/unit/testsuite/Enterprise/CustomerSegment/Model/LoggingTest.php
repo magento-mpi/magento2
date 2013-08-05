@@ -28,10 +28,6 @@ class Enterprise_CustomerSegment_Model_LoggingTest extends PHPUnit_Framework_Tes
             ->with($customerSegmentId)
             ->will($this->returnValue($qty));
         $helperMock = $this->getMock('Enterprise_CustomerSegment_Helper_Data', array(), array(), '', false);
-        $helperMock->expects($this->any())
-            ->method('__')
-            ->with('Matched %d Customers of Segment %s', $qty, $customerSegmentId)
-            ->will($this->returnValue($expectedText));
 
         $model = new Enterprise_CustomerSegment_Model_Logging($resourceMock, $requestMock, $helperMock);
         $config = new Varien_Simplexml_Element('<config/>');
