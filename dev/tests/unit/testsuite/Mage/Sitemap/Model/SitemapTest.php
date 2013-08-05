@@ -102,7 +102,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      * Check not exists sitemap path validation
      *
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Please create the specified folder "/" before saving the sitemap.
+     * @expectedExceptionMessage Please create the specified folder "" before saving the sitemap.
      */
     public function testPathNotExists()
     {

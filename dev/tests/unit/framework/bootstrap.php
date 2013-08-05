@@ -26,6 +26,6 @@ if (is_dir(TESTS_TEMP_DIR)) {
 }
 mkdir(TESTS_TEMP_DIR);
 
-Magento_Phrase::setDefaultRenderer(new Magento_Phrase_Renderer_Placeholder());
+Magento_Phrase::setRenderer(new Magento_Phrase_Renderer_Placeholder());
 
 Mage::setIsSerializable(false);
