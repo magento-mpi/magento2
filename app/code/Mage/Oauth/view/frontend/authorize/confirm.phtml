@@ -21,6 +21,6 @@
     <?php echo $this->getLayout()->renderElement('messages') ?>
     <?php if ($this->getVerifier()): ?>
         <p><?php echo $this->__('Give the verifier code to application administrator') ?></p>
-        <p style="font-size: 14px;"><?php echo $this->__('Verifier code: %s', $this->getVerifier()) ?></p>
+        <p style="font-size: 14px;"><?php echo $this->__('Verifier code: %1', $this->getVerifier()) ?></p>
     <?php endif; ?>
 </div>

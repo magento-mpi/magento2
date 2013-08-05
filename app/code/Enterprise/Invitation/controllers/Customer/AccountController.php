@@ -149,7 +149,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
                     return;
                 } else {
                     $this->_getSession()->addError(
-                        Mage::helper('Enterprise_Invitation_Helper_Data')->__('Your invitation is not valid. Please contact us at %s.', Mage::getStoreConfig('trans_email/ident_support/email'))
+                        Mage::helper('Enterprise_Invitation_Helper_Data')->__('Your invitation is not valid. Please contact us at %1.', Mage::getStoreConfig('trans_email/ident_support/email'))
                     );
                     $this->_redirect('customer/account/login');
                     return;

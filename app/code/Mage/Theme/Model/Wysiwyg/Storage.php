@@ -306,7 +306,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $pathCmp = rtrim($path, Magento_Filesystem::DIRECTORY_SEPARATOR);
 
         if ($rootCmp == $pathCmp) {
-            throw new Mage_Core_Exception($this->_helper->__('We cannot delete root directory %s.', $path));
+            throw new Mage_Core_Exception($this->_helper->__('We cannot delete root directory %1.', $path));
         }
 
         return $this->_filesystem->delete($path);

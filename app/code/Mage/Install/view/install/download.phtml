@@ -73,13 +73,13 @@ function installFailure()
     <p><?php echo $this->__("If you are running PHP as CGI, your PHP processes may run under the same user as the user you used when uploading Magento files.") ?></p>
     <p><?php echo $this->__("In other cases you will need to make Magento files writeable for the user that the web server process is running under.") ?></p>
 
-        <h4><?php echo $this->__("Preferred stability: %s", $this->__("BETA")) ?></h4>
+        <h4><?php echo $this->__("Preferred stability: %1", $this->__("BETA")) ?></h4>
         <p><?php echo $this->__("This is the most stable state available for Magento packages.") ?><br/><?php echo $this->__("Choose this if you would like to test storefront and admin functionality.") ?></p>
-        <p><button class="form-button" type="button" onclick="startInstall('beta')"><span><?php echo $this->__('Proceed With Automatic Download (%s)', $this->__('Beta')) ?></span></button></p>
+        <p><button class="form-button" type="button" onclick="startInstall('beta')"><span><?php echo $this->__('Proceed With Automatic Download (%1)', $this->__('Beta')) ?></span></button></p>
 <br/>
-        <h4><?php echo $this->__("Preferred stability: %s", $this->__("ALPHA")) ?></h4>
+        <h4><?php echo $this->__("Preferred stability: %1", $this->__("ALPHA")) ?></h4>
         <p><?php echo $this->__("If you are a developer and would like to have the latest public updates, choose this option.") ?><br/><?php echo $this->__("Please note that it is much less stable than beta.") ?></p>
-        <p><button class="form-button" type="button" onclick="startInstall('alpha')"><span><?php echo $this->__('Proceed With Automatic Download (%s)', $this->__('Alpha')) ?></span></button></p>
+        <p><button class="form-button" type="button" onclick="startInstall('alpha')"><span><?php echo $this->__('Proceed With Automatic Download (%1)', $this->__('Alpha')) ?></span></button></p>
 <br/>
     <iframe id="install_iframe" src="<?php echo $this->getUrl('*/*/install') ?>" style="display:none" frameborder="no"></iframe>
 </fieldset>
@@ -90,7 +90,7 @@ function installFailure()
 
     <p><?php echo $this->__("If you are running the install wizard over a previously downloaded and installed Magento installation, proceed with this method.") ?></p>
     <p><?php echo $this->__("If you do not wish or are not able to have Magento folders writeable for the web process, you could use PEAR executable located in the root of Magento installation.") ?></p>
-    <p><?php echo $this->__("Please note that only UNIX, Linux and Mac OS X shells are currently supported. For Windows use the '%s' option.", $this->__('Package Management through the Web')) ?></p>
+    <p><?php echo $this->__("Please note that only UNIX, Linux and Mac OS X shells are currently supported. For Windows use the '%1' option.", $this->__('Package Management through the Web')) ?></p>
     <p><?php echo $this->__("Run this in your shell from Magento root folder:") ?></p>
     <pre>
 ./pear mage-setup

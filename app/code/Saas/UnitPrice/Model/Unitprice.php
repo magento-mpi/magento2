@@ -120,7 +120,7 @@ class Saas_UnitPrice_Model_Unitprice
 
         if (!$rate) {
             $this->_throwMageException(
-                $helper->__('Conversion rate not found for %s to %s', $helper->__($fromUnit), $helper->__($toUnit))
+                $helper->__('Conversion rate not found for %1 to %2', $helper->__($fromUnit), $helper->__($toUnit))
             );
         }
 

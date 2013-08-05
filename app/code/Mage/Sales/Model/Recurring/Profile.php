@@ -334,7 +334,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
 
         // state
         if (!in_array($this->getState(), $this->getAllStates(false), true)) {
-            $this->_errors['state'][] = Mage::helper('Mage_Sales_Helper_Data')->__('Wrong state: "%s"', $this->getState());
+            $this->_errors['state'][] = Mage::helper('Mage_Sales_Helper_Data')->__('Wrong state: "%1"', $this->getState());
         }
 
         return empty($this->_errors);
@@ -583,7 +583,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
         $result = (!empty($this->_workflow[$state])) && in_array($againstState, $this->_workflow[$state]);
         if (!$soft && !$result) {
             Mage::throwException(
-                Mage::helper('Mage_Sales_Helper_Data')->__('This profile state cannot be changed to "%s".', $againstState)
+                Mage::helper('Mage_Sales_Helper_Data')->__('This profile state cannot be changed to "%1".', $againstState)
             );
         }
         return $result;

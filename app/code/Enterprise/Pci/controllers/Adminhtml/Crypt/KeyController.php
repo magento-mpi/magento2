@@ -24,7 +24,7 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Contro
         $filename = Mage::getBaseDir('etc') . DS . 'local.xml';
         if (!is_writeable($filename)) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                Mage::helper('Enterprise_Pci_Helper_Data')->__('To enable a key change this file must be writable: %s.', realpath($filename))
+                Mage::helper('Enterprise_Pci_Helper_Data')->__('To enable a key change this file must be writable: %1.', realpath($filename))
             );
             return false;
         }
@@ -79,7 +79,7 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Contro
             );
 
             if (!$key) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(Mage::helper('Enterprise_Pci_Helper_Data')->__('This is your new encryption key: <span style="font-family:monospace;">%s</span>. Be sure to write it down and take good care of it!', $newKey));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(Mage::helper('Enterprise_Pci_Helper_Data')->__('This is your new encryption key: <span style="font-family:monospace;">%1</span>. Be sure to write it down and take good care of it!', $newKey));
             }
             Mage::app()->cleanCache();
         }

@@ -69,7 +69,7 @@
                          <p class="product-image">
                              <img src="<?php echo $this->getThumbnailUrl($_product) ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($_product->getName()) ?>" title="<?php echo $this->escapeHtml($_product->getName()) ?>" />
                          </p>
-                         <p class="number"><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></p>
+                         <p class="number"><?php echo $this->__('Item %1 of %2', $_index+1, $this->countItems()) ?></p>
                      </div>
                      <div class="details">
                          <div class="f-fix">
@@ -174,7 +174,7 @@
                  <li class="item">
                      <div class="product-img-box">
                          <p class="product-image"><img src="<?php echo $this->getThumbnailUrl($_product) ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($_product->getName()) ?>" title="<?php echo $this->escapeHtml($_product->getName()) ?>" /></p>
-                         <p class="number"><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></p>
+                         <p class="number"><?php echo $this->__('Item %1 of %2', $_index+1, $this->countItems()) ?></p>
                      </div>
                      <div class="details">
                          <div class="f-fix">

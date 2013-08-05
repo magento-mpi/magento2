@@ -171,7 +171,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
      */
     public function asHtml()
     {
-        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Address %s', parent::asHtml());
+        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Address %1', parent::asHtml());
     }
 
     /**

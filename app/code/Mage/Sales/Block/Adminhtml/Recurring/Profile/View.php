@@ -80,7 +80,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View extends Mage_Adminhtml_B
     protected function _beforeToHtml()
     {
         $profile = Mage::registry('current_recurring_profile');
-        $this->_headerText = Mage::helper('Mage_Sales_Helper_Data')->__('Recurring Profile # %s', $profile->getReferenceId());
+        $this->_headerText = Mage::helper('Mage_Sales_Helper_Data')->__('Recurring Profile # %1', $profile->getReferenceId());
         $this->setViewHtml('<div id="' . $this->getDestElementId() . '"></div>');
         return parent::_beforeToHtml();
     }

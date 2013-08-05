@@ -25,9 +25,9 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
             <div class="fieldset-wrapper-title">
                 <span class="title">
                     <?php if ($this->getNoUseOrderLink()): ?>
-                    <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order # %s', $_order->getRealOrderId()) ?> (<span><?php echo $_email ?></span>)
+                    <?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order # %1', $_order->getRealOrderId()) ?> (<span><?php echo $_email ?></span>)
                     <?php else: ?>
-                    <a href="<?php echo $this->getViewUrl($_order->getId()) ?>"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order # %s', $_order->getRealOrderId()) ?></a>
+                    <a href="<?php echo $this->getViewUrl($_order->getId()) ?>"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order # %1', $_order->getRealOrderId()) ?></a>
                     <span>(<?php echo $_email ?>)</span>
                     <?php endif; ?>
                 </span>
@@ -39,7 +39,7 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
                 </tr>
                 <?php if ($orderAdminDate != $orderStoreDate):?>
                 <tr>
-                    <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order Date (%s)', $_order->getCreatedAtStoreDate()->getTimezone()) ?></th>
+                    <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Order Date (%1)', $_order->getCreatedAtStoreDate()->getTimezone()) ?></th>
                     <td><?php echo $orderStoreDate ?></td>
                 </tr>
                 <?php endif;?>
@@ -77,13 +77,13 @@ $orderStoreDate = $this->formatDate($_order->getCreatedAtStoreDate(), 'medium', 
                 <?php endif; ?>
                 <?php if($_order->getGlobalCurrencyCode() != $_order->getBaseCurrencyCode()): ?>
                 <tr>
-                    <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('%s / %s rate:', $_order->getGlobalCurrencyCode(), $_order->getBaseCurrencyCode()) ?></th>
+                    <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('%1 / %2 rate:', $_order->getGlobalCurrencyCode(), $_order->getBaseCurrencyCode()) ?></th>
                     <td><?php echo $_order->getBaseToGlobalRate() ?></td>
                 </tr>
                 <?php endif; ?>
                 <?php if($_order->getBaseCurrencyCode() != $_order->getOrderCurrencyCode()): ?>
                 <tr>
-                    <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('%s / %s rate:', $_order->getOrderCurrencyCode(), $_order->getBaseCurrencyCode()) ?></th>
+                    <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('%1 / %2 rate:', $_order->getOrderCurrencyCode(), $_order->getBaseCurrencyCode()) ?></th>
                     <th><?php echo $_order->getBaseToOrderRate() ?></td>
                 </tr>
                 <?php endif; ?>

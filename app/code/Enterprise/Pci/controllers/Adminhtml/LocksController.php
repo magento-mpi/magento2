@@ -50,7 +50,7 @@ class Enterprise_Pci_Adminhtml_LocksController extends Mage_Adminhtml_Controller
                 $affectedUsers = Mage::getResourceSingleton('Enterprise_Pci_Model_Resource_Admin_User')
                     ->unlock($userIds);
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                        ->addSuccess($this->__('Unlocked %d user(s).', $affectedUsers));
+                        ->addSuccess($this->__('Unlocked %1 user(s).', $affectedUsers));
             }
         }
         catch (Exception $e) {

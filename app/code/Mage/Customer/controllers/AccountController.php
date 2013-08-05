@@ -156,7 +156,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                                 ->getEmailConfirmationUrl($login['username']);
                             $message = $this->_objectManager->get('Mage_Customer_Helper_Data')
                                 ->__('This account is not confirmed.'
-                                    . ' <a href="%s">Click here</a> to resend confirmation email.', $value);
+                                    . ' <a href="%1">Click here</a> to resend confirmation email.', $value);
                             break;
                         case Mage_Customer_Model_Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
                             $message = $e->getMessage();
@@ -300,7 +300,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                 );
                 $email = Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail());
                 $session->addSuccess(
-                    $this->__('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%s">click here</a>.', $email)
+                    $this->__('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%1">click here</a>.', $email)
                 );
                 $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure' => true)));
             } else {
@@ -312,7 +312,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
         } catch (Mage_Core_Exception $e) {
             if ($e->getCode() === Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS) {
                 $url = Mage::getUrl('customer/account/forgotpassword');
-                $message = $this->__('There is already an account with this email address. If you are sure that it is your email address, <a href="%s">click here</a> to get your password and access your account.', $url);
+                $message = $this->__('There is already an account with this email address. If you are sure that it is your email address, <a href="%1">click here</a> to get your password and access your account.', $url);
                 $session->setEscapeMessages(false);
             } else {
                 $message = $e->getMessage();
@@ -426,7 +426,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
     protected function _welcomeCustomer(Mage_Customer_Model_Customer $customer, $isJustConfirmed = false)
     {
         $this->_getSession()->addSuccess(
-            $this->__('Thank you for registering with %s.', Mage::app()->getStore()->getFrontendName())
+            $this->__('Thank you for registering with %1.', Mage::app()->getStore()->getFrontendName())
         );
         if ($this->_isVatValidationEnabled()) {
             // Show corresponding VAT message to customer
@@ -434,10 +434,10 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $editAddersUrl = Mage::getUrl('customer/address/edit');
             switch ($configAddressType) {
                 case Mage_Customer_Model_Address_Abstract::TYPE_SHIPPING:
-                    $userPrompt = $this->__('If you are a registered VAT customer, please click <a href="%s">here</a> to enter you shipping address for proper VAT calculation', $editAddersUrl);
+                    $userPrompt = $this->__('If you are a registered VAT customer, please click <a href="%1">here</a> to enter you shipping address for proper VAT calculation', $editAddersUrl);
                     break;
                 default:
-                    $userPrompt = $this->__('If you are a registered VAT customer, please click <a href="%s">here</a> to enter you billing address for proper VAT calculation', $editAddersUrl);
+                    $userPrompt = $this->__('If you are a registered VAT customer, please click <a href="%1">here</a> to enter you billing address for proper VAT calculation', $editAddersUrl);
                     break;
             }
             $this->_getSession()->addSuccess($userPrompt);
@@ -612,7 +612,7 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
             $email = Mage::helper('Mage_Customer_Helper_Data')->escapeHtml($email);
             $this->_getSession()->addSuccess(
                 Mage::helper('Mage_Customer_Helper_Data')
-                    ->__('If there is an account associated with %s you will receive an email with a link to reset your password.', $email)
+                    ->__('If there is an account associated with %1 you will receive an email with a link to reset your password.', $email)
             );
             $this->_redirect('*/*/');
             return;

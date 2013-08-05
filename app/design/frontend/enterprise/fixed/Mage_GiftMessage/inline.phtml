@@ -93,7 +93,7 @@
         <?php $_product=$_item->getProduct() ?>
 
         <li class="gift-item">
-             <p class="number"><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></p>
+             <p class="number"><?php echo $this->__('Item %1 of %2', $_index+1, $this->countItems()) ?></p>
              <div class="product-img-box">
                  <p class="product-image">
                      <img src="<?php echo $this->getThumbnailUrl($_product); ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($_product->getName()) ?>"title="<?php echo $this->escapeHtml($_product->getName()) ?>" />
@@ -231,7 +231,7 @@
              <?php foreach($this->getItems() as $_index=>$_item): ?>
              <?php $_product=$_item->getProduct() ?>
                  <li class="gift-item">
-                     <p class="number"><?php echo $this->__('Item %d of %d', $_index+1, $this->countItems()) ?></p>
+                     <p class="number"><?php echo $this->__('Item %1 of %2', $_index+1, $this->countItems()) ?></p>
                      <div class="product-img-box">
                          <p class="product-image"><img src="<?php echo $this->getThumbnailUrl($_product); ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($_product->getName()) ?>" title="<?php echo $this->escapeHtml($_product->getName()) ?>" /></p>
                          <h5 class="product-name"><?php echo $this->escapeHtml($_product->getName()) ?></h5>

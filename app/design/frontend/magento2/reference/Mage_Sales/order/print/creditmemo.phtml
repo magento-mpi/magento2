@@ -10,9 +10,9 @@
 ?>
 <?php $_order = $this->getOrder() ?>
 <div class="page title">
-    <h1 class="title"><?php echo $this->__('Order #%s', $_order->getRealOrderId()) ?></h1>
+    <h1 class="title"><?php echo $this->__('Order #%1', $_order->getRealOrderId()) ?></h1>
 </div>
-<p class="order-date"><?php echo $this->__('Order Date: %s', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
+<p class="order-date"><?php echo $this->__('Order Date: %1', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
 <?php $_creditmemo = $this->getCreditmemo() ?>
 <?php if($_creditmemo): ?>
     <?php $_creditmemos = array($_creditmemo); ?>
@@ -22,7 +22,7 @@
 <?php foreach ($_creditmemos as $_creditmemo): ?>
     <div class="order details view">
         <div class="title">
-            <strong><?php echo $this->__('Refund #%s', $_creditmemo->getIncrementId()) ?></strong>
+            <strong><?php echo $this->__('Refund #%1', $_creditmemo->getIncrementId()) ?></strong>
         </div>
 
         <div class="block order shipping address">

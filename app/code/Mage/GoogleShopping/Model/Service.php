@@ -53,9 +53,9 @@ class Mage_GoogleShopping_Model_Service extends Varien_Object
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             throw $e;
         } catch (Zend_Gdata_App_HttpException $e) {
-            Mage::throwException($errorMsg . Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Error: %s', $e->getMessage()));
+            Mage::throwException($errorMsg . Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Error: %1', $e->getMessage()));
         } catch (Zend_Gdata_App_AuthException $e) {
-            Mage::throwException($errorMsg . Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Error: %s', $e->getMessage()));
+            Mage::throwException($errorMsg . Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Error: %1', $e->getMessage()));
         }
 
         return Mage::registry($this->_clientRegistryId);

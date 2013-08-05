@@ -65,7 +65,7 @@ class Mage_Paygate_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         if ($amount) {
-            $amount = $this->__('amount %s', $this->_formatPrice($payment, $amount));
+            $amount = $this->__('amount %1', $this->_formatPrice($payment, $amount));
         }
 
         if ($exception) {
@@ -74,14 +74,14 @@ class Mage_Paygate_Helper_Data extends Mage_Core_Helper_Abstract
             $result = $this->__('successful');
         }
 
-        $card = $this->__('Credit Card: xxxx-%s', $card->getCcLast4());
+        $card = $this->__('Credit Card: xxxx-%1', $card->getCcLast4());
 
         $pattern = '%s %s %s - %s.';
         $texts = array($card, $amount, $operation, $result);
 
         if (!is_null($lastTransactionId)) {
             $pattern .= ' %s.';
-            $texts[] = $this->__('Authorize.Net Transaction ID %s', $lastTransactionId);
+            $texts[] = $this->__('Authorize.Net Transaction ID %1', $lastTransactionId);
         }
 
         if ($additionalMessage) {

@@ -149,7 +149,7 @@ class Mage_Sales_Recurring_ProfileController extends Mage_Core_Controller_Front_
     {
         try {
             $profile = $this->_initProfile();
-            $this->_title($this->__('Recurring Billing Profiles'))->_title($this->__('Profile #%s', $profile->getReferenceId()));
+            $this->_title($this->__('Recurring Billing Profiles'))->_title($this->__('Profile #%1', $profile->getReferenceId()));
             $this->loadLayout();
             $this->_initLayoutMessages('Mage_Customer_Model_Session');
             $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');

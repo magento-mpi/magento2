@@ -91,7 +91,7 @@ class Mage_Tag_Block_Product_Result extends Mage_Catalog_Block_Product_Abstract
     public function getHeaderText()
     {
         if( $this->getTag()->getName() ) {
-            return Mage::helper('Mage_Tag_Helper_Data')->__("Products tagged with '%s'", $this->escapeHtml($this->getTag()->getName()));
+            return Mage::helper('Mage_Tag_Helper_Data')->__("Products tagged with '%1'", $this->escapeHtml($this->getTag()->getName()));
         } else {
             return false;
         }

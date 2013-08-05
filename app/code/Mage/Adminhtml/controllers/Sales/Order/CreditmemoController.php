@@ -174,7 +174,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
         $creditmemo = $this->_initCreditmemo();
         if ($creditmemo) {
             if ($creditmemo->getInvoice()) {
-                $this->_title($this->__("View Memo for #%s", $creditmemo->getInvoice()->getIncrementId()));
+                $this->_title($this->__("View Memo for #%1", $creditmemo->getInvoice()->getIncrementId()));
             } else {
                 $this->_title($this->__("View Memo"));
             }
@@ -207,7 +207,7 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
     {
         if ($creditmemo = $this->_initCreditmemo()) {
             if ($creditmemo->getInvoice()) {
-                $this->_title($this->__("New Memo for #%s", $creditmemo->getInvoice()->getIncrementId()));
+                $this->_title($this->__("New Memo for #%1", $creditmemo->getInvoice()->getIncrementId()));
             } else {
                 $this->_title($this->__("New Memo"));
             }

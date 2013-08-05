@@ -130,7 +130,7 @@ class Mage_Checkout_CartController
 
                 $warning = $this->_storeConfig->getConfig('sales/minimum_order/description')
                     ? $this->_storeConfig->getConfig('sales/minimum_order/description')
-                    : Mage::helper('Mage_Checkout_Helper_Data')->__('Minimum order amount is %s', $minimumAmount);
+                    : Mage::helper('Mage_Checkout_Helper_Data')->__('Minimum order amount is %1', $minimumAmount);
 
                 $cart->getCheckoutSession()->addNotice($warning);
             }
@@ -207,7 +207,7 @@ class Mage_Checkout_CartController
 
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $message = $this->__('You added %s to your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName()));
+                    $message = $this->__('You added %1 to your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName()));
                     $this->_checkoutSession->addSuccess($message);
                 }
                 $this->_goBack();
@@ -349,7 +349,7 @@ class Mage_Checkout_CartController
             );
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $message = $this->__('%s was updated in your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($item->getProduct()->getName()));
+                    $message = $this->__('%1 was updated in your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($item->getProduct()->getName()));
                     $this->_checkoutSession->addSuccess($message);
                 }
                 $this->_goBack();
@@ -533,11 +533,11 @@ class Mage_Checkout_CartController
             if ($codeLength) {
                 if ($isCodeLengthValid && $couponCode == $this->_getQuote()->getCouponCode()) {
                     $this->_checkoutSession->addSuccess(
-                        $this->__('The coupon code "%s" was applied.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($couponCode))
+                        $this->__('The coupon code "%1" was applied.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($couponCode))
                     );
                 } else {
                     $this->_checkoutSession->addError(
-                        $this->__('The coupon code "%s" is not valid.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($couponCode))
+                        $this->__('The coupon code "%1" is not valid.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($couponCode))
                     );
                 }
             } else {

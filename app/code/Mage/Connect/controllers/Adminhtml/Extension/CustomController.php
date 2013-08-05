@@ -68,7 +68,7 @@ class Mage_Connect_Adminhtml_Extension_CustomController extends Mage_Adminhtml_C
                 $data = array_merge($data, array('file_name' => $packageName));
                 $session->setCustomExtensionPackageFormData($data);
                 $session->addSuccess(
-                    Mage::helper('Mage_Connect_Helper_Data')->__('The package %s data has been loaded.', $packageName)
+                    Mage::helper('Mage_Connect_Helper_Data')->__('The package %1 data has been loaded.', $packageName)
                 );
             } catch (Exception $e) {
                 $session->addError($e->getMessage());

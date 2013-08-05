@@ -125,7 +125,7 @@ class Mage_Core_Model_Variable extends Mage_Core_Model_Abstract
         foreach ($collection->toOptionArray() as $variable) {
             $variables[] = array(
                 'value' => '{{customVar code=' . $variable['value'] . '}}',
-                'label' => Mage::helper('Mage_Core_Helper_Data')->__('%s', $variable['label'])
+                'label' => Mage::helper('Mage_Core_Helper_Data')->__('%1', $variable['label'])
             );
         }
         if ($withGroup && $variables) {

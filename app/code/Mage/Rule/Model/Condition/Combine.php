@@ -265,7 +265,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function asHtml()
     {
         $html = $this->getTypeElement()->getHtml()
-            . Mage::helper('Mage_Rule_Helper_Data')->__('If %s of these conditions are %s:', $this->getAggregatorElement()->getHtml(), $this->getValueElement()->getHtml());
+            . Mage::helper('Mage_Rule_Helper_Data')->__('If %1 of these conditions are %2:', $this->getAggregatorElement()->getHtml(), $this->getValueElement()->getHtml());
         if ($this->getId() != '1') {
             $html .= $this->getRemoveLinkHtml();
         }
@@ -303,7 +303,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function asString($format = '')
     {
         $str = Mage::helper('Mage_Rule_Helper_Data')
-            ->__("If %s of these conditions are %s:", $this->getAggregatorName(), $this->getValueName());
+            ->__("If %1 of these conditions are %2:", $this->getAggregatorName(), $this->getValueName());
         return $str;
     }
 

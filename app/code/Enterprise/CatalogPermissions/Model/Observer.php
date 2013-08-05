@@ -263,12 +263,12 @@ class Enterprise_CatalogPermissions_Model_Observer
                 if ($parentItem) {
                     $quote->setHasError(true)
                             ->addMessage(
-                                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%s" to the cart.', $parentItem->getName())
+                                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%1" to the cart.', $parentItem->getName())
                             );
                 } else {
                      $quote->setHasError(true)
                             ->addMessage(
-                                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%s" to the cart.', $quoteItem->getName())
+                                Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%1" to the cart.', $quoteItem->getName())
                             );
                 }
             }
@@ -307,11 +307,11 @@ class Enterprise_CatalogPermissions_Model_Observer
             $quoteItem->getQuote()->removeItem($quoteItem->getId());
             if ($parentItem) {
                 Mage::throwException(
-                    Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%s" to the cart.', $parentItem->getName())
+                    Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%1" to the cart.', $parentItem->getName())
                 );
             } else {
                 Mage::throwException(
-                    Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%s" to the cart.', $quoteItem->getName())
+                    Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('You cannot add "%1" to the cart.', $quoteItem->getName())
                 );
             }
         }

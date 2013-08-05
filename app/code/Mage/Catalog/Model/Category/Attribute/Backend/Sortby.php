@@ -50,7 +50,7 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Sortby
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('The value of attribute "%s" must be unique.', $label));
+                Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__('The value of attribute "%1" must be unique.', $label));
             }
         }
 

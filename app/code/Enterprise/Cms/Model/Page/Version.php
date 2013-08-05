@@ -153,14 +153,14 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
         if ($this->isPublic()) {
             if ($resource->isVersionLastPublic($this)) {
                 Mage::throwException(
-                    Mage::helper('Enterprise_Cms_Helper_Data')->__('Version "%s" cannot be removed because it is the last public page version.', $this->getLabel())
+                    Mage::helper('Enterprise_Cms_Helper_Data')->__('Version "%1" cannot be removed because it is the last public page version.', $this->getLabel())
                 );
             }
         }
 
         if ($resource->isVersionHasPublishedRevision($this)) {
             Mage::throwException(
-                Mage::helper('Enterprise_Cms_Helper_Data')->__('Version "%s" cannot be removed because its revision is published.', $this->getLabel())
+                Mage::helper('Enterprise_Cms_Helper_Data')->__('Version "%1" cannot be removed because its revision is published.', $this->getLabel())
             );
         }
 

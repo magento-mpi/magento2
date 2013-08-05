@@ -144,7 +144,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
                         $this->_getAdminSession()->getViewMode()
                     );
                     Mage::getSingleton('Mage_Adminhtml_Model_Session')->addNotice(
-                        $this->__('Viewing combined "%s" report from segments: %s.', $viewModeLabel, implode(', ', $segments))
+                        $this->__('Viewing combined "%1" report from segments: %2.', $viewModeLabel, implode(', ', $segments))
                     );
                 }
             }

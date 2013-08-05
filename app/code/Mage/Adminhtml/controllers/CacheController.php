@@ -117,7 +117,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
             if ($updatedTypes > 0) {
                 $this->_cacheTypes->persist();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) enabled.", $updatedTypes)
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__("%1 cache type(s) enabled.", $updatedTypes)
                 );
             }
         } catch (Mage_Core_Exception $e) {
@@ -151,7 +151,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
             if ($updatedTypes > 0) {
                 $this->_cacheTypes->persist();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) disabled.", $updatedTypes)
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__("%1 cache type(s) disabled.", $updatedTypes)
                 );
             }
         } catch (Mage_Core_Exception $e) {
@@ -182,7 +182,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
             }
             if ($updatedTypes > 0) {
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__("%s cache type(s) refreshed.", $updatedTypes)
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__("%1 cache type(s) refreshed.", $updatedTypes)
                 );
             }
         } catch (Mage_Core_Exception $e) {

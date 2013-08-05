@@ -145,7 +145,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
 
             $apiType = $apiTypeMatch[Mage_Webapi_Controller_Request::PARAM_API_TYPE];
             if (!in_array($apiType, $this->getListOfAvailableApiTypes())) {
-                throw new Mage_Webapi_Exception($this->_helper->__('The "%s" API type is not defined.', $apiType),
+                throw new Mage_Webapi_Exception($this->_helper->__('The "%1" API type is not defined.', $apiType),
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             }
             $this->_apiType = $apiType;

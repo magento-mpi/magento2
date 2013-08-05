@@ -43,7 +43,7 @@
                 <td>
                     <input name="product[options][${option_id}][file_extension]" class="input-text" type="text" value="${file_extension}">
                 </td>
-                <td class="col-file"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('%s x %s px.',
+                <td class="col-file"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('%1 x %2 px.',
                     '<input class="input-text" type="text" name="product[options][${option_id}][image_size_x]" value="${image_size_x}">',
                     '<input class="input-text" type="text" name="product[options][${option_id}][image_size_y]" value="${image_size_y}">') ?>
                     <br/><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Please leave blank if it is not an image.') ?>

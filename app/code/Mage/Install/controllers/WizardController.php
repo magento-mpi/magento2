@@ -224,7 +224,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         if ($this->getRequest()->getParam('do')) {
             if ($state = $this->getRequest()->getParam('state', 'beta')) {
                 $result = $pear->runHtmlConsole(array(
-                'comment'   => Mage::helper('Mage_Install_Helper_Data')->__("Setting preferred state to: %s", $state) . "\r\n\r\n",
+                'comment'   => Mage::helper('Mage_Install_Helper_Data')->__("Setting preferred state to: %1", $state) . "\r\n\r\n",
                 'command'   => 'config-set',
                 'params'    => array('preferred_state', $state)
                 ));

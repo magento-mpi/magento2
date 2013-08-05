@@ -303,7 +303,7 @@ class Mage_Paypal_Model_Cart
 
         // distinguish original discount among the others
         if ($originalDiscount > 0.0001 && isset($this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT])) {
-            $this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT][] = Mage::helper('Mage_Sales_Helper_Data')->__('Discount (%s)', Mage::app()->getStore()->convertPrice($originalDiscount, true, false));
+            $this->_totalLineItemDescriptions[self::TOTAL_DISCOUNT][] = Mage::helper('Mage_Sales_Helper_Data')->__('Discount (%1)', Mage::app()->getStore()->convertPrice($originalDiscount, true, false));
         }
 
         // discount, shipping as items

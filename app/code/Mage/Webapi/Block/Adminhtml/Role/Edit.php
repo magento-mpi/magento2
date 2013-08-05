@@ -65,7 +65,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Fo
     public function getHeaderText()
     {
         if ($this->getApiRole()->getId()) {
-            return $this->__("Edit API Role '%s'", $this->escapeHtml($this->getApiRole()->getRoleName()));
+            return $this->__("Edit API Role '%1'", $this->escapeHtml($this->getApiRole()->getRoleName()));
         } else {
             return $this->__('New API Role');
         }

@@ -48,7 +48,7 @@ class Mage_Eav_Model_Attribute_Data_Select extends Mage_Eav_Model_Attribute_Data
         }
 
         if ($attribute->getIsRequired() && empty($value) && $value != '0') {
-            $errors[] = Mage::helper('Mage_Eav_Helper_Data')->__('"%s" is a required value.', $label);
+            $errors[] = Mage::helper('Mage_Eav_Helper_Data')->__('"%1" is a required value.', $label);
         }
 
         if (!$errors && !$attribute->getIsRequired() && empty($value)) {

@@ -192,7 +192,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
             foreach ($prices as $data) {
                 $qty    = $data['price_qty']*1;
                 $price  = $this->convertPrice($data['price']);
-                $info[] = $this->helper('Mage_Sales_Helper_Data')->__('Buy %s for price %s', $qty, $price);
+                $info[] = $this->helper('Mage_Sales_Helper_Data')->__('Buy %1 for price %2', $qty, $price);
             }
             return implode(', ', $info);
         }
@@ -231,7 +231,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         $info = array();
         foreach ($prices as $data) {
             $qty    = $data['price_qty'] * 1;
-            $info[] = $this->helper('Mage_Sales_Helper_Data')->__('%1$s with %2$s discount each', $qty, ($data['price'] * 1) . '%');
+            $info[] = $this->helper('Mage_Sales_Helper_Data')->__('%1 with %2 discount each', $qty, ($data['price'] * 1) . '%');
         }
         return $info;
     }
@@ -248,7 +248,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         foreach ($prices as $data) {
             $qty    = $data['price_qty'] * 1;
             $price  = $this->convertPrice($data['price']);
-            $info[] = $this->helper('Mage_Sales_Helper_Data')->__('%s for %s', $qty, $price);
+            $info[] = $this->helper('Mage_Sales_Helper_Data')->__('%1 for %2', $qty, $price);
         }
         return $info;
     }

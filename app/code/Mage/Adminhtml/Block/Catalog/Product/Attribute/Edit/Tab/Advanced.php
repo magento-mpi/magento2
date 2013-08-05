@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extends M
                 'label' => $this->__('Attribute Code'),
                 'title' => $this->__('Attribute Code'),
                 'note' => $this->__(
-                    'For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %s symbols',
+                    'For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols',
                     Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH
                 ),
                 'class' => $validateClass,

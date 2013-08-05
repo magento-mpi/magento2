@@ -88,7 +88,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
     public function send()
     {
         if ($this->isExceedLimit()){
-            Mage::throwException(Mage::helper('Mage_Sendfriend_Helper_Data')->__('You\'ve met your limit of %d sends in an hour.', $this->getMaxSendsToFriend()));
+            Mage::throwException(Mage::helper('Mage_Sendfriend_Helper_Data')->__('You\'ve met your limit of %1 sends in an hour.', $this->getMaxSendsToFriend()));
         }
 
         /* @var $translate Mage_Core_Model_Translate */
@@ -174,7 +174,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
 
         $maxRecipients = $this->getMaxRecipients();
         if (count($this->getRecipients()->getEmails()) > $maxRecipients) {
-            $errors[] = Mage::helper('Mage_Sendfriend_Helper_Data')->__('No more than %d emails can be sent at a time.', $this->getMaxRecipients());
+            $errors[] = Mage::helper('Mage_Sendfriend_Helper_Data')->__('No more than %1 emails can be sent at a time.', $this->getMaxRecipients());
         }
 
         if (empty($errors)) {

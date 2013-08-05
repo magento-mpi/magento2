@@ -210,7 +210,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
         }
         if (!$write && !$this->_filesystem->isFile($this->_getFilePath())) {
             Mage::exception('Mage_Backup',
-                $this->_helper->__('The backup file "%s" does not exist.', $this->getFileName()));
+                $this->_helper->__('The backup file "%1" does not exist.', $this->getFileName()));
         }
 
         $mode = $write ? 'wb' . self::COMPRESS_RATE : 'rb';
@@ -223,7 +223,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
         }
         catch (Magento_Filesystem_Exception $e) {
             throw new Mage_Backup_Exception_NotEnoughPermissions(
-                $this->_helper->__('Sorry, but we cannot read from or write to backup file "%s".', $this->getFileName())
+                $this->_helper->__('Sorry, but we cannot read from or write to backup file "%1".', $this->getFileName())
             );
         }
 
@@ -277,7 +277,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
         }
         catch (Magento_Filesystem_Exception $e) {
             Mage::exception('Mage_Backup',
-                $this->_helper->__('Something went wrong writing to the backup file "%s".', $this->getFileName()));
+                $this->_helper->__('Something went wrong writing to the backup file "%1".', $this->getFileName()));
         }
 
         return $this;

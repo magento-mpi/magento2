@@ -95,7 +95,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
                 ) {
                     Mage::throwException(
                         Mage::helper('Mage_ImportExport_Helper_Data')
-                            ->__('Entity adapter object must be an instance of %s or %s',
+                            ->__('Entity adapter object must be an instance of %1 or %2',
                                 'Mage_ImportExport_Model_Import_Entity_Abstract',
                                 'Mage_ImportExport_Model_Import_EntityAbstract'));
                 }
@@ -142,7 +142,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
                         ->__('File is totally invalid. Please fix errors and re-upload file.');
                 } elseif ($this->getErrorsCount() >= $this->getErrorsLimit()) {
                     $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')
-                        ->__('Errors limit (%d) reached. Please fix errors and re-upload file.',
+                        ->__('Errors limit (%1) reached. Please fix errors and re-upload file.',
                             $this->getErrorsLimit());
                 } else {
                     if ($this->isImportAllowed()) {
@@ -174,7 +174,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
                 $messages = array_merge($messages, $notices);
             }
             $messages[] = Mage::helper('Mage_ImportExport_Helper_Data')
-                ->__('Checked rows: %d, checked entities: %d, invalid rows: %d, total errors: %d',
+                ->__('Checked rows: %1, checked entities: %2, invalid rows: %3, total errors: %4',
                     $this->getProcessedRowsCount(), $this->getProcessedEntitiesCount(),
                     $this->getInvalidRowsCount(), $this->getErrorsCount());
         } else {
@@ -330,7 +330,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
 
         $this->addLogComment(
             Mage::helper('Mage_ImportExport_Helper_Data')
-                ->__('Begin import of "%s" with "%s" behavior',
+                ->__('Begin import of "%1" with "%2" behavior',
                     $this->getEntity(),
                     $this->getBehavior()
                 )
@@ -340,7 +340,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
 
         $this->addLogComment(array(
             Mage::helper('Mage_ImportExport_Helper_Data')
-                ->__('Checked rows: %d, checked entities: %d, invalid rows: %d, total errors: %d',
+                ->__('Checked rows: %1, checked entities: %2, invalid rows: %3, total errors: %4',
                     $this->getProcessedRowsCount(),
                     $this->getProcessedEntitiesCount(),
                     $this->getInvalidRowsCount(),
@@ -556,7 +556,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
                 );
             } else {
                 Mage::throwException(
-                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Invalid behavior token for %s', $entityCode)
+                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Invalid behavior token for %1', $entityCode)
                 );
             }
         }

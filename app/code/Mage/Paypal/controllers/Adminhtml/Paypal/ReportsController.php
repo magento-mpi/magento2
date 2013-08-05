@@ -70,11 +70,11 @@ class Mage_Paypal_Adminhtml_Paypal_ReportsController extends Mage_Adminhtml_Cont
                 try {
                     $fetched = $reports->fetchAndSave(Mage_Paypal_Model_Report_Settlement::createConnection($config));
                     $this->_getSession()->addSuccess(
-                        Mage::helper('Mage_Paypal_Helper_Data')->__("We fetched %s report rows from '%s@%s'.", $fetched, $config['username'], $config['hostname'])
+                        Mage::helper('Mage_Paypal_Helper_Data')->__("We fetched %1 report rows from '%2@%3'.", $fetched, $config['username'], $config['hostname'])
                     );
                 } catch (Exception $e) {
                     $this->_getSession()->addError(
-                        Mage::helper('Mage_Paypal_Helper_Data')->__("We couldn't fetch reports from '%s@%s'.", $config['username'], $config['hostname'])
+                        Mage::helper('Mage_Paypal_Helper_Data')->__("We couldn't fetch reports from '%1@%2'.", $config['username'], $config['hostname'])
                     );
                     Mage::logException($e);
                 }

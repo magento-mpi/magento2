@@ -59,7 +59,7 @@ class Enterprise_CustomerSegment_Model_Logging
         $segmentId = $this->_request->getParam('id');
         $customersQty = $this->_resourceModel->getSegmentCustomersQty($segmentId);
         return $eventModel->setInfo($segmentId ?
-            $this->_helper->__('Matched %d Customers of Segment %s', $customersQty, $segmentId)
+            $this->_helper->__('Matched %1 Customers of Segment %2', $customersQty, $segmentId)
             : '-'
         );
     }

@@ -194,7 +194,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
      */
     public function asHtml()
     {
-        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address %s', parent::asHtml());
+        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address %1', parent::asHtml());
     }
 
     /**

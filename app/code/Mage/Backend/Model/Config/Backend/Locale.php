@@ -55,17 +55,17 @@ class Mage_Backend_Model_Config_Backend_Locale extends Mage_Core_Model_Config_Da
                             $websiteName = Mage::getModel('Mage_Core_Model_Website')
                                 ->load($data->getScopeId())->getName();
                             $scopeName = Mage::helper('Mage_Backend_Helper_Data')
-                                ->__('website(%s) scope', $websiteName);
+                                ->__('website(%1) scope', $websiteName);
                             break;
 
                         case 'store':
                             $storeName = Mage::getModel('Mage_Core_Model_Store')->load($data->getScopeId())->getName();
-                            $scopeName = Mage::helper('Mage_Backend_Helper_Data')->__('store(%s) scope', $storeName);
+                            $scopeName = Mage::helper('Mage_Backend_Helper_Data')->__('store(%1) scope', $storeName);
                             break;
                     }
 
                     $exceptions[] = Mage::helper('Mage_Backend_Helper_Data')
-                        ->__('Currency "%s" is used as %s in %s.', $currencyName, $fieldName, $scopeName);
+                        ->__('Currency "%1" is used as %2 in %3.', $currencyName, $fieldName, $scopeName);
                 }
             }
         }

@@ -91,7 +91,7 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
                 $api->getTransactionId()
         );
         $payment->setPreparedMessage(
-            Mage::helper('Mage_PaypalUk_Helper_Data')->__('Payflow PNREF: #%s.', $api->getTransactionId())
+            Mage::helper('Mage_PaypalUk_Helper_Data')->__('Payflow PNREF: #%1.', $api->getTransactionId())
         );
         Mage::getModel('Mage_Paypal_Model_Info')->importToPayment($api, $payment);
     }
@@ -128,7 +128,7 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
                 $api->getTransactionId()
         );
         $payment->setPreparedMessage(
-            Mage::helper('Mage_PaypalUk_Helper_Data')->__('Payflow PNREF: #%s.', $api->getTransactionId())
+            Mage::helper('Mage_PaypalUk_Helper_Data')->__('Payflow PNREF: #%1.', $api->getTransactionId())
         );
         Mage::getModel('Mage_Paypal_Model_Info')->importToPayment($api, $payment);
     }

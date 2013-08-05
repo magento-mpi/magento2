@@ -141,7 +141,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Product is %s in the %s with %s of these Conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Product is %1 in the %2 with %3 of these Conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

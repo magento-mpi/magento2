@@ -109,7 +109,7 @@ class Mage_Adminhtml_System_Config_System_StorageController extends Mage_Adminht
                             && isset($flagData['source']) && !empty($flagData['source'])
                             && isset($flagData['destination']) && !empty($flagData['destination'])
                         ) {
-                            $result['message'] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Synchronizing %s to %s', $flagData['source'], $flagData['destination']);
+                            $result['message'] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Synchronizing %1 to %2', $flagData['source'], $flagData['destination']);
                         } else {
                             $result['message'] = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Synchronizing...');
                         }

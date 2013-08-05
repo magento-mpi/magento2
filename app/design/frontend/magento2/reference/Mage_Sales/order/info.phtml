@@ -31,7 +31,7 @@
             </ul>
         </dd>
     </dl>
-    <p class="order date"><?php echo $this->__('<span class="label">Order Date:</span> %s', '<date>' . $this->formatDate($_order->getCreatedAtStoreDate(), 'long') . '</date>' ) ?></p>
+    <p class="order date"><?php echo $this->__('<span class="label">Order Date:</span> %1', '<date>' . $this->formatDate($_order->getCreatedAtStoreDate(), 'long') . '</date>' ) ?></p>
 <?php if (!$_order->getIsVirtual()): ?>
     <div class="block order shipping address">
         <div class="title"><strong><?php echo $this->__('Shipping Address') ?></strong></div>

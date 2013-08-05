@@ -112,9 +112,9 @@ class Mage_Oauth_Customer_TokenController extends Mage_Core_Controller_Front_Act
                 $model->load($model->getId());
                 $model->setRevoked($status)->save();
                 if ($status) {
-                    $message = $this->__('Application "%s" has been revoked.', $name);
+                    $message = $this->__('Application "%1" has been revoked.', $name);
                 } else {
-                    $message = $this->__('Application "%s" has been enabled.', $name);
+                    $message = $this->__('Application "%1" has been enabled.', $name);
                 }
                 $this->_session->addSuccess($message);
             } else {
@@ -157,7 +157,7 @@ class Mage_Oauth_Customer_TokenController extends Mage_Core_Controller_Front_Act
                 $name = $model->getName();
                 $model->delete();
                 $this->_session->addSuccess(
-                    $this->__('Application "%s" has been deleted.', $name));
+                    $this->__('Application "%1" has been deleted.', $name));
             } else {
                 $this->_session->addError($this->__('Application not found.'));
             }

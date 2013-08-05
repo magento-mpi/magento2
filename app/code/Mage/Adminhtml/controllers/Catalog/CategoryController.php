@@ -320,7 +320,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                         if ($error === true) {
                             $attribute = $category->getResource()->getAttribute($code)->getFrontend()->getLabel();
                             throw new Mage_Core_Exception(
-                                $this->__('Attribute "%s" is required.', $attribute)
+                                $this->__('Attribute "%1" is required.', $attribute)
                             );
                         } else {
                             throw new Mage_Core_Exception($error);
@@ -404,7 +404,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         } catch (Mage_Core_Exception $e) {
             $this->getResponse()->setBody($e->getMessage());
         } catch (Exception $e){
-            $this->getResponse()->setBody($this->__('There was a category move error %s', $e));
+            $this->getResponse()->setBody($this->__('There was a category move error %1', $e));
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }
 

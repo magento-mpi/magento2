@@ -38,8 +38,8 @@ class Mage_Webapi_Controller_Request_Soap extends Mage_Webapi_Controller_Request
         $allowedParams = array(Mage_Webapi_Controller_Request::PARAM_API_TYPE, $wsdlParam, $resourcesParam);
         $notAllowedParameters = array_diff($requestParams, $allowedParams);
         if (count($notAllowedParameters)) {
-            $message = $this->_helper->__('Not allowed parameters: %s. ', implode(', ', $notAllowedParameters))
-                . $this->_helper->__('Please use only "%s" and "%s".', $wsdlParam, $resourcesParam);
+            $message = $this->_helper->__('Not allowed parameters: %1. ', implode(', ', $notAllowedParameters))
+                . $this->_helper->__('Please use only "%1" and "%2".', $wsdlParam, $resourcesParam);
             throw new Mage_Webapi_Exception($message, Mage_Webapi_Exception::HTTP_BAD_REQUEST);
         }
 

@@ -94,7 +94,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Address %s a %s Address', $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Order Address %1 a %2 Address', $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

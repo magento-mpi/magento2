@@ -102,7 +102,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
      */
     protected function _getHeader()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__("Edit Attribute Set '%s'", $this->_getAttributeSet()->getAttributeSetName());
+        return Mage::helper('Mage_Catalog_Helper_Data')->__("Edit Attribute Set '%1'", $this->_getAttributeSet()->getAttributeSetName());
     }
 
     /**

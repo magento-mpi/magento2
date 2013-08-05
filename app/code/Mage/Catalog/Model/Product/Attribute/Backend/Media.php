@@ -130,7 +130,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
                 Mage::throwException(
-                    Mage::helper('Mage_Eav_Helper_Data')->__('The value of attribute "%s" must be unique.', $label)
+                    Mage::helper('Mage_Eav_Helper_Data')->__('The value of attribute "%1" must be unique.', $label)
                 );
             }
         }
@@ -343,7 +343,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             }
         } catch (Exception $e) {
             Mage::throwException(
-                Mage::helper('Mage_Catalog_Helper_Data')->__('We couldn\'t move this file: %s.', $e->getMessage())
+                Mage::helper('Mage_Catalog_Helper_Data')->__('We couldn\'t move this file: %1.', $e->getMessage())
             );
         }
 
@@ -664,7 +664,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             $file = $this->_mediaConfig->getMediaPath($file);
             Mage::throwException(
                 Mage::helper('Mage_Catalog_Helper_Data')
-                    ->__('We couldn\'t copy file %s. Please delete media with non-existing images and try again.', $file)
+                    ->__('We couldn\'t copy file %1. Please delete media with non-existing images and try again.', $file)
             );
         }
     }

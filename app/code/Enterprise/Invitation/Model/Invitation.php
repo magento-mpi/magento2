@@ -136,7 +136,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
         }
         else {
             if ($this->dataHasChangedFor('message') && !$this->canMessageBeUpdated()) {
-                throw new Mage_Core_Exception(Mage::helper('Enterprise_Invitation_Helper_Data')->__("You can't update this message.", self::ERROR_STATUS));
+                throw new Mage_Core_Exception(Mage::helper('Enterprise_Invitation_Helper_Data')->__("You can't update this message."), self::ERROR_STATUS);
             }
         }
         return parent::_beforeSave();
@@ -227,7 +227,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
         }
         if ($this->getStatus() !== self::STATUS_NEW) {
             throw new Mage_Core_Exception(
-                Mage::helper('Enterprise_Invitation_Helper_Data')->__('We cannot send an invitation with status "%s".', $this->getStatus()), self::ERROR_STATUS
+                Mage::helper('Enterprise_Invitation_Helper_Data')->__('We cannot send an invitation with status "%1".', $this->getStatus()), self::ERROR_STATUS
             );
         }
         if (!$this->getEmail() || !Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
@@ -267,7 +267,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
             return;
         }
         throw new Mage_Core_Exception(
-            Mage::helper('Enterprise_Invitation_Helper_Data')->__('This invitation is addressed to a current customer: "%s".', $email), self::ERROR_CUSTOMER_EXISTS
+            Mage::helper('Enterprise_Invitation_Helper_Data')->__('This invitation is addressed to a current customer: "%1".', $email), self::ERROR_CUSTOMER_EXISTS
         );
     }
 

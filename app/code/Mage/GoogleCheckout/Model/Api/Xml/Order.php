@@ -26,7 +26,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Order extends Mage_GoogleCheckout_Model_
             if (!$xml || !$xml->{'error-message'}) {
                 return false;
             }
-            Mage::throwException($this->__('Google Checkout: %s', (string)$xml->{'error-message'}));
+            Mage::throwException($this->__('Google Checkout: %1', (string)$xml->{'error-message'}));
         }
     }
 

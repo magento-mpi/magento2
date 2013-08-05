@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
         else {
             $emailSent = Mage::helper('Mage_Sales_Helper_Data')->__('the invoice email is not sent');
         }
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Invoice #%1$s | %2$s | %4$s (%3$s)', $this->getInvoice()->getIncrementId(), $this->getInvoice()->getStateName(), $emailSent, $this->formatDate($this->getInvoice()->getCreatedAtDate(), 'medium', true));
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Invoice #%1 | %2 | %4 (%3)', $this->getInvoice()->getIncrementId(), $this->getInvoice()->getStateName(), $emailSent, $this->formatDate($this->getInvoice()->getCreatedAtDate(), 'medium', true));
     }
 
     public function getBackUrl()

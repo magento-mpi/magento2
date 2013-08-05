@@ -9,8 +9,8 @@
  */
 ?>
 <?php $_order = $this->getOrder() ?>
-<h1><?php echo $this->__('Order #%s', $_order->getRealOrderId()) ?></h1>
-<p class="order-date"><?php echo $this->__('Order Date: %s', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
+<h1><?php echo $this->__('Order #%1', $_order->getRealOrderId()) ?></h1>
+<p class="order-date"><?php echo $this->__('Order Date: %1', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
 <?php $_invoice = $this->getInvoice() ?>
 <?php if($_invoice): ?>
     <?php $_invoices = array($_invoice); ?>
@@ -18,7 +18,7 @@
     <?php $_invoices = $_order->getInvoiceCollection() ?>
 <?php endif; ?>
 <?php foreach ($_invoices as $_invoice): ?>
-    <h2 class="h2"><?php echo $this->__('Invoice #%s', $_invoice->getIncrementId()) ?></h2>
+    <h2 class="h2"><?php echo $this->__('Invoice #%1', $_invoice->getIncrementId()) ?></h2>
     <div class="col2-set">
         <div class="col-1">
         <?php if (!$_order->getIsVirtual()): ?>

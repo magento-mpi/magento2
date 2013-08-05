@@ -34,7 +34,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
 
             $url = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/*/generate');
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->$function(
-                Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Code Pool used: <b>%.2f%%</b> (free <b>%d</b> of <b>%d</b> total). Generate new code pool <a href="%s">here</a>.', $usage->getPercent(), $usage->getFree(), $usage->getTotal(), $url)
+                Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Code Pool used: <b>%1%%</b> (free <b>%2</b> of <b>%3</b> total). Generate new code pool <a href="%4">here</a>.', $usage->getPercent(), $usage->getFree(), $usage->getTotal(), $url)
             );
         }
 
@@ -317,7 +317,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
                 }
 
                 $this->_getSession()->addSuccess(
-                    $this->__('You deleted a total of %s records.', count($ids))
+                    $this->__('You deleted a total of %1 records.', count($ids))
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

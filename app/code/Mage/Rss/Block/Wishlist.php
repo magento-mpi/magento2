@@ -83,7 +83,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
      */
     protected function _getTitle()
     {
-        return Mage::helper('Mage_Rss_Helper_Data')->__('%s\'s Wishlist', $this->_getCustomer()->getName());
+        return Mage::helper('Mage_Rss_Helper_Data')->__('%1\'s Wishlist', $this->_getCustomer()->getName());
     }
 
     /**

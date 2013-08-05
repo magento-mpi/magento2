@@ -89,7 +89,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     {
         $this->_valueElement = $this->getValueElement();
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Customer Segment %s %s', $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Customer Segment %1 %2', $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
             . $this->getRemoveLinkHtml()
             . '<div class="rule-chooser" url="' . $this->getValueElementChooserUrl() . '"></div>';
     }

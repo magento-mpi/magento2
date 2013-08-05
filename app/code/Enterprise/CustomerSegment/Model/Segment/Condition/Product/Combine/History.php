@@ -140,7 +140,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Product %s %s and matches %s of these Conditions:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('If Product %1 %2 and matches %3 of these Conditions:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

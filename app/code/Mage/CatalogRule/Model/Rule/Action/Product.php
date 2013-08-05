@@ -32,7 +32,7 @@ class Mage_CatalogRule_Model_Rule_Action_Product extends Mage_Rule_Model_Action_
 
     public function asHtml()
     {
-        $html = $this->getTypeElement()->getHtml().Mage::helper('Mage_CatalogRule_Helper_Data')->__("Update product's %s %s: %s", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml(), $this->getValueElement()->getHtml());
+        $html = $this->getTypeElement()->getHtml().Mage::helper('Mage_CatalogRule_Helper_Data')->__("Update product's %1 %2: %3", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml(), $this->getValueElement()->getHtml());
         $html.= $this->getRemoveLinkHtml();
         return $html;
     }

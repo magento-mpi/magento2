@@ -73,7 +73,7 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
             try {
                 $this->_service->massUpdate($notificationIds, array('is_read' => 1));
                 $this->_session->addSuccess(
-                    $this->_helper->__('Total of %d record(s) have been marked as read', count($notificationIds))
+                    $this->_helper->__('Total of %1 record(s) have been marked as read', count($notificationIds))
                 );
             } catch (InvalidArgumentException $exception) {
                 $this->_session->addError($this->_helper->__('Please select notifications'));
@@ -123,7 +123,7 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
             try {
                 $this->_service->massUpdate($notificationIds, array('is_remove' => 1));
                 $this->_session->addSuccess(
-                    $this->_helper->__('Total of %d record(s) have been removed', count($notificationIds))
+                    $this->_helper->__('Total of %1 record(s) have been removed', count($notificationIds))
                 );
             } catch (InvalidArgumentException $exception) {
                 $this->_session->addError($this->_helper->__('Please select notifications'));

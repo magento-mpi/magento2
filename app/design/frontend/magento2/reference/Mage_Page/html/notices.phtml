@@ -34,7 +34,7 @@
 <?php if (Mage::helper('Mage_Core_Helper_Cookie')->isUserNotAllowSaveCookie()): ?>
     <div class="notice global site cookie" id="notice-cookie-block" style="display: none">
         <div class="content">
-            <p><?php echo $this->__('This store uses cookies to make shopping more enjoyable. Learn how cookies work in our <a href="%s">privacy policy</a>.', $this->getPrivacyPolicyLink()) ?></p>
+            <p><?php echo $this->__('This store uses cookies to make shopping more enjoyable. Learn how cookies work in our <a href="%1">privacy policy</a>.', $this->getPrivacyPolicyLink()) ?></p>
             <div class="actions"><button id="btn-cookie-allow" class="action allow"><span><?php echo $this->__('Allow Cookies');?></span></button></div>
         </div>
     </div>

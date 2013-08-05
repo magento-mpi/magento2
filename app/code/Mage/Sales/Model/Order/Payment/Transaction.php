@@ -499,7 +499,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
             $this->_verifyThisTransactionExists();
         }
         if (1 == $this->getIsClosed() && $this->_isFailsafe) {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('The transaction "%s" (%s) is already closed.', $this->getTxnId(), $this->getTxnType()));
+            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('The transaction "%1" (%2) is already closed.', $this->getTxnId(), $this->getTxnType()));
         }
         $this->setIsClosed(1);
         if ($shouldSave) {
@@ -756,7 +756,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
             case self::TYPE_REFUND:
                 break;
             default:
-                Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('We found an unsupported transaction type "%s".', $txnType));
+                Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('We found an unsupported transaction type "%1".', $txnType));
         }
     }
 

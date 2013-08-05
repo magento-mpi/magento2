@@ -966,7 +966,7 @@ class Mage_Paypal_Model_Express_Checkout
             $customer->sendNewAccountEmail('confirmation');
             $url = Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail());
             $this->getCustomerSession()->addSuccess(
-                Mage::helper('Mage_Customer_Helper_Data')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', $url)
+                Mage::helper('Mage_Customer_Helper_Data')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
             );
         } else {
             $customer->sendNewAccountEmail();

@@ -251,7 +251,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
 
         if ($rootCmp == $pathCmp) {
             Mage::throwException(
-                Mage::helper('Mage_Cms_Helper_Data')->__('We cannot delete root directory %s.', $path)
+                Mage::helper('Mage_Cms_Helper_Data')->__('We cannot delete root directory %1.', $path)
             );
         }
 
@@ -262,7 +262,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
         try {
             $this->_filesystem->delete($path);
         } catch (Magento_Filesystem_Exception $e) {
-            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('We cannot delete directory %s.', $path));
+            Mage::throwException(Mage::helper('Mage_Cms_Helper_Data')->__('We cannot delete directory %1.', $path));
         }
 
         if (strpos($pathCmp, $rootCmp) === 0) {

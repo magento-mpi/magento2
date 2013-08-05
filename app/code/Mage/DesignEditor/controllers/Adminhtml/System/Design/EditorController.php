@@ -194,7 +194,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         try {
             $theme = $this->_loadThemeById($themeId);
             if (!$theme->isEditable()) {
-                throw new Mage_Core_Exception($this->__('Sorry, but you can\'t edit theme "%s".',
+                throw new Mage_Core_Exception($this->__('Sorry, but you can\'t edit theme "%1".',
                     $theme->getThemeTitle()));
             }
             $theme->setThemeTitle($themeTitle);
@@ -263,11 +263,11 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
         try {
             $theme = $this->_loadThemeById($themeId);
             if (!$theme->isVirtual()) {
-                throw new Mage_Core_Exception($this->__('Sorry, but you can\'t edit theme "%s".',
+                throw new Mage_Core_Exception($this->__('Sorry, but you can\'t edit theme "%1".',
                     $theme->getThemeTitle()));
             }
             $themeCopy->setData($theme->getData());
-            $themeCopy->setId(null)->setThemeTitle($coreHelper->__('Copy of [%s]', $theme->getThemeTitle()));
+            $themeCopy->setId(null)->setThemeTitle($coreHelper->__('Copy of [%1]', $theme->getThemeTitle()));
             $themeCopy->getThemeImage()->createPreviewImageCopy($theme->getPreviewImage());
             $themeCopy->save();
             $copyService->copy($theme, $themeCopy);
@@ -296,7 +296,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
 
         $virtualTheme = $this->_loadThemeById($themeId);
         if (!$virtualTheme->isVirtual()) {
-            throw new Mage_Core_Exception($this->_helper->__('Theme "%s" is not editable.', $virtualTheme->getId()));
+            throw new Mage_Core_Exception($this->_helper->__('Theme "%1" is not editable.', $virtualTheme->getId()));
         }
 
         try {
@@ -306,7 +306,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
             switch ($revertTo) {
                 case 'last_saved':
                     $copyService->copy($virtualTheme, $stagingTheme);
-                    $message = $this->_helper->__('Theme "%s" reverted to last saved state',
+                    $message = $this->_helper->__('Theme "%1" reverted to last saved state',
                         $virtualTheme->getThemeTitle()
                     );
                     break;
@@ -315,7 +315,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
                     $physicalTheme = $virtualTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)
                         ->getPhysicalTheme();
                     $copyService->copy($physicalTheme, $stagingTheme);
-                    $message = $this->_helper->__('Theme "%s" reverted to last default state',
+                    $message = $this->_helper->__('Theme "%1" reverted to last default state',
                         $virtualTheme->getThemeTitle()
                     );
                     break;

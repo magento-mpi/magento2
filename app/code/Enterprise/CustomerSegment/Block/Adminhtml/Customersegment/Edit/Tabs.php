@@ -59,7 +59,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs exten
                 $customersQty = Mage::getModel('Enterprise_CustomerSegment_Model_Segment')->getResource()
                     ->getSegmentCustomersQty($segment->getId());
                 $this->addTab('customers_tab', array(
-                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Matched Customers (%d)', $customersQty),
+                    'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Matched Customers (%1)', $customersQty),
                     'url'   => $this->getUrl('*/report_customer_customersegment/customerGrid',
                         array('segment_id' => $segment->getId())),
                     'class' => 'ajax',

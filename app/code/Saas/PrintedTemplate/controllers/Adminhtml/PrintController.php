@@ -33,13 +33,13 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
         try {
             $entity = Mage::getModel(uc_words("Mage_Sales_Model_Order_$type"));
             if (!$entity) {
-                Mage::throwException($this->__('Cannot load %s entity; please reload page and try again.', $type));
+                Mage::throwException($this->__('Cannot load %1 entity; please reload page and try again.', $type));
             }
 
             $entity->load($orderTypeId);
             if (!$entity->getId()) {
                 Mage::throwException(
-                    $this->__('Cannot load %s entity #%s; please reload page and try again.', $type, $orderTypeId)
+                    $this->__('Cannot load %1 entity #%2; please reload page and try again.', $type, $orderTypeId)
                 );
             }
 
@@ -79,7 +79,7 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
 
         $entity = Mage::getModel(uc_words("Mage_Sales_Model_Order_$type"));
         if (!$entity) {
-            Mage::throwException($this->__('Cannot load %s entity; please reload page and try again.', $type));
+            Mage::throwException($this->__('Cannot load %1 entity; please reload page and try again.', $type));
         }
         $collection = $entity->getCollection();
         if (!empty($orderIds)) {

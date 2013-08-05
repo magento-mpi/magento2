@@ -718,7 +718,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
             try {
                 return simplexml_load_string($xmlContent);
             } catch (Exception $e) {
-                throw new Exception(Mage::helper('Mage_Usa_Helper_Data')->__('Failed to parse xml document: %s', $xmlContent));
+                throw new Exception(Mage::helper('Mage_Usa_Helper_Data')->__('Failed to parse xml document: %1', $xmlContent));
             }
         } catch (Exception $e) {
             Mage::logException($e);

@@ -53,7 +53,7 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
             return;
         }
         $this->_title($this->__('Billing Agreements'))
-            ->_title($this->__('Billing Agreement # %s', $agreement->getReferenceId()));
+            ->_title($this->__('Billing Agreement # %1', $agreement->getReferenceId()));
         $this->loadLayout();
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
@@ -107,7 +107,7 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
                     ->setCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer())
                     ->place();
                 $this->_getSession()->addSuccess(
-                    $this->__('The billing agreement "%s" has been created.', $agreement->getReferenceId())
+                    $this->__('The billing agreement "%1" has been created.', $agreement->getReferenceId())
                 );
                 $this->_redirect('*/*/view', array('agreement' => $agreement->getId()));
                 return;
@@ -141,7 +141,7 @@ class Mage_Sales_Billing_AgreementController extends Mage_Core_Controller_Front_
         if ($agreement && $agreement->canCancel()) {
             try {
                 $agreement->cancel();
-                $this->_getSession()->addNotice($this->__('The billing agreement "%s" has been canceled.', $agreement->getReferenceId()));
+                $this->_getSession()->addNotice($this->__('The billing agreement "%1" has been canceled.', $agreement->getReferenceId()));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {

@@ -529,7 +529,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
 
         // Set transaction approval message
         $message = Mage::helper('Mage_Authorizenet_Helper_Data')->__(
-            'Amount of %s approved by payment gateway. Transaction ID: "%s".',
+            'Amount of %1 approved by payment gateway. Transaction ID: "%2".',
             $order->getBaseCurrency()->formatTxt($payment->getBaseAmountAuthorized()),
             $response->getXTransId()
         );

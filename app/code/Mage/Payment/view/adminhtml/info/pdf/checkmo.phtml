@@ -13,7 +13,7 @@
 <?php if($this->getInfo()->getAdditionalData()): ?>
     {{pdf_row_separator}}
     <?php if($this->getPayableTo()): ?>
-        <?php echo Mage::helper('Mage_Payment_Helper_Data')->__('Make Check payable to: %s', $this->escapeHtml($this->getPayableTo())) ?>
+        <?php echo Mage::helper('Mage_Payment_Helper_Data')->__('Make Check payable to: %1', $this->escapeHtml($this->getPayableTo())) ?>
         {{pdf_row_separator}}
     <?php endif; ?>
     <?php if($this->getMailingAddress()): ?>

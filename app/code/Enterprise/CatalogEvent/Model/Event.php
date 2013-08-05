@@ -285,7 +285,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
         foreach (array('date_start' , 'date_end') as $dateType) {
             $date = $this->getData($dateType);
             if (empty($date)) { // Date fields is required.
-                Mage::throwException(Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('%s is required.', $fieldTitles[$dateType]));
+                Mage::throwException(Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('%1 is required.', $fieldTitles[$dateType]));
             }
             if ($date != $this->getOrigData($dateType)) {
                 $dateChanged = true;

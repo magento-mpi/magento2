@@ -248,7 +248,7 @@ class Mage_Core_Model_File_Storage_File extends Mage_Core_Model_File_Storage_Abs
                     ->saveFile($filename, $file['content'], $overwrite);
             } catch (Exception $e) {
                 Mage::logException($e);
-                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Unable to save file "%s" at "%s"', $file['filename'], $file['directory']));
+                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Unable to save file "%1" at "%2"', $file['filename'], $file['directory']));
             }
         } else {
             Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Wrong file info format'));

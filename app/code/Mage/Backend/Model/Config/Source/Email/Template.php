@@ -41,7 +41,7 @@ class Mage_Backend_Model_Config_Source_Email_Template extends Varien_Object
         if ($templateLabelNode) {
             $module = (string)$templateLabelNode->getParent()->getAttribute('module');
             $templateName = Mage::helper($module)->__((string)$templateLabelNode);
-            $templateName = Mage::helper('Mage_Backend_Helper_Data')->__('%s (Default)', $templateName);
+            $templateName = Mage::helper('Mage_Backend_Helper_Data')->__('%1 (Default)', $templateName);
         }
         array_unshift(
             $options,

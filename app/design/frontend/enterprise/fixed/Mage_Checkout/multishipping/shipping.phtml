@@ -23,7 +23,7 @@
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="shipping_method_form">
 <fieldset class="multiple-checkout">
     <?php foreach ($this->getAddresses() as $_index => $_address): ?>
-    <h2 class="section-title"><?php echo $this->__('Address %s of %s', ($_index+1), $this->getAddressCount()) ?></h2>
+    <h2 class="section-title"><?php echo $this->__('Address %1 of %2', ($_index+1), $this->getAddressCount()) ?></h2>
     <div class="col2-set">
         <div class="col-1 narrow">
             <div class="info-box">

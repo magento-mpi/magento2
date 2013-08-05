@@ -20,7 +20,7 @@
         <h2 class="legend"><?php echo $this->__('Sharing Information') ?></h2>
         <ul class="form-list">
             <li class="wide">
-                <label for="email_address" class="required"><em>*</em><?php echo $this->__('Email addresses, separated by commas (max %d addresses)', $this->getEmailSharingLimit()); ?></label>
+                <label for="email_address" class="required"><em>*</em><?php echo $this->__('Email addresses, separated by commas (max %1 addresses)', $this->getEmailSharingLimit()); ?></label>
                 <div class="input-box">
                     <textarea name="emails" cols="60" rows="5" id="email_address" data-validate="{required:true,'validate-emails':true}"><?php echo $this->getEnteredData('emails') ?></textarea>
                 </div>

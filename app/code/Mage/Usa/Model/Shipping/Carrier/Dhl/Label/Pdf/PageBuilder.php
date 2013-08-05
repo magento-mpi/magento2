@@ -448,7 +448,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
         if (!$refCode) {
             throw new InvalidArgumentException(Mage::helper('Mage_Usa_Helper_Data')->__('Reference code is missing'));
         }
-        $this->_page->drawText('Ref Code: ' . Mage::helper('Mage_Usa_Helper_Data')->__('Order #%s', $refCode), $this->_x(8),
+        $this->_page->drawText('Ref Code: ' . Mage::helper('Mage_Usa_Helper_Data')->__('Order #%1', $refCode), $this->_x(8),
             $this->_y(224)
         );
         $this->_page->restoreGS();

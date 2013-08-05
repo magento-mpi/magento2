@@ -858,7 +858,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $this->_getSession()->addSuccess($this->__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
                     $this->_getSession()->addNotice(
-                        $this->__('SKU for product %s has been changed to %s.', Mage::helper('Mage_Core_Helper_Data')
+                        $this->__('SKU for product %1 has been changed to %2.', Mage::helper('Mage_Core_Helper_Data')
                             ->escapeHtml($product->getName()),
                             Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
@@ -982,7 +982,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                         $product->delete();
                     }
                     $this->_getSession()->addSuccess(
-                        $this->__('A total of %d record(s) have been deleted.', count($productIds))
+                        $this->__('A total of %1 record(s) have been deleted.', count($productIds))
                     );
                 } catch (Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
@@ -1008,7 +1008,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->updateAttributes($productIds, array('status' => $status), $storeId);
 
             $this->_getSession()->addSuccess(
-                $this->__('A total of %d record(s) have been updated.', count($productIds))
+                $this->__('A total of %1 record(s) have been updated.', count($productIds))
             );
         }
         catch (Mage_Core_Model_Exception $e) {

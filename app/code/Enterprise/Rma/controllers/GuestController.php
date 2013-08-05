@@ -54,7 +54,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
         Mage::helper('Mage_Sales_Helper_Guest')->getBreadcrumbs($this);
         $this->getLayout()
             ->getBlock('head')
-            ->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Return #%s', Mage::registry('current_rma')->getIncrementId()));
+            ->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Return #%1', Mage::registry('current_rma')->getIncrementId()));
         $this->renderLayout();
     }
 
@@ -136,7 +136,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
                         ->save();
                 }
                 Mage::getSingleton('Mage_Core_Model_Session')->addSuccess(
-                    Mage::helper('Enterprise_Rma_Helper_Data')->__('You submitted Return #%s.', $rmaModel->getIncrementId())
+                    Mage::helper('Enterprise_Rma_Helper_Data')->__('You submitted Return #%1.', $rmaModel->getIncrementId())
                 );
                 $this->_redirectSuccess(Mage::getUrl('*/*/returns'));
                 return;
@@ -169,7 +169,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
         }
 
         $incrementId = Mage::registry('current_order')->getIncrementId();
-        $message = Mage::helper('Enterprise_Rma_Helper_Data')->__('We cannot create a return transaction for order #%s.', $incrementId);
+        $message = Mage::helper('Enterprise_Rma_Helper_Data')->__('We cannot create a return transaction for order #%1.', $incrementId);
         Mage::getSingleton('Mage_Core_Model_Session')->addError($message);
         $this->_redirect('sales/order/history');
         return false;

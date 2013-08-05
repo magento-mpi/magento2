@@ -48,7 +48,7 @@ class Mage_User_Adminhtml_AuthController extends Mage_Backend_Controller_ActionA
                 }
                 // @codingStandardsIgnoreStart
                 $this->_getSession()
-                    ->addSuccess(Mage::helper('Mage_User_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('Mage_User_Helper_Data')->escapeHtml($email)));
+                    ->addSuccess(Mage::helper('Mage_User_Helper_Data')->__('If there is an account associated with %1 you will receive an email with a link to reset your password.', Mage::helper('Mage_User_Helper_Data')->escapeHtml($email)));
                 // @codingStandardsIgnoreEnd
                 $this->getResponse()->setRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
                 return;

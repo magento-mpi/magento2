@@ -96,7 +96,7 @@ class Mage_Persistent_Model_Observer
         );
 
         $this->_applyAccountLinksPersistentData();
-        $welcomeMessage = Mage::helper('Mage_Persistent_Helper_Data')->__('Welcome, %s!', $escapedName)
+        $welcomeMessage = Mage::helper('Mage_Persistent_Helper_Data')->__('Welcome, %1!', $escapedName)
             . ' ' . Mage::app()->getLayout()->getBlock('header.additional')->toHtml();
         $block->setWelcome($welcomeMessage);
         return $this;

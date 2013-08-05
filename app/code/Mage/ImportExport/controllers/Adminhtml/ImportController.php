@@ -133,7 +133,7 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
                     }
                     $resultBlock->addNotice($import->getNotices());
                     $resultBlock->addNotice(
-                        $this->__('Checked rows: %d, checked entities: %d, invalid rows: %d, total errors: %d',
+                        $this->__('Checked rows: %1, checked entities: %2, invalid rows: %3, total errors: %4',
                             $import->getProcessedRowsCount(), $import->getProcessedEntitiesCount(),
                             $import->getInvalidRowsCount(), $import->getErrorsCount()
                         )
@@ -170,7 +170,7 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
             );
         } elseif ($import->getErrorsCount() >= $import->getErrorsLimit()) {
             $resultBlock->addNotice(
-                $this->__('Errors limit (%d) reached. Please fix errors and re-upload file.',
+                $this->__('Errors limit (%1) reached. Please fix errors and re-upload file.',
                     $import->getErrorsLimit()
                 )
             );

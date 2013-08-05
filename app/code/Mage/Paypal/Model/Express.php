@@ -179,10 +179,10 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
 
         $formatedPrice = $order->getBaseCurrency()->formatTxt($amount);
         if ($payment->getIsTransactionPending()) {
-            $message = Mage::helper('Mage_Paypal_Helper_Data')->__('The ordering amount of %s is pending approval on the payment gateway.', $formatedPrice);
+            $message = Mage::helper('Mage_Paypal_Helper_Data')->__('The ordering amount of %1 is pending approval on the payment gateway.', $formatedPrice);
             $state = Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW;
         } else {
-            $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Ordered amount of %s', $formatedPrice);
+            $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Ordered amount of %1', $formatedPrice);
         }
 
         $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER, null, false, $message);
@@ -190,13 +190,13 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
         $this->_pro->importPaymentInfo($api, $payment);
 
         if ($payment->getIsTransactionPending()) {
-            $message = Mage::helper('Mage_Paypal_Helper_Data')->__('We\'ll authorize the amount of %s as soon as the payment gateway approves it.', $formatedPrice);
+            $message = Mage::helper('Mage_Paypal_Helper_Data')->__('We\'ll authorize the amount of %1 as soon as the payment gateway approves it.', $formatedPrice);
             $state = Mage_Sales_Model_Order::STATE_PAYMENT_REVIEW;
             if ($payment->getIsFraudDetected()) {
                 $status = Mage_Sales_Model_Order::STATUS_FRAUD;
             }
         } else {
-            $message = Mage::helper('Mage_Paypal_Helper_Data')->__('The authorized amount is %s.', $formatedPrice);
+            $message = Mage::helper('Mage_Paypal_Helper_Data')->__('The authorized amount is %1.', $formatedPrice);
         }
 
         $payment->resetTransactionAdditionalInfo();
@@ -305,9 +305,9 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
                 $formatedPrice = $order->getBaseCurrency()->formatTxt($amount);
 
                 if ($payment->getIsTransactionPending()) {
-                    $message = Mage::helper('Mage_Paypal_Helper_Data')->__('We\'ll authorize the amount of %s as soon as the payment gateway approves it.', $formatedPrice);
+                    $message = Mage::helper('Mage_Paypal_Helper_Data')->__('We\'ll authorize the amount of %1 as soon as the payment gateway approves it.', $formatedPrice);
                 } else {
-                    $message = Mage::helper('Mage_Paypal_Helper_Data')->__('The authorized amount is %s.', $formatedPrice);
+                    $message = Mage::helper('Mage_Paypal_Helper_Data')->__('The authorized amount is %1.', $formatedPrice);
                 }
 
                 $transaction = $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH, null,

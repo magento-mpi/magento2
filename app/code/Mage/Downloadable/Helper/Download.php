@@ -112,7 +112,7 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
                 }
 
                 if ($this->_handle === false) {
-                    Mage::throwException(Mage::helper('Mage_Downloadable_Helper_Data')->__('Something went wrong connecting to the host. Error: %s.', $errstr));
+                    Mage::throwException(Mage::helper('Mage_Downloadable_Helper_Data')->__('Something went wrong connecting to the host. Error: %1.', $errstr));
                 }
 
                 $headers = 'GET ' . $path . $query . ' HTTP/1.0' . "\r\n"

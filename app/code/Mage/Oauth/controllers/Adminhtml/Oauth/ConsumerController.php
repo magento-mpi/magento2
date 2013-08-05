@@ -119,7 +119,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
         $model->load($id);
 
         if (!$model->getId()) {
-            $this->_getSession()->addError(Mage::helper('Mage_Oauth_Helper_Data')->__('Entry with ID #%s not found.', $id));
+            $this->_getSession()->addError(Mage::helper('Mage_Oauth_Helper_Data')->__('Entry with ID #%1 not found.', $id));
             $this->_redirect('*/*/index');
             return;
         }
@@ -162,7 +162,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
 
             if (!$model->getId()) {
                 $this->_getSession()->addError(
-                    $this->__('Entry with ID #%s not found.', $id));
+                    $this->__('Entry with ID #%1 not found.', $id));
                 $this->_redirect('*/*/index');
                 return;
             }

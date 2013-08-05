@@ -34,7 +34,7 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
 
                 if (Mage::getStoreConfig(Mage_Newsletter_Model_Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1 && 
                     !$customerSession->isLoggedIn()) {
-                    Mage::throwException($this->__('Sorry, but the administrator denied subscription for guests. Please <a href="%s">register</a>.', Mage::helper('Mage_Customer_Helper_Data')->getRegisterUrl()));
+                    Mage::throwException($this->__('Sorry, but the administrator denied subscription for guests. Please <a href="%1">register</a>.', Mage::helper('Mage_Customer_Helper_Data')->getRegisterUrl()));
                 }
 
                 $ownerId = Mage::getModel('Mage_Customer_Model_Customer')
@@ -54,7 +54,7 @@ class Mage_Newsletter_SubscriberController extends Mage_Core_Controller_Front_Ac
                 }
             }
             catch (Mage_Core_Exception $e) {
-                $session->addException($e, $this->__('There was a problem with the subscription: %s', $e->getMessage()));
+                $session->addException($e, $this->__('There was a problem with the subscription: %1', $e->getMessage()));
             }
             catch (Exception $e) {
                 $session->addException($e, $this->__('Something went wrong with the subscription.'));

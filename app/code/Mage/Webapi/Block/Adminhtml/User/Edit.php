@@ -70,7 +70,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Fo
     public function getHeaderText()
     {
         if ($this->getApiUser()->getId()) {
-            return $this->__("Edit API User '%s'", $this->escapeHtml($this->getApiUser()->getApiKey()));
+            return $this->__("Edit API User '%1'", $this->escapeHtml($this->getApiUser()->getApiKey()));
         } else {
             return $this->__('New API User');
         }

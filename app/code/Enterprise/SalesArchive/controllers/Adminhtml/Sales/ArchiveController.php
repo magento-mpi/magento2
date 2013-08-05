@@ -145,7 +145,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
         $removedFromArchiveCount = count($removedFromArchive);
         if ($removedFromArchiveCount>0) {
             $this->_getSession()
-                ->addSuccess($this->__('We removed %s order(s) from the archive.', $removedFromArchiveCount));
+                ->addSuccess($this->__('We removed %1 order(s) from the archive.', $removedFromArchiveCount));
         } else {
             // selected orders is not available for removing from archive
         }
@@ -164,7 +164,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
 
         $archivedCount = count($archivedIds);
         if ($archivedCount>0) {
-            $this->_getSession()->addSuccess($this->__('We archived %s order(s).', $archivedCount));
+            $this->_getSession()->addSuccess($this->__('We archived %1 order(s).', $archivedCount));
         } else {
             $this->_getSession()->addWarning($this->__("We can't archive the selected order(s)."));
         }

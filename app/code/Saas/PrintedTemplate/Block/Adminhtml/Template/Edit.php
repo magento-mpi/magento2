@@ -393,6 +393,6 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
      */
     public function getHeaderText()
     {
-        return $this->__('Edit Printed Template (%s)', $this->getTemplateType());
+        return $this->__('Edit Printed Template (%1)', $this->getTemplateType());
     }
 }

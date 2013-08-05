@@ -51,7 +51,7 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
             $this->_title($this->__('Customers'))
                 ->_title($this->__('Customers'))
                 ->_title($customer->getName())
-                ->_title($this->__("Edit '%s' Gift Registry", $model->getTitle()));
+                ->_title($this->__("Edit '%1' Gift Registry", $model->getTitle()));
 
             $this->loadLayout()->renderLayout();
         } catch (Mage_Core_Exception $e) {
@@ -191,11 +191,11 @@ class Enterprise_GiftRegistry_Adminhtml_Giftregistry_CustomerController extends 
             }
 
             if ($sentCount) {
-                $this->_getSession()->addSuccess($this->__('%d email(s) were sent.', $sentCount));
+                $this->_getSession()->addSuccess($this->__('%1 email(s) were sent.', $sentCount));
             }
             if ($failedCount) {
                 $this->_getSession()->addError(
-                    $this->__("We couldn't send '%d of %d emails.", $failedCount, count($emailsForSend))
+                    $this->__("We couldn't send '%1 of %2 emails.", $failedCount, count($emailsForSend))
                 );
             }
         }

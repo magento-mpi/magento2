@@ -33,7 +33,7 @@ $createDateStore    = $this->getStoreCreateDate();
             </tr>
             <?php if ($lastLoginDateAdmin != $lastLoginDateStore): ?>
             <tr>
-                <th><?php echo $this->__('Last Logged In (%s):', $this->getStoreLastLoginDateTimezone()) ?></th>
+                <th><?php echo $this->__('Last Logged In (%1):', $this->getStoreLastLoginDateTimezone()) ?></th>
                 <td><?php echo $lastLoginDateStore ?> (<?php echo $this->getCurrentStatus() ?>)</td>
             </tr>
             <?php endif; ?>
@@ -47,7 +47,7 @@ $createDateStore    = $this->getStoreCreateDate();
             </tr>
             <?php if ($createDateAdmin != $createDateStore): ?>
             <tr>
-                <th><?php echo $this->__('Account Created on (%s):', $this->getStoreCreateDateTimezone()) ?></th>
+                <th><?php echo $this->__('Account Created on (%1):', $this->getStoreCreateDateTimezone()) ?></th>
                 <td><?php echo $createDateStore ?></td>
             </tr>
             <?php endif; ?>

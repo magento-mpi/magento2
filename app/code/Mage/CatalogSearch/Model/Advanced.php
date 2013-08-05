@@ -207,10 +207,10 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
                             ($currencyModel ? $from : $value['from']), ($currencyModel ? $to : $value['to']));
                     } elseif (strlen($value['from']) > 0) {
                         // and more
-                        $value = $this->_helper->__('%s and greater', ($currencyModel ? $from : $value['from']));
+                        $value = $this->_helper->__('%1 and greater', ($currencyModel ? $from : $value['from']));
                     } elseif (strlen($value['to']) > 0) {
                         // to
-                        $value = $this->_helper->__('up to %s', ($currencyModel ? $to : $value['to']));
+                        $value = $this->_helper->__('up to %1', ($currencyModel ? $to : $value['to']));
                     }
                 } else {
                     return $this;

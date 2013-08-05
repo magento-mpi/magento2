@@ -400,7 +400,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
 
                 if (isset($itemInfo['before_suggest_qty']) && ($itemInfo['before_suggest_qty'] != $qty)) {
                     $qtyRecalculatedFlag = true;
-                    $message = $messageFactory->notice(Mage::helper('Mage_Checkout_Helper_Data')->__('Quantity was recalculated from %d to %d', $itemInfo['before_suggest_qty'], $qty));
+                    $message = $messageFactory->notice(Mage::helper('Mage_Checkout_Helper_Data')->__('Quantity was recalculated from %1 to %2', $itemInfo['before_suggest_qty'], $qty));
                     $session->addQuoteItemMessage($item->getId(), $message);
                 }
             }

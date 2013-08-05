@@ -147,12 +147,12 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
                 ));
 
                 $this->_getSession()->addNotice(
-                    $this->__('Please refresh "Catalog URL Rewrites" and "Product Attributes" in System -> <a href="%s">Index Management</a>.', $this->getUrl('adminhtml/process/list'))
+                    $this->__('Please refresh "Catalog URL Rewrites" and "Product Attributes" in System -> <a href="%1">Index Management</a>.', $this->getUrl('adminhtml/process/list'))
                 );
             }
 
             $this->_getSession()->addSuccess(
-                $this->__('A total of %d record(s) were updated.', count($this->_getHelper()->getProductIds()))
+                $this->__('A total of %1 record(s) were updated.', count($this->_getHelper()->getProductIds()))
             );
         }
         catch (Mage_Core_Exception $e) {

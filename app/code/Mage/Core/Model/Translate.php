@@ -525,7 +525,6 @@ class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
         if ($this->_isEmptyTranslateArg($text)) {
             return '';
         }
-
         if ($text instanceof Mage_Core_Model_Translate_Expr) {
             $code = $text->getCode(self::SCOPE_SEPARATOR);
             $module = $text->getModule();
@@ -541,10 +540,7 @@ class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
             $translated = $this->_getTranslatedString($text, $code);
         }
 
-        $result = @vsprintf($translated, $args);
-        if ($result === false) {
-            $result = $translated;
-        }
+        $result = $this->_replacePlaceholders($translated, $args);
 
         if ($this->_translateInline && $this->getTranslateInline()) {
             if (strpos($result, '{{{') === false
@@ -556,6 +552,26 @@ class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
         }
 
         return $result;
+    }
+
+    /**
+     * Return a formatted string. Replace placeholders %1, %2... with value
+     *
+     * @param string $phrase
+     * @param array $arguments
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    protected function _replacePlaceholders($phrase, $arguments)
+    {
+        if ($arguments) {
+            $placeholders = array();
+            for ($i = 1, $size = count($arguments); $i <= $size; $i++) {
+                $placeholders[] = "%$i";
+            }
+            $phrase = str_replace($placeholders, $arguments, $phrase);
+        }
+        return $phrase;
     }
 
     /**

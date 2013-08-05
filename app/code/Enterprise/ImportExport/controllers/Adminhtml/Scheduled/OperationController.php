@@ -213,7 +213,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                     $operation->delete();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    $this->__('We deleted a total of %s record(s).', count($operations))
+                    $this->__('We deleted a total of %1 record(s).', count($operations))
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
@@ -250,7 +250,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                         ->save();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    $this->__('A total of %s record(s) have been updated.', count($operations))
+                    $this->__('A total of %1 record(s) have been updated.', count($operations))
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());

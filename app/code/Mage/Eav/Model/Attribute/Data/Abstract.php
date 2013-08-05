@@ -290,15 +290,15 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
                 case 'alphanumeric':
                     $validator = new Zend_Validate_Alnum(true);
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" invalid type entered.', $label),
+                        $this->_translationHelper->__('"%1" invalid type entered.', $label),
                         Zend_Validate_Alnum::INVALID
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" contains non-alphabetic or non-numeric characters.', $label),
+                        $this->_translationHelper->__('"%1" contains non-alphabetic or non-numeric characters.', $label),
                         Zend_Validate_Alnum::NOT_ALNUM
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is an empty string.', $label),
+                        $this->_translationHelper->__('"%1" is an empty string.', $label),
                         Zend_Validate_Alnum::STRING_EMPTY
                     );
                     if (!$validator->isValid($value)) {
@@ -308,15 +308,15 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
                 case 'numeric':
                     $validator = new Zend_Validate_Digits();
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" invalid type entered.', $label),
+                        $this->_translationHelper->__('"%1" invalid type entered.', $label),
                         Zend_Validate_Digits::INVALID
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" contains non-numeric characters.', $label),
+                        $this->_translationHelper->__('"%1" contains non-numeric characters.', $label),
                         Zend_Validate_Digits::NOT_DIGITS
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is an empty string.', $label),
+                        $this->_translationHelper->__('"%1" is an empty string.', $label),
                         Zend_Validate_Digits::STRING_EMPTY
                     );
                     if (!$validator->isValid($value)) {
@@ -326,15 +326,15 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
                 case 'alpha':
                     $validator = new Zend_Validate_Alpha(true);
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" invalid type entered.', $label),
+                        $this->_translationHelper->__('"%1" invalid type entered.', $label),
                         Zend_Validate_Alpha::INVALID
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" contains non-alphabetic characters.', $label),
+                        $this->_translationHelper->__('"%1" contains non-alphabetic characters.', $label),
                         Zend_Validate_Alpha::NOT_ALPHA
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is an empty string.', $label),
+                        $this->_translationHelper->__('"%1" is an empty string.', $label),
                         Zend_Validate_Alpha::STRING_EMPTY
                     );
                     if (!$validator->isValid($value)) {
@@ -357,39 +357,39 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
         */
                     $validator = new Zend_Validate_EmailAddress();
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" invalid type entered.', $label),
+                        $this->_translationHelper->__('"%1" invalid type entered.', $label),
                         Zend_Validate_EmailAddress::INVALID
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid email address.', $label),
+                        $this->_translationHelper->__('"%1" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::INVALID_FORMAT
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid hostname.', $label),
+                        $this->_translationHelper->__('"%1" is not a valid hostname.', $label),
                         Zend_Validate_EmailAddress::INVALID_HOSTNAME
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid hostname.', $label),
+                        $this->_translationHelper->__('"%1" is not a valid hostname.', $label),
                         Zend_Validate_EmailAddress::INVALID_MX_RECORD
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid hostname.', $label),
+                        $this->_translationHelper->__('"%1" is not a valid hostname.', $label),
                         Zend_Validate_EmailAddress::INVALID_MX_RECORD
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid email address.', $label),
+                        $this->_translationHelper->__('"%1" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::DOT_ATOM
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid email address.', $label),
+                        $this->_translationHelper->__('"%1" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::QUOTED_STRING
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid email address.', $label),
+                        $this->_translationHelper->__('"%1" is not a valid email address.', $label),
                         Zend_Validate_EmailAddress::INVALID_LOCAL_PART
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" exceeds the allowed length.', $label),
+                        $this->_translationHelper->__('"%1" exceeds the allowed length.', $label),
                         Zend_Validate_EmailAddress::LENGTH_EXCEEDED
                     );
                     $validator->setMessage(
@@ -431,25 +431,25 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
                 case 'url':
                     $parsedUrl = parse_url($value);
                     if ($parsedUrl === false || empty($parsedUrl['scheme']) || empty($parsedUrl['host'])) {
-                        return array($this->_translationHelper->__('"%s" is not a valid URL.', $label));
+                        return array($this->_translationHelper->__('"%1" is not a valid URL.', $label));
                     }
                     $validator = new Zend_Validate_Hostname();
                     if (!$validator->isValid($parsedUrl['host'])) {
-                        return array($this->_translationHelper->__('"%s" is not a valid URL.', $label));
+                        return array($this->_translationHelper->__('"%1" is not a valid URL.', $label));
                     }
                     break;
                 case 'date':
                     $validator = new Zend_Validate_Date(Varien_Date::DATE_INTERNAL_FORMAT);
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" invalid type entered.', $label),
+                        $this->_translationHelper->__('"%1" invalid type entered.', $label),
                         Zend_Validate_Date::INVALID
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" is not a valid date.', $label),
+                        $this->_translationHelper->__('"%1" is not a valid date.', $label),
                         Zend_Validate_Date::INVALID_DATE
                     );
                     $validator->setMessage(
-                        $this->_translationHelper->__('"%s" does not fit the entered date format.', $label),
+                        $this->_translationHelper->__('"%1" does not fit the entered date format.', $label),
                         Zend_Validate_Date::FALSEFORMAT
                     );
                     if (!$validator->isValid($value)) {

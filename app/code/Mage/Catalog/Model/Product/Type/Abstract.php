@@ -410,7 +410,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                         } catch (Magento_Filesystem_Exception $e) {
                             Mage::throwException(
                                 $this->_helper('Mage_Catalog_Helper_Data')
-                                    ->__("We can't create writeable directory \"%s\".", $path)
+                                    ->__("We can't create writeable directory \"%1\".", $path)
                             );
                         }
 

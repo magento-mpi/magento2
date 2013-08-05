@@ -118,7 +118,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         }
         foreach (array('trial_billing_abount', 'shipping_amount', 'tax_amount', 'init_amount') as $key) {
             if ($this->hasData($key) && 0 >= $this->getData($key)) {
-                $this->_errors[$key][] = Mage::helper('Mage_Payment_Helper_Data')->__('The wrong %s is specified.', $this->getFieldLabel($key));
+                $this->_errors[$key][] = Mage::helper('Mage_Payment_Helper_Data')->__('The wrong %1 is specified.', $this->getFieldLabel($key));
             }
         }
 
@@ -157,7 +157,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
             }
             if ($asMessage) {
                 return Mage::throwException(
-                    Mage::helper('Mage_Payment_Helper_Data')->__("The payment profile is invalid:\n%s.", implode("\n", $result))
+                    Mage::helper('Mage_Payment_Helper_Data')->__("The payment profile is invalid:\n%1.", implode("\n", $result))
                 );
             }
             return $result;
@@ -618,11 +618,11 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         if (self::PERIOD_UNIT_SEMI_MONTH == $period) {
             $frequency = '';
         }
-        $result[] = Mage::helper('Mage_Payment_Helper_Data')->__('%s %s cycle.', $frequency, $this->getPeriodUnitLabel($period));
+        $result[] = Mage::helper('Mage_Payment_Helper_Data')->__('%1 %2 cycle.', $frequency, $this->getPeriodUnitLabel($period));
 
         $cycles = (int)$this->_getData($cyclesKey);
         if ($cycles) {
-            $result[] = Mage::helper('Mage_Payment_Helper_Data')->__('Repeats %s time(s)', $cycles);
+            $result[] = Mage::helper('Mage_Payment_Helper_Data')->__('Repeats %1 time(s)', $cycles);
         } else {
             $result[] = Mage::helper('Mage_Payment_Helper_Data')->__('Repeats until suspended or canceled.');
         }

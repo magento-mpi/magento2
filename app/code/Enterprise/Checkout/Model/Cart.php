@@ -316,7 +316,7 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
                 ->load($product);
             if (!$product->getId()) {
                 Mage::throwException(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Failed to add a product to cart by id "%s".', $productId)
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Failed to add a product to cart by id "%1".', $productId)
                 );
             }
         }
@@ -1396,14 +1396,14 @@ class Enterprise_Checkout_Model_Cart extends Varien_Object implements Mage_Check
         $messages = array();
         if ($addedItemsCount) {
             $message = ($addedItemsCount == 1)
-                    ? Mage::helper('Enterprise_Checkout_Helper_Data')->__('You added %s product to your shopping cart.', $addedItemsCount)
-                    : Mage::helper('Enterprise_Checkout_Helper_Data')->__('You added %s products to your shopping cart.', $addedItemsCount);
+                    ? Mage::helper('Enterprise_Checkout_Helper_Data')->__('You added %1 product to your shopping cart.', $addedItemsCount)
+                    : Mage::helper('Enterprise_Checkout_Helper_Data')->__('You added %1 products to your shopping cart.', $addedItemsCount);
             $messages[] = Mage::getSingleton('Mage_Core_Model_Message')->success($message);
         }
         if ($failedItemsCount) {
             $warning = ($failedItemsCount == 1)
-                    ? Mage::helper('Enterprise_Checkout_Helper_Data')->__('%s product requires your attention.', $failedItemsCount)
-                    : Mage::helper('Enterprise_Checkout_Helper_Data')->__('%s products require your attention.', $failedItemsCount);
+                    ? Mage::helper('Enterprise_Checkout_Helper_Data')->__('%1 product requires your attention.', $failedItemsCount)
+                    : Mage::helper('Enterprise_Checkout_Helper_Data')->__('%1 products require your attention.', $failedItemsCount);
             $messages[] = Mage::getSingleton('Mage_Core_Model_Message')->error($warning);
         }
         return $messages;

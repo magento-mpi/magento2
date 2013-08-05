@@ -331,13 +331,13 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
             } elseif ($customAmount > $maxAmount && $isStrict) {
                 $messageAmount = $this->_helper('Mage_Core_Helper_Data')->currency($maxAmount, true, false);
                 Mage::throwException(
-                    $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card max amount is %s', $messageAmount)
+                    $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card max amount is %1', $messageAmount)
                 );
             }
         } elseif ($customAmount < $minAmount && $isStrict) {
             $messageAmount = $this->_helper('Mage_Core_Helper_Data')->currency($minAmount, true, false);
             Mage::throwException(
-                $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card min amount is %s', $messageAmount)
+                $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card min amount is %1', $messageAmount)
             );
         }
     }

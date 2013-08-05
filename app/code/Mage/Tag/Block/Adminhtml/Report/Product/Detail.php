@@ -24,7 +24,7 @@ class Mage_Tag_Block_Adminhtml_Report_Product_Detail extends Mage_Backend_Block_
 
         $product = Mage::getModel('Mage_Catalog_Model_Product')->load($this->getRequest()->getParam('id'));
 
-        $this->_headerText = Mage::helper('Mage_Tag_Helper_Data')->__('Tags submitted to %s', $product->getName());
+        $this->_headerText = Mage::helper('Mage_Tag_Helper_Data')->__('Tags submitted to %1', $product->getName());
         parent::_construct();
         $this->_removeButton('add');
         $this->setBackUrl($this->getUrl('*/report_tag/product/'));

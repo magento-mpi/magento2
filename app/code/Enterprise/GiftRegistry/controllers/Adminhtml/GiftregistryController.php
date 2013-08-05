@@ -100,7 +100,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
         }
 
         $this->_initAction();
-        $this->_title($this->__('%s', $model->getLabel()));
+        $this->_title($this->__('%1', $model->getLabel()));
 
         $block = $this->getLayout()->createBlock('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));

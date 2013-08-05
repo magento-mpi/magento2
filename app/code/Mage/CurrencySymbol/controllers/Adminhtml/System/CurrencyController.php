@@ -89,7 +89,7 @@ class Mage_CurrencySymbol_Adminhtml_System_CurrencyController extends Mage_Admin
                         $value = abs(Mage::getSingleton('Mage_Core_Model_LocaleInterface')->getNumber($value));
                         $data[$currencyCode][$currencyTo] = $value;
                         if( $value == 0 ) {
-                            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addWarning(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please correct the input data for %s => %s rate', $currencyCode, $currencyTo));
+                            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addWarning(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please correct the input data for %1 => %2 rate', $currencyCode, $currencyTo));
                         }
                     }
                 }

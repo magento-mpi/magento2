@@ -10,7 +10,7 @@
 ?>
 <?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?>
 <?php if($this->getInfo()->getAdditionalData()): ?>
-    <?php if($this->getPayableTo()): ?><br /><?php echo Mage::helper('Mage_Payment_Helper_Data')->__('Make Check payable to: %s', $this->escapeHtml($this->getPayableTo())) ?><?php endif; ?>
+    <?php if($this->getPayableTo()): ?><br /><?php echo Mage::helper('Mage_Payment_Helper_Data')->__('Make Check payable to: %1', $this->escapeHtml($this->getPayableTo())) ?><?php endif; ?>
     <?php if($this->getMailingAddress()): ?>
         <label><?php echo Mage::helper('Mage_Payment_Helper_Data')->__('Send Check to:') ?></label>
         <div class="checkmo-mailing-address">

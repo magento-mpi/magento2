@@ -200,7 +200,7 @@ class Enterprise_Checkout_Model_Observer
         $failedItemsCount = count(Mage::getSingleton('Enterprise_Checkout_Model_Cart')->getFailedItems());
         if ($failedItemsCount > 0) {
             $block->setAllowCartLink(true);
-            $block->setCartEmptyMessage(Mage::helper('Enterprise_Checkout_Helper_Data')->__('%d item(s) need your attention.', $failedItemsCount));
+            $block->setCartEmptyMessage(Mage::helper('Enterprise_Checkout_Helper_Data')->__('%1 item(s) need your attention.', $failedItemsCount));
         }
     }
 }

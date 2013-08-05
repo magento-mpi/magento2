@@ -29,7 +29,7 @@
         <?php if ($this->getTileState() == Saas_Launcher_Model_Tile::STATE_COMPLETE) : ?>
         <ul class="checklist">
             <li class="completed">
-                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('You have %s product(s)', $this->getProductCount()); ?>
+                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('You have %1 product(s)', $this->getProductCount()); ?>
             </li>
         </ul>
         <div class="actions">

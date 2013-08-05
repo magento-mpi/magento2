@@ -86,7 +86,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
 
                 if ($count > 0) {
                     Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
-                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('%d item(s) have been added to the gift registry.', $count)
+                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('%1 item(s) have been added to the gift registry.', $count)
                     );
                 } else {
                     Mage::getSingleton('Mage_Checkout_Model_Session')->addNotice(

@@ -112,7 +112,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
                 $process->reindexEverything();
                 Magento_Profiler::stop('__INDEX_PROCESS_REINDEX_ALL__');
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Index_Helper_Data')->__('%s index was rebuilt.', $process->getIndexer()->getName())
+                    Mage::helper('Mage_Index_Helper_Data')->__('%1 index was rebuilt.', $process->getIndexer()->getName())
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -169,7 +169,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
                     }
                 }
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Index_Helper_Data')->__('Total of %d index(es) have reindexed data.', $counter)
+                    Mage::helper('Mage_Index_Helper_Data')->__('Total of %1 index(es) have reindexed data.', $counter)
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -203,7 +203,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
                     }
                 }
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Index_Helper_Data')->__('Total of %d index(es) have changed index mode.', $counter)
+                    Mage::helper('Mage_Index_Helper_Data')->__('Total of %1 index(es) have changed index mode.', $counter)
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

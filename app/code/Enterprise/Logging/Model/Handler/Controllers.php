@@ -281,7 +281,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         $this->postDispatchGeneric($config, $eventModel, $processorModel);
         if ($request->getParam('auto_apply')) {
-            $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('%s & applied', $eventModel->getInfo()));
+            $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('%1 & applied', $eventModel->getInfo()));
         }
 
         return $eventModel;
@@ -573,7 +573,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         $cacheTypes = $request->getPost('types');
         if (is_array($cacheTypes) && !empty($cacheTypes)) {
             $cacheTypes = implode(', ', $cacheTypes);
-            $info = Mage::helper('Enterprise_Logging_Helper_Data')->__('Cache types: %s ', $cacheTypes);
+            $info = Mage::helper('Enterprise_Logging_Helper_Data')->__('Cache types: %1 ', $cacheTypes);
         }
 
         $success = true;

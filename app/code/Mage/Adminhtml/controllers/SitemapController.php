@@ -247,7 +247,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
                 $sitemap->generateXml();
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Sitemap_Helper_Data')->__('The sitemap "%s" has been generated.', $sitemap->getSitemapFilename()));
+                    Mage::helper('Mage_Sitemap_Helper_Data')->__('The sitemap "%1" has been generated.', $sitemap->getSitemapFilename()));
             }
             catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

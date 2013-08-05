@@ -99,7 +99,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
                 } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                     $hasOptions[] = $item;
                 } else {
-                    $messages[] = $this->__('%s for "%s".', trim($e->getMessage(), '.'), $item->getProduct()->getName());
+                    $messages[] = $this->__('%1 for "%2".', trim($e->getMessage(), '.'), $item->getProduct()->getName());
                 }
             } catch (Exception $e) {
                 Mage::logException($e);
@@ -125,7 +125,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
             foreach ($notSalable as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = Mage::helper('Mage_Wishlist_Helper_Data')->__('We couldn\'t add the following product(s) to the shopping cart: %s.', join(', ', $products));
+            $messages[] = Mage::helper('Mage_Wishlist_Helper_Data')->__('We couldn\'t add the following product(s) to the shopping cart: %1.', join(', ', $products));
         }
 
         if ($hasOptions) {
@@ -133,7 +133,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
             foreach ($hasOptions as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = Mage::helper('Mage_Wishlist_Helper_Data')->__('Product(s) %s have required options. Each product can only be added individually.', join(', ', $products));
+            $messages[] = Mage::helper('Mage_Wishlist_Helper_Data')->__('Product(s) %1 have required options. Each product can only be added individually.', join(', ', $products));
         }
 
         if ($messages) {
@@ -169,7 +169,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
             }
 
             Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
-                Mage::helper('Mage_Wishlist_Helper_Data')->__('%d product(s) have been added to shopping cart: %s.', count($addedItems), join(', ', $products))
+                Mage::helper('Mage_Wishlist_Helper_Data')->__('%1 product(s) have been added to shopping cart: %2.', count($addedItems), join(', ', $products))
             );
         }
         // save cart and collect totals

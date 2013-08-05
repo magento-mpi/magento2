@@ -218,11 +218,11 @@ class Mage_Wishlist_IndexController
 
             /** @var $helper Mage_Wishlist_Helper_Data */
             $helper = Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
-            $message = $this->__('%1$s has been added to your wishlist. Click <a href="%2$s">here</a> to continue shopping.', $helper->escapeHtml($product->getName()), Mage::helper('Mage_Core_Helper_Data')->escapeUrl($referer));
+            $message = $this->__('%1 has been added to your wishlist. Click <a href="%2">here</a> to continue shopping.', $helper->escapeHtml($product->getName()), Mage::helper('Mage_Core_Helper_Data')->escapeUrl($referer));
             $session->addSuccess($message);
         }
         catch (Mage_Core_Exception $e) {
-            $session->addError($this->__('An error occurred while adding item to wish list: %s', $e->getMessage()));
+            $session->addError($this->__('An error occurred while adding item to wish list: %1', $e->getMessage()));
         }
         catch (Exception $e) {
             $session->addError($this->__('An error occurred while adding item to wish list.'));
@@ -319,7 +319,7 @@ class Mage_Wishlist_IndexController
 
             Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
 
-            $message = $this->__('%1$s has been updated in your wish list.', $product->getName());
+            $message = $this->__('%1 has been updated in your wish list.', $product->getName());
             $session->addSuccess($message);
         } catch (Mage_Core_Exception $e) {
             $session->addError($e->getMessage());
@@ -393,7 +393,7 @@ class Mage_Wishlist_IndexController
                     $updatedItems++;
                 } catch (Exception $e) {
                     Mage::getSingleton('Mage_Customer_Model_Session')->addError(
-                        $this->__('Can\'t save description %s', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($description))
+                        $this->__('Can\'t save description %1', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($description))
                     );
                 }
             }
@@ -436,7 +436,7 @@ class Mage_Wishlist_IndexController
             $wishlist->save();
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('Mage_Customer_Model_Session')->addError(
-                $this->__('An error occurred while deleting the item from wish list: %s', $e->getMessage())
+                $this->__('An error occurred while deleting the item from wish list: %1', $e->getMessage())
             );
         } catch(Exception $e) {
             Mage::getSingleton('Mage_Customer_Model_Session')->addError(
@@ -566,7 +566,7 @@ class Mage_Wishlist_IndexController
             $productName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($item->getProduct()->getName());
             $wishlistName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($wishlist->getName());
             $session->addSuccess(
-                Mage::helper('Mage_Wishlist_Helper_Data')->__("%s has been moved to wish list %s", $productName, $wishlistName)
+                Mage::helper('Mage_Wishlist_Helper_Data')->__("%1 has been moved to wish list %2", $productName, $wishlistName)
             );
             $wishlist->save();
         } catch (Mage_Core_Exception $e) {
@@ -613,13 +613,13 @@ class Mage_Wishlist_IndexController
         $error   = false;
         $message = (string) $this->getRequest()->getPost('message');
         if (strlen($message) > $textLimit) {
-            $error = $this->__('Message length must not exceed %d symbols', $textLimit);
+            $error = $this->__('Message length must not exceed %1 symbols', $textLimit);
         } else {
             $message = nl2br(htmlspecialchars($message));
             if (empty($emails)) {
                 $error = $this->__('Email address can\'t be empty.');
             } else if (count($emails) > $emailsLeft) {
-                $error = $this->__('This wishlist can be shared %d more times.', $emailsLeft);
+                $error = $this->__('This wishlist can be shared %1 more times.', $emailsLeft);
             } else {
                 foreach ($emails as $index => $email) {
                     $email = trim($email);

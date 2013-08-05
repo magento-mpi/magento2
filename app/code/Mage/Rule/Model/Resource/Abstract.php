@@ -228,7 +228,7 @@ abstract class Mage_Rule_Model_Resource_Abstract extends Mage_Core_Model_Resourc
         $e = Mage::exception(
             'Mage_Core',
             Mage::helper('Mage_Rule_Helper_Data')->__(
-                'There is no information about associated entity type "%s".', $entityType
+                'There is no information about associated entity type "%1".', $entityType
             )
         );
         throw $e;

@@ -44,7 +44,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Shopping cart %s a coupon applied', $this->getValueElementHtml())
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Shopping cart %1 a coupon applied', $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

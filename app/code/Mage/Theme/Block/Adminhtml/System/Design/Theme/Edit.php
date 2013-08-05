@@ -76,7 +76,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_getCurrentTheme();
         if ($theme->getId()) {
-            $header = $this->__('Theme: %s', $theme->getThemeTitle());
+            $header = $this->__('Theme: %1', $theme->getThemeTitle());
         } else {
             $header = $this->__('New Theme');
         }

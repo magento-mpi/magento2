@@ -52,7 +52,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         try {
             $theme->setType(Mage_Core_Model_Theme::TYPE_VIRTUAL);
             if ($themeId && (!$theme->load($themeId)->getId() || !$theme->isVisible())) {
-                throw new Mage_Core_Exception($this->__('We cannot find theme "%s".', $themeId));
+                throw new Mage_Core_Exception($this->__('We cannot find theme "%1".', $themeId));
             }
             Mage::register('current_theme', $theme);
 
@@ -144,7 +144,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 /** @var $theme Mage_Core_Model_Theme */
                 $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
                 if (!$theme->getId()) {
-                    throw new InvalidArgumentException(sprintf('We cannot find a theme with id "%d".', $themeId));
+                    throw new InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
                 }
                 if (!$theme->isVirtual()) {
                     throw new InvalidArgumentException(
@@ -202,7 +202,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
         try {
             $theme = $themeFactory->create($themeId);
             if (!$theme) {
-                Mage::throwException($this->__('We cannot find a theme with id "%d".', $themeId));
+                Mage::throwException($this->__('We cannot find a theme with id "%1".', $themeId));
             }
             $jsFileData = $serviceModel->uploadJsFile('js_files_uploader');
             $jsFile = $jsService->create();
@@ -236,7 +236,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             $themeFactory = $this->_objectManager->create('Mage_Core_Model_Theme_FlyweightFactory');
             $theme = $themeFactory->create($themeId);
             if (!$theme) {
-                throw new InvalidArgumentException(sprintf('We cannot find a theme with id "%d".', $themeId));
+                throw new InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
             }
 
             $customCssFiles = $theme->getCustomization()->getFilesByType(
@@ -275,7 +275,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
             /** @var $theme Mage_Core_Model_Theme */
             $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->load($themeId);
             if (!$theme->getId()) {
-                throw new InvalidArgumentException(sprintf('We cannot find a theme with id "%d".', $themeId));
+                throw new InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
             }
 
             $themeCss = $helper->getCssFiles($theme);
@@ -290,7 +290,7 @@ class Mage_Theme_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_
                 'value' => $themeCss[$fileName]['path']
             ));
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $this->__('We cannot find file "%s".', $fileName));
+            $this->_getSession()->addException($e, $this->__('We cannot find file "%1".', $fileName));
             $this->_redirectUrl($this->_getRefererUrl());
             $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
         }

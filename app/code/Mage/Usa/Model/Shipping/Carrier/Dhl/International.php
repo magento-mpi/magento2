@@ -884,12 +884,12 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                                     break;
                                 }
                             }
-                            Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__('Error #%s : %s', trim($code), trim($data)));
+                            Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__('Error #%1 : %2', trim($code), trim($data)));
                         }
 
                         $code = isset($nodeCondition->ConditionCode) ? (string)$nodeCondition->ConditionCode : 0;
                         $data = isset($nodeCondition->ConditionData) ? (string)$nodeCondition->ConditionData : '';
-                        $this->_errors[$code] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%s : %s', trim($code), trim($data));
+                        $this->_errors[$code] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%1 : %2', trim($code), trim($data));
                     } else {
                         if (isset($xml->GetQuoteResponse->BkgDetails->QtdShp)) {
                             foreach ($xml->GetQuoteResponse->BkgDetails->QtdShp as $quotedShipment) {
@@ -981,7 +981,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                     }
                     if (!isset($rates[$currencyCode]) || !$totalEstimate) {
                         $totalEstimate = false;
-                        $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__('We had to skip DHL method %s because we couldn\'t find exchange rate %s (Base Currency).', $currencyCode, $baseCurrencyCode, $dhlProductDescription);
+                        $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__('We had to skip DHL method %1 because we couldn\'t find exchange rate %2 (Base Currency).', $currencyCode, $baseCurrencyCode);
                     }
                 }
             }
@@ -999,7 +999,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 }
                 $this->_rates[] = array('service' => $dhlProduct, 'data' => $data);
             } else {
-                $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__("Zero shipping charge for '%s'", $dhlProductDescription);
+                $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__("Zero shipping charge for '%1'", $dhlProductDescription);
             }
         } else {
             $dhlProductDescription = false;
@@ -1007,7 +1007,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                 $dhlProductDescription  = $this->getDhlProductTitle((string)$shipmentDetails->GlobalProductCode);
             }
             $dhlProductDescription = $dhlProductDescription ? $dhlProductDescription : Mage::helper('Mage_Usa_Helper_Data')->__("DHL");
-            $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__("Zero shipping charge for '%s'", $dhlProductDescription);
+            $this->_errors[] = Mage::helper('Mage_Usa_Helper_Data')->__("Zero shipping charge for '%1'", $dhlProductDescription);
         }
         return $this;
     }
@@ -1022,7 +1022,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $countryId = $this->_rawRequest->getOrigCountryId();
         $measureUnit = $this->getCountryParams($countryId)->getMeasureUnit();
         if (empty($measureUnit)) {
-            Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__("Cannot identify measure unit for %s", $countryId));
+            Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__("Cannot identify measure unit for %1", $countryId));
         }
         return $measureUnit;
     }
@@ -1037,7 +1037,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $countryId = $this->_rawRequest->getOrigCountryId();
         $weightUnit = $this->getCountryParams($countryId)->getWeightUnit();
         if (empty($weightUnit)) {
-            Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__("Cannot identify weight unit for %s", $countryId));
+            Mage::throwException(Mage::helper('Mage_Usa_Helper_Data')->__("Cannot identify weight unit for %1", $countryId));
         }
         return $weightUnit;
     }
@@ -1160,7 +1160,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             if ($params['width'] || $params['length'] || $params['height']) {
                 $minValue = $this->_getMinDimension($params['dimension_units']);
                 if ($params['width'] < $minValue || $params['length'] < $minValue || $params['height'] < $minValue) {
-                    $message = Mage::helper('Mage_Usa_Helper_Data')->__('Height, width and length should be equal or greater than %s', $minValue);
+                    $message = Mage::helper('Mage_Usa_Helper_Data')->__('Height, width and length should be equal or greater than %1', $minValue);
                     Mage::throwException($message);
                 }
             }
@@ -1591,7 +1591,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
 
                 $code = isset($nodeCondition->ConditionCode) ? (string)$nodeCondition->ConditionCode : 0;
                 $data = isset($nodeCondition->ConditionData) ? (string)$nodeCondition->ConditionData : '';
-                $this->_errors[$code] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%s : %s', $code, $data);
+                $this->_errors[$code] = Mage::helper('Mage_Usa_Helper_Data')->__('Error #%1 : %2', $code, $data);
             } elseif (is_object($xml) && is_object($xml->AWBInfo)) {
                 foreach ($xml->AWBInfo as $awbinfo) {
                     $awbinfoData = array();

@@ -55,9 +55,9 @@ class Mage_Adminhtml_Model_Search_Order extends Varien_Object
             $arr[] = array(
                 'id'                => 'order/1/'.$order->getId(),
                 'type'              => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Order'),
-                'name'              => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Order #%s', $order->getIncrementId()),
+                'name'              => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Order #%1', $order->getIncrementId()),
                 'description'       => $order->getBillingFirstname().' '.$order->getBillingLastname(),
-                'form_panel_title'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Order #%s (%s)', $order->getIncrementId(), $order->getBillingFirstname().' '.$order->getBillingLastname()),
+                'form_panel_title'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Order #%1 (%2)', $order->getIncrementId(), $order->getBillingFirstname().' '.$order->getBillingLastname()),
                 'url' => Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl(
                     '*/sales_order/view',
                     array(

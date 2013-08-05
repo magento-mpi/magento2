@@ -382,7 +382,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     public function getSkuEmptyDataMessageText()
     {
         return $this->isSkuApplied()
-            ? $this->__('You have not entered a product SKU. Please <a href="%s">click here</a> to add product(s) by SKU.', $this->getAccountSkuUrl())
+            ? $this->__('You have not entered a product SKU. Please <a href="%1">click here</a> to add product(s) by SKU.', $this->getAccountSkuUrl())
             : $this->__('You have not entered a product SKU.');
     }
 }

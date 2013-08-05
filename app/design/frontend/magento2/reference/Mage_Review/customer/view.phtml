@@ -47,9 +47,9 @@
         <div class="review title"><?php echo $this->escapeHtml($this->getReviewData()->getTitle()) ?></div>
         <p class="review date">
             <?php if ($this->isReviewOwner()): ?>
-                <?php echo $this->__('Your Review (submitted on %s):', '<time class="date">' . $this->dateFormat($this->getReviewData()->getCreatedAt()) . '</time>') ?>
+                <?php echo $this->__('Your Review (submitted on %1):', '<time class="date">' . $this->dateFormat($this->getReviewData()->getCreatedAt()) . '</time>') ?>
             <?php else :?>
-                <?php echo $this->__('Review (submitted on %s):', '<time class="date">' . $this->dateFormat($this->getReviewData()->getCreatedAt()) . '</time>') ?>
+                <?php echo $this->__('Review (submitted on %1):', '<time class="date">' . $this->dateFormat($this->getReviewData()->getCreatedAt()) . '</time>') ?>
             <?php endif;?>
         </p>
         <div class="review content"><?php echo nl2br($this->escapeHtml($this->getReviewData()->getDetail())) ?></div>

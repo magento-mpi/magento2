@@ -148,7 +148,7 @@ class Mage_Downloadable_DownloadController extends Mage_Core_Controller_Front_Ac
             if (!$customerId) {
                 $product = Mage::getModel('Mage_Catalog_Model_Product')->load($linkPurchasedItem->getProductId());
                 if ($product->getId()) {
-                    $notice = Mage::helper('Mage_Downloadable_Helper_Data')->__('Please log in to download your product or purchase <a href="%s">%s</a>.', $product->getProductUrl(), $product->getName());
+                    $notice = Mage::helper('Mage_Downloadable_Helper_Data')->__('Please log in to download your product or purchase <a href="%1">%2</a>.', $product->getProductUrl(), $product->getName());
                 } else {
                     $notice = Mage::helper('Mage_Downloadable_Helper_Data')->__('Please log in to download your product.');
                 }

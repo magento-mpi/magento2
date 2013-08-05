@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit extends Mage_Adminhtml_Block_Widget_
     {
         $rule = Mage::registry('current_promo_quote_rule');
         if ($rule->getRuleId()) {
-            return Mage::helper('Mage_SalesRule_Helper_Data')->__("Edit Rule '%s'", $this->escapeHtml($rule->getName()));
+            return Mage::helper('Mage_SalesRule_Helper_Data')->__("Edit Rule '%1'", $this->escapeHtml($rule->getName()));
         }
         else {
             return Mage::helper('Mage_SalesRule_Helper_Data')->__('New Rule');

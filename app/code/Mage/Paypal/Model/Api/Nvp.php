@@ -1043,7 +1043,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
                 isset($response['VERSION']) ? $response['VERSION'] : ''
             ));
             Mage::logException($e);
-            $e->setMessage(Mage::helper('Mage_Paypal_Helper_Data')->__('The PayPal gateway has rejected this request. %s', $errors));
+            $e->setMessage(Mage::helper('Mage_Paypal_Helper_Data')->__('The PayPal gateway has rejected this request. %1', $errors));
             throw $e;
         }
     }

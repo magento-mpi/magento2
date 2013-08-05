@@ -97,7 +97,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Mage_Adminhtml_Block_Wi
     {
         $customer = $this->escapeHtml($this->_getCustomer()->getName());
         $store = $this->escapeHtml($this->_getStore()->getName());
-        return Mage::helper('Enterprise_Checkout_Helper_Data')->__('Shopping Cart for %s in %s', $customer, $store);
+        return Mage::helper('Enterprise_Checkout_Helper_Data')->__('Shopping Cart for %1 in %2', $customer, $store);
     }
 
     /**

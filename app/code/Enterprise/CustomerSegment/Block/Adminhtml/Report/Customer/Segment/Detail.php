@@ -27,7 +27,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
         $this->_blockGroup = 'Enterprise_CustomerSegment';
         $this->_controller = 'adminhtml_report_customer_segment_detail';
         if ($this->getCustomerSegment() && $name = $this->getCustomerSegment()->getName()) {
-            $title = $this->__('Customer Segment Report \'%s\'', $this->escapeHtml($name));
+            $title = $this->__('Customer Segment Report \'%1\'', $this->escapeHtml($name));
         } else {
             $title = $this->__('Customer Segments Report');
         }

@@ -109,7 +109,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
                 }
             }
         }
-        $this->_response->setBody($this->__('Service unavailable: %s', $error))
+        $this->_response->setBody($this->__('Service unavailable: %1', $error))
             ->setHeader('Content-Type', 'text/plain; charset=UTF-8')
             ->setHttpResponseCode($httpCode);
     }

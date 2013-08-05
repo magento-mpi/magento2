@@ -61,7 +61,7 @@ class Mage_Index_Block_Adminhtml_Process_Edit extends Mage_Adminhtml_Block_Widge
     {
         $process = Mage::registry('current_index_process');
         if ($process && $process->getId()) {
-            return Mage::helper('Mage_Index_Helper_Data')->__("'%s' Index Process Information", $process->getIndexer()->getName());
+            return Mage::helper('Mage_Index_Helper_Data')->__("'%1' Index Process Information", $process->getIndexer()->getName());
         }
     }
 }

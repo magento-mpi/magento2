@@ -267,7 +267,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function asHtml()
     {
-        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer %s', parent::asHtml());
+        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer %1', parent::asHtml());
     }
 
     /**

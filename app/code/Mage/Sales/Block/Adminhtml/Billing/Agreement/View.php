@@ -60,7 +60,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View extends Mage_Adminhtml_B
      */
     public function getHeaderText()
     {
-        return $this->__('Billing Agreement #%s', $this->_getBillingAgreement()->getReferenceId());
+        return $this->__('Billing Agreement #%1', $this->_getBillingAgreement()->getReferenceId());
     }
 
     /**

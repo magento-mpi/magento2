@@ -10,11 +10,11 @@
 ?>
 <?php /* @var $this Mage_Sales_Block_Order_Print_Shipment */?>
 <?php $order = $this->getOrder(); ?>
-<h1><?php echo $this->__('Order #%s', $this->getObjectData($order, 'real_order_id')); ?></h1>
-<p class="order-date"><?php echo $this->__('Order Date: %s', $this->formatDate($this->getObjectData($order, 'created_at_store_date'), 'long')) ?></p>
+<h1><?php echo $this->__('Order #%1', $this->getObjectData($order, 'real_order_id')); ?></h1>
+<p class="order-date"><?php echo $this->__('Order Date: %1', $this->formatDate($this->getObjectData($order, 'created_at_store_date'), 'long')) ?></p>
 <?php if (!$this->getObjectData($order, 'is_virtual')): ?>
 <?php foreach ($this->getShipmentsCollection() as $shipment): ?>
-    <h2 class="h2"><?php echo $this->__('Shipment #%s', $this->getObjectData($shipment, 'increment_id')); ?></h2>
+    <h2 class="h2"><?php echo $this->__('Shipment #%1', $this->getObjectData($shipment, 'increment_id')); ?></h2>
     <div class="col2-set">
         <div class="col-1">
             <h3><?php echo $this->__('Shipping Address') ?></h3>

@@ -221,7 +221,7 @@ class Enterprise_Checkout_CartController
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
                     $productName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName());
-                    $message = $this->__('You added %s to your shopping cart.', $productName);
+                    $message = $this->__('You added %1 to your shopping cart.', $productName);
                     $this->_getSession()->addSuccess($message);
                 }
             }
