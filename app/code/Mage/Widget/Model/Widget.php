@@ -215,8 +215,6 @@ class Mage_Widget_Model_Widget extends Varien_Object
         if (!$this->_getData('widgets_array')) {
             $result = array();
             foreach ($this->getWidgetsXml($filters) as $widget) {
-                $helper = $widget->getAttribute('module') ? $widget->getAttribute('module') : 'Mage_Widget_Helper_Data';
-                $helper = Mage::helper($helper);
                 $result[$widget->getName()] = array(
                     'name'          => __((string)$widget->name),
                     'code'          => $widget->getName(),

@@ -180,14 +180,8 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Bl
 
         $idLabel = array();
         foreach (Saas_PrintedTemplate_Model_Template::getDefaultTemplates() as $templateId => $row) {
-            if (isset($row['@']) && isset($row['@']['module'])) {
-                $module = $row['@']['module'];
-            } else {
-                $module = 'Saas_PrintedTemplate_Helper_Data';
-            }
-
             if (isset($row['entity_type']) && $row['entity_type'] == $this->getPrintedTemplate()->getEntityType()) {
-                $idLabel[$templateId] = Mage::helper(__($row['label']);
+                $idLabel[$templateId] = __($row['label']);
             }
         }
 
