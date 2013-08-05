@@ -10,11 +10,18 @@
 class Magento_Phrase
 {
     /**
-     * Phrase renderer. Allows stacking renderers that "don't know about each other"
+     * Default phrase renderer. Allows stacking renderers that "don't know about each other"
      *
      * @var Magento_Phrase_RendererInterface
      */
-    private static $_renderer;
+    private static $_defaultRenderer;
+
+    /**
+     * Custom phrase renderer. Allows stacking renderers that "don't know about each other"
+     *
+     * @var Magento_Phrase_RendererInterface
+     */
+    private $_customRenderer;
 
     /**
      * String for rendering
@@ -38,13 +45,18 @@ class Magento_Phrase
     private $_result;
 
     /**
-     * Set Phrase renderer
+     * Set default Phrase renderer
      *
-     * @param Magento_Phrase_RendererInterface $renderer
+     * @param Magento_Phrase_RendererInterface $defaultRenderer
+     * @throws \RuntimeException
      */
-    public static function setRenderer(Magento_Phrase_RendererInterface $renderer)
+    public static function setDefaultRenderer(Magento_Phrase_RendererInterface $defaultRenderer)
     {
-        self::$_renderer = $renderer;
+        if (null !== self::$_defaultRenderer) {
+            throw new RuntimeException('Default renderer is already set');
+        }
+
+        self::$_defaultRenderer = $defaultRenderer;
     }
 
     /**
@@ -60,17 +72,64 @@ class Magento_Phrase
     }
 
     /**
+     * Set custom Phrase renderer
+     *
+     * @param Magento_Phrase_RendererInterface $customRenderer
+     */
+    public function setCustomRenderer(Magento_Phrase_RendererInterface $customRenderer)
+    {
+        $this->_resetResult();
+
+        $this->_customRenderer = $customRenderer;
+    }
+
+    /**
+     * Render phrase
+     *
+     * @return string
+     */
+    public function render()
+    {
+        if (null === $this->_result) {
+            $this->_result = ($renderer = $this->_getRenderer()) ? $renderer->render($this->_text, $this->_arguments)
+                : $this->_text;
+        }
+
+        return $this->_result;
+    }
+
+    /**
      * Defers rendering to the last possible moment (when converted to string)
      *
      * @return string
      */
     public function __toString()
     {
-        if (null === $this->_result) {
-            $this->_result = self::$_renderer ? self::$_renderer->render($this->_text, $this->_arguments)
-                : $this->_text;
-        }
+        return $this->render();
+    }
 
-        return $this->_result;
+    /**
+     * Reset result of rendering
+     */
+    protected function _resetResult()
+    {
+        $this->_result = null;
+    }
+
+    /**
+     * Get renderer
+     *
+     * @return bool|Magento_Phrase_RendererInterface
+     */
+    protected function _getRenderer()
+    {
+        if (null !== $this->_customRenderer) {
+            $renderer = $this->_customRenderer;
+        } elseif (self::$_defaultRenderer) {
+            $renderer = self::$_defaultRenderer;
+        } else {
+            $renderer = false;
+        }
+        return $renderer;
     }
 }
