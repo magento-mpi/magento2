@@ -117,11 +117,34 @@
                     </ruleLoader>
                 </parameters>
             </Magento_Acl_Builder>
-            <Mage_Core_Model_Acl_Cache>
+            <Mage_Webapi_Model_Acl_Builder>
+                <parameters>
+                    <cache>
+                        <instance>Mage_Webapi_Model_Acl_Cache</instance>
+                    </cache>
+                    <resourceLoader>
+                        <instance>Mage_Webapi_Model_Authorization_Loader_Resource</instance>
+                    </resourceLoader>
+                    <roleLoader>
+                        <instance>Mage_Webapi_Model_Authorization_Loader_Role</instance>
+                    </roleLoader>
+                    <ruleLoader>
+                        <instance>Mage_Webapi_Model_Authorization_Loader_Rule</instance>
+                    </ruleLoader>
+                </parameters>
+            </Mage_Webapi_Model_Acl_Builder>
+            <Mage_Webapi_Model_Authorization_Policy_Acl>
+                <parameters>
+                    <aclBuilder>
+                        <instance>Mage_Webapi_Model_Acl_Builder</instance>
+                    </aclBuilder>
+                </parameters>
+            </Mage_Webapi_Model_Authorization_Policy_Acl>
+            <Mage_Webapi_Model_Acl_Cache>
                 <parameters>
                     <cacheKey>api_acl_resources</cacheKey>
                 </parameters>
-            </Mage_Core_Model_Acl_Cache>
+            </Mage_Webapi_Model_Acl_Cache>
             <Mage_Core_Model_Acl_RootResource>
                 <parameters>
                     <identifier>

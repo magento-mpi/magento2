@@ -12,6 +12,7 @@ app/code/Mage/DesignEditor/view
 app/code/Mage/Theme/view
 app/code/Mage/User/view
 app/code/Mage/Webapi/view
+app/code/Mage/Webhook/view
 dev/tests/integration/testsuite/Magento/Code/_files
 dev/tests/integration/testsuite/integrity/modular/TemplateFilesTest.php
 dev/tests/integration/testsuite/integrity/theme/TemplateFilesTest.php
