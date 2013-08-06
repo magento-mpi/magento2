@@ -114,9 +114,11 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
 
         $dependencies = array();
         foreach ($this->_cases as $case) {
-            $result = $this->$case($currentModule, $fileType, $file, $contents);
-            if (count($result)) {
-                $dependencies = array_merge($dependencies, $result);
+            if (method_exists($this, $case)) {
+                $result = $this->$case($currentModule, $fileType, $file, $contents);
+                if (count($result)) {
+                    $dependencies = array_merge($dependencies, $result);
+                }
             }
         }
         return $dependencies;
@@ -133,10 +135,10 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $contents
      * @return array
      */
-    protected function _caseAttributeModule($currentModule, $fileType, $file, $contents)
+    protected function _caseAttributeModule($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            '/(?<source><.+module\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)[_](?<module>[A-Z][a-zA-Z]+)[\'"].*>)/'
+            '/(?<source><.+module\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)[_](?<module>[A-Z][a-zA-Z]+)[\'"].*>)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -153,11 +155,13 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $contents
      * @return array
      */
-    protected function _caseElementBlock($currentModule, $fileType, $file, $contents)
+    protected function _caseElementBlock($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            '/(?<source><block.*type\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}[\'"].*>)/',
-            '/(?<source><block.*template\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+[\'"].*>)/'
+            '/(?<source><block.*type\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_'
+                . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}[\'"].*>)/',
+            '/(?<source><block.*template\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_'
+                . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+[\'"].*>)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -176,13 +180,15 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $contents
      * @return array
      */
-    protected function _caseElementAction($currentModule, $fileType, $file, $contents)
+    protected function _caseElementAction($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            '/(?<source><block\s*>(?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}<\/block\s*>)/',
+            '/(?<source><block\s*>(?<namespace>[A-Z][a-z]+)_'
+                . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}<\/block\s*>)/',
             '/(?<source><template\s*>(?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+<\/template\s*>)/',
             '/(?<source><file\s*>(?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+<\/file\s*>)/',
-            '/(?<source><.*helper\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-z]+_?){1,}::[\w]+[\'"].*>)/'
+            '/(?<source><.*helper\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_'
+                . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-z]+_?){1,}::[\w]+[\'"].*>)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -198,14 +204,14 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $contents
      * @return array
      */
-    protected function _caseLayoutHandle($currentModule, $fileType, $file, $contents)
+    protected function _caseLayoutHandle($currentModule, $fileType, $file, &$contents)
     {
         $xml = simplexml_load_file($file);
 
         $area = $this->_getAreaByFile($file);
 
         $dependencies = array();
-        foreach ($xml->xpath('/layout/child::*') as $element) {
+        foreach ((array)$xml->xpath('/layout/child::*') as $element) {
             $result = $this->_checkDependencyLayoutHandle($currentModule, $area, $element->getName());
 
             $module = isset($result['module']) ? $result['module'] : null;
@@ -233,14 +239,14 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $contents
      * @return array
      */
-    protected function _caseLayoutHandleParent($currentModule, $fileType, $file, $contents)
+    protected function _caseLayoutHandleParent($currentModule, $fileType, $file, &$contents)
     {
         $xml = simplexml_load_file($file);
 
         $area = $this->_getAreaByFile($file);
 
         $dependencies = array();
-        foreach ($xml->xpath('/layout/child::*/@parent') as $element) {
+        foreach ((array)$xml->xpath('/layout/child::*/@parent') as $element) {
             $result = $this->_checkDependencyLayoutHandle($currentModule, $area, (string)$element);
 
             $module = isset($result['module']) ? $result['module'] : null;
@@ -268,14 +274,14 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $contents
      * @return array
      */
-    protected function _caseLayoutHandleUpdate($currentModule, $fileType, $file, $contents)
+    protected function _caseLayoutHandleUpdate($currentModule, $fileType, $file, &$contents)
     {
         $xml = simplexml_load_file($file);
 
         $area = $this->_getAreaByFile($file);
 
         $dependencies = array();
-        foreach ($xml->xpath('//update/@handle') as $element) {
+        foreach ((array)$xml->xpath('//update/@handle') as $element) {
             $result = $this->_checkDependencyLayoutHandle($currentModule, $area, (string)$element);
 
             $module = isset($result['module']) ? $result['module'] : null;
@@ -303,14 +309,14 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param $contents
      * @return array
      */
-    protected function _caseLayoutReference($currentModule, $fileType, $file, $contents)
+    protected function _caseLayoutReference($currentModule, $fileType, $file, &$contents)
     {
         $xml = simplexml_load_file($file);
 
         $area = $this->_getAreaByFile($file);
 
         $dependencies = array();
-        foreach ($xml->xpath('//reference/@name') as $element) {
+        foreach ((array)$xml->xpath('//reference/@name') as $element) {
             $result = $this->_checkDependencyLayoutBlock($currentModule, $area, (string)$element);
 
             $module = isset($result['module']) ? $result['module'] : null;
@@ -335,7 +341,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * @param array $patterns
      * @return array
      */
-    protected function _checkDependenciesByRegexp($currentModule, $contents, $patterns = array())
+    protected function _checkDependenciesByRegexp($currentModule, &$contents, $patterns = array())
     {
         $dependencies = array();
         foreach ($patterns as $pattern) {
@@ -472,7 +478,9 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
         // Prepare layout handles by controllers
         $files = Utility_Files::init()->getPhpFiles(true, false, false, false);
         foreach ($files as $file) {
-            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)\/controllers\/(?<path>[\/\w]*)Controller.php/', $file, $matches)) {
+            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)\/controllers\/'
+                . '(?<path>[\/\w]*)Controller.php/', $file, $matches)
+            ) {
 
                 $chunks = explode('/', strtolower($matches['path']));
                 $name = $matches['namespace'] . '_' . $matches['module'];
@@ -482,12 +490,11 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
 
                 if ('adminhtml' == $chunks[0]) {
                     array_shift($chunks);
-                    $nodes = $config->xpath("/config/admin/routers/*") ?: array();
-                }
-                else {
-                    $nodes = $config->xpath("/config/frontend/routers/*") ?: array();
+                    $nodes = (array)$config->xpath("/config/admin/routers/*") ?: array();
+                } else {
+                    $nodes = (array)$config->xpath("/config/frontend/routers/*") ?: array();
                     foreach ($nodes as $nodeKey => $node) {
-                        // Exclude overrided routers
+                        // Exclude overridden routers
                         if ('' == (string)$node->args->frontName) {
                             unset($nodes[$nodeKey]);
                         }
@@ -516,7 +523,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
                 $name = $matches['namespace'] . '_' . $matches['module'];
 
                 $xml = simplexml_load_file($file);
-                foreach ($xml->xpath('/layout/child::*') as $element) {
+                foreach ((array)$xml->xpath('/layout/child::*') as $element) {
                     if (!isset($this->_mapLayoutHandlesByFiles[$area][$element->getName()])) {
                         $this->_mapLayoutHandlesByFiles[$area][$element->getName()] = array();
                     }
@@ -545,7 +552,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
 
                 $xml = simplexml_load_file($file);
 
-                foreach ($xml->xpath('//container | //block') as $element) {
+                foreach ((array)$xml->xpath('//container | //block') as $element) {
                     $attributes = $element->attributes();
                     $blockName = (string)$attributes->name;
 

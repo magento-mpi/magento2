@@ -1,15 +1,15 @@
 <?php
 /**
-* Interface for dependency rule
-*
-* {license_notice}
-*
-* @category    tests
-* @package     static
-* @subpackage  Integrity
-* @copyright   {copyright}
-* @license     {license_link}
-*/
+ * Rule for searching dependencies in layout files
+ *
+ * {license_notice}
+ *
+ * @category    tests
+ * @package     static
+ * @subpackage  Integrity
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 interface Integrity_DependencyTest_RuleInterface
 {

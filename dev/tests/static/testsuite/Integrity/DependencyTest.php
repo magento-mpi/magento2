@@ -97,6 +97,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
         foreach (self::$_rules as $ruleClass) {
             if (class_exists($ruleClass)) {
+                /** @var Integrity_DependencyTest_RuleInterface $rule */
                 $rule = new $ruleClass();
                 if ($rule instanceof Integrity_DependencyTest_RuleInterface) {
                     self::$_rulesInstances[$ruleClass] = $rule;
@@ -192,7 +193,6 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             if (!in_array($dependencyInfo['module'], $declaredDependencies)) {
                 $undeclaredDependencies[] = $dependencyInfo['module'];
                 $undeclaredDependenciesInfo[] = $dependencyInfo;
-
             }
             if (!isset(self::$_correctedModulesDependencies[$module])) {
                 self::$_correctedModulesDependencies[$module] = array();
@@ -201,7 +201,6 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 self::$_correctedModulesDependencies[$module][] = $dependencyInfo['module'];
             }
         }
-        $undeclaredDependencies = array_unique($undeclaredDependencies);
 
         if (count($undeclaredDependencies) > 0) {
             $this->fail('Undeclared dependencies in ' . $module . ':' . $file
@@ -254,7 +253,8 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      * @param array $files
      * @return array
      */
-    protected function _prepareFiles($fileType, $files) {
+    protected function _prepareFiles($fileType, $files)
+    {
         $result = array();
         foreach (array_keys($files) as $file) {
             if (substr_count($this->_getRelativeFilename($file), '/') < 4) {
