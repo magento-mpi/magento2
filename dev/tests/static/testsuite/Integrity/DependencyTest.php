@@ -42,6 +42,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         'Integrity_DependencyTest_PhpRule',
         'Integrity_DependencyTest_DbRule',
         'Integrity_DependencyTest_LayoutRule',
+        'Integrity_DependencyTest_TemplateRule',
     );
 
     /**
