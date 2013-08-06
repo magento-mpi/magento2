@@ -26,6 +26,7 @@ class Mage_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Framew
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $registryMock = $this->getMock('Mage_Core_Model_Registry', array(), array(), '', false, false);
         $layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false, false);
+        $helperMock = $this->getMock('Mage_Adminhtml_Helper_Data', array(), array(), '', false, false);
         $menuConfigMock = $this->getMock('Mage_Backend_Model_Menu_Config', array(), array(), '', false, false);
         $menuMock = $this->getMock('Mage_Backend_Model_Menu', array(), array(), '', false, false);
         $menuItemMock = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false, false);

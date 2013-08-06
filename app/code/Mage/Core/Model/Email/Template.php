@@ -295,7 +295,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
             $moduleFullName = Mage::getConfig()->determineOmittedNamespace($module, true);
             $options[] = array(
                 'value' => $templateId,
-                'label' => Mage::helper(__($row['label']),
+                'label' => __($row['label']),
                 'group' => $moduleFullName,
             );
             $groups[$module] = 1;
