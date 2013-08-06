@@ -26,7 +26,7 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
     }
 
     /**
-     * @magentoDataFixture Enterprise/Banner/_files/banner.php
+     * @magentoDataFixture Magento/Banner/_files/banner.php
      * @magentoDataFixture Enterprise/CustomerSegment/_files/segment_developers.php
      * @magentoDataFixture Magento/BannerCustomerSegment/_files/banner_40_percent_off_on_graphic_editor.php
      * @dataProvider saveLoadBannerSegmentsDataProvider
@@ -59,8 +59,8 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
     }
 
     /**
-     * @magentoDataFixture Enterprise/Banner/_files/banner_disabled_40_percent_off.php
-     * @magentoDataFixture Enterprise/Banner/_files/banner_enabled_40_to_50_percent_off.php
+     * @magentoDataFixture Magento/Banner/_files/banner_disabled_40_percent_off.php
+     * @magentoDataFixture Magento/Banner/_files/banner_enabled_40_to_50_percent_off.php
      * @magentoDataFixture Magento/BannerCustomerSegment/_files/banner_50_percent_off_on_ide.php
      * @magentoDataFixture Magento/BannerCustomerSegment/_files/banner_40_percent_off_on_graphic_editor.php
      * @dataProvider addBannerSegmentFilterDataProvider
@@ -74,8 +74,8 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
             $expectedBannerIds[] = $this->_getBannerId($bannerName);
         }
 
-        /** @var Enterprise_Banner_Model_Resource_Salesrule_Collection $collection */
-        $collection = Mage::getResourceModel('Enterprise_Banner_Model_Resource_Salesrule_Collection');
+        /** @var Magento_Banner_Model_Resource_Salesrule_Collection $collection */
+        $collection = Mage::getResourceModel('Magento_Banner_Model_Resource_Salesrule_Collection');
         $select = $collection->getSelect();
         $initialSql = (string)$select;
 
@@ -119,8 +119,8 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
      */
     protected function _getBannerId($bannerName)
     {
-        /** @var Enterprise_Banner_Model_Banner $banner */
-        $banner = Mage::getModel('Enterprise_Banner_Model_Banner');
+        /** @var Magento_Banner_Model_Banner $banner */
+        $banner = Mage::getModel('Magento_Banner_Model_Banner');
         $banner->load($bannerName, 'name');
         return $banner->getId();
     }

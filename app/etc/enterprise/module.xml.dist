@@ -9,7 +9,7 @@
 -->
 <config>
     <module name="Magento_AdminGws" active="true" />
-    <module name="Enterprise_Banner" active="true" />
+    <module name="Magento_Banner" active="true" />
     <module name="Magento_BannerCustomerSegment" active="true" />
     <module name="Enterprise_CatalogEvent" active="true" />
     <module name="Enterprise_CatalogPermissions" active="true" />

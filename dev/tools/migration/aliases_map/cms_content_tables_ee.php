@@ -13,5 +13,5 @@
  */
 return array(
     'enterprise_cms_page_revision' => 'content',
-    'enterprise_banner_content' => 'banner_content',
+    'magento_banner_content' => 'banner_content',
 );

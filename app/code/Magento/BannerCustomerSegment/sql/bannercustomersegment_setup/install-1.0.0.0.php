@@ -39,7 +39,7 @@ $table = $installer->getConnection()
         Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Banner Customersegment');
 
-// Table used to be part of the Enterprise_Banner module, so during upgrade it may exist already
+// Table used to be part of the Magento_Banner module, so during upgrade it may exist already
 if (!$installer->getConnection()->isTableExists($table->getName())) {
     $installer->getConnection()->createTable($table);
 }

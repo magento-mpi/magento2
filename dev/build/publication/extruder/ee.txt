@@ -39,6 +39,9 @@ app/code/Magento/AdminGws
 dev/tests/unit/testsuite/Magento/AdminGws
 dev/tests/integration/testsuite/Magento/AdminGws
 dev/tests/static/testsuite/Legacy/Magento/AdminGws
+app/code/Magento/Banner
+dev/tests/unit/testsuite/Magento/Banner
+dev/tests/integration/testsuite/Magento/Banner
 app/code/Magento/BannerCustomerSegment
 dev/tests/unit/testsuite/Magento/BannerCustomerSegment
 dev/tests/integration/testsuite/Magento/BannerCustomerSegment

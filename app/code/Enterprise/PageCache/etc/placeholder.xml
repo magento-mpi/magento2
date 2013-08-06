@@ -106,12 +106,12 @@
             <container>Enterprise_PageCache_Model_Container_Sidebar_Poll</container>
             <cache_lifetime>86400</cache_lifetime>
         </poll_activepoll>
-        <widget_enterprise_banner>
-            <block>Enterprise_Banner_Block_Widget_Banner</block>
+        <widget_magento_banner>
+            <block>Magento_Banner_Block_Widget_Banner</block>
             <placeholder>WIDGET_ENTERPRISE_BANNER</placeholder>
             <container>Enterprise_PageCache_Model_Container_Banner</container>
             <cache_lifetime>86400</cache_lifetime>
-        </widget_enterprise_banner>
+        </widget_magento_banner>
         <catalog_product_item_related>
             <block>Enterprise_TargetRule_Block_Catalog_Product_Item</block>
             <name>catalog.product.related.item</name>

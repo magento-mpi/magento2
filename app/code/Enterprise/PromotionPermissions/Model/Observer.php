@@ -46,7 +46,7 @@ class Enterprise_PromotionPermissions_Model_Observer
     protected $_canEditReminderRules;
 
     /**
-     * Enterprise_Banner flag
+     * Magento_Banner flag
      *
      * @var boolean
      */
@@ -73,7 +73,7 @@ class Enterprise_PromotionPermissions_Model_Observer
         $this->_canEditSalesRules = $helper->getCanAdminEditSalesRules();
         $this->_canEditReminderRules = $helper->getCanAdminEditReminderRules();
 
-        $this->_isEnterpriseBannerEnabled = $helper->isModuleEnabled('Enterprise_Banner');
+        $this->_isEnterpriseBannerEnabled = $helper->isModuleEnabled('Magento_Banner');
         $this->_isEnterpriseReminderEnabled = $helper->isModuleEnabled('Enterprise_Reminder');
     }
 
@@ -180,18 +180,18 @@ class Enterprise_PromotionPermissions_Model_Observer
                     $block->getForm()->setReadonly(true, true);
                 }
                 break;
-            // Handle blocks related to Enterprise_Banner module
+            // Handle blocks related to Magento_Banner module
             case 'related_catalogrule_banners_grid' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
                     $block->getColumn('in_banners')
-                        ->setDisabledValues(Mage::getModel('Enterprise_Banner_Model_Banner')->getCollection()->getAllIds());
+                        ->setDisabledValues(Mage::getModel('Magento_Banner_Model_Banner')->getCollection()->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;
             case 'related_salesrule_banners_grid' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditSalesRules) {
                     $block->getColumn('in_banners')
-                        ->setDisabledValues(Mage::getModel('Enterprise_Banner_Model_Banner')->getCollection()->getAllIds());
+                        ->setDisabledValues(Mage::getModel('Magento_Banner_Model_Banner')->getCollection()->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;

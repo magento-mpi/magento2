@@ -163,14 +163,14 @@ class Enterprise_PageCache_Model_Container_Banner
 
         $rotate = $this->_placeholder->getAttribute('rotate');
         switch ($rotate) {
-            case Enterprise_Banner_Block_Widget_Banner::BANNER_WIDGET_RORATE_RANDOM:
+            case Magento_Banner_Block_Widget_Banner::BANNER_WIDGET_RORATE_RANDOM:
                 $bannerId = $bannerIds[array_rand($bannerIds, 1)];
                 $result = array($bannerId);
                 break;
 
-            case Enterprise_Banner_Block_Widget_Banner::BANNER_WIDGET_RORATE_SERIES:
-            case Enterprise_Banner_Block_Widget_Banner::BANNER_WIDGET_RORATE_SHUFFLE:
-                $isShuffle = $rotate == Enterprise_Banner_Block_Widget_Banner::BANNER_WIDGET_RORATE_SHUFFLE;
+            case Magento_Banner_Block_Widget_Banner::BANNER_WIDGET_RORATE_SERIES:
+            case Magento_Banner_Block_Widget_Banner::BANNER_WIDGET_RORATE_SHUFFLE:
+                $isShuffle = $rotate == Magento_Banner_Block_Widget_Banner::BANNER_WIDGET_RORATE_SHUFFLE;
                 $bannerId = null;
 
                 $bannersSequence = isset($renderedParams['bannersSequence']) ?

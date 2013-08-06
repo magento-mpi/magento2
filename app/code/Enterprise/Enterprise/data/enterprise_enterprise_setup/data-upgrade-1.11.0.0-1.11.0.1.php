@@ -12,7 +12,7 @@ $installer = $this;
 $installer->startSetup();
 
 $map = array(
-    'admin/cms/enterprise_banner' => 'Enterprise_Banner::enterprise_banner',
+    'admin/cms/magento_banner' => 'Magento_Banner::magento_banner',
     'admin/catalog/events' => 'Enterprise_CatalogEvent::events',
     'admin/catalog/enterprise_catalogpermissions' =>
         'Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions',

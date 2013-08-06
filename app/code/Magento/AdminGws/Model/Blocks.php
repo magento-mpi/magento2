@@ -787,7 +787,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
      */
     public function validateBannerPermissions($observer)
     {
-        /* @var Enterprise_Banner_Block_Adminhtml_Banner_Edit */
+        /* @var Magento_Banner_Block_Adminhtml_Banner_Edit */
         $block = $observer->getEvent()->getBlock();
         $model = Mage::registry('current_banner');
         if ($block && $model) {

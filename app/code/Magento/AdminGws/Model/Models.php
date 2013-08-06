@@ -1192,7 +1192,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Validate banner before save
      *
-     * @param Enterprise_Banner_Model_Banner $model
+     * @param Magento_Banner_Model_Banner $model
      */
     public function bannerSaveBefore($model)
     {
@@ -1204,7 +1204,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Validate banner before edit
      *
-     * @param Enterprise_Banner_Model_Banner $model
+     * @param Magento_Banner_Model_Banner $model
      */
     public function bannerLoadAfter($model)
     {
@@ -1227,7 +1227,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Validate banner before delete
      *
-     * @param Enterprise_Banner_Model_Banner $model
+     * @param Magento_Banner_Model_Banner $model
      */
     public function bannerDeleteBefore($model)
     {
@@ -1239,7 +1239,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Validate Gift Card Account before save
      *
-     * @param Enterprise_Banner_Model_Banner $model
+     * @param Magento_Banner_Model_Banner $model
      */
     public function giftCardAccountSaveBefore($model)
     {
@@ -1251,7 +1251,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Validate Gift Card Account before delete
      *
-     * @param Enterprise_Banner_Model_Banner $model
+     * @param Magento_Banner_Model_Banner $model
      */
     public function giftCardAccountDeleteBefore($model)
     {
@@ -1263,7 +1263,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Validate Gift Card Account after load
      *
-     * @param Enterprise_Banner_Model_Banner $model
+     * @param Magento_Banner_Model_Banner $model
      */
     public function giftCardAccountLoadAfter($model)
     {

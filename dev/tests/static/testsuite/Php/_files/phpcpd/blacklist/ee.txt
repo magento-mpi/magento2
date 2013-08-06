@@ -1,4 +1,4 @@
-Enterprise/Banner
+Magento/Banner
 Enterprise/CatalogEvent/Block/Adminhtml
 Enterprise/CatalogPermissions/Model/Resource/Permission
 Enterprise/Cms/Block/Adminhtml

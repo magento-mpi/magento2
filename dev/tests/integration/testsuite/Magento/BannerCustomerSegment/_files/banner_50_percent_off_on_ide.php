@@ -17,11 +17,11 @@ $rule->load('50% Off on Large Orders', 'name');
 $segment = Mage::getModel('Enterprise_CustomerSegment_Model_Segment');
 $segment->load('Developers', 'name');
 
-/** @var Enterprise_Banner_Model_Banner $banner */
-$banner = Mage::getModel('Enterprise_Banner_Model_Banner');
+/** @var Magento_Banner_Model_Banner $banner */
+$banner = Mage::getModel('Magento_Banner_Model_Banner');
 $banner->setData(array(
     'name' => 'Get 50% Off on Development IDEs',
-    'is_enabled' => Enterprise_Banner_Model_Banner::STATUS_ENABLED,
+    'is_enabled' => Magento_Banner_Model_Banner::STATUS_ENABLED,
     'types' => array()/*Any Banner Type*/,
     'store_contents' => array('<img src="http://example.com/banner_50_percent_off_on_ide.png" />'),
     'banner_sales_rules' => array($rule->getId()),

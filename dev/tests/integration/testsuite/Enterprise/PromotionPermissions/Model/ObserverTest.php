@@ -50,7 +50,7 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
             $gridBlock,
             $this->_layout->getChildBlock($childBlock, 'banners_grid_serializer')
         );
-        $this->_moduleListMock->expects($this->any())->method('getModule')->with('Enterprise_Banner')
+        $this->_moduleListMock->expects($this->any())->method('getModule')->with('Magento_Banner')
             ->will($this->returnValue(true));
         $event = new Magento_Event_Observer();
         $event->setBlock($block);

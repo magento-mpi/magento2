@@ -348,8 +348,8 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/enterprise/admingws.xml',
         'app/design/adminhtml/default/default/template/enterprise/admingws/',
     ),
-    'Enterprise_Banner' => array(
-        'app/code/Enterprise/Banner/',
+    'Magento_Banner' => array(
+        'app/code/Magento/Banner/',
         'app/design/adminhtml/default/default/layout/enterprise/banner.xml',
         'app/design/adminhtml/default/default/template/enterprise/banner/',
         'app/design/frontend/enterprise/default/template/banner/'
@@ -632,7 +632,7 @@ $CONFIG['helpers']  = array(
     'wishlist'          => 'Magento_Wishlist',
     'widget'            => 'Magento_Widget',
     'magento_admingws'           => 'Magento_AdminGws',
-    'enterprise_banner'             => 'Enterprise_Banner',
+    'magento_banner'             => 'Magento_Banner',
     'enterprise_catalogevent'       => 'Enterprise_CatalogEvent',
     'enterprise_catalogpermissions' => 'Enterprise_CatalogPermissions',
     'enterprise_checkout'           => 'Enterprise_Checkout',
