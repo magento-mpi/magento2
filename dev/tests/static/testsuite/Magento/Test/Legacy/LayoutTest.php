@@ -187,7 +187,6 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             'addCrumb',
             'addDatabaseBlock',
             'addInputTypeTemplate',
-            'addLinkRel',
             'addNotice',
             'addPriceBlockType',
             'addRenderer',
