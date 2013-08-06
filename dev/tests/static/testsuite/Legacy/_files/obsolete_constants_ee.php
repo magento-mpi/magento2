@@ -12,7 +12,7 @@ return array(
     array('NO_CACHE_COOKIE', 'Enterprise_PageCache_Model_Processor',
         'Enterprise_PageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE'
     ),
-    array('XML_PATH_DEFAULT_TIMEZONE', 'Enterprise_CatalogEvent_Model_Event'),
+    array('XML_PATH_DEFAULT_TIMEZONE', 'Magento_CatalogEvent_Model_Event'),
     array('METADATA_CACHE_SUFFIX', 'Enterprise_PageCache_Model_Processor',
         'Enterprise_PageCache_Model_MetadataInterface::METADATA_CACHE_SUFFIX'
     ),

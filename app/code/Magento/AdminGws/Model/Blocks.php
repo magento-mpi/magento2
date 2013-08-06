@@ -267,7 +267,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
             return;
         }
         $block = $observer->getEvent()->getBlock();
-        /* @var $block Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons */
+        /* @var $block Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons */
         if ($block) {
             $category = $block->getCategory();
             if ($category) {
@@ -305,8 +305,8 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
         if ($setDisabled) {
             $element = $observer->getEvent()->getBlock()->getForm()
                        ->getElement('display_state_array');
-            $element->setDisabled( array(Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE,
-                                         Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE));
+            $element->setDisabled( array(Magento_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE,
+                                         Magento_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE));
         }
     }
 

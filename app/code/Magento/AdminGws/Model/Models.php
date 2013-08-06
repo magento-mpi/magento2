@@ -679,7 +679,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Validate catalog event save
      *
-     * @param Enterprise_CatalogEvent_Model_Event $model
+     * @param Magento_CatalogEvent_Model_Event $model
      */
     public function catalogEventSaveBefore($model)
     {
@@ -715,7 +715,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Validate catalog event delete
      *
-     * @param Enterprise_CatalogEvent_Model_Event $model
+     * @param Magento_CatalogEvent_Model_Event $model
      */
     public function catalogEventDeleteBefore($model)
     {
@@ -732,7 +732,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Validate catalog event load
      *
-     * @param Enterprise_CatalogEvent_Model_Event $model
+     * @param Magento_CatalogEvent_Model_Event $model
      */
     public function catalogEventLoadAfter($model)
     {

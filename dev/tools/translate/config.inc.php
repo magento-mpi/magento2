@@ -354,8 +354,8 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/enterprise/banner/',
         'app/design/frontend/enterprise/default/template/banner/'
     ),
-    'Enterprise_CatalogEvent' => array(
-        'app/code/Enterprise/CatalogEvent/',
+    'Magento_CatalogEvent' => array(
+        'app/code/Magento/CatalogEvent/',
         'app/design/adminhtml/default/default/layout/enterprise/catalogevent.xml',
         'app/design/adminhtml/default/default/template/enterprise/catalogevent/',
         'app/design/frontend/enterprise/default/layout/catalogevent.xml',
@@ -633,7 +633,7 @@ $CONFIG['helpers']  = array(
     'widget'            => 'Magento_Widget',
     'magento_admingws'           => 'Magento_AdminGws',
     'magento_banner'             => 'Magento_Banner',
-    'enterprise_catalogevent'       => 'Enterprise_CatalogEvent',
+    'magento_catalogevent'       => 'Magento_CatalogEvent',
     'enterprise_catalogpermissions' => 'Enterprise_CatalogPermissions',
     'enterprise_checkout'           => 'Enterprise_Checkout',
     'enterprise_cms'                => 'Enterprise_Cms',

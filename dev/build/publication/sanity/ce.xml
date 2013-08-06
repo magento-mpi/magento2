@@ -58,7 +58,7 @@
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/functional/fixture/_testFiles/Enterprise_CatalogEvent__widgets.css</path>
+            <path>dev/tests/functional/fixture/_testFiles/Magento_CatalogEvent__widgets.css</path>
         </item>
         <item>
             <word>enterprise</word>

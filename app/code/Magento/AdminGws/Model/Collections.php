@@ -191,7 +191,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit Catalog events collection
      *
-     * @param Enterprise_CatalogEvent_Model_Resource_Event_Collection $collection
+     * @param Magento_CatalogEvent_Model_Resource_Event_Collection $collection
      */
     public function limitCatalogEvents($collection)
     {

@@ -45,3 +45,6 @@ dev/tests/integration/testsuite/Magento/Banner
 app/code/Magento/BannerCustomerSegment
 dev/tests/unit/testsuite/Magento/BannerCustomerSegment
 dev/tests/integration/testsuite/Magento/BannerCustomerSegment
+app/code/Magento/CatalogEvent
+dev/tests/unit/testsuite/Magento/CatalogEvent
+dev/tests/integration/testsuite/Magento/CatalogEvent

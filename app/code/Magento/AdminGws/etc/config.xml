@@ -274,7 +274,7 @@
                     <enterprise_invitation_model_resource_invitation_collection>addStoreFilter</enterprise_invitation_model_resource_invitation_collection>
                     <magento_log_model_resource_visitor_online_collection>limitOnlineCustomers</magento_log_model_resource_visitor_online_collection>
                     <enterprise_giftCardAccount_model_resource_giftcardaccount_collection>limitGiftCardAccounts</enterprise_giftCardAccount_model_resource_giftcardaccount_collection>
-                    <enterprise_catalogEvent_model_resource_event_collection>limitCatalogEvents</enterprise_catalogEvent_model_resource_event_collection>
+                    <magento_catalogEvent_model_resource_event_collection>limitCatalogEvents</magento_catalogEvent_model_resource_event_collection>
                     <enterprise_cms_model_resource_hierarchy_node_collection>addStoreFilter</enterprise_cms_model_resource_hierarchy_node_collection>
                     <magento_catalog_model_resource_category_collection>limitCatalogCategories</magento_catalog_model_resource_category_collection>
                     <magento_core_model_resource_url_rewrite_collection>limitCoreUrlRewrites</magento_core_model_resource_url_rewrite_collection>
@@ -324,7 +324,7 @@
                     <magento_catalog_model_category>catalogCategorySaveBefore</magento_catalog_model_category>
                     <magento_customer_model_customer>customerSaveBefore</magento_customer_model_customer>
                     <magento_customer_model_attribute>customerAttributeSaveBefore</magento_customer_model_attribute>
-                    <enterprise_catalogEvent_model_event>catalogEventSaveBefore</enterprise_catalogEvent_model_event>
+                    <magento_catalogEvent_model_event>catalogEventSaveBefore</magento_catalogEvent_model_event>
                     <magento_core_model_website>coreWebsiteSaveBefore</magento_core_model_website>
                     <magento_core_model_store_group>coreStoreGroupSaveBefore</magento_core_model_store_group>
                     <magento_core_model_store>coreStoreGroupSaveBefore</magento_core_model_store>
@@ -350,7 +350,7 @@
                     <magento_catalog_model_category>catalogCategoryDeleteBefore</magento_catalog_model_category>
                     <magento_customer_model_customer>customerDeleteBefore</magento_customer_model_customer>
                     <magento_customer_model_attribute>customerAttributeDeleteBefore</magento_customer_model_attribute>
-                    <enterprise_catalogEvent_model_event>catalogEventDeleteBefore</enterprise_catalogEvent_model_event>
+                    <magento_catalogEvent_model_event>catalogEventDeleteBefore</magento_catalogEvent_model_event>
                     <magento_core_model_website>coreWebsiteDeleteBefore</magento_core_model_website>
                     <magento_core_model_store_group>coreStoreGroupDeleteBefore</magento_core_model_store_group>
                     <magento_core_model_store>coreStoreGroupDeleteBefore</magento_core_model_store>
@@ -367,7 +367,7 @@
                 </model_delete_before>
                 <model_load_after>
                     <magento_catalog_model_product>catalogProductLoadAfter</magento_catalog_model_product>
-                    <enterprise_catalogEvent_model_event>catalogEventLoadAfter</enterprise_catalogEvent_model_event>
+                    <magento_catalogEvent_model_event>catalogEventLoadAfter</magento_catalogEvent_model_event>
                     <magento_catalog_model_category>catalogCategoryLoadAfter</magento_catalog_model_category>
                     <magento_customer_model_customer>customerLoadAfter</magento_customer_model_customer>
                     <magento_sales_model_order>salesOrderLoadAfter</magento_sales_model_order>
@@ -489,9 +489,9 @@
                     <magento_adminhtml_block_customer>widgetCustomerGridContainer</magento_adminhtml_block_customer>
                     <magento_adminhtml_block_system_store_store>widgetManageStores</magento_adminhtml_block_system_store_store>
                     <magento_adminhtml_block_catalog_product>widgetProductGridContainer</magento_adminhtml_block_catalog_product>
-                    <enterprise_catalogEvent_block_adminhtml_event>widgetCatalogEventGridContainer</enterprise_catalogEvent_block_adminhtml_event>
-                    <enterprise_catalogEvent_block_adminhtml_event>removeCatalogEventControlButtons</enterprise_catalogEvent_block_adminhtml_event>
-                    <enterprise_catalogEvent_block_adminhtml_event>restrictCatalogEventEditForm</enterprise_catalogEvent_block_adminhtml_event>
+                    <magento_catalogEvent_block_adminhtml_event>widgetCatalogEventGridContainer</magento_catalogEvent_block_adminhtml_event>
+                    <magento_catalogEvent_block_adminhtml_event>removeCatalogEventControlButtons</magento_catalogEvent_block_adminhtml_event>
+                    <magento_catalogEvent_block_adminhtml_event>restrictCatalogEventEditForm</magento_catalogEvent_block_adminhtml_event>
                     <magento_adminhtml_block_catalog_product_attribute>removeCatalogProductAttributeAddButton</magento_adminhtml_block_catalog_product_attribute>
                     <magento_adminhtml_block_catalog_product_attribute_edit>removeCatalogProductAttributeButtons</magento_adminhtml_block_catalog_product_attribute_edit>
                     <magento_adminhtml_block_catalog_product_attribute_edit_tab_main>disableCatalogProductAttributeEditTabMainFields</magento_adminhtml_block_catalog_product_attribute_edit_tab_main>

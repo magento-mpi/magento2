@@ -25,7 +25,7 @@ class Enterprise_Enterprise_Model_Resource_Setup_Migration extends Magento_Core_
             parent::getCompositeModules(),
             array(
                 'magento_admingws'             => 'Magento_AdminGws',
-                'enterprise_catalogevent'         => 'Enterprise_CatalogEvent',
+                'magento_catalogevent'         => 'Magento_CatalogEvent',
                 'enterprise_catalogpermissions'   => 'Enterprise_CatalogPermissions',
                 'enterprise_customerbalance'      => 'Enterprise_CustomerBalance',
                 'enterprise_customersegment'      => 'Enterprise_CustomerSegment',

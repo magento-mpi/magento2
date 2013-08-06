@@ -284,7 +284,7 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
         }
 
         // avoid viewing disallowed events
-        $catalogEvent = Mage::getModel('Enterprise_CatalogEvent_Model_Event')->load($this->_request->getParam('id'));
+        $catalogEvent = Mage::getModel('Magento_CatalogEvent_Model_Event')->load($this->_request->getParam('id'));
         $category     = Mage::getModel('Magento_Catalog_Model_Category')->load($catalogEvent->getCategoryId());
         if (!$this->_isCategoryAllowed($category)) {
             return $this->_forward();
