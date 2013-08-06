@@ -180,8 +180,6 @@ class Mage_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue(true));
 
-        $this->_expectHasStatus($hasStatus);
-
         $this->_expectHasRegistrationMechanism($hasRegiMechanism);
 
         $this->_expectEndpointOrId($hasEndpointChanges, $hasEndpointId);
@@ -189,26 +187,6 @@ class Mage_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $this->_expectSubscriptionHasDataChanges($hasDataChanges, $mockResource);
 
         $this->assertEquals($this->_subscription, $this->_subscription->save());
-    }
-
-    /**
-     * Mock out the subscription depending on whether or not it will have status
-     *
-     * @param $hasStatus
-     */
-    protected function _expectHasStatus($hasStatus)
-    {
-        $this->_subscription->expects($this->once())
-            ->method('hasStatus')
-            ->will($this->returnValue($hasStatus));
-        if (!$hasStatus) {
-            $this->_subscription->expects($this->once())
-                ->method('setStatus')
-                ->with($this->equalTo(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE));
-        } else {
-            $this->_subscription->expects($this->never())
-                ->method('setStatus');
-        }
     }
 
     /**
@@ -398,8 +376,8 @@ class Mage_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
 
     public function testStatus()
     {
-        $this->assertFalse($this->_subscription->hasStatus());
-        $this->assertNull($this->_subscription->getStatus());
+        $this->assertTrue($this->_subscription->hasStatus());
+        $this->assertEquals(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE, $this->_subscription->getStatus());
         $this->assertSame(
             $this->_subscription, $this->_subscription->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE)
         );
@@ -411,15 +389,20 @@ class Mage_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function testDeactivate()
     {
         $this->_subscription->deactivate();
-        $this->assertTrue($this->_subscription->hasDataChanges());
+        $this->assertFalse($this->_subscription->hasDataChanges());
         $this->assertSame(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE, $this->_subscription->getStatus());
     }
 
-    public function testActivate()
+    public function testActivateDeactivate()
     {
         $this->_subscription->activate();
         $this->assertTrue($this->_subscription->hasDataChanges());
         $this->assertSame(Magento_PubSub_SubscriptionInterface::STATUS_ACTIVE, $this->_subscription->getStatus());
+
+        $this->_subscription->setDataChanges(false);
+        $this->_subscription->deactivate();
+        $this->assertTrue($this->_subscription->hasDataChanges());
+        $this->assertSame(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE, $this->_subscription->getStatus());
     }
 
     public function testRevoke()
