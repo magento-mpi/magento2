@@ -43,7 +43,7 @@
                 <container name="checkout.cart.top_methods" as="top_methods" label="Payment Methods Before Checkout Button">
                     <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage.top" template="onepage/link.phtml"/>
                 </container>
-                <container name="checkout.cart.form.before" as="form_before" label="Shopping Cart Form Before" htmlTag="div"/>
+                <container name="checkout.cart.form.before" as="form_before" label="Shopping Cart Form Before"/>
                 <container name="checkout.cart.methods" as="methods" label="Payment Methods After Checkout Button">
                     <block type="Mage_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage.bottom" template="onepage/link.phtml"/>
                     <block type="Mage_Checkout_Block_Multishipping_Link" name="checkout.cart.methods.multishipping" template="multishipping/link.phtml"/>

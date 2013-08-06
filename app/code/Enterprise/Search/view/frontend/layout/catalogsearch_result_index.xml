@@ -13,5 +13,11 @@
             <remove name="catalogsearch.leftnav"/>
             <block type="Enterprise_Search_Block_Catalogsearch_Layer" name="enterprisesearch.leftnav" before="-" template="Mage_Catalog::layer/view.phtml"/>
         </reference>
+        <reference name="search_result_list">
+            <container name="additional" label="Additional Info" after="product_list_toolbar">
+                <block type="Enterprise_Search_Block_Suggestions" name="search_suggestions" template="suggestions.phtml"/>
+                <block type="Enterprise_Search_Block_Recommendations" name="search_recommendations" template="recommendations.phtml"/>
+            </container>
+        </reference>
     </catalogsearch_result_index>
 </layout>

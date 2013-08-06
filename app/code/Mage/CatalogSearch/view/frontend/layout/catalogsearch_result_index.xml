@@ -47,6 +47,9 @@
                     <action method="setToolbarBlockName">
                         <name>product_list_toolbar</name>
                     </action>
+                    <action method="setPageLayout">
+                        <layout>three_columns</layout>
+                    </action>
                 </block>
                 <action method="setListOrders"/>
                 <action method="setListModes"/>

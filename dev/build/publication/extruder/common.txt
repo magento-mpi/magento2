@@ -1,7 +1,5 @@
 # Files or directories that are not to be part of any Magento product edition (for any reason, can be non-technical)
 #
-LICENSE_PRO.html
-LICENSE_PRO.txt
 app/code/*/*/Model/Resource/Helper/{Oracle,Mssql}.php
 app/code/*/*/sql/*/{oracle,mssql}-*
 app/code/Find
@@ -10,9 +8,6 @@ app/code/Mage/Install/Block/Db/Type/{Oracle,Mssql}.php
 app/code/Mage/Install/Model/Installer/Db/{Mssql,Oracle}.php
 app/code/Mage/Install/view/install/db/{mssql,oracle}.phtml
 app/code/Mage/Install/view/install/layout/install_wizard_config_{oracle,mssql}.xml
-app/design/adminhtml/default/pro
-app/design/frontend/pro
-app/design/install/default/pro
 app/etc/aliases_to_classes_map.json
 app/etc/config.{oracle,mssql}.xml
 dev/tests/functional
@@ -29,11 +24,8 @@ dev/tests/static/testsuite/Legacy/_files/words_internal.xml
 dev/tests/static/testsuite/Php/_files/{whitelist,blacklist}/non_public.txt
 dev/tests/static/testsuite/Php/_files/phpcpd/blacklist/non_public.txt
 dev/tools/translate
-downloader/Maged/Model/Config/Professional.php
-downloader/template/professional
 lib/Magento/DB/Adapter/Oracle.php
 lib/Magento/DB/Adapter/Pdo/Mssql.php
 lib/Magento/DB/Statement/Oracle.php
 lib/Magento/DB/Statement/Pdo/Mssql.php
 lib/Magento/DB/Statement/Sqlsrv.php
-pub/errors/pro
