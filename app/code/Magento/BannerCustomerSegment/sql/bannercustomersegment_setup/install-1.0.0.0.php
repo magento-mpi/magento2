@@ -9,7 +9,7 @@
 /* @var $installer Magento_Core_Model_Resource_Setup */
 $installer = $this;
 
-$tableName = 'enterprise_banner_customersegment';
+$tableName = 'magento_banner_customersegment';
 
 $table = $installer->getConnection()
     ->newTable($installer->getTable($tableName))
@@ -30,12 +30,12 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName($tableName, array('segment_id')),
         array('segment_id'))
     ->addForeignKey(
-        $installer->getFkName($tableName, 'banner_id', 'enterprise_banner', 'banner_id'),
-        'banner_id', $installer->getTable('enterprise_banner'), 'banner_id',
+        $installer->getFkName($tableName, 'banner_id', 'magento_banner', 'banner_id'),
+        'banner_id', $installer->getTable('magento_banner'), 'banner_id',
         Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName($tableName, 'segment_id', 'enterprise_customersegment_segment', 'segment_id'),
-        'segment_id', $installer->getTable('enterprise_customersegment_segment'), 'segment_id',
+        $installer->getFkName($tableName, 'segment_id', 'magento_customersegment_segment', 'segment_id'),
+        'segment_id', $installer->getTable('magento_customersegment_segment'), 'segment_id',
         Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Banner Customersegment');
 

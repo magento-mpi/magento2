@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-class Enterprise_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestCase
+class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Enterprise_BannerCustomerSegment_Model_Observer
+     * @var Magento_BannerCustomerSegment_Model_Observer
      */
     private $_model;
 
@@ -41,7 +41,7 @@ class Enterprise_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framew
     protected function setUp()
     {
         $this->_bannerSegmentLink = $this->getMock(
-            'Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLink',
+            'Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink',
             array('loadBannerSegments', 'saveBannerSegments', 'addBannerSegmentFilter'),
             array(), '', false
         );
@@ -54,7 +54,7 @@ class Enterprise_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framew
         $this->_segmentCollection = $this->getMock(
             'Enterprise_CustomerSegment_Model_Resource_Segment_Collection', array(), array(), '', false
         );
-        $this->_model = new Enterprise_BannerCustomerSegment_Model_Observer(
+        $this->_model = new Magento_BannerCustomerSegment_Model_Observer(
             $this->_segmentCustomer, $this->_segmentHelper, $this->_segmentCollection, $this->_bannerSegmentLink
         );
         $this->_select = new Zend_Db_Select(

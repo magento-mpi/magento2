@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Enterprise_BannerCustomerSegment" version="1.0.0.0" active="false">
+    <module name="Magento_BannerCustomerSegment" version="1.0.0.0" active="false">
         <depends>
             <module name="Enterprise_Banner" />
             <module name="Enterprise_CustomerSegment" />

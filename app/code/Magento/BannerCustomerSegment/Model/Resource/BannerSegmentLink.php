@@ -9,14 +9,14 @@
 /**
  * Relations between a banner and customer segments
  */
-class Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLink extends Magento_Core_Model_Resource_Db_Abstract
+class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Setup association with a table
      */
     protected function _construct()
     {
-        $this->_init('enterprise_banner_customersegment', null);
+        $this->_init('magento_banner_customersegment', null);
     }
 
     /**

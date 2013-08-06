@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_BannerCustomerSegment_Model_Observer
+class Magento_BannerCustomerSegment_Model_Observer
 {
     /**
      * @var Enterprise_CustomerSegment_Model_Customer
@@ -23,7 +23,7 @@ class Enterprise_BannerCustomerSegment_Model_Observer
     private $_segmentCollection;
 
     /**
-     * @var Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLink
+     * @var Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink
      */
     private $_bannerSegmentLink;
 
@@ -31,13 +31,13 @@ class Enterprise_BannerCustomerSegment_Model_Observer
      * @param Enterprise_CustomerSegment_Model_Customer $segmentCustomer
      * @param Enterprise_CustomerSegment_Helper_Data $segmentHelper
      * @param Enterprise_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection
-     * @param Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLink $bannerSegmentLink
+     * @param Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink $bannerSegmentLink
      */
     public function __construct(
         Enterprise_CustomerSegment_Model_Customer $segmentCustomer,
         Enterprise_CustomerSegment_Helper_Data $segmentHelper,
         Enterprise_CustomerSegment_Model_Resource_Segment_Collection $segmentCollection,
-        Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLink $bannerSegmentLink
+        Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink $bannerSegmentLink
     ) {
         $this->_segmentCustomer = $segmentCustomer;
         $this->_segmentHelper = $segmentHelper;
@@ -55,7 +55,7 @@ class Enterprise_BannerCustomerSegment_Model_Observer
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /** @var Enterprise_Banner_Model_Banner $banner */
+        /** @var Magento_Banner_Model_Banner $banner */
         $banner = $observer->getEvent()->getBanner();
         $segmentIds = $this->_bannerSegmentLink->loadBannerSegments($banner->getId());
         $banner->setData('customer_segment_ids', $segmentIds);
@@ -72,7 +72,7 @@ class Enterprise_BannerCustomerSegment_Model_Observer
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /** @var Enterprise_Banner_Model_Banner $banner */
+        /** @var Magento_Banner_Model_Banner $banner */
         $banner = $observer->getEvent()->getBanner();
         $segmentIds = $banner->getData('customer_segment_ids') ?: array();
         if (!is_array($segmentIds)) {

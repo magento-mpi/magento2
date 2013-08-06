@@ -6,17 +6,17 @@
  * @license     {license_link}
  */
 
-class Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends PHPUnit_Framework_TestCase
+class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLink
+     * @var Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink
      */
     private $_resourceModel;
 
     protected function setUp()
     {
         $this->_resourceModel = Mage::getResourceModel(
-            'Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLink'
+            'Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink'
         );
     }
 
@@ -28,7 +28,7 @@ class Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest exte
     /**
      * @magentoDataFixture Enterprise/Banner/_files/banner.php
      * @magentoDataFixture Enterprise/CustomerSegment/_files/segment_developers.php
-     * @magentoDataFixture Enterprise/BannerCustomerSegment/_files/banner_40_percent_off_on_graphic_editor.php
+     * @magentoDataFixture Magento/BannerCustomerSegment/_files/banner_40_percent_off_on_graphic_editor.php
      * @dataProvider saveLoadBannerSegmentsDataProvider
      * @param string $bannerName
      * @param mixed $segmentNames
@@ -61,8 +61,8 @@ class Enterprise_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest exte
     /**
      * @magentoDataFixture Enterprise/Banner/_files/banner_disabled_40_percent_off.php
      * @magentoDataFixture Enterprise/Banner/_files/banner_enabled_40_to_50_percent_off.php
-     * @magentoDataFixture Enterprise/BannerCustomerSegment/_files/banner_50_percent_off_on_ide.php
-     * @magentoDataFixture Enterprise/BannerCustomerSegment/_files/banner_40_percent_off_on_graphic_editor.php
+     * @magentoDataFixture Magento/BannerCustomerSegment/_files/banner_50_percent_off_on_ide.php
+     * @magentoDataFixture Magento/BannerCustomerSegment/_files/banner_40_percent_off_on_graphic_editor.php
      * @dataProvider addBannerSegmentFilterDataProvider
      * @param array $segmentNames
      * @param array $expectedBannerNames
