@@ -217,7 +217,7 @@ class Mage_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $webapiUserFactory = Mage::getObjectManager()->create('Mage_Webhook_Model_Webapi_User_Factory');
 
         $userId = $webapiUserFactory->createUser($userContext, array());
-        $user = $userFactory->create(array('webapiUserId' => $userId));
+        $user = $userFactory->create($userId);
         $subscription->setApiUserId($userId);
         $this->assertEquals($user, $subscription->getUser());
     }

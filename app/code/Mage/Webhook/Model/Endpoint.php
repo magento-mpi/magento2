@@ -119,7 +119,7 @@ class Mage_Webhook_Model_Endpoint extends Mage_Core_Model_Abstract implements Ma
         if ($this->getApiUserId() === null) {
             return null;
         }
-        return $this->_userFactory->create(array('webapiUserId' => $this->getApiUserId()));
+        return $this->_userFactory->create($this->getApiUserId());
     }
 
     /**

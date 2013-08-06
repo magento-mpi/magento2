@@ -29,11 +29,11 @@ class Mage_Webhook_Model_User_Factory
     /**
      * Create a new instance of Mage_Webhook_Model_User
      *
-     * @param array $arguments fed into constructor
+     * @param int $webapiUserId webapi user id
      * @return Mage_Webhook_Model_User
      */
-    public function create(array $arguments = array())
+    public function create($webapiUserId)
     {
-        return $this->_objectManager->create('Mage_Webhook_Model_User', $arguments);
+        return $this->_objectManager->create('Mage_Webhook_Model_User', array('webapiUserId' => $webapiUserId));
     }
 }

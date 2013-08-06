@@ -53,7 +53,7 @@ class Mage_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
 
         $this->_mockUserFactory->expects($this->once())
             ->method('create')
-            ->with($this->equalTo(array('webapiUserId' => $apiUsedId)))
+            ->with($this->equalTo($apiUsedId))
             ->will($this->returnValue($mockWebhookUser));
 
         // we have to use a mock because ancestor code utilizes deprecated static methods

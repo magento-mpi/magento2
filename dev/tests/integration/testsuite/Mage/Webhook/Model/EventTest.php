@@ -6,6 +6,7 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ * @magentoDbIsolation enabled
  */
 class Mage_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
 {

@@ -81,7 +81,6 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
 
         $this->_service = new Mage_Webhook_Service_SubscriptionV1(
             $this->_subscriptionFactory,
-            $this->_userFactory,
             $this->_subscriptionSet,
             $this->_translator
         );
