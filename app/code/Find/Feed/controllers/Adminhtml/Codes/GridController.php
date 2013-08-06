@@ -25,8 +25,8 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
     {
         $this->_setActiveMenu('Find_Feed::catalog_feed');
         $this
-            ->_title($this->__('Catalog'))
-            ->_title($this->__('TheFind'));
+            ->_title(__('Catalog'))
+            ->_title(__('TheFind'));
 
         return $this;
     }
@@ -38,7 +38,7 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_init()->_title($this->__('Attributes'), false);
+        $this->_init()->_title(__('Attributes'), false);
         $this->renderLayout();
     }
 
@@ -125,7 +125,7 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
             $updatedCodes++;
         }
         if ($updatedCodes > 0) {
-            $this->_getSession()->addSuccess(Mage::helper('Find_Feed_Helper_Data')->__("%1 codes imported", $updatedCodes));
+            $this->_getSession()->addSuccess(__("%1 codes imported", $updatedCodes));
         }
         $this->_redirect('*/*/index');
     }
@@ -142,7 +142,7 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
             $updatedCodes++;
         }
         if ($updatedCodes > 0) {
-            $this->_getSession()->addSuccess(Mage::helper('Find_Feed_Helper_Data')->__("%1 codes not imported", $updatedCodes));
+            $this->_getSession()->addSuccess(__("%1 codes not imported", $updatedCodes));
         }
         $this->_redirect('*/*/index');
     }
@@ -158,7 +158,7 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
             $updatedCodes++;
         }
         if ($updatedCodes > 0) {
-            $this->_getSession()->addSuccess(Mage::helper('Find_Feed_Helper_Data')->__("%1 codes deleted", $updatedCodes));
+            $this->_getSession()->addSuccess(__("%1 codes deleted", $updatedCodes));
         }
         $this->_redirect('*/*/index');
     }

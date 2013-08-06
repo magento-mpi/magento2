@@ -21,7 +21,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
      */
     public function getTabTitle()
     {
-        return $this->__('Themes Not Assigned to Store Views');
+        return __('Themes Not Assigned to Store Views');
     }
 
     /**
@@ -38,7 +38,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
         $removeButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
 
         $removeButton->setData(array(
-            'label'     => $this->__('Remove'),
+            'label'     => __('Remove'),
             'data_attribute'  => array(
                 'mage-init' => array(
                     'button' => array(
@@ -50,9 +50,9 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
                                 array('id' => $themeId, 'back' => true)
                             ),
                             'confirm' => array(
-                                'message' => $this->__('Are you sure you want to delete this theme?'),
+                                'message' => __('Are you sure you want to delete this theme?'),
                             ),
-                            'title' => $this->__('Delete %1 Theme', $themeTitle)
+                            'title' => __('Delete %1 Theme', $themeTitle)
                         )
                     ),
                 ),

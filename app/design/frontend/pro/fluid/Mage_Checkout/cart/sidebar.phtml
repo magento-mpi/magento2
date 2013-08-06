@@ -20,9 +20,9 @@
     <?php $_cartQty = $this->getSummaryCount() ?>
     <div class="block-title">
         <?php if ($_cartQty > 0): ?>
-        <strong><span><?php echo $this->__('My Cart <small>(%1)</small>', $_cartQty) ?></span></strong>
+        <strong><span><?php echo __('My Cart <small>(%1)</small>', $_cartQty) ?></span></strong>
         <?php else: ?>
-        <strong><span><?php echo $this->__('My Cart') ?></span></strong>
+        <strong><span><?php echo __('My Cart') ?></span></strong>
         <?php endif; ?>
     </div>
     <div class="block-content">
@@ -38,30 +38,30 @@
                 head.js("<?php echo $this->getViewFileUrl('Mage_Checkout::js/sidebar.js') ?>", function() {
                     $('#cart-sidebar').sidebar({
                         checkoutUrl: '<?php echo $this->getCheckoutUrl();?>',
-                        checkoutButton: ':button[title=' + '<?php echo $this->__('Checkout') ?>' + ']',
+                        checkoutButton: ':button[title=' + '<?php echo __('Checkout') ?>' + ']',
                         removeButton: '#cart-sidebar a.btn-remove',
-                        confirmMessage: '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>'
+                        confirmMessage: '<?php echo __('Are you sure you would like to remove this item from the shopping cart?') ?>'
                     });
                 });
             })(jQuery);
         </script>
         <?php else: ?>
-        <p class="empty"><?php echo $this->__('You have no items in your shopping cart.') ?></p>
+        <p class="empty"><?php echo __('You have no items in your shopping cart.') ?></p>
         <?php endif ?>
         <?php if ($_cartQty > 0): ?>
         <div class="actions">
             <div class="summary">
                 <?php /*if ($_cartQty==1): ?>
-                        <p class="amount"><?php echo $this->__('There is <a href="%s">1 item</a> in your cart.', $this->getUrl('checkout/cart')) ?></p>
+                        <p class="amount"><?php echo __('There is <a href="%s">1 item</a> in your cart.', $this->getUrl('checkout/cart')) ?></p>
                     <?php else: ?>
-                        <p class="amount"><?php echo $this->__('There are <a href="%s">%s items</a> in your cart.', $this->getUrl('checkout/cart'), $_cartQty) ?></p>
+                        <p class="amount"><?php echo __('There are <a href="%s">%s items</a> in your cart.', $this->getUrl('checkout/cart'), $_cartQty) ?></p>
                     <?php endif*/ ?>
                 <p class="subtotal">
-                    <span class="label"><?php echo $this->__('Cart Subtotal:') ?></span>
+                    <span class="label"><?php echo __('Cart Subtotal:') ?></span>
 
                     <?php if ($this->canApplyMsrp()): ?>
                     <span
-                        class="map-cart-sidebar-total"><?php echo $this->__('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></span>
+                        class="map-cart-sidebar-total"><?php echo __('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></span>
                     <?php else: ?>
                     <?php echo Mage::helper('Mage_Checkout_Helper_Data')->formatPrice($this->getSubtotal()) ?>
                     <?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
@@ -73,8 +73,8 @@
                 </p>
             </div>
             <?php if ($this->isPossibleOnepageCheckout()): ?>
-            <button type="button" title="<?php echo $this->__('Checkout') ?>" class="button">
-                <span><span><?php echo $this->__('Checkout') ?></span></span></button>
+            <button type="button" title="<?php echo __('Checkout') ?>" class="button">
+                <span><span><?php echo __('Checkout') ?></span></span></button>
             <?php //echo $this->getChildHtml('extra_actions') ?>
             <?php endif ?>
         </div>

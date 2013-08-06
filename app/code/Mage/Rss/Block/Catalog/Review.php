@@ -25,7 +25,7 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Core_Block_Abstract
     protected function _toHtml()
     {
         $newUrl = Mage::getUrl('rss/catalog/review');
-        $title = Mage::helper('Mage_Rss_Helper_Data')->__('Pending product review(s)');
+        $title = __('Pending product review(s)');
         Mage::helper('Mage_Rss_Helper_Data')->disableFlat();
 
         $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
@@ -73,14 +73,14 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Core_Block_Abstract
         $storeName = $store->getName();
 
         $description = '<p>'
-                     . $this->__('Product: <a href="%1">%2</a> <br/>', $productUrl, $row['name'])
-                     . $this->__('Summary of review: %1 <br/>', $row['title'])
-                     . $this->__('Review: %1 <br/>', $row['detail'])
-                     . $this->__('Store: %1 <br/>', $storeName )
-                     . $this->__('Click <a href="%1">here</a> to view the review.', $reviewUrl)
+                     . __('Product: <a href="%1">%2</a> <br/>', $productUrl, $row['name'])
+                     . __('Summary of review: %1 <br/>', $row['title'])
+                     . __('Review: %1 <br/>', $row['detail'])
+                     . __('Store: %1 <br/>', $storeName )
+                     . __('Click <a href="%1">here</a> to view the review.', $reviewUrl)
                      . '</p>';
         $data = array(
-            'title'         => $this->__('Product: "%1" review By: %2', $row['name'], $row['nickname']),
+            'title'         => __('Product: "%1" review By: %2', $row['name'], $row['nickname']),
             'link'          => 'test',
             'description'   => $description,
         );

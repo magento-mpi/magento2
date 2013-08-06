@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Review_Main extends Mage_Adminhtml_Block_Widget_Grid_
 {
     protected function _construct()
     {
-        $this->_addButtonLabel = Mage::helper('Mage_Review_Helper_Data')->__('Add New Review');
+        $this->_addButtonLabel = __('Add New Review');
         parent::_construct();
 
         $this->_controller = 'review';
@@ -42,18 +42,18 @@ class Mage_Adminhtml_Block_Review_Main extends Mage_Adminhtml_Block_Widget_Grid_
 
         if( Mage::registry('usePendingFilter') === true ) {
             if ($customerName) {
-                $this->_headerText = Mage::helper('Mage_Review_Helper_Data')->__('Pending Reviews of Customer `%1`', $customerName);
+                $this->_headerText = __('Pending Reviews of Customer `%1`', $customerName);
             } else {
-                $this->_headerText = Mage::helper('Mage_Review_Helper_Data')->__('Pending Reviews');
+                $this->_headerText = __('Pending Reviews');
             }
             $this->_removeButton('add');
         } else {
             if ($customerName) {
-                $this->_headerText = Mage::helper('Mage_Review_Helper_Data')->__('All Reviews of Customer `%1`', $customerName);
+                $this->_headerText = __('All Reviews of Customer `%1`', $customerName);
             } elseif ($productName) {
-                $this->_headerText = Mage::helper('Mage_Review_Helper_Data')->__('All Reviews of Product `%1`', $productName);
+                $this->_headerText = __('All Reviews of Product `%1`', $productName);
             } else {
-                $this->_headerText = Mage::helper('Mage_Review_Helper_Data')->__('All Reviews');
+                $this->_headerText = __('All Reviews');
             }
         }
     }

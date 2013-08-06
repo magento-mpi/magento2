@@ -38,7 +38,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Numeric Attribute'));
+            'label' => __('Numeric Attribute'));
     }
 
     /**
@@ -49,11 +49,11 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'weight' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('weight'),
-            'row_weight' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('row weight'),
-            'qty' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('quantity'),
-            'price' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('base price'),
-            'base_cost' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('base cost')
+            'weight' => __('weight'),
+            'row_weight' => __('row weight'),
+            'qty' => __('quantity'),
+            'price' => __('base price'),
+            'base_cost' => __('base cost')
         ));
         return $this;
     }
@@ -66,7 +66,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Item %1 %2 %3:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . __('Item %1 %2 %3:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -110,7 +110,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
                 break;
             default:
                 Mage::throwException(
-                    Mage::helper('Enterprise_Reminder_Helper_Data')->__('Unknown attribute specified')
+                    __('Unknown attribute specified')
                 );
         }
 

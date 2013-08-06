@@ -41,7 +41,7 @@
                         <div class="product-name">
                             <h1><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></h1>
                         </div>
-                        <p class="product-ids"><?php echo $this->__('SKU# %1', $this->escapeHtml($_product->getSku())); ?></p>
+                        <p class="product-ids"><?php echo __('SKU# %1', $this->escapeHtml($_product->getSku())); ?></p>
                         <?php echo $this->getReviewsSummaryHtml($_product, false, true)?>
                         <?php echo $this->getChildHtml('alert_urls') ?>
                         <?php echo $this->getChildHtml('product_type_data') ?>
@@ -68,7 +68,7 @@
 
                     <?php if ($_product->getShortDescription()):?>
                         <div class="short-description std">
-                            <h2><?php echo $this->__('Quick Overview') ?></h2>
+                            <h2><?php echo __('Quick Overview') ?></h2>
                             <?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
                         </div>
                     <?php endif;?>
@@ -106,7 +106,7 @@
                 </div>
             <?php endif; ?>
             <?php if ($this->canEmailToFriend()): ?>
-                <p class="emailto-link"><a href="<?php echo $this->helper('Mage_Catalog_Helper_Product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
+                <p class="emailto-link"><a href="<?php echo $this->helper('Mage_Catalog_Helper_Product')->getEmailToFriendUrl($_product) ?>"><?php echo __('Email to a Friend') ?></a></p>
             <?php endif; ?>
         </div>
         <div class="clearer"></div>

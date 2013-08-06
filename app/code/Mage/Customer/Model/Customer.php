@@ -171,13 +171,13 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $this->loadByEmail($login);
         if ($this->getConfirmation() && $this->isConfirmationRequired()) {
             throw Mage::exception('Mage_Core',
-                Mage::helper('Mage_Customer_Helper_Data')->__('This account is not confirmed.'),
+                __('This account is not confirmed.'),
                 self::EXCEPTION_EMAIL_NOT_CONFIRMED
             );
         }
         if (!$this->validatePassword($password)) {
             throw Mage::exception('Mage_Core',
-                Mage::helper('Mage_Customer_Helper_Data')->__('Invalid login or password.'),
+                __('Invalid login or password.'),
                 self::EXCEPTION_INVALID_EMAIL_OR_PASSWORD
             );
         }
@@ -578,7 +578,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         );
         if (!isset($types[$type])) {
             Mage::throwException(
-                Mage::helper('Mage_Customer_Helper_Data')->__('Wrong transactional account email type')
+                __('Wrong transactional account email type')
             );
         }
 
@@ -831,29 +831,29 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     {
         $errors = array();
         if (!Zend_Validate::is(trim($this->getFirstname()), 'NotEmpty')) {
-            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The first name cannot be empty.');
+            $errors[] = __('The first name cannot be empty.');
         }
 
         if (!Zend_Validate::is(trim($this->getLastname()), 'NotEmpty')) {
-            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The last name cannot be empty.');
+            $errors[] = __('The last name cannot be empty.');
         }
 
         if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Please correct this email address: "%1".', $this->getEmail());
+            $errors[] = __('Please correct this email address: "%1".', $this->getEmail());
         }
 
         $entityType = $this->_config->getEntityType('customer');
         $attribute = Mage::getModel('Mage_Customer_Model_Attribute')->loadByCode($entityType, 'dob');
         if ($attribute->getIsRequired() && '' == trim($this->getDob())) {
-            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The Date of Birth is required.');
+            $errors[] = __('The Date of Birth is required.');
         }
         $attribute = Mage::getModel('Mage_Customer_Model_Attribute')->loadByCode($entityType, 'taxvat');
         if ($attribute->getIsRequired() && '' == trim($this->getTaxvat())) {
-            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('The TAX/VAT number is required.');
+            $errors[] = __('The TAX/VAT number is required.');
         }
         $attribute = Mage::getModel('Mage_Customer_Model_Attribute')->loadByCode($entityType, 'gender');
         if ($attribute->getIsRequired() && '' == trim($this->getGender())) {
-            $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Gender is required.');
+            $errors[] = __('Gender is required.');
         }
 
         if (empty($errors)) {
@@ -1077,7 +1077,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     {
         if (!is_string($newResetPasswordLinkToken) || empty($newResetPasswordLinkToken)) {
             throw Mage::exception('Mage_Core',
-                Mage::helper('Mage_Customer_Helper_Data')->__('Invalid password reset token.'),
+                __('Invalid password reset token.'),
                 self::EXCEPTION_INVALID_RESET_PASSWORD_LINK_TOKEN
             );
         }

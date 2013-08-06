@@ -890,7 +890,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         if (!empty($productNotExclusiveIds)) {
             $productNotExclusiveIds = implode(', ', $productNotExclusiveIds);
-            $message = Mage::helper('Enterprise_AdminGws_Helper_Data')->__('You need more permissions to delete this item(s): %1.', $productNotExclusiveIds);
+            $message = __('You need more permissions to delete this item(s): %1.', $productNotExclusiveIds);
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($message);
         }
 
@@ -1187,7 +1187,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function promoCatalogIndexAction($controller)
     {
         $controller->setDirtyRulesNoticeMessage(
-            Mage::helper('Mage_CatalogRule_Helper_Data')->__('There are rules that have been changed but were not applied. Only users with exclusive access can apply rules.')
+            __('There are rules that have been changed but were not applied. Only users with exclusive access can apply rules.')
         );
         return $this;
     }

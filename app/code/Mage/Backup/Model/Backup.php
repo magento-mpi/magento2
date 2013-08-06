@@ -156,7 +156,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
     public function setFile(&$content)
     {
         if (!$this->hasData('time') || !$this->hasData('type') || !$this->hasData('path')) {
-            Mage::throwException($this->_helper->__('Please correct the order of creation for a new backup.'));
+            Mage::throwException(__('Please correct the order of creation for a new backup.'));
         }
 
         $this->_filesystem->write($this->_getFilePath(), $content);
@@ -171,7 +171,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
     public function &getFile()
     {
         if (!$this->exists()) {
-            Mage::throwException($this->_helper->__("The backup file does not exist."));
+            Mage::throwException(__("The backup file does not exist."));
         }
 
         return $this->_filesystem->read($this->_getFilePath());
@@ -185,7 +185,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
     public function deleteFile()
     {
         if (!$this->exists()) {
-            Mage::throwException($this->_helper->__("The backup file does not exist."));
+            Mage::throwException(__("The backup file does not exist."));
         }
 
         $this->_filesystem->delete($this->_getFilePath());
@@ -202,7 +202,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
     public function open($write = false)
     {
         if (is_null($this->getPath())) {
-            Mage::exception('Mage_Backup', $this->_helper->__('The backup file path was not specified.'));
+            Mage::exception('Mage_Backup', __('The backup file path was not specified.'));
         }
 
         if ($write && $this->_filesystem->isFile($this->_getFilePath())) {
@@ -210,7 +210,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
         }
         if (!$write && !$this->_filesystem->isFile($this->_getFilePath())) {
             Mage::exception('Mage_Backup',
-                $this->_helper->__('The backup file "%1" does not exist.', $this->getFileName()));
+                __('The backup file "%1" does not exist.', $this->getFileName()));
         }
 
         $mode = $write ? 'wb' . self::COMPRESS_RATE : 'rb';
@@ -223,7 +223,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
         }
         catch (Magento_Filesystem_Exception $e) {
             throw new Mage_Backup_Exception_NotEnoughPermissions(
-                $this->_helper->__('Sorry, but we cannot read from or write to backup file "%1".', $this->getFileName())
+                __('Sorry, but we cannot read from or write to backup file "%1".', $this->getFileName())
             );
         }
 
@@ -238,7 +238,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
     protected function _getStream()
     {
         if (is_null($this->_stream)) {
-            Mage::exception('Mage_Backup', $this->_helper->__('The backup file handler was unspecified.'));
+            Mage::exception('Mage_Backup', __('The backup file handler was unspecified.'));
         }
         return $this->_stream;
     }
@@ -277,7 +277,7 @@ class Mage_Backup_Model_Backup extends Varien_Object
         }
         catch (Magento_Filesystem_Exception $e) {
             Mage::exception('Mage_Backup',
-                $this->_helper->__('Something went wrong writing to the backup file "%1".', $this->getFileName()));
+                __('Something went wrong writing to the backup file "%1".', $this->getFileName()));
         }
 
         return $this;

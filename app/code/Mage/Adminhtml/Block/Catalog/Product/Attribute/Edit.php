@@ -32,10 +32,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
                 $this->_addButton(
                     'save_in_new_set',
                     array(
-                        'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save in New Attribute Set'),
+                        'label'     => __('Save in New Attribute Set'),
                         'class'     => 'save',
                         'onclick'   => 'saveAttributeInNewSet(\''
-                            . Mage::helper('Mage_Catalog_Helper_Data')->__('Enter Name for New Attribute Set')
+                            . __('Enter Name for New Attribute Set')
                             . '\')',
                     )
                 );
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
             $this->_addButton(
                 'save_and_edit_button',
                 array(
-                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save and Continue Edit'),
+                    'label'     => __('Save and Continue Edit'),
                     'class'     => 'save',
                     'data_attribute'  => array(
                         'mage-init' => array(
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
             );
         }
 
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Catalog_Helper_Data')->__('Save Attribute'));
+        $this->_updateButton('save', 'label', __('Save Attribute'));
         $this->_updateButton('save', 'class', 'save primary');
         $this->_updateButton('save', 'data_attribute', array(
             'mage-init' => array(
@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
         if (!Mage::registry('entity_attribute') || !Mage::registry('entity_attribute')->getIsUserDefined()) {
             $this->_removeButton('delete');
         } else {
-            $this->_updateButton('delete', 'label', Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Attribute'));
+            $this->_updateButton('delete', 'label', __('Delete Attribute'));
         }
     }
 
@@ -83,9 +83,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
             if (is_array($frontendLabel)) {
                 $frontendLabel = $frontendLabel[0];
             }
-            return Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Product Attribute "%1"', $this->escapeHtml($frontendLabel));
+            return __('Edit Product Attribute "%1"', $this->escapeHtml($frontendLabel));
         }
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('New Product Attribute');
+        return __('New Product Attribute');
     }
 
     /**

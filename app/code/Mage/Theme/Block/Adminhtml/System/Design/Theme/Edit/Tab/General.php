@@ -95,7 +95,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     protected function _addThemeFieldset($form, $formData)
     {
         $themeFieldset = $form->addFieldset('theme', array(
-            'legend'   => $this->__('Theme Settings'),
+            'legend'   => __('Theme Settings'),
         ));
         $this->_addElementTypes($themeFieldset);
 
@@ -123,8 +123,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
 
         if ($this->_getCurrentTheme()->isObjectNew()) {
             $themeFieldset->addField('parent_id', 'select', array(
-                'label'    => $this->__('Parent Theme'),
-                'title'    => $this->__('Parent Theme'),
+                'label'    => __('Parent Theme'),
+                'title'    => __('Parent Theme'),
                 'name'     => 'parent_id',
                 'values'   => $themesCollections->toOptionArray(!$parentTheme->getId()),
                 'required' => true,
@@ -133,8 +133,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             ));
         } else if (!empty($formData['parent_id'])) {
             $themeFieldset->addField('parent_title', 'note', array(
-                'label'    => $this->__('Parent Theme'),
-                'title'    => $this->__('Parent Theme'),
+                'label'    => __('Parent Theme'),
+                'title'    => __('Parent Theme'),
                 'name'     => 'parent_title',
                 'text'     => $parentTheme->getId() ? $parentTheme->getThemeTitle() : ''
             ));
@@ -142,39 +142,39 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
 
         if (!empty($formData['theme_path'])) {
             $themeFieldset->addField('theme_path', 'label', array(
-                'label'    => $this->__('Theme Path'),
-                'title'    => $this->__('Theme Path'),
+                'label'    => __('Theme Path'),
+                'title'    => __('Theme Path'),
                 'name'     => 'theme_code',
             ));
         }
 
         $themeFieldset->addField('theme_version', $this->_getFieldTextType(), array(
-            'label'    => $this->__('Theme Version'),
-            'title'    => $this->__('Theme Version'),
+            'label'    => __('Theme Version'),
+            'title'    => __('Theme Version'),
             'name'     => 'theme_version',
             'required' => $this->_isFieldAttrRequired(),
-            'note'     => $this->_filterFieldNote($this->__('Example: 0.0.0.1 or 123.1.0.25-alpha1'))
+            'note'     => $this->_filterFieldNote(__('Example: 0.0.0.1 or 123.1.0.25-alpha1'))
         ));
 
         $themeFieldset->addField('theme_title', $this->_getFieldTextType(), array(
-            'label'    => $this->__('Theme Title'),
-            'title'    => $this->__('Theme Title'),
+            'label'    => __('Theme Title'),
+            'title'    => __('Theme Title'),
             'name'     => 'theme_title',
             'required' => $this->_isFieldAttrRequired()
         ));
 
         if ($this->_isThemeEditable) {
             $themeFieldset->addField('preview_image', 'image', array(
-                'label'    => $this->__('Theme Preview Image'),
-                'title'    => $this->__('Theme Preview Image'),
+                'label'    => __('Theme Preview Image'),
+                'title'    => __('Theme Preview Image'),
                 'name'     => 'preview',
                 'required' => false,
                 'note'     => $this->_getPreviewImageNote()
             ));
         } else if (!empty($formData['preview_image'])) {
             $themeFieldset->addField('preview_image', 'note', array(
-                'label'    => $this->__('Theme Preview Image'),
-                'title'    => $this->__('Theme Preview Image'),
+                'label'    => __('Theme Preview Image'),
+                'title'    => __('Theme Preview Image'),
                 'name'     => 'preview',
                 'after_element_html' => '<img width="50" src="' . $this->_themeImagePath->getPreviewImageDirectoryUrl()
                     . $formData['preview_image'] . '" />'
@@ -193,23 +193,23 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     protected function _addRequirementsFieldset($form)
     {
         $requirementsFieldset = $form->addFieldset('requirements', array(
-            'legend'   => $this->__('Magento Requirements'),
+            'legend'   => __('Magento Requirements'),
         ));
 
         $requirementsFieldset->addField('magento_version_from', $this->_getFieldTextType(), array(
-            'label'    => $this->__('Magento Version From'),
-            'title'    => $this->__('Magento Version From'),
+            'label'    => __('Magento Version From'),
+            'title'    => __('Magento Version From'),
             'name'     => 'magento_version_from',
             'required' => $this->_isFieldAttrRequired(),
-            'note'     => $this->_filterFieldNote($this->__('Example: 1.6.0.0 or *'))
+            'note'     => $this->_filterFieldNote(__('Example: 1.6.0.0 or *'))
         ));
 
         $requirementsFieldset->addField('magento_version_to', $this->_getFieldTextType(), array(
-            'label'    => $this->__('Magento Version To'),
-            'title'    => $this->__('Magento Version To'),
+            'label'    => __('Magento Version To'),
+            'title'    => __('Magento Version To'),
             'name'     => 'magento_version_to',
             'required' => $this->_isFieldAttrRequired(),
-            'note'     => $this->_filterFieldNote($this->__('Example: 1.6.0.0 or *'))
+            'note'     => $this->_filterFieldNote(__('Example: 1.6.0.0 or *'))
         ));
 
         return $this;
@@ -265,7 +265,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      */
     public function getTabLabel()
     {
-        return $this->__('General');
+        return __('General');
     }
 
     /**
@@ -289,7 +289,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         $defaults['magento_version_from'] = Mage::getVersion();
         $defaults['magento_version_to'] = '*';
         $defaults['theme_version'] = '0.0.0.1';
-        $defaults['theme_title'] = $this->__('New Theme');
+        $defaults['theme_title'] = __('New Theme');
 
         return $defaults;
     }
@@ -311,7 +311,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
                 continue;
             }
             $data[$theme->getId()] = array(
-                'theme_title'          => $this->__('Copy of %1', $theme->getThemeTitle()),
+                'theme_title'          => __('Copy of %1', $theme->getThemeTitle()),
                 'magento_version_from' => $theme->getMagentoVersionFrom(),
                 'magento_version_to'   => $theme->getMagentoVersionTo()
             );
@@ -329,9 +329,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     {
         $maxImageSize = $this->_fileSize->getMaxFileSizeInMb();
         if ($maxImageSize) {
-            return $this->__('Max image size %1M', $maxImageSize);
+            return __('Max image size %1M', $maxImageSize);
         } else {
-            return $this->__('Something is wrong with the file upload settings.');
+            return __('Something is wrong with the file upload settings.');
         }
     }
 }

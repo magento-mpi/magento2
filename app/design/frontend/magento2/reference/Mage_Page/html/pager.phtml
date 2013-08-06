@@ -24,18 +24,18 @@
     <?php if($this->getShowAmounts()): ?>
     <p class="amount">
         <?php if($this->getLastPageNum()>1): ?>
-            <?php echo $this->__('Items %1 to %2 of %3 total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
+            <?php echo __('Items %1 to %2 of %3 total', $this->getFirstNum(), $this->getLastNum(), $this->getTotalNum()) ?>
         <?php elseif ($this->getLastPageNum() == 1): ?>
-            <?php echo $this->__('%1 Item', $this->getTotalNum()) ?>
+            <?php echo __('%1 Item', $this->getTotalNum()) ?>
         <?php else: ?>
-            <?php echo $this->__('%1 Item(s)', $this->getTotalNum()) ?>
+            <?php echo __('%1 Item(s)', $this->getTotalNum()) ?>
         <?php endif; ?>
     </p>
     <?php endif ?>
 
         <?php if($this->getShowPerPage()): ?>
             <div class="limiter">
-                <strong class="label"><?php echo $this->__('Show') ?></strong>
+                <strong class="label"><?php echo __('Show') ?></strong>
                 <select id="limiter" data-mage-redirect="{'event':'change'}">
                     <?php foreach ($this->getAvailableLimit() as $_key => $_limit): ?>
                     <option value="<?php echo $this->getLimitUrl($_key) ?>"<?php if ($this->isLimitCurrent($_key)): ?>
@@ -44,19 +44,19 @@
                     </option>
                     <?php endforeach; ?>
                 </select>
-                <span class="text"><?php echo $this->__('per page') ?></span>
+                <span class="text"><?php echo __('per page') ?></span>
             </div>
         <?php endif ?>
 
         <?php if($this->getLastPageNum()>1): ?>
         <div class="pages">
-            <strong class="label"><?php echo $this->__('Page') ?></strong>
+            <strong class="label"><?php echo __('Page') ?></strong>
             <ol class="items">
             <?php if (!$this->isFirstPage()): ?>
                 <li class="item">
                     <?php $text = $this->getAnchorTextForPrevious() ? $this->getAnchorTextForPrevious() : '';?>
-                    <a class="<?php echo $text ? 'link ' : 'action '?> previous" href="<?php echo $this->getPreviousPageUrl() ?>" title="<?php echo $text ? $text : $this->__('Previous') ?>">
-                        <span><?php echo $text ? $text : $this->__('Previous') ?></span>
+                    <a class="<?php echo $text ? 'link ' : 'action '?> previous" href="<?php echo $this->getPreviousPageUrl() ?>" title="<?php echo $text ? $text : __('Previous') ?>">
+                        <span><?php echo $text ? $text : __('Previous') ?></span>
                     </a>
                 </li>
             <?php endif;?>
@@ -88,8 +88,8 @@
             <?php if (!$this->isLastPage()): ?>
                 <li class="item">
                     <?php $text = $this->getAnchorTextForNext() ? $this->getAnchorTextForNext() : '';?>
-                    <a class="<?php echo $text ? 'link ' : 'action '?> next" href="<?php echo $this->getNextPageUrl() ?>" title="<?php echo $text ? $text : $this->__('Next') ?>">
-                        <span><?php echo $text ? $text : $this->__('Next') ?></span>
+                    <a class="<?php echo $text ? 'link ' : 'action '?> next" href="<?php echo $this->getNextPageUrl() ?>" title="<?php echo $text ? $text : __('Next') ?>">
+                        <span><?php echo $text ? $text : __('Next') ?></span>
                     </a>
                 </li>
             <?php endif;?>

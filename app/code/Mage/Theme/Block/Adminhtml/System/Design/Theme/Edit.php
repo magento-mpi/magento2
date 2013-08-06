@@ -33,7 +33,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
         if ($theme) {
             if ($theme->isEditable()) {
                 $this->_addButton('save_and_continue', array(
-                    'label'     => $this->__('Save and Continue Edit'),
+                    'label'     => __('Save and Continue Edit'),
                     'class'     => 'save',
                     'data_attribute' => array(
                         'mage-init' => array(
@@ -51,7 +51,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
 
             if ($theme->isDeletable()) {
                 if ($theme->hasChildThemes()) {
-                    $message = $this->__('Are you sure you want to delete this theme?');
+                    $message = __('Are you sure you want to delete this theme?');
                     $onClick = sprintf("deleteConfirm('%s', '%s')",
                         $message,
                         $this->getUrl('*/*/delete', array('id' => $theme->getId()))
@@ -76,9 +76,9 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
         /** @var $theme Mage_Core_Model_Theme */
         $theme = $this->_getCurrentTheme();
         if ($theme->getId()) {
-            $header = $this->__('Theme: %1', $theme->getThemeTitle());
+            $header = __('Theme: %1', $theme->getThemeTitle());
         } else {
-            $header = $this->__('New Theme');
+            $header = __('New Theme');
         }
         return $header;
     }

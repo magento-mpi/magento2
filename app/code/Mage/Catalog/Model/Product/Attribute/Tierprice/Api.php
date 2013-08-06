@@ -64,7 +64,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
 
         $updatedTierPrices = $this->prepareTierPrices($product, $tierPrices);
         if (is_null($updatedTierPrices)) {
-            $this->_fault('data_invalid', Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid Tier Prices'));
+            $this->_fault('data_invalid', __('Invalid Tier Prices'));
         }
 
         $product->setData(self::ATTRIBUTE_CODE, $updatedTierPrices);
@@ -76,7 +76,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
             if (is_array($errors = $product->validate())) {
                 $strErrors = array();
                 foreach($errors as $code=>$error) {
-                    $strErrors[] = ($error === true)? Mage::helper('Mage_Catalog_Helper_Data')->__('Please correct the value for "%1".', $code) : Mage::helper('Mage_Catalog_Helper_Data')->__('Please correct the value for "%1": %2.', $code, $error);
+                    $strErrors[] = ($error === true)? __('Please correct the value for "%1".', $code) : __('Please correct the value for "%1": %2.', $code, $error);
                 }
                 $this->_fault('data_invalid', implode("\n", $strErrors));
             }
@@ -105,7 +105,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
         }
 
         if (!is_array($tierPrices)) {
-            $this->_fault('data_invalid', Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid Tier Prices'));
+            $this->_fault('data_invalid', __('Invalid Tier Prices'));
         }
 
         $updateValue = array();
@@ -114,7 +114,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
             if (!is_array($tierPrice)
                 || !isset($tierPrice['qty'])
                 || !isset($tierPrice['price'])) {
-                $this->_fault('data_invalid', Mage::helper('Mage_Catalog_Helper_Data')->__('Invalid Tier Prices'));
+                $this->_fault('data_invalid', __('Invalid Tier Prices'));
             }
 
             if (!isset($tierPrice['website']) || $tierPrice['website'] == 'all') {
@@ -128,7 +128,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
             }
 
             if (intval($tierPrice['website']) > 0 && !in_array($tierPrice['website'], $product->getWebsiteIds())) {
-                $this->_fault('data_invalid', Mage::helper('Mage_Catalog_Helper_Data')->__('We found invalid tier prices: the product is not associated with the requested website.'));
+                $this->_fault('data_invalid', __('We found invalid tier prices: the product is not associated with the requested website.'));
             }
 
             if (!isset($tierPrice['customer_group_id'])) {

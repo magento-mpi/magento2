@@ -35,7 +35,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Fo
         parent::_construct();
 
         $this->_addButton('save_and_continue', array(
-            'label' => $this->__('Save and Continue Edit'),
+            'label' => __('Save and Continue Edit'),
             'class' => 'save',
             'data_attribute'  => array(
                 'mage-init' => array(
@@ -44,9 +44,9 @@ class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Fo
             ),
         ), 100);
 
-        $this->_updateButton('save', 'label', $this->__('Save API User'));
+        $this->_updateButton('save', 'label', __('Save API User'));
         $this->_updateButton('save', 'id', 'save_button');
-        $this->_updateButton('delete', 'label', $this->__('Delete API User'));
+        $this->_updateButton('delete', 'label', __('Delete API User'));
     }
 
     /**
@@ -70,9 +70,9 @@ class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Fo
     public function getHeaderText()
     {
         if ($this->getApiUser()->getId()) {
-            return $this->__("Edit API User '%1'", $this->escapeHtml($this->getApiUser()->getApiKey()));
+            return __("Edit API User '%1'", $this->escapeHtml($this->getApiUser()->getApiKey()));
         } else {
-            return $this->__('New API User');
+            return __('New API User');
         }
     }
 }

@@ -35,7 +35,7 @@ class Mage_Adminhtml_Model_Sales_Order
         $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($order->getCustomerId());
         if (!$customer->getId()) {
             $this->_getSession()->addNotice(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__(' The customer does not exist in the system anymore.')
+                __(' The customer does not exist in the system anymore.')
             );
         }
 
@@ -55,14 +55,14 @@ class Mage_Adminhtml_Model_Sales_Order
         foreach ($order->getAllItems() as $item) {
             if (!$productCollection->getItemById($item->getProductId())) {
                 $this->_getSession()->addError(
-                   Mage::helper('Mage_Adminhtml_Helper_Data')->__('The item %1 (SKU %2) does not exist in the catalog anymore.', $item->getName(), $item->getSku()
+                   __('The item %1 (SKU %2) does not exist in the catalog anymore.', $item->getName(), $item->getSku()
                 ));
                 $hasBadItems = true;
             }
         }
         if ($hasBadItems) {
             $this->_getSession()->addError(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('Some items in this order are no longer in our catalog.')
+                __('Some items in this order are no longer in our catalog.')
             );
         }
         return $this;

@@ -41,7 +41,7 @@ class Social_Facebook_Model_Observer
             $result = $facebookModel->sendFacebookAction();
 
             if (!empty($result)) {
-                $session->addSuccess(Mage::helper('Social_Facebook_Helper_Data')->__('I %1 this product', $facebookAction));
+                $session->addSuccess(__('I %1 this product', $facebookAction));
                 $session->unsetData('facebook_action');
 
                 $user = $facebookModel->getFacebookUser();

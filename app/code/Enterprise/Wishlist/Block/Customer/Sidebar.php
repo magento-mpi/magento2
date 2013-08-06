@@ -35,7 +35,7 @@ class Enterprise_Wishlist_Block_Customer_Sidebar extends Mage_Wishlist_Block_Cus
     public function getTitle()
     {
         if ($this->_getHelper()->isMultipleEnabled()) {
-            return $this->__('My Wish Lists <small>(%1)</small>', $this->getItemCount());
+            return __('My Wish Lists <small>(%1)</small>', $this->getItemCount());
         } else {
             return parent::getTitle();
         }

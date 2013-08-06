@@ -262,7 +262,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
     public function checkNotes($store = null)
     {
         if ($this->_isMaxLength) {
-            $this->addNoteMessage($this->__('Your search query can\'t be longer than %1, so we had to shorten your query.', $this->getMaxQueryLength()));
+            $this->addNoteMessage(__('Your search query can\'t be longer than %1, so we had to shorten your query.', $this->getMaxQueryLength()));
         }
 
         /* @var $stringHelper Mage_Core_Helper_String */
@@ -277,7 +277,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
             if (count($wordsFull) > count($wordsLike)) {
                 $wordsCut = array_map(array($this, 'escapeHtml'), array_diff($wordsFull, $wordsLike));
                 $this->addNoteMessage(
-                    $this->__('Sorry, but the maximum word count is %1. We left out this part of your search: %2.', $this->getMaxQueryWords(), join(' ', $wordsCut))
+                    __('Sorry, but the maximum word count is %1. We left out this part of your search: %2.', $this->getMaxQueryWords(), join(' ', $wordsCut))
                 );
             }
         }

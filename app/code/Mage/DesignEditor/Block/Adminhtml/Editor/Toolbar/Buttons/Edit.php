@@ -133,15 +133,15 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
     {
         $isPhysicalTheme = $this->_themeContext->getEditableTheme()->isPhysical();
         $this->setData(array(
-            'label'          => $this->__('Edit'),
+            'label'          => __('Edit'),
             'options'        => array(
                 array(
-                    'label'          => $this->__('Restore last saved version of theme'),
+                    'label'          => __('Restore last saved version of theme'),
                     'data_attribute' => array('mage-init' => $this->_getDataRevertToPrevious()),
                     'disabled'       => $isPhysicalTheme || !$this->_isAbleRevertToPrevious()
                 ),
                 array(
-                    'label'          => $this->__('Restore theme defaults'),
+                    'label'          => __('Restore theme defaults'),
                     'data_attribute' => array('mage-init' => $this->_getDataRevertToDefault()),
                     'disabled'       => $isPhysicalTheme || !$this->_isAbleRevertToDefault()
                 )
@@ -162,7 +162,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
         $sourceChange->loadByThemeId($this->_themeContext->getEditableTheme()->getId());
         $dateMessage = $this->_localeModel
             ->date($sourceChange->getChangeTime(), Varien_Date::DATETIME_INTERNAL_FORMAT)->toString();
-        $message = $this->__('Do you want to restore the version saved at %1?', $dateMessage);
+        $message = __('Do you want to restore the version saved at %1?', $dateMessage);
 
         $data = array(
             'vde-edit-button' => array(
@@ -170,7 +170,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
                 'target'    => 'body',
                 'eventData' => array(
                     'url'     => $this->getRevertUrl('last_saved'),
-                    'confirm' => array('title' => $this->__('Restore Theme Version'), 'message' => $message),
+                    'confirm' => array('title' => __('Restore Theme Version'), 'message' => $message),
                 )
             )
         );
@@ -184,14 +184,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
      */
     protected function _getDataRevertToDefault()
     {
-        $message = $this->__('Do you want to restore the theme defaults?');
+        $message = __('Do you want to restore the theme defaults?');
         $data = array(
             'vde-edit-button' => array(
                 'event'     => 'revert-to-default',
                 'target'    => 'body',
                 'eventData' => array(
                     'url'     => $this->getRevertUrl('physical'),
-                    'confirm' => array('title' => $this->__('Restore Theme Defaults'), 'message' => $message)
+                    'confirm' => array('title' => __('Restore Theme Defaults'), 'message' => $message)
                 )
             )
         );

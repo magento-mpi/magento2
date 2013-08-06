@@ -9,9 +9,9 @@
  */
 ?>
 <p class="tag edit">
-    <strong><?php echo $this->__('Tag'); ?></strong>
+    <strong><?php echo __('Tag'); ?></strong>
     <span class="tag text"><?php echo $this->escapeHtml($this->getTagInfo()->getName()); ?></span>
-    <a href="#" class="action delete" title="<?php echo $this->__('Delete') ?>" onclick="if(confirm('<?php echo $this->__('Are you sure you want to delete this tag?') ?>')) window.location='<?php echo $this->getTagInfo()->getRemoveTagUrl(); ?>'; return false;"><span><?php echo $this->__('Delete') ?></span></a>
+    <a href="#" class="action delete" title="<?php echo __('Delete') ?>" onclick="if(confirm('<?php echo __('Are you sure you want to delete this tag?') ?>')) window.location='<?php echo $this->getTagInfo()->getRemoveTagUrl(); ?>'; return false;"><span><?php echo __('Delete') ?></span></a>
 </p>
 <div class="toolbar tags"><?php echo $this->getToolbarHtml() ?></div>
 <table class="data table tags" id="my-tags-table">
@@ -38,11 +38,11 @@
             <td class="col actions">
                 <div class="item actions">
                     <?php if($_product->isSaleable()): ?>
-                        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="action tocart" onclick="setLocation('<?php echo $this->getUrl('checkout/cart/add',array('product'=>$_product->getId())) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
+                        <button type="button" title="<?php echo __('Add to Cart') ?>" class="action tocart" onclick="setLocation('<?php echo $this->getUrl('checkout/cart/add',array('product'=>$_product->getId())) ?>')"><span><?php echo __('Add to Cart') ?></span></button>
                     <?php endif; ?>
                     <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
                     <div class="addto links">
-                        <a href="<?php echo $this->getUrl('wishlist/index/add',array('product'=>$_product->getId())) ?>" class="action towishlist" data-action="add-to-wishlist"><span><?php echo $this->__('Add to Wishlist') ?></span></a>
+                        <a href="<?php echo $this->getUrl('wishlist/index/add',array('product'=>$_product->getId())) ?>" class="action towishlist" data-action="add-to-wishlist"><span><?php echo __('Add to Wishlist') ?></span></a>
                     </div>
                     <?php endif; ?>
                 </div>
@@ -54,7 +54,7 @@
     <tbody class="empty">
         <tr>
             <td>
-                <?php echo $this->__("Unable to find any products tagged with '%1' in the current store", $this->escapeHtml($this->getTagInfo()->getName()) ) ?>
+                <?php echo __("Unable to find any products tagged with '%1' in the current store", $this->escapeHtml($this->getTagInfo()->getName()) ) ?>
             </td>
         </tr>
     </tbody>
@@ -63,6 +63,6 @@
 <div class="toolbar tags bottom"><?php echo $this->getToolbarHtml() ?></div>
 <div class="actions">
     <div class="secondary">
-        <a class="action back" href="<?php echo $this->getUrl('*/*/')?>"><span><?php echo $this->__('Back to Tags List')?></span></a>
+        <a class="action back" href="<?php echo $this->getUrl('*/*/')?>"><span><?php echo __('Back to Tags List')?></span></a>
     </div>
 </div>

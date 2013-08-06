@@ -45,7 +45,7 @@ $numColumns = sizeof($this->getColumns());
             </div>
             <?php if ($this->getExportTypes()): ?>
             <div class="export">
-                <label><?php echo $this->__('Export to:') ?>
+                <label><?php echo __('Export to:') ?>
                     <select name="<?php echo $this->getId() ?>_export" id="<?php echo $this->getId() ?>_export"
                             style="width:8em;">
                         <?php foreach ($this->getExportTypes() as $_type): ?>
@@ -59,15 +59,15 @@ $numColumns = sizeof($this->getColumns());
             <?php if ($this->getPagerVisibility()): ?>
             <div class="pager">
                 <label>
-                    <?php echo $this->__('Page') ?>
+                    <?php echo __('Page') ?>
 
                     <?php $_curPage = $this->getCollection()->getCurPage() ?>
                     <?php $_lastPage = $this->getCollection()->getLastPageNumber() ?>
 
                     <?php if ($_curPage > 1): ?>
-                        <a href="#" title="<?php echo $this->__('Previous page') ?>" class="action-previous" onclick="<?php echo $this->getJsObjectName() ?>.setPage('<?php echo ($_curPage - 1) ?>');return false;"><?php echo $this->__('Previous page') ?></a>
+                        <a href="#" title="<?php echo __('Previous page') ?>" class="action-previous" onclick="<?php echo $this->getJsObjectName() ?>.setPage('<?php echo ($_curPage - 1) ?>');return false;"><?php echo __('Previous page') ?></a>
                     <?php else: ?>
-                        <span class="action-previous disabled"><?php echo $this->__('Previous page') ?></span>
+                        <span class="action-previous disabled"><?php echo __('Previous page') ?></span>
                     <?php endif; ?>
 
                     <input type="text" name="<?php echo $this->getVarNamePage() ?>" value="<?php echo $_curPage ?>"
@@ -75,16 +75,16 @@ $numColumns = sizeof($this->getColumns());
                            onkeypress="<?php echo $this->getJsObjectName() ?>.inputPage(event, '<?php echo $_lastPage ?>')"/>
 
                     <?php if ($_curPage < $_lastPage): ?>
-                        <a href="#" title="<?php echo $this->__('Next page') ?>" class="action-next" onclick="<?php echo $this->getJsObjectName() ?>.setPage('<?php echo ($_curPage + 1) ?>');return false;"><?php echo $this->__('Next page') ?></a>
+                        <a href="#" title="<?php echo __('Next page') ?>" class="action-next" onclick="<?php echo $this->getJsObjectName() ?>.setPage('<?php echo ($_curPage + 1) ?>');return false;"><?php echo __('Next page') ?></a>
                     <?php else: ?>
-                        <span class="action-next disabled"><?php echo $this->__('Next page') ?></span>
+                        <span class="action-next disabled"><?php echo __('Next page') ?></span>
                     <?php endif; ?>
 
-                    <?php echo $this->__('of %1 pages', $this->getCollection()->getLastPageNumber()) ?>
+                    <?php echo __('of %1 pages', $this->getCollection()->getLastPageNumber()) ?>
                 </label>
                 <span class="separator">|</span>
                 <label>
-                    <?php echo $this->__('View') ?>
+                    <?php echo __('View') ?>
                     <select name="<?php echo $this->getVarNameLimit() ?>"
                             onchange="<?php echo $this->getJsObjectName() ?>.loadByElement(this)">
                         <option value="20"<?php if ($this->getCollection()->getPageSize() == 20): ?>
@@ -103,10 +103,10 @@ $numColumns = sizeof($this->getColumns());
                                 selected="selected"<?php endif; ?>>200
                         </option>
                     </select>
-                    <?php echo $this->__('per page') ?>
+                    <?php echo __('per page') ?>
                 </label>
                 <span class="separator">|</span>
-                <?php echo $this->__('Total %1 records found', $this->getCollection()->getSize()) ?>
+                <?php echo __('Total %1 records found', $this->getCollection()->getSize()) ?>
                 <span id="<?php echo $this->getHtmlId() ?>-total-count"
                       class="no-display"><?php echo $this->getCollection()->getSize() ?></span>
                 <?php if ($this->getRssLists()): ?>

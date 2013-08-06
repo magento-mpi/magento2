@@ -39,7 +39,7 @@ class Mage_GoogleShopping_Model_Service extends Varien_Object
         $type = $this->getConfig()->getAccountType($storeId);
 
         // Create an authenticated HTTP client
-        $errorMsg = Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Sorry, but we can\'t connect to Google Content. Please check the account settings in your store configuration.');
+        $errorMsg = __('Sorry, but we can\'t connect to Google Content. Please check the account settings in your store configuration.');
         try {
             if (!Mage::registry($this->_clientRegistryId)) {
                 $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass,
@@ -53,9 +53,9 @@ class Mage_GoogleShopping_Model_Service extends Varien_Object
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             throw $e;
         } catch (Zend_Gdata_App_HttpException $e) {
-            Mage::throwException($errorMsg . Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Error: %1', $e->getMessage()));
+            Mage::throwException($errorMsg . __('Error: %1', $e->getMessage()));
         } catch (Zend_Gdata_App_AuthException $e) {
-            Mage::throwException($errorMsg . Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Error: %1', $e->getMessage()));
+            Mage::throwException($errorMsg . __('Error: %1', $e->getMessage()));
         }
 
         return Mage::registry($this->_clientRegistryId);

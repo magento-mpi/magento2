@@ -71,11 +71,11 @@ class Mage_Wishlist_Block_Links extends Mage_Page_Block_Template_Links_Block
     protected function _createLabel($count)
     {
         if ($count > 1) {
-            return $this->__('My Wish List (%1 items)', $count);
+            return __('My Wish List (%1 items)', $count);
         } else if ($count == 1) {
-            return $this->__('My Wish List (%1 item)', $count);
+            return __('My Wish List (%1 item)', $count);
         } else {
-            return $this->__('My Wish List');
+            return __('My Wish List');
         }
     }
 }

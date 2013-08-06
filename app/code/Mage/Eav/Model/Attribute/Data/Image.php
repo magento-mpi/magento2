@@ -27,14 +27,14 @@ class Mage_Eav_Model_Attribute_Data_Image extends Mage_Eav_Model_Attribute_Data_
      */
     protected function _validateByRules($value)
     {
-        $label  = Mage::helper('Mage_Eav_Helper_Data')->__($this->getAttribute()->getStoreLabel());
+        $label  = __($this->getAttribute()->getStoreLabel());
         $rules  = $this->getAttribute()->getValidateRules();
 
         $imageProp = @getimagesize($value['tmp_name']);
 
         if (!is_uploaded_file($value['tmp_name']) || !$imageProp) {
             return array(
-                Mage::helper('Mage_Eav_Helper_Data')->__('"%1" is not a valid file', $label)
+                __('"%1" is not a valid file', $label)
             );
         }
 
@@ -46,7 +46,7 @@ class Mage_Eav_Model_Attribute_Data_Image extends Mage_Eav_Model_Attribute_Data_
 
         if (!isset($allowImageTypes[$imageProp[2]])) {
             return array(
-                Mage::helper('Mage_Eav_Helper_Data')->__('"%1" is not a valid image format', $label)
+                __('"%1" is not a valid image format', $label)
             );
         }
 
@@ -60,20 +60,20 @@ class Mage_Eav_Model_Attribute_Data_Image extends Mage_Eav_Model_Attribute_Data_
         if (!empty($rules['max_file_size'])) {
             $size = $value['size'];
             if ($rules['max_file_size'] < $size) {
-                $errors[] = Mage::helper('Mage_Eav_Helper_Data')->__('"%1" exceeds the allowed file size.', $label);
+                $errors[] = __('"%1" exceeds the allowed file size.', $label);
             };
         }
 
         if (!empty($rules['max_image_width'])) {
             if ($rules['max_image_width'] < $imageProp[0]) {
                 $r = $rules['max_image_width'];
-                $errors[] = Mage::helper('Mage_Eav_Helper_Data')->__('"%1" width exceeds allowed value of %2 px.', $label, $r);
+                $errors[] = __('"%1" width exceeds allowed value of %2 px.', $label, $r);
             };
         }
         if (!empty($rules['max_image_heght'])) {
             if ($rules['max_image_heght'] < $imageProp[1]) {
                 $r = $rules['max_image_heght'];
-                $errors[] = Mage::helper('Mage_Eav_Helper_Data')->__('"%1" height exceeds allowed value of %2 px.', $label, $r);
+                $errors[] = __('"%1" height exceeds allowed value of %2 px.', $label, $r);
             };
         }
 

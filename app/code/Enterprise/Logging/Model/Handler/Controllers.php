@@ -320,7 +320,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Tax Rates Import'));
+        return $eventModel->setIsSuccess($success)->setInfo(__('Tax Rates Import'));
     }
 
     /**
@@ -370,7 +370,7 @@ class Enterprise_Logging_Model_Handler_Controllers
                 ->setResultData(array('ids' => implode(', ', $websiteIds))));
         }
 
-        return $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Attributes Updated'));
+        return $eventModel->setInfo(__('Attributes Updated'));
     }
 
      /**
@@ -553,7 +553,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Currency Rates Saved'));
+        return $eventModel->setIsSuccess($success)->setInfo(__('Currency Rates Saved'));
     }
 
     /**
@@ -573,7 +573,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         $cacheTypes = $request->getPost('types');
         if (is_array($cacheTypes) && !empty($cacheTypes)) {
             $cacheTypes = implode(', ', $cacheTypes);
-            $info = Mage::helper('Enterprise_Logging_Helper_Data')->__('Cache types: %s ', $cacheTypes);
+            $info = __('Cache types: %s ', $cacheTypes);
         }
 
         $success = true;
@@ -601,7 +601,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Tax Rates Export'));
+        return $eventModel->setIsSuccess($success)->setInfo(__('Tax Rates Export'));
     }
 
     /**

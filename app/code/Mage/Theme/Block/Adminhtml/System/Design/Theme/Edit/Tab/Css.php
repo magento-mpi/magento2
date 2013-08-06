@@ -90,7 +90,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     {
         $form = $this->getForm();
         $themeFieldset = $form->addFieldset('theme_css', array(
-            'legend' => $this->__('Theme CSS'),
+            'legend' => __('Theme CSS'),
             'class'  => 'fieldset-wide'
         ));
         $this->_addElementTypes($themeFieldset);
@@ -134,28 +134,28 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     {
         $form = $this->getForm();
         $themeFieldset = $form->addFieldset('custom_css', array(
-            'legend' => $this->__('Custom CSS'),
+            'legend' => __('Custom CSS'),
             'class'  => 'fieldset-wide'
         ));
         $this->_addElementTypes($themeFieldset);
 
         $themeFieldset->addField('css_file_uploader', 'css_file', array(
             'name'     => 'css_file_uploader',
-            'label'    => $this->__('Select CSS File to Upload'),
-            'title'    => $this->__('Select CSS File to Upload'),
+            'label'    => __('Select CSS File to Upload'),
+            'title'    => __('Select CSS File to Upload'),
             'accept'   => 'text/css',
             'note'     => $this->_getUploadCssFileNote()
         ));
 
         $themeFieldset->addField('css_uploader_button', 'button', array(
             'name'     => 'css_uploader_button',
-            'value'    => $this->__('Upload CSS File'),
+            'value'    => __('Upload CSS File'),
             'disabled' => 'disabled',
         ));
 
         $downloadButtonConfig = array(
             'name'  => 'css_download_button',
-            'value' => $this->__('Download CSS File'),
+            'value' => __('Download CSS File'),
             'onclick' => "setLocation('" . $this->getUrl('*/*/downloadCustomCss', array(
                 'theme_id' => $this->_getCurrentTheme()->getId())) . "');"
         );
@@ -168,7 +168,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $imageButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
             'id'        => 'css_images_manager',
-            'label'     => $this->__('Manage'),
+            'label'     => __('Manage'),
             'class'     => 'button',
             'onclick'   => "MediabrowserUtility.openDialog('"
                 . $this->getUrl('*/system_design_wysiwyg_files/index', array(
@@ -178,13 +178,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
                 ))
                 . "', null, null,'"
                 . $this->quoteEscape(
-                    $this->__('Upload Images'), true
+                    __('Upload Images'), true
                 )
                 . "');"
         ));
 
         $themeFieldset->addField('css_browse_image_button', 'note', array(
-            'label' => $this->__("Images Assets"),
+            'label' => __("Images Assets"),
             'text'  => $imageButton->toHtml()
         ));
 
@@ -192,7 +192,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $fontButton = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
             ->setData(array(
             'id'        => 'css_fonts_manager',
-            'label'     => $this->__('Manage'),
+            'label'     => __('Manage'),
             'class'     => 'button',
             'onclick'   => "MediabrowserUtility.openDialog('"
                 . $this->getUrl('*/system_design_wysiwyg_files/index', array(
@@ -202,19 +202,19 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
                 ))
                 . "', null, null,'"
                 . $this->quoteEscape(
-                    $this->__('Upload Fonts'), true
+                    __('Upload Fonts'), true
                 )
                 . "');",
         ));
 
         $themeFieldset->addField('css_browse_font_button', 'note', array(
-            'label' => $this->__("Fonts Assets"),
+            'label' => __("Fonts Assets"),
             'text'  => $fontButton->toHtml()
         ));
 
         $themeFieldset->addField('custom_css_content', 'textarea', array(
-            'label'  => $this->__('Edit custom.css'),
-            'title'  => $this->__('Edit custom.css'),
+            'label'  => __('Edit custom.css'),
+            'title'  => __('Edit custom.css'),
             'name'   => 'custom_css_content',
         ));
 
@@ -229,14 +229,14 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     protected function _getUploadCssFileNote()
     {
         $messages = array(
-            $this->__('Allowed file types *.css.'),
-            $this->__('This file will replace the current custom.css file and can\'t be more than 2 MB.')
+            __('Allowed file types *.css.'),
+            __('This file will replace the current custom.css file and can\'t be more than 2 MB.')
         );
         $maxFileSize = $this->_objectManager->get('Magento_File_Size')->getMaxFileSizeInMb();
         if ($maxFileSize) {
-            $messages[] = $this->__('Max file size to upload %1M', $maxFileSize);
+            $messages[] = __('Max file size to upload %1M', $maxFileSize);
         } else {
-            $messages[] = $this->__('Something is wrong with the file upload settings.');
+            $messages[] = __('Something is wrong with the file upload settings.');
         }
 
         return implode('<br />', $messages);
@@ -261,7 +261,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     public function getTabLabel()
     {
-        return $this->__('CSS Editor');
+        return __('CSS Editor');
     }
 
     /**

@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             $field = new Varien_Data_Form_Element_Text();
             $field->setName("groups[watermark][fields][{$key}_size][value]")
                 ->setForm( $this->getForm() )
-                ->setLabel(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Size for %1', $attribute['title']))
+                ->setLabel(__('Size for %1', $attribute['title']))
                 ->setRenderer($renderer);
             $html.= $field->toHtml();
 
@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             $field = new Varien_Data_Form_Element_Imagefile();
             $field->setName("groups[watermark][fields][{$key}_image][value]")
                 ->setForm( $this->getForm() )
-                ->setLabel(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Watermark File for %1', $attribute['title']))
+                ->setLabel(__('Watermark File for %1', $attribute['title']))
                 ->setRenderer($renderer);
             $html.= $field->toHtml();
 
@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             $field = new Varien_Data_Form_Element_Select();
             $field->setName("groups[watermark][fields][{$key}_position][value]")
                 ->setForm( $this->getForm() )
-                ->setLabel(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Position of Watermark for %1', $attribute['title']))
+                ->setLabel(__('Position of Watermark for %1', $attribute['title']))
                 ->setRenderer($renderer)
                 ->setValues(Mage::getSingleton('Mage_Catalog_Model_Config_Source_Watermark_Position')->toOptionArray());
             $html.= $field->toHtml();

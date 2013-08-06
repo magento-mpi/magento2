@@ -33,13 +33,13 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
         try {
             $entity = Mage::getModel(uc_words("Mage_Sales_Model_Order_$type"));
             if (!$entity) {
-                Mage::throwException($this->__('Cannot load %1 entity; please reload page and try again.', $type));
+                Mage::throwException(__('Cannot load %1 entity; please reload page and try again.', $type));
             }
 
             $entity->load($orderTypeId);
             if (!$entity->getId()) {
                 Mage::throwException(
-                    $this->__('Cannot load %1 entity #%2; please reload page and try again.', $type, $orderTypeId)
+                    __('Cannot load %1 entity #%2; please reload page and try again.', $type, $orderTypeId)
                 );
             }
 
@@ -52,7 +52,7 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
             $this->_redirectReferer();
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_getSession()->addError($this->__('Cannot generate PDF.'));
+            $this->_getSession()->addError(__('Cannot generate PDF.'));
             $this->_redirectReferer();
         }
     }
@@ -72,14 +72,14 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
             !($ids || $orderIds) || !$type
             || !in_array($type, array('invoice', 'creditmemo', 'shipment'))
         ) {
-            $this->_getSession()->addError($this->__('Please select entities to print.'));
+            $this->_getSession()->addError(__('Please select entities to print.'));
             $this->_redirectReferer();
             return;
         }
 
         $entity = Mage::getModel(uc_words("Mage_Sales_Model_Order_$type"));
         if (!$entity) {
-            Mage::throwException($this->__('Cannot load %1 entity; please reload page and try again.', $type));
+            Mage::throwException(__('Cannot load %1 entity; please reload page and try again.', $type));
         }
         $collection = $entity->getCollection();
         if (!empty($orderIds)) {
@@ -90,7 +90,7 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
 
         try {
             if (count($collection) == 0) {
-                Mage::throwException($this->__('There are no printable documents related to selected orders.'));
+                Mage::throwException(__('There are no printable documents related to selected orders.'));
             }
 
             $pdf = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Batch', array('collection' => $collection))
@@ -101,7 +101,7 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
             return;
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_getSession()->addError($this->__('Cannot generate PDF.'));
+            $this->_getSession()->addError(__('Cannot generate PDF.'));
             $this->_redirectReferer();
             return;
         }
@@ -117,7 +117,7 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
     {
         $orderIds = $this->getRequest()->getPost('order_ids');
         if (!$orderIds) {
-            $this->_getSession()->addError($this->__('Please select orders to print.'));
+            $this->_getSession()->addError(__('Please select orders to print.'));
             $this->_redirectReferer();
             return;
         }
@@ -125,7 +125,7 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
         try {
             $collection = $this->_getPrintEntitiesCollection($orderIds);
             if (count($collection) == 0) {
-                Mage::throwException($this->__('There are no printable documents related to selected orders.'));
+                Mage::throwException(__('There are no printable documents related to selected orders.'));
             }
 
             $pdf = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Batch', array('collection' => $collection))
@@ -136,7 +136,7 @@ class Saas_PrintedTemplate_Adminhtml_PrintController extends Mage_Adminhtml_Cont
             return;
         } catch (Exception $e) {
             Mage::logException($e);
-            $this->_getSession()->addError($this->__('Cannot generate PDF.'));
+            $this->_getSession()->addError(__('Cannot generate PDF.'));
             $this->_redirectReferer();
             return;
         }

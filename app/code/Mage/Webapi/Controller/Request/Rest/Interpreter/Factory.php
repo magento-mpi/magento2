@@ -67,7 +67,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Factory
 
         if (!isset($interpreterClass) || empty($interpreterClass)) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__('Server cannot understand Content-Type HTTP header media type "%1"', $contentType),
+                __('Server cannot understand Content-Type HTTP header media type "%1"', $contentType),
                 Mage_Webapi_Exception::HTTP_BAD_REQUEST
             );
         }

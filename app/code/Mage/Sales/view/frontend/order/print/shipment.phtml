@@ -10,24 +10,24 @@
 ?>
 <?php /* @var $this Mage_Sales_Block_Order_Print_Shipment */?>
 <?php $order = $this->getOrder(); ?>
-<h1><?php echo $this->__('Order #%1', $this->getObjectData($order, 'real_order_id')); ?></h1>
-<p class="order-date"><?php echo $this->__('Order Date: %1', $this->formatDate($this->getObjectData($order, 'created_at_store_date'), 'long')) ?></p>
+<h1><?php echo __('Order #%1', $this->getObjectData($order, 'real_order_id')); ?></h1>
+<p class="order-date"><?php echo __('Order Date: %1', $this->formatDate($this->getObjectData($order, 'created_at_store_date'), 'long')) ?></p>
 <?php if (!$this->getObjectData($order, 'is_virtual')): ?>
 <?php foreach ($this->getShipmentsCollection() as $shipment): ?>
-    <h2 class="h2"><?php echo $this->__('Shipment #%1', $this->getObjectData($shipment, 'increment_id')); ?></h2>
+    <h2 class="h2"><?php echo __('Shipment #%1', $this->getObjectData($shipment, 'increment_id')); ?></h2>
     <div class="col2-set">
         <div class="col-1">
-            <h3><?php echo $this->__('Shipping Address') ?></h3>
+            <h3><?php echo __('Shipping Address') ?></h3>
             <address><?php echo $this->getShipmentAddressFormattedHtml($shipment); ?></address>
         </div>
         <div class="col-2">
-            <h3><?php echo $this->__('Billing Address') ?></h3>
+            <h3><?php echo __('Billing Address') ?></h3>
             <address><?php echo $this->getBillingAddressFormattedHtml($order); ?></address>
         </div>
     </div>
     <div class="col2-set">
         <div class="col-1">
-            <h3><?php echo $this->__('Shipping Method') ?></h3>
+            <h3><?php echo __('Shipping Method') ?></h3>
              <?php echo $this->escapeHtml($this->getObjectData($order, 'shipping_description')); ?>
              <?php $tracks = $this->getShipmentTracks($shipment); 
                 if ($tracks): ?>
@@ -36,8 +36,8 @@
                     <col />
                     <thead>
                         <tr>
-                            <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Title')?></th>
-                            <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Number')?></th>
+                            <th><?php echo __('Title')?></th>
+                            <th><?php echo __('Number')?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,20 +53,20 @@
             <?php endif; ?>
         </div>
         <div class="col-2">
-            <h3><?php echo $this->__('Payment Method') ?></h3>
+            <h3><?php echo __('Payment Method') ?></h3>
             <?php echo $this->getPaymentInfoHtml() ?>
         </div>
     </div>
-    <h3><?php echo $this->__('Items Shipped') ?></h3>
+    <h3><?php echo __('Items Shipped') ?></h3>
     <table class="data-table" id="my-shipment-table-<?php echo $this->getObjectData($shipment, 'id') ?>">
         <col />
         <col width="1" />
         <col width="1" />
         <thead>
             <tr>
-                <th><?php echo $this->__('Product Name') ?></th>
-                <th><?php echo $this->__('SKU') ?></th>
-                <th class="a-center"><span class="nobr"><?php echo $this->__('Qty Shipped') ?></span></th>
+                <th><?php echo __('Product Name') ?></th>
+                <th><?php echo __('SKU') ?></th>
+                <th class="a-center"><span class="nobr"><?php echo __('Qty Shipped') ?></span></th>
             </tr>
         </thead>
         <?php foreach ($this->getShipmentItems($shipment) as $item): ?>

@@ -199,7 +199,7 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
             Mage::getSingleton('Mage_Core_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('Mage_Core_Model_Session')->addError(
-                 Mage::helper('Social_Facebook_Helper_Data')->__('Cannot Get Facebook Access Token')
+                 __('Cannot Get Facebook Access Token')
             );
             Mage::logException($e);
         }
@@ -236,7 +236,7 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
         } catch (Exception $e) {
             $action = Mage::getSingleton('Mage_Core_Model_Session')->getData('facebook_action');
             Mage::getSingleton('Mage_Core_Model_Session')->addError(
-                 Mage::helper('Social_Facebook_Helper_Data')->__('Cannot Make "%1" Action. Please, try later.', $action)
+                 __('Cannot Make "%1" Action. Please, try later.', $action)
             );
             Mage::logException($e);
         }
@@ -260,7 +260,7 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
             Mage::getSingleton('Mage_Core_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('Mage_Core_Model_Session')->addError(
-                 Mage::helper('Social_Facebook_Helper_Data')->__('Cannot Get Your Facebook Friends')
+                 __('Cannot Get Your Facebook Friends')
             );
             Mage::logException($e);
         }
@@ -288,7 +288,7 @@ class Social_Facebook_Model_Facebook extends Mage_Core_Model_Abstract
             Mage::getSingleton('Mage_Core_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('Mage_Core_Model_Session')->addError(
-                 Mage::helper('Social_Facebook_Helper_Data')->__('Cannot Get Facebook User')
+                 __('Cannot Get Facebook User')
             );
             Mage::logException($e);
         }

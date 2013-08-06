@@ -28,11 +28,11 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
         $this->loadLayout()
             ->_setActiveMenu('Mage_Sitemap::catalog_sitemap')
             ->_addBreadcrumb(
-                Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'),
-                Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'))
+                __('Catalog'),
+                __('Catalog'))
             ->_addBreadcrumb(
-                Mage::helper('Mage_Sitemap_Helper_Data')->__('XML Sitemap'),
-                Mage::helper('Mage_Sitemap_Helper_Data')->__('XML Sitemap'))
+                __('XML Sitemap'),
+                __('XML Sitemap'))
         ;
         return $this;
     }
@@ -42,7 +42,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('Site Map'));
+        $this->_title(__('Site Map'));
         $this->_initAction();
         $this->renderLayout();
     }
@@ -61,7 +61,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
      */
     public function editAction()
     {
-        $this->_title($this->__('Site Map'));
+        $this->_title(__('Site Map'));
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('sitemap_id');
@@ -72,13 +72,13 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
             $model->load($id);
             if (! $model->getId()) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                    Mage::helper('Mage_Sitemap_Helper_Data')->__('This sitemap no longer exists.'));
+                    __('This sitemap no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
         }
 
-        $this->_title($model->getId() ? $model->getSitemapFilename() : $this->__('New Site Map'));
+        $this->_title($model->getId() ? $model->getSitemapFilename() : __('New Site Map'));
 
         // 3. Set entered data if was error when we do save
         $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true);
@@ -92,8 +92,8 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
         // 5. Build edit form
         $this->_initAction()
             ->_addBreadcrumb(
-                $id ? Mage::helper('Mage_Sitemap_Helper_Data')->__('Edit Sitemap') : Mage::helper('Mage_Sitemap_Helper_Data')->__('New Sitemap'),
-                $id ? Mage::helper('Mage_Sitemap_Helper_Data')->__('Edit Sitemap') : Mage::helper('Mage_Sitemap_Helper_Data')->__('New Sitemap'))
+                $id ? __('Edit Sitemap') : __('New Sitemap'),
+                $id ? __('Edit Sitemap') : __('New Sitemap'))
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Sitemap_Edit'))
             ->renderLayout();
     }
@@ -154,7 +154,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
                 $model->save();
                 // display success message
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Sitemap_Helper_Data')->__('The sitemap has been saved.'));
+                    __('The sitemap has been saved.'));
                 // clear previously saved data from session
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->setFormData(false);
 
@@ -211,7 +211,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
                 $model->delete();
                 // display success message
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Mage_Sitemap_Helper_Data')->__('The sitemap has been deleted.'));
+                    __('The sitemap has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
@@ -226,7 +226,7 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
         }
         // display error message
         Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-            Mage::helper('Mage_Sitemap_Helper_Data')->__('We can\'t find a sitemap to delete.'));
+            __('We can\'t find a sitemap to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }
@@ -247,18 +247,18 @@ class Mage_Adminhtml_SitemapController extends  Mage_Adminhtml_Controller_Action
                 $sitemap->generateXml();
 
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Sitemap_Helper_Data')->__('The sitemap "%1" has been generated.', $sitemap->getSitemapFilename()));
+                    __('The sitemap "%1" has been generated.', $sitemap->getSitemapFilename()));
             }
             catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
             catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Mage_Sitemap_Helper_Data')->__('Something went wrong generating the sitemap.'));
+                    __('Something went wrong generating the sitemap.'));
             }
         } else {
             $this->_getSession()->addError(
-                Mage::helper('Mage_Sitemap_Helper_Data')->__('We can\'t find a sitemap to generate.'));
+                __('We can\'t find a sitemap to generate.'));
         }
 
         // go to grid

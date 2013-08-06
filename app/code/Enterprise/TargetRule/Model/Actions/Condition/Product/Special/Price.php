@@ -39,11 +39,11 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     protected function _getOperatorOptionArray()
     {
         return array(
-            '==' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('equal to'),
-            '>'  => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('more'),
-            '>=' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('equals or greater than'),
-            '<'  => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('less'),
-            '<=' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('equals or less than')
+            '==' => __('equal to'),
+            '>'  => __('more'),
+            '>=' => __('equals or greater than'),
+            '<'  => __('less'),
+            '<=' => __('equals or less than')
         );
     }
 
@@ -67,7 +67,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product Price is %1 %2% of Matched Product(s) Price', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . __('Product Price is %1 %2% of Matched Product(s) Price', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

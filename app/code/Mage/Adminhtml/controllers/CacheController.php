@@ -60,7 +60,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_title($this->__('Cache Management'));
+        $this->_title(__('Cache Management'));
 
         $this->loadLayout()
             ->_setActiveMenu('Mage_Adminhtml::system_cache')
@@ -78,7 +78,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
             $cacheFrontend->getBackend()->clean();
         }
         $this->_getSession()->addSuccess(
-            Mage::helper('Mage_Adminhtml_Helper_Data')->__("You flushed the cache storage.")
+            __("You flushed the cache storage.")
         );
         $this->_redirect('*/*');
     }
@@ -94,7 +94,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         }
         $this->_eventManager->dispatch('adminhtml_cache_flush_system');
         $this->_getSession()->addSuccess(
-            Mage::helper('Mage_Adminhtml_Helper_Data')->__("The Magento cache storage has been flushed.")
+            __("The Magento cache storage has been flushed.")
         );
         $this->_redirect('*/*');
     }
@@ -117,7 +117,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
             if ($updatedTypes > 0) {
                 $this->_cacheTypes->persist();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__("%1 cache type(s) enabled.", $updatedTypes)
+                    __("%1 cache type(s) enabled.", $updatedTypes)
                 );
             }
         } catch (Mage_Core_Exception $e) {
@@ -126,7 +126,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while enabling cache.')
+                __('An error occurred while enabling cache.')
             );
         }
         $this->_redirect('*/*');
@@ -151,7 +151,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
             if ($updatedTypes > 0) {
                 $this->_cacheTypes->persist();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__("%1 cache type(s) disabled.", $updatedTypes)
+                    __("%1 cache type(s) disabled.", $updatedTypes)
                 );
             }
         } catch (Mage_Core_Exception $e) {
@@ -160,7 +160,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while disabling cache.')
+                __('An error occurred while disabling cache.')
             );
         }
         $this->_redirect('*/*');
@@ -182,7 +182,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
             }
             if ($updatedTypes > 0) {
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__("%1 cache type(s) refreshed.", $updatedTypes)
+                    __("%1 cache type(s) refreshed.", $updatedTypes)
                 );
             }
         } catch (Mage_Core_Exception $e) {
@@ -191,7 +191,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while refreshing cache.')
+                __('An error occurred while refreshing cache.')
             );
         }
         $this->_redirect('*/*');
@@ -210,8 +210,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         $allTypes = array_keys($this->_cache->getTypes());
         $invalidTypes = array_diff($types, $allTypes);
         if (count($invalidTypes) > 0) {
-            Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')
-                ->__("Specified cache type(s) don't exist: " . join(', ', $invalidTypes)));
+            Mage::throwException(__("Specified cache type(s) don't exist: " . join(', ', $invalidTypes)));
         }
     }
 
@@ -225,7 +224,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
                 ->cleanMergedJsCss();
             $this->_eventManager->dispatch('clean_media_cache_after');
             $this->_getSession()->addSuccess(
-                $this->_objectManager->get('Mage_Adminhtml_Helper_Data')->__('The JavaScript/CSS cache has been cleaned.')
+                __('The JavaScript/CSS cache has been cleaned.')
             );
         }
         catch (Mage_Core_Exception $e) {
@@ -234,7 +233,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                $this->_objectManager->get('Mage_Adminhtml_Helper_Data')->__('An error occurred while clearing the JavaScript/CSS cache.')
+                __('An error occurred while clearing the JavaScript/CSS cache.')
             );
         }
         $this->_redirect('*/*');
@@ -249,7 +248,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
             Mage::getModel('Mage_Catalog_Model_Product_Image')->clearCache();
             $this->_eventManager->dispatch('clean_catalog_images_cache_after');
             $this->_getSession()->addSuccess(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('The image cache was cleaned.')
+                __('The image cache was cleaned.')
             );
         }
         catch (Mage_Core_Exception $e) {
@@ -258,7 +257,7 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('An error occurred while clearing the image cache.')
+                __('An error occurred while clearing the image cache.')
             );
         }
         $this->_redirect('*/*');

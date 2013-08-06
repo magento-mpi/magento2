@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_System_Store_Delete extends Mage_Adminhtml_Block_Widg
         );
 
         $this->_addButton('cancel', array(
-            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Cancel'),
+            'label'     => __('Cancel'),
             'onclick'   => 'setLocation(\'' . $this->getBackUrl() . '\')',
         ), 2, 100, 'footer');
 
@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_System_Store_Delete extends Mage_Adminhtml_Block_Widg
      */
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Adminhtml_Helper_Data')->__("Delete %1 '%2'", $this->getStoreTypeTitle(),
+        return __("Delete %1 '%2'", $this->getStoreTypeTitle(),
             $this->escapeHtml($this->getChildBlock('form')->getDataObject()->getName()));
     }
 
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_System_Store_Delete extends Mage_Adminhtml_Block_Widg
      */
     public function setStoreTypeTitle($title)
     {
-        $this->_updateButton('delete', 'label', Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete %1', $title));
+        $this->_updateButton('delete', 'label', __('Delete %1', $title));
         return $this->setData('store_type_title', $title);
     }
 

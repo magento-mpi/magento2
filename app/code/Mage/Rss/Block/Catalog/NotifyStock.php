@@ -25,7 +25,7 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Core_Block_Abstract
     protected function _toHtml()
     {
         $newUrl = Mage::getUrl('rss/catalog/notifystock');
-        $title = Mage::helper('Mage_Rss_Helper_Data')->__('Low Stock Products');
+        $title = __('Low Stock Products');
 
         $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         $data = array(
@@ -83,7 +83,7 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Mage_Core_Block_Abstract
         $url = Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_product/edit/',
             array('id' => $product->getId(), '_secure' => true, '_nosecret' => true));
         $qty = 1 * $product->getQty();
-        $description = Mage::helper('Mage_Rss_Helper_Data')->__('%1 has reached a quantity of %2.', $product->getName(), $qty);
+        $description = __('%1 has reached a quantity of %2.', $product->getName(), $qty);
         $rssObj = $args['rssObj'];
         $data = array(
             'title'         => $product->getName(),

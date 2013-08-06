@@ -34,7 +34,7 @@ class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
     {
         $type = $this->_getModelType($model);
         if (!$type) {
-            Mage::throwException($this->__('Cannot load converter for %1 model.', get_class($model)));
+            Mage::throwException(__('Cannot load converter for %1 model.', get_class($model)));
         }
 
         if (is_null($template)) {
@@ -48,7 +48,7 @@ class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
             array('data' => array('template' => $template, 'model' => $model))
         );
         if (!$converter) {
-            Mage::throwException($this->__('Cannot load converter for %1 model.', $type));
+            Mage::throwException(__('Cannot load converter for %1 model.', $type));
         }
 
         return $converter;
@@ -66,11 +66,11 @@ class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
         $renderer = Mage::getModel($modelName);
 
         if (!$renderer) {
-            Mage::throwException($this->__("PDF renderer adapter hasn't been found."));
+            Mage::throwException(__("PDF renderer adapter hasn't been found."));
         }
 
         if (!$renderer instanceof Saas_PrintedTemplate_Model_Converter_PdfAdapter_Interface) {
-            Mage::throwException($this->__('Wrong type of PDF renderer adapter.'));
+            Mage::throwException(__('Wrong type of PDF renderer adapter.'));
         }
 
         return $renderer;
@@ -89,11 +89,11 @@ class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
         $aggregator = Mage::getSingleton($modelName);
 
         if (!$aggregator) {
-            Mage::throwException($this->__("PDF aggregator hasn't been found."));
+            Mage::throwException(__("PDF aggregator hasn't been found."));
         }
 
         if (!$aggregator instanceof Saas_PrintedTemplate_Model_Converter_PdfAdapter_PdfAggregatorInterface) {
-            Mage::throwException($this->__('Wrong type of PDF aggregator.'));
+            Mage::throwException(__('Wrong type of PDF aggregator.'));
         }
 
         return $aggregator;
@@ -110,7 +110,7 @@ class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
     {
         $mock = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Preview_Mock_' . ucfirst($type));
         if (!$mock) {
-            Mage::throwException($this->__("Cannot create mock-up data for preview."));
+            Mage::throwException(__("Cannot create mock-up data for preview."));
         }
 
         return $mock;

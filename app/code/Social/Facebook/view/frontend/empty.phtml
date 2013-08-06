@@ -16,11 +16,11 @@
 
 <?php if ($this->getShowSumm() != Social_Facebook_Block_Start::FACEBOOK_BLOCK_NO_TEXT): ?>
     <div style="padding-bottom:10px;">
-        <span class="fb_image"></span> <span><?php echo $this->__('%1 people own or want this.', $this->getPeopleCount()) ?>
+        <span class="fb_image"></span> <span><?php echo __('%1 people own or want this.', $this->getPeopleCount()) ?>
         <?php if ($this->getShowSumm() == Social_Facebook_Block_Start::FACEBOOK_BLOCK_START_CONNECT): ?>
-            <a href="<?php echo $this->getConnectUrl()?>"><?php echo $this->__('Connect') ?></a> <?php echo $this->__('to see how many are friends.') ?>
+            <a href="<?php echo $this->getConnectUrl()?>"><?php echo __('Connect') ?></a> <?php echo __('to see how many are friends.') ?>
         <?php else: ?>
-            <?php echo $this->__('Be the first of your friends.') ?>
+            <?php echo __('Be the first of your friends.') ?>
         <?php endif; ?>
         </span>
     </div>

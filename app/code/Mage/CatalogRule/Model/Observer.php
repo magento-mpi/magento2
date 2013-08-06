@@ -274,7 +274,7 @@ class Mage_CatalogRule_Model_Observer
         if ($disabledRulesCount) {
             Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAll();
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addWarning(
-                Mage::helper('Mage_CatalogRule_Helper_Data')->__('%1 Catalog Price Rules based on "%2" attribute have been disabled.', $disabledRulesCount, $attributeCode));
+                __('%1 Catalog Price Rules based on "%2" attribute have been disabled.', $disabledRulesCount, $attributeCode));
         }
 
         return $this;

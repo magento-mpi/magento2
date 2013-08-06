@@ -10,14 +10,14 @@
 ?>
 <?php $_order = $this->getOrder() ?>
 <div class="page title">
-    <h1 class="title"><?php echo $this->__('Order #%1', $_order->getRealOrderId()) ?></h1>
+    <h1 class="title"><?php echo __('Order #%1', $_order->getRealOrderId()) ?></h1>
 </div>
-<p class="order-date"><?php echo $this->__('Order Date: %1', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
+<p class="order-date"><?php echo __('Order Date: %1', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
 
 <div class="order details view">
     <div class="block order shipping address">
         <div class="title">
-            <strong><?php echo $this->__('Shipping Address') ?></strong>
+            <strong><?php echo __('Shipping Address') ?></strong>
         </div>
         <div class="content">
             <address><?php echo $_order->getShippingAddress()->format('html') ?></address>
@@ -25,7 +25,7 @@
     </div>
     <div class="block order billing address">
         <div class="title">
-            <strong><?php echo $this->__('Billing Address') ?></strong>
+            <strong><?php echo __('Billing Address') ?></strong>
         </div>
         <div class="content">
             <address><?php echo $_order->getBillingAddress()->format('html') ?></address>
@@ -34,14 +34,14 @@
     <?php if (!$_order->getIsVirtual()): ?>
     <div class="block order shipping method">
         <div class="title">
-            <strong><?php echo $this->__('Shipping Method') ?></strong>
+            <strong><?php echo __('Shipping Method') ?></strong>
         </div>
         <?php echo $this->escapeHtml($_order->getShippingDescription()) ?>
     </div>
     <?php endif; ?>
     <div class="block order shipping">
         <div class="title">
-            <strong><?php echo $this->__('Payment Method') ?></strong>
+            <strong><?php echo __('Payment Method') ?></strong>
         </div>
         <div class="content">
             <?php echo $this->getPaymentInfoHtml() ?>
@@ -51,16 +51,16 @@
 
 <div class="order details items">
     <div class="order subtitle caption">
-        <strong><?php echo $this->__('Items Ordered') ?></strong>
+        <strong><?php echo __('Items Ordered') ?></strong>
     </div>
     <table class="data table order items" id="my-orders-table">
         <thead>
         <tr>
-            <th class="col name"><?php echo $this->__('Product Name') ?></th>
-            <th class="col sku"><?php echo $this->__('SKU') ?></th>
-            <th class="col price"><?php echo $this->__('Price') ?></th>
-            <th class="col qty"><?php echo $this->__('Qty') ?></th>
-            <th class="a-right"><?php echo $this->__('Subtotal') ?></th>
+            <th class="col name"><?php echo __('Product Name') ?></th>
+            <th class="col sku"><?php echo __('SKU') ?></th>
+            <th class="col price"><?php echo __('Price') ?></th>
+            <th class="col qty"><?php echo __('Qty') ?></th>
+            <th class="a-right"><?php echo __('Subtotal') ?></th>
         </tr>
         </thead>
         <tfoot>

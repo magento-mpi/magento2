@@ -268,25 +268,25 @@ class Mage_Sales_Model_Service_Quote
             $addressValidation = $address->validate();
             if ($addressValidation !== true) {
                 Mage::throwException(
-                    Mage::helper('Mage_Sales_Helper_Data')->__('Please check the shipping address information. %1', implode(' ', $addressValidation))
+                    __('Please check the shipping address information. %1', implode(' ', $addressValidation))
                 );
             }
             $method= $address->getShippingMethod();
             $rate  = $address->getShippingRateByCode($method);
             if (!$this->getQuote()->isVirtual() && (!$method || !$rate)) {
-                Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Please specify a shipping method.'));
+                Mage::throwException(__('Please specify a shipping method.'));
             }
         }
 
         $addressValidation = $this->getQuote()->getBillingAddress()->validate();
         if ($addressValidation !== true) {
             Mage::throwException(
-                Mage::helper('Mage_Sales_Helper_Data')->__('Please check the billing address information. %1', implode(' ', $addressValidation))
+                __('Please check the billing address information. %1', implode(' ', $addressValidation))
             );
         }
 
         if (!($this->getQuote()->getPayment()->getMethod())) {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Please select a valid payment method.'));
+            Mage::throwException(__('Please select a valid payment method.'));
         }
 
         return $this;

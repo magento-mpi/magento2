@@ -49,7 +49,7 @@ class Mage_Eav_Model_Attribute_Data_Date extends Mage_Eav_Model_Attribute_Data_A
         }
 
         if ($attribute->getIsRequired() && empty($value)) {
-            $errors[] = Mage::helper('Mage_Eav_Helper_Data')->__('"%1" is a required value.', $label);
+            $errors[] = __('"%1" is a required value.', $label);
         }
 
         if (!$errors && !$attribute->getIsRequired() && empty($value)) {
@@ -67,11 +67,11 @@ class Mage_Eav_Model_Attribute_Data_Date extends Mage_Eav_Model_Attribute_Data_A
             || (!empty($validateRules['date_range_max']) && (strtotime($value) > $validateRules['date_range_max']))
         ) {
             if (!empty($validateRules['date_range_min']) && !empty($validateRules['date_range_max'])) {
-                $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Please enter a valid date between %1 and %2 at %3.', date('d/m/Y', $validateRules['date_range_min']), date('d/m/Y', $validateRules['date_range_max']), $label);
+                $errors[] = __('Please enter a valid date between %1 and %2 at %3.', date('d/m/Y', $validateRules['date_range_min']), date('d/m/Y', $validateRules['date_range_max']), $label);
             } elseif (!empty($validateRules['date_range_min'])) {
-                $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Please enter a valid date equal to or greater than %1 at %2.', date('d/m/Y', $validateRules['date_range_min']), $label);
+                $errors[] = __('Please enter a valid date equal to or greater than %1 at %2.', date('d/m/Y', $validateRules['date_range_min']), $label);
             } elseif (!empty($validateRules['date_range_max'])) {
-                $errors[] = Mage::helper('Mage_Customer_Helper_Data')->__('Please enter a valid date less than or equal to %1 at %2.', date('d/m/Y', $validateRules['date_range_max']), $label);
+                $errors[] = __('Please enter a valid date less than or equal to %1 at %2.', date('d/m/Y', $validateRules['date_range_max']), $label);
             }
         }
 

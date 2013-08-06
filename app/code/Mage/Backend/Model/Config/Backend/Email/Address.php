@@ -23,7 +23,7 @@ class Mage_Backend_Model_Config_Backend_Email_Address extends Mage_Core_Model_Co
         $value = $this->getValue();
         if (!Zend_Validate::is($value, 'EmailAddress')) {
             Mage::throwException(
-                Mage::helper('Mage_Backend_Helper_Data')->__('Please correct the email address: "%1".', $value)
+                __('Please correct the email address: "%1".', $value)
             );
         }
         return $this;

@@ -42,7 +42,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected function _initProduct()
     {
-        $this->_title($this->__('Products'));
+        $this->_title(__('Products'));
 
         $productId  = (int)$this->getRequest()->getParam('id');
         /** @var $product Mage_Catalog_Model_Product */
@@ -160,7 +160,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function indexAction()
     {
-        $this->_title($this->__('Products'));
+        $this->_title(__('Products'));
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Catalog::catalog_products');
         $this->renderLayout();
@@ -184,7 +184,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->addData($productData);
         }
 
-        $this->_title($this->__('New Product'));
+        $this->_title(__('New Product'));
 
         $this->_eventManager->dispatch('catalog_product_new_action', array('product' => $product));
 
@@ -225,7 +225,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
         if ($productId && !$product->getId()) {
             $this->_getSession()->addError(
-                Mage::helper('Mage_Catalog_Helper_Data')->__('This product no longer exists.')
+                __('This product no longer exists.')
             );
             $this->_redirect('*/*/');
             return;
@@ -251,7 +251,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->_setActiveMenu('Mage_Catalog::catalog_products');
 
         if (!Mage::app()->isSingleStoreMode() && ($switchBlock = $this->getLayout()->getBlock('store_switcher'))) {
-            $switchBlock->setDefaultStoreName($this->__('Default Values'))
+            $switchBlock->setDefaultStoreName(__('Default Values'))
                 ->setWebsiteIds($product->getWebsiteIds())
                 ->setSwitchUrl(
                     $this->getUrl('*/*/*', array(
@@ -582,8 +582,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $validationResult = $this->_validateProductVariations($product, $variationProducts);
                 if (!empty($validationResult)) {
                     $response->setError(true)
-                        ->setMessage(Mage::helper('Mage_Catalog_Helper_Data')
-                            ->__('Some product variations fields are not valid.'))
+                        ->setMessage(__('Some product variations fields are not valid.'))
                         ->setAttributes($validationResult);
                 }
             }
@@ -595,7 +594,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 //            if (is_array($errors = $product->validate())) {
 //                foreach ($errors as $code => $error) {
 //                    if ($error === true) {
-//                        Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute "%s" is invalid.', $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
+//                        Mage::throwException(__('Attribute "%s" is invalid.', $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
 //                    }
 //                    else {
 //                        Mage::throwException($error);
@@ -833,7 +832,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
             try {
                 if (isset($data['product'][$product->getIdFieldName()])) {
-                    throw new Mage_Core_Exception($this->__('Unable to save product'));
+                    throw new Mage_Core_Exception(__('Unable to save product'));
                 }
 
                 $originalSku = $product->getSku();
@@ -855,10 +854,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
                 Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAllRulesToProduct($productId);
 
-                $this->_getSession()->addSuccess($this->__('You saved the product.'));
+                $this->_getSession()->addSuccess(__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
                     $this->_getSession()->addNotice(
-                        $this->__('SKU for product %1 has been changed to %2.', Mage::helper('Mage_Core_Helper_Data')
+                        __('SKU for product %1 has been changed to %2.', Mage::helper('Mage_Core_Helper_Data')
                             ->escapeHtml($product->getName()),
                             Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
@@ -871,7 +870,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
                 if ($redirectBack === 'duplicate') {
                     $newProduct = $product->duplicate();
-                    $this->_getSession()->addSuccess($this->__('You duplicated the product.'));
+                    $this->_getSession()->addSuccess(__('You duplicated the product.'));
                 }
 
             } catch (Mage_Core_Exception $e) {
@@ -923,7 +922,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $product = $this->_initProduct();
         try {
             $newProduct = $product->duplicate();
-            $this->_getSession()->addSuccess($this->__('You duplicated the product.'));
+            $this->_getSession()->addSuccess(__('You duplicated the product.'));
             $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$newProduct->getId()));
         } catch (Exception $e) {
             Mage::logException($e);
@@ -973,7 +972,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $productIds = $this->getRequest()->getParam('product');
         if (!is_array($productIds)) {
-            $this->_getSession()->addError($this->__('Please select product(s).'));
+            $this->_getSession()->addError(__('Please select product(s).'));
         } else {
             if (!empty($productIds)) {
                 try {
@@ -982,7 +981,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                         $product->delete();
                     }
                     $this->_getSession()->addSuccess(
-                        $this->__('A total of %1 record(s) have been deleted.', count($productIds))
+                        __('A total of %1 record(s) have been deleted.', count($productIds))
                     );
                 } catch (Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
@@ -1008,7 +1007,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->updateAttributes($productIds, array('status' => $status), $storeId);
 
             $this->_getSession()->addSuccess(
-                $this->__('A total of %1 record(s) have been updated.', count($productIds))
+                __('A total of %1 record(s) have been updated.', count($productIds))
             );
         }
         catch (Mage_Core_Model_Exception $e) {
@@ -1017,7 +1016,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()
-                ->addException($e, $this->__('Something went wrong while updating the product(s) status.'));
+                ->addException($e, __('Something went wrong while updating the product(s) status.'));
         }
 
         $this->_redirect('*/*/', array('store'=> $storeId));
@@ -1036,7 +1035,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($status == Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
             if (!Mage::getModel('Mage_Catalog_Model_Product')->isProductsHasSku($productIds)) {
                 throw new Mage_Core_Exception(
-                    $this->__('Please make sure to define SKU values for all processed products.')
+                    __('Please make sure to define SKU values for all processed products.')
                 );
             }
         }

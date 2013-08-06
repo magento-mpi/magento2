@@ -231,7 +231,7 @@ class Enterprise_Reward_Model_Observer
                 ->updateRewardPoints();
             if ($reward->getRewardPointsUpdated() && $reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
-                    Mage::helper('Enterprise_Reward_Helper_Data')->__('The customer earned %1 for this order.', Mage::helper('Enterprise_Reward_Helper_Data')->formatReward($reward->getPointsDelta()))
+                    __('The customer earned %1 for this order.', Mage::helper('Enterprise_Reward_Helper_Data')->formatReward($reward->getPointsDelta()))
                 )->save();
             }
         }
@@ -733,8 +733,8 @@ class Enterprise_Reward_Model_Observer
         $fieldset = $form->getElement('action_fieldset');
         $fieldset->addField('reward_points_delta', 'text', array(
             'name'  => 'reward_points_delta',
-            'label' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Add Reward Points'),
-            'title' => Mage::helper('Enterprise_Reward_Helper_Data')->__('Add Reward Points')
+            'label' => __('Add Reward Points'),
+            'title' => __('Add Reward Points')
         ), 'stop_rules_processing');
         return $this;
     }
@@ -803,7 +803,7 @@ class Enterprise_Reward_Model_Observer
                 ->updateRewardPoints();
             if ($reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
-                    Mage::helper('Enterprise_Reward_Helper_Data')->__('Customer earned promotion extra %1.', Mage::helper('Enterprise_Reward_Helper_Data')->formatReward($reward->getPointsDelta()))
+                    __('Customer earned promotion extra %1.', Mage::helper('Enterprise_Reward_Helper_Data')->formatReward($reward->getPointsDelta()))
                 )->save();
             }
         }

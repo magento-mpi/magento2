@@ -17,7 +17,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title><?php echo Mage::helper('Mage_Install_Helper_Data')->__('Magento Installation Wizard') ?></title>
+    <title><?php echo __('Magento Installation Wizard') ?></title>
 
     <link rel="icon" href="<?php echo $this->getViewFileUrl('Mage_Page::favicon.ico') ?>" type="image/x-icon"/>
     <link rel="shortcut icon" href="<?php echo $this->getViewFileUrl('Mage_Page::favicon.ico') ?>" type="image/x-icon"/>
@@ -43,7 +43,7 @@
         <div class="header-top-container">
             <div class="header-top">
                 <h1 id="logo">
-                    <a href="<?php echo $this->getUrl('') ?>"><img src="<?php echo $this->getViewFileUrl('images/logo.gif') ?>" title="<?php echo Mage::helper('Mage_Install_Helper_Data')->__('Magento') ?>" alt="<?php echo Mage::helper('Mage_Install_Helper_Data')->__('Magento') ?>" /></a>
+                    <a href="<?php echo $this->getUrl('') ?>"><img src="<?php echo $this->getViewFileUrl('images/logo.gif') ?>" title="<?php echo __('Magento') ?>" alt="<?php echo __('Magento') ?>" /></a>
                 </h1>
 
                 <?php echo $this->getChildHtml('topSearch') ?>
@@ -90,11 +90,11 @@
     <div class="footer-container">
         <div class="footer">
         <p class="legality">
-            <?php echo Mage::helper('Mage_Install_Helper_Data')->__('Help Us to Keep Magento Healthy') ?> - <a
+            <?php echo __('Help Us to Keep Magento Healthy') ?> - <a
             href="https://support.varien.com/"
-            target="varien_external"><strong><?php echo Mage::helper('Mage_Install_Helper_Data')->__('Report All Bugs') ?></strong></a> <?php echo Mage::helper('Mage_Install_Helper_Data')->__('(ver. %1)', Mage::getVersion()) ?>
+            target="varien_external"><strong><?php echo __('Report All Bugs') ?></strong></a> <?php echo __('(ver. %1)', Mage::getVersion()) ?>
             <br/>
-            <?php echo Mage::helper('Mage_Install_Helper_Data')->__('Magento&reg; is a trademark of X.commerce, Inc. Copyright &copy; %1 X.commerce, Inc.', date('Y')) ?>
+            <?php echo __('Magento&reg; is a trademark of X.commerce, Inc. Copyright &copy; %1 X.commerce, Inc.', date('Y')) ?>
         </p>
         </div>
     </div>

@@ -32,7 +32,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
      */
     public function listAction()
     {
-        $this->_title($this->__('Index Management'));
+        $this->_title(__('Index Management'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Index::system_index');
@@ -50,16 +50,16 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
         if ($process) {
             $this->_title($process->getIndexCode());
 
-            $this->_title($this->__('System'))
-                 ->_title($this->__('Index Management'))
-                 ->_title($this->__($process->getIndexer()->getName()));
+            $this->_title(__('System'))
+                 ->_title(__('Index Management'))
+                 ->_title(__($process->getIndexer()->getName()));
 
             Mage::register('current_index_process', $process);
             $this->loadLayout();
             $this->renderLayout();
         } else {
             $this->_getSession()->addError(
-                Mage::helper('Mage_Index_Helper_Data')->__('Cannot initialize the indexer process.')
+                __('Cannot initialize the indexer process.')
             );
             $this->_redirect('*/*/list');
         }
@@ -80,19 +80,19 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
             try {
                 $process->save();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Index_Helper_Data')->__('The index has been saved.')
+                    __('The index has been saved.')
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                     Mage::helper('Mage_Index_Helper_Data')->__('There was a problem with saving process.')
+                     __('There was a problem with saving process.')
                 );
             }
             $this->_redirect('*/*/list');
         } else {
             $this->_getSession()->addError(
-                Mage::helper('Mage_Index_Helper_Data')->__('Cannot initialize the indexer process.')
+                __('Cannot initialize the indexer process.')
             );
             $this->_redirect('*/*/list');
         }
@@ -112,18 +112,18 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
                 $process->reindexEverything();
                 Magento_Profiler::stop('__INDEX_PROCESS_REINDEX_ALL__');
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Index_Helper_Data')->__('%1 index was rebuilt.', $process->getIndexer()->getName())
+                    __('%1 index was rebuilt.', $process->getIndexer()->getName())
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                     Mage::helper('Mage_Index_Helper_Data')->__('There was a problem with reindexing process.')
+                     __('There was a problem with reindexing process.')
                 );
             }
         } else {
             $this->_getSession()->addError(
-                Mage::helper('Mage_Index_Helper_Data')->__('Cannot initialize the indexer process.')
+                __('Cannot initialize the indexer process.')
             );
         }
 
@@ -156,7 +156,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
         $indexer    = Mage::getSingleton('Mage_Index_Model_Indexer');
         $processIds = $this->getRequest()->getParam('process');
         if (empty($processIds) || !is_array($processIds)) {
-            $this->_getSession()->addError(Mage::helper('Mage_Index_Helper_Data')->__('Please select Indexes'));
+            $this->_getSession()->addError(__('Please select Indexes'));
         } else {
             try {
                 $counter = 0;
@@ -169,12 +169,12 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
                     }
                 }
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Index_Helper_Data')->__('Total of %1 index(es) have reindexed data.', $counter)
+                    __('Total of %1 index(es) have reindexed data.', $counter)
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addException($e, Mage::helper('Mage_Index_Helper_Data')->__('Cannot initialize the indexer process.'));
+                $this->_getSession()->addException($e, __('Cannot initialize the indexer process.'));
             }
         }
 
@@ -189,7 +189,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
     {
         $processIds = $this->getRequest()->getParam('process');
         if (empty($processIds) || !is_array($processIds)) {
-            $this->_getSession()->addError(Mage::helper('Mage_Index_Helper_Data')->__('Please select Index(es)'));
+            $this->_getSession()->addError(__('Please select Index(es)'));
         } else {
             try {
                 $counter = 0;
@@ -203,12 +203,12 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
                     }
                 }
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Index_Helper_Data')->__('Total of %1 index(es) have changed index mode.', $counter)
+                    __('Total of %1 index(es) have changed index mode.', $counter)
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addException($e, Mage::helper('Mage_Index_Helper_Data')->__('Cannot initialize the indexer process.'));
+                $this->_getSession()->addException($e, __('Cannot initialize the indexer process.'));
             }
         }
 

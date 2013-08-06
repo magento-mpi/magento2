@@ -142,7 +142,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
             }
 
             if (!isset($file['group'])) {
-                throw new LogicException($this->__('Group is missed for file "%1"', $file['safePath']));
+                throw new LogicException(__('Group is missed for file "%1"', $file['safePath']));
             }
             $group = $file['group'];
             unset($file['theme']);
@@ -197,13 +197,13 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         $theme = strtok(Magento_Filesystem::DIRECTORY_SEPARATOR);
 
         if ($area === false || $package === false || $theme === false) {
-            throw new LogicException($this->__('Theme path "%1/%2/%3" is incorrect', $area, $package, $theme));
+            throw new LogicException(__('Theme path "%1/%2/%3" is incorrect', $area, $package, $theme));
         }
         $themeModel = $this->_themeCollection->getThemeByFullPath($area . '/' . $package . '/' . $theme);
 
         if (!$themeModel || !$themeModel->getThemeId()) {
             throw new LogicException(
-                $this->__('Invalid theme loaded by theme path "%1/%2/%3"', $area, $package, $theme)
+                __('Invalid theme loaded by theme path "%1/%2/%3"', $area, $package, $theme)
             );
         }
 
@@ -227,7 +227,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         $group = null;
         if (substr($file['path'], 0, strlen($designDir)) == $designDir) {
             if (!isset($file['theme']) || !$file['theme']->getThemeId()) {
-                throw new LogicException($this->__('Theme is missed for file "%1"', $file['safePath']));
+                throw new LogicException(__('Theme is missed for file "%1"', $file['safePath']));
             }
             $group = $file['theme']->getThemeId();
         } elseif (substr($file['path'], 0, strlen($jsDir)) == $jsDir) {
@@ -235,7 +235,7 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         } elseif (substr($file['path'], 0, strlen($codeDir)) == $codeDir) {
             $group = $codeDir;
         } else {
-            throw new LogicException($this->__('Invalid view file directory "%1"', $file['safePath']));
+            throw new LogicException(__('Invalid view file directory "%1"', $file['safePath']));
         }
         $file['group'] = $group;
 
@@ -296,12 +296,12 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
     protected function _getGroupLabels(array $themes, $jsDir, $codeDir)
     {
         $labels = array(
-            $jsDir => $this->__('Library files'),
-            $codeDir => $this->__('Framework files')
+            $jsDir => __('Library files'),
+            $codeDir => __('Framework files')
         );
         foreach ($themes as $theme) {
             /** @var $theme Mage_Core_Model_Theme */
-            $labels[$theme->getThemeId()] = $this->__('"%1" Theme files', $theme->getThemeTitle());
+            $labels[$theme->getThemeId()] = __('"%1" Theme files', $theme->getThemeTitle());
         }
         return $labels;
     }

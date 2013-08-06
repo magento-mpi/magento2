@@ -435,7 +435,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         if ($errors) {
             $session = Mage::getSingleton('Mage_Core_Model_Session');
             $session->addError(
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('There is an error in quantities for item %1.', $preparePost['product_name'])
+                __('There is an error in quantities for item %1.', $preparePost['product_name'])
             );
         }
 
@@ -484,7 +484,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 $escapedProductName = Mage::helper('Enterprise_Rma_Helper_Data')->escapeHtml($item->getProductName());
                 foreach ($validation as $key => $value) {
                     if (isset($previousValue) && $value > $previousValue) {
-                        $errors[] = Mage::helper('Enterprise_Rma_Helper_Data')->__('There is an error in quantities for item %1.', $escapedProductName);
+                        $errors[] = __('There is an error in quantities for item %1.', $escapedProductName);
                         $errorKeys[$item->getId()] = $key;
                         $errorKeys['tabs'] = 'items_section';
                         break;
@@ -495,15 +495,15 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 //if we change item status i.e. to authorized, then qty_authorized must be non-empty and so on.
                 $qtyToStatus = array(
                     'qty_authorized' => array(
-                            'name' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Authorized Qty'),
+                            'name' => __('Authorized Qty'),
                             'status' => Enterprise_Rma_Model_Rma_Source_Status::STATE_AUTHORIZED
                         ),
                     'qty_returned' => array(
-                            'name' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Returned Qty'),
+                            'name' => __('Returned Qty'),
                             'status' => Enterprise_Rma_Model_Rma_Source_Status::STATE_RECEIVED
                         ),
                     'qty_approved' => array(
-                            'name' => Mage::helper('Enterprise_Rma_Helper_Data')->__('Approved Qty'),
+                            'name' => __('Approved Qty'),
                             'status' => Enterprise_Rma_Model_Rma_Source_Status::STATE_APPROVED
                         ),
 
@@ -513,7 +513,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                         && $item->getOrigData('status') !== $qtyValue['status']
                         && !$item->getData($qtyKey)
                     ) {
-                        $errors[] = Mage::helper('Enterprise_Rma_Helper_Data')->__('%1 for item %2 cannot be empty.', $qtyValue['name'], $escapedProductName);
+                        $errors[] = __('%1 for item %2 cannot be empty.', $qtyValue['name'], $escapedProductName);
                         $errorKeys[$item->getId()] = $qtyKey;
                         $errorKeys['tabs'] = 'items_section';
                     }
@@ -535,10 +535,10 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 $availableItemsArray[$key]['name']
             );
             if (!array_key_exists($key, $availableItemsArray)) {
-                $errors[] = Mage::helper('Enterprise_Rma_Helper_Data')->__('You cannot return %1.', $escapedProductName);
+                $errors[] = __('You cannot return %1.', $escapedProductName);
             }
             if (isset($availableItemsArray[$key]) && $availableItemsArray[$key]['qty'] < $qty) {
-                $errors[] = Mage::helper('Enterprise_Rma_Helper_Data')->__('Quantity of %1 is greater than you can return.', $escapedProductName);
+                $errors[] = __('Quantity of %1 is greater than you can return.', $escapedProductName);
                 $errorKeys[$key] = 'qty_requested';
                 $errorKeys['tabs'] = 'items_section';
             }
@@ -681,39 +681,39 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
 
         $validator = new Zend_Validate_EmailAddress();
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid type: "%1".', $label),
+            __('You entered an invalid type: "%1".', $label),
             Zend_Validate_EmailAddress::INVALID
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid email address: "%1".', $label),
+            __('You entered an invalid email address: "%1".', $label),
             Zend_Validate_EmailAddress::INVALID_FORMAT
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid hostname: "%1"', $label),
+            __('You entered an invalid hostname: "%1"', $label),
             Zend_Validate_EmailAddress::INVALID_HOSTNAME
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid hostname: "%1"', $label),
+            __('You entered an invalid hostname: "%1"', $label),
             Zend_Validate_EmailAddress::INVALID_MX_RECORD
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid hostname: "%1"', $label),
+            __('You entered an invalid hostname: "%1"', $label),
             Zend_Validate_EmailAddress::INVALID_MX_RECORD
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid email address: "%1".', $label),
+            __('You entered an invalid email address: "%1".', $label),
             Zend_Validate_EmailAddress::DOT_ATOM
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid email address: "%1".', $label),
+            __('You entered an invalid email address: "%1".', $label),
             Zend_Validate_EmailAddress::QUOTED_STRING
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('You entered an invalid email address: "%1".', $label),
+            __('You entered an invalid email address: "%1".', $label),
             Zend_Validate_EmailAddress::INVALID_LOCAL_PART
         );
         $validator->setMessage(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('"%1" is longer than allowed.', $label),
+            __('"%1" is longer than allowed.', $label),
             Zend_Validate_EmailAddress::LENGTH_EXCEEDED
         );
         if (!$validator->isValid($value)) {

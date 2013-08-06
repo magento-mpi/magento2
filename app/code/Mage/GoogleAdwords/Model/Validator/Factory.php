@@ -40,7 +40,7 @@ class Mage_GoogleAdwords_Model_Validator_Factory
      */
     public function createColorValidator($currentColor)
     {
-        $message = $this->_helper->__('Conversion Color value is not valid "%1". Please set hexadecimal 6-digit value.',
+        $message = __('Conversion Color value is not valid "%1". Please set hexadecimal 6-digit value.',
             $currentColor);
         /** @var Magento_Validator_Builder $builder */
         $builder = $this->_validatorBuilderFactory->create(array(
@@ -77,7 +77,7 @@ class Mage_GoogleAdwords_Model_Validator_Factory
      */
     public function createConversionIdValidator($currentId)
     {
-        $message = $this->_helper->__('Conversion Id value is not valid "%1". Conversion Id should be an integer.',
+        $message = __('Conversion Id value is not valid "%1". Conversion Id should be an integer.',
             $currentId);
         /** @var Magento_Validator_Builder $builder */
         $builder = $this->_validatorBuilderFactory->create(array(

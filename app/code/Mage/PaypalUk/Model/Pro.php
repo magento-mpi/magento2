@@ -91,7 +91,7 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
                 $api->getTransactionId()
         );
         $payment->setPreparedMessage(
-            Mage::helper('Mage_PaypalUk_Helper_Data')->__('Payflow PNREF: #%1.', $api->getTransactionId())
+            __('Payflow PNREF: #%1.', $api->getTransactionId())
         );
         Mage::getModel('Mage_Paypal_Model_Info')->importToPayment($api, $payment);
     }
@@ -107,7 +107,7 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
     public function fetchTransactionInfo(Mage_Payment_Model_Info $payment, $transactionId)
     {
         Mage::throwException(
-            Mage::helper('Mage_PaypalUk_Helper_Data')->__('Fetch transaction details method does not exists in PaypalUK')
+            __('Fetch transaction details method does not exists in PaypalUK')
         );
     }
 
@@ -128,7 +128,7 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
                 $api->getTransactionId()
         );
         $payment->setPreparedMessage(
-            Mage::helper('Mage_PaypalUk_Helper_Data')->__('Payflow PNREF: #%1.', $api->getTransactionId())
+            __('Payflow PNREF: #%1.', $api->getTransactionId())
         );
         Mage::getModel('Mage_Paypal_Model_Info')->importToPayment($api, $payment);
     }

@@ -450,7 +450,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
 
         foreach ($this->_errors as $errorCode => $errorRows) {
             if (isset($this->_messageTemplates[$errorCode])) {
-                $errorCode = $this->_helper('Mage_ImportExport_Helper_Data')->__($this->_messageTemplates[$errorCode]);
+                $errorCode = __($this->_messageTemplates[$errorCode]);
             }
             foreach ($errorRows as $errorRowData) {
                 $key = $errorRowData[1] ? sprintf($errorCode, $errorRowData[1]) : $errorCode;
@@ -529,7 +529,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
     public function getSource()
     {
         if (!$this->_source) {
-            Mage::throwException($this->_helper('Mage_ImportExport_Helper_Data')->__('Source is not set'));
+            Mage::throwException(__('Source is not set'));
         }
         return $this->_source;
     }
@@ -597,13 +597,13 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
         }
 
         if (!$valid) {
-            $this->addRowError($this->_helper('Mage_ImportExport_Helper_Data')->__("Please correct the value for '%s'."),
+            $this->addRowError(__("Please correct the value for '%s'."),
                 $rowNumber, $attributeCode
             );
         } elseif (!empty($attributeParams['is_unique'])) {
             if (isset($this->_uniqueAttributes[$attributeCode][$rowData[$attributeCode]])) {
                 $this->addRowError(
-                    $this->_helper('Mage_ImportExport_Helper_Data')->__("Duplicate Unique Attribute for '%s'"),
+                    __("Duplicate Unique Attribute for '%s'"),
                     $rowNumber, $attributeCode
                 );
                 return false;
@@ -693,7 +693,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
             // do all permanent columns exist?
             if ($absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames())) {
                 Mage::throwException(
-                    $this->_helper('Mage_ImportExport_Helper_Data')->__('Cannot find required columns: %1',
+                    __('Cannot find required columns: %1',
                         implode(', ', $absentColumns)
                     )
                 );
@@ -716,14 +716,14 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
 
             if ($emptyHeaderColumns) {
                 Mage::throwException(
-                    $this->_helper('Mage_ImportExport_Helper_Data')->__('Columns number: "%1" have empty headers',
+                    __('Columns number: "%1" have empty headers',
                         implode('", "', $emptyHeaderColumns)
                     )
                 );
             }
             if ($invalidColumns) {
                 Mage::throwException(
-                    $this->_helper('Mage_ImportExport_Helper_Data')->__('Column names: "%1" are invalid',
+                    __('Column names: "%1" are invalid',
                         implode('", "', $invalidColumns)
                     )
                 );
