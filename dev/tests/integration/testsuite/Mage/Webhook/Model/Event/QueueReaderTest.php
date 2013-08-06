@@ -13,6 +13,7 @@ class Mage_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_TestCas
 {
     public function testPoll()
     {
+        /** @var Mage_Webhook_Model_Event $event */
         $event = Mage::getModel('Mage_Webhook_Model_Event')
             ->setDataChanges(true)
             ->save();

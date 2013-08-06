@@ -123,17 +123,11 @@ class Mage_Webhook_Model_Job extends Mage_Core_Model_Abstract implements Magento
     }
 
     /**
-     * Handles HTTP response
-     *
-     * @param Magento_Outbound_Transport_Http_Response $response
+     * Update the Job status to indicate it has completed successfully
      */
-    public function handleResponse($response)
+    public function complete()
     {
-        if ($response->isSuccessful()) {
-            $this->setStatus(Magento_PubSub_JobInterface::SUCCESS);
-        } else {
-            $this->handleFailure();
-        }
+        $this->setStatus(Magento_PubSub_JobInterface::SUCCEEDED);
         $this->save();
     }
 

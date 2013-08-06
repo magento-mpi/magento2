@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_PubSub_Event_QueueHandlerTests extends PHPUnit_Framework_TestCase
+class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * mock endpoint url

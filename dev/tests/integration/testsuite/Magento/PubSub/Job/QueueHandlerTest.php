@@ -2,16 +2,14 @@
 /**
  * Magento_PubSub_EventManager
  *
+ * @magentoDbIsolation enabled
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * @magentoDbIsolation enabled
- */
-class Magento_PubSub_Job_QueueHandlerTests extends PHPUnit_Framework_TestCase
+class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_PubSub_Job_QueueHandler
