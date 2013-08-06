@@ -11,7 +11,6 @@
 /**
  * Admin Checkout main form container
  *
- * @method string                                           getAdditionalJavascript()
  * @method string                                           getListType()
  * @method Enterprise_Checkout_Block_Adminhtml_Sku_Abstract setListType()
  * @method string                                           getDataContainerId()

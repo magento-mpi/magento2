@@ -54,9 +54,19 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             } else {
                 $headBlock->setDescription(Mage::helper('Mage_Core_Helper_String')->substr($product->getDescription(), 0, 255));
             }
-            if ($this->helper('Mage_Catalog_Helper_Product')->canUseCanonicalTag()) {
+            //@todo: move canonical link to separate block
+            if ($this->helper('Mage_Catalog_Helper_Product')->canUseCanonicalTag()
+                && !$headBlock->getChildBlock('mage-page-head-product-canonical-link')
+            ) {
                 $params = array('_ignore_category'=>true);
-                $headBlock->addLinkRel('canonical', $product->getUrlModel()->getUrl($product, $params));
+                $headBlock->addChild(
+                    'mage-page-head-product-canonical-link',
+                    'Mage_Page_Block_Html_Head_Link',
+                    array(
+                        'url' => $product->getUrlModel()->getUrl($product, $params),
+                        'properties' => array('attributes' => array('rel' => 'canonical'))
+                    )
+                );
             }
         }
         $pageMainTitle = $this->getLayout()->getBlock('page.main.title');

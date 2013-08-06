@@ -154,6 +154,7 @@ return array(
     array('addKey', 'Magento_DB_Adapter_Pdo_Mysql'),
     array('addJs', 'Mage_Page_Block_Html_Head'),
     array('addJsIe', 'Mage_Page_Block_Html_Head'),
+    array('addLinkRel', 'Mage_Page_Block_Html_Head'),
     array('addObserver', 'Mage'),
     array('addOptionRenderer', 'Mage_Catalog_Block_Product_View_Options'),
     array('addPageHandles', 'Mage_Core_Model_Layout_Update', 'Mage_Core_Model_Layout_Merge'),

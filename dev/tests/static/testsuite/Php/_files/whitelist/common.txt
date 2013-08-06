@@ -97,6 +97,7 @@ app/code/Mage/Log/Model/Resource/Helper
 app/code/Mage/Log/Model/Resource/Shell.php
 app/code/Mage/Log/Model/Shell.php
 app/code/Mage/Log/Model/Shell
+app/code/Mage/Page/Block/Html/Head
 app/code/Mage/Page/Helper/Robots.php
 app/code/Mage/Page/Model/Asset
 app/code/Mage/Reports/Block/Adminhtml/Customer

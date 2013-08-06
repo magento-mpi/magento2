@@ -59,21 +59,4 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
 
         $this->_block->addRss('RSS Feed', 'http://127.0.0.1/test.rss');
     }
-
-    public function testAddLinkRel()
-    {
-        $this->_pageAssets->expects($this->once())
-            ->method('add')
-            ->with(
-                'link/http://127.0.0.1/',
-                $this->isInstanceOf('Mage_Core_Model_Page_Asset_Remote'),
-                array('attributes' => 'rel="rel"')
-            );
-        $assetRemoteFile = $this->getMock('Mage_Core_Model_Page_Asset_Remote', array(), array(), '', false);
-        $this->_objectManager->expects($this->once(''))
-            ->method('create')
-            ->with('Mage_Core_Model_Page_Asset_Remote')
-            ->will($this->returnValue($assetRemoteFile));
-        $this->_block->addLinkRel('rel', 'http://127.0.0.1/');
-    }
 }

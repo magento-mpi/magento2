@@ -37,31 +37,76 @@ class Enterprise_Cms_Block_Hierarchy_Head extends Mage_Core_Block_Abstract
                 if ($treeMetaData['meta_cs_enabled']) {
                     $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER);
                     if ($linkNode->getId()) {
-                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER, $linkNode->getUrl());
+                        $head->addChild(
+                            'mage-page-head-chapter-link',
+                            'Mage_Page_Block_Html_Head_Link',
+                            array(
+                                'url' => $linkNode->getUrl(),
+                                'properties' => array('attributes' => array(
+                                    'rel' => Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER
+                                ))
+                            )
+                        );
                     }
 
                     $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION);
                     if ($linkNode->getId()) {
-                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION, $linkNode->getUrl());
+                        $head->addChild(
+                            'mage-page-head-section-link',
+                            'Mage_Page_Block_Html_Head_Link',
+                            array(
+                                'url' => $linkNode->getUrl(),
+                                'properties' => array('attributes' => array(
+                                    'rel' => Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION
+                                ))
+                            )
+                        );
                     }
                 }
 
                 if ($treeMetaData['meta_next_previous']) {
                     $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT);
                     if ($linkNode->getId()) {
-                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT, $linkNode->getUrl());
+                        $head->addChild(
+                            'mage-page-head-next-link',
+                            'Mage_Page_Block_Html_Head_Link',
+                            array(
+                                'url' => $linkNode->getUrl(),
+                                'properties' => array('attributes' => array(
+                                    'rel' => Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT
+                                ))
+                            )
+                        );
                     }
 
                     $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_PREVIOUS);
                     if ($linkNode->getId()) {
-                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_PREVIOUS, $linkNode->getUrl());
+                        $head->addChild(
+                            'mage-page-head-previous-link',
+                            'Mage_Page_Block_Html_Head_Link',
+                            array(
+                                'url' => $linkNode->getUrl(),
+                                'properties' => array('attributes' => array(
+                                    'rel' => Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_PREVIOUS
+                                ))
+                            )
+                        );
                     }
                 }
 
                 if ($treeMetaData['meta_first_last']) {
                     $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST);
                     if ($linkNode->getId()) {
-                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST, $linkNode->getUrl());
+                        $head->addChild(
+                            'mage-page-head-first-link',
+                            'Mage_Page_Block_Html_Head_Link',
+                            array(
+                                'url' => $linkNode->getUrl(),
+                                'properties' => array('attributes' => array(
+                                    'rel' => Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST
+                                ))
+                            )
+                        );
                     }
                 }
             }

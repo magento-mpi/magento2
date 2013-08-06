@@ -92,22 +92,6 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     }
 
     /**
-     * Add Link element to HEAD entity
-     *
-     * @param string $rel forward link types
-     * @param string $href URI for linked resource
-     * @return Mage_Page_Block_Html_Head
-     */
-    public function addLinkRel($rel, $href)
-    {
-        $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Page_Asset_Remote', array('url' => (string)$href)
-        );
-        $this->_pageAssets->add("link/$href", $asset, array('attributes' => 'rel="' . $rel . '"'));
-        return $this;
-    }
-
-    /**
      * Render HTML for the added head items
      *
      * @return string
@@ -147,8 +131,17 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             }
 
             if (!empty($attributes)) {
-                $attributes = ' ' . $attributes;
+                if (is_array($attributes)) {
+                    $attributesString = '';
+                    foreach ($attributes as $name => $value) {
+                        $attributesString .= ' ' . $name . '="' . $this->escapeHtml($value) . '"';
+                    }
+                    $attributes = $attributesString;
+                } else {
+                    $attributes = ' ' . $attributes;
+                }
             }
+
             if ($contentType == Mage_Core_Model_View_Publisher::CONTENT_TYPE_JS ) {
                 $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
             } else {

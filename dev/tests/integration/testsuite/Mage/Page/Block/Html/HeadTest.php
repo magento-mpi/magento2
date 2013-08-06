@@ -14,17 +14,12 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     /**
      * @var Mage_Page_Block_Html_Head
      */
-    private $_block = null;
+    private $_block;
 
     protected function setUp()
     {
         Mage::getDesign()->setDesignTheme('magento_demo', 'frontend');
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Page_Block_Html_Head');
-    }
-
-    protected function tearDown()
-    {
-        $this->_block = null;
     }
 
     /**
@@ -76,7 +71,16 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             )
         );
         $this->_block->addRss('RSS Feed', 'http://example.com/feed.xml');
-        $this->_block->addLinkRel('next', 'http://example.com/page1.html');
+
+        $this->_block->addChild(
+            'mage-page-head-canonical-link',
+            'Mage_Page_Block_Html_Head_Link',
+            array(
+                'url' => 'http://localhost/index.php/category.html',
+                'properties' => array('attributes' => array('rel' => 'next'))
+            )
+        );
+
         $this->_block->addChild(
             'varien/form.js',
             'Mage_Page_Block_Html_Head_Script',
@@ -88,10 +92,9 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             )
         );
         $this->assertEquals(
-             '<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="http://example.com/feed.xml" />'
+            '<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="http://example.com/feed.xml" />'
             . "\n"
-            . '<link rel="next" href="http://example.com/page1.html" />' . "\n"
-            .'<script type="text/javascript" src="http://localhost/pub/lib/varien/js.js"></script>' . "\n"
+            . '<script type="text/javascript" src="http://localhost/pub/lib/varien/js.js"></script>' . "\n"
             . '<script type="text/javascript" '
             . 'src="http://localhost/pub/static/frontend/magento_demo/en_US/Mage_Bundle/bundle.js">'
             . '</script>' . "\n"
@@ -100,6 +103,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             . '<link rel="stylesheet" type="text/css" media="print" '
                 . 'href="http://localhost/pub/static/frontend/magento_demo/en_US/css/styles.css" />'
                 . "\n"
+            . '<link rel="next" href="http://localhost/index.php/category.html" />' . "\n"
             . '<!--[if lt IE 7]>' . "\n"
             . '<script type="text/javascript" src="http://localhost/pub/lib/varien/form.js"></script>' . "\n"
             . '<![endif]-->' . "\n",
@@ -175,7 +179,8 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
                 'file' => 'not_exist_folder/wrong_bad_file2.xyz',
             )
         );
-         $this->_block->addChild(
+
+        $this->_block->addChild(
             'css/styles.css',
             'Mage_Page_Block_Html_Head_Css',
             array(
@@ -234,6 +239,29 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         );
         $this->assertSame(
             '<script type="text/javascript" src="http://localhost/pub/lib/varien/js.js"></script>' . "\n",
+            $this->_block->getCssJsHtml()
+        );
+    }
+
+    /**
+     * Head link with several attributes
+     * @magentoAppIsolation enabled
+     */
+    public function testGetCssJsHtmlSeveralAttributes()
+    {
+        $this->_block->addChild(
+            'mage-page-head-test-link',
+            'Mage_Page_Block_Html_Head_Link',
+            array(
+                'url' => 'http://localhost/index.php/category.html',
+                'properties' => array('attributes' => array(
+                    'rel' => 'next', 'attr' => 'value', 'some_other_attr' => 'value2'
+                ))
+            )
+        );
+
+        $this->assertSame(
+            '<link rel="next" attr="value" some_other_attr="value2" href="http://localhost/index.php/category.html" />' . "\n",
             $this->_block->getCssJsHtml()
         );
     }
