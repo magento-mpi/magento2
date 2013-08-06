@@ -472,8 +472,10 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             if (empty($inputComplexTypes)) {
                 if ($operationData['inputRequired']) {
                     throw new LogicException(
+                    //  @codingStandardsIgnoreStart
                         $this->_helper->__(
                             'The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
+                            //  @codingStandardsIgnoreEnd
                             $serviceMethod,
                             $serviceName,
                             $inputParameterName
@@ -491,8 +493,10 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 $serviceDataTypes['methods'][$serviceMethod]['interface']['outputComplexTypes'] = $outputComplexTypes;
             } else {
                 throw new LogicException(
+                //  @codingStandardsIgnoreStart
                     $this->_helper->__(
                         'The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
+                        //  @codingStandardsIgnoreEnd
                         $serviceMethod,
                         $serviceName,
                         $outputParameterName
