@@ -10,9 +10,7 @@
 <layout version="0.1.0">
     <cms_index_index>
         <reference name="head">
-            <action method="addMetaTag" ifconfig="google/googleshopping/verify_meta_tag">
-                <metadata helper="Mage_GoogleShopping_Helper_SiteVerification::getMetaTag"/>
-            </action>
+            <block type="Mage_GoogleShopping_Block_SiteVerification"/>
         </reference>
     </cms_index_index>
 </layout>

@@ -79,6 +79,7 @@ app/code/Mage/Core/sql/core_setup/upgrade-1.6.0.3-1.6.0.4.php
 app/code/Mage/Directory/Model/Currency/DefaultLocator.php
 app/code/Mage/DesignEditor
 app/code/Mage/Eav/Model/Cache/Type.php
+app/code/Mage/GoogleShopping/Block/SiteVerification.php
 app/code/Mage/ImportExport/Model/Import/Entity/CustomerComposite.php
 app/code/Mage/ImportExport/Model/Import/Entity/Product/Option.php
 app/code/Mage/ImportExport/Model/Resource/Customer/Storage.php

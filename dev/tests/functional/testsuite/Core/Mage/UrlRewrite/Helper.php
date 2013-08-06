@@ -1,12 +1,11 @@
 <?php
 /**
-* Helper class
-*
-* {license_notice}
-*
-* @copyright   {copyright}
-* @license     {license_link}
-*/
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 class Core_Mage_UrlRewrite_Helper extends Mage_Selenium_AbstractHelper
 {
     /**

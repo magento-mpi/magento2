@@ -672,4 +672,9 @@ return array(
     array('getInsertFromSelectUsingAnalytic', 'Mage_Eav_Model_Resource_Helper_Mysql4'),
     array('setOneRowLimit', 'Mage_Eav_Model_Resource_Helper_Mysql4'),
     array('getCastToIntExpression', 'Mage_Eav_Model_Resource_Helper_Mysql4'),
+    array('_initMetaTags', 'Mage_Page_Block_Html_Head'),
+    array('addMetaTag', 'Mage_Page_Block_Html_Head'),
+    array('getDefaultMetaTags', 'Mage_Page_Block_Html_Head'),
+    array('getMetaTags', 'Mage_Page_Block_Html_Head'),
+    array('getMetaTagHtml', 'Mage_Page_Block_Html_Head'),
 );

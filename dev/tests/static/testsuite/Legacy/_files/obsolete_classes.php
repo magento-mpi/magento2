@@ -598,6 +598,7 @@ return array(
     array('Mage_GiftMessage_Model_Entity_Attribute_Source_Boolean_Config'),
     array('Mage_GoogleOptimizer_IndexController', 'Mage_GoogleOptimizer_Adminhtml_Googleoptimizer_IndexController'),
     array('Mage_GoogleShopping_Block_Adminhtml_Types_Grid'),
+    array('Mage_GoogleShopping_Helper_SiteVerification', 'Mage_GoogleShopping_Block_SiteVerification'),
     array('Mage_ImportExport_Model_Import_Adapter_Abstract', 'Mage_ImportExport_Model_Import_SourceAbstract'),
     array('Mage_ImportExport_Model_Import_Adapter_Csv', 'Mage_ImportExport_Model_Import_Source_Csv'),
     array('Mage_Install_Model_Installer_Env'),
