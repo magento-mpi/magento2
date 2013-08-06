@@ -10,11 +10,11 @@
 
 
 /**
- * Class implements tests for Mage_Webapi_Helper_Config class.
+ * Class implements tests for Mage_Webapi_Helper_Data class.
  */
-class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Webapi_Helper_Config */
+    /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
     /**
@@ -23,7 +23,7 @@ class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $mockContext = $this->getMockBuilder('Mage_Core_Helper_Context')->disableOriginalConstructor()->getMock();
-        $this->_helper = new Mage_Webapi_Helper_Config($mockContext);
+        $this->_helper = new Mage_Webapi_Helper_Data($mockContext);
         parent::setUp();
     }
 

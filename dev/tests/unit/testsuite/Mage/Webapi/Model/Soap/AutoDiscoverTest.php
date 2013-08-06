@@ -14,11 +14,11 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 
     /**  @var Mage_Webapi_Model_Soap_AutoDiscover * */
     protected $_autoDiscover;
-    /**  @var Mage_Webapi_Config * */
-    protected $_newApiConfigMock;
+    /**  @var Mage_Webapi_Model_Config * */
+    protected $_apiConfigMock;
     /**  @var Mage_Webapi_Model_Soap_Wsdl_Factory * */
     protected $_wsdlFactory;
-    /**  @var Mage_Webapi_Helper_Config * */
+    /**  @var Mage_Webapi_Helper_Data * */
     protected $_helper;
     /**  @var Mage_Core_Model_CacheInterface * */
     protected $_cache;
@@ -29,13 +29,13 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
 
-        $this->_newApiConfigMock = $this->getMockBuilder('Mage_Webapi_Config')->disableOriginalConstructor()
+        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config')->disableOriginalConstructor()
             ->getMock();
         $this->_apiConfig = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')->disableOriginalConstructor()
             ->getMock();
         $this->_wsdlFactory = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl_Factory')->disableOriginalConstructor()
             ->getMock();
-        $this->_helper = $this->getMockBuilder('Mage_Webapi_Helper_Config')->disableOriginalConstructor()->getMock();
+        $this->_helper = $this->getMockBuilder('Mage_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
         $this->_cache = $this->getMockBuilder('Mage_Core_Model_CacheInterface')->disableOriginalConstructor()->getMock(
         );
 
@@ -64,12 +64,12 @@ class Mage_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
             array(new Magento_ObjectManager_ObjectManager())
         );
         $this->_wsdlFactory->expects($this->any())->method('create')->will($this->returnValue($this->_wsdlMock));
-        $this->_helper = $this->getMock('Mage_Webapi_Helper_Config', array('__'), array(), '', false, false);
+        $this->_helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'), array(), '', false, false);
         $this->_helper->expects($this->any())->method('__')->will($this->returnArgument(0));
         //$this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface');
 
         $this->_autoDiscover = new Mage_Webapi_Model_Soap_AutoDiscover(
-            $this->_newApiConfigMock,
+            $this->_apiConfigMock,
             $this->_wsdlFactory,
             $this->_helper,
             $this->_cache

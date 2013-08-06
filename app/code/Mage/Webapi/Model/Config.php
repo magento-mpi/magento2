@@ -10,7 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Config
+class Mage_Webapi_Model_Config
 {
     const CACHE_ID = 'webapi';
     const KEY_OPERATIONS = 'operations';
@@ -67,7 +67,7 @@ class Mage_Webapi_Config
      */
     protected $_soapOperations;
 
-    /** @var Mage_Webapi_Helper_Config */
+    /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
     /** @var Magento_Filesystem */
@@ -81,7 +81,7 @@ class Mage_Webapi_Config
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
      * @param Magento_Controller_Router_Route_Factory $routeFactory
-     * @param Mage_Webapi_Helper_Config $helper
+     * @param Mage_Webapi_Helper_Data $helper
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Dir $dir
      */
@@ -90,7 +90,7 @@ class Mage_Webapi_Config
         Mage_Core_Model_Cache_Type_Config $configCacheType,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
         Magento_Controller_Router_Route_Factory $routeFactory,
-        Mage_Webapi_Helper_Config $helper,
+        Mage_Webapi_Helper_Data $helper,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Dir $dir
     ) {
@@ -498,7 +498,7 @@ class Mage_Webapi_Config
          */
         $modulesDir = $this->_dir->getDir(Mage_Core_Model_Dir::MODULES);
         /** TODO: Change pattern to match interface instead of class. Think about sub-services. */
-        if (!preg_match(Mage_Webapi_Config::SERVICE_CLASS_PATTERN, $serviceClass, $matches)) {
+        if (!preg_match(Mage_Webapi_Model_Config::SERVICE_CLASS_PATTERN, $serviceClass, $matches)) {
             // TODO: Generate exception when error handling strategy is defined
         }
         $vendorName = $matches[1];

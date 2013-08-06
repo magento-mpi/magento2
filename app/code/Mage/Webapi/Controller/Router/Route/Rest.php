@@ -9,14 +9,6 @@
  */
 class Mage_Webapi_Controller_Router_Route_Rest extends Mage_Webapi_Controller_Router_Route
 {
-    /**#@+
-     * Names of special parameters in routes.
-     */
-    const PARAM_VERSION = 'serviceVersion';
-    const PARAM_ID = 'id';
-    const PARAM_PARENT_ID = 'parentId';
-    /**#@-*/
-
     /** @var string */
     protected $_serviceId;
 

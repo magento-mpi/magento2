@@ -46,8 +46,8 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /** @var Magento_ObjectManager */
     protected $_objectManager;
 
-    /** @var Mage_Webapi_Config */
-    protected $_newApiConfig;
+    /** @var Mage_Webapi_Model_Config */
+    protected $_apiConfig;
 
     /**
      * Initialize dependencies.
@@ -58,7 +58,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Webapi_Config $newApiConfig
+     * @param Mage_Webapi_Model_Config $apiConfig
      */
     public function __construct(
         Mage_Webapi_Helper_Data $helper,
@@ -67,7 +67,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
         Magento_ObjectManager $objectManager,
-        Mage_Webapi_Config $newApiConfig
+        Mage_Webapi_Model_Config $apiConfig
     ) {
         $this->_helper = $helper;
         $this->_authentication = $authentication;
@@ -75,7 +75,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         $this->_request = $request;
         $this->_errorProcessor = $errorProcessor;
         $this->_objectManager = $objectManager;
-        $this->_newApiConfig = $newApiConfig;
+        $this->_apiConfig = $apiConfig;
     }
 
     /**
@@ -110,11 +110,11 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                 $arguments = get_object_vars($arguments);
 
                 $requestedService = $this->_request->getRequestedServices();
-                $serviceId = $this->_newApiConfig->getClassBySoapOperation($operation, $requestedService);
-                $serviceMethod = $this->_newApiConfig->getMethodBySoapOperation($operation, $requestedService);
+                $serviceId = $this->_apiConfig->getClassBySoapOperation($operation, $requestedService);
+                $serviceMethod = $this->_apiConfig->getMethodBySoapOperation($operation, $requestedService);
 
                 // check if the operation is a secure operation & whether the request was made in HTTPS
-                if ($this->_newApiConfig->isSoapOperationSecure($operation, $requestedService)
+                if ($this->_apiConfig->isSoapOperationSecure($operation, $requestedService)
                     && !$this->_request->isSecure()
                 ) {
                     // TODO: Set the right error code and replace generic Exception with right exception instance

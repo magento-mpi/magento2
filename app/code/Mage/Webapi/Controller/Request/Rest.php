@@ -240,7 +240,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      */
     public function setServiceVersion($serviceVersion)
     {
-        $versionPrefix = Mage_Webapi_Model_ConfigAbstract::VERSION_NUMBER_PREFIX;
+        $versionPrefix = self::VERSION_NUMBER_PREFIX;
         if (preg_match("/^{$versionPrefix}?(\d+)$/i", $serviceVersion, $matches)) {
             $versionNumber = (int)$matches[1];
         } else {

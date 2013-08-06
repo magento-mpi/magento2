@@ -21,9 +21,9 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /**
      * TODO: Temporary variable for step-by-step refactoring according to new requirements
      *
-     * @var Mage_Webapi_Config
+     * @var Mage_Webapi_Model_Config
      */
-    protected $_newApiConfig;
+    protected $_apiConfig;
 
     /**
      * WSDL factory instance.
@@ -33,7 +33,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     protected $_wsdlFactory;
 
     /**
-     * @var Mage_Webapi_Helper_Config
+     * @var Mage_Webapi_Helper_Data
      */
     protected $_helper;
 
@@ -50,20 +50,20 @@ class Mage_Webapi_Model_Soap_AutoDiscover
     /**
      * Construct auto discover with service config and list of requested services.
      *
-     * @param Mage_Webapi_Config $newApiConfig
+     * @param Mage_Webapi_Model_Config $apiConfig
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
-     * @param Mage_Webapi_Helper_Config $helper
+     * @param Mage_Webapi_Helper_Data $helper
      * @param Mage_Core_Model_CacheInterface $cache
      *
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Webapi_Config $newApiConfig,
+        Mage_Webapi_Model_Config $apiConfig,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
-        Mage_Webapi_Helper_Config $helper,
+        Mage_Webapi_Helper_Data $helper,
         Mage_Core_Model_CacheInterface $cache
     ) {
-        $this->_newApiConfig = $newApiConfig;
+        $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_helper = $helper;
         $this->_cache = $cache;
@@ -118,7 +118,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     protected function _getServiceSchemaDOM($serviceName)
     {
-        return $this->_newApiConfig->getServiceSchemaDOM($serviceName);
+        return $this->_apiConfig->getServiceSchemaDOM($serviceName);
     }
 
     /**
@@ -447,7 +447,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     protected function _prepareServiceData($serviceName)
     {
-        $requestedServices = $this->_newApiConfig->getRequestedSoapServices(array($serviceName));
+        $requestedServices = $this->_apiConfig->getRequestedSoapServices(array($serviceName));
         if (empty($requestedServices)) {
             throw new Mage_Webapi_Exception(
                 $this->_helper->__('Service "%s" is not available.', $serviceName),
