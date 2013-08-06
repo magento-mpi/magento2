@@ -41,6 +41,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected static $_rules = array(
         'Integrity_DependencyTest_PhpRule',
         'Integrity_DependencyTest_DbRule',
+        'Integrity_DependencyTest_LayoutRule',
     );
 
     /**
