@@ -46,8 +46,9 @@ class Integrity_DependencyTest_PhpRule implements Integrity_DependencyTest_RuleI
 
         $dependenciesInfo = array();
         if (preg_match_all($this->_pattern, $contents, $matches)) {
+            $matches['module'] = array_unique($matches['module']);
             foreach ($matches['module'] as $i => $referenceModule) {
-                if ($currentModule == $referenceModule) {
+                if ($currentModule == $referenceModule || $referenceModule == 'Mage_Exception') {
                     continue;
                 }
                 $dependenciesInfo[] = array('module' => $referenceModule, 'source' => trim($matches['class'][$i]));
