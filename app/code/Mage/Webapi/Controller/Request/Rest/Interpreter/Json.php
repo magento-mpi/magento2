@@ -56,8 +56,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Json implements
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             } else {
                 throw new Mage_Webapi_Exception(
-                    $this->_helper->__(
-                        'Decoding error: %s%s%s%s',
+                    $this->_helper->__('Decoding error: %s%s%s%s',
                         PHP_EOL,
                         $e->getMessage(),
                         PHP_EOL,
