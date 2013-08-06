@@ -10,7 +10,7 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Mage_Webhook_Adminhtml_Webhook_RegistrationController extends Mage_Backend_Controller_ActionAbstract
+class Mage_Webhook_Controller_Adminhtml_Webhook_Registration extends Mage_Backend_Controller_ActionAbstract
 {
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
     const DATA_TOPICS = 'topics';

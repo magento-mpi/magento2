@@ -1,6 +1,6 @@
 <?php
 /**
- * Mage_Webhook_Adminhtml_Webhook_SubscriptionController
+ * Mage_Webhook_Controller_Adminhtml_Webhook_Subscription
  *
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
@@ -13,7 +13,7 @@
  * @license     {license_link}
  *
  */
-class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends Mage_Backend_Utility_Controller
+class Mage_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends Mage_Backend_Utility_Controller
 {
     /** @var Mage_Webhook_Model_Subscription  */
     private $_subscription;

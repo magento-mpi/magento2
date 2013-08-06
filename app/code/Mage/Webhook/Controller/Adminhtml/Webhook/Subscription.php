@@ -10,7 +10,7 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Mage_Webhook_Adminhtml_Webhook_SubscriptionController extends Mage_Backend_Controller_ActionAbstract
+class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backend_Controller_ActionAbstract
 {
     /** Param Key for extracting subscription id from Request */
     const PARAM_SUBSCRIPTION_ID = 'id';
