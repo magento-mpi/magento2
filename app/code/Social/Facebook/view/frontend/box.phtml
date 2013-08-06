@@ -19,9 +19,9 @@ $actions = $this->getAllActions();
         <div class="facebookFriendsBox">
             <div>
                 <?php if ($this->getCountOfUsers($action['action']) == 1): ?>
-                    <?php echo __('1 user %ss this product', $this->escapeHtml($action['action'])); ?>
+                    <?php echo $this->__('1 user %1s this product', $this->escapeHtml($action['action'])); ?>
                 <?php else: ?>
-                    <?php echo __('%s users %s this product', $this->getCountOfUsers($action['action']), $this->escapeHtml($action['action'])) ?>
+                    <?php echo $this->__('%1 users %2 this product', $this->getCountOfUsers($action['action']), $this->escapeHtml($action['action'])) ?>
                 <?php endif; ?>
             </div>
             <div style="clear:both;"></div>

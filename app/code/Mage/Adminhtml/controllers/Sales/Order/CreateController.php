@@ -277,9 +277,9 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         if (!empty($couponCode)) {
             if ($this->_getQuote()->getCouponCode() !== $couponCode) {
                 $this->_getSession()->addError(
-                    __('"%s" coupon code is not valid.', $this->_getHelper()->escapeHtml($couponCode)));
+                    $this->__('"%1" coupon code is not valid.', $this->_getHelper()->escapeHtml($couponCode)));
             } else {
-                $this->_getSession()->addSuccess(__('The coupon code has been accepted.'));
+                $this->_getSession()->addSuccess($this->__('The coupon code has been accepted.'));
             }
         }
 
@@ -312,7 +312,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     public function indexAction()
     {
-        $this->_title(__('Orders'))->_title(__('New Order'));
+        $this->_title($this->__('Orders'))->_title($this->__('New Order'));
         $this->_initSession();
         $this->loadLayout();
 
@@ -478,7 +478,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
                 ->createOrder();
 
             $this->_getSession()->clear();
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(__('You created the order.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('You created the order.'));
             if ($this->_authorization->isAllowed('Mage_Sales::actions_view')) {
                 $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
             } else {
@@ -499,7 +499,7 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
             $this->_redirect('*/*/');
         }
         catch (Exception $e){
-            $this->_getSession()->addException($e, __('Order saving error: %s', $e->getMessage()));
+            $this->_getSession()->addException($e, $this->__('Order saving error: %1', $e->getMessage()));
             $this->_redirect('*/*/');
         }
     }
@@ -567,12 +567,12 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
         try {
             $quoteItemId = (int) $this->getRequest()->getParam('id');
             if (!$quoteItemId) {
-                Mage::throwException(__('Quote item id is not received.'));
+                Mage::throwException($this->__('Quote item id is not received.'));
             }
 
             $quoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
-                Mage::throwException(__('Quote item is not loaded.'));
+                Mage::throwException($this->__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);

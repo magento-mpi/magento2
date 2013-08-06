@@ -253,7 +253,7 @@ class Mage_Paypal_Model_Express_Checkout
         $this->_quote->collectTotals();
 
         if (!$this->_quote->getGrandTotal() && !$this->_quote->hasNominalItems()) {
-            Mage::throwException(__('PayPal can\'t process orders with a zero balance due. To finish your purchase, please go through the standard checkout process.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal can\'t process orders with a zero balance due. To finish your purchase, please go through the standard checkout process.'));
         }
 
         $this->_quote->reserveOrderId()->save();
@@ -417,7 +417,7 @@ class Mage_Paypal_Model_Express_Checkout
     {
         $payment = $this->_quote->getPayment();
         if (!$payment || !$payment->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_PAYER_ID)) {
-            Mage::throwException(__('Payer is not identified.'));
+            Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('Payer is not identified.'));
         }
         $this->_quote->setMayEditShippingAddress(
             1 != $this->_quote->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN)
@@ -779,7 +779,7 @@ class Mage_Paypal_Model_Express_Checkout
         if ($mayReturnEmpty && is_null($userSelectedOption)) {
             $options[] = new Varien_Object(array(
                 'is_default' => true,
-                'name'       => __('N/A'),
+                'name'       => Mage::helper('Mage_Paypal_Helper_Data')->__('N/A'),
                 'code'       => 'no_rate',
                 'amount'     => 0.00,
             ));
@@ -966,7 +966,7 @@ class Mage_Paypal_Model_Express_Checkout
             $customer->sendNewAccountEmail('confirmation');
             $url = Mage::helper('Mage_Customer_Helper_Data')->getEmailConfirmationUrl($customer->getEmail());
             $this->getCustomerSession()->addSuccess(
-                __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', $url)
+                Mage::helper('Mage_Customer_Helper_Data')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
             );
         } else {
             $customer->sendNewAccountEmail();

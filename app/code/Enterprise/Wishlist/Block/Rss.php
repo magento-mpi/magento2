@@ -52,9 +52,9 @@ class Enterprise_Wishlist_Block_Rss extends Mage_Rss_Block_Wishlist
         if (Mage::helper('Enterprise_Wishlist_Helper_Data')->isWishlistDefault($this->_getWishlist())
             && $this->_getWishlist()->getName() == Mage::helper('Enterprise_Wishlist_Helper_Data')->getDefaultWishlistName()
         ) {
-            return __("%s's Wish List", $customer->getName());
+            return Mage::helper('Enterprise_Wishlist_Helper_Data')->__("%1's Wish List", $customer->getName());
         } else {
-            return __("%s's Wish List (%s)", $customer->getName(), $this->_getWishlist()->getName());
+            return Mage::helper('Enterprise_Wishlist_Helper_Data')->__("%1's Wish List (%2)", $customer->getName(), $this->_getWishlist()->getName());
         }
     }
 }

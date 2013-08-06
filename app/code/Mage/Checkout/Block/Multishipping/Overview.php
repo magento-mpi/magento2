@@ -44,7 +44,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Items_
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle(
-                __('Review Order - %s', $headBlock->getDefaultTitle())
+                $this->__('Review Order - %1', $headBlock->getDefaultTitle())
             );
         }
         return parent::_prepareLayout();
@@ -125,10 +125,10 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Items_
         foreach ($totals as $total) {
             if ($total->getCode()=='grand_total') {
                 if ($address->getAddressType() == Mage_Sales_Model_Quote_Address::TYPE_BILLING) {
-                    $total->setTitle(__('Total'));
+                    $total->setTitle($this->__('Total'));
                 }
                 else {
-                    $total->setTitle(__('Total for this address'));
+                    $total->setTitle($this->__('Total for this address'));
                 }
             }
         }

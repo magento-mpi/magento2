@@ -48,8 +48,8 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create extends Mage_Adminhtml_Blo
     public function getHeaderText()
     {
         return ($this->getInvoice()->getOrder()->getForcedShipmentWithInvoice())
-            ? __('New Invoice and Shipment for Order #%s', $this->getInvoice()->getOrder()->getRealOrderId())
-            : __('New Invoice for Order #%s', $this->getInvoice()->getOrder()->getRealOrderId());
+            ? Mage::helper('Mage_Sales_Helper_Data')->__('New Invoice and Shipment for Order #%1', $this->getInvoice()->getOrder()->getRealOrderId())
+            : Mage::helper('Mage_Sales_Helper_Data')->__('New Invoice for Order #%1', $this->getInvoice()->getOrder()->getRealOrderId());
     }
 
     /**

@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Sales_Order_Address extends Mage_Adminhtml_Block_Widg
         $this->_controller = 'sales_order';
         $this->_mode       = 'address';
         parent::_construct();
-        $this->_updateButton('save', 'label', __('Save Order Address'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Save Order Address'));
         $this->_removeButton('delete');
     }
 
@@ -33,11 +33,11 @@ class Mage_Adminhtml_Block_Sales_Order_Address extends Mage_Adminhtml_Block_Widg
         $address = Mage::registry('order_address');
         $orderId = $address->getOrder()->getIncrementId();
         if ($address->getAddressType() == 'shipping') {
-            $type = __('Shipping');
+            $type = Mage::helper('Mage_Sales_Helper_Data')->__('Shipping');
         } else {
-            $type = __('Billing');
+            $type = Mage::helper('Mage_Sales_Helper_Data')->__('Billing');
         }
-        return __('Edit Order %s %s Address', $orderId, $type);
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Edit Order %1 %2 Address', $orderId, $type);
     }
 
     /**

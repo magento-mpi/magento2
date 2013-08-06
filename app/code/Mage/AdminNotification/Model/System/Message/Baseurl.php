@@ -14,6 +14,11 @@ class Mage_AdminNotification_Model_System_Message_Baseurl
     protected $_urlBuilder;
 
     /**
+     * @var Mage_Core_Model_Factory_Helper
+     */
+    protected $_helperFactory;
+
+    /**
      * @var Mage_Core_Model_Config
      */
     protected $_config;
@@ -39,9 +44,11 @@ class Mage_AdminNotification_Model_System_Message_Baseurl
         Mage_Core_Model_Config $config,
         Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_UrlInterface $urlBuilder,
+        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_Config_DataFactory $configDataFactory
     ) {
         $this->_urlBuilder = $urlBuilder;
+        $this->_helperFactory = $helperFactory;
         $this->_config = $config;
         $this->_storeManager = $storeManager;
         $this->_configDataFactory = $configDataFactory;
@@ -120,7 +127,7 @@ class Mage_AdminNotification_Model_System_Message_Baseurl
      */
     public function getText()
     {
-        return __('{{base_url}} is not recommended to use in a production environment to declare the Base Unsecure URL / Base Secure URL. It is highly recommended to change this value in your Magento <a href="%s">configuration</a>.', $this->_getConfigUrl());
+        return $this->_helperFactory->get('Mage_AdminNotification_Helper_Data')->__('{{base_url}} is not recommended to use in a production environment to declare the Base Unsecure URL / Base Secure URL. It is highly recommended to change this value in your Magento <a href="%1">configuration</a>.', $this->_getConfigUrl());
     }
 
     /**

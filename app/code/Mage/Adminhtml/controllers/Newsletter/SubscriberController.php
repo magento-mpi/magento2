@@ -20,7 +20,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
 
     public function indexAction()
     {
-        $this->_title(__('Newsletter Subscribers'));
+        $this->_title($this->__('Newsletter Subscribers'));
 
         if ($this->getRequest()->getParam('ajax')) {
             $this->_forward('grid');
@@ -31,8 +31,8 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
 
         $this->_setActiveMenu('Mage_Newsletter::newsletter_subscriber');
 
-        $this->_addBreadcrumb(__('Newsletter'), __('Newsletter'));
-        $this->_addBreadcrumb(__('Subscribers'), __('Subscribers'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter'));
+        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers'));
 
         $this->renderLayout();
     }
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
     {
         $subscribersIds = $this->getRequest()->getParam('subscriber');
         if (!is_array($subscribersIds)) {
-             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('Please select one or more subscribers.'));
+             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Newsletter_Helper_Data')->__('Please select one or more subscribers.'));
         }
         else {
             try {
@@ -79,7 +79,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
                     $subscriber->unsubscribe();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    __('A total of %d record(s) were updated.', count($subscribersIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('A total of %1 record(s) were updated.', count($subscribersIds))
                 );
             } catch (Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
     {
         $subscribersIds = $this->getRequest()->getParam('subscriber');
         if (!is_array($subscribersIds)) {
-             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('Please select one or more subscribers.'));
+             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Newsletter_Helper_Data')->__('Please select one or more subscribers.'));
         }
         else {
             try {
@@ -102,7 +102,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
                     $subscriber->delete();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    __('Total of %d record(s) were deleted', count($subscribersIds))
+                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Total of %1 record(s) were deleted', count($subscribersIds))
                 );
             } catch (Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());

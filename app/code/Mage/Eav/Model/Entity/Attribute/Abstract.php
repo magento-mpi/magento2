@@ -99,7 +99,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
             $entityTypeId = $entityType->getId();
         }
         if (empty($entityTypeId)) {
-            throw Mage::exception('Mage_Eav', __('Invalid entity supplied'));
+            throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Invalid entity supplied'));
         }
         $this->_getResource()->loadByCode($this, $entityTypeId, $code);
         $this->_afterLoad();
@@ -350,7 +350,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
             $source = Mage::getModel($this->getSourceModel());
             if (!$source) {
                 throw Mage::exception('Mage_Eav',
-                    __('Source model "%s" not found for attribute "%s"',$this->getSourceModel(), $this->getAttributeCode())
+                    Mage::helper('Mage_Eav_Helper_Data')->__('Source model "%1" not found for attribute "%2"',$this->getSourceModel(), $this->getAttributeCode())
                 );
             }
             $this->_source = $source->setAttribute($this);

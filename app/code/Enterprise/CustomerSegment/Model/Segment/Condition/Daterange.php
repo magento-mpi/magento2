@@ -54,7 +54,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     {
         return array(
             'value' => $this->getType(),
-            'label' => __('Date Range'),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Date Range'),
         );
     }
 
@@ -98,7 +98,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
         return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
             . $this->_viewUrl->getViewFileUrl('images/rule_chooser_trigger.gif')
             . '" alt="" class="v-middle rule-chooser-trigger"'
-            . 'title="' . __('Open Chooser') . '" /></a>';
+            . 'title="' . Mage::helper('Mage_Rule_Helper_Data')->__('Open Chooser') . '" /></a>';
     }
 
     /**
@@ -124,7 +124,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     {
         $this->_valueElement = $this->getValueElement();
         return $this->getTypeElementHtml()
-            . __('Date Range %s within %s', $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Date Range %1 within %2', $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
             . $this->getRemoveLinkHtml()
             . '<div class="rule-chooser no-split" url="' . $this->getValueElementChooserUrl() . '"></div>';
     }

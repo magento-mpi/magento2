@@ -46,7 +46,7 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
         } catch (Mage_Core_Exception $e) {
             $field = $this->getFieldConfig();
             $label = ($field && is_array($field) ? $field['label'] : 'value');
-            $msg = __('Invalid %s. %s', $label, $e->getMessage());
+            $msg = Mage::helper('Mage_Backend_Helper_Data')->__('Invalid %1. %2', $label, $e->getMessage());
             $error = new Mage_Core_Exception($msg, 0, $e);
             throw $error;
         }
@@ -118,7 +118,8 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
     private function _assertValuesOrUrl(array $values, $value)
     {
         if (!in_array($value, $values) && !$this->_isFullyQualifiedUrl($value)) {
-            throw new Mage_Core_Exception(__('Value must be a URL or one of placeholders: %s', implode(',', $values)));
+            throw new Mage_Core_Exception(Mage::helper('Mage_Backend_Helper_Data')
+                ->__('Value must be a URL or one of placeholders: %1', implode(',', $values)));
         }
     }
 
@@ -133,7 +134,8 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
     {
         $quoted = array_map('preg_quote', $values, array_fill(0, count($values), '/'));
         if (!preg_match('/^(' . implode('|', $quoted) . ')(.+\/)?$/', $value) && !$this->_isFullyQualifiedUrl($value)) {
-            throw new Mage_Core_Exception(__('Specify a URL or path that starts with placeholder(s): %s.', implode(', ', $values)));
+            throw new Mage_Core_Exception(Mage::helper('Mage_Backend_Helper_Data')
+                ->__('Specify a URL or path that starts with placeholder(s): %1.', implode(', ', $values)));
         }
     }
 
@@ -152,7 +154,8 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
         try {
             $this->_assertStartsWithValuesOrUrl($values, $value);
         } catch (Mage_Core_Exception $e) {
-            $msg = __('%s An empty value is allowed as well.', $e->getMessage());
+            $msg = Mage::helper('Mage_Backend_Helper_Data')
+                ->__('%1 An empty value is allowed as well.', $e->getMessage());
             $error = new Mage_Core_Exception($msg, 0, $e);
             throw $error;
         }
@@ -168,7 +171,7 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
     {
         if (!$this->_isFullyQualifiedUrl($value)) {
             throw new Mage_Core_Exception(
-                __('Specify a fully qualified URL.')
+                Mage::helper('Mage_Backend_Helper_Data')->__('Specify a fully qualified URL.')
             );
         }
     }

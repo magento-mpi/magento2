@@ -53,7 +53,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
         ));
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend' => __('Attribute Properties'))
+            array('legend' => $this->__('Attribute Properties'))
         );
 
         if ($attributeObject->getAttributeId()) {
@@ -72,8 +72,8 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
             'text',
             array(
                 'name' => 'frontend_label[0]',
-                'label' => __('Attribute Label'),
-                'title' => __('Attribute Label'),
+                'label' => $this->__('Attribute Label'),
+                'title' => $this->__('Attribute Label'),
                 'required' => true,
                 'value' => is_array($labels) ? $labels[0] : $labels
             )
@@ -84,9 +84,9 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
             Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH);
         $fieldset->addField('attribute_code', 'text', array(
             'name'  => 'attribute_code',
-            'label' => __('Attribute Code'),
-            'title' => __('Attribute Code'),
-            'note'  => __('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %s symbols', Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH),
+            'label' => $this->__('Attribute Code'),
+            'title' => $this->__('Attribute Code'),
+            'note'  => $this->__('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH),
             'class' => $validateClass,
             'required' => true,
         ));
@@ -95,8 +95,8 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
 
         $fieldset->addField('frontend_input', 'select', array(
             'name' => 'frontend_input',
-            'label' => __('Catalog Input Type for Store Owner'),
-            'title' => __('Catalog Input Type for Store Owner'),
+            'label' => $this->__('Catalog Input Type for Store Owner'),
+            'title' => $this->__('Catalog Input Type for Store Owner'),
             'value' => 'text',
             'values'=> $inputTypes
         ));
@@ -106,23 +106,23 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
             'select',
             array(
                 'name' => 'is_required',
-                'label' => __('Values Required'),
-                'title' => __('Values Required'),
+                'label' => $this->__('Values Required'),
+                'title' => $this->__('Values Required'),
                 'values' => $yesno,
             )
         );
 
         $fieldset->addField('default_value_text', 'text', array(
             'name' => 'default_value_text',
-            'label' => __('Default Value'),
-            'title' => __('Default Value'),
+            'label' => $this->__('Default Value'),
+            'title' => $this->__('Default Value'),
             'value' => $attributeObject->getDefaultValue(),
         ));
 
         $fieldset->addField('default_value_yesno', 'select', array(
             'name' => 'default_value_yesno',
-            'label' => __('Default Value'),
-            'title' => __('Default Value'),
+            'label' => $this->__('Default Value'),
+            'title' => $this->__('Default Value'),
             'values' => $yesno,
             'value' => $attributeObject->getDefaultValue(),
         ));
@@ -130,8 +130,8 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
         $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('default_value_date', 'date', array(
             'name'   => 'default_value_date',
-            'label'  => __('Default Value'),
-            'title'  => __('Default Value'),
+            'label'  => $this->__('Default Value'),
+            'title'  => $this->__('Default Value'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
             'value'  => $attributeObject->getDefaultValue(),
             'date_format' => $dateFormat
@@ -139,8 +139,8 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
 
         $fieldset->addField('default_value_textarea', 'textarea', array(
             'name' => 'default_value_textarea',
-            'label' => __('Default Value'),
-            'title' => __('Default Value'),
+            'label' => $this->__('Default Value'),
+            'title' => $this->__('Default Value'),
             'value' => $attributeObject->getDefaultValue(),
         ));
 
@@ -149,17 +149,17 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
             'select',
             array(
                 'name' => 'is_unique',
-                'label' => __('Unique Value'),
-                'title' => __('Unique Value (not shared with other products)'),
-                'note' => __('Not shared with other products'),
+                'label' => $this->__('Unique Value'),
+                'title' => $this->__('Unique Value (not shared with other products)'),
+                'note' => $this->__('Not shared with other products'),
                 'values' => $yesno,
             )
         );
 
         $fieldset->addField('frontend_class', 'select', array(
             'name'  => 'frontend_class',
-            'label' => __('Input Validation for Store Owner'),
-            'title' => __('Input Validation for Store Owner'),
+            'label' => $this->__('Input Validation for Store Owner'),
+            'title' => $this->__('Input Validation for Store Owner'),
             'values'=> Mage::helper('Mage_Eav_Helper_Data')->getFrontendClasses(
                 $attributeObject->getEntityType()->getEntityTypeCode()
             )

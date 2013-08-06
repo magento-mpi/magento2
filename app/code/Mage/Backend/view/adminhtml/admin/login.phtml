@@ -13,7 +13,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title><?php echo __('Log into Magento Admin Page') ?></title>
+    <title><?php echo Mage::helper('Mage_Backend_Helper_Data')->__('Log into Magento Admin Page') ?></title>
 
     <link rel="icon" href="<?php echo $this->getViewFileUrl('Mage_Page::favicon.ico') ?>" type="image/x-icon" />
     <link rel="shortcut icon" href="<?php echo $this->getViewFileUrl('Mage_Page::favicon.ico') ?>" type="image/x-icon" />
@@ -48,23 +48,23 @@
         <div class="wrapper-inner">
             <div class="form-login form-inline">
                 <header class="header">
-                    <div class="logo" title="<?php echo __('Magento Admin Panel') ?>"><span><?php echo __('Magento Admin Panel') ?></span></div>
+                    <div class="logo" title="<?php echo $this->__('Magento Admin Panel') ?>"><span><?php echo $this->__('Magento Admin Panel') ?></span></div>
                 </header>
                 <div id="messages" data-container-for="messages">
                     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
                 </div>
                 <form method="post" action="" id="login-form">
                     <fieldset class="fieldset">
-                        <legend class="legend"><span><?php echo __('Welcome') ?></span></legend><br/>
+                        <legend class="legend"><span><?php echo Mage::helper('Mage_Backend_Helper_Data')->__('Welcome') ?></span></legend><br/>
                         <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
                         <div class="field field-username">
-                            <label for="username" class="label"><span><?php echo __('User Name:') ?></span></label>
+                            <label for="username" class="label"><span><?php echo Mage::helper('Mage_Backend_Helper_Data')->__('User Name:') ?></span></label>
                             <div class="control">
                                 <input type="text" id="username" name="login[username]" value="" class="required-entry input-text" placeholder="user name" />
                             </div>
                         </div>
                         <div class="field field-password">
-                            <label for="login" class="label"><?php echo __('Password:') ?></label>
+                            <label for="login" class="label"><?php echo Mage::helper('Mage_Backend_Helper_Data')->__('Password:') ?></label>
                             <div class="control">
                                 <input type="password" id="login" name="login[password]" class="required-entry input-text" value="" placeholder="password" />
                             </div>
@@ -83,7 +83,7 @@
     </div>
     <footer class="footer">
         <div class="footer-content">
-            <div class="footer-copyright"><?php echo __('Magento&reg is a trademark of X.commerce, Inc. Copyright &copy; %s X.commerce, Inc.', date('Y')) ?></div>
+            <div class="footer-copyright"><?php echo Mage::helper('Mage_Backend_Helper_Data')->__('Magento&reg is a trademark of X.commerce, Inc. Copyright &copy; %1 X.commerce, Inc.', date('Y')) ?></div>
         </div>
     </footer>
 </body>

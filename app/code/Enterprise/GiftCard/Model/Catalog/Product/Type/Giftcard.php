@@ -154,7 +154,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
             return $e->getMessage();
         } catch (Exception $e) {
             Mage::logException($e);
-            return __('Something went wrong  preparing the gift card.');
+            return $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Something went wrong  preparing the gift card.');
         }
 
         $product->addCustomOption('giftcard_amount', $amount, $product);
@@ -200,7 +200,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
         if (($selectedAmount == 'custom' || !$selectedAmount) && $allowOpen) {
             if ($customAmount <= 0 && $isStrictProcessMode) {
                 Mage::throwException(
-                    __('Please specify a gift card amount.')
+                    $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify a gift card amount.')
                 );
             }
             $amount = $this->_getAmountWithinConstraints($product, $customAmount, $isStrictProcessMode);
@@ -280,7 +280,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
 
         if ($emptyFields > 1 && $isStrictProcessMode) {
             Mage::throwException(
-                __('Please specify all the required information.')
+                $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify all the required information.')
             );
         }
     }
@@ -331,13 +331,13 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
             } elseif ($customAmount > $maxAmount && $isStrict) {
                 $messageAmount = $this->_helper('Mage_Core_Helper_Data')->currency($maxAmount, true, false);
                 Mage::throwException(
-                    __('Gift Card max amount is %s', $messageAmount)
+                    $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card max amount is %1', $messageAmount)
                 );
             }
         } elseif ($customAmount < $minAmount && $isStrict) {
             $messageAmount = $this->_helper('Mage_Core_Helper_Data')->currency($minAmount, true, false);
             Mage::throwException(
-                __('Gift Card min amount is %s', $messageAmount)
+                $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card min amount is %1', $messageAmount)
             );
         }
     }
@@ -353,29 +353,29 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
     {
         if (is_null($amount)) {
             Mage::throwException(
-                __('Please specify a gift card amount.')
+                $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify a gift card amount.')
             );
         }
         if (!$buyRequest->getGiftcardRecipientName()) {
             Mage::throwException(
-                __('Please specify a recipient name.')
+                $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify a recipient name.')
             );
         }
         if (!$buyRequest->getGiftcardSenderName()) {
             Mage::throwException(
-                __('Please specify a sender name.')
+                $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify a sender name.')
             );
         }
 
         if (!$isPhysical) {
             if (!$buyRequest->getGiftcardRecipientEmail()) {
                 Mage::throwException(
-                    __('Please specify a recipient email.')
+                    $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify a recipient email.')
                 );
             }
             if (!$buyRequest->getGiftcardSenderEmail()) {
                 Mage::throwException(
-                    __('Please specify a sender email.')
+                    $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Please specify a sender email.')
                 );
             }
         }

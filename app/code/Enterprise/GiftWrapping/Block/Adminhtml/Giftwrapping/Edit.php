@@ -26,7 +26,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit extends Mage_Adm
 
         $this->_addButton('save_and_continue_edit', array(
             'class'   => 'save',
-            'label'   => __('Save and Continue Edit'),
+            'label'   => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Save and Continue Edit'),
             'data_attribute'  => array(
                 'mage-init' => array(
                     'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
@@ -35,7 +35,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit extends Mage_Adm
         ), 3);
 
         if (Mage::registry('current_giftwrapping_model') && Mage::registry('current_giftwrapping_model')->getId()) {
-            $confirmMessage = __('Are you sure you want to delete this gift wrapping?');
+            $confirmMessage = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Are you sure you want to delete this gift wrapping?');
             $this->_updateButton('delete', 'onclick',
                 'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
@@ -70,10 +70,10 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit extends Mage_Adm
         $wrapping = Mage::registry('current_giftwrapping_model');
         if ($wrapping->getId()) {
             $title = $this->escapeHtml($wrapping->getDesign());
-            return __('Edit Gift Wrapping "%s"', $title);
+            return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Edit Gift Wrapping "%1"', $title);
         }
         else {
-            return __('New Gift Wrapping');
+            return Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('New Gift Wrapping');
         }
     }
 

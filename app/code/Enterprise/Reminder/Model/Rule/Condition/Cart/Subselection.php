@@ -53,8 +53,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '==' => __('found'),
-            '!=' => __('not found')
+            '==' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('found'),
+            '!=' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('not found')
         ));
         return $this;
     }
@@ -67,7 +67,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . __('If an item is %s in the shopping cart with %s of these conditions match:', $this->getOperatorElementHtml(), $this->getAggregatorElement()->getHtml())
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('If an item is %1 in the shopping cart with %2 of these conditions match:', $this->getOperatorElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

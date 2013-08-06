@@ -251,11 +251,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         return array(
             array(
                 'value' => 'is_exists',
-                'label' => __('exists')
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('exists')
             ),
             array(
                 'value' => 'is_not_exists',
-                'label' => __('does not exist')
+                'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('does not exist')
             ),
         );
     }
@@ -267,7 +267,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function asHtml()
     {
-        return __('Customer %s', parent::asHtml());
+        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer %1', parent::asHtml());
     }
 
     /**

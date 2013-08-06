@@ -47,7 +47,7 @@ class Mage_Eav_Model_Validator_Attribute_Backend extends Magento_Validator_Valid
                 $result = $backend->validate($entity);
                 if (false === $result) {
                     $this->_messages[$attribute->getAttributeCode()][] =
-                        __('The value of attribute "%s" is invalid',
+                        Mage::helper('Mage_Eav_Helper_Data')->__('The value of attribute "%1" is invalid',
                             $attribute->getAttributeCode());
                 } elseif (is_string($result)) {
                     $this->_messages[$attribute->getAttributeCode()][] = $result;

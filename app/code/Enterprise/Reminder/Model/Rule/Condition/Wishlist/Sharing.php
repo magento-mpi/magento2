@@ -33,7 +33,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => __('Sharing'));
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Sharing'));
     }
 
     /**
@@ -44,7 +44,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . __('Wish List %s shared', $this->getValueElementHtml())
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Wish List %1 shared', $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -66,8 +66,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            '1' => __('is'),
-            '0' => __('is not'),
+            '1' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('is'),
+            '0' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('is not'),
         ));
         return $this;
     }

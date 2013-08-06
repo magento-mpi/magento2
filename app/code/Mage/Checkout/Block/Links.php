@@ -30,11 +30,11 @@ class Mage_Checkout_Block_Links extends Mage_Core_Block_Template
             $count = $this->getSummaryQty() ? $this->getSummaryQty()
                 : $this->helper('Mage_Checkout_Helper_Cart')->getSummaryCount();
             if ($count == 1) {
-                $text = __('My Cart (%s item)', $count);
+                $text = $this->__('My Cart (%1 item)', $count);
             } elseif ($count > 0) {
-                $text = __('My Cart (%s items)', $count);
+                $text = $this->__('My Cart (%1 items)', $count);
             } else {
-                $text = __('My Cart');
+                $text = $this->__('My Cart');
             }
 
             $parentBlock->removeLinkByUrl($this->getUrl('checkout/cart'));
@@ -57,7 +57,7 @@ class Mage_Checkout_Block_Links extends Mage_Core_Block_Template
         /** @var $parentBlock Mage_Page_Block_Template_Links */
         $parentBlock = $this->getParentBlock();
         if ($parentBlock && Mage::helper('Mage_Core_Helper_Data')->isModuleOutputEnabled('Mage_Checkout')) {
-            $text = __('Checkout');
+            $text = $this->__('Checkout');
             $parentBlock->addLink($text, 'checkout', $text, true, array('_secure' => true), 60, null,
                 'class="top-link-checkout"'
             );

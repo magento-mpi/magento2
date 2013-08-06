@@ -69,7 +69,7 @@ class Enterprise_Reward_Model_Action_Newsletter extends Enterprise_Reward_Model_
     public function getHistoryMessage($args = array())
     {
         $email = isset($args['email']) ? $args['email'] : '';
-        return __('Signed up for newsletter with email %s', $email);
+        return Mage::helper('Enterprise_Reward_Helper_Data')->__('Signed up for newsletter with email %1', $email);
     }
 
     /**

@@ -19,6 +19,11 @@ class Mage_DesignEditor_Model_Theme_Context
     protected $_themeFactory;
 
     /**
+     * @var Mage_Core_Helper_Data
+     */
+    protected $_helper;
+
+    /**
      * @var Mage_Core_Model_Theme_CopyService
      */
     protected $_copyService;
@@ -37,13 +42,16 @@ class Mage_DesignEditor_Model_Theme_Context
      * Initialize dependencies
      *
      * @param Mage_Core_Model_ThemeFactory $themeFactory
+     * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme_CopyService $copyService
      */
     public function __construct(
         Mage_Core_Model_ThemeFactory $themeFactory,
+        Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Theme_CopyService $copyService
     ) {
         $this->_themeFactory = $themeFactory;
+        $this->_helper = $helper;
         $this->_copyService = $copyService;
     }
 
@@ -69,10 +77,10 @@ class Mage_DesignEditor_Model_Theme_Context
     {
         $this->_theme = $this->_themeFactory->create();
         if (!$this->_theme->load($themeId)->getId()) {
-            throw new Mage_Core_Exception(__('We can\'t find theme "%s".', $themeId));
+            throw new Mage_Core_Exception($this->_helper->__('We can\'t find theme "%1".', $themeId));
         }
         if ($this->_theme->getType() === Mage_Core_Model_Theme::TYPE_STAGING) {
-            throw new Mage_Core_Exception(__('Wrong theme type set as editable'));
+            throw new Mage_Core_Exception($this->_helper->__('Wrong theme type set as editable'));
         }
         return $this;
     }
@@ -86,7 +94,7 @@ class Mage_DesignEditor_Model_Theme_Context
     public function getEditableTheme()
     {
         if (null === $this->_theme) {
-            throw new Mage_Core_Exception(__('Theme has not been set'));
+            throw new Mage_Core_Exception($this->_helper->__('Theme has not been set'));
         }
         return $this->_theme;
     }
@@ -103,7 +111,7 @@ class Mage_DesignEditor_Model_Theme_Context
             $editableTheme = $this->getEditableTheme();
             if (!$editableTheme->isVirtual()) {
                 throw new Mage_Core_Exception(
-                    __('Theme "%s" is not editable.', $editableTheme->getThemeTitle())
+                    $this->_helper->__('Theme "%1" is not editable.', $editableTheme->getThemeTitle())
                 );
             }
             $this->_stagingTheme = $editableTheme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)

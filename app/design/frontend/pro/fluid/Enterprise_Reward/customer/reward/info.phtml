@@ -21,41 +21,41 @@ $expireIn = $this->getExpireIn();
 ?>
 <div class="box-account">
     <div class="box-head">
-        <h2><?php echo __('Reward points balance Information'); ?></h2>
-        <a href="<?php echo $helper->getLandingPageUrl()?>"><?php echo __('Learn more...')?></a>
+        <h2><?php echo $this->__('Reward points balance Information'); ?></h2>
+        <a href="<?php echo $helper->getLandingPageUrl()?>"><?php echo $this->__('Learn more...')?></a>
     </div>
     <dl>
-        <dt><?php echo __('Your current balance is %s.', $helper->formatReward($this->getPointsBalance(), $this->getCurrencyBalance()))?></dt>
-        <dt><?php echo __('Current exchange rates:')?></dt>
+        <dt><?php echo $this->__('Your current balance is %1.', $helper->formatReward($this->getPointsBalance(), $this->getCurrencyBalance()))?></dt>
+        <dt><?php echo $this->__('Current exchange rates:')?></dt>
 <?php if ($this->getPtsToAmountRateAmount() || $this->getAmountToPtsRatePts()): ?>
     <?php if ($this->getPtsToAmountRateAmount()): ?>
-            <dd><?php echo __('Each %s can be redeemed for %s.', $helper->formatReward($this->getPtsToAmountRatePts(), null, null, '<strong>%s</strong>'), '<strong>' . $helper->formatAmount($this->getPtsToAmountRateAmount()) . '</strong>')?></dd>
+            <dd><?php echo $this->__('Each %1 can be redeemed for %2.', $helper->formatReward($this->getPtsToAmountRatePts(), null, null, '<strong>%s</strong>'), '<strong>' . $helper->formatAmount($this->getPtsToAmountRateAmount()) . '</strong>')?></dd>
     <?php endif;?>
     <?php if ($this->getAmountToPtsRatePts()): ?>
-            <dd><?php echo __('Each %s spent will earn %s.', '<strong>' . $helper->formatAmount($this->getAmountToPtsRateAmount()) . '</strong>', $helper->formatReward($this->getAmountToPtsRatePts(), null, null, '<strong>%s</strong>'))?></dd>
+            <dd><?php echo $this->__('Each %1 spent will earn %2.', '<strong>' . $helper->formatAmount($this->getAmountToPtsRateAmount()) . '</strong>', $helper->formatReward($this->getAmountToPtsRatePts(), null, null, '<strong>%s</strong>'))?></dd>
     <?php endif;?>
 <?php else:?>
-             <dd><?php echo __('None.')?></dd>
+             <dd><?php echo $this->__('None.')?></dd>
 <?php endif;?>
 <?php if ($maxBalance || $minBalance):?>
-        <dt><?php echo __('Balance limitations:')?></dt>
+        <dt><?php echo $this->__('Balance limitations:')?></dt>
     <?php if ($maxBalance):?>
-            <dd><?php echo __('Balance is capped at %s.', $helper->formatReward($maxBalance))?></dd>
+            <dd><?php echo $this->__('Balance is capped at %1.', $helper->formatReward($maxBalance))?></dd>
         <?php if ($this->getIsMaxBalanceReached()):?>
-            <dd class="warning"><?php echo __('Maximum balance is reached.')?></dd>
+            <dd class="warning"><?php echo $this->__('Maximum balance is reached.')?></dd>
         <?php endif;?>
     <?php endif;?>
     <?php if ($minBalance):?>
-            <dd><?php echo __('Minimum Balance in order to redeem: %s.', $helper->formatReward($minBalance))?></dd>
+            <dd><?php echo $this->__('Minimum Balance in order to redeem: %1.', $helper->formatReward($minBalance))?></dd>
         <?php if (!$this->getIsMinBalanceReached()):?>
-            <dd class="warning"><?php echo __('Minimum balance for redeeming points is not reached.')?></dd>
+            <dd class="warning"><?php echo $this->__('Minimum balance for redeeming points is not reached.')?></dd>
         <?php endif;?>
     <?php endif;?>
 <?php endif;?>
 <?php if ($expireIn):?>
-    <dt><?php echo __('Each earned reward points record expires in %s days.', '<span>' . $expireIn . '</span>')?></dt>
+    <dt><?php echo $this->__('Each earned reward points record expires in %1 days.', '<span>' . $expireIn . '</span>')?></dt>
     <?php if ($this->getIsHistoryPublished()):?>
-            <dd><?php echo __('Refer to reward points history to see if a specific record expires and when.')?></dd>
+            <dd><?php echo $this->__('Refer to reward points history to see if a specific record expires and when.')?></dd>
     <?php endif;?>
 <?php endif;?>
     </dl>

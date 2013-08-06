@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit extends Mage_Adminhtml_Block_Widge
 
         $this->_addButton('save_apply', array(
             'class'   => 'save',
-            'label'   => __('Save and Apply'),
+            'label'   => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Save and Apply'),
             'data_attribute' => array(
                 'mage-init' => array(
                     'button' => array(
@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit extends Mage_Adminhtml_Block_Widge
 
         $this->_addButton('save_and_continue_edit', array(
             'class'   => 'save',
-            'label'   => __('Save and Continue Edit'),
+            'label'   => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Save and Continue Edit'),
             'data_attribute'  => array(
                 'mage-init' => array(
                     'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
@@ -65,10 +65,10 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit extends Mage_Adminhtml_Block_Widge
     {
         $rule = Mage::registry('current_promo_catalog_rule');
         if ($rule->getRuleId()) {
-            return __("Edit Rule '%s'", $this->escapeHtml($rule->getName()));
+            return Mage::helper('Mage_CatalogRule_Helper_Data')->__("Edit Rule '%1'", $this->escapeHtml($rule->getName()));
         }
         else {
-            return __('New Rule');
+            return Mage::helper('Mage_CatalogRule_Helper_Data')->__('New Rule');
         }
     }
 

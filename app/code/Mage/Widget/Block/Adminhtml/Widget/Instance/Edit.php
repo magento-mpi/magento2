@@ -51,7 +51,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit extends Mage_Adminhtml_Bl
             $this->_addButton(
                 'save_and_edit_button',
                 array(
-                    'label'     => __('Save and Continue Edit'),
+                    'label'     => Mage::helper('Mage_Widget_Helper_Data')->__('Save and Continue Edit'),
                     'class'     => 'save',
                     'data_attribute'  => array(
                         'mage-init' => array(
@@ -75,10 +75,10 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit extends Mage_Adminhtml_Bl
     public function getHeaderText()
     {
         if ($this->getWidgetInstance()->getId()) {
-            return __('Widget "%s"', $this->escapeHtml($this->getWidgetInstance()->getTitle()));
+            return Mage::helper('Mage_Widget_Helper_Data')->__('Widget "%1"', $this->escapeHtml($this->getWidgetInstance()->getTitle()));
         }
         else {
-            return __('New Widget Instance');
+            return Mage::helper('Mage_Widget_Helper_Data')->__('New Widget Instance');
         }
     }
 

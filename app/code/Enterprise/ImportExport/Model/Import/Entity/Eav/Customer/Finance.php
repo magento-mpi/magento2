@@ -124,13 +124,15 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
             : Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
 
         $this->addMessageTemplate(self::ERROR_FINANCE_WEBSITE_IS_EMPTY,
-            __('Finance information website is not specified')
+            $this->_helper('Enterprise_ImportExport_Helper_Data')->__('Finance information website is not specified')
         );
         $this->addMessageTemplate(self::ERROR_INVALID_FINANCE_WEBSITE,
-            __('Invalid value in Finance information website column')
+            $this->_helper('Enterprise_ImportExport_Helper_Data')
+                ->__('Invalid value in Finance information website column')
         );
         $this->addMessageTemplate(self::ERROR_DUPLICATE_PK,
-            __('Row with such email, website, finance website combination was already found.')
+            $this->_helper('Enterprise_ImportExport_Helper_Data')
+                ->__('Row with such email, website, finance website combination was already found.')
         );
 
         $this->_initAttributes();
@@ -325,7 +327,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected function _getComment()
     {
         if (!$this->_comment) {
-            $this->_comment = __('Data was imported by %s',
+            $this->_comment = $this->_helper('Enterprise_ImportExport_Helper_Data')->__('Data was imported by %1',
                 $this->_adminUser->getUsername()
             );
         }

@@ -57,16 +57,16 @@ class Saas_ImportExport_Model_Import_Image_Validator_Factory
         $heightLimit = $this->_configuration->getImageHeightLimit();
 
         // @codingStandardsIgnoreStart
-        $messageFilenameWrong = __("File name error (only latin a-z, A-Z, 0-9, '-' and '_' symbols are allowed in files and folders names) in:");
+        $messageFilenameWrong = $this->_helper->__("File name error (only latin a-z, A-Z, 0-9, '-' and '_' symbols are allowed in files and folders names) in:");
         // @codingStandardsIgnoreEnd
         $messageFilenameLimit = 'File name is too long:';
         $extensionsString = "'" . implode("', '", array_values($allowedExtensions)) . "'";
-        $messageWrongImage = __('Unsupported image format (only %s image file types are allowed) in:',
+        $messageWrongImage = $this->_helper->__('Unsupported image format (only %1 image file types are allowed) in:',
             $extensionsString);
-        $messageFileSizeNotFound = __('File error for:');
-        $messageFileSizeTooBig = __('File size is larger than %d bytes in:', $sizeLimit);
+        $messageFileSizeNotFound = $this->_helper->__('File error for:');
+        $messageFileSizeTooBig = $this->_helper->__('File size is larger than %1 bytes in:', $sizeLimit);
         $dimensions = sprintf('%sx%s', $widthLimit, $heightLimit);
-        $messageWrongImageSize = __('Image dimensions are larger than %s in:', $dimensions);
+        $messageWrongImageSize = $this->_helper->__('Image dimensions are larger than %1 in:', $dimensions);
 
         // https://jira.corp.x.com/browse/MAGETWO-10439
         /** @var Magento_Validator_Builder $builder */

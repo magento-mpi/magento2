@@ -47,7 +47,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
     protected function _addSpecialAttributes(array &$attributes)
     {
         parent::_addSpecialAttributes($attributes);
-        $attributes['type_id'] = __('Type');
+        $attributes['type_id'] = Mage::helper('Mage_CatalogRule_Helper_Data')->__('Type');
     }
 
     /**
@@ -119,7 +119,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
      */
     public function asHtml()
     {
-        return __('Product %s%s%s%s%s%s%s', $this->getTypeElementHtml(), $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueTypeElementHtml(), $this->getValueElementHtml(), $this->getRemoveLinkHtml(), $this->getChooserContainerHtml());
+        return Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product %1%2%3%4%5%6%7', $this->getTypeElementHtml(), $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueTypeElementHtml(), $this->getValueElementHtml(), $this->getRemoveLinkHtml(), $this->getChooserContainerHtml());
     }
 
     /**
@@ -132,23 +132,23 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
         $options = array(
             array(
                 'value' => self::VALUE_TYPE_CONSTANT,
-                'label' => __('Constant Value')
+                'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Constant Value')
             )
         );
 
         if ($this->getAttribute() == 'category_ids') {
             $options[] = array(
                 'value' => self::VALUE_TYPE_SAME_AS,
-                'label' => __('the Same as Matched Product Categories')
+                'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('the Same as Matched Product Categories')
             );
             $options[] = array(
                 'value' => self::VALUE_TYPE_CHILD_OF,
-                'label' => __('the Child of the Matched Product Categories')
+                'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('the Child of the Matched Product Categories')
             );
         } else {
             $options[] = array(
                 'value' => self::VALUE_TYPE_SAME_AS,
-                'label' => __('Matched Product %s', $this->getAttributeName())
+                'label' => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Matched Product %1', $this->getAttributeName())
             );
         }
 
@@ -240,7 +240,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
         if (!$format) {
             $format = ' %s %s %s %s';
         }
-        return sprintf(__('Target Product ') . $format,
+        return sprintf(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Target Product ') . $format,
            $this->getAttributeName(),
            $this->getOperatorName(),
            $this->getValueTypeName(),

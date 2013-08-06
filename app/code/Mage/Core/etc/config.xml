@@ -333,8 +333,6 @@
                     <renderers>
                         <customize>Magento_Phrase_Renderer_Customize</customize>
                         <translate>Magento_Phrase_Renderer_Translate</translate>
-                        <placeholder>Magento_Phrase_Renderer_Placeholder</placeholder>
-                        <inlineTool>Magento_Phrase_Renderer_InlineTool</inlineTool>
                     </renderers>
                 </parameters>
             </Magento_Phrase_Renderer_Composite>

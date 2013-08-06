@@ -31,7 +31,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => __('Store View'));
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Store View'));
     }
 
     /**
@@ -42,7 +42,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . __('The item was added to wish list %s, store view %s.', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('The item was added to wish list %1, store view %2.', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -86,8 +86,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '==' => __('from'),
-            '!=' => __('not from')
+            '==' => Mage::helper('Mage_Rule_Helper_Data')->__('from'),
+            '!=' => Mage::helper('Mage_Rule_Helper_Data')->__('not from')
         ));
         return $this;
     }

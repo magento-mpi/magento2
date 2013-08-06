@@ -38,7 +38,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Itemsquantity
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => __('Cart Line Items'));
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Cart Line Items'));
     }
 
     /**
@@ -49,7 +49,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Itemsquantity
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . __('Number of shopping cart line items %s %s:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Number of shopping cart line items %1 %2:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

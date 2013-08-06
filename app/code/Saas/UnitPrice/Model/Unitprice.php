@@ -54,7 +54,7 @@ class Saas_UnitPrice_Model_Unitprice
     protected function _getReferenceUnit()
     {
         if (!$this->_referenceUnit) {
-            $this->_throwMageException(__('Reference unit not set'));
+            $this->_throwMageException($this->_getHelper()->__('Reference unit not set'));
         }
 
         return $this->_referenceUnit;
@@ -89,7 +89,7 @@ class Saas_UnitPrice_Model_Unitprice
     {
         if ($productAmount <= 0) {
             $this->_throwMageException(
-                __('The product unit amount must be greater than zero')
+                $this->_getHelper()->__('The product unit amount must be greater than zero')
             );
         }
 
@@ -120,7 +120,7 @@ class Saas_UnitPrice_Model_Unitprice
 
         if (!$rate) {
             $this->_throwMageException(
-                __('Conversion rate not found for %s to %s', __($fromUnit), __($toUnit))
+                $helper->__('Conversion rate not found for %1 to %2', $helper->__($fromUnit), $helper->__($toUnit))
             );
         }
 

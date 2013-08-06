@@ -54,10 +54,10 @@ class Mage_Adminhtml_Model_Search_Order extends Varien_Object
         foreach ($collection as $order) {
             $arr[] = array(
                 'id'                => 'order/1/'.$order->getId(),
-                'type'              => __('Order'),
-                'name'              => __('Order #%s', $order->getIncrementId()),
+                'type'              => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Order'),
+                'name'              => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Order #%1', $order->getIncrementId()),
                 'description'       => $order->getBillingFirstname().' '.$order->getBillingLastname(),
-                'form_panel_title'  => __('Order #%s (%s)', $order->getIncrementId(), $order->getBillingFirstname().' '.$order->getBillingLastname()),
+                'form_panel_title'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Order #%1 (%2)', $order->getIncrementId(), $order->getBillingFirstname().' '.$order->getBillingLastname()),
                 'url' => Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl(
                     '*/sales_order/view',
                     array(

@@ -99,7 +99,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
             try {
                 if (is_null($this->_usernameToken)) {
                     throw new Mage_Webapi_Exception(
-                        __('WS-Security UsernameToken is not found in SOAP-request.'),
+                        $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
                         Mage_Webapi_Exception::HTTP_UNAUTHORIZED
                     );
                 }
@@ -108,7 +108,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                 $resourceName = $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
                 if (!$resourceName) {
                     throw new Mage_Webapi_Exception(
-                        __('Method "%s" is not found.', $operation),
+                        $this->_helper->__('Method "%1" is not found.', $operation),
                         Mage_Webapi_Exception::HTTP_NOT_FOUND
                     );
                 }
@@ -199,7 +199,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
         $resourceName = $this->_apiConfig->getResourceNameByOperation($operationName);
         if (!isset($requestedResources[$resourceName])) {
             throw new Mage_Webapi_Exception(
-                __('The version of "%s" operation cannot be identified.', $operationName),
+                $this->_helper->__('The version of "%1" operation cannot be identified.', $operationName),
                 Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
         }

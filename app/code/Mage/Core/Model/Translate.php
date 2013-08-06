@@ -140,6 +140,25 @@ class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
     protected $_viewFileSystem;
 
     /**
+     * @var Magento_Phrase_Renderer_Placeholder
+     */
+    protected $_placeholderRender;
+
+    /**
+     * App State instance
+     *
+     * @var Mage_Core_Model_App_State
+     */
+    protected $_appState;
+
+    /**
+     * Logger instance
+     *
+     * @var Mage_Core_Model_Logger
+     */
+    protected $_logger;
+
+    /**
      * Initialize translate model
      *
      * @param Mage_Core_Model_View_DesignInterface $viewDesign
@@ -147,19 +166,28 @@ class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
      * @param Mage_core_Model_Translate_Factory $translateFactory
      * @param Magento_Cache_FrontendInterface $cache
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Phrase_Renderer_Placeholder $placeholderRender
+     * @param Mage_Core_Model_App_State $appState
+     * @param Mage_Core_Model_Logger $logger
      */
     public function __construct(
         Mage_Core_Model_View_DesignInterface $viewDesign,
         Mage_Core_Model_Locale_Hierarchy_Loader $loader,
         Mage_Core_Model_Translate_Factory $translateFactory,
         Magento_Cache_FrontendInterface $cache,
-        Mage_Core_Model_View_FileSystem $viewFileSystem
+        Mage_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Phrase_Renderer_Placeholder $placeholderRender,
+        Mage_Core_Model_App_State $appState,
+        Mage_Core_Model_Logger $logger
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $loader->load();
         $this->_translateFactory = $translateFactory;
         $this->_cache = $cache;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->_placeholderRender = $placeholderRender;
+        $this->_appState = $appState;
+        $this->_logger = $logger;
     }
 
     /**
@@ -525,7 +553,6 @@ class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
         if ($this->_isEmptyTranslateArg($text)) {
             return '';
         }
-
         if ($text instanceof Mage_Core_Model_Translate_Expr) {
             $code = $text->getCode(self::SCOPE_SEPARATOR);
             $module = $text->getModule();
@@ -540,22 +567,25 @@ class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
             $code = $module . self::SCOPE_SEPARATOR . $text;
             $translated = $this->_getTranslatedString($text, $code);
         }
-
-        $result = @vsprintf($translated, $args);
-        if ($result === false) {
-            $result = $translated;
-        }
-
-        if ($this->_translateInline && $this->getTranslateInline()) {
-            if (strpos($result, '{{{') === false
-                || strpos($result, '}}}') === false
-                || strpos($result, '}}{{') === false
-            ) {
-                $result = '{{{' . $result . '}}{{' . $translated . '}}{{' . $text . '}}{{' . $module . '}}}';
+        try {
+            $translated = $this->_placeholderRender->render($translated, $args);
+        } catch (Exception $e) {
+//          Temporary solution. It should be removed after MAGETWO-11896
+            if ($this->_isDeveloperMode()) {
+                $this->_logger->logException($e);
             }
         }
+        return $translated;
+    }
 
-        return $result;
+    /**
+     * Check is developer mode
+     *
+     * @return bool
+     */
+    protected function _isDeveloperMode()
+    {
+        return Mage_Core_Model_App_State::MODE_DEVELOPER == $this->_appState->getMode();
     }
 
     /**

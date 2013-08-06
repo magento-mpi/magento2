@@ -21,19 +21,19 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View extends Mage_Adminhtml_B
     protected function _prepareLayout()
     {
         $this->_addButton('back', array(
-            'label'     => __('Back'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Back'),
             'onclick'   => "setLocation('{$this->getUrl('*/*/')}')",
             'class'     => 'back',
         ));
 
         $profile = Mage::registry('current_recurring_profile');
-        $comfirmationMessage = __('Are you sure you want to do this?');
+        $comfirmationMessage = Mage::helper('Mage_Sales_Helper_Data')->__('Are you sure you want to do this?');
 
         // cancel
         if ($profile->canCancel()) {
             $url = $this->getUrl('*/*/updateState', array('profile' => $profile->getId(), 'action' => 'cancel'));
             $this->_addButton('cancel', array(
-                'label'     => __('Cancel'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Cancel'),
                 'onclick'   => "confirmSetLocation('{$comfirmationMessage}', '{$url}')",
                 'class'     => 'delete',
             ));
@@ -43,7 +43,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View extends Mage_Adminhtml_B
         if ($profile->canSuspend()) {
             $url = $this->getUrl('*/*/updateState', array('profile' => $profile->getId(), 'action' => 'suspend'));
             $this->_addButton('suspend', array(
-                'label'     => __('Suspend'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Suspend'),
                 'onclick'   => "confirmSetLocation('{$comfirmationMessage}', '{$url}')",
                 'class'     => 'delete',
             ));
@@ -53,7 +53,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View extends Mage_Adminhtml_B
         if ($profile->canActivate()) {
             $url = $this->getUrl('*/*/updateState', array('profile' => $profile->getId(), 'action' => 'activate'));
             $this->_addButton('activate', array(
-                'label'     => __('Activate'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Activate'),
                 'onclick'   => "confirmSetLocation('{$comfirmationMessage}', '{$url}')",
                 'class'     => 'add',
             ));
@@ -63,7 +63,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View extends Mage_Adminhtml_B
         if ($profile->canFetchUpdate()) {
             $url = $this->getUrl('*/*/updateProfile', array('profile' => $profile->getId(),));
             $this->_addButton('update', array(
-                'label'     => __('Get Update'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Get Update'),
                 'onclick'   => "confirmSetLocation('{$comfirmationMessage}', '{$url}')",
                 'class'     => 'add',
             ));
@@ -80,7 +80,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View extends Mage_Adminhtml_B
     protected function _beforeToHtml()
     {
         $profile = Mage::registry('current_recurring_profile');
-        $this->_headerText = __('Recurring Profile # %s', $profile->getReferenceId());
+        $this->_headerText = Mage::helper('Mage_Sales_Helper_Data')->__('Recurring Profile # %1', $profile->getReferenceId());
         $this->setViewHtml('<div id="' . $this->getDestElementId() . '"></div>');
         return parent::_beforeToHtml();
     }

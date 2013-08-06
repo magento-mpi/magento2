@@ -122,10 +122,10 @@ class Mage_Sales_Model_Quote_Address_Total_Discount extends Mage_Sales_Model_Quo
     {
         $amount = $address->getDiscountAmount();
         if ($amount!=0) {
-            $title = __('Discount');
+            $title = Mage::helper('Mage_Sales_Helper_Data')->__('Discount');
             $code = $address->getCouponCode();
             if (strlen($code)) {
-                $title = __('Discount (%s)', $code);
+                $title = Mage::helper('Mage_Sales_Helper_Data')->__('Discount (%1)', $code);
             }
             $address->addTotal(array(
                 'code'=>$this->getCode(),

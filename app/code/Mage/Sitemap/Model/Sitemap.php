@@ -134,7 +134,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         if ($this->_fileHandler) {
             return $this->_fileHandler;
         } else {
-            Mage::throwException(__('File handler unreachable'));
+            Mage::throwException(Mage::helper('Mage_Sitemap_Helper_Data')->__('File handler unreachable'));
         }
     }
 
@@ -231,25 +231,25 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         /** @var $helper Mage_Sitemap_Helper_Data */
         $helper = Mage::helper('Mage_Sitemap_Helper_Data');
         if (!$file->allowedPath($realPath, $this->_getBaseDir())) {
-            Mage::throwException(__('Please define a correct path.'));
+            Mage::throwException($helper->__('Please define a correct path.'));
         }
         /**
          * Check exists and writeable path
          */
         if (!$file->fileExists($realPath, false)) {
-            Mage::throwException(__('Please create the specified folder "%s" before saving the sitemap.',
+            Mage::throwException($helper->__('Please create the specified folder "%1" before saving the sitemap.',
                 Mage::helper('Mage_Core_Helper_Data')->escapeHtml($this->getSitemapPath())));
         }
 
         if (!$file->isWriteable($realPath)) {
-            Mage::throwException(__('Please make sure that "%s" is writable by the web-server.',
+            Mage::throwException($helper->__('Please make sure that "%1" is writable by the web-server.',
                 $this->getSitemapPath()));
         }
         /**
          * Check allow filename
          */
         if (!preg_match('#^[a-zA-Z0-9_\.]+$#', $this->getSitemapFilename())) {
-            Mage::throwException(__('Please use only letters (a-z or A-Z), numbers (0-9) or underscores (_) in the filename. No spaces or other characters are allowed.'));
+            Mage::throwException($helper->__('Please use only letters (a-z or A-Z), numbers (0-9) or underscores (_) in the filename. No spaces or other characters are allowed.'));
         }
         if (!preg_match('#\.xml$#', $this->getSitemapFilename())) {
             $this->setSitemapFilename($this->getSitemapFilename() . '.xml');
@@ -452,7 +452,8 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $this->_fileHandler->open(array('path' => $path));
 
         if ($this->_fileHandler->fileExists($fileName) && !$this->_fileHandler->isWriteable($fileName)) {
-            Mage::throwException(__('File "%s" cannot be saved. Please, make sure the directory "%s" is writable by web server.',
+            Mage::throwException(Mage::helper('Mage_Sitemap_Helper_Data')
+                ->__('File "%1" cannot be saved. Please, make sure the directory "%2" is writable by web server.',
                     $fileName, $path
                 )
             );

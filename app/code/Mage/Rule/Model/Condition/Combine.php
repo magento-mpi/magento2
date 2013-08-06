@@ -79,8 +79,8 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function loadAggregatorOptions()
     {
         $this->setAggregatorOption(array(
-            'all' => __('ALL'),
-            'any' => __('ANY'),
+            'all' => Mage::helper('Mage_Rule_Helper_Data')->__('ALL'),
+            'any' => Mage::helper('Mage_Rule_Helper_Data')->__('ANY'),
         ));
         return $this;
     }
@@ -131,8 +131,8 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            1 => __('TRUE'),
-            0 => __('FALSE'),
+            1 => Mage::helper('Mage_Rule_Helper_Data')->__('TRUE'),
+            0 => Mage::helper('Mage_Rule_Helper_Data')->__('FALSE'),
         ));
         return $this;
     }
@@ -265,7 +265,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     public function asHtml()
     {
         $html = $this->getTypeElement()->getHtml()
-            . __('If %s of these conditions are %s:', $this->getAggregatorElement()->getHtml(), $this->getValueElement()->getHtml());
+            . Mage::helper('Mage_Rule_Helper_Data')->__('If %1 of these conditions are %2:', $this->getAggregatorElement()->getHtml(), $this->getValueElement()->getHtml());
         if ($this->getId() != '1') {
             $html .= $this->getRemoveLinkHtml();
         }
@@ -302,7 +302,8 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
      */
     public function asString($format = '')
     {
-        $str = __("If %s of these conditions are %s:", $this->getAggregatorName(), $this->getValueName());
+        $str = Mage::helper('Mage_Rule_Helper_Data')
+            ->__("If %1 of these conditions are %2:", $this->getAggregatorName(), $this->getValueName());
         return $str;
     }
 
@@ -389,7 +390,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     {
         return array(
             'value' => $this->getType(),
-            'label' => __('Conditions Combination')
+            'label' => Mage::helper('Mage_Rule_Helper_Data')->__('Conditions Combination')
         );
     }
 }

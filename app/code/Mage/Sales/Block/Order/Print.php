@@ -20,7 +20,7 @@ class Mage_Sales_Block_Order_Print extends Mage_Sales_Block_Items_Abstract
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {
-            $headBlock->setTitle(__('Print Order # %s', $this->getOrder()->getRealOrderId()));
+            $headBlock->setTitle($this->__('Print Order # %1', $this->getOrder()->getRealOrderId()));
         }
         $this->setChild(
             'payment_info',

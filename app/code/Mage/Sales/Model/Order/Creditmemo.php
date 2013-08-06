@@ -388,7 +388,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
             $baseAvailableRefund = $this->getOrder()->getBaseTotalPaid()- $this->getOrder()->getBaseTotalRefunded();
 
             Mage::throwException(
-                __('The most money available to refund is %s.', $this->getOrder()->formatBasePrice($baseAvailableRefund))
+                Mage::helper('Mage_Sales_Helper_Data')->__('The most money available to refund is %1.', $this->getOrder()->formatBasePrice($baseAvailableRefund))
             );
         }
         $order = $this->getOrder();
@@ -492,7 +492,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     {
         if ($this->getId()) {
             Mage::throwException(
-                __('We cannot register an existing credit memo.')
+                Mage::helper('Mage_Sales_Helper_Data')->__('We cannot register an existing credit memo.')
             );
         }
 
@@ -548,9 +548,9 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
     {
         if (is_null(self::$_states)) {
             self::$_states = array(
-                self::STATE_OPEN       => __('Pending'),
-                self::STATE_REFUNDED   => __('Refunded'),
-                self::STATE_CANCELED   => __('Canceled'),
+                self::STATE_OPEN       => Mage::helper('Mage_Sales_Helper_Data')->__('Pending'),
+                self::STATE_REFUNDED   => Mage::helper('Mage_Sales_Helper_Data')->__('Refunded'),
+                self::STATE_CANCELED   => Mage::helper('Mage_Sales_Helper_Data')->__('Canceled'),
             );
         }
         return self::$_states;
@@ -574,7 +574,7 @@ class Mage_Sales_Model_Order_Creditmemo extends Mage_Sales_Model_Abstract
         if (isset(self::$_states[$stateId])) {
             return self::$_states[$stateId];
         }
-        return __('Unknown State');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Unknown State');
     }
 
     public function setShippingAmount($amount)

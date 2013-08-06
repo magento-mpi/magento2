@@ -49,7 +49,7 @@ class Mage_Adminhtml_Block_System_Variable_Edit extends Mage_Adminhtml_Block_Wid
     protected function _preparelayout()
     {
         $this->_addButton('save_and_edit', array(
-            'label'     => __('Save and Continue Edit'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save and Continue Edit'),
             'class'     => 'save',
             'data_attribute'  => array(
                 'mage-init' => array(
@@ -87,10 +87,10 @@ class Mage_Adminhtml_Block_System_Variable_Edit extends Mage_Adminhtml_Block_Wid
     public function getHeaderText()
     {
         if ($this->getVariable()->getId()) {
-            return __('Custom Variable "%s"', $this->escapeHtml($this->getVariable()->getName()));
+            return Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom Variable "%1"', $this->escapeHtml($this->getVariable()->getName()));
         }
         else {
-            return __('New Custom Variable');
+            return Mage::helper('Mage_Adminhtml_Helper_Data')->__('New Custom Variable');
         }
     }
 

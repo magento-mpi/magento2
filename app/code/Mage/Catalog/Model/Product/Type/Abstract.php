@@ -409,7 +409,8 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                             $this->_filesystem->createDirectory($path, 0777);
                         } catch (Magento_Filesystem_Exception $e) {
                             Mage::throwException(
-                                __("We can't create writeable directory \"%s\".", $path)
+                                $this->_helper('Mage_Catalog_Helper_Data')
+                                    ->__("We can't create writeable directory \"%1\".", $path)
                             );
                         }
 
@@ -422,7 +423,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                             if (isset($queueOptions['option'])) {
                                 $queueOptions['option']->setIsValid(false);
                             }
-                            Mage::throwException(__("The file upload failed."));
+                            Mage::throwException($this->_helper('Mage_Catalog_Helper_Data')->__("The file upload failed."));
                         }
                         $this->_helper('Mage_Core_Helper_File_Storage_Database')->saveFile($dst);
                         break;
@@ -472,7 +473,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function getSpecifyOptionMessage()
     {
-        return __('Please specify the product\'s required option(s).');
+        return $this->_helper('Mage_Catalog_Helper_Data')->__('Please specify the product\'s required option(s).');
     }
 
     /**
@@ -527,7 +528,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                     if (!$customOption || strlen($customOption->getValue()) == 0) {
                         $product->setSkipCheckRequiredOption(true);
                         Mage::throwException(
-                            __('The product has required options.')
+                            $this->_helper('Mage_Catalog_Helper_Data')->__('The product has required options.')
                         );
                     }
                 }
@@ -939,7 +940,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             $errors[] = $e->getMessages();
         } catch (Exception $e) {
             Mage::logException($e);
-            $errors[] = __('Something went wrong while processing the request.');
+            $errors[] = $this->_helper('Mage_Catalog_Helper_Data')->__('Something went wrong while processing the request.');
         }
 
         return $errors;

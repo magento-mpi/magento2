@@ -29,7 +29,7 @@ class Mage_Rss_Block_Order_New extends Mage_Core_Block_Abstract
                 '_nosecret' => true
             )
         );
-        $title = __('New Orders');
+        $title = Mage::helper('Mage_Rss_Helper_Data')->__('New Orders');
 
         $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         $data = array('title' => $title,
@@ -61,7 +61,7 @@ class Mage_Rss_Block_Order_New extends Mage_Core_Block_Abstract
         $detailBlock = $args['detailBlock'];
         $order->reset()->load($args['row']['entity_id']);
         if ($order && $order->getId()) {
-            $title = __('Order #%s created at %s', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
+            $title = Mage::helper('Mage_Rss_Helper_Data')->__('Order #%1 created at %2', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
             $url = Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl(
                 'adminhtml/sales_order/view',
                 array(

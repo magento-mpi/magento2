@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
                 $item->setHasError($check->getHasError());
                 */
                 if ($item->getProduct()->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED) {
-                    $item->setMessage(__('This product is disabled.'));
+                    $item->setMessage(Mage::helper('Mage_Adminhtml_Helper_Data')->__('This product is disabled.'));
                     $item->setHasError(true);
                 }
             }
@@ -192,12 +192,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
             foreach ($prices as $data) {
                 $qty    = $data['price_qty']*1;
                 $price  = $this->convertPrice($data['price']);
-                $info[] = __('Buy %s for price %s', $qty, $price);
+                $info[] = $this->helper('Mage_Sales_Helper_Data')->__('Buy %1 for price %2', $qty, $price);
             }
             return implode(', ', $info);
         }
         else {
-            return __('Item ordered qty');
+            return $this->helper('Mage_Sales_Helper_Data')->__('Item ordered qty');
         }
     }
 
@@ -231,7 +231,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         $info = array();
         foreach ($prices as $data) {
             $qty    = $data['price_qty'] * 1;
-            $info[] = __('%1$s with %2$s discount each', $qty, ($data['price'] * 1) . '%');
+            $info[] = $this->helper('Mage_Sales_Helper_Data')->__('%1 with %2 discount each', $qty, ($data['price'] * 1) . '%');
         }
         return $info;
     }
@@ -248,7 +248,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
         foreach ($prices as $data) {
             $qty    = $data['price_qty'] * 1;
             $price  = $this->convertPrice($data['price']);
-            $info[] = __('%s for %s', $qty, $price);
+            $info[] = $this->helper('Mage_Sales_Helper_Data')->__('%1 for %2', $qty, $price);
         }
         return $info;
     }
@@ -320,9 +320,9 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     public function getInclExclTaxMessage()
     {
         if (Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax($this->getStore())) {
-            return __('* - Enter custom price including tax');
+            return Mage::helper('Mage_Sales_Helper_Data')->__('* - Enter custom price including tax');
         } else {
-            return __('* - Enter custom price excluding tax');
+            return Mage::helper('Mage_Sales_Helper_Data')->__('* - Enter custom price excluding tax');
         }
     }
 
@@ -341,12 +341,12 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Mage_Adminhtml_
     {
         $product = $item->getProduct();
 
-        $options = array('label' => __('Configure'));
+        $options = array('label' => Mage::helper('Mage_Sales_Helper_Data')->__('Configure'));
         if ($product->canConfigure()) {
             $options['onclick'] = sprintf('order.showQuoteItemConfiguration(%s)', $item->getId());
         } else {
             $options['class'] = ' disabled';
-            $options['title'] = __('This product does not have any configurable options');
+            $options['title'] = Mage::helper('Mage_Sales_Helper_Data')->__('This product does not have any configurable options');
         }
 
         return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')

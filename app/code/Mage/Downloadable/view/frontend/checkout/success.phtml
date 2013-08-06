@@ -9,5 +9,5 @@
  */
 ?>
 <?php if ($this->getOrderHasDownloadable()): ?>
-    <?php echo __('Go to <a href="%s">My Downloadable Products</a>', $this->getDownloadableProductsUrl()) ?>
+    <?php echo Mage::helper('Mage_Downloadable_Helper_Data')->__('Go to <a href="%1">My Downloadable Products</a>', $this->getDownloadableProductsUrl()) ?>
 <?php endif; ?>

@@ -79,7 +79,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
 
         return array(
             'value' => $conditions,
-            'label' => __('Product Attributes')
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Product Attributes')
         );
     }
 
@@ -90,7 +90,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Attributes
      */
     public function asHtml()
     {
-        return __('Product %s', strtolower(parent::asHtml()));
+        return Mage::helper('Enterprise_Reminder_Helper_Data')->__('Product %1', strtolower(parent::asHtml()));
     }
 
     /**

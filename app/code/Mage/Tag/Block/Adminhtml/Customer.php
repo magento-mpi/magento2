@@ -46,7 +46,7 @@ class Mage_Tag_Block_Adminhtml_Customer extends Mage_Adminhtml_Block_Widget_Grid
         $tagInfo = Mage::getModel('Mage_Tag_Model_Tag')
             ->load(Mage::registry('tagId'));
 
-        $this->_headerText = __("Customers Tagged '%s'", $this->escapeHtml($tagInfo->getName()));
+        $this->_headerText = Mage::helper('Mage_Tag_Helper_Data')->__("Customers Tagged '%1'", $this->escapeHtml($tagInfo->getName()));
     }
 
 }

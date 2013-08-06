@@ -244,7 +244,8 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
                     $scopeCode = $this->_app->getWebsite($scopeCode)->getCode();
                 } else {
                     Mage::throwException(
-                        __('Unknown scope "%s".', $scope)
+                        $this->_objectManager->get('Mage_Core_Helper_Data')
+                            ->__('Unknown scope "%1".', $scope)
                     );
                 }
             }

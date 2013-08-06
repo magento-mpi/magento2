@@ -51,7 +51,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         $conditions = array_merge($conditions, Mage::getModel($prefix . 'Region')->getNewChildSelectOptions());
         return array(
             'value' => $conditions,
-            'label'=>__('Address Attributes')
+            'label'=>Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Address Attributes')
         );
     }
 
@@ -194,7 +194,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
      */
     public function asHtml()
     {
-        return __('Customer Address %s', parent::asHtml());
+        return Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer Address %1', parent::asHtml());
     }
 
     /**

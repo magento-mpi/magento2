@@ -36,7 +36,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View extends Mage_Adminhtml_B
         $this->setId('billing_agreement_view');
 
         $this->_addButton('back', array(
-            'label'     => __('Back'),
+            'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Back'),
             'onclick'   => 'setLocation(\'' . $this->getBackUrl() . '\')',
             'class'     => 'back',
         ), -1);
@@ -44,9 +44,9 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View extends Mage_Adminhtml_B
         $agreement = $this->_getBillingAgreement();
         if ($agreement && $agreement->canCancel() && $this->_isAllowed('Mage_Sales::actions_manage')) {
             $this->_addButton('cancel', array(
-                'label'     => __('Cancel'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Cancel'),
                 'onclick'   => "confirmSetLocation("
-                    . "'{__('Are you sure you want to do this?')}', '{$this->_getCancelUrl()}'"
+                    . "'{$this->__('Are you sure you want to do this?')}', '{$this->_getCancelUrl()}'"
                 . ")",
                 'class'     => 'cancel',
             ), -1);
@@ -60,7 +60,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View extends Mage_Adminhtml_B
      */
     public function getHeaderText()
     {
-        return __('Billing Agreement #%s', $this->_getBillingAgreement()->getReferenceId());
+        return $this->__('Billing Agreement #%1', $this->_getBillingAgreement()->getReferenceId());
     }
 
     /**

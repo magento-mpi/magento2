@@ -295,7 +295,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
             $moduleFullName = Mage::getConfig()->determineOmittedNamespace($module, true);
             $options[] = array(
                 'value' => $templateId,
-                'label' => __($row['label']),
+                'label' => Mage::helper($module)->__($row['label']),
                 'group' => $moduleFullName,
             );
             $groups[$module] = 1;
@@ -559,7 +559,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
 
         if (!$this->getId()) {
             throw Mage::exception('Mage_Core',
-                __('Invalid transactional email code: %s', $templateId));
+                Mage::helper('Mage_Core_Helper_Data')->__('Invalid transactional email code: %1', $templateId));
         }
 
         if (!is_array($sender)) {
@@ -673,12 +673,12 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
             foreach ($variables as $value => $label) {
                 $optionArray[] = array(
                     'value' => '{{' . $value . '}}',
-                    'label' => __('%s', $label)
+                    'label' => Mage::helper('Mage_Core_Helper_Data')->__('%1', $label)
                 );
             }
             if ($withGroup) {
                 $optionArray = array(
-                    'label' => __('Template Variables'),
+                    'label' => Mage::helper('Mage_Core_Helper_Data')->__('Template Variables'),
                     'value' => $optionArray
                 );
             }
@@ -695,10 +695,10 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     {
         $code = $this->getTemplateCode();
         if (empty($code)) {
-            Mage::throwException(__('The template Name must not be empty.'));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('The template Name must not be empty.'));
         }
         if ($this->_getResource()->checkCodeUsage($this)) {
-            Mage::throwException(__('Duplicate Of Template Name'));
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Duplicate Of Template Name'));
         }
         return parent::_beforeSave();
     }

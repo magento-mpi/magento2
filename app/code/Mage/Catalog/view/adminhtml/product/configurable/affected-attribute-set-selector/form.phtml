@@ -24,18 +24,18 @@
         <div id="affected-attribute-set-current-container" data-role="container" data-id="current-attribute-set">
             <label>
                 <input type="radio" name="affected-attribute-set" value="current" checked="checked" />
-                <?php echo __('Add configurable attributes to the current set ("<span data-role="name-container">%s</span>")', $this->getLayout()->getBlock('product_edit')->getAttributeSetName())?>
+                <?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Add configurable attributes to the current set ("<span data-role="name-container">%1</span>")', $this->getLayout()->getBlock('product_edit')->getAttributeSetName())?>
             </label>
         </div>
         <div id="affected-attribute-set-new-container">
             <label>
                 <input type="radio" name="affected-attribute-set" value="new" />
-                <?php echo __('Add configurable attributes to the new set based on current')?>
+                <?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Add configurable attributes to the new set based on current')?>
             </label>
         </div>
         <div id="affected-attribute-set-new-name-container" style="display:none">
             <label>
-                <?php echo __('New attribute set name')?>
+                <?php echo $this->helper('Mage_Catalog_Helper_Data')->__('New attribute set name')?>
                 <span class="required">*</span><br />
                 <input name="new-attribute-set-name" type="text" class="input-text required-entry validate-no-html-tags" />
             </label>

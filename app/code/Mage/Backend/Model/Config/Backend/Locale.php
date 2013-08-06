@@ -35,35 +35,37 @@ class Mage_Backend_Model_Config_Backend_Locale extends Mage_Core_Model_Config_Da
 
         foreach ($collection as $data) {
             $match = false;
-            $scopeName = __('Default scope');
+            $scopeName = Mage::helper('Mage_Backend_Helper_Data')->__('Default scope');
 
             if (preg_match('/(base|default)$/', $data->getPath(), $match)) {
                 if (!in_array($data->getValue(), $values)) {
                     $currencyName = Mage::app()->getLocale()->currency($data->getValue())->getName();
                     if ($match[1] == 'base') {
-                        $fieldName = __('Base currency');
+                        $fieldName = Mage::helper('Mage_Backend_Helper_Data')->__('Base currency');
                     } else {
-                        $fieldName = __('Display default currency');
+                        $fieldName = Mage::helper('Mage_Backend_Helper_Data')->__('Display default currency');
                     }
 
                     switch ($data->getScope()) {
                         case 'default':
-                            $scopeName = __('Default scope');
+                            $scopeName = Mage::helper('Mage_Backend_Helper_Data')->__('Default scope');
                             break;
 
                         case 'website':
                             $websiteName = Mage::getModel('Mage_Core_Model_Website')
                                 ->load($data->getScopeId())->getName();
-                            $scopeName = __('website(%s) scope', $websiteName);
+                            $scopeName = Mage::helper('Mage_Backend_Helper_Data')
+                                ->__('website(%1) scope', $websiteName);
                             break;
 
                         case 'store':
                             $storeName = Mage::getModel('Mage_Core_Model_Store')->load($data->getScopeId())->getName();
-                            $scopeName = __('store(%s) scope', $storeName);
+                            $scopeName = Mage::helper('Mage_Backend_Helper_Data')->__('store(%1) scope', $storeName);
                             break;
                     }
 
-                    $exceptions[] = __('Currency "%s" is used as %s in %s.', $currencyName, $fieldName, $scopeName);
+                    $exceptions[] = Mage::helper('Mage_Backend_Helper_Data')
+                        ->__('Currency "%1" is used as %2 in %3.', $currencyName, $fieldName, $scopeName);
                 }
             }
         }

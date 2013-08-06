@@ -57,7 +57,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
      */
     public function getHeaderText()
     {
-        return __('<span id="sku-attention-num">%s</span> product(s) require attention.', count($this->getFailedItems()));
+        return $this->__('<span id="sku-attention-num">%1</span> product(s) require attention.', count($this->getFailedItems()));
     }
 
     /**
@@ -78,7 +78,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
     public function getButtonsHtml()
     {
         $buttonData = array(
-            'label'   => __('Remove All'),
+            'label'   => $this->__('Remove All'),
             'onclick' => 'addBySku.removeAllFailed()',
             'class'   => 'action-delete',
         );

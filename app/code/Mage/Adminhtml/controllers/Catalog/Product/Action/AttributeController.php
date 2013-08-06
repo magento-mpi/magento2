@@ -147,19 +147,19 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
                 ));
 
                 $this->_getSession()->addNotice(
-                    __('Please refresh "Catalog URL Rewrites" and "Product Attributes" in System -> <a href="%s">Index Management</a>.', $this->getUrl('adminhtml/process/list'))
+                    $this->__('Please refresh "Catalog URL Rewrites" and "Product Attributes" in System -> <a href="%1">Index Management</a>.', $this->getUrl('adminhtml/process/list'))
                 );
             }
 
             $this->_getSession()->addSuccess(
-                __('A total of %d record(s) were updated.', count($this->_getHelper()->getProductIds()))
+                $this->__('A total of %1 record(s) were updated.', count($this->_getHelper()->getProductIds()))
             );
         }
         catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
-            $this->_getSession()->addException($e, __('Something went wrong while updating the product(s) attributes.'));
+            $this->_getSession()->addException($e, $this->__('Something went wrong while updating the product(s) attributes.'));
         }
 
         $this->_redirect('*/catalog_product/', array('store'=>$this->_getHelper()->getSelectedStoreId()));
@@ -175,9 +175,9 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
         $error = false;
         $productIds = $this->_getHelper()->getProductIds();
         if (!is_array($productIds)) {
-            $error = __('Please select products for attributes update.');
+            $error = $this->__('Please select products for attributes update.');
         } else if (!Mage::getModel('Mage_Catalog_Model_Product')->isProductsHasSku($productIds)) {
-            $error = __('Please make sure to define SKU values for all processed products.');
+            $error = $this->__('Please make sure to define SKU values for all processed products.');
         }
 
         if ($error) {
@@ -238,7 +238,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, __('Something went wrong while updating the product(s) attributes.'));
+            $this->_getSession()->addException($e, $this->__('Something went wrong while updating the product(s) attributes.'));
             $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());

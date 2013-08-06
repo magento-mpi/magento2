@@ -49,11 +49,11 @@ class Saas_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_ImportExpo
         /** @var Varien_Data_Form_Element_Fieldset $fieldset */
         $fieldset = $this->getForm()->getElement('upload_file_fieldset');
 
-        $note = __('Allowed file type: ZIP. Max file size: %dM', $this->_helper->getMaxFileSizeInMb());
+        $note = $this->__('Allowed file type: ZIP. Max file size: %1M', $this->_helper->getMaxFileSizeInMb());
         $fieldset->addField($this->_configuration->getFileFieldName(), 'file', array(
             'name' => $this->_configuration->getFileFieldName(),
-            'label' => __('Select Image Archive File to Import'),
-            'title' => __('Select Image Archive File to Import'),
+            'label' => $this->__('Select Image Archive File to Import'),
+            'title' => $this->__('Select Image Archive File to Import'),
             'note' => $note,
             'required' => false,
         ));

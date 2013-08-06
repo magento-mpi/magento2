@@ -49,7 +49,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
         }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(__('Gift Registry'));
+            $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry'));
         }
         $this->renderLayout();
     }
@@ -86,16 +86,16 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
 
                 if ($count > 0) {
                     Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
-                        __('%d item(s) have been added to the gift registry.', $count)
+                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('%1 item(s) have been added to the gift registry.', $count)
                     );
                 } else {
                     Mage::getSingleton('Mage_Checkout_Model_Session')->addNotice(
-                        __('We have nothing to add to this gift registry.')
+                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('We have nothing to add to this gift registry.')
                     );
                 }
                 if (!empty($skippedItems)) {
                     Mage::getSingleton('Mage_Checkout_Model_Session')->addNotice(
-                        __("You can't add virtual products, digital products or gift cards to gift registries.")
+                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("You can't add virtual products, digital products or gift cards to gift registries.")
                     );
                 }
             }
@@ -109,7 +109,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             }
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addError(__('Failed to add shopping cart items to gift registry.'));
+            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($this->__('Failed to add shopping cart items to gift registry.'));
         }
 
         if ($entity->getId()) {
@@ -135,7 +135,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 $entity->addItem($wishlistItem->getProductId(), $wishlistItem->getBuyRequest());
                 $this->_getSession()->addSuccess(
-                    __('The wish list item has been added to this gift registry.')
+                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('The wish list item has been added to this gift registry.')
                 );
                 $redirectParams['wishlist_id'] = $wishlistItem->getWishlistId();
             } catch (Mage_Core_Exception $e) {
@@ -150,7 +150,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                 $this->_redirect('giftregistry');
                 return;
             } catch (Exception $e) {
-                $this->_getSession()->addError(__("We couldn’t add your wish list items to your gift registry."));
+                $this->_getSession()->addError($this->__("We couldn’t add your wish list items to your gift registry."));
             }
         }
 
@@ -169,13 +169,13 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             if ($entity->getId()) {
                 $entity->delete();
                 $this->_getSession()->addSuccess(
-                    __('You deleted this gift registry.')
+                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('You deleted this gift registry.')
                 );
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $message = __('Something went wrong while deleting the gift registry.');
+            $message = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Something went wrong while deleting the gift registry.');
             $this->_getSession()->addException($e, $message);
         }
         $this->_redirect('*/*/');
@@ -194,7 +194,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             $this->_initLayoutMessages('Mage_Customer_Model_Session');
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
-                $headBlock->setTitle(__('Share Gift Registry'));
+                $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Share Gift Registry'));
             }
             $this->getLayout()->getBlock('giftregistry.customer.share')->setEntity($entity);
             $this->renderLayout();
@@ -202,7 +202,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $message = __('Something went wrong while sharing the gift registry.');
+            $message = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Something went wrong while sharing the gift registry.');
             $this->_getSession()->addException($e, $message);
         }
         $this->_redirect('*/*/');
@@ -222,7 +222,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             $this->_initLayoutMessages('Mage_Checkout_Model_Session');
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
-                $headBlock->setTitle(__('Gift Registry Items'));
+                $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Items'));
             }
             $this->renderLayout();
             return;
@@ -249,7 +249,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                 $items = $this->getRequest()->getParam('items');
                 $entity->updateItems($items);
                 $this->_getSession()->addSuccess(
-                    __('You updated the gift registry items.')
+                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('You updated the gift registry items.')
                 );
             }
         } catch (Mage_Core_Exception $e) {
@@ -259,7 +259,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
         } catch (Mage_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError(__("We couldn't update the gift registry."));
+            $this->_getSession()->addError($this->__("We couldn't update the gift registry."));
         }
         $this->_redirect('*/*/items', array('_current' => true));
     }
@@ -293,7 +293,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $message = __('Something went wrong while sending email(s).');
+            $message = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Something went wrong while sending email(s).');
             $this->_getSession()->addException($e, $message);
         }
         $this->_redirect('*/*/');
@@ -333,7 +333,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
         }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(__('Create Gift Registry'));
+            $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Create Gift Registry'));
         }
         $this->renderLayout();
     }
@@ -364,7 +364,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                 /* @var $model Enterprise_GiftRegistry_Model_Entity */
                 $model = Mage::getSingleton('Enterprise_GiftRegistry_Model_Entity');
                 if ($model->setTypeById($typeId) === false) {
-                    Mage::throwException(__('Please correct the gift registry.'));
+                    Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please correct the gift registry.'));
                 }
             }
 
@@ -375,9 +375,9 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             $this->_initLayoutMessages('Mage_Customer_Model_Session');
 
             if ($model->getId()) {
-                $pageTitle = __('Edit Gift Registry');
+                $pageTitle = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Edit Gift Registry');
             } else {
-                $pageTitle = __('Create Gift Registry');
+                $pageTitle = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Create Gift Registry');
             }
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
@@ -420,7 +420,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                     $entityId = null;
                     $model = Mage::getModel('Enterprise_GiftRegistry_Model_Entity');
                     if ($model->setTypeById($typeId) === false) {
-                        Mage::throwException(__('Incorrect Type'));
+                        Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Incorrect Type'));
                     }
                 }
 
@@ -443,7 +443,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                             if (!empty($registrant[$idField])) {
                                 $person->load($registrant[$idField]);
                                 if (!$person->getId()) {
-                                    Mage::throwException(__('Please correct the recipient data.'));
+                                    Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please correct the recipient data.'));
                                 }
                             } else {
                                 unset($registrant['person_id']);
@@ -471,7 +471,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                         $errors = $address->validate();
                         $model->importAddress($address);
                     } else {
-                        Mage::throwException(__('Address is empty.'));
+                        Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Address is empty.'));
                     }
                     if ($errors !== true) {
                         foreach ($errors as $err) {
@@ -483,14 +483,14 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                     // using one of existing Customer adressess
                     $addressId = $addressTypeOrId;
                     if (!$addressId) {
-                        Mage::throwException(__('Please select an address.'));
+                        Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please select an address.'));
                     }
                     /* @var $customer Mage_Customer_Model_Customer */
                     $customer  = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer();
 
                     $address = $customer->getAddressItemById($addressId);
                     if (!$address) {
-                        Mage::throwException(__('Please correct the address.'));
+                        Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please correct the address.'));
                     }
                     $model->importAddress($address);
                 }
@@ -517,7 +517,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                             ->deleteOrphan($entityId, $personLeft);
                     }
                     $this->_getSession()->addSuccess(
-                        __('You saved this gift registry.')
+                        Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('You saved this gift registry.')
                     );
                     if ($isAddAction) {
                         $model->sendNewRegistryEmail();
@@ -528,7 +528,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
                 $isError = true;
             } catch (Exception $e) {
                 $this->_getSession()->addError(
-                    __("We couldn't save this gift registry.")
+                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("We couldn't save this gift registry.")
                 );
                 Mage::logException($e);
                 $isError = true;
@@ -561,7 +561,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
         if ($entityId) {
             $entity->load($entityId);
             if (!$entity->getId() || $entity->getCustomerId() != $customerId) {
-                Mage::throwException(__('Please correct the gift registry ID.'));
+                Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please correct the gift registry ID.'));
             }
         }
         return $entity;

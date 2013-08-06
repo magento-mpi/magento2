@@ -707,7 +707,8 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
                 $block->addStorageType($storageName);
             } else {
                 Mage::throwException(
-                     __('Invalid messages storage "%s" for layout messages initialization', (string)$storageName)
+                     Mage::helper('Mage_Core_Helper_Data')
+                         ->__('Invalid messages storage "%1" for layout messages initialization', (string)$storageName)
                 );
             }
         }
@@ -1140,7 +1141,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
                 $this->getResponse()->sendHeaders();
 
                 if (!$filesystem->isFile($file)) {
-                    Mage::throwException(__('File not found'));
+                    Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('File not found'));
                 }
                 $stream = $filesystem->createAndOpenStream($file, 'r');
                 while ($buffer = $stream->read(1024)) {

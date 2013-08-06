@@ -15,8 +15,8 @@
 <?php if ($this->canRedeem()): ?>
 <div class="box-account">
     <div class="box-head">
-        <h2><?php echo __('Redeem Gift Card'); ?></h2>
+        <h2><?php echo Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Redeem Gift Card'); ?></h2>
     </div>
-    <p><?php echo __('Have a gift card? <a href="%s">Click here</a> to redeem it.', Mage::getUrl('enterprise_giftcardaccount/customer')); ?></p>
+    <p><?php echo Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Have a gift card? <a href="%1">Click here</a> to redeem it.', Mage::getUrl('enterprise_giftcardaccount/customer')); ?></p>
 </div>
 <?php endif; ?>

@@ -55,10 +55,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
     {
         if (null === $this->_defaultOperatorOptions) {
             $this->_defaultOperatorOptions = array(
-                '<='  => __('equals or greater than'),
-                '>='  => __('equals or less than'),
-                '<'   => __('greater than'),
-                '>'   => __('less than')
+                '<='  => Mage::helper('Mage_Rule_Helper_Data')->__('equals or greater than'),
+                '>='  => Mage::helper('Mage_Rule_Helper_Data')->__('equals or less than'),
+                '<'   => Mage::helper('Mage_Rule_Helper_Data')->__('greater than'),
+                '>'   => Mage::helper('Mage_Rule_Helper_Data')->__('less than')
             );
         }
         return $this->_defaultOperatorOptions;
@@ -73,7 +73,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
     {
         return array(
             'value' => $this->getType(),
-            'label' => __('Up To Date'),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Up To Date'),
         );
     }
 
@@ -95,7 +95,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . __('Period %s %s Days Up To Date', $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Period %1 %2 Days Up To Date', $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 

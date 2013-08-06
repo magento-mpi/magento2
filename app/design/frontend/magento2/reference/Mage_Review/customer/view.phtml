@@ -18,7 +18,7 @@
             <?php echo $imageBlock->init($this->getProductData(), 'customer_account_product_review_page')->toHtml() ?>
         </a>
         <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
-        <p><?php echo __('Average Customer Rating:') ?></p>
+        <p><?php echo $this->__('Average Customer Rating:') ?></p>
         <?php echo $this->getReviewsSummaryHtml($this->getProductData()) ?>
         <?php endif; ?>
     </div>
@@ -26,7 +26,7 @@
 
         <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
         <div class="ratings summary">
-            <strong><?php echo ($this->isReviewOwner()) ? __('Your Rating:') : __('Rating:'); ?></strong>
+            <strong><?php echo ($this->isReviewOwner()) ? $this->__('Your Rating:') : $this->__('Rating:'); ?></strong>
 
             <?php foreach ($this->getRating() as $_rating): ?>
             <?php if($_rating->getPercent()): ?>
@@ -47,9 +47,9 @@
         <div class="review title"><?php echo $this->escapeHtml($this->getReviewData()->getTitle()) ?></div>
         <p class="review date">
             <?php if ($this->isReviewOwner()): ?>
-                <?php echo __('Your Review (submitted on %s):', '<time class="date">' . $this->dateFormat($this->getReviewData()->getCreatedAt()) . '</time>') ?>
+                <?php echo $this->__('Your Review (submitted on %1):', '<time class="date">' . $this->dateFormat($this->getReviewData()->getCreatedAt()) . '</time>') ?>
             <?php else :?>
-                <?php echo __('Review (submitted on %s):', '<time class="date">' . $this->dateFormat($this->getReviewData()->getCreatedAt()) . '</time>') ?>
+                <?php echo $this->__('Review (submitted on %1):', '<time class="date">' . $this->dateFormat($this->getReviewData()->getCreatedAt()) . '</time>') ?>
             <?php endif;?>
         </p>
         <div class="review content"><?php echo nl2br($this->escapeHtml($this->getReviewData()->getDetail())) ?></div>
@@ -57,7 +57,7 @@
 </div>
 <div class="actions">
     <div class="secondary">
-        <a class="action back" href="<?php echo $this->getBackUrl() ?>"><span><?php echo __('Back to My Reviews') ?></span></a>
+        <a class="action back" href="<?php echo $this->getBackUrl() ?>"><span><?php echo $this->__('Back to My Reviews') ?></span></a>
     </div>
 </div>
 <?php endif; ?>

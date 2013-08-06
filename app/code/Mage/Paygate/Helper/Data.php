@@ -65,23 +65,23 @@ class Mage_Paygate_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         if ($amount) {
-            $amount = __('amount %s', $this->_formatPrice($payment, $amount));
+            $amount = $this->__('amount %1', $this->_formatPrice($payment, $amount));
         }
 
         if ($exception) {
-            $result = __('failed');
+            $result = $this->__('failed');
         } else {
-            $result = __('successful');
+            $result = $this->__('successful');
         }
 
-        $card = __('Credit Card: xxxx-%s', $card->getCcLast4());
+        $card = $this->__('Credit Card: xxxx-%1', $card->getCcLast4());
 
         $pattern = '%s %s %s - %s.';
         $texts = array($card, $amount, $operation, $result);
 
         if (!is_null($lastTransactionId)) {
             $pattern .= ' %s.';
-            $texts[] = __('Authorize.Net Transaction ID %s', $lastTransactionId);
+            $texts[] = $this->__('Authorize.Net Transaction ID %1', $lastTransactionId);
         }
 
         if ($additionalMessage) {
@@ -104,15 +104,15 @@ class Mage_Paygate_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($requestType) {
             case Mage_Paygate_Model_Authorizenet::REQUEST_TYPE_AUTH_ONLY:
-                return __('authorize');
+                return $this->__('authorize');
             case Mage_Paygate_Model_Authorizenet::REQUEST_TYPE_AUTH_CAPTURE:
-                return __('authorize and capture');
+                return $this->__('authorize and capture');
             case Mage_Paygate_Model_Authorizenet::REQUEST_TYPE_PRIOR_AUTH_CAPTURE:
-                return __('capture');
+                return $this->__('capture');
             case Mage_Paygate_Model_Authorizenet::REQUEST_TYPE_CREDIT:
-                return __('refund');
+                return $this->__('refund');
             case Mage_Paygate_Model_Authorizenet::REQUEST_TYPE_VOID:
-                return __('void');
+                return $this->__('void');
             default:
                 return false;
         }

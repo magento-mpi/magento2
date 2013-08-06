@@ -38,7 +38,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => __('Numeric Attribute'));
+            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Numeric Attribute'));
     }
 
     /**
@@ -49,11 +49,11 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
-            'weight' => __('weight'),
-            'row_weight' => __('row weight'),
-            'qty' => __('quantity'),
-            'price' => __('base price'),
-            'base_cost' => __('base cost')
+            'weight' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('weight'),
+            'row_weight' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('row weight'),
+            'qty' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('quantity'),
+            'price' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('base price'),
+            'base_cost' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('base cost')
         ));
         return $this;
     }
@@ -66,7 +66,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . __('Item %s %s %s:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Item %1 %2 %3:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -110,7 +110,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Attributes
                 break;
             default:
                 Mage::throwException(
-                    __('Unknown attribute specified')
+                    Mage::helper('Enterprise_Reminder_Helper_Data')->__('Unknown attribute specified')
                 );
         }
 

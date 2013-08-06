@@ -64,8 +64,9 @@ abstract class Saas_PrintedTemplate_Model_Source_Template_Abstract extends Varie
         );
 
         $defaultTemplateName = ($templateLabelNode)
-            ? __('%s (Default Template from Locale)', __((string)$templateLabelNode))
-            : __('Default Template from Locale');
+            ? $this->_getHelper()->
+                __('%1 (Default Template from Locale)', $this->_getHelper()->__((string)$templateLabelNode))
+            : $this->_getHelper()->__('Default Template from Locale');
 
         return array('value' => $nodeName, 'label' => $defaultTemplateName);
     }

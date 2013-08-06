@@ -12,20 +12,20 @@
 <?php $order = $this->getOrder(); ?>
 <div class="page title">
     <h1 class="title">
-        <?php echo __('Order #%s', $this->getObjectData($order, 'real_order_id')); ?>
+        <?php echo $this->__('Order #%1', $this->getObjectData($order, 'real_order_id')); ?>
     </h1>
 </div>
-<p class="order-date"><?php echo __('Order Date: %s', $this->formatDate($this->getObjectData($order, 'created_at_store_date'), 'long')) ?></p>
+<p class="order-date"><?php echo $this->__('Order Date: %1', $this->formatDate($this->getObjectData($order, 'created_at_store_date'), 'long')) ?></p>
 <?php if (!$this->getObjectData($order, 'is_virtual')): ?>
 <?php foreach ($this->getShipmentsCollection() as $shipment): ?>
     <div class="order details view">
         <div class="title">
-            <strong><?php echo __('Shipment #%s', $this->getObjectData($shipment, 'increment_id')); ?></strong>
+            <strong><?php echo $this->__('Shipment #%1', $this->getObjectData($shipment, 'increment_id')); ?></strong>
         </div>
 
         <div class="block order shipping address">
             <div class="title">
-                <strong><?php echo __('Shipping Address') ?></strong>
+                <strong><?php echo $this->__('Shipping Address') ?></strong>
             </div>
             <div class="content">
                 <address><?php echo $this->getShipmentAddressFormattedHtml($shipment); ?></address>
@@ -34,7 +34,7 @@
 
         <div class="block order billing address">
             <div class="title">
-                <strong><?php echo __('Billing Address') ?></strong>
+                <strong><?php echo $this->__('Billing Address') ?></strong>
             </div>
             <div class="content">
                 <address><?php echo $this->getBillingAddressFormattedHtml($order); ?></address>
@@ -43,7 +43,7 @@
 
         <div class="block order shipping method">
             <div class="title">
-                <strong><?php echo __('Shipping Method') ?></strong>
+                <strong><?php echo $this->__('Shipping Method') ?></strong>
             </div>
             <?php echo $this->escapeHtml($this->getObjectData($order, 'shipping_description')); ?>
             <?php $tracks = $this->getShipmentTracks($shipment);
@@ -51,8 +51,8 @@
                 <table class="data table order tracking" id="my-shipment-tracking">
                     <thead>
                     <tr>
-                        <th class="label"><?php echo __('Title')?></th>
-                        <th><?php echo __('Number')?></th>
+                        <th class="label"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Title')?></th>
+                        <th><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Number')?></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -72,7 +72,7 @@
 
         <div class="block order payment method">
             <div class="title">
-                <strong><?php echo __('Payment Method') ?></strong>
+                <strong><?php echo $this->__('Payment Method') ?></strong>
             </div>
             <div class="content">
                 <?php echo $this->getPaymentInfoHtml() ?>
@@ -82,14 +82,14 @@
     </div>
     <div class="order details items">
         <div class="order subtitle caption">
-            <strong><?php echo __('Items Shipped') ?></strong>
+            <strong><?php echo $this->__('Items Shipped') ?></strong>
         </div>
         <table class="data table order items" id="my-shipment-table-<?php echo $this->getObjectData($shipment, 'id') ?>">
             <thead>
             <tr>
-                <th class="col name"><?php echo __('Product Name') ?></th>
-                <th class="col sku"><?php echo __('SKU') ?></th>
-                <th class="col price"><span class="nobr"><?php echo __('Qty Shipped') ?></span></th>
+                <th class="col name"><?php echo $this->__('Product Name') ?></th>
+                <th class="col sku"><?php echo $this->__('SKU') ?></th>
+                <th class="col price"><span class="nobr"><?php echo $this->__('Qty Shipped') ?></span></th>
             </tr>
             </thead>
             <?php foreach ($this->getShipmentItems($shipment) as $item): ?>

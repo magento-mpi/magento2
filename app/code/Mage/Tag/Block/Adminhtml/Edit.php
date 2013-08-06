@@ -31,15 +31,15 @@ class Mage_Tag_Block_Adminhtml_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
 
         parent::_construct();
 
-        $this->_updateButton('save', 'label', __('Save Tag'));
-        $this->_updateButton('delete', 'label', __('Delete Tag'));
+        $this->_updateButton('save', 'label', Mage::helper('Mage_Tag_Helper_Data')->__('Save Tag'));
+        $this->_updateButton('delete', 'label', Mage::helper('Mage_Tag_Helper_Data')->__('Delete Tag'));
 
         if (!Mage::registry('current_tag')) {
             return;
         }
 
         $this->addButton('save_and_edit_button', array(
-            'label'   => __('Save and Continue Edit'),
+            'label'   => Mage::helper('Mage_Tag_Helper_Data')->__('Save and Continue Edit'),
             'class'   => 'save',
             'data_attribute'  => array(
                 'mage-init' => array(
@@ -87,9 +87,9 @@ class Mage_Tag_Block_Adminhtml_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
     public function getHeaderText()
     {
         if (Mage::registry('current_tag')->getId()) {
-            return __("Edit Tag '%s'", $this->escapeHtml(Mage::registry('current_tag')->getName()));
+            return Mage::helper('Mage_Tag_Helper_Data')->__("Edit Tag '%1'", $this->escapeHtml(Mage::registry('current_tag')->getName()));
         }
-        return __('New Tag');
+        return Mage::helper('Mage_Tag_Helper_Data')->__('New Tag');
     }
 
     /**

@@ -59,7 +59,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . __('%s Purchased Quantity %s %s while %s of these Conditions match:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('%1 Purchased Quantity %2 %3 while %4 of these Conditions match:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 

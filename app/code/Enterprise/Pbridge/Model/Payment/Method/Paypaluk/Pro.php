@@ -139,7 +139,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
     {
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(false);
         $payment->setPreparedMessage(
-            __('Payflow PNREF: #%s.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
+            Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
         );
         Mage::getModel('Mage_Paypal_Model_Info')->importToPayment($api, $payment);
     }
@@ -159,7 +159,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Mage_PaypalUk
                 ->setTransactionAdditionalInfo(self::TRANSPORT_PAYFLOW_TXN_ID, $api->getPayflowTrxid());
 
         $payment->setPreparedMessage(
-            __('Payflow PNREF: #%s.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
+            Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
         );
         Mage::getModel('Mage_Paypal_Model_Info')->importToPayment($api, $payment);
     }
