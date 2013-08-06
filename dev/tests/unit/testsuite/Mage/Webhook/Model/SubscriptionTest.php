@@ -144,13 +144,12 @@ class Mage_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider beforeSaveDataProvider
      *
-     * @param $hasStatus
      * @param $hasRegiMechanism
      * @param $hasDataChanges
      * @param $hasEndpointChanges
      * @param $hasEndpointId
      */
-    public function testBeforeSave($hasStatus, $hasRegiMechanism, $hasEndpointChanges, $hasEndpointId, $hasDataChanges)
+    public function testBeforeSave($hasRegiMechanism, $hasEndpointChanges, $hasEndpointId, $hasDataChanges)
     {
         // it's useful to mock out more methods for the purposes of testing this one method
         $this->_subscription = $this->getMockBuilder('Mage_Webhook_Model_Subscription')
@@ -300,7 +299,7 @@ class Mage_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
      */
     public function beforeSaveDataProvider()
     {
-        return $this->_allNBitCombinations(5);
+        return $this->_allNBitCombinations(4);
     }
 
     /**

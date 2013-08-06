@@ -19,9 +19,6 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
     private $_subscriptionMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
-    private $_userFactory;
-
-    /** @var PHPUnit_Framework_MockObject_MockObject */
     private $_subscriptionSet;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -62,9 +59,6 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
             ->method('load')
             ->will($this->returnValue($this->_subscriptionMock));
 
-        $this->_userFactory = $this->getMockBuilder('Mage_Webhook_Model_User_Factory')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->_subscriptionSet = $this->getMockBuilder('Mage_Webhook_Model_Resource_Subscription_Collection')
             ->disableOriginalConstructor()
             ->getMock();
