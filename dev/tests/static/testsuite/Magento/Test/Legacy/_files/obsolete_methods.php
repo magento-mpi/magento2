@@ -152,6 +152,7 @@ return array(
     array('addBackupedFilter'),
     array('addCartLink', 'Magento_Checkout_Block_Links'),
     array('addCheckoutLink', 'Magento_Checkout_Block_Links'),
+    array('addColumnInputName', 'Magento_Backend_Block_Widget_Grid_Serializer'),
     array('addConfigField', 'Magento_Core_Model_Resource_Setup'),
     array('addConstraint', 'Magento_DB_Adapter_Pdo_Mysql'),
     array('addCss', 'Magento_Page_Block_Html_Head'),

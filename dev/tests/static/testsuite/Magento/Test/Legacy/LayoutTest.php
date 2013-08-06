@@ -183,7 +183,6 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             'addBodyClass',
             'addButtons',
             'addColumnCountLayoutDepend',
-            'addColumnInputName',
             'addColumnRender',
             'addCrumb',
             'addDatabaseBlock',
