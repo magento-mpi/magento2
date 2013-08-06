@@ -361,8 +361,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/catalogevent.xml',
         'app/design/frontend/enterprise/default/template/catalogevent/'
     ),
-    'Enterprise_CatalogPermissions' => array(
-        'app/code/Enterprise/CatalogPermissions/',
+    'Magento_CatalogPermissions' => array(
+        'app/code/Magento/CatalogPermissions/',
         'app/design/adminhtml/default/default/layout/enterprise/catalogpermissions.xml',
         'app/design/adminhtml/default/default/template/enterprise/catalogpermissions',
         'app/design/frontend/enterprise/default/layout/catalogpermissions.xml'
@@ -634,7 +634,7 @@ $CONFIG['helpers']  = array(
     'magento_admingws'           => 'Magento_AdminGws',
     'magento_banner'             => 'Magento_Banner',
     'magento_catalogevent'       => 'Magento_CatalogEvent',
-    'enterprise_catalogpermissions' => 'Enterprise_CatalogPermissions',
+    'magento_catalogpermissions' => 'Magento_CatalogPermissions',
     'enterprise_checkout'           => 'Enterprise_Checkout',
     'enterprise_cms'                => 'Enterprise_Cms',
     'enterprise_customer'           => 'Enterprise_Customer',

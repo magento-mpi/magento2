@@ -14,10 +14,10 @@ $installer->startSetup();
 $map = array(
     'admin/cms/magento_banner' => 'Magento_Banner::magento_banner',
     'admin/catalog/events' => 'Magento_CatalogEvent::events',
-    'admin/catalog/enterprise_catalogpermissions' =>
-        'Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions',
-    'admin/system/config/enterprise_catalogpermissions' =>
-        'Enterprise_CatalogPermissions::enterprise_catalogpermissions',
+    'admin/catalog/magento_catalogpermissions' =>
+        'Magento_CatalogPermissions::catalog_magento_catalogpermissions',
+    'admin/system/config/magento_catalogpermissions' =>
+        'Magento_CatalogPermissions::magento_catalogpermissions',
     'admin/sales/enterprise_checkout' => 'Enterprise_Checkout::enterprise_checkout',
     'admin/sales/enterprise_checkout/update' => 'Enterprise_Checkout::update',
     'admin/sales/enterprise_checkout/view' => 'Enterprise_Checkout::view',

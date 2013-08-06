@@ -45,7 +45,7 @@ return array(
     array('_changeIndexesStatus', 'Enterprise_Search_Model_Indexer_Indexer'),
     array('cmsPageBlockLoadAfter', 'Magento_AdminGws_Model_Models'),
     array('applyEventStatus', 'Magento_CatalogEvent_Model_Observer'),
-    array('checkQuoteItem', 'Enterprise_CatalogPermissions_Model_Observer'),
+    array('checkQuoteItem', 'Magento_CatalogPermissions_Model_Observer'),
     array('increaseOrderInvoicedAmount', 'Enterprise_GiftCardAccount_Model_Observer'),
     array('blockCreateAfter', 'Enterprise_PageCache_Model_Observer'),
     array('_checkViewedProducts', 'Enterprise_PageCache_Model_Observer'),

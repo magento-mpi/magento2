@@ -53,20 +53,20 @@ system_configuration:
                         fieldsets:
                             -
                                 category_permissions:
-                                    xpath: //fieldset[@id='catalog_enterprise_catalogpermissions']
+                                    xpath: //fieldset[@id='catalog_magento_catalogpermissions']
                                     links:
-                                        category_permissions_link: //parent::div//a[@id='catalog_enterprise_catalogpermissions-head']
+                                        category_permissions_link: //parent::div//a[@id='catalog_magento_catalogpermissions-head']
                                     dropdowns:
-                                        permission_enable: //select[@id='catalog_enterprise_catalogpermissions_enabled']
-                                        allow_browsing: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_category_view']
-                                        landing_page: //select[@id='catalog_enterprise_catalogpermissions_restricted_landing_page']
-                                        display_prices: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_product_price']
-                                        allow_adding_to_cart: //select[@id='catalog_enterprise_catalogpermissions_grant_checkout_items']
+                                        permission_enable: //select[@id='catalog_magento_catalogpermissions_enabled']
+                                        allow_browsing: //select[@id='catalog_magento_catalogpermissions_grant_catalog_category_view']
+                                        landing_page: //select[@id='catalog_magento_catalogpermissions_restricted_landing_page']
+                                        display_prices: //select[@id='catalog_magento_catalogpermissions_grant_catalog_product_price']
+                                        allow_adding_to_cart: //select[@id='catalog_magento_catalogpermissions_grant_checkout_items']
                                     multiselects:
-                                        disallow_catalog_search: //select[@id='catalog_enterprise_catalogpermissions_deny_catalog_search']
-                                        allow_browsing_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_category_view_groups']
-                                        display_prices_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_product_price_groups']
-                                        allow_adding_to_cart_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_checkout_items_groups']
+                                        disallow_catalog_search: //select[@id='catalog_magento_catalogpermissions_deny_catalog_search']
+                                        allow_browsing_customer_groups: //select[@id='catalog_magento_catalogpermissions_grant_catalog_category_view_groups']
+                                        display_prices_customer_groups: //select[@id='catalog_magento_catalogpermissions_grant_catalog_product_price_groups']
+                                        allow_adding_to_cart_customer_groups: //select[@id='catalog_magento_catalogpermissions_grant_checkout_items_groups']
                             -
                                 catalog_catalog_event:
                                     xpath: //fieldset[@id='catalog_enterprise_catalogevent']
@@ -583,7 +583,7 @@ system_configuration:
                                         enterprise_admingws: //select[@name='groups[modules_disable_output][fields][Enterprise_AdminGws][value]']
                                         enterprise_banner: //select[@name='groups[modules_disable_output][fields][Enterprise_Banner][value]']
                                         enterprise_catalogevent: //select[@name='groups[modules_disable_output][fields][Enterprise_CatalogEvent][value]']
-                                        enterprise_catalogpermissions: //select[@name='groups[modules_disable_output][fields][Enterprise_CatalogPermissions][value]']
+                                        magento_catalogpermissions: //select[@name='groups[modules_disable_output][fields][Magento_CatalogPermissions][value]']
                                         enterprise_checkout: //select[@name='groups[modules_disable_output][fields][Enterprise_Checkout][value]']
                                         enterprise_cms: //select[@name='groups[modules_disable_output][fields][Enterprise_Cms][value]']
                                         enterprise_customer: //select[@name='groups[modules_disable_output][fields][Enterprise_Customer][value]']
@@ -617,7 +617,7 @@ system_configuration:
                                         enterprise_admingws_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_AdminGws][inherit]']
                                         enterprise_banner_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Banner][inherit]']
                                         enterprise_catalogevent_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_CatalogEvent][inherit]']
-                                        enterprise_catalogpermissions_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_CatalogPermissions][inherit]']
+                                        magento_catalogpermissions_use_default: //input[@name='groups[modules_disable_output][fields][Magento_CatalogPermissions][inherit]']
                                         enterprise_checkout_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Checkout][inherit]']
                                         enterprise_cms_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Cms][inherit]']
                                         enterprise_customer_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Customer][inherit]']

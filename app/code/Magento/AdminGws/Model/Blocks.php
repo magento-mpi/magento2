@@ -729,10 +729,10 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
      */
     public function validateCatalogPermissions($observer)
     {
-        /* @var $block Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions */
+        /* @var $block Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions */
         $block = $observer->getEvent()->getBlock();
         if ($block) {
-            /* @var $row Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row */
+            /* @var $row Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row */
             $row = $block->getChildBlock('row');
             if ($this->_role->getIsWebsiteLevel()) {
                 $websiteIds = $this->_role->getWebsiteIds();

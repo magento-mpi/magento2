@@ -26,7 +26,7 @@ class Enterprise_Enterprise_Model_Resource_Setup_Migration extends Magento_Core_
             array(
                 'magento_admingws'             => 'Magento_AdminGws',
                 'magento_catalogevent'         => 'Magento_CatalogEvent',
-                'enterprise_catalogpermissions'   => 'Enterprise_CatalogPermissions',
+                'magento_catalogpermissions'   => 'Magento_CatalogPermissions',
                 'enterprise_customerbalance'      => 'Enterprise_CustomerBalance',
                 'enterprise_customersegment'      => 'Enterprise_CustomerSegment',
                 'enterprise_giftcard'             => 'Enterprise_GiftCard',

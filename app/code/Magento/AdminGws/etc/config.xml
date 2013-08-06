@@ -518,7 +518,7 @@
                     <enterprise_targetRule_block_adminhtml_product>readonlyTargetRuleProductAttribute</enterprise_targetRule_block_adminhtml_product>
                     <enterprise_targetRule_block_adminhtml_product>removeTargetRuleGridButtons</enterprise_targetRule_block_adminhtml_product>
                     <enterprise_targetRule_block_adminhtml_product>removeTargetRuleEditButtons</enterprise_targetRule_block_adminhtml_product>
-                    <enterprise_catalogPermissions_block_adminhtml_catalog_category_tab_permissions>validateCatalogPermissions</enterprise_catalogPermissions_block_adminhtml_catalog_category_tab_permissions>
+                    <magento_catalogPermissions_block_adminhtml_catalog_category_tab_permissions>validateCatalogPermissions</magento_catalogPermissions_block_adminhtml_catalog_category_tab_permissions>
                     <magento_widget_block_adminhtml_widget_instance_edit>removeWidgetInstanceButtons</magento_widget_block_adminhtml_widget_instance_edit>
                     <magento_banner_block_adminhtml_banner_edit>validateBannerPermissions</magento_banner_block_adminhtml_banner_edit>
                     <enterprise_cms_block_adminhtml_cms_hierarchy_edit>removeCmsHierarchyFormButtons</enterprise_cms_block_adminhtml_cms_hierarchy_edit>
