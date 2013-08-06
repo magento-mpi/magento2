@@ -9,6 +9,8 @@
  * @license     {license_link}
  */
 
+Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+
 /** @var $product Mage_Catalog_Model_Product */
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->setTypeId('virtual')
@@ -54,13 +56,6 @@ $quote->getShippingAddress()->setCollectShippingRates(true);
 $quote->getShippingAddress()->collectShippingRates();
 $quote->collectTotals();
 $quote->save();
-
-Mage::getObjectManager()->configure(array(
-    'preferences' => array(
-        'Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface' =>
-            'Enterprise_Reward_Model_Observer_PlaceOrder_Restriction_Backend'
-    )
-));
 
 /** @var $service Mage_Sales_Model_Service_Quote */
 $service = Mage::getModel('Mage_Sales_Model_Service_Quote', array('quote' => $quote));
