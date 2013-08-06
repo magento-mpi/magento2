@@ -60,7 +60,7 @@ class Varien_Data_Form_Element_Checkboxes extends Varien_Data_Form_Element_Abstr
             $options = $this->getOptions();
         }
         foreach ($options as $k => $v) {
-            if (is_string($v)) {
+            if (!is_array($v)) {
                 $values[] = array(
                     'label' => $v,
                     'value' => $k

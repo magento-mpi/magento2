@@ -254,8 +254,6 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
     public function duplicateAction()
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
         /** @var $themeCopy Mage_Core_Model_Theme */
         $themeCopy = $this->_objectManager->create('Mage_Core_Model_Theme');
         /** @var $copyService Mage_Core_Model_Theme_CopyService */

@@ -168,11 +168,13 @@ EOT;
 
         $hiddenTax = $shippingAddress->getBaseHiddenTaxAmount() + $billingAddress->getBaseHiddenTaxAmount();
         if ($hiddenTax) {
+            $itemName = __('Discount Tax');
+            $itemDescription = __('A virtual item to reflect the tax total');
             $xml .= <<<EOT
             <item>
                 <merchant-item-id>_INTERNAL_TAX_</merchant-item-id>
-                <item-name>{__('Discount Tax')}</item-name>
-                <item-description>{__('A virtual item to reflect the tax total')}</item-description>
+                <item-name>{$itemName}</item-name>
+                <item-description>{$itemDescription}</item-description>
                 <unit-price currency="{$this->getCurrency()}">{$hiddenTax}</unit-price>
                 <quantity>1</quantity>
                 <item-weight unit="{$weightUnit}" value="0.00" />

@@ -60,6 +60,11 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     protected $_authorization;
 
     /**
+     * @var Mage_Core_Model_Translate
+     */
+    protected $_translator;
+
+    /**
      * @param Mage_Backend_Controller_Context $context
      * @param null $areaCode
      */
@@ -72,6 +77,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         $this->_session = $context->getSession();
         $this->_eventManager = $context->getEventManager();
         $this->_authorization = $context->getAuthorization();
+        $this->_translator = $context->getTranslator();
     }
 
     protected function _isAllowed()

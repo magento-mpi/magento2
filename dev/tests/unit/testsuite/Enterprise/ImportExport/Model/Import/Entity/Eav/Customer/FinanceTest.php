@@ -215,9 +215,6 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'bunch_size'                   => 1,
             'website_manager'              => $websiteManager,
             'store_manager'                => 'not_used',
-            'helpers'                      => array(
-                'Enterprise_ImportExport_Helper_Data' => $enterpriseHelper,
-            ),
             'entity_type_id'               => 1,
             'customer_storage'             => $customerStorage,
             'module_helper'                => $moduleHelper,

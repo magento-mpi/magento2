@@ -43,10 +43,11 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_View extends Mage_Adminhtml_B
 
         $agreement = $this->_getBillingAgreement();
         if ($agreement && $agreement->canCancel() && $this->_isAllowed('Mage_Sales::actions_manage')) {
+            $confirmText = __('Are you sure you want to do this?');
             $this->_addButton('cancel', array(
                 'label'     => __('Cancel'),
                 'onclick'   => "confirmSetLocation("
-                    . "'{__('Are you sure you want to do this?')}', '{$this->_getCancelUrl()}'"
+                    . "'{$confirmText}', '{$this->_getCancelUrl()}'"
                 . ")",
                 'class'     => 'cancel',
             ), -1);
