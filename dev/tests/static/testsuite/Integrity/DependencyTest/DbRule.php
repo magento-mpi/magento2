@@ -76,7 +76,7 @@ class Integrity_DependencyTest_DbRule implements Integrity_DependencyTest_RuleIn
                 if (strtolower($currentModule) !== strtolower($this->_moduleTableMap[$table])) {
                     $dependenciesInfo[] = array(
                         'module' => $this->_moduleTableMap[$table],
-                        'source' => "{$table}::{$file}",
+                        'source' => $table,
                     );
                 }
             }
@@ -85,7 +85,7 @@ class Integrity_DependencyTest_DbRule implements Integrity_DependencyTest_RuleIn
             foreach ($tables as $table) {
                 $dependenciesInfo[] = array(
                     'module' => 'Unknown',
-                    'source' => "{$table}::{$file}",
+                    'source' => $table,
                 );
             }
         }
