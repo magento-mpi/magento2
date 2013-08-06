@@ -324,7 +324,8 @@ abstract class Mage_Webapi_Model_ConfigAbstract
             }
             $methodVersion--;
         }
-        throw new Mage_Webapi_Exception(__('The "%1" operation is not implemented in version %2', $operationName, $requestedVersion),
+        throw new Mage_Webapi_Exception(
+            __('The "%1" operation is not implemented in version %2', $operationName, $requestedVersion),
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
     }

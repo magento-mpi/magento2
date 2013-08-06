@@ -573,7 +573,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         $cacheTypes = $request->getPost('types');
         if (is_array($cacheTypes) && !empty($cacheTypes)) {
             $cacheTypes = implode(', ', $cacheTypes);
-            $info = __('Cache types: %s ', $cacheTypes);
+            $info = __('Cache types: %1 ', $cacheTypes);
         }
 
         $success = true;

@@ -453,79 +453,79 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
             array(
                 $this->_getDataSet('test1', 'decimal', 1.5, 'test')
             ),
-//            array(
-//                $this->_getDataSet('test2', 'varchar', 'test string',
-//                    substr($longString, 0,
-//                        Mage_ImportExport_Model_Import_EntityAbstract::DB_MAX_VARCHAR_LENGTH
-//                    )
-//                )
-//            ),
-//            array(
-//                $this->_getDataSet('test3', 'select', 'test2', 'custom', null,
-//                    array(
-//                        'test1' => 1,
-//                        'test2' => 2,
-//                        'test3' => 3
-//                    )
-//                )
-//            ),
-//            array(
-//                $this->_getDataSet('test4', 'multiselect', 'test2', 'custom', null,
-//                    array(
-//                        'test1' => 1,
-//                        'test2' => 2,
-//                        'test3' => 3
-//                    )
-//                )
-//            ),
-//            array(
-//                $this->_getDataSet('test5', 'int', 100, 'custom')
-//            ),
-//            array(
-//                $this->_getDataSet('test6', 'datetime', '2012-06-15 15:50', '2012-30-30')
-//            ),
-//            array(
-//                $this->_getDataSet('test7', 'text', 'test string', $longString)
-//            ),
-//            array(
-//                $this->_getDataSet('test8', 'int', 1, 1, true)
-//            ),
-//            array(
-//                $this->_getDataSet('test9', 'datetime', '2012-02-29', '02/29/2012 11:12:67')
-//            ),
-//            array(
-//                $this->_getDataSet('test10', 'datetime', '29.02.2012', '11.02.4 11:12:59')
-//            ),
-//            array(
-//                $this->_getDataSet('test11', 'datetime', '02/29/2012', '2012-13-29 21:12:59')
-//            ),
-//            array(
-//                $this->_getDataSet('test12', 'datetime', '02/29/2012 11:12:59', '32.12.2012')
-//            ),
-//            array(
-//                array(
-//                    'code'          => 'test7',
-//                    'type'          => 'datetime',
-//                    'valid_value'   => '2012-02-29',
-//                    'invalid_value' => '02/29/2012 11:12:67'
-//                )
-//            ),
-//            array(
-//                array(
-//                    'code'          => 'test7',
-//                    'type'          => 'datetime',
-//                    'valid_value'   => '29.02.2012',
-//                    'invalid_value' => '11.02.4 11:12:59'
-//                )
-//            ),
-//            array(
-//                array(
-//                    'code'          => 'test7',
-//                    'type'          => 'datetime',
-//                    'valid_value'   => '02/29/2012',
-//                    'invalid_value' => '2012-13-29 21:12:59'
-//                )
-//            ),
+            array(
+                $this->_getDataSet('test2', 'varchar', 'test string',
+                    substr($longString, 0,
+                        Mage_ImportExport_Model_Import_EntityAbstract::DB_MAX_VARCHAR_LENGTH
+                    )
+                )
+            ),
+            array(
+                $this->_getDataSet('test3', 'select', 'test2', 'custom', null,
+                    array(
+                        'test1' => 1,
+                        'test2' => 2,
+                        'test3' => 3
+                    )
+                )
+            ),
+            array(
+                $this->_getDataSet('test4', 'multiselect', 'test2', 'custom', null,
+                    array(
+                        'test1' => 1,
+                        'test2' => 2,
+                        'test3' => 3
+                    )
+                )
+            ),
+            array(
+                $this->_getDataSet('test5', 'int', 100, 'custom')
+            ),
+            array(
+                $this->_getDataSet('test6', 'datetime', '2012-06-15 15:50', '2012-30-30')
+            ),
+            array(
+                $this->_getDataSet('test7', 'text', 'test string', $longString)
+            ),
+            array(
+                $this->_getDataSet('test8', 'int', 1, 1, true)
+            ),
+            array(
+                $this->_getDataSet('test9', 'datetime', '2012-02-29', '02/29/2012 11:12:67')
+            ),
+            array(
+                $this->_getDataSet('test10', 'datetime', '29.02.2012', '11.02.4 11:12:59')
+            ),
+            array(
+                $this->_getDataSet('test11', 'datetime', '02/29/2012', '2012-13-29 21:12:59')
+            ),
+            array(
+                $this->_getDataSet('test12', 'datetime', '02/29/2012 11:12:59', '32.12.2012')
+            ),
+            array(
+                array(
+                    'code'          => 'test7',
+                    'type'          => 'datetime',
+                    'valid_value'   => '2012-02-29',
+                    'invalid_value' => '02/29/2012 11:12:67'
+                )
+            ),
+            array(
+                array(
+                    'code'          => 'test7',
+                    'type'          => 'datetime',
+                    'valid_value'   => '29.02.2012',
+                    'invalid_value' => '11.02.4 11:12:59'
+                )
+            ),
+            array(
+                array(
+                    'code'          => 'test7',
+                    'type'          => 'datetime',
+                    'valid_value'   => '02/29/2012',
+                    'invalid_value' => '2012-13-29 21:12:59'
+                )
+            ),
         );
     }
 
@@ -560,7 +560,6 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      *
      * @covers Mage_ImportExport_Model_Import_EntityAbstract::validateData
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Cannot find required columns: test3
      */
     public function testValidateDataPermanentAttributes()
     {
@@ -580,11 +579,10 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      *
      * @covers Mage_ImportExport_Model_Import_EntityAbstract::validateData
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Columns number: "1" have empty headers
      */
     public function testValidateDataEmptyColumnName()
     {
-        $this->_createSourceAdapterMock(array(' '));
+        $this->_createSourceAdapterMock(array(''));
         $this->_model->validateData();
     }
 
@@ -593,7 +591,6 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      *
      * @covers Mage_ImportExport_Model_Import_EntityAbstract::validateData
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Columns number: "1" have empty headers
      */
     public function testValidateDataColumnNameWithWhitespaces()
     {
@@ -606,7 +603,6 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      *
      * @covers Mage_ImportExport_Model_Import_EntityAbstract::validateData
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Column names: "_test1" are invalid
      */
     public function testValidateDataAttributeNames()
     {

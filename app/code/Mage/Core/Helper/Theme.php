@@ -296,12 +296,12 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
     protected function _getGroupLabels(array $themes, $jsDir, $codeDir)
     {
         $labels = array(
-            $jsDir => __('Library files'),
-            $codeDir => __('Framework files')
+            $jsDir => (string)__('Library files'),
+            $codeDir => (string)__('Framework files')
         );
         foreach ($themes as $theme) {
             /** @var $theme Mage_Core_Model_Theme */
-            $labels[$theme->getThemeId()] = __('"%1" Theme files', $theme->getThemeTitle());
+            $labels[$theme->getThemeId()] = (string)__('"%1" Theme files', $theme->getThemeTitle());
         }
         return $labels;
     }

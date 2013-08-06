@@ -447,10 +447,9 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
     public function getErrorMessages()
     {
         $messages = array();
-
         foreach ($this->_errors as $errorCode => $errorRows) {
             if (isset($this->_messageTemplates[$errorCode])) {
-                $errorCode = __($this->_messageTemplates[$errorCode]);
+                $errorCode = (string)__($this->_messageTemplates[$errorCode]);
             }
             foreach ($errorRows as $errorRowData) {
                 $key = $errorRowData[1] ? sprintf($errorCode, $errorRowData[1]) : $errorCode;
@@ -597,13 +596,13 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
         }
 
         if (!$valid) {
-            $this->addRowError(__("Please correct the value for '%s'."),
+            $this->addRowError((string)__("Please correct the value for '%s'."),
                 $rowNumber, $attributeCode
             );
         } elseif (!empty($attributeParams['is_unique'])) {
             if (isset($this->_uniqueAttributes[$attributeCode][$rowData[$attributeCode]])) {
                 $this->addRowError(
-                    __("Duplicate Unique Attribute for '%s'"),
+                    (string)__("Duplicate Unique Attribute for '%s'"),
                     $rowNumber, $attributeCode
                 );
                 return false;

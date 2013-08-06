@@ -13,6 +13,7 @@
  *
  * @todo Remove this suppression when jira entry MAGETWO-8296 is completed.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
 {
@@ -567,10 +568,10 @@ class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
             $code = $module . self::SCOPE_SEPARATOR . $text;
             $translated = $this->_getTranslatedString($text, $code);
         }
+        //Temporary solution. It should be removed after MAGETWO-11896
         try {
             $translated = $this->_placeholderRender->render($translated, $args);
         } catch (Exception $e) {
-//          Temporary solution. It should be removed after MAGETWO-11896
             if ($this->_isDeveloperMode()) {
                 $this->_logger->logException($e);
             }
