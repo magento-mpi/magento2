@@ -125,11 +125,6 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
         $this->getSelect()
             ->group('tr.tag_id');
 
-        /*
-         * Allow analytic functions usage
-         */
-        $this->_useAnalyticFunction = true;
-
         $this->_allowDisableGrouping = true;
         return $this;
     }

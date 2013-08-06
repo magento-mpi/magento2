@@ -10,10 +10,6 @@
 
 /**
  * DB Installer
- *
- * @category   Mage
- * @package    Mage_Install
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstract
 {
@@ -52,7 +48,9 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             $dbModel = ($data['db_model']);
 
             if (!$resource = $this->_getDbResource($dbModel)) {
-                Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('There is no resource for %s DB model.', $dbModel));
+                Mage::throwException(
+                    Mage::helper('Mage_Install_Helper_Data')->__('There is no resource for %s DB model.', $dbModel)
+                );
             }
 
             $resource->setConfig($data);
@@ -67,7 +65,8 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             }
             if (!empty($absenteeExtensions)) {
                 Mage::throwException(
-                    Mage::helper('Mage_Install_Helper_Data')->__('PHP Extensions "%s" must be loaded.', implode(',', $absenteeExtensions))
+                    Mage::helper('Mage_Install_Helper_Data')
+                        ->__('PHP Extensions "%s" must be loaded.', implode(',', $absenteeExtensions))
                 );
             }
 
@@ -85,19 +84,20 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             // check InnoDB support
             if (!$resource->supportEngine()) {
                 Mage::throwException(
-                    Mage::helper('Mage_Install_Helper_Data')->__('Database server does not support the InnoDB storage engine.')
+                    Mage::helper('Mage_Install_Helper_Data')
+                        ->__('Database server does not support the InnoDB storage engine.')
                 );
             }
 
             // TODO: check user roles
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
             Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__($e->getMessage()));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
-            Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('Something went wrong while connecting to the database.'));
+            Mage::throwException(
+                Mage::helper('Mage_Install_Helper_Data')->__('Something went wrong while connecting to the database.')
+            );
         }
 
         return $data;
@@ -112,11 +112,13 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
     protected function _getCheckedData($data)
     {
         if (!isset($data['db_name']) || empty($data['db_name'])) {
-            Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('The Database Name field cannot be empty.'));
+            Mage::throwException(
+                Mage::helper('Mage_Install_Helper_Data')->__('The Database Name field cannot be empty.')
+            );
         }
         //make all table prefix to lower letter
         if ($data['db_prefix'] != '') {
-           $data['db_prefix'] = strtolower($data['db_prefix']);
+            $data['db_prefix'] = strtolower($data['db_prefix']);
         }
         //check table prefix
         if ($data['db_prefix'] != '') {
@@ -160,7 +162,8 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             $resource =  Mage::getSingleton("Mage_Install_Model_Installer_Db_" . ucfirst($model));
             if (!$resource) {
                 Mage::throwException(
-                    Mage::helper('Mage_Install_Helper_Data')->__('Installer does not exist for %s database type', $model)
+                    Mage::helper('Mage_Install_Helper_Data')
+                        ->__('Installer does not exist for %s database type', $model)
                 );
             }
             $this->_dbResource = $resource;

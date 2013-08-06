@@ -10,7 +10,6 @@
 
 /**
  * Collections limiter model
- *
  */
 class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Observer_Abstract
 {
@@ -393,7 +392,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit Automated Email Marketing Reminder Rules collection
      *
-     * @param Mage_Core_Model_Mysql4_Collection_Abstract $collection
+     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $collection
      */
     public function limitRuleEntityCollection($collection)
     {
@@ -409,7 +408,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      *
      * @deprecated after 1.12.0.0 use $this->limitRuleEntityCollection() for any rule based collection
      *
-     * @param Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection $collection
+     * @param Enterprise_CustomerSegment_Model_Resource_Segment_Collection $collection
      */
     public function limitCustomerSegments($collection)
     {
@@ -421,7 +420,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      *
      * @deprecated after 1.12.0.0 use $this->limitRuleEntityCollection() for any rule based collection
      *
-     * @param Mage_Core_Model_Mysql4_Collection_Abstract $collection
+     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $collection
      */
     public function limitPriceRules($collection)
     {

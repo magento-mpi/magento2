@@ -34,9 +34,7 @@ class Mage_Catalog_Model_Product_Attribute_Set_Api extends Mage_Api_Model_Resour
                 'set_id' => $attributeSet->getId(),
                 'name'   => $attributeSet->getAttributeSetName()
             );
-
         }
-
         return $result;
     }
 
@@ -50,15 +48,15 @@ class Mage_Catalog_Model_Product_Attribute_Set_Api extends Mage_Api_Model_Resour
     public function create($attributeSetName, $skeletonSetId)
     {
         // check if set with requested $skeletonSetId exists
-        if (!Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')->load($skeletonSetId)->getId()){
+        if (!Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')->load($skeletonSetId)->getId()) {
             $this->_fault('invalid_skeleton_set_id');
         }
         // get catalog product entity type id
         $entityTypeId = Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId();
         /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
         $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
-                ->setEntityTypeId($entityTypeId)
-                ->setAttributeSetName($attributeSetName);
+            ->setEntityTypeId($entityTypeId)
+            ->setAttributeSetName($attributeSetName);
         try {
             // check if name is valid
             $attributeSet->validate();
@@ -84,16 +82,16 @@ class Mage_Catalog_Model_Product_Attribute_Set_Api extends Mage_Api_Model_Resour
     {
         // if attribute set has related goods and $forceProductsRemove is not set throw exception
         if (!$forceProductsRemove) {
-            /** @var $catalogProductsCollection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
-            $catalogProductsCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+            /** @var $productsCollection Mage_Catalog_Model_Resource_Product_Collection */
+            $productsCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
                     ->addFieldToFilter('attribute_set_id', $attributeSetId);
-            if (count($catalogProductsCollection)) {
+            if (count($productsCollection)) {
                 $this->_fault('attribute_set_has_related_products');
             }
         }
         $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')->load($attributeSetId);
         // check if set with requested id exists
-        if (!$attributeSet->getId()){
+        if (!$attributeSet->getId()) {
             $this->_fault('invalid_attribute_set_id');
         }
         try {
@@ -141,11 +139,11 @@ class Mage_Catalog_Model_Product_Attribute_Set_Api extends Mage_Api_Model_Resour
             $this->_fault('attribute_is_already_in_set');
         }
         try {
-           $attribute->setEntityTypeId($attributeSet->getEntityTypeId())
-                    ->setAttributeSetId($attributeSetId)
-                    ->setAttributeGroupId($attributeGroupId)
-                    ->setSortOrder($sortOrder)
-                    ->save();
+            $attribute->setEntityTypeId($attributeSet->getEntityTypeId())
+                ->setAttributeSetId($attributeSetId)
+                ->setAttributeGroupId($attributeGroupId)
+                ->setSortOrder($sortOrder)
+                ->save();
         } catch (Exception $e) {
             $this->_fault('add_attribute_error', $e->getMessage());
         }
@@ -242,30 +240,29 @@ class Mage_Catalog_Model_Product_Attribute_Set_Api extends Mage_Api_Model_Resour
     }
 
     /**
-        * Remove group from existing attribute set
-        *
-        * @param  string|int $attributeGroupId
-        * @return bool
-        */
-       public function groupRemove($attributeGroupId)
-       {
-           /** @var $group Mage_Catalog_Model_Product_Attribute_Group */
-           $group = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Group')->load($attributeGroupId);
-           if (!$group->getId()) {
-               $this->_fault('invalid_attribute_group_id');
-           }
-           if ($group->hasConfigurableAttributes()) {
-               $this->_fault('group_has_configurable_attributes');
-           }
-           if ($group->hasSystemAttributes()) {
-               $this->_fault('group_has_system_attributes');
-           }
-           try {
-               $group->delete();
-           } catch (Exception $e) {
-               $this->_fault('group_remove_error', $e->getMessage());
-           }
-           return true;
-       }
-
-} // Class Mage_Catalog_Model_Product_Attribute_Set_Api End
+     * Remove group from existing attribute set
+     *
+     * @param  string|int $attributeGroupId
+     * @return bool
+     */
+    public function groupRemove($attributeGroupId)
+    {
+        /** @var $group Mage_Catalog_Model_Product_Attribute_Group */
+        $group = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Group')->load($attributeGroupId);
+        if (!$group->getId()) {
+            $this->_fault('invalid_attribute_group_id');
+        }
+        if ($group->hasConfigurableAttributes()) {
+            $this->_fault('group_has_configurable_attributes');
+        }
+        if ($group->hasSystemAttributes()) {
+            $this->_fault('group_has_system_attributes');
+        }
+        try {
+            $group->delete();
+        } catch (Exception $e) {
+            $this->_fault('group_remove_error', $e->getMessage());
+        }
+        return true;
+    }
+}

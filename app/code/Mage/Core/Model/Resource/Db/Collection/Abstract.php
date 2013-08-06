@@ -96,14 +96,6 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     protected $_eventObject = '';
 
     /**
-     * Use analytic function flag
-     * If true - allows to prepare final select with analytic function
-     *
-     * @var bool
-     */
-    protected $_useAnalyticFunction         = false;
-
-    /**
      * Collection constructor
      *
      * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
@@ -484,27 +476,6 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
         return $this->getConnection()->fetchCol($idsSelect, $this->_bindParams);
     }
 
-    /**
-     * Prepare select for load
-     *
-     * @param Zend_Db_Select $select
-     * @return Zend_Db_Select
-     */
-    protected function _prepareSelect(Zend_Db_Select $select)
-    {
-        $helper = Mage::getResourceHelper('Mage_Core');
-
-        $unionParts = $select->getPart(Zend_Db_Select::UNION);
-        if (!empty($unionParts)) {
-            $select = $helper->limitUnion($select);
-        }
-
-        if ($this->_useAnalyticFunction) {
-            $select = $helper->getQueryUsingAnalyticFunction($select);
-        }
-
-        return $select;
-    }
     /**
      * Join table to collection select
      *

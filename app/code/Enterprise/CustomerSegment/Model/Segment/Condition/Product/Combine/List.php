@@ -54,6 +54,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
                 break;
             default:
                 $events = array('checkout_cart_save_after');
+                break;
         }
         return $events;
     }
@@ -193,8 +194,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
                 break;
         }
 
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
-
+        $select->limit(1);
         return $select;
     }
 

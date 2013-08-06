@@ -22,12 +22,14 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
     /**
      * Join information for usin full text search
      *
-     * @param  Varien_Db_Select $select
+     * @param string $table
+     * @param string $alias
+     * @param Varien_Db_Select $select
      * @return Varien_Db_Select $select
      */
     public function chooseFulltext($table, $alias, $select)
     {
-        $field = new Zend_Db_Expr('MATCH ('.$alias.'.data_index) AGAINST (:query IN BOOLEAN MODE)');
+        $field = new Zend_Db_Expr('MATCH (' . $alias . '.data_index) AGAINST (:query IN BOOLEAN MODE)');
         $select->columns(array('relevance' => $field));
         return $field;
     }
@@ -36,9 +38,10 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
      * Prepare Terms
      *
      * @param string $str The source string
-     * @return array(0=>words, 1=>terms)
+     * @param int $maxWordLength
+     * @return array (0 => words, 1 => terms)
      */
-    function prepareTerms($str, $maxWordLength = 0)
+    public function prepareTerms($str, $maxWordLength = 0)
     {
         $boolWords = array(
             '+' => '+',
@@ -80,9 +83,9 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
             }
         }
         if ($isOpenBracket > 0) {
-            $words[] = sprintf("%')".$isOpenBracket."s", '');
+            $words[] = sprintf("%')" . $isOpenBracket . "s", '');
         } else if ($isOpenBracket < 0) {
-            $words[0] = sprintf("%'(".$isOpenBracket."s", '');
+            $words[0] = sprintf("%'(" . $isOpenBracket . "s", '');
         }
         if ($maxWordLength && count($terms) > $maxWordLength) {
             $terms = array_slice($terms, 0, $maxWordLength);
@@ -94,12 +97,13 @@ class Mage_CatalogSearch_Model_Resource_Helper_Mysql4 extends Mage_Eav_Model_Res
     /**
      * Use sql compatible with Full Text indexes
      *
-     * @param mixed $table The table to insert data into.
+     * @param string $table The table to insert data into.
      * @param array $data Column-value pairs or array of column-value pairs.
-     * @param arrat $fields update fields pairs or values
+     * @param array $fields update fields pairs or values
      * @return int The number of affected rows.
      */
-    public function insertOnDuplicate($table, array $data, array $fields = array()) {
+    public function insertOnDuplicate($table, array $data, array $fields = array())
+    {
         return $this->_getWriteAdapter()->insertOnDuplicate($table, $data, $fields);
     }
 }

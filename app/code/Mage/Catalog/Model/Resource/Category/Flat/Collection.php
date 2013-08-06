@@ -49,8 +49,6 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
     }
 
     /**
-     * Enter description here ...
-     *
      * @return Mage_Catalog_Model_Resource_Category_Flat_Collection
      */
     protected function _initSelect()
@@ -97,8 +95,7 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
      */
     protected function _beforeLoad()
     {
-        Mage::dispatchEvent($this->_eventPrefix . '_load_before',
-                            array($this->_eventObject => $this));
+        Mage::dispatchEvent($this->_eventPrefix . '_load_before', array($this->_eventObject => $this));
         return parent::_beforeLoad();
     }
 
@@ -109,9 +106,7 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
      */
     protected function _afterLoad()
     {
-        Mage::dispatchEvent($this->_eventPrefix . '_load_after',
-                            array($this->_eventObject => $this));
-
+        Mage::dispatchEvent($this->_eventPrefix . '_load_after', array($this->_eventObject => $this));
         return parent::_afterLoad();
     }
 
@@ -135,7 +130,7 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
      */
     public function getStoreId()
     {
-        if (is_null($this->_storeId)) {
+        if (null === $this->_storeId) {
             return Mage::app()->getStore()->getId();
         }
         return $this->_storeId;
@@ -181,8 +176,6 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
     }
 
     /**
-     * Enter description here ...
-     *
      * @return Mage_Catalog_Model_Resource_Category_Flat_Collection
      */
     public function addIsActiveFilter()
@@ -287,8 +280,6 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
     }
 
     /**
-     * Enter description here ...
-     *
      * @return Mage_Catalog_Model_Resource_Category_Flat_Collection
      */
     public function addUrlRewriteToResult()
@@ -296,19 +287,17 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
         $storeId = Mage::app()->getStore()->getId();
         $this->getSelect()->joinLeft(
             array('url_rewrite' => $this->getTable('core_url_rewrite')),
-            'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 '.
-            'AND url_rewrite.product_id IS NULL'.
-            ' AND ' . $this->getConnection()->quoteInto('url_rewrite.store_id=?', $storeId).
-            ' AND ' . $this->getConnection()->quoteInto('url_rewrite.id_path LIKE ?','category/%'),
+            'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 '
+            . 'AND url_rewrite.product_id IS NULL'
+            . ' AND ' . $this->getConnection()->quoteInto('url_rewrite.store_id=?', $storeId)
+            . ' AND ' . $this->getConnection()->quoteInto('url_rewrite.id_path LIKE ?', 'category/%'),
             array('request_path')
         );
         return $this;
     }
 
     /**
-     * Enter description here ...
-     *
-     * @param unknown_type $paths
+     * @param string|array $paths
      * @return Mage_Catalog_Model_Resource_Category_Flat_Collection
      */
     public function addPathsFilter($paths)
@@ -330,9 +319,7 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
     }
 
     /**
-     * Enter description here ...
-     *
-     * @param unknown_type $level
+     * @param string $level
      * @return Mage_Catalog_Model_Resource_Category_Flat_Collection
      */
     public function addLevelFilter($level)
@@ -342,9 +329,7 @@ class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Mod
     }
 
     /**
-     * Enter description here ...
-     *
-     * @param unknown_type $field
+     * @param string $field
      * @return Mage_Catalog_Model_Resource_Category_Flat_Collection
      */
     public function addOrderField($field)

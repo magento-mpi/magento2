@@ -35,7 +35,6 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_CollectionTest exte
      */
     public function testFilterByOrder()
     {
-        $this->markTestIncomplete('MAGETWO-7075');
         $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId('100000001');
 
         $items = $this->_collection->addFilterByOrder($order);

@@ -10,8 +10,6 @@
 
 
 /**
- * Enter description here ...
- *
  * @method Mage_Eav_Model_Resource_Entity_Store _getResource()
  * @method Mage_Eav_Model_Resource_Entity_Store getResource()
  * @method int getEntityTypeId()

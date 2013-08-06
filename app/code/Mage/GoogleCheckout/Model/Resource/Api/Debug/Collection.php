@@ -8,19 +8,10 @@
  * @license     {license_link}
  */
 
-
-/**
- * Enter description here ...
- *
- * @category    Mage
- * @package     Mage_GoogleCheckout
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Mage_GoogleCheckout_Model_Resource_Api_Debug_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Collection constructor
-     *
      */
     protected function _construct()
     {

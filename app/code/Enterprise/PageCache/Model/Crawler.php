@@ -9,8 +9,6 @@
  */
 
 /**
- * Enter description here ...
- *
  * @method Enterprise_PageCache_Model_Resource_Crawler _getResource()
  * @method Enterprise_PageCache_Model_Resource_Crawler getResource()
  * @method int getStoreId()

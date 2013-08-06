@@ -784,4 +784,9 @@ return array(
     array('Social_Facebook_Model_Facebook'),
     array('Social_Facebook_Model_Facebuttons'),
     array('Social_Facebook_Model_Observer'),
+    array('Mage_Core_Model_Resource_Type_Db_Mysqli_Setup'),
+    array('Mage_Core_Model_Resource_Type_Db_Mysqli'),
+    array('Varien_Db_Adapter_Mysqli'),
+    array('Mage_DB_Mysqli'),
+    array('Mage_DB_Exception'),
 );

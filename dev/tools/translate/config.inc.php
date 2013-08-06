@@ -16,7 +16,6 @@ $CONFIG['paths'] = array(
 );
 
 $CONFIG['translates'] = array(
-
     'Mage_AdminNotification' => array(
         'app/code/Mage/AdminNotification/',
     ),
@@ -206,14 +205,14 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/modern/template/page/',
         'app/design/frontend/default/modern/layout/page.xml',
     ),
-   'Mage_PageCache' => array(
+    'Mage_PageCache' => array(
         'app/code/Mage/PageCache/',
         'app/design/frontend/base/default/template/pagecache/',
         'app/design/frontend/base/default/layout/pagecache.xml',
         'app/design/adminhtml/default/default/template/pagecache/',
         'app/design/adminhtml/default/default/layout/pagecache.xml'
     ),
-   'Mage_Captcha' => array(
+    'Mage_Captcha' => array(
         'app/code/Mage/Captcha/',
         'app/design/frontend/base/default/template/captcha/',
         'app/design/frontend/base/default/layout/captcha.xml',
@@ -308,7 +307,7 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/shipping/',
         'app/design/frontend/base/default/layout/shipping.xml',
     ),
-   'Mage_Sitemap' => array(
+    'Mage_Sitemap' => array(
         'app/code/Mage/Sitemap/',
     ),
     'Mage_Strikeiron' => array(
@@ -560,7 +559,7 @@ $CONFIG['translates'] = array(
     ),
 );
 
-$CONFIG['helpers']  = array(
+$CONFIG['helpers'] = array(
     'adminhtml'         => 'Mage_Adminhtml',
     'adminnotification' => 'Mage_AdminNotification',
     'api'               => 'Mage_Api',

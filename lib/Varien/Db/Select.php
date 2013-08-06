@@ -36,10 +36,19 @@
  */
 class Varien_Db_Select extends Zend_Db_Select
 {
+    /**
+     * Condition type
+     */
     const TYPE_CONDITION    = 'TYPE_CONDITION';
 
+    /**
+     * Straight join key
+     */
     const STRAIGHT_JOIN     = 'straightjoin';
 
+    /**
+     * Sql straight join
+     */
     const SQL_STRAIGHT_JOIN = 'STRAIGHT_JOIN';
 
     /**
@@ -333,7 +342,7 @@ class Varien_Db_Select extends Zend_Db_Select
     }
 
     /**
-     * Modify (hack) part of the structured information for the currect query
+     * Modify (hack) part of the structured information for the current query
      *
      * @param string $part
      * @param mixed $value
@@ -358,7 +367,7 @@ class Varien_Db_Select extends Zend_Db_Select
      */
     public function useStraightJoin($flag = true)
     {
-        $this->_parts[self::STRAIGHT_JOIN] = (bool) $flag;
+        $this->_parts[self::STRAIGHT_JOIN] = (bool)$flag;
         return $this;
     }
 
@@ -380,11 +389,11 @@ class Varien_Db_Select extends Zend_Db_Select
     /**
      * Adds to the internal table-to-column mapping array.
      *
-     * @param  string $tbl The table/join the columns come from.
-     * @param  array|string $cols The list of columns; preferably as
-     * an array, but possibly as a string containing one column.
-     * @param  bool|string True if it should be prepended, a correlation name if it should be inserted
-     * @return void
+     * @param  string $correlationName The table/join the columns come from.
+     * @param  array|string $cols The list of columns; preferably as an array,
+     *     but possibly as a string containing one column.
+     * @param  bool|string $afterCorrelationName True if it should be prepended,
+     *     a correlation name if it should be inserted
      */
     protected function _tableCols($correlationName, $cols, $afterCorrelationName = null)
     {

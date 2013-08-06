@@ -203,10 +203,9 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      *
      * @param Mage_Customer_Model_Customer $customer
      * @param string $email
-     * @param bool $testOnly
      * @return Mage_Customer_Model_Resource_Customer
      */
-    public function loadByEmail(Mage_Customer_Model_Customer $customer, $email, $testOnly = false)
+    public function loadByEmail(Mage_Customer_Model_Customer $customer, $email)
     {
         $adapter = $this->_getReadAdapter();
         $bind    = array('customer_email' => $email);
@@ -325,14 +324,14 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      *
      * Stores new reset password link token and its creation time
      *
-     * @param Mage_Customer_Model_Customer $newResetPasswordLinkToken
-     * @param string $newResetPasswordLinkToken
+     * @param Mage_Customer_Model_Customer $customer
+     * @param string $passwordLinkToken
      * @return Mage_Customer_Model_Resource_Customer
      */
-    public function changeResetPasswordLinkToken(Mage_Customer_Model_Customer $customer, $newResetPasswordLinkToken)
+    public function changeResetPasswordLinkToken(Mage_Customer_Model_Customer $customer, $passwordLinkToken)
     {
-        if (is_string($newResetPasswordLinkToken) && !empty($newResetPasswordLinkToken)) {
-            $customer->setRpToken($newResetPasswordLinkToken);
+        if (is_string($passwordLinkToken) && !empty($passwordLinkToken)) {
+            $customer->setRpToken($passwordLinkToken);
             $currentDate = Varien_Date::now();
             $customer->setRpTokenCreatedAt($currentDate);
             $this->saveAttribute($customer, 'rp_token');

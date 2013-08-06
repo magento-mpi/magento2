@@ -11,7 +11,7 @@
 
 /** @var $product Mage_Catalog_Model_Product */
 $product = Mage::getModel('Mage_Catalog_Model_Product');
-$product->setTypeId('simple')
+$product->setTypeId('virtual')
     ->setId(1)
     ->setAttributeSetId(4)
     ->setName('Simple Product')
@@ -54,6 +54,13 @@ $quote->getShippingAddress()->setCollectShippingRates(true);
 $quote->getShippingAddress()->collectShippingRates();
 $quote->collectTotals();
 $quote->save();
+
+Mage::getObjectManager()->configure(array(
+    'preferences' => array(
+        'Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface' =>
+            'Enterprise_Reward_Model_Observer_PlaceOrder_Restriction_Backend'
+    )
+));
 
 /** @var $service Mage_Sales_Model_Service_Quote */
 $service = Mage::getModel('Mage_Sales_Model_Service_Quote', array('quote' => $quote));

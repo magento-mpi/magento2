@@ -123,7 +123,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
             'value_name' => $this->getAggregatorName(),
         ))->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Editable'));
     }
-/* end aggregator methods */
+    /* end aggregator methods */
 
     /**
      * @return $this

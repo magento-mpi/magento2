@@ -46,8 +46,8 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     protected $_configData = array();
 
     /**
-    * @var Magento_Filesystem
-    */
+     * @var Magento_Filesystem
+     */
     protected $_filesystem;
 
     /**
@@ -57,8 +57,8 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Mage_Core_Model_Config $config, 
-        Mage_Core_Model_Dir $dirs, 
+        Mage_Core_Model_Config $config,
+        Mage_Core_Model_Dir $dirs,
         Mage_Core_Model_Config_Resource $resourceConfig,
         Magento_Filesystem $filesystem
     ) {
@@ -183,8 +183,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
             $staticUrl = $baseUrl . $this->_dirs->getUri(Mage_Core_Model_Dir::PUB_LIB) . '/' . $staticFile;
             $client = new Varien_Http_Client($staticUrl);
             $response = $client->request('GET');
-        }
-        catch (Exception $e){
+        } catch (Exception $e){
             $this->_getInstaller()->getDataModel()->addError(
                 Mage::helper('Mage_Install_Helper_Data')->__('The URL "%s" is not accessible.', $baseUrl)
             );

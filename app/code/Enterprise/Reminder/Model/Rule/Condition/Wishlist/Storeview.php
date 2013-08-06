@@ -96,7 +96,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
      * Get SQL select
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
+     * @param int|Zend_Db_Expr $website
      * @return Varien_Db_Select
      */
     public function getConditionsSql($customer, $website)
@@ -117,7 +117,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Storeview
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
         $select->where("item.store_id {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
-        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
+        $select->limit(1);
 
         return $select;
     }

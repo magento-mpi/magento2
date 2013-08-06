@@ -30,10 +30,12 @@ class Mage_Webapi_Model_Acl_Loader_Resource_ConfigReaderTest extends PHPUnit_Fra
             __DIR__, '..', '..', '..', '..', '..', '..', '..', '..', '..', '..', 'app', 'code', 'Mage', 'Webapi', 'etc'
         );
         $dirPath = realpath(implode(DIRECTORY_SEPARATOR, $dirPath));
-        $this->_fileListMock = $this->getMock('Magento_Acl_Loader_Resource_ConfigReader_FileListInterface');
-        $this->_fileListMock->expects($this->any())->method('asArray')->will($this->returnValue(array($path)));
-        $this->_mapperMock = $this->getMock('Magento_Acl_Loader_Resource_ConfigReader_Xml_ArrayMapper');
-        $this->_converterMock = $this->getMock('Magento_Config_Dom_Converter_ArrayConverter');
+        $fileListMock = $this->getMockBuilder('Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader_FileList')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $fileListMock->expects($this->any())->method('asArray')->will($this->returnValue(array($path)));
+        $mapperMock = $this->getMock('Magento_Acl_Loader_Resource_ConfigReader_Xml_ArrayMapper');
+        $converterMock = $this->getMock('Magento_Config_Dom_Converter_ArrayConverter');
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $this->_configMock->expects($this->any())
             ->method('getModuleDir')
@@ -41,9 +43,9 @@ class Mage_Webapi_Model_Acl_Loader_Resource_ConfigReaderTest extends PHPUnit_Fra
             ->will($this->returnValue($dirPath));
 
         $this->_reader = new Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader(
-            $this->_fileListMock,
-            $this->_mapperMock,
-            $this->_converterMock,
+            $fileListMock,
+            $mapperMock,
+            $converterMock,
             $this->_configMock
         );
     }

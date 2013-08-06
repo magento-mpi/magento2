@@ -171,12 +171,6 @@ class Mage_Catalog_Model_Resource_Product_Link_Product_Collection extends Mage_C
     public function setGroupBy($groupBy = 'e.entity_id')
     {
         $this->getSelect()->group($groupBy);
-
-        /*
-         * Allow Analytic functions usage
-         */
-        $this->_useAnalyticFunction = true;
-
         return $this;
     }
 

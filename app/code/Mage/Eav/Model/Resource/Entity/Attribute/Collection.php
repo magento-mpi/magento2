@@ -110,7 +110,6 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
                 );
                 $this->addFieldToFilter('entity_attribute.attribute_set_id', array('in' => $setId));
                 $this->addAttributeGrouping();
-                $this->_useAnalyticFunction = true;
             }
         } elseif ($setId) {
             $this->join(
@@ -273,9 +272,6 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
                 'option_id')
             ->group('main_table.attribute_id')
             ->where($orWhere);
-
-        $this->_useAnalyticFunction = true;
-
         return $this;
     }
 

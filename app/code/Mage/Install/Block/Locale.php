@@ -28,7 +28,7 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
     public function getLocale()
     {
         $locale = $this->getData('locale');
-        if (is_null($locale)) {
+        if (null === $locale) {
             $locale = Mage::app()->getLocale()->getLocale();
             $this->setData('locale', $locale);
         }
@@ -43,7 +43,6 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
     public function getPostUrl()
     {
         return $this->getCurrentStep()->getNextUrl();
-        //return $this->getUrl('*/*/localePost');
     }
 
     /**
@@ -138,10 +137,13 @@ class Mage_Install_Block_Locale extends Mage_Install_Block_Abstract
             : Mage::app()->getLocale()->getCurrency();
     }
 
+    /**
+     * @return Varien_Object
+     */
     public function getFormData()
     {
         $data = $this->getData('form_data');
-        if (is_null($data)) {
+        if (null === $data) {
             $data = new Varien_Object();
             $this->setData('form_data', $data);
         }
