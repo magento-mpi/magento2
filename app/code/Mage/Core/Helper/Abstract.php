@@ -37,6 +37,13 @@ abstract class Mage_Core_Helper_Abstract
     protected $_layout;
 
     /**
+     * Translator model
+     *
+     * @var Mage_Core_Model_Translate
+     */
+    protected $_translator;
+
+    /**
      * @var Mage_Core_Model_ModuleManager
      */
     private $_moduleManager;
@@ -46,6 +53,7 @@ abstract class Mage_Core_Helper_Abstract
      */
     public function __construct(Mage_Core_Helper_Context $context)
     {
+        $this->_translator = $context->getTranslator();
         $this->_moduleManager = $context->getModuleManager();
     }
 
