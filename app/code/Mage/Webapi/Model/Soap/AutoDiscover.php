@@ -82,14 +82,15 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         /** TODO: Remove Mage_Catalog_Service_Product after this method is finalized */
         /** Sort requested services by names to prevent caching of the same wsdl file more than once. */
         ksort($requestedServices);
-        /** TODO: Uncomment caching */
-//        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedServices));
-//        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
-//            $cachedWsdlContent = $this->_cache->load($cacheId);
-//            if ($cachedWsdlContent !== false) {
-//                return $cachedWsdlContent;
-//            }
-//        }
+        /** TODO: Uncomment caching
+        $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedServices));
+        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        $cachedWsdlContent = $this->_cache->load($cacheId);
+        if ($cachedWsdlContent !== false) {
+        return $cachedWsdlContent;
+        }
+        }
+         */
         $services = array();
         try {
             foreach ($requestedServices as $serviceName) {
@@ -103,9 +104,12 @@ class Mage_Webapi_Model_Soap_AutoDiscover
 
         $wsdlContent = $this->generate($services, $endpointUrl);
 
-//        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
-//            $this->_cache->save($wsdlContent, $cacheId, array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
-//        }
+        /** TODO: Uncomment caching
+        if ($this->_cache->canUse(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        $this->_cache->save($wsdlContent, $cacheId,
+        array(Mage_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
+        }
+         */
 
         return $wsdlContent;
     }
@@ -468,7 +472,12 @@ class Mage_Webapi_Model_Soap_AutoDiscover
             if (empty($inputComplexTypes)) {
                 if ($operationData['inputRequired']) {
                     throw new LogicException(
-                        $this->_helper->__('The method "%s" of service "%s" must have "%s" complex type defined in its schema.', $serviceMethod, $serviceName, $inputParameterName)
+                        $this->_helper->__(
+                            'The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
+                            $serviceMethod,
+                            $serviceName,
+                            $inputParameterName
+                        )
                     );
                 } else {
                     /** Generate empty input request to make WSDL compliant with WS-I basic profile */
@@ -482,7 +491,12 @@ class Mage_Webapi_Model_Soap_AutoDiscover
                 $serviceDataTypes['methods'][$serviceMethod]['interface']['outputComplexTypes'] = $outputComplexTypes;
             } else {
                 throw new LogicException(
-                    $this->_helper->__('The method "%s" of service "%s" must have "%s" complex type defined in its schema.', $serviceMethod, $serviceName, $outputParameterName)
+                    $this->_helper->__(
+                        'The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
+                        $serviceMethod,
+                        $serviceName,
+                        $outputParameterName
+                    )
                 );
             }
         }
