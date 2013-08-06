@@ -63,13 +63,6 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     protected $_values = array();
 
     /**
-     * Translate instance
-     *
-     * @var Mage_Core_Model_Translate
-     */
-    protected $_translate;
-
-    /**
      * Get resource instance
      *
      * @return Mage_Core_Model_Resource_Db_Abstract

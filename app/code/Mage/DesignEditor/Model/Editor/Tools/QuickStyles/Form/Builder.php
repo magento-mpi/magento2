@@ -231,18 +231,4 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     {
         $form->addType('column', 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column');
     }
-
-    /**
-     * Translate sentence
-     *
-     * @return string
-     * @SuppressWarnings(PHPMD.ShortMethodName)
-     */
-    protected function __()
-    {
-        $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), 'Mage_DesignEditor');
-        array_unshift($args, $expr);
-        return $this->_translator->translate($args);
-    }
 }

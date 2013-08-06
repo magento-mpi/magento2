@@ -36,14 +36,6 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Varien_Object
         return $this;
     }
 
-    public function __()
-    {
-        $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), 'Mage_GoogleCheckout');
-        array_unshift($args, $expr);
-        return $this->_translator->translate($args);
-    }
-
     public function getMerchantId()
     {
         if (!$this->hasData('merchant_id')) {

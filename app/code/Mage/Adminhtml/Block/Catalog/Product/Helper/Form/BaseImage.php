@@ -77,15 +77,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     }
 
     /**
-     * Translate message
-     *
-     * @param string $message
-     */
-    private function __($message) {
-        return __($message);
-    }
-
-    /**
      * Return element html code
      *
      * @return string

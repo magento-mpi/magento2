@@ -60,11 +60,6 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     protected $_authorization;
 
     /**
-     * @var Mage_Core_Model_Translate
-     */
-    protected $_translator;
-
-    /**
      * @param Mage_Backend_Controller_Context $context
      * @param null $areaCode
      */
@@ -77,7 +72,6 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         $this->_session = $context->getSession();
         $this->_eventManager = $context->getEventManager();
         $this->_authorization = $context->getAuthorization();
-        $this->_translator = $context->getTranslator();
     }
 
     protected function _isAllowed()
@@ -520,20 +514,6 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
             return false;
         }
         return true;
-    }
-
-    /**
-     * Translate a phrase
-     *
-     * @return string
-     * @SuppressWarnings(PHPMD.ShortMethodName)
-     */
-    public function __()
-    {
-        $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->_getRealModuleName());
-        array_unshift($args, $expr);
-        return $this->_translator->translate($args);
     }
 
     /**
