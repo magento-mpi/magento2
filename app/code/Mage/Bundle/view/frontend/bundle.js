@@ -2,7 +2,7 @@
  * {license_notice}
  *
  * @category    design
- * @package     magento2_reference
+ * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */

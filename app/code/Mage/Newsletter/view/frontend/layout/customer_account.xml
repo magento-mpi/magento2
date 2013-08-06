@@ -16,6 +16,6 @@
                 <label>Newsletter Subscriptions</label>
             </action>
         </reference>
-        <remove name="left.newsletter"/>
+        <remove name="newsletter_subscription"/>
     </customer_account>
 </layout>

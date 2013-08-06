@@ -12,7 +12,7 @@
         <reference name="checkout.cart.form.before">
             <block type="Enterprise_Reward_Block_Tooltip_Checkout" name="reward.tooltip.checkout" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <type>enterprise_reward/action_orderExtra</type>
+                    <type>Enterprise_Reward_Model_Action_OrderExtra</type>
                 </action>
                 <action method="setWrapperClass">
                     <class>reward-checkout</class>
@@ -28,7 +28,7 @@
         <reference name="checkout.cart.form.before">
             <block type="Enterprise_Reward_Block_Tooltip_Checkout" name="reward.tooltip.checkout.salesrule" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <type>enterprise_reward/action_salesrule</type>
+                    <type>Enterprise_Reward_Model_Action_Salesrule</type>
                 </action>
                 <action method="setWrapperClass">
                     <class>reward-checkout</class>
