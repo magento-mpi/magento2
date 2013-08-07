@@ -62,11 +62,11 @@ class Integrity_Theme_ViewFilesTest extends Magento_Test_TestCase_IntegrityAbstr
      */
     protected function _markTestIncompleteDueToBug($area, $file)
     {
-        if ($area === 'frontend' && in_array($file, array(
+        if (($area === 'frontend' && in_array($file, array(
             'css/styles.css', 'js/head.js', 'mui/reset.css', 'js/jquery.dropdowns.js', 'js/tabs.js',
             'js/selectivizr-min.js',
-        ))) {
-            $this->markTestIncomplete('MAGETWO-9806');
+        ))) || ($area === 'adminhtml' && in_array($file, array('mui/reset.css')))) {
+            $this->markTestIncomplete('MAGETWO-9806, MAGETWO-12325');
         }
     }
 

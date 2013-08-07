@@ -104,6 +104,7 @@ app/code/Mage/Tag/Block/Catalog/Product/Rss/Link.php
 app/code/Mage/Theme
 app/code/Mage/User
 app/code/Mage/Webapi
+app/code/Mage/Webhook
 dev/shell
 dev/tests/integration
 dev/tests/js

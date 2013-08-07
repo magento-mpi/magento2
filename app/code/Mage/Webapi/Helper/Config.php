@@ -81,7 +81,7 @@ class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
             }
             return $serviceNameParts;
         }
-        throw new InvalidArgumentException(sprintf('The service class name "%s" is invalid.', $className));
+        throw new InvalidArgumentException(sprintf('The service interface name "%s" is invalid.', $className));
     }
 
     /**

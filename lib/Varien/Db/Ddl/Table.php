@@ -550,7 +550,7 @@ class Varien_Db_Ddl_Table
      *
      * @param string $key
      * @param string $value
-     * @return string
+     * @return Varien_Db_Ddl_Table
      */
     public function setOption($key, $value)
     {
