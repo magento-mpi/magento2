@@ -343,7 +343,7 @@
         </di>
         <design>
             <theme>
-                <full_name>mage_demo</full_name>
+                <full_name>magento_demo</full_name>
             </theme>
         </design>
         <routers>
@@ -397,7 +397,7 @@
         </events>
         <design>
             <theme>
-                <full_name>mage_backend</full_name>
+                <full_name>magento_backend</full_name>
             </theme>
         </design>
     </adminhtml>
@@ -413,7 +413,7 @@
         </translate>
         <design>
             <theme>
-                <full_name>mage_basic</full_name>
+                <full_name>magento_basic</full_name>
             </theme>
         </design>
     </install>

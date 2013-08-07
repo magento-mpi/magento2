@@ -11,7 +11,7 @@
 <theme>
     <title>Plushe Beige</title>
     <version>1.0.0.0</version>
-    <parent>mage_reference</parent>
+    <parent>magento_reference</parent>
     <media>
         <preview_image>media/preview.jpg</preview_image>
     </media>

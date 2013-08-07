@@ -11,7 +11,7 @@
 <theme>
     <title>Recon</title>
     <version>1.0.0.0</version>
-    <parent>mage_hobby</parent>
+    <parent>magento_hobby</parent>
     <media>
         <preview_image>media/preview.jpg</preview_image>
     </media>

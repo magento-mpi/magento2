@@ -11,7 +11,7 @@
 <theme>
     <title>Zen</title>
     <version>1.0.0.0</version>
-    <parent>mage_modern2</parent>
+    <parent>magento_modern2</parent>
     <media>
         <preview_image>media/preview.jpg</preview_image>
     </media>
