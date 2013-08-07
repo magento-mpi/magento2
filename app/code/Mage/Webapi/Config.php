@@ -269,7 +269,7 @@ class Mage_Webapi_Config
                     $isOperationSecure = false;
                     if (isset($serviceData[self::KEY_OPERATIONS][$method->getName()][self::SECURE_ATTR_NAME])) {
                         $secureFlagValue = $serviceData[self::KEY_OPERATIONS]
-                            [$method->getName()][self::SECURE_ATTR_NAME];
+                        [$method->getName()][self::SECURE_ATTR_NAME];
                         $isOperationSecure = (strtolower($secureFlagValue) === 'true');
                     }
 
@@ -429,10 +429,7 @@ class Mage_Webapi_Config
         $soapOperations = $this->_getSoapOperations($requestedServices);
         if (!isset($soapOperations[$soapOperation])) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__(
-                    'Operation "%s" not found.',
-                    $soapOperation
-                ),
+                $this->_helper->__('Operation "%s" not found.', $soapOperation),
                 Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
         }
@@ -452,10 +449,7 @@ class Mage_Webapi_Config
         $soapOperations = $this->_getSoapOperations($requestedServices);
         if (!isset($soapOperations[$soapOperation])) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__(
-                    'Operation "%s" not found.',
-                    $soapOperation
-                ),
+                $this->_helper->__('Operation "%s" not found.', $soapOperation),
                 Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
         }
@@ -475,10 +469,7 @@ class Mage_Webapi_Config
         $soapOperations = $this->_getSoapOperations($requestedServices);
         if (!isset($soapOperations[$soapOperation])) {
             throw new Mage_Webapi_Exception(
-                $this->_helper->__(
-                    'Operation "%s" not found.',
-                    $soapOperation
-                ),
+                $this->_helper->__('Operation "%s" not found.', $soapOperation),
                 Mage_Webapi_Exception::HTTP_NOT_FOUND
             );
         }
