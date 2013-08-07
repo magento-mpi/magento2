@@ -80,3 +80,6 @@ dev/tests/unit/testsuite/Magento/Pbridge
 dev/tests/integration/testsuite/Magento/Pbridge
 app/code/Magento/Pci
 dev/tests/integration/testsuite/Magento/Pci
+app/code/Magento/PricePermissions
+dev/tests/unit/testsuite/Magento/PricePermissions
+dev/tests/integration/testsuite/Magento/PricePermissions

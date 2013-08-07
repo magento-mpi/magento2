@@ -35,7 +35,7 @@ class Magento_Enterprise_Model_Resource_Setup_Migration extends Magento_Core_Mod
                 'magento_giftwrapping'         => 'Magento_GiftWrapping',
                 'enterprise_importexport'         => 'Enterprise_ImportExport',
                 'enterprise_pagecache'            => 'Enterprise_PageCache',
-                'enterprise_pricepermissions'     => 'Enterprise_PricePermissions',
+                'magento_pricepermissions'     => 'Magento_PricePermissions',
                 'enterprise_promotionpermissions' => 'Enterprise_PromotionPermissions',
                 'enterprise_salesarchive'         => 'Enterprise_SalesArchive',
                 'enterprise_targetrule'           => 'Enterprise_TargetRule',

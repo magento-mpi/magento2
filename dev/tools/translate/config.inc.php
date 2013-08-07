@@ -473,8 +473,8 @@ $CONFIG['translates'] = array(
         'app/code/Enterprise/Persistent/',
         'app/design/frontend/enterprise/default/template/persistent/'
     ),
-    'Enterprise_PricePermissions' => array(
-        'app/code/Enterprise/PricePermissions/',
+    'Magento_PricePermissions' => array(
+        'app/code/Magento/PricePermissions/',
     ),
     'Enterprise_PromotionPermissions' => array(
         'app/code/Enterprise/PromotionPermissions/',
@@ -654,7 +654,7 @@ $CONFIG['helpers']  = array(
     'magento_pbridge'            => 'Magento_Pbridge',
     'magento_pci'                => 'Magento_Pci',
     'enterprise_persistent'         => 'Enterprise_Persistent',
-    'enterprise_pricepermissions'   => 'Enterprise_PricePermissions',
+    'magento_pricepermissions'   => 'Magento_PricePermissions',
     'enterprise_promotionpermissions' => 'Enterprise_PromotionPermissions',
     'enterprise_reminder'           => 'Enterprise_Reminder',
     'enterprise_reward'             => 'Enterprise_Reward',
