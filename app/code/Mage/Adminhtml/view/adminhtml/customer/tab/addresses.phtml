@@ -8,22 +8,24 @@
  * @license     {license_link}
  */
 ?>
-<script data-template="item-content-tmpl" type="text/x-jquery-tmpl">
-    {{if prefix || firstname || middlename || lastname || suffix}}
-        ${prefix} ${firstname} ${middlename} ${lastname} ${suffix}<br/>
-    {{/if}}
-    {{if company}}${company}<br/>{{/if}}
-    {{if street0}}${street0}<br/>{{/if}}
-    {{if street1}}${street1}<br/>{{/if}}
-    {{if street2}}${street2}<br/>{{/if}}
-    {{if street3}}${street3}<br/>{{/if}}
-    {{if city || region || postcode}}
-        {{if city}}${city}{{/if}}{{if region}}{{if city}}, {{/if}}${region}{{/if}}{{if postcode}}{{if city || region}}, {{/if}}${postcode}{{/if}}<br/>
-    {{/if}}
-    {{if country_id}}${country_id}<br/>{{/if}}
-    {{if telephone}}T: ${telephone}<br/>{{/if}}
-    {{if fax}}F: ${fax}<br/>{{/if}}
-    {{if vat_id}}VAT: ${vat_id}{{/if}}
+<script data-template="tab-address-content" type="text/x-jquery-tmpl">
+    <div>
+        {{if prefix || firstname || middlename || lastname || suffix}}
+            ${prefix} ${firstname} ${middlename} ${lastname} ${suffix}<br/>
+        {{/if}}
+        {{if company}}${company}<br/>{{/if}}
+        {{if street0}}${street0}<br/>{{/if}}
+        {{if street1}}${street1}<br/>{{/if}}
+        {{if street2}}${street2}<br/>{{/if}}
+        {{if street3}}${street3}<br/>{{/if}}
+        {{if city || region || postcode}}
+            {{if city}}${city}{{/if}}{{if region}}{{if city}}, {{/if}}${region}{{/if}}{{if postcode}}{{if city || region}}, {{/if}}${postcode}{{/if}}<br/>
+        {{/if}}
+        {{if country_id}}${country_id}<br/>{{/if}}
+        {{if telephone}}T: ${telephone}<br/>{{/if}}
+        {{if fax}}F: ${fax}<br/>{{/if}}
+        {{if vat_id}}VAT: ${vat_id}{{/if}}
+    </div>
 </script>
 
 <!-- Addresses list -->
@@ -78,11 +80,11 @@
                 </li>
                 <?php endforeach; ?>
             <?php endif; ?>
-            <li class="address-list-actions last"><?php echo $this->getAddNewButtonHtml() ?></li>
+            <li data-container="add-address" class="address-list-actions last"><?php echo $this->getAddNewButtonHtml() ?></li>
         </ul>
 
         <!-- Template for adding address item to list -->
-        <script data-template="address_item_template" type="text/x-jquery-tmpl">
+        <script data-template="address-tab" type="text/x-jquery-tmpl">
         <div id="address_item_template" class="hidden template">
             <li class="address-list-item" id="address_item_${itemId}" data-item="${itemId}">
                 <a href="#form_new_item${itemId}" data-mage-init="{dataItemDeleteButton: {}}">
@@ -119,8 +121,8 @@
 
         <!-- Address form template -->
         <?php $_templatePrefix = $this->getTemplatePrefix() ?>
-        <script data-template="address_form_template" type="text/x-jquery-tmpl">
-        <div id="address_form_template" class="no-display template" data-template="address_form"><!-- Don`t delete class no-display, save customer stops work  -->
+        <script data-template="address-form" type="text/x-jquery-tmpl">
+        <div id="address_form_template" class="no-display template"><!-- Don`t delete class no-display, save customer stops work  -->
             <div id="form_${formName}" data-item="${itemCount}" class="address-item-edit-content"
                  data-mage-init="{observableInputs:{'name': '${formName}'}}">
                 <?php
@@ -134,7 +136,7 @@
         </script>
 
         <!-- Addresses forms -->
-        <div class="address-item-edit" id="address_form_container">
+        <div data-container="address-forms" class="address-item-edit" id="address_form_container">
             <?php if(count($addressCollection)): ?>
                 <?php foreach ($addressCollection as $_address): ?>
                 <div class="address-item-edit-content" id="form_address_item_<?php echo $_address->getId() ?>" data-item="<?php echo $_address->getId() ?>" style="display:none" data-mage-init="{observableInputs: {'name': 'address_item_<?php echo $_address->getId() ?>'}}">

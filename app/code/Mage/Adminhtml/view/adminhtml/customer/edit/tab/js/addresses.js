@@ -17,7 +17,19 @@
             defaultCountries: [],
             optionalZipCountries: [],
             requiredStateForCountries: [],
-            deleteConfirmPrompt: ''
+            deleteConfirmPrompt: '',
+            formTemplateSelector: '[data-template="address-form"]',
+            tabTemplateSelector: '[data-template="address-tab"]',
+            tabAddressTemplateSelector: '[data-template="tab-address-content"]',
+            formsSelector: '[data-container="address-forms"]',
+            addAddressSelector: '[data-container="add-address"]',
+            formFirstNameSelector: ':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]',
+            accountFirstNameSelector: ':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-firstname"]',
+            formLastNameSelector: ':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-lastname"]',
+            accountLastNameSelector: ':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-lastname"]',
+            accountWebsiteIdSelector: ':input[data-ui-id="store-switcher-form-renderer-fieldset-element-select-account-website-id"]',
+            formCountrySelector: 'customer-edit-tab-addresses-fieldset-element-form-field-country-id',
+            addAddressButtonSelector: ':button[data-ui-id="customer-edit-tab-addresses-add-address-button"]'
         },
 
         /**
@@ -38,17 +50,17 @@
                 formName: formName,
                 itemCount: this.options.itemCount
             };
-            var formTemplate = this.element.find('script[data-template="address_form_template"]').tmpl(formData).html();
-            this.element.find('.address-item-edit').append(this._prepareTemplate(formTemplate));
+            var formTemplate = this.element.find(this.options.formTemplateSelector).tmpl(formData).html();
+            this.element.find(this.options.formsSelector).append(this._prepareTemplate(formTemplate));
 
             var newForm = $('#form_' + formName);
 
             // Replace template attributes
             var itemData = {'itemId': this.options.itemCount};
-            var itemTemplate = this.element.find('script[data-template="address_item_template"]').tmpl(itemData).html();
+            var itemTemplate = this.element.find(this.options.tabTemplateSelector).tmpl(itemData).html();
 
             // add the new address to the tabs list before the add new action list
-            this.element.find('.address-list-actions').before(itemTemplate);
+            this.element.find(this.options.addAddressSelector).before(itemTemplate);
 
             // refresh the widget to pick up the newly added tab.
             this.refresh();
@@ -59,14 +71,13 @@
             this.element.trigger('contentUpdated', $(formName));
 
             // pre-fill form with account firstname, lastname, and country
-            var firstname = newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-firstname"]');
-            firstname.val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-firstname"]').val());
-            newForm.find(':input[data-ui-id="customer-edit-tab-addresses-fieldset-element-text-address-template-lastname"]')
-                .val($(':input[data-ui-id="customer-edit-tab-account-fieldset-element-text-account-lastname"]').val());
+            var firstname = newForm.find(this.options.formFirstNameSelector);
+            firstname.val($(this.options.accountFirstNameSelector).val());
+            newForm.find(this.options.formLastNameSelector).val($(this.options.accountLastNameSelector).val());
 
-            var accountWebsiteId = $(':input[data-ui-id="store-switcher-form-renderer-fieldset-element-select-account-website-id"]').val();
+            var accountWebsiteId = $(this.options.accountWebsiteIdSelector).val();
             if (accountWebsiteId !== '' && undefined !== this.options.defaultCountries[accountWebsiteId]) {
-                newForm.find('customer-edit-tab-addresses-fieldset-element-form-field-country-id').val(this.options.defaultCountries[accountWebsiteId]);
+                newForm.find(this.options.formCountrySelector).val(this.options.defaultCountries[accountWebsiteId]);
             }
 
             // .val does not trigger change event, so manually trigger. (Triggering change of any field will handle update of all fields.)
@@ -79,13 +90,12 @@
          * This method is used to bind events associated with this widget.
          */
         _bind: function () {
-            this._on(this.element.find(':button[data-ui-id="customer-edit-tab-addresses-add-address-button"]'),
-                {'click': '_addNewAddress'});
+            this._on(this.element.find(this.options.addAddressButtonSelector),{'click': '_addNewAddress'});
             this._on({'formchange': '_updateAddress', 'dataItemDelete': '_deleteItemPrompt'});
             this.element.find('.countries').addressCountry({
                 regionsUrl: this.options.regionsUrl,
-                optionalZipCountries: this.optionalZipCountries,
-                requiredStateForCountries: this.requiredStateForCountries
+                optionalZipCountries: this.options.optionalZipCountries,
+                requiredStateForCountries: this.options.requiredStateForCountries
             });
         },
 
@@ -176,7 +186,7 @@
                 // Set data to html
                 var itemContainer = this.element.find("[aria-selected='true'] address");
                 if (itemContainer.length && itemContainer[0]) {
-                    itemContainer[0].innerHTML = $("<div/>").append($('[data-template="item-content-tmpl"]').tmpl(data)).html();
+                    itemContainer[0].innerHTML = $(this.options.tabAddressTemplateSelector).tmpl(data).html();
                 }
             }
         },
@@ -199,7 +209,7 @@
             if (!(element instanceof jQuery)) {
                 element = $(element);
             }
-            return element.closest(".address-item-edit-content");
+            return element.closest('[data-item]');
         },
 
         /**
@@ -210,8 +220,8 @@
         _bindCountryRegionRelation : function(formElement){
             $(formElement).find('.countries').addressCountry({
                 regionsUrl: this.options.regionsUrl,
-                optionalZipCountries: this.optionalZipCountries,
-                requiredStateForCountries: this.requiredStateForCountries
+                optionalZipCountries: this.options.optionalZipCountries,
+                requiredStateForCountries: this.options.requiredStateForCountries
             });
         }
     });
@@ -251,7 +261,7 @@
             var countryElement = event.target;
             this.options.countryElement = countryElement;
 
-            var formElement = $(countryElement).closest('.address-item-edit-content');
+            var formElement = $(countryElement).closest('[data-item]');
             var fieldElement = $(formElement).find('.field-region');
             var regionElement =  $(fieldElement).find('.input-text');
             if ('select' == $(regionElement).prop("tagName").toLowerCase()) {
@@ -411,7 +421,7 @@
          * @private
          */
         _setPostcodeOptional: function(countryElement) {
-            var formElement = $(countryElement).closest('.address-item-edit-content');
+            var formElement = $(countryElement).closest('[data-item]');
             var fieldElement = $(formElement).find('.field-postcode');
             var zipElement = $(fieldElement).find('.input-text');
 
