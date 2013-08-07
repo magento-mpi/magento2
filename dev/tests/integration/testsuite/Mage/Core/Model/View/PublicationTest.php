@@ -342,16 +342,16 @@ class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
                 'product/product.css',
                 array(
                     'area'    => 'adminhtml',
-                    'theme'   => 'mage_backend',
+                    'theme'   => 'magento_backend',
                     'locale'  => 'en_US',
                     'module'  => 'Mage_Catalog',
                 ),
-                'adminhtml/mage_backend/en_US/Mage_Catalog/product/product.css',
+                'adminhtml/magento_backend/en_US/Mage_Catalog/product/product.css',
                 array(
                     'url(../../Mage_Backend/images/gallery-image-base-label.png)',
                 ),
                 array(
-                    'adminhtml/mage_backend/en_US/Mage_Backend/images/gallery-image-base-label.png',
+                    'adminhtml/magento_backend/en_US/Mage_Backend/images/gallery-image-base-label.png',
                 ),
             ),
             'adminhtml' => array(

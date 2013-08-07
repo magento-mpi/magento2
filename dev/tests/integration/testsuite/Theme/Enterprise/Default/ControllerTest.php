@@ -27,7 +27,7 @@ class Theme_Enterprise_Default_ControllerTest extends Magento_Test_TestCase_Cont
     }
 
     /**
-     * @magentoConfigFixture frontend/design/theme/full_name mage_fixed_width
+     * @magentoConfigFixture frontend/design/theme/full_name magento_fixed_width
      * @magentoConfigFixture current_store dev/js/merge_files 0
      * @magentoConfigFixture current_store dev/js/minify_files 0
      */
@@ -38,7 +38,7 @@ class Theme_Enterprise_Default_ControllerTest extends Magento_Test_TestCase_Cont
     }
 
     /**
-     * @magentoConfigFixture frontend/design/theme/full_name mage_fixed_width
+     * @magentoConfigFixture frontend/design/theme/full_name magento_fixed_width
      * @magentoConfigFixture current_store dev/js/merge_files 0
      * @magentoConfigFixture current_store dev/js/minify_files 0
      */

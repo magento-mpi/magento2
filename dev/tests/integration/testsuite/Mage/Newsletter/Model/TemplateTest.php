@@ -25,10 +25,10 @@ class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture                    install/design/theme/full_name   mage_basic
-     * @magentoConfigFixture                    adminhtml/design/theme/full_name mage_basic
-     * @magentoConfigFixture current_store      design/theme/full_name           mage_blank
-     * @magentoConfigFixture fixturestore_store design/theme/full_name           mage_demo_blue
+     * @magentoConfigFixture                    install/design/theme/full_name   magento_basic
+     * @magentoConfigFixture                    adminhtml/design/theme/full_name magento_basic
+     * @magentoConfigFixture current_store      design/theme/full_name           magento_blank
+     * @magentoConfigFixture fixturestore_store design/theme/full_name           magento_demo_blue
      * @magentoAppIsolation  enabled
      * @dataProvider         getProcessedTemplateDataProvider
      */
@@ -51,10 +51,10 @@ class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
     public function getProcessedTemplateDataProvider()
     {
         return array(
-            'install'        => array('install',   'default',      'default/demo'),
-            'backend'        => array('adminhtml', 'admin',        'default/basic'),
-            'frontend'       => array('frontend',  'default',      'default/iphone'),
-            'frontend store' => array('frontend',  'fixturestore', 'default/demo_blue'),
+            'install'        => array('install',   'default',      'magento_demo'),
+            'backend'        => array('adminhtml', 'admin',        'magento_basic'),
+            'frontend'       => array('frontend',  'default',      'magento_iphone'),
+            'frontend store' => array('frontend',  'fixturestore', 'magento_demo_blue'),
         );
     }
 

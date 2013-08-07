@@ -12,7 +12,7 @@
 <theme>
     <title>Iphone</title>
     <version>2.0.0.0</version>
-    <parent>mage_default</parent>
+    <parent>magento_default</parent>
     <media>
         <preview_image>images/preview.png</preview_image>
     </media>

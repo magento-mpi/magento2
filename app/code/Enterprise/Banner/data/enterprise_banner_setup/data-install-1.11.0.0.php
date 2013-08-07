@@ -28,7 +28,8 @@ $banners = array(
 );
 
 /** @var $theme Mage_Core_Model_Theme */
-$theme = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection')->getThemeByFullPath('frontend/magento_fixed_width');
+$theme = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection')
+    ->getThemeByFullPath('frontend/magento_fixed_width');
 
 foreach ($banners as $sortOrder => $bannerData) {
     $banner = Mage::getModel('Enterprise_Banner_Model_Banner')

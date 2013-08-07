@@ -13,5 +13,5 @@
 <theme>
     <title>Theme G</title>
     <version>0.0.0.1</version>
-    <parent>mage_default</parent>
+    <parent>magento_default</parent>
 </theme>

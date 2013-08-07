@@ -52,7 +52,7 @@ class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
         $cssUrl = $this->_block->getViewFileUrl('css/wrong.css', array(
             'area'    => 'frontend',
-            'theme'   => 'mage_demo',
+            'theme'   => 'magento_demo',
             'locale'  => 'en_US'
         ));
         $this->assertStringMatchesFormat('%s/css/wrong.css', $cssUrl);
