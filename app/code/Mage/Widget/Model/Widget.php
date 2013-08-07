@@ -123,12 +123,6 @@ class Mage_Widget_Model_Widget extends Varien_Object
         $object->setType($type);
         $object->setData($xml->asCanonicalArray());
 
-        // Set module for translations etc.
-        $module = $object->getData('@/module');
-        if ($module) {
-            $object->setModule($module);
-        }
-
         // Correct widget parameters and convert its data to objects
         $params = $object->getData('parameters');
         $newParams = array();
@@ -215,13 +209,11 @@ class Mage_Widget_Model_Widget extends Varien_Object
         if (!$this->_getData('widgets_array')) {
             $result = array();
             foreach ($this->getWidgetsXml($filters) as $widget) {
-                $helper = $widget->getAttribute('module') ? $widget->getAttribute('module') : 'Mage_Widget_Helper_Data';
-                $helper = Mage::helper($helper);
                 $result[$widget->getName()] = array(
-                    'name'          => $helper->__((string)$widget->name),
+                    'name'          => __((string)$widget->name),
                     'code'          => $widget->getName(),
                     'type'          => $widget->getAttribute('type'),
-                    'description'   => $helper->__((string)$widget->description)
+                    'description'   => __((string)$widget->description)
                 );
             }
             usort($result, array($this, "_sortWidgets"));

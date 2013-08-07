@@ -318,12 +318,9 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         if ($this->getWidgetConfig() && ($configTemplates = $this->getWidgetConfig()->parameters->template)) {
             if ($configTemplates->values && $configTemplates->values->children()) {
                 foreach ($configTemplates->values->children() as $name => $template) {
-                    $helper = $template->getAttribute('module')
-                        ? $template->getAttribute('module')
-                        : 'Mage_Widget_Helper_Data';
                     $templates[(string)$name] = array(
                         'value' => (string)$template->value,
-                        'label' => Mage::helper($helper)->__((string)$template->label)
+                        'label' => __((string)$template->label),
                     );
                 }
             } elseif ($configTemplates->value) {

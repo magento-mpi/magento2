@@ -42,7 +42,6 @@ class Mage_Adminhtml_Block_Cms_Block_Widget_Chooser extends Mage_Adminhtml_Block
 
         $chooser = $this->getLayout()->createBlock('Mage_Widget_Block_Adminhtml_Widget_Chooser')
             ->setElement($element)
-            ->setTranslationHelper($this->getTranslationHelper())
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
             ->setSourceUrl($sourceUrl)
