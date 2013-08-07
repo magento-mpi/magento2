@@ -28,7 +28,7 @@ return array(
     array('Enterprise_Search_Model_Indexer_Price'),
     array('Enterprise_Search_Model_Resource_Suggestions'),
     array('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid'),
-    array('Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid'),
+    array('Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid'),
     array('Magento_CustomerSegment_Model_Resource_Helper_Mssql'),
     array('Enterprise_Logging_Model_Resource_Helper_Mssql'),
     array('Enterprise_Reminder_Model_Resource_Helper_Mssql'),

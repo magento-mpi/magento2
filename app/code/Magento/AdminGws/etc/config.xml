@@ -336,7 +336,7 @@
                     <magento_banner_model_banner>bannerSaveBefore</magento_banner_model_banner>
                     <magento_giftCardAccount_model_giftcardaccount>giftCardAccountSaveBefore</magento_giftCardAccount_model_giftcardaccount>
                     <magento_giftRegistry_model_type>giftRegistryTypeSaveBefore</magento_giftRegistry_model_type>
-                    <enterprise_giftWrapping_model_wrapping>giftWrappingSaveBefore</enterprise_giftWrapping_model_wrapping>
+                    <magento_giftWrapping_model_wrapping>giftWrappingSaveBefore</magento_giftWrapping_model_wrapping>
                     <enterprise_reward_model_reward_rate>rewardRateSaveBefore</enterprise_reward_model_reward_rate>
                     <magento_review_model_review>catalogProductReviewSaveBefore</magento_review_model_review>
                     <magento_rating_model_rating>ratingSaveBefore</magento_rating_model_rating>
@@ -507,7 +507,7 @@
                     <magento_adminhtml_block_sales_order_grid>removeNotAllowedMassactionsForOrders</magento_adminhtml_block_sales_order_grid>
                     <magento_index_block_adminhtml_process_grid>removeProcessListButtons</magento_index_block_adminhtml_process_grid>
                     <magento_index_block_adminhtml_process_edit>removeProcessEditButtons</magento_index_block_adminhtml_process_edit>
-                    <enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>removeGiftWrappingEditButtons</enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>
+                    <magento_giftWrapping_block_adminhtml_giftwrapping_edit>removeGiftWrappingEditButtons</magento_giftWrapping_block_adminhtml_giftwrapping_edit>
                     <enterprise_cms_block_adminhtml_cms_page_revision_edit>removeRevisionEditButtons</enterprise_cms_block_adminhtml_cms_page_revision_edit>
                     <enterprise_cms_block_adminhtml_cms_page_preview_buttons>removePreviewPublishButton</enterprise_cms_block_adminhtml_cms_page_preview_buttons>
                     <magento_giftCardAccount_block_adminhtml_giftcardaccount>removeGiftCardAccountAddButton</magento_giftCardAccount_block_adminhtml_giftcardaccount>

@@ -436,7 +436,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Save correct website list in giftwrapping
      *
-     * @param Enterprise_GiftWrapping_Model_Wrapping $model
+     * @param Magento_GiftWrapping_Model_Wrapping $model
      * @return Magento_AdminGws_Model_Models
      */
     public function giftWrappingSaveBefore($model)

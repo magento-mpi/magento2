@@ -75,8 +75,8 @@ return array(
     array('_getQuote', 'Magento_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional',
         'Magento_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional::getQuote()'
     ),
-    array('_getQuote', 'Enterprise_GiftWrapping_Block_Checkout_Options',
-        'Enterprise_GiftWrapping_Block_Checkout_Options::getQuote()'
+    array('_getQuote', 'Magento_GiftWrapping_Block_Checkout_Options',
+        'Magento_GiftWrapping_Block_Checkout_Options::getQuote()'
     ),
     array('addCustomerSegmentRelationsToCollection', 'Enterprise_TargetRule_Model_Resource_Rule'),
     array('_getRuleProductsTable', 'Enterprise_TargetRule_Model_Resource_Rule'),

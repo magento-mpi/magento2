@@ -72,7 +72,7 @@ new_admin_role:
                                         stores-attributes-customer_attributes-customer_address: //*[@data-id='Enterprise_Customer::customer_address_attributes']//*[@class='jstree-checkbox']
                                         stores-attributes-returns: //*[@data-id='Enterprise_Rma::rma_attribute']//*[@class='jstree-checkbox']
                                         stores-other_settings-reward_exchange_rates: //*[@data-id='Enterprise_Reward::rates']//*[@class='jstree-checkbox']
-                                        stores-other_settings-gift_wrapping: //*[@data-id='Enterprise_GiftWrapping::enterprise_giftwrapping']//*[@class='jstree-checkbox']
+                                        stores-other_settings-gift_wrapping: //*[@data-id='Magento_GiftWrapping::magento_giftwrapping']//*[@class='jstree-checkbox']
                                         stores-other_settings-gift_registry: //*[@data-id='Magento_GiftRegistry::customer_magento_giftregistry']//*[@class='jstree-checkbox']
                                         system-data_transfer-scheduled: //*[@data-id='Enterprise_ImportExport::enterprise_scheduled_operation']//*[@class='jstree-checkbox']
                                         system-permissions-locked_users: //*[@data-id='Enterprise_Pci::locks']//*[@class='jstree-checkbox']

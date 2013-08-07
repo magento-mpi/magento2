@@ -1,0 +1,57 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Magento_GiftWrapping
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+.field-gift_wrapping_price .control {
+    position: relative;
+}
+
+.field-gift_wrapping_price label.mage-error {
+    position: absolute;
+    left: 0;
+    top: 30px;
+}
+
+.field-gift_wrapping_price .addon {
+    direction: rtl;
+}
+
+.field-gift_wrapping_price .addon > * {
+    direction: ltr;
+}
+
+.field-gift_wrapping_price .addon .addafter {
+    border-width: 1px 0 1px 1px;
+    border-radius: 4px 0 0 4px;
+}
+
+.field-gift_wrapping_price .addon input:first-child {
+    border-radius: 0 4px 4px 0;
+}
+
+.eq-ie8 .field-gift_wrapping_price .addon .addafter {
+    border-width: 1px 1px 1px 0;
+}
+
+.field-gift_wrapping_price input {
+    border-width: 1px 1px 1px 0;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.075) inset;
+}
+
+.field-gift_wrapping_price input:focus {
+    box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+.field-gift_wrapping_price input:focus ~ label.addafter {
+    box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+.field-gift_wrapping_price input ~ label.addafter strong {
+    margin-left: 2px;
+    margin-right: -2px;
+}

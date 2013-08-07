@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_order_create_load_block_totals>
+        <block type="Magento_GiftWrapping_Block_Adminhtml_Order_Create_Totals" name="giftwrapping_total_renderer" template="order/create/totals.phtml"/>
+    </adminhtml_sales_order_create_load_block_totals>
+</layout>

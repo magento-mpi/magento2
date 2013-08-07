@@ -13,8 +13,8 @@ Magento/GiftCard/Block/Adminhtml/Renderer
 Magento/GiftCard/Model/Source
 Magento/GiftCard/Model/Attribute/Backend/Giftcard
 Magento/GiftCardAccount/Block/
-Enterprise/GiftWrapping/Block
-Enterprise/GiftWrapping/Model/Total/Quote/Tax
+Magento/GiftWrapping/Block
+Magento/GiftWrapping/Model/Total/Quote/Tax
 Enterprise/ImportExport/Model/Import/Entity/Eav/Customer
 Enterprise/Invitation
 Enterprise/Logging/Block

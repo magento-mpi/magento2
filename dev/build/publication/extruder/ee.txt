@@ -68,3 +68,5 @@ dev/tests/integration/testsuite/Magento/GiftCardAccount
 app/code/Magento/GiftRegistry
 dev/tests/unit/testsuite/Magento/GiftRegistry
 dev/tests/integration/testsuite/Magento/GiftRegistry
+app/code/Magento/GiftWrapping
+dev/tests/integration/testsuite/Magento/GiftWrapping

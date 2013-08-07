@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_sales_order_create_load_block_data>
+        <reference name="gift_options">
+            <block type="Magento_GiftWrapping_Block_Adminhtml_Order_Create_Info" name="wrapping_order_create_info" template="order/create/info.phtml"/>
+        </reference>
+        <reference name="popup_window">
+            <block type="Magento_GiftWrapping_Block_Adminhtml_Order_Create_Items" name="wrapping_order_create_items" template="order/create/items.phtml"/>
+        </reference>
+        <reference name="order_item_extra_info">
+            <block type="Magento_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Items" name="giftwrapping_extra_info" template="sales/order/create/renderer.phtml" before="-"/>
+        </reference>
+        <reference name="gift_options_link">
+            <block type="Magento_GiftWrapping_Block_Adminhtml_Sales_Order_Create_Link" name="giftwrapping_item_info" template="sales/order/link.phtml"/>
+        </reference>
+    </adminhtml_sales_order_create_load_block_data>
+</layout>
