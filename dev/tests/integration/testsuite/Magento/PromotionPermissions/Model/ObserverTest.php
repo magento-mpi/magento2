@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Enterprise_PromotionPermissions
+ * @package     Magento_PromotionPermissions
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
+class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Core_Model_Layout
@@ -54,7 +54,7 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
             ->will($this->returnValue(true));
         $event = new Magento_Event_Observer();
         $event->setBlock($block);
-        $observer = Mage::getModel('Enterprise_PromotionPermissions_Model_Observer');
+        $observer = Mage::getModel('Magento_PromotionPermissions_Model_Observer');
         $observer->adminhtmlBlockHtmlBefore($event);
 
         $this->assertFalse($this->_layout->getChildBlock($childBlock, 'banners_grid_serializer'));

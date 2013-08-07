@@ -3,8 +3,8 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_PromotionPermissions
+ * @category    Magento
+ * @package     Magento_PromotionPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,36 +14,36 @@
         <events>
             <core_block_abstract_to_html_before>
                 <observers>
-                    <enterprise_promotionpermissions>
-                        <class>Enterprise_PromotionPermissions_Model_Observer</class>
+                    <magento_promotionpermissions>
+                        <class>Magento_PromotionPermissions_Model_Observer</class>
                         <method>coreBlockAbstractToHtmlBefore</method>
-                    </enterprise_promotionpermissions>
+                    </magento_promotionpermissions>
                 </observers>
             </core_block_abstract_to_html_before>
             <adminhtml_block_html_before>
                 <observers>
-                    <enterprise_promotionpermissions>
-                        <class>Enterprise_PromotionPermissions_Model_Observer</class>
+                    <magento_promotionpermissions>
+                        <class>Magento_PromotionPermissions_Model_Observer</class>
                         <method>adminhtmlBlockHtmlBefore</method>
-                    </enterprise_promotionpermissions>
+                    </magento_promotionpermissions>
                 </observers>
             </adminhtml_block_html_before>
             <controller_action_predispatch>
                 <observers>
-                    <enterprise_promotionpermissions>
-                        <class>Enterprise_PromotionPermissions_Model_Observer</class>
+                    <magento_promotionpermissions>
+                        <class>Magento_PromotionPermissions_Model_Observer</class>
                         <method>controllerActionPredispatch</method>
-                    </enterprise_promotionpermissions>
+                    </magento_promotionpermissions>
                 </observers>
             </controller_action_predispatch>
         </events>
         <translate>
             <modules>
-                <Enterprise_PromotionPermissions>
+                <Magento_PromotionPermissions>
                     <files>
-                        <default>Enterprise_PromotionPermissions.csv</default>
+                        <default>Magento_PromotionPermissions.csv</default>
                     </files>
-                </Enterprise_PromotionPermissions>
+                </Magento_PromotionPermissions>
             </modules>
         </translate>
     </adminhtml>

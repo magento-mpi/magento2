@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_PromotionPermissions
+ * @category    Magento
+ * @package     Magento_PromotionPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,11 +11,11 @@
 /**
  * Promotion Permissions Observer
  *
- * @category    Enterprise
- * @package     Enterprise_PromotionPermissions
+ * @category    Magento
+ * @package     Magento_PromotionPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_PromotionPermissions_Model_Observer
+class Magento_PromotionPermissions_Model_Observer
 {
     /**
      * Instance of http request
@@ -68,7 +68,7 @@ class Enterprise_PromotionPermissions_Model_Observer
     {
         $this->_request = Mage::app()->getRequest();
         // Set necessary flags
-        $helper = Mage::helper('Enterprise_PromotionPermissions_Helper_Data');
+        $helper = Mage::helper('Magento_PromotionPermissions_Helper_Data');
         $this->_canEditCatalogRules = $helper->getCanAdminEditCatalogRules();
         $this->_canEditSalesRules = $helper->getCanAdminEditSalesRules();
         $this->_canEditReminderRules = $helper->getCanAdminEditReminderRules();

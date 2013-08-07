@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_PromotionPermissions
+ * @category    Magento
+ * @package     Magento_PromotionPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,32 +11,32 @@
 /**
  * Promotion Permissions Data Helper
  *
- * @category    Enterprise
- * @package     Enterprise_PromotionPermissions
+ * @category    Magento
+ * @package     Magento_PromotionPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_PromotionPermissions_Helper_Data extends Magento_Core_Helper_Abstract
+class Magento_PromotionPermissions_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Path to node in ACL that specifies edit permissions for catalog rules
      *
      * Used to check if admin has permission to edit catalog rules
      */
-    const EDIT_PROMO_CATALOGRULE_ACL_PATH = 'Enterprise_PromotionPermissions::edit';
+    const EDIT_PROMO_CATALOGRULE_ACL_PATH = 'Magento_PromotionPermissions::edit';
 
     /**
      * Path to node in ACL that specifies edit permissions for sales rules
      *
      * Used to check if admin has permission to edit sales rules
      */
-    const EDIT_PROMO_SALESRULE_ACL_PATH = 'Enterprise_PromotionPermissions::quote_edit';
+    const EDIT_PROMO_SALESRULE_ACL_PATH = 'Magento_PromotionPermissions::quote_edit';
 
     /**
      * Path to node in ACL that specifies edit permissions for reminder rules
      *
      * Used to check if admin has permission to edit reminder rules
      */
-    const EDIT_PROMO_REMINDERRULE_ACL_PATH = 'Enterprise_PromotionPermissions::enterprise_reminder_edit';
+    const EDIT_PROMO_REMINDERRULE_ACL_PATH = 'Magento_PromotionPermissions::enterprise_reminder_edit';
 
     /**
      * @var Magento_AuthorizationInterface

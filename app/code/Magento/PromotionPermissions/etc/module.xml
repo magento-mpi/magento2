@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Enterprise_PromotionPermissions" version="1.11.0.0" active="false">
+    <module name="Magento_PromotionPermissions" version="1.11.0.0" active="false">
         <depends>
             <module name="Magento_CatalogRule" />
             <module name="Magento_SalesRule" />

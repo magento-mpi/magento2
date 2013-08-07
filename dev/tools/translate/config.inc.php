@@ -476,8 +476,8 @@ $CONFIG['translates'] = array(
     'Magento_PricePermissions' => array(
         'app/code/Magento/PricePermissions/',
     ),
-    'Enterprise_PromotionPermissions' => array(
-        'app/code/Enterprise/PromotionPermissions/',
+    'Magento_PromotionPermissions' => array(
+        'app/code/Magento/PromotionPermissions/',
     ),
     'Enterprise_Reminder' => array(
         'app/code/Enterprise/Reminder/',
@@ -655,7 +655,7 @@ $CONFIG['helpers']  = array(
     'magento_pci'                => 'Magento_Pci',
     'enterprise_persistent'         => 'Enterprise_Persistent',
     'magento_pricepermissions'   => 'Magento_PricePermissions',
-    'enterprise_promotionpermissions' => 'Enterprise_PromotionPermissions',
+    'magento_promotionpermissions' => 'Magento_PromotionPermissions',
     'enterprise_reminder'           => 'Enterprise_Reminder',
     'enterprise_reward'             => 'Enterprise_Reward',
     'enterprise_rma'                => 'Enterprise_Rma',
