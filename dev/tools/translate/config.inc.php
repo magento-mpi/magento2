@@ -497,8 +497,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/rma.xml',
         'app/design/frontend/enterprise/default/template/rma/'
     ),
-    'Enterprise_SalesArchive' => array(
-        'app/code/Enterprise/SalesArchive/',
+    'Magento_SalesArchive' => array(
+        'app/code/Magento/SalesArchive/',
         'app/design/adminhtml/default/default/layout/enterprise/salesarchive.xml'
     ),
     'Enterprise_Search' => array(
@@ -659,7 +659,7 @@ $CONFIG['helpers']  = array(
     'magento_reminder'           => 'Magento_Reminder',
     'magento_reward'             => 'Magento_Reward',
     'magento_rma'                => 'Magento_Rma',
-    'enterprise_salesarchive'       => 'Enterprise_SalesArchive',
+    'magento_salesarchive'       => 'Magento_SalesArchive',
     'enterprise_search'             => 'Enterprise_Search',
     'enterprise_targetrule'         => 'Enterprise_TargetRule',
     'enterprise_websiterestriction' => 'Enterprise_WebsiteRestriction',

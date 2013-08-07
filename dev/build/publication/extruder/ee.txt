@@ -93,3 +93,6 @@ dev/tests/integration/testsuite/Magento/Reward
 app/code/Magento/Rma
 dev/tests/unit/testsuite/Magento/Rma
 dev/tests/integration/testsuite/Magento/Rma
+app/code/Magento/SalesArchive
+dev/tests/unit/testsuite/Magento/SalesArchive
+dev/tests/integration/testsuite/Magento/SalesArchive

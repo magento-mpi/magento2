@@ -24,7 +24,7 @@ Magento/Reminder
 Magento/Reward/Model/Action
 Magento/Reward/Model/Resource
 Magento/Rma
-Enterprise/SalesArchive
+Magento/SalesArchive
 Enterprise/Search
 Enterprise/TargetRule/Block/Adminhtml/Targetrule/Edit/Tab
 Enterprise/TargetRule/Model/Rule/Condition

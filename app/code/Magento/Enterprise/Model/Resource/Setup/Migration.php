@@ -37,7 +37,7 @@ class Magento_Enterprise_Model_Resource_Setup_Migration extends Magento_Core_Mod
                 'enterprise_pagecache'            => 'Enterprise_PageCache',
                 'magento_pricepermissions'     => 'Magento_PricePermissions',
                 'magento_promotionpermissions' => 'Magento_PromotionPermissions',
-                'enterprise_salesarchive'         => 'Enterprise_SalesArchive',
+                'magento_salesarchive'         => 'Magento_SalesArchive',
                 'enterprise_targetrule'           => 'Enterprise_TargetRule',
                 'enterprise_websiterestriction'   => 'Enterprise_WebsiteRestriction',
             )
