@@ -424,14 +424,14 @@
                     </enterprise_pagecache>
                 </observers>
             </catalog_controller_product_init_before>
-            <enterprise_customersegment_ids_changed>
+            <magento_customersegment_ids_changed>
                 <observers>
                     <enterprise_pagecache>
                         <class>Enterprise_PageCache_Model_Observer</class>
                         <method>changedCustomerSegmentIds</method>
                     </enterprise_pagecache>
                 </observers>
-            </enterprise_customersegment_ids_changed>
+            </magento_customersegment_ids_changed>
         </events>
         <cache>
             <requests>

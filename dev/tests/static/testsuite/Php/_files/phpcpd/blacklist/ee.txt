@@ -6,8 +6,8 @@ Enterprise/Cms/Model/Resource/Page
 Enterprise/Customer
 Enterprise/CustomerBalance/Block/Adminhtml
 Enterprise/CustomerBalance/Block/Sales/Order
-Enterprise/CustomerSegment/Model
-Enterprise/CustomerSegment/Block/Adminhtml
+Magento/CustomerSegment/Model
+Magento/CustomerSegment/Block/Adminhtml
 Enterprise/GiftRegistry
 Enterprise/GiftCard/Block/Adminhtml/Renderer
 Enterprise/GiftCard/Model/Source

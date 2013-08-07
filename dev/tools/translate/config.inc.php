@@ -395,8 +395,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/customerbalance.xml',
         'app/design/frontend/enterprise/default/template/customerbalance/'
     ),
-    'Enterprise_CustomerSegment' => array(
-        'app/code/Enterprise/CustomerSegment/',
+    'Magento_CustomerSegment' => array(
+        'app/code/Magento/CustomerSegment/',
         'app/design/adminhtml/default/default/layout/enterprise/customersegment.xml',
     ),
     'Enterprise_Eav' => array(
@@ -639,7 +639,7 @@ $CONFIG['helpers']  = array(
     'enterprise_cms'                => 'Enterprise_Cms',
     'enterprise_customer'           => 'Enterprise_Customer',
     'enterprise_customerbalance'    => 'Enterprise_CustomerBalance',
-    'enterprise_customersegment'    => 'Enterprise_CustomerSegment',
+    'magento_customersegment'    => 'Magento_CustomerSegment',
     'enterprise_eav'                => 'Enterprise_Eav',
     'enterprise_enterprise'         => 'Enterprise_Enterprise',
     'enterprise_giftcard'           => 'Enterprise_GiftCard',

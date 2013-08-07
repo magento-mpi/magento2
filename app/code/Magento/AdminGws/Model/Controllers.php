@@ -1093,7 +1093,7 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
                 $entityModelClassName = 'Enterprise_Reminder_Model_Rule';
                 break;
             case 'customersegment':
-                $entityModelClassName = 'Enterprise_CustomerSegment_Model_Segment';
+                $entityModelClassName = 'Magento_CustomerSegment_Model_Segment';
                 break;
             default:
                 $entityModelClassName = null;

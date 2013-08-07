@@ -307,7 +307,7 @@
                     <magento_catalogRule_model_resource_rule_collection>limitRuleEntityCollection</magento_catalogRule_model_resource_rule_collection>
                     <magento_salesRule_model_resource_rule_collection>limitRuleEntityCollection</magento_salesRule_model_resource_rule_collection>
                     <enterprise_reminder_model_resource_rule_collection>limitRuleEntityCollection</enterprise_reminder_model_resource_rule_collection>
-                    <enterprise_customerSegment_model_resource_segment_collection>limitRuleEntityCollection</enterprise_customerSegment_model_resource_segment_collection>
+                    <magento_customerSegment_model_resource_segment_collection>limitRuleEntityCollection</magento_customerSegment_model_resource_segment_collection>
                 </collection_load_before>
                 <model_save_before>
                     <magento_cms_model_page>cmsPageSaveBefore</magento_cms_model_page>
@@ -538,12 +538,12 @@
                     <enterprise_customer_block_adminhtml_customer_address_attribute_edit>removeDeleteCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_address_attribute_edit>
                     <magento_adminhtml_block_promo_catalog>removeRuleEntityGridButtons</magento_adminhtml_block_promo_catalog>
                     <magento_adminhtml_block_promo_quote>removeRuleEntityGridButtons</magento_adminhtml_block_promo_quote>
-                    <enterprise_customerSegment_block_adminhtml_customersegment>removeRuleEntityGridButtons</enterprise_customerSegment_block_adminhtml_customersegment>
+                    <magento_customerSegment_block_adminhtml_customersegment>removeRuleEntityGridButtons</magento_customerSegment_block_adminhtml_customersegment>
                     <enterprise_reminder_block_adminhtml_reminder>removeRuleEntityGridButtons</enterprise_reminder_block_adminhtml_reminder>
                     <magento_adminhtml_block_promo_catalog_edit>removeRuleEntityEditButtons</magento_adminhtml_block_promo_catalog_edit>
                     <magento_adminhtml_block_promo_quote_edit>removeRuleEntityEditButtons</magento_adminhtml_block_promo_quote_edit>
                     <magento_adminhtml_block_rating_edit>removeRatingEditButtons</magento_adminhtml_block_rating_edit>
-                    <enterprise_customerSegment_block_adminhtml_customersegment_edit>removeRuleEntityEditButtons</enterprise_customerSegment_block_adminhtml_customersegment_edit>
+                    <magento_customerSegment_block_adminhtml_customersegment_edit>removeRuleEntityEditButtons</magento_customerSegment_block_adminhtml_customersegment_edit>
                     <enterprise_reminder_block_adminhtml_reminder_edit>removeRuleEntityEditButtons</enterprise_reminder_block_adminhtml_reminder_edit>
                     <enterprise_rma_block_adminhtml_rma_item_attribute_edit>removeRmaDeleteAttributeButton</enterprise_rma_block_adminhtml_rma_item_attribute_edit>
                     <enterprise_rma_block_adminhtml_rma_item_attribute_edit_tab_options>disableRmaAttributeDeleteOptionButton</enterprise_rma_block_adminhtml_rma_item_attribute_edit_tab_options>

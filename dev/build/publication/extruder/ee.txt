@@ -50,3 +50,6 @@ dev/tests/unit/testsuite/Magento/CatalogEvent
 dev/tests/integration/testsuite/Magento/CatalogEvent
 app/code/Magento/CatalogPermissions
 dev/tests/integration/testsuite/Magento/CatalogPermissions
+app/code/Magento/CustomerSegment
+dev/tests/unit/testsuite/Magento/CustomerSegment
+dev/tests/integration/testsuite/Magento/CustomerSegment

@@ -142,8 +142,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('enterprise_targetrule_customersegment', 'rule_id', 'enterprise_targetrule', 'rule_id'),
         'rule_id', $installer->getTable('enterprise_targetrule'), 'rule_id',
         Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('enterprise_targetrule_customersegment', 'segment_id', 'enterprise_customersegment_segment', 'segment_id'),
-        'segment_id', $installer->getTable('enterprise_customersegment_segment'), 'segment_id',
+    ->addForeignKey($installer->getFkName('enterprise_targetrule_customersegment', 'segment_id', 'magento_customersegment_segment', 'segment_id'),
+        'segment_id', $installer->getTable('magento_customersegment_segment'), 'segment_id',
         Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
     ->setComment('Enterprise Targetrule Customersegment');
 $installer->getConnection()->createTable($table);

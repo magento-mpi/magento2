@@ -262,11 +262,11 @@ system_configuration:
                         fieldsets:
                             -
                                 customer_customer_segment:
-                                    xpath: //fieldset[@id='customer_enterprise_customersegment']
+                                    xpath: //fieldset[@id='customer_magento_customersegment']
                                     links:                
-                                        customer_customer_segment_link: //parent::div//a[@id='customer_enterprise_customersegment-head']
+                                        customer_customer_segment_link: //parent::div//a[@id='customer_magento_customersegment-head']
                                     dropdowns:
-                                        enable_customer_segment: //select[@id='customer_enterprise_customersegment_is_enabled']
+                                        enable_customer_segment: //select[@id='customer_magento_customersegment_is_enabled']
                 -
                     sales_sales:
                         fieldsets:
@@ -588,7 +588,7 @@ system_configuration:
                                         enterprise_cms: //select[@name='groups[modules_disable_output][fields][Enterprise_Cms][value]']
                                         enterprise_customer: //select[@name='groups[modules_disable_output][fields][Enterprise_Customer][value]']
                                         enterprise_customerbalance: //select[@name='groups[modules_disable_output][fields][Enterprise_CustomerBalance][value]']
-                                        enterprise_customersegment: //select[@name='groups[modules_disable_output][fields][Enterprise_CustomerSegment][value]']
+                                        magento_customersegment: //select[@name='groups[modules_disable_output][fields][Magento_CustomerSegment][value]']
                                         enterprise_eav: //select[@name='groups[modules_disable_output][fields][Enterprise_Eav][value]']
                                         enterprise_enterprise: //select[@name='groups[modules_disable_output][fields][Enterprise_Enterprise][value]']
                                         enterprise_giftcard: //select[@name='groups[modules_disable_output][fields][Enterprise_GiftCard][value]']
@@ -622,7 +622,7 @@ system_configuration:
                                         enterprise_cms_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Cms][inherit]']
                                         enterprise_customer_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Customer][inherit]']
                                         enterprise_customerbalance_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_CustomerBalance][inherit]']
-                                        enterprise_customersegment_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_CustomerSegment][inherit]']
+                                        magento_customersegment_use_default: //input[@name='groups[modules_disable_output][fields][Magento_CustomerSegment][inherit]']
                                         enterprise_eav_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Eav][inherit]']
                                         enterprise_enterprise_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Enterprise][inherit]']
                                         enterprise_giftcard_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_GiftCard][inherit]']

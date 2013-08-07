@@ -17,7 +17,7 @@
     <module name="Enterprise_Cms" active="true" />
     <module name="Enterprise_Customer" active="true" />
     <module name="Enterprise_CustomerBalance" active="true" />
-    <module name="Enterprise_CustomerSegment" active="true" />
+    <module name="Magento_CustomerSegment" active="true" />
     <module name="Enterprise_Eav" active="true" />
     <module name="Enterprise_Enterprise" active="true" />
     <module name="Enterprise_GiftCard" active="true" />

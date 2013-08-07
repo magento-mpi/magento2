@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CustomerSegment
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_CustomerSegment::customer_customersegment" title="Segments" module="Magento_CustomerSegment" sortOrder="30" parent="Magento_Customer::customer" action="adminhtml/customersegment" dependsOnModule="Magento_CustomerSegment" dependsOnConfig="customer/magento_customersegment/is_enabled" resource="Magento_CustomerSegment::customersegment"/>
+        <add id="Magento_CustomerSegment::report_customers_segment" title="Segments" module="Magento_CustomerSegment" sortOrder="50" parent="Magento_Reports::report_customers" action="adminhtml/report_customer_customersegment/segment" dependsOnModule="Magento_CustomerSegment" dependsOnConfig="customer/magento_customersegment/is_enabled" resource="Magento_CustomerSegment::segment"/>
+    </menu>
+</config>
