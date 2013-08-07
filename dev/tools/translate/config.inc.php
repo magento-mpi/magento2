@@ -445,8 +445,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/invitation.xml',
         'app/design/frontend/enterprise/default/template/invitation/'
     ),
-    'Enterprise_License' => array(
-        'app/code/Enterprise/License/',
+    'Magento_License' => array(
+        'app/code/Magento/License/',
         'app/design/adminhtml/default/default/layout/enterprise/license.xml',
         'app/design/adminhtml/default/default/template/enterprise/license/',
     ),
@@ -648,7 +648,7 @@ $CONFIG['helpers']  = array(
     'magento_giftwrapping'       => 'Magento_GiftWrapping',
     'enterprise_importexport'       => 'Enterprise_ImportExport',
     'magento_invitation'         => 'Magento_Invitation',
-    'enterprise_license'            => 'Enterprise_License',
+    'magento_license'            => 'Magento_License',
     'enterprise_logging'            => 'Enterprise_Logging',
     'enterprise_pagecache'          => 'Enterprise_PageCache',
     'enterprise_pbridge'            => 'Enterprise_Pbridge',

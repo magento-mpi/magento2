@@ -26,7 +26,7 @@
     <module name="Magento_GiftWrapping" active="true" />
     <module name="Enterprise_ImportExport" active="true" />
     <module name="Magento_Invitation" active="true" />
-    <module name="Enterprise_License" active="true" />
+    <module name="Magento_License" active="true" />
     <module name="Enterprise_Logging" active="true" />
     <module name="Enterprise_PageCache" active="true" />
     <module name="Enterprise_Pbridge" active="true" />

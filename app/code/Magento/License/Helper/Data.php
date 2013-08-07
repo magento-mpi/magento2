@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_License
+ * @category    Magento
+ * @package     Magento_License
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,10 +11,10 @@
 /**
  * License data helper
  *
- * @category   Enterprise
- * @package    Enterprise_License
+ * @category   Magento
+ * @package    Magento_License
  */
-class Enterprise_License_Helper_Data extends Magento_Core_Helper_Abstract
+class Magento_License_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * It stores information about whether the extension uploaded php "Ioncube Loader"
