@@ -21,11 +21,6 @@ class Mage_Tax_Model_Class_Type_Customer
     protected $_modelCustomerGroup;
 
     /**
-     * @var Mage_Tax_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Class Type
      *
      * @var string
@@ -35,18 +30,15 @@ class Mage_Tax_Model_Class_Type_Customer
     /**
      * @param Mage_Tax_Model_Calculation_Rule $calculationRule
      * @param Mage_Customer_Model_Group $modelCustomerGroup
-     * @param Mage_Tax_Helper_Data $helper
      * @param array $data
      */
     public function __construct(
         Mage_Tax_Model_Calculation_Rule $calculationRule,
         Mage_Customer_Model_Group $modelCustomerGroup,
-        Mage_Tax_Helper_Data $helper,
         array $data = array()
     ) {
         parent::__construct($calculationRule, $data);
         $this->_modelCustomerGroup = $modelCustomerGroup;
-        $this->_helper = $helper;
     }
 
     /**

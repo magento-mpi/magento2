@@ -19,22 +19,12 @@ class Mage_Directory_Model_Config_Source_Country implements Mage_Core_Model_Opti
     protected $_countryCollection;
 
     /**
-     * Directory Helper
-     *
-     * @var Mage_Directory_Helper_Data
-     */
-    protected $_directoryHelper;
-
-    /**
      * @param Mage_Directory_Model_Resource_Country_Collection $countryCollection
-     * @param Mage_Directory_Helper_Data $directoryHelper
      */
     public function __construct(
-        Mage_Directory_Model_Resource_Country_Collection $countryCollection,
-        Mage_Directory_Helper_Data $directoryHelper
+        Mage_Directory_Model_Resource_Country_Collection $countryCollection
     ) {
         $this->_countryCollection = $countryCollection;
-        $this->_directoryHelper = $directoryHelper;
     }
 
     /**

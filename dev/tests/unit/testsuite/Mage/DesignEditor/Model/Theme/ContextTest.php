@@ -47,7 +47,6 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
 
         $this->_model = new Mage_DesignEditor_Model_Theme_Context(
             $this->_themeFactory,
-            $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
             $this->_copyService
         );
     }

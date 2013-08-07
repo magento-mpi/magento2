@@ -8,11 +8,6 @@
 class Mage_Index_Model_System_Message_IndexOutdated implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
-     * @var Mage_Core_Model_Factory_Helper
-     */
-    protected $_helperFactory;
-
-    /**
      * @var Mage_Index_Model_Indexer
      */
     protected $_indexer;
@@ -33,18 +28,15 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_AdminNotific
     protected $_indexes = null;
 
     /**
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Index_Model_Indexer $indexer
      * @param Mage_Core_Model_UrlInterface $urlBuilder
      * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Index_Model_Indexer $indexer,
         Mage_Core_Model_UrlInterface $urlBuilder,
         Magento_AuthorizationInterface $authorization
     ) {
-        $this->_helperFactory = $helperFactory;
         $this->_indexer = $indexer;
         $this->_urlBuilder = $urlBuilder;
         $this->_authorization = $authorization;
@@ -101,7 +93,6 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_AdminNotific
         $data = $this->_getProcessesForReindex() ?: array();
         $indexList = implode(', ', $data);
         $url = $this->_urlBuilder->getUrl('adminhtml/process/list');
-        $helper = $this->_helperFactory->get('Mage_Index_Helper_Data');
         $text = __('One or more of the Indexes are not up to date: %1', $indexList) . '. ';
         $text .= __('Please go to <a href="%1">Index Management</a> and rebuild required indexes.', $url);
         return $text;

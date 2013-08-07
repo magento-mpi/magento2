@@ -52,27 +52,17 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
     protected $_elementsFactory;
 
     /**
-     * Helper
-     *
-     * @var Mage_DesignEditor_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
-     * @param Mage_DesignEditor_Helper_Data $helper
      * @param array $attributes
      */
     public function __construct(
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory,
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
-        Mage_DesignEditor_Helper_Data $helper,
         $attributes = array()
     ) {
         $this->_elementsFactory = $elementsFactory;
         $this->_rendererFactory = $rendererFactory;
-        $this->_helper = $helper;
 
         parent::__construct($attributes);
     }

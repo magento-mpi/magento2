@@ -19,11 +19,6 @@ class Mage_DesignEditor_Model_Theme_Context
     protected $_themeFactory;
 
     /**
-     * @var Mage_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Mage_Core_Model_Theme_CopyService
      */
     protected $_copyService;
@@ -42,16 +37,13 @@ class Mage_DesignEditor_Model_Theme_Context
      * Initialize dependencies
      *
      * @param Mage_Core_Model_ThemeFactory $themeFactory
-     * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme_CopyService $copyService
      */
     public function __construct(
         Mage_Core_Model_ThemeFactory $themeFactory,
-        Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Theme_CopyService $copyService
     ) {
         $this->_themeFactory = $themeFactory;
-        $this->_helper = $helper;
         $this->_copyService = $copyService;
     }
 

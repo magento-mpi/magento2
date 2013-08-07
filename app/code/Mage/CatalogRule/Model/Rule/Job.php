@@ -34,24 +34,14 @@ class Mage_CatalogRule_Model_Rule_Job extends Varien_Object
     protected $_eventManager;
 
     /**
-     * Instance of helper
-     *
-     * @var Mage_Core_Helper_Abstract
-     */
-    protected $_helper;
-
-    /**
      * Basic object initialization
      *
      * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Core_Helper_Abstract $helper
      */
     public function __construct(
-        Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Helper_Abstract $helper
+        Mage_Core_Model_Event_Manager $eventManager
     ) {
         $this->_eventManager = $eventManager;
-        $this->_helper = $helper;
     }
 
     /**

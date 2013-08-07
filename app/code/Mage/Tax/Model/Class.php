@@ -41,29 +41,21 @@ class Mage_Tax_Model_Class extends Mage_Core_Model_Abstract
     protected $_classFactory;
 
     /**
-     * @var Mage_Tax_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Resource_Abstract $resource
      * @param Varien_Data_Collection_Db $resourceCollection
      * @param Mage_Tax_Model_Class_Factory $classFactory
-     * @param Mage_Tax_Helper_Data $helper
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
         Mage_Tax_Model_Class_Factory $classFactory,
-        Mage_Tax_Helper_Data $helper,
         Mage_Core_Model_Resource_Abstract $resource = null,
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_classFactory = $classFactory;
-        $this->_helper = $helper;
     }
 
     public function _construct()
