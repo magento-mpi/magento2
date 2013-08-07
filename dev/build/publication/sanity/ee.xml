@@ -64,15 +64,6 @@
             <path>dev/tests/functional/runtests.sh</path>
         </item>
         <item>
-            <word>saas</word>
-            <path>dev/tests/static/testsuite/Legacy/_files/</path>
-        </item>
-        <item>
-            <word>saas</word>
-            <word>enterprise</word>
-            <path>dev/tests/integration/testsuite/integrity/modular/BlockInstantiationTest.php</path>
-        </item>
-        <item>
             <word>tenant</word>
             <path>app/code/Mage/Adminhtml/locale/fr_FR/Mage_Adminhtml.csv</path>
         </item>

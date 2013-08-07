@@ -655,5 +655,4 @@ return array(
     array('_getUsers', 'Mage_User_Block_Role_Grid_User', 'getUsers'),
     array('_getGridHtml', 'Mage_User_Block_Role_Tab_Users', 'getGridHtml'),
     array('_getSelectedRoles', 'Mage_User_Block_User_Edit_Tab_Roles', 'getSelectedRoles'),
-    array('_getViewFileUrl', 'Saas_PrintedTemplate_Block_Adminhtml_Template_Edit', 'getModuleViewFileUrl'),
 );
