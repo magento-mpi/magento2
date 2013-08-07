@@ -62,7 +62,7 @@ XML;
 -->
 <config>
     <sections>
-        <some_section translate="label" module="Mage_Some">
+        <some_section translate="label">
             <label>Section Name</label>
             <tab>test</tab>
             <frontend_type>text</frontend_type>
