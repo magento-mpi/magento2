@@ -33,11 +33,6 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
     protected $_entity;
 
     /**
-     * @var Mage_Core_Helper_Data
-     */
-    protected $_translationHelper;
-
-    /**
      * Request Scope name
      *
      * @var string
@@ -72,17 +67,6 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
      * @var string
      */
     protected $_dateFilterFormat;
-
-    /**
-     * Constructor
-     *
-     * @param array $arguments
-     */
-    public function __construct(array $arguments = array())
-    {
-        $this->_translationHelper = isset($arguments['translationHelper'])
-            ? $arguments['translationHelper'] : Mage::helper('Mage_Eav_Helper_Data');
-    }
 
     /**
      * Set attribute instance

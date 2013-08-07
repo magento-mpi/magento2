@@ -30,7 +30,6 @@ class Mage_Eav_Model_Attribute_Data_Text extends Mage_Eav_Model_Attribute_Data_A
      */
     public function __construct(array $arguments = array())
     {
-        parent::__construct($arguments);
         $this->_stringHelper = isset($arguments['stringHelper'])
             ? $arguments['stringHelper'] : Mage::helper('Mage_Core_Helper_String');
     }
