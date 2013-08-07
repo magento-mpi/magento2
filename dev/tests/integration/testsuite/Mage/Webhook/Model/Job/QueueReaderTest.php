@@ -25,10 +25,12 @@ class Mage_Webhook_Model_Job_QueueReaderTest extends PHPUnit_Framework_TestCase
         $job = Mage::getObjectManager()->create('Mage_Webhook_Model_Job');
         $job->setEventId($event->getId());
         $job->setSubscriptionId($subscription->getId());
-        $job->save();
 
-        /** @var Mage_Webhook_Model_Job_QueueReader $queue */
-        $queue = Mage::getObjectManager()->create('Mage_Webhook_Model_Job_QueueReader');
-        $this->assertEquals($job->getId(), $queue->poll()->getId());
+        $queueWriter = Mage::getObjectManager()->create('Mage_Webhook_Model_Job_QueueWriter');
+        $queueWriter->offer($job);
+
+        /** @var Mage_Webhook_Model_Job_QueueReader $queueReader */
+        $queueReader = Mage::getObjectManager()->create('Mage_Webhook_Model_Job_QueueReader');
+        $this->assertEquals($job->getId(), $queueReader->poll()->getId());
     }
 }

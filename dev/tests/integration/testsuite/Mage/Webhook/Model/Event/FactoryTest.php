@@ -2,8 +2,6 @@
 /**
  * Mage_Webhook_Model_Event_Factory
  *
- * @magentoDbIsolation enabled
- *
  * {license_notice}
  *
  * @copyright   {copyright}

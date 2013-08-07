@@ -20,6 +20,8 @@ class Mage_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_TestCas
         /** @var Mage_Webhook_Model_Event_QueueReader $queue */
         $queue = Mage::getObjectManager()->create('Mage_Webhook_Model_Event_QueueReader');
         $this->assertEquals($event->getId(), $queue->poll()->getId());
-        $event->delete();
+
+        // Make sure an empty queue returns null
+        $this->assertNull($queue->poll());
     }
 }
