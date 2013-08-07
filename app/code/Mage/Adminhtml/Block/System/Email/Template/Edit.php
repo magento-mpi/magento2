@@ -376,11 +376,11 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
             $item = $menu->get('Mage_Adminhtml::system');
             // create prefix path parts
             $prefixParts[] = array(
-                'title' => $item->getModuleHelper()->__($item->getTitle()),
+                'title' => __($item->getTitle()),
             );
             $item = $menu->get('Mage_Adminhtml::system_config');
             $prefixParts[] = array(
-                'title' => $item->getModuleHelper()->__($item->getTitle()),
+                'title' => __($item->getTitle()),
                 'url' => $this->getUrl('adminhtml/system_config/'),
             );
 
