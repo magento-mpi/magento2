@@ -10,19 +10,12 @@
 class Mage_Webapi_Model_Resource_Acl_User extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * @var Mage_Webapi_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Class constructor.
      *
      * @param Mage_Core_Model_Resource $resource
-     * @param Mage_Webapi_Helper_Data $helper
      */
-    public function __construct(Mage_Core_Model_Resource $resource, Mage_Webapi_Helper_Data $helper)
+    public function __construct(Mage_Core_Model_Resource $resource)
     {
-        $this->_helper = $helper;
         parent::__construct($resource);
     }
 

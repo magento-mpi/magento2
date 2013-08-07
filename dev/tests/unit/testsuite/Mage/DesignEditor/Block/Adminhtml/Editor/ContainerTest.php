@@ -33,10 +33,9 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_Fra
     /**
      * Retrieve list of arguments for block that will be tested
      *
-     * @param array $params
      * @return array
      */
-    protected function _getBlockArguments(array $params)
+    protected function _getBlockArguments()
     {
         $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper', array('get'));
 
@@ -44,14 +43,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_Fra
             'urlBuilder'    => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
             'helperFactory' => $helperFactory
         );
-    }
-
-    public function testGetHeaderText()
-    {
-        $arguments = $this->_getBlockArguments(array('expectedTranslation' => 'Store Designer'));
-        /** @var $block Mage_DesignEditor_Block_Adminhtml_Editor_Container */
-        $block = $this->_helper->getObject('Mage_DesignEditor_Block_Adminhtml_Editor_Container', $arguments);
-        $block->getHeaderText();
     }
 
     /**
@@ -78,7 +69,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_Fra
     {
         $buttonTitle = 'Back';
         $eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
-        $arguments = $this->_getBlockArguments(array('expectedTranslation' => $buttonTitle));
+        $arguments = $this->_getBlockArguments();
         $arguments['eventManager'] = $eventManager;
 
         /** @var $block Mage_DesignEditor_Block_Adminhtml_Editor_Container */

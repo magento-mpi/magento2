@@ -18,7 +18,6 @@ class Enterprise_Search_Model_Adminhtml_System_Config_Source_EngineTest extends 
 
     protected function setUp()
     {
-        $mockHelper = $this->getMock('Enterprise_Search_Helper_Data', array(), array(), '', false, false);
         $this->_model= new Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine();
     }
 
