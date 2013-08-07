@@ -36,7 +36,7 @@ class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Test partially fails bc of MAGETWO-557.');
         $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
-        $this->assertStringEndsWith('theme/frontend/default/demo/en_US/Mage_Page/favicon.ico',
+        $this->assertStringEndsWith('theme/frontend/magento_demo/en_US/Mage_Page/favicon.ico',
             $this->_model->getProcessedTemplate()
         );
         $this->_model->emulateDesign($store, $area);

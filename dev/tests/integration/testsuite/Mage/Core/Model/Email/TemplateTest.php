@@ -100,7 +100,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Set 'default/demo_blue' for the 'fixturestore' store.
+     * Set 'magento_demo_blue' for the 'fixturestore' store.
      * Application isolation is required, if a test uses this method.
      */
     protected function _setBlueThemeForFixtureStore()
