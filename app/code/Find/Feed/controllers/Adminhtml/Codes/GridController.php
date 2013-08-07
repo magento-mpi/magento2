@@ -38,7 +38,7 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_init()->_title(__('Attributes'), false);
+        $this->_init()->_title(__('Attributes'));
         $this->renderLayout();
     }
 

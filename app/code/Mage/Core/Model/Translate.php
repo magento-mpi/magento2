@@ -217,7 +217,7 @@ class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
 
         foreach ($this->getModulesConfig() as $moduleName => $info) {
             $info = $info->asArray();
-            $this->_loadModuleTranslation($moduleName, $info['files'], $forceReload);
+            $this->_loadModuleTranslation($moduleName, $info['files']);
         }
 
         $this->_loadThemeTranslation($forceReload);
@@ -328,16 +328,15 @@ class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
      *
      * @param string $moduleName
      * @param array $files
-     * @param boolean $forceReload
      * @return Mage_Core_Model_Translate
      */
-    protected function _loadModuleTranslation($moduleName, $files, $forceReload = false)
+    protected function _loadModuleTranslation($moduleName, $files)
     {
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($files as $file) {
             foreach ($requiredLocaleList as $locale) {
                 $moduleFilePath = $this->_getModuleFilePath($moduleName, $file, $locale);
-                $this->_addData($this->_getFileData($moduleFilePath), $moduleName, $forceReload);
+                $this->_addData($this->_getFileData($moduleFilePath));
             }
         }
         return $this;
@@ -362,11 +361,11 @@ class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
      * Adding translation data
      *
      * @param array $data
-     * @param string $scope
+     * @param string|bool $scope
      * @param boolean $forceReload
      * @return Mage_Core_Model_Translate
      */
-    protected function _addData($data, $scope, $forceReload = false)
+    protected function _addData($data, $scope = false, $forceReload = false)
     {
         foreach ($data as $key => $value) {
             if ($key === $value) {

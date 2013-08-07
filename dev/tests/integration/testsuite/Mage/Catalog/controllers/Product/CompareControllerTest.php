@@ -23,7 +23,8 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
         /** @var $session Mage_Catalog_Model_Session */
         $session = Mage::getSingleton('Mage_Catalog_Model_Session');
         $this->assertInstanceOf('Mage_Core_Model_Message_Success', $session->getMessages()->getLastAddedMessage());
-        $this->assertContains('Simple Product 1 Name', (string)$session->getMessages()->getLastAddedMessage()->getText());
+        $this->assertContains('Simple Product 1 Name',
+            (string)$session->getMessages()->getLastAddedMessage()->getText());
 
         $this->assertRedirect();
 
@@ -50,7 +51,8 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
         /** @var $session Mage_Catalog_Model_Session */
         $session = Mage::getSingleton('Mage_Catalog_Model_Session');
         $this->assertInstanceOf('Mage_Core_Model_Message_Success', $session->getMessages()->getLastAddedMessage());
-        $this->assertContains('Simple Product 2 Name', (string)$session->getMessages()->getLastAddedMessage()->getText());
+        $this->assertContains('Simple Product 2 Name',
+            (string)$session->getMessages()->getLastAddedMessage()->getText());
 
         $this->assertRedirect();
 

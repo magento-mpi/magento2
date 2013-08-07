@@ -974,42 +974,19 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     }
 
     /**
-     * Add an extra title to the end or one from the end, or remove all
+     * Add an extra title to the end
      *
      * Usage examples:
      * $this->_title('foo')->_title('bar');
      * => bar / foo / <default title>
      *
-     * $this->_title()->_title('foo')->_title('bar');
-     * => bar / foo
-     *
-     * $this->_title('foo')->_title(false)->_title('bar');
-     * bar / <default title>
-     *
      * @see self::_renderTitles()
-     * @param string|false|-1|null $text
-     * @param bool $resetIfExists
+     * @param string $text
      * @return Mage_Core_Controller_Varien_Action
      */
-    protected function _title($text = null, $resetIfExists = true)
+    protected function _title($text)
     {
-        if (is_string($text)) {
-            $this->_titles[] = $text;
-        } elseif (-1 === $text) {
-            if (empty($this->_titles)) {
-                $this->_removeDefaultTitle = true;
-            } else {
-                array_pop($this->_titles);
-            }
-        } elseif (empty($this->_titles) || $resetIfExists) {
-            if (false === $text) {
-                $this->_removeDefaultTitle = false;
-                $this->_titles = array();
-            } elseif (null === $text) {
-                $this->_removeDefaultTitle = true;
-                $this->_titles = array();
-            }
-        }
+        $this->_titles[] = $text;
         return $this;
     }
 
