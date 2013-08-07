@@ -14,7 +14,7 @@
         <section id="giftcard" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="500">
             <label>Gift Cards</label>
             <tab>sales</tab>
-            <resource>Enterprise_GiftCard::giftcard</resource>
+            <resource>Magento_GiftCard::giftcard</resource>
             <group id="giftcardaccount_email" translate="label" module="Magento_GiftCardAccount" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Email Sent from Gift Card Account Management</label>
                 <field id="identity" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">

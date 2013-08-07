@@ -763,7 +763,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
                 return isset($config['bundle_option']);
             case Magento_Catalog_Model_Product_Type::TYPE_GROUPED:
                 return isset($config['super_group']);
-            case Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
+            case Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
                 return isset($config['giftcard_amount']);
             case Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
                 return isset($config['links']);
@@ -1153,7 +1153,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_C
         }
 
         switch ($product->getTypeId()) {
-            case Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
+            case Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
             case Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE:
                 return true;
         }

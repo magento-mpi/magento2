@@ -65,7 +65,7 @@ new_admin_role:
                                         stores-settings-configuration-invitation_section: //*[@data-id='Enterprise_Invitation::config_enterprise_invitation']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-category_permissions_section: //*[@data-id='Magento_CatalogPermissions::magento_catalogpermissions']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-gift_registry_section: //*[@data-id='Enterprise_GiftRegistry::enterprise_giftregistry']//*[@class='jstree-checkbox']
-                                        stores-settings-configuration-gift_cards: //*[@data-id='Enterprise_GiftCard::giftcard']//*[@class='jstree-checkbox']
+                                        stores-settings-configuration-gift_cards: //*[@data-id='Magento_GiftCard::giftcard']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-reward_points: //*[@data-id='Enterprise_Reward::enterprise_reward']//*[@class='jstree-checkbox']
                                         stores-attributes-customer_attributes: //*[@data-id='Enterprise_Customer::attributes']//*[@class='jstree-checkbox']
                                         stores-attributes-customer_attributes-customer: //*[@data-id='Enterprise_Customer::customer_attributes']//*[@class='jstree-checkbox']

@@ -59,5 +59,9 @@ dev/tests/integration/testsuite/Magento/CustomerBalance
 app/code/Magento/Enterprise
 dev/tests/unit/testsuite/Magento/Enterprise
 dev/tests/integration/testsuite/Magento/Enterprise
+app/code/Magento/GiftCard
+dev/tests/unit/testsuite/Magento/GiftCard
+dev/tests/integration/testsuite/Magento/GiftCard
+dev/tests/static/testsuite/Legacy/Magento/GiftCard
 app/code/Magento/GiftCardAccount
 dev/tests/integration/testsuite/Magento/GiftCardAccount

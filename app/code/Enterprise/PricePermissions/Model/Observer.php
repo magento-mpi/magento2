@@ -668,7 +668,7 @@ class Enterprise_PricePermissions_Model_Observer
                 ) {
                     $product->setPrice((float) $this->_defaultProductPriceString);
                     // Set default amount for Gift Card product
-                    if ($product->getTypeId() == Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD
+                    if ($product->getTypeId() == Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD
                     ) {
                         $storeId = (int) $this->_request->getParam('store', 0);
                         $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();

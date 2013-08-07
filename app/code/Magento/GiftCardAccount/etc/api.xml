@@ -17,12 +17,12 @@
                 <title>GiftCard Account API</title>
                 <acl>giftcard_account</acl>
                 <methods>
-                    <list translate="title" module="Enterprise_GiftCard">
+                    <list translate="title" module="Magento_GiftCard">
                         <title>Retrieve gift card accounts list</title>
                         <method>items</method>
                         <acl>giftcard_account/list</acl>
                     </list>
-                    <info translate="title" module="Enterprise_GiftCard">
+                    <info translate="title" module="Magento_GiftCard">
                         <title>Retrieve full gift card account info</title>
                         <acl>giftcard_account/info</acl>
                     </info>
@@ -30,7 +30,7 @@
                         <title>Create a gift card account</title>
                         <acl>magento_giftcardaccount/create</acl>
                     </create>
-                    <update translate="title" module="Enterprise_GiftCard">
+                    <update translate="title" module="Magento_GiftCard">
                         <title>Update gift card account info</title>
                         <acl>giftcard_account/update</acl>
                     </update>

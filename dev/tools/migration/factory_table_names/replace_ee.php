@@ -46,7 +46,7 @@ return array(
     'magento_customersegment/event' => 'magento_customersegment_event',
     'magento_customersegment/segment' => 'magento_customersegment_segment',
     'magento_customersegment/website' => 'magento_customersegment_website',
-    'enterprise_giftcard/amount' => 'enterprise_giftcard_amount',
+    'magento_giftcard/amount' => 'magento_giftcard_amount',
     'magento_giftcardaccount/giftcardaccount' => 'magento_giftcardaccount',
     'magento_giftcardaccount/history' => 'magento_giftcardaccount_history',
     'magento_giftcardaccount/pool' => 'magento_giftcardaccount_pool',

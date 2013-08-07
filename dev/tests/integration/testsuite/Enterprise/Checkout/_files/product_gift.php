@@ -11,7 +11,7 @@
 
 /** @var $product Magento_Catalog_Model_Product */
 $product = Mage::getModel('Magento_Catalog_Model_Product');
-$product->setTypeId(Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD)
+$product->setTypeId(Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD)
     ->setId(1)
     ->setAttributeSetId(4)
     ->setWebsiteIds(array(1))

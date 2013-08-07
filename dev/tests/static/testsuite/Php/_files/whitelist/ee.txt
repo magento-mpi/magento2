@@ -2,7 +2,7 @@
 # These items and this file are not published in Magento CE
 #
 app/code/Magento/Banner*
-app/code/Enterprise/GiftCard/Block/Adminhtml/Renderer/OpenAmount.php
+app/code/Magento/GiftCard/Block/Adminhtml/Renderer/OpenAmount.php
 app/code/Enterprise/Invitation/Block/Adminhtml/Grid/Column/Renderer/Percent.php
 app/code/Enterprise/Invitation/Block/Adminhtml/Report
 app/code/Enterprise/Invitation/Model/Resource/Report

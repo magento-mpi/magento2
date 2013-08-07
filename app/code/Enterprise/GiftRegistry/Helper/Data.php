@@ -220,7 +220,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
             $productType = $item->getTypeId();
         }
 
-        if ($productType == Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD) {
+        if ($productType == Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD) {
             if ($item instanceof Magento_Sales_Model_Quote_Item) {
                 $product = Mage::getModel('Magento_Catalog_Model_Product')->load($item->getProductId());
             } else {

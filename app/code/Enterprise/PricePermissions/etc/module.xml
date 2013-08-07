@@ -13,7 +13,7 @@
             <module name="Magento_Bundle" />
             <module name="Magento_Catalog" />
             <module name="Magento_Downloadable" />
-            <module name="Enterprise_GiftCard" />
+            <module name="Magento_GiftCard" />
         </depends>
     </module>
 </config>

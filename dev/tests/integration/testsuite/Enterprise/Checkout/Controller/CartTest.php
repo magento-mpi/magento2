@@ -131,7 +131,7 @@ class Enterprise_Checkout_Controller_CartTest extends Magento_Test_TestCase_Cont
     /**
      * Test for Enterprise_Checkout_Controller_Cart::configureFailedAction() with gift card product
      *
-     * @magentoDataFixture Enterprise/GiftCard/_files/gift_card.php
+     * @magentoDataFixture Magento/GiftCard/_files/gift_card.php
      */
     public function testConfigureFailedActionWithGiftCardProduct()
     {

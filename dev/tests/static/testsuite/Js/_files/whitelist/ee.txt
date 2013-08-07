@@ -1,7 +1,7 @@
 app/code/Enterprise/Cms
 app/code/Enterprise/Customer
 app/code/Magento/CustomerBalance
-app/code/Enterprise/GiftCard
+app/code/Magento/GiftCard
 app/code/Magento/GiftCardAccount
 app/code/Enterprise/GiftRegistry
 app/code/Enterprise/Pbridge

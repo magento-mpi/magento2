@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../GiftCard/_files/gift_card.php';
+require __DIR__ . '/../../../Magento/GiftCard/_files/gift_card.php';
 
 /** @var $product Magento_Catalog_Model_Product */
 $product = Mage::getModel('Magento_Catalog_Model_Product');

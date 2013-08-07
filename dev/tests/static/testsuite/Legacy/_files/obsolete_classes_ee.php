@@ -12,7 +12,7 @@ return array(
     array('Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid'),
     array('Enterprise_Cms_Model_Resource_Setup'),
     array('Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid'),
-    array('Enterprise_GiftCard_Block_Email_Generated'),
+    array('Magento_GiftCard_Block_Email_Generated'),
     array('Enterprise_GiftRegistry_Block_Adminhtml_Customer_View'),
     array('Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Grid'),
     array('Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid'),

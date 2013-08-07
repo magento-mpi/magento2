@@ -9,9 +9,9 @@ Magento/CustomerBalance/Block/Sales/Order
 Magento/CustomerSegment/Model
 Magento/CustomerSegment/Block/Adminhtml
 Enterprise/GiftRegistry
-Enterprise/GiftCard/Block/Adminhtml/Renderer
-Enterprise/GiftCard/Model/Source
-Enterprise/GiftCard/Model/Attribute/Backend/Giftcard
+Magento/GiftCard/Block/Adminhtml/Renderer
+Magento/GiftCard/Model/Source
+Magento/GiftCard/Model/Attribute/Backend/Giftcard
 Magento/GiftCardAccount/Block/
 Enterprise/GiftWrapping/Block
 Enterprise/GiftWrapping/Model/Total/Quote/Tax

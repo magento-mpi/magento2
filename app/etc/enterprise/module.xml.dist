@@ -20,7 +20,7 @@
     <module name="Magento_CustomerSegment" active="true" />
     <module name="Enterprise_Eav" active="true" />
     <module name="Magento_Enterprise" active="true" />
-    <module name="Enterprise_GiftCard" active="true" />
+    <module name="Magento_GiftCard" active="true" />
     <module name="Magento_GiftCardAccount" active="true" />
     <module name="Enterprise_GiftRegistry" active="true" />
     <module name="Enterprise_GiftWrapping" active="true" />
