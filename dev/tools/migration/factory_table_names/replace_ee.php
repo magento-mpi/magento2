@@ -67,7 +67,7 @@ return array(
     'magento_invitation/invitation_track' => 'magento_invitation_track',
     'magento_logging/event' => 'magento_logging_event',
     'magento_logging/event_changes' => 'magento_logging_event_changes',
-    'enterprise_pci/admin_passwords' => 'enterprise_admin_passwords',
+    'magento_pci/admin_passwords' => 'enterprise_admin_passwords',
     'enterprise_reminder/coupon' => 'enterprise_reminder_rule_coupon',
     'enterprise_reminder/log' => 'enterprise_reminder_rule_log',
     'enterprise_reminder/rule' => 'enterprise_reminder_rule',

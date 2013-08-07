@@ -465,8 +465,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/pbridge.xml',
         'app/design/frontend/enterprise/default/template/pbridge/'
     ),
-    'Enterprise_Pci' => array(
-        'app/code/Enterprise/Pci/',
+    'Magento_Pci' => array(
+        'app/code/Magento/Pci/',
         'app/design/adminhtml/default/default/layout/enterprise/pci.xml',
     ),
     'Enterprise_Persistent' => array(
@@ -652,7 +652,7 @@ $CONFIG['helpers']  = array(
     'magento_logging'            => 'Magento_Logging',
     'enterprise_pagecache'          => 'Enterprise_PageCache',
     'magento_pbridge'            => 'Magento_Pbridge',
-    'enterprise_pci'                => 'Enterprise_Pci',
+    'magento_pci'                => 'Magento_Pci',
     'enterprise_persistent'         => 'Enterprise_Persistent',
     'enterprise_pricepermissions'   => 'Enterprise_PricePermissions',
     'enterprise_promotionpermissions' => 'Enterprise_PromotionPermissions',

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Pbridge_Model_Encryption extends Enterprise_Pci_Model_Encryption {
+class Magento_Pbridge_Model_Encryption extends Magento_Pci_Model_Encryption {
 
     /**
      * Constructor

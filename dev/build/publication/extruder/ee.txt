@@ -78,3 +78,5 @@ dev/tests/integration/testsuite/Magento/Logging
 app/code/Magento/Pbridge
 dev/tests/unit/testsuite/Magento/Pbridge
 dev/tests/integration/testsuite/Magento/Pbridge
+app/code/Magento/Pci
+dev/tests/integration/testsuite/Magento/Pci
