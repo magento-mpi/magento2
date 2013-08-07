@@ -49,6 +49,7 @@
             <word>{license_link}</word>
             <word>{license_notice}</word>
             <word>saas</word>
+            <word>tenant</word>
             <path>dev/tests/functional/config/config.yml.dist</path>
         </item>
         <item>
@@ -62,6 +63,18 @@
             <word>{license_link}</word>
             <word>{license_notice}</word>
             <path>dev/tests/functional/runtests.sh</path>
+        </item>
+        <item>
+            <word>tenant</word>
+            <path>app/code/Enterprise/ImportExport/locale/fr_FR/Enterprise_ImportExport.csv</path>
+        </item>
+        <item>
+            <word>tenant</word>
+            <path>app/code/Enterprise/Reminder/locale/fr_FR/Enterprise_Reminder.csv</path>
+        </item>
+        <item>
+            <word>tenant</word>
+            <path>app/code/Enterprise/Reward/locale/fr_FR/Enterprise_Reward.csv</path>
         </item>
         <item>
             <word>tenant</word>
