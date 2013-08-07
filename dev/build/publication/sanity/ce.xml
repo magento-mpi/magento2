@@ -23,6 +23,7 @@
         <word>ukpromerchant</word>
         <word>pinba</word>
         <word>saas</word>
+        <word>tenant</word>
     </words>
     <whitelist>
         <item>
@@ -149,6 +150,22 @@
             <word>saas</word>
             <word>enterprise</word>
             <path>dev/tests/integration/testsuite/integrity/modular/BlockInstantiationTest.php</path>
+        </item>
+        <item>
+            <word>tenant</word>
+            <path>app/code/Mage/Adminhtml/locale/fr_FR/Mage_Adminhtml.csv</path>
+        </item>
+        <item>
+            <word>tenant</word>
+            <path>app/code/Mage/Customer/locale/fr_FR/Mage_Customer.csv</path>
+        </item>
+        <item>
+            <word>tenant</word>
+            <path>app/code/Mage/Paypal/locale/fr_FR/Mage_Paypal.csv</path>
+        </item>
+        <item>
+            <word>tenant</word>
+            <path>app/code/Mage/Wishlist/locale/fr_FR/Mage_Wishlist.csv</path>
         </item>
     </whitelist>
 </config>
