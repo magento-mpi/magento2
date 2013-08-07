@@ -39,9 +39,7 @@ class Mage_Backend_Model_Config_Source_Email_Template extends Varien_Object
             Mage_Core_Model_Email_Template::XML_PATH_TEMPLATE_EMAIL . '/' . $nodeName . '/label'
         );
         if ($templateLabelNode) {
-            $module = (string)$templateLabelNode->getParent()->getAttribute('module');
-            $templateName = Mage::helper($module)->__((string)$templateLabelNode);
-            $templateName = Mage::helper('Mage_Backend_Helper_Data')->__('%s (Default)', $templateName);
+            $templateName = __('%s (Default)', __((string)$templateLabelNode));
         }
         array_unshift(
             $options,
