@@ -47,10 +47,10 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Massaction
     /**
      * Returns HTML of the object
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         if ($this->getColumn()->getGrid()->getMassactionIdFieldOnlyIndexValue()) {
             $this->setNoObjectId(true);

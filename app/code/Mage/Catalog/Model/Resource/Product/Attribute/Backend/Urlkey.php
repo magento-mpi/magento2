@@ -22,7 +22,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
     /**
      * Before save
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
      */
     public function beforeSave($object)
@@ -42,7 +42,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
     /**
      * Refresh product rewrites
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
      */
     public function afterSave($object)

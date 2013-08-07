@@ -15,7 +15,7 @@
  * @package     Enterprise_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Text extends Varien_Data_Form_Element_Text
+class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Text extends Magento_Data_Form_Element_Text
 {
     /**
      * Return Form Element HTML

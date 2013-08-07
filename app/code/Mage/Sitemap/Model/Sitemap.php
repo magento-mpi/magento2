@@ -46,7 +46,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     /**
      * File handler
      *
-     * @var Varien_Io_File
+     * @var Magento_Io_File
      */
     protected $_fileHandler;
 
@@ -100,14 +100,14 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     /**
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         Magento_Filesystem $filesystem,
         array $data = array()
     ) {
@@ -127,7 +127,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      * Get file handler
      *
      * @throws Mage_Core_Exception
-     * @return Varien_Io_File
+     * @return Magento_Io_File
      */
     protected function _getFileHandler()
     {
@@ -147,19 +147,19 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $helper = Mage::helper('Mage_Sitemap_Helper_Data');
         $storeId = $this->getStoreId();
 
-        $this->_sitemapItems[] = new Varien_Object(array(
+        $this->_sitemapItems[] = new Magento_Object(array(
             'changefreq' => $helper->getCategoryChangefreq($storeId),
             'priority' => $helper->getCategoryPriority($storeId),
             'collection' => $this->_getCategoryItemsCollection($storeId)
         ));
 
-        $this->_sitemapItems[] = new Varien_Object(array(
+        $this->_sitemapItems[] = new Magento_Object(array(
             'changefreq' => $helper->getProductChangefreq($storeId),
             'priority' => $helper->getProductPriority($storeId),
             'collection' => $this->_getProductItemsCollection($storeId)
         ));
 
-        $this->_sitemapItems[] = new Varien_Object(array(
+        $this->_sitemapItems[] = new Magento_Object(array(
             'changefreq' => $helper->getPageChangefreq($storeId),
             'priority' => $helper->getPagePriority($storeId),
             'collection' => $this->_getPageItemsCollection($storeId)
@@ -271,7 +271,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     public function generateXml()
     {
         $this->_initSitemapItems();
-        /** @var $sitemapItem Varien_Object */
+        /** @var $sitemapItem Magento_Object */
         foreach ($this->_sitemapItems as $sitemapItem) {
             $changefreq = $sitemapItem->getChangefreq();
             $priority = $sitemapItem->getPriority();
@@ -337,7 +337,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      */
     protected function _getCurrentDateTime()
     {
-        $date = new Varien_Date();
+        $date = new Magento_Date();
         return $date->now();
     }
 
@@ -517,11 +517,11 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     /**
      * Get file object
      *
-     * @return Varien_Io_File
+     * @return Magento_Io_File
      */
     protected function _getFileObject()
     {
-        return new Varien_Io_File();
+        return new Magento_Io_File();
     }
 
     /**

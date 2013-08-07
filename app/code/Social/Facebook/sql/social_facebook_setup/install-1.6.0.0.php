@@ -16,23 +16,23 @@ $installer = $this;
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('social_facebook_actions'))
-    ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('entity_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Entity Id')
-    ->addColumn('facebook_id', Varien_Db_Ddl_Table::TYPE_TEXT, 100, array(
+    ->addColumn('facebook_id', Magento_DB_Ddl_Table::TYPE_TEXT, 100, array(
         'nullable'  => false,
         ), 'Facebook User Id')
-    ->addColumn('facebook_name', Varien_Db_Ddl_Table::TYPE_TEXT, 100, array(
+    ->addColumn('facebook_name', Magento_DB_Ddl_Table::TYPE_TEXT, 100, array(
         'nullable'  => false,
         ), 'Facebook User Name')
-    ->addColumn('facebook_action', Varien_Db_Ddl_Table::TYPE_SMALLINT, 5, array(
+    ->addColumn('facebook_action', Magento_DB_Ddl_Table::TYPE_SMALLINT, 5, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'User Action')
-    ->addColumn('item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('item_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         ), 'Product Id')

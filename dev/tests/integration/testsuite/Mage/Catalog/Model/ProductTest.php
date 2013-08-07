@@ -305,7 +305,7 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testIsReservedAttribute($isUserDefined, $code, $expectedResult)
     {
-        $attribute = new Varien_Object(array('is_user_defined' => $isUserDefined, 'attribute_code' => $code));
+        $attribute = new Magento_Object(array('is_user_defined' => $isUserDefined, 'attribute_code' => $code));
         $this->assertEquals($expectedResult, $this->_model->isReservedAttribute($attribute));
     }
 
@@ -389,9 +389,9 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 
     public function testProcessBuyRequest()
     {
-        $request = new Varien_Object;
+        $request = new Magento_Object;
         $result = $this->_model->processBuyRequest($request);
-        $this->assertInstanceOf('Varien_Object', $result);
+        $this->assertInstanceOf('Magento_Object', $result);
         $this->assertArrayHasKey('errors', $result->getData());
     }
 

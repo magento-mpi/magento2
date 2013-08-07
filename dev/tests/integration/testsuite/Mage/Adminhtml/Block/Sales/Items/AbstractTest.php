@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Sales_Items_AbstractTest extends PHPUnit_Framework_Te
         /** @var $block Mage_Adminhtml_Block_Sales_Items_Abstract */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Sales_Items_Abstract', 'block');
 
-        $item = new Varien_Object;
+        $item = new Magento_Object;
 
         $this->assertEmpty($block->getItemExtraInfoHtml($item));
 

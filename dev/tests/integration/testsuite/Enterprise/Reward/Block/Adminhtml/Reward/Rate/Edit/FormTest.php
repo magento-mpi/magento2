@@ -39,7 +39,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUni
     {
         $this->_block->toHtml();
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('Varien_Data_Form', $form);
+        $this->assertInstanceOf('Magento_Data_Form', $form);
         $this->assertNull($form->getElement('website_id'));
     }
 
@@ -52,10 +52,10 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_FormTest extends PHPUni
     {
         $this->_block->toHtml();
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('Varien_Data_Form', $form);
+        $this->assertInstanceOf('Magento_Data_Form', $form);
         $element = $form->getElement('website_id');
         $this->assertNotNull($element);
-        $this->assertInstanceOf('Varien_Data_Form_Element_Select', $element);
+        $this->assertInstanceOf('Magento_Data_Form_Element_Select', $element);
         $this->assertEquals('website_id', $element->getId());
     }
 }

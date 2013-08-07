@@ -97,11 +97,11 @@ class Mage_Sitemap_Model_Resource_Catalog_Category extends Mage_Core_Model_Resou
      * Prepare category
      *
      * @param array $categoryRow
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _prepareCategory(array $categoryRow)
     {
-        $category = new Varien_Object();
+        $category = new Magento_Object();
         $category->setId($categoryRow[$this->getIdFieldName()]);
         $categoryUrl = !empty($categoryRow['url']) ? $categoryRow['url'] :
             'catalog/category/view/id/' . $category->getId();

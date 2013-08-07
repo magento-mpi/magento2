@@ -91,7 +91,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         $this->_initFormValues();
 
         // Prepare form
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id'            => 'edit_form',
             'use_container' => true,
             'method'        => 'post'
@@ -170,7 +170,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     /**
      * Prepare store element
      *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      */
     protected function _prepareStoreElement($fieldset)
     {
@@ -201,7 +201,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     /**
      * Form post init
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @return Mage_Adminhtml_Block_Urlrewrite_Edit_Form
      */
     protected function _formPostInit($form)

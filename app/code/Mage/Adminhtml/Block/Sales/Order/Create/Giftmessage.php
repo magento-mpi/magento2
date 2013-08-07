@@ -21,11 +21,11 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage extends Mage_Adminhtml
     /**
      * Generate form for editing of gift message for entity
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @param string        $entityType
      * @return string
      */
-    public function getFormHtml(Varien_Object $entity, $entityType='quote') {
+    public function getFormHtml(Magento_Object $entity, $entityType='quote') {
         return $this->getLayout()->createBlock(
                     'Mage_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form'
                )->setEntity($entity)->setEntityType($entityType)->toHtml();

@@ -26,7 +26,7 @@ interface Saas_ImportExport_Model_Export_EntityInterface
     /**
      * Retrieve export collection
      *
-     * @return Varien_Data_Collection_Db
+     * @return Magento_Data_Collection_Db
      */
     public function getCollection();
 

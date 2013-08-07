@@ -16,12 +16,12 @@
  * @package    Mage_Centinel
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Centinel_Model_Observer extends Varien_Object
+class Mage_Centinel_Model_Observer extends Magento_Object
 {
     /**
      * Set cmpi data to payment
      *
-     * @param Varien_Object $observer
+     * @param Magento_Object $observer
      * @return Mage_Centinel_Model_Observer
      */
     public function salesEventConvertQuoteToOrder($observer)
@@ -38,7 +38,7 @@ class Mage_Centinel_Model_Observer extends Varien_Object
     /**
      * Add cmpi data to info block
      *
-     * @param Varien_Object $observer
+     * @param Magento_Object $observer
      * @return Mage_Centinel_Model_Observer
      */
     public function paymentInfoBlockPrepareSpecificInformation($observer)
@@ -69,7 +69,7 @@ class Mage_Centinel_Model_Observer extends Varien_Object
     /**
      * Add centinel logo block into payment form
      *
-     * @param Varien_Object $observer
+     * @param Magento_Object $observer
      * @return Mage_Centinel_Model_Observer
      */
     public function paymentFormBlockToHtmlBefore($observer)
@@ -89,7 +89,7 @@ class Mage_Centinel_Model_Observer extends Varien_Object
     /**
      * Reset validation data
      *
-     * @param Varien_Object $observer
+     * @param Magento_Object $observer
      * @return Mage_Centinel_Model_Observer
      */
     public function checkoutSubmitAllAfter($observer)

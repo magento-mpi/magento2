@@ -42,7 +42,7 @@ class Mage_Reports_Model_Resource_Review_Customer_Collection extends Mage_Review
          */
         $this->_useAnalyticFunction = true;
 
-        /** @var $adapter Varien_Db_Adapter_Interface */
+        /** @var $adapter Magento_DB_Adapter_Interface */
         $adapter            = $this->getConnection();
         /** @var $customer Mage_Customer_Model_Resource_Customer */
         $customer           = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer');

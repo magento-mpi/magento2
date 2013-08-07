@@ -28,7 +28,7 @@ class Mage_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_TestCas
     public function testCreate()
     {
         $result = $this->_model->create();
-        $this->assertInstanceOf('Varien_Image_Adapter_Abstract', $result);
+        $this->assertInstanceOf('Magento_Image_Adapter_Abstract', $result);
         $this->assertNotEmpty($this->_config->getConfig(Mage_Core_Model_Image_AdapterFactory::XML_PATH_IMAGE_ADAPTER));
     }
 }

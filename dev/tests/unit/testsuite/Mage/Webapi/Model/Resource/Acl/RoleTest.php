@@ -12,7 +12,7 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends Mage_Webapi_Model_Resource
     /**
      * Create resource model.
      *
-     * @param Varien_Db_Select $selectMock
+     * @param Magento_DB_Select $selectMock
      * @return Mage_Webapi_Model_Resource_Acl_Role
      */
     protected function _createModel($selectMock = null)
@@ -27,7 +27,7 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends Mage_Webapi_Model_Resource
             ->withAnyParameters()
             ->will($this->returnArgument(0));
 
-        $this->_adapter = $this->getMockBuilder('Varien_Db_Adapter_Pdo_Mysql')
+        $this->_adapter = $this->getMockBuilder('Magento_DB_Adapter_Pdo_Mysql')
             ->disableOriginalConstructor()
             ->setMethods(array('select', 'fetchCol', 'fetchPairs'))
             ->getMock();
@@ -43,8 +43,8 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends Mage_Webapi_Model_Resource
             ->will($this->returnValue(array('key' => 'value')));
 
         if (!$selectMock) {
-            $selectMock = new Varien_Db_Select(
-                $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false));
+            $selectMock = new Magento_DB_Select(
+                $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false));
         }
 
         $this->_adapter->expects($this->any())
@@ -90,8 +90,8 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends Mage_Webapi_Model_Resource
      */
     public function testGetRolesList()
     {
-        $selectMock = $this->getMockBuilder('Varien_Db_Select')
-            ->setConstructorArgs(array($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)))
+        $selectMock = $this->getMockBuilder('Magento_DB_Select')
+            ->setConstructorArgs(array($this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false)))
             ->setMethods(array('from', 'order'))
             ->getMock();
 
@@ -115,8 +115,8 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends Mage_Webapi_Model_Resource
      */
     public function testGetRolesIds()
     {
-        $selectMock = $this->getMockBuilder('Varien_Db_Select')
-            ->setConstructorArgs(array($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)))
+        $selectMock = $this->getMockBuilder('Magento_DB_Select')
+            ->setConstructorArgs(array($this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false)))
             ->setMethods(array('from', 'order'))
             ->getMock();
 

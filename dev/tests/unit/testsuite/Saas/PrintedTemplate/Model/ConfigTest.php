@@ -21,7 +21,7 @@ class Saas_PrintedTemplate_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $file = file_get_contents(__DIR__ . '/../_files/config.xml');
-        $xml = simplexml_load_string($file, 'Varien_Simplexml_Element');
+        $xml = simplexml_load_string($file, 'Magento_Simplexml_Element');
         $array = $xml->asArray();
 
         $config->expects($this->any())

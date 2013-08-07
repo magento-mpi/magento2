@@ -14,7 +14,7 @@
 class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
 {
     /**
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_config;
 
@@ -104,12 +104,12 @@ class Mage_Adminhtml_Block_Media_Uploader extends Mage_Adminhtml_Block_Widget
     /**
      * Retrive config object
      *
-     * @return Varien_Config
+     * @return Magento_Object
      */
     public function getConfig()
     {
         if (null === $this->_config) {
-            $this->_config = new Varien_Object();
+            $this->_config = new Magento_Object();
         }
 
         return $this->_config;

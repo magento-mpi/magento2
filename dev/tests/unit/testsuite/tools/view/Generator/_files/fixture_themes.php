@@ -8,19 +8,19 @@
  * @license     {license_link}
  */
 
-$themeOne = new Varien_Object(array(
+$themeOne = new Magento_Object(array(
     'area' => 'area_one',
     'theme_path' => 'fixture/theme_one',
 ));
-$themeTwo = new Varien_Object(array(
+$themeTwo = new Magento_Object(array(
     'area' => 'area_one',
     'theme_path' => 'fixture/theme_two',
 ));
-$themeThree = new Varien_Object(array(
+$themeThree = new Magento_Object(array(
     'area' => 'area_two',
     'theme_path' => 'fixture/theme_three',
 ));
-$themeFour = new Varien_Object(array(
+$themeFour = new Magento_Object(array(
     'area' => 'area_two',
     'theme_path' => 'fixture/theme_four',
 ));

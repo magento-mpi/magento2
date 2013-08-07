@@ -23,8 +23,8 @@ class Mage_Payment_Model_Method_Purchaseorder extends Mage_Payment_Model_Method_
      */
     public function assignData($data)
     {
-        if (!($data instanceof Varien_Object)) {
-            $data = new Varien_Object($data);
+        if (!($data instanceof Magento_Object)) {
+            $data = new Magento_Object($data);
         }
 
         $this->getInfoInstance()->setPoNumber($data->getPoNumber());

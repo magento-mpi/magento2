@@ -169,7 +169,7 @@ class Magento_Application
      */
     protected function _updateFilesystemPermissions()
     {
-        Varien_Io_File::chmodRecursive(Mage::getBaseDir('var'), 0777);
+        Magento_Io_File::chmodRecursive(Mage::getBaseDir('var'), 0777);
     }
 
     /**

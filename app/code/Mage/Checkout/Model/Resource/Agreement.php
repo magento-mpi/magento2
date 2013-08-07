@@ -93,8 +93,8 @@ class Mage_Checkout_Model_Resource_Agreement extends Mage_Core_Model_Resource_Db
      *
      * @param string $field
      * @param value $value
-     * @param Varien_Object $object
-     * @return Varien_Db_Select
+     * @param Magento_Object $object
+     * @return Magento_DB_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

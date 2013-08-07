@@ -77,7 +77,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Date $dateModel
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      * @return Enterprise_ImportExport_Model_Scheduled_Operation
      */
@@ -85,7 +85,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Date $dateModel,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -457,7 +457,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
      * Get and initialize file system driver by operation file section configuration
      *
      * @throws Mage_Core_Exception
-     * @return Varien_Io_Abstract
+     * @return Magento_Io_Abstract
      */
     public function getServerIoDriver()
     {
@@ -471,7 +471,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
             Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Please correct the server type.'));
         }
 
-        $class = 'Varien_Io_' . ucfirst(strtolower($fileInfo['server_type']));
+        $class = 'Magento_Io_' . ucfirst(strtolower($fileInfo['server_type']));
         if (!class_exists($class)) {
             Mage::throwException(
                 Mage::helper('Enterprise_ImportExport_Helper_Data')
@@ -521,7 +521,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     {
         $filePath = $this->getHistoryFilePath();
 
-        $fs = new Varien_Io_File();
+        $fs = new Magento_Io_File();
         $fs->open(array(
             'path' => dirname($filePath)
         ));

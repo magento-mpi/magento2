@@ -12,13 +12,13 @@
 class Mage_Catalog_Model_Resource_Category_FlatTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Varien_Db_Adapter_Pdo_Mysql|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_DB_Adapter_Pdo_Mysql|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dbAdapterMock;
 
     protected function setUp()
     {
-        $this->_dbAdapterMock = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false);
+        $this->_dbAdapterMock = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false);
     }
 
     /**

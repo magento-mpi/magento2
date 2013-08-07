@@ -60,7 +60,7 @@
             <connection>
                 <types>
                     <pdo_mysql>
-                        <adapter>Varien_Db_Adapter_Pdo_Mysql</adapter>
+                        <adapter>Magento_DB_Adapter_Pdo_Mysql</adapter>
                         <class>Mage_Core_Model_Resource_Type_Db_Pdo_Mysql</class>
                         <compatibleMode>1</compatibleMode>
                     </pdo_mysql>
@@ -79,7 +79,7 @@
                 <Mage_Core_Model_LocaleInterface>Mage_Core_Model_Locale</Mage_Core_Model_LocaleInterface>
                 <Mage_Core_Model_UrlInterface>Mage_Core_Model_Url</Mage_Core_Model_UrlInterface>
                 <Mage_Core_Model_Event_InvokerInterface>Mage_Core_Model_Event_Invoker_InvokerDefault</Mage_Core_Model_Event_InvokerInterface>
-                <Varien_Data_Collection_Db_FetchStrategyInterface>Varien_Data_Collection_Db_FetchStrategy_Query</Varien_Data_Collection_Db_FetchStrategyInterface>
+                <Magento_Data_Collection_Db_FetchStrategyInterface>Magento_Data_Collection_Db_FetchStrategy_Query</Magento_Data_Collection_Db_FetchStrategyInterface>
             </preferences>
             <Mage_Core_Model_App_State>
                 <parameters>
@@ -232,7 +232,7 @@
             <Magento_Data_Structure>
                 <shared>0</shared>
             </Magento_Data_Structure>
-            <Magento_Http_Handler_Composite>
+            <Magento_HTTP_Handler_Composite>
                 <parameters>
                     <handlers>
                         <app>
@@ -241,7 +241,7 @@
                         </app>
                     </handlers>
                 </parameters>
-            </Magento_Http_Handler_Composite>
+            </Magento_HTTP_Handler_Composite>
             <Mage_Core_Model_DataService_Path_Composite>
                 <parameters>
                     <items>

@@ -22,7 +22,7 @@ class Saas_PrintedTemplate_Model_Variable_AbstractTest extends PHPUnit_Framework
             ->setMethods(array('getConfigSectionArray'))
             ->getMock();
 
-        $xml = simplexml_load_file(__DIR__ . '/../../_files/config.xml', 'Varien_Simplexml_Element');
+        $xml = simplexml_load_file(__DIR__ . '/../../_files/config.xml', 'Magento_Simplexml_Element');
         $array = $xml->asArray();
 
         $config->expects($this->any())
@@ -54,7 +54,7 @@ class Saas_PrintedTemplate_Model_Variable_AbstractTest extends PHPUnit_Framework
             )
         );
 
-        $value = new Varien_Object(array($field => $value));
+        $value = new Magento_Object(array($field => $value));
 
         $abstractFake = $this->getMockBuilder('VariableAbstractFake')
             ->disableOriginalConstructor()
@@ -146,7 +146,7 @@ class VariableAbstractFake extends Saas_PrintedTemplate_Model_Variable_Abstract
      * @see Saas_PrintedTemplate_Model_Template_Variable_Abstract::__construct()
      * @param Mage_Sales_Model_Order_Invoice $value Invoice
      */
-    public function __construct(Varien_Object $value, $config)
+    public function __construct(Magento_Object $value, $config)
     {
         parent::__construct($value);
         $this->_config = $config;

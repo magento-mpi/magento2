@@ -58,7 +58,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
         'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader'
             => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ImageUploader',
 
-        'Varien_Data_Form_Element_Checkbox'
+        'Magento_Data_Form_Element_Checkbox'
             => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Checkbox'
     );
 
@@ -83,7 +83,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      *
      * @param string $elementClassName
      * @param string $rendererName
-     * @return Varien_Data_Form_Element_Renderer_Interface
+     * @return Magento_Data_Form_Element_Renderer_Interface
      * @throws Mage_Core_Exception
      */
     public function create($elementClassName, $rendererName)

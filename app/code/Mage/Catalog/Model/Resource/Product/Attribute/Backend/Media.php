@@ -64,7 +64,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
             )
             ->where('main.attribute_id = ?', $object->getAttribute()->getId())
             ->where('main.entity_id = ?', $product->getId())
-            ->order($positionCheckSql . ' ' . Varien_Db_Select::SQL_ASC);
+            ->order($positionCheckSql . ' ' . Magento_DB_Select::SQL_ASC);
 
         $result = $adapter->fetchAll($select);
         $this->_removeDuplicates($result);
@@ -103,7 +103,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
     public function insertGallery($data)
     {
         $adapter = $this->_getWriteAdapter();
-        $data    = $this->_prepareDataForTable(new Varien_Object($data), $this->getMainTable());
+        $data    = $this->_prepareDataForTable(new Magento_Object($data), $this->getMainTable());
         $adapter->insert($this->getMainTable(), $data);
 
         return $adapter->lastInsertId($this->getMainTable());
@@ -137,7 +137,7 @@ class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_C
      */
     public function insertGalleryValueInStore($data)
     {
-        $data = $this->_prepareDataForTable(new Varien_Object($data), $this->getTable(self::GALLERY_VALUE_TABLE));
+        $data = $this->_prepareDataForTable(new Magento_Object($data), $this->getTable(self::GALLERY_VALUE_TABLE));
         $this->_getWriteAdapter()->insert($this->getTable(self::GALLERY_VALUE_TABLE), $data);
 
         return $this;

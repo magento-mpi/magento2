@@ -33,7 +33,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit_Fr
         $this->_apiHelperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $this->_helperFactoryMock->expects($this->any())->method('get')
             ->will($this->returnValue($this->_apiHelperMock));
-        $this->_xmlParserMock = $this->getMock('Mage_Xml_Parser', array('xmlToArray', 'loadXML'));
+        $this->_xmlParserMock = $this->getMock('Magento_Xml_Parser', array('xmlToArray', 'loadXML'));
         $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')
             ->setMethods(array('isDeveloperMode'))
             ->disableOriginalConstructor()

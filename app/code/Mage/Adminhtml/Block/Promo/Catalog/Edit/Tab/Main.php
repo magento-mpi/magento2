@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
     {
         $model = Mage::registry('current_promo_catalog_rule');
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $form->setHtmlIdPrefix('rule_');
 
@@ -135,7 +135,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             'label'  => Mage::helper('Mage_CatalogRule_Helper_Data')->__('From Date'),
             'title'  => Mage::helper('Mage_CatalogRule_Helper_Data')->__('From Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
             'date_format' => $dateFormat
         ));
         $fieldset->addField('to_date', 'date', array(
@@ -143,7 +143,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             'label'  => Mage::helper('Mage_CatalogRule_Helper_Data')->__('To Date'),
             'title'  => Mage::helper('Mage_CatalogRule_Helper_Data')->__('To Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
+            'input_format' => Magento_Date::DATE_INTERNAL_FORMAT,
             'date_format' => $dateFormat
         ));
 

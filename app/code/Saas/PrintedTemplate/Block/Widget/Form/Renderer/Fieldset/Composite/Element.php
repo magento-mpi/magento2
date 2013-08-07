@@ -16,12 +16,12 @@
  * @subpackage  Blocks
  */
 class Saas_PrintedTemplate_Block_Widget_Form_Renderer_Fieldset_Composite_Element
-    extends Mage_Backend_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
+    extends Mage_Backend_Block_Template implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
      * Element to render
      *
-     * @var Varien_Data_Form_Element_Abstract
+     * @var Magento_Data_Form_Element_Abstract
      */
     protected $_element;
 
@@ -39,7 +39,7 @@ class Saas_PrintedTemplate_Block_Widget_Form_Renderer_Fieldset_Composite_Element
     /**
      * Element getter
      *
-     * @return Varien_Data_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     public function getElement()
     {
@@ -49,10 +49,10 @@ class Saas_PrintedTemplate_Block_Widget_Form_Renderer_Fieldset_Composite_Element
     /**
      * Render element to html
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $this->_element = $element;
         return $this->toHtml();

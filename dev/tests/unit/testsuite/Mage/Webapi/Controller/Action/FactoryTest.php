@@ -55,7 +55,7 @@ class Mage_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_TestCa
     public function testCreateActionControllerWithException()
     {
         /** Create object of class which is not instance of Mage_Webapi_Controller_ActionAbstract. */
-        $wrongController = new Varien_Object();
+        $wrongController = new Magento_Object();
         /** Create request object. */
         $request = new Mage_Webapi_Controller_Request('SOAP');
         /** Mock object manager create method to return wrong controller */

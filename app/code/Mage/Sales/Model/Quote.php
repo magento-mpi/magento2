@@ -906,7 +906,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      * Returns error message if product type instance can't prepare product.
      *
      * @param mixed $product
-     * @param null|float|Varien_Object $request
+     * @param null|float|Magento_Object $request
      * @param null|string $processMode
      * @return Mage_Sales_Model_Quote_Item|string
      */
@@ -916,9 +916,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $request = 1;
         }
         if (is_numeric($request)) {
-            $request = new Varien_Object(array('qty'=>$request));
+            $request = new Magento_Object(array('qty'=>$request));
         }
-        if (!($request instanceof Varien_Object)) {
+        if (!($request instanceof Magento_Object)) {
             Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('We found an invalid request for adding product to quote.'));
         }
 
@@ -991,7 +991,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      * return error message if product type instance can't prepare product
      *
      * @param mixed $product
-     * @param null|float|Varien_Object $request
+     * @param null|float|Magento_Object $request
      * @return Mage_Sales_Model_Quote_Item|string
      */
     public function addProduct(Mage_Catalog_Model_Product $product, $request = null)
@@ -1050,7 +1050,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      * It's passed to Mage_Catalog_Helper_Product->addParamsToBuyRequest() to compose resulting buyRequest.
      *
      * Basically it can hold
-     * - 'current_config', Varien_Object or array - current buyRequest that configures product in this item,
+     * - 'current_config', Magento_Object or array - current buyRequest that configures product in this item,
      *   used to restore currently attached files
      * - 'files_prefix': string[a-z0-9_] - prefix that was added at frontend to names of file options (file inputs), so they won't
      *   intersect with other submitted options
@@ -1058,8 +1058,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      * For more options see Mage_Catalog_Helper_Product->addParamsToBuyRequest()
      *
      * @param int $itemId
-     * @param Varien_Object $buyRequest
-     * @param null|array|Varien_Object $params
+     * @param Magento_Object $buyRequest
+     * @param null|array|Magento_Object $params
      * @return Mage_Sales_Model_Quote_Item
      *
      * @see Mage_Catalog_Helper_Product::addParamsToBuyRequest()
@@ -1079,9 +1079,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             ->load($productId);
 
         if (!$params) {
-            $params = new Varien_Object();
+            $params = new Magento_Object();
         } else if (is_array($params)) {
-            $params = new Varien_Object($params);
+            $params = new Magento_Object($params);
         }
         $params->setCurrentConfig($item->getBuyRequest());
         $buyRequest = Mage::helper('Mage_Catalog_Helper_Product')->addParamsToBuyRequest($buyRequest, $params);
@@ -1496,7 +1496,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      * @param string|null $origin Usually a name of module, that embeds error
      * @param int|null $code Error code, unique for origin, that sets it
      * @param string|null $message Error message
-     * @param Varien_Object|null $additionalData Any additional data, that caller would like to store
+     * @param Magento_Object|null $additionalData Any additional data, that caller would like to store
      * @return Mage_Sales_Model_Quote
      */
     public function addErrorInfo($type = 'error', $origin = null, $code = null, $message = null, $additionalData = null)

@@ -11,7 +11,7 @@
 /**
  * Abstract Tax Class
  */
-abstract class Mage_Tax_Model_Class_TypeAbstract extends Varien_Object implements Mage_Tax_Model_Class_Type_Interface
+abstract class Mage_Tax_Model_Class_TypeAbstract extends Magento_Object implements Mage_Tax_Model_Class_Type_Interface
 {
     /**
      * @var Mage_Tax_Model_Calculation_Rule

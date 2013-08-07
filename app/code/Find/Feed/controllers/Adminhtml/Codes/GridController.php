@@ -73,7 +73,7 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
     public function saveFormAction()
     {
         $codeId = $this->getRequest()->getParam('code_id');
-        $response = new Varien_Object();
+        $response = new Magento_Object();
         try {
             $model  = Mage::getModel('Find_Feed_Model_Codes');
             if ($codeId) {

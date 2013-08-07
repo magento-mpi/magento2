@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Saas_Model_Http_Handler implements Magento_Http_HandlerInterface
+class Saas_Saas_Model_Http_Handler implements Magento_HTTP_HandlerInterface
 {
     /**
      * @var Mage_Core_Model_Config_Primary

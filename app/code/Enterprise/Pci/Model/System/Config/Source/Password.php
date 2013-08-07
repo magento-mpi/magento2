@@ -12,7 +12,7 @@
  * Source model for admin password change mode
  *
  */
-class Enterprise_Pci_Model_System_Config_Source_Password extends Varien_Object
+class Enterprise_Pci_Model_System_Config_Source_Password extends Magento_Object
 {
     /**
      * Get options for select

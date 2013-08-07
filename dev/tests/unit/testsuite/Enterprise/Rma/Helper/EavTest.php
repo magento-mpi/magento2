@@ -29,7 +29,7 @@ class Enterprise_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAdditionalTextElementClasses($validateRules, $additionalClasses)
     {
-        $attributeMock = new Varien_Object(
+        $attributeMock = new Magento_Object(
             array('validate_rules' => $validateRules)
         );
         $this->assertEquals($this->_model->getAdditionalTextElementClasses($attributeMock), $additionalClasses);

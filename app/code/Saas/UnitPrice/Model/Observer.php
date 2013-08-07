@@ -19,7 +19,7 @@ class Saas_UnitPrice_Model_Observer
     /**
      * Set the default value on a product in the admin interface
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Saas_UnitPrice_Model_Observer
      */
     public function catalogProductLoadAfter($observer)
@@ -46,7 +46,7 @@ class Saas_UnitPrice_Model_Observer
      * Set the default values if BCP is installed and price updates are configured.
      * If BCP is not installed this event will never be fired.
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function bcpUpdateDefaultsOnConfigurableProduct($observer)
     {

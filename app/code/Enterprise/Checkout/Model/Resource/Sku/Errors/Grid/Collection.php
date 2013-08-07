@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Checkout_Model_Resource_Sku_Errors_Grid_Collection extends Varien_Data_Collection
+class Enterprise_Checkout_Model_Resource_Sku_Errors_Grid_Collection extends Magento_Data_Collection
 {
     /**
      * @var Enterprise_Checkout_Model_Cart
@@ -63,7 +63,7 @@ class Enterprise_Checkout_Model_Resource_Sku_Errors_Grid_Collection extends Vari
                         ? ''
                         : (float)$affectedItem['item']['qty'];
                 }
-                $item = new Varien_Object();
+                $item = new Magento_Object();
                 $item->setCode($affectedItem['code']);
                 if (isset($affectedItem['error'])) {
                     $item->setError($affectedItem['error']);

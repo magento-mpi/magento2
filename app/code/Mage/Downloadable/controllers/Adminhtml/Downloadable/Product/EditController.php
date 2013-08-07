@@ -21,7 +21,7 @@ class Mage_Downloadable_Adminhtml_Downloadable_Product_EditController extends Ma
 {
 
     /**
-     * Varien class constructor
+     * Magento class constructor
      *
      */
     protected function _construct()

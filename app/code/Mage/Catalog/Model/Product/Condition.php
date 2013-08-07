@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Catalog_Model_Product_Condition extends Varien_Object implements Mage_Catalog_Model_Product_Condition_Interface
+class Mage_Catalog_Model_Product_Condition extends Magento_Object implements Mage_Catalog_Model_Product_Condition_Interface
 {
     public function applyToCollection($collection)
     {

@@ -14,7 +14,7 @@ class Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
     protected $_addRowButtonHtml = array();
     protected $_removeRowButtonHtml = array();
 
-    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
 

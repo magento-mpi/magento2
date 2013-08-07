@@ -255,10 +255,10 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Check void availability
      *
-     * @param   Varien_Object $invoicePayment
+     * @param   Magento_Object $invoicePayment
      * @return  bool
      */
-    public function canVoid(Varien_Object $payment)
+    public function canVoid(Magento_Object $payment)
     {
         if ($this->_isGatewayActionsLocked($this->getInfoInstance())) {
             return false;
@@ -306,7 +306,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @param  decimal $amount
      * @return Mage_Paygate_Model_Authorizenet
      */
-    public function authorize(Varien_Object $payment, $amount)
+    public function authorize(Magento_Object $payment, $amount)
     {
         if ($amount <= 0) {
             Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('This is an invalid amount for authorization.'));
@@ -332,7 +332,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @param decimal $amount
      * @return Mage_Paygate_Model_Authorizenet
      */
-    public function capture(Varien_Object $payment, $amount)
+    public function capture(Magento_Object $payment, $amount)
     {
         if ($amount <= 0) {
             Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('This is an invalid amount for capture.'));
@@ -355,7 +355,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @param  Mage_Payment_Model_Info $payment
      * @return Mage_Paygate_Model_Authorizenet
      */
-    public function void(Varien_Object $payment)
+    public function void(Magento_Object $payment)
     {
         $cardsStorage = $this->getCardsStorage($payment);
 
@@ -389,7 +389,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @param  Mage_Payment_Model_Info $payment
      * @return Mage_Paygate_Model_Authorizenet
      */
-    public function cancel(Varien_Object $payment)
+    public function cancel(Magento_Object $payment)
     {
         return $this->void($payment);
     }
@@ -402,7 +402,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @return Mage_Paygate_Model_Authorizenet
      * @throws Mage_Core_Exception
      */
-    public function refund(Varien_Object $payment, $requestedAmount)
+    public function refund(Magento_Object $payment, $requestedAmount)
     {
         $cardsStorage = $this->getCardsStorage($payment);
 
@@ -724,7 +724,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      *
      * @param Mage_Payment_Model_Info $payment
      * @param decimal $amount
-     * @param Varien_Object $card
+     * @param Magento_Object $card
      * @return Mage_Sales_Model_Order_Payment_Transaction
      */
     protected function _preauthorizeCaptureCardTransaction($payment, $amount, $card)
@@ -781,7 +781,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * Void the card transaction through gateway
      *
      * @param Mage_Payment_Model_Info $payment
-     * @param Varien_Object $card
+     * @param Magento_Object $card
      * @return Mage_Sales_Model_Order_Payment_Transaction
      */
     protected function _voidCardTransaction($payment, $card)
@@ -877,7 +877,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * Refund the card transaction through gateway
      *
      * @param Mage_Payment_Model_Info $payment
-     * @param Varien_Object $card
+     * @param Magento_Object $card
      * @return Mage_Sales_Model_Order_Payment_Transaction
      */
     protected function _refundCardTransaction($payment, $amount, $card)
@@ -1046,7 +1046,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Set split_tender_id to quote payment if neeeded
      *
-     * @param Varien_Object $response
+     * @param Magento_Object $response
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return bool
      */
@@ -1130,7 +1130,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @param Mage_Payment_Model_Info $payment
      * @return Mage_Paygate_Model_Authorizenet_Request
      */
-    protected function _buildRequest(Varien_Object $payment)
+    protected function _buildRequest(Magento_Object $payment)
     {
         $order = $payment->getOrder();
 
@@ -1183,7 +1183,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
 
         if ($this->getIsCentinelValidationEnabled()){
             $params  = $this->getCentinelValidator()->exportCmpiData(array());
-            $request = Varien_Object_Mapper::accumulateByMap($params, $request, $this->_centinelFieldMap);
+            $request = Magento_Object_Mapper::accumulateByMap($params, $request, $this->_centinelFieldMap);
         }
 
         if (!empty($order)) {
@@ -1239,13 +1239,13 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @param Mage_Paygate_Model_Authorizenet_Request $request)
      * @return Mage_Paygate_Model_Authorizenet_Result
      */
-    protected function _postRequest(Varien_Object $request)
+    protected function _postRequest(Magento_Object $request)
     {
         $debugData = array('request' => $request->getData());
 
         $result = Mage::getModel('Mage_Paygate_Model_Authorizenet_Result');
 
-        $client = new Varien_Http_Client();
+        $client = new Magento_HTTP_ZendClient();
 
         $uri = $this->getConfigData('cgi_url');
         $client->setUri($uri ? $uri : self::CGI_URL);
@@ -1344,9 +1344,9 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      *
      * @param Mage_Paygate_Model_Authorizenet_Result $response
      * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Varien_Object
+     * @return Magento_Object
      */
-    protected function _registerCard(Varien_Object $response, Mage_Sales_Model_Order_Payment $payment)
+    protected function _registerCard(Magento_Object $response, Mage_Sales_Model_Order_Payment $payment)
     {
         $cardsStorage = $this->getCardsStorage($payment);
         $card = $cardsStorage->registerCard();
@@ -1481,11 +1481,11 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Generate checksum for object
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @param array $checkSumDataKeys
      * @return string
      */
-    protected function _generateChecksum(Varien_Object $object, $checkSumDataKeys = array())
+    protected function _generateChecksum(Magento_Object $object, $checkSumDataKeys = array())
     {
         $data = array();
         foreach($checkSumDataKeys as $dataKey) {
@@ -1501,7 +1501,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @link http://www.authorize.net/support/ReportingGuide_XML.pdf
      * @link http://developer.authorize.net/api/transaction_details/
      * @param string $transactionId
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _getTransactionDetails($transactionId)
     {
@@ -1516,7 +1516,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $transactionId
         );
 
-        $client = new Varien_Http_Client();
+        $client = new Magento_HTTP_ZendClient();
         $uri = $this->getConfigData('cgi_url_td');
         $client->setUri($uri ? $uri : self::CGI_URL_TD);
         $client->setConfig(array('timeout'=>45));
@@ -1531,13 +1531,13 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $debugData['result'] = $responseBody;
             $this->_debug($debugData);
             libxml_use_internal_errors(true);
-            $responseXmlDocument = new Varien_Simplexml_Element($responseBody);
+            $responseXmlDocument = new Magento_Simplexml_Element($responseBody);
             libxml_use_internal_errors(false);
         } catch (Exception $e) {
             Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Payment updating error.'));
         }
 
-        $response = new Varien_Object;
+        $response = new Magento_Object;
         $response
             ->setResponseCode((string)$responseXmlDocument->transaction->responseCode)
             ->setResponseReasonCode((string)$responseXmlDocument->transaction->responseReasonCode)

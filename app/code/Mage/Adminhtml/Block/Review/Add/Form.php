@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Review_Add_Form extends Mage_Adminhtml_Block_Widget_F
 {
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $fieldset = $form->addFieldset('add_review_form', array('legend' => Mage::helper('Mage_Review_Helper_Data')->__('Review Details')));
 

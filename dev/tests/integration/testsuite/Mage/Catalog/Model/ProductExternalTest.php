@@ -46,7 +46,7 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
     public function testGetCategoryId()
     {
         $this->assertFalse($this->_model->getCategoryId());
-        $category = new Varien_Object(array('id' => 5));
+        $category = new Magento_Object(array('id' => 5));
         Mage::register('current_category', $category);
         try {
             $this->assertEquals(5, $this->_model->getCategoryId());
@@ -61,7 +61,7 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->_model->getCategory());
 
-        Mage::register('current_category', new Varien_Object(array('id' => 3))); // fixture
+        Mage::register('current_category', new Magento_Object(array('id' => 3))); // fixture
         try {
             $category = $this->_model->getCategory();
             $this->assertInstanceOf('Mage_Catalog_Model_Category', $category);
@@ -272,7 +272,7 @@ class Mage_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
         $this->_model->setId(99);
         $this->_model->addCustomOption('one', 'value1');
         $option = $this->_model->getCustomOption('one');
-        $this->assertInstanceOf('Varien_Object', $option);
+        $this->assertInstanceOf('Magento_Object', $option);
         $this->assertEquals($this->_model->getId(), $option->getProductId());
         $this->assertSame($option->getProduct(), $this->_model);
         $this->assertEquals('one', $option->getCode());

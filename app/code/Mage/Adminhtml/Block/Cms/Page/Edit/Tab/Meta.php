@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
             $isElementDisabled = true;
         }
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $form->setHtmlIdPrefix('page_');
 

@@ -14,7 +14,7 @@ $installer = $this;
 $installer->getConnection()->addColumn(
     $installer->getTable('importexport_importdata'), 'entity_subtype',
     array(
-        'TYPE'    => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'TYPE'    => Magento_DB_Ddl_Table::TYPE_TEXT,
         'LENGTH'  => 50,
         'COMMENT' => 'Defines entity subtype to have ability import entity data partially'
     )

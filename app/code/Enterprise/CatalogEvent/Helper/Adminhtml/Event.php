@@ -20,7 +20,7 @@ class Enterprise_CatalogEvent_Helper_Adminhtml_Event extends Mage_Core_Helper_Ab
     /**
      * Categories first and second level for admin
      *
-     * @var Varien_Data_Tree_Node
+     * @var Magento_Data_Tree_Node
      */
     protected $_categories = null;
 
@@ -34,7 +34,7 @@ class Enterprise_CatalogEvent_Helper_Adminhtml_Event extends Mage_Core_Helper_Ab
     /**
      * Return first and second level categories
      *
-     * @return Varien_Data_Tree_Node
+     * @return Magento_Data_Tree_Node
      */
     public function getCategories()
     {
@@ -75,7 +75,7 @@ class Enterprise_CatalogEvent_Helper_Adminhtml_Event extends Mage_Core_Helper_Ab
      *
      * @return array
      */
-    protected function _treeNodeToOption(Varien_Data_Tree_Node $node, $without)
+    protected function _treeNodeToOption(Magento_Data_Tree_Node $node, $without)
     {
 
         $option = array();
@@ -98,7 +98,7 @@ class Enterprise_CatalogEvent_Helper_Adminhtml_Event extends Mage_Core_Helper_Ab
      *
      * @param array $categories
      * @param int $categoryId
-     * @return Varien_Data_Tree_Node|boolean
+     * @return Magento_Data_Tree_Node|boolean
      */
     public function searchInCategories($categories, $categoryId)
     {

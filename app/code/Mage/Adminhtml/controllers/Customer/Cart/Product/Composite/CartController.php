@@ -75,7 +75,7 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
      */
     public function configureAction()
     {
-        $configureResult = new Varien_Object();
+        $configureResult = new Magento_Object();
         try {
             $this->_initData();
 
@@ -110,11 +110,11 @@ class Mage_Adminhtml_Customer_Cart_Product_Composite_CartController extends Mage
      */
     public function updateAction()
     {
-        $updateResult = new Varien_Object();
+        $updateResult = new Magento_Object();
         try {
             $this->_initData();
 
-            $buyRequest = new Varien_Object($this->getRequest()->getParams());
+            $buyRequest = new Magento_Object($this->getRequest()->getParams());
             $this->_quote->updateItem($this->_quoteItem->getId(), $buyRequest);
             $this->_quote->collectTotals()
                 ->save();

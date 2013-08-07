@@ -62,18 +62,18 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_FormTest extends PHPUnit_Fra
         $formElements = $this->_model->getForm()
             ->getElements();
         foreach ($formElements as $formElement) {
-            if ($formElement instanceof Varien_Data_Form_Element_Fieldset) {
+            if ($formElement instanceof Magento_Data_Form_Element_Fieldset) {
                 $actualFieldsets[] = $formElement;
             }
         }
 
         // assert fieldsets and fields
         $this->assertSameSize($this->_expectedFields, $actualFieldsets);
-        /** @var $actualFieldset Varien_Data_Form_Element_Fieldset */
+        /** @var $actualFieldset Magento_Data_Form_Element_Fieldset */
         foreach ($actualFieldsets as $actualFieldset) {
             $this->assertArrayHasKey($actualFieldset->getId(), $this->_expectedFields);
             $expectedFields = $this->_expectedFields[$actualFieldset->getId()];
-            /** @var $actualField Varien_Data_Form_Element_Abstract */
+            /** @var $actualField Magento_Data_Form_Element_Abstract */
             foreach ($actualFieldset->getElements() as $actualField) {
                 $this->assertArrayHasKey($actualField->getId(), $expectedFields);
                 $this->assertEquals($expectedFields[$actualField->getId()], $actualField->getName());

@@ -18,7 +18,7 @@
 class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
 
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         $actions = array();
 
@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action ext
     protected function _actionsToHtml(array $actions)
     {
         $html = array();
-        $attributesObject = new Varien_Object();
+        $attributesObject = new Magento_Object();
         foreach ($actions as $action) {
             $attributesObject->setData($action['@']);
             $html[] = '<a ' . $attributesObject->serialize() . '>' . $action['#'] . '</a>';

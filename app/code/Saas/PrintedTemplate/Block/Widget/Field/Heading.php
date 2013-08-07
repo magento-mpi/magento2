@@ -22,10 +22,10 @@ class Saas_PrintedTemplate_Block_Widget_Field_Heading
     /**
      * Prepare heading html element
      *
-     * @param Varien_Data_Form_Element_Abstract $element
-     * @return Varien_Data_Form_Element_Abstract
+     * @param Magento_Data_Form_Element_Abstract $element
+     * @return Magento_Data_Form_Element_Abstract
      */
-    public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
+    public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         $element->setRenderer($this->_getRenderer());
 
@@ -35,7 +35,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Heading
     /**
      * Get heading renderer object
      *
-     * @return Varien_Data_Form_Element_Renderer_Interface
+     * @return Magento_Data_Form_Element_Renderer_Interface
      */
     protected function _getRenderer()
     {

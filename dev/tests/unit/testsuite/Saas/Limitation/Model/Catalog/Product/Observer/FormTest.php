@@ -96,8 +96,8 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
             ->method('getChildBlock')->with('save-split-button')->will($this->returnValue($button));
         $block->expects($this->once())->method('getProduct')->will($this->returnValue($product));
 
-        $this->_model->removeSavingButtons(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $block))
+        $this->_model->removeSavingButtons(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $block))
         )));
 
         $expectedOptions = array(
@@ -125,8 +125,8 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
         );
         $block->expects($this->never())->method('getChildBlock');
 
-        $this->_model->removeSavingButtons(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $block))
+        $this->_model->removeSavingButtons(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $block))
         )));
     }
 
@@ -141,8 +141,8 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
         $block = $this->getMock('Mage_Core_Block_Abstract', array('getChildBlock'), array(), '', false);
         $block->expects($this->never())->method('getChildBlock');
 
-        $this->_model->removeSavingButtons(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $block))
+        $this->_model->removeSavingButtons(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $block))
         )));
     }
 

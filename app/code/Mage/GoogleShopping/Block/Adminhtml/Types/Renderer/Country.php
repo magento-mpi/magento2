@@ -22,10 +22,10 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Renderer_Country
     /**
      * Renders Google Content Item Id
      *
-     * @param   Varien_Object $row
+     * @param   Magento_Object $row
      * @return  string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         $iso = $row->getData($this->getColumn()->getIndex());
         return Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getCountryInfo($iso, 'name');

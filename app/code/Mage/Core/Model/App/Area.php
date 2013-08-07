@@ -233,7 +233,7 @@ class Mage_Core_Model_App_Area
      */
     protected function _initTranslate()
     {
-        $dispatchResult = new Varien_Object(array(
+        $dispatchResult = new Magento_Object(array(
             'inline_type' => null,
             'params' => array('area' => $this->_code)
         ));

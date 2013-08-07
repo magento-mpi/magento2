@@ -24,10 +24,10 @@ class Saas_Saas_Model_DisabledConfiguration_Observer
     /**
      * Reaction on a try to save config data
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @throws Saas_Saas_Exception
      */
-    public function checkConfigSaveAllowed(Varien_Event_Observer $observer)
+    public function checkConfigSaveAllowed(Magento_Event_Observer $observer)
     {
         /** @var $object Mage_Core_Model_Config_Data */
         $object = $observer->getEvent()->getConfigData();

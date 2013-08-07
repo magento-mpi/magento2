@@ -149,7 +149,7 @@ class Mage_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
 
     public function testGetDefaultStoresSelect()
     {
-        $this->assertInstanceOf('Varien_Db_Select', $this->_model->getDefaultStoresSelect());
+        $this->assertInstanceOf('Magento_DB_Select', $this->_model->getDefaultStoresSelect());
     }
 
     public function testIsReadonly()

@@ -33,7 +33,7 @@ class Mage_Theme_Model_Uploader_Service
     /**
      * File system helper
      *
-     * @var Varien_Io_File
+     * @var Magento_Io_File
      */
     protected $_fileIo;
 
@@ -62,13 +62,13 @@ class Mage_Theme_Model_Uploader_Service
     protected $_helper;
 
     /**
-     * @param Varien_Io_File $fileIo
+     * @param Magento_Io_File $fileIo
      * @param Magento_File_Size $fileSize
      * @param Mage_Core_Model_File_UploaderFactory $uploaderFactory
      * @param Mage_Core_Helper_Data $helper
      */
     public function __construct(
-        Varien_Io_File $fileIo,
+        Magento_Io_File $fileIo,
         Magento_File_Size $fileSize,
         Mage_Core_Model_File_UploaderFactory $uploaderFactory,
         Mage_Core_Helper_Data $helper

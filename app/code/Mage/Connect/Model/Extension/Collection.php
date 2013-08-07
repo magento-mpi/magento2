@@ -15,7 +15,7 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Connect_Model_Extension_Collection extends Varien_Data_Collection_Filesystem
+class Mage_Connect_Model_Extension_Collection extends Magento_Data_Collection_Filesystem
 {
     /**
      * Files and folders regexsp
@@ -39,7 +39,7 @@ class Mage_Connect_Model_Extension_Collection extends Varien_Data_Collection_Fil
     public function __construct()
     {
         $this->_baseDir = Mage::getBaseDir('var') . DS . 'connect';
-        $io = new Varien_Io_File();
+        $io = new Magento_Io_File();
         $io->setAllowCreateFolders(true)->createDestinationDir($this->_baseDir);
         $this->addTargetDir($this->_baseDir);
     }

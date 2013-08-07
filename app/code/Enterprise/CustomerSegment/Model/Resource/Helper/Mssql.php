@@ -66,10 +66,10 @@ class Enterprise_CustomerSegment_Model_Resource_Helper_Mssql extends Mage_Core_M
     /**
      * Set Mssql specific limit
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @return Enterprise_CustomerSegment_Model_Resource_Helper_Mssql
      */
-    public function setOneRowLimit(Varien_Db_Select $select)
+    public function setOneRowLimit(Magento_DB_Select $select)
     {
         $select->limit(1);
         return $this;

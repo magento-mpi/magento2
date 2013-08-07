@@ -21,10 +21,10 @@ class Mage_Adminhtml_Block_Report_Grid_Column_Renderer_Currency extends Mage_Adm
     /**
      * Renders grid column
      *
-     * @param   Varien_Object $row
+     * @param   Magento_Object $row
      * @return  string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         $data = $row->getData($this->getColumn()->getIndex());
         $currency_code = $this->_getCurrencyCode($row);

@@ -11,7 +11,7 @@
 /**
  * Form element button
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Button extends Varien_Data_Form_Element_Abstract
+class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Button extends Magento_Data_Form_Element_Abstract
 {
     /**
      * Additional html attributes

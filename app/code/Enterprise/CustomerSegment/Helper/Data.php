@@ -89,13 +89,13 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Add customer segment fields to a form and its data
      *
-     * @param Varien_Data_Form $form
-     * @param Varien_Object $formData
+     * @param Magento_Data_Form $form
+     * @param Magento_Object $formData
      * @param Mage_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies
      */
     public function addSegmentFieldsToForm(
-        Varien_Data_Form $form,
-        Varien_Object $formData,
+        Magento_Data_Form $form,
+        Magento_Object $formData,
         Mage_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies
     ) {
         if (!$this->isEnabled()) {
@@ -106,7 +106,7 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
 
         $htmlIdPrefix = $form->getHtmlIdPrefix();
 
-        /** @var Varien_Data_Form_Element_Fieldset $fieldset */
+        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
 
         $fieldset->addField('use_customer_segment', 'select', array(

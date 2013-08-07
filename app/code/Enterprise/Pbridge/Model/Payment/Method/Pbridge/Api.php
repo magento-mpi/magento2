@@ -51,7 +51,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Enterprise_Pbr
     /**
      * Authorize
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api
      */
     public function doAuthorize($request)
@@ -69,7 +69,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Enterprise_Pbr
     /**
      * Capture
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api
      */
     public function doCapture($request)
@@ -87,7 +87,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Enterprise_Pbr
     /**
      * Refund
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api
      */
     public function doRefund($request)
@@ -105,7 +105,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api extends Enterprise_Pbr
     /**
      * Void
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge_Api
      */
     public function doVoid($request)

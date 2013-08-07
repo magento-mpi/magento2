@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Cache_Resource_Grid_Collection extends Varien_Data_Collection
+class Mage_Backend_Model_Cache_Resource_Grid_Collection extends Magento_Data_Collection
 {
     /**
      * @var Mage_Core_Model_App

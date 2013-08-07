@@ -80,11 +80,11 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     /**
      * Return relation info about used products
      *
-     * @return Varien_Object Object with information data
+     * @return Magento_Object Object with information data
      */
     public function getRelationInfo()
     {
-        $info = new Varien_Object();
+        $info = new Magento_Object();
         $info->setTable('catalog_product_super_link')
             ->setParentFieldName('parent_id')
             ->setChildFieldName('product_id');
@@ -539,12 +539,12 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and then add Configurable specific options.
      *
-     * @param Varien_Object $buyRequest
+     * @param Magento_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product
      * @param string $processMode
      * @return array|string
      */
-    protected function _prepareProduct(Varien_Object $buyRequest, $product, $processMode)
+    protected function _prepareProduct(Magento_Object $buyRequest, $product, $processMode)
     {
         $attributes = $buyRequest->getSuperAttribute();
         if ($attributes || !$this->_isStrictProcessMode($processMode)) {
@@ -568,7 +568,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                 $subProduct = true;
                 if ($this->_isStrictProcessMode($processMode)) {
                     foreach($this->getConfigurableAttributes($product) as $attributeItem){
-                        /* @var $attributeItem Varien_Object */
+                        /* @var $attributeItem Magento_Object */
                         $attrId = $attributeItem->getData('attribute_id');
                         if(!isset($attributes[$attrId]) || empty($attributes[$attrId])) {
                             $subProduct = null;
@@ -641,7 +641,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         parent::checkProductBuyState($product);
         $option = $product->getCustomOption('info_buyRequest');
         if ($option instanceof Mage_Sales_Model_Quote_Item_Option) {
-            $buyRequest = new Varien_Object(unserialize($option->getValue()));
+            $buyRequest = new Magento_Object(unserialize($option->getValue()));
             $attributes = $buyRequest->getSuperAttribute();
             if (is_array($attributes)) {
                 foreach ($attributes as $key => $val) {
@@ -810,7 +810,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      * Prepare selected options for configurable product
      *
      * @param  Mage_Catalog_Model_Product $product
-     * @param  Varien_Object $buyRequest
+     * @param  Magento_Object $buyRequest
      * @return array
      */
     public function processBuyRequest($product, $buyRequest)

@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Framewor
 
         $form = $block->getForm();
 
-        $this->assertInstanceOf('Varien_Data_Form', $form);
+        $this->assertInstanceOf('Magento_Data_Form', $form);
         $this->assertEquals('post', $form->getData('method'));
         $this->assertEquals($block->getUrl('*/system_account/save'), $form->getData('action'));
         $this->assertEquals('edit_form', $form->getId());
@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Framewor
 
         foreach ($expectedFieldset as $fieldId => $field) {
             $element = $form->getElement($fieldId);
-            $this->assertInstanceOf('Varien_Data_Form_Element_Abstract', $element);
+            $this->assertInstanceOf('Magento_Data_Form_Element_Abstract', $element);
             $this->assertEquals($field['name'], $element->getName(), 'Wrong \'' . $fieldId . '\' field name');
             $this->assertEquals($field['type'], $element->getType(), 'Wrong \'' . $fieldId . ' field type');
             $this->assertEquals(

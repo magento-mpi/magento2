@@ -58,7 +58,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getUrl('*/*/save'),
             'method'    => 'post'

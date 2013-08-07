@@ -108,7 +108,7 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
             ->getMock();
         $routeMock->expects($this->any())->method('getResourceName');
         $this->_routerMock->expects($this->once())->method('match')->will($this->returnValue($routeMock));
-        /** Mock Api Config getMethodNameByOperation method to return isDeleted method of Varien_Object. */
+        /** Mock Api Config getMethodNameByOperation method to return isDeleted method of Magento_Object. */
         $this->_apiConfigMock->expects($this->once())->method('getMethodNameByOperation')->will(
             $this->returnValue('isDeleted')
         );
@@ -116,8 +116,8 @@ class Mage_Webapi_Controller_Dispatcher_RestTest extends PHPUnit_Framework_TestC
         $this->_apiConfigMock->expects($this->once())->method('identifyVersionSuffix')->will($this->returnValue(''));
         $this->_apiConfigMock->expects($this->once())->method('checkDeprecationPolicy');
         $this->_authorizationMock->expects($this->once())->method('checkResourceAcl');
-        /** Create fake controller mock, e.g., Varien_Object object. */
-        $controllerMock = $this->getMockBuilder('Varien_Object')->disableOriginalConstructor()->getMock();
+        /** Create fake controller mock, e.g., Magento_Object object. */
+        $controllerMock = $this->getMockBuilder('Magento_Object')->disableOriginalConstructor()->getMock();
         /** Assert that isDeleted method will be executed once. */
         $controllerMock->expects($this->once())->method('isDeleted');
         /** Mock factory mock to return fake action controller. */

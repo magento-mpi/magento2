@@ -126,7 +126,7 @@ class Enterprise_TargetRule_Adminhtml_TargetruleController extends Mage_Adminhtm
                     }
                 }
 
-                $validateResult = $model->validateData(new Varien_Object($data));
+                $validateResult = $model->validateData(new Magento_Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
                         $this->_getSession()->addError($errorMessage);

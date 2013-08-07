@@ -189,9 +189,9 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Direct
      */
-    public function authorize(Varien_Object $payment, $amount)
+    public function authorize(Magento_Object $payment, $amount)
     {
-        $result = new Varien_Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
+        $result = new Magento_Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
         $order = $payment->getOrder();
         $result->setEmail($order->getCustomerEmail());
         $this->_importResultToPayment($result, $payment);
@@ -204,7 +204,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Direct
      */
-    public function capture(Varien_Object $payment, $amount)
+    public function capture(Magento_Object $payment, $amount)
     {
         if (false === $this->_pro->capture($payment, $amount)) {
             $this->authorize($payment, $amount);
@@ -218,7 +218,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Direct
      */
-    public function refund(Varien_Object $payment, $amount)
+    public function refund(Magento_Object $payment, $amount)
     {
         $this->_pro->refund($payment, $amount);
         return $this;
@@ -230,7 +230,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Direct
      */
-    public function void(Varien_Object $payment)
+    public function void(Magento_Object $payment)
     {
         $this->_pro->void($payment);
         return $this;
@@ -239,7 +239,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
     /**
      * Import direct payment results to payment
      *
-     * @param Varien_Object $api
+     * @param Magento_Object $api
      * @param Mage_Sales_Model_Order_Payment $payment
      */
     protected function _importResultToPayment($api, $payment)

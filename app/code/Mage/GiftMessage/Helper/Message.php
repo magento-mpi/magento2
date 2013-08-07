@@ -43,11 +43,11 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      * Retrive inline giftmessage edit form for specified entity
      *
      * @param string $type
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @param boolean $dontDisplayContainer
      * @return string
      */
-    public function getInline($type, Varien_Object $entity, $dontDisplayContainer=false)
+    public function getInline($type, Magento_Object $entity, $dontDisplayContainer=false)
     {
         if (!in_array($type, array('onepage_checkout','multishipping_address'))
             && !$this->isMessagesAvailable($type, $entity)
@@ -66,11 +66,11 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      * Check availability of giftmessages for specified entity.
      *
      * @param string $type
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @param Mage_Core_Model_Store|integer $store
      * @return boolean
      */
-    public function isMessagesAvailable($type, Varien_Object $entity, $store = null)
+    public function isMessagesAvailable($type, Magento_Object $entity, $store = null)
     {
         if ($type == 'items') {
             $items = $entity->getAllItems();
@@ -146,11 +146,11 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      * Alias for isMessagesAvailable(...)
      *
      * @param string $type
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @param Mage_Core_Model_Store|integer $store
      * @return boolen
      */
-    public function getIsMessagesAvailable($type, Varien_Object $entity, $store=null)
+    public function getIsMessagesAvailable($type, Magento_Object $entity, $store=null)
     {
         return $this->isMessagesAvailable($type, $entity, $store);
     }
@@ -158,10 +158,10 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     /**
      * Retrive escaped and preformated gift message text for specified entity
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @return unknown
      */
-    public function getEscapedGiftMessage(Varien_Object $entity)
+    public function getEscapedGiftMessage(Magento_Object $entity)
     {
         $message = $this->getGiftMessageForEntity($entity);
         if ($message) {
@@ -173,10 +173,10 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
     /**
      * Retrive gift message for entity. If message not exists return null
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @return Mage_GiftMessage_Model_Message
      */
-    public function getGiftMessageForEntity(Varien_Object $entity)
+    public function getGiftMessageForEntity(Magento_Object $entity)
     {
         if($entity->getGiftMessageId() && !$entity->getGiftMessage()) {
             $message = $this->getGiftMessage($entity->getGiftMessageId());

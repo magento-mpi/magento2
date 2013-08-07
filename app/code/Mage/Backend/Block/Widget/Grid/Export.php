@@ -68,7 +68,7 @@ class Mage_Backend_Block_Widget_Grid_Export
     /**
      * Retrieve totals
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _getTotals()
     {
@@ -88,7 +88,7 @@ class Mage_Backend_Block_Widget_Grid_Export
     /**
      * Get collection object
      *
-     * @return Varien_Data_Collection
+     * @return Magento_Data_Collection
      */
     protected function _getCollection()
     {
@@ -152,7 +152,7 @@ class Mage_Backend_Block_Widget_Grid_Export
      */
     public function addExportType($url, $label)
     {
-        $this->_exportTypes[] = new Varien_Object(
+        $this->_exportTypes[] = new Magento_Object(
             array(
                 'url'   => $this->getUrl($url, array('_current'=>true)),
                 'label' => $label
@@ -215,7 +215,7 @@ class Mage_Backend_Block_Widget_Grid_Export
      */
     public function _exportIterateCollection($callback, array $args)
     {
-        /** @var $originalCollection Varien_Data_Collection */
+        /** @var $originalCollection Magento_Data_Collection */
         $originalCollection = $this->getParentBlock()->getPreparedCollection();
         $count = null;
         $page  = 1;
@@ -245,10 +245,10 @@ class Mage_Backend_Block_Widget_Grid_Export
     /**
      * Write item data to csv export file
      *
-     * @param Varien_Object $item
+     * @param Magento_Object $item
      * @param Magento_Filesystem_StreamInterface $stream
      */
-    protected function _exportCsvItem(Varien_Object $item, Magento_Filesystem_StreamInterface $stream)
+    protected function _exportCsvItem(Magento_Object $item, Magento_Filesystem_StreamInterface $stream)
     {
         $row = array();
         foreach ($this->_getColumns() as $column) {
@@ -367,10 +367,10 @@ class Mage_Backend_Block_Widget_Grid_Export
     /**
      *  Get a row data of the particular columns
      *
-     * @param Varien_Object $data
+     * @param Magento_Object $data
      * @return array
      */
-    public function getRowRecord(Varien_Object $data)
+    public function getRowRecord(Magento_Object $data)
     {
         $row = array();
         foreach ($this->_getColumns() as $column) {
@@ -464,23 +464,23 @@ class Mage_Backend_Block_Widget_Grid_Export
     /**
      * Reformat base collection into collection without sub-collection in items
      *
-     * @param Varien_Data_Collection $baseCollection
-     * @return Varien_Data_Collection
+     * @param Magento_Data_Collection $baseCollection
+     * @return Magento_Data_Collection
      */
-    protected function _getRowCollection(Varien_Data_Collection $baseCollection = null)
+    protected function _getRowCollection(Magento_Data_Collection $baseCollection = null)
     {
         if (null === $baseCollection) {
             $baseCollection = $this->getParentBlock()->getPreparedCollection();
         }
-        $collection = new Varien_Data_Collection();
+        $collection = new Magento_Data_Collection();
 
-        /** @var $item Varien_Object */
+        /** @var $item Magento_Object */
         foreach ($baseCollection as $item) {
             if ($item->getIsEmpty()) {
                 continue;
             }
             if ($item->hasChildren() && count($item->getChildren()) > 0) {
-                /** @var $subItem Varien_Object */
+                /** @var $subItem Magento_Object */
                 foreach ($item->getChildren() as $subItem) {
                     $tmpItem = clone $item;
                     $tmpItem->unsChildren();
@@ -498,11 +498,11 @@ class Mage_Backend_Block_Widget_Grid_Export
     /**
      * Return prepared collection as row collection with additional conditions
      *
-     * @return Varien_Data_Collection
+     * @return Magento_Data_Collection
      */
     public function _getPreparedCollection()
     {
-        /** @var $collection Varien_Data_Collection */
+        /** @var $collection Magento_Data_Collection */
         $collection = $this->getParentBlock()->getPreparedCollection();
         $collection->setPageSize(0);
         $collection->load();

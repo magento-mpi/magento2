@@ -152,7 +152,7 @@ class Mage_Paypal_Model_Pro
      * @param Mage_Payment_Model_Info $to
      * @return Mage_Paypal_Model_Pro
      */
-    public function importPaymentInfo(Varien_Object $from, Mage_Payment_Model_Info $to)
+    public function importPaymentInfo(Magento_Object $from, Mage_Payment_Model_Info $to)
     {
         // update PayPal-specific payment information in the payment object
         $this->getInfo()->importToPayment($from, $to);
@@ -181,9 +181,9 @@ class Mage_Paypal_Model_Pro
     /**
      * Void transaction
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      */
-    public function void(Varien_Object $payment)
+    public function void(Magento_Object $payment)
     {
         if ($authTransactionId = $this->_getParentTransactionId($payment)) {
             $api = $this->getApi();
@@ -198,11 +198,11 @@ class Mage_Paypal_Model_Pro
      * Attempt to capture payment
      * Will return false if the payment is not supposed to be captured
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @param float $amount
      * @return false|null
      */
-    public function capture(Varien_Object $payment, $amount)
+    public function capture(Magento_Object $payment, $amount)
     {
         $authTransactionId = $this->_getParentTransactionId($payment);
         if (!$authTransactionId) {
@@ -224,10 +224,10 @@ class Mage_Paypal_Model_Pro
     /**
      * Refund a capture transaction
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @param float $amount
      */
-    public function refund(Varien_Object $payment, $amount)
+    public function refund(Magento_Object $payment, $amount)
     {
         $captureTxnId = $this->_getParentTransactionId($payment);
         if ($captureTxnId) {
@@ -254,9 +254,9 @@ class Mage_Paypal_Model_Pro
     /**
      * Cancel payment
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      */
-    public function cancel(Varien_Object $payment)
+    public function cancel(Magento_Object $payment)
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $this->void($payment);
@@ -366,7 +366,7 @@ class Mage_Paypal_Model_Pro
         Mage_Payment_Model_Info $paymentInfo
     ) {
         $api = $this->getApi();
-        Varien_Object_Mapper::accumulateByMap($profile, $api, array(
+        Magento_Object_Mapper::accumulateByMap($profile, $api, array(
             'token', // EC fields
             // TODO: DP fields
             // profile fields
@@ -388,9 +388,9 @@ class Mage_Paypal_Model_Pro
      * Fetch RP details
      *
      * @param string $referenceId
-     * @param Varien_Object $result
+     * @param Magento_Object $result
      */
-    public function getRecurringProfileDetails($referenceId, Varien_Object $result)
+    public function getRecurringProfileDetails($referenceId, Magento_Object $result)
     {
         $api = $this->getApi();
         $api->setRecurringProfileId($referenceId)
@@ -463,10 +463,10 @@ class Mage_Paypal_Model_Pro
     /**
      * Parent transaction id getter
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @return string
      */
-    protected function _getParentTransactionId(Varien_Object $payment)
+    protected function _getParentTransactionId(Magento_Object $payment)
     {
         return $payment->getParentTransactionId();
     }

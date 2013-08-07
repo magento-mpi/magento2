@@ -21,7 +21,7 @@ interface Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ContainerInterfa
      * @param array $config
      * @param boolean $after
      * @param boolean $isAdvanced
-     * @return Varien_Data_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     public function addField($elementId, $type, $config, $after = false, $isAdvanced = false);
 }

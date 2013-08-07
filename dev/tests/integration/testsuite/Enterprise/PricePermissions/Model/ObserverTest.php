@@ -68,7 +68,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
      */
     protected function _runAdminhtmlBlockHtmlBefore(Mage_Core_Block_Abstract $block)
     {
-        $event = new Varien_Event_Observer();
+        $event = new Magento_Event_Observer();
         $event->setBlock($block);
         $observer = Mage::getModel('Enterprise_PricePermissions_Model_Observer');
         $observer->adminControllerPredispatch($event);

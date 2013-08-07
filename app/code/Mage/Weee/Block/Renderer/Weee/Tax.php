@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget implements Varien_Data_Form_Element_Renderer_Interface
+class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget implements Magento_Data_Form_Element_Renderer_Interface
 {
     protected $_element = null;
     protected $_countries = null;
@@ -27,7 +27,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
         return Mage::registry('product');
     }
 
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
         return $this->toHtml();
@@ -59,7 +59,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
         return parent::_prepareLayout();
     }
 
-    public function setElement(Varien_Data_Form_Element_Abstract $element)
+    public function setElement(Magento_Data_Form_Element_Abstract $element)
     {
         $this->_element = $element;
         return $this;

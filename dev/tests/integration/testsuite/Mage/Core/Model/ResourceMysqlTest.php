@@ -51,7 +51,7 @@ class Mage_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_model->createConnection('test_false', 'test', 'test'));
         $this->assertInstanceOf(
-            'Varien_Db_Adapter_Pdo_Mysql',
+            'Magento_DB_Adapter_Pdo_Mysql',
             $this->_model->createConnection(
                 'test',
                 'pdo_mysql',

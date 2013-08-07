@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
      */
     public function initForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $form->setHtmlIdPrefix('_account');
         $form->setFieldNameSuffix('account');
 
@@ -154,7 +154,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
     /**
      * Handle Read-Only customer
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @param Mage_Customer_Model_Customer $customer
      */
     protected function _handleReadOnlyCustomer($form, $customer)
@@ -173,9 +173,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
     /**
      * Make sendemail or sendmail_store_id disabled if website_id has an empty value
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      */
-    protected function _disableSendEmailStoreForEmptyWebsite(Varien_Data_Form $form)
+    protected function _disableSendEmailStoreForEmptyWebsite(Magento_Data_Form $form)
     {
         $isSingleMode = Mage::app()->isSingleStoreMode();
         $sendEmailId = $isSingleMode ? 'sendemail' : 'sendemail_store_id';
@@ -207,8 +207,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
     /**
      * Create New Customer form fields
      *
-     * @param Varien_Data_Form $form
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form $form
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      */
     protected function _addNewCustomerFormFields($form, $fieldset)
     {
@@ -265,8 +265,8 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
     /**
      * Edit/View Existing Customer form fields
      *
-     * @param Varien_Data_Form $form
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form $form
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param Mage_Customer_Model_Customer $customer
      */
     protected function _addEditCustomerFormFields($form, $fieldset, $customer)
@@ -318,7 +318,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
     /**
      * Add Password management fieldset
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @param string $fieldLabel
      * @param boolean $isNew whether we set initial password or change existing one
      */

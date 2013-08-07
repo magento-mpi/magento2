@@ -17,11 +17,11 @@ $entitiesToAlter = array(
 );
 
 $attributes = array(
-    'vat_id' => array('type' => Varien_Db_Ddl_Table::TYPE_TEXT),
-    'vat_is_valid' => array('type' => Varien_Db_Ddl_Table::TYPE_SMALLINT),
-    'vat_request_id' => array('type' => Varien_Db_Ddl_Table::TYPE_TEXT),
-    'vat_request_date' => array('type' => Varien_Db_Ddl_Table::TYPE_TEXT),
-    'vat_request_success' => array('type' => Varien_Db_Ddl_Table::TYPE_SMALLINT)
+    'vat_id' => array('type' => Magento_DB_Ddl_Table::TYPE_TEXT),
+    'vat_is_valid' => array('type' => Magento_DB_Ddl_Table::TYPE_SMALLINT),
+    'vat_request_id' => array('type' => Magento_DB_Ddl_Table::TYPE_TEXT),
+    'vat_request_date' => array('type' => Magento_DB_Ddl_Table::TYPE_TEXT),
+    'vat_request_success' => array('type' => Magento_DB_Ddl_Table::TYPE_SMALLINT)
 );
 
 foreach ($entitiesToAlter as $entityName) {

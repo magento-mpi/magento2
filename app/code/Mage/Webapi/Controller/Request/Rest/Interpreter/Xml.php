@@ -16,7 +16,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements
     /** @var Mage_Core_Model_Factory_Helper */
     protected $_helperFactory;
 
-    /** @var Mage_Xml_Parser */
+    /** @var Magento_Xml_Parser */
     protected $_xmlParser;
 
     /** @var Mage_Core_Model_App */
@@ -25,12 +25,12 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Xml_Parser $xmlParser
+     * @param Magento_Xml_Parser $xmlParser
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Core_Model_App $app
      */
     public function __construct(
-        Mage_Xml_Parser $xmlParser,
+        Magento_Xml_Parser $xmlParser,
         Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Core_Model_App $app
     ) {

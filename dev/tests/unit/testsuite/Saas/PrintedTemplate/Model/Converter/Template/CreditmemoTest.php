@@ -17,7 +17,7 @@ class Saas_PrintedTemplate_Model_Converter_CreditmemoTest extends PHPUnit_Framew
     {
         $billingAddress = 'billing address';
         $shippingAddress = 'shipping address';
-        $payment = new Varien_Object;
+        $payment = new Magento_Object;
 
         $creditmemoMock = $this->_prepareCreditMemo($billingAddress, $shippingAddress, $payment);
 

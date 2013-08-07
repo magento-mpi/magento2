@@ -43,8 +43,8 @@ class Mage_GoogleAdwords_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_registryMock = $this->getMock('Mage_Core_Model_Registry', array(), array(), '', true);
         $this->_collectionMock = $this->getMock('Mage_Sales_Model_Resource_Order_Collection', array(), array(), '',
             false);
-        $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
-        $this->_eventMock = $this->getMock('Varien_Event', array('getOrderIds'), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
+        $this->_eventMock = $this->getMock('Magento_Event', array('getOrderIds'), array(), '', false);
 
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_model = $objectManager->getObject('Mage_GoogleAdwords_Model_Observer', array(

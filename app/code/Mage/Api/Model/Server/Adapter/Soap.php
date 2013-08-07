@@ -15,7 +15,7 @@
  * @package    Mage_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_Server_Adapter_Soap extends Varien_Object
+class Mage_Api_Model_Server_Adapter_Soap extends Magento_Object
 {
     /**
      * Soap server
@@ -59,16 +59,16 @@ class Mage_Api_Model_Server_Adapter_Soap extends Varien_Object
     }
 
     /**
-     * Retrive webservice api controller. If no controller have been set - emulate it by the use of Varien_Object
+     * Retrive webservice api controller. If no controller have been set - emulate it by the use of Magento_Object
      *
-     * @return Mage_Api_Controller_Action|Varien_Object
+     * @return Mage_Api_Controller_Action|Magento_Object
      */
     public function getController()
     {
         $controller = $this->getData('controller');
 
         if (null === $controller) {
-            $controller = new Varien_Object(
+            $controller = new Magento_Object(
                 array('request' => Mage::app()->getRequest(), 'response' => Mage::app()->getResponse())
             );
 

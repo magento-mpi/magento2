@@ -221,11 +221,11 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
      *
      * @param array $productRow
      * @param int $storeId
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _prepareProduct(array $productRow, $storeId)
     {
-        $product = new Varien_Object();
+        $product = new Magento_Object();
 
         $product['id'] = $productRow[$this->getIdFieldName()];
         if (empty($productRow['url'])) {
@@ -240,7 +240,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
     /**
      * Load product images
      *
-     * @param Varien_Object $product
+     * @param Magento_Object $product
      * @param int $storeId
      */
     protected function _loadProductImages($product, $storeId)
@@ -255,7 +255,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
             $imagesCollection = $this->_getAllProductImages($product, $storeId);
         } elseif (Mage_Sitemap_Model_Source_Product_Image_Include::INCLUDE_BASE == $imageIncludePolicy
             && $product->getImage() && $product->getImage() != self::NOT_SELECTED_IMAGE) {
-            $imagesCollection = array(new Varien_Object(array(
+            $imagesCollection = array(new Magento_Object(array(
                 'url' => $this->_getMediaConfig()->getBaseMediaUrlAddition() . $product->getImage()
             )));
         }
@@ -269,7 +269,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
                 $thumbnail = $imagesCollection[0]->getUrl();
             }
 
-            $product->setImages(new Varien_Object(array(
+            $product->setImages(new Magento_Object(array(
                 'collection' => $imagesCollection,
                 'title' => $product->getName(),
                 'thumbnail' => $thumbnail
@@ -280,7 +280,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
     /**
      * Get all product images
      *
-     * @param Varien_Object $product
+     * @param Magento_Object $product
      * @param int $storeId
      * @return array
      */
@@ -295,7 +295,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
         if ($gallery) {
             $productMediaPath = $this->_getMediaConfig()->getBaseMediaUrlAddition();
             foreach ($gallery as $image) {
-                $imagesCollection[] = new Varien_Object(array(
+                $imagesCollection[] = new Magento_Object(array(
                     'url' => $productMediaPath . $image['file'],
                     'caption' => $image['label'] ? $image['label'] : $image['label_default']
                 ));

@@ -71,8 +71,8 @@ class Mage_Core_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
 
     public function testLoad()
     {
-        $element = new Varien_Simplexml_Element('<config>test_data</config>');
-        $elementConfig = new Varien_Simplexml_Config();
+        $element = new Magento_Simplexml_Element('<config>test_data</config>');
+        $elementConfig = new Magento_Simplexml_Config();
         $this->_modulesConfigMock->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue($element));

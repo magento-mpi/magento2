@@ -41,11 +41,11 @@ try {
             break;
         case 'ee':
             $lists[] = 'saas.txt';
-            $configurator = new EnterpriseConfigurator($basePath, new Varien_Io_File());
+            $configurator = new EnterpriseConfigurator($basePath, new Magento_Io_File());
             break;
         case 'saas':
             $lists[] = 'not_saas.txt';
-            $configurator = new SaasConfigurator($basePath, new Varien_Io_File());
+            $configurator = new SaasConfigurator($basePath, new Magento_Io_File());
             break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");

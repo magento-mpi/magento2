@@ -52,7 +52,7 @@ class Mage_Sales_Model_Resource_Order_Grid_Collection extends Mage_Sales_Model_R
     /**
      * Get SQL for get record count
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getSelectCountSql()
     {

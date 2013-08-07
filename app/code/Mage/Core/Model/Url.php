@@ -60,7 +60,7 @@
  * @package    Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Url extends Varien_Object implements Mage_Core_Model_UrlInterface
+class Mage_Core_Model_Url extends Magento_Object implements Mage_Core_Model_UrlInterface
 {
     /**
      * Configuration data cache

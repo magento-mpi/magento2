@@ -25,7 +25,7 @@ class Mage_Webhook_Model_Event_FactoryTest extends PHPUnit_Framework_TestCase
         $this->_objectManager = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_arrayConverter = $this->getMockBuilder('Varien_Convert_Object')
+        $this->_arrayConverter = $this->getMockBuilder('Magento_Convert_Object')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_factory = new Mage_Webhook_Model_Event_Factory($this->_objectManager, $this->_arrayConverter);

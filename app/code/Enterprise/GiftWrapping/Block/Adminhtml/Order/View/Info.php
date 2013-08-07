@@ -21,7 +21,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info
     /**
      * Prepare and return order items info
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getOrderInfo()
     {
@@ -46,13 +46,13 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info
             $data['path'] = $wrapping->getImageUrl();
             $data['design'] = $wrapping->getDesign();
         }
-        return new Varien_Object($data);
+        return new Magento_Object($data);
     }
 
     /**
      * Prepare and return order items info
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getCardInfo()
     {
@@ -80,7 +80,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Info
                 );
             }
         }
-        return new Varien_Object($data);
+        return new Magento_Object($data);
     }
 
     /**

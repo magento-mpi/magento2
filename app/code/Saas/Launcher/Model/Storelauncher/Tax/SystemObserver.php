@@ -35,10 +35,10 @@ class Saas_Launcher_Model_Storelauncher_Tax_SystemObserver
     /**
      * Handle tax rule save (tax_rule_save_commit_after event)
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function handleTaxRuleSave(Varien_Event_Observer $observer)
+    public function handleTaxRuleSave(Magento_Event_Observer $observer)
     {
         // Successful save of any tax rule has to change the state of tax tile to complete
         // This logic is put directly into observer (without delegation to state resolver) because it is trivial

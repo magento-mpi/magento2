@@ -42,7 +42,7 @@ class Mage_AdminNotification_Model_System_Message_Security
     protected $_config;
 
     /**
-     * @var Varien_Http_Adapter_CurlFactory
+     * @var Magento_HTTP_Adapter_CurlFactory
      */
     protected $_curlFactory;
 
@@ -55,14 +55,14 @@ class Mage_AdminNotification_Model_System_Message_Security
      * @param Mage_Core_Model_CacheInterface $cache
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Core_Model_Config $config
-     * @param Varien_Http_Adapter_CurlFactory $curlFactory
+     * @param Magento_HTTP_Adapter_CurlFactory $curlFactory
      * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Mage_Core_Model_CacheInterface $cache,
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Core_Model_Config $config,
-        Varien_Http_Adapter_CurlFactory $curlFactory,
+        Magento_HTTP_Adapter_CurlFactory $curlFactory,
         Mage_Core_Model_Factory_Helper $helperFactory
     ) {
         $this->_cache = $cache;
@@ -103,7 +103,7 @@ class Mage_AdminNotification_Model_System_Message_Security
             'default/' . Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
         );
 
-        /** @var $http Varien_Http_Adapter_Curl */
+        /** @var $http Magento_HTTP_Adapter_Curl */
         $http = $this->_curlFactory->create();
         $http->setConfig(array('timeout' => $this->_verificationTimeOut));
         $http->write(Zend_Http_Client::POST, $unsecureBaseURL . $this->_filePath);
