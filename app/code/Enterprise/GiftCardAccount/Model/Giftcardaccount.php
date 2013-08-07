@@ -542,6 +542,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
         if (!$fakeMessage) {
             $fakeMessage = __('Please correct the gift card code.');
         }
+        $fakeMessage = (string)$fakeMessage;
         $e->setMessage($fakeMessage);
         throw $e;
     }

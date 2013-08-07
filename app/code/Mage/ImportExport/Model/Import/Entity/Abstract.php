@@ -308,6 +308,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
      */
     public function addRowError($errorCode, $errorRowNum, $colName = null)
     {
+        $errorCode = (string)$errorCode;
         $this->_errors[$errorCode][] = array($errorRowNum + 1, $colName); // one added for human readability
         $this->_invalidRows[$errorRowNum] = true;
         $this->_errorsCount ++;
@@ -559,10 +560,10 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
         }
 
         if (!$valid) {
-            $this->addRowError((string)__("Please correct the value for '%s'."), $rowNum, $attrCode);
+            $this->addRowError(__("Please correct the value for '%s'."), $rowNum, $attrCode);
         } elseif (!empty($attrParams['is_unique'])) {
             if (isset($this->_uniqueAttributes[$attrCode][$rowData[$attrCode]])) {
-                $this->addRowError((string)__("Duplicate Unique Attribute for '%s'"), $rowNum, $attrCode);
+                $this->addRowError(__("Duplicate Unique Attribute for '%s'"), $rowNum, $attrCode);
                 return false;
             }
             $this->_uniqueAttributes[$attrCode][$rowData[$attrCode]] = true;

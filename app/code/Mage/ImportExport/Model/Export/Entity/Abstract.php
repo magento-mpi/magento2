@@ -293,6 +293,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_Abstract
      */
     public function addRowError($errorCode, $errorRowNum)
     {
+        $errorCode = (string)$errorCode;
         $this->_errors[$errorCode][] = $errorRowNum + 1; // one added for human readability
         $this->_invalidRows[$errorRowNum] = true;
         $this->_errorsCount ++;
