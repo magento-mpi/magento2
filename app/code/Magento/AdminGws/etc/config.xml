@@ -273,7 +273,7 @@
                     <magento_catalogSearch_model_resource_query_collection>addStoreFilter</magento_catalogSearch_model_resource_query_collection>
                     <enterprise_invitation_model_resource_invitation_collection>addStoreFilter</enterprise_invitation_model_resource_invitation_collection>
                     <magento_log_model_resource_visitor_online_collection>limitOnlineCustomers</magento_log_model_resource_visitor_online_collection>
-                    <enterprise_giftCardAccount_model_resource_giftcardaccount_collection>limitGiftCardAccounts</enterprise_giftCardAccount_model_resource_giftcardaccount_collection>
+                    <magento_giftCardAccount_model_resource_giftcardaccount_collection>limitGiftCardAccounts</magento_giftCardAccount_model_resource_giftcardaccount_collection>
                     <magento_catalogEvent_model_resource_event_collection>limitCatalogEvents</magento_catalogEvent_model_resource_event_collection>
                     <enterprise_cms_model_resource_hierarchy_node_collection>addStoreFilter</enterprise_cms_model_resource_hierarchy_node_collection>
                     <magento_catalog_model_resource_category_collection>limitCatalogCategories</magento_catalog_model_resource_category_collection>
@@ -334,7 +334,7 @@
                     <magento_eav_model_entity_attribute_option>eavEntityAttributeOptionSaveBefore</magento_eav_model_entity_attribute_option>
                     <magento_widget_model_widget_instance>widgetInstanceSaveBefore</magento_widget_model_widget_instance>
                     <magento_banner_model_banner>bannerSaveBefore</magento_banner_model_banner>
-                    <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountSaveBefore</enterprise_giftCardAccount_model_giftcardaccount>
+                    <magento_giftCardAccount_model_giftcardaccount>giftCardAccountSaveBefore</magento_giftCardAccount_model_giftcardaccount>
                     <enterprise_giftRegistry_model_type>giftRegistryTypeSaveBefore</enterprise_giftRegistry_model_type>
                     <enterprise_giftWrapping_model_wrapping>giftWrappingSaveBefore</enterprise_giftWrapping_model_wrapping>
                     <enterprise_reward_model_reward_rate>rewardRateSaveBefore</enterprise_reward_model_reward_rate>
@@ -360,7 +360,7 @@
                     <magento_eav_model_entity_attribute_option>eavEntityAttributeOptionDeleteBefore</magento_eav_model_entity_attribute_option>
                     <magento_widget_model_widget_instance>widgetInstanceDeleteBefore</magento_widget_model_widget_instance>
                     <magento_banner_model_banner>bannerDeleteBefore</magento_banner_model_banner>
-                    <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountDeleteBefore</enterprise_giftCardAccount_model_giftcardaccount>
+                    <magento_giftCardAccount_model_giftcardaccount>giftCardAccountDeleteBefore</magento_giftCardAccount_model_giftcardaccount>
                     <enterprise_giftRegistry_model_type>giftRegistryTypeDeleteBefore</enterprise_giftRegistry_model_type>
                     <magento_review_model_review>catalogProductReviewDeleteBefore</magento_review_model_review>
                     <enterprise_reward_model_reward_rate>rewardRateDeleteBefore</enterprise_reward_model_reward_rate>
@@ -380,7 +380,7 @@
                     <magento_newsletter_model_queue>newsletterQueueLoadAfter</magento_newsletter_model_queue>
                     <magento_banner_model_banner>bannerLoadAfter</magento_banner_model_banner>
                     <magento_widget_model_widget_instance>widgetInstanceLoadAfter</magento_widget_model_widget_instance>
-                    <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountLoadAfter</enterprise_giftCardAccount_model_giftcardaccount>
+                    <magento_giftCardAccount_model_giftcardaccount>giftCardAccountLoadAfter</magento_giftCardAccount_model_giftcardaccount>
                 </model_load_after>
                 <controller_predispatch>
                     <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__>
@@ -510,8 +510,8 @@
                     <enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>removeGiftWrappingEditButtons</enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>
                     <enterprise_cms_block_adminhtml_cms_page_revision_edit>removeRevisionEditButtons</enterprise_cms_block_adminhtml_cms_page_revision_edit>
                     <enterprise_cms_block_adminhtml_cms_page_preview_buttons>removePreviewPublishButton</enterprise_cms_block_adminhtml_cms_page_preview_buttons>
-                    <enterprise_giftCardAccount_block_adminhtml_giftcardaccount>removeGiftCardAccountAddButton</enterprise_giftCardAccount_block_adminhtml_giftcardaccount>
-                    <enterprise_giftCardAccount_block_adminhtml_giftcardaccount>removeGiftCardAccountControlButtons</enterprise_giftCardAccount_block_adminhtml_giftcardaccount>
+                    <magento_giftCardAccount_block_adminhtml_giftcardaccount>removeGiftCardAccountAddButton</magento_giftCardAccount_block_adminhtml_giftcardaccount>
+                    <magento_giftCardAccount_block_adminhtml_giftcardaccount>removeGiftCardAccountControlButtons</magento_giftCardAccount_block_adminhtml_giftcardaccount>
                     <magento_currencySymbol_block_adminhtml_system_currency>removeManageCurrencyRatesButtons</magento_currencySymbol_block_adminhtml_system_currency>
                     <magento_adminhtml_block_system_email_template>removeEmailTemplateGridButtons</magento_adminhtml_block_system_email_template>
                     <magento_adminhtml_block_system_email_template_edit>removeTransactionalEmailsEditButtons</magento_adminhtml_block_system_email_template_edit>

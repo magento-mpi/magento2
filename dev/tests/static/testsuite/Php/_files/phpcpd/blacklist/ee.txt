@@ -12,7 +12,7 @@ Enterprise/GiftRegistry
 Enterprise/GiftCard/Block/Adminhtml/Renderer
 Enterprise/GiftCard/Model/Source
 Enterprise/GiftCard/Model/Attribute/Backend/Giftcard
-Enterprise/GiftCardAccount/Block/
+Magento/GiftCardAccount/Block/
 Enterprise/GiftWrapping/Block
 Enterprise/GiftWrapping/Model/Total/Quote/Tax
 Enterprise/ImportExport/Model/Import/Entity/Eav/Customer

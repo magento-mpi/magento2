@@ -140,7 +140,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit GCA collection
      *
-     * @param Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection $collection
+     * @param Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Collection $collection
      */
     public function limitGiftCardAccounts($collection)
     {

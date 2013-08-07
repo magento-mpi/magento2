@@ -36,7 +36,7 @@ return array(
     array('getActiveEntity', 'Enterprise_GiftRegistry_Model_Entity'),
     array('_convertDateTime', 'Magento_CatalogEvent_Model_Event'),
     array('updateStatus', 'Magento_CatalogEvent_Model_Event'),
-    array('getStateText', 'Enterprise_GiftCardAccount_Model_Giftcardaccount'),
+    array('getStateText', 'Magento_GiftCardAccount_Model_Giftcardaccount'),
     array('getStoreContent', 'Magento_Banner_Model_Banner'),
     array('_searchSuggestions', 'Enterprise_Search_Model_Adapter_HttpStream'),
     array('_searchSuggestions', 'Enterprise_Search_Model_Adapter_PhpExtension'),
@@ -46,7 +46,7 @@ return array(
     array('cmsPageBlockLoadAfter', 'Magento_AdminGws_Model_Models'),
     array('applyEventStatus', 'Magento_CatalogEvent_Model_Observer'),
     array('checkQuoteItem', 'Magento_CatalogPermissions_Model_Observer'),
-    array('increaseOrderInvoicedAmount', 'Enterprise_GiftCardAccount_Model_Observer'),
+    array('increaseOrderInvoicedAmount', 'Magento_GiftCardAccount_Model_Observer'),
     array('blockCreateAfter', 'Enterprise_PageCache_Model_Observer'),
     array('_checkViewedProducts', 'Enterprise_PageCache_Model_Observer'),
     array('invoiceSaveAfter', 'Enterprise_Reward_Model_Observer'),
@@ -69,11 +69,11 @@ return array(
     array('_getQuote', 'Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon',
         'Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon::getQuote()'
     ),
-    array('_getQuote', 'Enterprise_GiftCardAccount_Block_Checkout_Cart_Total',
-        'Enterprise_GiftCardAccount_Block_Checkout_Cart_Total::getQuote()'
+    array('_getQuote', 'Magento_GiftCardAccount_Block_Checkout_Cart_Total',
+        'Magento_GiftCardAccount_Block_Checkout_Cart_Total::getQuote()'
     ),
-    array('_getQuote', 'Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional',
-        'Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional::getQuote()'
+    array('_getQuote', 'Magento_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional',
+        'Magento_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional::getQuote()'
     ),
     array('_getQuote', 'Enterprise_GiftWrapping_Block_Checkout_Options',
         'Enterprise_GiftWrapping_Block_Checkout_Options::getQuote()'

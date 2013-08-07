@@ -11,7 +11,7 @@
     <module name="Enterprise_GiftCard" version="1.11.0.1" active="false">
         <depends>
             <module name="Magento_Catalog" />
-            <module name="Enterprise_GiftCardAccount" />
+            <module name="Magento_GiftCardAccount" />
         </depends>
     </module>
 </config>

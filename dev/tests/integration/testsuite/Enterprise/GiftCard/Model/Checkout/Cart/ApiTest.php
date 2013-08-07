@@ -6,7 +6,7 @@
  *
  * @copyright {copyright}
  * @license {license_link}
- * @magentoDataFixture Enterprise/GiftCardAccount/_files/giftcardaccount.php
+ * @magentoDataFixture Magento/GiftCardAccount/_files/giftcardaccount.php
  * @magentoDataFixture Magento/Checkout/_files/quote_with_simple_product.php
  */
 class Enterprise_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_TestCase

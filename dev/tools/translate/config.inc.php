@@ -412,8 +412,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/giftcard.xml',
         'app/design/frontend/enterprise/default/template/giftcard/'
     ),
-    'Enterprise_GiftCardAccount' => array(
-        'app/code/Enterprise/GiftCardAccount/',
+    'Magento_GiftCardAccount' => array(
+        'app/code/Magento/GiftCardAccount/',
         'app/design/adminhtml/default/default/layout/enterprise/giftcardaccount.xml',
         'app/design/adminhtml/default/default/template/enterprise/giftcardaccount/',
         'app/design/frontend/enterprise/default/layout/giftcardaccount.xml',
@@ -643,7 +643,7 @@ $CONFIG['helpers']  = array(
     'enterprise_eav'                => 'Enterprise_Eav',
     'magento_enterprise'         => 'Magento_Enterprise',
     'enterprise_giftcard'           => 'Enterprise_GiftCard',
-    'enterprise_giftcardaccount'    => 'Enterprise_GiftCardAccount',
+    'magento_giftcardaccount'    => 'Magento_GiftCardAccount',
     'enterprise_giftregistry'       => 'Enterprise_GiftRegistry',
     'enterprise_giftwrapping'       => 'Enterprise_GiftWrapping',
     'enterprise_importexport'       => 'Enterprise_ImportExport',

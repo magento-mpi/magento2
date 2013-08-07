@@ -21,7 +21,7 @@ class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Magento_Checkout_Model
         /** @var $quote Magento_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
-        $giftcardsList = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
+        $giftcardsList = Mage::helper('Magento_GiftCardAccount_Helper_Data')->getCards($quote);
         // map short names of giftcard account attributes to long
         foreach($giftcardsList as $id => $card) {
             $giftcardsList[$id] = array(
@@ -47,8 +47,8 @@ class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Magento_Checkout_Model
         /** @var $quote Magento_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
-        /** @var $giftcardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */
-        $giftcardAccount = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
+        /** @var $giftcardAccount Magento_GiftCardAccount_Model_Giftcardaccount */
+        $giftcardAccount = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')
                 ->loadByCode($giftcardAccountCode);
         if (!$giftcardAccount->getId()) {
             $this->_fault('giftcard_account_not_found_by_code');
@@ -75,8 +75,8 @@ class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Magento_Checkout_Model
         /** @var $quote Magento_Sales_Model_Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
-        /** @var $giftcardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */
-        $giftcardAccount = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
+        /** @var $giftcardAccount Magento_GiftCardAccount_Model_Giftcardaccount */
+        $giftcardAccount = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')
                 ->loadByCode($giftcardAccountCode);
         if (!$giftcardAccount->getId()) {
             $this->_fault('giftcard_account_not_found_by_code');

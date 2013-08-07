@@ -87,7 +87,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="website">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftCardAccount">Website</header>
+                            <header translate="true" module="Magento_GiftCardAccount">Website</header>
                             <type>options</type>
                             <options type="options">Enterprise_Reward_Model_Resource_Reward_History_Grid_Options_Websites</options>
                             <index>website_id</index>

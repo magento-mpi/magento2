@@ -231,7 +231,7 @@ class Enterprise_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                     for ($i = 0; $i < $qty; $i++) {
                         try {
                             $code = new Magento_Object();
-                            Mage::dispatchEvent('enterprise_giftcardaccount_create', array(
+                            Mage::dispatchEvent('magento_giftcardaccount_create', array(
                                 'request' => $data, 'code' => $code
                             ));
                             $codes[] = $code->getCode();

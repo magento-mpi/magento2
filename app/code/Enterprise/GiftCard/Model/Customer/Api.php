@@ -17,7 +17,7 @@ class Enterprise_GiftCard_Model_Customer_Api extends Magento_Api_Model_Resource_
      */
     public function info($code)
     {
-        /** @var $card Enterprise_GiftCardAccount_Model_Giftcardaccount */
+        /** @var $card Magento_GiftCardAccount_Model_Giftcardaccount */
         $card = $this->_getGiftCard($code);
 
         try {
@@ -45,7 +45,7 @@ class Enterprise_GiftCard_Model_Customer_Api extends Magento_Api_Model_Resource_
         if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
             $this->_fault('redemption_disabled');
         }
-        /** @var $card Enterprise_GiftCardAccount_Model_Giftcardaccount */
+        /** @var $card Magento_GiftCardAccount_Model_Giftcardaccount */
         $card = $this->_getGiftCard($code);
 
         Mage::app()->setCurrentStore(
@@ -65,11 +65,11 @@ class Enterprise_GiftCard_Model_Customer_Api extends Magento_Api_Model_Resource_
      * Load gift card by code
      *
      * @param string $code
-     * @return Enterprise_GiftCardAccount_Model_Giftcardaccount
+     * @return Magento_GiftCardAccount_Model_Giftcardaccount
      */
     protected function _getGiftCard($code)
     {
-        $card = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
+        $card = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')
             ->loadByCode($code);
         if (!$card->getId()) {
             $this->_fault('not_exists');
