@@ -60,7 +60,7 @@
                     </block>
                     <container name="cart.summary" label="Cart Summary Container" htmlTag="div" htmlClass="cart summary">
                         <block type="Mage_Core_Block_Text" name="checkout.cart.summary.title" before="-">
-                            <action method="setText" translate="text" module="Mage_Checkout">
+                            <action method="setText" translate="text">
                                 <text>Summary</text>
                             </action>
                             <action method="addText">

@@ -12,7 +12,7 @@
         <label>Customer Account Edit Form</label>
         <update handle="customer_account"/>
         <reference name="page.main.title">
-            <action method="setPageTitle" translate="title" module="Mage_Customer">
+            <action method="setPageTitle" translate="title">
                 <title>Edit Account Information</title>
             </action>
         </reference>

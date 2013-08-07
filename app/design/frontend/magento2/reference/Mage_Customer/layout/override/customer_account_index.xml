@@ -13,7 +13,7 @@
         <update handle="customer_account"/>
         <update handle="page_two_columns_left"/>
         <reference name="page.main.title">
-            <action method="setPageTitle" translate="title" module="Mage_Customer">
+            <action method="setPageTitle" translate="title">
                 <title>My Dashboard</title>
             </action>
         </reference>

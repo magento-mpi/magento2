@@ -28,32 +28,32 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sitemap_id">
                         <arguments>
-                            <header translate="true" module="Mage_Sitemap">ID</header>
+                            <header translate="true">ID</header>
                             <width>50px</width>
                             <index>sitemap_id</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sitemap_filename">
                         <arguments>
-                            <header translate="true" module="Mage_Sitemap">Filename</header>
+                            <header translate="true">Filename</header>
                             <index>sitemap_filename</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sitemap_path">
                         <arguments>
-                            <header translate="true" module="Mage_Sitemap">Path</header>
+                            <header translate="true">Path</header>
                             <index>sitemap_path</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="link">
                         <arguments>
-                            <header translate="true" module="Mage_Sitemap">Link for Google</header>
+                            <header translate="true">Link for Google</header>
                             <renderer>Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Link</renderer>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sitemap_time">
                         <arguments>
-                            <header translate="true" module="Mage_Sitemap">Last Generated</header>
+                            <header translate="true">Last Generated</header>
                             <width>150px</width>
                             <index>sitemap_time</index>
                             <type>datetime</type>
@@ -61,7 +61,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
-                            <header translate="true" module="Mage_Sitemap">Store View</header>
+                            <header translate="true">Store View</header>
                             <type>store</type>
                             <id>store_id</id>
                             <index>store_id</index>
@@ -70,7 +70,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
-                            <header translate="true" module="Mage_Sitemap">Action</header>
+                            <header translate="true">Action</header>
                             <filter>0</filter>
                             <sortable>0</sortable>
                             <width>100px</width>

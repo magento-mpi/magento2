@@ -14,7 +14,7 @@
                 <action method="initRewardType">
                     <type>enterprise_reward/action_register</type>
                 </action>
-                <action method="setRewardMessage" translate="message" module="Enterprise_Reward">
+                <action method="setRewardMessage" translate="message">
                     <message>Register on our site now and earn %s.</message>
                 </action>
             </block>
@@ -22,7 +22,7 @@
                 <action method="initRewardType">
                     <type>enterprise_reward/action_newsletter</type>
                 </action>
-                <action method="setRewardMessage" translate="message" module="Enterprise_Reward">
+                <action method="setRewardMessage" translate="message">
                     <message>Subscribe to our newsletter now and earn %s.</message>
                 </action>
             </block>

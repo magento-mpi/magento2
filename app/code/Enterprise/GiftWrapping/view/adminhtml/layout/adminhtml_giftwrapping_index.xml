@@ -25,12 +25,12 @@
                             <use_select_all>1</use_select_all>
                             <options>
                                 <delete>
-                                    <label translate="true" module="Enterprise_GiftWrapping">Delete</label>
+                                    <label translate="true">Delete</label>
                                     <url>*/*/massDelete</url>
-                                    <confirm translate="true" module="Enterprise_GiftWrapping">Are you sure you want to delete the selected gift wrappings?</confirm>
+                                    <confirm translate="true">Are you sure you want to delete the selected gift wrappings?</confirm>
                                 </delete>
                                 <status>
-                                    <label translate="true" module="Enterprise_GiftWrapping">Change status</label>
+                                    <label translate="true">Change status</label>
                                     <url>*/*/changeStatus</url>
                                     <block_name>status</block_name>
                                 </status>
@@ -43,7 +43,7 @@
                                         <name>status</name>
                                         <type>select</type>
                                         <class>required-entry</class>
-                                        <label translate="true" module="Enterprise_GiftWrapping">Status</label>
+                                        <label translate="true">Status</label>
                                         <values>Enterprise_GiftWrapping_Model_MassOptions</values>
                                     </visibility>
                                 </fields>
@@ -62,7 +62,7 @@
                         </arguments>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="wrapping_id">
                             <arguments>
-                                <header translate="true" module="Enterprise_GiftWrapping">ID</header>
+                                <header translate="true">ID</header>
                                 <type>number</type>
                                 <index>wrapping_id</index>
                                 <header_css_class>col-id</header_css_class>
@@ -71,7 +71,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="design">
                             <arguments>
-                                <header translate="true" module="Enterprise_GiftWrapping">Gift Wrap Design</header>
+                                <header translate="true">Gift Wrap Design</header>
                                 <index>design</index>
                                 <header_css_class>col-design</header_css_class>
                                 <column_css_class>col-design</column_css_class>
@@ -79,7 +79,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="websites">
                             <arguments>
-                                <header translate="true" module="Enterprise_GiftWrapping">Websites</header>
+                                <header translate="true">Websites</header>
                                 <type>options</type>
                                 <sortable>0</sortable>
                                 <index>website_ids</index>
@@ -91,7 +91,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="status">
                             <arguments>
-                                <header translate="true" module="Enterprise_GiftWrapping">Status</header>
+                                <header translate="true">Status</header>
                                 <type>options</type>
                                 <sortable>0</sortable>
                                 <index>status</index>
@@ -103,7 +103,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="base_price">
                             <arguments>
-                                <header translate="true" module="Enterprise_GiftWrapping">Price</header>
+                                <header translate="true">Price</header>
                                 <index>base_price</index>
                                 <type>price</type>
                                 <id>base_price</id>
@@ -114,7 +114,7 @@
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
                             <arguments>
                                 <id>action</id>
-                                <header translate="true" module="Enterprise_GiftWrapping">Action</header>
+                                <header translate="true">Action</header>
                                 <type>action</type>
                                 <getter>getId</getter>
                                 <filter>0</filter>
@@ -122,7 +122,7 @@
                                 <is_system>1</is_system>
                                 <actions>
                                     <edit_action>
-                                        <caption translate="true" module="Enterprise_GiftWrapping">Edit</caption>
+                                        <caption translate="true">Edit</caption>
                                         <url>
                                             <base>*/*/edit</base>
                                         </url>

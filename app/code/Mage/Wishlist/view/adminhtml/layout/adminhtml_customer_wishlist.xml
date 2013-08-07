@@ -32,11 +32,11 @@
                         <extraParamsTemplate><id>getProductId</id>;
                         </extraParamsTemplate>
                     </rowUrl>
-                    <empty_text translate="true" module="Mage_Wishlist">No Items Found</empty_text>
+                    <empty_text translate="true">No Items Found</empty_text>
                 </arguments>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="product_name">
                     <arguments>
-                        <header translate="true" module="Mage_Wishlist">Product</header>
+                        <header translate="true">Product</header>
                         <id>product_name</id>
                         <index>product_name</index>
                         <renderer>Mage_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item</renderer>
@@ -44,7 +44,7 @@
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="description">
                     <arguments>
-                        <header translate="true" module="Mage_Wishlist">User description</header>
+                        <header translate="true">User description</header>
                         <index>description</index>
                         <id>description</id>
                         <renderer>Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist_Grid_Renderer_Description</renderer>
@@ -52,7 +52,7 @@
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty">
                     <arguments>
-                        <header translate="true" module="Mage_Wishlist">Quantity</header>
+                        <header translate="true">Quantity</header>
                         <index>qty</index>
                         <type>number</type>
                         <width>60px</width>
@@ -61,7 +61,7 @@
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store">
                     <arguments>
-                        <header translate="true" module="Mage_Wishlist">Add Locale</header>
+                        <header translate="true">Add Locale</header>
                         <index>store_id</index>
                         <type>store</type>
                         <width>160px</width>
@@ -69,7 +69,7 @@
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="added_at">
                     <arguments>
-                        <header translate="true" module="Mage_Wishlist">Add Date</header>
+                        <header translate="true">Add Date</header>
                         <index>added_at</index>
                         <gmtoffset>1</gmtoffset>
                         <type>date</type>
@@ -78,7 +78,7 @@
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="days">
                     <arguments>
-                        <header translate="true" module="Mage_Wishlist">Days in Wish List</header>
+                        <header translate="true">Days in Wish List</header>
                         <index>days_in_wishlist</index>
                         <type>number</type>
                         <id>days</id>
@@ -86,20 +86,20 @@
                 </block>
                 <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
                     <arguments>
-                        <header translate="true" module="Mage_Wishlist">Action</header>
+                        <header translate="true">Action</header>
                         <index>wishlist_item_id</index>
                         <renderer>Mage_Adminhtml_Block_Customer_Grid_Renderer_Multiaction</renderer>
                         <sortable>0</sortable>
                         <filter>0</filter>
                         <actions>
                             <configure>
-                                <caption translate="true" module="Mage_Wishlist">Configure</caption>
+                                <caption translate="true">Configure</caption>
                                 <url>javascript:void(0)</url>
                                 <process>configurable</process>
                                 <control_object>wishlistControl</control_object>
                             </configure>
                             <delete>
-                                <caption translate="true" module="Mage_Wishlist">Delete</caption>
+                                <caption translate="true">Delete</caption>
                                 <url>#</url>
                                 <onclick>return wishlistControl.removeItem($wishlist_item_id);</onclick>
                             </delete>

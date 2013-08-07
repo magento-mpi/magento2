@@ -12,7 +12,7 @@
         <label>Catalog Product Email to a Friend</label>
         <update handle="page_one_column"/>
         <reference name="page.main.title">
-            <action method="setPageTitle" translate="title" module="Mage_Sendfriend">
+            <action method="setPageTitle" translate="title">
                 <title>Email to a Friend</title>
             </action>
         </reference>

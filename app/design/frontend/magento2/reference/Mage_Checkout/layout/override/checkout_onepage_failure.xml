@@ -12,7 +12,7 @@
         <label>One Page Checkout Failure</label>
         <update handle="page_one_column"/>
         <reference name="page.main.title">
-            <action method="setPageTitle" translate="title" module="Mage_Checkout">
+            <action method="setPageTitle" translate="title">
                 <title>Your order has been received.</title>
             </action>
         </reference>
