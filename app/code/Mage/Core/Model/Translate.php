@@ -526,20 +526,13 @@ class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
             return '';
         }
 
-        if ($text instanceof Mage_Core_Model_Translate_Expr) {
-            $code = $text->getCode(self::SCOPE_SEPARATOR);
-            $module = $text->getModule();
-            $text = $text->getText();
-            $translated = $this->_getTranslatedString($text, $code);
+        if (!empty($_REQUEST['theme'])) {
+            $module = self::CONFIG_KEY_DESIGN_THEME . $_REQUEST['theme'];
         } else {
-            if (!empty($_REQUEST['theme'])) {
-                $module = self::CONFIG_KEY_DESIGN_THEME . $_REQUEST['theme'];
-            } else {
-                $module = self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME];
-            }
-            $code = $module . self::SCOPE_SEPARATOR . $text;
-            $translated = $this->_getTranslatedString($text, $code);
+            $module = self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME];
         }
+        $code = $module . self::SCOPE_SEPARATOR . $text;
+        $translated = $this->_getTranslatedString($text, $code);
 
         $result = @vsprintf($translated, $args);
         if ($result === false) {
