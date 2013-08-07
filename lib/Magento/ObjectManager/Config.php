@@ -15,6 +15,13 @@ interface Magento_ObjectManager_Config
     public function setRelations(Magento_ObjectManager_Relations $relations);
 
     /**
+     * Set configuration cache instance
+     *
+     * @param Magento_ObjectManager_ConfigCache $cache
+     */
+    public function setCache(Magento_ObjectManager_ConfigCache $cache);
+
+    /**
      * Retrieve list of arguments per type
      *
      * @param string $type

@@ -77,7 +77,7 @@ class Mage_Wishlist_SharedController extends Mage_Wishlist_Controller_Abstract
         $item = Mage::getModel('Mage_Wishlist_Model_Item')->load($itemId);
 
 
-        /* @var $session Mage_Wishlist_Model_Session */
+        /* @var $session Mage_Core_Model_Session_Generic */
         $session    = Mage::getSingleton('Mage_Wishlist_Model_Session');
         $cart       = Mage::getSingleton('Mage_Checkout_Model_Cart');
 

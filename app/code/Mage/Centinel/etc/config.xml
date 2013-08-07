@@ -15,8 +15,8 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Payment/>
-                <Mage_Checkout/>
+                <Mage_Payment />
+                <Mage_Checkout />
             </depends>
         </Mage_Centinel>
     </modules>
@@ -73,13 +73,6 @@
         <secure_url>
             <centinel>/centinel/</centinel>
         </secure_url>
-        <di>
-            <Mage_Centinel_Model_Session>
-                <parameters>
-                    <sessionName>frontend</sessionName>
-                </parameters>
-            </Mage_Centinel_Model_Session>
-        </di>
     </frontend>
     <adminhtml>
         <events>
@@ -102,16 +95,9 @@
                 </Mage_Centinel>
             </modules>
         </translate>
-        <di>
-            <Mage_Centinel_Model_Session>
-                <parameters>
-                    <sessionName>adminhtml</sessionName>
-                </parameters>
-            </Mage_Centinel_Model_Session>
-        </di>
     </adminhtml>
     <admin>
-         <routers>
+        <routers>
             <adminhtml>
                 <args>
                     <modules>

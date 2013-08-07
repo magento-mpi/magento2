@@ -84,12 +84,6 @@ class Mage_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_TestCa
 
     public function testLoad()
     {
-        $nodeMock = $this->getMock('stdClass', array('asArray'), array(), '', false);
-        $data = array('someKey' => 'someValue');
-        $nodeMock->expects($this->once())->method('asArray')->will($this->returnValue($data));
-
-        $this->_configMock->expects($this->any())->method('getNode')->will($this->returnValue($nodeMock));
-
         $path = realpath(__DIR__ . '/../_files/modules/');
         $this->_dirMock->expects($this->any())->method("getDir")->will($this->returnValue($path));
 
@@ -109,11 +103,6 @@ class Mage_Core_Model_Config_Loader_ModulesTest extends PHPUnit_Framework_TestCa
         $this->_fileReaderMock->expects($this->once())->method('loadConfigurationFromFile');
 
         $this->_configMock->expects($this->once())->method('applyExtends');
-
-        $this->_objectManagerMock
-            ->expects($this->once())
-            ->method('configure')
-            ->with($this->equalTo($data));
 
         $this->_model->load($this->_configMock);
     }

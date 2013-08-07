@@ -9,6 +9,7 @@ app/design/frontend/enterprise
 app/design/install/default/enterprise
 app/etc/enterprise.xml
 app/etc/modules/XEnterprise_Edition.xml.dist
+app/etc/di/enterprise.xml
 dev/tests/integration/testsuite/Enterprise
 dev/tests/integration/testsuite/integrity/theme/RenderersTest.php
 dev/tests/integration/testsuite/Design/Frontend/Enterprise

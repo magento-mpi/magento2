@@ -46,6 +46,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
         $this->_block = Mage::app()->getLayout()->createBlock(
             'Mage_Backend_Block_Widget_Grid_ColumnSet', '', array('context' => $context)
         );
+        $this->_block->setTemplate(null);
     }
 
     public function testBeforeToHtmlAddsClassToLastColumn()

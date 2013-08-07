@@ -6,6 +6,8 @@
  * @license     {license_link}
  */
 
+Mage::app()->loadAreaPart('adminhtml', Mage_Core_Model_App_Area::PART_CONFIG);
+
 require __DIR__ . '/../../../Mage/Catalog/_files/product_simple.php';
 require __DIR__ . '/../../../Mage/Catalog/_files/product_simple_duplicated.php';
 require __DIR__ . '/../../../Mage/Catalog/_files/product_virtual.php';

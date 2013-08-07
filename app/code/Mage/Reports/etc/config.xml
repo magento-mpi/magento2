@@ -15,10 +15,10 @@
             <version>1.6.0.0.2</version>
             <active>true</active>
             <depends>
-                <Mage_Customer/>
-                <Mage_Catalog/>
-                <Mage_Sales/>
-                <Mage_Cms/>
+                <Mage_Customer />
+                <Mage_Catalog />
+                <Mage_Sales />
+                <Mage_Cms />
             </depends>
         </Mage_Reports>
     </modules>
@@ -51,13 +51,6 @@
                 </Mage_Reports>
             </modules>
         </translate>
-        <di>
-            <Mage_Reports_Model_Session>
-                <parameters>
-                    <sessionName>adminhtml</sessionName>
-                </parameters>
-            </Mage_Reports_Model_Session>
-        </di>
     </adminhtml>
     <frontend>
         <translate>
@@ -151,13 +144,6 @@
                 </observers>
             </wishlist_share>
         </events>
-        <di>
-            <Mage_Reports_Model_Session>
-                <parameters>
-                    <sessionName>frontend</sessionName>
-                </parameters>
-            </Mage_Reports_Model_Session>
-        </di>
     </frontend>
     <default>
         <catalog>

@@ -37,19 +37,41 @@ class Magento_Test_ObjectManager extends Mage_Core_Model_ObjectManager
             $sharedInstances['Mage_Core_Model_Resource'] = $this->_sharedInstances['Mage_Core_Model_Resource'];
         }
         $this->_sharedInstances = $sharedInstances;
-        $this->_creationStack = array();
         $this->_config->clean();
 
         return $this;
     }
 
+    /**
+     * Add shared instance
+     *
+     * @param mixed $instance
+     * @param string $className
+     */
     public function addSharedInstance($instance, $className)
     {
         $this->_sharedInstances[$className] = $instance;
     }
 
+    /**
+     * Remove shared instance
+     *
+     * @param string $className
+     */
     public function removeSharedInstance($className)
     {
         unset($this->_sharedInstances[$className]);
+    }
+
+    /**
+     * Load primary DI configuration
+     *
+     * @param array $configData
+     */
+    public function loadPrimaryConfig($configData)
+    {
+        if ($configData) {
+            $this->configure($configData);
+        }
     }
 }

@@ -104,7 +104,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
     /**
      * @var Mage_Core_Model_Layout_Factory
      */
-    protected $_layoutFactory;
+    protected $_layout;
 
     /**
      * @var Mage_Core_Model_Event_Manager
@@ -123,7 +123,7 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
 
         $this->_objectManager   = $context->getObjectManager();
         $this->_frontController = $context->getFrontController();
-        $this->_layoutFactory   = $context->getLayoutFactory();
+        $this->_layout   = $context->getLayout();
         $this->_eventManager    = $context->getEventManager();
         $this->_frontController->setAction($this);
 
@@ -202,7 +202,8 @@ abstract class Mage_Core_Controller_Varien_Action extends Mage_Core_Controller_V
      */
     public function getLayout()
     {
-        return $this->_layoutFactory->createLayout(array('area' => $this->_currentArea));
+        $this->_layout->setArea($this->_currentArea);
+        return $this->_layout;
     }
 
     /**

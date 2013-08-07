@@ -58,16 +58,12 @@ class Saas_Saas_Model_EntryPoint_WorkerTest extends PHPUnit_Framework_TestCase
         $app->expects($this->once())->method('setUseSessionInUrl')->with(false);
         $app->expects($this->once())->method('requireInstalledInstance');
 
-        $dirVerification = $this->getMock('Mage_Core_Model_Dir_Verification', array(), array(), '', false);
-        $dirVerification->expects($this->once())->method('createAndVerifyDirectories');
-
         $valueMap = array(
             array('Mage_Core_Model_Config_Primary', $config),
             array('Mage_Core_Model_App', $app),
-            array('Mage_Core_Model_Dir_Verification', $dirVerification),
         );
         $this->_objectManagerMock
-            ->expects($this->exactly(3))
+            ->expects($this->exactly(2))
             ->method('get')
             ->will($this->returnValueMap($valueMap));
         $this->_objectManagerMock

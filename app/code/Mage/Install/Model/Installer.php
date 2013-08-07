@@ -85,7 +85,7 @@ class Mage_Install_Model_Installer extends Magento_Object
     /**
      * Get data model
      *
-     * @return Mage_Install_Model_Session
+     * @return Mage_Core_Model_Session_Generic
      */
     public function getDataModel()
     {
