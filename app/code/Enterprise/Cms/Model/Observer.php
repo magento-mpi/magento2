@@ -464,8 +464,8 @@ class Enterprise_Cms_Model_Observer
      * Handler for cms hierarchy view
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event|false
      */
     public function postDispatchCmsHierachyView($config, $eventModel)
     {
@@ -476,8 +476,8 @@ class Enterprise_Cms_Model_Observer
      * Handler for cms revision preview
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event|false
      */
     public function postDispatchCmsRevisionPreview($config, $eventModel)
     {
@@ -488,8 +488,8 @@ class Enterprise_Cms_Model_Observer
      * Handler for cms revision publish
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event|false
      */
     public function postDispatchCmsRevisionPublish($config, $eventModel)
     {

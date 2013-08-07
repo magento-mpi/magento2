@@ -35,7 +35,7 @@ class Magento_CustomerSegment_Model_LoggingTest extends PHPUnit_Framework_TestCa
 
         $model = new Magento_CustomerSegment_Model_Logging($resourceMock, $requestMock, $helperMock);
         $config = new Magento_Simplexml_Element('<config/>');
-        $eventMock = $this->getMock('Enterprise_Logging_Model_Event', array('setInfo'), array(), '', false);
+        $eventMock = $this->getMock('Magento_Logging_Model_Event', array('setInfo'), array(), '', false);
         $eventMock->expects($this->once())
             ->method('setInfo')
             ->with($expectedText);

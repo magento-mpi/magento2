@@ -11,7 +11,7 @@
 /**
  * Class Magento_CustomerSegment_Model_Logging
  *
- * Model for logging event related to Customer Segment, active only if Enterprise_Logging module is enabled
+ * Model for logging event related to Customer Segment, active only if Magento_Logging module is enabled
  */
 class Magento_CustomerSegment_Model_Logging
 {
@@ -49,12 +49,12 @@ class Magento_CustomerSegment_Model_Logging
      * Handler for logging customer segment match
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function postDispatchCustomerSegmentMatch(Magento_Simplexml_Element $config,
-        Enterprise_Logging_Model_Event $eventModel
+        Magento_Logging_Model_Event $eventModel
     ) {
         $segmentId = $this->_request->getParam('id');
         $customersQty = $this->_resourceModel->getSegmentCustomersQty($segmentId);

@@ -55,8 +55,8 @@ class Magento_Invitation_Model_Observer
      * Handler for invitation mass update
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event
      */
     public function postDispatchInvitationMassUpdate($config, $eventModel)
     {
@@ -64,7 +64,7 @@ class Magento_Invitation_Model_Observer
         $errors = $messages->getErrors();
         $notices = $messages->getItemsByType(Magento_Core_Model_Message::NOTICE);
         $status = (empty($errors) && empty($notices))
-            ? Enterprise_Logging_Model_Event::RESULT_SUCCESS : Enterprise_Logging_Model_Event::RESULT_FAILURE;
+            ? Magento_Logging_Model_Event::RESULT_SUCCESS : Magento_Logging_Model_Event::RESULT_FAILURE;
         return $eventModel->setStatus($status)
             ->setInfo(Mage::app()->getRequest()->getParam('invitations'));
     }

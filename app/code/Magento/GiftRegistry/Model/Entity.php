@@ -876,13 +876,13 @@ class Magento_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * Custom handler for giftregistry share email action
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event
      */
     public function postDispatchShare($config, $eventModel, $processor)
     {
         $request = Mage::app()->getRequest();
-        $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
+        $change = Mage::getModel('Magento_Logging_Model_Event_Changes');
 
         $emails = $request->getParam('emails', '');
         if ($emails) {

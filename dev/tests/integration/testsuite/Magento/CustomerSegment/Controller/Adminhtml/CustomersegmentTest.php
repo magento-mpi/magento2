@@ -43,8 +43,8 @@ class Magento_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends M
      */
     public function testMatchActionLogging()
     {
-        /** @var Enterprise_Logging_Model_Event $loggingModel */
-        $loggingModel = Mage::getModel('Enterprise_Logging_Model_Event');
+        /** @var Magento_Logging_Model_Event $loggingModel */
+        $loggingModel = Mage::getModel('Magento_Logging_Model_Event');
         $result = $loggingModel->load('magento_customersegment', 'event_code');
         $this->assertEmpty($result->getId());
 

@@ -348,13 +348,13 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
      * Custom handler for giftregistry type save action
      *
      * @param Magento_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
+     * @param Magento_Logging_Model_Event $eventModel
+     * @return Magento_Logging_Model_Event
      */
     public function postDispatchTypeSave($config, $eventModel, $processor)
     {
         $typeData = Mage::app()->getRequest()->getParam('type');
-        $typeId = isset($typeData['type_id']) ? $typeData['type_id'] : Mage::helper('Enterprise_Logging_Helper_Data')->__('New');
+        $typeId = isset($typeData['type_id']) ? $typeData['type_id'] : Mage::helper('Magento_Logging_Helper_Data')->__('New');
         return $eventModel->setInfo($typeId);
     }
 

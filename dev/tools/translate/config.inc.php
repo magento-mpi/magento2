@@ -450,8 +450,8 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/enterprise/license.xml',
         'app/design/adminhtml/default/default/template/enterprise/license/',
     ),
-    'Enterprise_Logging' => array(
-        'app/code/Enterprise/Logging/',
+    'Magento_Logging' => array(
+        'app/code/Magento/Logging/',
         'app/design/adminhtml/default/default/layout/enterprise/logging.xml',
         'app/design/adminhtml/default/default/template/enterprise/logging/',
     ),
@@ -649,7 +649,7 @@ $CONFIG['helpers']  = array(
     'enterprise_importexport'       => 'Enterprise_ImportExport',
     'magento_invitation'         => 'Magento_Invitation',
     'magento_license'            => 'Magento_License',
-    'enterprise_logging'            => 'Enterprise_Logging',
+    'magento_logging'            => 'Magento_Logging',
     'enterprise_pagecache'          => 'Enterprise_PageCache',
     'enterprise_pbridge'            => 'Enterprise_Pbridge',
     'enterprise_pci'                => 'Enterprise_Pci',
