@@ -33,15 +33,9 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     protected $_application;
 
     /**
-     * Helper instance
-     *
-     * @var Mage_Eav_Helper_Data
-     */
-    protected $_helperInstance;
-
-    /**
      * Class constructor
      *
+     * @param Mage_Core_Model_Resource $resource
      * @param array $arguments
      */
     public function __construct(Mage_Core_Model_Resource $resource,
@@ -50,10 +44,6 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
         if (isset($arguments['application']) && $arguments['application'] instanceof Mage_Core_Model_App) {
             $this->_application = $arguments['application'];
             unset($arguments['application']);
-        }
-        if (isset($arguments['helper']) && $arguments['helper'] instanceof Mage_Core_Helper_Abstract) {
-            $this->_helperInstance = $arguments['helper'];
-            unset($arguments['helper']);
         }
         parent::__construct($resource);
     }
@@ -65,17 +55,6 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     protected function _construct()
     {
         $this->_init('eav_attribute', 'attribute_id');
-    }
-
-    /**
-     * Retrieve helper instance
-     *
-     * @param string $helperName
-     * @return Mage_Core_Helper_Abstract|Mage_Eav_Helper_Data
-     */
-    protected function _helper($helperName)
-    {
-        return $this->_helperInstance instanceof $helperName ? $this->_helperInstance : Mage::helper($helperName);
     }
 
     /**

@@ -78,8 +78,9 @@ class Enterprise_Logging_Model_Config
     /**
      * Check whether specified full action name or event group should be logged
      *
-     * @param string $reference
+     * @param $reference
      * @param bool $isGroup
+     * @return bool
      */
     public function isActive($reference, $isGroup = false)
     {
@@ -145,8 +146,6 @@ class Enterprise_Logging_Model_Config
         }
 
         $label = (string)$actionLabelNode;
-        $module = $actionLabelNode->getParent()->getAttribute('module');
-        $helper = $module ? Mage::helper($module) : Mage::helper('Enterprise_Logging_Helper_Data');
 
         return __($label);
     }

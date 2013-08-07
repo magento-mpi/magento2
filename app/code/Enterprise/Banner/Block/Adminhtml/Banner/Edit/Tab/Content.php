@@ -319,14 +319,4 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         }
         return $fieldset;
     }
-
-    /**
-     * Get helper
-     *
-     * @return Enterprise_Banner_Helper_Data
-     */
-    public function getHelper()
-    {
-        return $this->_helper;
-    }
 }

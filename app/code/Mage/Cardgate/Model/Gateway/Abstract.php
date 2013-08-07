@@ -55,13 +55,6 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
     protected $_storeConfig;
 
     /**
-     * Helper object
-     *
-     * @var Mage_Cardgate_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Cardgate Form Block class name
      *
      * @var string
@@ -124,15 +117,13 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
      * @param Mage_Core_Model_Url $urlGenerator
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Cardgate_Model_Base $base
-     * @param Mage_Cardgate_Helper_Data $helper
      */
     public function __construct(
         Mage_Checkout_Model_Session $checkoutSession,
         Mage_Sales_Model_OrderFactory $orderFactory,
         Mage_Core_Model_Url $urlGenerator,
         Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Cardgate_Model_Base $base,
-        Mage_Cardgate_Helper_Data $helper
+        Mage_Cardgate_Model_Base $base
     ) {
         parent::__construct();
 
@@ -141,7 +132,6 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
         $this->_urlGenerator = $urlGenerator;
         $this->_storeConfig = $storeConfig;
         $this->_base = $base;
-        $this->_helper = $helper;
     }
 
     /**

@@ -17,22 +17,6 @@
  */
 class Enterprise_TargetRule_Model_Rule_Options_Status implements Mage_Core_Model_Option_ArrayInterface
 {
-
-    /**
-     * Target Rule Helper data
-     *
-     * @var Enterprise_TargetRule_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * @param Enterprise_TargetRule_Helper_Data
-     */
-    public function __construct(Enterprise_TargetRule_Helper_Data $targetRuleHelper)
-    {
-        $this->_helper = $targetRuleHelper;
-    }
-
     /**
      * Return statuses array
      *

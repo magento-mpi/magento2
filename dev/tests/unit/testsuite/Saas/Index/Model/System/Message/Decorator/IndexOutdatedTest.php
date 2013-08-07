@@ -20,11 +20,6 @@ class Saas_Index_Model_System_Message_Decorator_IndexOutdatedTest extends PHPUni
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_urlBuilder;
 
     /**
@@ -39,14 +34,12 @@ class Saas_Index_Model_System_Message_Decorator_IndexOutdatedTest extends PHPUni
         $factoryMock = $this->getMock('Saas_Index_Model_FlagFactory', array('create'), array(), '', false);
         $factoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_flagMock));
 
-        $this->_helperMock = $this->getMock('Saas_Index_Helper_Data', array(), array(), '', false);
         $this->_urlBuilder = $this->getMock('Mage_Core_Model_UrlInterface');
         $this->_messageMock = $this->getMock('Mage_Index_Model_System_Message_IndexOutdated', array(), array(), '',
             false);
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_message = $objectManager->getObject('Saas_Index_Model_System_Message_Decorator_IndexOutdated', array(
             'message' => $this->_messageMock,
-            'helper' => $this->_helperMock,
             'urlBuilder' => $this->_urlBuilder,
             'flagFactory' => $factoryMock,
         ));
@@ -108,10 +101,6 @@ class Saas_Index_Model_System_Message_Decorator_IndexOutdatedTest extends PHPUni
 
         $this->_urlBuilder->expects($this->once())->method('getUrl')->with('adminhtml/process/list')
             ->will($this->returnValue($url));
-
-        $this->_helperMock->expects($this->once())->method('__')
-            ->with('You need to refresh the search index. Please click <a href="%s">here</a>.', $url)
-            ->will($this->returnValue($translatedMessage));
 
         $this->assertEquals($translatedMessage, $this->_message->getText());
     }

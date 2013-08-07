@@ -11,24 +11,16 @@
 class Mage_GoogleAdwords_Model_Validator_Factory
 {
     /**
-     * @var Mage_GoogleAdwords_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Magento_Validator_BuilderFactory
      */
     protected $_validatorBuilderFactory;
 
     /**
-     * @param Mage_GoogleAdwords_Helper_Data $helper
      * @param Magento_Validator_BuilderFactory $validatorBuilderFactory
      */
     public function __construct(
-        Mage_GoogleAdwords_Helper_Data $helper,
         Magento_Validator_BuilderFactory $validatorBuilderFactory
     ) {
-        $this->_helper = $helper;
         $this->_validatorBuilderFactory = $validatorBuilderFactory;
     }
 

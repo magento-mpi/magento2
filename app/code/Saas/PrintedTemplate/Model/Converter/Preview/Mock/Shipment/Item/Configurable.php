@@ -27,16 +27,6 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_Configurab
     }
 
     /**
-     * Returns data helper
-     *
-     * @return Saas_PrintedTemplate_Helper_Data
-     */
-    protected function _getHelper()
-    {
-        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
-    }
-
-    /**
      * Get configurable children with mock up data
      *
      * @return array

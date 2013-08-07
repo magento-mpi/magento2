@@ -15,17 +15,14 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
     /**
      * @param Mage_Backend_Controller_Context $context
      * @param Saas_JobNotification_Service_Notification $service
-     * @param Saas_JobNotification_Helper_Data $helper
      * @param null $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
         Saas_JobNotification_Service_Notification $service,
-        Saas_JobNotification_Helper_Data $helper,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);
-        $this->_helper = $helper;
         $this->_service = $service;
     }
 

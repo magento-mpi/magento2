@@ -16,23 +16,6 @@
 class Mage_Cardgate_Model_System_Config_Source_Languages
 {
     /**
-     * Helper object
-     *
-     * @var Mage_Cardgate_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * Constructor
-     *
-     * @param Mage_Cardgate_Helper_Data $helper
-     */
-    public function __construct(Mage_Cardgate_Helper_Data $helper)
-    {
-        $this->_helper = $helper;
-    }
-
-    /**
      * Returns languages available for CardGate
      *
      * @return array

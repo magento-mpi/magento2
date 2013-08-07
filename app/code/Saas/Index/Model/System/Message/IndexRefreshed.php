@@ -27,21 +27,12 @@ class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotifi
     protected $_isDisplayed = null;
 
     /**
-     * Index helper
-     *
-     * @var Saas_Index_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @param Saas_Index_Model_FlagFactory $flagFactory
-     * @param Saas_Index_Helper_Data $helper
      */
-    public function __construct(Saas_Index_Model_FlagFactory $flagFactory, Saas_Index_Helper_Data $helper)
+    public function __construct(Saas_Index_Model_FlagFactory $flagFactory)
     {
         $this->_flag = $flagFactory->create()
             ->loadSelf();
-        $this->_helper = $helper;
     }
 
     /**

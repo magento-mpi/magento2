@@ -27,9 +27,8 @@ class Enterprise_CustomerSegment_Model_LoggingTest extends PHPUnit_Framework_Tes
             ->method('getSegmentCustomersQty')
             ->with($customerSegmentId)
             ->will($this->returnValue($qty));
-        $helperMock = $this->getMock('Enterprise_CustomerSegment_Helper_Data', array(), array(), '', false);
 
-        $model = new Enterprise_CustomerSegment_Model_Logging($resourceMock, $requestMock, $helperMock);
+        $model = new Enterprise_CustomerSegment_Model_Logging($resourceMock, $requestMock);
         $config = new Varien_Simplexml_Element('<config/>');
         $eventMock = $this->getMock('Enterprise_Logging_Model_Event', array('setInfo'), array(), '', false);
         $eventMock->expects($this->once())

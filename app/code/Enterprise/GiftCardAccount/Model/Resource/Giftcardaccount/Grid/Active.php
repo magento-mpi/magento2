@@ -19,20 +19,6 @@
 class Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Grid_Active
         implements Mage_Core_Model_Option_ArrayInterface
 {
-
-    /**
-     * @var Enterprise_GiftCardAccount_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * @param Enterprise_GiftCardAccount_Helper_Data $helper
-     */
-    public function __construct(Enterprise_GiftCardAccount_Helper_Data $helper)
-    {
-        $this->_helper = $helper;
-    }
-
     /**
      * Return options
      *

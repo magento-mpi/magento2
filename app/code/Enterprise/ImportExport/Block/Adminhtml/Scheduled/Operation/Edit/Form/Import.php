@@ -31,9 +31,6 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
      */
     protected function _prepareForm()
     {
-        /** @var $helper Enterprise_ImportExport_Helper_Data */
-        $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
-
         $this->setGeneralSettingsLabel(__('Import Settings'));
         $this->setFileSettingsLabel(__('Import File Information'));
         $this->setEmailSettingsLabel(__('Import Failed Emails'));

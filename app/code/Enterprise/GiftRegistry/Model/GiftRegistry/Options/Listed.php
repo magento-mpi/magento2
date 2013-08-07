@@ -17,20 +17,6 @@
  */
 class Enterprise_GiftRegistry_Model_GiftRegistry_Options_Listed implements Mage_Core_Model_Option_ArrayInterface
 {
-
-    /**
-     * @var Enterprise_GiftRegistry_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * @param Enterprise_GiftRegistry_Helper_Data
-     */
-    public function __construct(Enterprise_GiftRegistry_Helper_Data $giftRegistryHelper)
-    {
-        $this->_helper = $giftRegistryHelper;
-    }
-
     /**
      * Return statuses array
      * @return array

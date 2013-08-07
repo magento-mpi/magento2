@@ -17,22 +17,6 @@
  */
 class Enterprise_Reminder_Model_Reminder_Options_Status implements Mage_Core_Model_Option_ArrayInterface
 {
-
-    /**
-     * Reminder Helper data
-     *
-     * @var Enterprise_Reminder_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * @param Enterprise_Reminder_Helper_Data
-    */
-    public function __construct(Enterprise_Reminder_Helper_Data $reminderHelper)
-    {
-        $this->_helper = $reminderHelper;
-    }
-
     /**
      * Return statuses array
      *

@@ -17,11 +17,6 @@ class Saas_Index_Model_System_Message_IndexRefreshedTest extends PHPUnit_Framewo
      */
     protected $_flagMock;
 
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_helperMock;
-
     protected function setUp()
     {
         $this->_flagMock = $this->getMock('Saas_Index_Model_Flag', array(), array(), '', false);
@@ -29,11 +24,9 @@ class Saas_Index_Model_System_Message_IndexRefreshedTest extends PHPUnit_Framewo
         $factoryMock = $this->getMock('Saas_Index_Model_FlagFactory', array('create'), array(), '', false);
         $factoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_flagMock));
 
-        $this->_helperMock = $this->getMock('Saas_Index_Helper_Data', array(), array(), '', false);
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_model = $objectManager->getObject('Saas_Index_Model_System_Message_IndexRefreshed', array(
             'flagFactory' => $factoryMock,
-            'helper' => $this->_helperMock,
         ));
     }
 

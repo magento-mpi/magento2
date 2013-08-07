@@ -35,13 +35,6 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
     protected $_resource;
 
     /**
-     * Helper instance
-     *
-     * @var Mage_Core_Helper_Abstract
-     */
-    protected $_helperInstance;
-
-    /**
      * Prefix of model events names
      * @var string
      */
@@ -59,11 +52,6 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        if (isset($data['helper'])) {
-            $this->_helperInstance = $data['helper'];
-            unset($data['helper']);
-        }
-
         parent::__construct($context, $resource, $resourceCollection, $data);
     }
 
@@ -290,17 +278,6 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
         }
 
         return $setId ? $this->_getResource()->getDefaultGroupId($setId) : null;
-    }
-
-    /**
-     * Retrieve helper instance by specified helper name
-     *
-     * @param string $helperName
-     * @return Mage_Core_Helper_Abstract
-     */
-    protected function _helper($helperName)
-    {
-        return $this->_helperInstance instanceof $helperName ? $this->_helperInstance : Mage::helper($helperName);
     }
 
     /**

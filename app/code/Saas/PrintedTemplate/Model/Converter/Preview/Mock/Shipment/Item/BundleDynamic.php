@@ -27,16 +27,6 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Shipment_Item_BundleDyna
     }
 
     /**
-     * Returns data helper
-     *
-     * @return Saas_PrintedTemplate_Helper_Data
-     */
-    protected function _getHelper()
-    {
-        return Mage::helper('Saas_PrintedTemplate_Helper_Data');
-    }
-
-    /**
      * Returns initialized child items
      *
      * @return array Array of items

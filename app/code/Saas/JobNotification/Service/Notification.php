@@ -15,22 +15,12 @@ class Saas_JobNotification_Service_Notification
     protected $_factory;
 
     /**
-     * Job Notification helper
-     *
-     * @var Saas_JobNotification_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @param Saas_JobNotification_Model_NotificationFactory $factory
-     * @param Saas_JobNotification_Helper_Data $helper
      */
     public function __construct(
-        Saas_JobNotification_Model_NotificationFactory $factory,
-        Saas_JobNotification_Helper_Data $helper
+        Saas_JobNotification_Model_NotificationFactory $factory
     ) {
         $this->_factory = $factory;
-        $this->_helper = $helper;
     }
 
     /**
