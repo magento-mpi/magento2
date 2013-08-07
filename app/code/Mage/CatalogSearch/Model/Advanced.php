@@ -57,11 +57,6 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     protected $_productCollection;
 
     /**
-     * @var Mage_CatalogSearch_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Initialize dependencies
      *
      * @param Mage_Core_Model_Context $context
@@ -77,7 +72,6 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
         Varien_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_helper = $helper;
         $this->_engine = $helper->getEngine();
         $this->_setResourceModel($this->_engine->getResourceName());
         parent::__construct($context, $resource, $resourceCollection, $data);

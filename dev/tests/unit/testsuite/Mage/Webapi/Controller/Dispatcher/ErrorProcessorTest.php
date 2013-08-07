@@ -26,7 +26,7 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Frame
         /** Set up mocks for SUT. */
         $this->_helperMock = $this->getMockBuilder('Mage_Core_Helper_Data')->disableOriginalConstructor()->getMock();
         $helperFactoryMock = $this->getMockBuilder('Mage_Core_Model_Factory_Helper')->getMock();
-        $helperFactoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_helperMock));
+        $helperFactoryMock->expects($this->once())->method('get')->will($this->returnValue($this->_helperMock));
         $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
         $this->_loggerMock = $this->getMockBuilder('Mage_Core_Model_Logger')->disableOriginalConstructor()->getMock();
         /** Initialize SUT. */

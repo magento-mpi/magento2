@@ -19,21 +19,6 @@
 class Mage_Newsletter_Model_Queue_Options_Status implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
-     * Newsletter Helper Data
-     *
-     * @var Mage_Newsletter_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * @param Mage_Newsletter_Helper_Data $newsletterHelper
-     */
-    public function __construct(Mage_Newsletter_Helper_Data $newsletterHelper)
-    {
-        $this->_helper = $newsletterHelper;
-    }
-
-    /**
      * Return statuses option array
      *
      * @return array

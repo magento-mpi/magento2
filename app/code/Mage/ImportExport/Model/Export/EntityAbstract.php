@@ -79,13 +79,6 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
     protected $_messageTemplates = array();
 
     /**
-     * Helper to translate error messages
-     *
-     * @var Mage_ImportExport_Helper_Data
-     */
-    protected $_translator;
-
-    /**
      * Parameters
      *
      * @var array
@@ -171,8 +164,6 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
     {
         $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : Mage::app();
         $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : Mage::app();
-        $this->_translator     = isset($data['translator']) ? $data['translator']
-            : Mage::helper('Mage_ImportExport_Helper_Data');
         $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
             : Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
         $this->_pageSize = isset($data['page_size']) ? $data['page_size']

@@ -57,26 +57,18 @@ class Mage_Theme_Model_Uploader_Service
     protected $_uploaderFactory;
 
     /**
-     * @var Mage_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @param Varien_Io_File $fileIo
      * @param Magento_File_Size $fileSize
      * @param Mage_Core_Model_File_UploaderFactory $uploaderFactory
-     * @param Mage_Core_Helper_Data $helper
      */
     public function __construct(
         Varien_Io_File $fileIo,
         Magento_File_Size $fileSize,
-        Mage_Core_Model_File_UploaderFactory $uploaderFactory,
-        Mage_Core_Helper_Data $helper
+        Mage_Core_Model_File_UploaderFactory $uploaderFactory
     ) {
         $this->_fileIo = $fileIo;
         $this->_fileSize = $fileSize;
         $this->_uploaderFactory = $uploaderFactory;
-        $this->_helper = $helper;
     }
 
     /**

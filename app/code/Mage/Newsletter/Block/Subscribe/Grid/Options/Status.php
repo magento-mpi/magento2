@@ -10,19 +10,6 @@
 class Mage_Newsletter_Block_Subscribe_Grid_Options_Status implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
-     * @var Mage_Newsletter_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * @param Mage_Newsletter_Helper_Data $newsletterHelper
-     */
-    public function __construct(Mage_Newsletter_Helper_Data $newsletterHelper)
-    {
-        $this->_helper = $newsletterHelper;
-    }
-
-    /**
      * Return status column options
      *
      * @return array

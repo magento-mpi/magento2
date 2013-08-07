@@ -21,9 +21,6 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
     const DATA_FORMAT_XML = 'xml';
     /**#@-*/
 
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_apiHelper;
-
     /** @var Mage_Core_Helper_Data */
     protected $_coreHelper;
 
@@ -45,7 +42,6 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
         Mage_Core_Model_App $app,
         Mage_Core_Model_Logger $logger
     ) {
-        $this->_apiHelper = $helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_coreHelper = $helperFactory->get('Mage_Core_Helper_Data');
         $this->_app = $app;
         $this->_logger = $logger;

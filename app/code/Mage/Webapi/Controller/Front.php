@@ -28,9 +28,6 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     /** @var Mage_Core_Model_App */
     protected $_application;
 
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var string */
     protected $_apiType;
 
@@ -46,20 +43,17 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Webapi_Controller_Dispatcher_Factory $dispatcherFactory
      * @param Mage_Core_Model_App $application
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
         Mage_Webapi_Controller_Dispatcher_Factory $dispatcherFactory,
         Mage_Core_Model_App $application,
         Magento_Controller_Router_Route_Factory $routeFactory,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
     ) {
-        $this->_helper = $helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_dispatcherFactory = $dispatcherFactory;
         $this->_application = $application;
         $this->_routeFactory = $routeFactory;

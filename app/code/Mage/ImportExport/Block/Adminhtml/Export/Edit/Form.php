@@ -24,7 +24,6 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_Form extends Mage_Backend_Bl
      */
     protected function _prepareForm()
     {
-        $helper = Mage::helper('Mage_ImportExport_Helper_Data');
         $form = new Varien_Data_Form(array(
             'id'     => 'edit_form',
             'action' => $this->getUrl('*/*/getFilter'),

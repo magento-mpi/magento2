@@ -404,7 +404,6 @@ abstract class Mage_ImportExport_Model_Export_Entity_Abstract
      */
     public function getErrorMessages()
     {
-        $translator = Mage::helper('Mage_ImportExport_Helper_Data');
         $messages = array();
         foreach ($this->_errors as $errorCode => $errorRows) {
             $message = isset($this->_messageTemplates[$errorCode])
