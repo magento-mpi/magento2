@@ -17,10 +17,10 @@
                 <action method="setWrapperClass">
                     <class>reward-review</class>
                 </action>
-                <action method="setRewardMessage" translate="message" module="Enterprise_Reward">
+                <action method="setRewardMessage" translate="message">
                     <message>Submit a review now and earn %s once the review is approved.</message>
                 </action>
-                <action method="setRewardQtyLimitationMessage" translate="message" module="Enterprise_Reward">
+                <action method="setRewardQtyLimitationMessage" translate="message">
                     <message>Up to %s new review(s) can be rewarded.</message>
                 </action>
                 <action method="setIsGuestNote">

@@ -34,19 +34,19 @@
                     <template>product/view/tierprices.phtml</template>
                 </action>
                 <block type="Mage_Catalog_Block_Product_View_Tabs" name="product.info.tabs" as="info_tabs" template="product/view/tabs.phtml">
-                    <action method="addTab" translate="title" module="Mage_Catalog">
+                    <action method="addTab" translate="title">
                         <alias>description</alias>
                         <title>Product Description</title>
                         <block>Mage_Catalog_Block_Product_View_Description</block>
                         <template>product/view/description.phtml</template>
                     </action>
-                    <action method="addTab" translate="title" module="Mage_Catalog">
+                    <action method="addTab" translate="title">
                         <alias>upsell_products</alias>
                         <title>We Also Recommend</title>
                         <block>Mage_Catalog_Block_Product_List_Upsell</block>
                         <template>product/list/upsell.phtml</template>
                     </action>
-                    <action method="addTab" translate="title" module="Mage_Catalog">
+                    <action method="addTab" translate="title">
                         <alias>additional</alias>
                         <title>Additional Information</title>
                         <block>Mage_Catalog_Block_Product_View_Attributes</block>

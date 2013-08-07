@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <catalog_product_view>
         <reference name="product.info.tabs">
-            <action method="addTab" translate="title" module="Mage_Payment">
+            <action method="addTab" translate="title">
                 <alias>product.info.additional.recurring.schedule</alias>
                 <title>Recurring Profile</title>
                 <block>Mage_Payment_Block_Catalog_Product_View_Profile</block>
