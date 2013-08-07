@@ -14,7 +14,7 @@
         <resources>
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
-                    <resource id="Enterprise_Enterprise::marketing_private_sales">
+                    <resource id="Magento_Enterprise::marketing_private_sales">
                         <resource id="Enterprise_Invitation::enterprise_invitation" module="Enterprise_Invitation" title="Invitations" sortOrder="20" />
                     </resource>
                 </resource>

@@ -10,7 +10,7 @@
 <config>
     <module name="Enterprise_Pbridge" version="1.8.0.0.0" active="false">
         <depends>
-            <module name="Enterprise_Enterprise" />
+            <module name="Magento_Enterprise" />
         </depends>
     </module>
 </config>

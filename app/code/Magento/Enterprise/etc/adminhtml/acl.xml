@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_CatalogEvent
+ * @package     Magento_Enterprise
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,9 +14,7 @@
         <resources>
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
-                    <resource id="Magento_Enterprise::marketing_private_sales">
-                        <resource id="Magento_CatalogEvent::events" module="Magento_CatalogEvent" title="Events" sortOrder="10" />
-                    </resource>
+                    <resource id="Magento_Enterprise::marketing_private_sales" module="Magento_Enterprise" title="Private Sales" sortOrder="20" />
                 </resource>
             </resource>
         </resources>

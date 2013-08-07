@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Magento_CatalogEvent::catalog_magento_catalogevent_events" title="Events" module="Magento_CatalogEvent" sortOrder="10" parent="Enterprise_Enterprise::private_sales" action="adminhtml/catalog_event" resource="Magento_CatalogEvent::events" dependsOnModule="Magento_CatalogEvent" dependsOnConfig="catalog/magento_catalogevent/enabled"/>
+        <add id="Magento_CatalogEvent::catalog_magento_catalogevent_events" title="Events" module="Magento_CatalogEvent" sortOrder="10" parent="Magento_Enterprise::private_sales" action="adminhtml/catalog_event" resource="Magento_CatalogEvent::events" dependsOnModule="Magento_CatalogEvent" dependsOnConfig="catalog/magento_catalogevent/enabled"/>
     </menu>
 </config>

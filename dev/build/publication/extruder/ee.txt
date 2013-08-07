@@ -56,3 +56,6 @@ dev/tests/integration/testsuite/Magento/CustomerSegment
 app/code/Magento/CustomerBalance
 dev/tests/unit/testsuite/Magento/CustomerBalance
 dev/tests/integration/testsuite/Magento/CustomerBalance
+app/code/Magento/Enterprise
+dev/tests/unit/testsuite/Magento/Enterprise
+dev/tests/integration/testsuite/Magento/Enterprise

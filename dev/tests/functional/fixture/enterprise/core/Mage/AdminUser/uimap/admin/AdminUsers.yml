@@ -44,7 +44,7 @@ new_admin_role:
                                         marketing-promotions-related_products_rules: //*[@data-id='Enterprise_TargetRule::targetrule']//*[@class='jstree-checkbox']
                                         marketing-promotions-cart_price_rules-edit: //*[@data-id='Enterprise_PromotionPermissions::quote_edit']//*[@class='jstree-checkbox']
                                         marketing-promotions-gift_card_accounts: //*[@data-id='Enterprise_GiftCardAccount::customer_giftcardaccount']//*[@class='jstree-checkbox']
-                                        marketing-private_sales: //*[@data-id='Enterprise_Enterprise::marketing_private_sales']//*[@class='jstree-checkbox']
+                                        marketing-private_sales: //*[@data-id='Magento_Enterprise::marketing_private_sales']//*[@class='jstree-checkbox']
                                         marketing-private_sales-events: //*[@data-id='Enterprise_CatalogEvent::events']//*[@class='jstree-checkbox']
                                         marketing-private_sales-invitations: //*[@data-id='Enterprise_Invitation::enterprise_invitation']//*[@class='jstree-checkbox']
                                         marketing-communications-email_reminders: //*[@data-id='Enterprise_Reminder::enterprise_reminder']//*[@class='jstree-checkbox']
