@@ -28,7 +28,7 @@
                 </setup>
             </importexport_setup>
         </resources>
-        <importexport module="Mage_ImportExport">
+        <importexport>
             <import_entities>
                 <catalog_product translate="label">
                     <model_token>Mage_ImportExport_Model_Import_Entity_Product</model_token>
