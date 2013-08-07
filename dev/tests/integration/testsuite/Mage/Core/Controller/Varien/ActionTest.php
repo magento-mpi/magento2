@@ -210,6 +210,7 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     * @magentoAppArea frontend
      */
     public function testRenderLayout()
     {
@@ -258,6 +259,7 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     * @magentoAppArea adminhtml
      */
     public function testNoCookiesAction()
     {
@@ -331,6 +333,9 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @magentoAppArea frontend
+     */
     public function testNoRouteAction()
     {
         $status = 'test';

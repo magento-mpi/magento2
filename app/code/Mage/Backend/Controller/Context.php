@@ -39,7 +39,7 @@ class Mage_Backend_Controller_Context extends Mage_Core_Controller_Varien_Action
      * @param Mage_Core_Controller_Response_Http $response
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Mage_Core_Model_Layout $layout
      * @param Mage_Backend_Model_Session $session
      * @param Mage_Backend_Helper_Data $helper
      * @param Mage_Core_Model_Event_Manager $eventManager
@@ -53,14 +53,14 @@ class Mage_Backend_Controller_Context extends Mage_Core_Controller_Varien_Action
         Mage_Core_Controller_Response_Http $response,
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Mage_Core_Model_Layout $layout,
         Mage_Core_Model_Event_Manager $eventManager,
         Mage_Backend_Model_Session $session,
         Mage_Backend_Helper_Data $helper,
         Magento_AuthorizationInterface $authorization,
         Mage_Core_Model_Translate $translator
     ) {
-        parent::__construct($request, $response, $objectManager, $frontController, $layoutFactory, $eventManager);
+        parent::__construct($request, $response, $objectManager, $frontController, $layout, $eventManager);
         $this->_session = $session;
         $this->_helper = $helper;
         $this->_authorization = $authorization;

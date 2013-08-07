@@ -101,6 +101,21 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
     }
 
     /**
+     * Retreive class relations list
+     *
+     * @return Mage_Core_Model_ObjectManager_Relations|Magento_ObjectManager_Relations_Runtime
+     */
+    public function createRelations()
+    {
+        $path = $this->_config->getDefinitionPath() . DIRECTORY_SEPARATOR . 'relations.php';
+        if (is_readable($path)) {
+            return new Mage_Core_Model_ObjectManager_Relations($this->_unpack(file_get_contents($path)));
+        } else {
+            return new Magento_ObjectManager_Relations_Runtime();
+        }
+    }
+
+    /**
      * Uncompress definitions
      *
      * @param string $definitions

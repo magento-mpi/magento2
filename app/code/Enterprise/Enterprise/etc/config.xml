@@ -15,11 +15,11 @@
             <version>1.11.0.3</version>
             <active>false</active>
             <depends>
-                <Mage_Cms/>
-                <Mage_Install/>
-                <Mage_Adminhtml/>
-                <Mage_AdminNotification/>
-                <Mage_Widget/>
+                <Mage_Cms />
+                <Mage_Install />
+                <Mage_Adminhtml />
+                <Mage_AdminNotification />
+                <Mage_Widget />
             </depends>
         </Enterprise_Enterprise>
     </modules>
@@ -32,11 +32,6 @@
                 </setup>
             </enterprise_enterprise_setup>
         </resources>
-        <di>
-            <preferences>
-                <Mage_Core_Model_Resource_Setup_Migration>Enterprise_Enterprise_Model_Resource_Setup_Migration</Mage_Core_Model_Resource_Setup_Migration>
-            </preferences>
-        </di>
     </global>
     <frontend>
         <design>

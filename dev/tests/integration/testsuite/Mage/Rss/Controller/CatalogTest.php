@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * @magentoAppArea adminhtml
- */
 class Mage_Rss_Controller_CatalogTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**

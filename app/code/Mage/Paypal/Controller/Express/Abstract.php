@@ -439,7 +439,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     /**
      * PayPal session instance getter
      *
-     * @return Mage_PayPal_Model_Session
+     * @return Mage_Core_Model_Session_Generic
      */
     private function _getSession()
     {

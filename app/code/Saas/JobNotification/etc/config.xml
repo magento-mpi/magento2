@@ -60,15 +60,6 @@
                 </observers>
             </job_complete>
         </events>
-        <di>
-            <Saas_JobNotification_Model_Config>
-                <parameters>
-                    <config>
-                        <instance>Mage_Core_Model_Config</instance>
-                    </config>
-                </parameters>
-            </Saas_JobNotification_Model_Config>
-        </di>
     </global>
     <admin>
         <routers>
@@ -81,6 +72,4 @@
             </jobnotification>
         </routers>
     </admin>
-    <adminhtml>
-    </adminhtml>
 </config>
