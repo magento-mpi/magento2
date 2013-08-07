@@ -35,6 +35,18 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected static $_mapRouters = array();
 
     /**
+     * List of layout blocks associated with modules
+     *
+     * Format: array(
+     *  '{Area}' => array(
+     *   '{Block_Name}' => array('{Module_Name}' => '{Module_Name}')
+     * ))
+     *
+     * @var array
+     */
+    protected static $_mapLayoutBlocks = array();
+
+    /**
      * Modules dependencies map
      *
      * @var array
@@ -82,6 +94,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     {
         self::prepareListConfigXml();
         self::prepareMapRouters();
+        self::prepareMapLayoutBlocks();
 
         self::instantiateConfiguration();
         self::instantiateRules();
@@ -123,7 +136,8 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             if (class_exists($ruleClass)) {
                 /** @var Integrity_DependencyTest_RuleInterface $rule */
                 $rule = new $ruleClass(array(
-                    'mapRouters' => self::$_mapRouters,
+                    'mapRouters'        => self::$_mapRouters,
+                    'mapLayoutBlocks'   => self::$_mapLayoutBlocks,
                 ));
                 if ($rule instanceof Integrity_DependencyTest_RuleInterface) {
                     self::$_rulesInstances[$ruleClass] = $rule;
@@ -361,6 +375,40 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 foreach ($nodes as $node) {
                     $path = $node->getName() ? $node->getName() . '_' . $controllerName : $controllerName;
                     self::$_mapRouters[$path] = $module;
+                }
+            }
+        }
+    }
+
+    /**
+     * Prepare map of layout blocks
+     */
+    public static function prepareMapLayoutBlocks()
+    {
+        $files = Utility_Files::init()->getLayoutFiles(array(), false);
+        foreach ($files as $file) {
+            $area = 'default';
+            if (preg_match('/[\/](?<area>adminhtml|frontend)[\/]/', $file, $matches)) {
+                $area = $matches['area'];
+                if (!isset(self::$_mapLayoutBlocks[$area])) {
+                    self::$_mapLayoutBlocks[$area] = array();
+                }
+            }
+
+            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
+                $module = $matches['namespace'] . '_' . $matches['module'];
+
+                $xml = simplexml_load_file($file);
+                foreach ((array)$xml->xpath('//container | //block') as $element) {
+                    $attributes = $element->attributes();
+
+                    $block = (string)$attributes->name;
+                    if (!empty($block)) {
+                        if (!isset(self::$_mapLayoutBlocks[$area][$block])) {
+                            self::$_mapLayoutBlocks[$area][$block] = array();
+                        }
+                        self::$_mapLayoutBlocks[$area][$block][$module] = $module;
+                    }
                 }
             }
         }
