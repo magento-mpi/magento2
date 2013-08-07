@@ -35,7 +35,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected static $_mapRouters = array();
 
     /**
-     * List of layout blocks associated with modules
+     * List of layout blocks
      *
      * Format: array(
      *  '{Area}' => array(
@@ -45,6 +45,18 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected static $_mapLayoutBlocks = array();
+
+    /**
+     * List of layout handles
+     *
+     * Format: array(
+     *  '{Area}' => array(
+     *   '{Handle_Name}' => array('{Module_Name}' => '{Module_Name}')
+     * ))
+     *
+     * @var array
+     */
+    protected static $_mapLayoutHandles = array();
 
     /**
      * Modules dependencies map
@@ -93,8 +105,10 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         self::prepareListConfigXml();
+
         self::prepareMapRouters();
         self::prepareMapLayoutBlocks();
+        self::prepareMapLayoutHandles();
 
         self::instantiateConfiguration();
         self::instantiateRules();
@@ -138,6 +152,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 $rule = new $ruleClass(array(
                     'mapRouters'        => self::$_mapRouters,
                     'mapLayoutBlocks'   => self::$_mapLayoutBlocks,
+                    'mapLayoutHandles'  => self::$_mapLayoutHandles,
                 ));
                 if ($rule instanceof Integrity_DependencyTest_RuleInterface) {
                     self::$_rulesInstances[$ruleClass] = $rule;
@@ -409,6 +424,36 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                         }
                         self::$_mapLayoutBlocks[$area][$block][$module] = $module;
                     }
+                }
+            }
+        }
+    }
+
+    /**
+     * Prepare map of layout handles
+     */
+    public static function prepareMapLayoutHandles()
+    {
+        $files = Utility_Files::init()->getLayoutFiles(array(), false);
+        foreach ($files as $file) {
+            $area = 'default';
+            if (preg_match('/\/(?<area>adminhtml|frontend)\//', $file, $matches)) {
+                $area = $matches['area'];
+                if (!isset(self::$_mapLayoutHandles[$area])) {
+                    self::$_mapLayoutHandles[$area] = array();
+                }
+            }
+
+            if (preg_match('/app\/code\/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
+                $module = $matches['namespace'] . '_' . $matches['module'];
+
+                $xml = simplexml_load_file($file);
+                foreach ((array)$xml->xpath('/layout/child::*') as $element) {
+                    $handle = $element->getName();
+                    if (!isset(self::$_mapLayoutHandles[$area][$handle])) {
+                        self::$_mapLayoutHandles[$area][$handle] = array();
+                    }
+                    self::$_mapLayoutHandles[$area][$handle][$module] = $module;
                 }
             }
         }

@@ -59,7 +59,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected $_mapRouters = array();
 
     /**
-     * List of layout blocks associated with modules
+     * List of layout blocks
      *
      * Format: array(
      *  '{Area}' => array(
@@ -327,11 +327,8 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
             foreach ($matches as $match) {
                 $check = $this->_checkDependencyLayoutBlock($currentModule, $area, $match['block']);
                 $module = isset($check['module']) ? $check['module'] : null;
-                $exception = isset($check['exception']) ? $check['exception'] : null;
                 if ($module) {
                     $result[$module] = $match['source'];
-                } elseif ($exception) {
-                    $this->_exceptions[] = array($exception, $match['source']);
                 }
             }
         }
@@ -396,7 +393,8 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
             }
 
             // CASE 4: Exception - Undefined dependency
-            $this->_exceptions[self::EXCEPTION_TYPE_UNDEFINED_DEPENDENCY][] = implode('|', $modules);
+            $undefinedDependency = implode(', ', $modules);
+            $this->_exceptions[self::EXCEPTION_TYPE_UNDEFINED_DEPENDENCY][$undefinedDependency] = $undefinedDependency;
         }
 
         // CASE 5: Exception - Undefined block

@@ -39,62 +39,101 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     );
 
     /**
-     * List of layout handles that was got by controllers
+     * Namespaces to analyze
+     *
+     * Format: {Namespace}|{Namespace}|...
+     *
+     * @var string
+     */
+    protected $_namespaces;
+
+    /**
+     * List of routers
      *
      * Format: array(
-     *  'handle_prefix' => 'module'
+     *  '{Router}' => '{Module_Name}'
      * )
      *
      * @var array
      */
-    protected $_mapLayoutHandlesByControllers = array();
+    protected static $_mapRouters = array();
 
     /**
-     * List of layout handles that was got by layout files
+     * List of layout blocks
      *
      * Format: array(
-     *  'area' => array(
-     *   'handle' => array('module' => 'module')
+     *  '{Area}' => array(
+     *   '{Block_Name}' => array('{Module_Name}' => '{Module_Name}')
      * ))
      *
      * @var array
      */
-    protected $_mapLayoutHandlesByFiles = array();
+    protected static $_mapLayoutBlocks = array();
 
     /**
-     * List of layout blocks associated with modules
+     * List of layout handles
      *
      * Format: array(
-     *  'area' => array(
-     *   'block' => array('module' => 'module')
+     *  '{Area}' => array(
+     *   '{Handle_Name}' => array('{Module_Name}' => '{Module_Name}')
      * ))
      *
      * @var array
      */
-    protected $_mapLayoutBlocks = array();
+    protected $_mapLayoutHandles = array();
+
+    /**
+     * List of exceptions
+     *
+     * Format: array(
+     *  '{Exception_Type}' => '{Source}'
+     * )
+     *
+     * @var array
+     */
+    protected $_exceptions = array();
+
+    /**
+     * Exceptions flag
+     *
+     * @var bool
+     */
+    protected $_isExceptionsAllowed = false;
 
     /**
      * Unknown layout handle
      */
-    const UNKNOWN_HANDLE = 'UNKNOWN_HANDLE';
+    const EXCEPTION_TYPE_UNKNOWN_HANDLE = 'UNKNOWN_HANDLE';
 
     /**
      * Unknown layout block
      */
-    const UNKNOWN_BLOCK = 'UNKNOWN_BLOCK';
+    const EXCEPTION_TYPE_UNKNOWN_BLOCK = 'UNKNOWN_BLOCK';
 
     /**
-     * Possible dependencies
+     * Undefined dependency
      */
-    const POSSIBLE_DEPENDENCIES = 'POSSIBLE_DEPENDENCIES';
+    const EXCEPTION_TYPE_UNDEFINED_DEPENDENCY = 'UNDEFINED_DEPENDENCY';
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->_prepareMapLayoutHandles();
-        $this->_prepareMapLayoutBlocks();
+        $args = func_get_args();
+        if (count($args)) {
+            if (isset($args[0]['mapRouters'])) {
+                $this->_mapRouters = $args[0]['mapRouters'];
+            }
+            if (isset($args[0]['mapLayoutBlocks'])) {
+                $this->_mapLayoutBlocks = $args[0]['mapLayoutBlocks'];
+            }
+            if (isset($args[0]['mapLayoutHandles'])) {
+                $this->_mapLayoutHandles = $args[0]['mapLayoutHandles'];
+            }
+        }
+
+        $this->_namespaces = implode('|', Utility_Files::init()->getNamespaces());
     }
 
     /**
@@ -112,6 +151,8 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
             return array();
         }
 
+        $this->_exceptions = array();
+
         $dependencies = array();
         foreach ($this->_cases as $case) {
             if (method_exists($this, $case)) {
@@ -121,7 +162,32 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
                 }
             }
         }
-        return $dependencies;
+        return array_merge($dependencies, $this->_applyExceptions());
+    }
+
+    /**
+     * Apply exceptions
+     *
+     * @return array
+     */
+    protected function _applyExceptions()
+    {
+        if (!$this->_isExceptionsAllowed) {
+            return array();
+        }
+
+        $result = array();
+        foreach ($this->_exceptions as $type => $source) {
+            if (is_array($source)) {
+                $source = array_keys($source);
+            }
+            $result[] = array(
+                'exception' => $type,
+                'module' => '',
+                'source' => $source,
+            );
+        }
+        return $result;
     }
 
     /**
@@ -138,7 +204,8 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected function _caseAttributeModule($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            '/(?<source><.+module\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)[_](?<module>[A-Z][a-zA-Z]+)[\'"].*>)/',
+            '/(?<source><.+module\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
+                . '(?<module>[A-Z][a-zA-Z]+)[\'"].*>)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -158,9 +225,9 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected function _caseElementBlock($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            '/(?<source><block.*type\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_'
+            '/(?<source><block.*type\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}[\'"].*>)/',
-            '/(?<source><block.*template\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_'
+            '/(?<source><block.*template\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+[\'"].*>)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
@@ -183,11 +250,13 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected function _caseElementAction($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            '/(?<source><block\s*>(?<namespace>[A-Z][a-z]+)_'
+            '/(?<source><block\s*>(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-zA-Z]+_?){1,}<\/block\s*>)/',
-            '/(?<source><template\s*>(?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+<\/template\s*>)/',
-            '/(?<source><file\s*>(?<namespace>[A-Z][a-z]+)_(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+<\/file\s*>)/',
-            '/(?<source><.*helper\s*=\s*[\'"](?<namespace>[A-Z][a-z]+)_'
+            '/(?<source><template\s*>(?<namespace>' . $this->_namespaces . ')_'
+                . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.]+<\/template\s*>)/',
+            '/(?<source><file\s*>(?<namespace>' . $this->_namespaces . ')_'
+                . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+<\/file\s*>)/',
+            '/(?<source><.*helper\s*=\s*[\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-z]+_?){1,}::[\w]+[\'"].*>)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
@@ -210,22 +279,15 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
 
         $area = $this->_getAreaByFile($file);
 
-        $dependencies = array();
+        $result = array();
         foreach ((array)$xml->xpath('/layout/child::*') as $element) {
-            $result = $this->_checkDependencyLayoutHandle($currentModule, $area, $element->getName());
-
-            $module = isset($result['module']) ? $result['module'] : null;
-            $message = isset($result['message']) ? $result['message'] : null;
-
-            if ($module || $message) {
-                $dependencies[] = array(
-                    'module' => $module,
-                    'source' => $element->getName(),
-                    'message' => $message,
-                );
+            $check = $this->_checkDependencyLayoutHandle($currentModule, $area, $element->getName());
+            $module = isset($check['module']) ? $check['module'] : null;
+            if ($module) {
+                $result[$module] = $element->getName();
             }
         }
-        return $dependencies;
+        return $this->_getUniqueDependencies($result);
     }
 
     /**
@@ -245,22 +307,15 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
 
         $area = $this->_getAreaByFile($file);
 
-        $dependencies = array();
+        $result = array();
         foreach ((array)$xml->xpath('/layout/child::*/@parent') as $element) {
-            $result = $this->_checkDependencyLayoutHandle($currentModule, $area, (string)$element);
-
-            $module = isset($result['module']) ? $result['module'] : null;
-            $message = isset($result['message']) ? $result['message'] : null;
-
-            if ($module || $message) {
-                $dependencies[] = array(
-                    'module' => $module,
-                    'source' => (string)$element,
-                    'message' => $message,
-                );
+            $check = $this->_checkDependencyLayoutHandle($currentModule, $area, (string)$element);
+            $module = isset($check['module']) ? $check['module'] : null;
+            if ($module) {
+                $result[$module] = (string)$element;
             }
         }
-        return $dependencies;
+        return $this->_getUniqueDependencies($result);
     }
 
     /**
@@ -280,22 +335,15 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
 
         $area = $this->_getAreaByFile($file);
 
-        $dependencies = array();
+        $result = array();
         foreach ((array)$xml->xpath('//update/@handle') as $element) {
-            $result = $this->_checkDependencyLayoutHandle($currentModule, $area, (string)$element);
-
-            $module = isset($result['module']) ? $result['module'] : null;
-            $message = isset($result['message']) ? $result['message'] : null;
-
-            if ($module || $message) {
-                $dependencies[] = array(
-                    'module' => $module,
-                    'source' => (string)$element,
-                    'message' => $message,
-                );
+            $check = $this->_checkDependencyLayoutHandle($currentModule, $area, (string)$element);
+            $module = isset($check['module']) ? $check['module'] : null;
+            if ($module) {
+                $result[$module] = (string)$element;
             }
         }
-        return $dependencies;
+        return $this->_getUniqueDependencies($result);
     }
 
     /**
@@ -315,22 +363,15 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
 
         $area = $this->_getAreaByFile($file);
 
-        $dependencies = array();
+        $result = array();
         foreach ((array)$xml->xpath('//reference/@name') as $element) {
-            $result = $this->_checkDependencyLayoutBlock($currentModule, $area, (string)$element);
-
-            $module = isset($result['module']) ? $result['module'] : null;
-            $message = isset($result['message']) ? $result['message'] : null;
-
-            if ($module || $message) {
-                $dependencies[] = array(
-                    'module' => $module,
-                    'source' => (string)$element,
-                    'message' => $message,
-                );
+            $check = $this->_checkDependencyLayoutBlock($currentModule, $area, (string)$element);
+            $module = isset($check['module']) ? $check['module'] : null;
+            if ($module) {
+                $result[$module] = (string)$element;
             }
         }
-        return $dependencies;
+        return $this->_getUniqueDependencies($result);
     }
 
     /**
@@ -343,22 +384,18 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      */
     protected function _checkDependenciesByRegexp($currentModule, &$contents, $patterns = array())
     {
-        $dependencies = array();
+        $result = array();
         foreach ($patterns as $pattern) {
             if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
-                foreach ($matches as $item) {
-                    $moduleName = $item['namespace'] . '_' . $item['module'];
-                    if ($currentModule != $moduleName) {
-                        $dependencies[] = array(
-                            'module' => $moduleName,
-                            'source' => $item['source'],
-                            'message' => null,
-                        );
+                foreach ($matches as $match) {
+                    $module = $match['namespace'] . '_' . $match['module'];
+                    if ($currentModule != $module) {
+                        $result[$module] = $match['source'];
                     }
                 }
             }
         }
-        return $dependencies;
+        return $this->_getUniqueDependencies($result);
     }
 
     /**
@@ -367,32 +404,31 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * Return: array(
      *  'module'  // dependent module
      *  'source'  // source text
-     *  'message' // additional information
      * )
      *
      * @param $currentModule
      * @param $area
-     * @param $handleName
+     * @param $handle
      * @return array
      */
-    protected function _checkDependencyLayoutHandle($currentModule, $area, $handleName)
+    protected function _checkDependencyLayoutHandle($currentModule, $area, $handle)
     {
-        $chunks = explode('_', $handleName);
+        $chunks = explode('_', $handle);
         if (count($chunks) > 1) {
             array_pop($chunks); // Remove 'action' part from handle name
         }
-        $handleBase = implode('_', $chunks);
-        if (isset($this->_mapLayoutHandlesByControllers[$handleBase])) {
+        $router = implode('_', $chunks);
+        if (isset($this->_mapRouters[$router])) {
             // CASE 1: Single dependency
-            $moduleName = $this->_mapLayoutHandlesByControllers[$handleBase];
-            if ($currentModule != $moduleName) {
-                return array('module' => $moduleName);
+            $module = $this->_mapRouters[$router];
+            if ($currentModule != $module) {
+                return array('module' => $module);
             }
         }
 
-        if (isset($this->_mapLayoutHandlesByFiles[$area][$handleName])) {
+        if (isset($this->_mapLayoutHandles[$area][$handle])) {
             // CASE 2: No dependencies
-            $modules = $this->_mapLayoutHandlesByFiles[$area][$handleName];
+            $modules = $this->_mapLayoutHandles[$area][$handle];
             if (isset($modules[$currentModule])) {
                 return array('module' => null);
             }
@@ -408,12 +444,13 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
                 return array('module' => $defaultModule);
             }
 
-            // CASE 5: Additional information
-            return array('message' => self::POSSIBLE_DEPENDENCIES . ' (' . implode(', ', $modules) . ')');
+            // CASE 5: Exception - Undefined dependency
+            $undefinedDependency = implode(', ', $modules);
+            $this->_exceptions[self::EXCEPTION_TYPE_UNDEFINED_DEPENDENCY][$undefinedDependency] = $undefinedDependency;
         }
 
-        // CASE 6: Undefined handle name
-        return array('message' => self::UNKNOWN_HANDLE . ' (' . $handleName . ')');
+        // CASE 6: Exception - Undefined handle
+        $this->_exceptions[self::EXCEPTION_TYPE_UNKNOWN_HANDLE][$handle] = $handle;
     }
 
     /**
@@ -422,19 +459,18 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      * Return: array(
      *  'module'  // dependent module
      *  'source'  // source text
-     *  'message' // additional information
      * )
      *
      * @param $currentModule
      * @param $area
-     * @param $blockName
+     * @param $block
      * @return array
      */
-    protected function _checkDependencyLayoutBlock($currentModule, $area, $blockName)
+    protected function _checkDependencyLayoutBlock($currentModule, $area, $block)
     {
-        if (isset($this->_mapLayoutBlocks[$area][$blockName])) {
+        if (isset($this->_mapLayoutBlocks[$area][$block])) {
             // CASE 1: No dependencies
-            $modules = $this->_mapLayoutBlocks[$area][$blockName];
+            $modules = $this->_mapLayoutBlocks[$area][$block];
             if (isset($modules[$currentModule])) {
                 return array('module' => null);
             }
@@ -450,121 +486,13 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
                 return array('module' => $defaultModule);
             }
 
-            // CASE 4: Additional information
-            return array('message' => self::POSSIBLE_DEPENDENCIES . ' (' . implode(', ', $modules) . ')');
+            // CASE 4: Exception - Undefined dependency
+            $undefinedDependency = implode(', ', $modules);
+            $this->_exceptions[self::EXCEPTION_TYPE_UNDEFINED_DEPENDENCY][$undefinedDependency] = $undefinedDependency;
         }
 
-        // CASE 5: Undefined block name
-        return array('message' => self::UNKNOWN_BLOCK . ' (' . $blockName . ')');
-    }
-
-    /**
-     * Prepare map of layout handles
-     */
-    protected function _prepareMapLayoutHandles()
-    {
-        $this->_mapLayoutHandlesByControllers = array();
-
-        // Prepare list of config.xml files
-        $configFiles = array();
-        $files = Utility_Files::init()->getConfigFiles('config.xml', array(), false);
-        foreach ($files as $file) {
-            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
-                $name = $matches['namespace'] . '_' . $matches['module'];
-                $configFiles[$name] = $file;
-            }
-        }
-
-        // Prepare layout handles by controllers
-        $files = Utility_Files::init()->getPhpFiles(true, false, false, false);
-        foreach ($files as $file) {
-            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)\/controllers\/'
-                . '(?<path>[\/\w]*)Controller.php/', $file, $matches)
-            ) {
-
-                $chunks = explode('/', strtolower($matches['path']));
-                $name = $matches['namespace'] . '_' . $matches['module'];
-
-                // Read module's config.xml file
-                $config = simplexml_load_file($configFiles[$name]);
-
-                if ('adminhtml' == $chunks[0]) {
-                    array_shift($chunks);
-                    $nodes = (array)$config->xpath("/config/admin/routers/*") ?: array();
-                } else {
-                    $nodes = (array)$config->xpath("/config/frontend/routers/*") ?: array();
-                    foreach ($nodes as $nodeKey => $node) {
-                        // Exclude overridden routers
-                        if ('' == (string)$node->args->frontName) {
-                            unset($nodes[$nodeKey]);
-                        }
-                    }
-                }
-
-                $controllerName = implode('_', $chunks);
-                foreach ($nodes as $node) {
-                    $path = $node->getName() ? $node->getName() . '_' . $controllerName : $controllerName;
-                    $this->_mapLayoutHandlesByControllers[$path] = $name;
-                }
-            }
-        }
-
-        // Prepare layout handles by files
-        $files = Utility_Files::init()->getLayoutFiles(array(), false);
-        foreach ($files as $file) {
-            $area = 'default';
-            if (preg_match('/[\/](?<area>adminhtml|frontend)[\/]/', $file, $matches)) {
-                $area = $matches['area'];
-                if (!isset($this->_mapLayoutHandlesByFiles[$area])) {
-                    $this->_mapLayoutHandlesByFiles[$area] = array();
-                }
-            }
-            if (preg_match('/app\/code\/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
-                $name = $matches['namespace'] . '_' . $matches['module'];
-
-                $xml = simplexml_load_file($file);
-                foreach ((array)$xml->xpath('/layout/child::*') as $element) {
-                    if (!isset($this->_mapLayoutHandlesByFiles[$area][$element->getName()])) {
-                        $this->_mapLayoutHandlesByFiles[$area][$element->getName()] = array();
-                    }
-                    $this->_mapLayoutHandlesByFiles[$area][$element->getName()][$name] = $name;
-                }
-            }
-        }
-    }
-
-    /**
-     * Prepare map of layout blocks
-     */
-    protected function _prepareMapLayoutBlocks()
-    {
-        $files = Utility_Files::init()->getLayoutFiles(array(), false);
-        foreach ($files as $file) {
-            $area = 'default';
-            if (preg_match('/[\/](?<area>adminhtml|frontend)[\/]/', $file, $matches)) {
-                $area = $matches['area'];
-                if (!isset($this->_mapLayoutBlocks[$area])) {
-                    $this->_mapLayoutBlocks[$area] = array();
-                }
-            }
-            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
-                $name = $matches['namespace'] . '_' . $matches['module'];
-
-                $xml = simplexml_load_file($file);
-
-                foreach ((array)$xml->xpath('//container | //block') as $element) {
-                    $attributes = $element->attributes();
-                    $blockName = (string)$attributes->name;
-
-                    if (!empty($blockName)) {
-                        if (!isset($this->_mapLayoutBlocks[$area][$blockName])) {
-                            $this->_mapLayoutBlocks[$area][$blockName] = array();
-                        }
-                        $this->_mapLayoutBlocks[$area][$blockName][$name] = $name;
-                    }
-                }
-            }
-        }
+        // CASE 5: Exception - Undefined block
+        $this->_exceptions[self::EXCEPTION_TYPE_UNKNOWN_BLOCK][$block] = $block;
     }
 
     /**
@@ -576,7 +504,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
     protected function _getAreaByFile($file)
     {
         $area = 'default';
-        if (preg_match('/[\/](?<area>adminhtml|frontend)[\/]/', $file, $matches)) {
+        if (preg_match('/\/(?<area>adminhtml|frontend)\//', $file, $matches)) {
             $area = $matches['area'];
         }
         return $area;
@@ -594,5 +522,23 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
             return $this->_defaultModules[$area];
         }
         return null;
+    }
+
+    /**
+     * Retrieve unique dependencies
+     *
+     * @param array $dependencies
+     * @return array
+     */
+    protected function _getUniqueDependencies($dependencies = array())
+    {
+        $result = array();
+        foreach ($dependencies as $key => $val) {
+            $result[] = array(
+                'module' => $key,
+                'source' => $val,
+            );
+        }
+        return $result;
     }
 }
