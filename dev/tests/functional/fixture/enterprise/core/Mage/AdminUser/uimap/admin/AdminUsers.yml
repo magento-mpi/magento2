@@ -23,7 +23,7 @@ new_admin_role:
                                 role_resources:
                                     checkboxes:
                                         sales-operations-orders-actions-create-can_spend_reward_points: //*[@data-id='Magento_Reward::reward_spend']//*[@class='jstree-checkbox']
-                                        sales-operations-returns: //*[@data-id='Enterprise_Rma::enterprise_rma']//*[@class='jstree-checkbox']
+                                        sales-operations-returns: //*[@data-id='Magento_Rma::magento_rma']//*[@class='jstree-checkbox']
                                         sales-archive: //*[@data-id='Enterprise_SalesArchive::archive']//*[@class='jstree-checkbox']
                                         sales-archive-orders: //*[@data-id='Enterprise_SalesArchive::orders']//*[@class='jstree-checkbox']
                                         sales-archive-orders-restore_from_archive: //*[@data-id='Enterprise_SalesArchive::remove']//*[@class='jstree-checkbox']
@@ -70,7 +70,7 @@ new_admin_role:
                                         stores-attributes-customer_attributes: //*[@data-id='Enterprise_Customer::attributes']//*[@class='jstree-checkbox']
                                         stores-attributes-customer_attributes-customer: //*[@data-id='Enterprise_Customer::customer_attributes']//*[@class='jstree-checkbox']
                                         stores-attributes-customer_attributes-customer_address: //*[@data-id='Enterprise_Customer::customer_address_attributes']//*[@class='jstree-checkbox']
-                                        stores-attributes-returns: //*[@data-id='Enterprise_Rma::rma_attribute']//*[@class='jstree-checkbox']
+                                        stores-attributes-returns: //*[@data-id='Magento_Rma::rma_attribute']//*[@class='jstree-checkbox']
                                         stores-other_settings-reward_exchange_rates: //*[@data-id='Magento_Reward::rates']//*[@class='jstree-checkbox']
                                         stores-other_settings-gift_wrapping: //*[@data-id='Magento_GiftWrapping::magento_giftwrapping']//*[@class='jstree-checkbox']
                                         stores-other_settings-gift_registry: //*[@data-id='Magento_GiftRegistry::customer_magento_giftregistry']//*[@class='jstree-checkbox']

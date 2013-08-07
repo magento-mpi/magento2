@@ -23,7 +23,7 @@ Enterprise/PageCache/Model/Container/Sidebar
 Magento/Reminder
 Magento/Reward/Model/Action
 Magento/Reward/Model/Resource
-Enterprise/Rma
+Magento/Rma
 Enterprise/SalesArchive
 Enterprise/Search
 Enterprise/TargetRule/Block/Adminhtml/Targetrule/Edit/Tab

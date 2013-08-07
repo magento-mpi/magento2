@@ -36,7 +36,7 @@
     <module name="Magento_PromotionPermissions" active="true" />
     <module name="Magento_Reminder" active="true" />
     <module name="Magento_Reward" active="true" />
-    <module name="Enterprise_Rma" active="true" />
+    <module name="Magento_Rma" active="true" />
     <module name="Enterprise_SalesArchive" active="true" />
     <module name="Enterprise_Search" active="true" />
     <module name="Enterprise_Tag" active="false" />

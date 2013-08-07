@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_rma_new>
+        <reference name="head">
+            <action method="addJs">
+                <file>Magento_Rma::rma.js</file>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="Magento_Rma_Block_Adminhtml_Rma_New" name="magento_rma_new"/>
+        </reference>
+        <reference name="left">
+            <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tabs" name="magento_rma_edit_tabs">
+                <block type="Magento_Rma_Block_Adminhtml_Rma_New_Tab_General" template="new/general.phtml" name="magento_rma_new_tab_general">
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Details" template="new/general/details.phtml" name="request_details"/>
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingaddress" template="edit/general/shippingaddress.phtml" name="shipping_address"/>
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Returnaddress" template="edit/general/returnadress.phtml" name="return_address"/>
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History" template="new/general/history.phtml" name="comments_history"/>
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History" template="new/general/confirmation.phtml" name="return_confirmation"/>
+                </block>
+                <block type="Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items" name="magento_rma_new_tab_items" template="new/items.phtml">
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid" name="rma_items_grid"/>
+                    <block type="Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid" name="order_items_grid"/>
+                </block>
+                <action method="addTab">
+                    <name>general_section</name>
+                    <block>magento_rma_new_tab_general</block>
+                </action>
+                <action method="addTab">
+                    <name>items_section</name>
+                    <block>magento_rma_new_tab_items</block>
+                </action>
+            </block>
+        </reference>
+        <reference name="before_body_end">
+            <block type="Magento_Adminhtml_Block_Template" template="Magento_Rma::edit/mask.phtml"/>
+            <block type="Magento_Rma_Block_Adminhtml_Product_Bundle_Js" template="edit/bundle/js.phtml" name="magento_rma_js_create"/>
+        </reference>
+    </adminhtml_rma_new>
+</layout>

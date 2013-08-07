@@ -303,7 +303,7 @@
                     <magento_customerBalance_model_resource_balance_history_collection>limitStoreCredits</magento_customerBalance_model_resource_balance_history_collection>
                     <magento_giftRegistry_model_resource_entity_collection>limitGiftRegistryEntityWebsites</magento_giftRegistry_model_resource_entity_collection>
                     <magento_review_model_resource_review_product_collection>limitProductReviews</magento_review_model_resource_review_product_collection>
-                    <enterprise_rma_model_resource_rma_grid_collection>addStoreAttributeToFilter</enterprise_rma_model_resource_rma_grid_collection>
+                    <magento_rma_model_resource_rma_grid_collection>addStoreAttributeToFilter</magento_rma_model_resource_rma_grid_collection>
                     <magento_catalogRule_model_resource_rule_collection>limitRuleEntityCollection</magento_catalogRule_model_resource_rule_collection>
                     <magento_salesRule_model_resource_rule_collection>limitRuleEntityCollection</magento_salesRule_model_resource_rule_collection>
                     <magento_reminder_model_resource_rule_collection>limitRuleEntityCollection</magento_reminder_model_resource_rule_collection>
@@ -545,8 +545,8 @@
                     <magento_adminhtml_block_rating_edit>removeRatingEditButtons</magento_adminhtml_block_rating_edit>
                     <magento_customerSegment_block_adminhtml_customersegment_edit>removeRuleEntityEditButtons</magento_customerSegment_block_adminhtml_customersegment_edit>
                     <magento_reminder_block_adminhtml_reminder_edit>removeRuleEntityEditButtons</magento_reminder_block_adminhtml_reminder_edit>
-                    <enterprise_rma_block_adminhtml_rma_item_attribute_edit>removeRmaDeleteAttributeButton</enterprise_rma_block_adminhtml_rma_item_attribute_edit>
-                    <enterprise_rma_block_adminhtml_rma_item_attribute_edit_tab_options>disableRmaAttributeDeleteOptionButton</enterprise_rma_block_adminhtml_rma_item_attribute_edit_tab_options>
+                    <magento_rma_block_adminhtml_rma_item_attribute_edit>removeRmaDeleteAttributeButton</magento_rma_block_adminhtml_rma_item_attribute_edit>
+                    <magento_rma_block_adminhtml_rma_item_attribute_edit_tab_options>disableRmaAttributeDeleteOptionButton</magento_rma_block_adminhtml_rma_item_attribute_edit_tab_options>
                 </block_html_before>
             </admingws>
         </magento>

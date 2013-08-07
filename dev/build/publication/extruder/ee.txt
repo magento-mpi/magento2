@@ -90,3 +90,6 @@ dev/tests/integration/testsuite/Magento/Reminder
 app/code/Magento/Reward
 dev/tests/unit/testsuite/Magento/Reward
 dev/tests/integration/testsuite/Magento/Reward
+app/code/Magento/Rma
+dev/tests/unit/testsuite/Magento/Rma
+dev/tests/integration/testsuite/Magento/Rma

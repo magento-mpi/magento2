@@ -18,7 +18,7 @@ if ($tableName) {
     /** @var Magento_DB_Adapter_Interface $connection */
     $connection = $installer->getConnection();
     $remove = array(
-        'Enterprise_Rma::rma_manage',
+        'Magento_Rma::rma_manage',
     );
     $connection->delete($tableName, array('resource_id IN (?)' => $remove));
 }
