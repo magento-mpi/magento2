@@ -14,6 +14,6 @@ class Enterprise_SalesArchive_Model_Resource_Order_CollectionTest extends PHPUni
     public function testGetSelectCountSql()
     {
         $countSql = Mage::getModel('Enterprise_SalesArchive_Model_Resource_Order_Collection')->getSelectCountSql();
-        $this->assertInstanceOf('Varien_Db_Select', $countSql);
+        $this->assertInstanceOf('Magento_DB_Select', $countSql);
     }
 }

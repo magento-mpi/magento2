@@ -100,7 +100,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details_Form extends Mage_Adminhtml
             ),
         );
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         foreach ($fieldsets as $key => $data) {
             $fieldset = $form->addFieldset($key, array('legend' => $data['legend']));
             foreach ($data['fields'] as $id => $info) {

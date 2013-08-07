@@ -72,8 +72,8 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
         $block = $this->getMock('Mage_Core_Block_Abstract', array('getChildBlock'), array(), '', false);
         $block->expects($this->never())->method('getChildBlock');
 
-        $this->_model->disableCreationButtons(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $block))
+        $this->_model->disableCreationButtons(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $block))
         )));
     }
 
@@ -99,8 +99,8 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
             array('add_sub_button', $subButton),
         )));
 
-        $this->_model->disableCreationButtons(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $block))
+        $this->_model->disableCreationButtons(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $block))
         )));
 
         $this->assertTrue($rootButton->getData('disabled'));
@@ -116,8 +116,8 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
         );
         $block->expects($this->never())->method('getChildBlock');
 
-        $this->_model->disableCreationButtons(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $block))
+        $this->_model->disableCreationButtons(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $block))
         )));
     }
 
@@ -133,8 +133,8 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
         $block->expects($this->once())->method('getCategoryId')->will($this->returnValue(null));
         $block->expects($this->once())->method('getChildBlock')->with('save_button')->will($this->returnValue($button));
 
-        $this->_model->disableCreationButtons(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $block))
+        $this->_model->disableCreationButtons(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $block))
         )));
 
         $this->assertTrue($button->getData('disabled'));
@@ -150,8 +150,8 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
         );
         $block->expects($this->never())->method('getChildBlock');
 
-        $this->_model->disableCreationButtons(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $block))
+        $this->_model->disableCreationButtons(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $block))
         )));
     }
 
@@ -166,8 +166,8 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
         $block->expects($this->once())->method('getCategoryId')->will($this->returnValue(6));
         $block->expects($this->never())->method('getChildBlock');
 
-        $this->_model->disableCreationButtons(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $block))
+        $this->_model->disableCreationButtons(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $block))
         )));
     }
 
@@ -178,8 +178,8 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
         $button = $this->_createButton();
         $button->setId('add_category_button');
 
-        $this->_model->disableCreationButtons(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $button))
+        $this->_model->disableCreationButtons(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $button))
         )));
 
         $this->assertTrue($button->getData('disabled'));
@@ -197,8 +197,8 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
         $button = $this->_createButton();
         $button->setId($buttonId);
 
-        $this->_model->disableCreationButtons(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $button))
+        $this->_model->disableCreationButtons(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $button))
         )));
 
         $this->assertNull($button->getData('disabled'));

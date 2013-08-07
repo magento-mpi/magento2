@@ -16,7 +16,7 @@ $this->getConnection()
         'qty',
         'qty',
         array(
-            'TYPE' => Varien_Db_Ddl_Table::TYPE_DECIMAL,
+            'TYPE' => Magento_DB_Ddl_Table::TYPE_DECIMAL,
             'LENGTH' => '12,4',
             'UNSIGNED' => false,
             'NULLABLE' => true,

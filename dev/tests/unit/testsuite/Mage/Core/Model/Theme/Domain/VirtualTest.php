@@ -51,7 +51,7 @@ class Mage_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_TestCas
     {
         $theme = $this->getMock('Mage_Core_Model_Theme', array('getStagingVersion'), array(), '', false, false);
         $theme->expects($this->once())->method('getStagingVersion')->will($this->returnValue(null));
-        /** @var $theme Varien_Object */
+        /** @var $theme Magento_Object */
         $theme->setData(array(
             'id'                    => 'fixture_theme_id',
             'theme_version'         => 'fixture_theme_version',

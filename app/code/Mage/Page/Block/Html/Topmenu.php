@@ -20,7 +20,7 @@ class Mage_Page_Block_Html_Topmenu extends Mage_Core_Block_Template
     /**
      * Top menu data tree
      *
-     * @var Varien_Data_Tree_Node
+     * @var Magento_Data_Tree_Node
      */
     protected $_menu;
 
@@ -29,7 +29,7 @@ class Mage_Page_Block_Html_Topmenu extends Mage_Core_Block_Template
      */
     public function _construct()
     {
-        $this->_menu = new Varien_Data_Tree_Node(array(), 'root', new Varien_Data_Tree());
+        $this->_menu = new Magento_Data_Tree_Node(array(), 'root', new Magento_Data_Tree());
 
         // enabling the cache for this topmenu to not expire until changes made in admin area
         // this is to prevent the menu from being rebuild every request and to prevent new categories from showing up
@@ -60,7 +60,7 @@ class Mage_Page_Block_Html_Topmenu extends Mage_Core_Block_Template
 
         $html = $this->_getHtml($this->_menu, $childrenWrapClass, $limit);
 
-        $transportObject = new Varien_Object(array('html' => $html));
+        $transportObject = new Magento_Object(array('html' => $html));
         $this->_eventManager->dispatch('page_block_html_topmenu_gethtml_after', array(
             'menu'            => $this->_menu,
             'transportObject' => $transportObject,
@@ -165,11 +165,11 @@ class Mage_Page_Block_Html_Topmenu extends Mage_Core_Block_Template
     /**
      * Recursively generates top menu html from data that is specified in $menuTree
      *
-     * @param Varien_Data_Tree_Node $menuTree
+     * @param Magento_Data_Tree_Node $menuTree
      * @param string $childrenWrapClass
      * @return string
      */
-    protected function _getHtml(Varien_Data_Tree_Node $menuTree, $childrenWrapClass, $limit, $colBrakes = array())
+    protected function _getHtml(Magento_Data_Tree_Node $menuTree, $childrenWrapClass, $limit, $colBrakes = array())
     {
         $html = '';
 
@@ -222,10 +222,10 @@ class Mage_Page_Block_Html_Topmenu extends Mage_Core_Block_Template
     /**
      * Generates string with all attributes that should be present in menu item element
      *
-     * @param Varien_Data_Tree_Node $item
+     * @param Magento_Data_Tree_Node $item
      * @return string
      */
-    protected function _getRenderedMenuItemAttributes(Varien_Data_Tree_Node $item)
+    protected function _getRenderedMenuItemAttributes(Magento_Data_Tree_Node $item)
     {
         $html = '';
         $attributes = $this->_getMenuItemAttributes($item);
@@ -240,10 +240,10 @@ class Mage_Page_Block_Html_Topmenu extends Mage_Core_Block_Template
     /**
      * Returns array of menu item's attributes
      *
-     * @param Varien_Data_Tree_Node $item
+     * @param Magento_Data_Tree_Node $item
      * @return array
      */
-    protected function _getMenuItemAttributes(Varien_Data_Tree_Node $item)
+    protected function _getMenuItemAttributes(Magento_Data_Tree_Node $item)
     {
         $menuItemClasses = $this->_getMenuItemClasses($item);
         $attributes = array(
@@ -256,10 +256,10 @@ class Mage_Page_Block_Html_Topmenu extends Mage_Core_Block_Template
     /**
      * Returns array of menu item's classes
      *
-     * @param Varien_Data_Tree_Node $item
+     * @param Magento_Data_Tree_Node $item
      * @return array
      */
-    protected function _getMenuItemClasses(Varien_Data_Tree_Node $item)
+    protected function _getMenuItemClasses(Magento_Data_Tree_Node $item)
     {
         $classes = array();
 

@@ -212,7 +212,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
 
     public function fetchUpdate()
     {
-        $result = new Varien_Object();
+        $result = new Magento_Object();
         $this->getMethodInstance()->getRecurringProfileDetails($this->getReferenceId(), $result);
 
         if ($result->getIsProfileActive()) {
@@ -236,7 +236,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     /**
      * Initialize new order based on profile data
      *
-     * Takes arbitrary number of Varien_Object instances to be treated as items for new order
+     * Takes arbitrary number of Magento_Object instances to be treated as items for new order
      *
      * @return Mage_Sales_Model_Order
      */
@@ -519,7 +519,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
                 return $info[$infoValueKey];
             }
         } else {
-            if ($info instanceof Varien_Object) {
+            if ($info instanceof Magento_Object) {
                 return $info->getDataUsingMethod($infoValueKey);
             } elseif (isset($info->$infoValueKey)) {
                 return $info->$infoValueKey;
@@ -618,7 +618,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     /**
      * Create and return new order item based on profile item data and $itemInfo
      *
-     * @param Varien_Object $itemInfo
+     * @param Magento_Object $itemInfo
      * @return Mage_Sales_Model_Order_Item
      */
     protected function _getItem($itemInfo)
@@ -640,7 +640,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
      * Create and return new order item based on profile item data and $itemInfo
      * for regular payment
      *
-     * @param Varien_Object $itemInfo
+     * @param Magento_Object $itemInfo
      * @return Mage_Sales_Model_Order_Item
      */
     protected function _getRegularItem($itemInfo)
@@ -667,7 +667,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
      * Create and return new order item based on profile item data and $itemInfo
      * for trial payment
      *
-     * @param Varien_Object $itemInfo
+     * @param Magento_Object $itemInfo
      * @return Mage_Sales_Model_Order_Item
      */
     protected function _getTrialItem($itemInfo)
@@ -692,7 +692,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
      * Create and return new order item based on profile item data and $itemInfo
      * for initial payment
      *
-     * @param Varien_Object $itemInfo
+     * @param Magento_Object $itemInfo
      * @return Mage_Sales_Model_Order_Item
      */
     protected function _getInitialItem($itemInfo)

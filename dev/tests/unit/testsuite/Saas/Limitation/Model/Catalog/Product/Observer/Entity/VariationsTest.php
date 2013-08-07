@@ -71,8 +71,8 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Entity_VariationsTest exten
         $this->_limitation->expects($this->any())->method('getThreshold')->will($this->returnValue($threshold));
         $entity = $this->getMock('Mage_Core_Model_Abstract', array('isObjectNew'), array(), '', false);
         $entity->expects($this->any())->method('isObjectNew')->will($this->returnValue($isObjectNew));
-        $this->_model->restrictCreation(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('product' => $entity, 'variations' => $variations))
+        $this->_model->restrictCreation(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('product' => $entity, 'variations' => $variations))
         )));
     }
 

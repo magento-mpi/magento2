@@ -50,7 +50,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
         /** @var $layoutMock Mage_Core_Model_Layout */
         $layoutMock->expects($this->any())->method('generateXml')->will($this->returnSelf());
         $layoutMock->expects($this->any())->method('getNode')
-            ->will($this->returnValue(new Varien_Simplexml_Element('<root />')));
+            ->will($this->returnValue(new Magento_Simplexml_Element('<root />')));
         $blockMessage = $this->getMock('Mage_Core_Block_Messages',
             array('addMessages', 'setEscapeMessageFlag', 'addStorageType'), array(), '', false);
         $layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMessage));

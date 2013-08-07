@@ -14,7 +14,7 @@ class Saas_Backend_Model_Config_Backend_Admin_Robots extends Mage_Backend_Model_
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Dir $directoryModel
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -22,7 +22,7 @@ class Saas_Backend_Model_Config_Backend_Admin_Robots extends Mage_Backend_Model_
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Dir $directoryModel,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $filesystem, $resource, $resourceCollection, $data);

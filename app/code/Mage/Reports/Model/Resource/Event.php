@@ -58,14 +58,14 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
      * The collection id field is used without corellation, so it must be unique.
      * DESC ordering by event will be added to the collection
      *
-     * @param Varien_Data_Collection_Db $collection
+     * @param Magento_Data_Collection_Db $collection
      * @param int $eventTypeId
      * @param int $eventSubjectId
      * @param int $subtype
      * @param array $skipIds
      * @return Mage_Reports_Model_Resource_Event
      */
-    public function applyLogToCollection(Varien_Data_Collection_Db $collection, $eventTypeId, $eventSubjectId, $subtype,
+    public function applyLogToCollection(Magento_Data_Collection_Db $collection, $eventTypeId, $eventSubjectId, $subtype,
         $skipIds = array())
     {
         $idFieldName = $collection->getResource()->getIdFieldName();
@@ -92,7 +92,7 @@ class Mage_Reports_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abst
                 array('evt' => new Zend_Db_Expr("({$derivedSelect})")),
                 "{$idFieldName} = evt.object_id",
                 array())
-            ->order('evt.event_id ' . Varien_Db_Select::SQL_DESC);
+            ->order('evt.event_id ' . Magento_DB_Select::SQL_DESC);
 
         return $this;
     }

@@ -20,7 +20,7 @@
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class Mage_Core_Model_Layout extends Varien_Simplexml_Config
+class Mage_Core_Model_Layout extends Magento_Simplexml_Config
 {
     /**#@+
      * Supported layout directives
@@ -128,7 +128,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * A variable for transporting output into observer during rendering
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_renderingOutput = null;
 
@@ -207,7 +207,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_translator = $translator;
         $this->_elementClass = 'Mage_Core_Model_Layout_Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
-        $this->_renderingOutput = new Varien_Object;
+        $this->_renderingOutput = new Magento_Object;
         $this->_scheduledStructure = $scheduledStructure;
         $this->_dataServiceGraph = $dataServiceGraph;
     }
@@ -1593,10 +1593,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * 2) "module" attribute in any ancestor element
      * 3) layout handle name - first 1 or 2 parts (namespace is determined automatically)
      *
-     * @param Varien_Simplexml_Element $node
+     * @param Magento_Simplexml_Element $node
      * @return string
      */
-    public static function findTranslationModuleName(Varien_Simplexml_Element $node)
+    public static function findTranslationModuleName(Magento_Simplexml_Element $node)
     {
         // Commented out code uses not yet implemented functionality.
         $result = (string) $node->getAttribute('module');

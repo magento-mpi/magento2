@@ -18,7 +18,7 @@ class Saas_PrintedTemplate_Model_Source_Template_AbstractTest extends PHPUnit_Fr
      */
     public function testToOptionArray($modelConfigValue, $resultExpected)
     {
-        $varienObj = new Varien_Object();
+        $varienObj = new Magento_Object();
 
         $helperData = $this->getMockBuilder('Saas_PrintedTemplate_Helper_Data')
             ->setMethods(array('__'))
@@ -59,7 +59,7 @@ class Saas_PrintedTemplate_Model_Source_Template_AbstractTest extends PHPUnit_Fr
             ->method('_getConfig')
             ->will($this->returnValue($modelConfig));
 
-        $collectionDb = $this->getMockBuilder('Varien_Data_Collection_Db')
+        $collectionDb = $this->getMockBuilder('Magento_Data_Collection_Db')
             ->setMethods(array('addFieldToFilter', 'toOptionArray'))
             ->disableOriginalConstructor()
             ->getMock();

@@ -20,7 +20,7 @@ class Mage_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        Varien_Io_File::rmdirRecursive(self::$_tmpDir);
+        Magento_Io_File::rmdirRecursive(self::$_tmpDir);
     }
 
     public function testInstall()
@@ -51,9 +51,9 @@ class Mage_Install_Model_Installer_ConfigTest extends PHPUnit_Framework_TestCase
     {
         /** @var $model Mage_Install_Model_Installer_Config */
         $model = Mage::getModel('Mage_Install_Model_Installer_Config');
-        /** @var $result Varien_Object */
+        /** @var $result Magento_Object */
         $result = $model->getFormData();
-        $this->assertInstanceOf('Varien_Object', $result);
+        $this->assertInstanceOf('Magento_Object', $result);
         $data = $result->getData();
         $this->assertArrayHasKey('db_host', $data);
     }

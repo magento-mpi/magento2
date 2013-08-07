@@ -68,7 +68,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
     {
         $addressData = $this->getAddressData();
 
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'method' => 'post',
             'id' => 'shipping-origin-form'
         ));

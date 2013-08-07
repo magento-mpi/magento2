@@ -21,7 +21,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $model = Mage::registry('current_reminder_rule');
 
         $renderer = Mage::getBlockSingleton('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')

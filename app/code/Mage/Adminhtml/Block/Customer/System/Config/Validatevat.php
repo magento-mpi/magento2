@@ -111,10 +111,10 @@ class Mage_Adminhtml_Block_Customer_System_Config_Validatevat extends Mage_Backe
     /**
      * Unset some non-related element parameters
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
         return parent::render($element);
@@ -123,10 +123,10 @@ class Mage_Adminhtml_Block_Customer_System_Config_Validatevat extends Mage_Backe
     /**
      * Get the button and scripts contents
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         $originalData = $element->getOriginalData();
         $buttonLabel = !empty($originalData['button_label']) ? $originalData['button_label'] : $this->_vatButtonLabel;

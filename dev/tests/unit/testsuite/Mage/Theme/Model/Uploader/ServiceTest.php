@@ -33,7 +33,7 @@ class Mage_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCase
         $this->_uploader = $this->getMock('Mage_Core_Model_File_Uploader', array(), array(), '', false);
         $uploaderFactory = $this->getMock('Mage_Core_Model_File_UploaderFactory', array('create'), array(), '', false);
         $uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($this->_uploader));
-        $this->_filesystemMock = $this->getMock('Varien_Io_File', array('read'), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento_Io_File', array('read'), array(), '', false);
         /** @var $service Mage_Theme_Model_Uploader_Service */
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(

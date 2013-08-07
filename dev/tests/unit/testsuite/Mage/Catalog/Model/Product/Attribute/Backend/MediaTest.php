@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
         $this->_model->setAttribute($attribute);
 
-        $object = new Varien_Object();
+        $object = new Magento_Object();
         $object->setImage(array(
             'images' => array(array(
                 'value_id' => $valueId

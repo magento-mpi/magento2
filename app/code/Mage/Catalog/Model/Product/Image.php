@@ -67,7 +67,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_View_Url $viewUrl
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         Mage_Core_Model_View_Url $viewUrl,
         Mage_Core_Model_View_FileSystem $viewFileSystem,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -395,7 +395,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     }
 
     /**
-     * @return Varien_Image
+     * @return Magento_Image
      */
     public function getImageProcessor()
     {
@@ -412,7 +412,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     }
 
     /**
-     * @see Varien_Image_Adapter_Abstract
+     * @see Magento_Image_Adapter_Abstract
      * @return Mage_Catalog_Model_Product_Image
      */
     public function resize()

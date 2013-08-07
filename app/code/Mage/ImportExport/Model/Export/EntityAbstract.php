@@ -20,7 +20,7 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
     /**#@+
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Varien_Data_Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Data_Collection';
     /**#@-*/
 
     /**#@+
@@ -144,7 +144,7 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
     /**
      * Address attributes collection
      *
-     * @var Varien_Data_Collection
+     * @var Magento_Data_Collection
      */
     protected $_attributeCollection;
 
@@ -259,9 +259,9 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
     /**
      * Iterate through given collection page by page and export items
      *
-     * @param Varien_Data_Collection_Db $collection
+     * @param Magento_Data_Collection_Db $collection
      */
-    protected function _exportCollectionByPages(Varien_Data_Collection_Db $collection)
+    protected function _exportCollectionByPages(Magento_Data_Collection_Db $collection)
     {
         $this->_byPagesIterator->iterate($collection, $this->_pageSize, array(array($this, 'exportItem')));
     }
@@ -284,14 +284,14 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
     /**
      * Get entity collection
      *
-     * @return Varien_Data_Collection_Db
+     * @return Magento_Data_Collection_Db
      */
     abstract protected function _getEntityCollection();
 
     /**
      * Entity attributes collection getter
      *
-     * @return Varien_Data_Collection
+     * @return Magento_Data_Collection
      */
     public function getAttributeCollection()
     {
@@ -301,10 +301,10 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
     /**
      * Clean up attribute collection
      *
-     * @param Varien_Data_Collection $collection
-     * @return Varien_Data_Collection
+     * @param Magento_Data_Collection $collection
+     * @return Magento_Data_Collection
      */
-    public function filterAttributeCollection(Varien_Data_Collection $collection)
+    public function filterAttributeCollection(Magento_Data_Collection $collection)
     {
         /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
         foreach ($collection as $attribute) {

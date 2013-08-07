@@ -45,10 +45,10 @@ class Enterprise_Pbridge_Model_Observer
     /**
      * Add HTTP header to response that allows browsers accept third-party cookies
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Pbridge_Model_Observer
      */
-    public function addPrivacyHeader(Varien_Event_Observer $observer)
+    public function addPrivacyHeader(Magento_Event_Observer $observer)
     {
         /* @var $controllerAction Mage_Core_Controller_Varien_Action */
         $controllerAction = $observer->getEvent()->getData('controller_action');
@@ -59,10 +59,10 @@ class Enterprise_Pbridge_Model_Observer
     /**
      * Check payment methods availability
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Pbridge_Model_Observer
      */
-    public function isPaymentMethodAvailable(Varien_Event_Observer $observer)
+    public function isPaymentMethodAvailable(Magento_Event_Observer $observer)
     {
         $method = $observer->getEvent()->getData('method_instance');
         /* @var $quote Mage_Sales_Model_Quote */
@@ -79,10 +79,10 @@ class Enterprise_Pbridge_Model_Observer
 
     /**
      * Update Payment Profiles functionality switcher
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Pbridge_Model_Observer
      */
-    public function updatePaymentProfileStatus(Varien_Event_Observer $observer)
+    public function updatePaymentProfileStatus(Magento_Event_Observer $observer)
     {
         $website = Mage::app()->getWebsite($observer->getEvent()->getData('website'));
         $braintreeEnabled = $website->getConfig('payment/braintree_basic/active')

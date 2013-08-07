@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Visibility extends Varien_Object
+class Mage_Catalog_Model_Product_Visibility extends Magento_Object
 {
     const VISIBILITY_NOT_VISIBLE    = 1;
     const VISIBILITY_IN_CATALOG     = 2;
@@ -144,7 +144,7 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
             $column['type']     = 'tinyint';
             $column['is_null']  = true;
         } else {
-            $column['type']     = Varien_Db_Ddl_Table::TYPE_SMALLINT;
+            $column['type']     = Magento_DB_Ddl_Table::TYPE_SMALLINT;
             $column['nullable'] = true;
             $column['comment']  = 'Catalog Product Visibility ' . $attributeCode . ' column';
         }
@@ -167,7 +167,7 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
      *
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param int $store
-     * @return Varien_Db_Select|null
+     * @return Magento_DB_Select|null
      */
     public function getFlatUpdateSelect($store)
     {

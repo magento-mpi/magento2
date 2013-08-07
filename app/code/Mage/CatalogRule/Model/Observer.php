@@ -24,7 +24,7 @@ class Mage_CatalogRule_Model_Observer
     /**
      * Apply all catalog price rules for specific product
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      * @return  Mage_CatalogRule_Model_Observer
      */
     public function applyAllRulesOnProduct($observer)
@@ -51,7 +51,7 @@ class Mage_CatalogRule_Model_Observer
      * Apply all price rules for current date.
      * Handle cataolg_product_import_after event
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      *
      * @return  Mage_CatalogRule_Model_Observer
      */
@@ -72,10 +72,10 @@ class Mage_CatalogRule_Model_Observer
      * Fire the same name process as catalog rule model
      * Event name "apply_catalog_price_rules"
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return Mage_CatalogRule_Model_Observer
      */
-    public function processApplyAll(Varien_Event_Observer $observer)
+    public function processApplyAll(Magento_Event_Observer $observer)
     {
         Mage::getModel('Mage_CatalogRule_Model_Rule')->applyAll();
         Mage::getModel('Mage_CatalogRule_Model_Flag')->loadSelf()
@@ -87,7 +87,7 @@ class Mage_CatalogRule_Model_Observer
     /**
      * Apply catalog price rules to product on frontend
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      *
      * @return  Mage_CatalogRule_Model_Observer
      */
@@ -133,7 +133,7 @@ class Mage_CatalogRule_Model_Observer
     /**
      * Apply catalog price rules to product in admin
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      *
      * @return  Mage_CatalogRule_Model_Observer
      */
@@ -176,11 +176,11 @@ class Mage_CatalogRule_Model_Observer
     /**
      * Calculate price using catalog price rules of configurable product
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      *
      * @return Mage_CatalogRule_Model_Observer
      */
-    public function catalogProductTypeConfigurablePrice(Varien_Event_Observer $observer)
+    public function catalogProductTypeConfigurablePrice(Magento_Event_Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
         if ($product instanceof Mage_Catalog_Model_Product
@@ -203,7 +203,7 @@ class Mage_CatalogRule_Model_Observer
      * This method is called from cron process, cron is working in UTC time and
      * we should generate data for interval -1 day ... +1 day
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      *
      * @return  Mage_CatalogRule_Model_Observer
      */
@@ -225,10 +225,10 @@ class Mage_CatalogRule_Model_Observer
     /**
      * Calculate minimal final price with catalog rule price
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_CatalogRule_Model_Observer
      */
-    public function prepareCatalogProductPriceIndexTable(Varien_Event_Observer $observer)
+    public function prepareCatalogProductPriceIndexTable(Magento_Event_Observer $observer)
     {
         $select             = $observer->getEvent()->getSelect();
 
@@ -306,11 +306,11 @@ class Mage_CatalogRule_Model_Observer
     /**
      * After save attribute if it is not used for promo rules already check rules for containing this attribute
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      *
      * @return Mage_CatalogRule_Model_Observer
      */
-    public function catalogAttributeSaveAfter(Varien_Event_Observer $observer)
+    public function catalogAttributeSaveAfter(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute->dataHasChangedFor('is_used_for_promo_rules') && !$attribute->getIsUsedForPromoRules()) {
@@ -323,10 +323,10 @@ class Mage_CatalogRule_Model_Observer
     /**
      * After delete attribute check rules that contains deleted attribute
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_CatalogRule_Model_Observer
      */
-    public function catalogAttributeDeleteAfter(Varien_Event_Observer $observer)
+    public function catalogAttributeDeleteAfter(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         if ($attribute->getIsUsedForPromoRules()) {
@@ -336,7 +336,7 @@ class Mage_CatalogRule_Model_Observer
         return $this;
     }
 
-    public function prepareCatalogProductCollectionPrices(Varien_Event_Observer $observer)
+    public function prepareCatalogProductCollectionPrices(Magento_Event_Observer $observer)
     {
         /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = $observer->getEvent()->getCollection();
@@ -383,9 +383,9 @@ class Mage_CatalogRule_Model_Observer
     /**
      * Create catalog rule relations for imported products
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function createCatalogRulesRelations(Varien_Event_Observer $observer)
+    public function createCatalogRulesRelations(Magento_Event_Observer $observer)
     {
         $adapter = $observer->getEvent()->getAdapter();
         $affectedEntityIds = $adapter->getAffectedEntityIds();

@@ -74,7 +74,7 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
             'comment' => 'test_comment',
         );
 
-        $this->_elementMock = $this->getMock('Varien_Data_Form_Element_Text',
+        $this->_elementMock = $this->getMock('Magento_Data_Form_Element_Text',
             array('getHtmlId' , 'getName', 'getExpanded', 'getElements', 'getLegend', 'getComment'),
             array(),
             '',
@@ -103,7 +103,7 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
         $this->_layoutMock->expects($this->any())->method('helper')
             ->with('Mage_Core_Helper_Js')->will($this->returnValue($helperMock));
 
-        $collection = $this->_testHelper->getObject('Varien_Data_Form_Element_Collection');
+        $collection = $this->_testHelper->getObject('Magento_Data_Form_Element_Collection');
         $this->_elementMock->expects($this->any())->method('getElements')->will($this->returnValue($collection));
         $actualHtml = $this->_object->render($this->_elementMock);
         $this->assertContains($this->_testData['htmlId'], $actualHtml);
@@ -120,7 +120,7 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
         $this->_layoutMock->expects($this->any())->method('helper')
             ->with('Mage_Core_Helper_Js')->will($this->returnValue($helperMock));
 
-        $fieldMock = $this->getMock('Varien_Data_Form_Element_Text',
+        $fieldMock = $this->getMock('Magento_Data_Form_Element_Text',
             array('getId', 'getTooltip', 'toHtml'),
             array(),
             '',
@@ -134,8 +134,8 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
         $fieldMock->expects($this->any())->method('toHtml')->will($this->returnValue('test_field_toHTML'));
 
         $helper = new Magento_Test_Helper_ObjectManager($this);
-        $collection = $helper->getObject('Varien_Data_Form_Element_Collection', array(
-            'container' => $this->getMock('Varien_Data_Form_Abstract')
+        $collection = $helper->getObject('Magento_Data_Form_Element_Collection', array(
+            'container' => $this->getMock('Magento_Data_Form_Abstract')
         ));
         $collection->add($fieldMock);
         $this->_elementMock->expects($this->any())->method('getElements')

@@ -46,7 +46,7 @@ class Mage_Webhook_Model_Job extends Mage_Core_Model_Abstract implements Magento
      * @param Mage_Webhook_Model_Subscription_Factory $subscriptionFactory
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -54,7 +54,7 @@ class Mage_Webhook_Model_Job extends Mage_Core_Model_Abstract implements Magento
         Mage_Webhook_Model_Subscription_Factory $subscriptionFactory,
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventFactory = $eventFactory;
@@ -140,8 +140,8 @@ class Mage_Webhook_Model_Job extends Mage_Core_Model_Abstract implements Magento
         if ($retryCount < count($this->_retryTimeToAdd)) {
             $addedTimeInMinutes = $this->_retryTimeToAdd[$retryCount + 1] * 60 + time();
             $this->setRetryCount($retryCount + 1);
-            $this->setRetryAt(Varien_Date::formatDate($addedTimeInMinutes));
-            $this->setUpdatedAt(Varien_Date::formatDate(time(), true));
+            $this->setRetryAt(Magento_Date::formatDate($addedTimeInMinutes));
+            $this->setUpdatedAt(Magento_Date::formatDate(time(), true));
             $this->setStatus(Magento_PubSub_JobInterface::RETRY);
         } else {
             $this->setStatus(Magento_PubSub_JobInterface::FAILED);

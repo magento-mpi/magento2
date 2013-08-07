@@ -17,10 +17,10 @@ class Enterprise_Reminder_Block_Adminhtml_Widget_Grid_Column_Renderer_Email
     /**
      * Render customer email as mailto link
      *
-     * @param   Varien_Object $row
+     * @param   Magento_Object $row
      * @return  string
      */
-    protected function _getValue(Varien_Object $row)
+    protected function _getValue(Magento_Object $row)
     {
         $customerEmail = $this->escapeHtml($row->getData($this->getColumn()->getIndex()));
         return '<a href="mailto:' . $customerEmail . '">' . $this->escapeHtml($customerEmail) . '</a>';

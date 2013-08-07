@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_Resource_Db_Profiler extends Varien_Db_Profiler
+class Mage_Core_Model_Resource_Db_Profiler extends Magento_DB_Profiler
 {
     /**
      * Default connection type for timer name creation

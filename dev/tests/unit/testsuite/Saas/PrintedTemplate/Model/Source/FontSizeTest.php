@@ -20,7 +20,7 @@ class Saas_PrintedTemplate_Model_Source_FontSizeTest extends PHPUnit_Framework_T
      */
     public function testToOptionArray($sizes, $expected)
     {
-        $configModel = new Varien_Object();
+        $configModel = new Magento_Object();
         $configModel->setFontSizesArray($sizes);
 
         $model = $this->getMockBuilder('Saas_PrintedTemplate_Model_Source_FontSize')

@@ -43,7 +43,7 @@ $rule->setData(array(
      * For some reason any values in columns from_date and to_date are ignored
      * This has to be fixed in scope of MAGE-5166
      *
-     * Also make sure that dates will be properly formatted through Varien_Db_Adapter_*::formatDate()
+     * Also make sure that dates will be properly formatted through Magento_DB_Adapter_*::formatDate()
      */
     'to_date' => date('Y-m-d', time() + 172800),
 ))->save();

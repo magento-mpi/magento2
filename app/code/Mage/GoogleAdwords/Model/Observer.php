@@ -39,10 +39,10 @@ class Mage_GoogleAdwords_Model_Observer
     /**
      * Set base grand total of order to registry
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_GoogleAdwords_Model_Observer
      */
-    public function setConversionValue(Varien_Event_Observer $observer)
+    public function setConversionValue(Magento_Event_Observer $observer)
     {
         if (!($this->_helper->isGoogleAdwordsActive() && $this->_helper->isDynamicConversionValue())) {
             return $this;

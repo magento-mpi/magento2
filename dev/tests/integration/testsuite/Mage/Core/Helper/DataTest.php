@@ -159,9 +159,9 @@ class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
             'customer_email' => 'admin@example.com',
             'customer_group_id' => '1',
         );
-        $source = new Varien_Object($data);
-        $target = new Varien_Object();
-        $expectedTarget = new Varien_Object($data);
+        $source = new Magento_Object($data);
+        $target = new Magento_Object();
+        $expectedTarget = new Magento_Object($data);
         $expectedTarget->setDataChanges(true); // hack for assertion
 
         $this->assertFalse($this->_helper->copyFieldset($fieldset, $aspect, 'invalid_source', array()));
@@ -186,16 +186,16 @@ class Mage_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
         // arrays
         $this->assertEquals($decorated, $this->_helper->decorateArray($original, ''));
 
-        // Varien_Object
+        // Magento_Object
         $sample = array(
-            new Varien_Object($original[0]),
-            new Varien_Object($original[1]),
-            new Varien_Object($original[2]),
+            new Magento_Object($original[0]),
+            new Magento_Object($original[1]),
+            new Magento_Object($original[2]),
         );
         $decoratedVo = array(
-            new Varien_Object($decorated[0]),
-            new Varien_Object($decorated[1]),
-            new Varien_Object($decorated[2]),
+            new Magento_Object($decorated[0]),
+            new Magento_Object($decorated[1]),
+            new Magento_Object($decorated[2]),
         );
         foreach ($decoratedVo as $obj) {
             $obj->setDataChanges(true); // hack for assertion

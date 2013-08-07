@@ -15,7 +15,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Sales_Model_Order_Total_Abstract extends Varien_Object
+abstract class Mage_Sales_Model_Order_Total_Abstract extends Magento_Object
 {
     /**
      * Process model configuration array.

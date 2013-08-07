@@ -439,12 +439,12 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
                 </block>
             </catalogsearch_test>
         </layout>';
-        $layout = simplexml_load_string($layout, 'Varien_Simplexml_Element');
+        $layout = simplexml_load_string($layout, 'Magento_Simplexml_Element');
         $block = $layout->xpath('catalogsearch_test/block/block');
         $block = $block[0];
         return array(
             array(
-                simplexml_load_string('<node module="Notexisting_Module">test</node>', 'Varien_Simplexml_Element'),
+                simplexml_load_string('<node module="Notexisting_Module">test</node>', 'Magento_Simplexml_Element'),
                 'core'
             ),
             array($block, 'core'),

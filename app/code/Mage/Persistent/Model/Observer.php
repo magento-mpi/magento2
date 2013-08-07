@@ -28,7 +28,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Apply persistent data
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Persistent_Model_Observer
      */
     public function applyPersistentData($observer)
@@ -49,7 +49,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Apply persistent data to specific block
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Persistent_Model_Observer
      */
     public function applyBlockPersistentData($observer)
@@ -126,7 +126,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Emulate quote by persistent data
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function emulateQuote($observer)
     {
@@ -163,7 +163,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Set persistent data into quote
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function setQuotePersistentData($observer)
     {
@@ -186,7 +186,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Set quote to be loaded even if not active
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function setLoadPersistentQuote($observer)
     {
@@ -204,7 +204,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Prevent clear checkout session
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function preventClearCheckoutSession($observer)
     {
@@ -218,7 +218,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Make persistent quote to be guest
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function makePersistentQuoteGuest($observer)
     {
@@ -232,7 +232,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Check if checkout session should NOT be cleared
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return bool|Mage_Persistent_IndexController
      */
     protected function _checkClearCheckoutSessionNecessity($observer)
@@ -253,7 +253,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Reset session data when customer re-authenticates
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function customerAuthenticatedEvent($observer)
     {
@@ -272,7 +272,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Unset persistent cookie and make customer's quote as a guest
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function removePersistentCookie($observer)
     {
@@ -293,7 +293,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Disable guest checkout if we are in persistent mode
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function disableGuestCheckout($observer)
     {
@@ -305,7 +305,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Prevent express checkout with Google checkout and PayPal Express checkout
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function preventExpressCheckout($observer)
     {
@@ -445,9 +445,9 @@ class Mage_Persistent_Model_Observer
     /**
      * Check and clear session data if persistent session expired
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function checkExpirePersistentQuote(Varien_Event_Observer $observer)
+    public function checkExpirePersistentQuote(Magento_Event_Observer $observer)
     {
         if (!Mage::helper('Mage_Persistent_Helper_Data')->canProcess($observer)) {
             return;
@@ -509,16 +509,16 @@ class Mage_Persistent_Model_Observer
     /**
      * Update customer id and customer group id if user is in persistent session
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function updateCustomerCookies(Varien_Event_Observer $observer)
+    public function updateCustomerCookies(Magento_Event_Observer $observer)
     {
         if (!$this->_isPersistent()) {
             return;
         }
 
         $customerCookies = $observer->getEvent()->getCustomerCookies();
-        if ($customerCookies instanceof Varien_Object) {
+        if ($customerCookies instanceof Magento_Object) {
             $persistentCustomer = $this->_getPersistentCustomer();
             $customerCookies->setCustomerId($persistentCustomer->getId());
             $customerCookies->setCustomerGroupId($persistentCustomer->getGroupId());
@@ -528,7 +528,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Set persistent data to customer session
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Persistent_Model_Observer
      */
     public function emulateCustomer($observer)

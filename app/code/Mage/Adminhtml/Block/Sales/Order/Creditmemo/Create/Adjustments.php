@@ -19,7 +19,7 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments extends Mag
     {
         $parent = $this->getParentBlock();
         $this->_source  = $parent->getSource();
-        $total = new Varien_Object(array(
+        $total = new Magento_Object(array(
             'code'      => 'agjustments',
             'block_name'=> $this->getNameInLayout()
         ));

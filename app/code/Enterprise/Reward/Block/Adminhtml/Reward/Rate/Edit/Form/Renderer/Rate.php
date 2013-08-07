@@ -18,17 +18,17 @@
  */
 class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form_Renderer_Rate
     extends Mage_Adminhtml_Block_Template
-    implements Varien_Data_Form_Element_Renderer_Interface
+    implements Magento_Data_Form_Element_Renderer_Interface
 {
     protected $_template = 'rate/form/renderer/rate.phtml';
 
     /**
      * Return HTML
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
         return $this->toHtml();

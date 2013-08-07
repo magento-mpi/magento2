@@ -38,7 +38,7 @@ class Mage_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
      */
     public function testSetLocaleWithBaseInterfaceLocale()
     {
-        $user = new Varien_Object();
+        $user = new Magento_Object();
         $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         $session->setUser($user);
         Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->setInterfaceLocale('fr_FR');

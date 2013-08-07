@@ -67,7 +67,7 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController
      */
     public function configureAction()
     {
-        $configureResult = new Varien_Object();
+        $configureResult = new Magento_Object();
         try {
             $this->_initData();
 
@@ -97,11 +97,11 @@ class Mage_Adminhtml_Customer_Wishlist_Product_Composite_WishlistController
     public function updateAction()
     {
         // Update wishlist item
-        $updateResult = new Varien_Object();
+        $updateResult = new Magento_Object();
         try {
             $this->_initData();
 
-            $buyRequest = new Varien_Object($this->getRequest()->getParams());
+            $buyRequest = new Magento_Object($this->getRequest()->getParams());
 
             $this->_wishlist
                 ->updateItem($this->_wishlistItem->getId(), $buyRequest)

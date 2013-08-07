@@ -235,11 +235,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Authorize
      *
-     * @param   Varien_Object $payment
+     * @param   Magento_Object $payment
      * @param   float $amount
      * @return  Mage_Payment_Model_Abstract
      */
-    public function authorize(Varien_Object $payment, $amount)
+    public function authorize(Magento_Object $payment, $amount)
     {
 //        parent::authorize($payment, $amount);
         $order = $payment->getOrder();
@@ -291,10 +291,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Cancel payment
      *
-     * @param   Varien_Object $payment
+     * @param   Magento_Object $payment
      * @return  Mage_Payment_Model_Abstract
      */
-    public function cancel(Varien_Object $payment)
+    public function cancel(Magento_Object $payment)
     {
         parent::cancel($payment);
         return $this;
@@ -303,11 +303,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Capture payment
      *
-     * @param   Varien_Object $payment
+     * @param   Magento_Object $payment
      * @param   float $amount
      * @return  Mage_Payment_Model_Abstract
      */
-    public function capture(Varien_Object $payment, $amount)
+    public function capture(Magento_Object $payment, $amount)
     {
         //parent::capture($payment, $amount);
 
@@ -344,11 +344,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Refund money
      *
-     * @param   Varien_Object $payment
+     * @param   Magento_Object $payment
      * @param   float $amount
      * @return  Mage_Payment_Model_Abstract
      */
-    public function refund(Varien_Object $payment, $amount)
+    public function refund(Magento_Object $payment, $amount)
     {
         //parent::refund($payment, $amount);
 
@@ -389,10 +389,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Void payment
      *
-     * @param   Varien_Object $payment
+     * @param   Magento_Object $payment
      * @return  Mage_Payment_Model_Abstract
      */
-    public function void(Varien_Object $payment)
+    public function void(Magento_Object $payment)
     {
         //parent::void($payment);
 
@@ -495,11 +495,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Return Api request object
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _getApiRequest()
     {
-        $request = new Varien_Object();
+        $request = new Magento_Object();
         $request->setCountryCode(Mage::getStoreConfig(self::XML_CONFIG_PATH_DEFAULT_COUNTRY));
         $request->setClientIdentifier($this->_getCustomerIdentifier());
 

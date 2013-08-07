@@ -20,11 +20,11 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Renderer_Download
     /**
      * Renders grid column
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      *
      * @return mixed
      */
-    public function _getValue(Varien_Object $row)
+    public function _getValue(Magento_Object $row)
     {
         return '<a href="' . $this->getUrl('*/*/download', array('basename' => $row->getBasename())) . '">'
                . $row->getBasename() . '</a>';

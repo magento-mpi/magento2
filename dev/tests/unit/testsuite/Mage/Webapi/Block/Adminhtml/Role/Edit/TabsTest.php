@@ -106,7 +106,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framework_T
     {
         return array(
             array(
-                new Varien_Object(array(
+                new Magento_Object(array(
                     'role_id' => 1,
                     'role_name' => 'some_role'
                 )),

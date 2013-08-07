@@ -78,7 +78,7 @@ class Find_Feed_Model_Import extends Mage_Core_Model_Abstract
 
         $headers = array_keys($attributes);
 
-        $file = new Varien_Io_File;
+        $file = new Magento_Io_File;
         $file->checkAndCreateFolder($dir);
         $file->cd($dir);
         $file->streamOpen($fileName, 'w+');
@@ -245,7 +245,7 @@ class Find_Feed_Model_Import extends Mage_Core_Model_Abstract
     protected function _deleteFile($fileName)
     {
         $dir  = $this->_getTmpDir();
-        $file = new Varien_Io_File;
+        $file = new Magento_Io_File;
         if ($file->fileExists($dir . $fileName, true)) {
             $file->cd($dir);
             $file->rm($fileName);

@@ -19,7 +19,7 @@ class Enterprise_Logging_Model_Processor
     /**
      * current event config
      *
-     * @var Varien_Simplexml_Element
+     * @var Magento_Simplexml_Element
      */
     protected $_eventConfig;
 

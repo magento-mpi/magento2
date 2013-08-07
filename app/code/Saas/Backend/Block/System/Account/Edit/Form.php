@@ -40,7 +40,7 @@ class Saas_Backend_Block_System_Account_Edit_Form extends Mage_Adminhtml_Block_S
     {
         parent::_prepareForm();
 
-        /** @var Varien_Data_Form_Element_Fieldset $fieldset */
+        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
         $fieldset = $this->getForm()->getElement('base_fieldset');
         $element = $fieldset->getElements()->searchById('interface_locale');
 

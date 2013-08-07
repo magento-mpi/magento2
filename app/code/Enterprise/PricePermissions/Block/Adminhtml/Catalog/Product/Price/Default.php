@@ -21,10 +21,10 @@ class Enterprise_PricePermissions_Block_Adminhtml_Catalog_Product_Price_Default
     /**
      * Render Default Product Price field as disabled if user does not have enough permissions
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         if (!Mage::helper('Enterprise_PricePermissions_Helper_Data')->getCanAdminEditProductPrice()) {
             $element->setReadonly(true, true);

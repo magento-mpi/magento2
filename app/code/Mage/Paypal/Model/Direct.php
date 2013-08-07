@@ -157,7 +157,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Direct
      */
-    public function authorize(Varien_Object $payment, $amount)
+    public function authorize(Magento_Object $payment, $amount)
     {
         return $this->_placeOrder($payment, $amount);
     }
@@ -168,7 +168,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Direct
      */
-    public function void(Varien_Object $payment)
+    public function void(Magento_Object $payment)
     {
         $this->_pro->void($payment);
         return $this;
@@ -180,7 +180,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Direct
      */
-    public function capture(Varien_Object $payment, $amount)
+    public function capture(Magento_Object $payment, $amount)
     {
         if (false === $this->_pro->capture($payment, $amount)) {
             $this->_placeOrder($payment, $amount);
@@ -194,7 +194,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Direct
      */
-    public function refund(Varien_Object $payment, $amount)
+    public function refund(Magento_Object $payment, $amount)
     {
         $this->_pro->refund($payment, $amount);
         return $this;
@@ -206,7 +206,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Direct
      */
-    public function cancel(Varien_Object $payment)
+    public function cancel(Magento_Object $payment)
     {
         $this->void($payment);
 
@@ -366,10 +366,10 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     /**
      * Check void availability
      *
-     * @param   Varien_Object $payment
+     * @param   Magento_Object $payment
      * @return  bool
      */
-    public function canVoid(Varien_Object $payment)
+    public function canVoid(Magento_Object $payment)
     {
         if ($payment instanceof Mage_Sales_Model_Order_Invoice
             || $payment instanceof Mage_Sales_Model_Order_Creditmemo

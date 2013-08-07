@@ -17,7 +17,7 @@ class Mage_Backend_Model_Observer
     /**
      * Bind locale
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Backend_Model_Observer
      */
     public function bindLocale($observer)
@@ -72,10 +72,10 @@ class Mage_Backend_Model_Observer
     /**
      * Set url class name for store 'admin'
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Backend_Model_Observer
      */
-    public function setUrlClassName(Varien_Event_Observer $observer)
+    public function setUrlClassName(Magento_Event_Observer $observer)
     {
         /** @var $storeCollection Mage_Core_Model_Resource_Store_Collection */
         $storeCollection = $observer->getEvent()->getStoreCollection();

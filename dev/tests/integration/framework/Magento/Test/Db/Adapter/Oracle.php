@@ -12,7 +12,7 @@
 /**
  * See Magento_Test_Db_Adapter_TransactionInterface
  */
-class Magento_Test_Db_Adapter_Oracle extends Varien_Db_Adapter_Oracle
+class Magento_Test_Db_Adapter_Oracle extends Magento_DB_Adapter_Oracle
     implements Magento_Test_Db_Adapter_TransactionInterface
 {
     /**

@@ -12,7 +12,7 @@
 class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Varien_Event_Observer
+     * @var Magento_Event_Observer
      */
     protected $_observer;
 
@@ -52,7 +52,7 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $currentProduct->expects($this->never())
             ->method('getTypeInstance');
 
-        $this->_setObserverExpectedMethods($currentProduct, new Varien_Object());
+        $this->_setObserverExpectedMethods($currentProduct, new Magento_Object());
 
         $this->_model->duplicateProduct($this->_observer);
     }
@@ -74,7 +74,7 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(array()));
         $typeInstance->expects($this->once())
             ->method('getSamples')
-            ->will($this->returnValue(new Varien_Object()));
+            ->will($this->returnValue(new Magento_Object()));
 
         $currentProduct->expects($this->once())
             ->method('getTypeInstance')
@@ -102,9 +102,9 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $samples = $this->_getSamples();
 
-        $getLinks = new Varien_Object($links);
+        $getLinks = new Magento_Object($links);
 
-        $getSamples = new Varien_Object($samples);
+        $getSamples = new Magento_Object($samples);
 
         $typeInstance = $this->getMock('Mage_Downloadable_Model_Product_Type',
             array('getLinks', 'getSamples'), array(), '', false);
@@ -176,7 +176,7 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     protected function _setObserverExpectedMethods($currentProduct, $newProduct)
     {
-        $this->_observer = $this->getMock('Varien_Event_Observer',
+        $this->_observer = $this->getMock('Magento_Event_Observer',
             array('getCurrentProduct', 'getNewProduct'), array(), '', false);
         $this->_observer->expects($this->once())
             ->method('getCurrentProduct')

@@ -89,8 +89,8 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
                 $params = json_decode(base64_decode(urldecode($gaData)), true);
                 if ($params) {
                     try {
-                        /** @var $httpClient Varien_Http_Client */
-                        $httpClient = $this->_objectManager->create('Varien_Http_Client');
+                        /** @var $httpClient Magento_HTTP_ZendClient */
+                        $httpClient = $this->_objectManager->create('Magento_HTTP_ZendClient');
                         $response = $httpClient->setUri(Mage_Adminhtml_Block_Dashboard_Graph::API_URL)
                             ->setParameterGet($params)
                             ->setConfig(array('timeout' => 5))

@@ -73,15 +73,15 @@ class Enterprise_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestC
             ->will($this->returnValue(array(10 => 'Devs', 20 => 'QAs')))
         ;
 
-        $form = new Varien_Data_Form(array('html_id_prefix' => 'pfx_'));
-        $data = new Varien_Object($fixtureFormData);
+        $form = new Magento_Data_Form(array('html_id_prefix' => 'pfx_'));
+        $data = new Magento_Object($fixtureFormData);
         $dependencies = $this->getMock(
             'Mage_Backend_Block_Widget_Form_Element_Dependence',
             array('addFieldMap', 'addFieldDependence'),
             array(), '', false
         );
 
-        $fieldset = new Varien_Data_Form_Element_Fieldset(array('advancedSection' => 'Additional Settings'));
+        $fieldset = new Magento_Data_Form_Element_Fieldset(array('advancedSection' => 'Additional Settings'));
         $fieldset->setId('base_fieldset');
         $form->addElement($fieldset);
 
@@ -108,17 +108,17 @@ class Enterprise_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestC
 
         $this->assertEquals($expectedUseSegments, $data->getData('use_customer_segment'));
 
-        /** @var Varien_Data_Form_Element_Select $useSegmentElement */
+        /** @var Magento_Data_Form_Element_Select $useSegmentElement */
         $useSegmentElement = $form->getElement('use_customer_segment');
-        $this->assertInstanceOf('Varien_Data_Form_Element_Select', $useSegmentElement);
+        $this->assertInstanceOf('Magento_Data_Form_Element_Select', $useSegmentElement);
         $this->assertEquals('use_customer_segment', $useSegmentElement->getData('name'));
         $this->assertEquals('Customer Segments', $useSegmentElement->getData('label'));
         $this->assertEquals(array('0' => 'All', '1' => 'Specified'), $useSegmentElement->getData('options'));
         $this->assertEquals($expectedSegmentNote, $useSegmentElement->getData('note'));
 
-        /** @var Varien_Data_Form_Element_Multiselect $segmentIdsElement */
+        /** @var Magento_Data_Form_Element_Multiselect $segmentIdsElement */
         $segmentIdsElement = $form->getElement('customer_segment_ids');
-        $this->assertInstanceOf('Varien_Data_Form_Element_Multiselect', $segmentIdsElement);
+        $this->assertInstanceOf('Magento_Data_Form_Element_Multiselect', $segmentIdsElement);
         $this->assertEquals('customer_segment_ids', $segmentIdsElement->getData('name'));
         $this->assertEquals(array(10 => 'Devs', 20 => 'QAs'), $segmentIdsElement->getData('values'));
         $this->assertTrue($segmentIdsElement->getData('required'));
@@ -148,8 +148,8 @@ class Enterprise_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestC
 
         $this->_segmentCollection->expects($this->never())->method('toOptionArray');
 
-        $form = new Varien_Data_Form(array('html_id_prefix' => 'pfx_'));
-        $data = new Varien_Object();
+        $form = new Magento_Data_Form(array('html_id_prefix' => 'pfx_'));
+        $data = new Magento_Object();
         $dependencies = $this->getMock(
             'Mage_Backend_Block_Widget_Form_Element_Dependence',
             array('addFieldMap', 'addFieldDependence'),

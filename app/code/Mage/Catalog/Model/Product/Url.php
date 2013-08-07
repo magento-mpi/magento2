@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Url extends Varien_Object
+class Mage_Catalog_Model_Product_Url extends Magento_Object
 {
     const CACHE_TAG = 'url_rewrite';
 

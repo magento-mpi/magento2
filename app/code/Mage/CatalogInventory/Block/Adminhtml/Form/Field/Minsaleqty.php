@@ -61,9 +61,9 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Minsaleqty
     /**
      * Prepare existing row data object
      *
-     * @param Varien_Object
+     * @param Magento_Object
      */
-    protected function _prepareArrayRow(Varien_Object $row)
+    protected function _prepareArrayRow(Magento_Object $row)
     {
         $row->setData(
             'option_extra_attr_' . $this->_getGroupRenderer()->calcOptionHash($row->getData('customer_group_id')),

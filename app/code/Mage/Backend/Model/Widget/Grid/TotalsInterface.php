@@ -14,8 +14,8 @@ interface Mage_Backend_Model_Widget_Grid_TotalsInterface
      * Return object contains totals for all items in collection
      *
      * @abstract
-     * @param Varien_Data_Collection $collection
-     * @return Varien_Object
+     * @param Magento_Data_Collection $collection
+     * @return Magento_Object
      */
     public function countTotals($collection);
 }

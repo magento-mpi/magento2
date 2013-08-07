@@ -15,7 +15,7 @@ $installer->getConnection()->modifyColumn(
     $installer->getTable('social_facebook_actions'),
     'facebook_action',
     array(
-        'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
         'length'    => 100,
         'nullable'  => false,
         'comment'   => 'User Action'

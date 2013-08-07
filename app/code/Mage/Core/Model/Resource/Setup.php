@@ -26,21 +26,21 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
     /**
      * Setup resource configuration object
      *
-     * @var Varien_Simplexml_Element
+     * @var Magento_Simplexml_Element
      */
     protected $_resourceConfig;
 
     /**
      * Connection configuration object
      *
-     * @var Varien_Simplexml_Element
+     * @var Magento_Simplexml_Element
      */
     protected $_connectionConfig;
 
     /**
      * Setup module configuration object
      *
-     * @var Varien_Simplexml_Element
+     * @var Magento_Simplexml_Element
      */
     protected $_moduleConfig;
 
@@ -54,7 +54,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
     /**
      * Setup Connection
      *
-     * @var Varien_Db_Adapter_Pdo_Mysql
+     * @var Magento_DB_Adapter_Pdo_Mysql
      */
     protected $_conn;
     /**
@@ -140,7 +140,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
     /**
      * Get connection object
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     public function getConnection()
     {

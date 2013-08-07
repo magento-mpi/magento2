@@ -38,7 +38,7 @@ class Mage_GoogleShopping_Model_Resource_Type_Collection extends Mage_Core_Model
    /**
     * Get SQL for get record count
     *
-    * @return Varien_Db_Select
+    * @return Magento_DB_Select
     */
    public function getSelectCountSql()
    {

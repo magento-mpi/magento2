@@ -183,7 +183,7 @@ class Mage_Paypal_Model_Info
     /**
      * Grab data from source and map it into payment
      *
-     * @param array|Varien_Object|callback $from
+     * @param array|Magento_Object|callback $from
      * @param Mage_Payment_Model_Info $payment
      */
     public function importToPayment($from, Mage_Payment_Model_Info $payment)
@@ -192,21 +192,21 @@ class Mage_Paypal_Model_Info
         if (is_object($from)) {
             $from = array($from, 'getDataUsingMethod');
         }
-        Varien_Object_Mapper::accumulateByMap($from, array($payment, 'setAdditionalInformation'), $fullMap);
+        Magento_Object_Mapper::accumulateByMap($from, array($payment, 'setAdditionalInformation'), $fullMap);
     }
 
     /**
      * Grab data from payment and map it into target
      *
      * @param Mage_Payment_Model_Info $payment
-     * @param array|Varien_Object|callback $to
+     * @param array|Magento_Object|callback $to
      * @param array $map
-     * @return array|Varien_Object
+     * @return array|Magento_Object
      */
     public function &exportFromPayment(Mage_Payment_Model_Info $payment, $to, array $map = null)
     {
         $fullMap = array_merge($this->_paymentMap, $this->_systemMap);
-        Varien_Object_Mapper::accumulateByMap(array($payment, 'getAdditionalInformation'), $to,
+        Magento_Object_Mapper::accumulateByMap(array($payment, 'getAdditionalInformation'), $to,
             $map ? $map : array_flip($fullMap)
         );
         return $to;

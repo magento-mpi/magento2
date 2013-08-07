@@ -46,8 +46,6 @@ try {
     $compilationDirs = array(
         $rootDir . DS . 'app/code',
         $rootDir . '/lib/Magento',
-        $rootDir . '/lib/Mage',
-        $rootDir . '/lib/Varien',
         $generationDir,
     );
 

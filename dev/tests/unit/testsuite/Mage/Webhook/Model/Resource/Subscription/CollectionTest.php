@@ -39,7 +39,7 @@ class Mage_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit_Fr
         $this->_selectMock->expects($this->any())
             ->method('from')
             ->with(array('main_table' => null));
-        $this->_connectionMock = $this->_makeMock('Varien_Db_Adapter_Pdo_Mysql');
+        $this->_connectionMock = $this->_makeMock('Magento_DB_Adapter_Pdo_Mysql');
 
         $this->_connectionMock->expects($this->any())
             ->method('select')
@@ -50,7 +50,7 @@ class Mage_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit_Fr
         $configResourceMock = $this->_makeMock('Mage_Core_Model_Config_Resource');
 
         // Arguments to collection constructor
-        $this->_fetchStrategyMock = $this->_makeMock('Varien_Data_Collection_Db_FetchStrategyInterface');
+        $this->_fetchStrategyMock = $this->_makeMock('Magento_Data_Collection_Db_FetchStrategyInterface');
         $this->_endpointResMock = $this->_makeMock('Mage_Webhook_Model_Resource_Endpoint');
         $this->_resourceMock = $this-> _makeMock('Mage_Webhook_Model_Resource_Subscription');
         $this->_resourceMock->expects($this->any())

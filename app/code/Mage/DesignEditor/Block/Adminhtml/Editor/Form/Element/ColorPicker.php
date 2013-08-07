@@ -18,7 +18,7 @@
  * @method string getNote()
  * @method Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker setCssClass($class)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker extends Varien_Data_Form_Element_Abstract
+class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker extends Magento_Data_Form_Element_Abstract
 {
     /**
      * Control type

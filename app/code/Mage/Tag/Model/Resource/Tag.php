@@ -76,7 +76,7 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!$object->getId() && $object->getStatus() == $object->getApprovedStatus()) {
-            $searchTag = new Varien_Object();
+            $searchTag = new Magento_Object();
             $this->loadByName($searchTag, $object->getName());
             if ($searchTag->getData($this->getIdFieldName())
                     && $searchTag->getStatus() == $object->getPendingStatus()) {

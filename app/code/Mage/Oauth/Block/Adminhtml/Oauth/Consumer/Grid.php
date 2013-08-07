@@ -34,7 +34,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Mage_Adminhtml_Bloc
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
         $this->setDefaultSort('entity_id')
-            ->setDefaultDir(Varien_Db_Select::SQL_DESC);
+            ->setDefaultDir(Magento_DB_Select::SQL_DESC);
 
         $this->_editAllow = $this->_authorization->isAllowed('Mage_Oauth::consumer_edit');
     }

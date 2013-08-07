@@ -29,7 +29,7 @@ class Enterprise_CustomerSegment_Model_Resource_Report_Customer_Collection
     /**
      * Subquery for filter
      *
-     * @var Varien_Db_Select
+     * @var Magento_DB_Select
      */
     protected $_subQuery     = null;
 
@@ -81,7 +81,7 @@ class Enterprise_CustomerSegment_Model_Resource_Report_Customer_Collection
      * Rerieve union sub-query
      *
      * @param array|int $segment
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getUnionQuery($segment)
     {
@@ -100,7 +100,7 @@ class Enterprise_CustomerSegment_Model_Resource_Report_Customer_Collection
      * Rerieve intersect sub-query
      *
      * @param array $segment
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getIntersectQuery($segment)
     {

@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
-class Enterprise_Checkout_Model_Import extends Varien_Object
+class Enterprise_Checkout_Model_Import extends Magento_Object
 {
     /**
      * Form field name

@@ -16,7 +16,7 @@ class Mage_Adminhtml_DashboardControllerTest extends PHPUnit_Framework_TestCase
         $request->setParam('h', $fixture);
 
         $tunnelResponse = new Zend_Http_Response(200, array('Content-Type' => 'test_header'), 'success_msg');
-        $httpClient = $this->getMock('Varien_Http_Client', array('request'));
+        $httpClient = $this->getMock('Magento_HTTP_ZendClient', array('request'));
         $httpClient->expects($this->once())->method('request')->will($this->returnValue($tunnelResponse));
         /** @var $helper Mage_Adminhtml_Helper_Dashboard_Data|PHPUnit_Framework_MockObject_MockObject */
         $helper = $this->getMock('Mage_Adminhtml_Helper_Dashboard_Data',
@@ -31,7 +31,7 @@ class Mage_Adminhtml_DashboardControllerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($helper));
         $objectManager->expects($this->at(1))
             ->method('create')
-            ->with('Varien_Http_Client')
+            ->with('Magento_HTTP_ZendClient')
             ->will($this->returnValue($httpClient));
 
         $controller = $this->_factory($request, null, $objectManager);
@@ -68,7 +68,7 @@ class Mage_Adminhtml_DashboardControllerTest extends PHPUnit_Framework_TestCase
         $exceptionMock = new Exception();
         $objectManager->expects($this->at(1))
             ->method('create')
-            ->with('Varien_Http_Client')
+            ->with('Magento_HTTP_ZendClient')
             ->will($this->throwException($exceptionMock));
         $loggerMock = $this->getMock('Mage_Core_Model_Logger', array('logException'), array(), '', false);
         $loggerMock->expects($this->once())->method('logException')->with($exceptionMock);

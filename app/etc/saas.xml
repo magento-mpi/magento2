@@ -91,7 +91,7 @@
                     </loader>
                 </parameters>
             </Saas_Core_Model_Config_Storage_Locales>
-            <Magento_Http_Handler_Composite>
+            <Magento_HTTP_Handler_Composite>
                 <parameters>
                     <handlers>
                         <saas>
@@ -100,7 +100,7 @@
                         </saas>
                     </handlers>
                 </parameters>
-            </Magento_Http_Handler_Composite>
+            </Magento_HTTP_Handler_Composite>
             <Saas_Saas_Model_Cache>
                 <parameters>
                     <config>

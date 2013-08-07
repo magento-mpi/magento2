@@ -22,7 +22,7 @@
  * @method string getTime()
  * @method Mage_Backup_Model_Backup setTime() setTime($time)
  */
-class Mage_Backup_Model_Backup extends Varien_Object
+class Mage_Backup_Model_Backup extends Magento_Object
 {
     /* internal constants */
     const COMPRESS_RATE     = 9;

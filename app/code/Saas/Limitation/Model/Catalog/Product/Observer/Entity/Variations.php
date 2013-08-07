@@ -42,10 +42,10 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Entity_Variations
     /**
      * Restrict creation of new entity, if the limitation is reached
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @throws Mage_Catalog_Exception
      */
-    public function restrictCreation(Varien_Event_Observer $observer)
+    public function restrictCreation(Magento_Event_Observer $observer)
     {
         /** @var Mage_Catalog_Model_Product $entity */
         $entity = $observer->getEvent()->getData('product');

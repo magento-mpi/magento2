@@ -26,9 +26,9 @@ class Mage_GoogleAnalytics_Model_Observer
     /**
      * Add order information into GA block to render on checkout success pages
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function setGoogleAnalyticsOnOrderSuccessPageView(Varien_Event_Observer $observer)
+    public function setGoogleAnalyticsOnOrderSuccessPageView(Magento_Event_Observer $observer)
     {
         $orderIds = $observer->getEvent()->getOrderIds();
         if (empty($orderIds) || !is_array($orderIds)) {
@@ -48,9 +48,9 @@ class Mage_GoogleAnalytics_Model_Observer
      * There should be no tracking if there is no GA available
      * This method assumes that the observer instance is run as a "singleton" (through Mage::getSingleton())
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function injectAnalyticsInGoogleCheckoutLink(Varien_Event_Observer $observer)
+    public function injectAnalyticsInGoogleCheckoutLink(Magento_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getBlock();
         if (!$block || !Mage::helper('Mage_GoogleAnalytics_Helper_Data')->isGoogleAnalyticsAvailable()) {

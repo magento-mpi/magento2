@@ -24,19 +24,19 @@ class Mage_Eav_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_Help
      * @var array
      */
     protected $_ddlColumnTypes      = array(
-        Varien_Db_Ddl_Table::TYPE_BOOLEAN       => 'bit',
-        Varien_Db_Ddl_Table::TYPE_SMALLINT      => 'smallint',
-        Varien_Db_Ddl_Table::TYPE_INTEGER       => 'int',
-        Varien_Db_Ddl_Table::TYPE_BIGINT        => 'bigint',
-        Varien_Db_Ddl_Table::TYPE_FLOAT         => 'float',
-        Varien_Db_Ddl_Table::TYPE_DECIMAL       => 'decimal',
-        Varien_Db_Ddl_Table::TYPE_NUMERIC       => 'decimal',
-        Varien_Db_Ddl_Table::TYPE_DATE          => 'datetime',
-        Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'datetime',
-        Varien_Db_Ddl_Table::TYPE_DATETIME      => 'datetime',
-        Varien_Db_Ddl_Table::TYPE_TEXT          => 'text',
-        Varien_Db_Ddl_Table::TYPE_BLOB          => 'text',
-        Varien_Db_Ddl_Table::TYPE_VARBINARY     => 'varbinary'
+        Magento_DB_Ddl_Table::TYPE_BOOLEAN       => 'bit',
+        Magento_DB_Ddl_Table::TYPE_SMALLINT      => 'smallint',
+        Magento_DB_Ddl_Table::TYPE_INTEGER       => 'int',
+        Magento_DB_Ddl_Table::TYPE_BIGINT        => 'bigint',
+        Magento_DB_Ddl_Table::TYPE_FLOAT         => 'float',
+        Magento_DB_Ddl_Table::TYPE_DECIMAL       => 'decimal',
+        Magento_DB_Ddl_Table::TYPE_NUMERIC       => 'decimal',
+        Magento_DB_Ddl_Table::TYPE_DATE          => 'datetime',
+        Magento_DB_Ddl_Table::TYPE_TIMESTAMP     => 'datetime',
+        Magento_DB_Ddl_Table::TYPE_DATETIME      => 'datetime',
+        Magento_DB_Ddl_Table::TYPE_TEXT          => 'text',
+        Magento_DB_Ddl_Table::TYPE_BLOB          => 'text',
+        Magento_DB_Ddl_Table::TYPE_VARBINARY     => 'varbinary'
     );
 
     /**

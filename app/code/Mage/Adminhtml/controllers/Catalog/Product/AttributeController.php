@@ -136,7 +136,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
     public function validateAction()
     {
-        $response = new Varien_Object();
+        $response = new Magento_Object();
         $response->setError(false);
 
         $attributeCode = $this->getRequest()->getParam('attribute_code');

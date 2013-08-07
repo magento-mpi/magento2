@@ -17,7 +17,7 @@ class Mage_Adminhtml_Block_Api_Tab_Roleinfo extends Mage_Adminhtml_Block_Widget_
     {
         $roleId = $this->getRequest()->getParam('rid');
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Adminhtml_Helper_Data')->__('Role Information')));
 

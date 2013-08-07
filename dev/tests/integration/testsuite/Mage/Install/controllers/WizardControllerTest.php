@@ -27,7 +27,7 @@ class Mage_Install_WizardControllerTest extends Magento_Test_TestCase_Controller
         if (is_file($tmpDir)) {
             unlink($tmpDir);
         } elseif (is_dir($tmpDir)) {
-            Varien_Io_File::rmdirRecursive($tmpDir);
+            Magento_Io_File::rmdirRecursive($tmpDir);
         }
         // deliberately create a file instead of directory to emulate broken access to static directory
         touch($tmpDir);

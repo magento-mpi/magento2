@@ -17,7 +17,7 @@ class Mage_Core_Model_File_Storage_Synchronization
     /**
      * File stream handler
      *
-     * @var Varien_Io_File
+     * @var Magento_Io_File
      */
     protected $_streamFactory;
 

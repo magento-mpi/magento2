@@ -85,7 +85,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
 
     public function testGetObjectData()
     {
-        $object = new Varien_Object(array('key' => 'value'));
+        $object = new Magento_Object(array('key' => 'value'));
         $this->assertEquals('value', $this->_block->getObjectData($object, 'key'));
     }
 

@@ -38,21 +38,21 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
     {
         $collection = $this->_getFinanceCollectionMock();
 
-        $first  = new Varien_Object(array('id' => 9));
-        $second = new Varien_Object(array('id' => 10));
+        $first  = new Magento_Object(array('id' => 9));
+        $second = new Magento_Object(array('id' => 10));
 
         $collection->addItem($first);
         $collection->addItem($second);
 
-        /** @var $orderFirst Varien_Object */
-        /** @var $orderSecond Varien_Object */
+        /** @var $orderFirst Magento_Object */
+        /** @var $orderSecond Magento_Object */
 
-        $collection->setOrder('id', Varien_Data_Collection::SORT_ORDER_ASC);
+        $collection->setOrder('id', Magento_Data_Collection::SORT_ORDER_ASC);
         list($orderFirst, $orderSecond) = array_values($collection->getItems());
         $this->assertEquals($first->getId(), $orderFirst->getId());
         $this->assertEquals($second->getId(), $orderSecond->getId());
 
-        $collection->setOrder('id', Varien_Data_Collection::SORT_ORDER_DESC);
+        $collection->setOrder('id', Magento_Data_Collection::SORT_ORDER_DESC);
         list($orderFirst, $orderSecond) = array_values($collection->getItems());
         $this->assertEquals($second->getId(), $orderFirst->getId());
         $this->assertEquals($first->getId(), $orderSecond->getId());
@@ -65,8 +65,8 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
     {
         $collection = $this->_getFinanceCollectionMock();
         $collection->setOrder('id');
-        $first  = new Varien_Object(array('id' => 9));
-        $second = new Varien_Object(array('id' => 10));
+        $first  = new Magento_Object(array('id' => 9));
+        $second = new Magento_Object(array('id' => 10));
 
         $this->assertLessThan(0, $collection->compareAttributes($first, $second));
         $this->assertGreaterThan(0, $collection->compareAttributes($second, $first));

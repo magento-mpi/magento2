@@ -43,9 +43,9 @@ class Mage_GoogleOptimizer_Helper_FormTest extends PHPUnit_Framework_TestCase
                     return vsprintf($translated, $args);
                 }
             ));
-        $this->_formMock = $this->getMock('Varien_Data_Form', array('setFieldNameSuffix', 'addFieldset'), array(), '',
+        $this->_formMock = $this->getMock('Magento_Data_Form', array('setFieldNameSuffix', 'addFieldset'), array(), '',
             false);
-        $this->_fieldsetMock = $this->getMock('Varien_Data_Form_Element_Fieldset', array(), array(), '', false);
+        $this->_fieldsetMock = $this->getMock('Magento_Data_Form_Element_Fieldset', array(), array(), '', false);
         $this->_experimentCodeMock = $this->getMock('Mage_GoogleOptimizer_Model_Code',
             array('getExperimentScript', 'getCodeId'), array(), '', false);
 

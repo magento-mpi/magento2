@@ -85,7 +85,7 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
             $this->_types[$storeId] = array();
             foreach ($this->getNode('formats')->children() as $typeCode => $typeConfig) {
                 $path = sprintf('%s%s', self::XML_PATH_ADDRESS_TEMPLATE, $typeCode);
-                $type = new Varien_Object();
+                $type = new Magento_Object();
                 $escapeHtml = strtolower($typeConfig->escapeHtml);
                 $escapeHtml = $escapeHtml == 'false' || $escapeHtml == '0' || $escapeHtml == 'no'
                         || !strlen($typeConfig->escapeHtml) ? false : true;
@@ -113,14 +113,14 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
     /**
      * Retrieve default address format
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _getDefaultFormat()
     {
         $store = $this->getStore();
         $storeId = $store->getId();
         if(!isset($this->_defaultType[$storeId])) {
-            $this->_defaultType[$storeId] = new Varien_Object();
+            $this->_defaultType[$storeId] = new Magento_Object();
             $this->_defaultType[$storeId]->setCode('default')
                 ->setDefaultFormat('{{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}'
                         . '{{var middlename}} {{/depend}}{{var lastname}}{{depend suffix}} {{var suffix}}{{/depend}}, '
@@ -138,7 +138,7 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
      * Retrieve address format by code
      *
      * @param string $typeCode
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getFormatByCode($typeCode)
     {

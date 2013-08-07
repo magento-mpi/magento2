@@ -82,7 +82,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Totals
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_varTotals;
 
@@ -163,7 +163,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Set collection object
      *
-     * @param Varien_Data_Collection $collection
+     * @param Magento_Data_Collection $collection
      */
     public function setCollection($collection)
     {
@@ -173,7 +173,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Get collection object
      *
-     * @return Varien_Data_Collection
+     * @return Magento_Data_Collection
      */
     public function getCollection()
     {
@@ -297,7 +297,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Get prepared collection
      *
-     * @return Varien_Data_Collection
+     * @return Magento_Data_Collection
      */
     public function getPreparedCollection()
     {
@@ -677,7 +677,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     public function addRssList($url, $label)
     {
-        $this->_rssLists[] = new Varien_Object(
+        $this->_rssLists[] = new Magento_Object(
             array(
                 'url'   => $this->_getRssUrl($url),
                 'label' => $label
@@ -803,9 +803,9 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Set totals
      *
-     * @param Varien_Object $totals
+     * @param Magento_Object $totals
      */
-    public function setTotals(Varien_Object $totals)
+    public function setTotals(Magento_Object $totals)
     {
         $this->_varTotals = $totals;
     }
@@ -813,7 +813,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Retrieve totals
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getTotals()
     {

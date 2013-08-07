@@ -11,7 +11,7 @@
 /**
  * Quick style file uploader
  */
-class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Varien_Object
+class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Magento_Object
 {
     /**
      * Quick style images path prefix

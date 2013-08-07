@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 class Mage_Reports_Model_Grouped_Collection
-    extends Varien_Data_Collection //Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Data_Collection //Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Column name for group by clause 
@@ -63,7 +63,7 @@ class Mage_Reports_Model_Grouped_Collection
     /**
      * Setter for resource collection
      *
-     * @param Varien_Data_Collection_Db $collection
+     * @param Magento_Data_Collection_Db $collection
      * @return Mage_Reports_Model_Grouped_Collection
      */
     public function setResourceCollection($collection)

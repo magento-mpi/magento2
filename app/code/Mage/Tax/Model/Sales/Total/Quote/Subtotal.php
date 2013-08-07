@@ -44,7 +44,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
     /**
      * Request which can be used for tax rate calculation
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_storeTaxRequest = null;
 
@@ -168,7 +168,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      * Calculate item price and row total including/excluding tax based on unit price rounding level
      *
      * @param Mage_Sales_Model_Quote_Item_Abstract $item
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return Mage_Tax_Model_Sales_Total_Quote_Subtotal
      */
     protected function _unitBaseCalculation($item, $request)
@@ -280,7 +280,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      * Calculate item price and row total including/excluding tax based on row total price rounding level
      *
      * @param Mage_Sales_Model_Quote_Item_Abstract $item
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return Mage_Tax_Model_Sales_Total_Quote_Subtotal
      */
     protected function _rowBaseCalculation($item, $request)
@@ -395,7 +395,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      * Calculate item price and row total including/excluding tax based on total price rounding level
      *
      * @param Mage_Sales_Model_Quote_Item_Abstract $item
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return Mage_Tax_Model_Sales_Total_Quote_Subtotal
      */
     protected function _totalBaseCalculation($item, $request)
@@ -550,7 +550,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      * Used only after collect() started, as far as uses optimized $_areTaxRequestsSimilar property
      * Used only in case of prices including tax
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return bool
      */
     protected function _sameRateAsStore($request)
@@ -629,7 +629,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      * Get request for fetching store tax rate
      *
      * @param   Mage_Sales_Model_Quote_Address $address
-     * @return  Varien_Object
+     * @return  Magento_Object
      */
     protected function _getStoreTaxRequest($address)
     {
@@ -643,7 +643,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      * Get request for fetching address tax rate
      *
      * @param   Mage_Sales_Model_Quote_Address $address
-     * @return  Varien_Object
+     * @return  Magento_Object
      */
     protected function _getAddressTaxRequest($address)
     {

@@ -170,11 +170,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Eway_Direct extends Mage_Payment_M
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @param float $amount
      * @return Enterprise_Pbridge_Model_Payment_Method_Authorizenet
      */
-    public function capture(Varien_Object $payment, $amount)
+    public function capture(Magento_Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {

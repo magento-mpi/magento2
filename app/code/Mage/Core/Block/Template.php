@@ -297,11 +297,11 @@ HTML;
     /**
      * Get data from specified object
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @param string $key
      * @return mixed
      */
-    public function getObjectData(Varien_Object $object, $key)
+    public function getObjectData(Magento_Object $object, $key)
     {
         return $object->getDataUsingMethod((string)$key);
     }

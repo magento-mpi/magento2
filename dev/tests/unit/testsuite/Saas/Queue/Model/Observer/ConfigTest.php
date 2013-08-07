@@ -42,7 +42,7 @@ class Saas_Queue_Model_Observer_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testRefreshCacheWithParams()
     {
-        $observer = new Varien_Event_Observer();
+        $observer = new Magento_Event_Observer();
         $this->_configMock->expects($this->once())->method('reinit');
         $this->_model->processReinitConfig($observer);
     }

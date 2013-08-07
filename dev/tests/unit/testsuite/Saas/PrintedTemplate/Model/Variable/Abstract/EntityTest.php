@@ -20,7 +20,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
      */
     public function testFormatCurrency($value, $expectedResult)
     {
-        $valueModel = new Varien_Object();
+        $valueModel = new Magento_Object();
         $order = $this->getMockBuilder('Mage_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->setMethods(array('formatPriceTxt'))
@@ -53,7 +53,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
      */
     public function testFormatEmptyCurrency()
     {
-        $valueModel = new Varien_Object();
+        $valueModel = new Magento_Object();
         $this->getMockBuilder('Mage_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->setMethods(array('formatPriceTxt'))
@@ -74,7 +74,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
      */
     public function testFormatBaseCurrency($value, $expectedResult)
     {
-        $valueModel = new Varien_Object();
+        $valueModel = new Magento_Object();
         $order = $this->getMockBuilder('Mage_Sales_Model_Order')
             ->disableOriginalConstructor()
             ->setMethods(array('formatBasePrice'))
@@ -124,7 +124,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
                 ->method('getParentItemId')
                 ->will($this->returnValue($valueItem['orderItemParentId']));
 
-            $item = new Varien_Object();
+            $item = new Magento_Object();
             $item->setOrderItemId($valueItem['orderItemId']);
             $item->setOrderItem($orderItem);
             $getItemsValueMap[] = array(
@@ -137,7 +137,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
             ->method('getItemsByColumnValue')
             ->will($this->returnValueMap($getItemsValueMap));
 
-        $valueModel = new Varien_Object();
+        $valueModel = new Magento_Object();
         $valueModel->setData(
             Saas_PrintedTemplate_Model_Variable_Abstract_Entity::TAXES_GROUPED_BY_PERCENT_CACHE_KEY,
             array('items_taxes' => $itemsTaxes)
@@ -243,7 +243,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
             ->method('getIterator')
             ->will($this->returnValue(new ArrayIterator($taxes)));
 
-        $valueModel = new Varien_Object();
+        $valueModel = new Magento_Object();
         $valueModel->setData(
             Saas_PrintedTemplate_Model_Variable_Abstract_Entity::TAXES_GROUPED_BY_PERCENT_CACHE_KEY,
             array('items_taxes' => $itemsTaxes, 'shipping_taxes' => $shippingTaxes)
@@ -313,7 +313,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
             ->disableOriginalConstructor()
             ->getMock();
 
-        $valueModel = new Varien_Object();
+        $valueModel = new Magento_Object();
         $valueModel->setData(
             Saas_PrintedTemplate_Model_Variable_Abstract_Entity::TAXES_GROUPED_BY_PERCENT_CACHE_KEY,
             array('items_taxes' => $itemsTaxesModel, 'shipping_taxes' => $shippingTaxesModel)
@@ -445,7 +445,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_EntityTest extends PHPUnit_Fr
             ->disableOriginalConstructor()
             ->getMock();
 
-        $taxItem = new Varien_Object;
+        $taxItem = new Magento_Object;
         foreach ($settings as $field => $value) {
             $taxItem->setData($field, $value);
         }

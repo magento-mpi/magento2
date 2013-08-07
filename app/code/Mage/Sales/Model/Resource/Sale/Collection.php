@@ -16,7 +16,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_Db
+class Mage_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collection_Db
 {
 
     /**
@@ -54,7 +54,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
      *
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Sales_Model_Resource_Order $resource
     ) {
         parent::__construct($fetchStrategy, $resource->getReadConnection());
@@ -101,7 +101,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
     /**
      * Before load action
      *
-     * @return Varien_Data_Collection_Db
+     * @return Magento_Data_Collection_Db
      */
     protected function _beforeLoad()
     {
@@ -143,7 +143,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
     /**
      * Load data
      *
-     * @return  Varien_Data_Collection_Db
+     * @return  Magento_Data_Collection_Db
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -168,7 +168,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
             ->toOptionHash();
         $this->_items = array();
         foreach ($data as $v) {
-            $storeObject = new Varien_Object($v);
+            $storeObject = new Magento_Object($v);
             $storeId     = $v['store_id'];
             $storeName   = isset($stores[$storeId]) ? $stores[$storeId] : null;
             $storeObject->setStoreName($storeName)
@@ -190,12 +190,12 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Varien_Data_Collection_D
     }
 
     /**
-     * Retrieve totals data converted into Varien_Object
+     * Retrieve totals data converted into Magento_Object
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getTotals()
     {
-        return new Varien_Object($this->_totals);
+        return new Magento_Object($this->_totals);
     }
 }

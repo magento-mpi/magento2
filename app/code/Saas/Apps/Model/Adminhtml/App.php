@@ -37,7 +37,7 @@ class Saas_Apps_Model_Adminhtml_App extends Mage_Core_Model_Abstract
     /**
      * Curl http adapter
      *
-     * @var Varien_Http_Adapter_Curl
+     * @var Magento_HTTP_Adapter_Curl
      */
     protected $_curl;
 
@@ -46,12 +46,12 @@ class Saas_Apps_Model_Adminhtml_App extends Mage_Core_Model_Abstract
      *
      * @param Mage_Core_Model_Context $context
      * @param Saas_Apps_Helper_Data $helper
-     * @param Varien_Http_Adapter_Curl $curl
+     * @param Magento_HTTP_Adapter_Curl $curl
      */
     public function __construct(
         Mage_Core_Model_Context $context,
         Saas_Apps_Helper_Data $helper,
-        Varien_Http_Adapter_Curl $curl
+        Magento_HTTP_Adapter_Curl $curl
     ) {
         $this->_helper = $helper;
         $this->_curl = $curl;

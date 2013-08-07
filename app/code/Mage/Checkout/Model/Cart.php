@@ -15,7 +15,7 @@
  * @package     Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Model_Cart_Interface
+class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_Model_Cart_Interface
 {
     /**
      * Shopping cart items summary quantity(s)
@@ -158,7 +158,7 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
             }
 
             $info = $orderItem->getProductOptionByCode('info_buyRequest');
-            $info = new Varien_Object($info);
+            $info = new Magento_Object($info);
             if (is_null($qtyFlag)) {
                 $info->setQty($orderItem->getQtyOrdered());
             } else {
@@ -201,16 +201,16 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
      * Get request for product add to cart procedure
      *
      * @param   mixed $requestInfo
-     * @return  Varien_Object
+     * @return  Magento_Object
      */
     protected function _getProductRequest($requestInfo)
     {
-        if ($requestInfo instanceof Varien_Object) {
+        if ($requestInfo instanceof Magento_Object) {
             $request = $requestInfo;
         } elseif (is_numeric($requestInfo)) {
-            $request = new Varien_Object(array('qty' => $requestInfo));
+            $request = new Magento_Object(array('qty' => $requestInfo));
         } else {
-            $request = new Varien_Object($requestInfo);
+            $request = new Magento_Object($requestInfo);
         }
 
         if (!$request->hasQty()) {
@@ -532,12 +532,12 @@ class Mage_Checkout_Model_Cart extends Varien_Object implements Mage_Checkout_Mo
 
     /**
      * Update item in shopping cart (quote)
-     * $requestInfo - either qty (int) or buyRequest in form of array or Varien_Object
+     * $requestInfo - either qty (int) or buyRequest in form of array or Magento_Object
      * $updatingParams - information on how to perform update, passed to Quote->updateItem() method
      *
      * @param int $itemId
-     * @param int|array|Varien_Object $requestInfo
-     * @param null|array|Varien_Object $updatingParams
+     * @param int|array|Magento_Object $requestInfo
+     * @param null|array|Magento_Object $updatingParams
      * @return Mage_Sales_Model_Quote_Item|string
      *
      * @see Mage_Sales_Model_Quote::updateItem()

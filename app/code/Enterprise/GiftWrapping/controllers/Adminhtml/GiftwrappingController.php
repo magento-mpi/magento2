@@ -109,7 +109,7 @@ class Enterprise_GiftWrapping_Adminhtml_GiftwrappingController extends Mage_Admi
                 $model = $this->_initModel();
                 $model->addData($wrappingRawData);
 
-                $data = new Varien_Object($wrappingRawData);
+                $data = new Magento_Object($wrappingRawData);
                 if ($data->getData('image_name/delete')) {
                     $model->setImage('');
                     // Delete temporary image if exists

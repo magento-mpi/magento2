@@ -193,7 +193,7 @@ abstract class Mage_Catalog_Model_Resource_Product_Indexer_Eav_Abstract
             'store_field'   => new Zend_Db_Expr('cs.store_id')
         ));
 
-        $query = $write->insertFromSelect($select, $idxTable, array(), Varien_Db_Adapter_Interface::INSERT_IGNORE);
+        $query = $write->insertFromSelect($select, $idxTable, array(), Magento_DB_Adapter_Interface::INSERT_IGNORE);
         $write->query($query);
 
         return $this;

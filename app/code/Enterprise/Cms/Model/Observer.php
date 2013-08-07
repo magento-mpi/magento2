@@ -41,15 +41,15 @@ class Enterprise_Cms_Model_Observer
     /**
      * Making changes to main tab regarding to custom logic
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
     public function onMainTabPrepareForm($observer)
     {
         $form = $observer->getEvent()->getForm();
-        /* @var $baseFieldset Varien_Data_Form_Element_Fieldset */
+        /* @var $baseFieldset Magento_Data_Form_Element_Fieldset */
         $baseFieldset = $form->getElement('base_fieldset');
-        /* @var $baseFieldset Varien_Data_Form_Element_Fieldset */
+        /* @var $baseFieldset Magento_Data_Form_Element_Fieldset */
 
         $isActiveElement = $form->getElement('is_active');
         if ($isActiveElement) {
@@ -123,10 +123,10 @@ class Enterprise_Cms_Model_Observer
     /**
      * Validate and render Cms hierarchy page
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function cmsControllerRouterMatchBefore(Varien_Event_Observer $observer)
+    public function cmsControllerRouterMatchBefore(Magento_Event_Observer $observer)
     {
         /* @var $helper Enterprise_Cms_Helper_Hierarchy */
         $helper = Mage::helper('Enterprise_Cms_Helper_Hierarchy');
@@ -195,10 +195,10 @@ class Enterprise_Cms_Model_Observer
     /**
      * Processing extra data after cms page saved
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function cmsPageSaveAfter(Varien_Event_Observer $observer)
+    public function cmsPageSaveAfter(Magento_Event_Observer $observer)
     {
         /* @var $page Mage_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
@@ -259,10 +259,10 @@ class Enterprise_Cms_Model_Observer
     /**
      * Preparing cms page object before it will be saved
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function cmsPageSaveBefore(Varien_Event_Observer $observer)
+    public function cmsPageSaveBefore(Magento_Event_Observer $observer)
     {
         /* @var $page Mage_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
@@ -318,10 +318,10 @@ class Enterprise_Cms_Model_Observer
     /**
      * Clean up private versions after user deleted.
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function adminUserDeleteAfter(Varien_Event_Observer $observer)
+    public function adminUserDeleteAfter(Magento_Event_Observer $observer)
     {
         $version = Mage::getModel('Enterprise_Cms_Model_Page_Version');
         $collection = $version->getCollection()
@@ -337,10 +337,10 @@ class Enterprise_Cms_Model_Observer
     /**
      * Clean up hierarchy tree that belongs to website.
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function deleteWebsite(Varien_Event_Observer $observer)
+    public function deleteWebsite(Magento_Event_Observer $observer)
     {
         /* @var $store Mage_Core_Model_Website */
         $website = $observer->getEvent()->getWebsite();
@@ -357,10 +357,10 @@ class Enterprise_Cms_Model_Observer
     /**
      * Clean up hierarchy tree that belongs to store.
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function deleteStore(Varien_Event_Observer $observer)
+    public function deleteStore(Magento_Event_Observer $observer)
     {
         $storeId = $observer->getEvent()->getStore()->getId();
         $this->_cleanStoreFootprints($storeId);
@@ -430,10 +430,10 @@ class Enterprise_Cms_Model_Observer
     /**
      * Modify status's label from 'Enabled' to 'Published'.
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function modifyPageStatuses(Varien_Event_Observer $observer)
+    public function modifyPageStatuses(Magento_Event_Observer $observer)
     {
         $statuses = $observer->getEvent()->getStatuses();
         $statuses->setData(Mage_Cms_Model_Page::STATUS_ENABLED, Mage::helper('Enterprise_Cms_Helper_Data')->__('Published'));
@@ -447,7 +447,7 @@ class Enterprise_Cms_Model_Observer
      * @param $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function cmsPageDeleteAfter(Varien_Event_Observer $observer)
+    public function cmsPageDeleteAfter(Magento_Event_Observer $observer)
     {
         /* @var $page Mage_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
@@ -463,7 +463,7 @@ class Enterprise_Cms_Model_Observer
     /**
      * Handler for cms hierarchy view
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event|false
      */
@@ -475,7 +475,7 @@ class Enterprise_Cms_Model_Observer
     /**
      * Handler for cms revision preview
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event|false
      */
@@ -487,7 +487,7 @@ class Enterprise_Cms_Model_Observer
     /**
      * Handler for cms revision publish
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event|false
      */
@@ -502,7 +502,7 @@ class Enterprise_Cms_Model_Observer
      * @param $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function affectCmsPageRender(Varien_Event_Observer $observer)
+    public function affectCmsPageRender(Magento_Event_Observer $observer)
     {
         /* @var $helper Enterprise_Cms_Helper_Hierarchy */
         $helper = Mage::helper('Enterprise_Cms_Helper_Hierarchy');
@@ -542,12 +542,12 @@ class Enterprise_Cms_Model_Observer
     /**
      * Adds CMS hierarchy menu item to top menu
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function addCmsToTopmenuItems(Varien_Event_Observer $observer)
+    public function addCmsToTopmenuItems(Magento_Event_Observer $observer)
     {
         /**
-         * @var $topMenuRootNode Varien_Data_Tree_Node
+         * @var $topMenuRootNode Magento_Data_Tree_Node
          */
         $topMenuRootNode = $observer->getMenu();
 
@@ -592,7 +592,7 @@ class Enterprise_Cms_Model_Observer
                 continue;
             }
 
-            $menuNode = new Varien_Data_Tree_Node($menuNodeData, 'id', $tree, $parentNode);
+            $menuNode = new Magento_Data_Tree_Node($menuNodeData, 'id', $tree, $parentNode);
             $parentNode->addChild($menuNode);
 
             $nodesFlatList[$menuNodeId] = $menuNode;

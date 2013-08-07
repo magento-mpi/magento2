@@ -18,7 +18,7 @@ class Saas_PrintedTemplate_Model_Variable_Item_InvoiceTest extends PHPUnit_Frame
      */
     public function testInitVariable($settings, $taxRatesSettings, $expectedValues)
     {
-        $valueModel = new Varien_Object();
+        $valueModel = new Magento_Object();
         foreach ($settings as $key => $setting) {
             $valueModel->setData($key, $setting);
         }
@@ -32,13 +32,13 @@ class Saas_PrintedTemplate_Model_Variable_Item_InvoiceTest extends PHPUnit_Frame
             ->method('formatPriceTxt')
             ->will($this->returnCallback(array($this, 'formatPriceTxt')));
 
-        $invoice = new Varien_Object();
+        $invoice = new Magento_Object();
         $invoice->setOrder($order);
         $valueModel->setInvoice($invoice);
 
         $taxRates = array();
         foreach ($taxRatesSettings as $taxRateSettings) {
-            $taxRate = new Varien_Object();
+            $taxRate = new Magento_Object();
             if (isset($taxRateSettings['is_discount_on_incl_tax'])) {
                 $taxRate->setIsDiscountOnInclTax($taxRateSettings['is_discount_on_incl_tax']);
             }

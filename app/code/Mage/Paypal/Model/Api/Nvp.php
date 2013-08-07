@@ -851,7 +851,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     /**
      * GetRecurringPaymentsProfileDetails call
      */
-    public function callGetRecurringPaymentsProfileDetails(Varien_Object $result)
+    public function callGetRecurringPaymentsProfileDetails(Magento_Object $result)
     {
         $request = $this->_exportToRequest($this->_getRecurringPaymentsProfileDetailsRequest);
         $response = $this->call('GetRecurringPaymentsProfileDetails', $request);
@@ -863,12 +863,12 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * Import callback request array into $this public data
      *
      * @param array $request
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function prepareShippingOptionsCallbackAddress(array $request)
     {
-        $address = new Varien_Object();
-        Varien_Object_Mapper::accumulateByMap($request, $address, $this->_callbackRequestMap);
+        $address = new Magento_Object();
+        Magento_Object_Mapper::accumulateByMap($request, $address, $this->_callbackRequestMap);
         $address->setExportedKeys(array_values($this->_callbackRequestMap));
         $this->_applyStreetAndRegionWorkarounds($address);
         return $address;
@@ -945,7 +945,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $debugData = array('url' => $this->getApiEndpoint(), $methodName => $request);
 
         try {
-            $http = new Varien_Http_Adapter_Curl();
+            $http = new Magento_HTTP_Adapter_Curl();
             $config = array(
                 'timeout'    => 30,
                 'verifypeer' => $this->_config->verifyPeer
@@ -1143,15 +1143,15 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     protected function _exportAddressses($data)
     {
-        $address = new Varien_Object();
-        Varien_Object_Mapper::accumulateByMap($data, $address, $this->_billingAddressMap);
+        $address = new Magento_Object();
+        Magento_Object_Mapper::accumulateByMap($data, $address, $this->_billingAddressMap);
         $address->setExportedKeys(array_values($this->_billingAddressMap));
         $this->_applyStreetAndRegionWorkarounds($address);
         $this->setExportedBillingAddress($address);
         // assume there is shipping address if there is at least one field specific to shipping
         if (isset($data['SHIPTONAME'])) {
             $shippingAddress = clone $address;
-            Varien_Object_Mapper::accumulateByMap($data, $shippingAddress, $this->_shippingAddressMap);
+            Magento_Object_Mapper::accumulateByMap($data, $shippingAddress, $this->_shippingAddressMap);
             $this->_applyStreetAndRegionWorkarounds($shippingAddress);
             // PayPal doesn't provide detailed shipping name fields, so the name will be overwritten
             $firstName = $data['SHIPTONAME'];
@@ -1174,9 +1174,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     /**
      * Adopt specified address object to be compatible with Magento
      *
-     * @param Varien_Object $address
+     * @param Magento_Object $address
      */
-    protected function _applyStreetAndRegionWorkarounds(Varien_Object $address)
+    protected function _applyStreetAndRegionWorkarounds(Magento_Object $address)
     {
         // merge street addresses into 1
         if ($address->hasStreet2()) {
@@ -1221,7 +1221,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $billingAddress  = ($this->getBillingAddress()) ? $this->getBillingAddress() : $this->getAddress();
         $shippingAddress = $this->getAddress();
 
-        $to = Varien_Object_Mapper::accumulateByMap(
+        $to = Magento_Object_Mapper::accumulateByMap(
             $billingAddress,
             $to,
             array_merge(array_flip($this->_billingAddressMap), $this->_billingAddressMapRequest)
@@ -1230,7 +1230,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $to['STATE'] = $regionCode;
         }
         if (!$this->getSuppressShipping()) {
-            $to = Varien_Object_Mapper::accumulateByMap($shippingAddress, $to, array_flip($this->_shippingAddressMap));
+            $to = Magento_Object_Mapper::accumulateByMap($shippingAddress, $to, array_flip($this->_shippingAddressMap));
             if ($regionCode = $this->_lookupRegionCodeFromAddress($shippingAddress)) {
                 $to['SHIPTOSTATE'] = $regionCode;
             }
@@ -1385,9 +1385,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      * Check the obtained RP status in NVP format and specify the profile state
      *
      * @param string $value
-     * @param Varien_Object $result
+     * @param Magento_Object $result
      */
-    protected function _analyzeRecurringProfileStatus($value, Varien_Object $result)
+    protected function _analyzeRecurringProfileStatus($value, Magento_Object $result)
     {
         switch ($value) {
             case 'ActiveProfile':
@@ -1415,7 +1415,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
     /**
      * Return capture type
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @return string
      */
     protected function _getCaptureCompleteType()

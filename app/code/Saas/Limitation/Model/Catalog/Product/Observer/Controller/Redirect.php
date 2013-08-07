@@ -42,10 +42,10 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Controller_Redirect
     /**
      * Restrict redirect to new product creation page, if the limitation is reached
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @throws Mage_Catalog_Exception
      */
-    public function restrictNewEntityCreation(Varien_Event_Observer $observer)
+    public function restrictNewEntityCreation(Magento_Event_Observer $observer)
     {
         /** @var Mage_Adminhtml_Catalog_ProductController $controller */
         $controller = $observer->getEvent()->getData('controller');
