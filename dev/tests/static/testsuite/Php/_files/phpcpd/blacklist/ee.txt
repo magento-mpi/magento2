@@ -25,7 +25,7 @@ Magento/Reward/Model/Action
 Magento/Reward/Model/Resource
 Magento/Rma
 Magento/SalesArchive
-Enterprise/Search
+Magento/Search
 Enterprise/TargetRule/Block/Adminhtml/Targetrule/Edit/Tab
 Enterprise/TargetRule/Model/Rule/Condition
 Enterprise/TargetRule/Block/Adminhtml/Targetrule/Edit

@@ -89,7 +89,7 @@ return array(
     'magento_salesarchive/invoice_grid' => 'enterprise_sales_invoice_grid_archive',
     'magento_salesarchive/order_grid' => 'enterprise_sales_order_grid_archive',
     'magento_salesarchive/shipment_grid' => 'enterprise_sales_shipment_grid_archive',
-    'enterprise_search/recommendations' => 'catalogsearch_recommendations',
+    'magento_search/recommendations' => 'catalogsearch_recommendations',
     'enterprise_targetrule/customersegment' => 'enterprise_targetrule_customersegment',
     'enterprise_targetrule/index' => 'enterprise_targetrule_index',
     'enterprise_targetrule/index_crosssell' => 'enterprise_targetrule_index_crosssell',

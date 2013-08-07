@@ -501,8 +501,8 @@ $CONFIG['translates'] = array(
         'app/code/Magento/SalesArchive/',
         'app/design/adminhtml/default/default/layout/enterprise/salesarchive.xml'
     ),
-    'Enterprise_Search' => array(
-        'app/code/Enterprise/Search/'
+    'Magento_Search' => array(
+        'app/code/Magento/Search/'
     ),
     'Enterprise_TargetRule' => array(
         'app/code/Enterprise/TargetRule/',
@@ -660,7 +660,7 @@ $CONFIG['helpers']  = array(
     'magento_reward'             => 'Magento_Reward',
     'magento_rma'                => 'Magento_Rma',
     'magento_salesarchive'       => 'Magento_SalesArchive',
-    'enterprise_search'             => 'Enterprise_Search',
+    'magento_search'             => 'Magento_Search',
     'enterprise_targetrule'         => 'Enterprise_TargetRule',
     'enterprise_websiterestriction' => 'Enterprise_WebsiteRestriction',
     'enterprise_wishlist'           => 'Enterprise_Wishlist',

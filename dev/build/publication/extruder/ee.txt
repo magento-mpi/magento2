@@ -96,3 +96,6 @@ dev/tests/integration/testsuite/Magento/Rma
 app/code/Magento/SalesArchive
 dev/tests/unit/testsuite/Magento/SalesArchive
 dev/tests/integration/testsuite/Magento/SalesArchive
+app/code/Magento/Search
+dev/tests/unit/testsuite/Magento/Search
+dev/tests/integration/testsuite/Magento/Search
