@@ -185,20 +185,20 @@ system_configuration:
                         fieldsets:
                             -
                                 customer_automated_email_rule:
-                                    xpath: //fieldset[@id='promo_enterprise_reminder']
+                                    xpath: //fieldset[@id='promo_magento_reminder']
                                     links:
-                                        customer_automated_email_rule_link: //parent::div//a[@id='promo_enterprise_reminder-head']
+                                        customer_automated_email_rule_link: //parent::div//a[@id='promo_magento_reminder-head']
                                     dropdowns:
-                                        enable_reminder_emails: //select[@id="promo_enterprise_reminder_enabled"]
-                                        frequency: //select[@id="promo_enterprise_reminder_frequency"]
-                                        interval: //select[@id="promo_enterprise_reminder_interval"]
+                                        enable_reminder_emails: //select[@id="promo_magento_reminder_enabled"]
+                                        frequency: //select[@id="promo_magento_reminder_frequency"]
+                                        interval: //select[@id="promo_magento_reminder_interval"]
                                         start_time_hour: //select[@data-ui-id="time-groups-enterprise-reminder-fields-time-value-hour"]
                                         start_time_minute: //select[@data-ui-id="time-groups-enterprise-reminder-fields-time-value-minute"]
                                         start_time_second: //select[@data-ui-id="time-groups-enterprise-reminder-fields-time-value-second"]
-                                        reminder_email_sender: //select[@id="promo_enterprise_reminder_identity"]
+                                        reminder_email_sender: //select[@id="promo_magento_reminder_identity"]
                                     fields:
-                                        maximum_emails_per_run: //input[@id="promo_enterprise_reminder_limit"]
-                                        email_send_failure_threshold: //input[@id="promo_enterprise_reminder_threshold"]
+                                        maximum_emails_per_run: //input[@id="promo_magento_reminder_limit"]
+                                        email_send_failure_threshold: //input[@id="promo_magento_reminder_threshold"]
                 -
                     customer_reward_points:
                         xpath: //a[contains(@href, '/edit/section/enterprise_reward/')]
@@ -605,7 +605,7 @@ system_configuration:
                                         enterprise_persistent: //select[@name='groups[modules_disable_output][fields][Enterprise_Persistent][value]']
                                         magento_pricepermissions: //select[@name='groups[modules_disable_output][fields][Magento_PricePermissions][value]']
                                         magento_promotionpermissions: //select[@name='groups[modules_disable_output][fields][Magento_PromotionPermissions][value]']
-                                        enterprise_reminder: //select[@name='groups[modules_disable_output][fields][Enterprise_Reminder][value]']
+                                        magento_reminder: //select[@name='groups[modules_disable_output][fields][Magento_Reminder][value]']
                                         enterprise_reward: //select[@name='groups[modules_disable_output][fields][Enterprise_Reward][value]']
                                         enterprise_rma: //select[@name='groups[modules_disable_output][fields][Enterprise_Rma][value]']
                                         enterprise_salesarchive: //select[@name='groups[modules_disable_output][fields][Enterprise_SalesArchive][value]']
@@ -639,7 +639,7 @@ system_configuration:
                                         enterprise_persistent_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Persistent][inherit]']
                                         magento_pricepermissions_use_default: //input[@name='groups[modules_disable_output][fields][Magento_PricePermissions][inherit]']
                                         magento_promotionpermissions_use_default: //input[@name='groups[modules_disable_output][fields][Magento_PromotionPermissions][inherit]']
-                                        enterprise_reminder_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Reminder][inherit]']
+                                        magento_reminder_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Reminder][inherit]']
                                         enterprise_reward_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Reward][inherit]']
                                         enterprise_rma_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Rma][inherit]']
                                         enterprise_salesarchive_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_SalesArchive][inherit]']

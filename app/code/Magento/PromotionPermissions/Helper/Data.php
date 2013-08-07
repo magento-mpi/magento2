@@ -36,7 +36,7 @@ class Magento_PromotionPermissions_Helper_Data extends Magento_Core_Helper_Abstr
      *
      * Used to check if admin has permission to edit reminder rules
      */
-    const EDIT_PROMO_REMINDERRULE_ACL_PATH = 'Magento_PromotionPermissions::enterprise_reminder_edit';
+    const EDIT_PROMO_REMINDERRULE_ACL_PATH = 'Magento_PromotionPermissions::magento_reminder_edit';
 
     /**
      * @var Magento_AuthorizationInterface

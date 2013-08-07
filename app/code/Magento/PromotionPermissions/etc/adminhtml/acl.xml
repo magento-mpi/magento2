@@ -23,8 +23,8 @@
                         </resource>
                     </resource>
                     <resource id="Magento_Adminhtml::marketing_communications">
-                        <resource id="Enterprise_Reminder::enterprise_reminder">
-                            <resource id="Magento_PromotionPermissions::enterprise_reminder_edit" module="Magento_PromotionPermissions" title="Edit Automated Email Reminder Rules" />
+                        <resource id="Magento_Reminder::magento_reminder">
+                            <resource id="Magento_PromotionPermissions::magento_reminder_edit" module="Magento_PromotionPermissions" title="Edit Automated Email Reminder Rules" />
                         </resource>
                     </resource>
                 </resource>

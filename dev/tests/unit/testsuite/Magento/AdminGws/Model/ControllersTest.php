@@ -171,7 +171,7 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 'reminder',
-                'Enterprise_Reminder_Model_Rule'
+                'Magento_Reminder_Model_Rule'
             ),
             array(
                 'customersegment',

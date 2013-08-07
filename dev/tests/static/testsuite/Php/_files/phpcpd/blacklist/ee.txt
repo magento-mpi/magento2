@@ -20,7 +20,7 @@ Magento/Invitation
 Magento/Logging/Block
 Magento/Pbridge
 Enterprise/PageCache/Model/Container/Sidebar
-Enterprise/Reminder
+Magento/Reminder
 Enterprise/Reward/Model/Action
 Enterprise/Reward/Model/Resource
 Enterprise/Rma

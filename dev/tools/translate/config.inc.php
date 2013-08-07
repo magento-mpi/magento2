@@ -479,8 +479,8 @@ $CONFIG['translates'] = array(
     'Magento_PromotionPermissions' => array(
         'app/code/Magento/PromotionPermissions/',
     ),
-    'Enterprise_Reminder' => array(
-        'app/code/Enterprise/Reminder/',
+    'Magento_Reminder' => array(
+        'app/code/Magento/Reminder/',
         'app/design/adminhtml/default/default/layout/enterprise/reminder.xml'
     ),
     'Enterprise_Reward' => array(
@@ -656,7 +656,7 @@ $CONFIG['helpers']  = array(
     'enterprise_persistent'         => 'Enterprise_Persistent',
     'magento_pricepermissions'   => 'Magento_PricePermissions',
     'magento_promotionpermissions' => 'Magento_PromotionPermissions',
-    'enterprise_reminder'           => 'Enterprise_Reminder',
+    'magento_reminder'           => 'Magento_Reminder',
     'enterprise_reward'             => 'Enterprise_Reward',
     'enterprise_rma'                => 'Enterprise_Rma',
     'enterprise_salesarchive'       => 'Enterprise_SalesArchive',

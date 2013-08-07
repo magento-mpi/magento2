@@ -53,7 +53,7 @@ class Magento_PromotionPermissions_Model_Observer
     protected $_isEnterpriseBannerEnabled;
 
     /**
-     * Enterprise_Reminder flag
+     * Magento_Reminder flag
      *
      * @var boolean
      */
@@ -74,7 +74,7 @@ class Magento_PromotionPermissions_Model_Observer
         $this->_canEditReminderRules = $helper->getCanAdminEditReminderRules();
 
         $this->_isEnterpriseBannerEnabled = $helper->isModuleEnabled('Magento_Banner');
-        $this->_isEnterpriseReminderEnabled = $helper->isModuleEnabled('Enterprise_Reminder');
+        $this->_isEnterpriseReminderEnabled = $helper->isModuleEnabled('Magento_Reminder');
     }
 
     /**
@@ -159,8 +159,8 @@ class Magento_PromotionPermissions_Model_Observer
                     $block->getForm()->setReadonly(true, true);
                 }
                 break;
-            // Handle blocks related to Enterprise_Reminder module
-            case 'enterprise_reminder' :
+            // Handle blocks related to Magento_Reminder module
+            case 'magento_reminder' :
                 if (!$this->_canEditReminderRules) {
                     $block->removeButton('add');
                 }
@@ -232,7 +232,7 @@ class Magento_PromotionPermissions_Model_Observer
             || (!$this->_canEditCatalogRules
             && $controllerAction instanceof Magento_Adminhtml_Controller_Promo_Catalog)
             || ($this->_isEnterpriseReminderEnabled && !$this->_canEditReminderRules
-            && $controllerAction instanceof Enterprise_Reminder_Controller_Adminhtml_Reminder))
+            && $controllerAction instanceof Magento_Reminder_Controller_Adminhtml_Reminder))
         ) {
             $this->_forward();
         }

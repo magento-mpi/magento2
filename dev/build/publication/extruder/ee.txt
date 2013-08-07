@@ -85,3 +85,5 @@ dev/tests/unit/testsuite/Magento/PricePermissions
 dev/tests/integration/testsuite/Magento/PricePermissions
 app/code/Magento/PromotionPermissions
 dev/tests/integration/testsuite/Magento/PricePermissions
+app/code/Magento/Reminder
+dev/tests/integration/testsuite/Magento/Reminder
