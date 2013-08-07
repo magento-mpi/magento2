@@ -13,6 +13,28 @@
 class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * List of config.xml files by modules
+     *
+     * Format: array(
+     *  '{Module_Name}' => '{Filename}'
+     * )
+     *
+     * @var array
+     */
+    protected static $_listConfigXml = array();
+
+    /**
+     * List of routers
+     *
+     * Format: array(
+     *  '{Router}' => '{Module_Name}'
+     * )
+     *
+     * @var array
+     */
+    protected static $_mapRouters = array();
+
+    /**
      * Modules dependencies map
      *
      * @var array
@@ -58,6 +80,9 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
+        self::prepareListConfigXml();
+        self::prepareMapRouters();
+
         self::instantiateConfiguration();
         self::instantiateRules();
     }
@@ -68,17 +93,15 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     public static function instantiateConfiguration()
     {
         self::$_modulesDependencies = array();
-        $defaultThemes = array();
 
-        $configFiles = Utility_Files::init()->getConfigFiles('config.xml', array(), false);
-        foreach ($configFiles as $configFile) {
-            preg_match('#/([^/]+?/[^/]+?)/etc/config\.xml$#', $configFile, $moduleName);
-            $moduleName = str_replace('/', '_', $moduleName[1]);
-            $config = simplexml_load_file($configFile);
-            $nodes = $config->xpath("/config/modules/$moduleName/depends/*") ?: array();
+        $defaultThemes = array();
+        foreach (self::$_listConfigXml as $module => $file) {
+            $config = simplexml_load_file($file);
+
+            $nodes = $config->xpath("/config/modules/$module/depends/*") ?: array();
             foreach ($nodes as $node) {
                 /** @var SimpleXMLElement $node */
-                self::$_modulesDependencies[$moduleName][] = $node->getName();
+                self::$_modulesDependencies[$module][] = $node->getName();
             }
 
             $nodes = $config->xpath("/config/*/design/theme/full_name") ?: array();
@@ -99,7 +122,9 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         foreach (self::$_rules as $ruleClass) {
             if (class_exists($ruleClass)) {
                 /** @var Integrity_DependencyTest_RuleInterface $rule */
-                $rule = new $ruleClass();
+                $rule = new $ruleClass(array(
+                    'mapRouters' => self::$_mapRouters,
+                ));
                 if ($rule instanceof Integrity_DependencyTest_RuleInterface) {
                     self::$_rulesInstances[$ruleClass] = $rule;
                 }
@@ -144,7 +169,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 //Removing html
                 $contentsWithoutHtml = '';
                 preg_replace_callback(
-                    '~(<\?php\s+.*\?>)~U',
+                    '~(<\?php\s+.*\?>)~sU',
                     function ($matches) use ($contents, &$contentsWithoutHtml) {
                         $contentsWithoutHtml .= $matches[1];
                         return $contents;
@@ -284,5 +309,60 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         // Get all template files
         $files = array_merge($files, $this->_prepareFiles('template', Utility_Files::init()->getPhtmlFiles()));
         return $files;
+    }
+
+    /**
+     * Prepare list of config.xml files (by modules)
+     */
+    public static function prepareListConfigXml()
+    {
+        $files = Utility_Files::init()->getConfigFiles('config.xml', array(), false);
+        foreach ($files as $file) {
+            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
+                $module = $matches['namespace'] . '_' . $matches['module'];
+                self::$_listConfigXml[$module] = $file;
+            }
+        }
+    }
+
+    /**
+     * Prepare map of routers
+     */
+    public static function prepareMapRouters()
+    {
+        $pattern = '/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)\/controllers\/'
+            . '(?<path>[\/\w]*)Controller.php/';
+
+        $files = Utility_Files::init()->getPhpFiles(true, false, false, false);
+        foreach ($files as $file) {
+            if (preg_match($pattern, $file, $matches)) {
+
+                $chunks = explode('/', strtolower($matches['path']));
+                $module = $matches['namespace'] . '_' . $matches['module'];
+
+                // Read module's config.xml file
+                $config = simplexml_load_file(self::$_listConfigXml[$module]);
+
+                if ('adminhtml' == $chunks[0]) {
+                    array_shift($chunks);
+                    $nodes = $config->xpath("/config/admin/routers/*") ?: array();
+                }
+                else {
+                    $nodes = $config->xpath("/config/frontend/routers/*") ?: array();
+                    foreach ($nodes as $nodeKey => $node) {
+                        // Exclude overridden routers
+                        if ('' == (string)$node->args->frontName) {
+                            unset($nodes[$nodeKey]);
+                        }
+                    }
+                }
+
+                $controllerName = implode('_', $chunks);
+                foreach ($nodes as $node) {
+                    $path = $node->getName() ? $node->getName() . '_' . $controllerName : $controllerName;
+                    self::$_mapRouters[$path] = $module;
+                }
+            }
+        }
     }
 }

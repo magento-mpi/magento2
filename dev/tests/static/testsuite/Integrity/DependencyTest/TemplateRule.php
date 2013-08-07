@@ -27,6 +27,15 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     );
 
     /**
+     * Namespaces to analyze
+     *
+     * Format: {Namespace}|{Namespace}|...
+     *
+     * @var string
+     */
+    protected $_namespaces;
+
+    /**
      * List of routers
      *
      * Format: array(
@@ -42,7 +51,14 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      */
     public function __construct()
     {
-        $this->_prepareMapRouters();
+        $args = func_get_args();
+        if (count($args)) {
+            if (isset($args[0]['mapRouters'])) {
+                $this->_mapRouters = $args[0]['mapRouters'];
+            }
+        }
+
+        $this->_namespaces = implode('|', Utility_Files::init()->getNamespaces());
     }
 
     /**
@@ -62,9 +78,11 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
 
         $dependencies = array();
         foreach ($this->_cases as $case) {
-            $result = $this->$case($currentModule, $fileType, $file, $contents);
-            if (count($result)) {
-                $dependencies = array_merge($dependencies, $result);
+            if (method_exists($this, $case)) {
+                $result = $this->$case($currentModule, $fileType, $file, $contents);
+                if (count($result)) {
+                    $dependencies = array_merge($dependencies, $result);
+                }
             }
         }
         return $dependencies;
@@ -86,7 +104,8 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseModelSingleton($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            '/(?<source>Mage::(?:getModel|getSingleton|getBlockSingleton)+\([\'"](?<namespace>[A-Z][a-z]+)[_]'
+            '/(?<source>Mage::(?:getModel|getSingleton|getBlockSingleton)+\([\'"]'
+                . '(?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
@@ -107,7 +126,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseHelper($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            '/(?<source>[$a-zA-Z0-9_\->:]+helper\([\'"](?<namespace>[A-Z][a-z]+)[_]'
+            '/(?<source>[$a-zA-Z0-9_\->:]+helper\([\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
@@ -127,7 +146,8 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseCreateBlock($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            '/[\->:]+(?<source>createBlock\([\'"](?<namespace>[A-Z][a-z]+)[_](?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
+            '/[\->:]+(?<source>createBlock\([\'"](?<namespace>' . $this->_namespaces . ')_'
+                . '(?<module>[A-Z][a-zA-Z]+)\w*[\'"]\))/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -146,7 +166,8 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseConstant($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            '/(?<source>(?<namespace>[A-Z][a-z]+)[_](?<module>[A-Z][a-zA-Z]+)_(?:[A-Z][a-z]+_?){1,}::[A-Z_]+)/',
+            '/(?<source>(?<namespace>' . $this->_namespaces . ')_(?<module>[A-Z][a-zA-Z]+)_'
+                . '(?:[A-Z][a-z]+_?){1,}::[A-Z_]+)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
     }
@@ -165,7 +186,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
     protected function _caseAddFile($currentModule, $fileType, $file, &$contents)
     {
         $patterns = array(
-            '/(?<source>[$a-zA-Z0-9_\->:]+getViewFileUrl\([\'"](?<namespace>[A-Z][a-z]+)[_]'
+            '/(?<source>[$a-zA-Z0-9_\->:]+getViewFileUrl\([\'"](?<namespace>' . $this->_namespaces . ')_'
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+[\'"]\))/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
@@ -215,75 +236,26 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
      */
     protected function _checkDependenciesByRegexp($currentModule, $contents, $patterns = array())
     {
-        $dependencies = array();
+        $result = array();
         foreach ($patterns as $pattern) {
             if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
-                foreach ($matches as $item) {
-                    $moduleName = $item['namespace'] . '_' . $item['module'];
-                    if ($currentModule != $moduleName) {
-                        $dependencies[] = array(
-                            'module' => $moduleName,
-                            'source' => $item['source'],
-                            'message' => null,
-                        );
+                foreach ($matches as $match) {
+                    $module = $match['namespace'] . '_' . $match['module'];
+                    if ($currentModule != $module) {
+                        $result[$module] = $match['source'];
                     }
                 }
             }
+        }
+
+        // Prepare output
+        $dependencies = array();
+        foreach ($result as $key => $val) {
+            $dependencies[] = array(
+                'module' => $key,
+                'source' => $val,
+            );
         }
         return $dependencies;
-    }
-
-    /**
-     * Prepare map of modules routers
-     */
-    protected function _prepareMapRouters()
-    {
-        $this->_mapRouters = array();
-
-        // Prepare list of config.xml files
-        $configFiles = array();
-        $files = Utility_Files::init()->getConfigFiles('config.xml', array(), false);
-        foreach ($files as $file) {
-            if (preg_match('/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)/', $file, $matches)) {
-                $name = $matches['namespace'] . '_' . $matches['module'];
-                $configFiles[$name] = $file;
-            }
-        }
-
-        // Prepare routers
-        $pattern = '/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)\/controllers\/'
-            . '(?<path>[\/\w]*)Controller.php/';
-
-        $files = Utility_Files::init()->getPhpFiles(true, false, false, false);
-        foreach ($files as $file) {
-            if (preg_match($pattern, $file, $matches)) {
-
-                $chunks = explode('/', strtolower($matches['path']));
-                $name = $matches['namespace'] . '_' . $matches['module'];
-
-                // Read module's config.xml file
-                $config = simplexml_load_file($configFiles[$name]);
-
-                if ('adminhtml' == $chunks[0]) {
-                    array_shift($chunks);
-                    $nodes = $config->xpath("/config/admin/routers/*") ?: array();
-                }
-                else {
-                    $nodes = $config->xpath("/config/frontend/routers/*") ?: array();
-                    foreach ($nodes as $nodeKey => $node) {
-                        // Exclude overridden routers
-                        if ('' == (string)$node->args->frontName) {
-                            unset($nodes[$nodeKey]);
-                        }
-                    }
-                }
-
-                $controllerName = implode('_', $chunks);
-                foreach ($nodes as $node) {
-                    $path = $node->getName() ? $node->getName() . '_' . $controllerName : $controllerName;
-                    $this->_mapRouters[$path] = $name;
-                }
-            }
-        }
     }
 }
