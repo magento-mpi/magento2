@@ -32,5 +32,7 @@ class Mage_Webhook_Model_Job_QueueReaderTest extends PHPUnit_Framework_TestCase
         /** @var Mage_Webhook_Model_Job_QueueReader $queueReader */
         $queueReader = Mage::getObjectManager()->create('Mage_Webhook_Model_Job_QueueReader');
         $this->assertEquals($job->getId(), $queueReader->poll()->getId());
+
+        $this->assertNull($queueReader->poll());
     }
 }
