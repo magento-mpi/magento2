@@ -9,6 +9,9 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ *
+ * TODO: Remove warning suppression after method refactoring
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_Webapi_Config
 {
@@ -156,7 +159,7 @@ class Mage_Webapi_Config
     /**
      * Load services from cache
      */
-    private function _loadFromCache()
+    protected function _loadFromCache()
     {
         return $this->_configCacheType->load(self::CACHE_ID);
     }

@@ -11,37 +11,16 @@
  */
 class Mage_Webapi_Controller_Dispatcher_Soap_Handler
 {
-    const HEADER_SECURITY = 'Security';
     const RESULT_NODE_NAME = 'result';
 
-    /**
-     * WS-Security UsernameToken object from request.
-     *
-     * @var stdClass
-     */
-    protected $_usernameToken;
-
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_helper;
-
-    /** @var Mage_Webapi_Controller_Dispatcher_Soap_Authentication */
-    protected $_authentication;
-
-    /** @var Mage_Webapi_Model_Authorization */
-    protected $_authorization;
+    /** @var Mage_Webapi_Controller_Dispatcher_Soap_Security */
+    protected $_security;
 
     /** @var Mage_Webapi_Controller_Request_Soap */
     protected $_request;
 
     /** @var Mage_Webapi_Controller_Dispatcher_ErrorProcessor */
     protected $_errorProcessor;
-
-    /**
-     * List of headers passed in the request
-     *
-     * @var array
-     */
-    protected $_requestHeaders = array(self::HEADER_SECURITY);
 
     /** @var Magento_ObjectManager */
     protected $_objectManager;
@@ -52,30 +31,24 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Webapi_Helper_Data $helper
-     * @param Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication
-     * @param Mage_Webapi_Model_Authorization $authorization
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Webapi_Config $newApiConfig
+     * @param Mage_Webapi_Controller_Dispatcher_Soap_Security $security
      */
     public function __construct(
-        Mage_Webapi_Helper_Data $helper,
-        Mage_Webapi_Controller_Dispatcher_Soap_Authentication $authentication,
-        Mage_Webapi_Model_Authorization $authorization,
         Mage_Webapi_Controller_Request_Soap $request,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
         Magento_ObjectManager $objectManager,
-        Mage_Webapi_Config $newApiConfig
+        Mage_Webapi_Config $newApiConfig,
+        Mage_Webapi_Controller_Dispatcher_Soap_Security $security
     ) {
-        $this->_helper = $helper;
-        $this->_authentication = $authentication;
-        $this->_authorization = $authorization;
         $this->_request = $request;
         $this->_errorProcessor = $errorProcessor;
         $this->_objectManager = $objectManager;
         $this->_newApiConfig = $newApiConfig;
+        $this->_security = $security;
     }
 
     /**
@@ -83,28 +56,17 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      *
      * @param string $operation
      * @param array $arguments
+     *
      * @return stdClass
-     * @throws Mage_Webapi_Model_Soap_Fault
      * @throws Mage_Webapi_Exception
      */
     public function __call($operation, $arguments)
     {
-        if (in_array($operation, $this->_requestHeaders)) {
-            $this->_processSoapHeader($operation, $arguments);
-        } else {
-            try {
-                // TODO: Uncomment authentication
-//                if (is_null($this->_usernameToken)) {
-//                    throw new Mage_Webapi_Exception(
-//                        $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
-//                        Mage_Webapi_Exception::HTTP_UNAUTHORIZED
-//                    );
-//                }
-//                $this->_authentication->authenticate($this->_usernameToken);
-
-                // TODO: Enable authorization
-//                $this->_authorization->checkServiceAcl($serviceName, $method);
-
+        try {
+            if ($this->_security->isSecurityHeader($operation)) {
+                $this->_security->processSecurityHeader($operation, $arguments);
+            } else {
+                $this->_security->checkPermissions($operation, $arguments);
                 $arguments = reset($arguments);
                 $this->_unpackArguments($arguments);
                 $arguments = get_object_vars($arguments);
@@ -129,56 +91,38 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
                 // TODO: Check why 'result' node is not generated in WSDL
                 // return (object)array(self::RESULT_NODE_NAME => $outputData);
                 return $outputData;
-            } catch (Exception $exception) {
-                if ($exception instanceof Mage_Service_Exception) {
-                    $originator = Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER;
-                    $parameters = $exception->getParameters();
-                } elseif ($exception instanceof Mage_Webapi_Exception) {
-                    $originator = $exception->getOriginator();
-                } else {
-                    $originator = Mage_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER;
-                    $exception = $this->_errorProcessor->maskException($exception);
-                }
-                throw new Mage_Webapi_Model_Soap_Fault(
-                    $exception->getMessage(),
-                    $originator,
-                    $exception,
-                    isset($parameters) ? $parameters : array(),
-                    $exception->getCode()
-                );
             }
+        } catch (Exception $exception) {
+            $this->_getException($exception);
         }
     }
 
     /**
-     * Set request headers
+     * Get Exception
      *
-     * @param array $requestHeaders
-     */
-    public function setRequestHeaders(array $requestHeaders)
-    {
-        $this->_requestHeaders = $requestHeaders;
-    }
-
-    /**
-     * Handle SOAP headers.
+     * @param Exception $exception
      *
-     * @param string $header
-     * @param array $arguments
+     * @throws Mage_Webapi_Model_Soap_Fault
+     * @throws Mage_Webapi_Exception
      */
-    protected function _processSoapHeader($header, $arguments)
+    protected function _getException($exception)
     {
-        switch ($header) {
-            case self::HEADER_SECURITY:
-                foreach ($arguments as $argument) {
-                    // @codingStandardsIgnoreStart
-                    if (is_object($argument) && isset($argument->UsernameToken)) {
-                        $this->_usernameToken = $argument->UsernameToken;
-                    }
-                    // @codingStandardsIgnoreEnd
-                }
-                break;
+        if ($exception instanceof Mage_Service_Exception) {
+            $originator = Mage_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER;
+            $parameters = $exception->getParameters();
+        } elseif ($exception instanceof Mage_Webapi_Exception) {
+            $originator = $exception->getOriginator();
+        } else {
+            $originator = Mage_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER;
+            $exception = $this->_errorProcessor->maskException($exception);
         }
+        throw new Mage_Webapi_Model_Soap_Fault(
+            $exception->getMessage(),
+            $originator,
+            $exception,
+            isset($parameters) ? $parameters : array(),
+            $exception->getCode()
+        );
     }
 
     /**
@@ -187,13 +131,12 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
      *
      * @param Object $obj - Link to Object
      * @return Object
+     * TODO: Remove warning suppression after simplifying the method
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _unpackArguments(&$obj)
     {
-        if (is_object($obj)
-            && property_exists($obj, 'key')
-            && property_exists($obj, 'value')
-        ) {
+        if (is_object($obj) && property_exists($obj, 'key') && property_exists($obj, 'value')) {
             if (count(array_keys(get_object_vars($obj))) == 2) {
                 $obj = array($obj->key => $obj->value);
                 return true;

@@ -265,7 +265,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
     protected function _prepareSoapRequest()
     {
         /** Process security header by __call() method. */
-        $this->_handler->setRequestHeaders(array(Mage_Webapi_Controller_Dispatcher_Soap_Handler::HEADER_SECURITY));
+        $this->_handler->setRequestHeaders(array(Mage_Webapi_Controller_Dispatcher_Soap_Security::HEADER_SECURITY));
         $usernameToken = new stdClass();
         // @codingStandardsIgnoreStart
         $usernameToken->UsernameToken = new stdClass();
@@ -275,7 +275,7 @@ class Mage_Webapi_Controller_Dispatcher_Soap_HandlerTest extends PHPUnit_Framewo
         $usernameToken->UsernameToken->Created = 'created';
         // @codingStandardsIgnoreEnd
         $this->_handler->__call(
-            Mage_Webapi_Controller_Dispatcher_Soap_Handler::HEADER_SECURITY,
+            Mage_Webapi_Controller_Dispatcher_Soap_Security::HEADER_SECURITY,
             array($usernameToken)
         );
 
