@@ -337,7 +337,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                     ->method('save')
                     ->will($this->returnSelf());
                 break;
-            case 'Enterprise_Reward_Model_Reward':
+            case 'Magento_Reward_Model_Reward':
                 $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomer',
                         'getPointsBalance', 'setPointsDelta', 'setAction', 'setComment', 'updateRewardPoints'
                     ), $constructArguments, '', false

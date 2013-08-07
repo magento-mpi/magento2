@@ -15,7 +15,7 @@
  * @package     Enterprise_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Tag_Block_Reward_Tooltip extends Enterprise_Reward_Block_Tooltip
+class Enterprise_Tag_Block_Reward_Tooltip extends Magento_Reward_Block_Tooltip
 {
     /**
      * Array of data helpers

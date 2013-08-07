@@ -33,8 +33,8 @@ class Enterprise_ImportExport_Model_Resource_Customer_Collection
      */
     public function joinWithRewardPoints()
     {
-        /** @var $rewardResourceModel Enterprise_Reward_Model_Resource_Reward */
-        $rewardResourceModel = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward');
+        /** @var $rewardResourceModel Magento_Reward_Model_Resource_Reward */
+        $rewardResourceModel = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward');
 
         $joinFlag = 'join_reward_points';
         if (!$this->getFlag($joinFlag)) {

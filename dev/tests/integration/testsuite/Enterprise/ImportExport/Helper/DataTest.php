@@ -34,11 +34,11 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is reward points enabled in config - active/enabled
      *
-     * @magentoConfigFixture current_store enterprise_reward/general/is_enabled  1
+     * @magentoConfigFixture current_store magento_reward/general/is_enabled  1
      */
     public function testIsRewardPointsEnabledActiveEnabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Enterprise_Reward')
+        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_Reward')
             ->will($this->returnValue(true));
         $this->assertTrue($this->_importExportHelper->isRewardPointsEnabled());
     }
@@ -46,11 +46,11 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is reward points enabled in config - active/disabled
      *
-     * @magentoConfigFixture current_store enterprise_reward/general/is_enabled  0
+     * @magentoConfigFixture current_store magento_reward/general/is_enabled  0
      */
     public function testIsRewardPointsEnabledActiveDisabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Enterprise_Reward')
+        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_Reward')
             ->will($this->returnValue(true));
         $this->assertFalse($this->_importExportHelper->isRewardPointsEnabled());
     }
@@ -58,11 +58,11 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is reward points enabled in config - inactive/enabled
      *
-     * @magentoConfigFixture current_store enterprise_reward/general/is_enabled  1
+     * @magentoConfigFixture current_store magento_reward/general/is_enabled  1
      */
     public function testIsRewardPointsEnabledInactiveEnabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Enterprise_Reward')
+        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_Reward')
             ->will($this->returnValue(null));
         $this->assertFalse($this->_importExportHelper->isRewardPointsEnabled());
     }
@@ -70,11 +70,11 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is reward points enabled in config - inactive/disabled
      *
-     * @magentoConfigFixture current_store enterprise_reward/general/is_enabled  0
+     * @magentoConfigFixture current_store magento_reward/general/is_enabled  0
      */
     public function testIsRewardPointsEnabledInactiveDisabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Enterprise_Reward')
+        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_Reward')
             ->will($this->returnValue(null));
         $this->assertFalse($this->_importExportHelper->isRewardPointsEnabled());
     }

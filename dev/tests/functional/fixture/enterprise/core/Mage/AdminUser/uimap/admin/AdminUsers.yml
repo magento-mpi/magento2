@@ -22,7 +22,7 @@ new_admin_role:
                             -
                                 role_resources:
                                     checkboxes:
-                                        sales-operations-orders-actions-create-can_spend_reward_points: //*[@data-id='Enterprise_Reward::reward_spend']//*[@class='jstree-checkbox']
+                                        sales-operations-orders-actions-create-can_spend_reward_points: //*[@data-id='Magento_Reward::reward_spend']//*[@class='jstree-checkbox']
                                         sales-operations-returns: //*[@data-id='Enterprise_Rma::enterprise_rma']//*[@class='jstree-checkbox']
                                         sales-archive: //*[@data-id='Enterprise_SalesArchive::archive']//*[@class='jstree-checkbox']
                                         sales-archive-orders: //*[@data-id='Enterprise_SalesArchive::orders']//*[@class='jstree-checkbox']
@@ -38,7 +38,7 @@ new_admin_role:
                                         products-inventory-catalog-edit_product_status: //*[@data-id='Magento_PricePermissions::edit_product_status']//*[@class='jstree-checkbox']
                                         products-inventory-catalog-read_product_price: //*[@data-id='Magento_PricePermissions::read_product_price']//*[@class='jstree-checkbox']
                                         products-inventory-catalog-read_product_price-edit: //*[@data-id='Magento_PricePermissions::edit_product_price']//*[@class='jstree-checkbox']
-                                        customers-all_customers-manage_reward_points_balances: //*[@data-id='Enterprise_Reward::reward_balance']//*[@class='jstree-checkbox']
+                                        customers-all_customers-manage_reward_points_balances: //*[@data-id='Magento_Reward::reward_balance']//*[@class='jstree-checkbox']
                                         customers-segments: //*[@data-id='Magento_CustomerSegment::customersegment']//*[@class='jstree-checkbox']
                                         marketing-promotions-catalog_price_rules-edit: //*[@data-id='Magento_PromotionPermissions::edit']//*[@class='jstree-checkbox']
                                         marketing-promotions-related_products_rules: //*[@data-id='Enterprise_TargetRule::targetrule']//*[@class='jstree-checkbox']
@@ -66,12 +66,12 @@ new_admin_role:
                                         stores-settings-configuration-category_permissions_section: //*[@data-id='Magento_CatalogPermissions::magento_catalogpermissions']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-gift_registry_section: //*[@data-id='Magento_GiftRegistry::magento_giftregistry']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-gift_cards: //*[@data-id='Magento_GiftCard::giftcard']//*[@class='jstree-checkbox']
-                                        stores-settings-configuration-reward_points: //*[@data-id='Enterprise_Reward::enterprise_reward']//*[@class='jstree-checkbox']
+                                        stores-settings-configuration-reward_points: //*[@data-id='Magento_Reward::magento_reward']//*[@class='jstree-checkbox']
                                         stores-attributes-customer_attributes: //*[@data-id='Enterprise_Customer::attributes']//*[@class='jstree-checkbox']
                                         stores-attributes-customer_attributes-customer: //*[@data-id='Enterprise_Customer::customer_attributes']//*[@class='jstree-checkbox']
                                         stores-attributes-customer_attributes-customer_address: //*[@data-id='Enterprise_Customer::customer_address_attributes']//*[@class='jstree-checkbox']
                                         stores-attributes-returns: //*[@data-id='Enterprise_Rma::rma_attribute']//*[@class='jstree-checkbox']
-                                        stores-other_settings-reward_exchange_rates: //*[@data-id='Enterprise_Reward::rates']//*[@class='jstree-checkbox']
+                                        stores-other_settings-reward_exchange_rates: //*[@data-id='Magento_Reward::rates']//*[@class='jstree-checkbox']
                                         stores-other_settings-gift_wrapping: //*[@data-id='Magento_GiftWrapping::magento_giftwrapping']//*[@class='jstree-checkbox']
                                         stores-other_settings-gift_registry: //*[@data-id='Magento_GiftRegistry::customer_magento_giftregistry']//*[@class='jstree-checkbox']
                                         system-data_transfer-scheduled: //*[@data-id='Enterprise_ImportExport::enterprise_scheduled_operation']//*[@class='jstree-checkbox']

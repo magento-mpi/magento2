@@ -130,55 +130,55 @@ system_configuration:
                                         customer_invitation_email_template: //select[@id="magento_invitation_email_template"]
                 -
                     customer_reward_points:
-                        xpath: //a[contains(@href, 'edit/section/enterprise_reward/')]
+                        xpath: //a[contains(@href, 'edit/section/magento_reward/')]
                         fieldsets:
                             -
                                 reward_reward_points:
-                                    xpath: //fieldset[@id='enterprise_reward_general']
+                                    xpath: //fieldset[@id='magento_reward_general']
                                     links:
-                                        reward_reward_points_link: //parent::div//a[@id='enterprise_reward_general-head']
+                                        reward_reward_points_link: //parent::div//a[@id='magento_reward_general-head']
                                     fields:
-                                        minimum_reward_points_balance: //input[@id="enterprise_reward_general_min_points_balance"]
-                                        cap_rewerd_points: //input[@id="enterprise_reward_general_max_points_balance"]
-                                        reward_points_expire: //input[@id="enterprise_reward_general_expiration_days"]
+                                        minimum_reward_points_balance: //input[@id="magento_reward_general_min_points_balance"]
+                                        cap_rewerd_points: //input[@id="magento_reward_general_max_points_balance"]
+                                        reward_points_expire: //input[@id="magento_reward_general_expiration_days"]
                                     dropdowns:
-                                        enable_reward_points: //select[@id="enterprise_reward_general_is_enabled"]
-                                        enable_reward_points_on_frontend: //select[@id="enterprise_reward_general_is_enabled_on_front"]
-                                        customer_may_see_reward_points_history: //select[@id="enterprise_reward_general_publish_history"]
-                                        reward_points_expiry_calculation: //select[@id="enterprise_reward_general_expiry_calculation"]
-                                        refund_reward_points_automatically: //select[@id="enterprise_reward_general_refund_automatically"]
-                                        landing_page: //select[@id="enterprise_reward_general_landing_page"]
+                                        enable_reward_points: //select[@id="magento_reward_general_is_enabled"]
+                                        enable_reward_points_on_frontend: //select[@id="magento_reward_general_is_enabled_on_front"]
+                                        customer_may_see_reward_points_history: //select[@id="magento_reward_general_publish_history"]
+                                        reward_points_expiry_calculation: //select[@id="magento_reward_general_expiry_calculation"]
+                                        refund_reward_points_automatically: //select[@id="magento_reward_general_refund_automatically"]
+                                        landing_page: //select[@id="magento_reward_general_landing_page"]
                             -
                                 reward_reward_actions:
-                                    xpath: //fieldset[@id='enterprise_reward_points']
+                                    xpath: //fieldset[@id='magento_reward_points']
                                     links:
-                                        reward_reward_actions_link: //parent::div//a[@id='enterprise_reward_points-head']
+                                        reward_reward_actions_link: //parent::div//a[@id='magento_reward_points-head']
                                     fields:
-                                        registration: //input[@id="enterprise_reward_points_register"]
-                                        newsletter_signup: //input[@id="enterprise_reward_points_newsletter"]
-                                        converting_invitatio_to_customer: //input[@id="enterprise_reward_points_invitation_customer"]
-                                        invitation_to_customer_conversions_quantity_limit: //input[@id="enterprise_reward_points_invitation_customer_limit"]
-                                        converting_invitation_to_order: //input[@id="enterprise_reward_points_invitation_order"]
-                                        invitation_to_order_conversions_quantity_limit: //input[@id="enterprise_reward_points_invitation_order_limit"]
-                                        review_submission: //input[@id="enterprise_reward_points_review"]
-                                        rewarded_reviews_submission_quantity_limit: //input[@id="enterprise_reward_points_review_limit"]
-                                        new_tag_submission: //input[@id="enterprise_reward_points_tag"]
-                                        rewarded_tag_submission_quantity_limit: //input[@id="enterprise_reward_points_tag_limit"]
+                                        registration: //input[@id="magento_reward_points_register"]
+                                        newsletter_signup: //input[@id="magento_reward_points_newsletter"]
+                                        converting_invitatio_to_customer: //input[@id="magento_reward_points_invitation_customer"]
+                                        invitation_to_customer_conversions_quantity_limit: //input[@id="magento_reward_points_invitation_customer_limit"]
+                                        converting_invitation_to_order: //input[@id="magento_reward_points_invitation_order"]
+                                        invitation_to_order_conversions_quantity_limit: //input[@id="magento_reward_points_invitation_order_limit"]
+                                        review_submission: //input[@id="magento_reward_points_review"]
+                                        rewarded_reviews_submission_quantity_limit: //input[@id="magento_reward_points_review_limit"]
+                                        new_tag_submission: //input[@id="magento_reward_points_tag"]
+                                        rewarded_tag_submission_quantity_limit: //input[@id="magento_reward_points_tag_limit"]
                                     dropdowns:
-                                        purchase: //select[@id="enterprise_reward_points_order"]
-                                        invitation_conversion_to_order_reward: //select[@id="enterprise_reward_points_invitation_order_frequency"]
+                                        purchase: //select[@id="magento_reward_points_order"]
+                                        invitation_conversion_to_order_reward: //select[@id="magento_reward_points_invitation_order_frequency"]
                             -
                                 reward_email:
-                                    xpath: //fieldset[@id='enterprise_reward_notification']
+                                    xpath: //fieldset[@id='magento_reward_notification']
                                     links:
-                                        reward_email_link: //parent::div//a[@id='enterprise_reward_notification-head']
+                                        reward_email_link: //parent::div//a[@id='magento_reward_notification-head']
                                     fields:
-                                        expiry_warning_before: //input[@id="enterprise_reward_notification_expiry_day_before"]
+                                        expiry_warning_before: //input[@id="magento_reward_notification_expiry_day_before"]
                                     dropdowns:
-                                        email_sender: //select[@id="enterprise_reward_notification_email_sender"]
-                                        subscribe_customer_by_default: //select[@id="enterprise_reward_notification_subscribe_by_default"]
-                                        balance_update_email: //select[@id="enterprise_reward_notification_balance_update_template"]
-                                        reward_points_expiry_warning_email: //select[@id="enterprise_reward_notification_expiry_warning_template"]
+                                        email_sender: //select[@id="magento_reward_notification_email_sender"]
+                                        subscribe_customer_by_default: //select[@id="magento_reward_notification_subscribe_by_default"]
+                                        balance_update_email: //select[@id="magento_reward_notification_balance_update_template"]
+                                        reward_points_expiry_warning_email: //select[@id="magento_reward_notification_expiry_warning_template"]
                 -
                     customers_promotions:
                         xpath: //a[contains(@href, 'edit/section/promo')]
@@ -201,23 +201,23 @@ system_configuration:
                                         email_send_failure_threshold: //input[@id="promo_magento_reminder_threshold"]
                 -
                     customer_reward_points:
-                        xpath: //a[contains(@href, '/edit/section/enterprise_reward/')]
+                        xpath: //a[contains(@href, '/edit/section/magento_reward/')]
                         fieldsets:
                             -
                                 reward_points:
-                                    xpath: //fieldset[@id='enterprise_reward_general']
+                                    xpath: //fieldset[@id='magento_reward_general']
                                     links:
-                                        reward_points_link: //parent::div//a[@id='enterprise_reward_general-head']
+                                        reward_points_link: //parent::div//a[@id='magento_reward_general-head']
                                     dropdowns:
                                         enable_reward_points: //select[@name='groups[general][fields][is_enabled][value]']
                             -
                                 actions_for_acquiring_reward_points:
-                                    xpath: //fieldset[@id='enterprise_reward_points']
+                                    xpath: //fieldset[@id='magento_reward_points']
                                     links:
-                                        actions_for_acquiring_reward_points_link: //parent::div//a[@id='enterprise_reward_points-head']
+                                        actions_for_acquiring_reward_points_link: //parent::div//a[@id='magento_reward_points-head']
                                     fields:
-                                        new_tag_submission: //input[@id ='enterprise_reward_points_tag']
-                                        rewarded_tag_submission_limit: //input[@id ='enterprise_reward_points_tag_limit']
+                                        new_tag_submission: //input[@id ='magento_reward_points_tag']
+                                        rewarded_tag_submission_limit: //input[@id ='magento_reward_points_tag_limit']
                 -
                     customer_gift_registry:
                         xpath: //a[contains(@href, 'edit/section/magento_giftregistry/')]
@@ -606,7 +606,7 @@ system_configuration:
                                         magento_pricepermissions: //select[@name='groups[modules_disable_output][fields][Magento_PricePermissions][value]']
                                         magento_promotionpermissions: //select[@name='groups[modules_disable_output][fields][Magento_PromotionPermissions][value]']
                                         magento_reminder: //select[@name='groups[modules_disable_output][fields][Magento_Reminder][value]']
-                                        enterprise_reward: //select[@name='groups[modules_disable_output][fields][Enterprise_Reward][value]']
+                                        magento_reward: //select[@name='groups[modules_disable_output][fields][Magento_Reward][value]']
                                         enterprise_rma: //select[@name='groups[modules_disable_output][fields][Enterprise_Rma][value]']
                                         enterprise_salesarchive: //select[@name='groups[modules_disable_output][fields][Enterprise_SalesArchive][value]']
                                         enterprise_search: //select[@name='groups[modules_disable_output][fields][Enterprise_Search][value]']
@@ -640,7 +640,7 @@ system_configuration:
                                         magento_pricepermissions_use_default: //input[@name='groups[modules_disable_output][fields][Magento_PricePermissions][inherit]']
                                         magento_promotionpermissions_use_default: //input[@name='groups[modules_disable_output][fields][Magento_PromotionPermissions][inherit]']
                                         magento_reminder_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Reminder][inherit]']
-                                        enterprise_reward_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Reward][inherit]']
+                                        magento_reward_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Reward][inherit]']
                                         enterprise_rma_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Rma][inherit]']
                                         enterprise_salesarchive_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_SalesArchive][inherit]']
                                         enterprise_search_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Search][inherit]']

@@ -296,9 +296,9 @@
                     <magento_widget_model_resource_widget_instance_collection>addStoreFilter</magento_widget_model_resource_widget_instance_collection>
                     <magento_sales_model_resource_order_payment_transaction_collection>addStoreFilter</magento_sales_model_resource_order_payment_transaction_collection>
                     <magento_banner_model_resource_banner_collection>addStoreFilter</magento_banner_model_resource_banner_collection>
-                    <enterprise_reward_model_resource_reward_history_collection>limitRewardHistoryWebsites</enterprise_reward_model_resource_reward_history_collection>
-                    <enterprise_reward_model_resource_reward_collection>limitRewardBalanceWebsites</enterprise_reward_model_resource_reward_collection>
-                    <enterprise_reward_model_resource_reward_rate_collection>limitRewardBalanceWebsites</enterprise_reward_model_resource_reward_rate_collection>
+                    <magento_reward_model_resource_reward_history_collection>limitRewardHistoryWebsites</magento_reward_model_resource_reward_history_collection>
+                    <magento_reward_model_resource_reward_collection>limitRewardBalanceWebsites</magento_reward_model_resource_reward_collection>
+                    <magento_reward_model_resource_reward_rate_collection>limitRewardBalanceWebsites</magento_reward_model_resource_reward_rate_collection>
                     <magento_customerBalance_model_resource_balance_history_collection>limitStoreCreditsHistory</magento_customerBalance_model_resource_balance_history_collection>
                     <magento_customerBalance_model_resource_balance_history_collection>limitStoreCredits</magento_customerBalance_model_resource_balance_history_collection>
                     <magento_giftRegistry_model_resource_entity_collection>limitGiftRegistryEntityWebsites</magento_giftRegistry_model_resource_entity_collection>
@@ -337,7 +337,7 @@
                     <magento_giftCardAccount_model_giftcardaccount>giftCardAccountSaveBefore</magento_giftCardAccount_model_giftcardaccount>
                     <magento_giftRegistry_model_type>giftRegistryTypeSaveBefore</magento_giftRegistry_model_type>
                     <magento_giftWrapping_model_wrapping>giftWrappingSaveBefore</magento_giftWrapping_model_wrapping>
-                    <enterprise_reward_model_reward_rate>rewardRateSaveBefore</enterprise_reward_model_reward_rate>
+                    <magento_reward_model_reward_rate>rewardRateSaveBefore</magento_reward_model_reward_rate>
                     <magento_review_model_review>catalogProductReviewSaveBefore</magento_review_model_review>
                     <magento_rating_model_rating>ratingSaveBefore</magento_rating_model_rating>
                 </model_save_before>
@@ -363,7 +363,7 @@
                     <magento_giftCardAccount_model_giftcardaccount>giftCardAccountDeleteBefore</magento_giftCardAccount_model_giftcardaccount>
                     <magento_giftRegistry_model_type>giftRegistryTypeDeleteBefore</magento_giftRegistry_model_type>
                     <magento_review_model_review>catalogProductReviewDeleteBefore</magento_review_model_review>
-                    <enterprise_reward_model_reward_rate>rewardRateDeleteBefore</enterprise_reward_model_reward_rate>
+                    <magento_reward_model_reward_rate>rewardRateDeleteBefore</magento_reward_model_reward_rate>
                 </model_delete_before>
                 <model_load_after>
                     <magento_catalog_model_product>catalogProductLoadAfter</magento_catalog_model_product>
@@ -503,7 +503,7 @@
                     <magento_adminhtml_block_cms_page_edit>removeCmsPageButtons</magento_adminhtml_block_cms_page_edit>
                     <magento_adminhtml_block_cms_block_edit>removeCmsBlockButtons</magento_adminhtml_block_cms_block_edit>
                     <magento_adminhtml_block_poll_edit>removePollButtons</magento_adminhtml_block_poll_edit>
-                    <enterprise_reward_block_adminhtml_reward_rate_edit>removeRewardRateButtons</enterprise_reward_block_adminhtml_reward_rate_edit>
+                    <magento_reward_block_adminhtml_reward_rate_edit>removeRewardRateButtons</magento_reward_block_adminhtml_reward_rate_edit>
                     <magento_adminhtml_block_sales_order_grid>removeNotAllowedMassactionsForOrders</magento_adminhtml_block_sales_order_grid>
                     <magento_index_block_adminhtml_process_grid>removeProcessListButtons</magento_index_block_adminhtml_process_grid>
                     <magento_index_block_adminhtml_process_edit>removeProcessEditButtons</magento_index_block_adminhtml_process_edit>

@@ -49,7 +49,7 @@ return array(
     array('increaseOrderInvoicedAmount', 'Magento_GiftCardAccount_Model_Observer'),
     array('blockCreateAfter', 'Enterprise_PageCache_Model_Observer'),
     array('_checkViewedProducts', 'Enterprise_PageCache_Model_Observer'),
-    array('invoiceSaveAfter', 'Enterprise_Reward_Model_Observer'),
+    array('invoiceSaveAfter', 'Magento_Reward_Model_Observer'),
     array('_calcMinMax', 'Magento_GiftCard_Block_Catalog_Product_Price'),
     array('_getAmounts', 'Magento_GiftCard_Block_Catalog_Product_Price'),
     array('searchSuggestions', 'Enterprise_Search_Model_Client_Solr'),

@@ -150,7 +150,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit Reward Points history collection
      *
-     * @param Enterprise_Reward_Model_Resource_Reward_History_Collection $collection
+     * @param Magento_Reward_Model_Resource_Reward_History_Collection $collection
      */
     public function limitRewardHistoryWebsites($collection)
     {
@@ -160,7 +160,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit Reward Points balance collection
      *
-     * @param Enterprise_Reward_Model_Resource_Reward_Collection $collection
+     * @param Magento_Reward_Model_Resource_Reward_Collection $collection
      */
     public function limitRewardBalanceWebsites($collection)
     {

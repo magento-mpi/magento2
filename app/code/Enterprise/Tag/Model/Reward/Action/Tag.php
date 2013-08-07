@@ -15,7 +15,7 @@
  * @package     Enterprise_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Tag_Model_Reward_Action_Tag extends Enterprise_Reward_Model_Action_Abstract
+class Enterprise_Tag_Model_Reward_Action_Tag extends Magento_Reward_Model_Action_Abstract
 {
     /**
      * Retrieve points delta for action
@@ -25,8 +25,8 @@ class Enterprise_Tag_Model_Reward_Action_Tag extends Enterprise_Reward_Model_Act
      */
     public function getPoints($websiteId)
     {
-        /** @var $helper Enterprise_Reward_Helper_Data */
-        $helper = Mage::helper('Enterprise_Reward_Helper_Data');
+        /** @var $helper Magento_Reward_Helper_Data */
+        $helper = Mage::helper('Magento_Reward_Helper_Data');
         return (int) $helper->getPointsConfig('tag', $websiteId);
     }
 
@@ -37,8 +37,8 @@ class Enterprise_Tag_Model_Reward_Action_Tag extends Enterprise_Reward_Model_Act
      */
     public function getRewardLimit()
     {
-        /** @var $helper Enterprise_Reward_Helper_Data */
-        $helper = Mage::helper('Enterprise_Reward_Helper_Data');
+        /** @var $helper Magento_Reward_Helper_Data */
+        $helper = Mage::helper('Magento_Reward_Helper_Data');
         return $helper->getPointsConfig('tag_limit', $this->getReward()->getWebsiteId());
     }
 
@@ -58,7 +58,7 @@ class Enterprise_Tag_Model_Reward_Action_Tag extends Enterprise_Reward_Model_Act
      * Setter for $_entity and add some extra data to history
      *
      * @param Magento_Object $entity
-     * @return Enterprise_Reward_Model_Action_Abstract
+     * @return Magento_Reward_Model_Action_Abstract
      */
     public function setEntity($entity)
     {

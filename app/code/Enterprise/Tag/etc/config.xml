@@ -12,14 +12,14 @@
 <config>
     <frontend>
         <events>
-            <controller_action_predispatch_enterprise_reward_customer_info>
+            <controller_action_predispatch_magento_reward_customer_info>
                 <observers>
                     <add_reward_action>
                         <class>Enterprise_Tag_Model_Observer</class>
                         <method>addActionClassToRewardModel</method>
                     </add_reward_action>
                 </observers>
-            </controller_action_predispatch_enterprise_reward_customer_info>
+            </controller_action_predispatch_magento_reward_customer_info>
         </events>
     </frontend>
     <adminhtml>
@@ -81,11 +81,11 @@
     </adminhtml>
     <crontab>
         <jobs>
-            <enterprise_reward_balance_warning_notification>
+            <magento_reward_balance_warning_notification>
                 <run>
                     <model>Enterprise_Tag_Model_Reward_Observer::scheduledBalanceExpireNotification</model>
                 </run>
-            </enterprise_reward_balance_warning_notification>
+            </magento_reward_balance_warning_notification>
         </jobs>
     </crontab>
 </config>

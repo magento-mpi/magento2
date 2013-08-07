@@ -21,8 +21,8 @@ Magento/Logging/Block
 Magento/Pbridge
 Enterprise/PageCache/Model/Container/Sidebar
 Magento/Reminder
-Enterprise/Reward/Model/Action
-Enterprise/Reward/Model/Resource
+Magento/Reward/Model/Action
+Magento/Reward/Model/Resource
 Enterprise/Rma
 Enterprise/SalesArchive
 Enterprise/Search

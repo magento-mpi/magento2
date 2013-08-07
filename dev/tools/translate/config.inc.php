@@ -483,8 +483,8 @@ $CONFIG['translates'] = array(
         'app/code/Magento/Reminder/',
         'app/design/adminhtml/default/default/layout/enterprise/reminder.xml'
     ),
-    'Enterprise_Reward' => array(
-        'app/code/Enterprise/Reward/',
+    'Magento_Reward' => array(
+        'app/code/Magento/Reward/',
         'app/design/adminhtml/default/default/layout/enterprise/reward.xml',
         'app/design/adminhtml/default/default/template/enterprise/reward/',
         'app/design/frontend/enterprise/default/layout/reward.xml',
@@ -657,7 +657,7 @@ $CONFIG['helpers']  = array(
     'magento_pricepermissions'   => 'Magento_PricePermissions',
     'magento_promotionpermissions' => 'Magento_PromotionPermissions',
     'magento_reminder'           => 'Magento_Reminder',
-    'enterprise_reward'             => 'Enterprise_Reward',
+    'magento_reward'             => 'Magento_Reward',
     'enterprise_rma'                => 'Enterprise_Rma',
     'enterprise_salesarchive'       => 'Enterprise_SalesArchive',
     'enterprise_search'             => 'Enterprise_Search',

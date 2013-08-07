@@ -53,8 +53,8 @@ foreach (Mage::app()->getWebsites() as $website) {
     $customerBalance->setWebsiteId($website->getId());
     $customerBalance->save();
 
-    /** @var $rewardPoints Enterprise_Reward_Model_Reward */
-    $rewardPoints = Mage::getModel('Enterprise_Reward_Model_Reward');
+    /** @var $rewardPoints Magento_Reward_Model_Reward */
+    $rewardPoints = Mage::getModel('Magento_Reward_Model_Reward');
     $rewardPoints->setCustomerId($customer->getId());
     $rewardPointsBalance = 100 + $increment;
     $registerKey = 'reward_point_balance_' . $website->getCode();

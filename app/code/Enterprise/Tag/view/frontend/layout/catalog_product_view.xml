@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <catalog_product_view>
         <reference name="product.tag.list.list.before">
-            <block type="Enterprise_Tag_Block_Reward_Tooltip" name="reward.tooltip.tag" template="Enterprise_Reward::tooltip.phtml">
+            <block type="Enterprise_Tag_Block_Reward_Tooltip" name="reward.tooltip.tag" template="Magento_Reward::tooltip.phtml">
                 <action method="initRewardType">
                     <type>Enterprise_Tag_Model_Reward_Action_Tag</type>
                 </action>

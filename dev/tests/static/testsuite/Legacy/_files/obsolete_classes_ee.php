@@ -24,7 +24,7 @@ return array(
     array('Magento_Logging_Block_Adminhtml_Index_Grid'),
     array('Magento_Pci_Block_Adminhtml_Locks_Grid'),
     array('Magento_Reminder_Block_Adminhtml_Reminder_Grid'),
-    array('Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid'),
+    array('Magento_Reward_Block_Adminhtml_Reward_Rate_Grid'),
     array('Enterprise_Search_Model_Indexer_Price'),
     array('Enterprise_Search_Model_Resource_Suggestions'),
     array('Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid'),

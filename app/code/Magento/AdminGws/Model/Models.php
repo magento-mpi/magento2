@@ -102,7 +102,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Limit Reward Exchange Rate entity saving
      *
-     * @param Enterprise_Reward_Model_Resource_Reward_Rate $model
+     * @param Magento_Reward_Model_Resource_Reward_Rate $model
      * @return void
      */
     public function rewardRateSaveBefore($model)
@@ -124,7 +124,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Limit Reward Exchange Rate entity delete
      *
-     * @param Enterprise_Reward_Model_Resource_Reward_Rate $model
+     * @param Magento_Reward_Model_Resource_Reward_Rate $model
      * @return void
      */
     public function rewardRateDeleteBefore($model)

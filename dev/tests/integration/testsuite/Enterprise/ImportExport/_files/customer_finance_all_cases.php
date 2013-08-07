@@ -34,8 +34,8 @@ $customerBalance->setAmountDelta(10);
 $customerBalance->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customerBalance->save();
 
-/** @var $rewardPoints Enterprise_Reward_Model_Reward */
-$rewardPoints = Mage::getModel('Enterprise_Reward_Model_Reward');
+/** @var $rewardPoints Magento_Reward_Model_Reward */
+$rewardPoints = Mage::getModel('Magento_Reward_Model_Reward');
 $rewardPoints->setCustomerId($customer->getId());
 $rewardPoints->setPointsBalance(20);
 $rewardPoints->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
@@ -56,8 +56,8 @@ $customer->setEmail($customerEmail);
 $customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customer->save();
 
-/** @var $rewardPoints Enterprise_Reward_Model_Reward */
-$rewardPoints = Mage::getModel('Enterprise_Reward_Model_Reward');
+/** @var $rewardPoints Magento_Reward_Model_Reward */
+$rewardPoints = Mage::getModel('Magento_Reward_Model_Reward');
 $rewardPoints->setCustomerId($customer->getId());
 $rewardPoints->setPointsBalance(20);
 $rewardPoints->setWebsiteId(Mage::app()->getStore()->getWebsiteId());

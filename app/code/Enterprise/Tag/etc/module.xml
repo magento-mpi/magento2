@@ -11,7 +11,7 @@
     <module name="Enterprise_Tag" version="1.0.0.0" active="false">
         <depends>
             <module name="Magento_Tag" />
-            <module name="Enterprise_Reward" />
+            <module name="Magento_Reward" />
             <module name="Magento_AdminGws" />
         </depends>
     </module>

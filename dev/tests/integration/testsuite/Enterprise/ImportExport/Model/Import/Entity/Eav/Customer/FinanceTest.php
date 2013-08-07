@@ -83,9 +83,9 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $customerCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
         /** @var $customer Magento_Customer_Model_Customer */
         foreach ($customerCollection as $customer) {
-            $rewardCollection = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_Collection');
+            $rewardCollection = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_Collection');
             $rewardCollection->addFieldToFilter('customer_id', $customer->getId());
-            /** @var $rewardPoints Enterprise_Reward_Model_Reward */
+            /** @var $rewardPoints Magento_Reward_Model_Reward */
             foreach ($rewardCollection as $rewardPoints) {
                 $websiteCode = $websiteCodes[$rewardPoints->getWebsiteId()];
                 $expected = $expectedFinanceData[$customer->getEmail()][$websiteCode][$rewardPointsKey];
@@ -137,11 +137,11 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $model->validateData();
         $model->importData();
 
-        $rewards  = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_Collection');
+        $rewards  = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_Collection');
         $balances = Mage::getResourceModel('Magento_CustomerBalance_Model_Resource_Balance_Collection');
 
         $expectedRewards = Mage::registry('_fixture/Enterprise_ImportExport_Customers_ExpectedRewards');
-        /** @var $reward Enterprise_Reward_Model_Reward */
+        /** @var $reward Magento_Reward_Model_Reward */
         foreach ($rewards as $reward) {
             $this->assertEquals(
                 $reward->getPointsBalance(),

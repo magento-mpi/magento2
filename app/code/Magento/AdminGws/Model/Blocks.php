@@ -420,7 +420,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
      */
     public function removeRewardRateButtons($observer)
     {
-        /* @var $model Enterprise_Reward_Model_Resource_Reward_Rate */
+        /* @var $model Magento_Reward_Model_Resource_Reward_Rate */
         $model = Mage::registry('current_reward_rate');
         if ($model) {
             if ($model->getId() && !in_array($model->getWebsiteId(), $this->_role->getWebsiteIds())) {
