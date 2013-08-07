@@ -1,0 +1,19 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<theme>
+    <title>Umecha</title>
+    <version>1.0.0.0</version>
+    <parent>magento_upstream</parent>
+    <media>
+        <preview_image>media/preview.jpg</preview_image>
+    </media>
+</theme>
+

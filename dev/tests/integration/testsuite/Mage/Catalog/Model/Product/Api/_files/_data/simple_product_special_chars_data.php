@@ -42,7 +42,7 @@ return array(
     'meta_title' => '!";%:?*()_+{}[]\|<>,.?/',
     'meta_keyword' => '!";%:?*()_+{}[]\|<>,.?/',
     'meta_description' => str_pad('', 8, '!";%:?*_+{}[]\|<>,.?'),
-    'custom_design' => 'mage_blank',
+    'custom_design' => 'magento_blank',
     'custom_design_from' => date('Y-m-d'),
     'custom_design_to' => date('Y-m-d', time() + 24 * 3600),
     'page_layout' => 'one_column',

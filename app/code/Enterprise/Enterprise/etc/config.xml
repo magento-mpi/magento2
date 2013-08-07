@@ -41,7 +41,7 @@
     <frontend>
         <design>
             <theme>
-                <full_name>mage_fixed_width</full_name>
+                <full_name>magento_fixed_width</full_name>
             </theme>
         </design>
     </frontend>
@@ -58,7 +58,7 @@
         </events>
         <design>
             <theme>
-                <full_name>mage_backend</full_name>
+                <full_name>magento_backend</full_name>
             </theme>
         </design>
     </adminhtml>
@@ -76,7 +76,7 @@
         </events>
         <design>
             <theme>
-                <full_name>mage_enterprise</full_name>
+                <full_name>magento_enterprise</full_name>
             </theme>
         </design>
     </install>

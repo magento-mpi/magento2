@@ -2,9 +2,9 @@
 #
 LICENSE_PRO.html
 LICENSE_PRO.txt
-app/design/adminhtml/mage_pro
-app/design/frontend/mage_fluid
-app/design/install/mage_pro
+app/design/adminhtml/magento_pro
+app/design/frontend/magento_fluid
+app/design/install/magento_pro
 app/etc/aliases_to_classes_map.json
 dev/tests/functional
 dev/tests/integration/testsuite/Mage/Catalog/Model/Product/Api/TagCRUDTest.php

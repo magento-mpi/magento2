@@ -50,28 +50,6 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Expected theme data from configuration
-     *
-     * @return array
-     */
-    protected function _expectedThemeDataFromConfiguration()
-    {
-        return array(
-            'parent_id'            => null,
-            'theme_path'           => 'default/iphone',
-            'theme_version'        => '2.0.0.1',
-            'theme_title'          => 'Iphone',
-            'preview_image'        => 'images/preview.png',
-            'is_featured'          => true,
-            'theme_directory'      => implode(DIRECTORY_SEPARATOR,
-                array(__DIR__, '_files', 'frontend', 'default', 'iphone')),
-            'parent_theme_path'    => null,
-            'area'                 => 'frontend',
-            'code'                 => 'default/iphone',
-        );
-    }
-
-    /**
      * @covers Mage_Core_Model_Theme::getThemeImage
      */
     public function testThemeImageGetter()

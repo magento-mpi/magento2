@@ -95,7 +95,7 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
             'theme_title'          => 'Iphone',
             'theme_version'        => '2.0.0.0',
             'parent_theme'         => array('default', 'default'),
-            'theme_path'           => 'default/iphone',
+            'theme_path'           => 'magento_iphone',
             'preview_image'        => 'images/preview.png',
         );
     }
@@ -112,7 +112,7 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
             'theme_title'          => 'Iphone',
             'theme_version'        => 'last theme version',
             'parent_theme'         => array('default', 'default'),
-            'theme_path'           => 'default/iphone',
+            'theme_path'           => 'magento_iphone',
             'preview_image'        => 'images/preview.png',
         );
     }

@@ -90,7 +90,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     {
         Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_setBlueThemeForFixtureStore();
-        $expectedViewUrl = 'static/frontend/mage_demo_blue/en_US/Mage_Page/favicon.ico';
+        $expectedViewUrl = 'static/frontend/magento_demo_blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplate());
         $this->_model->setDesignConfig(array(
@@ -100,13 +100,13 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Set 'default/demo_blue' for the 'fixturestore' store.
+     * Set 'magento_demo_blue' for the 'fixturestore' store.
      * Application isolation is required, if a test uses this method.
      */
     protected function _setBlueThemeForFixtureStore()
     {
         $theme = Mage::getModel('Mage_Core_Model_Theme');
-        $theme->load('mage_demo_blue', 'theme_path');
+        $theme->load('magento_demo_blue', 'theme_path');
         Mage::app()->getStore('fixturestore')
             ->setConfig(Mage_Core_Model_View_Design::XML_PATH_THEME_ID, $theme->getId());
     }
@@ -120,7 +120,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsWith(
-            'static/frontend/mage_modern/en_US/Mage_Page/favicon.ico',
+            'static/frontend/magento_modern/en_US/Mage_Page/favicon.ico',
             $this->_model->getProcessedTemplate()
         );
     }
@@ -133,7 +133,7 @@ class Mage_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     {
         Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_setBlueThemeForFixtureStore();
-        $expectedViewUrl = 'static/frontend/mage_demo_blue/en_US/Mage_Page/favicon.ico';
+        $expectedViewUrl = 'static/frontend/magento_demo_blue/en_US/Mage_Page/favicon.ico';
         $this->_model->setTemplateSubject('{{view url="Mage_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
         $this->_model->setDesignConfig(array(

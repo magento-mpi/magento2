@@ -119,7 +119,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
         $themeCollection = Mage::getModel('Mage_Core_Model_Theme')->getCollection();
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themeCollection as $theme) {
-            if ($theme->getFullPath() == 'frontend/magento2/reference') {
+            if ($theme->getFullPath() == 'frontend/magento_reference') {
                 /** Skip the theme because of MAGETWO-9063 */
                 continue;
             }

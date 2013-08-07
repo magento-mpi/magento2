@@ -44,9 +44,9 @@ class Mage_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPlaceholderImageUrl($type, $expectedFile)
     {
-        Mage::getDesign()->setDesignTheme('mage_basic', 'adminhtml');
+        Mage::getDesign()->setDesignTheme('magento_basic', 'adminhtml');
         $expectedPubFile = Mage::getBaseDir(Mage_Core_Model_Dir::STATIC_VIEW)
-            . "/adminhtml/mage_basic/en_US/{$expectedFile}";
+            . "/adminhtml/magento_basic/en_US/{$expectedFile}";
         if (file_exists($expectedPubFile)) {
             unlink($expectedPubFile);
         }
@@ -93,7 +93,7 @@ class Mage_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
         );
 
         $expectedFile = dirname(__DIR__)
-            . '/_files/design/adminhtml/mage_basic/Mage_Catalog/images/product_widget_new.gif';
+            . '/_files/design/adminhtml/magento_basic/Mage_Catalog/images/product_widget_new.gif';
         $this->assertFileEquals($expectedFile, $actualFile);
     }
 }

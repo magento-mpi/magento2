@@ -1,0 +1,15 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<theme>
+    <title>Magento EE</title>
+    <version>2.0.0.0</version>
+    <parent>magento_basic</parent>
+</theme>

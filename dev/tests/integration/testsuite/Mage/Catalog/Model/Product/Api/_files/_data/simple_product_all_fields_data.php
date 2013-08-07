@@ -43,7 +43,7 @@ return array(
     'meta_title' => 'Test title',
     'meta_keyword' => 'Test keyword',
     'meta_description' => str_pad('', 85, 'a4b'),
-    'custom_design' => 'mage_blank',
+    'custom_design' => 'magento_blank',
     'custom_design_from' => date('Y-m-d'),
     'custom_design_to' => date('Y-m-d', time() + 24 * 3600),
     'custom_layout_update' => '<xml><layout>Test Custom Layout Update</layout></xml>',

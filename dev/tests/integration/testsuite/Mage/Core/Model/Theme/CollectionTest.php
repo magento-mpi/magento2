@@ -57,15 +57,15 @@ class Mage_Core_Model_Theme_CollectionTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'themePath'    => implode(DIRECTORY_SEPARATOR, array('frontend', 'mage_default', 'theme.xml')),
+                'themePath'    => implode(DIRECTORY_SEPARATOR, array('frontend', 'magento_default', 'theme.xml')),
                 'expectedData' => array(
                     'area'                 => 'frontend',
                     'theme_title'          => 'Default',
                     'theme_version'        => '2.0.0.0',
                     'parent_id'            => null,
                     'parent_theme_path'    => null,
-                    'theme_path'           => 'mage_default',
-                    'code'                 => 'mage_default',
+                    'theme_path'           => 'magento_default',
+                    'code'                 => 'magento_default',
                     'preview_image'        => null,
                     'type'                 => Mage_Core_Model_Theme::TYPE_PHYSICAL
                 )

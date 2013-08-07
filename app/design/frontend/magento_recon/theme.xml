@@ -1,0 +1,18 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<theme>
+    <title>Recon</title>
+    <version>1.0.0.0</version>
+    <parent>magento_hobby</parent>
+    <media>
+        <preview_image>media/preview.jpg</preview_image>
+    </media>
+</theme>
