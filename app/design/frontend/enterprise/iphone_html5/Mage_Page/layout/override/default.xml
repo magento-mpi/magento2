@@ -8,7 +8,7 @@
  */
 -->
 <layout version="0.1.0">
-    <default translate="label" module="Mage_Page" type="page">
+    <default translate="label" type="page">
         <label>All Pages</label>
         <block type="Mage_Page_Block_Html" name="root" output="1" template="1column.phtml">
             <block type="Mage_Page_Block_Html_Head" name="head" as="head">
