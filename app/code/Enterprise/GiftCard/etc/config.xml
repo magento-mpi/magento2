@@ -32,7 +32,7 @@
         <catalog>
             <product>
                 <type>
-                    <giftcard translate="label" module="Enterprise_GiftCard">
+                    <giftcard translate="label">
                         <label>Gift Card</label>
                         <model>Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard</model>
                         <price_model>Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard</price_model>

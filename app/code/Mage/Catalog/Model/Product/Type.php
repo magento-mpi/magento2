@@ -199,12 +199,7 @@ class Mage_Catalog_Model_Product_Type
             $config = Mage::getObjectManager()->get('Mage_Core_Model_Config_Modules');
             $productTypes = $config->getNode('global/catalog/product/type')->asArray();
             foreach ($productTypes as $productKey => $productConfig) {
-                $moduleName = 'Mage_Catalog_Helper_Data';
-                if (isset($productConfig['@']['module'])) {
-                    $moduleName = $productConfig['@']['module'];
-                }
-                $translatedLabel = Mage::helper($moduleName)->__($productConfig['label']);
-                $productTypes[$productKey]['label'] = $translatedLabel;
+                $productTypes[$productKey]['label'] = __($productConfig['label']);
             }
             self::$_types = $productTypes;
         }
