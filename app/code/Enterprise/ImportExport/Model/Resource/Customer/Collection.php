@@ -70,8 +70,8 @@ class Enterprise_ImportExport_Model_Resource_Customer_Collection
      */
     public function joinWithCustomerBalance()
     {
-        /** @var $customerBalanceResourceModel Enterprise_CustomerBalance_Model_Resource_Balance */
-        $customerBalanceResourceModel = Mage::getResourceModel('Enterprise_CustomerBalance_Model_Resource_Balance');
+        /** @var $customerBalanceResourceModel Magento_CustomerBalance_Model_Resource_Balance */
+        $customerBalanceResourceModel = Mage::getResourceModel('Magento_CustomerBalance_Model_Resource_Balance');
 
         $joinFlag = 'join_customer_balance';
         if (!$this->getFlag($joinFlag)) {

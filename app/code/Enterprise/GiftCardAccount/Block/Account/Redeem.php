@@ -17,7 +17,7 @@ class Enterprise_GiftCardAccount_Block_Account_Redeem extends Magento_Core_Block
      */
     public function canRedeem()
     {
-        return Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled();
+        return Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled();
     }
 
     /**

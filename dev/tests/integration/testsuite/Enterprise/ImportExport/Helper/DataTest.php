@@ -82,11 +82,11 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is customer balance enabled in config - active/enabled
      *
-     * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled  1
+     * @magentoConfigFixture current_store customer/magento_customerbalance/is_enabled  1
      */
     public function testisCustomerBalanceEnabledActiveEnabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Enterprise_CustomerBalance')
+        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_CustomerBalance')
             ->will($this->returnValue(true));
         $this->assertTrue($this->_importExportHelper->isCustomerBalanceEnabled());
     }
@@ -94,11 +94,11 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is customer balance enabled in config - active/disabled
      *
-     * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled  0
+     * @magentoConfigFixture current_store customer/magento_customerbalance/is_enabled  0
      */
     public function testisCustomerBalanceEnabledActiveDisabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Enterprise_CustomerBalance')
+        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_CustomerBalance')
             ->will($this->returnValue(true));
         $this->assertFalse($this->_importExportHelper->isCustomerBalanceEnabled());
     }
@@ -106,11 +106,11 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is customer balance enabled in config - inactive/enabled
      *
-     * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled  1
+     * @magentoConfigFixture current_store customer/magento_customerbalance/is_enabled  1
      */
     public function testisCustomerBalanceEnabledInactiveEnabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Enterprise_CustomerBalance')
+        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_CustomerBalance')
             ->will($this->returnValue(null));
         $this->assertFalse($this->_importExportHelper->isCustomerBalanceEnabled());
     }
@@ -118,11 +118,11 @@ class Enterprise_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Is customer balance enabled in config - inactive/disabled
      *
-     * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled  0
+     * @magentoConfigFixture current_store customer/magento_customerbalance/is_enabled  0
      */
     public function testisCustomerBalanceEnabledInactiveDisabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Enterprise_CustomerBalance')
+        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_CustomerBalance')
             ->will($this->returnValue(null));
         $this->assertFalse($this->_importExportHelper->isCustomerBalanceEnabled());
     }

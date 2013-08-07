@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_customer_edit>
+        <reference name="customer_edit_tabs">
+            <block type="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance" name="customerbalance"/>
+            <action method="addTab">
+                <name>customerbalance</name>
+                <block>customerbalance</block>
+            </action>
+        </reference>
+        <reference name="customer_edit_tab_view">
+            <block type="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance" name="customerbalance.balance" template="balance.phtml" before="-">
+                <block type="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid" name="customer.balance.grid" as="grid"/>
+            </block>
+        </reference>
+    </adminhtml_customer_edit>
+</layout>

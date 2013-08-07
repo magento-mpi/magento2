@@ -34,7 +34,7 @@ class Enterprise_GiftCardAccount_Controller_Customer extends Magento_Core_Contro
         if (isset($data['giftcard_code'])) {
             $code = $data['giftcard_code'];
             try {
-                if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
+                if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
                     Mage::throwException($this->__("You can't redeem a gift card now."));
                 }
                 Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')->loadByCode($code)

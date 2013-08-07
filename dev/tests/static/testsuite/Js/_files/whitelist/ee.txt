@@ -1,6 +1,6 @@
 app/code/Enterprise/Cms
 app/code/Enterprise/Customer
-app/code/Enterprise/CustomerBalance
+app/code/Magento/CustomerBalance
 app/code/Enterprise/GiftCard
 app/code/Enterprise/GiftCardAccount
 app/code/Enterprise/GiftRegistry

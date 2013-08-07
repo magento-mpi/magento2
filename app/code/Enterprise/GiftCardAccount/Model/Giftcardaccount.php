@@ -449,7 +449,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Mode
 
             $additionalInfo = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card Redeemed: %s. For customer #%s.', $this->getCode(), $customerId);
 
-            $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
+            $balance = Mage::getModel('Magento_CustomerBalance_Model_Balance')
                 ->setCustomerId($customerId)
                 ->setWebsiteId(Mage::app()->getWebsite()->getId())
                 ->setAmountDelta($this->getBalance())

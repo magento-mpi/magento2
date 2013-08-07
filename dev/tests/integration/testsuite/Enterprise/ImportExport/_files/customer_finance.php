@@ -42,8 +42,8 @@ $increment = 0;
 foreach (Mage::app()->getWebsites() as $website) {
     $increment += 10;
 
-    /** @var $customerBalance Enterprise_CustomerBalance_Model_Balance */
-    $customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
+    /** @var $customerBalance Magento_CustomerBalance_Model_Balance */
+    $customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
     $customerBalance->setCustomerId($customer->getId());
     $customerBalanceAmount = 50 + $increment;
     $registerKey = 'customer_balance_' . $website->getCode();

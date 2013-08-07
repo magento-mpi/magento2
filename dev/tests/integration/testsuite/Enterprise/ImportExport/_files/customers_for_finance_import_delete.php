@@ -46,8 +46,8 @@ $customer->setWebsiteId(0)
 $customer->isObjectNew(true);
 $customer->save();
 
-/** @var $customerBalance Enterprise_CustomerBalance_Model_Balance */
-$customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
+/** @var $customerBalance Magento_CustomerBalance_Model_Balance */
+$customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
 $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(50);
 $customerBalance->setWebsiteId($additionalWebsiteId);
@@ -79,8 +79,8 @@ $customer->setWebsiteId(0)
 $customer->isObjectNew(true);
 $customer->save();
 
-/** @var $customerBalance Enterprise_CustomerBalance_Model_Balance */
-$customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
+/** @var $customerBalance Magento_CustomerBalance_Model_Balance */
+$customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
 $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(100);
 $customerBalance->setWebsiteId($defaultWebsiteId);
@@ -112,8 +112,8 @@ $customer->setWebsiteId(0)
 $customer->isObjectNew(true);
 $customer->save();
 
-/** @var $customerBalance Enterprise_CustomerBalance_Model_Balance */
-$customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
+/** @var $customerBalance Magento_CustomerBalance_Model_Balance */
+$customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
 $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(200);
 $customerBalance->setWebsiteId($additionalWebsiteId);
@@ -129,8 +129,8 @@ $rewardPoints->save();
 $expectedBalances[$customer->getId()][$additionalWebsiteId] = 200;
 $expectedRewards[$customer->getId()][$additionalWebsiteId] = 200;
 
-/** @var $customerBalance Enterprise_CustomerBalance_Model_Balance */
-$customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
+/** @var $customerBalance Magento_CustomerBalance_Model_Balance */
+$customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
 $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(300);
 $customerBalance->setWebsiteId($defaultWebsiteId);
@@ -161,8 +161,8 @@ $customer->setWebsiteId(0)
 $customer->isObjectNew(true);
 $customer->save();
 
-/** @var $customerBalance Enterprise_CustomerBalance_Model_Balance */
-$customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
+/** @var $customerBalance Magento_CustomerBalance_Model_Balance */
+$customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
 $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(400);
 $customerBalance->setWebsiteId($additionalWebsiteId);
@@ -178,8 +178,8 @@ $rewardPoints->save();
 $expectedBalances[$customer->getId()][$additionalWebsiteId] = 0;
 $expectedRewards[$customer->getId()][$additionalWebsiteId] = 0;
 
-/** @var $customerBalance Enterprise_CustomerBalance_Model_Balance */
-$customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
+/** @var $customerBalance Magento_CustomerBalance_Model_Balance */
+$customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
 $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(500);
 $customerBalance->setWebsiteId($defaultWebsiteId);

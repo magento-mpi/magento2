@@ -518,11 +518,11 @@ class Enterprise_GiftCardAccount_Model_Observer
             }
 
             if ($balance > 0) {
-                Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
+                Mage::getModel('Magento_CustomerBalance_Model_Balance')
                     ->setCustomerId($order->getCustomerId())
                     ->setWebsiteId(Mage::app()->getStore($order->getStoreId())->getWebsiteId())
                     ->setAmountDelta($balance)
-                    ->setHistoryAction(Enterprise_CustomerBalance_Model_Balance_History::ACTION_REVERTED)
+                    ->setHistoryAction(Magento_CustomerBalance_Model_Balance_History::ACTION_REVERTED)
                     ->setOrder($order)
                     ->save();
             }

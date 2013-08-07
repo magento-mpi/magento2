@@ -388,8 +388,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/customer.xml',
         'app/design/frontend/enterprise/default/template/customer/'
     ),
-    'Enterprise_CustomerBalance' => array(
-        'app/code/Enterprise/CustomerBalance/',
+    'Magento_CustomerBalance' => array(
+        'app/code/Magento/CustomerBalance/',
         'app/design/adminhtml/default/default/layout/enterprise/customerbalance.xml',
         'app/design/adminhtml/default/default/template/enterprise/customerbalance/',
         'app/design/frontend/enterprise/default/layout/customerbalance.xml',
@@ -638,7 +638,7 @@ $CONFIG['helpers']  = array(
     'enterprise_checkout'           => 'Enterprise_Checkout',
     'enterprise_cms'                => 'Enterprise_Cms',
     'enterprise_customer'           => 'Enterprise_Customer',
-    'enterprise_customerbalance'    => 'Enterprise_CustomerBalance',
+    'magento_customerbalance'    => 'Magento_CustomerBalance',
     'magento_customersegment'    => 'Magento_CustomerSegment',
     'enterprise_eav'                => 'Enterprise_Eav',
     'enterprise_enterprise'         => 'Enterprise_Enterprise',

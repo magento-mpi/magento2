@@ -310,7 +310,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
     public function getModelInstance($modelClass = '', $constructArguments = array())
     {
         switch ($modelClass) {
-            case 'Enterprise_CustomerBalance_Model_Balance':
+            case 'Magento_CustomerBalance_Model_Balance':
                 $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomer',
                         'getAmount', 'setAmountDelta', 'setComment', 'save'
                     ), $constructArguments, '', false

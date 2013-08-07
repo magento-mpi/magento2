@@ -299,8 +299,8 @@
                     <enterprise_reward_model_resource_reward_history_collection>limitRewardHistoryWebsites</enterprise_reward_model_resource_reward_history_collection>
                     <enterprise_reward_model_resource_reward_collection>limitRewardBalanceWebsites</enterprise_reward_model_resource_reward_collection>
                     <enterprise_reward_model_resource_reward_rate_collection>limitRewardBalanceWebsites</enterprise_reward_model_resource_reward_rate_collection>
-                    <enterprise_customerBalance_model_resource_balance_history_collection>limitStoreCreditsHistory</enterprise_customerBalance_model_resource_balance_history_collection>
-                    <enterprise_customerBalance_model_resource_balance_history_collection>limitStoreCredits</enterprise_customerBalance_model_resource_balance_history_collection>
+                    <magento_customerBalance_model_resource_balance_history_collection>limitStoreCreditsHistory</magento_customerBalance_model_resource_balance_history_collection>
+                    <magento_customerBalance_model_resource_balance_history_collection>limitStoreCredits</magento_customerBalance_model_resource_balance_history_collection>
                     <enterprise_giftRegistry_model_resource_entity_collection>limitGiftRegistryEntityWebsites</enterprise_giftRegistry_model_resource_entity_collection>
                     <magento_review_model_resource_review_product_collection>limitProductReviews</magento_review_model_resource_review_product_collection>
                     <enterprise_rma_model_resource_rma_grid_collection>addStoreAttributeToFilter</enterprise_rma_model_resource_rma_grid_collection>

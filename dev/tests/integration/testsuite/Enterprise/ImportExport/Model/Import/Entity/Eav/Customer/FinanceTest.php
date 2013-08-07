@@ -99,9 +99,9 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                 );
             }
 
-            $customerBalance = Mage::getResourceModel('Enterprise_CustomerBalance_Model_Resource_Balance_Collection');
+            $customerBalance = Mage::getResourceModel('Magento_CustomerBalance_Model_Resource_Balance_Collection');
             $customerBalance->addFieldToFilter('customer_id', $customer->getId());
-            /** @var $balance Enterprise_CustomerBalance_Model_Balance */
+            /** @var $balance Magento_CustomerBalance_Model_Balance */
             foreach ($customerBalance as $balance) {
                 $websiteCode = $websiteCodes[$balance->getWebsiteId()];
                 $expected = $expectedFinanceData[$customer->getEmail()][$websiteCode][$customerBalanceKey];
@@ -138,7 +138,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $model->importData();
 
         $rewards  = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_Collection');
-        $balances = Mage::getResourceModel('Enterprise_CustomerBalance_Model_Resource_Balance_Collection');
+        $balances = Mage::getResourceModel('Magento_CustomerBalance_Model_Resource_Balance_Collection');
 
         $expectedRewards = Mage::registry('_fixture/Enterprise_ImportExport_Customers_ExpectedRewards');
         /** @var $reward Enterprise_Reward_Model_Reward */
@@ -150,7 +150,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         }
 
         $expectedBalances = Mage::registry('_fixture/Enterprise_ImportExport_Customers_ExpectedBalances');
-        /** @var $balance Enterprise_CustomerBalance_Model_Balance */
+        /** @var $balance Magento_CustomerBalance_Model_Balance */
         foreach ($balances as $balance) {
             $this->assertEquals(
                 $balance->getAmount(),

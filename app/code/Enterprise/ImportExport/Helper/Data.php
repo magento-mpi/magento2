@@ -147,9 +147,9 @@ class Enterprise_ImportExport_Helper_Data extends Magento_ImportExport_Helper_Da
      */
     public function isCustomerBalanceEnabled()
     {
-        if ($this->isModuleEnabled('Enterprise_CustomerBalance')) {
-            /** @var $customerBalanceHelper Enterprise_CustomerBalance_Helper_Data */
-            $customerBalanceHelper = Mage::helper('Enterprise_CustomerBalance_Helper_Data');
+        if ($this->isModuleEnabled('Magento_CustomerBalance')) {
+            /** @var $customerBalanceHelper Magento_CustomerBalance_Helper_Data */
+            $customerBalanceHelper = Mage::helper('Magento_CustomerBalance_Helper_Data');
             return $customerBalanceHelper->isEnabled();
         }
         return false;

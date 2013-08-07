@@ -4,8 +4,8 @@ Magento/CatalogPermissions/Model/Resource/Permission
 Enterprise/Cms/Block/Adminhtml
 Enterprise/Cms/Model/Resource/Page
 Enterprise/Customer
-Enterprise/CustomerBalance/Block/Adminhtml
-Enterprise/CustomerBalance/Block/Sales/Order
+Magento/CustomerBalance/Block/Adminhtml
+Magento/CustomerBalance/Block/Sales/Order
 Magento/CustomerSegment/Model
 Magento/CustomerSegment/Block/Adminhtml
 Enterprise/GiftRegistry

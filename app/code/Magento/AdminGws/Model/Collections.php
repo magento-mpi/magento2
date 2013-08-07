@@ -170,7 +170,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit store credit collection
      *
-     * @param Enterprise_CustomerBalance_Model_Resource_Balance_Collection $collection
+     * @param Magento_CustomerBalance_Model_Resource_Balance_Collection $collection
      */
     public function limitStoreCredits($collection)
     {
@@ -180,7 +180,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit store credit collection
      *
-     * @param Enterprise_CustomerBalance_Model_Resource_Balance_History_Collection $collection
+     * @param Magento_CustomerBalance_Model_Resource_Balance_History_Collection $collection
      */
     public function limitStoreCreditsHistory($collection)
     {

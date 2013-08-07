@@ -27,8 +27,8 @@ $customer->setEmail($customerEmail);
 $customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customer->save();
 
-/** @var $customerBalance Enterprise_CustomerBalance_Model_Balance */
-$customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
+/** @var $customerBalance Magento_CustomerBalance_Model_Balance */
+$customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
 $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(10);
 $customerBalance->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
@@ -78,8 +78,8 @@ $customer->setEmail($customerEmail);
 $customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customer->save();
 
-/** @var $customerBalance Enterprise_CustomerBalance_Model_Balance */
-$customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
+/** @var $customerBalance Magento_CustomerBalance_Model_Balance */
+$customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
 $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(10);
 $customerBalance->setWebsiteId(Mage::app()->getStore()->getWebsiteId());

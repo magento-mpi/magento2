@@ -48,7 +48,7 @@ class Enterprise_GiftCardAccount_Model_Api_CustomerTest extends PHPUnit_Framewor
         $this->assertTrue($result);
 
         //Test giftcard redeemed to customer balance
-        $customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
+        $customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
         $customerBalance->setCustomerId($customerId);
         $customerBalance->loadByCustomer();
         $this->assertEquals(9.99, $customerBalance->getAmount());

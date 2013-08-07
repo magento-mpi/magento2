@@ -42,8 +42,8 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
         if (!Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
                 'name'     => 'recipient_store',
-                'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email from the Following Store View'),
-                'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Send Email from the Following Store View'),
+                'label'    => Mage::helper('Magento_CustomerBalance_Helper_Data')->__('Send Email from the Following Store View'),
+                'title'    => Mage::helper('Magento_CustomerBalance_Helper_Data')->__('Send Email from the Following Store View'),
                 'after_element_html' => $this->_getStoreIdScript()
             ));
             $renderer = $this->getLayout()
