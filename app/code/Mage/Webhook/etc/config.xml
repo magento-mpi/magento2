@@ -80,7 +80,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <webhook before="Mage_Adminhtml">Mage_Webhook_Adminhtml</webhook>
+                        <webhook before="Magento_Adminhtml">Mage_Webhook_Adminhtml</webhook>
                     </modules>
                 </args>
             </adminhtml>
