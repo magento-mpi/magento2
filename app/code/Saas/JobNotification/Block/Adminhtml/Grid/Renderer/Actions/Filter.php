@@ -35,10 +35,10 @@ class Saas_JobNotification_Block_Adminhtml_Grid_Renderer_Actions_Filter
      * Check whether action item should be ignored
      *
      * @param array $actionConfig
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return bool
      */
-    protected function _isIgnored(array $actionConfig, Varien_Object $row)
+    protected function _isIgnored(array $actionConfig, Magento_Object $row)
     {
         $property = isset($actionConfig['ignore_condition']) ? $actionConfig['ignore_condition'] : false;
 
@@ -53,10 +53,10 @@ class Saas_JobNotification_Block_Adminhtml_Grid_Renderer_Actions_Filter
      * Check whether action item should be rendered
      *
      * @param array $config
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return bool
      */
-    public function isAllowed(array $config, Varien_Object $object)
+    public function isAllowed(array $config, Magento_Object $object)
     {
         return $this->_isAllowed($config) && false == $this->_isIgnored($config, $object);
     }

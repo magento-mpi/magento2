@@ -28,7 +28,7 @@ class Saas_Limitation_Model_Observer_GridTest extends PHPUnit_Framework_TestCase
     private $_block;
 
     /**
-     * @var Varien_Event_Observer
+     * @var Magento_Event_Observer
      */
     private $_eventArgument;
 
@@ -41,8 +41,8 @@ class Saas_Limitation_Model_Observer_GridTest extends PHPUnit_Framework_TestCase
         $this->_block = $this->getMock(
             'Mage_Backend_Block_Widget_Container', array('updateButton', 'removeButton'), array(), '', false
         );
-        $this->_eventArgument = new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $this->_block))
+        $this->_eventArgument = new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $this->_block))
         ));
         $this->_model = new Saas_Limitation_Model_Observer_Grid(
             $this->_limitationValidator,
@@ -90,8 +90,8 @@ class Saas_Limitation_Model_Observer_GridTest extends PHPUnit_Framework_TestCase
         $this->_emulateThresholdIsReached($isThresholdReached);
         $block = $this->getMock('Mage_Backend_Block_Widget_Container', array('updateButton'), array(), '', false);
         $block->expects($this->never())->method('updateButton');
-        $this->_model->disableButton(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $block))
+        $this->_model->disableButton(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $block))
         )));
     }
 
@@ -119,8 +119,8 @@ class Saas_Limitation_Model_Observer_GridTest extends PHPUnit_Framework_TestCase
         $this->_emulateThresholdIsReached($isThresholdReached);
         $block = $this->getMock('Mage_Backend_Block_Widget_Container', array('updateButton'), array(), '', false);
         $block->expects($this->never())->method('updateButton');
-        $this->_model->disableSplitButton(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $block))
+        $this->_model->disableSplitButton(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $block))
         )));
     }
 
@@ -147,8 +147,8 @@ class Saas_Limitation_Model_Observer_GridTest extends PHPUnit_Framework_TestCase
         $this->_emulateThresholdIsReached($isThresholdReached);
         $block = $this->getMock('Mage_Backend_Block_Widget_Container', array('removeButton'), array(), '', false);
         $block->expects($this->never())->method('removeButton');
-        $this->_model->removeButton(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('block' => $block))
+        $this->_model->removeButton(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('block' => $block))
         )));
     }
 

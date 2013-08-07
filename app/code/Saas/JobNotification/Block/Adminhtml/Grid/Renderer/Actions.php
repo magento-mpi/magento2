@@ -30,10 +30,10 @@ class Saas_JobNotification_Block_Adminhtml_Grid_Renderer_Actions
     /**
      * Renders grid column
      *
-     * @param   Varien_Object $row
+     * @param   Magento_Object $row
      * @return  string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         $output = array();
 

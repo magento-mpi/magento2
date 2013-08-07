@@ -60,7 +60,7 @@ class Enterprise_Reward_Block_Sales_Order_Total extends Mage_Core_Block_Template
             $source = $this->getSource();
             $value  = - $source->getRewardCurrencyAmount();
 
-            $this->getParentBlock()->addTotal(new Varien_Object(array(
+            $this->getParentBlock()->addTotal(new Magento_Object(array(
                 'code'   => 'reward_points',
                 'strong' => false,
                 'label'  => Mage::helper('Enterprise_Reward_Helper_Data')->formatReward($source->getRewardPointsBalance()),

@@ -144,7 +144,7 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Catalog_Abstract
         }
 
         // dispatch event to determine whether the product will eventually get to the result
-        $product = new Varien_Object(array('allowed_in_rss' => true, 'allowed_price_in_rss' => true));
+        $product = new Magento_Object(array('allowed_in_rss' => true, 'allowed_price_in_rss' => true));
         $args['product'] = $product;
         Mage::dispatchEvent('rss_catalog_special_xml_callback', $args);
         if (!$product->getAllowedInRss()) {
@@ -158,7 +158,7 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Catalog_Abstract
         if (isset($row['special_to_date']) && $row['final_price'] <= $row['special_price']
             && $row['allowed_price_in_rss']
         ) {
-            $compareDate = self::$_currentDate->compareDate($row['special_to_date'], Varien_Date::DATE_INTERNAL_FORMAT);
+            $compareDate = self::$_currentDate->compareDate($row['special_to_date'], Magento_Date::DATE_INTERNAL_FORMAT);
             if (-1 === $compareDate || 0 === $compareDate) {
                 $row['use_special'] = true;
             }
@@ -171,8 +171,8 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Catalog_Abstract
     /**
      * Function for comparing two items in collection
      *
-     * @param   Varien_Object $item1
-     * @param   Varien_Object $item2
+     * @param   Magento_Object $item1
+     * @param   Magento_Object $item2
      * @return  boolean
      */
     public function sortByStartDate($a, $b)

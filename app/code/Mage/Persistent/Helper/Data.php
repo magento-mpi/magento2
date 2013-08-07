@@ -131,7 +131,7 @@ class Mage_Persistent_Helper_Data extends Mage_Core_Helper_Data
     /**
      * Check whether specified action should be processed
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return bool
      */
     public function canProcess($observer)

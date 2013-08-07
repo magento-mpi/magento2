@@ -16,7 +16,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
 
     /** Keys used to retrieve values from subscription data array */
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
-    /** @var Varien_Data_Form_Factory $_formFactory */
+    /** @var Magento_Data_Form_Factory $_formFactory */
     private $_formFactory;
 
     /** @var  Mage_Core_Model_Registry $_registry */
@@ -32,7 +32,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
     private $_hook;
 
     /**
-     * @param Varien_Data_Form_Factory $formFactory
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Mage_Core_Model_Registry $registry
      * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Webhook_Model_Source_Format $format
@@ -41,7 +41,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
      * @param array $data
      */
     public function __construct(
-        Varien_Data_Form_Factory $formFactory,
+        Magento_Data_Form_Factory $formFactory,
         Mage_Core_Model_Registry $registry,
         Mage_Backend_Block_Template_Context $context,
         Mage_Webhook_Model_Source_Format $format,

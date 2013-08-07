@@ -23,7 +23,7 @@ class Tools_Migration_Acl_Db_Adapter_Factory
      */
     public function getAdapter(array $config, $type = null)
     {
-        $dbAdapterClassName = 'Varien_Db_Adapter_Pdo_Mysql';
+        $dbAdapterClassName = 'Magento_DB_Adapter_Pdo_Mysql';
 
         if (false == empty($type)) {
             $dbAdapterClassName = $type;

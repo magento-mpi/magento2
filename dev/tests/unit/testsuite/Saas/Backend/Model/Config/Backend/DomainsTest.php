@@ -42,7 +42,7 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
     /**
      * Database collection mock
      *
-     * @var Varien_Data_Collection_Db
+     * @var Magento_Data_Collection_Db
      */
     protected $_dbMock;
 
@@ -54,7 +54,7 @@ class Saas_Backend_Model_Config_Backend_DomainsTest extends PHPUnit_Framework_Te
         $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $this->_contextMock = $this->getMock('Mage_Core_Model_Context', array(), array(), '', false);
         $this->_writerMock = $this->getMock('Mage_Core_Model_Config_Storage_Writer_Db', array(), array(), '', false);
-        $this->_dbMock = $this->getMock('Varien_Data_Collection_Db', array(), array(), '', false);
+        $this->_dbMock = $this->getMock('Magento_Data_Collection_Db', array(), array(), '', false);
         $this->_resourceMock = $this->getMock('Mage_Core_Model_Resource_Config', array(), array(), '', false);
     }
 

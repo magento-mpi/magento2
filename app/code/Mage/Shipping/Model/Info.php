@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Shipping_Model_Info extends Varien_Object
+class Mage_Shipping_Model_Info extends Magento_Object
 {
     /**
      * Tracking info

@@ -31,7 +31,7 @@ class Mage_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_TestCas
     public function setUp()
     {
         // Select mock
-        $this->_selectMock = $this->_makeMock('Varien_Db_Select');
+        $this->_selectMock = $this->_makeMock('Magento_DB_Select');
         // Select stubs
         $this->_selectMock->expects($this->once())
             ->method('from')
@@ -39,7 +39,7 @@ class Mage_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_TestCas
             ->will($this->returnSelf());
 
         // Adapter mock
-        $this->_adapterMock = $this->_makeMock('Varien_Db_Adapter_Pdo_Mysql');
+        $this->_adapterMock = $this->_makeMock('Magento_DB_Adapter_Pdo_Mysql');
         // Adapter stubs
         $this->_adapterMock->expects($this->once())
             ->method('select')

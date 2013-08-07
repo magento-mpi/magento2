@@ -17,15 +17,15 @@ class SaasConfigurator implements ConfiguratorInterface
     protected $_basePath;
 
     /**
-     * @var Varien_Io_File
+     * @var Magento_Io_File
      */
     protected $_filesystem;
 
     /**
      * @param $basePath
-     * @param Varien_Io_File $filesystem
+     * @param Magento_Io_File $filesystem
      */
-    public function __construct($basePath, Varien_Io_File $filesystem)
+    public function __construct($basePath, Magento_Io_File $filesystem)
     {
         $this->_basePath = $basePath;
         $this->_filesystem = $filesystem;

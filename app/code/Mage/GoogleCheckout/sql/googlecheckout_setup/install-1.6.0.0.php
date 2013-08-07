@@ -21,13 +21,13 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('googlecheckout_notification'))
-    ->addColumn('serial_number', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
+    ->addColumn('serial_number', Magento_DB_Ddl_Table::TYPE_TEXT, 64, array(
         'nullable'  => false,
         'primary'   => true,
         ), 'Serial Number')
-    ->addColumn('started_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
+    ->addColumn('started_at', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Started At')
-    ->addColumn('status', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('status', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',

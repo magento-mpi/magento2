@@ -48,9 +48,9 @@ class Enterprise_BannerCustomerSegment_Model_Observer
     /**
      * Assign the list of customer segment ids associated with a banner entity, passed as an event argument
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function loadCustomerSegmentRelations(Varien_Event_Observer $observer)
+    public function loadCustomerSegmentRelations(Magento_Event_Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;
@@ -64,10 +64,10 @@ class Enterprise_BannerCustomerSegment_Model_Observer
     /**
      * Store customer segment ids associated with a banner entity, passed as an event argument
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @throws UnexpectedValueException
      */
-    public function saveCustomerSegmentRelations(Varien_Event_Observer $observer)
+    public function saveCustomerSegmentRelations(Magento_Event_Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;
@@ -87,16 +87,16 @@ class Enterprise_BannerCustomerSegment_Model_Observer
     /**
      * Add customer segment fields to the banner form, passed as an event argument
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function addFieldsToBannerForm(Varien_Event_Observer $observer)
+    public function addFieldsToBannerForm(Magento_Event_Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /* @var Varien_Data_Form $form */
+        /* @var Magento_Data_Form $form */
         $form = $observer->getEvent()->getForm();
-        /** @var Varien_Object $model */
+        /** @var Magento_Object $model */
         $model = $observer->getEvent()->getModel();
         /** @var Mage_Backend_Block_Widget_Form_Element_Dependence $afterFormBlock */
         $afterFormBlock = $observer->getEvent()->getAfterFormBlock();
@@ -106,9 +106,9 @@ class Enterprise_BannerCustomerSegment_Model_Observer
     /**
      * Apply customer segment filter to a collection, passed as an event argument
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function addCustomerSegmentFilterToCollection(Varien_Event_Observer $observer)
+    public function addCustomerSegmentFilterToCollection(Magento_Event_Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;
@@ -122,9 +122,9 @@ class Enterprise_BannerCustomerSegment_Model_Observer
     /**
      * Apply customer segment filter to a select object, passed as an event argument
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function addCustomerSegmentFilterToSelect(Varien_Event_Observer $observer)
+    public function addCustomerSegmentFilterToSelect(Magento_Event_Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;

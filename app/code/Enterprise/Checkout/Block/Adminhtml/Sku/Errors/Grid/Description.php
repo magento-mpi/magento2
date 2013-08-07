@@ -11,7 +11,7 @@
 /**
  * Block with description of why item has not been added to ordered items list
  *
- * @method Varien_Object                                                   getItem()
+ * @method Magento_Object                                                   getItem()
  * @method Mage_Catalog_Model_Product                                      getProduct()
  * @method Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description setItem()
  * @method Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description setProduct()
@@ -61,7 +61,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description extends Ma
      * Returns error message of the item
      * @see Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_* constants for $code
      *
-     * @param Varien_Object $item
+     * @param Magento_Object $item
      * @return string
      */
     public function getErrorMessage($item)

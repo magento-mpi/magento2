@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_GiftWrapping
  */
-class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image extends Varien_Data_Form_Element_Image
+class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image extends Magento_Data_Form_Element_Image
 {
     /**
      * Get gift wrapping image url

@@ -56,9 +56,9 @@ class Enterprise_Reward_Model_Observer_PlaceOrder
     /**
      * Reduce reward points if points was used during checkout
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function dispatch(Varien_Event_Observer $observer)
+    public function dispatch(Magento_Event_Observer $observer)
     {
         if (false == $this->_restriction->isAllowed()) {
             return;

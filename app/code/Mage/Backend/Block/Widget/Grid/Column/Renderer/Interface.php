@@ -38,7 +38,7 @@ interface Mage_Backend_Block_Widget_Grid_Column_Renderer_Interface
     /**
      * Renders grid column
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      */
-    public function render(Varien_Object $row);
+    public function render(Magento_Object $row);
 }

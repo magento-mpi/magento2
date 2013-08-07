@@ -50,7 +50,7 @@ class Magento_Code_Generator
     ) {
         $this->_generator  = $generator;
         $this->_autoloader = $autoloader ? : new Magento_Autoload_IncludePath();
-        $this->_ioObject   = $ioObject ? : new Magento_Code_Generator_Io(new Varien_Io_File(), $this->_autoloader);
+        $this->_ioObject   = $ioObject ? : new Magento_Code_Generator_Io(new Magento_Io_File(), $this->_autoloader);
     }
 
     /**

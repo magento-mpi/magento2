@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Paypal_Model_Hostedpro_Request extends Varien_Object
+class Mage_Paypal_Model_Hostedpro_Request extends Magento_Object
 {
     /**
      * Request's order model
@@ -169,10 +169,10 @@ class Mage_Paypal_Model_Hostedpro_Request extends Varien_Object
     /**
      * Get shipping address request data
      *
-     * @param Varien_Object $address
+     * @param Magento_Object $address
      * @return array
      */
-    protected function _getShippingAddress(Varien_Object $address)
+    protected function _getShippingAddress(Magento_Object $address)
     {
         $request = array(
             'first_name'=> $address->getFirstname(),
@@ -196,10 +196,10 @@ class Mage_Paypal_Model_Hostedpro_Request extends Varien_Object
     /**
      * Get billing address request data
      *
-     * @param Varien_Object $address
+     * @param Magento_Object $address
      * @return array
      */
-    protected function _getBillingAddress(Varien_Object $address)
+    protected function _getBillingAddress(Magento_Object $address)
     {
         $request = array(
             'billing_first_name'=> $address->getFirstname(),

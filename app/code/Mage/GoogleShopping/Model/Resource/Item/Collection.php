@@ -72,7 +72,7 @@ class Mage_GoogleShopping_Model_Resource_Item_Collection extends Mage_Core_Model
             $conditionSql = $this->_getConditionSql(
                 $this->getConnection()->getIfNullSql('p.value', 'p_d.value'), $condition
             );
-            $this->getSelect()->where($conditionSql, null, Varien_Db_Select::TYPE_CONDITION);
+            $this->getSelect()->where($conditionSql, null, Magento_DB_Select::TYPE_CONDITION);
             return $this;
         } else {
             return parent::addFieldToFilter($field, $condition);

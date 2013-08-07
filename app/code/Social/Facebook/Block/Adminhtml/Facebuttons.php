@@ -62,9 +62,9 @@ class Social_Facebook_Block_Adminhtml_Facebuttons extends Mage_Backend_Block_Sys
     /**
      * Prepare existing row data object
      *
-     * @param Varien_Object
+     * @param Magento_Object
      */
-    protected function _prepareArrayRow(Varien_Object $row)
+    protected function _prepareArrayRow(Magento_Object $row)
     {
         $row->setData(
             'option_extra_attr_' . $this->_selectRenderer()->calcOptionHash($row->getData('box')),

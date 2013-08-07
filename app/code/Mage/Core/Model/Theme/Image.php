@@ -117,7 +117,7 @@ class Mage_Core_Model_Theme_Image
 
         $isCopied = false;
         try {
-            $destinationFileName = Varien_File_Uploader::getNewFileName($destinationFilePath);
+            $destinationFileName = Magento_File_Uploader::getNewFileName($destinationFilePath);
             $isCopied = $this->_filesystem->copy(
                 $destinationFilePath,
                 $previewDir . DIRECTORY_SEPARATOR . $destinationFileName

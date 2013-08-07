@@ -26,7 +26,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Form
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post'

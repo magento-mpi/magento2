@@ -15,7 +15,7 @@
  * @method Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker setOptions(array $options)
  * @method Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker setCssClass($class)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker extends Varien_Data_Form_Element_Select
+class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker extends Magento_Data_Form_Element_Select
 {
     /**
      * Control type

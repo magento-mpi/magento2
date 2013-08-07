@@ -28,7 +28,7 @@ class Mage_Tag_Block_Product_ResultTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        Mage::register('current_tag', new Varien_Object(array('id' => uniqid())));
+        Mage::register('current_tag', new Magento_Object(array('id' => uniqid())));
     }
 
     protected function setUp()

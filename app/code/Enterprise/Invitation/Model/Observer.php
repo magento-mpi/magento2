@@ -35,7 +35,7 @@ class Enterprise_Invitation_Model_Observer
      *
      * @return void
      */
-    public function restrictCustomerRegistration(Varien_Event_Observer $observer)
+    public function restrictCustomerRegistration(Magento_Event_Observer $observer)
     {
         if (!$this->_config->isEnabledOnFront()) {
             return;
@@ -54,7 +54,7 @@ class Enterprise_Invitation_Model_Observer
     /**
      * Handler for invitation mass update
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */

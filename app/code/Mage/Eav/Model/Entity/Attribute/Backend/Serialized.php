@@ -16,7 +16,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Serialized extends Mage_Eav_Model_
     /**
      * Serialize before saving
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Serialized
      */
     public function beforeSave($object)
@@ -33,7 +33,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Serialized extends Mage_Eav_Model_
     /**
      * Unserialize after saving
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Serialized
      */
     public function afterSave($object)
@@ -46,7 +46,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Serialized extends Mage_Eav_Model_
     /**
      * Unserialize after loading
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Serialized
      */
     public function afterLoad($object)
@@ -59,10 +59,10 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Serialized extends Mage_Eav_Model_
     /**
      * Try to unserialize the attribute value
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Serialized
      */
-    protected function _unserialize(Varien_Object $object)
+    protected function _unserialize(Magento_Object $object)
     {
         $attrCode = $this->getAttribute()->getAttributeCode();
         if ($object->getData($attrCode)) {

@@ -41,7 +41,7 @@ class Mage_SalesRule_Model_Resource_Coupon extends Mage_Core_Model_Resource_Db_A
         if (!$object->getExpirationDate()) {
             $object->setExpirationDate(null);
         } else if ($object->getExpirationDate() instanceof Zend_Date) {
-            $object->setExpirationDate($object->getExpirationDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+            $object->setExpirationDate($object->getExpirationDate()->toString(Magento_Date::DATETIME_INTERNAL_FORMAT));
         }
 
         // maintain single primary coupon per rule

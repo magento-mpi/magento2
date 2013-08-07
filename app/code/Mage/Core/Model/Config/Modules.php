@@ -38,7 +38,7 @@ class Mage_Core_Model_Config_Modules implements Mage_Core_Model_ConfigInterface
      * Get configuration node
      *
      * @param string $path
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     public function getNode($path = null)
     {
@@ -72,7 +72,7 @@ class Mage_Core_Model_Config_Modules implements Mage_Core_Model_ConfigInterface
      * Get module config node
      *
      * @param string $moduleName
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     public function getModuleConfig($moduleName = '')
     {

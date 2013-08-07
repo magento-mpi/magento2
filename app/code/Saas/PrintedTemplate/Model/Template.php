@@ -443,7 +443,7 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
                 . DS . 'template' . DS . $type . DS . $file;
         }
 
-        $ioAdapter = new Varien_Io_File();
+        $ioAdapter = new Magento_Io_File();
         $ioAdapter->open();
 
         return (string) $ioAdapter->read($filePath);

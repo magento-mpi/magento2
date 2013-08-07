@@ -25,7 +25,7 @@ define('MESSAGE_TYPE_ERROR', '2');
 
 define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS);
 
-include(BASE_PATH . DS . 'lib' . DS . 'Varien' . DS . 'File' . DS . 'Csv.php');
+include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
 include(__DIR__ . DS . 'ModuleTranslations.php');
 
 class Split
@@ -157,7 +157,7 @@ class Split
             return false;
         }
 
-        $csv = new Varien_File_Csv();
+        $csv = new Magento_File_Csv();
         $inputData = $csv->getData($this->_inputFileName);
         $output = array();
 

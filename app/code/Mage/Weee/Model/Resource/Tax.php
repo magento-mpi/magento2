@@ -30,7 +30,7 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Fetch one
      *
-     * @param Varien_Db_Select|string $select
+     * @param Magento_DB_Select|string $select
      * @return string
      */
     public function fetchOne($select)
@@ -41,7 +41,7 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Fetch column
      *
-     * @param Varien_Db_Select|string $select
+     * @param Magento_DB_Select|string $select
      * @return array
      */
     public function fetchCol($select)
@@ -78,7 +78,7 @@ class Mage_Weee_Model_Resource_Tax extends Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _updateDiscountPercents($productCondition = null)
     {
-        $now     = Varien_Date::toTimestamp(Varien_Date::now());
+        $now     = Magento_Date::toTimestamp(Magento_Date::now());
         $adapter = $this->_getWriteAdapter();
 
         $select  = $this->_getReadAdapter()->select();

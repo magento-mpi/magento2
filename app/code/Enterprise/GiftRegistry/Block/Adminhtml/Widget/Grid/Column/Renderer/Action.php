@@ -17,10 +17,10 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Action
     /**
      * Render gift registry item action as select html element
      *
-     * @param  Varien_Object $row
+     * @param  Magento_Object $row
      * @return string
      */
-    protected function _getValue(Varien_Object $row)
+    protected function _getValue(Magento_Object $row)
     {
         $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
             ->setId($this->getColumn()->getId())

@@ -153,7 +153,7 @@
             <Magento_Data_Structure>
                 <shared>0</shared>
             </Magento_Data_Structure>
-            <Varien_Data_Collection_Db_FetchStrategy_Cache>
+            <Magento_Data_Collection_Db_FetchStrategy_Cache>
                 <parameters>
                     <cache>
                         <instance>Mage_Core_Model_Cache_Type_Collection</instance>
@@ -161,7 +161,7 @@
                     <cacheIdPrefix>collection_</cacheIdPrefix>
                     <cacheLifetime>86400</cacheLifetime>
                 </parameters>
-            </Varien_Data_Collection_Db_FetchStrategy_Cache>
+            </Magento_Data_Collection_Db_FetchStrategy_Cache>
             <Mage_Core_Model_Acl_Cache>
                 <parameters>
                     <cacheKey>global_acl_resources</cacheKey>

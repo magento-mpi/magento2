@@ -63,7 +63,7 @@
                     </design>
                 </parameters>
             </Enterprise_PageCache_Model_DesignPackage_Rules>
-            <Magento_Http_Handler_Composite>
+            <Magento_HTTP_Handler_Composite>
                 <parameters>
                     <handlers>
                         <fpc>
@@ -72,7 +72,7 @@
                         </fpc>
                     </handlers>
                 </parameters>
-            </Magento_Http_Handler_Composite>
+            </Magento_HTTP_Handler_Composite>
             <Enterprise_Queue_Helper_Gearman>
                 <parameters>
                     <config>

@@ -62,7 +62,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Entity_DuplicationTest exte
             ->with($this->_limitation)
             ->will($this->returnValue(true))
         ;
-        $this->_model->restrict(new Varien_Event_Observer);
+        $this->_model->restrict(new Magento_Event_Observer);
     }
 
     public function testRestrictNewEntityCreationInactive()
@@ -73,6 +73,6 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Entity_DuplicationTest exte
             ->with($this->_limitation)
             ->will($this->returnValue(false))
         ;
-        $this->_model->restrict(new Varien_Event_Observer);
+        $this->_model->restrict(new Magento_Event_Observer);
     }
 }

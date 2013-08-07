@@ -40,7 +40,7 @@ abstract class Mage_Core_Model_Resource_File_Storage_Abstract extends Mage_Core_
     /**
      * Retrieve connection for read data
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     protected function _getReadAdapter()
     {
@@ -50,7 +50,7 @@ abstract class Mage_Core_Model_Resource_File_Storage_Abstract extends Mage_Core_
     /**
      * Retrieve connection for write data
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     protected function _getWriteAdapter()
     {
@@ -61,7 +61,7 @@ abstract class Mage_Core_Model_Resource_File_Storage_Abstract extends Mage_Core_
      * Get connection by name or type
      *
      * @param string $connectionName
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     protected function _getConnection($connectionName)
     {

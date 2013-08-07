@@ -16,19 +16,19 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('find_feed_import_codes'))
-    ->addColumn('code_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('code_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Code id')
-    ->addColumn('import_code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('import_code', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         ), 'Import type')
-    ->addColumn('eav_code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('eav_code', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         ), 'EAV code')
-    ->addColumn('is_imported', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('is_imported', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         ), 'Is imported')
     ->setComment('Find feed import codes');

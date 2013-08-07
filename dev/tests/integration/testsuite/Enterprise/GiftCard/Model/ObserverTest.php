@@ -34,8 +34,8 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $order = Mage::getModel('Mage_Sales_Model_Order');
         $this->_checkOrderItemProductOptions($order, true);
 
-        $event = new Varien_Event(array('order' => $order));
-        $observer = new Varien_Event_Observer(array('event' => $event));
+        $event = new Magento_Event(array('order' => $order));
+        $observer = new Magento_Event_Observer(array('event' => $event));
 
         $zendMailMock = $this->getMock('Zend_Mail', array('send'));
         $zendMailMock->expects($this->once())

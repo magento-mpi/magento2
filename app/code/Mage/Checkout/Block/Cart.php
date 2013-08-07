@@ -60,7 +60,7 @@ class Mage_Checkout_Block_Cart extends Mage_Checkout_Block_Cart_Abstract
                 }
 
                 if (isset($products[$product->getId()])) {
-                    $object = new Varien_Object($products[$product->getId()]);
+                    $object = new Magento_Object($products[$product->getId()]);
                     $item->getProduct()->setUrlDataObject($object);
                 }
             }

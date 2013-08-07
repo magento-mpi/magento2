@@ -18,7 +18,7 @@
  * - pad_char
  * - last_id
  */
-abstract class Mage_Eav_Model_Entity_Increment_Abstract extends Varien_Object
+abstract class Mage_Eav_Model_Entity_Increment_Abstract extends Magento_Object
     implements Mage_Eav_Model_Entity_Increment_Interface
 {
     public function getPadLength()

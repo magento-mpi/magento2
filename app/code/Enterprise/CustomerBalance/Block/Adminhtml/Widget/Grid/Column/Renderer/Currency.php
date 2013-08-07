@@ -23,7 +23,7 @@ extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
     /**
      * Get currency code by row data
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return string
      */
     protected function _getCurrencyCode($row)
@@ -42,7 +42,7 @@ extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
     /**
      * Stub getter for exchange rate
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return int
      */
     protected function _getRate($row)

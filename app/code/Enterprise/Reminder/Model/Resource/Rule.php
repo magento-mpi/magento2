@@ -550,7 +550,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
      *
      * @deprecated after 1.11.2.0
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function createSelect()
     {

@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Status ext
         parent::_construct();
     }
 
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         return Mage::helper('Mage_Customer_Helper_Data')->__($this->getStatus($row->getQueueStatus()));
     }

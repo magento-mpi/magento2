@@ -19,7 +19,7 @@ class Find_Feed_Model_Observer
     /**
      * Save system config event 
      *
-     * @param Varien_Object $observer
+     * @param Magento_Object $observer
      */
     public function saveSystemConfig($observer)
     {

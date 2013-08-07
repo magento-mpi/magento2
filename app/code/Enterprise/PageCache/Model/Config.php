@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_PageCache_Model_Config extends Varien_Simplexml_Config
+class Enterprise_PageCache_Model_Config extends Magento_Simplexml_Config
 {
     protected $_placeholders = null;
 

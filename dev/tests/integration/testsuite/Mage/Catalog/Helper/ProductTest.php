@@ -181,10 +181,10 @@ class Mage_Catalog_Helper_ProductTest extends PHPUnit_Framework_TestCase
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
-        $buyRequest = new Varien_Object(array('qty' => 100, 'options' => array('option' => 'value')));
+        $buyRequest = new Magento_Object(array('qty' => 100, 'options' => array('option' => 'value')));
         $this->_helper->prepareProductOptions($product, $buyRequest);
         $result = $product->getPreconfiguredValues();
-        $this->assertInstanceOf('Varien_Object', $result);
+        $this->assertInstanceOf('Magento_Object', $result);
         $this->assertEquals(100, $result->getQty());
         $this->assertEquals(array('option' => 'value'), $result->getOptions());
     }

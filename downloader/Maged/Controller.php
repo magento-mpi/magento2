@@ -74,7 +74,7 @@ final class Maged_Controller
     /**
      * Connect config instance
      *
-     * @var Mage_Connect_Config
+     * @var Magento_Connect_Config
      */
     private $_config;
 
@@ -544,7 +544,7 @@ final class Maged_Controller
     public function getVarFilename()
     {
         $ds = DIRECTORY_SEPARATOR;
-        return $this->getMageDir() . $ds . 'lib' . $ds . 'Varien' . $ds . 'Profiler.php';
+        return $this->getMageDir() . $ds . 'lib' . $ds . 'Magento' . $ds . 'Profiler.php';
     }
 
     /**
@@ -606,7 +606,7 @@ final class Maged_Controller
     /**
      * Retrieve object of config
      *
-     * @return Mage_Connect_Config
+     * @return Magento_Connect_Config
      */
     public function config()
     {
@@ -858,7 +858,7 @@ final class Maged_Controller
             $maintenance_filename='maintenance.flag';
             $config = $this->config();
             if (!$this->isWritable() || strlen($config->__get('remote_config')) > 0) {
-                $ftpObj = new Mage_Connect_Ftp();
+                $ftpObj = new Magento_Connect_Ftp();
                 $ftpObj->connect($config->__get('remote_config'));
                 $tempFile = tempnam(sys_get_temp_dir(),'maintenance');
                 @file_put_contents($tempFile, 'maintenance');
@@ -888,7 +888,7 @@ final class Maged_Controller
             if (!$isSuccess) {
                 $this->endInstall();
                 $this->cleanCache();
-                throw new Mage_Exception(
+                throw new Magento_Exception(
                     'The installation process has been canceled because of the backup creation error'
                 );
             }
@@ -941,7 +941,7 @@ final class Maged_Controller
             $maintenance_filename='maintenance.flag';
             $config = $this->config();
             if (!$this->isWritable() && strlen($config->__get('remote_config')) > 0) {
-                $ftpObj = new Mage_Connect_Ftp();
+                $ftpObj = new Magento_Connect_Ftp();
                 $ftpObj->connect($config->__get('remote_config'));
                 $ftpObj->delete($maintenance_filename);
                 $ftpObj->close();

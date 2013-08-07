@@ -13,7 +13,7 @@ class Mage_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
 {
     public function testGetClearUrl()
     {
-        $childBlock = new Varien_Object;
+        $childBlock = new Magento_Object;
 
         $block = $this->getMock('Mage_Catalog_Block_Layer_View', array('getChildBlock'), array(), '', false);
         $block->expects($this->atLeastOnce())

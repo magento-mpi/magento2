@@ -32,30 +32,30 @@ class Mage_Core_Model_Event_Manager
     protected $_eventConfig;
 
     /**
-     * Varien event factory
+     * Magento event factory
      *
-     * @var Varien_EventFactory
+     * @var Magento_EventFactory
      */
     protected $_eventFactory;
 
     /**
-     * Varien event observer factory
+     * Magento event observer factory
      *
-     * @var Varien_Event_ObserverFactory
+     * @var Magento_Event_ObserverFactory
      */
     protected $_eventObserverFactory;
 
     /**
      * @param Mage_Core_Model_Event_InvokerInterface $invoker
      * @param Mage_Core_Model_Event_Config $eventConfig
-     * @param Varien_EventFactory $eventFactory
-     * @param Varien_Event_ObserverFactory $eventObserverFactory
+     * @param Magento_EventFactory $eventFactory
+     * @param Magento_Event_ObserverFactory $eventObserverFactory
      */
     public function __construct(
         Mage_Core_Model_Event_InvokerInterface $invoker,
         Mage_Core_Model_Event_Config $eventConfig,
-        Varien_EventFactory $eventFactory,
-        Varien_Event_ObserverFactory $eventObserverFactory
+        Magento_EventFactory $eventFactory,
+        Magento_Event_ObserverFactory $eventObserverFactory
     ) {
         $this->_invoker = $invoker;
         $this->_eventConfig = $eventConfig;
@@ -81,10 +81,10 @@ class Mage_Core_Model_Event_Manager
                 continue;
             }
 
-            /** @var $event Varien_Event */
+            /** @var $event Magento_Event */
             $event = $this->_eventFactory->create(array('data' => $data));
             $event->setName($eventName);
-            /** @var $observer Varien_Event_Observer */
+            /** @var $observer Magento_Event_Observer */
             $observer = $this->_eventObserverFactory->create();
 
             foreach ($areaEvents[$eventName] as $obsName => $obsConfiguration) {

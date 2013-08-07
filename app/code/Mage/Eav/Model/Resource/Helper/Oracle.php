@@ -24,19 +24,19 @@ class Mage_Eav_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Hel
      * @var array
      */
     protected $_ddlColumnTypes      = array(
-        Varien_Db_Ddl_Table::TYPE_BOOLEAN       => 'SMALLINT',
-        Varien_Db_Ddl_Table::TYPE_SMALLINT      => 'SMALLINT',
-        Varien_Db_Ddl_Table::TYPE_INTEGER       => 'INTEGER',
-        Varien_Db_Ddl_Table::TYPE_BIGINT        => 'NUMBER',
-        Varien_Db_Ddl_Table::TYPE_FLOAT         => 'FLOAT',
-        Varien_Db_Ddl_Table::TYPE_DECIMAL       => 'NUMBER',
-        Varien_Db_Ddl_Table::TYPE_NUMERIC       => 'NUMBER',
-        Varien_Db_Ddl_Table::TYPE_DATE          => 'DATE',
-        Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'TIMESTAMP',
-        Varien_Db_Ddl_Table::TYPE_DATETIME      => 'TIMESTAMP',
-        Varien_Db_Ddl_Table::TYPE_TEXT          => 'VARCHAR2',
-        Varien_Db_Ddl_Table::TYPE_BLOB          => 'CLOB',
-        Varien_Db_Ddl_Table::TYPE_VARBINARY     => 'BLOB',
+        Magento_DB_Ddl_Table::TYPE_BOOLEAN       => 'SMALLINT',
+        Magento_DB_Ddl_Table::TYPE_SMALLINT      => 'SMALLINT',
+        Magento_DB_Ddl_Table::TYPE_INTEGER       => 'INTEGER',
+        Magento_DB_Ddl_Table::TYPE_BIGINT        => 'NUMBER',
+        Magento_DB_Ddl_Table::TYPE_FLOAT         => 'FLOAT',
+        Magento_DB_Ddl_Table::TYPE_DECIMAL       => 'NUMBER',
+        Magento_DB_Ddl_Table::TYPE_NUMERIC       => 'NUMBER',
+        Magento_DB_Ddl_Table::TYPE_DATE          => 'DATE',
+        Magento_DB_Ddl_Table::TYPE_TIMESTAMP     => 'TIMESTAMP',
+        Magento_DB_Ddl_Table::TYPE_DATETIME      => 'TIMESTAMP',
+        Magento_DB_Ddl_Table::TYPE_TEXT          => 'VARCHAR2',
+        Magento_DB_Ddl_Table::TYPE_BLOB          => 'CLOB',
+        Magento_DB_Ddl_Table::TYPE_VARBINARY     => 'BLOB',
     );
 
     /**
@@ -77,7 +77,7 @@ class Mage_Eav_Model_Resource_Helper_Oracle extends Mage_Core_Model_Resource_Hel
         if ($result = array_search($columnType, $this->_ddlColumnTypes)) {
             return $result;
         } else {
-            return Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
+            return Magento_DB_Ddl_Table::TYPE_TIMESTAMP;
         }
     }
 

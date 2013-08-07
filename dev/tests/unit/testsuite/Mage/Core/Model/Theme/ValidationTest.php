@@ -21,8 +21,8 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateWithValidData()
     {
-        /** @var $themeMock Varien_Object */
-        $themeMock = new Varien_Object();
+        /** @var $themeMock Magento_Object */
+        $themeMock = new Magento_Object();
         $themeMock->setData($this->_getThemeValidData());
 
         /** @var $validatorMock Mage_Core_Model_Theme_Validator */
@@ -49,8 +49,8 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateWithInvalidData()
     {
-        /** @var $themeMock Varien_Object */
-        $themeMock = new Varien_Object();
+        /** @var $themeMock Magento_Object */
+        $themeMock = new Magento_Object();
         $themeMock->setData($this->_getThemeInvalidData());
 
         /** @var $helper Mage_Core_Helper_Data */

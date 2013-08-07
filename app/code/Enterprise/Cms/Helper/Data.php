@@ -65,7 +65,7 @@ class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
      * and add to each element new onChange method.
      * Element will be skipped if its type passed in $excludeTypes parameter.
      *
-     * @param Varien_Data_Form_Abstract $container
+     * @param Magento_Data_Form_Abstract $container
      * @param string $onChange
      * @param string|array $excludeTypes
      */

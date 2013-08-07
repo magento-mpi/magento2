@@ -130,9 +130,9 @@ class Mage_Reports_Model_Resource_Helper_Mssql extends Mage_Core_Model_Resource_
         $cols = $columns;
         $cols[$column] = 't.total_qty';
         $orderByColumns      = array(
-            't.store_id ' . Varien_Db_Select::SQL_ASC,
-            't.period ' . Varien_Db_Select::SQL_ASC,
-            'total_qty ' . Varien_Db_Select::SQL_DESC
+            't.store_id ' . Magento_DB_Select::SQL_ASC,
+            't.period ' . Magento_DB_Select::SQL_ASC,
+            'total_qty ' . Magento_DB_Select::SQL_DESC
         );
         $cols['rating_pos']  = $this->prepareColumn('RANK()', 't.store_id, t.period', $orderByColumns);
         $ratingSubSelect->from(new Zend_Db_Expr(sprintf('(%s)', $periodSubSelect)), $cols);

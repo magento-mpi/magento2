@@ -29,8 +29,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     {
         $result = parent::_prepareLayout();
         $renderer = $this->getLayout()->getBlock('fieldset_element_renderer');
-        if ($renderer instanceof Varien_Data_Form_Element_Renderer_Interface) {
-            Varien_Data_Form::setFieldsetElementRenderer($renderer);
+        if ($renderer instanceof Magento_Data_Form_Element_Renderer_Interface) {
+            Magento_Data_Form::setFieldsetElementRenderer($renderer);
         }
         return $result;
     }

@@ -23,7 +23,7 @@ class Mage_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer
     /**
      * Add the recurring profile form when editing a product
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function render($observer)
     {

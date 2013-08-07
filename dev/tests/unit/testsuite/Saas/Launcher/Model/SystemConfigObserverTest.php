@@ -14,7 +14,7 @@ class Saas_Launcher_Model_SystemConfigObserverTest extends PHPUnit_Framework_Tes
     public function testHandleSystemConfigChange()
     {
         $model = $this->_getModelForHandleSystemConfigChangeTest();
-        $observer = new Varien_Event_Observer(array('event' => new Varien_Event(array('section' => 'test'))));
+        $observer = new Magento_Event_Observer(array('event' => new Magento_Event(array('section' => 'test'))));
         $model->handleSystemConfigChange($observer);
     }
 

@@ -211,7 +211,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
             foreach ($taxes as $tax) {
                 $id = $tax->getItemId();
                 if (!isset($itemInfo[$id])) {
-                    $itemInfo[$id] = new Varien_Object(array(
+                    $itemInfo[$id] = new Magento_Object(array(
                         'compound_id'      => $this->_getTaxCompoundIdModel(),
                         'tax_amount'       => $tax->getTaxAmount(),
                         'row_total'        => $tax->getRowTotal(),
@@ -240,7 +240,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
         foreach ($itemInfo as $id => $info) {
             $cid = (string)$info->getCompoundId();
             if (!isset($taxes[$cid])) {
-                $taxes[$cid] = new Varien_Object(array(
+                $taxes[$cid] = new Magento_Object(array(
                     'compound_id'  => $info->getCompoundId(),
                     'tax_amount'   => 0,
                     'total_amount' => 0,
@@ -275,14 +275,14 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
     /**
      * Summarize amount, base_amount, tax_amount and base_tax amount
      *
-     * @param array $taxes Collections of Varien_Objects
-     * @return Varien_Object With properties amount, base_amount, tax_amount and base_tax amount
+     * @param array $taxes Collections of Magento_Objects
+     * @return Magento_Object With properties amount, base_amount, tax_amount and base_tax amount
      */
     private function _summarizeTax(array $taxes)
     {
-        $summary = new Varien_Object;
+        $summary = new Magento_Object;
         foreach ($taxes as $tax) {
-            if ($tax instanceof Varien_Object) {
+            if ($tax instanceof Magento_Object) {
                 $summary->setTotalAmount($summary->getTotalAmount() + $tax->getTotalAmount());
                 $summary->setBaseTotalAmount($summary->getBaseTotalAmount() + $tax->getBaseTotalAmount());
                 $summary->setTaxAmount($summary->getTaxAmount() + $tax->getTaxAmount());

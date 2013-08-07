@@ -13,7 +13,7 @@ class Mage_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framework_T
 {
     public function setUp()
     {
-        $mockDBAdapter = $this->getMockBuilder('Varien_Db_Adapter_Pdo_Mysql')
+        $mockDBAdapter = $this->getMockBuilder('Magento_DB_Adapter_Pdo_Mysql')
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
         $mockResourceEvent = $this->getMockBuilder('Mage_Webhook_Model_Resource_Job')
@@ -38,7 +38,7 @@ class Mage_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framework_T
 
     public function testConstructor()
     {
-        $mockFetchStrategy = $this->getMockBuilder('Varien_Data_Collection_Db_FetchStrategyInterface')
+        $mockFetchStrategy = $this->getMockBuilder('Magento_Data_Collection_Db_FetchStrategyInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $collection = new Mage_Webhook_Model_Resource_Job_Collection($mockFetchStrategy);
@@ -48,7 +48,7 @@ class Mage_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framework_T
 
     public function testSetPageLimit()
     {
-        $mockFetchStrategy = $this->getMockBuilder('Varien_Data_Collection_Db_FetchStrategyInterface')
+        $mockFetchStrategy = $this->getMockBuilder('Magento_Data_Collection_Db_FetchStrategyInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -58,7 +58,7 @@ class Mage_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framework_T
         $selectMock->expects($this->once())
             ->method('limitPage');
 
-        $connMock = $this->getMockBuilder('Varien_Db_Adapter_Pdo_Mysql')
+        $connMock = $this->getMockBuilder('Magento_DB_Adapter_Pdo_Mysql')
             ->disableOriginalConstructor()
             ->getMock();
         // this method is simply used to set a value, it is not being tested

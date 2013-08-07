@@ -40,7 +40,7 @@ class Mage_Core_Model_Config_FieldsetTest extends PHPUnit_Framework_TestCase
             ->with('fieldset_config')
             ->will($this->returnValue($cachedConfig));
         $model = new Mage_Core_Model_Config_Fieldset($this->_configReaderMock, $this->_cacheTypeMock);
-        $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode());
+        $this->assertInstanceOf('Magento_Simplexml_Element', $model->getNode());
     }
 
     public function testConstructorNoCacheExists()
@@ -58,6 +58,6 @@ class Mage_Core_Model_Config_FieldsetTest extends PHPUnit_Framework_TestCase
             ->method('save')
             ->with("<?xml version=\"1.0\"?>\n<config/>\n");
         $model = new Mage_Core_Model_Config_Fieldset($this->_configReaderMock, $this->_cacheTypeMock);
-        $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode());
+        $this->assertInstanceOf('Magento_Simplexml_Element', $model->getNode());
     }
 }

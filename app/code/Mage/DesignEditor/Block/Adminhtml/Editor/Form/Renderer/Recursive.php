@@ -15,12 +15,12 @@
  * @method Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive setHtml($html)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive extends Mage_Backend_Block_Template
-    implements Varien_Data_Form_Element_Renderer_Interface
+    implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
      * Form element to render
      *
-     * @var Varien_Data_Form_Element_Abstract
+     * @var Magento_Data_Form_Element_Abstract
      */
     protected $_element;
 
@@ -45,7 +45,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive extends M
     /**
      * Get element renderer bound to
      *
-     * @return Varien_Data_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     public function getElement()
     {
@@ -55,10 +55,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive extends M
     /**
      * Render form element as HTML
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $this->_element = $element;
 

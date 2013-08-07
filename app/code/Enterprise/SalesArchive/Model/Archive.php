@@ -89,7 +89,7 @@ class Enterprise_SalesArchive_Model_Archive
     /**
      * Detects archive entity by object class
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return string|boolean
      */
     public function detectArchiveEntity($object)

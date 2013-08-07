@@ -26,13 +26,13 @@ class Saas_PrintedTemplate_Model_Variable_Item_ShipmentTest extends PHPUnit_Fram
             $parentEntityItems[] = $this->_prepareParentEntityItem($itemData);
         }
 
-        $parentEntity = new Varien_Object();
+        $parentEntity = new Magento_Object();
         $parentEntity->setAllItems($parentEntityItems);
 
-        $orderItem = new Varien_Object();
+        $orderItem = new Magento_Object();
         $orderItem->setId($orderItemId);
 
-        $valueModel = new Varien_Object();
+        $valueModel = new Magento_Object();
         $valueModel->setOrderItem($orderItem);
 
         $shipmentEntity = $this->getMockBuilder('Saas_PrintedTemplate_Model_Variable_Item_Shipment')
@@ -66,20 +66,20 @@ class Saas_PrintedTemplate_Model_Variable_Item_ShipmentTest extends PHPUnit_Fram
      * @todo: process case of children items
      *
      * @param array $itemData
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _prepareParentEntityItem($itemData)
     {
-        $orderItem = new Varien_Object();
+        $orderItem = new Magento_Object();
         $orderItem->setId($itemData['orderItem']['id']);
         if (isset($itemData['orderItem']['parentItem'])) {
-            $parentItem = new Varien_Object();
+            $parentItem = new Magento_Object();
             $parentItem->setId($itemData['orderItem']['parentItem']['id']);
 
             $orderItem->setParentItem($parentItem);
         }
 
-        $item = new Varien_Object();
+        $item = new Magento_Object();
         $item->setOrderItem($orderItem);
         $item->setOrderItemId($itemData['orderItemId']);
 

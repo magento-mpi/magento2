@@ -16,7 +16,7 @@ class Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorTest extends PHPUnit_Framew
         $itemId = 3;
         $urlPath = 'mng/item/edit';
 
-        $itemMock = $this->getMock('Varien_Object', array('getItemId'), array(), '', false);
+        $itemMock = $this->getMock('Magento_Object', array('getItemId'), array(), '', false);
         $itemMock->expects($this->once())
             ->method('getItemId')
             ->will($this->returnValue($itemId));

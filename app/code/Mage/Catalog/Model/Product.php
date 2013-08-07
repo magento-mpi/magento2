@@ -335,7 +335,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * Retrieve product categories
      *
-     * @return Varien_Data_Collection
+     * @return Magento_Data_Collection
      */
     public function getCategoryCollection()
     {
@@ -939,12 +939,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * Retrive media gallery images
      *
-     * @return Varien_Data_Collection
+     * @return Magento_Data_Collection
      */
     public function getMediaGalleryImages()
     {
         if(!$this->hasData('media_gallery_images') && is_array($this->getMediaGallery('images'))) {
-            $images = new Varien_Data_Collection();
+            $images = new Magento_Data_Collection();
             foreach ($this->getMediaGallery('images') as $image) {
                 if (isset($image['disabled']) && $image['disabled']) {
                     continue;
@@ -952,7 +952,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                 $image['url'] = $this->getMediaConfig()->getMediaUrl($image['file']);
                 $image['id'] = isset($image['value_id']) ? $image['value_id'] : null;
                 $image['path'] = $this->getMediaConfig()->getMediaPath($image['file']);
-                $images->addItem(new Varien_Object($image));
+                $images->addItem(new Magento_Object($image));
             }
             $this->setData('media_gallery_images', $images);
         }
@@ -1229,7 +1229,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
         $salable = $this->isAvailable();
 
-        $object = new Varien_Object(array(
+        $object = new Magento_Object(array(
             'product'    => $this,
             'is_salable' => $salable
         ));
@@ -1750,7 +1750,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      *
      * @param string $key
      * @param mixed $data
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function setOrigData($key=null, $data=null)
     {
@@ -1814,12 +1814,12 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * Parse buyRequest into options values used by product
      *
-     * @param  Varien_Object $buyRequest
-     * @return Varien_Object
+     * @param  Magento_Object $buyRequest
+     * @return Magento_Object
      */
-    public function processBuyRequest(Varien_Object $buyRequest)
+    public function processBuyRequest(Magento_Object $buyRequest)
     {
-        $options = new Varien_Object();
+        $options = new Magento_Object();
 
         /* add product custom options data */
         $customOptions = $buyRequest->getOptions();
@@ -1841,13 +1841,13 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     /**
      * Get preconfigured values from product
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getPreconfiguredValues()
     {
         $preconfiguredValues = $this->getData('preconfigured_values');
         if (!$preconfiguredValues) {
-            $preconfiguredValues = new Varien_Object();
+            $preconfiguredValues = new Magento_Object();
         }
 
         return $preconfiguredValues;

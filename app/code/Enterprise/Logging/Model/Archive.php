@@ -11,7 +11,7 @@
 /**
  * Log archive file model
  */
-class Enterprise_Logging_Model_Archive extends Varien_Object
+class Enterprise_Logging_Model_Archive extends Magento_Object
 {
     /**
      * Full system name to current file, if set

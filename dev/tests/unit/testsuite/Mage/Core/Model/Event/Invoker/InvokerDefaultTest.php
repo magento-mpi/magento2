@@ -13,7 +13,7 @@ class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework
     protected $_observerFactoryMock;
 
     /**
-     * @var Varien_Event_Observer|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Event_Observer|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_observerMock;
 
@@ -35,7 +35,7 @@ class Mage_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framework
     protected function setUp()
     {
         $this->_observerFactoryMock = $this->getMock('Mage_Core_Model_ObserverFactory', array(), array(), '', false);
-        $this->_observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_observerMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
         $this->_listenerMock = $this->getMock('Mage_Some_Model_Observer_Some', array('method_name'), array(), '',
             false);
         $this->_appStateMock = $this->getMock('Mage_Core_Model_App_State', array(), array(), '', false);

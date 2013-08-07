@@ -26,7 +26,7 @@ class Mage_Core_Model_File_Storage_Response
      */
     public function sendFile($filePath)
     {
-        $transfer = $this->_objectManager->create('Varien_File_Transfer_Adapter_Http');
+        $transfer = $this->_objectManager->create('Magento_File_Transfer_Adapter_Http');
         $transfer->send($filePath);
     }
 

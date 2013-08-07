@@ -19,7 +19,7 @@ class Mage_Core_Controller_Response_Http extends Zend_Controller_Response_Http
     /**
      * Transport object for observers to perform
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected static $_transportObject = null;
 
@@ -79,7 +79,7 @@ class Mage_Core_Controller_Response_Http extends Zend_Controller_Response_Http
          * Use single transport object instance
          */
         if (self::$_transportObject === null) {
-            self::$_transportObject = new Varien_Object;
+            self::$_transportObject = new Magento_Object;
         }
         self::$_transportObject->setUrl($url);
         self::$_transportObject->setCode($code);

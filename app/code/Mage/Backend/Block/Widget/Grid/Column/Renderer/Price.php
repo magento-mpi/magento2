@@ -27,10 +27,10 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Price
     /**
      * Renders grid column
      *
-     * @param   Varien_Object $row
+     * @param   Magento_Object $row
      * @return  string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         if ($data = $row->getData($this->getColumn()->getIndex())) {
             $currencyCode = $this->_getCurrencyCode($row);
@@ -50,7 +50,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Price
     /**
      * Returns currency code for the row, false on error
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return string|bool
      */
     protected function _getCurrencyCode($row)
@@ -67,7 +67,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Price
     /**
      * Returns rate for the row, 1 by default
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return float|int
      */
     protected function _getRate($row)

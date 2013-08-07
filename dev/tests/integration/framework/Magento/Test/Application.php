@@ -31,7 +31,7 @@ class Magento_Test_Application
     protected $_db;
 
     /**
-     * @var Varien_Simplexml_Element
+     * @var Magento_Simplexml_Element
      */
     protected $_localXml;
 
@@ -89,13 +89,13 @@ class Magento_Test_Application
      *
      * @param Magento_Test_Db_DbAbstract $dbInstance
      * @param string $installDir
-     * @param Varien_Simplexml_Element $localXml
+     * @param Magento_Simplexml_Element $localXml
      * @param array $globalEtcFiles
      * @param array $moduleEtcFiles
      * @param string $appMode
      */
     public function __construct(
-        Magento_Test_Db_DbAbstract $dbInstance, $installDir, Varien_Simplexml_Element $localXml,
+        Magento_Test_Db_DbAbstract $dbInstance, $installDir, Magento_Simplexml_Element $localXml,
         array $globalEtcFiles, array $moduleEtcFiles, $appMode
     ) {
         $this->_db              = $dbInstance;
@@ -212,7 +212,7 @@ class Magento_Test_Application
     public function run(Magento_Test_Request $request, Magento_Test_Response $response)
     {
         $composer = Mage::getObjectManager();
-        $handler = $composer->get('Magento_Http_Handler_Composite');
+        $handler = $composer->get('Magento_HTTP_Handler_Composite');
         $handler->handle($request, $response);
     }
 
@@ -317,9 +317,9 @@ class Magento_Test_Application
 
         Mage::reset();
         Mage::setObjectManager($objectManager);
-        Varien_Data_Form::setElementRenderer(null);
-        Varien_Data_Form::setFieldsetRenderer(null);
-        Varien_Data_Form::setFieldsetElementRenderer(null);
+        Magento_Data_Form::setElementRenderer(null);
+        Magento_Data_Form::setFieldsetRenderer(null);
+        Magento_Data_Form::setFieldsetElementRenderer(null);
         $this->_appArea = null;
 
         if ($resource) {
@@ -349,7 +349,7 @@ class Magento_Test_Application
      */
     protected function _cleanupFilesystem()
     {
-        Varien_Io_File::rmdirRecursive($this->_installDir);
+        Magento_Io_File::rmdirRecursive($this->_installDir);
     }
 
     /**

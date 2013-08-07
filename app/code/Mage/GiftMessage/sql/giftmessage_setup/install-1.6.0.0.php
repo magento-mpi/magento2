@@ -19,22 +19,22 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('gift_message'))
-    ->addColumn('gift_message_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('gift_message_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'GiftMessage Id')
-    ->addColumn('customer_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('customer_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Customer id')
-    ->addColumn('sender', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('sender', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Sender')
-    ->addColumn('recipient', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('recipient', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Recipient')
-    ->addColumn('message', Varien_Db_Ddl_Table::TYPE_TEXT, null, array(
+    ->addColumn('message', Magento_DB_Ddl_Table::TYPE_TEXT, null, array(
         ), 'Message')
     ->setComment('Gift Message');
 
@@ -52,7 +52,7 @@ $entities = array(
     'order_item'
 );
 $options = array(
-    'type'     => Varien_Db_Ddl_Table::TYPE_INTEGER,
+    'type'     => Magento_DB_Ddl_Table::TYPE_INTEGER,
     'visible'  => false,
     'required' => false
 );

@@ -45,9 +45,9 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
             ->addFieldToSelect('item_id')
             ->addFieldToSelect('is_tax_after_discount')
             ->addFieldToSelect('is_discount_on_incl_tax')
-            ->setOrder('item_id', Varien_Data_Collection::SORT_ORDER_ASC)
-            ->setOrder('priority', Varien_Data_Collection::SORT_ORDER_ASC)
-            ->setOrder('real_percent', Varien_Data_Collection::SORT_ORDER_ASC);
+            ->setOrder('item_id', Magento_Data_Collection::SORT_ORDER_ASC)
+            ->setOrder('priority', Magento_Data_Collection::SORT_ORDER_ASC)
+            ->setOrder('real_percent', Magento_Data_Collection::SORT_ORDER_ASC);
 
         return $this;
     }

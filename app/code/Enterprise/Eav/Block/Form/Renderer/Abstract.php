@@ -93,13 +93,13 @@ abstract class Enterprise_Eav_Block_Form_Renderer_Abstract extends Mage_Core_Blo
     /**
      * Return Data Form Filter or false
      *
-     * @return Varien_Data_Form_Filter_Interface
+     * @return Magento_Data_Form_Filter_Interface
      */
     protected function _getFormFilter()
     {
         $filterCode = $this->getAttributeObject()->getInputFilter();
         if ($filterCode) {
-            $filterClass = 'Varien_Data_Form_Filter_' . ucfirst($filterCode);
+            $filterClass = 'Magento_Data_Form_Filter_' . ucfirst($filterCode);
             if ($filterCode == 'date') {
                 $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
                 $filter = new $filterClass($format);

@@ -34,7 +34,7 @@ class Enterprise_CustomerSegment_Model_LoggingTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue($expectedText));
 
         $model = new Enterprise_CustomerSegment_Model_Logging($resourceMock, $requestMock, $helperMock);
-        $config = new Varien_Simplexml_Element('<config/>');
+        $config = new Magento_Simplexml_Element('<config/>');
         $eventMock = $this->getMock('Enterprise_Logging_Model_Event', array('setInfo'), array(), '', false);
         $eventMock->expects($this->once())
             ->method('setInfo')

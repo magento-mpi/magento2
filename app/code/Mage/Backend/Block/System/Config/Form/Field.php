@@ -19,7 +19,7 @@
  */
 class Mage_Backend_Block_System_Config_Form_Field
     extends Mage_Backend_Block_Template
-    implements Varien_Data_Form_Element_Renderer_Interface
+    implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
      * Application
@@ -45,10 +45,10 @@ class Mage_Backend_Block_System_Config_Form_Field
     /**
      * Retrieve element HTML markup
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         return $element->getElementHtml();
     }
@@ -56,10 +56,10 @@ class Mage_Backend_Block_System_Config_Form_Field
     /**
      * Retrieve HTML markup for given form element
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $isCheckboxRequired = $this->_isInheritCheckboxRequired($element);
 
@@ -85,10 +85,10 @@ class Mage_Backend_Block_System_Config_Form_Field
     /**
      * Render element value
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _renderValue(Varien_Data_Form_Element_Abstract $element)
+    protected function _renderValue(Magento_Data_Form_Element_Abstract $element)
     {
         if ($element->getTooltip()) {
             $html = '<td class="value with-tooltip">';
@@ -109,10 +109,10 @@ class Mage_Backend_Block_System_Config_Form_Field
     /**
      * Render inheritance checkbox (Use Default or Use Website)
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _renderInheritCheckbox(Varien_Data_Form_Element_Abstract $element)
+    protected function _renderInheritCheckbox(Magento_Data_Form_Element_Abstract $element)
     {
         $htmlId = $element->getHtmlId();
         $namePrefix = preg_replace('#\[value\](\[\])?$#', '', $element->getName());
@@ -132,10 +132,10 @@ class Mage_Backend_Block_System_Config_Form_Field
     /**
      * Check if inheritance checkbox has to be rendered
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return bool
      */
-    protected function _isInheritCheckboxRequired(Varien_Data_Form_Element_Abstract $element)
+    protected function _isInheritCheckboxRequired(Magento_Data_Form_Element_Abstract $element)
     {
         return $element->getCanUseWebsiteValue() || $element->getCanUseDefaultValue();
     }
@@ -143,10 +143,10 @@ class Mage_Backend_Block_System_Config_Form_Field
     /**
      * Retrieve label for the inheritance checkbox
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _getInheritCheckboxLabel(Varien_Data_Form_Element_Abstract $element)
+    protected function _getInheritCheckboxLabel(Magento_Data_Form_Element_Abstract $element)
     {
         $checkboxLabel = $this->helper('Mage_Backend_Helper_Data')->__('Use Default');
         if ($element->getCanUseWebsiteValue()) {
@@ -158,10 +158,10 @@ class Mage_Backend_Block_System_Config_Form_Field
     /**
      * Render scope label
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _renderScopeLabel(Varien_Data_Form_Element_Abstract $element)
+    protected function _renderScopeLabel(Magento_Data_Form_Element_Abstract $element)
     {
         $html = '<td class="scope-label">';
         if ($element->getScope() && false == $this->_application->isSingleStoreMode()) {
@@ -174,10 +174,10 @@ class Mage_Backend_Block_System_Config_Form_Field
     /**
      * Render field hint
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _renderHint(Varien_Data_Form_Element_Abstract $element)
+    protected function _renderHint(Magento_Data_Form_Element_Abstract $element)
     {
         $html = '<td class="">';
         if ($element->getHint()) {
@@ -190,7 +190,7 @@ class Mage_Backend_Block_System_Config_Form_Field
     /**
      * Decorate field row html
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @param string $html
      * @return string
      */

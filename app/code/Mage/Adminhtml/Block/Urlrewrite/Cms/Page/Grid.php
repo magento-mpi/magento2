@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Mage_Adminhtml_Block
     /**
      * Return row url for js event handlers
      *
-     * @param Mage_Cms_Model_Page|Varien_Object $row
+     * @param Mage_Cms_Model_Page|Magento_Object $row
      * @return string
      */
     public function getRowUrl($row)

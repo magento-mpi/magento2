@@ -1046,7 +1046,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
 
                     if ('datetime' == $attribute->getBackendType() && strtotime($attrValue)) {
                         $attrValue = new DateTime('@' . strtotime($attrValue));
-                        $attrValue = $attrValue->format(Varien_Date::DATETIME_PHP_FORMAT);
+                        $attrValue = $attrValue->format(Magento_Date::DATETIME_PHP_FORMAT);
                     } elseif ($backModel) {
                         $attribute->getBackend()->beforeSave($product);
                         $attrValue = $product->getData($attribute->getAttributeCode());
@@ -1409,7 +1409,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                     if ($stockItem->verifyNotification()) {
                         $stockItem->setLowStockDate(Mage::app()->getLocale()
                             ->date(null, null, null, false)
-                            ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
+                            ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT)
                         );
                     }
                     $stockItem->setStockStatusChangedAuto((int) !$stockItem->verifyStock());
@@ -1440,7 +1440,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     /**
      * DB connection getter.
      *
-     * @return Varien_Db_Adapter_Pdo_Mysql
+     * @return Magento_DB_Adapter_Pdo_Mysql
      */
     public function getConnection()
     {

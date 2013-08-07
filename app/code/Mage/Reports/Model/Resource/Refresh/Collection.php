@@ -16,7 +16,7 @@
  * @package     Mage_Report
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Resource_Refresh_Collection extends Varien_Data_Collection
+class Mage_Reports_Model_Resource_Refresh_Collection extends Magento_Data_Collection
 {
     /**
      * Get if updated
@@ -29,13 +29,13 @@ class Mage_Reports_Model_Resource_Refresh_Collection extends Varien_Data_Collect
         $flag = Mage::getModel('Mage_Reports_Model_Flag')->setReportFlagCode($reportCode)->loadSelf();
         return ($flag->hasData())
             ? Mage::app()->getLocale()
-                ->storeDate(0, new Zend_Date($flag->getLastUpdate(), Varien_Date::DATETIME_INTERNAL_FORMAT), true)
+                ->storeDate(0, new Zend_Date($flag->getLastUpdate(), Magento_Date::DATETIME_INTERNAL_FORMAT), true)
             : '';
     }
 
     /**
      * Load data
-     * @return Mage_Reports_Model_Resource_Refresh_Collection|Varien_Data_Collection
+     * @return Mage_Reports_Model_Resource_Refresh_Collection|Magento_Data_Collection
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
@@ -90,7 +90,7 @@ class Mage_Reports_Model_Resource_Refresh_Collection extends Varien_Data_Collect
                     'updated_at'    => $this->_getUpdatedAt(Mage_Reports_Model_Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE)),
             );
             foreach ($data as $value) {
-                $item = new Varien_Object();
+                $item = new Magento_Object();
                 $item->setData($value);
                 $this->addItem($item);
             }

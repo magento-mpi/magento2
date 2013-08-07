@@ -532,7 +532,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
     /**
      * Retrieve current page layout
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getPageLayout()
     {
@@ -557,7 +557,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      */
     public function displayProductStockStatus()
     {
-        $statusInfo = new Varien_Object(array('display_status' => true));
+        $statusInfo = new Magento_Object(array('display_status' => true));
         Mage::dispatchEvent('catalog_block_product_status_display', array('status' => $statusInfo));
         return (boolean)$statusInfo->getDisplayStatus();
     }

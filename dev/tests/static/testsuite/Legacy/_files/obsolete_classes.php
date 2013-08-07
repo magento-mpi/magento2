@@ -732,7 +732,7 @@ return array(
     array('Varien_Convert_Validator_Column'),
     array('Varien_Convert_Validator_Dryrun'),
     array('Varien_Convert_Validator_Interface'),
-    array('Varien_File_Uploader_Image'),
+    array('Magento_File_Uploader_Image'),
     array('Varien_Profiler', 'Magento_Profiler'),
     array('Mage_Adminhtml_Block_Notification_Window', 'Mage_AdminNotification_Block_Window'),
     array('Mage_Adminhtml_Block_Notification_Toolbar'),

@@ -227,7 +227,7 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
                 } else {
                     $typeTags = '';
                 }
-                $types[$type] = new Varien_Object(array(
+                $types[$type] = new Magento_Object(array(
                     'id'            => $type,
                     'cache_type'    => $helper->__((string)$node->label),
                     'description'   => $helper->__((string)$node->description),

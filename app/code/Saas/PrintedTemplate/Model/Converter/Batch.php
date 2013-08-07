@@ -20,14 +20,14 @@ class Saas_PrintedTemplate_Model_Converter_Batch implements Saas_PrintedTemplate
     /**
      * Collection (array) of objects which should be printed together
      *
-     * @var array|Varien_Data_Collection
+     * @var array|Magento_Data_Collection
      */
     protected $_collection;
 
     /**
      * Construct batch converter
      *
-     * @param array|Varien_Data_Collection $collection
+     * @param array|Magento_Data_Collection $collection
      */
     public function __construct($collection)
     {

@@ -16,13 +16,13 @@
  * @package    Mage_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GiftMessage_Model_Observer extends Varien_Object
+class Mage_GiftMessage_Model_Observer extends Magento_Object
 {
 
     /**
      * Set gift messages to order item on import item
      *
-     * @param Varien_Object $observer
+     * @param Magento_Object $observer
      * @return Mage_GiftMessage_Model_Observer
      */
     public function salesEventConvertQuoteItemToOrderItem($observer)
@@ -44,7 +44,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
     /**
      * Set gift messages to order from quote address
      *
-     * @param Varien_Object $observer
+     * @param Magento_Object $observer
      * @return Mage_GiftMessage_Model_Observer
      */
     public function salesEventConvertQuoteAddressToOrder($observer)
@@ -59,7 +59,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
     /**
      * Set gift messages to order from quote address
      *
-     * @param Varien_Object $observer
+     * @param Magento_Object $observer
      * @return Mage_GiftMessage_Model_Observer
      */
     public function salesEventConvertQuoteToOrder($observer)
@@ -138,7 +138,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
     /**
      * Duplicates giftmessage from order to quote on import or reorder
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_GiftMessage_Model_Observer
      */
     public function salesEventOrderToQuote($observer)
@@ -166,7 +166,7 @@ class Mage_GiftMessage_Model_Observer extends Varien_Object
     /**
      * Duplicates giftmessage from order item to quote item on import or reorder
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_GiftMessage_Model_Observer
      */
     public function salesEventOrderItemToQuoteItem($observer)

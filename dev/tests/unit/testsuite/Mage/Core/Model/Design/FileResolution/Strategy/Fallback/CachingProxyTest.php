@@ -71,7 +71,7 @@ class Mage_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTest e
 
     protected function tearDown()
     {
-        Varien_Io_File::rmdirRecursive($this->_tmpDir);
+        Magento_Io_File::rmdirRecursive($this->_tmpDir);
     }
 
     /**

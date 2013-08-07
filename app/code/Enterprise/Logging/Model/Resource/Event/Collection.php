@@ -30,7 +30,7 @@ class Enterprise_Logging_Model_Resource_Event_Collection extends Mage_Core_Model
     /**
      * Minimize usual count select
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getSelectCountSql()
     {

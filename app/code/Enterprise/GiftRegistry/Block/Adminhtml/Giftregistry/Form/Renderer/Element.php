@@ -22,7 +22,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
     /**
      * Retrieve data object related with form
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getDataObject()
     {

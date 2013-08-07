@@ -66,10 +66,10 @@ class Saas_Queue_Model_Observer_Catalog extends Saas_Queue_Model_ObserverAbstrac
     /**
      * Reindex all processes
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return Saas_Queue_Model_Observer_Indexer
      */
-    public function processRefreshCatalog(Varien_Event_Observer $observer)
+    public function processRefreshCatalog(Magento_Event_Observer $observer)
     {
         $this->_configObserver->processReinitConfig($observer);
         $this->_indexerObserver->processReindexAll($observer);

@@ -134,11 +134,11 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Return relation info about used products for specific type instance
      *
-     * @return Varien_Object Object with information data
+     * @return Magento_Object Object with information data
      */
     public function getRelationInfo()
     {
-        return new Varien_Object();
+        return new Magento_Object();
     }
 
     /**
@@ -270,12 +270,12 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and then prepare options belonging to specific product type.
      *
-     * @param  Varien_Object $buyRequest
+     * @param  Magento_Object $buyRequest
      * @param  Mage_Catalog_Model_Product $product
      * @param  string $processMode
      * @return array|string
      */
-    protected function _prepareProduct(Varien_Object $buyRequest, $product, $processMode)
+    protected function _prepareProduct(Magento_Object $buyRequest, $product, $processMode)
     {
         // try to add custom options
         try {
@@ -338,12 +338,12 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Process product configuration
      *
-     * @param Varien_Object $buyRequest
+     * @param Magento_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product
      * @param string $processMode
      * @return array|string
      */
-    public function processConfiguration(Varien_Object $buyRequest, $product,
+    public function processConfiguration(Magento_Object $buyRequest, $product,
         $processMode = self::PROCESS_MODE_LITE)
     {
         $_products = $this->_prepareProduct($buyRequest, $product, $processMode);
@@ -357,12 +357,12 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * Initialize product(s) for add to cart process.
      * Advanced version of func to prepare product for cart - processMode can be specified there.
      *
-     * @param Varien_Object $buyRequest
+     * @param Magento_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product
      * @param null|string $processMode
      * @return array|string
      */
-    public function prepareForCartAdvanced(Varien_Object $buyRequest, $product, $processMode = null)
+    public function prepareForCartAdvanced(Magento_Object $buyRequest, $product, $processMode = null)
     {
         if (!$processMode) {
             $processMode = self::PROCESS_MODE_FULL;
@@ -375,11 +375,11 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Initialize product(s) for add to cart process
      *
-     * @param Varien_Object $buyRequest
+     * @param Magento_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product
      * @return array|string
      */
-    public function prepareForCart(Varien_Object $buyRequest, $product)
+    public function prepareForCart(Magento_Object $buyRequest, $product)
     {
         return $this->prepareForCartAdvanced($buyRequest, $product, self::PROCESS_MODE_FULL);
     }
@@ -479,12 +479,12 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Process custom defined options for product
      *
-     * @param Varien_Object $buyRequest
+     * @param Magento_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product
      * @param string $processMode
      * @return array
      */
-    protected function _prepareOptions(Varien_Object $buyRequest, $product, $processMode)
+    protected function _prepareOptions(Magento_Object $buyRequest, $product, $processMode)
     {
         $transport = new StdClass;
         $transport->options = array();
@@ -703,7 +703,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                     $confItemOption = $product->getCustomOption(self::OPTION_PREFIX . $optionId);
 
                     $group = $option->groupFactory($option->getType())
-                        ->setOption($option)->setListener(new Varien_Object());
+                        ->setOption($option)->setListener(new Magento_Object());
 
                     if ($optionSku = $group->getOptionSku($confItemOption->getValue(), $skuDelimiter)) {
                         $sku .= $skuDelimiter . $optionSku;
@@ -756,13 +756,13 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * so need to change configuration item qty option value too.
      *
      * @param array $options
-     * @param Varien_Object $option
+     * @param Magento_Object $option
      * @param mixed $value
      * @param Mage_Catalog_Model_Product $product
      *
      * @return Mage_Catalog_Model_Product_Type_Abstract
      */
-    public function updateQtyOption($options, Varien_Object $option, $value, $product)
+    public function updateQtyOption($options, Magento_Object $option, $value, $product)
     {
         return $this;
     }
@@ -906,7 +906,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * Prepare selected options for product
      *
      * @param  Mage_Catalog_Model_Product $product
-     * @param  Varien_Object $buyRequest
+     * @param  Magento_Object $buyRequest
      * @return array
      */
     public function processBuyRequest($product, $buyRequest)
@@ -918,7 +918,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * Check product's options configuration
      *
      * @param  Mage_Catalog_Model_Product $product
-     * @param  Varien_Object $buyRequest
+     * @param  Magento_Object $buyRequest
      * @return array
      */
     public function checkProductConfiguration($product, $buyRequest)

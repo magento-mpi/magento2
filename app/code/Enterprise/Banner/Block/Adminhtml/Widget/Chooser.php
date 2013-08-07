@@ -46,16 +46,16 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
     /**
      * Prepare chooser element HTML
      *
-     * @param Varien_Data_Form_Element_Abstract $element Form Element
-     * @return Varien_Data_Form_Element_Abstract
+     * @param Magento_Data_Form_Element_Abstract $element Form Element
+     * @return Magento_Data_Form_Element_Abstract
      */
-    public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
+    public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         $this->_elementValueId = "{$element->getId()}";
         $this->_selectedBanners = explode(',', $element->getValue());
 
         //Create hidden field that store selected banner ids
-        $hidden = new Varien_Data_Form_Element_Hidden($element->getData());
+        $hidden = new Magento_Data_Form_Element_Hidden($element->getData());
         $hidden->setId($this->_elementValueId)->setForm($element->getForm());
         $hiddenHtml = $hidden->getElementHtml();
 

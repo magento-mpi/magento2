@@ -15,7 +15,7 @@
  * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
+class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
 {
     const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';
     const THUMBS_DIRECTORY_NAME = '.thumbs';
@@ -76,7 +76,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      * Return one-level child directories for specified path
      *
      * @param string $path Parent directory path
-     * @return Varien_Data_Collection_Filesystem
+     * @return Magento_Data_Collection_Filesystem
      */
     public function getDirsCollection($path)
     {
@@ -123,7 +123,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      *
      * @param string $path Parent directory path
      * @param string $type Type of storage, e.g. image, media etc.
-     * @return Varien_Data_Collection_Filesystem
+     * @return Magento_Data_Collection_Filesystem
      */
     public function getFilesCollection($path, $type = null)
     {
@@ -140,7 +140,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
             ->setCollectDirs(false)
             ->setCollectFiles(true)
             ->setCollectRecursively(false)
-            ->setOrder('mtime', Varien_Data_Collection::SORT_ORDER_ASC);
+            ->setOrder('mtime', Magento_Data_Collection::SORT_ORDER_ASC);
 
         // Add files extension filter
         if ($allowed = $this->getAllowedExtensions($type)) {
@@ -184,7 +184,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      * Storage collection
      *
      * @param string $path Path to the directory
-     * @return Varien_Data_Collection_Filesystem
+     * @return Magento_Data_Collection_Filesystem
      */
     public function getCollection($path = null)
     {
