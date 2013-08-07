@@ -22,7 +22,7 @@
     <module name="Magento_Enterprise" active="true" />
     <module name="Magento_GiftCard" active="true" />
     <module name="Magento_GiftCardAccount" active="true" />
-    <module name="Enterprise_GiftRegistry" active="true" />
+    <module name="Magento_GiftRegistry" active="true" />
     <module name="Enterprise_GiftWrapping" active="true" />
     <module name="Enterprise_ImportExport" active="true" />
     <module name="Enterprise_Invitation" active="true" />

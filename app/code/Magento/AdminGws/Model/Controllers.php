@@ -1015,7 +1015,7 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
     {
         $id = $this->_request->getParam('id', $this->_request->getParam('entity_id'));
         if ($id) {
-            $websiteId = Mage::getModel('Enterprise_GiftRegistry_Model_Entity')->getResource()->getWebsiteIdByEntityId($id);
+            $websiteId = Mage::getModel('Magento_GiftRegistry_Model_Entity')->getResource()->getWebsiteIdByEntityId($id);
             if (!in_array($websiteId, $this->_role->getWebsiteIds())) {
                 $this->_forward();
                 return false;

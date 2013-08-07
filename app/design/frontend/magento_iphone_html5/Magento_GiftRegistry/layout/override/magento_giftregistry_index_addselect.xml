@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <magento_giftregistry_index_addselect translate="label" module="Magento_GiftRegistry" type="page" parent="magento_giftregistry_view_index">
+        <label>Customer My Account GiftRegistry Add</label>
+        <update handle="customer_account"/>
+        <reference name="customer_account_navigation">
+            <action method="setActive">
+                <path>magento_giftregistry/index/index</path>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="Magento_GiftRegistry_Block_Customer_Edit" name="giftregistry_addselect" template="edit/addselect.phtml"/>
+        </reference>
+    </magento_giftregistry_index_addselect>
+</layout>

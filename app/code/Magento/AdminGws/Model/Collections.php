@@ -362,7 +362,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit GiftRegistry Entity collection
      *
-     * @param Enterprise_GiftRegistry_Model_Resource_Entity_Collection $collection
+     * @param Magento_GiftRegistry_Model_Resource_Entity_Collection $collection
      */
     public function limitGiftRegistryEntityWebsites($collection)
     {

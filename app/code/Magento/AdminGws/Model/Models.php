@@ -1275,7 +1275,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Validate Gift Registry Type before save
      *
-     * @param Enterprise_GiftRegistry_Model_Type $model
+     * @param Magento_GiftRegistry_Model_Type $model
      * @return void
      */
     public function giftRegistryTypeSaveBefore($model)
@@ -1295,7 +1295,7 @@ class Magento_AdminGws_Model_Models extends Magento_AdminGws_Model_Observer_Abst
     /**
      * Validate Gift Registry Type before delete
      *
-     * @param Enterprise_GiftRegistry_Model_Type $model
+     * @param Magento_GiftRegistry_Model_Type $model
      * @return void
      */
     public function giftRegistryTypeDeleteBefore($model)

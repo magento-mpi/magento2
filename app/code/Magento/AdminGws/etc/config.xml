@@ -301,7 +301,7 @@
                     <enterprise_reward_model_resource_reward_rate_collection>limitRewardBalanceWebsites</enterprise_reward_model_resource_reward_rate_collection>
                     <magento_customerBalance_model_resource_balance_history_collection>limitStoreCreditsHistory</magento_customerBalance_model_resource_balance_history_collection>
                     <magento_customerBalance_model_resource_balance_history_collection>limitStoreCredits</magento_customerBalance_model_resource_balance_history_collection>
-                    <enterprise_giftRegistry_model_resource_entity_collection>limitGiftRegistryEntityWebsites</enterprise_giftRegistry_model_resource_entity_collection>
+                    <magento_giftRegistry_model_resource_entity_collection>limitGiftRegistryEntityWebsites</magento_giftRegistry_model_resource_entity_collection>
                     <magento_review_model_resource_review_product_collection>limitProductReviews</magento_review_model_resource_review_product_collection>
                     <enterprise_rma_model_resource_rma_grid_collection>addStoreAttributeToFilter</enterprise_rma_model_resource_rma_grid_collection>
                     <magento_catalogRule_model_resource_rule_collection>limitRuleEntityCollection</magento_catalogRule_model_resource_rule_collection>
@@ -335,7 +335,7 @@
                     <magento_widget_model_widget_instance>widgetInstanceSaveBefore</magento_widget_model_widget_instance>
                     <magento_banner_model_banner>bannerSaveBefore</magento_banner_model_banner>
                     <magento_giftCardAccount_model_giftcardaccount>giftCardAccountSaveBefore</magento_giftCardAccount_model_giftcardaccount>
-                    <enterprise_giftRegistry_model_type>giftRegistryTypeSaveBefore</enterprise_giftRegistry_model_type>
+                    <magento_giftRegistry_model_type>giftRegistryTypeSaveBefore</magento_giftRegistry_model_type>
                     <enterprise_giftWrapping_model_wrapping>giftWrappingSaveBefore</enterprise_giftWrapping_model_wrapping>
                     <enterprise_reward_model_reward_rate>rewardRateSaveBefore</enterprise_reward_model_reward_rate>
                     <magento_review_model_review>catalogProductReviewSaveBefore</magento_review_model_review>
@@ -361,7 +361,7 @@
                     <magento_widget_model_widget_instance>widgetInstanceDeleteBefore</magento_widget_model_widget_instance>
                     <magento_banner_model_banner>bannerDeleteBefore</magento_banner_model_banner>
                     <magento_giftCardAccount_model_giftcardaccount>giftCardAccountDeleteBefore</magento_giftCardAccount_model_giftcardaccount>
-                    <enterprise_giftRegistry_model_type>giftRegistryTypeDeleteBefore</enterprise_giftRegistry_model_type>
+                    <magento_giftRegistry_model_type>giftRegistryTypeDeleteBefore</magento_giftRegistry_model_type>
                     <magento_review_model_review>catalogProductReviewDeleteBefore</magento_review_model_review>
                     <enterprise_reward_model_reward_rate>rewardRateDeleteBefore</enterprise_reward_model_reward_rate>
                 </model_delete_before>

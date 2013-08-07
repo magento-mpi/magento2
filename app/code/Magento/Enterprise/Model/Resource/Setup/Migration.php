@@ -31,7 +31,7 @@ class Magento_Enterprise_Model_Resource_Setup_Migration extends Magento_Core_Mod
                 'magento_customersegment'      => 'Magento_CustomerSegment',
                 'magento_giftcard'             => 'Magento_GiftCard',
                 'magento_giftcardaccount'      => 'Magento_GiftCardAccount',
-                'enterprise_giftregistry'         => 'Enterprise_GiftRegistry',
+                'magento_giftregistry'         => 'Magento_GiftRegistry',
                 'enterprise_giftwrapping'         => 'Enterprise_GiftWrapping',
                 'enterprise_importexport'         => 'Enterprise_ImportExport',
                 'enterprise_pagecache'            => 'Enterprise_PageCache',
