@@ -66,10 +66,10 @@ class Enterprise_CustomerSegment_Model_Resource_Helper_Oracle extends Mage_Core_
     /**
      * Set Oracle specific limit
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @return Enterprise_CustomerSegment_Model_Resource_Helper_Oracle
      */
-    public function setOneRowLimit(Varien_Db_Select $select)
+    public function setOneRowLimit(Magento_DB_Select $select)
     {
         $select->where("ROWNUM = 1");
         return $this;

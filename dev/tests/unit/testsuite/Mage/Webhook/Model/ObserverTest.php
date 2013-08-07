@@ -108,8 +108,8 @@ class Mage_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testAfterWebapiUserChange()
     {
-        $mockObserver = $this->_getBasicMock('Varien_Event_Observer');
-        $mockVarienEvent = $this->getMockBuilder('Varien_Event')
+        $mockObserver = $this->_getBasicMock('Magento_Event_Observer');
+        $mockVarienEvent = $this->getMockBuilder('Magento_Event')
             ->setMethods(array('getObject'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -134,8 +134,8 @@ class Mage_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testAfterWebapiUserChangeWithException()
     {
-        $mockObserver = $this->_getBasicMock('Varien_Event_Observer');
-        $mockVarienEvent = $this->getMockBuilder('Varien_Event')
+        $mockObserver = $this->_getBasicMock('Magento_Event_Observer');
+        $mockVarienEvent = $this->getMockBuilder('Magento_Event')
             ->setMethods(array('getObject'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -160,8 +160,8 @@ class Mage_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testAfterWebapiRoleChange()
     {
-        $mockObserver = $this->_getBasicMock('Varien_Event_Observer');
-        $mockVarienEvent = $this->getMockBuilder('Varien_Event')
+        $mockObserver = $this->_getBasicMock('Magento_Event_Observer');
+        $mockVarienEvent = $this->getMockBuilder('Magento_Event')
             ->setMethods(array('getObject'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -186,8 +186,8 @@ class Mage_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testAfterWebapiRoleChangeWithException()
     {
-        $mockObserver = $this->_getBasicMock('Varien_Event_Observer');
-        $mockVarienEvent = $this->getMockBuilder('Varien_Event')
+        $mockObserver = $this->_getBasicMock('Magento_Event_Observer');
+        $mockVarienEvent = $this->getMockBuilder('Magento_Event')
             ->setMethods(array('getObject'))
             ->disableOriginalConstructor()
             ->getMock();

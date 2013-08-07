@@ -94,7 +94,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $select = $this->getMock('Varien_Db_Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+        $select = $this->getMock('Magento_DB_Select', array('joinLeft', 'from', 'columns'), array(), '', false);
         foreach ($this->_joinValues as $key => $arguments) {
             $select->expects($this->at($key))
                 ->method('joinLeft')
@@ -102,7 +102,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
                 ->will($this->returnSelf());
         }
 
-        $adapter = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array('select', 'quoteInto', 'getCheckSql', 'quote'),
+        $adapter = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array('select', 'quoteInto', 'getCheckSql', 'quote'),
             array(), '', false
         );
         $adapter->expects($this->once())
@@ -137,7 +137,7 @@ class Enterprise_CatalogEvent_Model_Resource_Event_CollectionTest extends PHPUni
             ->method('getTable')
             ->will($this->returnValue(self::MAIN_TABLE));
 
-        $fetchStrategy = $this->getMockForAbstractClass('Varien_Data_Collection_Db_FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('Magento_Data_Collection_Db_FetchStrategyInterface');
 
         $this->_collection = $this->getMock(
             'Enterprise_CatalogEvent_Model_Resource_Event_Collection',

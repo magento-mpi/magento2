@@ -43,7 +43,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $form->setHtmlIdPrefix('printedtemplate_');
 
         $fieldset = $form->addFieldset('base_fieldset', array(

@@ -98,7 +98,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
     /**
      * Retrieve row click URL
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return string
      */
     public function getRowUrl($row)

@@ -39,10 +39,10 @@ class Saas_Queue_Model_Observer_Config extends Saas_Queue_Model_ObserverAbstract
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return Saas_Queue_Model_Observer_Config
      */
-    public function processReinitConfig(Varien_Event_Observer $observer)
+    public function processReinitConfig(Magento_Event_Observer $observer)
     {
         $this->_config->reinit();
         return $this;

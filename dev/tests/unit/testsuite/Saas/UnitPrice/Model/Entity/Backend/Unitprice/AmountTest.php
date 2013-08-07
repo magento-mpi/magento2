@@ -16,7 +16,7 @@ class Saas_UnitPrice_Model_Entity_Backend_Unitprice_AmountTest extends PHPUnit_F
     {
         $this->_backend = new Saas_UnitPrice_Model_Entity_Backend_Unitprice_Amount;
         $this->_backend->setAttribute(
-            new Varien_Object(array('attribute_code' => 'friday', 'default_value' => uniqid()))
+            new Magento_Object(array('attribute_code' => 'friday', 'default_value' => uniqid()))
         );
     }
 
@@ -26,7 +26,7 @@ class Saas_UnitPrice_Model_Entity_Backend_Unitprice_AmountTest extends PHPUnit_F
     public function testBeforeSaveShouldFormatValue($value, $expectedValue)
     {
         // prepare
-        $object = new Varien_Object(array('friday' => $value));
+        $object = new Magento_Object(array('friday' => $value));
 
         // act
         $this->_backend->beforeSave($object);
@@ -47,7 +47,7 @@ class Saas_UnitPrice_Model_Entity_Backend_Unitprice_AmountTest extends PHPUnit_F
     public function testBeforeSaveShouldSetDefaultValueIfObjectHasNoDataForAttribute()
     {
         // prepare
-        $object = new Varien_Object;
+        $object = new Magento_Object;
 
         // act
         $this->_backend->beforeSave($object);
@@ -58,6 +58,6 @@ class Saas_UnitPrice_Model_Entity_Backend_Unitprice_AmountTest extends PHPUnit_F
 
     public function testBeforeSaveShouldReturnSelf()
     {
-        $this->assertSame($this->_backend, $this->_backend->beforeSave(new Varien_Object));
+        $this->assertSame($this->_backend, $this->_backend->beforeSave(new Magento_Object));
     }
 }

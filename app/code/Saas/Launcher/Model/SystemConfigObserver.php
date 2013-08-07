@@ -43,9 +43,9 @@ class Saas_Launcher_Model_SystemConfigObserver
     /**
      * Handle system configuration change (admin_system_config_section_save_after event)
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function handleSystemConfigChange(Varien_Event_Observer $observer)
+    public function handleSystemConfigChange(Magento_Event_Observer $observer)
     {
         $sectionName = (string)$observer->getEvent()->getSection();
         foreach ($this->_pageCollection as $page) {

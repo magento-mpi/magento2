@@ -18,7 +18,7 @@ class Mage_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
      */
     public function testFactory($typeId, $expectedClass)
     {
-        $product = new Varien_Object;
+        $product = new Magento_Object;
         if ($typeId) {
             $product->setTypeId($typeId);
         }
@@ -48,7 +48,7 @@ class Mage_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
      */
     public function testFactoryReturnsSingleton($typeId)
     {
-        $product = new Varien_Object;
+        $product = new Magento_Object;
         if ($typeId) {
             $product->setTypeId($typeId);
         }

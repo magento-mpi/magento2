@@ -103,7 +103,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     /**
      * Perform actions before object save
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Review_Model_Resource_Review
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
@@ -124,7 +124,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     /**
      * Perform actions after object save
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Review_Model_Resource_Review
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
@@ -189,7 +189,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     /**
      * Perform actions after object load
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Review_Model_Resource_Review
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
@@ -314,7 +314,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
             );
             $oldData = $readAdapter->fetchRow($select, $bind);
 
-            $data = new Varien_Object();
+            $data = new Magento_Object();
 
             $data->setReviewsCount($reviewsCount)
                 ->setEntityPkValue($object->getEntityPkValue())

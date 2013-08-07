@@ -299,14 +299,14 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
             ->setStoreId($storeId)
             ->load($productId);
 
-        if ($buyRequest instanceof Varien_Object) {
+        if ($buyRequest instanceof Magento_Object) {
             $_buyRequest = $buyRequest;
         } elseif (is_string($buyRequest)) {
-            $_buyRequest = new Varien_Object(unserialize($buyRequest));
+            $_buyRequest = new Magento_Object(unserialize($buyRequest));
         } elseif (is_array($buyRequest)) {
-            $_buyRequest = new Varien_Object($buyRequest);
+            $_buyRequest = new Magento_Object($buyRequest);
         } else {
-            $_buyRequest = new Varien_Object();
+            $_buyRequest = new Magento_Object();
         }
 
         $cartCandidates = $product->getTypeInstance()
@@ -489,7 +489,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
      * It's passed to Mage_Catalog_Helper_Product->addParamsToBuyRequest() to compose resulting buyRequest.
      *
      * Basically it can hold
-     * - 'current_config', Varien_Object or array - current buyRequest that configures product in this item,
+     * - 'current_config', Magento_Object or array - current buyRequest that configures product in this item,
      *   used to restore currently attached files
      * - 'files_prefix': string[a-z0-9_] - prefix that was added at frontend to names of file options (file inputs),
      * so they won't intersect with other submitted options
@@ -497,8 +497,8 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
      * For more options see Mage_Catalog_Helper_Product->addParamsToBuyRequest()
      *
      * @param int|Mage_Wishlist_Model_Item $itemId
-     * @param Varien_Object $buyRequest
-     * @param null|array|Varien_Object $params
+     * @param Magento_Object $buyRequest
+     * @param null|array|Magento_Object $params
      * @return Mage_Wishlist_Model_Wishlist
      *
      * @see Mage_Catalog_Helper_Product::addParamsToBuyRequest()
@@ -519,9 +519,9 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
         $productId = $product->getId();
         if ($productId) {
             if (!$params) {
-                $params = new Varien_Object();
+                $params = new Magento_Object();
             } else if (is_array($params)) {
-                $params = new Varien_Object($params);
+                $params = new Magento_Object($params);
             }
             $params->setCurrentConfig($item->getBuyRequest());
             $buyRequest = Mage::helper('Mage_Catalog_Helper_Product')->addParamsToBuyRequest($buyRequest, $params);

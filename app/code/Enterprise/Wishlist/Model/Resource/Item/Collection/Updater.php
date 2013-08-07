@@ -21,7 +21,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Collection_Updater
     /**
      * Add filtration by customer id
      *
-     * @param Varien_Data_Collection_Db $argument
+     * @param Magento_Data_Collection_Db $argument
      * @return mixed
      */
     public function update($argument)

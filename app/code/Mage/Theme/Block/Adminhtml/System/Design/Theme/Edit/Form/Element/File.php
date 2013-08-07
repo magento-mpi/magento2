@@ -11,7 +11,7 @@
 /**
  * Form element renderer to display file element
  */
-class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File extends Varien_Data_Form_Element_File
+class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File extends Magento_Data_Form_Element_File
 {
     /**
      * Additional html attributes

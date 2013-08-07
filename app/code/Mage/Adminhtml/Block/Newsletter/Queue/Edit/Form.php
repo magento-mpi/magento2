@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
         /* @var $queue Mage_Newsletter_Model_Queue */
         $queue = Mage::getSingleton('Mage_Newsletter_Model_Queue');
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
             'legend'    =>  Mage::helper('Mage_Newsletter_Helper_Data')->__('Queue Information'),
@@ -96,7 +96,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 
         if ($queue->getQueueStartAt()) {
             $form->getElement('date')->setValue(
-                Mage::app()->getLocale()->date($queue->getQueueStartAt(), Varien_Date::DATETIME_INTERNAL_FORMAT)
+                Mage::app()->getLocale()->date($queue->getQueueStartAt(), Magento_Date::DATETIME_INTERNAL_FORMAT)
             );
         }
 

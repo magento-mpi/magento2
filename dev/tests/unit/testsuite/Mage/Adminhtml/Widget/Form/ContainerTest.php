@@ -13,8 +13,8 @@ class Mage_Adminhtml_Block_Widget_Form_ContainerTest extends PHPUnit_Framework_T
 {
     public function testSetDataObject()
     {
-        $form = new Varien_Object;
-        $dataObject = new Varien_Object;
+        $form = new Magento_Object;
+        $dataObject = new Magento_Object;
 
         // _prepateLayout() is blocked, because it is used by block to instantly add 'form' child
         $block = $this->getMock('Mage_Adminhtml_Block_Widget_Form_Container', array('getChildBlock'), array(), '',

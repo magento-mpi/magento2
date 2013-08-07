@@ -41,7 +41,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
         parent::_prepareForm();
         $form = $this->getForm();
 
-        /** @var $fieldset Varien_Data_Form_Element_Abstract */
+        /** @var $fieldset Magento_Data_Form_Element_Abstract */
         $fieldset = $form->getElement('operation_settings');
 
         // add behaviour fields
@@ -83,7 +83,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
             'required' => true
         ), 'file_path');
 
-        /** @var $element Varien_Data_Form_Element_Abstract */
+        /** @var $element Magento_Data_Form_Element_Abstract */
         $element = $form->getElement('entity');
         $element->setData('onchange', 'varienImportExportScheduled.handleEntityTypeSelector();');
 

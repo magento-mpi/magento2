@@ -52,7 +52,7 @@ class Saas_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
             array(), array(), '', false, false);
         $this->_queueHandlerMock = $this->getMock('Enterprise_Queue_Model_Event_HandlerInterface',
             array(), array(), '', false, false);
-        $this->_eventFactoryMock = $this->getMock('Varien_EventFactory',
+        $this->_eventFactoryMock = $this->getMock('Magento_EventFactory',
             array('create'), array(), '', false, false);
         $this->_model = new Saas_Core_Model_Config_Storage($this->_cacheMock, $this->_resourcesConfigMock,
             $this->_queueHandlerMock, $this->_eventFactoryMock);
@@ -85,7 +85,7 @@ class Saas_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetConfigurationWithoutData()
     {
-        $varienEvent = $this->getMockBuilder('Varien_Event')->disableOriginalConstructor()->getMock();
+        $varienEvent = $this->getMockBuilder('Magento_Event')->disableOriginalConstructor()->getMock();
         $this->_cacheMock->expects($this->once())->method('load')->will($this->returnValue(false));
         $this->_eventFactoryMock->expects($this->once())->method('create')->will($this->returnValue($varienEvent));
         $this->_queueHandlerMock->expects($this->once())->method('addTask');
@@ -95,7 +95,7 @@ class Saas_Core_Model_Config_StorageTest extends PHPUnit_Framework_TestCase
 
     public function testGetConfigurationWithRemoveCache()
     {
-        $varienEvent = $this->getMockBuilder('Varien_Event')->disableOriginalConstructor()->getMock();
+        $varienEvent = $this->getMockBuilder('Magento_Event')->disableOriginalConstructor()->getMock();
         $this->_cacheMock->expects($this->once())->method('load')->will($this->returnValue($this->_configMock));
         $this->_eventFactoryMock->expects($this->once())->method('create')->will($this->returnValue($varienEvent));
         $this->_queueHandlerMock->expects($this->once())->method('addTask');

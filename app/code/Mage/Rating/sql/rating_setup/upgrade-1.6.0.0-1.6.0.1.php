@@ -13,7 +13,7 @@ $installer = $this;
 
 $installer->getConnection()
     ->addColumn($installer->getTable('rating'), 'is_active', array(
-        'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+        'type'      => Magento_DB_Ddl_Table::TYPE_SMALLINT,
         'nullable'  => false,
         'default'   => '1',
         'comment'   => 'Rating is active.'

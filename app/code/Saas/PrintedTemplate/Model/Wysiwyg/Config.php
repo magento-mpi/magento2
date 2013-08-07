@@ -45,7 +45,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
     }
 
     /**
-     * Return Wysiwyg config as Varien_Object
+     * Return Wysiwyg config as Magento_Object
      *
      * Config options description:
      *
@@ -58,7 +58,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
      * encode_directives:       Encode template directives with JS or not
      *
      * @param $data array constructor params to override default config values
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getConfig($data = array())
     {

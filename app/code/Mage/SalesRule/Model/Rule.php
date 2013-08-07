@@ -376,7 +376,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Abstract
                 Mage_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON => Mage::helper('Mage_SalesRule_Helper_Data')->__('No Coupon'),
                 Mage_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC  => Mage::helper('Mage_SalesRule_Helper_Data')->__('Specific Coupon'),
             );
-            $transport = new Varien_Object(array(
+            $transport = new Magento_Object(array(
                 'coupon_types'                => $this->_couponTypes,
                 'is_coupon_type_auto_visible' => false
             ));

@@ -67,7 +67,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
      * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -75,7 +75,7 @@ class Saas_Backend_Model_Config_Backend_Domains extends Mage_Core_Model_Config_D
         Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(

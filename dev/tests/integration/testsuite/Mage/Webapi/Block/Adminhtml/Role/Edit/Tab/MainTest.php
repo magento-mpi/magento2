@@ -55,7 +55,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Framewo
      * Test _prepareForm method.
      *
      * @dataProvider prepareFormDataProvider
-     * @param Varien_Object $apiRole
+     * @param Magento_Object $apiRole
      * @param array $formElements
      */
     public function testPrepareForm($apiRole, array $formElements)
@@ -67,10 +67,10 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Framewo
         $this->_block->toHtml();
 
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('Varien_Data_Form', $form);
-        /** @var Varien_Data_Form_Element_Fieldset $fieldset */
+        $this->assertInstanceOf('Magento_Data_Form', $form);
+        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
-        $this->assertInstanceOf('Varien_Data_Form_Element_Fieldset', $fieldset);
+        $this->assertInstanceOf('Magento_Data_Form_Element_Fieldset', $fieldset);
         $elements = $fieldset->getElements();
         foreach ($formElements as $elementId) {
             $element = $elements->searchById($elementId);
@@ -86,7 +86,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Framewo
     {
         return array(
             'Empty API Role' => array(
-                new Varien_Object(),
+                new Magento_Object(),
                 array(
                     'role_name',
                     'in_role_user',
@@ -94,7 +94,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Framewo
                 )
             ),
             'New API Role' => array(
-                new Varien_Object(array(
+                new Magento_Object(array(
                     'role_name' => 'Role'
                 )),
                 array(
@@ -104,7 +104,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Framewo
                 )
             ),
             'Existed API Role' => array(
-                new Varien_Object(array(
+                new Magento_Object(array(
                     'id' => 1,
                     'role_name' => 'Role'
                 )),

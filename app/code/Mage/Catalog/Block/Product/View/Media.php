@@ -27,7 +27,7 @@ class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_V
     /**
      * Retrieve list of gallery images
      *
-     * @return array|Varien_Data_Collection
+     * @return array|Magento_Data_Collection
      */
     public function getGalleryImages()
     {
@@ -41,7 +41,7 @@ class Mage_Catalog_Block_Product_View_Media extends Mage_Catalog_Block_Product_V
     /**
      * Retrieve gallery url
      *
-     * @param null|Varien_Object $image
+     * @param null|Magento_Object $image
      * @return string
      */
     public function getGalleryUrl($image = null)

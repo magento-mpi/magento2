@@ -96,10 +96,10 @@ ini_set('include_path', ini_get('include_path')
 
 require_once __DIR__ . '/config.inc.php';
 require_once __DIR__ . '/MultyGetopt.php';
-require_once 'Varien/File/CsvMulty.php';
+require_once 'Magento/File/CsvMulty.php';
 require_once __DIR__ . '/CTranslate.php';
 
-require_once 'Varien/Simplexml/Config.php';
-require_once 'Varien/Simplexml/Element.php';
+require_once 'Magento/Simplexml/Config.php';
+require_once 'Magento/Simplexml/Element.php';
 
 Translate::run($CONFIG);

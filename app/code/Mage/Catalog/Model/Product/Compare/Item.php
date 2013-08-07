@@ -163,10 +163,10 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
     /**
      * Customer logout bind process
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Catalog_Model_Product_Compare_Item
      */
-    public function bindCustomerLogout(Varien_Event_Observer $observer = null)
+    public function bindCustomerLogout(Magento_Event_Observer $observer = null)
     {
         $this->_getResource()->purgeVisitorByCustomer($this);
 

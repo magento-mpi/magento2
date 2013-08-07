@@ -86,7 +86,7 @@ class Saas_Queue_Model_Observer_CatalogTest extends PHPUnit_Framework_TestCase
      */
     public function testProcessRefreshCatalog()
     {
-        $observer = new Varien_Event_Observer();
+        $observer = new Magento_Event_Observer();
 
         $this->_indexerObserverMock->expects($this->once())->method('processReindexAll');
         $this->_cacheObserverMock->expects($this->once())->method('processRefreshAllCache');

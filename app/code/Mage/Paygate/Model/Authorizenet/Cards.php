@@ -66,7 +66,7 @@ class Mage_Paygate_Model_Authorizenet_Cards
     /**
      * Save data from card object in cards storage
      *
-     * @param Varien_Object $card
+     * @param Magento_Object $card
      * @return Mage_Paygate_Model_Authorizenet_Cards
      */
     public function updateCard($card)
@@ -83,12 +83,12 @@ class Mage_Paygate_Model_Authorizenet_Cards
      * Retrieve card by ID
      *
      * @param string $cardId
-     * @return Varien_Object|bool
+     * @return Magento_Object|bool
      */
     public function getCard($cardId)
     {
         if (isset($this->_cards[$cardId])) {
-            $card = new Varien_Object($this->_cards[$cardId]);
+            $card = new Magento_Object($this->_cards[$cardId]);
             return $card;
         }
         return false;

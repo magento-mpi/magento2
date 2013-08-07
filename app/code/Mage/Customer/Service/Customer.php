@@ -177,9 +177,9 @@ class Mage_Customer_Service_Customer
     }
 
     /**
-     * Sets each value from data to entity Varien_Object using setter method.
+     * Sets each value from data to entity Magento_Object using setter method.
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @param array $data
      */
     protected function _setDataUsingMethods($entity, array $data)

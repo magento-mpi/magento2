@@ -74,7 +74,7 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
         } else {
             $genDir = $this->_config->getDirectories()->getDir(Mage_Core_Model_Dir::GENERATION);
             $autoloader = new Magento_Autoload_IncludePath();
-            $generatorIo = new Magento_Code_Generator_Io(new Varien_Io_File(), $autoloader, $genDir);
+            $generatorIo = new Magento_Code_Generator_Io(new Magento_Io_File(), $autoloader, $genDir);
             $generator = new Magento_Code_Generator_Class(
                 new Magento_Code_Generator(null, $autoloader, $generatorIo)
             );

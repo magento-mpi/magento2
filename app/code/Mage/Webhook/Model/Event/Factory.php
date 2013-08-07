@@ -16,18 +16,18 @@ class Mage_Webhook_Model_Event_Factory implements Magento_PubSub_Event_FactoryIn
      */
     protected $_objectManager;
 
-    /** @var Varien_Convert_Object  */
+    /** @var Magento_Convert_Object  */
     private  $_arrayConverter;
 
     /**
      * Initialize the class
      *
      * @param Magento_ObjectManager $objectManager
-     * @param Varien_Convert_Object $arrayConverter
+     * @param Magento_Convert_Object $arrayConverter
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Varien_Convert_Object $arrayConverter
+        Magento_Convert_Object $arrayConverter
     ) {
         $this->_objectManager = $objectManager;
         $this->_arrayConverter = $arrayConverter;

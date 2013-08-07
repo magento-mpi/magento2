@@ -15,15 +15,15 @@
  */
 class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region
     extends Mage_Backend_Block_Abstract
-    implements Varien_Data_Form_Element_Renderer_Interface
+    implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
      * Output the region element and javasctipt that makes it dependent from country element
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         if ($country = $element->getForm()->getElement('country_id')) {
             $countryId = $country->getValue();

@@ -57,7 +57,7 @@ class Enterprise_Tag_Model_Reward_Action_Tag extends Enterprise_Reward_Model_Act
     /**
      * Setter for $_entity and add some extra data to history
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @return Enterprise_Reward_Model_Action_Abstract
      */
     public function setEntity($entity)

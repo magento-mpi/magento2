@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
         $carrier = $order->getShippingCarrier();
         $countryShipper = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
-            $params = new Varien_Object(array(
+            $params = new Magento_Object(array(
                 'method' => $order->getShippingMethod(true)->getMethod(),
                 'country_shipper' => $countryShipper,
                 'country_recipient' => $address->getCountryId(),
@@ -153,7 +153,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
         $countryId = $this->getShipment()->getOrder()->getShippingAddress()->getCountryId();
         $carrier = $this->getShipment()->getOrder()->getShippingCarrier();
         if ($carrier) {
-            $params = new Varien_Object(array('country_recipient' => $countryId));
+            $params = new Magento_Object(array('country_recipient' => $countryId));
             $confirmationTypes = $carrier->getDeliveryConfirmationTypes($params);
             $confirmationType = !empty($confirmationTypes[$code]) ? $confirmationTypes[$code] : '';
             return $confirmationType;
@@ -197,7 +197,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
      *
      * @param  $itemId
      * @param  $itemsOf
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getShipmentItem($itemId, $itemsOf)
     {
@@ -209,7 +209,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
                 return $item;
             }
         }
-        return new Varien_Object();
+        return new Magento_Object();
     }
 
     /**
@@ -242,7 +242,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
     {
         $countryId = $this->getShipment()->getOrder()->getShippingAddress()->getCountryId();
         $carrier = $this->getShipment()->getOrder()->getShippingCarrier();
-        $params = new Varien_Object(array('country_recipient' => $countryId));
+        $params = new Magento_Object(array('country_recipient' => $countryId));
         if ($carrier && is_array($carrier->getDeliveryConfirmationTypes($params))) {
             return $carrier->getDeliveryConfirmationTypes($params);
         }
@@ -294,7 +294,7 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Mage_Adminhtml
         $carrier = $order->getShippingCarrier();
         $countryShipper = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
-            $params = new Varien_Object(array(
+            $params = new Magento_Object(array(
                 'method' => $order->getShippingMethod(true)->getMethod(),
                 'country_shipper' => $countryShipper,
                 'country_recipient' => $address->getCountryId(),

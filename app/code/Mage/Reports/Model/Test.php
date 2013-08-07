@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Reports_Model_Test extends Varien_Object
+class Mage_Reports_Model_Test extends Magento_Object
 {
 
     public function getUsersCountries( )

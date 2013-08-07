@@ -90,7 +90,7 @@ class Mage_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_TestCa
      */
     public function testGetHeaderText()
     {
-        $apiRole = new Varien_Object();
+        $apiRole = new Magento_Object();
         $this->_block->setApiRole($apiRole);
         $this->assertEquals('New API Role', $this->_block->getHeaderText());
 

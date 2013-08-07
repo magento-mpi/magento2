@@ -69,9 +69,9 @@ class Saas_Limitation_Model_Observer_Grid
     /**
      * Disable a button in the grid upon reaching the limitation
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function disableButton(Varien_Event_Observer $observer)
+    public function disableButton(Magento_Event_Observer $observer)
     {
         /** @var Mage_Backend_Block_Widget_Container $block */
         $block = $observer->getEvent()->getData('block');
@@ -83,9 +83,9 @@ class Saas_Limitation_Model_Observer_Grid
     /**
      * Disable a split-style button in the grid upon reaching the limitation
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function disableSplitButton(Varien_Event_Observer $observer)
+    public function disableSplitButton(Magento_Event_Observer $observer)
     {
         /** @var Mage_Backend_Block_Widget_Container $block */
         $block = $observer->getEvent()->getData('block');
@@ -98,9 +98,9 @@ class Saas_Limitation_Model_Observer_Grid
     /**
      * Remove a button from the grid upon reaching the limitation
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function removeButton(Varien_Event_Observer $observer)
+    public function removeButton(Magento_Event_Observer $observer)
     {
         /** @var Mage_Backend_Block_Widget_Container $block */
         $block = $observer->getEvent()->getData('block');

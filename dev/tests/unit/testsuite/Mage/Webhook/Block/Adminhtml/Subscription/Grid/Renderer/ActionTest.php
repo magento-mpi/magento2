@@ -17,7 +17,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_ActionTest extends
             ->disableOriginalConstructor()
             ->getMock();
         $gridRenderer = new Mage_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_Action($context);
-        $row = $this->getMockBuilder('Varien_Object')
+        $row = $this->getMockBuilder('Magento_Object')
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -46,7 +46,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     protected $_specificEntitiesLayoutHandles = array();
 
     /**
-     * @var Varien_Simplexml_Element
+     * @var Magento_Simplexml_Element
      */
     protected $_widgetConfigXml = null;
 
@@ -66,14 +66,14 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_View_FileSystem $viewFileSystem
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
         Mage_Core_Model_View_FileSystem $viewFileSystem,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -278,7 +278,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     /**
      * Load widget XML config and merge with theme widget config
      *
-     * @return Varien_Simplexml_Element|null
+     * @return Magento_Simplexml_Element|null
      */
     public function getWidgetConfig()
     {
@@ -295,7 +295,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
                 ));
 
                 if (is_readable($configFile)) {
-                    $themeWidgetsConfig = new Varien_Simplexml_Config();
+                    $themeWidgetsConfig = new Magento_Simplexml_Config();
                     $themeWidgetsConfig->loadFile($configFile);
                     $themeWidgetConfig = $themeWidgetsConfig->getNode($this->_widgetConfigXml->getName());
                     if ($themeWidgetConfig) {

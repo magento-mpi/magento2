@@ -29,7 +29,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
      *
      * @param   null | array | int | Mage_Customer_Model_Customer $customer
      * @param   int | Zend_Db_Expr $website
-     * @return  Varien_Db_Select
+     * @return  Magento_DB_Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -59,7 +59,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Combine_Root
      *
      * @param   Mage_Customer_Model_Customer | Zend_Db_Select | Zend_Db_Expr $customer
      * @param   int | Zend_Db_Expr $website
-     * @return  Varien_Db_Select
+     * @return  Magento_DB_Select
      */
     public function getConditionsSql($customer, $website)
     {

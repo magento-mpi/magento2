@@ -17,13 +17,13 @@
  * @subpackage  Blocks
  */
 class Saas_PrintedTemplate_Block_Widget_Form_Element_Composite
-    extends Varien_Data_Form_Element_Abstract
+    extends Magento_Data_Form_Element_Abstract
 {
     /**
      * Element renderer
      * Used to renderer each composite child element
      *
-     * @var Varien_Data_Form_Element_Renderer_Interface
+     * @var Magento_Data_Form_Element_Renderer_Interface
      */
     protected $_elementRenderer;
 
@@ -83,7 +83,7 @@ class Saas_PrintedTemplate_Block_Widget_Form_Element_Composite
      * @param string $type
      * @param array $config
      * @param string $after
-     * @return Varien_Data_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     public function addField($elementId, $type, $config, $after=false)
     {
@@ -94,7 +94,7 @@ class Saas_PrintedTemplate_Block_Widget_Form_Element_Composite
     /**
      * Get element renderer
      *
-     * @return Varien_Data_Form_Element_Renderer_Interface
+     * @return Magento_Data_Form_Element_Renderer_Interface
      */
     protected function _getElementRenderer()
     {

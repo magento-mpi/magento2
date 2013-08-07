@@ -15,7 +15,7 @@ class Mage_Core_Model_Db_UpdaterTest extends PHPUnit_Framework_TestCase
     public function testUpdateSchemeAndDataConfig($configXml, $appMode, $expectedUpdates)
     {
         // Configuration
-        $configuration = new Varien_Simplexml_Config($configXml);
+        $configuration = new Magento_Simplexml_Config($configXml);
         $storage = $this->getMock('Mage_Core_Model_Config_Storage', array(), array(), '', false);
         $storage->expects($this->any())
             ->method('getConfiguration')

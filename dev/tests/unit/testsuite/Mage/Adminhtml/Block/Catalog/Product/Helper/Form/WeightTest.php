@@ -19,13 +19,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHPUni
     protected $_model;
 
     /**
-     * @var Varien_Data_Form_Element_Checkbox
+     * @var Magento_Data_Form_Element_Checkbox
      */
     protected $_virtual;
 
     public function testSetForm()
     {
-        $this->_virtual = new Varien_Object();
+        $this->_virtual = new Magento_Object();
 
         $helper = $this->getMock('Mage_Catalog_Helper_Product', array('getTypeSwitcherControlLabel'),
             array(), '', false, false
@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHPUni
             array('element' => $this->_virtual, 'helper' => $helper)
         );
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $this->_model->setForm($form);
 
         $this->assertEquals(

@@ -238,7 +238,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
     /**
      * Get select query result
      *
-     * @param Varien_Db_Select|string $sql
+     * @param Magento_DB_Select|string $sql
      * @param array $bindParams array of bind variables
      *
      * @return int
@@ -251,7 +251,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_
     /**
      * Get empty select object
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function createSelect()
     {

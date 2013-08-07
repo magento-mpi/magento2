@@ -36,7 +36,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Configurable
      *
      * @param int|array $entityIds
      * @param bool $usePrimaryTable use primary or temporary index table
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getStockStatusSelect($entityIds = null, $usePrimaryTable = false)
     {

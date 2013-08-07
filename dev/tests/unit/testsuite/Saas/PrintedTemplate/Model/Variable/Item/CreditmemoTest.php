@@ -17,7 +17,7 @@ class Saas_PrintedTemplate_Model_Variable_Item_CreditmemoTest extends PHPUnit_Fr
      */
     public function testInitVariable($settings, $expectedValues)
     {
-        $valueModel = new Varien_Object();
+        $valueModel = new Magento_Object();
         foreach ($settings as $key => $setting) {
             $valueModel->setData($key, $setting);
         }
@@ -31,7 +31,7 @@ class Saas_PrintedTemplate_Model_Variable_Item_CreditmemoTest extends PHPUnit_Fr
             ->method('formatPriceTxt')
             ->will($this->returnCallback(array($this, 'formatPriceTxt')));
 
-        $creditmemo = new Varien_Object();
+        $creditmemo = new Magento_Object();
         $creditmemo->setOrder($order);
         $valueModel->setCreditmemo($creditmemo);
 

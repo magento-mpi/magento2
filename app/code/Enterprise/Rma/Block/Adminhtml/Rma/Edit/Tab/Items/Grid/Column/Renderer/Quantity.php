@@ -21,10 +21,10 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Qua
     /**
      * Renders quantity as integer
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return int|string
      */
-    public function _getValue(Varien_Object $row)
+    public function _getValue(Magento_Object $row)
     {
         if ($row->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
             return '';

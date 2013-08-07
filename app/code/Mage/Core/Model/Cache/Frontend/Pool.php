@@ -68,7 +68,7 @@ class Mage_Core_Model_Cache_Frontend_Pool implements Iterator
             // additional front-ends
             $frontendNodes = $this->_config->getNode(self::XML_PATH_SETTINGS_CUSTOM);
             if ($frontendNodes) {
-                /** @var $frontendNode Varien_Simplexml_Element */
+                /** @var $frontendNode Magento_Simplexml_Element */
                 foreach ($frontendNodes->children() as $frontendNode) {
                     $frontendId = $frontendNode->getName();
                     $frontendOptions = $frontendNode->asArray();

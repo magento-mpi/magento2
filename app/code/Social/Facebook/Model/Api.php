@@ -15,7 +15,7 @@
  * @package    Social_Facebook
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Social_Facebook_Model_Api extends Varien_Object
+class Social_Facebook_Model_Api extends Magento_Object
 {
     const URL_GRAPH_DIALOG_OAUTH        = 'http://www.facebook.com/dialog/oauth';
     const URL_GRAPH_OAUTH_ACCESS_TOKEN  = 'https://graph.facebook.com/oauth/access_token';
@@ -101,7 +101,7 @@ class Social_Facebook_Model_Api extends Varien_Object
     public function makeFacebookRequest($params, $uri, $method)
     {
         try {
-            $client = new Varien_Http_Client();
+            $client = new Magento_HTTP_ZendClient();
 
             $client->setUri($uri);
             $client->setConfig(array(

@@ -20,10 +20,10 @@ class Enterprise_ImportExport_Block_Adminhtml_System_Config_Clean extends Mage_B
     /**
      * Remove scope label
      *
-     * @param  Varien_Data_Form_Element_Abstract $element
+     * @param  Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
         return parent::render($element);
@@ -32,10 +32,10 @@ class Enterprise_ImportExport_Block_Adminhtml_System_Config_Clean extends Mage_B
     /**
      * Return element html
      *
-     * @param  Varien_Data_Form_Element_Abstract $element
+     * @param  Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         $url    = $this->getUrl('*/scheduled_operation/logClean', array(
             'section' => $this->getRequest()->getParam('section')

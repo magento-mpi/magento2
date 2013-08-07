@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean extends Varien_Data_Form_Element_Select
+class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean extends Magento_Data_Form_Element_Select
 {
     protected function _construct()
     {

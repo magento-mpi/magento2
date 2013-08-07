@@ -29,7 +29,7 @@ class Enterprise_Logging_Block_Adminhtml_Archive_Grid_Filter_Date extends Mage_A
             'date_format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => Varien_Date::DATE_INTERNAL_FORMAT
+            'date_format' => Magento_Date::DATE_INTERNAL_FORMAT
         ));
         $date = $filterInput->filter($date);
         $date = $filterInternal->filter($date);

@@ -223,15 +223,15 @@ class Magento_Test_Bootstrap
 
     /**
      * @param array $configFiles
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     protected function _loadConfigFiles(array $configFiles)
     {
-        /** @var $result Varien_Simplexml_Element */
-        $result = simplexml_load_string('<config/>', 'Varien_Simplexml_Element');
+        /** @var $result Magento_Simplexml_Element */
+        $result = simplexml_load_string('<config/>', 'Magento_Simplexml_Element');
         foreach ($configFiles as $configFile) {
-            /** @var $configXml Varien_Simplexml_Element */
-            $configXml = simplexml_load_file($configFile, 'Varien_Simplexml_Element');
+            /** @var $configXml Magento_Simplexml_Element */
+            $configXml = simplexml_load_file($configFile, 'Magento_Simplexml_Element');
             $result->extend($configXml);
         }
         return $result;

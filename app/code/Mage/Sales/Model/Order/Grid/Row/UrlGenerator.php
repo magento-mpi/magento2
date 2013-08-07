@@ -35,7 +35,7 @@ class Mage_Sales_Model_Order_Grid_Row_UrlGenerator extends Mage_Backend_Model_Wi
 
     /**
      * Generate row url
-     * @param Varien_Object $item
+     * @param Magento_Object $item
      * @return bool|string
      */
     public function getUrl($item)

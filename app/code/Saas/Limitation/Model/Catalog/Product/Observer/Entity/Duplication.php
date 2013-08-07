@@ -42,11 +42,11 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Entity_Duplication
     /**
      * Restrict operation on an entity, if the limitation is reached
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @throws Mage_Core_Exception
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function restrict(Varien_Event_Observer $observer)
+    public function restrict(Magento_Event_Observer $observer)
     {
         if ($this->_limitationValidator->exceedsThreshold($this->_limitation)) {
             $exception = new Mage_Core_Exception($this->_message);

@@ -24,7 +24,7 @@ class Integrity_Modular_CodePoolConfigTest extends PHPUnit_Framework_TestCase
     {
         $result = array();
         $modulesConfig = $this->_config->getNode('modules');
-        /** @var $moduleConfig Varien_Simplexml_Element */
+        /** @var $moduleConfig Magento_Simplexml_Element */
         foreach ($modulesConfig->children() as $moduleConfig) {
             if (array_key_exists('codePool', $moduleConfig->asArray())) {
                 $result[] = $moduleConfig->getName();

@@ -32,7 +32,7 @@ class Mage_Webhook_Model_Job_QueueReaderTest extends PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->_mockCollection->expects($this->once())
             ->method('setOrder')
-            ->with($this->equalTo('created_at'), $this->equalTo(Varien_Data_Collection::SORT_ORDER_DESC));
+            ->with($this->equalTo('created_at'), $this->equalTo(Magento_Data_Collection::SORT_ORDER_DESC));
         $this->_mockCollection->expects($this->exactly(2))
             ->method('addFieldToFilter')
             ->will($this->returnSelf());

@@ -39,10 +39,10 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
     /**
      * Refund a capture transaction
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @param float $amount
      */
-    public function refund(Varien_Object $payment, $amount)
+    public function refund(Magento_Object $payment, $amount)
     {
         if ($captureTxnId = $this->_getParentTransactionId($payment)) {
             $api = $this->getApi();
@@ -64,10 +64,10 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
     /**
      * Get payflow transaction id from parent transaction
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @return string
      */
-    protected function _getParentTransactionId(Varien_Object $payment)
+    protected function _getParentTransactionId(Magento_Object $payment)
     {
         if ($payment->getParentTransactionId()) {
             return $payment->getTransaction($payment->getParentTransactionId())

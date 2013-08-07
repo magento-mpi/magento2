@@ -14,7 +14,7 @@ require __DIR__ . '/../../Catalog/_files/product_simple.php';
 
 $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
 $wishlist->loadByCustomer($customer->getId(), true);
-$item = $wishlist->addNewItem($product, new Varien_Object(array(
+$item = $wishlist->addNewItem($product, new Magento_Object(array(
 //    'product' => '1',
 //    'related_product' => '',
 //    'options' => array(

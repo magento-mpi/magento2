@@ -58,7 +58,7 @@ class Saas_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
         ));
 
         // paginate collection
-        $this->_collectionMock = $this->getMock('Varien_Data_Collection_Db', array(), array(), '', false);
+        $this->_collectionMock = $this->getMock('Magento_Data_Collection_Db', array(), array(), '', false);
         $this->_entityMock->expects($this->any())->method('getCollection')
             ->will($this->returnValue($this->_collectionMock));
         $this->_collectionMock->expects($this->once())->method('setCurPage')->will($this->returnSelf());

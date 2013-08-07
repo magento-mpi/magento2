@@ -64,13 +64,13 @@ class Mage_Backend_Model_Widget_Grid_TotalsAbstractTest extends PHPUnit_Framewor
     /**
      * Retrieve test collection
      *
-     * @return Varien_Data_Collection
+     * @return Magento_Data_Collection
      */
     protected function _getTestCollection()
     {
-        $collection = new Varien_Data_Collection();
+        $collection = new Magento_Data_Collection();
         $items = array(
-            new Varien_Object(array('test1' => '1', 'test2' => '2')),
+            new Magento_Object(array('test1' => '1', 'test2' => '2')),
         );
         foreach ($items as $item) {
             $collection->addItem($item);
@@ -140,13 +140,13 @@ class Mage_Backend_Model_Widget_Grid_TotalsAbstractTest extends PHPUnit_Framewor
     protected function _prepareFactoryMock()
     {
         $this->_factoryMock = $this->getMock(
-            'Varien_Object_Factory', array('create'), array(), '', false, false, false
+            'Magento_Object_Factory', array('create'), array(), '', false, false, false
         );
 
         $createValueMap = array(
             array(
                 array('test1' => 2, 'test2' => 2, 'test3' => 4, 'test4' => 0, 'test5' => 4, 'test6' => 1, 'test7' => 0),
-                new Varien_Object(
+                new Magento_Object(
                     array(
                         'test1' => 2, 'test2' => 2, 'test3' => 4, 'test4' => 0, 'test5' => 4, 'test6' => 1, 'test7' => 0
                     )
@@ -154,7 +154,7 @@ class Mage_Backend_Model_Widget_Grid_TotalsAbstractTest extends PHPUnit_Framewor
             ),
             array(
                 array(),
-                new Varien_Object()
+                new Magento_Object()
             )
         );
         $this->_factoryMock->expects($this->any())
@@ -179,7 +179,7 @@ class Mage_Backend_Model_Widget_Grid_TotalsAbstractTest extends PHPUnit_Framewor
 
     public function testCountTotals()
     {
-        $expected = new Varien_Object(
+        $expected = new Magento_Object(
             array('test1' => 2, 'test2' => 2, 'test3' => 4, 'test4' => 0, 'test5' => 4, 'test6' => 1, 'test7' => 0)
         );
         $this->assertEquals($expected, $this->_model->countTotals($this->_getTestCollection()));
@@ -190,7 +190,7 @@ class Mage_Backend_Model_Widget_Grid_TotalsAbstractTest extends PHPUnit_Framewor
         $this->_model->countTotals($this->_getTestCollection());
         $this->_model->reset();
 
-        $this->assertEquals(new Varien_Object(), $this->_model->getTotals());
+        $this->assertEquals(new Magento_Object(), $this->_model->getTotals());
         $this->assertNotEmpty($this->_model->getColumns());
     }
 
@@ -199,7 +199,7 @@ class Mage_Backend_Model_Widget_Grid_TotalsAbstractTest extends PHPUnit_Framewor
         $this->_model->countTotals($this->_getTestCollection());
         $this->_model->reset(true);
 
-        $this->assertEquals(new Varien_Object(), $this->_model->getTotals());
+        $this->assertEquals(new Magento_Object(), $this->_model->getTotals());
         $this->assertEmpty($this->_model->getColumns());
     }
 }

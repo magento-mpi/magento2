@@ -32,10 +32,10 @@ class Saas_Backend_Model_Cache_Observer
     /**
      * Redirects to noRoute from actions of admin cache controller
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function disableAdminhtmlCacheController(Varien_Event_Observer $observer)
+    public function disableAdminhtmlCacheController(Magento_Event_Observer $observer)
     {
         if ($this->_request->getControllerModule() == 'Mage_Adminhtml'
             && $this->_request->getControllerName() == 'cache'

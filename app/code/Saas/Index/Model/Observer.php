@@ -42,11 +42,11 @@ class Saas_Index_Model_Observer
     /**
      * Redefine Magento Index functionality
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Saas_Index_Model_Observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function redefineIndex(Varien_Event_Observer $observer)
+    public function redefineIndex(Magento_Event_Observer $observer)
     {
         if ($this->_request->getControllerModule() == 'Mage_Index_Adminhtml'
             && $this->_request->getControllerName() == 'process'

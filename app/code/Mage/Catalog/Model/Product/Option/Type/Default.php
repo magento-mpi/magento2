@@ -15,7 +15,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Option_Type_Default extends Varien_Object
+class Mage_Catalog_Model_Product_Option_Type_Default extends Magento_Object
 {
     /**
      * Option Instance
@@ -133,11 +133,11 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Varien_Object
     /**
      * Getter for Buy Request
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getRequest()
     {
-        if ($this->_getData('request') instanceof Varien_Object) {
+        if ($this->_getData('request') instanceof Magento_Object) {
             return $this->_getData('request');
         }
         Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The BuyRequest instance in options group is incorrect.'));

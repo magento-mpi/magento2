@@ -39,7 +39,7 @@ $product->setTypeId(Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYP
 $product = Mage::getModel('Mage_Catalog_Model_Product');
 $product->load(1);
 
-$requestInfo = new Varien_Object(array(
+$requestInfo = new Magento_Object(array(
     'qty' => 1,
     'giftcard_amount'         => 'custom',
     'custom_giftcard_amount'  => 200,

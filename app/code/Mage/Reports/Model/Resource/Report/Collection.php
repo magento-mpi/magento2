@@ -16,7 +16,7 @@
  * @package     Mage_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collection
+class Mage_Reports_Model_Resource_Report_Collection extends Magento_Data_Collection
 {
     /**
      * From value
@@ -174,7 +174,7 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
                     default:
                         break(2);
                 }
-                $this->_intervals[$interval['period']] = new Varien_Object($interval);
+                $this->_intervals[$interval['period']] = new Magento_Object($interval);
             }
         }
         return  $this->_intervals;
@@ -387,8 +387,8 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
     public function timeShift($datetime)
     {
         return $this->_locale
-            ->utcDate(null, $datetime, true, Varien_Date::DATETIME_INTERNAL_FORMAT)
-            ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+            ->utcDate(null, $datetime, true, Magento_Date::DATETIME_INTERNAL_FORMAT)
+            ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
     }
 
     /**
@@ -396,7 +396,7 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Mage_Reports_Model_Resource_Report_Collection|Varien_Data_Collection
+     * @return Mage_Reports_Model_Resource_Report_Collection|Magento_Data_Collection
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

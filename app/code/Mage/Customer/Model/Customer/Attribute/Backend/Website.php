@@ -20,7 +20,7 @@ class Mage_Customer_Model_Customer_Attribute_Backend_Website extends Mage_Eav_Mo
     /**
      * Before save
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Customer_Model_Customer_Attribute_Backend_Website
      */
     public function beforeSave($object)

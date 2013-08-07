@@ -13,7 +13,7 @@ class Mage_Adminhtml_Helper_Sales extends Mage_Core_Helper_Abstract
     /**
      * Display price attribute value in base order currency and in place order currency
      *
-     * @param   Varien_Object $dataObject
+     * @param   Magento_Object $dataObject
      * @param   string $code
      * @param   bool $strong
      * @param   string $separator
@@ -33,7 +33,7 @@ class Mage_Adminhtml_Helper_Sales extends Mage_Core_Helper_Abstract
     /**
      * Get "double" prices html (block with base and place currency)
      *
-     * @param   Varien_Object $dataObject
+     * @param   Magento_Object $dataObject
      * @param   float $basePrice
      * @param   float $price
      * @param   bool $strong

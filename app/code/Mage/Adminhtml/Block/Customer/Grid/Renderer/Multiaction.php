@@ -21,10 +21,10 @@ class Mage_Adminhtml_Block_Customer_Grid_Renderer_Multiaction
     /**
      * Renders column
      *
-     * @param  Varien_Object $row
+     * @param  Magento_Object $row
      * @return string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         $html = '';
         $actions = $this->getColumn()->getActions();
@@ -52,10 +52,10 @@ class Mage_Adminhtml_Block_Customer_Grid_Renderer_Multiaction
      * Render single action as link html
      *
      * @param  array $action
-     * @param  Varien_Object $row
+     * @param  Magento_Object $row
      * @return string
      */
-    protected function _toLinkHtml($action, Varien_Object $row)
+    protected function _toLinkHtml($action, Magento_Object $row)
     {
         $product = $row->getProduct();
 

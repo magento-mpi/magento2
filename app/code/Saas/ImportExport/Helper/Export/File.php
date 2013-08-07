@@ -135,7 +135,7 @@ class Saas_ImportExport_Helper_Export_File extends Mage_Core_Helper_Abstract
     /**
      * Init last export file information
      *
-     * @return bool|Varien_Object
+     * @return bool|Magento_Object
      */
     protected function _initFile()
     {

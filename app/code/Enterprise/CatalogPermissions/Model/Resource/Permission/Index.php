@@ -769,7 +769,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     /**
      * Apply price grant on price index select
      *
-     * @param Varien_Object $data
+     * @param Magento_Object $data
      * @param int $customerGroupId
      * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
      */

@@ -64,7 +64,7 @@ class Mage_Core_Model_Locale_Hierarchy_Loader
     {
         $localeHierarchy = array();
         $inheritanceNode = $this->_config->getNode(self::XML_PATH_LOCALE_INHERITANCE);
-        if ($inheritanceNode instanceof Varien_Simplexml_Element) {
+        if ($inheritanceNode instanceof Magento_Simplexml_Element) {
             $localeHierarchy = $this->_composeLocaleHierarchy(
                 $inheritanceNode->asCanonicalArray()
             );

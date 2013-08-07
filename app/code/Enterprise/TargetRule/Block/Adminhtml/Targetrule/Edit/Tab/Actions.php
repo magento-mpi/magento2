@@ -29,7 +29,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
     {
         /* @var $model Enterprise_TargetRule_Model_Rule */
         $model  = Mage::registry('current_target_rule');
-        $form   = new Varien_Data_Form();
+        $form   = new Magento_Data_Form();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset   = $form->addFieldset('actions_fieldset', array(

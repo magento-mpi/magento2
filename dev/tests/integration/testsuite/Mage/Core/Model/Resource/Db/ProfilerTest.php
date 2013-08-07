@@ -37,7 +37,7 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     protected function _getConnectionReadConfig()
     {
@@ -95,13 +95,13 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
     public function profileQueryDataProvider()
     {
         return array(
-            array("SELECT * FROM %s", Varien_Db_Profiler::SELECT),
+            array("SELECT * FROM %s", Magento_DB_Profiler::SELECT),
             array("INSERT INTO %s (code, version, data_version) "
-                . "VALUES ('" . self::$_testResourceName . "', '1.1', '1.1')", Varien_Db_Profiler::INSERT),
+                . "VALUES ('" . self::$_testResourceName . "', '1.1', '1.1')", Magento_DB_Profiler::INSERT),
             array("UPDATE %s SET version = '1.2' WHERE code = '" . self::$_testResourceName . "'",
-                Varien_Db_Profiler::UPDATE),
+                Magento_DB_Profiler::UPDATE),
             array("DELETE FROM %s WHERE code = '" . self::$_testResourceName . "'",
-                Varien_Db_Profiler::DELETE),
+                Magento_DB_Profiler::DELETE),
         );
     }
 
@@ -131,7 +131,7 @@ class Mage_Core_Model_Resource_Db_ProfilerTest extends PHPUnit_Framework_TestCas
         $profiler = $connection->getProfiler();
         $this->assertInstanceOf('Mage_Core_Model_Resource_Db_Profiler', $profiler);
 
-        $queryProfiles = $profiler->getQueryProfiles(Varien_Db_Profiler::SELECT);
+        $queryProfiles = $profiler->getQueryProfiles(Magento_DB_Profiler::SELECT);
         $this->assertCount(2, $queryProfiles);
     }
 }

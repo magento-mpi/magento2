@@ -87,7 +87,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
     protected function _prepareForm()
     {
         $widgetInstance = $this->getWidgetInstance();
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id' => 'edit_form',
             'action' => $this->getData('action'),
             'method' => 'post'

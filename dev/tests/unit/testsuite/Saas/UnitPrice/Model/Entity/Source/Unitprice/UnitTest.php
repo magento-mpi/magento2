@@ -28,7 +28,7 @@ class Saas_UnitPrice_Model_Entity_Source_Unitprice_UnitTest
      */
     protected function setUp()
     {
-        $attribute = new Varien_Object(
+        $attribute = new Magento_Object(
             array(
                 'attribute_code' => 'friday',
                 'default_value' => self::DEFAULT_VALUE

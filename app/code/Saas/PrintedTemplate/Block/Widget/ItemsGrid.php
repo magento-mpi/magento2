@@ -32,14 +32,14 @@ class Saas_PrintedTemplate_Block_Widget_ItemsGrid extends Saas_PrintedTemplate_B
     /**
      * Cache for getColumns() method
      *
-     * @var Varien_Data_Collection
+     * @var Magento_Data_Collection
      */
     protected $_columns;
 
     /**
      * Cache for getItems() method
      *
-     * @var Varien_Data_Collection
+     * @var Magento_Data_Collection
      */
     protected $_items;
 
@@ -89,12 +89,12 @@ class Saas_PrintedTemplate_Block_Widget_ItemsGrid extends Saas_PrintedTemplate_B
     /**
      * Get columns collection
      *
-     * @return Varien_Data_Collection
+     * @return Magento_Data_Collection
      */
     public function getColumns()
     {
         if (is_null($this->_columns)) {
-            $this->_columns = new Varien_Data_Collection();
+            $this->_columns = new Magento_Data_Collection();
 
             if ($this->hasColumnsEditor()) {
                 parse_str(base64_decode($this->getColumnsEditor()));
@@ -105,7 +105,7 @@ class Saas_PrintedTemplate_Block_Widget_ItemsGrid extends Saas_PrintedTemplate_B
                         usort($parameters['columns_editor'], array($this, '_compareColumns'));
                     }
                     foreach ($parameters['columns_editor'] as $row) {
-                        $this->_columns->addItem(new Varien_Object($row));
+                        $this->_columns->addItem(new Magento_Object($row));
                     }
                 }
             }
@@ -153,7 +153,7 @@ class Saas_PrintedTemplate_Block_Widget_ItemsGrid extends Saas_PrintedTemplate_B
     /**
      * Get items of entity if has entity
      *
-     * @return Varien_Data_Collection|array Collection or empty array
+     * @return Magento_Data_Collection|array Collection or empty array
      */
     public function getItems()
     {

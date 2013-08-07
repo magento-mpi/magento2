@@ -25,7 +25,7 @@ class Mage_Core_Model_Config_BaseFactory
     /**
      * Create config model
      *
-     * @param string|Varien_Simplexml_Element $sourceData
+     * @param string|Magento_Simplexml_Element $sourceData
      * @return Mage_Core_Model_Config_Base
      */
     public function create($sourceData = null)

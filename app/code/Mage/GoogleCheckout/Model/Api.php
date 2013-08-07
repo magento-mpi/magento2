@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_GoogleCheckout_Model_Api extends Varien_Object
+class Mage_GoogleCheckout_Model_Api extends Magento_Object
 {
     /**
      * Fields that should be replaced in debug with '***'

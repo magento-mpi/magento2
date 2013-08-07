@@ -21,10 +21,10 @@ class Mage_Sendfriend_Model_Observer
     /**
      * Register Sendfriend Model in global registry
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Sendfriend_Model_Observer
      */
-    public function register(Varien_Event_Observer $observer)
+    public function register(Magento_Event_Observer $observer)
     {
         Mage::getModel('Mage_Sendfriend_Model_Sendfriend')->register();
         return $this;

@@ -25,9 +25,9 @@ class Mage_Index_Model_Observer
     /**
      * Store after commit observer. Process store related indexes
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function processStoreSave(Varien_Event_Observer $observer)
+    public function processStoreSave(Magento_Event_Observer $observer)
     {
         $store = $observer->getEvent()->getStore();
         $this->_indexer->processEntityAction(
@@ -40,9 +40,9 @@ class Mage_Index_Model_Observer
     /**
      * Store group after commit observer. Process store group related indexes
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function processStoreGroupSave(Varien_Event_Observer $observer)
+    public function processStoreGroupSave(Magento_Event_Observer $observer)
     {
         $storeGroup = $observer->getEvent()->getStoreGroup();
         $this->_indexer->processEntityAction(
@@ -55,9 +55,9 @@ class Mage_Index_Model_Observer
     /**
      * Website save after commit observer. Process website related indexes
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function processWebsiteSave(Varien_Event_Observer $observer)
+    public function processWebsiteSave(Magento_Event_Observer $observer)
     {
         $website = $observer->getEvent()->getWebsite();
         $this->_indexer->processEntityAction(
@@ -70,9 +70,9 @@ class Mage_Index_Model_Observer
     /**
      * Store after commit observer. Process store related indexes
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function processStoreDelete(Varien_Event_Observer $observer)
+    public function processStoreDelete(Magento_Event_Observer $observer)
     {
         $store = $observer->getEvent()->getStore();
         $this->_indexer->processEntityAction(
@@ -85,9 +85,9 @@ class Mage_Index_Model_Observer
     /**
      * Store group after commit observer. Process store group related indexes
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function processStoreGroupDelete(Varien_Event_Observer $observer)
+    public function processStoreGroupDelete(Magento_Event_Observer $observer)
     {
         $storeGroup = $observer->getEvent()->getStoreGroup();
         $this->_indexer->processEntityAction(
@@ -100,9 +100,9 @@ class Mage_Index_Model_Observer
     /**
      * Website save after commit observer. Process website related indexes
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function processWebsiteDelete(Varien_Event_Observer $observer)
+    public function processWebsiteDelete(Magento_Event_Observer $observer)
     {
         $website = $observer->getEvent()->getWebsite();
         $this->_indexer->processEntityAction(
@@ -115,9 +115,9 @@ class Mage_Index_Model_Observer
     /**
      * Config data after commit observer.
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function processConfigDataSave(Varien_Event_Observer $observer)
+    public function processConfigDataSave(Magento_Event_Observer $observer)
     {
         $configData = $observer->getEvent()->getConfigData();
         $this->_indexer->processEntityAction(

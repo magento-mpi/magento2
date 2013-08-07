@@ -57,7 +57,7 @@ class Enterprise_Reward_Model_Resource_Reward_History_Collection extends Mage_Co
      * Getter for $_expiryConfig
      *
      * @param int $websiteId Specified Website Id
-     * @return array|Varien_Object
+     * @return array|Magento_Object
      */
     protected function _getExpiryConfig($websiteId = null)
     {

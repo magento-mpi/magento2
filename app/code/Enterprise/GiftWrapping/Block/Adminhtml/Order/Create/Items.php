@@ -37,7 +37,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
     /**
      * Prepare and return quote items info
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getItemsInfo()
     {
@@ -50,10 +50,10 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
                 $temp = array();
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
                     if ($this->getDisplayWrappingBothPrices()) {
-                        $temp['price_incl_tax'] = $this->calculatePrice(new Varien_Object(), $price, true);
-                        $temp['price_excl_tax'] = $this->calculatePrice(new Varien_Object(), $price);
+                        $temp['price_incl_tax'] = $this->calculatePrice(new Magento_Object(), $price, true);
+                        $temp['price_excl_tax'] = $this->calculatePrice(new Magento_Object(), $price);
                     } else {
-                        $temp['price'] = $this->calculatePrice(new Varien_Object(), $price,
+                        $temp['price'] = $this->calculatePrice(new Magento_Object(), $price,
                             $this->getDisplayWrappingPriceInclTax()
                         );
                     }
@@ -62,7 +62,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Items
                 $data[$item->getId()] = $temp;
             }
         }
-        return new Varien_Object($data);
+        return new Magento_Object($data);
     }
 
     /**

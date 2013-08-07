@@ -10,4 +10,4 @@
  */
 
 $designDir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . '/media_for_change';
-Varien_Io_File::rmdirRecursive($designDir);
+Magento_Io_File::rmdirRecursive($designDir);

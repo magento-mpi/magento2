@@ -128,7 +128,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
             $option->setIdFieldName('id');
             $option->setId($i);
             $option->setIsRequire(true);
-            $this->_customOptions[Mage_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX . $i] = new Varien_Object(
+            $this->_customOptions[Mage_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX . $i] = new Magento_Object(
                 array('value' => 'value')
             );
             $this->_product->addOption($option);

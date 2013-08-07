@@ -11,7 +11,7 @@
 /**
  * Archive files collection
  */
-class Enterprise_Logging_Model_Archive_Collection extends Varien_Data_Collection_Filesystem
+class Enterprise_Logging_Model_Archive_Collection extends Magento_Data_Collection_Filesystem
 {
     /**
      * Filenames regex filter
@@ -27,7 +27,7 @@ class Enterprise_Logging_Model_Archive_Collection extends Varien_Data_Collection
     {
         parent::__construct();
         $basePath = Mage::getModel('Enterprise_Logging_Model_Archive')->getBasePath();
-        $file = new Varien_Io_File();
+        $file = new Magento_Io_File();
         $file->setAllowCreateFolders(true)->createDestinationDir($basePath);
         $this->addTargetDir($basePath);
     }

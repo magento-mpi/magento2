@@ -21,12 +21,12 @@ class Mage_Webhook_Model_Resource_Subscription_Collection
     /**
      * Collection constructor
      *
-     * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Mage_Webhook_Model_Resource_Endpoint $endpointResource
      * @param Mage_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Webhook_Model_Resource_Endpoint $endpointResource,
         Mage_Core_Model_Resource_Db_Abstract $resource = null
     ) {

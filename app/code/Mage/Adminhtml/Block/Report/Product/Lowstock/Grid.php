@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Report_Product_Lowstock_Grid extends Mage_Adminhtml_B
             ->joinInventoryItem('qty')
             ->useManageStockFilter($storeId)
             ->useNotifyStockQtyFilter($storeId)
-            ->setOrder('qty', Varien_Data_Collection::SORT_ORDER_ASC);
+            ->setOrder('qty', Magento_Data_Collection::SORT_ORDER_ASC);
 
         if( $storeId ) {
             $collection->addStoreFilter($storeId);

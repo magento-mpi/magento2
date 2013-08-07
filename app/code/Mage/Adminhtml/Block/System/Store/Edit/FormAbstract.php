@@ -35,7 +35,7 @@ abstract class Mage_Adminhtml_Block_System_Store_Edit_FormAbstract extends Mage_
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post'
@@ -68,7 +68,7 @@ abstract class Mage_Adminhtml_Block_System_Store_Edit_FormAbstract extends Mage_
      * Build store type specific fieldset
      *
      * @abstract
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      */
-    abstract protected function _prepareStoreFieldset(Varien_Data_Form $form);
+    abstract protected function _prepareStoreFieldset(Magento_Data_Form $form);
 }

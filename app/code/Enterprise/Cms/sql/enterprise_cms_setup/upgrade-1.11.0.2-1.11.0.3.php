@@ -16,7 +16,7 @@ $installer->getConnection()
         $installer->getTable('enterprise_cms_hierarchy_metadata'),
         'top_menu_visibility',
         array(
-            'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+            'type'     => Magento_DB_Ddl_Table::TYPE_SMALLINT,
             'comment'  => 'Top Menu Visibility',
             'nullable' => true,
             'default'  => null,
@@ -29,7 +29,7 @@ $installer->getConnection()
         $installer->getTable('enterprise_cms_hierarchy_metadata'),
         'top_menu_excluded',
         array(
-            'type'     => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+            'type'     => Magento_DB_Ddl_Table::TYPE_SMALLINT,
             'comment'  => 'Top Menu Excluded',
             'nullable' => true,
             'default'  => null,

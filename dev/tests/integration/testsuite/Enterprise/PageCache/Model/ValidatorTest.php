@@ -65,7 +65,7 @@ class Enterprise_PageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCas
      * Test for both _getDataChangeDependencies and _getDataDeleteDependencies
      *
      * @param string $type
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @param boolean $isInvalidated
      *
      * @dataProvider getDataDependenciesDataProvider

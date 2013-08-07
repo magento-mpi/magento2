@@ -56,7 +56,7 @@ class Mage_Core_Model_Resource_Translate_String extends Mage_Core_Model_Resource
      * @param String $field
      * @param String $value
      * @param Mage_Core_Model_Abstract $object
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

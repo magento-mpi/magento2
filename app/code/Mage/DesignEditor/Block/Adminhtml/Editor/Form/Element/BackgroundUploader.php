@@ -75,14 +75,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
     /**
      * Get component of 'checkbox' type (actually 'tile')
      *
-     * @return Varien_Data_Form_Element_Checkbox
+     * @return Magento_Data_Form_Element_Checkbox
      * @throws Mage_Core_Exception
      */
     public function getCheckboxElement()
     {
         $checkboxId = $this->getComponentId('tile');
 
-        /** @var $element Varien_Data_Form_Element_Abstract */
+        /** @var $element Magento_Data_Form_Element_Abstract */
         foreach ($this->getElements() as $element) {
             if ($element->getData('name') == $checkboxId) {
                 return $element;
@@ -103,7 +103,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
     public function getImageUploaderElement()
     {
         $imageUploaderId = $this->getComponentId('image-uploader');
-        /** @var $e Varien_Data_Form_Element_Abstract */
+        /** @var $e Magento_Data_Form_Element_Abstract */
         foreach ($this->getElements() as $e) {
             if ($e->getData('name') == $imageUploaderId) {
                 return $e;

@@ -15,7 +15,7 @@
  * @package     Mage_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Widget_Model_Widget_Config extends Varien_Object
+class Mage_Widget_Model_Widget_Config extends Magento_Object
 {
     /**
      * @var Mage_Core_Model_View_Url
@@ -35,7 +35,7 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
     /**
      * Return config settings for widgets insertion plugin based on editor element config
      *
-     * @param Varien_Object $config
+     * @param Magento_Object $config
      * @return array
      */
     public function getPluginSettings($config)
@@ -55,7 +55,7 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
     /**
      * Return Widgets Insertion Plugin Window URL
      *
-     * @param Varien_Object Editor element config
+     * @param Magento_Object Editor element config
      * @return string
      */
     public function getWidgetWindowUrl($config)
