@@ -21,11 +21,6 @@ class Mage_Core_Model_Theme_Image_Uploader
     protected  $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp');
 
     /**
-     * @var Mage_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Magento_Filesystem
      */
     protected $_filesystem;
@@ -44,18 +39,15 @@ class Mage_Core_Model_Theme_Image_Uploader
     /**
      * Initialize dependencies
      *
-     * @param Mage_Core_Helper_Data $helper
      * @param Magento_Filesystem $filesystem
      * @param Zend_File_Transfer_Adapter_Http $transferAdapter
      * @param Varien_File_UploaderFactory $uploaderFactory
      */
     public function __construct(
-        Mage_Core_Helper_Data $helper,
         Magento_Filesystem $filesystem,
         Zend_File_Transfer_Adapter_Http $transferAdapter,
         Varien_File_UploaderFactory $uploaderFactory
     ) {
-        $this->_helper = $helper;
         $this->_filesystem = $filesystem;
         $this->_transferAdapter = $transferAdapter;
         $this->_uploaderFactory = $uploaderFactory;

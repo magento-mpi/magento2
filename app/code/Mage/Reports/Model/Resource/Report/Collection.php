@@ -85,30 +85,22 @@ class Mage_Reports_Model_Resource_Report_Collection extends Varien_Data_Collecti
     protected $_locale;
 
     /**
-     * @var Mage_Reports_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Mage_Reports_Model_Resource_Report_Collection_Factory
      */
     protected $_collectionFactory;
 
     /**
      * @param Mage_Core_Model_LocaleInterface $locale
-     * @param Mage_Reports_Helper_Data $helper
      * @param Zend_DateFactory $dateFactory
      * @param Mage_Reports_Model_Resource_Report_Collection_Factory $collectionFactory
      */
     public function __construct(
         Mage_Core_Model_LocaleInterface $locale,
-        Mage_Reports_Helper_Data $helper,
         Zend_DateFactory $dateFactory,
         Mage_Reports_Model_Resource_Report_Collection_Factory $collectionFactory
     ) {
         $this->_dateFactory = $dateFactory;
         $this->_locale = $locale;
-        $this->_helper = $helper;
         $this->_collectionFactory = $collectionFactory;
         parent::__construct();
     }

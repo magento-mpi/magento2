@@ -36,11 +36,6 @@ class Mage_Core_Model_Resource_File_Storage_File
     protected $_dbHelper;
 
     /**
-     * @var Mage_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Mage_Core_Model_Logger
      */
     protected $_logger;
@@ -48,17 +43,14 @@ class Mage_Core_Model_Resource_File_Storage_File
     /**
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Helper_File_Storage_Database $dbHelper
-     * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Logger $log
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Mage_Core_Helper_File_Storage_Database $dbHelper,
-        Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Logger $log
     ) {
         $this->_dbHelper = $dbHelper;
-        $this->_helper = $helper;
         $this->_logger = $log;
 
         $this->_filesystem = $filesystem;

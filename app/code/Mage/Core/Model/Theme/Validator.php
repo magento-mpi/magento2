@@ -10,13 +10,6 @@
 class Mage_Core_Model_Theme_Validator
 {
     /**
-     * Helper
-     *
-     * @var Mage_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Validators list by data key
      *
      * array('dataKey' => array('validator_name' => [validators], ...), ...)
@@ -37,9 +30,8 @@ class Mage_Core_Model_Theme_Validator
     /**
      * Initialize validators
      */
-    public function __construct(Mage_Core_Helper_Data $helper)
+    public function __construct()
     {
-        $this->_helper = $helper;
         $this->_setVersionValidators();
         $this->_setTypeValidators();
         $this->_setTitleValidators();

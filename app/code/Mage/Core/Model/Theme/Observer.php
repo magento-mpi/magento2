@@ -34,29 +34,21 @@ class Mage_Core_Model_Theme_Observer
     protected $_eventDispatcher;
 
     /**
-     * @var
-     */
-    protected $_helper;
-
-    /**
      * @param Mage_Core_Model_Theme_ImageFactory $themeImageFactory
      * @param Mage_Core_Model_Resource_Layout_Update_Collection $updateCollection
      * @param Mage_Theme_Model_Config_Customization $themeConfig
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Helper_Data $helper
      */
     public function __construct(
         Mage_Core_Model_Theme_ImageFactory $themeImageFactory,
         Mage_Core_Model_Resource_Layout_Update_Collection $updateCollection,
         Mage_Theme_Model_Config_Customization $themeConfig,
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Helper_Data $helper
+        Mage_Core_Model_Event_Manager $eventDispatcher
     ) {
         $this->_themeImageFactory = $themeImageFactory;
         $this->_updateCollection = $updateCollection;
         $this->_themeConfig = $themeConfig;
         $this->_eventDispatcher = $eventDispatcher;
-        $this->_helper = $helper;
     }
 
     /**

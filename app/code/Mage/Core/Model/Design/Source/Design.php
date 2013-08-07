@@ -14,22 +14,15 @@
 class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
-     * @var Mage_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Mage_Core_Model_Theme_Label
      */
     protected $_themeLabel;
 
     /**
-     * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme_Label $themeLabel
      */
-    public function __construct(Mage_Core_Helper_Data $helper, Mage_Core_Model_Theme_Label $themeLabel)
+    public function __construct(Mage_Core_Model_Theme_Label $themeLabel)
     {
-        $this->_helper = $helper;
         $this->_themeLabel = $themeLabel;
     }
 

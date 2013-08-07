@@ -30,9 +30,8 @@ class Mage_Core_Model_Theme_LabelTest extends PHPUnit_Framework_TestCase
         $collectionFactory = $this->getMock('Mage_Core_Model_Resource_Theme_CollectionFactory',
             array('create'), array(), '', false);
         $collectionFactory->expects($this->any())->method('create')->will($this->returnValue($this->_collection));
-        $helper = $this->getMock('Mage_Core_Helper_Data', null, array(), '', false);
 
-        $this->_model = new Mage_Core_Model_Theme_Label($collectionFactory, $helper);
+        $this->_model = new Mage_Core_Model_Theme_Label($collectionFactory);
     }
 
     /**

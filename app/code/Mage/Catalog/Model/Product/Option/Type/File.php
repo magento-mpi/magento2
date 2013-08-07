@@ -34,27 +34,19 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     protected $_filesystem;
 
     /**
-     * @var Mage_Catalog_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * Constructor
      *
      * By default is looking for first argument as array and assigns it as object attributes
      * This behavior may change in child classes
      *
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Catalog_Helper_Data $helper
      * @param array $data
      */
     public function __construct(
         Magento_Filesystem $filesystem,
-        Mage_Catalog_Helper_Data $helper,
         $data = array()
     ) {
         $this->_filesystem = $filesystem;
-        $this->_helper = $helper;
         $this->_data = $data;
     }
 
