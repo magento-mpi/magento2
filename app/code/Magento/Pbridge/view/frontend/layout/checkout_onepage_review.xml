@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <checkout_onepage_review>
+        <reference name="checkout.onepage.review.button">
+            <action method="setTemplate">
+                <template helper="Magento_Pbridge_Helper_Data::getReviewButtonTemplate">
+                    <name>Magento_Pbridge::checkout/review/button.phtml</name>
+                    <block>checkout.onepage.review.button</block>
+                </template>
+            </action>
+        </reference>
+        <reference name="checkout.onepage.review.info.items.after">
+            <block type="Magento_Pbridge_Block_Checkout_Payment_Review_Container" name="pbridge.checkout.payment.review.iframe" template="Magento_Pbridge::checkout/review/iframe.phtml"/>
+        </reference>
+    </checkout_onepage_review>
+</layout>

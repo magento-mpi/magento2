@@ -29,7 +29,7 @@
     <module name="Magento_License" active="true" />
     <module name="Magento_Logging" active="true" />
     <module name="Enterprise_PageCache" active="true" />
-    <module name="Enterprise_Pbridge" active="true" />
+    <module name="Magento_Pbridge" active="true" />
     <module name="Enterprise_Pci" active="true" />
     <module name="Enterprise_Persistent" active="true" />
     <module name="Enterprise_PricePermissions" active="true" />

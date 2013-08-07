@@ -18,7 +18,7 @@ Magento/GiftWrapping/Model/Total/Quote/Tax
 Enterprise/ImportExport/Model/Import/Entity/Eav/Customer
 Magento/Invitation
 Magento/Logging/Block
-Enterprise/Pbridge
+Magento/Pbridge
 Enterprise/PageCache/Model/Container/Sidebar
 Enterprise/Reminder
 Enterprise/Reward/Model/Action

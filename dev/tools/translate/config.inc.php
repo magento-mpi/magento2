@@ -458,8 +458,8 @@ $CONFIG['translates'] = array(
     'Enterprise_PageCache' => array(
         'app/code/Enterprise/PageCache/'
     ),
-    'Enterprise_Pbridge' => array(
-        'app/code/Enterprise/Pbridge/',
+    'Magento_Pbridge' => array(
+        'app/code/Magento/Pbridge/',
         'app/design/adminhtml/default/default/layout/enterprise/pbridge.xml',
         'app/design/adminhtml/default/default/template/enterprise/pbridge/',
         'app/design/frontend/enterprise/default/layout/pbridge.xml',
@@ -651,7 +651,7 @@ $CONFIG['helpers']  = array(
     'magento_license'            => 'Magento_License',
     'magento_logging'            => 'Magento_Logging',
     'enterprise_pagecache'          => 'Enterprise_PageCache',
-    'enterprise_pbridge'            => 'Enterprise_Pbridge',
+    'magento_pbridge'            => 'Magento_Pbridge',
     'enterprise_pci'                => 'Enterprise_Pci',
     'enterprise_persistent'         => 'Enterprise_Persistent',
     'enterprise_pricepermissions'   => 'Enterprise_PricePermissions',

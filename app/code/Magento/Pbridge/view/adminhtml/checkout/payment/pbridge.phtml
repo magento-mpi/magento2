@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Pbridge
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<ul class="form-list pbridge" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
+    <li>
+        <?php if ($this->getReloadAllowed()): ?>
+            <span class="pbridge-reload"><a href="#" onclick="reloadIframe('<?php echo $this->getMethodCode() ?>');return false;">Reload Form</a></span>
+        <?php endif; ?>
+        <div id="payment_form_<?php echo $this->getMethodCode() ?>_container">
+            <?php echo $this->getChildHtml('pbridge_iframe'); ?>
+        </div>
+    </li>
+</ul>
