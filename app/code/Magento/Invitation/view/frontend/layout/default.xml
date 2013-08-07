@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <block type="Magento_Invitation_Block_Link" name="invitation_link_top">
+            <action method="addAccountLink"/>
+        </block>
+    </default>
+</layout>

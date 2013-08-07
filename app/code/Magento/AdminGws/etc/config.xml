@@ -271,7 +271,7 @@
                     <magento_customer_model_resource_customer_collection>limitCustomers</magento_customer_model_resource_customer_collection>
                     <magento_review_model_resource_review_collection>limitReviews</magento_review_model_resource_review_collection>
                     <magento_catalogSearch_model_resource_query_collection>addStoreFilter</magento_catalogSearch_model_resource_query_collection>
-                    <enterprise_invitation_model_resource_invitation_collection>addStoreFilter</enterprise_invitation_model_resource_invitation_collection>
+                    <magento_invitation_model_resource_invitation_collection>addStoreFilter</magento_invitation_model_resource_invitation_collection>
                     <magento_log_model_resource_visitor_online_collection>limitOnlineCustomers</magento_log_model_resource_visitor_online_collection>
                     <magento_giftCardAccount_model_resource_giftcardaccount_collection>limitGiftCardAccounts</magento_giftCardAccount_model_resource_giftcardaccount_collection>
                     <magento_catalogEvent_model_resource_event_collection>limitCatalogEvents</magento_catalogEvent_model_resource_event_collection>

@@ -438,8 +438,8 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/enterprise/importexport.xml',
         'app/design/adminhtml/default/default/template/enterprise/importexport/',
     ),
-    'Enterprise_Invitation' => array(
-        'app/code/Enterprise/Invitation/',
+    'Magento_Invitation' => array(
+        'app/code/Magento/Invitation/',
         'app/design/adminhtml/default/default/layout/enterprise/invitation.xml',
         'app/design/adminhtml/default/default/template/enterprise/invitation/',
         'app/design/frontend/enterprise/default/layout/invitation.xml',
@@ -647,7 +647,7 @@ $CONFIG['helpers']  = array(
     'magento_giftregistry'       => 'Magento_GiftRegistry',
     'magento_giftwrapping'       => 'Magento_GiftWrapping',
     'enterprise_importexport'       => 'Enterprise_ImportExport',
-    'enterprise_invitation'         => 'Enterprise_Invitation',
+    'magento_invitation'         => 'Magento_Invitation',
     'enterprise_license'            => 'Enterprise_License',
     'enterprise_logging'            => 'Enterprise_Logging',
     'enterprise_pagecache'          => 'Enterprise_PageCache',

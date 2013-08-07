@@ -70,3 +70,6 @@ dev/tests/unit/testsuite/Magento/GiftRegistry
 dev/tests/integration/testsuite/Magento/GiftRegistry
 app/code/Magento/GiftWrapping
 dev/tests/integration/testsuite/Magento/GiftWrapping
+app/code/Magento/Invitation
+dev/tests/integration/testsuite/Magento/Invitation
+dev/tests/static/testsuite/Legacy/Magento/Invitation

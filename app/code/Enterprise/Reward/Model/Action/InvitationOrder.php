@@ -73,7 +73,7 @@ class Enterprise_Reward_Model_Action_InvitationOrder extends Enterprise_Reward_M
     /**
      * Setter for $_entity and add some extra data to history
      *
-     * @param Enterprise_Invitation_Model_Invitation $entity
+     * @param Magento_Invitation_Model_Invitation $entity
      * @return Enterprise_Reward_Model_Action_Abstract
      */
     public function setEntity($entity)

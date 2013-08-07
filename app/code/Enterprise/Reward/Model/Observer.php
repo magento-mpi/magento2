@@ -186,7 +186,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function invitationToCustomer($observer)
     {
-        /* @var $invitation Enterprise_Invitation_Model_Invitation */
+        /* @var $invitation Magento_Invitation_Model_Invitation */
         $invitation = $observer->getEvent()->getInvitation();
         $websiteId = Mage::app()->getStore($invitation->getStoreId())->getWebsiteId();
         if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($websiteId)) {
@@ -267,7 +267,7 @@ class Enterprise_Reward_Model_Observer
      */
     protected function _invitationToOrder($observer)
     {
-        if (Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Enterprise_Invitation')) {
+        if (Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Invitation')) {
             $invoice = $observer->getEvent()->getInvoice();
             /* @var $invoice Magento_Sales_Model_Order_Invoice */
             $order = $invoice->getOrder();
@@ -275,7 +275,7 @@ class Enterprise_Reward_Model_Observer
             if ($order->getBaseTotalDue() > 0) {
                 return $this;
             }
-            $invitation = Mage::getModel('Enterprise_Invitation_Model_Invitation')
+            $invitation = Mage::getModel('Magento_Invitation_Model_Invitation')
                 ->load($order->getCustomerId(), 'referral_id');
             if (!$invitation->getId() || !$invitation->getCustomerId()) {
                 return $this;

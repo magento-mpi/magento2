@@ -75,24 +75,24 @@
                 </field>
                 <field id="invitation_customer" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Converting Invitation to Customer</label>
-                    <if_module_enabled>Enterprise_Invitation</if_module_enabled>
+                    <if_module_enabled>Magento_Invitation</if_module_enabled>
                 </field>
                 <field id="invitation_customer_limit" translate="label comment" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Invitation to Customer Conversions Quantity Limit</label>
-                    <if_module_enabled>Enterprise_Invitation</if_module_enabled>
+                    <if_module_enabled>Magento_Invitation</if_module_enabled>
                 </field>
                 <field id="invitation_order" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Converting Invitation to Order</label>
-                    <if_module_enabled>Enterprise_Invitation</if_module_enabled>
+                    <if_module_enabled>Magento_Invitation</if_module_enabled>
                 </field>
                 <field id="invitation_order_limit" translate="label comment" type="text" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Invitation to Order Conversions Quantity Limit</label>
-                    <if_module_enabled>Enterprise_Invitation</if_module_enabled>
+                    <if_module_enabled>Magento_Invitation</if_module_enabled>
                 </field>
                 <field id="invitation_order_frequency" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Invitation Conversion to Order Reward</label>
                     <source_model>Enterprise_Reward_Model_Source_Points_InvitationOrder</source_model>
-                    <if_module_enabled>Enterprise_Invitation</if_module_enabled>
+                    <if_module_enabled>Magento_Invitation</if_module_enabled>
                 </field>
                 <field id="review" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Review Submission</label>

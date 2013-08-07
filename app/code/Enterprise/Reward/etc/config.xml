@@ -361,14 +361,14 @@
                     </enterprise_reward>
                 </observers>
             </sales_quote_payment_import_data_before>
-            <enterprise_invitation_save_commit_after>
+            <magento_invitation_save_commit_after>
                 <observers>
                     <enterprise_reward>
                         <class>Enterprise_Reward_Model_Observer</class>
                         <method>invitationToCustomer</method>
                     </enterprise_reward>
                 </observers>
-            </enterprise_invitation_save_commit_after>
+            </magento_invitation_save_commit_after>
         </events>
     </frontend>
     <default>

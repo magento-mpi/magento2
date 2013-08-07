@@ -8,7 +8,7 @@
  */
 -->
 <layout version="0.1.0">
-    <enterprise_invitation_customer_account_create>
+    <magento_invitation_customer_account_create>
         <reference name="customer.form.register.invitation.fields.before">
             <block type="Enterprise_Reward_Block_Tooltip" name="reward.tooltip.register" template="tooltip.phtml">
                 <action method="initRewardType">
@@ -27,5 +27,5 @@
                 </action>
             </block>
         </reference>
-    </enterprise_invitation_customer_account_create>
+    </magento_invitation_customer_account_create>
 </layout>

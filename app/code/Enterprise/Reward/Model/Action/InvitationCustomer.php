@@ -36,7 +36,7 @@ class Enterprise_Reward_Model_Action_InvitationCustomer extends Enterprise_Rewar
     public function canAddRewardPoints()
     {
         $invitation = $this->getEntity();
-        if ($invitation->getData('status') != Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED) {
+        if ($invitation->getData('status') != Magento_Invitation_Model_Invitation::STATUS_ACCEPTED) {
             return false;
         }
         return !($this->isRewardLimitExceeded());

@@ -105,29 +105,29 @@ system_configuration:
                                         default_product_price: //input[@id='catalog_price_default_product_price']
                 -
                     customer_invitations:
-                        xpath: //a[contains(@href, 'edit/section/enterprise_invitation/')]
+                        xpath: //a[contains(@href, 'edit/section/magento_invitation/')]
                         fieldsets:
                             -
                                 general_invitation:
-                                    xpath: //fieldset[@id='enterprise_invitation_general']
+                                    xpath: //fieldset[@id='magento_invitation_general']
                                     links:
-                                        general_invitation_link: //parent::div//a[@id='enterprise_invitation_general-head']
+                                        general_invitation_link: //parent::div//a[@id='magento_invitation_general-head']
                                     fields:
-                                        max_invitations_allowed: //input[@id="enterprise_invitation_general_max_invitation_amount_per_send"]
+                                        max_invitations_allowed: //input[@id="magento_invitation_general_max_invitation_amount_per_send"]
                                     dropdowns:
-                                        enable_invitations_functionality: //select[@id="enterprise_invitation_general_enabled"]
-                                        enable_invitations_on_frontend: //select[@id="enterprise_invitation_general_enabled_on_front"]
-                                        referred_customer_group: //select[@id="enterprise_invitation_general_registration_use_inviter_group"]
-                                        new_account_registration: //select[@id="enterprise_invitation_general_registration_required_invitation"]
-                                        allow_customers_to_add_messege: //select[@id="enterprise_invitation_general_allow_customer_message"]
+                                        enable_invitations_functionality: //select[@id="magento_invitation_general_enabled"]
+                                        enable_invitations_on_frontend: //select[@id="magento_invitation_general_enabled_on_front"]
+                                        referred_customer_group: //select[@id="magento_invitation_general_registration_use_inviter_group"]
+                                        new_account_registration: //select[@id="magento_invitation_general_registration_required_invitation"]
+                                        allow_customers_to_add_messege: //select[@id="magento_invitation_general_allow_customer_message"]
                             -
                                 email_invitations:
-                                    xpath: //fieldset[@id='enterprise_invitation_email']
+                                    xpath: //fieldset[@id='magento_invitation_email']
                                     links:
-                                        email_invitations_link: //parent::div//a[@id='enterprise_invitation_email-head']
+                                        email_invitations_link: //parent::div//a[@id='magento_invitation_email-head']
                                     dropdowns:
-                                        customer_invitation_email_sender: //select[@id="enterprise_invitation_email_identity"]
-                                        customer_invitation_email_template: //select[@id="enterprise_invitation_email_template"]
+                                        customer_invitation_email_sender: //select[@id="magento_invitation_email_identity"]
+                                        customer_invitation_email_template: //select[@id="magento_invitation_email_template"]
                 -
                     customer_reward_points:
                         xpath: //a[contains(@href, 'edit/section/enterprise_reward/')]
@@ -596,7 +596,7 @@ system_configuration:
                                         magento_giftregistry: //select[@name='groups[modules_disable_output][fields][Magento_GiftRegistry][value]']
                                         magento_giftwrapping: //select[@name='groups[modules_disable_output][fields][Magento_GiftWrapping][value]']
                                         enterprise_importexport: //select[@name='groups[modules_disable_output][fields][Enterprise_ImportExport][value]']
-                                        enterprise_invitation: //select[@name='groups[modules_disable_output][fields][Enterprise_Invitation][value]']
+                                        magento_invitation: //select[@name='groups[modules_disable_output][fields][Magento_Invitation][value]']
                                         enterprise_license: //select[@name='groups[modules_disable_output][fields][Enterprise_License][value]']
                                         enterprise_logging: //select[@name='groups[modules_disable_output][fields][Enterprise_Logging][value]']
                                         enterprise_pagecache: //select[@name='groups[modules_disable_output][fields][Enterprise_PageCache][value]']
@@ -630,7 +630,7 @@ system_configuration:
                                         magento_giftregistry_use_default: //input[@name='groups[modules_disable_output][fields][Magento_GiftRegistry][inherit]']
                                         magento_giftwrapping_use_default: //input[@name='groups[modules_disable_output][fields][Magento_GiftWrapping][inherit]']
                                         enterprise_importexport_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_ImportExport][inherit]']
-                                        enterprise_invitation_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Invitation][inherit]']
+                                        magento_invitation_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Invitation][inherit]']
                                         enterprise_license_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_License][inherit]']
                                         enterprise_logging_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Logging][inherit]']
                                         enterprise_pagecache_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_PageCache][inherit]']

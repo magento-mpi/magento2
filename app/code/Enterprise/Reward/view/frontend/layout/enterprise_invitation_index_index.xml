@@ -8,7 +8,7 @@
  */
 -->
 <layout version="0.1.0">
-    <enterprise_invitation_index_index>
+    <magento_invitation_index_index>
         <reference name="invitations.list.list.before">
             <block type="Enterprise_Reward_Block_Tooltip" name="reward.tooltip.invitation" template="tooltip.phtml">
                 <action method="initRewardType">
@@ -45,5 +45,5 @@
                 </action>
             </block>
         </reference>
-    </enterprise_invitation_index_index>
+    </magento_invitation_index_index>
 </layout>
