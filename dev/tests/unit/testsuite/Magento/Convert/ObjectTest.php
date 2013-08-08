@@ -27,8 +27,8 @@ class Magento_Convert_ObjectTest extends PHPUnit_Framework_TestCase
         $converter = new Magento_Convert_Object();
         $expectedData = array(
             array('keyA'   => 'valueA',
-                  'object' => array('keyB'   => 'valueB',
-                                    'object' => Magento_Convert_Object::CYCLE_DETECTED_MARK)));
+                'object' => array('keyB'   => 'valueB',
+                    'object' => Magento_Convert_Object::CYCLE_DETECTED_MARK)));
         $this->assertEquals($expectedData, $converter->convertDataToArray(array($objectA)));
     }
 
@@ -41,16 +41,16 @@ class Magento_Convert_ObjectTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 array('objectA' => new Magento_Object(array('keyA' => 'valueA')),
-                      'objectB' => new Magento_Object(array(
-                                                          'keyB' => new Magento_Object(array(
-                                                                                           'keyC'     => 'valueC',
-                                                                                           'password' => 'qa123123'))
-                                                     ))),
+                    'objectB' => new Magento_Object(array(
+                        'keyB' => new Magento_Object(array(
+                            'keyC'     => 'valueC',
+                            'password' => 'qa123123'))
+                    ))),
                 array('objectA' => array('keyA' => 'valueA'),
-                      'objectB' => array(
-                          'keyB' => array(
-                              'keyC'     => 'valueC',
-                              'password' => 'qa123123'))) // We no longer redact as part of conversion
+                    'objectB' => array(
+                        'keyB' => array(
+                            'keyC'     => 'valueC',
+                            'password' => 'qa123123'))) // We no longer redact as part of conversion
             ),
             array(
                 array(),
@@ -58,9 +58,9 @@ class Magento_Convert_ObjectTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 array(555888, 'string'    => "Some text",
-                      'not_varien_object' => new Magento_Convert_ObjectTest_SimpleClass(
-                          'private', 'protected', 'public'
-                      )),
+                    'not_varien_object' => new Magento_Convert_ObjectTest_SimpleClass(
+                        'private', 'protected', 'public'
+                    )),
                 array(555888, 'string' => "Some text", 'not_varien_object' => array(
                     chr(0) . 'Magento_Convert_ObjectTest_SimpleClass' . chr(0) . '_privateField' => 'private',
                     chr(0) . '*' . chr(0) . '_protectedField'                                    => 'protected',
@@ -72,13 +72,13 @@ class Magento_Convert_ObjectTest extends PHPUnit_Framework_TestCase
                     array(
                         'some_object' => new Magento_Object(
                             array(
-                                 'keyA' => array(
-                                     new Magento_Object(
-                                         array(
-                                              'sub_key' => 'sub_value'
-                                         )
-                                     )
-                                 )
+                                'keyA' => array(
+                                    new Magento_Object(
+                                        array(
+                                            'sub_key' => 'sub_value'
+                                        )
+                                    )
+                                )
                             )
                         )
                     )
