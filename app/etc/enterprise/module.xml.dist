@@ -42,5 +42,5 @@
     <module name="Enterprise_Tag" active="false" />
     <module name="Magento_TargetRule" active="true" />
     <module name="Magento_WebsiteRestriction" active="true" />
-    <module name="Enterprise_Wishlist" active="true" />
+    <module name="Magento_MultipleWishlist" active="true" />
 </config>

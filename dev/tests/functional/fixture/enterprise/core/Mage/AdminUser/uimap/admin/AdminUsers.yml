@@ -54,7 +54,7 @@ new_admin_role:
                                         content-elements-pages-publish_revision: //*[@data-id='Magento_VersionsCms::publish_revision']//*[@class='jstree-checkbox']
                                         content-elements-hierarchy: //*[@data-id='Magento_VersionsCms::hierarchy']//*[@class='jstree-checkbox']
                                         content-elements-banners: //*[@data-id='Enterprise_Banner::enterprise_banner']//*[@class='jstree-checkbox']
-                                        reports-customers-wish_lists: //*[@data-id='Enterprise_Wishlist::wishlist']//*[@class='jstree-checkbox']
+                                        reports-customers-wish_lists: //*[@data-id='Magento_MultipleWishlist::wishlist']//*[@class='jstree-checkbox']
                                         reports-customers-segments: //*[@data-id='Magento_CustomerSegment::segment']//*[@class='jstree-checkbox']
                                         reports-private_sales: //*[@data-id='Magento_Invitation::report_magento_invitation']//*[@class='jstree-checkbox']
                                         reports-private_sales-invitations: //*[@data-id='Magento_Invitation::general']//*[@class='jstree-checkbox']

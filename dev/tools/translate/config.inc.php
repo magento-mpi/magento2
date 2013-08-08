@@ -515,11 +515,11 @@ $CONFIG['translates'] = array(
         'app/code/Magento/WebsiteRestriction/',
         'app/design/frontend/enterprise/default/layout/websiterestriction.xml'
     ),
-    'Enterprise_Wishlist' => array(
-        'app/code/Enterprise/Wishlist/',
+    'Magento_MultipleWishlist' => array(
+        'app/code/Magento/MultipleWishlist/',
         'app/design/adminhtml/default/default/layout/enterprise/wishlist.xml',
         'app/design/adminhtml/default/default/template/enterprise/wishlist/',
-        'app/design/frontend/enterprise/default/layout/enterprise_wishlist.xml',
+        'app/design/frontend/enterprise/default/layout/magento_multiplewishlist.xml',
         'app/design/frontend/enterprise/default/template/wishlist/'
     ),
     'Magento_Adminhtml' => array(
@@ -663,6 +663,6 @@ $CONFIG['helpers']  = array(
     'magento_search'             => 'Magento_Search',
     'magento_targetrule'         => 'Magento_TargetRule',
     'magento_websiterestriction' => 'Magento_WebsiteRestriction',
-    'enterprise_wishlist'           => 'Enterprise_Wishlist',
+    'magento_multiplewishlist'           => 'Magento_MultipleWishlist',
 );
 

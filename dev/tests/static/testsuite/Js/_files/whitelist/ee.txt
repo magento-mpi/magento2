@@ -6,5 +6,5 @@ app/code/Magento/GiftCardAccount
 app/code/Magento/GiftRegistry
 app/code/Magento/Pbridge
 app/code/Magento/Rma
-app/code/Enterprise/Wishlist
+app/code/Magento/MultipleWishlist
 app/design/frontend/magento_fixed_width/js

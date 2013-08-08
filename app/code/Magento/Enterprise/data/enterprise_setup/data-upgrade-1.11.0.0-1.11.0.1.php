@@ -76,7 +76,7 @@ $map = array(
     'admin/system/enterprise_staging/staging_grid' => 'Enterprise_Staging::staging_grid',
     'admin/system/enterprise_staging/staging_log' => 'Enterprise_Staging::staging_log',
     'admin/catalog/targetrule' => 'Magento_TargetRule::targetrule',
-    'admin/report/customers/wishlist' => 'Enterprise_Wishlist::wishlist',
+    'admin/report/customers/wishlist' => 'Magento_MultipleWishlist::wishlist',
 );
 
 

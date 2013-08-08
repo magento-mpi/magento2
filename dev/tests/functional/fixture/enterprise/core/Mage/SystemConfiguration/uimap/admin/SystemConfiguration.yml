@@ -612,7 +612,7 @@ system_configuration:
                                         magento_search: //select[@name='groups[modules_disable_output][fields][Magento_Search][value]']
                                         magento_targetrule: //select[@name='groups[modules_disable_output][fields][Magento_TargetRule][value]']
                                         magento_websiterestriction: //select[@name='groups[modules_disable_output][fields][Magento_WebsiteRestriction][value]']
-                                        enterprise_wishlist: //select[@id='Enterprise_Wishlist']
+                                        magento_multiplewishlist: //select[@id='Magento_MultipleWishlist']
                                     checkboxes:
                                         enterprise_admingws_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_AdminGws][inherit]']
                                         enterprise_banner_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_Banner][inherit]']
@@ -646,7 +646,7 @@ system_configuration:
                                         magento_search_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Search][inherit]']
                                         magento_targetrule_use_default: //input[@name='groups[modules_disable_output][fields][Magento_TargetRule][inherit]']
                                         magento_websiterestriction_use_default: //input[@name='groups[modules_disable_output][fields][Magento_WebsiteRestriction][inherit]']
-                                        enterprise_wishlist_use_default: //input[@id='Enterprise_Wishlist_inherit']
+                                        magento_multiplewishlist_use_default: //input[@id='Magento_MultipleWishlist_inherit']
 
 system_configuration_tabs:
     uimap: *system_configuration_uimap
