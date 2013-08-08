@@ -93,17 +93,18 @@ class Mage_Webapi_Controller_Dispatcher_Soap_Handler
             $this->_processSoapHeader($operation, $arguments);
         } else {
             try {
-                // TODO: Uncomment authentication
-//                if (is_null($this->_usernameToken)) {
-//                    throw new Mage_Webapi_Exception(
-//                        $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
-//                        Mage_Webapi_Exception::HTTP_UNAUTHORIZED
-//                    );
-//                }
-//                $this->_authentication->authenticate($this->_usernameToken);
+                /** TODO: Uncomment authentication
+                if (is_null($this->_usernameToken)) {
+                throw new Mage_Webapi_Exception(
+                $this->_helper->__('WS-Security UsernameToken is not found in SOAP-request.'),
+                Mage_Webapi_Exception::HTTP_UNAUTHORIZED
+                );
+                }
+                $this->_authentication->authenticate($this->_usernameToken);
+                 */
 
                 // TODO: Enable authorization
-//                $this->_authorization->checkServiceAcl($serviceName, $method);
+                //  $this->_authorization->checkServiceAcl($serviceName, $method);
 
                 $arguments = reset($arguments);
                 $this->_unpackArguments($arguments);
