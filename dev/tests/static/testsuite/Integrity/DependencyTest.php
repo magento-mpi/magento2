@@ -194,15 +194,13 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             foreach ($moduleData as $error) {
                 $fileNode = self::$_document->createElement('file');
                 $fileNode->setAttribute('path', $error['file']);
-                $dependenciesNode = self::$_document->createElement('dependencies');
                 foreach ($error['dependencies'] as $dependency) {
-                    $dependencyNode = self::$_document->createElement('source');
+                    $dependencyNode = self::$_document->createElement('dependency');
                     $dependencyNode->setAttribute('module', $dependency['module']);
                     $sourceCdata = self::$_document->createCDATASection($dependency['source']);
                     $dependencyNode->appendChild($sourceCdata);
-                    $dependenciesNode->appendChild($dependencyNode);
+                    $fileNode->appendChild($dependencyNode);
                 }
-                $fileNode->appendChild($dependenciesNode);
                 $moduleNode->appendChild($fileNode);
 
             }
@@ -267,7 +265,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     protected function _isThemeFile($file)
     {
-        $filename = $this->_getRelativeFilename($file);
+        $filename = self::_getRelativeFilename($file);
         return (bool)preg_match(self::$_defaultThemes, $filename);
     }
 
@@ -358,7 +356,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         if (count($undeclaredDependencies) > 0) {
             self::$_modulesDependencyErrors[$module][] =
                 array(
-                    'file' => $file,
+                    'file' => self::_getRelativeFilename($file),
                     'dependencies' => $undeclaredDependenciesInfo
                 );
             $this->fail();
@@ -371,7 +369,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      * @param string $absoluteFilename
      * @return string
      */
-    protected function _getRelativeFilename($absoluteFilename)
+    static protected function _getRelativeFilename($absoluteFilename)
     {
         $relativeFileName = str_replace(Utility_Files::init()->getPathToSource(), '', $absoluteFilename);
         return trim(str_replace('\\', '/', $relativeFileName), '/');
@@ -385,7 +383,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     protected function _getModuleName($absoluteFilename)
     {
-        $filename = $this->_getRelativeFilename($absoluteFilename);
+        $filename = self::_getRelativeFilename($absoluteFilename);
         $pieces = explode('/', $filename);
         $moduleName = $pieces[2] . '_' . $pieces[3];
         if ($this->_isThemeFile($absoluteFilename)) {
@@ -405,7 +403,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     {
         $result = array();
         foreach (array_keys($files) as $file) {
-            if (substr_count($this->_getRelativeFilename($file), '/') < 4) {
+            if (substr_count(self::_getRelativeFilename($file), '/') < 4) {
                 continue;
             }
             $result[$file] = array($fileType, $file);
@@ -481,6 +479,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
                 $controllerName = implode('_', $chunks);
                 foreach ($nodes as $node) {
+                    /** @var SimpleXMLElement $node */
                     $path = $node->getName() ? $node->getName() . '_' . $controllerName : $controllerName;
                     self::$_mapRouters[$path] = $module;
                 }
@@ -508,6 +507,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
                 $xml = simplexml_load_file($file);
                 foreach ((array)$xml->xpath('//container | //block') as $element) {
+                    /** @var SimpleXMLElement $element */
                     $attributes = $element->attributes();
 
                     $block = (string)$attributes->name;
@@ -542,6 +542,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 
                 $xml = simplexml_load_file($file);
                 foreach ((array)$xml->xpath('/layout/child::*') as $element) {
+                    /** @var SimpleXMLElement $element */
                     $handle = $element->getName();
                     if (!isset(self::$_mapLayoutHandles[$area][$handle])) {
                         self::$_mapLayoutHandles[$area][$handle] = array();
