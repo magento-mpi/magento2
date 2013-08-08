@@ -53,15 +53,6 @@
                 </observers>
             </admin_user_save_after>
         </events>
-        <di>
-            <Enterprise_Pci_Model_Observer>
-                <parameters>
-                    <authorization>
-                        <instance>Magento_Authorization_Proxy</instance>
-                    </authorization>
-                </parameters>
-            </Enterprise_Pci_Model_Observer>
-        </di>
     </global>
     <adminhtml>
         <events>
@@ -143,4 +134,4 @@
             </security>
         </admin>
     </default>
-</config>
+</config>

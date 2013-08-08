@@ -33,9 +33,9 @@ class Magento_Tools_Di_Code_Scanner_XmlScannerTest extends PHPUnit_Framework_Tes
         $this->_testDir = str_replace('\\', '/', realpath(dirname(__FILE__) . '/../../') . '/_files');
         $this->_testFiles =  array(
             $this->_testDir . '/app/code/Mage/SomeModule/etc/adminhtml/system.xml',
-            $this->_testDir . '/app/code/Mage/SomeModule/etc/config.xml',
+            $this->_testDir . '/app/code/Mage/SomeModule/etc/di.xml',
             $this->_testDir . '/app/code/Mage/SomeModule/view/frontend/layout.xml',
-            $this->_testDir . '/app/etc/config.xml'
+            $this->_testDir . '/app/etc/di/config.xml'
 
         );
     }

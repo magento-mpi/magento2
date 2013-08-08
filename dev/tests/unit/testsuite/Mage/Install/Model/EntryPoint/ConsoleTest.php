@@ -49,18 +49,12 @@ class Mage_Install_Model_EntryPoint_ConsoleTest extends PHPUnit_Framework_TestCa
         $this->_objectManagerMock->expects($this->once())->method('create')
             ->with('Mage_Install_Model_Installer_Console')
             ->will($this->returnValue($this->_installerMock));
-
-        $this->_objectManagerMock->expects($this->once())->method('get')
-            ->with('Mage_Core_Model_Dir_Verification')
-            ->will($this->returnValue($this->_dirVerifierMock));
     }
 
     protected function _createModel($params = array())
     {
-        return $this->getMock(
-            'Mage_Install_Model_EntryPoint_Console',
-            array('_setGlobalObjectManager'),
-            array('', $params, $this->_configMock, $this->_objectManagerMock, $this->_outputMock)
+        return new Mage_Install_Model_EntryPoint_Console('', $params, $this->_configMock,
+            $this->_objectManagerMock, $this->_outputMock
         );
     }
 

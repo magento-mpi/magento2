@@ -170,9 +170,9 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base
     /**
      * Configure object manager
      *
-     * @param Magento_ObjectManager $objectManager
+     * Mage_Core_Model_ObjectManager $objectManager
      */
-    public function configure(Magento_ObjectManager $objectManager)
+    public function configure(Mage_Core_Model_ObjectManager $objectManager)
     {
         Magento_Profiler::start('initial');
 
@@ -201,13 +201,6 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base
             }
         }
         Magento_Profiler::stop('initial');
-        Magento_Profiler::start('global_primary');
-        $diConfig = $this->getNode('global/di');
-        if ($diConfig) {
-            $objectManager->configure($diConfig->asArray());
-        }
-
-        Magento_Profiler::stop('global_primary');
     }
 
     /**

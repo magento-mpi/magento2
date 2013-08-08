@@ -27,6 +27,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
         $layout = Mage::getModel('Mage_Core_Model_Layout');
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Edit_Form */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit_Form', 'block', array('data' => $args));
+        $block->setTemplate(null);
         $block->toHtml();
         return $block->getForm();
     }

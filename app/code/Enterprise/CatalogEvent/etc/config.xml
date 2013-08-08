@@ -15,11 +15,11 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Adminhtml/>
-                <Mage_Catalog/>
-                <Mage_Cms/>
-                <Mage_Sales/>
-                <Mage_Checkout/>
+                <Mage_Adminhtml />
+                <Mage_Catalog />
+                <Mage_Cms />
+                <Mage_Sales />
+                <Mage_Checkout />
             </depends>
         </Enterprise_CatalogEvent>
     </modules>
@@ -32,11 +32,6 @@
                 </setup>
             </enterprise_catalogevent_setup>
         </resources>
-        <di>
-            <Enterprise_CatalogEvent_Model_Event>
-                <shared>0</shared>
-            </Enterprise_CatalogEvent_Model_Event>
-        </di>
     </global>
     <default>
         <catalog>

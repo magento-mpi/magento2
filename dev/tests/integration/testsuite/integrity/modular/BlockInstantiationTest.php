@@ -45,6 +45,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
             'Mage_Backend_Block_System_Config_Edit',
             'Mage_Backend_Block_System_Config_Form',
             'Mage_Backend_Block_System_Config_Tabs',
+            'Mage_Review_Block_Form',
             // Fails because of of bug in Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader constructor
             'Mage_Adminhtml_Block_Cms_Page',
             'Mage_Adminhtml_Block_Cms_Page_Edit',

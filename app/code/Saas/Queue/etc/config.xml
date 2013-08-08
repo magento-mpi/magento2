@@ -26,23 +26,11 @@
                     <title>Gearman</title>
                     <servers>127.0.0.1:4730</servers>
                     <task>
-                        <params></params>
+                        <params />
                     </task>
                 </gearman>
             </adapter>
         </queue>
-        <di>
-            <preferences>
-                <Enterprise_Queue_Model_Event_HandlerInterface>Saas_Queue_Model_Event_Handler</Enterprise_Queue_Model_Event_HandlerInterface>
-            </preferences>
-            <Saas_Queue_Model_Observer_Config>
-                <parameters>
-                    <config>
-                        <instance>Mage_Core_Model_Config</instance>
-                    </config>
-                </parameters>
-            </Saas_Queue_Model_Observer_Config>
-        </di>
         <events>
             <application_process_refresh_cache>
                 <observers>
@@ -84,6 +72,6 @@
         </events>
     </global>
     <workers>
-        <events></events>
+        <events />
     </workers>
 </config>

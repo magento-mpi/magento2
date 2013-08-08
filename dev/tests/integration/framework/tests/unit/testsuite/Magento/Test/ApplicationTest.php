@@ -28,6 +28,7 @@ class Magento_Test_ApplicationTest extends PHPUnit_Framework_TestCase
             new Magento_Simplexml_Element('<data/>'),
             array(),
             array(),
+            array(),
             $appMode
         );
 

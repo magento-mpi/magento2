@@ -2,3 +2,4 @@
 # because it is used in infrastructure for running tests
 # requires gearman extension, CI environment is not ready yet
 app/code/Enterprise/Queue/etc/config.xml
+app/code/Enterprise/Queue/etc/di.xml

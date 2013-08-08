@@ -15,8 +15,8 @@
             <version>1.6.2.0.3</version>
             <active>true</active>
             <depends>
-                <Mage_Eav/>
-                <Mage_Directory/>
+                <Mage_Eav />
+                <Mage_Directory />
             </depends>
         </Mage_Customer>
     </modules>
@@ -111,13 +111,6 @@
                 </Mage_Customer>
             </modules>
         </translate>
-        <di>
-            <Mage_Customer_Model_Session>
-                <parameters>
-                    <sessionName>adminhtml</sessionName>
-                </parameters>
-            </Mage_Customer_Model_Session>
-        </di>
     </adminhtml>
     <frontend>
         <secure_url>
@@ -151,13 +144,6 @@
                 </Mage_Customer>
             </modules>
         </translate>
-        <di>
-            <Mage_Customer_Model_Session>
-                <parameters>
-                    <sessionName>frontend</sessionName>
-                </parameters>
-            </Mage_Customer_Model_Session>
-        </di>
     </frontend>
     <default>
         <customer>
@@ -187,13 +173,13 @@
             </password>
             <address>
                 <street_lines>2</street_lines>
-                <prefix_show/>
-                <prefix_options/>
-                <middlename_show/>
-                <suffix_show/>
-                <suffix_options/>
-                <dob_show/>
-                <gender_show/>
+                <prefix_show />
+                <prefix_options />
+                <middlename_show />
+                <suffix_show />
+                <suffix_options />
+                <dob_show />
+                <gender_show />
             </address>
             <startup>
                 <redirect_dashboard>1</redirect_dashboard>

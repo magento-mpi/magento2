@@ -41,12 +41,14 @@ class XmlInterceptorScanner implements ScannerInterface
         $dom->loadXML($content);
         $xpath = new \DOMXPath($dom);
         /** @var $entityNode \DOMNode */
-        foreach ($xpath->query('//*[not (type) and plugins]') as $entityNode) {
-            array_push($output, $entityNode->nodeName);
-        }
-        /** @var $typeNode \DOMNode */
-        foreach ($xpath->query('//*[type and plugins]/type') as $typeNode) {
-            array_push($output, $typeNode->nodeValue);
+        foreach ($xpath->query('//type[plugin]|//virtualType[plugin]') as $entityNode) {
+            $attributes = $entityNode->attributes;
+            $type = $attributes->getNamedItem('type');
+            if (!is_null($type)) {
+                array_push($output, $type->nodeValue);
+            } else {
+                array_push($output, $attributes->getNamedItem('name')->nodeValue);
+            }
         }
         return $output;
     }
