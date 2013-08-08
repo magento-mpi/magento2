@@ -64,7 +64,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     /**
      * Installer data model to store data between installations steps
      *
-     * @var Mage_Install_Model_Installer_Data|Mage_Install_Model_Session
+     * @var Mage_Install_Model_Installer_Data|Mage_Core_Model_Session_Generic
      */
     protected $_dataModel;
 

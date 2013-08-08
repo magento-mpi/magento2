@@ -29,6 +29,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
         $block = $layout->createBlock(
             'Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form', 'block', array('data' => $args)
         );
+        $block->setTemplate(null);
         $block->toHtml();
         return $block->getForm();
     }

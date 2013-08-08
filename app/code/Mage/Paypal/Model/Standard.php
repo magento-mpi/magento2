@@ -43,7 +43,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      * Get paypal session namespace
      *
-     * @return Mage_Paypal_Model_Session
+     * @return Mage_Core_Model_Session_Generic
      */
     public function getSession()
     {

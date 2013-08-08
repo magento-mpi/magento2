@@ -8,7 +8,7 @@
 class Mage_Log_Model_EntryPoint_ShellTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_Log_Model_EntryPoint_Shell
      */
     protected $_model;
 
@@ -22,18 +22,11 @@ class Mage_Log_Model_EntryPoint_ShellTest extends PHPUnit_Framework_TestCase
         $config = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false);
         $entryFileName = 'shell.php';
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $this->_model = $this->getMock('Mage_Log_Model_EntryPoint_Shell',
-            array('_setGlobalObjectManager'), array($config, $entryFileName, $this->_objectManagerMock)
-        );
+        $this->_model = new Mage_Log_Model_EntryPoint_Shell($config, $entryFileName, $this->_objectManagerMock);
     }
 
     public function testProcessRequest()
     {
-        $this->_objectManagerMock->expects($this->once())
-            ->method('get')
-            ->with('Mage_Core_Model_Dir_Verification')
-            ->will($this->returnValue($this->getMock('Mage_Core_Model_Dir_Verification', array(), array(), '', false)));
-
         $shellMock = $this->getMock('Mage_Log_Model_Shell', array(), array(), '', false);
 
         $this->_objectManagerMock->expects($this->once())

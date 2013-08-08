@@ -15,10 +15,10 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Paygate/>
-                <Mage_Checkout/>
-                <Mage_Sales/>
-                <Mage_Paypal/>
+                <Mage_Paygate />
+                <Mage_Checkout />
+                <Mage_Sales />
+                <Mage_Paypal />
             </depends>
         </Mage_PaypalUk>
     </modules>
@@ -53,13 +53,6 @@
                 </Mage_PaypalUk>
             </modules>
         </translate>
-        <di>
-            <Mage_PaypalUk_Model_Session>
-                <parameters>
-                    <sessionName>frontend</sessionName>
-                </parameters>
-            </Mage_PaypalUk_Model_Session>
-        </di>
     </frontend>
     <adminhtml>
         <translate>
@@ -71,13 +64,6 @@
                 </Mage_PaypalUk>
             </modules>
         </translate>
-        <di>
-            <Mage_PaypalUk_Model_Session>
-                <parameters>
-                    <sessionName>adminhtml</sessionName>
-                </parameters>
-            </Mage_PaypalUk_Model_Session>
-        </di>
     </adminhtml>
     <default>
         <payment>

@@ -97,6 +97,7 @@ class Magento_Test_Bootstrap
                 $this->_settings->getAsConfigFile('TESTS_LOCAL_CONFIG_EXTRA_FILE'),
             ),
             $this->_settings->getAsMatchingPaths('TESTS_GLOBAL_CONFIG_FILES'),
+            $this->_settings->getAsMatchingPaths('TESTS_GLOBAL_DI_FILES'),
             $this->_settings->getAsMatchingPaths('TESTS_MODULE_CONFIG_FILES'),
             $this->_settings->get('TESTS_MAGENTO_MODE')
         );
@@ -178,12 +179,13 @@ class Magento_Test_Bootstrap
      *
      * @param array $localConfigFiles
      * @param array $globalConfigFiles
+     * @param array $globalDiFiles
      * @param array $moduleConfigFiles
      * @param string $appMode
      * @return Magento_Test_Application
      */
     protected function _createApplication(
-        array $localConfigFiles, array $globalConfigFiles, array $moduleConfigFiles, $appMode
+        array $localConfigFiles, array $globalConfigFiles, array $globalDiFiles, array $moduleConfigFiles, $appMode
     ) {
         $localConfigXml = $this->_loadConfigFiles($localConfigFiles);
         $dbConfig = $localConfigXml->global->resources->default_setup->connection;
@@ -201,7 +203,7 @@ class Magento_Test_Bootstrap
             $this->_shell
         );
         return new Magento_Test_Application(
-            $dbInstance, $installDir, $localConfigXml, $globalConfigFiles, $moduleConfigFiles, $appMode
+            $dbInstance, $installDir, $localConfigXml, $globalConfigFiles, $globalDiFiles, $moduleConfigFiles, $appMode
         );
     }
 

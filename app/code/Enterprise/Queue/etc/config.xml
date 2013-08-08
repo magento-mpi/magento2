@@ -17,7 +17,7 @@
             <system_requirements>
                 <php>
                     <extensions>
-                        <gearman/>
+                        <gearman />
                     </extensions>
                 </php>
             </system_requirements>
@@ -40,13 +40,5 @@
                 </setup>
             </enterprise_queue_setup>
         </resources>
-        <di>
-            <preferences>
-                <Mage_Core_Model_Event_InvokerInterface>Enterprise_Queue_Model_Event_Invoker_Asynchronous</Mage_Core_Model_Event_InvokerInterface>
-                <Enterprise_Queue_Model_QueueInterface>Enterprise_Queue_Model_Queue</Enterprise_Queue_Model_QueueInterface>
-                <Magento_JobQueue_ClientInterface>Magento_JobQueue_Client_Gearman</Magento_JobQueue_ClientInterface>
-                <Magento_JobQueue_Client_ConfigInterface>Enterprise_Queue_Model_Config_Gearman</Magento_JobQueue_Client_ConfigInterface>
-            </preferences>
-        </di>
     </global>
 </config>

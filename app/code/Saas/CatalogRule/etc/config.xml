@@ -21,18 +21,6 @@
         </Saas_CatalogRule>
     </modules>
     <global>
-        <di>
-            <preferences>
-                <Mage_CatalogRule_Model_Rule_Job>Saas_CatalogRule_Model_Rule_Job</Mage_CatalogRule_Model_Rule_Job>
-            </preferences>
-            <Saas_CatalogRule_Model_Rule_Job>
-                <parameters>
-                    <helper>
-                        <instance>Mage_CatalogRule_Helper_Data</instance>
-                    </helper>
-                </parameters>
-            </Saas_CatalogRule_Model_Rule_Job>
-        </di>
         <events>
             <catalogrule_apply_all>
                 <observers>

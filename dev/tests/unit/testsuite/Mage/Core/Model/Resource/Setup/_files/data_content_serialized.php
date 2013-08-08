@@ -20,7 +20,6 @@ return array(
     ),
     '$tableData' => array(
         array('field' => 'a:1:{s:5:"model";s:34:"catalogrule/rule_condition_combine";}'),
-        array('field' => 'a:1:{s:5:"model";s:21:"catalogSearch/session";}'),
         array('field' => 'a:1:{s:5:"model";s:16:"some random text";}'),
     ),
     '$expected' => array(
@@ -31,17 +30,10 @@ return array(
                 'to'    => 'a:1:{s:5:"model";s:45:"Mage_CatalogRule_Model_Rule_Condition_Combine";}',
                 'from'  => array('`field` = ?' => 'a:1:{s:5:"model";s:34:"catalogrule/rule_condition_combine";}')
             ),
-            array(
-                'table' => 'table',
-                'field' => 'field',
-                'to'    => 'a:1:{s:5:"model";s:32:"Mage_CatalogSearch_Model_Session";}',
-                'from'  => array('`field` = ?' => 'a:1:{s:5:"model";s:21:"catalogSearch/session";}')
-            ),
         ),
         'aliases_map' => array(
             Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL => array(
                 'catalogrule/rule_condition_combine' => 'Mage_CatalogRule_Model_Rule_Condition_Combine',
-                'catalogSearch/session'              => 'Mage_CatalogSearch_Model_Session',
             )
         )
     ),
