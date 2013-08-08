@@ -451,6 +451,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
 
         // CASE 6: Exception - Undefined handle
         $this->_exceptions[self::EXCEPTION_TYPE_UNKNOWN_HANDLE][$handle] = $handle;
+        return array();
     }
 
     /**
@@ -493,6 +494,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
 
         // CASE 5: Exception - Undefined block
         $this->_exceptions[self::EXCEPTION_TYPE_UNKNOWN_BLOCK][$block] = $block;
+        return array();
     }
 
     /**
