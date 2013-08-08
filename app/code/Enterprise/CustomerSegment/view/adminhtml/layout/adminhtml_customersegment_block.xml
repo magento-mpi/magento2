@@ -57,7 +57,16 @@
                             <width>80</width>
                             <index>is_active</index>
                             <type>options</type>
-                            <options type="options">Enterprise_CustomerSegment_Model_Resource_Grid_Statuses</options>
+                            <options>
+                                <active>
+                                    <value>0</value>
+                                    <label translate="true" module="Enterprise_CustomerSegment">Active</label>
+                                </active>
+                                <inactive>
+                                    <value>1</value>
+                                    <label translate="true" module="Enterprise_CustomerSegment">Inactive</label>
+                                </inactive>
+                            </options>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="grid_segment_website">

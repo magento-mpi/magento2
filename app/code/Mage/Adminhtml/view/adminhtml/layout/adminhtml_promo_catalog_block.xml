@@ -70,7 +70,16 @@
                             <width>80</width>
                             <index>is_active</index>
                             <type>options</type>
-                            <options type="options">Mage_Promo_Catalog_Model_Resource_Grid_Options_Statuses</options>
+                            <options>
+                                <active>
+                                    <value>1</value>
+                                    <label translate="true" module="Mage_CatalogRule">Active</label>
+                                </active>
+                                <inactive>
+                                    <value>0</value>
+                                    <label translate="true" module="Mage_CatalogRule">Inactive</label>
+                                </inactive>
+                            </options>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="rule_website">
