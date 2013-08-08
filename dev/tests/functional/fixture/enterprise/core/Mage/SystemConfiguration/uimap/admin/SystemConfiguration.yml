@@ -80,20 +80,20 @@ system_configuration:
                                         enable_catalog_event_widget: //select[@id="catalog_enterprise_catalogevent_lister_output"]
                             -
                                 catalog_rule_based_product_relations:
-                                    xpath: //fieldset[@id='catalog_enterprise_targetrule']
+                                    xpath: //fieldset[@id='catalog_magento_targetrule']
                                     links:
-                                        catalog_rule_based_product_relations_link: //parent::div//a[@id='catalog_enterprise_targetrule-head']
+                                        catalog_rule_based_product_relations_link: //parent::div//a[@id='catalog_magento_targetrule-head']
                                     fields:
-                                        maximum_number_in_related_list: //input[@id="catalog_enterprise_targetrule_related_position_limit"]
-                                        maximum_number_in_cross_sell: //input[@id="catalog_enterprise_targetrule_crosssell_position_limit"]
-                                        maximum_number_inupsell: //input[@id="catalog_enterprise_targetrule_upsell_position_limit"]
+                                        maximum_number_in_related_list: //input[@id="catalog_magento_targetrule_related_position_limit"]
+                                        maximum_number_in_cross_sell: //input[@id="catalog_magento_targetrule_crosssell_position_limit"]
+                                        maximum_number_inupsell: //input[@id="catalog_magento_targetrule_upsell_position_limit"]
                                     dropdowns:
-                                        show_related_products: //select[@id="catalog_enterprise_targetrule_related_position_behavior"]
-                                        rotation_mode_related_product: //select[@id="catalog_enterprise_targetrule_related_rotation_mode"]
-                                        show_cross_sell: //select[@id="catalog_enterprise_targetrule_crosssell_position_behavior"]
-                                        rotation_mode_cross_sell: //select[@id="catalog_enterprise_targetrule_crosssell_rotation_mode"]
-                                        show_upsell: //select[@id="catalog_enterprise_targetrule_upsell_position_behavior"]
-                                        rotation_mode_upsell: //select[@id="catalog_enterprise_targetrule_upsell_rotation_mode"]
+                                        show_related_products: //select[@id="catalog_magento_targetrule_related_position_behavior"]
+                                        rotation_mode_related_product: //select[@id="catalog_magento_targetrule_related_rotation_mode"]
+                                        show_cross_sell: //select[@id="catalog_magento_targetrule_crosssell_position_behavior"]
+                                        rotation_mode_cross_sell: //select[@id="catalog_magento_targetrule_crosssell_rotation_mode"]
+                                        show_upsell: //select[@id="catalog_magento_targetrule_upsell_position_behavior"]
+                                        rotation_mode_upsell: //select[@id="catalog_magento_targetrule_upsell_rotation_mode"]
                             -
                                 price:
                                     xpath: //fieldset[@id='catalog_price']
@@ -610,7 +610,7 @@ system_configuration:
                                         magento_rma: //select[@name='groups[modules_disable_output][fields][Magento_Rma][value]']
                                         magento_salesarchive: //select[@name='groups[modules_disable_output][fields][Magento_SalesArchive][value]']
                                         magento_search: //select[@name='groups[modules_disable_output][fields][Magento_Search][value]']
-                                        enterprise_targetrule: //select[@name='groups[modules_disable_output][fields][Enterprise_TargetRule][value]']
+                                        magento_targetrule: //select[@name='groups[modules_disable_output][fields][Magento_TargetRule][value]']
                                         enterprise_websiterestriction: //select[@name='groups[modules_disable_output][fields][Enterprise_WebsiteRestriction][value]']
                                         enterprise_wishlist: //select[@id='Enterprise_Wishlist']
                                     checkboxes:
@@ -644,7 +644,7 @@ system_configuration:
                                         magento_rma_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Rma][inherit]']
                                         magento_salesarchive_use_default: //input[@name='groups[modules_disable_output][fields][Magento_SalesArchive][inherit]']
                                         magento_search_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Search][inherit]']
-                                        enterprise_targetrule_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_TargetRule][inherit]']
+                                        magento_targetrule_use_default: //input[@name='groups[modules_disable_output][fields][Magento_TargetRule][inherit]']
                                         enterprise_websiterestriction_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_WebsiteRestriction][inherit]']
                                         enterprise_wishlist_use_default: //input[@id='Enterprise_Wishlist_inherit']
 

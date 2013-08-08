@@ -677,7 +677,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
      */
     public function removeTargetRuleGridButtons($observer)
     {
-        /* @var $block Enterprise_TargetRule_Block_Adminhtml_Targetrule */
+        /* @var $block Magento_TargetRule_Block_Adminhtml_Targetrule */
         $block = $observer->getEvent()->getBlock();
         if ($block) {
             $block->removeButton('add');
@@ -693,7 +693,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
      */
     public function removeTargetRuleEditButtons($observer)
     {
-        /* @var $block Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit */
+        /* @var $block Magento_TargetRule_Block_Adminhtml_Targetrule_Edit */
         $block = $observer->getEvent()->getBlock();
         if ($block) {
             $block->removeButton('save');
@@ -711,7 +711,7 @@ class Magento_AdminGws_Model_Blocks extends Magento_AdminGws_Model_Observer_Abst
      */
     public function readonlyTargetRuleProductAttribute($observer)
     {
-        /* @var $block Enterprise_TargetRule_Block_Adminhtml_Product */
+        /* @var $block Magento_TargetRule_Block_Adminhtml_Product */
         $block = $observer->getEvent()->getBlock();
         if ($block) {
             $access = $this->_role->hasWebsiteAccess($block->getProduct()->getWebsiteIds(), true);

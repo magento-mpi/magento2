@@ -41,7 +41,7 @@ new_admin_role:
                                         customers-all_customers-manage_reward_points_balances: //*[@data-id='Magento_Reward::reward_balance']//*[@class='jstree-checkbox']
                                         customers-segments: //*[@data-id='Magento_CustomerSegment::customersegment']//*[@class='jstree-checkbox']
                                         marketing-promotions-catalog_price_rules-edit: //*[@data-id='Magento_PromotionPermissions::edit']//*[@class='jstree-checkbox']
-                                        marketing-promotions-related_products_rules: //*[@data-id='Enterprise_TargetRule::targetrule']//*[@class='jstree-checkbox']
+                                        marketing-promotions-related_products_rules: //*[@data-id='Magento_TargetRule::targetrule']//*[@class='jstree-checkbox']
                                         marketing-promotions-cart_price_rules-edit: //*[@data-id='Magento_PromotionPermissions::quote_edit']//*[@class='jstree-checkbox']
                                         marketing-promotions-gift_card_accounts: //*[@data-id='Magento_GiftCardAccount::customer_giftcardaccount']//*[@class='jstree-checkbox']
                                         marketing-private_sales: //*[@data-id='Magento_Enterprise::marketing_private_sales']//*[@class='jstree-checkbox']

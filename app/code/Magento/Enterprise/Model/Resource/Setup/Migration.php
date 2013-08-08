@@ -38,7 +38,7 @@ class Magento_Enterprise_Model_Resource_Setup_Migration extends Magento_Core_Mod
                 'magento_pricepermissions'     => 'Magento_PricePermissions',
                 'magento_promotionpermissions' => 'Magento_PromotionPermissions',
                 'magento_salesarchive'         => 'Magento_SalesArchive',
-                'enterprise_targetrule'           => 'Enterprise_TargetRule',
+                'magento_targetrule'           => 'Magento_TargetRule',
                 'enterprise_websiterestriction'   => 'Enterprise_WebsiteRestriction',
             )
         );

@@ -99,3 +99,5 @@ dev/tests/integration/testsuite/Magento/SalesArchive
 app/code/Magento/Search
 dev/tests/unit/testsuite/Magento/Search
 dev/tests/integration/testsuite/Magento/Search
+app/code/Magento/TargetRule
+dev/tests/integration/testsuite/Magento/TargetRule

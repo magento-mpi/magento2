@@ -113,14 +113,14 @@
             <cache_lifetime>86400</cache_lifetime>
         </widget_magento_banner>
         <catalog_product_item_related>
-            <block>Enterprise_TargetRule_Block_Catalog_Product_Item</block>
+            <block>Magento_TargetRule_Block_Catalog_Product_Item</block>
             <name>catalog.product.related.item</name>
             <placeholder>CATALOG_PRODUCT_ITEM_RELATED</placeholder>
             <container>Enterprise_PageCache_Model_Container_CatalogProductItem</container>
             <cache_lifetime>86400</cache_lifetime>
         </catalog_product_item_related>
         <catalog_product_item_upsell>
-            <block>Enterprise_TargetRule_Block_Catalog_Product_Item</block>
+            <block>Magento_TargetRule_Block_Catalog_Product_Item</block>
             <name>catalog.product.upsell.item</name>
             <placeholder>CATALOG_PRODUCT_ITEM_UPSELL</placeholder>
             <container>Enterprise_PageCache_Model_Container_CatalogProductItem</container>

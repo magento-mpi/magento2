@@ -40,7 +40,7 @@
     <module name="Magento_SalesArchive" active="true" />
     <module name="Magento_Search" active="true" />
     <module name="Enterprise_Tag" active="false" />
-    <module name="Enterprise_TargetRule" active="true" />
+    <module name="Magento_TargetRule" active="true" />
     <module name="Enterprise_WebsiteRestriction" active="true" />
     <module name="Enterprise_Wishlist" active="true" />
 </config>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_TargetRule" version="1.11.0.0.4" active="false">
+        <depends>
+            <module name="Magento_Adminhtml" />
+            <module name="Magento_Catalog" />
+            <module name="Magento_Rule" />
+        </depends>
+    </module>
+</config>
