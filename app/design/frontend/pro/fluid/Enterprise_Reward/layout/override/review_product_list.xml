@@ -18,10 +18,10 @@
                     <class>reward-review</class>
                 </action>
                 <action method="setRewardMessage" translate="message">
-                    <message>Submit a review now and earn %s once the review is approved.</message>
+                    <message>Submit a review now and earn %1 once the review is approved.</message>
                 </action>
                 <action method="setRewardQtyLimitationMessage" translate="message">
-                    <message>Up to %s new review(s) can be rewarded.</message>
+                    <message>Up to %1 new review(s) can be rewarded.</message>
                 </action>
                 <action method="setIsGuestNote">
                     <value>1</value>

@@ -36,7 +36,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_New extends Mage_Backend_Blo
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'   => $this->__('Back'),
+                        'label'   => __('Back'),
                         'onclick' => "window.location.href = '" . $this->getUrl('*/*') . "'",
                         'class'   => 'back'
                     )
@@ -46,7 +46,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_New extends Mage_Backend_Blo
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'   => $this->__('Reset'),
+                        'label'   => __('Reset'),
                         'onclick' => 'window.location.href = window.location.href'
                     )
                 )
@@ -55,7 +55,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_New extends Mage_Backend_Blo
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(
                     array(
-                        'label'     => $this->__('Continue'),
+                        'label'     => __('Continue'),
                         'onclick'   => "setSettings('".$this->getContinueUrl()."','entity_type')",
                         'class'     => 'save',
                     )
@@ -125,6 +125,6 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_New extends Mage_Backend_Blo
      */
     public function getHeaderText()
     {
-        return $this->__('New Printed Template');
+        return __('New Printed Template');
     }
 }

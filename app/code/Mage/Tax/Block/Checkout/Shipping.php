@@ -65,7 +65,7 @@ class Mage_Tax_Block_Checkout_Shipping extends Mage_Checkout_Block_Total_Default
      */
     public function getIncludeTaxLabel()
     {
-        return $this->helper('Mage_Tax_Helper_Data')->__('Shipping Incl. Tax (%s)', $this->escapeHtml($this->getTotal()->getAddress()->getShippingDescription()));
+        return __('Shipping Incl. Tax (%1)', $this->escapeHtml($this->getTotal()->getAddress()->getShippingDescription()));
     }
 
     /**
@@ -75,6 +75,6 @@ class Mage_Tax_Block_Checkout_Shipping extends Mage_Checkout_Block_Total_Default
      */
     public function getExcludeTaxLabel()
     {
-        return $this->helper('Mage_Tax_Helper_Data')->__('Shipping Excl. Tax (%s)', $this->escapeHtml($this->getTotal()->getAddress()->getShippingDescription()));
+        return __('Shipping Excl. Tax (%1)', $this->escapeHtml($this->getTotal()->getAddress()->getShippingDescription()));
     }
 }

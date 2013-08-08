@@ -27,7 +27,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         if ($segmentId || $requireValidId) {
             $segment->load($segmentId);
             if (!$segment->getId()) {
-                Mage::throwException($this->__('You requested the wrong customer segment.'));
+                Mage::throwException(__('You requested the wrong customer segment.'));
             }
         }
         Mage::register('current_customer_segment', $segment);
@@ -41,7 +41,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
      */
     public function indexAction()
     {
-        $this->_title($this->__('Customer Segments'));
+        $this->_title(__('Customer Segments'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Enterprise_CustomerSegment::customer_customersegment');
@@ -62,7 +62,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
      */
     public function editAction()
     {
-        $this->_title($this->__('Customer Segments'));
+        $this->_title(__('Customer Segments'));
 
         try {
             $model = $this->_initSegment();
@@ -73,7 +73,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
             return;
         }
 
-        $this->_title($model->getId() ? $model->getName() : $this->__('New Segment'));
+        $this->_title($model->getId() ? $model->getName() : __('New Segment'));
 
         // set entered data if was error when we do save
         $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getPageData(true);
@@ -93,8 +93,8 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
             ->setCanLoadRulesJs(true);
 
         $this->_addBreadcrumb(
-                $model->getId() ? $this->__('Edit Segment') : $this->__('New Segment'),
-                $model->getId() ? $this->__('Edit Segment') : $this->__('New Segment'))
+                $model->getId() ? __('Edit Segment') : __('New Segment'),
+                $model->getId() ? __('Edit Segment') : __('New Segment'))
             ->_addContent($block)
             ->_addLeft(
                 $this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs'))
@@ -117,7 +117,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
             return;
         } catch (Exception $e) {
             $this->_getSession()->addException($e,
-                Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment Customers matching error')
+                __('Segment Customers matching error')
             );
             $this->_redirect('*/*/');
             return;
@@ -135,8 +135,8 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         $this->loadLayout()
             ->_setActiveMenu('Enterprise_CustomerSegment::customer_customersegment')
             ->_addBreadcrumb(
-                Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segments'),
-                Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segments')
+                __('Segments'),
+                __('Segments')
             );
         return $this;
     }
@@ -210,7 +210,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
                     $model->matchCustomers();
                 }
 
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('You saved the segment.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(__('You saved the segment.'));
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->setPageData(false);
 
                 if ($redirectBack) {
@@ -227,7 +227,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
                 return;
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__("We're unable to save the segment."));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__("We're unable to save the segment."));
                 Mage::logException($e);
             }
         }
@@ -242,14 +242,14 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         try {
             $model = $this->_initSegment('id', true);
             $model->delete();
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('You deleted the segment.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(__('You deleted the segment.'));
         }
         catch (Mage_Core_Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__("We're unable to delete the segement."));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__("We're unable to delete the segement."));
             Mage::logException($e);
         }
         $this->_redirect('*/*/');

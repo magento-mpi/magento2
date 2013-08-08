@@ -38,8 +38,8 @@ class Enterprise_GiftRegistry_Model_GiftRegistry_Options_Listed implements Mage_
     public function toOptionArray()
     {
         return array(
-            1 => $this->_helper->__('Yes'),
-            0 => $this->_helper->__('No'),
+            1 => __('Yes'),
+            0 => __('No'),
         );
     }
 }

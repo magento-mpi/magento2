@@ -23,7 +23,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content
      */
     public function getHeaderText()
     {
-        return $this->__('CSS Editor ') . $this->__($this->helper('Mage_Theme_Helper_Storage')->getStorageTypeName());
+        return __('CSS Editor ') . __($this->helper('Mage_Theme_Helper_Storage')->getStorageTypeName());
     }
     /**
      * Javascript setup object for filebrowser instance
@@ -35,9 +35,9 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content
         $setupObject = new Varien_Object();
 
         $setupObject->setData(array(
-            'newFolderPrompt'                 => $this->__('New Folder Name:'),
-            'deleteFolderConfirmationMessage' => $this->__('Are you sure you want to delete this folder?'),
-            'deleteFileConfirmationMessage'   => $this->__('Are you sure you want to delete this file?'),
+            'newFolderPrompt'                 => __('New Folder Name:'),
+            'deleteFolderConfirmationMessage' => __('Are you sure you want to delete this folder?'),
+            'deleteFileConfirmationMessage'   => __('Are you sure you want to delete this file?'),
             'targetElementId' => $this->getTargetElementId(),
             'contentsUrl'     => $this->getContentsUrl(),
             'onInsertUrl'     => $this->getOnInsertUrl(),

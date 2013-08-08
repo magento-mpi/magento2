@@ -68,8 +68,8 @@ class Enterprise_Cms_Model_Observer
         if ($page) {
 
             $baseFieldset->addField('under_version_control', 'select', array(
-                'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Under Version Control'),
-                'title'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Under Version Control'),
+                'label'     => __('Under Version Control'),
+                'title'     => __('Under Version Control'),
                 'name'      => 'under_version_control',
                 'values'    => Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray()
             ));
@@ -87,10 +87,10 @@ class Enterprise_Cms_Model_Observer
                     $versionLabel = $revision->getLabel();
 
                     $page->setPublishedRevisionLink(
-                        Mage::helper('Enterprise_Cms_Helper_Data')->__('%s; rev #%s', $versionLabel, $revisionNumber));
+                        __('%1; rev #%2', $versionLabel, $revisionNumber));
 
                     $baseFieldset->addField('published_revision_link', 'link', array(
-                            'label' => Mage::helper('Enterprise_Cms_Helper_Data')->__('Currently Published Revision'),
+                            'label' => __('Currently Published Revision'),
                             'href' => Mage::getSingleton('Mage_Backend_Model_Url')
                                 ->getUrl('*/cms_page_revision/edit', array(
                                     'page_id' => $page->getId(),
@@ -114,7 +114,7 @@ class Enterprise_Cms_Model_Observer
          */
         if (!$revisionAvailable && $page->getId() && $page->getUnderVersionControl()) {
             $baseFieldset->addField('published_revision_status', 'label', array('bold' => true));
-            $page->setPublishedRevisionStatus(Mage::helper('Enterprise_Cms_Helper_Data')->__('The published revision is unavailable.'));
+            $page->setPublishedRevisionStatus(__('The published revision is unavailable.'));
         }
 
         return $this;
@@ -436,7 +436,7 @@ class Enterprise_Cms_Model_Observer
     public function modifyPageStatuses(Varien_Event_Observer $observer)
     {
         $statuses = $observer->getEvent()->getStatuses();
-        $statuses->setData(Mage_Cms_Model_Page::STATUS_ENABLED, Mage::helper('Enterprise_Cms_Helper_Data')->__('Published'));
+        $statuses->setData(Mage_Cms_Model_Page::STATUS_ENABLED, __('Published'));
 
         return $this;
     }
@@ -469,7 +469,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function postDispatchCmsHierachyView($config, $eventModel)
     {
-        return $eventModel->setInfo(Mage::helper('Enterprise_Cms_Helper_Data')->__('Tree Viewed'));
+        return $eventModel->setInfo(__('Tree Viewed'));
     }
 
     /**

@@ -68,20 +68,20 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('ID'),
+            'header'            => __('ID'),
             'sortable'          => true,
             'width'             => '60px',
             'index'             => 'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('Product'),
+            'header'            => __('Product'),
             'index'             => 'name',
             'column_css_class'  => 'name'
         ));
 
         $this->addColumn('type', array(
-            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('Type'),
+            'header'            => __('Type'),
             'width'             => '60px',
             'index'             => 'type_id',
             'type'              => 'options',
@@ -95,7 +95,7 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
             ->toOptionHash();
 
         $this->addColumn('set_name', array(
-            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('Attribute Set'),
+            'header'            => __('Attribute Set'),
             'width'             => '100px',
             'index'             => 'attribute_set_id',
             'type'              => 'options',
@@ -103,14 +103,14 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('sku', array(
-            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('SKU'),
+            'header'            => __('SKU'),
             'width'             => '80px',
             'index'             => 'sku',
             'column_css_class'  => 'sku'
         ));
 
         $this->addColumn('price', array(
-            'header'            => Mage::helper('Find_Feed_Helper_Data')->__('Price'),
+            'header'            => __('Price'),
             'align'             => 'center',
             'type'              => 'currency',
             'currency_code'     => $this->_getStore()->getCurrentCurrencyCode(),
@@ -124,7 +124,7 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
         $isImportedOptions = $source->getOptionArray();
 
         $this->addColumn('is_imported', array(
-            'header'    => Mage::helper('Find_Feed_Helper_Data')->__('In Feed'),
+            'header'    => __('In Feed'),
             'width'     => '100px',
             'index'     => 'is_imported',
             'type'      => 'options',
@@ -145,12 +145,12 @@ class Find_Feed_Block_Adminhtml_List_Items_Grid  extends Mage_Adminhtml_Block_Wi
         $this->getMassactionBlock()->setFormFieldName('item_id');
 
         $this->getMassactionBlock()->addItem('enable', array(
-            'label'         => Mage::helper('Find_Feed_Helper_Data')->__('Publish'),
+            'label'         => __('Publish'),
             'url'           => $this->getUrl('*/items_grid/massEnable'),
             'selected'      => true,
         ));
         $this->getMassactionBlock()->addItem('disable', array(
-            'label'         => Mage::helper('Find_Feed_Helper_Data')->__('Not publish'),
+            'label'         => __('Not publish'),
             'url'           => $this->getUrl('*/items_grid/massDisable'),
         ));
 

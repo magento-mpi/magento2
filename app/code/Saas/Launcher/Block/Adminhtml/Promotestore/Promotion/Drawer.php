@@ -26,6 +26,6 @@ class Saas_Launcher_Block_Adminhtml_Promotestore_Promotion_Drawer extends Saas_L
      */
     public function getTileHeader()
     {
-        return $this->helper('Saas_Launcher_Helper_Data')->__('Promotion');
+        return __('Promotion');
     }
 }

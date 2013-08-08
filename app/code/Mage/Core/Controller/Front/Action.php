@@ -45,15 +45,4 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
         }
         return $this;
     }
-
-    /**
-     * Translate a phrase
-     *
-     * @return string
-     * @SuppressWarnings(PHPMD.ShortMethodName)
-     */
-    public function __()
-    {
-        return $this->_objectManager->get('Mage_Core_Model_Translate')->translate(func_get_args());
-    }
 }

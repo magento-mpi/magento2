@@ -38,9 +38,9 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Grid_Statuses implements Mage
     public function toOptionArray()
     {
         return array(
-            Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING => $this->_helper->__('Upcoming'),
-            Enterprise_CatalogEvent_Model_Event::STATUS_OPEN 	  => $this->_helper->__('Open'),
-            Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED   => $this->_helper->__('Closed'),
+            Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING => __('Upcoming'),
+            Enterprise_CatalogEvent_Model_Event::STATUS_OPEN 	  => __('Open'),
+            Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED   => __('Closed'),
         );
     }
 }

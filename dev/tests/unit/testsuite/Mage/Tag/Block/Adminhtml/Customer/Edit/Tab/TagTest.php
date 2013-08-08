@@ -42,21 +42,10 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends PHPUnit_Framewo
 
     public function setUp()
     {
-        $this->_helperMock = $this->getMock('Mage_Tag_Helper_Data', array(), array(), '', false);
-        $this->_helperMock->expects($this->any())
-            ->method('__')
-            ->will($this->returnArgument(0));
-
-
         $authorization = $this->getMock('Magento_AuthorizationInterface');
-        $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
-        $helperFactoryMock->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue($this->_helperMock));
 
         $arguments = array(
             'authorization' => $authorization,
-            'helperFactory' => $helperFactoryMock,
         );
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag', $arguments);

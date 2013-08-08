@@ -8,15 +8,15 @@
  * @license     {license_link}
  */
 ?>
-<form class="form edit account" action="<?php echo $this->getUrl('customer/account/editPost') ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?php echo $this->__('* Required Fields') ?>">
+<form class="form edit account" action="<?php echo $this->getUrl('customer/account/editPost') ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?php echo __('* Required Fields') ?>">
 <fieldset class="fieldset info">
     <?php echo $this->getBlockHtml('formkey')?>
-    <legend class="legend"><span><?php echo $this->__('Account Information') ?></span></legend><br />
+    <legend class="legend"><span><?php echo __('Account Information') ?></span></legend><br />
     <?php echo $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Name')->setObject($this->getCustomer())->toHtml() ?>
     <div class="field email required">
-        <label class="label" for="email"><span><?php echo $this->__('Email Address') ?></span></label>
+        <label class="label" for="email"><span><?php echo __('Email Address') ?></span></label>
         <div class="control">
-            <input type="text" name="email" id="email" value="<?php echo $this->escapeHtml($this->getCustomer()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}" />
+            <input type="text" name="email" id="email" value="<?php echo $this->escapeHtml($this->getCustomer()->getEmail()) ?>" title="<?php echo __('Email Address') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}" />
         </div>
     </div>
     <?php $_dob = $this->getLayout()->createBlock('Mage_Customer_Block_Widget_Dob') ?>
@@ -34,8 +34,8 @@
         <?php endif ?>
     <?php endif ?>
     <div class="field choice">
-        <input type="checkbox" name="change_password" id="change-password" value="1" title="<?php echo $this->__('Change Password') ?>"<?php if($this->getCustomer()->getChangePassword()==1): ?> checked="checked"<?php endif; ?> class="checkbox" />
-        <label class="label" for="change-password"><span><?php echo $this->__('Change Password') ?></span></label>
+        <input type="checkbox" name="change_password" id="change-password" value="1" title="<?php echo __('Change Password') ?>"<?php if($this->getCustomer()->getChangePassword()==1): ?> checked="checked"<?php endif; ?> class="checkbox" />
+        <label class="label" for="change-password"><span><?php echo __('Change Password') ?></span></label>
     </div>
 </fieldset>
 <?php $userDefinedAttributes = $this->getLayout()->getBlock('customer_form_user_attributes'); ?>
@@ -43,21 +43,21 @@
     <?php echo $userDefinedAttributes->setEntity($this->getCustomer())->toHtml(); ?>
 <?php endif;?>
 <fieldset class="fieldset password" style="display:none;">
-    <legend class="legend"><span><?php echo $this->__('Change Password') ?></span></legend><br />
+    <legend class="legend"><span><?php echo __('Change Password') ?></span></legend><br />
     <div class="field password current required">
-        <label class="label" for="current-password"><span><?php echo $this->__('Current Password') ?></span></label>
+        <label class="label" for="current-password"><span><?php echo __('Current Password') ?></span></label>
         <div class="control">
             <input type="password" class="input-text" name="current_password" id="current-password" />
         </div>
     </div>
     <div class="field new password required">
-        <label class="label" for="password"><span><?php echo $this->__('New Password') ?></span></label>
+        <label class="label" for="password"><span><?php echo __('New Password') ?></span></label>
         <div class="control">
             <input type="password" class="input-text" name="password" id="password" />
         </div>
     </div>
     <div class="field confirm password required">
-        <label class="label" for="confirmation"><span><?php echo $this->__('Confirm New Password') ?></span></label>
+        <label class="label" for="confirmation"><span><?php echo __('Confirm New Password') ?></span></label>
         <div class="control">
             <input type="password" class="input-text" name="confirmation" id="confirmation" />
         </div>
@@ -65,10 +65,10 @@
 </fieldset>
 <div class="actions">
     <div class="primary">
-        <button type="submit" class="action save" title="<?php echo $this->__('Save') ?>"><span><?php echo $this->__('Save') ?></span></button>
+        <button type="submit" class="action save" title="<?php echo __('Save') ?>"><span><?php echo __('Save') ?></span></button>
     </div>
     <div class="secondary">
-        <a class="action back" href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><span><?php echo $this->__('Go back') ?></span></a>
+        <a class="action back" href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><span><?php echo __('Go back') ?></span></a>
     </div>
 </div>
 </form>

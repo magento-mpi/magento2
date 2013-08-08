@@ -101,8 +101,8 @@ class Magento_Phrase_Renderer_Composite implements Magento_Phrase_RendererInterf
     {
         try {
             $text = $render->render($text, $arguments);
-        } catch (Exception $e) {
-            $this->_processingException($e);
+        } catch (Exception $renderException) {
+            $this->_processingException($renderException);
         }
         return $text;
     }
@@ -110,12 +110,12 @@ class Magento_Phrase_Renderer_Composite implements Magento_Phrase_RendererInterf
     /**
      * Processing exception
      *
-     * @param Exception $e
+     * @param Exception $renderException
      */
-    protected function _processingException($e)
+    protected function _processingException($renderException)
     {
         if ($this->_isDeveloperMode()) {
-            $this->_logException($e);
+            $this->_logException($renderException);
         }
     }
 
@@ -132,10 +132,10 @@ class Magento_Phrase_Renderer_Composite implements Magento_Phrase_RendererInterf
     /**
      * Log exception
      *
-     * @param Exception $e
+     * @param Exception $renderException
      */
-    protected function _logException($e)
+    protected function _logException($renderException)
     {
-        $this->_logger->logException($e);
+        $this->_logger->logException($renderException);
     }
 }

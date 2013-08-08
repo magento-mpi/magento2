@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_Sales_Order_Comments_View extends Mage_Adminhtml_Bloc
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please correct the parent block for this block.'));
+            Mage::throwException(__('Please correct the parent block for this block.'));
         }
         $this->setEntity($this->getParentBlock()->getSource());
         parent::_beforeToHtml();
@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Sales_Order_Comments_View extends Mage_Adminhtml_Bloc
     {
         $this->addChild('submit_button', 'Mage_Adminhtml_Block_Widget_Button', array(
             'id'      => 'submit_comment_button',
-            'label'   => Mage::helper('Mage_Sales_Helper_Data')->__('Submit Comment'),
+            'label'   => __('Submit Comment'),
             'class'   => 'save'
         ));
 

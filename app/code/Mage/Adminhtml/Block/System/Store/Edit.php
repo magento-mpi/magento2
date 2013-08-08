@@ -27,8 +27,8 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
         switch (Mage::registry('store_type')) {
             case 'website':
                 $this->_objectId = 'website_id';
-                $saveLabel   = Mage::helper('Mage_Core_Helper_Data')->__('Save Web Site');
-                $deleteLabel = Mage::helper('Mage_Core_Helper_Data')->__('Delete Web Site');
+                $saveLabel   = __('Save Web Site');
+                $deleteLabel = __('Delete Web Site');
                 $deleteUrl   = $this->getUrl(
                     '*/*/deleteWebsite',
                     array('item_id' => Mage::registry('store_data')->getId())
@@ -36,8 +36,8 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
                 break;
             case 'group':
                 $this->_objectId = 'group_id';
-                $saveLabel   = Mage::helper('Mage_Core_Helper_Data')->__('Save Store');
-                $deleteLabel = Mage::helper('Mage_Core_Helper_Data')->__('Delete Store');
+                $saveLabel   = __('Save Store');
+                $deleteLabel = __('Delete Store');
                 $deleteUrl   = $this->getUrl(
                     '*/*/deleteGroup',
                     array('item_id' => Mage::registry('store_data')->getId())
@@ -45,8 +45,8 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
                 break;
             case 'store':
                 $this->_objectId = 'store_id';
-                $saveLabel   = Mage::helper('Mage_Core_Helper_Data')->__('Save Store View');
-                $deleteLabel = Mage::helper('Mage_Core_Helper_Data')->__('Delete Store View');
+                $saveLabel   = __('Save Store View');
+                $deleteLabel = __('Delete Store View');
                 $deleteUrl   = $this->getUrl(
                     '*/*/deleteStore',
                     array('item_id' => Mage::registry('store_data')->getId())
@@ -86,16 +86,16 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
     {
         switch (Mage::registry('store_type')) {
             case 'website':
-                $editLabel = Mage::helper('Mage_Core_Helper_Data')->__('Edit Web Site');
-                $addLabel  = Mage::helper('Mage_Core_Helper_Data')->__('New Web Site');
+                $editLabel = __('Edit Web Site');
+                $addLabel  = __('New Web Site');
                 break;
             case 'group':
-                $editLabel = Mage::helper('Mage_Core_Helper_Data')->__('Edit Store');
-                $addLabel  = Mage::helper('Mage_Core_Helper_Data')->__('New Store');
+                $editLabel = __('Edit Store');
+                $addLabel  = __('New Store');
                 break;
             case 'store':
-                $editLabel = Mage::helper('Mage_Core_Helper_Data')->__('Edit Store View');
-                $addLabel  = Mage::helper('Mage_Core_Helper_Data')->__('New Store View');
+                $editLabel = __('Edit Store View');
+                $addLabel  = __('New Store View');
                 break;
         }
 

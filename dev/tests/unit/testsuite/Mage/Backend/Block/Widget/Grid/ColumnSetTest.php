@@ -61,10 +61,6 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
             ->method('getChildBlocks')
             ->will($this->returnValue(array('column' => $this->_columnMock)));
         $this->_helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
-        $this->_helperMock
-            ->expects($this->any())
-            ->method('__')
-            ->will($this->returnValue('TRANSLATED STRING'));
         $this->_factoryMock = $this->getMock('Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory', array(), array(),
             '', false
         );
@@ -151,8 +147,8 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
         $factoryMock->expects($this->once())
             ->method('createUrlGenerator')
             ->with($this->equalTo($generatorClass),
-            $this->equalTo(array('args' => array('generatorClass' => $generatorClass)))
-        )
+                $this->equalTo(array('args' => array('generatorClass' => $generatorClass)))
+            )
             ->will($this->returnValue($rowUrlGenerator));
 
         $arguments = array(

@@ -50,14 +50,14 @@ class Find_Feed_Block_Adminhtml_List_Codes_Grid extends Mage_Adminhtml_Block_Wid
     protected function _prepareColumns()
     {
         $this->addColumn('import_code', array(
-            'header'=> Mage::helper('Find_Feed_Helper_Data')->__('Feed code'),
+            'header'=> __('Feed code'),
             'width' => '80px',
             'type'  => 'text',
             'index' => 'import_code'
         ));
 
         $this->addColumn('eav_code', array(
-            'header'=> Mage::helper('Find_Feed_Helper_Data')->__('Eav code'),
+            'header'=> __('Eav code'),
             'width' => '80px',
             'type'  => 'text',
             'index' => 'eav_code'
@@ -67,7 +67,7 @@ class Find_Feed_Block_Adminhtml_List_Codes_Grid extends Mage_Adminhtml_Block_Wid
         $isImportedOptions = $source->getOptionArray();
 
         $this->addColumn('is_imported', array(
-            'header' => Mage::helper('Find_Feed_Helper_Data')->__('In Feed'),
+            'header' => __('In Feed'),
             'width' => '100px',
             'index' => 'is_imported',
             'type'  => 'options',
@@ -87,16 +87,16 @@ class Find_Feed_Block_Adminhtml_List_Codes_Grid extends Mage_Adminhtml_Block_Wid
         $this->getMassactionBlock()->setFormFieldName('code_id');
 
         $this->getMassactionBlock()->addItem('enable', array(
-            'label'         => Mage::helper('Find_Feed_Helper_Data')->__('Import'),
+            'label'         => __('Import'),
             'url'           => $this->getUrl('*/codes_grid/massEnable'),
             'selected'      => true,
         ));
         $this->getMassactionBlock()->addItem('disable', array(
-            'label'         => Mage::helper('Find_Feed_Helper_Data')->__('Not import'),
+            'label'         => __('Not import'),
             'url'           => $this->getUrl('*/codes_grid/massDisable'),
         ));
         $this->getMassactionBlock()->addItem('delete', array(
-            'label'         => Mage::helper('Find_Feed_Helper_Data')->__('Delete'),
+            'label'         => __('Delete'),
             'url'           => $this->getUrl('*/codes_grid/delete'),
         ));
 

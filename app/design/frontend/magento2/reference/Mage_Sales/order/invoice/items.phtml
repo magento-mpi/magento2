@@ -14,28 +14,28 @@
         <a href="<?php echo $this->getPrintAllInvoicesUrl($_order) ?>"
            onclick="this.target='_blank'"
            class="action print">
-            <span><?php echo $this->__('Print All Invoices') ?></span>
+            <span><?php echo __('Print All Invoices') ?></span>
         </a>
     </div>
 </div>
 <?php foreach ($_order->getInvoiceCollection() as $_invoice): ?>
 <div class="order title">
-    <strong><?php echo $this->__('Invoice #') ?><?php echo $_invoice->getIncrementId(); ?></strong>
+    <strong><?php echo __('Invoice #') ?><?php echo $_invoice->getIncrementId(); ?></strong>
     <a href="<?php echo $this->getPrintInvoiceUrl($_invoice) ?>"
        onclick="this.target='_blank'"
        class="action print">
-        <span><?php echo $this->__('Print Invoice') ?></span>
+        <span><?php echo __('Print Invoice') ?></span>
     </a>
 </div>
-<div class="order subtitle caption"><strong><?php echo $this->__('Items Invoiced') ?></strong></div>
+<div class="order subtitle caption"><strong><?php echo __('Items Invoiced') ?></strong></div>
 <table class="data table order items invoice" id="my-invoice-table-<?php echo $_invoice->getId(); ?>">
     <thead>
         <tr>
-            <th class="col name"><?php echo $this->__('Product Name') ?></th>
-            <th class="col sku"><?php echo $this->__('SKU') ?></th>
-            <th class="col price"><?php echo $this->__('Price') ?></th>
-            <th class="col qty"><?php echo $this->__('Qty Invoiced') ?></th>
-            <th class="col subtotal"><?php echo $this->__('Subtotal') ?></th>
+            <th class="col name"><?php echo __('Product Name') ?></th>
+            <th class="col sku"><?php echo __('SKU') ?></th>
+            <th class="col price"><?php echo __('Price') ?></th>
+            <th class="col qty"><?php echo __('Qty Invoiced') ?></th>
+            <th class="col subtotal"><?php echo __('Subtotal') ?></th>
         </tr>
     </thead>
     <tfoot>

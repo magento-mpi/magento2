@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Sitemap_Edit extends Mage_Adminhtml_Block_Widget_Form
         parent::_construct();
 
         $this->_addButton('generate', array(
-            'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save & Generate'),
+            'label'   => __('Save & Generate'),
             'data_attribute'  => array(
                 'mage-init' => array(
                     'button' => array(
@@ -56,10 +56,10 @@ class Mage_Adminhtml_Block_Sitemap_Edit extends Mage_Adminhtml_Block_Widget_Form
     public function getHeaderText()
     {
         if (Mage::registry('sitemap_sitemap')->getId()) {
-            return Mage::helper('Mage_Sitemap_Helper_Data')->__('Edit Sitemap');
+            return __('Edit Sitemap');
         }
         else {
-            return Mage::helper('Mage_Sitemap_Helper_Data')->__('New Sitemap');
+            return __('New Sitemap');
         }
     }
 }

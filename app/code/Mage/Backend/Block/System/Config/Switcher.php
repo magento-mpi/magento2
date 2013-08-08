@@ -35,7 +35,7 @@ class Mage_Backend_Block_System_Config_Switcher extends Mage_Backend_Block_Templ
 
         $options = array();
         $options['default'] = array(
-            'label'    => $this->helper('Mage_Backend_Helper_Data')->__('Default Config'),
+            'label'    => __('Default Config'),
             'url'      => $this->getUrl('*/*/*', array('section' => $section)),
             'selected' => !$curWebsite && !$curStore,
             'style'    => 'background:#ccc; font-weight:bold;',

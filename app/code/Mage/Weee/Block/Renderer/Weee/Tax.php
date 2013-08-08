@@ -42,7 +42,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
             'add_button',
             'Mage_Adminhtml_Block_Widget_Button',
             array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Tax'),
+                'label' => __('Add Tax'),
                 'data_attribute' => array('action' => 'add-fpt-item'),
                 'class' => 'add'
             )
@@ -51,7 +51,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
             'delete_button',
             'Mage_Adminhtml_Block_Widget_Button',
             array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Tax'),
+                'label' => __('Delete Tax'),
                 'data_attribute' => array('action' => 'delete-fpt-item'),
                 'class' => 'delete'
             )
@@ -119,7 +119,7 @@ class Mage_Weee_Block_Renderer_Weee_Tax extends Mage_Adminhtml_Block_Widget impl
         }
         $websites = array();
         $websites[0] = array(
-            'name'     => $this->__('All Websites'),
+            'name'     => __('All Websites'),
             'currency' => Mage::app()->getBaseCurrencyCode()
         );
 

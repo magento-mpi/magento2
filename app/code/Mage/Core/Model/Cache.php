@@ -29,11 +29,6 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
     protected $_config;
 
     /**
-     * @var Mage_Core_Model_Factory_Helper
-     */
-    protected $_helperFactory;
-
-    /**
      * @var string
      */
     protected $_frontendIdentifier = Mage_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID;
@@ -61,22 +56,19 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
      * @param Mage_Core_Model_Cache_Types $cacheTypes
      * @param Mage_Core_Model_ConfigInterface $config
      * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
         Mage_Core_Model_Cache_Frontend_Pool $frontendPool,
         Mage_Core_Model_Cache_Types $cacheTypes,
         Mage_Core_Model_ConfigInterface $config,
-        Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Factory_Helper $helperFactory
+        Mage_Core_Model_Dir $dirs
     ) {
         $this->_objectManager = $objectManager;
         $this->_frontendPool = $frontendPool;
         $this->_frontend = $frontendPool->get($this->_frontendIdentifier);
         $this->_cacheTypes = $cacheTypes;
         $this->_config = $config;
-        $this->_helperFactory = $helperFactory;
     }
 
     /**
@@ -218,8 +210,6 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
         $types = array();
         $config = $this->_config->getNode(self::XML_PATH_TYPES);
         if ($config) {
-            /** @var $helper Mage_Core_Helper_Data*/
-            $helper = $this->_helperFactory->get('Mage_Core_Helper_Data');
             foreach ($config->children() as $type => $node) {
                 $typeInstance = $this->_getTypeInstance($type);
                 if ($typeInstance instanceof Magento_Cache_Frontend_Decorator_TagScope) {
@@ -229,8 +219,8 @@ class Mage_Core_Model_Cache implements Mage_Core_Model_CacheInterface
                 }
                 $types[$type] = new Varien_Object(array(
                     'id'            => $type,
-                    'cache_type'    => $helper->__((string)$node->label),
-                    'description'   => $helper->__((string)$node->description),
+                    'cache_type'    => __((string)$node->label),
+                    'description'   => __((string)$node->description),
                     'tags'          => $typeTags,
                     'status'        => (int)$this->canUse($type),
                 ));

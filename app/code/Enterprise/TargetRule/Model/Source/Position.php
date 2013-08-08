@@ -20,11 +20,11 @@ class Enterprise_TargetRule_Model_Source_Position
     {
         return array(
             Enterprise_TargetRule_Model_Rule::BOTH_SELECTED_AND_RULE_BASED =>
-                Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Both Selected and Rule-Based'),
+                __('Both Selected and Rule-Based'),
             Enterprise_TargetRule_Model_Rule::SELECTED_ONLY =>
-                Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Selected Only'),
+                __('Selected Only'),
             Enterprise_TargetRule_Model_Rule::RULE_BASED_ONLY =>
-                Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Rule-Based Only'),
+                __('Rule-Based Only'),
         );
     }
 

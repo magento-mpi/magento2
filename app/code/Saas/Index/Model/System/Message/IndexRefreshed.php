@@ -77,7 +77,7 @@ class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotifi
      */
     public function getText()
     {
-        return $this->_helper->__('Search index has been refreshed');
+        return __('Search index has been refreshed');
     }
 
     /**

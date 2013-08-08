@@ -11,10 +11,10 @@
 <div class="block dashboard orders">
 <?php $_orders = $this->getOrders(); ?>
     <div class="order title">
-        <strong><?php echo $this->__('Recent Orders') ?></strong>
+        <strong><?php echo __('Recent Orders') ?></strong>
         <?php if( sizeof($_orders->getItems()) > 0 ): ?>
             <a class="action view" href="<?php echo $this->getUrl('sales/order/history') ?>">
-                <span><?php echo $this->__('View All') ?></span>
+                <span><?php echo __('View All') ?></span>
             </a>
         <?php endif; ?>
     </div>
@@ -24,11 +24,11 @@
         <table class="data table orders recent" id="my-orders-table">
             <thead>
                 <tr>
-                    <th class="col id"><?php echo $this->__('Order #') ?></th>
-                    <th class="col date"><?php echo $this->__('Date') ?></th>
-                    <th class="col shipping"><?php echo $this->__('Ship To') ?></th>
-                    <th class="col total"><?php echo $this->__('Order Total') ?></th>
-                    <th class="col status"><?php echo $this->__('Status') ?></th>
+                    <th class="col id"><?php echo __('Order #') ?></th>
+                    <th class="col date"><?php echo __('Date') ?></th>
+                    <th class="col shipping"><?php echo __('Ship To') ?></th>
+                    <th class="col total"><?php echo __('Order Total') ?></th>
+                    <th class="col status"><?php echo __('Status') ?></th>
                     <th class="col actions">&nbsp;</th>
                 </tr>
             </thead>
@@ -42,11 +42,11 @@
                         <td class="col status"><em><?php echo $_order->getStatusLabel() ?></em></td>
                         <td class="col actions">
                             <a href="<?php echo $this->getViewUrl($_order) ?>" class="action view">
-                                <span><?php echo $this->__('View Order') ?></span>
+                                <span><?php echo __('View Order') ?></span>
                             </a>
                             <?php if ($this->helper('Mage_Sales_Helper_Reorder')->canReorder($_order)) : ?>
                                 <a href="<?php echo $this->getReorderUrl($_order) ?>" class="action order">
-                                    <span><?php echo $this->__('Reorder') ?></span>
+                                    <span><?php echo __('Reorder') ?></span>
                                 </a>
                             <?php endif ?>
                         </td>
@@ -55,7 +55,7 @@
             </tbody>
         </table>
     <?php else: ?>
-        <p class="empty"><?php echo $this->__('You have placed no orders.'); ?></p>
+        <p class="empty"><?php echo __('You have placed no orders.'); ?></p>
     <?php endif; ?>
     </div>
 </div>

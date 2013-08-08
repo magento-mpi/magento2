@@ -51,12 +51,12 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Widge
         $this->setForm($form);
 
         $fieldset = $form->addFieldset('rating_form', array(
-            'legend'=>Mage::helper('Mage_Rating_Helper_Data')->__('Rating Title')
+            'legend'=>__('Rating Title')
         ));
 
         $fieldset->addField('rating_code', 'text', array(
             'name' => 'rating_code',
-            'label' => Mage::helper('Mage_Rating_Helper_Data')->__('Default Value'),
+            'label' => __('Default Value'),
             'class' => 'required-entry',
             'required' => true,
         ));
@@ -109,11 +109,11 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Widge
         }
 
         $fieldset = $form->addFieldset('visibility_form', array(
-            'legend' => Mage::helper('Mage_Rating_Helper_Data')->__('Rating Visibility')
+            'legend' => __('Rating Visibility')
         ));
         if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('stores', 'multiselect', array(
-                'label' => Mage::helper('Mage_Rating_Helper_Data')->__('Visible In'),
+                'label' => __('Visible In'),
                 'name' => 'stores[]',
                 'values' => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(),
             ));
@@ -126,13 +126,13 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Widge
         }
 
         $fieldset->addField('is_active', 'checkbox', array(
-            'label' => Mage::helper('Mage_Rating_Helper_Data')->__('Is Active'),
+            'label' => __('Is Active'),
             'name' => 'is_active',
             'value' => 1,
         ));
 
         $fieldset->addField('position', 'text', array(
-            'label' => Mage::helper('Mage_Rating_Helper_Data')->__('Sort Order'),
+            'label' => __('Sort Order'),
             'name' => 'position',
         ));
 
@@ -163,7 +163,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Widge
 <ul class="messages">
     <li class="notice-msg">
         <ul>
-            <li>'.Mage::helper('Mage_Rating_Helper_Data')->__('Please specify a rating title for a store, or we\'ll just use the default value.').'</li>
+            <li>'.__('Please specify a rating title for a store, or we\'ll just use the default value.').'</li>
         </ul>
     </li>
 </ul>

@@ -283,7 +283,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     public function getEntityType()
     {
         if (empty($this->_type)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Entity is not initialized'));
+            throw Mage::exception('Mage_Eav', __('Entity is not initialized'));
         }
         return $this->_type;
     }
@@ -331,7 +331,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
         }
 
         if (!is_array($attributes)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('Unknown parameter'));
+            throw Mage::exception('Mage_Eav', __('Unknown parameter'));
         }
 
         foreach ($attributes as $attrCode) {

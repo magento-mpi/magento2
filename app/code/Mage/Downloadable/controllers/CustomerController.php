@@ -45,7 +45,7 @@ class Mage_Downloadable_CustomerController extends Mage_Core_Controller_Front_Ac
         }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Mage_Downloadable_Helper_Data')->__('My Downloadable Products'));
+            $headBlock->setTitle(__('My Downloadable Products'));
         }
         $this->renderLayout();
     }

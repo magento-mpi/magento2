@@ -33,7 +33,7 @@ $suffix = $this->showSuffix();
 ?>
 <?php if ($prefix || $middle || $suffix && !$this->getNoWrap()): ?>
 <div class="field required fullname <?php echo $this->getContainerClassName()?>">
-    <label for="<?php echo $this->getFieldId('firstname')?>" class="label"><span><?php echo $this->__('Name')?></span></label>
+    <label for="<?php echo $this->getFieldId('firstname')?>" class="label"><span><?php echo __('Name')?></span></label>
     <div class="control">
         <div class="fields group group-<?php echo 2 + intval($prefix) + intval($middle) + intval($suffix)?>">
 <?php endif; ?>
@@ -46,7 +46,7 @@ $suffix = $this->showSuffix();
             <?php else: ?>
                 <select id="<?php echo $this->getFieldId('prefix')?>" name="<?php echo $this->getFieldName('prefix')?>" title="<?php echo $this->getStoreLabel('prefix') ?>" class="<?php echo $this->helper('Mage_Customer_Helper_Address')->getAttributeValidationClass('prefix') ?>" <?php echo $this->getFieldParams() ?> <?php if ($this->isPrefixRequired()) echo ' data-validate="{required:true}"' ?> >
                 <?php foreach ($this->getPrefixOptions() as $_option): ?>
-                    <option value="<?php echo $_option?>"<?php if ($this->getObject()->getPrefix()==$_option):?> selected="selected"<?php endif; ?>><?php echo $this->__($_option)?></option>
+                    <option value="<?php echo $_option?>"<?php if ($this->getObject()->getPrefix()==$_option):?> selected="selected"<?php endif; ?>><?php echo __($_option)?></option>
                 <?php endforeach; ?>
                 </select>
             <?php endif; ?>
@@ -83,7 +83,7 @@ $suffix = $this->showSuffix();
         <?php else: ?>
             <select id="<?php echo $this->getFieldId('suffix')?>" name="<?php echo $this->getFieldName('suffix')?>" title="<?php echo $this->getStoreLabel('suffix') ?>" class="<?php echo $this->helper('Mage_Customer_Helper_Address')->getAttributeValidationClass('suffix') ?>" <?php echo $this->getFieldParams() ?> <?php if ($this->isSuffixRequired()) echo ' data-validate="{required:true}"' ?>>
             <?php foreach ($this->getSuffixOptions() as $_option): ?>
-                <option value="<?php echo $_option?>"<?php if ($this->getObject()->getSuffix()==$_option):?> selected="selected"<?php endif; ?>><?php echo $this->__($_option)?></option>
+                <option value="<?php echo $_option?>"<?php if ($this->getObject()->getSuffix()==$_option):?> selected="selected"<?php endif; ?>><?php echo __($_option)?></option>
             <?php endforeach; ?>
             </select>
         <?php endif; ?>

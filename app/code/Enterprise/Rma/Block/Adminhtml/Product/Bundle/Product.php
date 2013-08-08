@@ -25,7 +25,7 @@ class Enterprise_Rma_Block_Adminhtml_Product_Bundle_Product
             $link = sprintf(
                 '<a href="javascript:void(0)" class="product_to_add" id="productId_%s">%s</a>',
                 $row->getId(),
-                Mage::helper('Enterprise_Rma_Helper_Data')->__('Select Items')
+                __('Select Items')
             );
         }
         return $rendered.$link;

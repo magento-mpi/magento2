@@ -35,7 +35,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template extends Mage_Backend_Block_T
         $this->setChild('add_button',
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                 ->setData(array(
-                    'label'     => $this->__('Add New Template'),
+                    'label'     => __('Add New Template'),
                     'onclick'   => "window.location='" . $this->getCreateUrl() . "'",
                     'class'     => 'add'
         )));
@@ -66,7 +66,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template extends Mage_Backend_Block_T
      */
     public function getHeaderText()
     {
-        return $this->__('Printed Templates');
+        return __('Printed Templates');
     }
 
 }

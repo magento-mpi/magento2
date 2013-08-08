@@ -110,14 +110,14 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
 
                 $translate->setTranslateInline(true);
 
-                Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess(Mage::helper('Mage_Contacts_Helper_Data')->__('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.'));
+                Mage::getSingleton('Mage_Customer_Model_Session')->addSuccess(__('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.'));
                 $this->_redirect('*/*/');
 
                 return;
             } catch (Exception $e) {
                 $translate->setTranslateInline(true);
 
-                Mage::getSingleton('Mage_Customer_Model_Session')->addError(Mage::helper('Mage_Contacts_Helper_Data')->__('Something went wrong submitting your request.'));
+                Mage::getSingleton('Mage_Customer_Model_Session')->addError(__('Something went wrong submitting your request.'));
                 $this->_redirect('*/*/');
                 return;
             }

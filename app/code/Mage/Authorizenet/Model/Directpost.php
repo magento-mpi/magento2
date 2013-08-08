@@ -70,7 +70,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     public function capture(Varien_Object $payment, $amount)
     {
         if ($amount <= 0) {
-            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid amount for capture.'));
+            Mage::throwException(__('Invalid amount for capture.'));
         }
 
         $payment->setAmount($amount);
@@ -102,7 +102,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             default:
-                Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Payment capturing error.'));
+                Mage::throwException(__('Payment capturing error.'));
         }
     }
 
@@ -137,7 +137,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     public function void(Varien_Object $payment)
     {
         if (!$payment->getParentTransactionId()) {
-            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid transaction ID.'));
+            Mage::throwException(__('Invalid transaction ID.'));
         }
 
         $payment->setAnetTransType(self::REQUEST_TYPE_VOID);
@@ -163,7 +163,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             default:
-                Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Payment voiding error.'));
+                Mage::throwException(__('Payment voiding error.'));
         }
     }
 
@@ -222,11 +222,11 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     protected function _refund(Varien_Object $payment, $amount)
     {
         if ($amount <= 0) {
-            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid amount for refund.'));
+            Mage::throwException(__('Invalid amount for refund.'));
         }
 
         if (!$payment->getParentTransactionId()) {
-            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid transaction ID.'));
+            Mage::throwException(__('Invalid transaction ID.'));
         }
 
         $payment->setAnetTransType(self::REQUEST_TYPE_CREDIT);
@@ -254,7 +254,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             default:
-                Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Payment refunding error.'));
+                Mage::throwException(__('Payment refunding error.'));
         }
     }
 
@@ -377,7 +377,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             !$response->isValidHash($this->getConfigData('trans_md5'), $this->getConfigData('login'))
         ) {
             Mage::throwException(
-                Mage::helper('Mage_Authorizenet_Helper_Data')->__('The transaction was declined because the response hash validation failed.')
+                __('The transaction was declined because the response hash validation failed.')
             );
         }
         return true;
@@ -414,7 +414,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             $payment = $order->getPayment();
             if (!$payment || $payment->getMethod() != $this->getCode()) {
                 Mage::throwException(
-                    Mage::helper('Mage_Authorizenet_Helper_Data')->__('This payment didn\'t work out because we can\'t find this order.')
+                    __('This payment didn\'t work out because we can\'t find this order.')
                 );
             }
             if ($order->getId() &&  $order->getState() == Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
@@ -431,7 +431,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             Mage::throwException(
                 ($responseText && !$response->isApproved()) ?
                 $responseText :
-                Mage::helper('Mage_Authorizenet_Helper_Data')->__('This payment didn\'t work out because we can\'t find this order.')
+                __('This payment didn\'t work out because we can\'t find this order.')
             );
         }
     }
@@ -470,7 +470,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($this->getResponse()->getXResponseReasonText()));
             default:
-                Mage::throwException(Mage::helper('Mage_Authorizenet_Helper_Data')->__('There was a payment authorization error.'));
+                Mage::throwException(__('There was a payment authorization error.'));
         }
     }
 
@@ -484,7 +484,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     {
         if (!$this->getResponse()->getXTransId()) {
             Mage::throwException(
-                Mage::helper('Mage_Authorizenet_Helper_Data')->__('This payment was not authorized because the transaction ID field is empty.')
+                __('This payment was not authorized because the transaction ID field is empty.')
             );
         }
         return true;
@@ -528,8 +528,8 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
 
         // Set transaction approval message
-        $message = Mage::helper('Mage_Authorizenet_Helper_Data')->__(
-            'Amount of %s approved by payment gateway. Transaction ID: "%s".',
+        $message = __(
+            'Amount of %1 approved by payment gateway. Transaction ID: "%2".',
             $order->getBaseCurrency()->formatTxt($payment->getBaseAmountAuthorized()),
             $response->getXTransId()
         );
@@ -546,7 +546,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
         //match amounts. should be equals for authorization.
         //decline the order if amount does not match.
         if (!$this->_matchAmount($payment->getBaseAmountAuthorized())) {
-            $message = Mage::helper('Mage_Authorizenet_Helper_Data')->__('Something went wrong: the paid amount doesn\'t match the order amount. Please correct this and try again.');
+            $message = __('Something went wrong: the paid amount doesn\'t match the order amount. Please correct this and try again.');
             $this->_declineOrder($order, $message, true);
             Mage::throwException($message);
         }

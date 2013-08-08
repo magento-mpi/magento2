@@ -85,7 +85,7 @@ class Mage_Core_Model_Image_AdapterFactory
         }
         if (!isset($this->_adapterClasses[$adapterType])) {
             throw new InvalidArgumentException(
-                $this->_helper->__('Invalid adapter selected.')
+                __('Invalid adapter selected.')
             );
         }
         $imageAdapter = $this->_objectManager->create($this->_adapterClasses[$adapterType]);

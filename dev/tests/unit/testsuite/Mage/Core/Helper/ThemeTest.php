@@ -609,15 +609,12 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
 
         /** @var $helper Mage_Core_Helper_Theme|PHPUnit_Framework_MockObject_MockObject */
-        $helper = $this->getMock('Mage_Core_Helper_Theme', array('getCssFiles', '__'), array(
+        $helper = $this->getMock('Mage_Core_Helper_Theme', array('getCssFiles'), array(
             $context, $dirs, $layoutMergeFactory, $themeCollection, $fileSystem
         ));
         $helper->expects($this->once())
             ->method('getCssFiles')
             ->will($this->returnValue($files));
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnCallback('sprintf'));
 
         return $helper;
     }

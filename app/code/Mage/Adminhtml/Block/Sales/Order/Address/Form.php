@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Sales_Order_Address_Form
      */
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Order Address Information');
+        return __('Order Address Information');
     }
 
     /**

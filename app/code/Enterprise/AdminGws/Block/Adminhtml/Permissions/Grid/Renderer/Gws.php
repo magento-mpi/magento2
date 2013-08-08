@@ -33,7 +33,7 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends 
     public function render(Varien_Object $row)
     {
         if ($row->getData('gws_is_all')) {
-            return $this->__('All');
+            return __('All');
         }
 
         // lookup websites and store groups in system
@@ -79,7 +79,7 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends 
                 }
             }
         }
-        return $output ? implode('<br />', $output) : $this->__('None');
+        return $output ? implode('<br />', $output) : __('None');
     }
 
     /**

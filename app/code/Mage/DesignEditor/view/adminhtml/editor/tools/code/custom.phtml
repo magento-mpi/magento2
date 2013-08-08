@@ -11,34 +11,34 @@
 <?php /** @var $this Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom */ ?>
 <div id="vde-tab-custom-messages-placeholder"></div>
 <div class="custom-code-description">
-    <p><?php echo $this->__('Update the CSS code to overwrite the default styles or upload your own CSS file.'); ?></p>
-    <h4><?php echo $this->__('Custom CSS'); ?></h4>
+    <p><?php echo __('Update the CSS code to overwrite the default styles or upload your own CSS file.'); ?></p>
+    <h4><?php echo __('Custom CSS'); ?></h4>
     <div class="custom-file">
-        <span data-action="add" class="action-add" title="<?php echo $this->__('Upload File'); ?>">
-            <span><?php echo $this->__('Upload File'); ?></span>
+        <span data-action="add" class="action-add" title="<?php echo __('Upload File'); ?>">
+            <span><?php echo __('Upload File'); ?></span>
             <?php echo $this->getFormHtml() ?>
         </span>
-        <label for="<?php echo $this->getFileElementName() ?>"><?php echo $this->__('Upload Custom CSS'); ?></label>
+        <label for="<?php echo $this->getFileElementName() ?>"><?php echo __('Upload Custom CSS'); ?></label>
         <div class="uploaded-file-wrapper" data-file="uploaded-css">
             <div class="uploaded-css">
                 <div class="file-row">
                     <span id="custom-file-name" class="label"><?php echo $this->getCustomFileName() ?></span>
-                    <button data-action="delete" class="action-delete" title="<?php echo $this->__('Delete File'); ?>">
-                        <span><?php echo $this->__('Delete File'); ?></span>
+                    <button data-action="delete" class="action-delete" title="<?php echo __('Delete File'); ?>">
+                        <span><?php echo __('Delete File'); ?></span>
                     </button>
-                    <button data-action="download" class="action-download" title="<?php echo $this->__('Download File'); ?>">
-                        <span><?php echo $this->__('Download File'); ?></span>
+                    <button data-action="download" class="action-download" title="<?php echo __('Download File'); ?>">
+                        <span><?php echo __('Download File'); ?></span>
                     </button>
                 </div>
             </div>
         </div>
     </div>
     <div class="manage-assets-buttons">
-        <button data-manage="images" class="action-image-assets" title="<?php echo $this->__('Image Assets'); ?>">
-            <span><?php echo $this->__('Image Assets'); ?></span>
+        <button data-manage="images" class="action-image-assets" title="<?php echo __('Image Assets'); ?>">
+            <span><?php echo __('Image Assets'); ?></span>
         </button>
-        <button data-manage="fonts" class="action-font-assets" title="<?php echo $this->__('Font Assets'); ?>">
-            <span><?php echo $this->__('Font Assets'); ?></span>
+        <button data-manage="fonts" class="action-font-assets" title="<?php echo __('Font Assets'); ?>">
+            <span><?php echo __('Font Assets'); ?></span>
         </button>
     </div>
 </div>
@@ -46,8 +46,8 @@
     <div class="textarea-container">
         <textarea name="custom_code" id="custom_code" cols="30" rows="10"><?php echo $this->getCustomCssContent() ?></textarea>
     </div>
-    <button data-action="update" class="action-update primary" title="<?php echo $this->__('Update'); ?>">
-        <span><?php echo $this->__('Update'); ?></span>
+    <button data-action="update" class="action-update primary" title="<?php echo __('Update'); ?>">
+        <span><?php echo __('Update'); ?></span>
     </button>
 </div>
 
@@ -59,7 +59,7 @@
                 '<?php echo $this->getMediaBrowserUrl('custom_code', Mage_Theme_Model_Wysiwyg_Storage::TYPE_FONT) ?>',
                 null,
                 null,
-                '<?php echo $this->quoteEscape($this->__('Font Assets'), true); ?>'
+                '<?php echo $this->quoteEscape(__('Font Assets'), true); ?>'
             );
         });
         $('[data-manage="images"]').on('click', function() {
@@ -67,7 +67,7 @@
                 '<?php echo $this->getMediaBrowserUrl('custom_code', Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE) ?>',
                 null,
                 null,
-                '<?php echo $this->quoteEscape($this->__('Image Assets'), true); ?>'
+                '<?php echo $this->quoteEscape(__('Image Assets'), true); ?>'
             );
         });
         $('#vde-tab-custom').customCssPanel({

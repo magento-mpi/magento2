@@ -16,7 +16,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Assign extends Mage_Adminhtml_Bloc
         $this->_controller = 'sales_order_status';
         $this->_mode       = 'assign';
         parent::_construct();
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Sales_Helper_Data')->__('Save Status Assignment'));
+        $this->_updateButton('save', 'label', __('Save Status Assignment'));
         $this->_removeButton('delete');
     }
 
@@ -27,6 +27,6 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Assign extends Mage_Adminhtml_Bloc
      */
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Assign Order Status to State');
+        return __('Assign Order Status to State');
     }
 }

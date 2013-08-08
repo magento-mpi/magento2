@@ -15,7 +15,7 @@
             <?php if ($this->getTileState() == Saas_Launcher_Model_Tile::STATE_TODO) :?>
                 <div class="field field-google_analytics_account">
                     <label class="label" for="google_analytics_account">
-                        <span><?php echo $this->__('Log in to your Google account.') ?></span>
+                        <span><?php echo __('Log in to your Google account.') ?></span>
                     </label>
                     <div class="control">
                         <input id="google_analytics_account"
@@ -29,15 +29,15 @@
             <?php endif; ?>
             <?php if ($this->getTileState() == Saas_Launcher_Model_Tile::STATE_COMPLETE) :?>
                 <ul class="promote-actions">
-                    <li class="completed"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'google', '_fragment' => 'google_analytics-link'))?>" target="_blank"><?php echo $this->__('Edit Google Analytics Settings'); ?></a></li>
+                    <li class="completed"><a href="<?php echo $this->getUrl('adminhtml/system_config/edit', array('section' => 'google', '_fragment' => 'google_analytics-link'))?>" target="_blank"><?php echo __('Edit Google Analytics Settings'); ?></a></li>
                 </ul>
             <?php endif; ?>
         <div class="promote-content">
             <div class="promote-content-section">
-                <p><?php echo $this->__('Your new online business has a powerful asset: data. Leverage your store data with Google Analytics to track and evaluate customer conversions, clicks, purchases and browsing.') ?> </p>
+                <p><?php echo __('Your new online business has a powerful asset: data. Leverage your store data with Google Analytics to track and evaluate customer conversions, clicks, purchases and browsing.') ?> </p>
             </div>
             <div class="promote-content-section">
-                <p><?php echo $this->__('Google Analytics helps turn all this info into meaningful, actionable insight for staging your store and selling more products.') ?> </p>
+                <p><?php echo __('Google Analytics helps turn all this info into meaningful, actionable insight for staging your store and selling more products.') ?> </p>
             </div>
         </div>
     </article>

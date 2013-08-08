@@ -8,9 +8,9 @@
  * @license     {license_link}
  */
 ?>
-<label for="<?php echo $this->getFieldId('gender')?>"<?php if ($this->isRequired()) echo ' class="required"' ?>><?php if ($this->isRequired()) echo '<em>*</em>' ?><?php echo $this->__('Gender') ?></label>
+<label for="<?php echo $this->getFieldId('gender')?>"<?php if ($this->isRequired()) echo ' class="required"' ?>><?php if ($this->isRequired()) echo '<em>*</em>' ?><?php echo __('Gender') ?></label>
 <div class="input-box">
-    <select id="<?php echo $this->getFieldId('gender')?>" name="<?php echo $this->getFieldName('gender')?>" title="<?php echo $this->__('Gender') ?>"<?php if ($this->isRequired()):?> class="validate-select" data-validate="{required:true}"<?php endif; ?> <?php echo $this->getFieldParams() ?>>
+    <select id="<?php echo $this->getFieldId('gender')?>" name="<?php echo $this->getFieldName('gender')?>" title="<?php echo __('Gender') ?>"<?php if ($this->isRequired()):?> class="validate-select" data-validate="{required:true}"<?php endif; ?> <?php echo $this->getFieldParams() ?>>
         <?php $options = $this->getGenderOptions(); ?>
         <?php $value = $this->getGender();?>
         <?php foreach ($options as $option):?>

@@ -20,7 +20,7 @@ switch($type=$this->getType()) {
 
         $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
         $image ='related_products_list';
-        $title = $this->__('Related Products');
+        $title = __('Related Products');
         $items = $this->getItemCollection();
 
         $showWishlist = true;
@@ -38,7 +38,7 @@ switch($type=$this->getType()) {
 
         $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
         $image ='related_products_list';
-        $title = $this->__('Related Products');
+        $title = __('Related Products');
         $items = $this->getItems();
 
         $showWishlist = true;
@@ -56,7 +56,7 @@ switch($type=$this->getType()) {
 
         $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
         $image ='upsell_products_list';
-        $title = $this->__('You may also be interested in the following product(s)');
+        $title = __('You may also be interested in the following product(s)');
         $items = $this->getItemCollection();
 
         $showWishlist = false;
@@ -74,7 +74,7 @@ switch($type=$this->getType()) {
 
         $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
         $image ='upsell_products_list';
-        $title = $this->__('You may also be interested in the following product(s)');
+        $title = __('You may also be interested in the following product(s)');
         $items = $this->getItemCollection()->getItems();
 
         $showWishlist = false;
@@ -92,7 +92,7 @@ switch($type=$this->getType()) {
 
         $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
         $image ='cart_cross_sell_products';
-        $title = $this->__('More Choices:');
+        $title = __('More Choices:');
         $items = $this->getItemCollection();
 
         $showWishlist = true;
@@ -110,7 +110,7 @@ switch($type=$this->getType()) {
 
         $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
         $image ='cart_cross_sell_products';
-        $title = $this->__('More Choices:');
+        $title = __('More Choices:');
         $items = $this->getItems();
 
         $showWishlist = true;
@@ -132,7 +132,7 @@ switch($type=$this->getType()) {
 
         $imageBlock =  $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Image');
         $image = $this->getImageType();
-        $title = $this->__('Recently Viewed');
+        $title = __('Recently Viewed');
         $items = $exist;
 
         $showWishlist = true;
@@ -160,8 +160,8 @@ switch($type=$this->getType()) {
 
         <?php if($type == 'related'): ?>
         <div class="actions">
-            <?php echo $this->__('Check items to add to the cart or') ?>
-            <button type="button" class="action select" role="select-all"><span><?php echo $this->__('select all') ?></span></button>
+            <?php echo __('Check items to add to the cart or') ?>
+            <button type="button" class="action select" role="select-all"><span><?php echo __('select all') ?></span></button>
         </div>
         <?php endif; ?>
 
@@ -194,7 +194,7 @@ switch($type=$this->getType()) {
                             <?php if (!$_item->getRequiredOptions()): ?>
                                 <div class="field choice related">
                                     <input type="checkbox" class="checkbox related" id="related-checkbox<?php echo $_item->getId() ?>" name="related_products[]" value="<?php echo $_item->getId() ?>" />
-                                    <label class="label" for="related-checkbox<?php echo $_item->getId() ?>"><span><?php echo $this->__('Add to Cart') ?></span></label>
+                                    <label class="label" for="related-checkbox<?php echo $_item->getId() ?>"><span><?php echo __('Add to Cart') ?></span></label>
                                 </div>
                             <?php endif; ?>
                         <?php endif; ?>
@@ -205,14 +205,14 @@ switch($type=$this->getType()) {
                             <?php if($showCart): ?>
                             <div class="primary">
                                 <?php if($_item->isSaleable()): ?>
-                                <button class="action tocart" data-mage-redirect="{event: 'click', url: '<?php echo $this->getAddToCartUrl($_item) ?>'}" type="button" title="<?php echo $this->__('Add to Cart') ?>">
-                                    <span><?php echo $this->__('Add to Cart') ?></span>
+                                <button class="action tocart" data-mage-redirect="{event: 'click', url: '<?php echo $this->getAddToCartUrl($_item) ?>'}" type="button" title="<?php echo __('Add to Cart') ?>">
+                                    <span><?php echo __('Add to Cart') ?></span>
                                 </button>
                                 <?php else: ?>
                                     <?php if ($_item->getIsSalable()): ?>
-                                        <p class="stock available"><span><?php echo $this->__('In stock') ?></span></p>
+                                        <p class="stock available"><span><?php echo __('In stock') ?></span></p>
                                     <?php else: ?>
-                                        <p class="stock unavailable"><span><?php echo $this->__('Out of stock') ?></span></p>
+                                        <p class="stock unavailable"><span><?php echo __('Out of stock') ?></span></p>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             </div>
@@ -221,13 +221,13 @@ switch($type=$this->getType()) {
                             <?php if($showWishlist || $showCompare): ?>
                             <div class="secondary addto links">
                                 <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow() && $showWishlist): ?>
-                                    <a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="action towishlist" data-action="add-to-wishlist" title="<?php echo $this->__('Add to Wishlist') ?>">
-                                        <span><?php echo $this->__('Add to Wishlist') ?></span>
+                                    <a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="action towishlist" data-action="add-to-wishlist" title="<?php echo __('Add to Wishlist') ?>">
+                                        <span><?php echo __('Add to Wishlist') ?></span>
                                     </a>
                                 <?php endif; ?>
                                 <?php if($this->getAddToCompareUrl($_item) && $showCompare): ?>
-                                    <a href="<?php echo $this->getAddToCompareUrl($_item) ?>" class="action tocompare" title="<?php echo $this->__('Add to Compare') ?>">
-                                        <span><?php echo $this->__('Add to Compare') ?></span>
+                                    <a href="<?php echo $this->getAddToCompareUrl($_item) ?>" class="action tocompare" title="<?php echo __('Add to Compare') ?>">
+                                        <span><?php echo __('Add to Compare') ?></span>
                                     </a>
                                 <?php endif; ?>
                             </div>

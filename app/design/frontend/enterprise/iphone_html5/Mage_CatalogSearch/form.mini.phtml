@@ -19,7 +19,7 @@ $helper = $this->helper('Mage_CatalogSearch_Helper_Data');
 </form>
 <script type="text/javascript">
 //<![CDATA[
-    var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo $helper->__('Search') ?>');
+    var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo __('Search') ?>');
     searchForm.initAutocomplete('<?php echo $helper->getSuggestUrl() ?>', 'search_autocomplete');
 //]]>
 </script>

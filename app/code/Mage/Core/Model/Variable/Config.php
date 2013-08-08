@@ -47,7 +47,7 @@ class Mage_Core_Model_Variable_Config
         $variableWysiwyg = array(array('name' => 'magentovariable',
             'src' => $this->getWysiwygJsPluginSrc(),
             'options' => array(
-                'title' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Insert Variable...'),
+                'title' => __('Insert Variable...'),
                 'url' => $this->getVariablesWysiwygActionUrl(),
                 'onclick' => $onclickParts,
                 'class'   => 'add-variable plugin'

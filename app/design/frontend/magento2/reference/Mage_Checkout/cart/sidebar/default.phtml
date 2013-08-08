@@ -35,10 +35,10 @@
 
         <?php if ($_options = $this->getOptionList()):?>
             <div class="product options wrapper">
-                <span class="more"><?php echo $this->__('View Details') ?></span>
+                <span class="more"><?php echo __('View Details') ?></span>
 
                 <div class="product options details">
-                    <strong class="title"><?php echo $this->__('Options Details'); ?></strong>
+                    <strong class="title"><?php echo __('Options Details'); ?></strong>
                     <dl class="product options list">
                         <?php foreach ($_options as $_option) : ?>
                         <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
@@ -56,7 +56,7 @@
         <?php endif; ?>
 
         <?php if ($_item->getProduct()->isVisibleInSiteVisibility()):?>
-        <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item') ?>" class="action edit"><span><?php echo $this->__('Edit')?></span></a>
+        <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo __('Edit item') ?>" class="action edit"><span><?php echo __('Edit')?></span></a>
         <?php endif ?>
 
 
@@ -68,8 +68,8 @@
     <?php if ($canApplyMsrp): ?>
 
             <div class="rate map">
-                <span class="label"><?php echo $this->__('Price'); ?></span>
-                <span class="value"><?php echo $this->__('See price before order confirmation.'); ?></span>
+                <span class="label"><?php echo __('Price'); ?></span>
+                <span class="value"><?php echo __('See price before order confirmation.'); ?></span>
             </div>
 
     <?php else: ?>
@@ -77,9 +77,9 @@
         <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
             <div class="rate">
             <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
-                <span class="label excl tax"><?php echo $this->__('Excl. Tax'); ?></span>
+                <span class="label excl tax"><?php echo __('Excl. Tax'); ?></span>
             <?php else: ?>
-                <span class="label display"><?php echo $this->__('Price'); ?></span>
+                <span class="label display"><?php echo __('Price'); ?></span>
             <?php endif; ?>
             <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
                 <span class="value excl tax">
@@ -121,7 +121,7 @@
                 <?php endif; ?>
                 <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): ?>
                         <div class="rate weee total">
-                            <span class="label weee"><?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total:'); ?></span>
+                            <span class="label weee"><?php echo __('Total:'); ?></span>
                             <span class="value weee"><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></span>
                         </div>
                 <?php endif; ?>
@@ -134,9 +134,9 @@
             <?php $_incl = $this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
             <div class="rate">
             <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
-                <span class="label tax incl"><?php echo $this->__('Incl. Tax'); ?></span>
+                <span class="label tax incl"><?php echo __('Incl. Tax'); ?></span>
             <?php else: ?>
-                <span class="label display"><?php echo $this->__('Price'); ?></span>
+                <span class="label display"><?php echo __('Price'); ?></span>
             <?php endif; ?>
             <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
                 <span class="value tax incl"><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
@@ -170,7 +170,7 @@
                 <?php endif; ?>
                 <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): ?>
                     <div class="rate weee total">
-                        <span class="label weee tax incl"><?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total incl. tax'); ?></span>
+                        <span class="label weee tax incl"><?php echo __('Total incl. tax'); ?></span>
                         <span class="value weee"><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
                     </div>
                 <?php endif; ?>
@@ -180,7 +180,7 @@
     <?php endif; //Can apply MSRP ?>
 
     <div class="details qty">
-        <span class="label"><?php echo $this->__('Qty'); ?></span>
+        <span class="label"><?php echo __('Qty'); ?></span>
         <span class="value qty"><?php echo $this->getQty() ?></span>
     </div>
 
@@ -191,8 +191,8 @@
 
 
         <div class="product actions">
-            <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove item') ?>" class="action delete">
-                <span><?php echo $this->__('Remove')?></span>
+            <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo __('Remove item') ?>" class="action delete">
+                <span><?php echo __('Remove')?></span>
             </a>
         </div>
     </div>
@@ -214,16 +214,16 @@
 
         <?php if ($canApplyMsrp): ?>
 
-            <tr><th><?php echo $this->__('Price'); ?></th><td><span class="map-cart-sidebar-item"><?php echo $this->__('See price before order confirmation.'); ?></span></td></tr>
+            <tr><th><?php echo __('Price'); ?></th><td><span class="map-cart-sidebar-item"><?php echo __('See price before order confirmation.'); ?></span></td></tr>
 
         <?php else: ?>
 
         <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
             <tr>
             <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
-                <th><?php echo $this->__('Excl. Tax'); ?></th>
+                <th><?php echo __('Excl. Tax'); ?></th>
             <?php else: ?>
-                <th><?php echo $this->__('Price'); ?></th>
+                <th><?php echo __('Price'); ?></th>
             <?php endif; ?>
             <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
                 <td><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></td>
@@ -261,7 +261,7 @@
                 <?php endif; ?>
                 <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): ?>
                         <tr>
-                            <th><small><?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total:'); ?></small></th>
+                            <th><small><?php echo __('Total:'); ?></small></th>
                             <td><small><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></small></td>
                         </tr>
                 <?php endif; ?>
@@ -274,9 +274,9 @@
             <?php $_incl = $this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
             <tr>
             <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
-                <th><?php echo $this->__('Incl. Tax'); ?></th>
+                <th><?php echo __('Incl. Tax'); ?></th>
             <?php else: ?>
-                <th><?php echo $this->__('Price'); ?></th>
+                <th><?php echo __('Price'); ?></th>
             <?php endif; ?>
             <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
                 <td><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></td>
@@ -310,7 +310,7 @@
                 <?php endif; ?>
                 <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): ?>
                     <tr>
-                        <th><small><?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total incl. tax'); ?></small></th>
+                        <th><small><?php echo __('Total incl. tax'); ?></small></th>
                         <td><small><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></small></td>
                     </tr>
                 <?php endif; ?>
@@ -319,16 +319,16 @@
 
         <?php endif; //Can apply MSRP ?>
             <tr>
-                <th><?php echo $this->__('Qty'); ?></th>
+                <th><?php echo __('Qty'); ?></th>
                 <td><?php echo $this->getQty() ?></td>
             </tr>
         </table>
 
         <?php if ($_item->getProduct()->isVisibleInSiteVisibility()):?>
-        <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item') ?>" class="btn-edit"><?php echo $this->__('Edit item')?></a>
+        <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo __('Edit item') ?>" class="btn-edit"><?php echo __('Edit item')?></a>
         |
         <?php endif ?>
-        <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove item') ?>" class="btn-remove"><?php echo $this->__('Remove item')?></a>
+        <a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo __('Remove item') ?>" class="btn-remove"><?php echo __('Remove item')?></a>
     </div>
     </div>
     */ ?>

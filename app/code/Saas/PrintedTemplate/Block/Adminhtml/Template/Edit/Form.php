@@ -47,7 +47,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
         $form->setHtmlIdPrefix('printedtemplate_');
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'    => $this->__('Template Information'),
+            'legend'    => __('Template Information'),
             'class'     => 'fieldset-wide'
         ));
         $fieldset->addType('composite', 'Saas_PrintedTemplate_Block_Widget_Form_Element_Composite');
@@ -56,7 +56,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
 
         if ($templateId && $usedForValue = $this->_getUsedCurrentlyForValue()) {
             $fieldset->addField('used_currently_for', 'note', array(
-                'label' => $this->__('Used Currently For'),
+                'label' => __('Used Currently For'),
                 'container_id' => 'used_currently_for',
                 'text' => $usedForValue
             ));
@@ -64,22 +64,22 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
 
         $fieldset->addField('name', 'text', array(
             'name'      => 'name',
-            'label'     => $this->__('Template Name'),
+            'label'     => __('Template Name'),
             'required'  => true
         ));
 
         $fieldset->addField('page_size', 'select', array(
             'name'   => 'page_size',
-            'label'  => $this->__('Page Size'),
-            'title'  => $this->__('Page Size'),
+            'label'  => __('Page Size'),
+            'title'  => __('Page Size'),
             'required'  => true,
             'values' => Mage::getModel('Saas_PrintedTemplate_Model_Source_PageSize')->toOptionArray()
         ));
 
         $fieldset->addField('page_orientation', 'select', array(
             'name'   => 'page_orientation',
-            'label'  => $this->__('Page Orientation'),
-            'title'  => $this->__('Page Orientation'),
+            'label'  => __('Page Orientation'),
+            'title'  => __('Page Orientation'),
             'required'  => true,
             'values' => Mage::getModel('Saas_PrintedTemplate_Model_Source_PageOrientation')->toOptionArray()
         ));
@@ -94,27 +94,27 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
         if ($dynamicHeightsOn) {
             $fieldset->addField('header_auto_height', 'checkbox', array(
                 'name' => 'header_auto_height',
-                'label' => $this->__('Auto Header Height'),
-                'title' => $this->__('Calculate header height automatiacally'),
+                'label' => __('Auto Header Height'),
+                'title' => __('Calculate header height automatiacally'),
                 'checked' => true,
                 'onchange' => 'templateControl.updateHeightFields(this, \'header\')'
             ));
         }
 
         $headerSize = $fieldset->addField('header_size_composite', 'composite', array(
-            'label' => $this->__('Header Height')
+            'label' => __('Header Height')
         ));
 
         $headerSize->addField('header_height', 'text', array(
             'name' => 'header_height',
-            'title' => $this->__('Header Height'),
+            'title' => __('Header Height'),
             'maxlength' => 6,
             'class' => 'validate-number height-field',
             'value' => 0,
         ));
         $headerSize->addField('header_height_measurement', 'select', array(
             'name' => 'header_height_measurement',
-            'title' => $this->__('Header Height Measure'),
+            'title' => __('Header Height Measure'),
             'values' => Mage::getSingleton("Saas_PrintedTemplate_Model_Source_Measurement")->toOptionArray(),
             'class' => 'height-measure-field'
         ));
@@ -122,26 +122,26 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
         if ($dynamicHeightsOn) {
             $fieldset->addField('footer_auto_height', 'checkbox', array(
                 'name' => 'footer_auto_height',
-                'label' => $this->__('Auto Footer Height'),
-                'title' => $this->__('Calculate footer height automatiacally'),
+                'label' => __('Auto Footer Height'),
+                'title' => __('Calculate footer height automatiacally'),
                 'checked' => true,
                 'onchange' => 'templateControl.updateHeightFields(this, \'footer\')'
             ));
         }
 
         $footerSize = $fieldset->addField('footer_size_composite', 'composite',
-            array('label' => $this->__('Footer Height'))
+            array('label' => __('Footer Height'))
         );
         $footerSize->addField('footer_height', 'text', array(
             'name' => 'footer_height',
-            'title' => $this->__('Footer Height'),
+            'title' => __('Footer Height'),
             'maxlength' => 6,
             'class' => 'validate-number height-field',
             'value' => 0,
         ));
         $footerSize->addField('footer_height_measurement', 'select', array(
             'name' => 'footer_height_measurement',
-            'title' => $this->__('Footer Height Measure'),
+            'title' => __('Footer Height Measure'),
             'class' => 'height-measure-field',
             'values' => Mage::getSingleton("Saas_PrintedTemplate_Model_Source_Measurement")->toOptionArray()
         ));
@@ -149,8 +149,8 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
 
         $fieldset->addField('content', 'editor', array(
             'name'      => 'content',
-            'label'     => $this->__('Template Content'),
-            'title'     => $this->__('Template Content'),
+            'label'     => __('Template Content'),
+            'title'     => __('Template Content'),
             'required'  => true,
             'style'     => 'height:24em;',
             'state'     => 'html',

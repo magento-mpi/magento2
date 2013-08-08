@@ -132,8 +132,7 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
         parent::__construct($data);
 
         $this->addMessageTemplate(self::ERROR_ROW_IS_ORPHAN,
-            $this->_helper('Mage_ImportExport_Helper_Data')
-                ->__('Orphan rows that will be skipped due default row errors')
+            __('Orphan rows that will be skipped due default row errors')
         );
 
         $this->_availableBehaviors = array(

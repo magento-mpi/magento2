@@ -27,7 +27,7 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
         );
 
         if (!$txn->getId()) {
-            $this->_getSession()->addError($this->__('Please correct the transaction ID and try again.'));
+            $this->_getSession()->addError(__('Please correct the transaction ID and try again.'));
             $this->_redirect('*/*/');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
@@ -45,7 +45,7 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
 
     public function indexAction()
     {
-        $this->_title($this->__('Transactions'));
+        $this->_title(__('Transactions'));
 
         $this->loadLayout()
             ->_setActiveMenu('Mage_Sales::sales_transactions')
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
         if (!$txn) {
             return;
         }
-        $this->_title($this->__('Transactions'))
+        $this->_title(__('Transactions'))
              ->_title(sprintf("#%s", $txn->getTxnId()));
 
         $this->loadLayout()
@@ -93,13 +93,13 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
                 ->importTransactionInfo($txn);
             $txn->save();
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('The transaction details have been updated.')
+                __('The transaction details have been updated.')
             );
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('We can\'t update the transaction details.')
+                __('We can\'t update the transaction details.')
             );
             Mage::logException($e);
         }

@@ -10,14 +10,14 @@
 ?>
 <div class="block dashboard addresses">
     <div class="title">
-        <strong><?php echo $this->__('Address Book') ?></strong> 
-        <a class="action edit" href="<?php echo $this->getAddressBookUrl() ?>"><span><?php echo $this->__('Manage Addresses') ?></span></a>
+        <strong><?php echo __('Address Book') ?></strong> 
+        <a class="action edit" href="<?php echo $this->getAddressBookUrl() ?>"><span><?php echo __('Manage Addresses') ?></span></a>
     </div>
     <div class="content">
         <div class="box address billing">
             <strong class="subtitle">
-                <span><?php echo $this->__('Default Billing Address') ?></span>
-                <a class="action edit" href="<?php echo $this->getPrimaryBillingAddressEditUrl() ?>"><span><?php echo $this->__('Edit Address') ?></span></a>
+                <span><?php echo __('Default Billing Address') ?></span>
+                <a class="action edit" href="<?php echo $this->getPrimaryBillingAddressEditUrl() ?>"><span><?php echo __('Edit Address') ?></span></a>
             </strong>
             <address>
                 <?php echo $this->getPrimaryBillingAddressHtml() ?>
@@ -25,8 +25,8 @@
         </div>
         <div class="box address shipping">
             <strong class="subtitle">
-                <span><?php echo $this->__('Default Shipping Address') ?></span>
-                <a class="action edit" href="<?php echo $this->getPrimaryShippingAddressEditUrl() ?>"><span><?php echo $this->__('Edit Address') ?></span></a>
+                <span><?php echo __('Default Shipping Address') ?></span>
+                <a class="action edit" href="<?php echo $this->getPrimaryShippingAddressEditUrl() ?>"><span><?php echo __('Edit Address') ?></span></a>
             </strong>
             <address>
                 <?php echo $this->getPrimaryShippingAddressHtml() ?>

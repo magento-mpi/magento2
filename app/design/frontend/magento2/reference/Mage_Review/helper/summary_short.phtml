@@ -24,13 +24,13 @@
     <?php endif;?>
     <div class="reviews actions">
         <?php /* <a class="action view" href="#" onclick="var t = opener ? opener.window : window; t.location.href='<?php echo $this->getReviewsUrl() ?>'; return false;"> */ ?>
-        <a class="action view" href="<?php echo $urlForm ?>"><?php echo $this->getReviewsCount() ?><span><?php echo $this->__('Review(s)') ?></span></a>
+        <a class="action view" href="<?php echo $urlForm ?>"><?php echo $this->getReviewsCount() ?><span><?php echo __('Review(s)') ?></span></a>
     </div>
 </div>
 <?php elseif ($this->getDisplayIfEmpty()): ?>
 <div class="product reviews summary short no-reviews">
     <a class="action add" href="<?php echo $urlForm; ?>">
-        <?php echo $this->__('Be the first to review this product') ?>
+        <?php echo __('Be the first to review this product') ?>
     </a>
 </div>
 <?php endif; ?>

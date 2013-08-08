@@ -22,19 +22,19 @@
 <?php $_cartQty = $this->getSummaryCount() ?>
 <?php if (!$this->getIsLinkMode() || !$this->getIsNeedToDisplaySideBar()): ?>
     <a data-toggle="dropdown" class="action showcart" href="<?php echo $this->getUrl('checkout/cart'); ?>">
-        <span class="text"><?php echo $this->__('My Cart'); ?></span>
+        <span class="text"><?php echo __('My Cart'); ?></span>
         <span class="qty<?php echo ($_cartQty > 0) ? '' : ' empty'; ?>">
             <?php echo $_cartQty ?>
         </span>
     </a>
     <div data-target="dropdown" class="block minicart<?php echo ($_cartQty > 0) ? '' : ' empty'; ?>">
-        <button title="<?php echo $this->__('Close'); ?>" type="button" class="action close" data-toggle="dropdown">
-            <span><?php echo $this->__('Close'); ?></span>
+        <button title="<?php echo __('Close'); ?>" type="button" class="action close" data-toggle="dropdown">
+            <span><?php echo __('Close'); ?></span>
         </button>
         <div class="title">
             <strong>
-                <span class="text"><?php echo $this->__('My Cart'); ?></span>
-                <span title="<?php echo $this->__('Items in Cart'); ?>" class="qty<?php echo ($_cartQty > 0) ? '' : ' empty'; ?>">
+                <span class="text"><?php echo __('My Cart'); ?></span>
+                <span title="<?php echo __('Items in Cart'); ?>" class="qty<?php echo ($_cartQty > 0) ? '' : ' empty'; ?>">
                     <?php echo $_cartQty ?>
                 </span>
             </strong>
@@ -42,7 +42,7 @@
         <div class="content">
             <?php $_items = $this->getRecentItems() ?>
             <?php if (count($_items)): ?>
-                <strong class="subtitle"><?php echo $this->__('Recently added item(s)') ?></strong>
+                <strong class="subtitle"><?php echo __('Recently added item(s)') ?></strong>
                 <div data-action="scroll" class="products minilist">
                     <ol id="mini-cart" class="minilist items">
                         <?php foreach ($_items as $_item): ?>
@@ -52,7 +52,7 @@
                 </div>
             <?php else: ?>
                 <strong class="subtitle empty">
-                    <?php echo $this->__('You have no items in your shopping cart.') ?>
+                    <?php echo __('You have no items in your shopping cart.') ?>
                 </strong>
                 <?php if ($this->getCartEmptyMessage()): ?>
                     <p class="minicart empty text"><?php echo $this->getCartEmptyMessage(); ?></p>
@@ -65,11 +65,11 @@
                     <div class="subtotal">
                         <?php if ($this->canApplyMsrp()): ?>
                         <span class="mark msrp">
-                            <?php echo $this->__('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?>
+                            <?php echo __('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?>
                         </span>
                         <?php else: ?>
                             <span class="mark">
-                                <?php echo $this->__('Cart Subtotal') ?>
+                                <?php echo __('Cart Subtotal') ?>
                             </span>
                             <div class="amount">
                                 <?php echo Mage::helper('Mage_Checkout_Helper_Data')->formatPrice($this->getSubtotal()) ?>
@@ -88,14 +88,14 @@
                     <div class="primary">
                         <?php if ($isPossibleOnepageCheckout): ?>
                             <?php echo $this->getChildHtml('extra_actions') ?>
-                            <button id="top-cart-btn-checkout" type="button" class="action checkout" title="<?php echo $this->__('Checkout') ?>">
-                                <span><?php echo $this->__('Checkout') ?></span>
+                            <button id="top-cart-btn-checkout" type="button" class="action checkout" title="<?php echo __('Checkout') ?>">
+                                <span><?php echo __('Checkout') ?></span>
                             </button>
                         <?php endif; ?>
                     </div>
                     <div class="secondary">
                         <a class="action viewcart" href="<?php echo $this->getUrl('checkout/cart'); ?>">
-                            <span><?php echo $this->__('View cart') ?></span>
+                            <span><?php echo __('View cart') ?></span>
                         </a>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                     checkoutUrl: '<?php echo $this->getCheckoutUrl();?>',
                     checkoutButton: '#top-cart-btn-checkout',
                     removeButton: '#mini-cart a.action.delete',
-                    confirmMessage: '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>'
+                    confirmMessage: '<?php echo __('Are you sure you would like to remove this item from the shopping cart?') ?>'
                 });
             });
     })(jQuery);
@@ -125,9 +125,9 @@
 <div class="minicart wrapper">
     <?php $_cartQty = $this->getSummaryCount() ?>
     <?php if ($_cartQty > 0): ?>
-    <?php $_myCart = $this->__('My Cart %s)', '<span class="qty">' . $_cartQty . '</span>') ?>
+    <?php $_myCart = __('My Cart %s)', '<span class="qty">' . $_cartQty . '</span>') ?>
     <?php else: ?>
-    <?php $_myCart = $this->__('My Cart %s', '<span class="qty empty">0</span>') ?>
+    <?php $_myCart = __('My Cart %s', '<span class="qty empty">0</span>') ?>
     <?php endif ?>
     <?php if ($this->getIsLinkMode() || !$this->getIsNeedToDisplaySideBar()): ?>
         <a class="action showcart" href="<?php echo $this->getUrl('checkout/cart'); ?>"><?php echo $_myCart ?></a>
@@ -142,8 +142,8 @@
             <?php $_items = $this->getRecentItems() ?>
             <?php if (count($_items)): ?>
                 <p class="block-subtitle">
-                    <span class="close-btn"><?php echo $this->__('Close'); ?></span>
-                    <?php echo $this->__('Recently added item(s)') ?>
+                    <span class="close-btn"><?php echo __('Close'); ?></span>
+                    <?php echo __('Recently added item(s)') ?>
                 </p>
                 <ol id="mini-cart" class="mini-products-list">
                     <?php foreach ($_items as $_item): ?>
@@ -153,11 +153,11 @@
 
                 <?php else: ?>
                 <p class="block-subtitle">
-                    <span class="close-btn"><?php echo $this->__('Close'); ?></span>
-                    <?php echo $this->__('Recently added item(s)') ?>
+                    <span class="close-btn"><?php echo __('Close'); ?></span>
+                    <?php echo __('Recently added item(s)') ?>
                 </p>
                 <p class="cart-empty">
-                    <?php echo $this->__('You have no items in your shopping cart.') ?>
+                    <?php echo __('You have no items in your shopping cart.') ?>
                 </p>
                 <?php if ($this->getCartEmptyMessage()): ?>
                     <p class="cart-empty cart-empty-message"><?php echo $this->getCartEmptyMessage(); ?></p>
@@ -169,10 +169,10 @@
                     <p class="subtotal">
                         <?php if ($this->canApplyMsrp()): ?>
                         <span
-                            class="map-cart-sidebar-total"><?php echo $this->__('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></span>
+                            class="map-cart-sidebar-total"><?php echo __('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></span>
                         <?php else: ?>
                         <span
-                            class="label"><?php echo $this->__('Cart Subtotal:') ?></span> <?php echo Mage::helper('Mage_Checkout_Helper_Data')->formatPrice($this->getSubtotal()) ?><?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
+                            class="label"><?php echo __('Cart Subtotal:') ?></span> <?php echo Mage::helper('Mage_Checkout_Helper_Data')->formatPrice($this->getSubtotal()) ?><?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
                             / <?php echo Mage::helper('Mage_Checkout_Helper_Data')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('Mage_Tax_Helper_Data')->getIncExcText(true) ?><?php endif; ?>
                         <?php endif; ?>
                     </p>
@@ -180,10 +180,10 @@
                 <div class="actions">
                     <?php if ($isPossibleOnepageCheckout): ?>
                     <?php echo $this->getChildHtml('extra_actions') ?>
-                    <button id="top-cart-btn-checkout" class="button" type="button" title="<?php echo $this->__('Checkout') ?>">
-                        <span><span><?php echo $this->__('Checkout') ?></span></span></button>
+                    <button id="top-cart-btn-checkout" class="button" type="button" title="<?php echo __('Checkout') ?>">
+                        <span><span><?php echo __('Checkout') ?></span></span></button>
                     <?php endif ?>
-                    <a href="<?php echo $this->getUrl('checkout/cart'); ?>"><span><?php echo $this->__('Go to Shopping Cart') ?></span></a>
+                    <a href="<?php echo $this->getUrl('checkout/cart'); ?>"><span><?php echo __('Go to Shopping Cart') ?></span></a>
                 </div>
             <?php endif ?>
         </div>
@@ -195,8 +195,8 @@
                     $('#mini-cart').sidebar({
                         checkoutUrl: '<?php echo $this->getCheckoutUrl();?>',
                         checkoutButton: '#top-cart-btn-checkout',
-                        removeButton: 'a[title=\'' + '<?php echo $this->__('Remove item')?>' + '\']',
-                        confirmMessage: '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>'
+                        removeButton: 'a[title=\'' + '<?php echo __('Remove item')?>' + '\']',
+                        confirmMessage: '<?php echo __('Are you sure you would like to remove this item from the shopping cart?') ?>'
                     });
                     $('#topCartContent').topCart({closeSelector: '.close-btn'});
                 });

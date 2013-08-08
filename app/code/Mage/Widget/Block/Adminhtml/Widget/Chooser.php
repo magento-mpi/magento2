@@ -63,8 +63,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Mage_Adminhtml_Block_Te
 
         // chooser control buttons
         $buttons = array(
-            'open'  => Mage::helper('Mage_Widget_Helper_Data')->__('Choose...'),
-            'close' => Mage::helper('Mage_Widget_Helper_Data')->__('Close')
+            'open'  => __('Choose...'),
+            'close' => __('Close')
         );
         if (isset($configArray['button']) && is_array($configArray['button'])) {
             foreach ($configArray['button'] as $id => $label) {
@@ -149,7 +149,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Mage_Adminhtml_Block_Te
         $configJson = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config->getData());
         return '
             <label class="widget-option-label" id="' . $chooserId . 'label">'
-            . ($this->getLabel() ? $this->getLabel() : Mage::helper('Mage_Widget_Helper_Data')->__('Not Selected')) . '</label>
+            . ($this->getLabel() ? $this->getLabel() : __('Not Selected')) . '</label>
             <div id="' . $chooserId . 'advice-container" class="hidden"></div>
             <script type="text/javascript">//<![CDATA[
                 (function() {

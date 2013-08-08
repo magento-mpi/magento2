@@ -16,7 +16,7 @@ $address = $this->getAddress();
     <div id="shipping-origin-address-view"
          class="shipping-origin-address-view"
          style="<?php if ($address['show_form']): ?>display:none;<?php endif; ?>">
-        <h2 class="title" id="shipping-origin-address-view-title"><?php echo $this->helper('Saas_Launcher_Helper_Data')->__('Shipping Address'); ?></h2>
+        <h2 class="title" id="shipping-origin-address-view-title"><?php echo __('Shipping Address'); ?></h2>
         <ul class="shipping-origin-address-data">
             <?php foreach ($address['data'] as $addressValue): ?>
             <?php if (!empty($addressValue)) :?>
@@ -26,14 +26,14 @@ $address = $this->getAddress();
         </ul>
         <div class="actions">
             <button type="button" class="action-edit-address" id="action-origin-address-edit">
-                <span><?php echo $this->helper('Saas_Launcher_Helper_Data')->__('Edit'); ?></span>
+                <span><?php echo __('Edit'); ?></span>
             </button>
         </div>
     </div>
     <div id="shipping-origin-address-form"
          class="shipping-origin-address-form"
          style="<?php if (!$address['show_form']): ?>display:none;<?php endif; ?>">
-        <h2 class="title"><?php echo $this->helper('Saas_Launcher_Helper_Data')->__('Edit Shipping Address'); ?></h2>
+        <h2 class="title"><?php echo __('Edit Shipping Address'); ?></h2>
         <?php echo $this->getFormHtml(); ?>
         <?php echo $this->getChildHtml('form_after'); ?>
         <div class="actions">
@@ -41,10 +41,10 @@ $address = $this->getAddress();
                     id="action-origin-address-save"
                     class="action-save primary"
                     data-save-url="<?php echo $this->getUrl('*/storelauncher_shipping_drawer/saveOriginAddress') ?>">
-                <span><?php echo $this->helper('Saas_Launcher_Helper_Data')->__('Save'); ?></span>
+                <span><?php echo __('Save'); ?></span>
             </button>
             <button type="button" id="action-origin-address-cancel" class="action-cancel">
-                <span><?php echo $this->helper('Saas_Launcher_Helper_Data')->__('Cancel'); ?></span>
+                <span><?php echo __('Cancel'); ?></span>
             </button>
         </div>
     </div>

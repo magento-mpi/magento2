@@ -221,7 +221,7 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Index_Mo
      */
     public function getName()
     {
-        return Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->__('Catalog Permissions');
+        return __('Catalog Permissions');
     }
 
     /**

@@ -60,11 +60,11 @@ $canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->g
     <?php if ($canApplyMsrp): ?>
         <td class="col msrp a-right"<?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?> colspan="2"<?php endif; ?>>
             <span class="cart-price">
-                <span class="cart-msrp-unit"><?php echo $this->__('See price before order confirmation.'); ?></span>
+                <span class="cart-msrp-unit"><?php echo __('See price before order confirmation.'); ?></span>
                 <?php $helpLinkId = 'cart-msrp-help-' . $_item->getId(); ?>
-                <a id="<?php echo $helpLinkId ?>" href="#" class="map-help-link"><?php echo $this->__("What's this?"); ?></a>
+                <a id="<?php echo $helpLinkId ?>" href="#" class="map-help-link"><?php echo __("What's this?"); ?></a>
                 <script type="text/javascript">
-                    Catalog.Map.addHelpLink($('<?php echo $helpLinkId ?>'), "<?php echo $this->__("What's this?") ?>");
+                    Catalog.Map.addHelpLink($('<?php echo $helpLinkId ?>'), "<?php echo __("What's this?") ?>");
                 </script>
             </span>
         </td>
@@ -106,7 +106,7 @@ $canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->g
 
                 <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                     <div class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#eunit-item-tax-details<?php echo $_item->getId(); ?>"}'>
-                        <span class="weee"><?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></span>
+                        <span class="weee"><?php echo __('Total'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?></span>
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
@@ -149,7 +149,7 @@ $canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->g
 
                 <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                     <div class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#unit-item-tax-details<?php echo $_item->getId(); ?>"}'>
-                        <span class="weee"><?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total incl. tax'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
+                        <span class="weee"><?php echo __('Total incl. tax'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedAmount()); ?></span>
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
@@ -158,7 +158,7 @@ $canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->g
     <?php endif; ?>
     <td class="col qty">
         <div class="control qty">
-        <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" type="text" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" data-validate="{required:true,'validate-greater-than-zero':true}"/>
+        <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" type="text" size="4" title="<?php echo __('Qty') ?>" class="input-text qty" maxlength="12" data-validate="{required:true,'validate-greater-than-zero':true}"/>
         </div>
     </td>
     <?php if (($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
@@ -200,7 +200,7 @@ $canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->g
 
             <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                 <div class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#esubtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
-                    <span class="weee"><?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?></span>
+                    <span class="weee"><?php echo __('Total'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getRowTotal()+$_item->getWeeeTaxAppliedRowAmount()+$_item->getWeeeTaxRowDisposition()); ?></span>
                 </div>
             <?php endif; ?>
         <?php endif; ?>
@@ -248,7 +248,7 @@ $canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->g
 
             <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                 <div class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#subtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
-                    <span class="weee"><?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total incl. tax'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
+                    <span class="weee"><?php echo __('Total incl. tax'); ?>: <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_incl+$_item->getWeeeTaxAppliedRowAmount()); ?></span>
                 </div>
             <?php endif; ?>
         <?php endif; ?>
@@ -262,16 +262,16 @@ $canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->g
             <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllowInCart()) : ?>
                 <?php if ($isVisibleProduct): ?>
                 <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getMoveFromCartUrl($_item->getId()); ?>" class="use-ajax action towishlist">
-                    <span><?php echo $this->__('Move to Wishlist'); ?></span>
+                    <span><?php echo __('Move to Wishlist'); ?></span>
                 </a>
                 <?php endif ?>
             <?php endif ?>
 
             <?php if ($isVisibleProduct): ?>
-            <a class="action edit" href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item parameters') ?>"><span><?php echo $this->__('Edit') ?></span></a>
+            <a class="action edit" href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo __('Edit item parameters') ?>"><span><?php echo __('Edit') ?></span></a>
             <?php endif ?>
 
-            <a href="<?php echo $this->getDeleteUrl()?>" title="<?php echo $this->__('Remove item')?>" class="action delete"><span><?php echo $this->__('Remove item')?></span></a>
+            <a href="<?php echo $this->getDeleteUrl()?>" title="<?php echo __('Remove item')?>" class="action delete"><span><?php echo __('Remove item')?></span></a>
         </div>
     </td>
 </tr>

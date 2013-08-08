@@ -33,7 +33,7 @@ class Mage_Backend_Model_Config_Source_Email_Template extends Varien_Object
             Mage::register('config_system_email_template', $collection);
         }
         $options = $collection->toOptionArray();
-        $templateName = Mage::helper('Mage_Backend_Helper_Data')->__('Default Template');
+        $templateName = __('Default Template');
         $nodeName = str_replace('/', '_', $this->getPath());
         $templateLabelNode = Mage::app()->getConfig()->getNode(
             Mage_Core_Model_Email_Template::XML_PATH_TEMPLATE_EMAIL . '/' . $nodeName . '/label'

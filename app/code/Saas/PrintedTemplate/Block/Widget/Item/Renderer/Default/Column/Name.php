@@ -69,11 +69,11 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default_Column_Name
      */
     public function getHtml()
     {
-        $result = '<div class="item-name">' . $this->__($this->getItem()->getName()) . '</div>';
+        $result = '<div class="item-name">' . __($this->getItem()->getName()) . '</div>';
         foreach ($this->getItemOptions() as $option) {
-            $result .= '<div class="item-option-label"><em>' . $this->__($option['label']) . '</em></div>';
+            $result .= '<div class="item-option-label"><em>' . __($option['label']) . '</em></div>';
             foreach ($this->getOptionValue($option) as $value) {
-                $result .= '<div class="item-option-value">' . $this->__($value) . '</div>';
+                $result .= '<div class="item-option-value">' . __($value) . '</div>';
             }
         }
 

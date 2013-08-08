@@ -30,8 +30,8 @@ class Mage_Sales_Model_Resource_Status_Options_Statuses implements Mage_Core_Mod
     public function toOptionArray()
     {
         return array(
-            '0' => $this->_helper->__('No'),
-            '1' => $this->_helper->__('Yes'),
+            '0' => __('No'),
+            '1' => __('Yes'),
         );
     }
 }

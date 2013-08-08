@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
             $regions = array(array('value' => '', 'label' => '*'));
         }
 
-        $legend = $this->getShowLegend() ? Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rate Information') : '';
+        $legend = $this->getShowLegend() ? __('Tax Rate Information') : '';
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => $legend));
 
         if ($rateObject->getTaxCalculationRateId() > 0) {
@@ -71,15 +71,15 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
 
         $fieldset->addField('code', 'text', array(
             'name'     => 'code',
-            'label'    => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Identifier'),
-            'title'    => Mage::helper('Mage_Tax_Helper_Data')->__('Tax Identifier'),
+            'label'    => __('Tax Identifier'),
+            'title'    => __('Tax Identifier'),
             'class'    => 'required-entry',
             'required' => true,
         ));
 
         $fieldset->addField('zip_is_range', 'checkbox', array(
             'name'    => 'zip_is_range',
-            'label'   => Mage::helper('Mage_Tax_Helper_Data')->__('Zip/Post is Range'),
+            'label'   => __('Zip/Post is Range'),
             'value'   => '1'
         ));
 
@@ -89,13 +89,13 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
 
         $fieldset->addField('tax_postcode', 'text', array(
             'name'  => 'tax_postcode',
-            'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Zip/Post Code'),
-            'note'  => Mage::helper('Mage_Tax_Helper_Data')->__("'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and are not longer than %d.", Mage::helper('Mage_Tax_Helper_Data')->getPostCodeSubStringLength()),
+            'label' => __('Zip/Post Code'),
+            'note'  => __("'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and are not longer than %1.", Mage::helper('Mage_Tax_Helper_Data')->getPostCodeSubStringLength()),
         ));
 
         $fieldset->addField('zip_from', 'text', array(
             'name'      => 'zip_from',
-            'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Range From'),
+            'label'     => __('Range From'),
             'required'  => true,
             'maxlength' => 9,
             'class'     => 'validate-digits',
@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
 
         $fieldset->addField('zip_to', 'text', array(
             'name'      => 'zip_to',
-            'label'     => Mage::helper('Mage_Tax_Helper_Data')->__('Range To'),
+            'label'     => __('Range To'),
             'required'  => true,
             'maxlength' => 9,
             'class'     => 'validate-digits',
@@ -113,21 +113,21 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
 
         $fieldset->addField('tax_region_id', 'select', array(
             'name'   => 'tax_region_id',
-            'label'  => Mage::helper('Mage_Tax_Helper_Data')->__('State'),
+            'label'  => __('State'),
             'values' => $regions
         ));
 
         $fieldset->addField('tax_country_id', 'select', array(
             'name'     => 'tax_country_id',
-            'label'    => Mage::helper('Mage_Tax_Helper_Data')->__('Country'),
+            'label'    => __('Country'),
             'required' => true,
             'values'   => $countries
         ));
 
         $fieldset->addField('rate', 'text', array(
             'name'     => 'rate',
-            'label'    => Mage::helper('Mage_Tax_Helper_Data')->__('Rate Percent'),
-            'title'    => Mage::helper('Mage_Tax_Helper_Data')->__('Rate Percent'),
+            'label'    => __('Rate Percent'),
+            'title'    => __('Rate Percent'),
             'required' => true,
             'class'    => 'validate-not-negative-number'
         ));
@@ -140,8 +140,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
         if (!Mage::app()->hasSingleStore()) {
             $form->addElement(
                 Mage::getBlockSingleton('Mage_Adminhtml_Block_Tax_Rate_Title_Fieldset')
-                    ->setLegend(Mage::helper('Mage_Tax_Helper_Data')
-                    ->__('Tax Titles'))
+                    ->setLegend(__('Tax Titles'))
             );
         }
 

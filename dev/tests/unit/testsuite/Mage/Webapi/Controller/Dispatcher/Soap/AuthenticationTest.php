@@ -36,11 +36,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap_AuthenticationTest extends PHPUnit_
         $this->_usernameToken->Created = '2012-12-12';
         $this->_usernameToken->Nonce = 'Nonce';
 
-        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
-            ->setMethods(array('__'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $this->_tokenFactoryMock = $this->getMockBuilder('Mage_Webapi_Model_Soap_Security_UsernameToken_Factory')
             ->setMethods(array('create'))
             ->disableOriginalConstructor()
@@ -59,7 +54,6 @@ class Mage_Webapi_Controller_Dispatcher_Soap_AuthenticationTest extends PHPUnit_
             ->getMock();
         /** Initialize SUT. */
         $this->_soapAuthentication = new Mage_Webapi_Controller_Dispatcher_Soap_Authentication(
-            $this->_helperMock,
             $this->_tokenFactoryMock,
             $this->_roleLocatorMock
         );

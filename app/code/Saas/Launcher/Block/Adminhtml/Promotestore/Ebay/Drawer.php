@@ -26,6 +26,6 @@ class Saas_Launcher_Block_Adminhtml_Promotestore_Ebay_Drawer extends Saas_Launch
      */
     public function getTileHeader()
     {
-        return $this->helper('Saas_Launcher_Helper_Data')->__('Magento to eBay');
+        return __('Magento to eBay');
     }
 }

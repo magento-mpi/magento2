@@ -65,8 +65,7 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
             $reportId = $this->_logException($exception);
             /** Create exception with masked message. */
             return new Mage_Webapi_Exception(
-                $this->_apiHelper
-                    ->__('Internal Error. Details are available in Magento log file. Report ID: "%s"', $reportId),
+                __('Internal Error. Details are available in Magento log file. Report ID: "%1"', $reportId),
                 Mage_Webapi_Exception::HTTP_INTERNAL_ERROR
             );
         } else {
@@ -90,8 +89,7 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
         } else {
             $reportId = $this->_logException($exception);
             $this->render(
-                $this->_apiHelper
-                    ->__('Internal Error. Details are available in Magento log file. Report ID: "%s"', $reportId),
+                __('Internal Error. Details are available in Magento log file. Report ID: "%1"', $reportId),
                 'Trace is not available.',
                 $httpCode
             );

@@ -440,7 +440,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
 
         if (!extension_loaded('soap')) {
             Mage::logException(Mage::exception('Mage_Core',
-                Mage::helper('Mage_Core_Helper_Data')->__('PHP SOAP extension is required.')));
+                __('PHP SOAP extension is required.')));
             return $gatewayResponse;
         }
 
@@ -554,11 +554,11 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
         $customerVatClass = $this->getCustomerVatClass($customerAddress->getCountryId(), $validationResult);
         $groupAutoAssignDisabled = Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN);
 
-        $willChargeTaxMessage    = $this->__('You will be charged tax.');
-        $willNotChargeTaxMessage = $this->__('You will not be charged tax.');
+        $willChargeTaxMessage    = __('You will be charged tax.');
+        $willNotChargeTaxMessage = __('You will not be charged tax.');
 
         if ($validationResult->getIsValid()) {
-            $message = $this->__('Your VAT ID was successfully validated.');
+            $message = __('Your VAT ID was successfully validated.');
             $isError = false;
 
             if (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled) {
@@ -568,7 +568,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
             }
         } else if ($validationResult->getRequestSuccess()) {
             $message = sprintf(
-                $this->__('The VAT ID entered (%s) is not a valid VAT ID.') . ' ',
+                __('The VAT ID entered (%s) is not a valid VAT ID.') . ' ',
                 $this->escapeHtml($customerAddress->getVatId())
             );
             if (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled) {
@@ -576,10 +576,10 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         else {
-            $contactUsMessage = sprintf($this->__('If you believe this is an error, please contact us at %s'),
+            $contactUsMessage = sprintf(__('If you believe this is an error, please contact us at %s'),
                 Mage::getStoreConfig(self::XML_PATH_SUPPORT_EMAIL));
 
-            $message = $this->__('Your Tax ID cannot be validated.') . ' '
+            $message = __('Your Tax ID cannot be validated.') . ' '
                 . (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled
                     ? $willChargeTaxMessage . ' ' : '')
                 . $contactUsMessage;

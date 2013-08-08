@@ -89,7 +89,7 @@ class Mage_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_TestCas
                 'isValid'               => true,
                 'checkAllowedExtension' => true,
                 'save'                  => true,
-                'result'                => '/tmp' . DIRECTORY_SEPARATOR . 'test_filename',
+                'result'                => '/tmp/test_filename',
                 'exception'             => null
             ),
             array(

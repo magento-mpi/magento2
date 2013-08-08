@@ -35,7 +35,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
             ->setFileField('image')
             ->setFilters(array(
                 'images' => array(
-                    'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Images (.gif, .jpg, .png)'),
+                    'label' => __('Images (.gif, .jpg, .png)'),
                     'files' => array('*.gif', '*.jpg','*.jpeg', '*.png')
                 )
             ));
@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
     public function getAddImagesButton()
     {
         return $this->getButtonHtml(
-            Mage::helper('Mage_Catalog_Helper_Data')->__('Add New Images'),
+            __('Add New Images'),
             $this->getJsObjectName() . '.showUploader()',
             'add',
             $this->getHtmlId() . '_add_images_button'
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends M
                 'code' => $attribute->getAttributeCode(),
                 'value' => $this->getElement()->getDataObject()->getData($attribute->getAttributeCode()),
                 'label' => $attribute->getFrontend()->getLabel(),
-                'scope' => Mage::helper('Mage_Catalog_Helper_Data')->__($this->getElement()->getScopeLabel($attribute)),
+                'scope' => __($this->getElement()->getScopeLabel($attribute)),
                 'name' => $this->getElement()->getAttributeFieldName($attribute)
             );
         }

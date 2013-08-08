@@ -831,17 +831,6 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * Translate block sentence
-     *
-     * @return string
-     * @SuppressWarnings(PHPMD.ShortMethodName)
-     */
-    public function __()
-    {
-        return $this->_translator->translate(func_get_args());
-    }
-
-    /**
      * Escape html entities
      *
      * @param   string|array $data

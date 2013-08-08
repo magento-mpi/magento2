@@ -66,7 +66,7 @@ class Mage_Wishlist_IndexControllerTest extends Magento_Test_TestCase_Controller
             if (strpos($message->getCode(), '&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;') !== false) {
                 $isProductNamePresent = true;
             }
-            $this->assertNotContains('<script>alert("xss");</script>', $message->getCode());
+            $this->assertNotContains('<script>alert("xss");</script>', (string)$message->getCode());
         }
         $this->assertTrue($isProductNamePresent, 'Product name was not found in session messages');
     }

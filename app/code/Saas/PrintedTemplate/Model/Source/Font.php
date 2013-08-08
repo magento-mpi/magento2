@@ -29,7 +29,7 @@ class Saas_PrintedTemplate_Model_Source_Font
 
         foreach ($fonts as $key => $font) {
             if (isset($font['css'], $font['label'])) {
-                $fontsOptions[$key] = $this->_getHelper()->__($font['label']);
+                $fontsOptions[$key] = __($font['label']);
             }
         }
 

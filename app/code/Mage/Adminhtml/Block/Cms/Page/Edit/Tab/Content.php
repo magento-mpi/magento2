@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 
         $form->setHtmlIdPrefix('page_');
 
-        $fieldset = $form->addFieldset('content_fieldset', array('legend'=>Mage::helper('Mage_Cms_Helper_Data')->__('Content'),'class'=>'fieldset-wide'));
+        $fieldset = $form->addFieldset('content_fieldset', array('legend'=>__('Content'),'class'=>'fieldset-wide'));
 
         $wysiwygConfig = Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getConfig(
             array('tab_id' => $this->getTabId())
@@ -78,8 +78,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 
         $fieldset->addField('content_heading', 'text', array(
             'name'      => 'content_heading',
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Content Heading'),
-            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Content Heading'),
+            'label'     => __('Content Heading'),
+            'title'     => __('Content Heading'),
             'disabled'  => $isElementDisabled
         ));
 
@@ -110,7 +110,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Cms_Helper_Data')->__('Content');
+        return __('Content');
     }
 
     /**
@@ -120,7 +120,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Cms_Helper_Data')->__('Content');
+        return __('Content');
     }
 
     /**

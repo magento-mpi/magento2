@@ -42,47 +42,47 @@ class Mage_Cardgate_Model_System_Config_Source_Languages
         return array(
             array(
                 "value" => "nl",
-                "label" => $this->_helper->__('Dutch')
+                "label" => __('Dutch')
             ),
             array(
                 "value" => "en",
-                "label" => $this->_helper->__('English')
+                "label" => __('English')
             ),
             array(
                 "value" => "de",
-                "label" => $this->_helper->__('German')
+                "label" => __('German')
             ),
             array(
                 "value" => "fr",
-                "label" => $this->_helper->__('French')
+                "label" => __('French')
             ),
             array(
                 "value" => "es",
-                "label" => $this->_helper->__('Spanish')
+                "label" => __('Spanish')
             ),
             array(
                 "value" => "gr",
-                "label" => $this->_helper->__('Greek')
+                "label" => __('Greek')
             ),
             array(
                 "value" => "hr",
-                "label" => $this->_helper->__('Croatian')
+                "label" => __('Croatian')
             ),
             array(
                 "value" => "it",
-                "label" => $this->_helper->__('Italian')
+                "label" => __('Italian')
             ),
             array(
                 "value" => "cz",
-                "label" => $this->_helper->__('Czech')
+                "label" => __('Czech')
             ),
             array(
                 "value" => "ru",
-                "label" => $this->_helper->__('Russian')
+                "label" => __('Russian')
             ),
             array(
                 "value" => "se",
-                "label" => $this->_helper->__('Swedish')
+                "label" => __('Swedish')
             ),
         );
     }

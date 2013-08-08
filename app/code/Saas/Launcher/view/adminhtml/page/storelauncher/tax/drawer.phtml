@@ -24,28 +24,28 @@
                value="tax-enabled" />
         <label class="switcher-label"
                for="tax-enabled"
-               data-text-on="<?php echo $this->__('Tax rules On'); ?>"
-               data-text-off="<?php echo $this->__('Tax rules Off'); ?>"
-               title="<?php echo $this->__('Tax Rules Status'); ?>">
+               data-text-on="<?php echo __('Tax rules On'); ?>"
+               data-text-off="<?php echo __('Tax rules Off'); ?>"
+               title="<?php echo __('Tax Rules Status'); ?>">
         </label>
         <div class="drawer-switcher-tooltip">
             <div class="tooltip-text-on">
                 <p><?php if ($this->isUseTaxControlDisabled()) {
-                    echo $this->__('To turn off tax rules usage, please delete existing tax rules first.');
+                    echo __('To turn off tax rules usage, please delete existing tax rules first.');
                 } else {
-                    echo $this->__('Turn off tax rules here if your business is legally exempt.');
+                    echo __('Turn off tax rules here if your business is legally exempt.');
                 } ?></p>
             </div>
             <div class="tooltip-text-off">
-                <p><?php echo $this->__('Use this switch to turn on your store\'s tax rules.'); ?></p>
+                <p><?php echo __('Use this switch to turn on your store\'s tax rules.'); ?></p>
             </div>
         </div>
     </div>
 
     <div class="no-tax-info <?php if (!$this->isUseTaxControlSwitchedOff()) : ?>hidden<?php endif; ?>" id="tax-rule-disabled">
-        <h2 class="title"><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('You have disabled Tax Rules') ?></h2>
-        <p><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('You can always choose to enable Tax Rates again if you disabled it by mistake.') ?></p>
-        <p><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Consult your local laws regarding taxes. We can recommend tax rates based on your business location if you are in the US.') ?></p>
+        <h2 class="title"><?php echo __('You have disabled Tax Rules') ?></h2>
+        <p><?php echo __('You can always choose to enable Tax Rates again if you disabled it by mistake.') ?></p>
+        <p><?php echo __('Consult your local laws regarding taxes. We can recommend tax rates based on your business location if you are in the US.') ?></p>
     </div>
 
     <div class="tax-rule-config <?php if ($this->isUseTaxControlSwitchedOff()) : ?>disabled<?php endif; ?>" id="tax-rule-config">

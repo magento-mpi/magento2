@@ -29,7 +29,7 @@ class Mage_Customer_Block_Account_Link extends Mage_Core_Block_Abstract
     {
         $helper = Mage::helper('Mage_Customer_Helper_Data');
         $this->_addLink(
-            $target, $this->__('My Account'), $helper->getAccountUrl(), $this->__('My Account'), $position, '', ''
+            $target, __('My Account'), $helper->getAccountUrl(), __('My Account'), $position, '', ''
         );
         return $this;
     }
@@ -50,9 +50,9 @@ class Mage_Customer_Block_Account_Link extends Mage_Core_Block_Abstract
             $helper = Mage::helper('Mage_Customer_Helper_Data');
             $this->_addLink(
                 $target,
-                $this->__('register'),
+                __('register'),
                 $helper->getRegisterUrl(),
-                $this->__('register'),
+                __('register'),
                 $position,
                 $textBefore,
                 $textAfter
@@ -73,7 +73,7 @@ class Mage_Customer_Block_Account_Link extends Mage_Core_Block_Abstract
         $helper = Mage::helper('Mage_Customer_Helper_Data');
         if (!Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             $this->_addLink(
-                $target, $this->__('Log In'), $helper->getLogoutUrl(), $this->__('Log In'), $position, '', ''
+                $target, __('Log In'), $helper->getLogoutUrl(), __('Log In'), $position, '', ''
             );
         }
         return $this;
@@ -91,11 +91,11 @@ class Mage_Customer_Block_Account_Link extends Mage_Core_Block_Abstract
         $helper = Mage::helper('Mage_Customer_Helper_Data');
         if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()) {
             $this->_addLink(
-                $target, $this->__('Log Out'), $helper->getLogoutUrl(), $this->__('Log Out'), $position, '', ''
+                $target, __('Log Out'), $helper->getLogoutUrl(), __('Log Out'), $position, '', ''
             );
         } else {
             $this->_addLink(
-                $target, $this->__('Log In'), $helper->getLoginUrl(), $this->__('Log In'), $position, '', ''
+                $target, __('Log In'), $helper->getLoginUrl(), __('Log In'), $position, '', ''
             );
         }
         return $this;

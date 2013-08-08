@@ -45,7 +45,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
     {
         $inputTypes = array(
             'text' => array(
-                'label'             => $this->__('Text Field'),
+                'label'             => __('Text Field'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'min_text_length',
@@ -66,7 +66,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
                 'default_value'     => 'text',
             ),
             'textarea' => array(
-                'label'             => $this->__('Text Area'),
+                'label'             => __('Text Area'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'min_text_length',
@@ -81,7 +81,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
                 'default_value'     => 'textarea',
             ),
             'select' => array(
-                'label'             => $this->__('Dropdown'),
+                'label'             => __('Dropdown'),
                 'manage_options'    => true,
                 'option_default'    => 'radio',
                 'validate_types'    => array(),
@@ -92,7 +92,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
                 'default_value'     => false,
             ),
             'image' => array(
-                'label'             => $this->__('Image File'),
+                'label'             => __('Image File'),
                 'manage_options'    => false,
                 'validate_types'    => array(
                     'max_file_size',

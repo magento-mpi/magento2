@@ -90,7 +90,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
         if ($isFilePresent) {
             $this->_initFormElements($controlsConfig, $form);
         } else {
-            $hintMessage = $this->__('Sorry, but you cannot resize images for this theme.');
+            $hintMessage = __('Sorry, but you cannot resize images for this theme.');
             $form->addField('imagesize-tab-error', 'note', array(
                 'after_element_html' => '<p class="error-notice">' . $hintMessage . '</p>'
             ));
@@ -108,7 +108,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
      */
     protected function _initFormElements($controlsConfig, $form)
     {
-        $hintMessage =  $this->__('Please enter values for height and width.'
+        $hintMessage =  __('Please enter values for height and width.'
             . ' Use the chain icon if you want height and width to match.'
             . ' Be sure to see how it looks in your store.'
             . ' You may need to update your custom CSS file.');
@@ -139,8 +139,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
         if ($whiteBorder || $controls) {
             $fieldset->addField('save_image_sizing', 'button_button', array(
                 'name'  => 'save_image_sizing',
-                'title' => $this->__('Update'),
-                'value' => $this->__('Update'),
+                'title' => __('Update'),
+                'value' => __('Update'),
                 'data-mage-init' => $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode(array(
                     'button' => array(
                         'event'  => 'saveForm',
@@ -163,7 +163,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     {
         /** @var $form Varien_Data_Form */
         $form = $this->getForm();
-        $fieldMessage = $this->__('Add white borders to images that are smaller than the container.');
+        $fieldMessage = __('Add white borders to images that are smaller than the container.');
         foreach ($control['components'] as $name => $component) {
             $form->addField('add_white_borders_hidden', 'hidden', array(
                 'name'  => $name,
@@ -177,7 +177,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
             ));
         }
         /** Get valid message from PO */
-        $hintMessage =  $this->__('If an image is too big,'
+        $hintMessage =  __('If an image is too big,'
             . '  we automatically make it smaller and add white borders to fill the container.');
         $form->addField('add_white_borders_hint', 'note', array(
             'after_element_html' => '<p class="description">' . $hintMessage . '</p>'));
@@ -332,8 +332,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     {
         $fieldset->addField($name . '_reset', 'button_button', array(
             'name'  => $name . '_reset',
-            'title' => $this->__('Reset to Original'),
-            'value' => $this->__('Reset to Original'),
+            'title' => __('Reset to Original'),
+            'value' => __('Reset to Original'),
             'class' => 'action-reset',
             'data-mage-init' => $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode(array(
                 'button' => array(

@@ -190,7 +190,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
         if (!preg_match('/([^(]*)(\\((.*)\\))?/', $definition, $matches)) {
             throw Mage::exception(
                 'Mage_Core',
-                Mage::helper('Mage_Core_Helper_Data')->__("Wrong old style column type definition: {$definition}.")
+                __("Wrong old style column type definition: {$definition}.")
             );
         }
 
@@ -284,7 +284,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
             default:
                 throw Mage::exception(
                     'Mage_Core',
-                    Mage::helper('Mage_Core_Helper_Data')->__("Unknown old style column type definition: {$definition}.")
+                    __("Unknown old style column type definition: {$definition}.")
                 );
         }
 

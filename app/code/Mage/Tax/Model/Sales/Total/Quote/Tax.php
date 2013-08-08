@@ -799,7 +799,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         if (($amount != 0) || ($this->_config->displayCartZeroTax($store))) {
             $address->addTotal(array(
                 'code'      => $this->getCode(),
-                'title'     => Mage::helper('Mage_Tax_Helper_Data')->__('Tax'),
+                'title'     => __('Tax'),
                 'full_info' => $applied ? $applied : array(),
                 'value'     => $amount,
                 'area'      => $area
@@ -819,7 +819,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
 
             $address->addTotal(array(
                 'code'      => 'subtotal',
-                'title'     => Mage::helper('Mage_Sales_Helper_Data')->__('Subtotal'),
+                'title'     => __('Subtotal'),
                 'value'     => $subtotalInclTax,
                 'value_incl_tax' => $subtotalInclTax,
                 'value_excl_tax' => $address->getSubtotal(),
@@ -858,6 +858,6 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
      */
     public function getLabel()
     {
-        return Mage::helper('Mage_Tax_Helper_Data')->__('Tax');
+        return __('Tax');
     }
 }

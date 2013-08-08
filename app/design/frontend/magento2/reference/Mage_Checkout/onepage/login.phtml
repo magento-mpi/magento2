@@ -19,19 +19,19 @@
 <div class="step login wrapper">
 <?php echo $this->getChildHtml('login_before')?>
 <div class="block customer login">
-    <div class="title"><strong><?php echo $this->__('Login') ?></strong></div>
+    <div class="title"><strong><?php echo __('Login') ?></strong></div>
     <div class="content">
         <form class="form login" id="login-form" action="<?php echo $this->getPostAction() ?>" method="post">
-            <fieldset class="fieldset login" data-hasrequired="<?php echo $this->__('* Required Fields') ?>">
-                <p class="field note"><?php echo $this->__('Already registered?') ?> <?php echo $this->__('Please log in below:') ?></p>
+            <fieldset class="fieldset login" data-hasrequired="<?php echo __('* Required Fields') ?>">
+                <p class="field note"><?php echo __('Already registered?') ?> <?php echo __('Please log in below:') ?></p>
                 <div class="field email required">
-                    <label class="label" for="login-email"><span><?php echo $this->__('Email Address') ?></span></label>
+                    <label class="label" for="login-email"><span><?php echo __('Email Address') ?></span></label>
                     <div class="control">
                         <input type="text" class="input-text" id="login-email" name="login[username]" data-validate="{required:true, 'validate-email':true}" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" />
                     </div>
                 </div>
                 <div class="field password required">
-                    <label for="login-password" class="label"><span><?php echo $this->__('Password') ?></span></label>
+                    <label for="login-password" class="label"><span><?php echo __('Password') ?></span></label>
                     <div class="control">
                         <input type="password" class="input-text" id="login-password" name="login[password]" data-validate="{required:true, 'validate-password':true}"/>
                     </div>
@@ -40,11 +40,11 @@
                 <div class="actions">
                     <input name="context" type="hidden" value="checkout" />
                     <div class="primary">
-                        <button type="submit" class="action login"><span><?php echo $this->__('Login') ?></span></button>
+                        <button type="submit" class="action login"><span><?php echo __('Login') ?></span></button>
                     </div>
                     <div class="secondary">
                         <a class="action remind" href="<?php echo $this->helper('Mage_Customer_Helper_Data')->getForgotPasswordUrl()?>">
-                            <span><?php echo $this->__('Forgot Your Password?') ?></span>
+                            <span><?php echo __('Forgot Your Password?') ?></span>
                         </a>
                     </div>
                 </div>
@@ -69,24 +69,24 @@
     <div class="title">
         <strong>
         <?php if( $this->isAllowedGuestCheckout() && $this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed() ): ?>
-            <?php echo $this->__('Checkout as a Guest or Register') ?>
+            <?php echo __('Checkout as a Guest or Register') ?>
         <?php elseif ( $this->isAllowedGuestCheckout() && !$this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed() ): ?>
-            <?php echo $this->__('Checkout as a Guest') ?>
+            <?php echo __('Checkout as a Guest') ?>
         <?php else: ?>
-            <?php echo $this->__('Register to Create an Account') ?>
+            <?php echo __('Register to Create an Account') ?>
         <?php endif; ?>
         </strong>
     </div>
     <div class="content">
         <?php if( !$this->isAllowedGuestCheckout() && $this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed() ): ?>
-            <p><strong><?php echo $this->__('Register and save time!') ?></strong><br />
-            <?php echo $this->__('Register with us for future convenience:') ?></p>
+            <p><strong><?php echo __('Register and save time!') ?></strong><br />
+            <?php echo __('Register with us for future convenience:') ?></p>
             <ul>
-                <li><?php echo $this->__('Fast and easy check out') ?></li>
-                <li><?php echo $this->__('Easy access to your order history and status') ?></li>
+                <li><?php echo __('Fast and easy check out') ?></li>
+                <li><?php echo __('Easy access to your order history and status') ?></li>
             </ul>
         <?php elseif( $this->isAllowedGuestCheckout() && $this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed() ): ?>
-            <p><?php echo $this->__('Register with us for future convenience:') ?></p>
+            <p><?php echo __('Register with us for future convenience:') ?></p>
         <?php endif ?>
 
         <?php if( $this->isAllowedGuestCheckout() ): ?>
@@ -94,13 +94,13 @@
                 <?php if( $this->isAllowedGuestCheckout() ): ?>
                 <div class="field choice">
                     <input type="radio" name="checkout_method" id="login:guest" value="guest"<?php if($this->getQuote()->getCheckoutMethod()==Mage_Checkout_Model_Type_Onepage::METHOD_GUEST): ?> checked="checked"<?php endif; ?> class="radio" />
-                    <label class="label" for="login:guest"><span><?php echo $this->__('Checkout as Guest') ?></span></label>
+                    <label class="label" for="login:guest"><span><?php echo __('Checkout as Guest') ?></span></label>
                 </div>
                 <?php endif; ?>
                 <?php if( $this->helper('Mage_Customer_Helper_Data')->isRegistrationAllowed() ): ?>
                 <div class="field choice">
                     <input type="radio" name="checkout_method" id="login:register" value="register"<?php if($this->getQuote()->getCheckoutMethod()==Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER || !$this->isAllowedGuestCheckout()): ?> checked="checked"<?php endif ?> class="radio" />
-                    <label class="label" for="login:register"><span><?php echo $this->__('Register') ?></span></label>
+                    <label class="label" for="login:register"><span><?php echo __('Register') ?></span></label>
                 </div>
                 <?php endif; ?>
             </fieldset>
@@ -109,15 +109,15 @@
         <?php endif; ?>
         <div class="actions">
             <span class="please-wait load indicator" style="display:none;">
-                <span><?php echo $this->__('Loading next step...') ?></span>
+                <span><?php echo __('Loading next step...') ?></span>
             </span>
             <?php if ($this->isAllowedGuestCheckout()): ?>
-                <button id="onepage-guest-register-button" type="button" class="action continue" data-checkout='{"isGuestCheckoutAllowed":true}'><span><?php echo $this->__('Continue') ?></span></button>
+                <button id="onepage-guest-register-button" type="button" class="action continue" data-checkout='{"isGuestCheckoutAllowed":true}'><span><?php echo __('Continue') ?></span></button>
             <?php elseif ($this->helper('Mage_Checkout_Helper_Data')->isCustomerMustBeLogged()): ?>
-                <button id="onepage-guest-register-button" type="button" class="action register" data-checkout='{"isGuestCheckoutAllowed":false, "registrationUrl":"<?php echo $this->helper('Mage_Checkout_Helper_Url')->getRegistrationUrl();?>"}'><span><?php echo $this->__('Register') ?></span></button>
+                <button id="onepage-guest-register-button" type="button" class="action register" data-checkout='{"isGuestCheckoutAllowed":false, "registrationUrl":"<?php echo $this->helper('Mage_Checkout_Helper_Url')->getRegistrationUrl();?>"}'><span><?php echo __('Register') ?></span></button>
             <?php else: ?>
                 <form action="<?php echo $this->getUrl('persistent/index/saveMethod'); ?>">
-                    <button id="onepage-guest-register-button" type="submit" class="action register"><span><?php echo $this->__('Register') ?></span></button>
+                    <button id="onepage-guest-register-button" type="submit" class="action register"><span><?php echo __('Register') ?></span></button>
                 </form>
             <?php endif; ?>
         </div>

@@ -58,12 +58,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
 
         $jsConfig = array(
             'name'     => 'js_files_uploader',
-            'title'    => $this->__('Select JS Files to Upload'),
+            'title'    => __('Select JS Files to Upload'),
             'accept'   => 'application/x-javascript',
             'multiple' => '1',
         );
         if ($this->_customizationConfig->isThemeAssignedToStore($this->_themeContext->getEditableTheme())) {
-            $confirmMessage = $this->__('These JavaScript files may change the appearance of your live store(s).'
+            $confirmMessage = __('These JavaScript files may change the appearance of your live store(s).'
                 . ' Are you sure you want to do this?');
             $jsConfig['onclick'] = "return confirm('{$confirmMessage}');";
         }
@@ -80,7 +80,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
      */
     public function getConfirmMessageDelete()
     {
-        return $this->__('Are you sure you want to delete this JavaScript file?'
+        return __('Are you sure you want to delete this JavaScript file?'
             . ' The changes to your theme will not be reversible.');
     }
 
@@ -137,6 +137,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
      */
     public function getTitle()
     {
-        return $this->__('Custom javascript files');
+        return __('Custom javascript files');
     }
 }

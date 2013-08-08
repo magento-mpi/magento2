@@ -76,7 +76,6 @@ class Mage_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('isCorrect')
             ->with($captchaValue)
             ->will($this->returnValue(true));
-        $this->_helper->expects($this->never())->method('__');
         $this->_helper->expects($this->any())
             ->method('getCaptcha')
             ->with($formId)
@@ -116,10 +115,6 @@ class Mage_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('isCorrect')
             ->with($captchaValue)
             ->will($this->returnValue(false));
-        $this->_helper->expects($this->any())
-            ->method('__')
-            ->with($warningMessage)
-            ->will($this->returnValue($warningMessage));
         $this->_helper->expects($this->any())->method('getCaptcha')
             ->with($formId)
             ->will($this->returnValue($this->_captcha));

@@ -26,7 +26,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Sku extends Enterpris
     protected function _construct()
     {
         parent::_construct();
-        $this->setHeaderText(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Add to Shopping Cart by SKU'));
+        $this->setHeaderText(__('Add to Shopping Cart by SKU'));
     }
 
     /**

@@ -14,10 +14,10 @@
     <table class="order review items data" id="checkout-review-table">
         <thead>
             <tr>
-                <th rowspan="<?php echo $rowspan ?>" class="col item"><?php echo $this->__('Product Name') ?></th>
-                <th colspan="<?php echo $colspan ?>" class="col price"><?php echo $this->__('Price') ?></th>
-                <th rowspan="<?php echo $rowspan ?>" class="col qty"><?php echo $this->__('Qty') ?></th>
-                <th colspan="<?php echo $colspan ?>" class="col subtotal"><?php echo $this->__('Subtotal') ?></th>
+                <th rowspan="<?php echo $rowspan ?>" class="col item"><?php echo __('Product Name') ?></th>
+                <th colspan="<?php echo $colspan ?>" class="col price"><?php echo __('Price') ?></th>
+                <th rowspan="<?php echo $rowspan ?>" class="col qty"><?php echo __('Qty') ?></th>
+                <th colspan="<?php echo $colspan ?>" class="col subtotal"><?php echo __('Subtotal') ?></th>
             </tr>
             <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
                 <tr>
@@ -42,9 +42,9 @@
     <?php echo $this->getChildHtml('agreements') ?>
     <div class="buttons-set actions" id="review-buttons-container">
         <div class="primary"><?php echo $this->getChildHtml('button') ?></div>
-        <div class="secondary"><?php echo $this->__('Forgot an Item?') ?> <a href="<?php echo $this->getUrl('checkout/cart') ?>" class="action edit"><span><?php echo $this->__('Edit Your Cart') ?></span></a></div>
+        <div class="secondary"><?php echo __('Forgot an Item?') ?> <a href="<?php echo $this->getUrl('checkout/cart') ?>" class="action edit"><span><?php echo __('Edit Your Cart') ?></span></a></div>
         <span class="please-wait load indicator" id="review-please-wait" style="display:none;">
-            <span><?php echo $this->__('Submitting order information...') ?></span>
+            <span><?php echo __('Submitting order information...') ?></span>
         </span>
     </div>
 </div>

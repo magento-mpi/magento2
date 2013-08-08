@@ -30,7 +30,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
         $itemType = $this->getItemType();
 
         $fieldset = $form->addFieldset('content_fieldset', array(
-            'legend'    => $this->__('Attribute set mapping')
+            'legend'    => __('Attribute set mapping')
         ));
 
         if ( !($targetCountry = $itemType->getTargetCountry()) ) {
@@ -38,8 +38,8 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
             $targetCountry = isset($isoKeys[0]) ? $isoKeys[0] : null;
         }
         $countrySelect = $fieldset->addField('select_target_country', 'select', array(
-            'label'     => $this->__('Target Country'),
-            'title'     => $this->__('Target Country'),
+            'label'     => __('Target Country'),
+            'title'     => __('Target Country'),
             'name'      => 'target_country',
             'required'  => true,
             'options'   => $this->_getCountriesArray(),
@@ -56,16 +56,16 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
         }
 
         $fieldset->addField('attribute_set', 'note', array(
-            'label'     => $this->__('Attribute Set'),
-            'title'     => $this->__('Attribute Set'),
+            'label'     => __('Attribute Set'),
+            'title'     => __('Attribute Set'),
             'required'  => true,
             'text'      => '<div id="attribute_set_select">' . $attributeSetsSelect->toHtml() . '</div>',
         ));
 
         $categories = Mage::helper('Mage_GoogleShopping_Helper_Category')->getCategories();
         $fieldset->addField('category', 'select', array(
-            'label'     => $this->__('Google Product Category'),
-            'title'     => $this->__('Google Product Category'),
+            'label'     => __('Google Product Category'),
+            'title'     => __('Google Product Category'),
             'required'  => true,
             'name'      => 'category',
             'options'   => array_combine($categories, array_map('htmlspecialchars_decode', $categories)),
@@ -86,7 +86,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Mage_Adminhtml
         }
 
         $fieldset->addField('attributes_box', 'note', array(
-            'label'     => $this->__('Attributes Mapping'),
+            'label'     => __('Attributes Mapping'),
             'text'      => '<div id="attributes_details">' . $attributesBlock->toHtml() . '</div>',
         ));
 

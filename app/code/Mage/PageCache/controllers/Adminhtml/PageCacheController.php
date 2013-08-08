@@ -28,7 +28,7 @@ class Mage_PageCache_Adminhtml_PageCacheController extends Mage_Adminhtml_Contro
             if (Mage::helper('Mage_PageCache_Helper_Data')->isEnabled()) {
                 Mage::helper('Mage_PageCache_Helper_Data')->getCacheControlInstance()->clean();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_PageCache_Helper_Data')->__('The external full page cache has been cleaned.')
+                    __('The external full page cache has been cleaned.')
                 );
             }
         }
@@ -38,8 +38,7 @@ class Mage_PageCache_Adminhtml_PageCacheController extends Mage_Adminhtml_Contro
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('Mage_PageCache_Helper_Data')
-                    ->__('Something went wrong while clearing the external full page cache.')
+                __('Something went wrong while clearing the external full page cache.')
             );
         }
         $this->_redirect('*/cache/index');

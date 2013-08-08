@@ -21,12 +21,12 @@
 <?php $_hasAssociatedProducts = count($_associatedProducts) > 0; ?>
 <?php if ($this->displayProductStockStatus()): ?>
     <?php if ($_product->isAvailable() && $_hasAssociatedProducts): ?>
-        <p class="stock available" title="<?php echo $this->__('Availability') ?>">
-            <span><?php echo $this->__('In stock') ?></span>
+        <p class="stock available" title="<?php echo __('Availability') ?>">
+            <span><?php echo __('In stock') ?></span>
         </p>
     <?php else: ?>
-        <p class="stock unavailable" title="<?php echo $this->__('Availability') ?>">
-            <span><?php echo $this->__('Out of stock') ?></span>
+        <p class="stock unavailable" title="<?php echo __('Availability') ?>">
+            <span><?php echo __('Out of stock') ?></span>
         </p>
     <?php endif; ?>
 <?php endif; ?>
@@ -34,12 +34,12 @@
 <table class="table data grouped" id="super-product-table">
     <thead>
         <tr>
-            <th class="col item"><?php echo $this->__('Product Name') ?></th>
+            <th class="col item"><?php echo __('Product Name') ?></th>
             <?php if ($this->getCanShowProductPrice($_product)): ?>
-            <th class="col price"><?php echo $this->__('Price') ?></th>
+            <th class="col price"><?php echo __('Price') ?></th>
             <?php endif; ?>
             <?php if ($_product->isSaleable()): ?>
-            <th class="col qty"><?php echo $this->__('Qty') ?></th>
+            <th class="col qty"><?php echo __('Qty') ?></th>
             <?php endif; ?>
         </tr>
     </thead>
@@ -61,11 +61,11 @@
             <td class="col qty">
             <?php if ($_item->isSaleable()) : ?>
                 <div class="control qty">
-                    <input type="text" name="super_group[<?php echo $_item->getId() ?>]" maxlength="12" value="<?php echo $_item->getQty()*1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" data-validate="{'validate-grouped-qty':'#super-product-table'}"/>
+                    <input type="text" name="super_group[<?php echo $_item->getId() ?>]" maxlength="12" value="<?php echo $_item->getQty()*1 ?>" title="<?php echo __('Qty') ?>" class="input-text qty" data-validate="{'validate-grouped-qty':'#super-product-table'}"/>
                 </div>
             <?php else: ?>
-                <p class="stock unavailable" title="<?php echo $this->__('Availability') ?>">
-                    <span><?php echo $this->__('Out of stock') ?></span>
+                <p class="stock unavailable" title="<?php echo __('Availability') ?>">
+                    <span><?php echo __('Out of stock') ?></span>
                 </p>
             <?php endif; ?>
             </td>
@@ -74,7 +74,7 @@
     <?php endforeach; ?>
     <?php else: ?>
        <tr>
-           <td class="unavailable" colspan="<?php if ($_product->isSaleable()): ?>4<?php else : ?>3<?php endif; ?>"><?php echo $this->__('No options of this product are available.') ?></td>
+           <td class="unavailable" colspan="<?php if ($_product->isSaleable()): ?>4<?php else : ?>3<?php endif; ?>"><?php echo __('No options of this product are available.') ?></td>
        </tr>
     <?php endif; ?>
     </tbody>

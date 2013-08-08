@@ -28,11 +28,11 @@ class Mage_CatalogInventory_Model_Source_Stock
         return array(
             array(
                 'value' => Mage_CatalogInventory_Model_Stock::STOCK_IN_STOCK,
-                'label' => Mage::helper('Mage_CatalogInventory_Helper_Data')->__('In Stock')
+                'label' => __('In Stock')
             ),
             array(
                 'value' => Mage_CatalogInventory_Model_Stock::STOCK_OUT_OF_STOCK,
-                'label' => Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Out of Stock')
+                'label' => __('Out of Stock')
             ),
         );
     }

@@ -78,10 +78,10 @@ class Mage_Catalog_Model_Product_Visibility extends Varien_Object
     static public function getOptionArray()
     {
         return array(
-            self::VISIBILITY_NOT_VISIBLE=> Mage::helper('Mage_Catalog_Helper_Data')->__('Not Visible Individually'),
-            self::VISIBILITY_IN_CATALOG => Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'),
-            self::VISIBILITY_IN_SEARCH  => Mage::helper('Mage_Catalog_Helper_Data')->__('Search'),
-            self::VISIBILITY_BOTH       => Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog, Search')
+            self::VISIBILITY_NOT_VISIBLE=> __('Not Visible Individually'),
+            self::VISIBILITY_IN_CATALOG => __('Catalog'),
+            self::VISIBILITY_IN_SEARCH  => __('Search'),
+            self::VISIBILITY_BOTH       => __('Catalog, Search')
         );
     }
 

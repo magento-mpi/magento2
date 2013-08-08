@@ -9,15 +9,15 @@
  */
 ?>
 <?php $_product = $this->getProduct(); ?>
-<?php $buttonTitle = $this->__('Add to Cart'); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable()): ?>
 <div class="box tocart">
     <?php if (!$_product->isGrouped()): ?>
     <div class="field qty">
-        <label class="label" for="qty"><span><?php echo $this->__('Qty') ?></span></label>
+        <label class="label" for="qty"><span><?php echo __('Qty') ?></span></label>
         <div class="control">
             <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getProductDefaultQty() * 1 ?>"
-               title="<?php echo $this->__('Qty') ?>" class="input-text qty" data-validate="{required:true,digits:true}"/>
+               title="<?php echo __('Qty') ?>" class="input-text qty" data-validate="{required:true,digits:true}"/>
         </div>
     </div>
     <?php endif; ?>

@@ -104,28 +104,28 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('chooser_id', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'index'     => 'page_id',
             'header_css_class'  => 'col-id',
             'column_css_class'  => 'col-id'
         ));
 
         $this->addColumn('chooser_title', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Title'),
+            'header'    => __('Title'),
             'index'     => 'title',
             'header_css_class'  => 'col-title',
             'column_css_class'  => 'col-title'
         ));
 
         $this->addColumn('chooser_identifier', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('URL Key'),
+            'header'    => __('URL Key'),
             'index'     => 'identifier',
             'header_css_class'  => 'col-url',
             'column_css_class'  => 'col-url'
         ));
 
         $this->addColumn('chooser_root_template', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Layout'),
+            'header'    => __('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
             'options'   => Mage::getSingleton('Mage_Page_Model_Source_Layout')->getOptions(),
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('chooser_is_active', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
+            'header'    => __('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => Mage::getModel('Mage_Cms_Model_Page')->getAvailableStatuses(),

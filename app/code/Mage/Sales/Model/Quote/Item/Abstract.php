@@ -253,7 +253,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setMessage($e->getMessage());
         } catch (Exception $e){
             $this->setHasError(true);
-            $this->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Item qty declaration error'));
+            $this->setMessage(__('Item qty declaration error'));
         }
 
         try {
@@ -262,26 +262,26 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
             $this->setHasError(true)
                 ->setMessage($e->getMessage());
             $this->getQuote()->setHasError(true)
-                ->addMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Some of the products below do not have all the required options.'));
+                ->addMessage(__('Some of the products below do not have all the required options.'));
         } catch (Exception $e) {
             $this->setHasError(true)
-                ->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Something went wrong during the item options declaration.'));
+                ->setMessage(__('Something went wrong during the item options declaration.'));
             $this->getQuote()->setHasError(true)
-                ->addMessage(Mage::helper('Mage_Sales_Helper_Data')->__('We found an item options declaration error.'));
+                ->addMessage(__('We found an item options declaration error.'));
         }
 
         if ($this->getProduct()->getHasError()) {
             $this->setHasError(true)
-                ->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Some of the selected options are not currently available.'));
+                ->setMessage(__('Some of the selected options are not currently available.'));
             $this->getQuote()->setHasError(true)
                 ->addMessage($this->getProduct()->getMessage(), 'options');
         }
 
         if ($this->getHasConfigurationUnavailableError()) {
             $this->setHasError(true)
-                ->setMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Selected option(s) or their combination is not currently available.'));
+                ->setMessage(__('Selected option(s) or their combination is not currently available.'));
             $this->getQuote()->setHasError(true)
-                ->addMessage(Mage::helper('Mage_Sales_Helper_Data')->__('Some item options or their combination are not currently available.'), 'unavailable-configuration');
+                ->addMessage(__('Some item options or their combination are not currently available.'), 'unavailable-configuration');
             $this->unsHasConfigurationUnavailableError();
         }
 

@@ -58,7 +58,7 @@ class Mage_Sales_Block_Status_Grid_Column_Unassign extends Mage_Backend_Block_Wi
                 '*/*/unassign',
                 array('status' => $row->getStatus(), 'state' => $row->getState())
             );
-            $label = $this->_helper->__('Unassign');
+            $label = __('Unassign');
             $cell = '<a href="' . $url . '">' . $label . '</a>';
         }
         return $cell;

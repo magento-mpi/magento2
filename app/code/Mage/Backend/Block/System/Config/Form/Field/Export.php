@@ -51,7 +51,7 @@ class Mage_Backend_Block_System_Config_Form_Field_Export extends Varien_Data_For
 
         $url = $this->_helperFactory->get('Mage_Backend_Helper_Data')->getUrl("*/*/exportTablerates", $params);
         $data = array(
-            'label'     =>  $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('Export CSV'),
+            'label'     =>  __('Export CSV'),
             'onclick'   => "setLocation('" . $url
                 . "conditionName/' + $('carriers_tablerate_condition_name').value + '/tablerates.csv' )",
             'class'     => '',

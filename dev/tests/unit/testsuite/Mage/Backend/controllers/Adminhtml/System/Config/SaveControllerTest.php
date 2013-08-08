@@ -86,7 +86,6 @@ class Mage_Backend_Adminhtml_System_Config_SaveControllerTest extends PHPUnit_Fr
         $configStructureMock->expects($this->any())->method('getElement')
             ->will($this->returnValue($this->_sectionMock));
 
-        $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $helperMock->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
         $responseMock->expects($this->once())->method('setRedirect')->with('*/system_config/edit');
 

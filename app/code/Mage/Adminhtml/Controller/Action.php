@@ -19,14 +19,4 @@ class Mage_Adminhtml_Controller_Action extends Mage_Backend_Controller_ActionAbs
      * @var string
      */
     protected $_currentArea = 'adminhtml';
-
-    /**
-     * Translate a phrase
-     *
-     * @return string
-     */
-    public function __()
-    {
-        return $this->_translator->translate(func_get_args());
-    }
 }

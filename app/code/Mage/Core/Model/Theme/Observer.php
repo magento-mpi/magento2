@@ -73,7 +73,7 @@ class Mage_Core_Model_Theme_Observer
         }
         /** @var $theme Mage_Core_Model_Theme */
         if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
-            throw new Mage_Core_Exception($this->_helper->__('Theme isn\'t deletable.'));
+            throw new Mage_Core_Exception(__('Theme isn\'t deletable.'));
         }
         $this->_themeImageFactory->create(array('theme' => $theme))->removePreviewImage();
         $this->_updateCollection->addThemeFilter($theme->getId())->delete();

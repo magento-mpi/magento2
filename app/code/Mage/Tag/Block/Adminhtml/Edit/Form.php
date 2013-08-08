@@ -23,7 +23,7 @@ class Mage_Tag_Block_Adminhtml_Edit_Form extends Mage_Adminhtml_Block_Widget_For
     {
         parent::_construct();
         $this->setId('tag_form');
-        $this->setTitle(Mage::helper('Mage_Tag_Helper_Data')->__('Block Information'));
+        $this->setTitle(__('Block Information'));
     }
 
     /**
@@ -40,7 +40,7 @@ class Mage_Tag_Block_Adminhtml_Edit_Form extends Mage_Adminhtml_Block_Widget_For
         );
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('Mage_Tag_Helper_Data')->__('General Information')));
+            array('legend'=>__('General Information')));
 
         if ($model->getTagId()) {
             $fieldset->addField('tag_id', 'hidden', array(
@@ -60,30 +60,30 @@ class Mage_Tag_Block_Adminhtml_Edit_Form extends Mage_Adminhtml_Block_Widget_For
 
         $fieldset->addField('name', 'text', array(
             'name' => 'tag_name',
-            'label' => Mage::helper('Mage_Tag_Helper_Data')->__('Tag Name'),
-            'title' => Mage::helper('Mage_Tag_Helper_Data')->__('Tag Name'),
+            'label' => __('Tag Name'),
+            'title' => __('Tag Name'),
             'required' => true,
-            'scope_label' => ' ' . Mage::helper('Mage_Tag_Helper_Data')->__('[GLOBAL]'),
+            'scope_label' => ' ' . __('[GLOBAL]'),
         ));
 
         $fieldset->addField('status', 'select', array(
-            'label' => Mage::helper('Mage_Tag_Helper_Data')->__('Status'),
-            'title' => Mage::helper('Mage_Tag_Helper_Data')->__('Status'),
+            'label' => __('Status'),
+            'title' => __('Status'),
             'name' => 'tag_status',
             'required' => true,
             'options' => array(
-                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('Mage_Tag_Helper_Data')->__('Disabled'),
-                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('Mage_Tag_Helper_Data')->__('Pending'),
-                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('Mage_Tag_Helper_Data')->__('Approved'),
+                Mage_Tag_Model_Tag::STATUS_DISABLED => __('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => __('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => __('Approved'),
             ),
-            'scope_label' => ' ' . Mage::helper('Mage_Tag_Helper_Data')->__('[GLOBAL]'),
+            'scope_label' => ' ' . __('[GLOBAL]'),
         ));
 
         $fieldset->addField('base_popularity', 'text', array(
             'name' => 'base_popularity',
-            'label' => Mage::helper('Mage_Tag_Helper_Data')->__('Base Popularity'),
-            'title' => Mage::helper('Mage_Tag_Helper_Data')->__('Base Popularity'),
-            'scope_label' => ' ' . Mage::helper('Mage_Tag_Helper_Data')->__('[STORE VIEW]'),
+            'label' => __('Base Popularity'),
+            'title' => __('Base Popularity'),
+            'scope_label' => ' ' . __('[STORE VIEW]'),
         ));
 
         if (!$model->getId() && !Mage::getSingleton('Mage_Adminhtml_Model_Session')->getTagData() ) {

@@ -15,14 +15,14 @@
  */
 ?>
 <div class="block addresses default">
-    <div class="title"><strong><?php echo $this->__('Default Addresses') ?></strong></div>
+    <div class="title"><strong><?php echo __('Default Addresses') ?></strong></div>
     <div class="content">
         <?php if($_pAddsses = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getDefaultBilling()): ?>
             <div class="box address billing">
                 <strong class="subtitle">
-                    <span><?php echo $this->__('Default Billing Address') ?></span>
+                    <span><?php echo __('Default Billing Address') ?></span>
                     <a class="action edit" href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getAddressById($_pAddsses)) ?>">
-                        <span><?php echo $this->__('Change Billing Address') ?></span>
+                        <span><?php echo __('Change Billing Address') ?></span>
                     </a>
                 </strong>
                 <address>
@@ -31,17 +31,17 @@
            </div>
         <?php else: ?>
             <div class="box address no billing">
-                <strong class="box-title"><span><?php echo $this->__('Default Billing Address') ?></span></strong>
-                <p><?php echo $this->__('You have no default billing address in your address book.') ?></p>
+                <strong class="box-title"><span><?php echo __('Default Billing Address') ?></span></strong>
+                <p><?php echo __('You have no default billing address in your address book.') ?></p>
             </div>
         <?php endif ?>
 
         <?php if($_pAddsses = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getDefaultShipping()): ?>
             <div class="box address shipping">
                 <strong class="subtitle">
-                    <span><?php echo $this->__('Default Shipping Address') ?></span>
+                    <span><?php echo __('Default Shipping Address') ?></span>
                     <a class="action edit" href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getAddressById($_pAddsses)) ?>">
-                        <span><?php echo $this->__('Change Shipping Address') ?></span>
+                        <span><?php echo __('Change Shipping Address') ?></span>
                     </a>
                 </strong>
                 <address>
@@ -50,15 +50,15 @@
             </div>
         <?php else: ?>
             <div class="box address shipping">
-                <strong class="subtitle"><span><?php echo $this->__('Default Shipping Address') ?></span></strong>
-                <p><?php echo $this->__('You have no default shipping address in your address book.') ?></p>
+                <strong class="subtitle"><span><?php echo __('Default Shipping Address') ?></span></strong>
+                <p><?php echo __('You have no default shipping address in your address book.') ?></p>
             </div>
         <?php endif ?>
     </div>
 </div>
 
 <div class="block addresses list">
-    <div class="title"><strong><?php echo $this->__('Additional Address Entries') ?></strong></div>
+    <div class="title"><strong><?php echo __('Additional Address Entries') ?></strong></div>
     <div class="content">
         <?php if($_pAddsses = $this->getAdditionalAddresses()): ?>
         <ol class="items addresses">
@@ -68,20 +68,20 @@
                     <?php echo $this->getAddressHtml($_address) ?><br />
                 </address>
                 <div class="item actions">
-                    <a class="action edit" href="<?php echo $this->getUrl('customer/address/edit', array('id'=>$_address->getId())) ?>"><span><?php echo $this->__('Edit Address') ?></span></a>
-                    <a class="action delete" href="#" role="delete-address" data-address="<?php echo $_address->getId() ?>"><span><?php echo $this->__('Delete Address') ?></span></a>
+                    <a class="action edit" href="<?php echo $this->getUrl('customer/address/edit', array('id'=>$_address->getId())) ?>"><span><?php echo __('Edit Address') ?></span></a>
+                    <a class="action delete" href="#" role="delete-address" data-address="<?php echo $_address->getId() ?>"><span><?php echo __('Delete Address') ?></span></a>
                 </div>
             </li>
             <?php endforeach; ?>
         </ol>
         <?php else: ?>
-        <p><?php echo $this->__('You have no additional address entries in your address book.') ?></p>
+        <p><?php echo __('You have no additional address entries in your address book.') ?></p>
         <?php endif ?>
     </div>
 </div>
 
 <div class="actions">
-    <div class="secondary"><a class="action back" href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><span><?php echo $this->__('Back') ?></span></a></div>
+    <div class="secondary"><a class="action back" href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>"><span><?php echo __('Back') ?></span></a></div>
 </div>
 <script type="text/javascript">
     head.js("<?php echo $this->getViewFileUrl('Mage_Customer::address.js'); ?>", function() {
@@ -101,35 +101,35 @@
         <ol>
         <?php if($_pAddsses = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getDefaultBilling()): ?>
             <li class="info-box">
-                <h3 class="box-title"><?php echo $this->__('Default Billing Address') ?> <span class="separator">|</span> <a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Billing Address') ?></a></h3>
+                <h3 class="box-title"><?php echo __('Default Billing Address') ?> <span class="separator">|</span> <a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo __('Change Billing Address') ?></a></h3>
                 <address class="box-content">
                 <?php echo $this->getAddressHtml(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getAddressById($_pAddsses)) ?>
                 </address>
            </li>
         <?php else: ?>
             <li class="info-box">
-                <h3 class="box-title"><?php echo $this->__('Default Billing Address') ?></h3>
-                <p class="box-content"><?php echo $this->__('You have no default billing address in your address book.') ?></p>
+                <h3 class="box-title"><?php echo __('Default Billing Address') ?></h3>
+                <p class="box-content"><?php echo __('You have no default billing address in your address book.') ?></p>
             </li>
         <?php endif ?>
 
         <?php if($_pAddsses = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getDefaultShipping()): ?>
             <li class="info-box">
-                <h3 class="box-title"><?php echo $this->__('Default Shipping Address') ?> <span class="separator">|</span> <a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo $this->__('Change Shipping Address') ?></a></h3>
+                <h3 class="box-title"><?php echo __('Default Shipping Address') ?> <span class="separator">|</span> <a href="<?php echo $this->getAddressEditUrl(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getAddressById($_pAddsses)) ?>"><?php echo __('Change Shipping Address') ?></a></h3>
                 <address class="box-content">
                     <?php echo $this->getAddressHtml(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getAddressById($_pAddsses)) ?>
                 </address>
             </li>
         <?php else: ?>
             <li class="info-box">
-                <h3 class="box-title"><?php echo $this->__('Default Shipping Address') ?></h3>
-                <p class="box-content"><?php echo $this->__('You have no default shipping address in your address book.') ?></p>
+                <h3 class="box-title"><?php echo __('Default Shipping Address') ?></h3>
+                <p class="box-content"><?php echo __('You have no default shipping address in your address book.') ?></p>
             </li>
         <?php endif ?>
         </ol>
     </div>
     <div class="col-2 addresses-additional">
-        <h2 class="sub-title"><?php echo $this->__('Additional Address Entries') ?></h2>
+        <h2 class="sub-title"><?php echo __('Additional Address Entries') ?></h2>
         <ol>
         <?php if($_pAddsses = $this->getAdditionalAddresses()): ?>
             <?php foreach($_pAddsses as $_address): ?>
@@ -138,15 +138,15 @@
                     <?php echo $this->getAddressHtml($_address) ?><br />
                 </address>
                 <p class="actions">
-                    <a href="<?php echo $this->getUrl('customer/address/edit', array('id'=>$_address->getId())) ?>"><?php echo $this->__('Edit Address') ?></a>
+                    <a href="<?php echo $this->getUrl('customer/address/edit', array('id'=>$_address->getId())) ?>"><?php echo __('Edit Address') ?></a>
                     <span class="separator">|</span>
-                    <a href="#" role="delete-address" data-address="<?php echo $_address->getId() ?>"><?php echo $this->__('Delete Address') ?></a>
+                    <a href="#" role="delete-address" data-address="<?php echo $_address->getId() ?>"><?php echo __('Delete Address') ?></a>
                 </p>
             </li>
             <?php endforeach; ?>
         <?php else: ?>
             <li class="item empty">
-                <p><?php echo $this->__('You have no additional address entries in your address book.') ?></p>
+                <p><?php echo __('You have no additional address entries in your address book.') ?></p>
             </li>
         <?php endif ?>
         </ol>

@@ -26,11 +26,6 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
     protected $_themeFactory;
 
     /**
-     * @var Mage_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Mage_Core_Model_Theme_CopyService
      */
     protected $_copyService;
@@ -48,14 +43,11 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
             array('load', 'getId', 'getType', 'getDomainModel', 'isVirtual'), array(), '', false);
         $this->_themeFactory->expects($this->any())->method('create')->will($this->returnValue($this->_theme));
 
-        $this->_helper = $this->getMock('Mage_Core_Helper_Data', array('__'), array(), '', false);
-        $this->_helper->expects($this->any())->method('__')->will($this->returnArgument(0));
-
         $this->_copyService = $this->getMock('Mage_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
 
         $this->_model = new Mage_DesignEditor_Model_Theme_Context(
             $this->_themeFactory,
-            $this->_helper,
+            $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false),
             $this->_copyService
         );
     }
@@ -63,7 +55,6 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
     public function testConstruct()
     {
         $this->assertAttributeEquals($this->_themeFactory, '_themeFactory', $this->_model);
-        $this->assertAttributeEquals($this->_helper, '_helper', $this->_model);
         $this->assertAttributeEquals($this->_copyService, '_copyService', $this->_model);
     }
 
@@ -118,7 +109,7 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
 
     /**
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage We can't find theme "%s".
+     * @expectedExceptionMessage We can't find theme "1".
      */
     public function testSetEditableThemeByIdWrongThemeId()
     {
@@ -180,7 +171,7 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
 
     /**
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Theme "%s" is not editable.
+     * @expectedExceptionMessage Theme "" is not editable.
      */
     public function testGetStagingThemeWrongType()
     {

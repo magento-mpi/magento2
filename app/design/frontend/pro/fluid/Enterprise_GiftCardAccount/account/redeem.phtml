@@ -14,20 +14,20 @@
  */
 ?>
 <div class="page-title">
-    <h1><?php echo Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card'); ?></h1>
+    <h1><?php echo __('Gift Card'); ?></h1>
 </div>
 <div class="giftcardaccount">
     <span id="gc-please-wait" class="please-wait" style="display:none;">
-        <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Please wait, loading...') ?>
+        <img src="<?php echo $this->getViewFileUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo __('Please wait, loading...') ?>
     </span>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <form id="giftcard-form" action="<?php echo $this->getUrl('*/*/*') ?>" method="post"<?php if (!$this->canRedeem()): ?> onsubmit="giftCardAccountLookupBalance(); return false;"<?php endif; ?>>
         <div id="giftcard-balance-lookup"></div>
         <div class="fieldset">
-            <h2 class="legend"><?php echo Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card Code'); ?></h2>
+            <h2 class="legend"><?php echo __('Gift Card Code'); ?></h2>
             <ul class="form-list">
                 <li>
-                    <label for="giftcard-code"><?php echo $this->__('Enter gift card code') ?></label>
+                    <label for="giftcard-code"><?php echo __('Enter gift card code') ?></label>
                     <div class="input-box">
                         <input class="input-text" id="giftcard-code" name="giftcard_code" value="<?php echo $this->getCurrentGiftcard(); ?>" data-validate="{required:true}"/>
                     </div>
@@ -36,9 +36,9 @@
         </div>
         <div class="buttons-set">
 <?php if ($this->canRedeem()): ?>
-            <button type="submit" title="<?php echo $this->__('Redeem Gift Card') ?>" value="<?php echo $this->__('Redeem Gift Card') ?>" class="button"><span><span><?php echo $this->__('Redeem Gift Card') ?></span></span></button>
+            <button type="submit" title="<?php echo __('Redeem Gift Card') ?>" value="<?php echo __('Redeem Gift Card') ?>" class="button"><span><span><?php echo __('Redeem Gift Card') ?></span></span></button>
 <?php endif; ?>
-            <button type="button" title="<?php echo $this->__('Check status and balance') ?>" id="gca-balance-button" value="<?php echo $this->__('Check status and balance') ?>" class="button check-gc-status"><span><span><?php echo $this->__('Check status and balance') ?></span></span></button>
+            <button type="button" title="<?php echo __('Check status and balance') ?>" id="gca-balance-button" value="<?php echo __('Check status and balance') ?>" class="button check-gc-status"><span><span><?php echo __('Check status and balance') ?></span></span></button>
         </div>
     </form>
     <script type="text/javascript">

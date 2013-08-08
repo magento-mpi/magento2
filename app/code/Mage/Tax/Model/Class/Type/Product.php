@@ -68,6 +68,6 @@ class Mage_Tax_Model_Class_Type_Product
      */
     public function getObjectTypeName()
     {
-        return $this->_helper->__('product');
+        return __('product');
     }
 }

@@ -55,7 +55,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Mage_Adminh
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('Mage_Oauth_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'index'     => 'entity_id',
             'align'     => 'right',
             'width'     => '50px',
@@ -63,20 +63,20 @@ class Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Mage_Adminh
         ));
 
         $this->addColumn('name', array(
-            'header'    => $this->__('Application'),
+            'header'    => __('Application'),
             'index'     => 'name',
             'escape'    => true,
         ));
 
         $this->addColumn('type', array(
-            'header'    => $this->__('User Type'),
+            'header'    => __('User Type'),
             //'index'     => array('customer_id', 'admin_id'),
-            'options'   => array(0 => $this->__('Admin'), 1 => $this->__('Customer')),
+            'options'   => array(0 => __('Admin'), 1 => __('Customer')),
             'frame_callback' => array($this, 'decorateUserType')
         ));
 
         $this->addColumn('user_id', array(
-            'header'    => $this->__('User ID'),
+            'header'    => __('User ID'),
             //'index'     => array('customer_id', 'admin_id'),
             'frame_callback' => array($this, 'decorateUserId')
         ));
@@ -84,7 +84,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Mage_Adminh
         /** @var $sourceYesNo Mage_Backend_Model_Config_Source_Yesno */
         $sourceYesNo = Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno');
         $this->addColumn('revoked', array(
-            'header'    => $this->__('Revoked'),
+            'header'    => __('Revoked'),
             'index'     => 'revoked',
             'width'     => '100px',
             'type'      => 'options',
@@ -144,15 +144,15 @@ class Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Mage_Adminh
 
         $block->setFormFieldName('items');
         $block->addItem('enable', array(
-            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Enable'),
+            'label' => __('Enable'),
             'url'   => $this->getUrl('*/*/revoke', array('status' => 0)),
         ));
         $block->addItem('revoke', array(
-            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Revoke'),
+            'label' => __('Revoke'),
             'url'   => $this->getUrl('*/*/revoke', array('status' => 1)),
         ));
         $block->addItem('delete', array(
-            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Delete'),
+            'label' => __('Delete'),
             'url'   => $this->getUrl('*/*/delete'),
         ));
 

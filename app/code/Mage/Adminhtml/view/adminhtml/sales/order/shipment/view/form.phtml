@@ -15,26 +15,26 @@
         <?php /* Billing Address */ ?>
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Payment Information') ?></span>
+                <span class="title"><?php echo __('Payment Information') ?></span>
             </div>
             <div><?php echo $this->getChildHtml('order_payment') ?></div>
-            <div class="order-payment-currency"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('The order was placed using %s.', $_order->getOrderCurrencyCode()) ?></div>
+            <div class="order-payment-currency"><?php echo __('The order was placed using %1.', $_order->getOrderCurrencyCode()) ?></div>
         </div>
     </div>
     <div class="order-shipping-address">
         <?php /* Shipping Address */ ?>
         <div class="fieldset-wrapper">
             <div class="fieldset-wrapper-title">
-                <span class="title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Shipping and Tracking Information') ?></span>
+                <span class="title"><?php echo __('Shipping and Tracking Information') ?></span>
             </div>
             <div class="shipping-description-wrapper">
                 <?php if($this->getShipment()->getTracksCollection()->count()): ?>
                 <p>
-                    <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($this->getShipment()) ?>','trackshipment','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track this shipment') ?>"><?php echo $this->__('Track this shipment') ?></a>
+                    <a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($this->getShipment()) ?>','trackshipment','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo __('Track this shipment') ?>"><?php echo __('Track this shipment') ?></a>
                 </p>
                 <?php endif; ?>
                 <div class="shipping-description-title"><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></div>
-                <?php echo $this->helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges'); ?>:
+                <?php echo __('Total Shipping Charges'); ?>:
 
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
                     <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
@@ -45,7 +45,7 @@
 
                 <?php echo $_excl; ?>
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
-                    (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                    (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
                 <?php endif; ?>
             </div>
             <?php if ($this->canCreateShippingLabel()): ?>
@@ -84,7 +84,7 @@
 
 <div class="fieldset-wrapper">
     <div class="fieldset-wrapper-title">
-        <span class="title"><?php echo $this->helper('Mage_Sales_Helper_Data')->__('Items Shipped') ?></span>
+        <span class="title"><?php echo __('Items Shipped') ?></span>
     </div>
     <?php echo $this->getChildHtml('shipment_items') ?>
 </div>
@@ -94,7 +94,7 @@
 
     <div class="order-comments-history">
         <div class="fieldset-wrapper">
-            <div class="fieldset-wrapper-title"><span class="title"><?php echo $this->__('Shipment History') ?></span></div>
+            <div class="fieldset-wrapper-title"><span class="title"><?php echo __('Shipment History') ?></span></div>
             <fieldset><?php echo $this->getChildHtml('order_comments') ?></fieldset>
         </div>
     </div>

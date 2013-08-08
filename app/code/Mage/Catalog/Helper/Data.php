@@ -413,12 +413,12 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
             $product,
             Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_IN_CART
         )) {
-            $message = $this->__('To see product price, add this item to your cart. You can always remove it later.');
+            $message = __('To see product price, add this item to your cart. You can always remove it later.');
         } elseif ($this->canApplyMsrp(
             $product,
             Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM
         )) {
-            $message = $this->__('See price before order confirmation.');
+            $message = __('See price before order confirmation.');
         }
         return $message;
     }

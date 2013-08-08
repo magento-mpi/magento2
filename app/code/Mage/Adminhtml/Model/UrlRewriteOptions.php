@@ -38,7 +38,7 @@ class Mage_Adminhtml_Model_UrlRewriteOptions implements Mage_Core_Model_Option_A
      */
     public function toOptionArray()
     {
-        return array('1' => $this->_helper->__('System'),
-                     '0' => $this->_helper->__('Custom'));
+        return array('1' => __('System'),
+                     '0' => __('Custom'));
     }
 }

@@ -15,7 +15,7 @@
 <?php if ($this->includeTax() && $this->getTotalExclTax()>=0):?>
 <tr class="grand total excl">
     <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
-        <strong><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Grand Total Excl. Tax')?></strong>
+        <strong><?php echo __('Grand Total Excl. Tax')?></strong>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="amount">
         <strong><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->getTotalExclTax()) ?></strong>
@@ -24,7 +24,7 @@
 <?php echo $this->renderTotals('taxes', $this->getColspan()); ?>
 <tr class="grand total incl">
     <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
-        <strong><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Grand Total Incl. Tax')?></strong>
+        <strong><?php echo __('Grand Total Incl. Tax')?></strong>
     </td>
     <td style="<?php echo $this->getStyle() ?>" class="amount">
         <strong><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->getTotal()->getValue()) ?></strong>

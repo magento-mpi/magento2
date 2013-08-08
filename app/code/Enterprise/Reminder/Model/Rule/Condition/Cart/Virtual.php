@@ -33,7 +33,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
-            'label' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Virtual Only'));
+            'label' => __('Virtual Only'));
     }
 
     /**
@@ -44,7 +44,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('Enterprise_Reminder_Helper_Data')->__('Shopping cart %s only virtual items', $this->getValueElementHtml())
+            . __('Shopping cart %1 only virtual items', $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 
@@ -66,8 +66,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            '1' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('has'),
-            '0' => Mage::helper('Enterprise_Reminder_Helper_Data')->__('does not have')
+            '1' => __('has'),
+            '0' => __('does not have')
         ));
         return $this;
     }

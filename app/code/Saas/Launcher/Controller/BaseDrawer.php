@@ -129,7 +129,7 @@ class Saas_Launcher_Controller_BaseDrawer
             );
         } catch (Exception $e) {
             $responseContent = $this->_composeAjaxResponseContent(
-                Mage::helper('Saas_Launcher_Helper_Data')->__($e->getMessage()), false
+                __($e->getMessage()), false
             );
         }
         $this->getResponse()->setBody($responseContent);
@@ -161,7 +161,7 @@ class Saas_Launcher_Controller_BaseDrawer
             );
         } catch (Exception $e) {
             $responseContent = $this->_composeAjaxResponseContent(
-                Mage::helper('Saas_Launcher_Helper_Data')->__($e->getMessage()), false
+                __($e->getMessage()), false
             );
         }
         $this->getResponse()->setBody($responseContent);

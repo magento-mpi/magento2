@@ -29,7 +29,7 @@
             <?php if (!$_option->getRequired()): ?>
                 <div class="field choice">
                     <input type="radio" class="radio product-bundle-option" id="bundle-option-<?php echo $_option->getId() ?>" name="bundle_option[<?php echo $_option->getId() ?>]"<?php echo ($_default && $_default->isSalable())?'':' checked="checked" ' ?> value=""/>
-                    <label class="label" for="bundle-option-<?php echo $_option->getId() ?>"><span><?php echo $this->__('None') ?></span></label>
+                    <label class="label" for="bundle-option-<?php echo $_option->getId() ?>"><span><?php echo __('None') ?></span></label>
                 </div>
             <?php endif; ?>
             <?php foreach ($_selections as $_selection): ?>
@@ -44,7 +44,7 @@
         <?php endif; ?>
             <div class="field qty qty-holder">
                 <label class="label" for="bundle-option-<?php echo $_option->getId() ?>-qty-input">
-                    <span><?php echo $this->__('Qty') ?></span>
+                    <span><?php echo __('Qty') ?></span>
                 </label>
                 <div class="control">
                     <input <?php if (!$_canChangeQty) echo ' disabled="disabled"' ?> id="bundle-option-<?php echo $_option->getId() ?>-qty-input" class="input-text qty<?php if (!$_canChangeQty) echo ' qty-disabled' ?>" type="text" name="bundle_option_qty[<?php echo $_option->getId() ?>]" value="<?php echo $_defaultQty ?>"/>

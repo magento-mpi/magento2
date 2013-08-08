@@ -126,7 +126,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         }
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'sortable'  => true,
             'index'     => 'entity_id',
             'header_css_class'  => 'col-id',
@@ -134,14 +134,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
+            'header'    => __('Name'),
             'index'     => 'name',
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('type', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Type'),
+            'header'    => __('Type'),
             'index'     => 'type_id',
             'type'      => 'options',
             'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
@@ -155,7 +155,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             ->toOptionHash();
 
         $this->addColumn('set_name', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set'),
+            'header'    => __('Attribute Set'),
             'index'     => 'attribute_set_id',
             'type'      => 'options',
             'options'   => $sets,
@@ -164,7 +164,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         ));
 
         $this->addColumn('status', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Status'),
+            'header'    => __('Status'),
             'index'     => 'status',
             'type'      => 'options',
             'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray(),
@@ -173,7 +173,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         ));
 
         $this->addColumn('visibility', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Visibility'),
+            'header'    => __('Visibility'),
             'index'     => 'visibility',
             'type'      => 'options',
             'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getOptionArray(),
@@ -182,14 +182,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
+            'header'    => __('SKU'),
             'index'     => 'sku',
             'header_css_class'  => 'col-sku',
             'column_css_class'  => 'col-sku'
         ));
 
         $this->addColumn('price', array(
-            'header'        => Mage::helper('Mage_Catalog_Helper_Data')->__('Price'),
+            'header'        => __('Price'),
             'type'          => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'         => 'price',
@@ -198,7 +198,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         ));
 
         $this->addColumn('position', array(
-            'header'            => Mage::helper('Mage_Catalog_Helper_Data')->__('Position'),
+            'header'            => __('Position'),
             'name'              => 'position',
             'type'              => 'number',
             'validate_class'    => 'validate-number',

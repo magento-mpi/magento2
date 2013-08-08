@@ -140,8 +140,8 @@ EOT;
 
         $discountItem = new Varien_Object(array(
             'price' => $discount,
-            'name'  => $this->__('Cart Discount'),
-            'description' => $this->__('A virtual item to reflect the discount total')
+            'name'  => __('Cart Discount'),
+            'description' => __('A virtual item to reflect the discount total')
         ));
 
         Mage::dispatchEvent('google_checkout_discount_item_price', array(
@@ -168,11 +168,13 @@ EOT;
 
         $hiddenTax = $shippingAddress->getBaseHiddenTaxAmount() + $billingAddress->getBaseHiddenTaxAmount();
         if ($hiddenTax) {
+            $itemName = __('Discount Tax');
+            $itemDescription = __('A virtual item to reflect the tax total');
             $xml .= <<<EOT
             <item>
                 <merchant-item-id>_INTERNAL_TAX_</merchant-item-id>
-                <item-name>{$this->__('Discount Tax')}</item-name>
-                <item-description>{$this->__('A virtual item to reflect the tax total')}</item-description>
+                <item-name>{$itemName}</item-name>
+                <item-description>{$itemDescription}</item-description>
                 <unit-price currency="{$this->getCurrency()}">{$hiddenTax}</unit-price>
                 <quantity>1</quantity>
                 <item-weight unit="{$weightUnit}" value="0.00" />
@@ -329,7 +331,7 @@ EOT;
      */
     protected function _getVirtualOrderShippingXml()
     {
-        $title = Mage::helper('Mage_GoogleCheckout_Helper_Data')->__('Free Shipping');
+        $title = __('Free Shipping');
 
         $xml = <<<EOT
             <shipping-methods>
@@ -1078,41 +1080,41 @@ EOT;
             'ups' => array(
                 'googleCarrierCompany' => 'UPS',
                 'methods' => array(
-                    'GND' => Mage::helper('Mage_Usa_Helper_Data')->__('Ground'),
-                    '1DA' => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air'),
-                    '1DM' => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air Early AM'),
-                    '1DP' => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air Saver'),
-                    '2DA' => Mage::helper('Mage_Usa_Helper_Data')->__('2nd Day Air'),
-                    '2DM' => Mage::helper('Mage_Usa_Helper_Data')->__('2nd Day Air AM'),
-                    '3DS' => Mage::helper('Mage_Usa_Helper_Data')->__('3 Day Select'),
-                    '03'  => Mage::helper('Mage_Usa_Helper_Data')->__('Ground'),
-                    '01'  => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air'),
-                    '14'  => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air Early AM'),
-                    '13'  => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air Saver'),
-                    '02'  => Mage::helper('Mage_Usa_Helper_Data')->__('2nd Day Air'),
-                    '59'  => Mage::helper('Mage_Usa_Helper_Data')->__('2nd Day Air AM'),
-                    '12'  => Mage::helper('Mage_Usa_Helper_Data')->__('3 Day Select')
+                    'GND' => __('Ground'),
+                    '1DA' => __('Next Day Air'),
+                    '1DM' => __('Next Day Air Early AM'),
+                    '1DP' => __('Next Day Air Saver'),
+                    '2DA' => __('2nd Day Air'),
+                    '2DM' => __('2nd Day Air AM'),
+                    '3DS' => __('3 Day Select'),
+                    '03'  => __('Ground'),
+                    '01'  => __('Next Day Air'),
+                    '14'  => __('Next Day Air Early AM'),
+                    '13'  => __('Next Day Air Saver'),
+                    '02'  => __('2nd Day Air'),
+                    '59'  => __('2nd Day Air AM'),
+                    '12'  => __('3 Day Select')
                 )
             ),
             'usps' => array(
                 'googleCarrierCompany' => 'USPS',
                 'methods' => array(
-                    'Express Mail'  => Mage::helper('Mage_Usa_Helper_Data')->__('Express Mail'),
-                    'Priority Mail' => Mage::helper('Mage_Usa_Helper_Data')->__('Priority Mail'),
-                    'Parcel Post'   => Mage::helper('Mage_Usa_Helper_Data')->__('Parcel Post'),
-                    'Media Mail'    => Mage::helper('Mage_Usa_Helper_Data')->__('Media Mail')
+                    'Express Mail'  => __('Express Mail'),
+                    'Priority Mail' => __('Priority Mail'),
+                    'Parcel Post'   => __('Parcel Post'),
+                    'Media Mail'    => __('Media Mail')
                 )
             ),
             'fedex' => array(
                 'googleCarrierCompany' => 'FedEx',
                 'methods' => array(
-                    'FEDEX_GROUND'        => Mage::helper('Mage_Usa_Helper_Data')->__('Ground'),
-                    'GROUND_HOME_DELIVERY' => Mage::helper('Mage_Usa_Helper_Data')->__('Home Delivery'),
-                    'FEDEX_EXPRESS_SAVER'  => Mage::helper('Mage_Usa_Helper_Data')->__('Express Saver'),
-                    'FIRST_OVERNIGHT'     => Mage::helper('Mage_Usa_Helper_Data')->__('First Overnight'),
-                    'PRIORITY_OVERNIGHT'  => Mage::helper('Mage_Usa_Helper_Data')->__('Priority Overnight'),
-                    'STANDARD_OVERNIGHT'  => Mage::helper('Mage_Usa_Helper_Data')->__('Standard Overnight'),
-                    'FEDEX_2_DAY'          => Mage::helper('Mage_Usa_Helper_Data')->__('2Day')
+                    'FEDEX_GROUND'        => __('Ground'),
+                    'GROUND_HOME_DELIVERY' => __('Home Delivery'),
+                    'FEDEX_EXPRESS_SAVER'  => __('Express Saver'),
+                    'FIRST_OVERNIGHT'     => __('First Overnight'),
+                    'PRIORITY_OVERNIGHT'  => __('Priority Overnight'),
+                    'STANDARD_OVERNIGHT'  => __('Standard Overnight'),
+                    'FEDEX_2_DAY'          => __('2Day')
                 )
             )
         );

@@ -40,8 +40,8 @@ class Enterprise_GiftWrapping_Model_MassOptions implements Mage_Core_Model_Optio
     {
         return array(
             array('label' => '', 'value' => ''),
-            array('label' => $this->_helper->__('Enabled'), 'value' => '1'),
-            array('label' => $this->_helper->__('Disabled'), 'value' => '0')
+            array('label' => __('Enabled'), 'value' => '1'),
+            array('label' => __('Disabled'), 'value' => '0')
         );
     }
 }

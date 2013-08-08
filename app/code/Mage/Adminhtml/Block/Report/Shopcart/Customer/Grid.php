@@ -43,24 +43,24 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('ID'),
+            'header'    =>__('ID'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('First Name'),
+            'header'    =>__('First Name'),
             'index'     =>'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Last Name'),
+            'header'    =>__('Last Name'),
             'index'     =>'lastname'
         ));
 
         $this->addColumn('items', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Items in Cart'),
+            'header'    =>__('Items in Cart'),
             'width'     =>'70px',
             'sortable'  =>false,
             'align'     =>'right',
@@ -70,7 +70,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('total', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Total'),
+            'header'    =>__('Total'),
             'width'     =>'70px',
             'sortable'  =>false,
             'type'      =>'currency',
@@ -83,8 +83,8 @@ class Mage_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Mage_Adminhtml_
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportCustomerCsv', __('CSV'));
+        $this->addExportType('*/*/exportCustomerExcel', __('Excel XML'));
 
         return parent::_prepareColumns();
     }

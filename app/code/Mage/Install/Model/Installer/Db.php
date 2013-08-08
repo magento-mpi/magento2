@@ -52,7 +52,7 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             $dbModel = ($data['db_model']);
 
             if (!$resource = $this->_getDbResource($dbModel)) {
-                Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('There is no resource for %s DB model.', $dbModel));
+                Mage::throwException(__('There is no resource for %1 DB model.', $dbModel));
             }
 
             $resource->setConfig($data);
@@ -67,7 +67,7 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             }
             if (!empty($absenteeExtensions)) {
                 Mage::throwException(
-                    Mage::helper('Mage_Install_Helper_Data')->__('PHP Extensions "%s" must be loaded.', implode(',', $absenteeExtensions))
+                    __('PHP Extensions "%1" must be loaded.', implode(',', $absenteeExtensions))
                 );
             }
 
@@ -78,14 +78,14 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             // check DB server version
             if (version_compare($version, $requiredVersion) == -1) {
                 Mage::throwException(
-                    Mage::helper('Mage_Install_Helper_Data')->__('The database server version doesn\'t match system requirements (required: %s, actual: %s).', $requiredVersion, $version)
+                    __('The database server version doesn\'t match system requirements (required: %1, actual: %2).', $requiredVersion, $version)
                 );
             }
 
             // check InnoDB support
             if (!$resource->supportEngine()) {
                 Mage::throwException(
-                    Mage::helper('Mage_Install_Helper_Data')->__('Database server does not support the InnoDB storage engine.')
+                    __('Database server does not support the InnoDB storage engine.')
                 );
             }
 
@@ -93,11 +93,11 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
         }
         catch (Mage_Core_Exception $e) {
             Mage::logException($e);
-            Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__($e->getMessage()));
+            Mage::throwException(__($e->getMessage()));
         }
         catch (Exception $e) {
             Mage::logException($e);
-            Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('Something went wrong while connecting to the database.'));
+            Mage::throwException(__('Something went wrong while connecting to the database.'));
         }
 
         return $data;
@@ -112,7 +112,7 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
     protected function _getCheckedData($data)
     {
         if (!isset($data['db_name']) || empty($data['db_name'])) {
-            Mage::throwException(Mage::helper('Mage_Install_Helper_Data')->__('The Database Name field cannot be empty.'));
+            Mage::throwException(__('The Database Name field cannot be empty.'));
         }
         //make all table prefix to lower letter
         if ($data['db_prefix'] != '') {
@@ -122,7 +122,7 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
         if ($data['db_prefix'] != '') {
             if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $data['db_prefix'])) {
                 Mage::throwException(
-                    Mage::helper('Mage_Install_Helper_Data')->__('The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_); the first character should be a letter.')
+                    __('The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_); the first character should be a letter.')
                 );
             }
         }
@@ -160,7 +160,7 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             $resource =  Mage::getSingleton("Mage_Install_Model_Installer_Db_" . ucfirst($model));
             if (!$resource) {
                 Mage::throwException(
-                    Mage::helper('Mage_Install_Helper_Data')->__('Installer does not exist for %s database type', $model)
+                    __('Installer does not exist for %1 database type', $model)
                 );
             }
             $this->_dbResource = $resource;

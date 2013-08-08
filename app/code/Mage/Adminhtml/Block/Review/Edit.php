@@ -34,12 +34,12 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
         $nextId = $actionPager->getNextItemId($reviewId);
         if ($prevId !== false) {
             $this->addButton('previous', array(
-                'label' => Mage::helper('Mage_Review_Helper_Data')->__('Previous'),
+                'label' => __('Previous'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('*/*/*', array('id' => $prevId)) . '\')'
             ), 3, 10);
 
             $this->addButton('save_and_previous', array(
-                'label'   => Mage::helper('Mage_Review_Helper_Data')->__('Save and Previous'),
+                'label'   => __('Save and Previous'),
                 'class'   => 'save',
                 'data_attribute'  => array(
                     'mage-init' => array(
@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
         }
         if ($nextId !== false) {
             $this->addButton('save_and_next', array(
-                'label'   => Mage::helper('Mage_Review_Helper_Data')->__('Save and Next'),
+                'label'   => __('Save and Next'),
                 'class'   => 'save',
                 'data_attribute'  => array(
                     'mage-init' => array(
@@ -76,13 +76,13 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
             ), 3, 100);
 
             $this->addButton('next', array(
-                'label' => Mage::helper('Mage_Review_Helper_Data')->__('Next'),
+                'label' => __('Next'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('*/*/*', array('id' => $nextId)) . '\')'
             ), 3, 105);
         }
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Review_Helper_Data')->__('Save Review'));
+        $this->_updateButton('save', 'label', __('Save Review'));
         $this->_updateButton('save', 'id', 'save_button');
-        $this->_updateButton('delete', 'label', Mage::helper('Mage_Review_Helper_Data')->__('Delete Review'));
+        $this->_updateButton('delete', 'label', __('Delete Review'));
 
         if( $this->getRequest()->getParam('productId', false) ) {
             $this->_updateButton(
@@ -116,7 +116,7 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
                 'delete',
                 'onclick',
                 'deleteConfirm('
-                    . '\'' . Mage::helper('Mage_Review_Helper_Data')->__('Are you sure you want to do this?').'\' '
+                    . '\'' . __('Are you sure you want to do this?').'\' '
                     . '\'' . $this->getUrl(
                         '*/*/delete',
                         array(
@@ -163,9 +163,9 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
     public function getHeaderText()
     {
         if( Mage::registry('review_data') && Mage::registry('review_data')->getId() ) {
-            return Mage::helper('Mage_Review_Helper_Data')->__("Edit Review '%s'", $this->escapeHtml(Mage::registry('review_data')->getTitle()));
+            return __("Edit Review '%1'", $this->escapeHtml(Mage::registry('review_data')->getTitle()));
         } else {
-            return Mage::helper('Mage_Review_Helper_Data')->__('New Review');
+            return __('New Review');
         }
     }
 }

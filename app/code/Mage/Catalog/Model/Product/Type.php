@@ -123,7 +123,7 @@ class Mage_Catalog_Model_Product_Type
     {
         $options = array();
         foreach (self::getTypes() as $typeId => $type) {
-            $options[$typeId] = Mage::helper('Mage_Catalog_Helper_Data')->__($type['label']);
+            $options[$typeId] = __($type['label']);
         }
 
         return $options;

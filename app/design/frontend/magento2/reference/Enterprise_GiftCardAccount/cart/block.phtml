@@ -14,29 +14,29 @@
  */
 ?>
 <div class="block giftcard">
-    <div class="title"><strong><?php echo $this->__('Gift Cards') ?></strong></div>
+    <div class="title"><strong><?php echo __('Gift Cards') ?></strong></div>
     <div class="content">
         <div id="giftcard_balance_lookup"></div>
         <span id="gc-please-wait" class="load indicator" style="display:none;">
-            <span><?php echo $this->__('Please wait, loading...') ?></span>
+            <span><?php echo __('Please wait, loading...') ?></span>
         </span>
         <form class="form giftcard add" id="giftcard-form" action="<?php echo $this->getUrl('enterprise_giftcardaccount/cart/add') ?>" method="post">
             <fieldset class="fieldset">
                 <div class="field">
-                    <label class="label" for="giftcard-code"><span><?php echo $this->__('Enter the gift card code') ?></span></label>
+                    <label class="label" for="giftcard-code"><span><?php echo __('Enter the gift card code') ?></span></label>
                     <div class="control">
                         <input class="input-text" type="text" id="giftcard-code" name="giftcard_code" data-validate="{required:true}" value="" />
                     </div>
                 </div>
                 <div class="actions">
                     <div class="primary">
-                        <button class="action submit" type="submit" value="<?php echo $this->__('Add Gift Card') ?>">
-                            <span><?php echo $this->__('Add Gift Card') ?></span>
+                        <button class="action submit" type="submit" value="<?php echo __('Add Gift Card') ?>">
+                            <span><?php echo __('Add Gift Card') ?></span>
                         </button>
                     </div>
                     <div class="secondary">
-                        <button class="action check" type="button" value="<?php echo $this->__('Check Gift Card status and balance') ?>">
-                            <span><?php echo $this->__('Check Gift Card status and balance') ?></span>
+                        <button class="action check" type="button" value="<?php echo __('Check Gift Card status and balance') ?>">
+                            <span><?php echo __('Check Gift Card status and balance') ?></span>
                         </button>
                     </div>
                 </div>

@@ -31,9 +31,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
         /** Prepare mocks for SUT constructor. */
         $helper = $this->getMockBuilder('Mage_Webapi_Helper_Data')
             ->disableOriginalConstructor()
-            ->setMethods(array('__'))
             ->getMock();
-        $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
         $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper');
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
@@ -139,7 +137,7 @@ class Mage_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
         /** Assert Mage_Webapi_Exception type and message. */
         $this->setExpectedException(
             'Mage_Webapi_Exception',
-            'The "%s" API type is not defined.',
+            'The "invalidApiType" API type is not defined.',
             Mage_Webapi_Exception::HTTP_BAD_REQUEST
         );
         $this->_frontControllerMock->determineApiType();

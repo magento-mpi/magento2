@@ -76,7 +76,7 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
         // Check if discount amount not negative
         if ($this->hasDiscountAmount()) {
             if ((int)$this->getDiscountAmount() < 0) {
-                Mage::throwException(Mage::helper('Mage_Rule_Helper_Data')->__('Invalid discount amount.'));
+                Mage::throwException(__('Invalid discount amount.'));
             }
         }
 
@@ -345,20 +345,20 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
             $toDate = new Zend_Date($toDate, Varien_Date::DATE_INTERNAL_FORMAT);
 
             if ($fromDate->compare($toDate) === 1) {
-                $result[] = Mage::helper('Mage_Rule_Helper_Data')->__('End Date must follow Start Date.');
+                $result[] = __('End Date must follow Start Date.');
             }
         }
 
         if ($object->hasWebsiteIds()) {
             $websiteIds = $object->getWebsiteIds();
             if (empty($websiteIds)) {
-                $result[] = Mage::helper('Mage_Rule_Helper_Data')->__('Websites must be specified.');
+                $result[] = __('Websites must be specified.');
             }
         }
         if ($object->hasCustomerGroupIds()) {
             $customerGroupIds = $object->getCustomerGroupIds();
             if (empty($customerGroupIds)) {
-                $result[] = Mage::helper('Mage_Rule_Helper_Data')->__('Customer Groups must be specified.');
+                $result[] = __('Customer Groups must be specified.');
             }
         }
 

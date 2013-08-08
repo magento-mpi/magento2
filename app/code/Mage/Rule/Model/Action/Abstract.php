@@ -119,8 +119,8 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '=' => Mage::helper('Mage_Rule_Helper_Data')->__('to'),
-            '+=' => Mage::helper('Mage_Rule_Helper_Data')->__('by'),
+            '=' => __('to'),
+            '+=' => __('by'),
         ));
         return $this;
     }
@@ -180,7 +180,7 @@ abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements 
         return array(
             array(
                 'value' => '',
-                'label' => Mage::helper('Mage_Rule_Helper_Data')->__('Please choose an action to add.')
+                'label' => __('Please choose an action to add.')
             ),
         );
     }

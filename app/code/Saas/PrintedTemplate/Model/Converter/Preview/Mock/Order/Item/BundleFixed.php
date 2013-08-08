@@ -96,12 +96,12 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
                     23 =>
                     array (
                       'option_id' => '23',
-                      'label' => $this->_getHelper()->__('Memory'),
+                      'label' => __('Memory'),
                       'value' =>
                       array (
                         0 =>
                         array (
-                          'title' => $this->_getHelper()->__('Crucial 2GB PC4200 DDR2 533MHz Memory'),
+                          'title' => __('Crucial 2GB PC4200 DDR2 533MHz Memory'),
                           'qty' => 1,
                           'price' => 300,
                         ),
@@ -110,12 +110,12 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
                     24 =>
                     array (
                       'option_id' => '24',
-                      'label' => $this->_getHelper()->__('Electronics'),
+                      'label' => __('Electronics'),
                       'value' =>
                       array (
                         0 =>
                         array (
-                          'title' => $this->_getHelper()->__('Electronics product'),
+                          'title' => __('Electronics product'),
                           'qty' => 1,
                           'price' => 40,
                         ),
@@ -132,7 +132,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
             'weight' => '0.0000',
             'is_virtual' => '0',
             'sku' => '23',
-            'name' => $this->_getHelper()->__('Bundle product fixed price'),
+            'name' => __('Bundle product fixed price'),
             'description' => NULL,
             'applied_rule_ids' => '1',
             'additional_data' => NULL,
@@ -247,14 +247,14 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
                         serialize(array (
                           'price' => 40,
                           'qty' => '1',
-                          'option_label' => $this->_getHelper()->__('Electronics'),
+                          'option_label' => __('Electronics'),
                           'option_id' => '24',
                         )),
                     )),
                 'weight' => '22.0000',
                 'is_virtual' => '0',
                 'sku' => '234222',
-                'name' => $this->_getHelper()->__('Electronics product'),
+                'name' => __('Electronics product'),
                 'description' => NULL,
                 'applied_rule_ids' => '',
                 'additional_data' => NULL,
@@ -361,14 +361,14 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_BundleFixed e
                         serialize(array (
                           'price' => 300,
                           'qty' => '1',
-                          'option_label' => $this->_getHelper()->__('Memory'),
+                          'option_label' => __('Memory'),
                           'option_id' => '23',
                         )),
                     )),
                 'weight' => '1.0000',
                 'is_virtual' => '0',
                 'sku' => '2gbdimm',
-                'name' => $this->_getHelper()->__('Crucial 2GB PC4200 DDR2 533MHz Memory'),
+                'name' => __('Crucial 2GB PC4200 DDR2 533MHz Memory'),
                 'description' => NULL,
                 'applied_rule_ids' => NULL,
                 'additional_data' => NULL,

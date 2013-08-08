@@ -21,7 +21,7 @@ $_helper = $this->helper('Mage_Catalog_Helper_Output');
 $_imageSize = $this->getVar('product_list_image_size', 'Mage_Catalog');
 ?>
 <?php if (!$_productCollection->count()): ?>
-<p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+<p class="note-msg"><?php echo __('There are no products matching the selection.') ?></p>
 <?php else: ?>
 <div class="category-products">
     <?php echo $this->getToolbarHtml() ?>
@@ -51,26 +51,26 @@ $_imageSize = $this->getVar('product_list_image_size', 'Mage_Catalog');
                     <?php echo $this->getPriceHtml($_product, true) ?>
                     <?php if ($_product->isSaleable()): ?>
                     <p>
-                        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart"
+                        <button type="button" title="<?php echo __('Add to Cart') ?>" class="button btn-cart"
                                 data-mage-redirect="{event: 'click', url: '<?php echo $this->getAddToCartUrl($_product) ?>'}">
-                            <span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                            <span><span><?php echo __('Add to Cart') ?></span></span></button>
                     </p>
                     <?php else: ?>
-                    <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
                     <?php endif; ?>
                     <div class="desc std">
                         <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
                         <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped ?>"
-                           class="link-learn"><?php echo $this->__('Learn More') ?></a>
+                           class="link-learn"><?php echo __('Learn More') ?></a>
                     </div>
                     <ul class="add-to-links" data-role="add-to-links">
                         <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
                         <li><a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getAddUrl($_product) ?>"
-                               class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                               class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></li>
                         <?php endif; ?>
                         <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
                         <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"
-                                                                class="link-compare"><?php echo $this->__('Add to Compare') ?></a>
+                                                                class="link-compare"><?php echo __('Add to Compare') ?></a>
                         </li>
                         <?php endif; ?>
                     </ul>
@@ -111,20 +111,20 @@ $_imageSize = $this->getVar('product_list_image_size', 'Mage_Catalog');
             <?php echo $this->getPriceHtml($_product, true) ?>
             <div class="actions">
                 <?php if ($_product->isSaleable()): ?>
-                <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart"
+                <button type="button" title="<?php echo __('Add to Cart') ?>" class="button btn-cart"
                         data-mage-redirect="{event: 'click', url: '<?php echo $this->getAddToCartUrl($_product) ?>'}">
-                    <span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                    <span><span><?php echo __('Add to Cart') ?></span></span></button>
                 <?php else: ?>
-                <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
                 <?php endif; ?>
                 <ul class="add-to-links" data-role="add-to-links">
                     <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
                     <li><a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getAddUrl($_product) ?>"
-                           class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                           class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></li>
                     <?php endif; ?>
                     <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
                     <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"
-                                                            class="link-compare"><?php echo $this->__('Add to Compare') ?></a>
+                                                            class="link-compare"><?php echo __('Add to Compare') ?></a>
                     </li>
                     <?php endif; ?>
                 </ul>

@@ -102,8 +102,8 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_AdminNotific
         $indexList = implode(', ', $data);
         $url = $this->_urlBuilder->getUrl('adminhtml/process/list');
         $helper = $this->_helperFactory->get('Mage_Index_Helper_Data');
-        $text = $helper->__('One or more of the Indexes are not up to date: %s', $indexList) . '. ';
-        $text .= $helper->__('Please go to <a href="%s">Index Management</a> and rebuild required indexes.', $url);
+        $text = __('One or more of the Indexes are not up to date: %1', $indexList) . '. ';
+        $text .= __('Please go to <a href="%1">Index Management</a> and rebuild required indexes.', $url);
         return $text;
     }
 

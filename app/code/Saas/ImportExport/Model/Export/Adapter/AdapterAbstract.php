@@ -75,7 +75,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
             $this->_filesystem->setWorkingDirectory($directory);
         }
         if (!$this->_filesystem->isDirectory(dirname($destination))) {
-            throw new Magento_Filesystem_Exception($helper->__('Destination directory is not writable'));
+            throw new Magento_Filesystem_Exception(__('Destination directory is not writable'));
         }
         $this->_destination = $destination;
         $this->_init();
@@ -129,7 +129,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
     {
         $destination = $this->_destination . '.' . $this->getFileExtension();
         if (!$this->_filesystem->rename($this->_destination, $destination)) {
-            throw new Magento_Filesystem_Exception($this->_helper->__('Temporary export file has not been renamed'));
+            throw new Magento_Filesystem_Exception(__('Temporary export file has not been renamed'));
         }
         return $destination;
     }

@@ -258,7 +258,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
             foreach ($required as $field) {
                 if (!array_key_exists($field, $v)) {
                     Mage::throwException(
-                        Mage::helper('Enterprise_Cms_Helper_Data')->__('Please correct the node data.')
+                        __('Please correct the node data.')
                     );
                 }
             }

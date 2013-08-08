@@ -272,11 +272,11 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         if ($putOrderId) {
             $page->drawText(
-                Mage::helper('Mage_Sales_Helper_Data')->__('Order # ') . $order->getRealOrderId(), 35, ($top -= 30), 'UTF-8'
+                __('Order # ') . $order->getRealOrderId(), 35, ($top -= 30), 'UTF-8'
             );
         }
         $page->drawText(
-            Mage::helper('Mage_Sales_Helper_Data')->__('Order Date: ') . Mage::helper('Mage_Core_Helper_Data')->formatDate(
+            __('Order Date: ') . Mage::helper('Mage_Core_Helper_Data')->formatDate(
                 $order->getCreatedAtStoreDate(), 'medium', false
             ),
             35,
@@ -318,12 +318,12 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
         $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
         $this->_setFontBold($page, 12);
-        $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Sold to:'), 35, ($top - 15), 'UTF-8');
+        $page->drawText(__('Sold to:'), 35, ($top - 15), 'UTF-8');
 
         if (!$order->getIsVirtual()) {
-            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Ship to:'), 285, ($top - 15), 'UTF-8');
+            $page->drawText(__('Ship to:'), 285, ($top - 15), 'UTF-8');
         } else {
-            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Payment Method:'), 285, ($top - 15), 'UTF-8');
+            $page->drawText(__('Payment Method:'), 285, ($top - 15), 'UTF-8');
         }
 
         $addressesHeight = $this->_calcAddressHeight($billingAddress);
@@ -379,8 +379,8 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             $this->y -= 15;
             $this->_setFontBold($page, 12);
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Payment Method'), 35, $this->y, 'UTF-8');
-            $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Shipping Method:'), 285, $this->y , 'UTF-8');
+            $page->drawText(__('Payment Method'), 35, $this->y, 'UTF-8');
+            $page->drawText(__('Shipping Method:'), 285, $this->y , 'UTF-8');
 
             $this->y -=10;
             $page->setFillColor(new Zend_Pdf_Color_GrayScale(1));
@@ -426,7 +426,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
             }
 
             $yShipments = $this->y;
-            $totalShippingChargesText = "(" . Mage::helper('Mage_Sales_Helper_Data')->__('Total Shipping Charges') . " "
+            $totalShippingChargesText = "(" . __('Total Shipping Charges') . " "
                 . $order->formatPriceTxt($order->getShippingAmount()) . ")";
 
             $page->drawText($totalShippingChargesText, 285, $yShipments - $topMargin, 'UTF-8');
@@ -445,9 +445,9 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
 
                 $this->_setFontRegular($page, 9);
                 $page->setFillColor(new Zend_Pdf_Color_GrayScale(0));
-                //$page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Carrier'), 290, $yShipments - 7 , 'UTF-8');
-                $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Title'), 290, $yShipments - 7, 'UTF-8');
-                $page->drawText(Mage::helper('Mage_Sales_Helper_Data')->__('Number'), 410, $yShipments - 7, 'UTF-8');
+                //$page->drawText(__('Carrier'), 290, $yShipments - 7 , 'UTF-8');
+                $page->drawText(__('Title'), 290, $yShipments - 7, 'UTF-8');
+                $page->drawText(__('Number'), 410, $yShipments - 7, 'UTF-8');
 
                 $yShipments -= 20;
                 $this->_setFontRegular($page, 8);
@@ -458,7 +458,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
                         $carrier = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($CarrierCode);
                         $carrierTitle = $carrier->getConfigData('title');
                     } else {
-                        $carrierTitle = Mage::helper('Mage_Sales_Helper_Data')->__('Custom Value');
+                        $carrierTitle = __('Custom Value');
                     }
 
                     //$truncatedCarrierTitle = substr($carrierTitle, 0, 35) . (strlen($carrierTitle) > 35 ? '...' : '');
@@ -538,7 +538,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
                     $totalInfo['model'] = $totalModel;
                 } else {
                     Mage::throwException(
-                        Mage::helper('Mage_Sales_Helper_Data')->__('The PDF total model should extend Mage_Sales_Model_Order_Pdf_Total_Default.')
+                        __('The PDF total model should extend Mage_Sales_Model_Order_Pdf_Total_Default.')
                     );
                 }
             } else {
@@ -688,7 +688,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         }
 
         if (!isset($this->_renderers[$type])) {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('We found an invalid renderer model.'));
+            Mage::throwException(__('We found an invalid renderer model.'));
         }
 
         if (is_null($this->_renderers[$type]['renderer'])) {
@@ -797,7 +797,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
     protected function _getPdf()
     {
         if (!$this->_pdf instanceof Zend_Pdf) {
-            Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('Please define the PDF object before using.'));
+            Mage::throwException(__('Please define the PDF object before using.'));
         }
 
         return $this->_pdf;
@@ -848,7 +848,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
     {
         foreach ($draw as $itemsProp) {
             if (!isset($itemsProp['lines']) || !is_array($itemsProp['lines'])) {
-                Mage::throwException(Mage::helper('Mage_Sales_Helper_Data')->__('We don\'t recognize the draw line data. Please define the "lines" array.'));
+                Mage::throwException(__('We don\'t recognize the draw line data. Please define the "lines" array.'));
             }
             $lines  = $itemsProp['lines'];
             $height = isset($itemsProp['height']) ? $itemsProp['height'] : 10;

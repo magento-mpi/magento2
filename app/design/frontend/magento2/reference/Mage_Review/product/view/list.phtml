@@ -16,7 +16,7 @@
 <?php if (count($_items)):?>
 <div class="block reviews list" id="customer-reviews">
     <div class="title">
-        <strong><?php echo $this->__('Customer Reviews') ?></strong>
+        <strong><?php echo __('Customer Reviews') ?></strong>
     </div>
     <div class="content">
     <?php echo $this->getChildHtml('toolbar') ?>
@@ -35,11 +35,11 @@
             </div>
             <div class="review details">
                 <p class="author">
-                    <span><?php echo $this->__('Review by')?></span>
+                    <span><?php echo __('Review by')?></span>
                     <strong class="nickname"><?php echo $this->escapeHtml($_review->getNickname()) ?></strong>
                 </p>
                 <p class="review date">
-                    <span><?php echo $this->__('Posted on') ?></span>
+                    <span><?php echo __('Posted on') ?></span>
                     <time class="date"><?php echo $this->formatDate($_review->getCreatedAt(), $format) ?></time>
                 </p>
             </div>

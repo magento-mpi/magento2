@@ -15,26 +15,13 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_applicationConfig;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperMock;
-
-    /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperFactoryMock;
-
     /** @var Mage_Webapi_Controller_Request_Rest_Interpreter_Factory */
     protected $_interpreterFactory;
 
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper');
-        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__'))
-            ->getMock();
-        $this->_helperFactoryMock->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue($this->_helperMock));
+        $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper');
         $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
@@ -47,7 +34,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
         $this->_interpreterFactory = new Mage_Webapi_Controller_Request_Rest_Interpreter_Factory(
             $this->_objectManagerMock,
             $this->_applicationConfig,
-            $this->_helperFactoryMock
+            $helperFactoryMock
         );
         parent::setUp();
     }
@@ -56,8 +43,6 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
     {
         unset($this->_objectManagerMock);
         unset($this->_applicationConfig);
-        unset($this->_helperMock);
-        unset($this->_helperFactoryMock);
         unset($this->_interpreterFactory);
         parent::tearDown();
     }
@@ -96,10 +81,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
             ->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue(array($expectedMetadata)));
-        $this->_helperMock->expects($this->once())
-            ->method('__')
-            ->with('Server cannot understand Content-Type HTTP header media type "%s"', 'text_xml')
-            ->will($this->returnValue('Server cannot understand Content-Type HTTP header media type "text_xml"'));
+
         $this->setExpectedException(
             'Mage_Webapi_Exception',
             'Server cannot understand Content-Type HTTP header media type "text_xml"',
@@ -132,6 +114,3 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
         $this->_interpreterFactory->get('text/xml');
     }
 }
-
-
-

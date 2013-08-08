@@ -16,7 +16,7 @@
         <strong><?php echo $this->getTitle(); ?></strong>
     </div>
     <div class="content">
-    <strong class="subtitle"><?php echo $this->__('Last Added Items') ?></strong>
+    <strong class="subtitle"><?php echo __('Last Added Items') ?></strong>
     <?php if ($this->hasWishlistItems()): ?>
     <ol class="items minilist products" id="wishlist-sidebar">
     <?php $iterator = 1; ?>
@@ -32,11 +32,11 @@
                     <?php echo $this->getPriceHtml($product, false, '-wishlist') ?>
                     <div class="product actions">
                         <?php if ($product->isSaleable() && $product->isVisibleInSiteVisibility()): ?>
-                            <div class="primary"><a href="<?php echo $this->getItemAddToCartUrl($_item) ?>" class="action tocart"><span><?php echo $this->__('Add to Cart') ?></span></a></div>
+                            <div class="primary"><a href="<?php echo $this->getItemAddToCartUrl($_item) ?>" class="action tocart"><span><?php echo __('Add to Cart') ?></span></a></div>
                         <?php endif; ?>
                         <div class="secondary">
-                            <a href="<?php echo $this->getItemRemoveUrl($_item) ?>" title="<?php echo $this->__('Remove This Item') ?>" onclick="return confirm('<?php echo $this->__('Are you sure you would like to remove this item from the wishlist?') ?>');" class="action delete">
-                                <span><?php echo $this->__('Remove This Item') ?></span>
+                            <a href="<?php echo $this->getItemRemoveUrl($_item) ?>" title="<?php echo __('Remove This Item') ?>" onclick="return confirm('<?php echo __('Are you sure you would like to remove this item from the wishlist?') ?>');" class="action delete">
+                                <span><?php echo __('Remove This Item') ?></span>
                             </a>
                         </div>
                     </div>
@@ -46,10 +46,10 @@
     <?php endforeach; ?>
     </ol>
     <div class="actions">
-        <a class="action details" href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getListUrl() ?>"><span><?php echo $this->__('Go to Wish List') ?></span></a>
+        <a class="action details" href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getListUrl() ?>"><span><?php echo __('Go to Wish List') ?></span></a>
     </div>
     <?php else: ?>
-        <p class="empty"><?php echo $this->__('You have no items in your wish list.') ?></p>
+        <p class="empty"><?php echo __('You have no items in your wish list.') ?></p>
     <?php endif ?>
     </div>
 </div>

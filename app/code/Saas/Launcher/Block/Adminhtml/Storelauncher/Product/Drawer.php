@@ -78,7 +78,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
      */
     public function getTileHeader()
     {
-        return $this->helper('Saas_Launcher_Helper_Data')->__('Product');
+        return __('Product');
     }
 
     /**

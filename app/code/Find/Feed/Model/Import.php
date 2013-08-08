@@ -54,7 +54,7 @@ class Find_Feed_Model_Import extends Mage_Core_Model_Abstract
             $this->_deleteFtpFiles();
             $this->_sendFile($file);
             if (!$this->_deleteFile($file)) {
-                Mage::throwException(Mage::helper('Find_Feed_Helper_Data')->__("FTP: Can't delete files"));
+                Mage::throwException(__("FTP: Can't delete files"));
             }
         }
     }

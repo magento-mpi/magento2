@@ -73,16 +73,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
      */
     public function getLabel()
     {
-        return $this->helper('Mage_Catalog_Helper_Data')->__('Images');
-    }
-
-    /**
-     * Translate message
-     *
-     * @param string $message
-     */
-    private function __($message) {
-        return $this->helper('Mage_Catalog_Helper_Data')->__($message);
+        return __('Images');
     }
 
     /**
@@ -95,6 +86,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
         $htmlId = $this->_coreHelper->escapeHtml($this->getHtmlId());
         $uploadUrl = $this->_coreHelper->escapeHtml($this->_getUploadUrl());
         $spacerImage = $this->_viewUrl->getViewFileUrl('images/spacer.gif');
+        $imagePlaceholderText = __('Click here or drag and drop to add images');
+        $deleteImageText = __('Delete image');
+        $makeBaseText = __('Make Base');
+        $hiddenText = __('Hidden');
+        $imageManagementText = __('Image Management');
         /** @var $product Mage_Catalog_Model_Product */
         $html = <<<HTML
 <div id="{$htmlId}-container" class="images"
@@ -104,28 +100,28 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Varien_
     <div class="image image-placeholder">
         <input type="file" name="image" data-url="{$uploadUrl}" multiple="multiple" />
         <img class="spacer" src="{$spacerImage}"/>
-        <p class="image-placeholder-text">{$this->__('Click here or drag and drop to add images')}</p>
+        <p class="image-placeholder-text">{$imagePlaceholderText}</p>
     </div>
     <script id="{$htmlId}-template" class="image-template" type="text/x-jquery-tmpl">
         <div class="image">
             <img class="spacer" src="{$spacerImage}"/>
             <img class="product-image" src="\${url}" data-position="\${position}" alt="\${label}" />
             <div class="actions">
-                <button class="action-delete" data-role="delete-button" title="{$this->__('Delete image')}">
-                    <span>{$this->__('Delete image')}</span>
+                <button class="action-delete" data-role="delete-button" title="{$deleteImageText}">
+                    <span>{$deleteImageText}</span>
                 </button>
-                <button class="action-make-base" data-role="make-base-button" title="{$this->__('Make Base')}">
-                    <span>{$this->__('Make Base')}</span>
+                <button class="action-make-base" data-role="make-base-button" title="{$makeBaseText}">
+                    <span>{$makeBaseText}</span>
                 </button>
                 <div class="draggable-handle"></div>
             </div>
             <div class="image-label"></div>
-            <div class="image-fade"><span>{$this->__('Hidden')}</span></div>
+            <div class="image-fade"><span>{$hiddenText}</span></div>
         </div>
     </script>
 </div>
 <span class="action-manage-images" data-activate-tab="image-management">
-    <span>{$this->helper('Mage_Catalog_Helper_Data')->__('Image Management')}</span>
+    <span>{$imageManagementText}</span>
 </span>
 <script>
     (function($) {

@@ -31,13 +31,13 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_Form extends Mage_Backend_Bl
             'method' => 'post'
         ));
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => $helper->__('Export Settings')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Export Settings')));
         /** @var $entitySourceModel Mage_ImportExport_Model_Source_Export_Entity */
         $entitySourceModel = Mage::getModel('Mage_ImportExport_Model_Source_Export_Entity');
         $fieldset->addField('entity', 'select', array(
             'name'     => 'entity',
-            'title'    => $helper->__('Entity Type'),
-            'label'    => $helper->__('Entity Type'),
+            'title'    => __('Entity Type'),
+            'label'    => __('Entity Type'),
             'required' => false,
             'onchange' => 'varienExport.getFilter();',
             'values'   => $entitySourceModel->toOptionArray()
@@ -46,8 +46,8 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_Form extends Mage_Backend_Bl
         $formatSourceModel = Mage::getModel('Mage_ImportExport_Model_Source_Export_Format');
         $fieldset->addField('file_format', 'select', array(
             'name'     => 'file_format',
-            'title'    => $helper->__('Export File Format'),
-            'label'    => $helper->__('Export File Format'),
+            'title'    => __('Export File Format'),
+            'label'    => __('Export File Format'),
             'required' => false,
             'values'   => $formatSourceModel->toOptionArray()
         ));

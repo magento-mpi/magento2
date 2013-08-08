@@ -12,9 +12,6 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_coreAuthorization;
 
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_helperMock;
-
     /** @var Mage_Webapi_Model_Authorization */
     protected $_webapiAuthorization;
 
@@ -23,13 +20,8 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
         /** Prepare mocks for SUT constructor. */
         $this->_coreAuthorization = $this->getMockBuilder('Magento_AuthorizationInterface')
             ->getMock();
-        $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('__'))
-            ->getMock();
         /** Initialize SUT. */
         $this->_webapiAuthorization = new Mage_Webapi_Model_Authorization(
-            $this->_helperMock,
             $this->_coreAuthorization
         );
         parent::setUp();
@@ -46,7 +38,6 @@ class Mage_Webapi_Model_AuthorizationTest extends PHPUnit_Framework_TestCase
     public function testCheckResourceAclMageWebapiException()
     {
         $this->_coreAuthorization->expects($this->exactly(2))->method('isAllowed')->will($this->returnValue(false));
-        $this->_helperMock->expects($this->once())->method('__')->will($this->returnArgument(0));
         $this->setExpectedException('Mage_Webapi_Exception', 'Access to resource is forbidden.');
         $this->_webapiAuthorization->checkResourceAcl('invalidResource', 'invalidMethod');
     }

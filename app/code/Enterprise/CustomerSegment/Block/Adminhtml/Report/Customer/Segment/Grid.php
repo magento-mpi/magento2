@@ -55,21 +55,21 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
         parent::_prepareColumns();
 
         $this->addColumn('segment_id', array(
-            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'index'     => 'segment_id',
             'header_css_class'  => 'col-id',
             'column_css_class'  => 'col-id'
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment'),
+            'header'    => __('Segment'),
             'index'     => 'name',
             'header_css_class'  => 'col-segment',
             'column_css_class'  => 'col-segment'
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Status'),
+            'header'    => __('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
@@ -82,7 +82,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('website', array(
-                'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Website'),
+                'header'    => __('Website'),
                 'index'     => 'website_ids',
                 'type'      => 'options',
                 'options'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
@@ -92,7 +92,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
         }
 
         $this->addColumn('customer_count', array(
-            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customers'),
+            'header'    => __('Customers'),
             'index'     =>'customer_count',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
@@ -110,14 +110,14 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
     {
         $this->setMassactionIdField('segment_id');
         $this->getMassactionBlock()->addItem('view', array(
-            'label'=> Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('View Combined Report'),
+            'label'=> __('View Combined Report'),
             'url'  => $this->getUrl('*/*/detail', array('_current'=>true)),
             'additional' => array(
                 'visibility' => array(
                          'name'     => 'view_mode',
                          'type'     => 'select',
                          'class'    => 'required-entry',
-                         'label'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Set'),
+                         'label'    => __('Set'),
                          'values'   => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->getOptionsArray()
                      )
              )

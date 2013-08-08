@@ -349,21 +349,10 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
                 ->will($this->returnValue(2));
         }
 
-        $dataHelper = $this->getMock('stdClass', array('__'));
-        if ($addExpectations) {
-            $dataHelper->expects($this->any())
-                ->method('__')
-                ->will($this->returnArgument(0));
-        }
-        $helpers = array(
-            'Mage_ImportExport_Helper_Data' => $dataHelper
-        );
-
         $data = array(
             'connection'        => $connection,
             'tables'            => $this->_tables,
             'resource_helper'   => $resourceHelper,
-            'helpers'           => $helpers,
             'is_price_global'   => true,
             'stores'            => $this->_testStores,
         );

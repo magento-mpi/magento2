@@ -27,7 +27,7 @@
 
         <div class="buttons-set">
             <div class="f-right">
-                <button class="scalable cancel_button" type="button" id="cms_popup_cancel" onclick="hideHierarchyDialog()"><span><?php echo Mage::helper('Enterprise_Cms_Helper_Data')->__('Cancel'); ?></span></button>
+                <button class="scalable cancel_button" type="button" id="cms_popup_cancel" onclick="hideHierarchyDialog()"><span><?php echo __('Cancel'); ?></span></button>
                 <button type="button" id="cms_popup_ok"><span></span></button>
             </div>
         </div>
@@ -53,11 +53,11 @@
     function submitCopy(containerObj)
     {
         if (!countSelectedScopes()) {
-            alert(<?php echo json_encode(Mage::helper('Enterprise_Cms_Helper_Data')->__("Please select a website or store view.")); ?>);
+            alert(<?php echo json_encode(__("Please select a website or store view.")); ?>);
             return;
         }
 
-        if (confirm(<?php echo json_encode(Mage::helper('Enterprise_Cms_Helper_Data')->__("Are you sure you want to copy the current hierarchy to the selected destinations?")); ?>)) {
+        if (confirm(<?php echo json_encode(__("Are you sure you want to copy the current hierarchy to the selected destinations?")); ?>)) {
             var form = $$('#cms-hierarchy-manage-container form')[0];
             form.action = <?php echo json_encode($this->getCopyHierarchyUrl()); ?>;
             form.submit();
@@ -68,11 +68,11 @@
     function submitDelete(containerObj)
     {
         if (!countSelectedScopes()) {
-            alert(<?php echo json_encode(Mage::helper('Enterprise_Cms_Helper_Data')->__("Please select a website or store view.")); ?>);
+            alert(<?php echo json_encode(__("Please select a website or store view.")); ?>);
             return;
         }
 
-        if (confirm(<?php echo json_encode(Mage::helper('Enterprise_Cms_Helper_Data')->__("Are you sure you want to delete the selected hierarchies?")); ?>)) {
+        if (confirm(<?php echo json_encode(__("Are you sure you want to delete the selected hierarchies?")); ?>)) {
             var form = $$('#cms-hierarchy-manage-container form')[0];
             form.action = <?php echo json_encode($this->getDeleteHierarchiesUrl()); ?>;
             form.submit();
@@ -89,17 +89,17 @@
         var descriptionText = '';
         if (action == 'delete') {
             title = <?php echo json_encode(Mage::helper('Enterprise_Cms_Helper_Data')->getDeleteMultipleHierarchiesText()); ?>;
-            buttonText = <?php echo json_encode(Mage::helper('Enterprise_Cms_Helper_Data')->__('Delete')); ?>;
+            buttonText = <?php echo json_encode(__('Delete')); ?>;
             buttonClass = 'scalable ok_button delete';
             buttonAction = submitDelete;
-            descriptionText = <?php echo json_encode(Mage::helper('Enterprise_Cms_Helper_Data')->__('Please select one or more hierarchies to delete.')); ?>;
+            descriptionText = <?php echo json_encode(__('Please select one or more hierarchies to delete.')); ?>;
         } else if (action == 'copy') {
-            <?php $copyText = json_encode(Mage::helper('Enterprise_Cms_Helper_Data')->__('Copy')); ?>
+            <?php $copyText = json_encode(__('Copy')); ?>
             title = <?php echo $copyText; ?>;
             buttonText = <?php echo $copyText; ?>;
             buttonClass = 'scalable ok_button add';
             buttonAction = submitCopy;
-            descriptionText = <?php echo json_encode(Mage::helper('Enterprise_Cms_Helper_Data')->__('Please assign the current hierarchy to one or more destinations.')); ?>;
+            descriptionText = <?php echo json_encode(__('Please assign the current hierarchy to one or more destinations.')); ?>;
         } else {
             return;
         }

@@ -41,8 +41,8 @@ class Mage_User_Block_User extends Mage_Backend_Block_Widget_Grid_Container
         $this->addData(array(
             Mage_Backend_Block_Widget_Container::PARAM_CONTROLLER => 'user',
             Mage_Backend_Block_Widget_Grid_Container::PARAM_BLOCK_GROUP => 'Mage_User',
-            Mage_Backend_Block_Widget_Grid_Container::PARAM_BUTTON_NEW => $this->__('Add New User'),
-            Mage_Backend_Block_Widget_Container::PARAM_HEADER_TEXT => $this->__('Users'),
+            Mage_Backend_Block_Widget_Grid_Container::PARAM_BUTTON_NEW => __('Add New User'),
+            Mage_Backend_Block_Widget_Container::PARAM_HEADER_TEXT => __('Users'),
         ));
         parent::_construct();
         $this->_addNewButton();

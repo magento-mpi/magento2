@@ -19,12 +19,12 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
         $this->loadLayout()
             ->_setActiveMenu('Mage_Webapi::system_api_webapi_users')
             ->_addBreadcrumb(
-                $this->__('Web Services'),
-                $this->__('Web Services')
+                __('Web Services'),
+                __('Web Services')
             )
             ->_addBreadcrumb(
-                $this->__('API Users'),
-                $this->__('API Users')
+                __('API Users'),
+                __('API Users')
             );
 
         return $this;
@@ -36,7 +36,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     public function indexAction()
     {
         $this->_initAction();
-        $this->_title($this->__('API Users'));
+        $this->_title(__('API Users'));
 
         $this->renderLayout();
     }
@@ -56,7 +56,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
     public function editAction()
     {
         $this->_initAction();
-        $this->_title($this->__('API Users'));
+        $this->_title(__('API Users'));
 
         $userId = (int)$this->getRequest()->getParam('user_id');
         $user = $this->_loadApiUser($userId);
@@ -67,7 +67,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
         // Update title and breadcrumb record.
         $actionTitle = $user->getId()
             ? $this->_objectManager->get('Mage_Webapi_Helper_Data')->escapeHtml($user->getApiKey())
-            : $this->__('New API User');
+            : __('New API User');
         $this->_title($actionTitle);
         $this->_addBreadcrumb($actionTitle, $actionTitle);
 
@@ -113,7 +113,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
 
                 $this->_getSession()
                     ->setWebapiUserData(null)
-                    ->addSuccess($this->__('The API user has been saved.'));
+                    ->addSuccess(__('The API user has been saved.'));
                 $redirectBack = $this->getRequest()->has('back');
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()
@@ -150,7 +150,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
                 $user->delete();
 
                 $this->_getSession()->addSuccess(
-                    $this->__('The API user has been deleted.')
+                    __('The API user has been deleted.')
                 );
                 $this->_redirect('*/*/');
                 return;
@@ -161,7 +161,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
             }
         }
         $this->_getSession()->addError(
-            $this->__('Unable to find a user to be deleted.')
+            __('Unable to find a user to be deleted.')
         );
         $this->_redirect('*/*/');
     }
@@ -222,7 +222,7 @@ class Mage_Webapi_Adminhtml_Webapi_UserController extends Mage_Backend_Controlle
         $user = $this->_objectManager->create('Mage_Webapi_Model_Acl_User')->load($userId);
         if (!$user->getId() && $userId) {
             $this->_getSession()->addError(
-                $this->__('This user no longer exists.')
+                __('This user no longer exists.')
             );
             $this->_redirect('*/*/');
             return false;

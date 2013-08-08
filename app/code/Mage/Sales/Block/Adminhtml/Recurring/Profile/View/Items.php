@@ -23,7 +23,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Items extends Mage_Admin
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Invalid parent block for this block'));
+            Mage::throwException(__('Invalid parent block for this block'));
         }
         parent::_beforeToHtml();
     }

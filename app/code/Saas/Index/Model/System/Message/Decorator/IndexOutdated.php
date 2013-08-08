@@ -87,6 +87,6 @@ class Saas_Index_Model_System_Message_Decorator_IndexOutdated
     public function getText()
     {
         $url = $this->_urlBuilder->getUrl('adminhtml/process/list');
-        return $this->_helper->__('You need to refresh the search index. Please click <a href="%s">here</a>.', $url);
+        return __('You need to refresh the search index. Please click <a href="%1">here</a>.', $url);
     }
 }

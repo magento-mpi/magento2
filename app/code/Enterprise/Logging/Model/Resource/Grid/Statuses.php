@@ -26,8 +26,8 @@ class Enterprise_Logging_Model_Resource_Grid_Statuses implements Mage_Core_Model
     public function toOptionArray()
     {
         return array(
-            Enterprise_Logging_Model_Event::RESULT_SUCCESS => $this->_helper->__('Success'),
-            Enterprise_Logging_Model_Event::RESULT_FAILURE => $this->_helper->__('Failure'),
+            Enterprise_Logging_Model_Event::RESULT_SUCCESS => __('Success'),
+            Enterprise_Logging_Model_Event::RESULT_FAILURE => __('Failure'),
         );
     }
 }

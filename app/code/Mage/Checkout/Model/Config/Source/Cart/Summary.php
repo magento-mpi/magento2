@@ -12,8 +12,8 @@ class Mage_Checkout_Model_Config_Source_Cart_Summary implements Mage_Core_Model_
     public function toOptionArray()
     {
         return array(
-            array('value'=>0, 'label'=>Mage::helper('Mage_Checkout_Helper_Data')->__('Display number of items in cart')),
-            array('value'=>1, 'label'=>Mage::helper('Mage_Checkout_Helper_Data')->__('Display item quantities')),
+            array('value'=>0, 'label'=>__('Display number of items in cart')),
+            array('value'=>1, 'label'=>__('Display item quantities')),
         );
     }
 }

@@ -39,24 +39,24 @@ class Social_Facebook_Block_Adminhtml_Facebuttons extends Mage_Backend_Block_Sys
     protected function _prepareToRender()
     {
         $this->addColumn('action', array(
-            'label' => Mage::helper('Social_Facebook_Helper_Data')->__('Action'),
+            'label' => __('Action'),
             'style' => 'width:120px',
         ));
         $this->addColumn('title', array(
-            'label' => Mage::helper('Social_Facebook_Helper_Data')->__('Button Title'),
+            'label' => __('Button Title'),
             'style' => 'width:120px',
         ));
         $this->addColumn('box', array(
-            'label'     => Mage::helper('Social_Facebook_Helper_Data')->__('Enable FriendBox'),
+            'label'     => __('Enable FriendBox'),
             'renderer'  => $this->_selectRenderer(),
         ));
         $this->addColumn('count', array(
-            'label' => Mage::helper('Social_Facebook_Helper_Data')->__('Count in FriendBox'),
+            'label' => __('Count in FriendBox'),
             'style' => 'width:120px',
         ));
 
         $this->_addAfter = false;
-        $this->_addButtonLabel = Mage::helper('Social_Facebook_Helper_Data')->__('Add Action Button');
+        $this->_addButtonLabel = __('Add Action Button');
     }
 
     /**

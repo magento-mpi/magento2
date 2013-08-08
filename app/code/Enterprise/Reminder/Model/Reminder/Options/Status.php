@@ -41,8 +41,8 @@ class Enterprise_Reminder_Model_Reminder_Options_Status implements Mage_Core_Mod
     public function toOptionArray()
     {
         return array(
-            1 => $this->_helper->__('Active'),
-            0 => $this->_helper->__('Inactive'),
+            1 => __('Active'),
+            0 => __('Inactive'),
         );
     }
 }

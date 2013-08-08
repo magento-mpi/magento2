@@ -20,9 +20,9 @@
                 <?php echo $this->getBlockHtml('formkey')?>
                 <fieldset>
                     <span class="field-row">
-                        <label><?php echo $this->__('Select Product Actions') ?>
+                        <label><?php echo __('Select Product Actions') ?>
                             <select id="<?php echo $this->getHtmlId() ?>-select" class="select absolute-advice local-validation">
-                                <option value=""><?php echo $this->__('-- Please select --')?></option>
+                                <option value=""><?php echo __('-- Please select --')?></option>
                                 <?php foreach ($this->getItems() as $_item): ?>
                                     <option value="<?php echo $_item->getId() ?>"<?php echo ($_item->getSelected() ? ' selected="selected"' : '')?>><?php echo $_item->getLabel() ?></option>
                                 <?php endforeach; ?>
@@ -49,20 +49,20 @@
     <ul>
         <?php if ($this->getUseSelectAll()):?>
         <li>
-            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.selectAll()"><?php echo $this->__('Select All') ?></a>
+            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.selectAll()"><?php echo __('Select All') ?></a>
         </li>
         <li>
-            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.unselectAll()"><?php echo $this->__('Unselect All') ?></a>
+            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.unselectAll()"><?php echo __('Unselect All') ?></a>
         </li>
         <?php endif; ?>
         <li>
-            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.selectVisible()"><?php echo $this->__('Select Visible') ?></a>
+            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.selectVisible()"><?php echo __('Select Visible') ?></a>
         </li>
         <li>
-            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.unselectVisible()"><?php echo $this->__('Unselect Visible') ?></a>
+            <a href="#" onclick="return <?php echo $this->getJsObjectName() ?>.unselectVisible()"><?php echo __('Unselect Visible') ?></a>
         </li>
         <li>
-            <strong id="<?php echo $this->getHtmlId() ?>-count">0</strong> <?php echo $this->__('items selected') ?>
+            <strong id="<?php echo $this->getHtmlId() ?>-count">0</strong> <?php echo __('items selected') ?>
         </li>
     </ul>
 </div>

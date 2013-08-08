@@ -10,44 +10,44 @@
 ?>
 <?php /** @var $this Mage_Checkout_Block_Cart_Shipping */ ?>
 <div class="block shipping">
-    <div class="title"><strong><?php echo $this->__('Estimate Shipping and Tax') ?></strong></div>
+    <div class="title"><strong><?php echo __('Estimate Shipping and Tax') ?></strong></div>
     <div class="content">
     <form action="<?php echo $this->getUrl('checkout/cart/estimatePost') ?>" method="post" id="shipping-zip-form">
         <fieldset class="fieldset estimate">
-            <p class="field note"><?php echo $this->__('Enter your destination to get a shipping estimate.') ?></p>
+            <p class="field note"><?php echo __('Enter your destination to get a shipping estimate.') ?></p>
             <div class="field country">
-                <label for="country" class="label"><span><?php echo $this->__('Country') ?></span></label>
+                <label for="country" class="label"><span><?php echo __('Country') ?></span></label>
                 <div class="control">
                     <?php echo Mage::getBlockSingleton('Mage_Directory_Block_Data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?>
                 </div>
             </div>
             <?php //if($this->getStateActive()): ?>
             <div class="field region<?php if ($this->isStateProvinceRequired()) echo ' required' ?>">
-                <label for="region_id" class="label"><span><?php echo $this->__('State/Province') ?></span></label>
+                <label for="region_id" class="label"><span><?php echo __('State/Province') ?></span></label>
                 <div class="control">
-                    <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" style="display:none;"<?php echo ($this->isStateProvinceRequired() ? ' class="validate-select"' : '') ?>>
-                        <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                    <select id="region_id" name="region_id" title="<?php echo __('State/Province') ?>" style="display:none;"<?php echo ($this->isStateProvinceRequired() ? ' class="validate-select"' : '') ?>>
+                        <option value=""><?php echo __('Please select region, state or province') ?></option>
                     </select>
-                   <input type="text" id="region" name="region" value="<?php echo $this->escapeHtml($this->getEstimateRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none;" />
+                   <input type="text" id="region" name="region" value="<?php echo $this->escapeHtml($this->getEstimateRegion()) ?>"  title="<?php echo __('State/Province') ?>" class="input-text" style="display:none;" />
                 </div>
             </div>
             <?php //endif; ?>
             <?php if($this->getCityActive()): ?>
             <div class="field city<?php if ($this->isCityRequired()) echo ' required' ?>">
-                <label for="city" class="label"><span><?php echo $this->__('City') ?></span></label>
+                <label for="city" class="label"><span><?php echo __('City') ?></span></label>
                 <div class="control">
                     <input class="input-text<?php if ($this->isCityRequired()):?> required-entry<?php endif;?>" id="city" type="text" name="estimate_city" value="<?php echo $this->escapeHtml($this->getEstimateCity()) ?>" />
                 </div>
             </div>
             <?php endif; ?>
             <div class="field postcode<?php if ($this->isZipCodeRequired()) echo ' required' ?>">
-                <label for="postcode" class="label"><span><?php echo $this->__('Zip/Postal Code') ?></span></label>
+                <label for="postcode" class="label"><span><?php echo __('Zip/Postal Code') ?></span></label>
                 <div class="control">
                     <input class="input-text validate-postcode<?php if ($this->isZipCodeRequired()):?> required-entry<?php endif;?>" type="text" id="postcode" name="estimate_postcode" value="<?php echo $this->escapeHtml($this->getEstimatePostcode()) ?>" />
                 </div>
             </div>
             <div class="actions">
-                <button type="submit" class="action quote"><span><?php echo $this->__('Get a Quote') ?></span></button>
+                <button type="submit" class="action quote"><span><?php echo __('Get a Quote') ?></span></button>
             </div>
         </fieldset>
     </form>
@@ -92,7 +92,7 @@
                                     <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
                                     <?php echo $_excl; ?>
                                     <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
-                                        (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                                        (<?php echo __('Incl. Tax'); ?> <?php echo $_incl; ?>)
                                     <?php endif; ?>
                                 </label>
                            <?php endif ?>
@@ -102,7 +102,7 @@
                 <?php endforeach; ?>
             </dl>
             <div class="actions">
-                <button type="submit" class="action update" name="do" value="<?php echo $this->__('Update Total') ?>"><span><?php echo $this->__('Update Total') ?></span></button>
+                <button type="submit" class="action update" name="do" value="<?php echo __('Update Total') ?>"><span><?php echo __('Update Total') ?></span></button>
             </div>
         </fieldset>
     </form>

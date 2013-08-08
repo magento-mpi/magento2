@@ -23,14 +23,14 @@ class Mage_Payment_Block_Info_Ccsave extends Mage_Payment_Block_Info_Cc
             return $this->_paymentSpecificInformation;
         }
         $info = $this->getInfo();
-        $transport = new Varien_Object(array(Mage::helper('Mage_Payment_Helper_Data')->__('Name on the Card') => $info->getCcOwner(),));
+        $transport = new Varien_Object(array(__('Name on the Card') => $info->getCcOwner(),));
         $transport = parent::_prepareSpecificInformation($transport);
         if (!$this->getIsSecureMode()) {
             $transport->addData(array(
-                Mage::helper('Mage_Payment_Helper_Data')->__('Expiration Date') => $this->_formatCardDate(
+                __('Expiration Date') => $this->_formatCardDate(
                     $info->getCcExpYear(), $this->getCcExpMonth()
                 ),
-                Mage::helper('Mage_Payment_Helper_Data')->__('Credit Card Number') => $info->getCcNumber(),
+                __('Credit Card Number') => $info->getCcNumber(),
             ));
         }
         return $transport;

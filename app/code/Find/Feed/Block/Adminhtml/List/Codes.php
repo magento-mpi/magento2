@@ -26,8 +26,8 @@ class Find_Feed_Block_Adminhtml_List_Codes extends Mage_Adminhtml_Block_Widget_G
     {
         $this->_blockGroup      = 'Find_Feed';
         $this->_controller      = 'adminhtml_list_codes';
-        $this->_headerText      = Mage::helper('Find_Feed_Helper_Data')->__('Attributes map');
-        $this->_addButtonLabel  = Mage::helper('Find_Feed_Helper_Data')->__('Add new');
+        $this->_headerText      = __('Attributes map');
+        $this->_addButtonLabel  = __('Add new');
 
         parent::_construct();
 

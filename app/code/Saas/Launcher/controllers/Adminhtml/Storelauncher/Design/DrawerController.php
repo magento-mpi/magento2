@@ -104,7 +104,7 @@ class Saas_Launcher_Adminhtml_Storelauncher_Design_DrawerController
             );
             $responseContent = $this->_composeAjaxResponseContent('', true, $responseData);
         } catch (Exception $exception) {
-            $responseContent = $this->_composeAjaxResponseContent($this->__($exception->getMessage()), false, array(
+            $responseContent = $this->_composeAjaxResponseContent(__($exception->getMessage()), false, array(
                 'errorcode' => $exception->getCode()
             ));
         }

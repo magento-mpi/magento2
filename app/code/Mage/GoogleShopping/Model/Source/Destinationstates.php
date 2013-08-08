@@ -25,9 +25,9 @@ class Mage_GoogleShopping_Model_Source_Destinationstates
     public function toOptionArray()
     {
         return array(
-            array('value' => Varien_Gdata_Gshopping_Extension_Control::DEST_MODE_DEFAULT,  'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Default')),
-            array('value' => Varien_Gdata_Gshopping_Extension_Control::DEST_MODE_REQUIRED, 'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Required')),
-            array('value' => Varien_Gdata_Gshopping_Extension_Control::DEST_MODE_EXCLUDED, 'label' => Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Excluded'))
+            array('value' => Varien_Gdata_Gshopping_Extension_Control::DEST_MODE_DEFAULT,  'label' => __('Default')),
+            array('value' => Varien_Gdata_Gshopping_Extension_Control::DEST_MODE_REQUIRED, 'label' => __('Required')),
+            array('value' => Varien_Gdata_Gshopping_Extension_Control::DEST_MODE_EXCLUDED, 'label' => __('Excluded'))
         );
     }
 }

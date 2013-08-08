@@ -166,17 +166,6 @@ abstract class Mage_Core_Helper_Abstract
     }
 
     /**
-     * Translate
-     *
-     * @SuppressWarnings(PHPMD.ShortMethodName)
-     * @return string
-     */
-    public function __()
-    {
-        return $this->_translator->translate(func_get_args());
-    }
-
-    /**
      * Escape html entities
      *
      * @param   string|array $data
@@ -352,7 +341,7 @@ abstract class Mage_Core_Helper_Abstract
             if (is_array($v)) {
                 $v = self::translateArray($v);
             } elseif ($k === 'label') {
-                $v = self::__($v);
+                $v = __($v);
             }
             $arr[$k] = $v;
         }

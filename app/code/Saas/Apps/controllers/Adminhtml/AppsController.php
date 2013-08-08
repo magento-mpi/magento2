@@ -56,7 +56,7 @@ class Saas_Apps_Adminhtml_AppsController extends Mage_Backend_Controller_ActionA
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_title($this->_appsHelper->__('Add - ons'));
+        $this->_title(__('Add - ons'));
         $this->_setActiveMenu('Saas_Apps::apps');
         $this->renderLayout();
     }

@@ -80,56 +80,56 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
 
         // start date, order ref ID, schedule description
         if (!$this->getStartDatetime()) {
-            $this->_errors['start_datetime'][] = Mage::helper('Mage_Payment_Helper_Data')->__('The start date is undefined.');
+            $this->_errors['start_datetime'][] = __('The start date is undefined.');
         } elseif (!Zend_Date::isDate($this->getStartDatetime(), Varien_Date::DATETIME_INTERNAL_FORMAT)) {
-            $this->_errors['start_datetime'][] = Mage::helper('Mage_Payment_Helper_Data')->__('The start date has an invalid format.');
+            $this->_errors['start_datetime'][] = __('The start date has an invalid format.');
         }
         if (!$this->getScheduleDescription()) {
-            $this->_errors['schedule_description'][] = Mage::helper('Mage_Payment_Helper_Data')->__('The schedule description must be provided.');
+            $this->_errors['schedule_description'][] = __('The schedule description must be provided.');
         }
 
         // period unit and frequency
         if (!$this->getPeriodUnit() || !in_array($this->getPeriodUnit(), $this->getAllPeriodUnits(false), true)) {
-            $this->_errors['period_unit'][] = Mage::helper('Mage_Payment_Helper_Data')->__('The billing period unit is not defined or wrong.');
+            $this->_errors['period_unit'][] = __('The billing period unit is not defined or wrong.');
         }
         if ($this->getPeriodFrequency() && !$this->_validatePeriodFrequency('period_unit', 'period_frequency')) {
-            $this->_errors['period_frequency'][] = Mage::helper('Mage_Payment_Helper_Data')->__('The period frequency is wrong.');;
+            $this->_errors['period_frequency'][] = __('The period frequency is wrong.');;
         }
 
         // trial period unit, trial frequency, trial period max cycles, trial billing amount
         if ($this->getTrialPeriodUnit()) {
             if (!in_array($this->getTrialPeriodUnit(), $this->getAllPeriodUnits(false), true)) {
-                $this->_errors['trial_period_unit'][] = Mage::helper('Mage_Payment_Helper_Data')->__('The trial billing period unit is wrong.');
+                $this->_errors['trial_period_unit'][] = __('The trial billing period unit is wrong.');
             }
             if (!$this->getTrialPeriodFrequency() || !$this->_validatePeriodFrequency('trial_period_unit', 'trial_period_frequency')) {
-                $this->_errors['trial_period_frequency'][] = Mage::helper('Mage_Payment_Helper_Data')->__('The trial period frequency is wrong.');
+                $this->_errors['trial_period_frequency'][] = __('The trial period frequency is wrong.');
             }
             if (!$this->getTrialPeriodMaxCycles()) {
-                $this->_errors['trial_period_max_cycles'][] = Mage::helper('Mage_Payment_Helper_Data')->__('The trial period max cycles is wrong.');
+                $this->_errors['trial_period_max_cycles'][] = __('The trial period max cycles is wrong.');
             }
             if (!$this->getTrialBillingAmount()) {
-                $this->_errors['trial_billing_amount'][] = Mage::helper('Mage_Payment_Helper_Data')->__('The trial billing amount is wrong.');
+                $this->_errors['trial_billing_amount'][] = __('The trial billing amount is wrong.');
             }
         }
 
         // billing and other amounts
         if (!$this->getBillingAmount() || 0 >= $this->getBillingAmount()) {
-            $this->_errors['billing_amount'][] = Mage::helper('Mage_Payment_Helper_Data')->__('We found a wrong or empty billing amount specified.');
+            $this->_errors['billing_amount'][] = __('We found a wrong or empty billing amount specified.');
         }
         foreach (array('trial_billing_abount', 'shipping_amount', 'tax_amount', 'init_amount') as $key) {
             if ($this->hasData($key) && 0 >= $this->getData($key)) {
-                $this->_errors[$key][] = Mage::helper('Mage_Payment_Helper_Data')->__('The wrong %s is specified.', $this->getFieldLabel($key));
+                $this->_errors[$key][] = __('The wrong %1 is specified.', $this->getFieldLabel($key));
             }
         }
 
         // currency code
         if (!$this->getCurrencyCode()) {
-            $this->_errors['currency_code'][] = Mage::helper('Mage_Payment_Helper_Data')->__('The currency code is undefined.');
+            $this->_errors['currency_code'][] = __('The currency code is undefined.');
         }
 
         // payment method
         if (!$this->_methodInstance || !$this->getMethodCode()) {
-            $this->_errors['method_code'][] = Mage::helper('Mage_Payment_Helper_Data')->__('The payment method code is undefined.');
+            $this->_errors['method_code'][] = __('The payment method code is undefined.');
         }
         if ($this->_methodInstance) {
             try {
@@ -157,7 +157,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
             }
             if ($asMessage) {
                 return Mage::throwException(
-                    Mage::helper('Mage_Payment_Helper_Data')->__("The payment profile is invalid:\n%s.", implode("\n", $result))
+                    __("The payment profile is invalid:\n%1.", implode("\n", $result))
                 );
             }
             return $result;
@@ -198,7 +198,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
             $dateFormat = $this->_locale->getDateTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
             $localeCode = $this->_locale->getLocaleCode();
             if (!Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
-                Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('The recurring profile start date has invalid format.'));
+                Mage::throwException(__('The recurring profile start date has invalid format.'));
             }
             $utcTime = $this->_locale->utcDate($this->_store, $startDate, true, $dateFormat)
                 ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
@@ -251,14 +251,14 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     {
         $result = array(
             new Varien_Object(array(
-                'title'    => Mage::helper('Mage_Payment_Helper_Data')->__('Billing Period'),
+                'title'    => __('Billing Period'),
                 'schedule' => $this->_renderSchedule('period_unit', 'period_frequency', 'period_max_cycles'),
             ))
         );
         $trial = $this->_renderSchedule('trial_period_unit', 'trial_period_frequency', 'trial_period_max_cycles');
         if ($trial) {
             $result[] = new Varien_Object(array(
-                'title'    => Mage::helper('Mage_Payment_Helper_Data')->__('Trial Period'),
+                'title'    => __('Trial Period'),
                 'schedule' => $trial,
             ));
         }
@@ -359,11 +359,11 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     public function getPeriodUnitLabel($unit)
     {
         switch ($unit) {
-            case self::PERIOD_UNIT_DAY:  return Mage::helper('Mage_Payment_Helper_Data')->__('Day');
-            case self::PERIOD_UNIT_WEEK: return Mage::helper('Mage_Payment_Helper_Data')->__('Week');
-            case self::PERIOD_UNIT_SEMI_MONTH: return Mage::helper('Mage_Payment_Helper_Data')->__('Two Weeks');
-            case self::PERIOD_UNIT_MONTH: return Mage::helper('Mage_Payment_Helper_Data')->__('Month');
-            case self::PERIOD_UNIT_YEAR:  return Mage::helper('Mage_Payment_Helper_Data')->__('Year');
+            case self::PERIOD_UNIT_DAY:  return __('Day');
+            case self::PERIOD_UNIT_WEEK: return __('Week');
+            case self::PERIOD_UNIT_SEMI_MONTH: return __('Two Weeks');
+            case self::PERIOD_UNIT_MONTH: return __('Month');
+            case self::PERIOD_UNIT_YEAR:  return __('Year');
         }
         return $unit;
     }
@@ -378,47 +378,47 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     {
         switch ($field) {
             case 'subscriber_name':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Subscriber Name');
+                return __('Subscriber Name');
             case 'start_datetime':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Start Date');
+                return __('Start Date');
             case 'internal_reference_id':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Internal Reference ID');
+                return __('Internal Reference ID');
             case 'schedule_description':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Schedule Description');
+                return __('Schedule Description');
             case 'suspension_threshold':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Maximum Payment Failures');
+                return __('Maximum Payment Failures');
             case 'bill_failed_later':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Auto Bill on Next Cycle');
+                return __('Auto Bill on Next Cycle');
             case 'period_unit':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Billing Period Unit');
+                return __('Billing Period Unit');
             case 'period_frequency':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Billing Frequency');
+                return __('Billing Frequency');
             case 'period_max_cycles':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Maximum Billing Cycles');
+                return __('Maximum Billing Cycles');
             case 'billing_amount':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Billing Amount');
+                return __('Billing Amount');
             case 'trial_period_unit':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Trial Billing Period Unit');
+                return __('Trial Billing Period Unit');
             case 'trial_period_frequency':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Trial Billing Frequency');
+                return __('Trial Billing Frequency');
             case 'trial_period_max_cycles':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Maximum Trial Billing Cycles');
+                return __('Maximum Trial Billing Cycles');
             case 'trial_billing_amount':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Trial Billing Amount');
+                return __('Trial Billing Amount');
             case 'currency_code':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Currency');
+                return __('Currency');
             case 'shipping_amount':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Shipping Amount');
+                return __('Shipping Amount');
             case 'tax_amount':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Tax Amount');
+                return __('Tax Amount');
             case 'init_amount':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Initial Fee');
+                return __('Initial Fee');
             case 'init_may_fail':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Allow Initial Fee Failure');
+                return __('Allow Initial Fee Failure');
             case 'method_code':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Payment Method');
+                return __('Payment Method');
             case 'reference_id':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Payment Reference ID');
+                return __('Payment Reference ID');
         }
     }
 
@@ -432,25 +432,25 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     {
         switch ($field) {
             case 'subscriber_name':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Full name of the person receiving the product or service paid for by the recurring payment.');
+                return __('Full name of the person receiving the product or service paid for by the recurring payment.');
             case 'start_datetime':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('This is the date when billing for the profile begins.');
+                return __('This is the date when billing for the profile begins.');
             case 'schedule_description':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Enter a short description of the recurring payment. By default, this description will match the product name.');
+                return __('Enter a short description of the recurring payment. By default, this description will match the product name.');
             case 'suspension_threshold':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('This is the number of scheduled payments that can fail before the profile is automatically suspended.');
+                return __('This is the number of scheduled payments that can fail before the profile is automatically suspended.');
             case 'bill_failed_later':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('Use this to automatically bill the outstanding balance amount in the next billing cycle (if there were failed payments).');
+                return __('Use this to automatically bill the outstanding balance amount in the next billing cycle (if there were failed payments).');
             case 'period_unit':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('This is the unit for billing during the subscription period.');
+                return __('This is the unit for billing during the subscription period.');
             case 'period_frequency':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('This is the number of billing periods that make up one billing cycle.');
+                return __('This is the number of billing periods that make up one billing cycle.');
             case 'period_max_cycles':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('This is the number of billing cycles for the payment period.');
+                return __('This is the number of billing cycles for the payment period.');
             case 'init_amount':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('The initial, non-recurring payment amount is due immediately when the profile is created.');
+                return __('The initial, non-recurring payment amount is due immediately when the profile is created.');
             case 'init_may_fail':
-                return Mage::helper('Mage_Payment_Helper_Data')->__('This sets whether to suspend the payment profile if the initial fee fails or, instead, add it to the outstanding balance.');
+                return __('This sets whether to suspend the payment profile if the initial fee fails or, instead, add it to the outstanding balance.');
         }
     }
 
@@ -580,7 +580,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         }
         if (!$this->getInternalReferenceId()) {
             Mage::throwException(
-                Mage::helper('Mage_Payment_Helper_Data')->__('An internal reference ID is required to save the payment profile.')
+                __('An internal reference ID is required to save the payment profile.')
             );
         }
     }
@@ -618,13 +618,13 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         if (self::PERIOD_UNIT_SEMI_MONTH == $period) {
             $frequency = '';
         }
-        $result[] = Mage::helper('Mage_Payment_Helper_Data')->__('%s %s cycle.', $frequency, $this->getPeriodUnitLabel($period));
+        $result[] = __('%1 %2 cycle.', $frequency, $this->getPeriodUnitLabel($period));
 
         $cycles = (int)$this->_getData($cyclesKey);
         if ($cycles) {
-            $result[] = Mage::helper('Mage_Payment_Helper_Data')->__('Repeats %s time(s)', $cycles);
+            $result[] = __('Repeats %1 time(s)', $cycles);
         } else {
-            $result[] = Mage::helper('Mage_Payment_Helper_Data')->__('Repeats until suspended or canceled.');
+            $result[] = __('Repeats until suspended or canceled.');
         }
         return $result;
     }

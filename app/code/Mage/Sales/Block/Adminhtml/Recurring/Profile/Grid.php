@@ -57,7 +57,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Mage_Adminhtml_B
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Store'),
+                'header'     => __('Store'),
                 'index'      => 'store_id',
                 'type'       => 'store',
                 'store_view' => true,

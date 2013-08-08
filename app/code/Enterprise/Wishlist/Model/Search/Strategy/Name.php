@@ -40,13 +40,13 @@ class Enterprise_Wishlist_Model_Search_Strategy_Name implements Enterprise_Wishl
     {
         if (empty($params['firstname']) || strlen($params['firstname']) < 2) {
             throw new InvalidArgumentException(
-                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Please enter at least 2 letters of the first name.')
+                __('Please enter at least 2 letters of the first name.')
             );
         }
         $this->_firstname = $params['firstname'];
         if (empty($params['lastname']) || strlen($params['lastname']) < 2) {
             throw new InvalidArgumentException(
-                Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Please enter at least 2 letters of the last name.')
+                __('Please enter at least 2 letters of the last name.')
             );
         }
         $this->_lastname = $params['lastname'];

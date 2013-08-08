@@ -85,7 +85,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
                 });
 
                 var treeRoot'.$this->getId().' = new Ext.tree.AsyncTreeNode({
-                    text: "'. $this->__("Root") .'",
+                    text: "'. __("Root") .'",
                     id: "root",
                     allowDrop: true,
                     allowDrag: false,
@@ -122,7 +122,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
                 treeRoot'.$this->getId().'.expand();
             }
             else {
-                $("tree'.$this->getId().'").innerHTML = "'.$this->__('No nodes are available.').'";
+                $("tree'.$this->getId().'").innerHTML = "'.__('No nodes are available.').'";
             }
             </script>
         ';

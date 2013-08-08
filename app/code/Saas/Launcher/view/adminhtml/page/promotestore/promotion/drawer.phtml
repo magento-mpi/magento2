@@ -14,16 +14,16 @@
     <article class="entry">
         <ul class="promote-actions">
             <?php $trackerLink = $this->getTrackerLink('adminhtml/promo_quote/new'); ?>
-            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Create Cart Coupon'); ?></a></li>
+            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo __('Create Cart Coupon'); ?></a></li>
             <?php $trackerLink = $this->getTrackerLink('adminhtml/banner/new'); ?>
-            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo $this->__('Create Coupon Banner'); ?></a></li>
+            <li class="<?php echo $trackerLink->getIsVisited() ? "completed" : "uncompleted"?>"><a href="<?php echo $trackerLink->renderUrl(); ?>" target="_blank"><?php echo __('Create Coupon Banner'); ?></a></li>
         </ul>
         <div class="promote-content">
             <div class="promote-content-section">
-                <p><?php echo $this->__('Magento shopping cart rules make it easy to launch promotions, even when you\'re just getting started. For example, you can create a rule to offer free shipping to customers with cart totals over $100.'); ?></p>
+                <p><?php echo __('Magento shopping cart rules make it easy to launch promotions, even when you\'re just getting started. For example, you can create a rule to offer free shipping to customers with cart totals over $100.'); ?></p>
             </div>
             <div class="promote-content-section">
-                <p><?php echo $this->__('Next, create coupons and banners to promote your offer. Shopping cart price rules help support your bottom line and reward customers with real-time savings.'); ?></p>
+                <p><?php echo __('Next, create coupons and banners to promote your offer. Shopping cart price rules help support your bottom line and reward customers with real-time savings.'); ?></p>
             </div>
         </div>
     </article>

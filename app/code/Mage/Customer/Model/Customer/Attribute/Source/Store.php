@@ -26,7 +26,7 @@ class Mage_Customer_Model_Customer_Attribute_Source_Store extends Mage_Eav_Model
             }
             $this->_options = Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm();
             if ('created_in' == $this->getAttribute()->getAttributeCode()) {
-                array_unshift($this->_options, array('value' => '0', 'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Admin')));
+                array_unshift($this->_options, array('value' => '0', 'label' => __('Admin')));
             }
         }
         return $this->_options;
@@ -48,7 +48,7 @@ class Mage_Customer_Model_Customer_Attribute_Source_Store extends Mage_Eav_Model
             }
             $this->_options = $collection->load()->toOptionArray();
             if ('created_in' == $this->getAttribute()->getAttributeCode()) {
-                array_unshift($this->_options, array('value' => '0', 'label' => Mage::helper('Mage_Customer_Helper_Data')->__('Admin')));
+                array_unshift($this->_options, array('value' => '0', 'label' => __('Admin')));
             }
         }
 

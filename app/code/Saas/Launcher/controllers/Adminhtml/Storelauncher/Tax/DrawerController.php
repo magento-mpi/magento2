@@ -57,7 +57,7 @@ class Saas_Launcher_Adminhtml_Storelauncher_Tax_DrawerController
         } catch (Exception $e) {
             $responseContent = Mage::helper('Saas_Launcher_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error_message' => Mage::helper('Saas_Launcher_Helper_Data')->__($e->getMessage()),
+                'error_message' => __($e->getMessage()),
                 'tax_rate_field' => '',
                 'tax_rate_collection' => '',
             ));

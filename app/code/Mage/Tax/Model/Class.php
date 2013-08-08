@@ -80,18 +80,18 @@ class Mage_Tax_Model_Class extends Mage_Core_Model_Abstract
     public function checkClassCanBeDeleted()
     {
         if (!$this->getId()) {
-            Mage::throwException($this->_helper->__('This class no longer exists.'));
+            Mage::throwException(__('This class no longer exists.'));
         }
 
         $typeModel = $this->_classFactory->create($this);
 
         if ($typeModel->getAssignedToRules()->getSize() > 0) {
-            Mage::throwException($this->_helper->__('You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.'));
+            Mage::throwException(__('You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.'));
         }
 
         $objectCount = $typeModel->getAssignedToObjects()->getSize();
         if ($objectCount > 0) {
-            Mage::throwException($this->_helper->__('You cannot delete this tax class because it is used for %d %s(s).', $objectCount, $typeModel->getObjectTypeName()));
+            Mage::throwException(__('You cannot delete this tax class because it is used for %1 %2(s).', $objectCount, $typeModel->getObjectTypeName()));
         }
 
         return true;

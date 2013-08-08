@@ -26,7 +26,7 @@
 
 <p class="note-msg">
     <span>
-        <?php echo ($this->getNoResultText()) ? $this->getNoResultText() : $this->__('Your search returns no results.') ?>
+        <?php echo ($this->getNoResultText()) ? $this->getNoResultText() : __('Your search returns no results.') ?>
         <?php echo $this->getAdditionalHtml() ?>
         <?php if ($messages = $this->getNoteMessages()):?>
             <?php foreach ($messages as $message):?>

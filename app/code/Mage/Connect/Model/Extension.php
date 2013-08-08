@@ -76,7 +76,7 @@ class Mage_Connect_Model_Extension extends Varien_Object
             ->_setContents();
         if (!$this->getPackage()->validate()) {
             $message = $this->getPackage()->getErrors();
-            throw Mage::exception('Mage_Core', Mage::helper('Mage_Connect_Helper_Data')->__($message[0]));
+            throw Mage::exception('Mage_Core', __($message[0]));
         }
         $this->setPackageXml($this->getPackage()->getPackageXml());
         return $this;

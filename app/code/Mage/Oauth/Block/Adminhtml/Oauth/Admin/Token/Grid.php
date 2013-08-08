@@ -59,14 +59,14 @@ class Mage_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Mage_Adminhtml_B
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('Mage_Oauth_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'index'     => 'entity_id',
             'align'     => 'right',
             'width'     => '50px',
         ));
 
         $this->addColumn('name', array(
-            'header'    => $this->__('Application'),
+            'header'    => __('Application'),
             'index'     => 'name',
             'escape'    => true,
         ));
@@ -74,7 +74,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Mage_Adminhtml_B
         /** @var $sourceYesNo Mage_Backend_Model_Config_Source_Yesno */
         $sourceYesNo = Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno');
         $this->addColumn('revoked', array(
-            'header'    => $this->__('Revoked'),
+            'header'    => __('Revoked'),
             'index'     => 'revoked',
             'width'     => '100px',
             'type'      => 'options',
@@ -98,15 +98,15 @@ class Mage_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Mage_Adminhtml_B
 
         $block->setFormFieldName('items');
         $block->addItem('enable', array(
-            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Enable'),
+            'label' => __('Enable'),
             'url'   => $this->getUrl('*/*/revoke', array('status' => 0)),
         ));
         $block->addItem('revoke', array(
-            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Revoke'),
+            'label' => __('Revoke'),
             'url'   => $this->getUrl('*/*/revoke', array('status' => 1)),
         ));
         $block->addItem('delete', array(
-            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Delete'),
+            'label' => __('Delete'),
             'url'   => $this->getUrl('*/*/delete'),
         ));
 

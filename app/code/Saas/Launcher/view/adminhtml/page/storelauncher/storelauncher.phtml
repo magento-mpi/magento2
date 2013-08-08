@@ -14,17 +14,17 @@
 <section class="store-launcher">
     <div class="page-title">
         <div class="page-title-inner">
-            <h1 class="title"><?php echo $this->__('Store Launcher'); ?></h1>
+            <h1 class="title"><?php echo __('Store Launcher'); ?></h1>
             <div class="actions">
                 <button class="action-launch-store primary button-with-tooltip"
                         <?php if (!$this->getPage()->isComplete()): ?>disabled="disabled"<?php endif; ?>
                         id="action-launch-my-store"
                         data-show-popup="launch-my-store">
-                    <span><?php echo $this->__('Launch My Store'); ?></span>
+                    <span><?php echo __('Launch My Store'); ?></span>
                 </button>
                 <div class="button-tooltip">
                     <div class="tooltip-text">
-                        <p><?php echo $this->__('Please, complete all tiles before Store launches.'); ?></p>
+                        <p><?php echo __('Please, complete all tiles before Store launches.'); ?></p>
                     </div>
                 </div>
             </div>
@@ -35,8 +35,8 @@
             <div class="drawer-header-inner">
                 <h1 class="title"></h1>
                 <div class="actions">
-                    <button type="button" class="action-save-settings primary" data-save-url=""><?php echo $this->__('Save'); ?></button>
-                    <button type="button" class="action-close-drawer" title="<?php echo $this->__('Close'); ?>"></button>
+                    <button type="button" class="action-save-settings primary" data-save-url=""><?php echo __('Save'); ?></button>
+                    <button type="button" class="action-close-drawer" title="<?php echo __('Close'); ?>"></button>
                 </div>
             </div>
         </header>

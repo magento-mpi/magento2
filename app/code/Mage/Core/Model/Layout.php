@@ -1431,7 +1431,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             }
         }
         if (!$block instanceof Mage_Core_Block_Abstract) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $block));
+            Mage::throwException(__('Invalid block type: %1', $block));
         }
         return $block;
     }
@@ -1552,7 +1552,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         if (!isset($this->_helpers[$type])) {
             if (!$type) {
-                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $type));
+                Mage::throwException(__('Invalid block type: %1', $type));
             }
 
             $helper = Mage::getModel($type);

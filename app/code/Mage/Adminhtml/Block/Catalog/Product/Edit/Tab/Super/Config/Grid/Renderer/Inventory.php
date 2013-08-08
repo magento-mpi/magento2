@@ -28,8 +28,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_I
     {
         $inStock = $this->_getValue($row);
         return $inStock ?
-               Mage::helper('Mage_Catalog_Helper_Data')->__('In Stock')
-               : Mage::helper('Mage_Catalog_Helper_Data')->__('Out of Stock');
+               __('In Stock')
+               : __('Out of Stock');
     }
 
 }

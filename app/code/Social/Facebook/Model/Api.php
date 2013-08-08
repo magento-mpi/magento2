@@ -114,11 +114,11 @@ class Social_Facebook_Model_Api extends Varien_Object
             $response   = $client->request();
             $result     = json_decode($response->getBody());
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('Social_Facebook_Helper_Data')->__('Facebook Request API Error'));
+            Mage::throwException(__('Facebook Request API Error'));
         }
 
         if (!empty($result) && (!empty($result->error) || !empty($result->error->message))) {
-            Mage::throwException(Mage::helper('Social_Facebook_Helper_Data')->__('Facebook error: ') . $result->error->message);
+            Mage::throwException(__('Facebook error: ') . $result->error->message);
         }
 
         return $client->request();

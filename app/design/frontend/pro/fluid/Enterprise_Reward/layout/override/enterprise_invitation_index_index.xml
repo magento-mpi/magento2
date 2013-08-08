@@ -21,10 +21,10 @@
                     <value>1</value>
                 </action>
                 <action method="setRewardMessage" translate="message">
-                    <message>Send invitation now and earn %s when your invitee registers on our site.</message>
+                    <message>Send invitation now and earn %1 when your invitee registers on our site.</message>
                 </action>
                 <action method="setRewardQtyLimitationMessage" translate="message">
-                    <message>Up to %s invitee registration(s) can be rewarded.</message>
+                    <message>Up to %1 invitee registration(s) can be rewarded.</message>
                 </action>
             </block>
             <block type="Enterprise_Reward_Block_Tooltip" name="reward.tooltip.invitation.order" template="tooltip.phtml">
@@ -38,10 +38,10 @@
                     <value>1</value>
                 </action>
                 <action method="setRewardMessage" translate="message">
-                    <message>Earn %s for purchases by your invitees.</message>
+                    <message>Earn %1 for purchases by your invitees.</message>
                 </action>
                 <action method="setRewardQtyLimitationMessage" translate="message">
-                    <message>Up to %s invitee purchase(s) can be rewarded.</message>
+                    <message>Up to %1 invitee purchase(s) can be rewarded.</message>
                 </action>
             </block>
         </reference>
