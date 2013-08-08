@@ -82,9 +82,9 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends PHP
      */
     protected function _getModelMock()
     {
-        $customerCollection = new Varien_Data_Collection();
+        $customerCollection = new Magento_Data_Collection();
         foreach ($this->_customers as $customer) {
-            $customerCollection->addItem(new Varien_Object($customer));
+            $customerCollection->addItem(new Magento_Object($customer));
         }
 
         $modelMock = $this->getMockForAbstractClass('Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstract',

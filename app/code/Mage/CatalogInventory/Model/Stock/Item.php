@@ -485,11 +485,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      * @param mixed $qty quantity of this item (item qty x parent item qty)
      * @param mixed $summaryQty quantity of this product
      * @param mixed $origQty original qty of item (not multiplied on parent item qty)
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function checkQuoteItemQty($qty, $summaryQty, $origQty = 0)
     {
-        $result = new Varien_Object();
+        $result = new Magento_Object();
         $result->setHasError(false);
 
         if (!is_numeric($qty)) {
@@ -615,11 +615,11 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      * Check qty increments
      *
      * @param int|float $qty
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function checkQtyIncrements($qty)
     {
-        $result = new Varien_Object();
+        $result = new Magento_Object();
         if ($this->getSuppressCheckQtyIncrements()) {
             return $result;
         }
@@ -706,7 +706,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             $this->setLowStockDate(null);
             if ($this->verifyNotification()) {
                 $this->setLowStockDate(Mage::app()->getLocale()->date(null, null, null, false)
-                    ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
+                    ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT)
                 );
             }
 

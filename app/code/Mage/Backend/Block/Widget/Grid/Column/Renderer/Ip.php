@@ -21,10 +21,10 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Ip
     /**
      * Render the grid cell value
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         return long2ip($row->getData($this->getColumn()->getIndex()));
     }

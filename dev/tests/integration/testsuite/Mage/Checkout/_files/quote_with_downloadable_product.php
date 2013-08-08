@@ -24,7 +24,7 @@ $linkCollection = Mage::getModel('Mage_Downloadable_Model_Link')->getCollection(
 /** @var $link Mage_Downloadable_Model_Link */
 $link = $linkCollection->getFirstItem();
 
-$requestInfo = new Varien_Object(array(
+$requestInfo = new Magento_Object(array(
     'qty' => 1,
     'links' => array($link->getId())
 ));

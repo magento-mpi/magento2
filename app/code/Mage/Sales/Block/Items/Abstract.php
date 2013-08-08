@@ -90,10 +90,10 @@ class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
     /**
      * Return product type for quote/order item
      *
-     * @param Varien_Object $item
+     * @param Magento_Object $item
      * @return string
      */
-    protected function _getItemType(Varien_Object $item)
+    protected function _getItemType(Magento_Object $item)
     {
         if ($item->getOrderItem()) {
             $type = $item->getOrderItem()->getProductType();
@@ -108,10 +108,10 @@ class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
     /**
      * Get item row html
      *
-     * @param   Varien_Object $item
+     * @param   Magento_Object $item
      * @return  string
      */
-    public function getItemHtml(Varien_Object $item)
+    public function getItemHtml(Magento_Object $item)
     {
         $type = $this->_getItemType($item);
 

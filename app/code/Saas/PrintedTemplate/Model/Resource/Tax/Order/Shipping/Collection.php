@@ -46,8 +46,8 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection
             ->addFieldToSelect('is_tax_after_discount')
             ->addFieldToSelect('is_discount_on_incl_tax')
             ->addExpressionFieldToSelect('item_id', '("shipping")', '')
-            ->setOrder('priority', Varien_Data_Collection::SORT_ORDER_ASC)
-            ->setOrder('real_percent', Varien_Data_Collection::SORT_ORDER_ASC);
+            ->setOrder('priority', Magento_Data_Collection::SORT_ORDER_ASC)
+            ->setOrder('real_percent', Magento_Data_Collection::SORT_ORDER_ASC);
 
         return $this;
     }

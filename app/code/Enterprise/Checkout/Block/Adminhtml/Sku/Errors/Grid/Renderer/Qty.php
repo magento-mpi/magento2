@@ -21,10 +21,10 @@ class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Renderer_Qty
     /**
      * Renders qty column
      *
-     * @param   Varien_Object $row
+     * @param   Magento_Object $row
      * @return  string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         $isDisabled = ($row->getCode() == Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_SKU)
             || $row->getIsConfigureDisabled()

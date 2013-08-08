@@ -133,7 +133,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
     /**
      * Return row url for js event handlers
      *
-     * @param Varien_Object
+     * @param Magento_Object
      * @return string
      */
     public function getRowUrl($row)

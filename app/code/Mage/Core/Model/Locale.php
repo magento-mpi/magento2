@@ -511,7 +511,7 @@ class Mage_Core_Model_Locale implements Mage_Core_Model_LocaleInterface
                 $options['symbol'] = $currency;
             }
 
-            $options = new Varien_Object($options);
+            $options = new Magento_Object($options);
             Mage::dispatchEvent('currency_display_options_forming', array(
                 'currency_options' => $options,
                 'base_code' => $currency

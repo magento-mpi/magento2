@@ -30,7 +30,7 @@ class Saas_Backend_Model_Cache_ObserverTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
-        $this->_observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_observerMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Saas_Saas_Helper_Data', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);

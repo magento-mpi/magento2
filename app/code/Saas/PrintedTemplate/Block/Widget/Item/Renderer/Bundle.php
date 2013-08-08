@@ -57,7 +57,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle
     /**
      * Returns is child calculated
      *
-     * @param Varien_Object $item
+     * @param Magento_Object $item
      * @return bool
      */
     public function isChildCalculated($item)
@@ -77,7 +77,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle
     /**
      * Returns Selection attributes
      *
-     * @param Varien_Object $item
+     * @param Magento_Object $item
      * @return array|null
      */
     public function getSelectionAttributes($item)
@@ -94,7 +94,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle
     /**
      * Retrieve is Shipment Separately flag for Item
      *
-     * @param Varien_Object $item
+     * @param Magento_Object $item
      * @return bool
      */
     public function isShipmentSeparately($item)

@@ -11,7 +11,7 @@
 /**
  * Theme filesystem collection
  */
-class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
+class Mage_Core_Model_Theme_Collection extends Magento_Data_Collection
 {
     /**
      * @var Magento_Filesystem
@@ -168,7 +168,7 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     protected function _updateRelations()
     {
         $themeItems = $this->getItems();
-        /** @var $theme Varien_Object|Mage_Core_Model_ThemeInterface */
+        /** @var $theme Magento_Object|Mage_Core_Model_ThemeInterface */
         foreach ($themeItems as $theme) {
             $parentThemePath = $theme->getData('parent_theme_path');
             if ($parentThemePath) {
@@ -297,10 +297,10 @@ class Mage_Core_Model_Theme_Collection extends Varien_Data_Collection
     /**
      * Retrieve item id
      *
-     * @param Mage_Core_Model_Theme|Varien_Object $item
+     * @param Mage_Core_Model_Theme|Magento_Object $item
      * @return string
      */
-    protected function _getItemId(Varien_Object $item)
+    protected function _getItemId(Magento_Object $item)
     {
         return $item->getFullPath();
     }

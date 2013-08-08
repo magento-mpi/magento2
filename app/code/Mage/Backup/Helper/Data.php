@@ -300,7 +300,7 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
      * Extracts information from backup's filename
      *
      * @param string $filename
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function extractDataFromFilename($filename)
     {
@@ -324,7 +324,7 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
             $name = substr($name, 1);
         }
 
-        $result = new Varien_Object();
+        $result = new Magento_Object();
         $result->addData(array(
             'name' => $name,
             'type' => $type,

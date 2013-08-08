@@ -179,14 +179,14 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     /**
      * Cloned Select after dispatching 'catalog_prepare_price_select' event
      *
-     * @var Varien_Db_Select
+     * @var Magento_DB_Select
      */
     protected $_catalogPreparePriceSelect = null;
 
     /**
      * Get cloned Select after dispatching 'catalog_prepare_price_select' event
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getCatalogPreparedSelect()
     {
@@ -196,13 +196,13 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     /**
      * Prepare additional price expression sql part
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
     protected function _preparePriceExpressionParameters($select)
     {
         // prepare response object for event
-        $response = new Varien_Object();
+        $response = new Magento_Object();
         $response->setAdditionalCalculations(array());
         $tableAliases = array_keys($select->getPart(Zend_Db_Select::FROM));
         if (in_array(self::INDEX_TABLE_ALIAS, $tableAliases)) {
@@ -232,7 +232,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     /**
      * Get price expression sql part
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @return string
      */
     public function getPriceExpression($select)
@@ -246,7 +246,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     /**
      * Get additional price expression sql part
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @return string
      */
     public function getAdditionalPriceExpression($select)
@@ -352,7 +352,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      * Retrieve collection empty item
      * Redeclared for specifying id field name without getting resource model inside model
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getNewEmptyItem()
     {
@@ -532,7 +532,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
                 ->getRewriteByProductStore($objects);
             foreach ($this->_items as $item) {
                 if (isset($objects[$item->getEntityId()])) {
-                    $object = new Varien_Object($objects[$item->getEntityId()]);
+                    $object = new Magento_Object($objects[$item->getEntityId()]);
                     $item->setUrlDataObject($object);
                 }
             }
@@ -821,7 +821,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     public function getAllAttributeValues($attribute)
     {
-        /** @var $select Varien_Db_Select */
+        /** @var $select Magento_DB_Select */
         $select    = clone $this->getSelect();
         $attribute = $this->getEntity()->getAttribute($attribute);
 
@@ -842,7 +842,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     /**
      * Get SQL for get record count without left JOINs
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getSelectCountSql()
     {
@@ -854,7 +854,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      *
      * @param null $select
      * @param bool $resetLeftJoins
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getSelectCountSql($select = null, $resetLeftJoins = true)
     {
@@ -896,7 +896,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     /**
      * Retrieve clear select
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getClearSelect()
     {
@@ -906,8 +906,8 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     /**
      * Build clear select
      *
-     * @param Varien_Db_Select $select
-     * @return Varien_Db_Select
+     * @param Magento_DB_Select $select
+     * @return Magento_DB_Select
      */
     protected function _buildClearSelect($select = null)
     {
@@ -942,7 +942,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     /**
      * Retreive product count select for categories
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getProductCountSelect()
     {
@@ -1041,7 +1041,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     public function getSetIds()
     {
         $select = clone $this->getSelect();
-        /** @var $select Varien_Db_Select */
+        /** @var $select Magento_DB_Select */
         $select->reset(Zend_Db_Select::COLUMNS);
         $select->distinct(true);
         $select->columns('attribute_set_id');
@@ -1056,7 +1056,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     public function getProductTypeIds()
     {
         $select = clone $this->getSelect();
-        /** @var $select Varien_Db_Select */
+        /** @var $select Magento_DB_Select */
         $select->reset(Zend_Db_Select::COLUMNS);
         $select->distinct(true);
         $select->columns('type_id');

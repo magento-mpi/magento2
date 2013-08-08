@@ -367,7 +367,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * Get module config node
      *
      * @param string $moduleName
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     public function getModuleConfig($moduleName = '')
     {
@@ -421,7 +421,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     {
         $storeValues = array();
         $stores = $this->getNode('stores');
-        /** @var $store Varien_Simplexml_Element */
+        /** @var $store Magento_Simplexml_Element */
         foreach ($stores->children() as $code => $store) {
             switch ($useAsKey) {
                 case 'id':
@@ -537,7 +537,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     {
         if (null === $this->_moduleNamespaces) {
             $this->_moduleNamespaces = array();
-            /** @var $moduleConfig Varien_Simplexml_Element */
+            /** @var $moduleConfig Magento_Simplexml_Element */
             foreach ($this->getXpath('modules/*') as $moduleConfig) {
                 if ((string)$moduleConfig->active == 'true') {
                     $moduleName = $moduleConfig->getName();

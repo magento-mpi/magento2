@@ -16,7 +16,7 @@
  * @package     Mage_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Model_Resource_Review_Summary_Collection extends Varien_Data_Collection_Db
+class Mage_Review_Model_Resource_Review_Summary_Collection extends Magento_Data_Collection_Db
 {
     /**
      * @var string
@@ -28,7 +28,7 @@ class Mage_Review_Model_Resource_Review_Summary_Collection extends Varien_Data_C
      * @param Mage_Core_Model_Resource $resource
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Core_Model_Resource $resource
     ) {
         $this->_setIdFieldName('primary_id');

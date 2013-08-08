@@ -20,13 +20,13 @@ class Mage_ImportExport_Model_Resource_CollectionByPagesIterator
     /**
      * Load collection page by page and apply callbacks to each collection item
      *
-     * @param Varien_Data_Collection_Db $collection Collection to load page by page
+     * @param Magento_Data_Collection_Db $collection Collection to load page by page
      * @param int $pageSize Number of items to fetch from db in one query
      * @param array $callbacks Array of callbacks which should be applied to each collection item
      */
-    public function iterate(Varien_Data_Collection_Db $collection, $pageSize, array $callbacks)
+    public function iterate(Magento_Data_Collection_Db $collection, $pageSize, array $callbacks)
     {
-        /** @var $paginatedCollection Varien_Data_Collection_Db */
+        /** @var $paginatedCollection Magento_Data_Collection_Db */
         $paginatedCollection = null;
         $pageNumber = 1;
         do {

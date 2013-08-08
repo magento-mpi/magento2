@@ -27,7 +27,7 @@
                 </action>
                 <block type="Mage_Bundle_Block_Catalog_Product_Price" name="bundle.prices" as="bundle_prices" template="catalog/product/view/price.phtml">
                     <action method="setMAPTemplate">
-                        <tmpl>product/price_msrp_item.phtml</tmpl>
+                        <tmpl>Mage_Catalog::product/price_msrp_item.phtml</tmpl>
                     </action>
                 </block>
             </block>

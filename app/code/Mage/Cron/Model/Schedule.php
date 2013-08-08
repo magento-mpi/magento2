@@ -61,7 +61,7 @@ class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
      *
      * Supports $this->setCronExpr('* 0-5,10-59/5 2-10,15-25 january-june/2 mon-fri')
      *
-     * @param Varien_Event $event
+     * @param Magento_Event $event
      * @return boolean
      */
     public function trySchedule($time)

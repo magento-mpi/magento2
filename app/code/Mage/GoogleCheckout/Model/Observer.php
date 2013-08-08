@@ -17,7 +17,7 @@
  */
 class Mage_GoogleCheckout_Model_Observer
 {
-    public function salesOrderShipmentTrackSaveAfter(Varien_Event_Observer $observer)
+    public function salesOrderShipmentTrackSaveAfter(Magento_Event_Observer $observer)
     {
         $track = $observer->getEvent()->getTrack();
 
@@ -47,10 +47,10 @@ class Mage_GoogleCheckout_Model_Observer
     /*
      * Performs specifical actions on Google Checkout internal shipments saving
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return void
      */
-    public function salesOrderShipmentSaveAfter(Varien_Event_Observer $observer)
+    public function salesOrderShipmentSaveAfter(Magento_Event_Observer $observer)
     {
         $shipment = $observer->getEvent()->getShipment();
         $order = $shipment->getOrder();

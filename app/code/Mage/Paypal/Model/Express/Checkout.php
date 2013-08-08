@@ -753,7 +753,7 @@ class Mage_Paypal_Model_Express_Checkout
                 $amountExclTax = Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($amount, false, $address);
                 $amountInclTax = Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($amount, true, $address);
 
-                $options[$i] = new Varien_Object(array(
+                $options[$i] = new Magento_Object(array(
                     'is_default' => $isDefault,
                     'name'       => trim("{$rate->getCarrierTitle()} - {$rate->getMethodTitle()}", ' -'),
                     'code'       => $rate->getCode(),
@@ -777,7 +777,7 @@ class Mage_Paypal_Model_Express_Checkout
         }
 
         if ($mayReturnEmpty && is_null($userSelectedOption)) {
-            $options[] = new Varien_Object(array(
+            $options[] = new Magento_Object(array(
                 'is_default' => true,
                 'name'       => Mage::helper('Mage_Paypal_Helper_Data')->__('N/A'),
                 'code'       => 'no_rate',
@@ -809,11 +809,11 @@ class Mage_Paypal_Model_Express_Checkout
      * This function is used as a callback comparison function in shipping options sorting process
      * @see self::_prepareShippingOptions()
      *
-     * @param Varien_Object $option1
-     * @param Varien_Object $option2
+     * @param Magento_Object $option1
+     * @param Magento_Object $option2
      * @return integer
      */
-    protected static function cmpShippingOptions(Varien_Object $option1, Varien_Object $option2)
+    protected static function cmpShippingOptions(Magento_Object $option1, Magento_Object $option2)
     {
         if ($option1->getAmount() == $option2->getAmount()) {
             return 0;

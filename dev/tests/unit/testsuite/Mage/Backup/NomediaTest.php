@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-class Mage_Backup_NomediaTest extends PHPUnit_Framework_TestCase
+class Magento_Backup_NomediaTest extends PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
         $snapshot = $this->getMock(
-            'Mage_Backup_Snapshot',
+            'Magento_Backup_Snapshot',
             array('create')
         );
         $snapshot->expects($this->any())
@@ -22,7 +22,7 @@ class Mage_Backup_NomediaTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
 
-        $model = new Mage_Backup_Nomedia($snapshot);
+        $model = new Magento_Backup_Nomedia($snapshot);
 
         $rootDir = __DIR__ . DIRECTORY_SEPARATOR . '_files';
         $model->setRootDir($rootDir);

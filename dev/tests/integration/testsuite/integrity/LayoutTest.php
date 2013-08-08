@@ -13,6 +13,8 @@
 
 class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
 {
+    const NO_OVERRIDDEN_THEMES_MARKER = 'no-overriden-themes';
+
     /**
      * Cached lists of files
      *
@@ -119,11 +121,7 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
         $themeCollection = Mage::getModel('Mage_Core_Model_Theme')->getCollection();
         /** @var $theme Mage_Core_Model_Theme */
         foreach ($themeCollection as $theme) {
-            if ($theme->getFullPath() == 'frontend/magento_reference') {
-                /** Skip the theme because of MAGETWO-9063 */
-                continue;
-            }
-            $result[$theme->getFullPath()] = array($theme);
+            $result[] = array($theme);
         }
         return $result;
     }
@@ -203,8 +201,11 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      * @param Mage_Core_Model_Theme $theme
      * @dataProvider overrideBaseFilesDataProvider
      */
-    public function testOverrideBaseFiles(Mage_Core_Model_Layout_File $themeFile, Mage_Core_Model_Theme $theme)
+    public function testOverrideBaseFiles($themeFile, $theme)
     {
+        if ($themeFile === self::NO_OVERRIDDEN_THEMES_MARKER) {
+            $this->markTestSkipped('No overriden themes.');
+        }
         $baseFiles = self::_getCachedFiles($theme->getArea(), 'Mage_Core_Model_Layout_File_Source_Base', $theme);
         $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
         $this->assertArrayHasKey($fileKey, $baseFiles,
@@ -220,8 +221,11 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
      * @param Mage_Core_Model_Theme $theme
      * @dataProvider overrideThemeFilesDataProvider
      */
-    public function testOverrideThemeFiles(Mage_Core_Model_Layout_File $themeFile, Mage_Core_Model_Theme $theme)
+    public function testOverrideThemeFiles($themeFile, $theme)
     {
+        if ($themeFile === self::NO_OVERRIDDEN_THEMES_MARKER) {
+            $this->markTestSkipped('No overridden themes.');
+        }
         // Find an ancestor theme, where a file is to be overridden
         $ancestorTheme = $theme;
         while ($ancestorTheme = $ancestorTheme->getParentTheme()) {
@@ -302,7 +306,6 @@ class Integrity_LayoutTest extends PHPUnit_Framework_TestCase
                 $result[] = array($file, $theme);
             }
         }
-
-        return $result;
+        return $result === array() ? array(array(self::NO_OVERRIDDEN_THEMES_MARKER, '')) : $result;
     }
 }

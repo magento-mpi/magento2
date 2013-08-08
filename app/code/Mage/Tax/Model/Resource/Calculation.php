@@ -75,7 +75,7 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
     /**
      * Get tax rate information: calculation process data and tax rate
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return array
      */
     public function getRateInfo($request)
@@ -90,7 +90,7 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
     /**
      * Get tax rate for specific tax rate request
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return int
      */
     public function getRate($request)
@@ -101,7 +101,7 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
     /**
      * Retrieve Calculation Process
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @param array $rates
      * @return array
      */
@@ -208,7 +208,7 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
      * Returns tax rates for request - either pereforms SELECT from DB, or returns already cached result
      * Notice that productClassId due to optimization can be array of ids
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return array
      */
     protected function _getRates($request)
@@ -315,12 +315,12 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
                 );
             }
 
-            $select->order('priority ' . Varien_Db_Select::SQL_ASC)
-                   ->order('tax_calculation_rule_id ' . Varien_Db_Select::SQL_ASC)
-                   ->order('tax_country_id ' . Varien_Db_Select::SQL_DESC)
-                   ->order('tax_region_id ' . Varien_Db_Select::SQL_DESC)
-                   ->order('tax_postcode ' . Varien_Db_Select::SQL_DESC)
-                   ->order('value ' . Varien_Db_Select::SQL_DESC);
+            $select->order('priority ' . Magento_DB_Select::SQL_ASC)
+                   ->order('tax_calculation_rule_id ' . Magento_DB_Select::SQL_ASC)
+                   ->order('tax_country_id ' . Magento_DB_Select::SQL_DESC)
+                   ->order('tax_region_id ' . Magento_DB_Select::SQL_DESC)
+                   ->order('tax_postcode ' . Magento_DB_Select::SQL_DESC)
+                   ->order('value ' . Magento_DB_Select::SQL_DESC);
 
             $fetchResult = $this->_getReadAdapter()->fetchAll($select);
             $filteredRates = array();
@@ -372,7 +372,7 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
     /**
      * Retrieve rate ids
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return array
      */
     public function getRateIds($request)
@@ -432,7 +432,7 @@ class Mage_Tax_Model_Resource_Calculation extends Mage_Core_Model_Resource_Db_Ab
 
         $result = array();
         foreach ($CSP as $one) {
-            $request = new Varien_Object();
+            $request = new Magento_Object();
             $request->setCountryId($one['country'])
                 ->setRegionId($one['region_id'])
                 ->setPostcode($one['postcode'])

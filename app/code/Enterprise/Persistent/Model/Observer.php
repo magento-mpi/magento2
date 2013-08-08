@@ -20,7 +20,7 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Set persistent data to customer session
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Persistent_Model_Observer
      */
     public function emulateCustomer($observer)
@@ -52,7 +52,7 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Modify expired quotes cleanup
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function modifyExpiredQuotesCleanup($observer)
     {
@@ -66,7 +66,7 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Apply persistent data
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return null
      */
     public function applyPersistentData($observer)
@@ -155,7 +155,7 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Remove cart link
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function removeCartLink($observer)
     {
@@ -217,7 +217,7 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Apply persistent customer id
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return null
      */
     public function applyCustomerId($observer)
@@ -232,7 +232,7 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Emulate customer wishlist (add, delete, etc)
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return null
      */
     public function emulateWishlist($observer)
@@ -252,7 +252,7 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Set persistent data into quote
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return null
      */
     public function setQuotePersistentData($observer)
@@ -318,7 +318,7 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Expire data of Sidebars
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function expireSidebars($observer)
     {
@@ -460,9 +460,9 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Skip website restriction and allow access for persistent customers
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function skipWebsiteRestriction(Varien_Event_Observer $observer)
+    public function skipWebsiteRestriction(Magento_Event_Observer $observer)
     {
         $result = $observer->getEvent()->getResult();
         if ($result->getShouldProceed() && $this->_isPersistent()) {

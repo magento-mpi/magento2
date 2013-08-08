@@ -33,7 +33,7 @@ class Mage_Install_Block_Config extends Mage_Install_Block_Abstract
     /**
      * Retrieve configuration form data object
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getFormData()
     {
@@ -43,7 +43,7 @@ class Mage_Install_Block_Config extends Mage_Install_Block_Abstract
             if (empty($data)) {
                 $data = Mage::getModel('Mage_Install_Model_Installer_Config')->getFormData();
             } else {
-                $data = new Varien_Object($data);
+                $data = new Magento_Object($data);
             }
             $this->setFormData($data);
         }

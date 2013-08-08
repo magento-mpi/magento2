@@ -69,10 +69,10 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Currency
     /**
      * Renders grid column
      *
-     * @param   Varien_Object $row
+     * @param   Magento_Object $row
      * @return  string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         if ($data = (string)$row->getData($this->getColumn()->getIndex())) {
             $currency_code = $this->_getCurrencyCode($row);

@@ -15,7 +15,7 @@ if (file_exists($installFile)) {
 
 /** @var $installer Mage_Catalog_Model_Resource_Setup */
 $installer = $this;
-/** @var $connection Varien_Db_Adapter_Pdo_Mysql */
+/** @var $connection Magento_DB_Adapter_Pdo_Mysql */
 $connection = $installer->getConnection();
 $memoryTables = array(
     'catalog_category_anc_categs_index_tmp',
@@ -33,5 +33,5 @@ $memoryTables = array(
 );
 
 foreach ($memoryTables as $table) {
-    $connection->changeTableEngine($installer->getTable($table), Varien_Db_Adapter_Pdo_Mysql::ENGINE_MEMORY);
+    $connection->changeTableEngine($installer->getTable($table), Magento_DB_Adapter_Pdo_Mysql::ENGINE_MEMORY);
 }

@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Paypal_Model_Payflow_Request extends Varien_Object
+class Mage_Paypal_Model_Payflow_Request extends Magento_Object
 {
     /**
      * Set/Get attribute wrapper
@@ -56,6 +56,6 @@ class Mage_Paypal_Model_Payflow_Request extends Varien_Object
                 //Magento_Profiler::stop('HAS: '.get_class($this).'::'.$method);
                 return isset($this->_data[$key]);
         }
-        throw new Varien_Exception("Invalid method ".get_class($this)."::".$method."(".print_r($args,1).")");
+        throw new Magento_Exception("Invalid method ".get_class($this)."::".$method."(".print_r($args,1).")");
     }
 }

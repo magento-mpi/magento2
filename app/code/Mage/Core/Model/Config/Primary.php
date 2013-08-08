@@ -226,7 +226,7 @@ class Mage_Core_Model_Config_Primary extends Mage_Core_Model_Config_Base
         if (Magento_Profiler::isEnabled()) {
             $result[] = array(
                 'class' => 'Magento_Cache_Frontend_Decorator_Profiler',
-                'parameters' => array('backendPrefixes' => array('Zend_Cache_Backend_', 'Varien_Cache_Backend_')),
+                'parameters' => array('backendPrefixes' => array('Zend_Cache_Backend_', 'Magento_Cache_Backend_')),
             );
         }
         return $result;

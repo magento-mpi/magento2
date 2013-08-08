@@ -12,7 +12,7 @@
 /**
  * Installer data model
  */
-class Mage_Install_Model_Installer_Data extends Varien_Object
+class Mage_Install_Model_Installer_Data extends Magento_Object
 {
 
     /**

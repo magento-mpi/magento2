@@ -16,7 +16,7 @@
  * @package    Mage_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Session_Abstract extends Varien_Object
+class Mage_Core_Model_Session_Abstract extends Magento_Object
 {
     const VALIDATOR_KEY                         = '_session_validator_data';
     const VALIDATOR_HTTP_USER_AGENT_KEY         = 'http_user_agent';

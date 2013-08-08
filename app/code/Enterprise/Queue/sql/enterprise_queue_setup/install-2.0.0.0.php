@@ -16,11 +16,11 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('job_queue'))
-    ->addColumn('unique_key', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
+    ->addColumn('unique_key', Magento_DB_Ddl_Table::TYPE_TEXT, 64, array(
         'nullable'  => false,
         'primary'   => true,
     ), 'Unique task key')
-    ->addColumn('handle', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('handle', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
         'unsigned'  => true,
         'nullable'  => false,
     ), 'Job handle')

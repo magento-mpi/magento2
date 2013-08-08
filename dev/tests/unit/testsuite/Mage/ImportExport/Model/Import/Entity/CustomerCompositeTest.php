@@ -169,7 +169,7 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
 
         $attributeList = array();
         foreach ($this->_customerAttributes as $code) {
-            $attribute = new Varien_Object(array(
+            $attribute = new Magento_Object(array(
                 'attribute_code' => $code
             ));
             $attributeList[] = $attribute;
@@ -199,7 +199,7 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
 
         $attributeList = array();
         foreach ($this->_addressAttributes as $code) {
-            $attribute = new Varien_Object(array(
+            $attribute = new Magento_Object(array(
                 'attribute_code' => $code
             ));
             $attributeList[] = $attribute;

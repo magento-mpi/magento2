@@ -34,7 +34,7 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed_Collection
      *
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Sales_Model_Resource_Report $resource
     ) {
         $resource->init(Mage_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_DAILY);
@@ -124,7 +124,7 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed_Collection
 
             $select->exists($subSelect, $mainTable . '.product_id = existed_products.entity_id')
                 ->group('product_id')
-                ->order('views_num ' . Varien_Db_Select::SQL_DESC)
+                ->order('views_num ' . Magento_DB_Select::SQL_DESC)
                 ->limit($this->_ratingLimit);
 
             return $this;
@@ -151,7 +151,7 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed_Collection
     /**
      * Get SQL for get record count
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getSelectCountSql()
     {
@@ -202,7 +202,7 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed_Collection
             $selectUnions = array();
 
             // apply date boundaries (before calling $this->_applyDateRangeFilter())
-            $dtFormat   = Varien_Date::DATE_INTERNAL_FORMAT;
+            $dtFormat   = Magento_Date::DATE_INTERNAL_FORMAT;
             $periodFrom = (!is_null($this->_from) ? new Zend_Date($this->_from, $dtFormat) : null);
             $periodTo   = (!is_null($this->_to)   ? new Zend_Date($this->_to,   $dtFormat) : null);
             if ('year' == $this->_period) {

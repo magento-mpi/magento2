@@ -4,7 +4,7 @@
  *
  * {license_notice}
  *
- * @category    Mage
+ * @category    Magento
  * @package     Magento_Outbound
  * @copyright   {copyright}
  * @license     {license_link}

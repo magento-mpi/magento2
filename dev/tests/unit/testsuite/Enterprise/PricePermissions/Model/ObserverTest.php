@@ -17,7 +17,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     protected $_observer;
 
     /**
-     * @var Varien_Event_Observer
+     * @var Magento_Event_Observer
      */
     protected $_varienObserver;
 
@@ -41,7 +41,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
             array('getNameInLayout', 'getMassactionBlock', 'setCanReadPrice', 'setCanEditPrice', 'setTabData',
                 'getChildBlock', 'getParentBlock', 'setDefaultProductPrice', 'getForm'),
             array(), '', false);
-        $this->_varienObserver = $this->getMock('Varien_Event_Observer', array('getBlock'));
+        $this->_varienObserver = $this->getMock('Magento_Event_Observer', array('getBlock'));
         $this->_varienObserver->expects($this->once())->method('getBlock')->will($this->returnValue($this->_block));
     }
 
@@ -217,13 +217,13 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
 
     public function testAdminhtmlBlockHtmlBeforeSuperConfigSimple()
     {
-        $formElement = $this->getMock('Varien_Data_Form_Element_Text',
+        $formElement = $this->getMock('Magento_Data_Form_Element_Text',
             array('setValue', 'setReadOnly'), array(), '', false);
         $formElement->expects($this->once())->method('setValue')
             ->with(Mage_Catalog_Model_Product_Status::STATUS_DISABLED);
         $formElement->expects($this->once())->method('setReadOnly')
             ->with(true, true);
-        $form = $this->getMock('Varien_Data_Form',
+        $form = $this->getMock('Magento_Data_Form',
             array('getElement'), array(), '', false);
         $form->expects($this->once())->method('getElement')->with('simple_product_status')
             ->will($this->returnValue($formElement));

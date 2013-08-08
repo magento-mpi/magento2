@@ -19,7 +19,7 @@
 class Mage_Customer_Block_Account_Navigation extends Mage_Core_Block_Template
 {
     /**
-     * @var Varien_Object[]
+     * @var Magento_Object[]
      */
     protected $_links = array();
 
@@ -27,7 +27,7 @@ class Mage_Customer_Block_Account_Navigation extends Mage_Core_Block_Template
 
     public function addLink($name, $path, $label, $urlParams=array())
     {
-        $this->_links[$name] = new Varien_Object(array(
+        $this->_links[$name] = new Magento_Object(array(
             'name' => $name,
             'path' => $path,
             'label' => $label,

@@ -237,11 +237,11 @@ class Mage_Core_Model_Cache_Frontend_Factory
             case 'varien_cache_backend_eaccelerator':
                 if (extension_loaded('eaccelerator') && ini_get('eaccelerator.enable')) {
                     $enableTwoLevels = true;
-                    $backendType = 'Varien_Cache_Backend_Eaccelerator';
+                    $backendType = 'Magento_Cache_Backend_Eaccelerator';
                 }
                 break;
             case 'database':
-                $backendType = 'Varien_Cache_Backend_Database';
+                $backendType = 'Magento_Cache_Backend_Database';
                 $options = $this->_getDbAdapterOptions();
                 break;
             default:
@@ -326,7 +326,7 @@ class Mage_Core_Model_Cache_Frontend_Factory
             $options['slow_backend_options'] = $this->_backendOptions;
         }
         if ($options['slow_backend'] == 'database') {
-            $options['slow_backend'] = 'Varien_Cache_Backend_Database';
+            $options['slow_backend'] = 'Magento_Cache_Backend_Database';
             $options['slow_backend_options'] = $this->_getDbAdapterOptions();
             if (isset($cacheOptions['slow_backend_store_data'])) {
                 $options['slow_backend_options']['store_data'] = (bool)$cacheOptions['slow_backend_store_data'];
@@ -362,7 +362,7 @@ class Mage_Core_Model_Cache_Frontend_Factory
         if (!array_key_exists('automatic_cleaning_factor', $options)) {
             $options['automatic_cleaning_factor'] = 0;
         }
-        $options['type'] = isset($cacheOptions['frontend']) ? $cacheOptions['frontend'] : 'Varien_Cache_Core';
+        $options['type'] = isset($cacheOptions['frontend']) ? $cacheOptions['frontend'] : 'Magento_Cache_Core';
         return $options;
     }
 }

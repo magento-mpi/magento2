@@ -14,9 +14,9 @@ require __DIR__ . '/../../../Mage/Catalog/_files/product_virtual.php';
 /** @var Mage_Reports_Model_Event_Observer $reportObserver */
 $reportObserver = Mage::getModel('Mage_Reports_Model_Event_Observer');
 foreach (array(1, 2, 1, 21, 1, 21) as $productId) {
-    $reportObserver->catalogProductView(new Varien_Event_Observer(array(
-        'event' => new Varien_Object(array(
-            'product' => new Varien_Object(array('id' => $productId))
+    $reportObserver->catalogProductView(new Magento_Event_Observer(array(
+        'event' => new Magento_Object(array(
+            'product' => new Magento_Object(array('id' => $productId))
         ))
     )));
 }

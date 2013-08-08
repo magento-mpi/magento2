@@ -12,7 +12,7 @@
 $installer = $this;
 
 $installer->getConnection()->addColumn($installer->getTable('googleshopping_types'), 'category', array(
-    'TYPE'    => Varien_Db_Ddl_Table::TYPE_TEXT,
+    'TYPE'    => Magento_DB_Ddl_Table::TYPE_TEXT,
     'LENGTH'  => 40,
     'COMMENT' => 'Google product category',
 ));

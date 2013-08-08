@@ -11,16 +11,16 @@
 
 class Mage_Rule_Block_Editable
     extends Mage_Core_Block_Abstract
-    implements Varien_Data_Form_Element_Renderer_Interface
+    implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
      * Render element
      *
-     * @see Varien_Data_Form_Element_Renderer_Interface::render()
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @see Magento_Data_Form_Element_Renderer_Interface::render()
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $element->addClass('element-value-changer');
         $valueName = $element->getValueName();

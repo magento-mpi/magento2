@@ -113,7 +113,7 @@ class Mage_Core_Model_StoreManager implements Mage_Core_Model_StoreManagerInterf
         } catch (Exception $e) {
             if ($this->_getStorage()->getCurrentStore()) {
                 $this->_request->setActionName('noRoute');
-                return new Varien_Object();
+                return new Magento_Object();
             }
 
             Mage::throwException(

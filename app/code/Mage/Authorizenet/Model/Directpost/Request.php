@@ -15,7 +15,7 @@
  * @package    Mage_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Authorizenet_Model_Directpost_Request extends Varien_Object
+class Mage_Authorizenet_Model_Directpost_Request extends Magento_Object
 {
     protected $_transKey = null;
 

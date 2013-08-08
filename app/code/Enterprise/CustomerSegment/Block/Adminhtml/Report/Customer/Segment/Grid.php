@@ -127,7 +127,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
     /**
      * Retrieve row click URL
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      *
      * @return string
      */

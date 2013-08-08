@@ -30,7 +30,7 @@ class Mage_GoogleShopping_Model_Resource_Item extends Mage_Core_Model_Resource_D
      */
     public function loadByProduct($model)
     {
-        if (!($model->getProduct() instanceof Varien_Object)) {
+        if (!($model->getProduct() instanceof Magento_Object)) {
             return $this;
         }
 

@@ -247,7 +247,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
         // Saving stock item without product object
         // Register re-index price process if products out of stock hidden on Front-end
         if (!Mage::helper('Mage_CatalogInventory_Helper_Data')->isShowOutOfStock() && !$object->getProduct()) {
-            $massObject = new Varien_Object();
+            $massObject = new Magento_Object();
             $massObject->setAttributesData(array('force_reindex_required' => 1));
             $massObject->setProductIds(array($object->getProductId()));
             Mage::getSingleton('Mage_Index_Model_Indexer')->logEvent(
@@ -285,7 +285,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     protected function _registerCatalogProductMassActionEvent(Mage_Index_Model_Event $event)
     {
-        /* @var $actionObject Varien_Object */
+        /* @var $actionObject Magento_Object */
         $actionObject = $event->getDataObject();
         $attributes   = array(
             'status'

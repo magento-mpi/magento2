@@ -15,7 +15,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Reward_Model_Action_Abstract extends Varien_Object
+abstract class Enterprise_Reward_Model_Action_Abstract extends Magento_Object
 {
     /**
      * Reward Instance
@@ -31,7 +31,7 @@ abstract class Enterprise_Reward_Model_Action_Abstract extends Varien_Object
 
     /**
      * Entity Instance
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_entity;
 
@@ -169,13 +169,13 @@ abstract class Enterprise_Reward_Model_Action_Abstract extends Varien_Object
     /**
      * Setter for $_entity and assign entity Id to history
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @return Enterprise_Reward_Model_Action_Abstract
      */
     public function setEntity($entity)
     {
         $this->_entity = $entity;
-        if ($this->getHistory() instanceof Varien_Object) {
+        if ($this->getHistory() instanceof Magento_Object) {
             $this->getHistory()->setEntity($entity->getId());
         }
         return $this;
@@ -183,7 +183,7 @@ abstract class Enterprise_Reward_Model_Action_Abstract extends Varien_Object
     /**
      * Description goes here...
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getEntity()
     {

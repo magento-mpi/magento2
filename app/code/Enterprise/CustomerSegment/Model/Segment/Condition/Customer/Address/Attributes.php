@@ -121,7 +121,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
     /**
      * Retrieve attribute element
      *
-     * @return Varien_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     public function getAttributeElement()
     {
@@ -209,7 +209,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
      *
      * @param $customer
      * @param $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getConditionsSql($customer, $website)
     {

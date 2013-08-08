@@ -48,7 +48,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
     /**
      * Check whether the attribute is Applicable to the object
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
      * @return boolean
      */
@@ -73,7 +73,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
             && ($method == 'beforeSave' || $method = 'afterSave')
         ) {
             $attributeCode = $instance->getAttribute()->getAttributeCode();
-            if (isset($args[0]) && $args[0] instanceof Varien_Object && $args[0]->getData($attributeCode) === false) {
+            if (isset($args[0]) && $args[0] instanceof Magento_Object && $args[0]->getData($attributeCode) === false) {
                 return false;
             }
         }
@@ -87,9 +87,9 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
      * Retrieve select object for loading entity attributes values
      * Join attribute store value
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @param string $table
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getLoadAttributesSelect($object, $table)
     {
@@ -129,7 +129,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
      * Prepare select object for loading entity attributes values
      *
      * @param array $selects
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _prepareLoadSelect(array $selects)
     {
@@ -205,7 +205,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
             ));
         }
 
-        $data = new Varien_Object(array(
+        $data = new Magento_Object(array(
             'entity_type_id'    => $attribute->getEntityTypeId(),
             'attribute_id'      => $attribute->getAttributeId(),
             'store_id'          => $storeId,
@@ -242,7 +242,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
     /**
      * Insert entity attribute value
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param mixed $value
      * @return Mage_Catalog_Model_Resource_Abstract
@@ -265,7 +265,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
             $row = $this->_getReadAdapter()->fetchOne($select);
 
             if (!$row) {
-                $data  = new Varien_Object(array(
+                $data  = new Magento_Object(array(
                     'entity_type_id'    => $attribute->getEntityTypeId(),
                     'attribute_id'      => $attribute->getAttributeId(),
                     'store_id'          => $this->getDefaultStoreId(),
@@ -283,7 +283,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
     /**
      * Update entity attribute value
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param mixed $valueId
      * @param mixed $value
@@ -347,7 +347,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
     /**
      * Delete entity attribute values
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @param string $table
      * @param array $info
      * @return Mage_Catalog_Model_Resource_Abstract
@@ -417,8 +417,8 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
     /**
      * Retrieve Object instance with original data
      *
-     * @param Varien_Object $object
-     * @return Varien_Object
+     * @param Magento_Object $object
+     * @return Magento_Object
      */
     protected function _getOrigObject($object)
     {
@@ -603,7 +603,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
     /**
      * Reset firstly loaded attributes
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @param integer $entityId
      * @param array|null $attributes
      * @return Mage_Catalog_Model_Resource_Abstract

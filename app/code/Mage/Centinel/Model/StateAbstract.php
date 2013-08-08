@@ -11,19 +11,19 @@
 /**
  * Abstract Validation State Model
  */
-abstract class Mage_Centinel_Model_StateAbstract extends Varien_Object
+abstract class Mage_Centinel_Model_StateAbstract extends Magento_Object
 {
     /**
      * Storage data model
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     private $_dataStorage = false;
 
     /**
      * Setter for storage data model
      *
-     * @param Varien_Object $dataStorageModel
+     * @param Magento_Object $dataStorageModel
      * @return Mage_Centinel_Model_StateAbstract
      */
     public function setDataStorage($dataStorageModel)
@@ -35,7 +35,7 @@ abstract class Mage_Centinel_Model_StateAbstract extends Varien_Object
     /**
      * Getter for storage data model
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getDataStorage()
     {
@@ -81,7 +81,7 @@ abstract class Mage_Centinel_Model_StateAbstract extends Varien_Object
     /**
      * Save lookup result in state model
      *
-     * @param Varien_Object $result
+     * @param Magento_Object $result
      * @return Mage_Centinel_Model_StateAbstract
      */
     public function setLookupResult($result)
@@ -95,7 +95,7 @@ abstract class Mage_Centinel_Model_StateAbstract extends Varien_Object
     /**
      * Save authenticate result in state model
      *
-     * @param Varien_Object $result
+     * @param Magento_Object $result
      * @return Mage_Centinel_Model_StateAbstract
      */
     public function setAuthenticateResult($result)

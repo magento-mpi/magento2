@@ -25,14 +25,14 @@ abstract class Mage_GoogleAdwords_Model_Config_Backend_ConversionAbstract extend
      * @param Magento_Validator_Composite_VarienObjectFactory $validatorCompositeFactory
      * @param Mage_GoogleAdwords_Model_Validator_Factory $validatorFactory
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      */
     public function __construct(
         Mage_Core_Model_Context $context,
         Magento_Validator_Composite_VarienObjectFactory $validatorCompositeFactory,
         Mage_GoogleAdwords_Model_Validator_Factory $validatorFactory,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null
+        Magento_Data_Collection_Db $resourceCollection = null
     ) {
         parent::__construct($context, $resource, $resourceCollection);
 

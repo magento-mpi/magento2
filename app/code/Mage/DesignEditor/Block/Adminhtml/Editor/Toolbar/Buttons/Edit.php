@@ -161,7 +161,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
         $sourceChange = $this->_changeFactory->create();
         $sourceChange->loadByThemeId($this->_themeContext->getEditableTheme()->getId());
         $dateMessage = $this->_localeModel
-            ->date($sourceChange->getChangeTime(), Varien_Date::DATETIME_INTERNAL_FORMAT)->toString();
+            ->date($sourceChange->getChangeTime(), Magento_Date::DATETIME_INTERNAL_FORMAT)->toString();
         $message = $this->__('Do you want to restore the version saved at %s?', $dateMessage);
 
         $data = array(

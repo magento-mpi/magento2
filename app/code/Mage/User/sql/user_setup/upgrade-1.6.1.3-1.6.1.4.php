@@ -15,7 +15,7 @@ $installer->startSetup();
 $connection = $installer->getConnection();
 
 $connection->addColumn($installer->getTable('admin_user'), 'interface_locale', array(
-    'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
+    'type'     => Magento_DB_Ddl_Table::TYPE_TEXT,
     'length'   => 5,
     'nullable' => false,
     'default'  => Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE,

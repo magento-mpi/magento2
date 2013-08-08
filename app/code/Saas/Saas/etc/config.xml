@@ -39,13 +39,6 @@
             </Saas_Saas_Model_Limitation_Specification_Composite>
         </di>
     </global>
-    <frontend>
-        <design>
-            <theme>
-                <full_name>magento_reference</full_name>
-            </theme>
-        </design>
-    </frontend>
     <adminhtml>
         <di>
             <preferences>

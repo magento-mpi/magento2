@@ -13,7 +13,7 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Mage/Newsletter/_files/queue.php
-     * @magentoConfigFixture frontend/design/theme/full_name magento_demo_blue
+     * @magentoConfigFixture frontend/design/theme/full_name magento_blank
      * @magentoConfigFixture fixturestore_store general/locale/code  de_DE
      * @magentoAppIsolation enabled
      */
@@ -28,7 +28,7 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
         $subscriberOne->expects($this->any())->method('send');
         $subscriberTwo = clone $subscriberOne;
         $subscriberOne->expects($this->once())->method('setBodyHTML')->with(
-            $this->stringEndsWith('/static/frontend/magento_demo_blue/en_US/images/logo.gif')
+            $this->stringEndsWith('/static/frontend/magento_blank/en_US/images/logo.gif')
         );
         $subscriberTwo->expects($this->once())->method('setBodyHTML')->with(
             $this->stringEndsWith('/static/frontend/magento_demo/de_DE/images/logo.gif')

@@ -234,7 +234,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
      */
     public function installAction()
     {
-        $pear = Varien_Pear::getInstance();
+        $pear = Magento_Pear::getInstance();
         /** @var Mage_Install_Helper_Data $helper */
         $helper = Mage::helper('Mage_Install_Helper_Data');
         $params = array(

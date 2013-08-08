@@ -37,7 +37,7 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGenerator
 
     /**
      * Generate row url
-     * @param Varien_Object $item
+     * @param Magento_Object $item
      * @return bool|string
      */
     public function getUrl($item)

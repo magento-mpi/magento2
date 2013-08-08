@@ -125,7 +125,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
         $customerId = $session->getCustomerId();
         $customerGroupId = $session->getCustomerGroupId();
         if (!$customerId || is_null($customerGroupId)) {
-            $customerCookies = new Varien_Object();
+            $customerCookies = new Magento_Object();
             Mage::dispatchEvent('update_customer_cookies', array('customer_cookies' => $customerCookies));
             if (!$customerId) {
                 $customerId = $customerCookies->getCustomerId();

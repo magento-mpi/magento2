@@ -184,11 +184,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap extends Mage_Paym
     /**
      * Authorization method being executed via Payment Bridge
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @param float $amount
      * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
-    public function authorize(Varien_Object $payment, $amount)
+    public function authorize(Magento_Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
@@ -201,11 +201,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap extends Mage_Paym
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @param float $amount
      * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
-    public function capture(Varien_Object $payment, $amount)
+    public function capture(Magento_Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {
@@ -218,11 +218,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap extends Mage_Paym
     /**
      * Refunding method being executed via Payment Bridge
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @param float $amount
      * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
-    public function refund(Varien_Object $payment, $amount)
+    public function refund(Magento_Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
@@ -232,10 +232,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap extends Mage_Paym
     /**
      * Voiding method being executed via Payment Bridge
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
-    public function void(Varien_Object $payment)
+    public function void(Magento_Object $payment)
     {
         $response = $this->getPbridgeMethodInstance()->void($payment);
         $payment->addData((array)$response);
@@ -245,10 +245,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap extends Mage_Paym
     /**
      * Cancel method being executed via Payment Bridge
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
-    public function cancel(Varien_Object $payment)
+    public function cancel(Magento_Object $payment)
     {
         $response = $this->getPbridgeMethodInstance()->void($payment);
         $payment->addData((array)$response);

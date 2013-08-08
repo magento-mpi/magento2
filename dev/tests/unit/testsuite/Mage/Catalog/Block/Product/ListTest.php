@@ -13,7 +13,7 @@ class Mage_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 {
     public function testGetMode()
     {
-        $childBlock = new Varien_Object;
+        $childBlock = new Magento_Object;
 
         $block = $this->getMock('Mage_Catalog_Block_Product_List', array('getChildBlock'), array(), '', false);
         $block->expects($this->atLeastOnce())

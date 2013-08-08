@@ -61,14 +61,14 @@ class Enterprise_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
             array('reward' => $reward)
         );
 
-        $event = new Varien_Event(
+        $event = new Magento_Event(
             array(
                 'request'  => $request,
                 'customer' => $customer
             )
         );
 
-        $eventObserver = new Varien_Event_Observer(
+        $eventObserver = new Magento_Event_Observer(
             array('event' => $event)
         );
 

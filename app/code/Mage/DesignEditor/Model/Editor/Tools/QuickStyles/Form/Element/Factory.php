@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category   Varien
- * @package    Varien_Data
+ * @category   Magento
+ * @package    Magento_Data
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -26,7 +26,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory
      *
      * @param string $className
      * @param array $data
-     * @return Varien_Data_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     public function create($className, array $data = array())
     {

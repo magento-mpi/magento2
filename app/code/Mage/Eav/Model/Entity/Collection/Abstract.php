@@ -11,7 +11,7 @@
 /**
  * Entity/Attribute/Model - collection abstract
  */
-abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Collection_Db
+abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Collection_Db
 {
     /**
      * Array of items with item id key
@@ -88,9 +88,9 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     /**
      * Collection constructor
      *
-     * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      */
-    public function __construct(Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy)
+    public function __construct(Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy)
     {
         parent::__construct($fetchStrategy);
         $this->_construct();
@@ -209,7 +209,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     /**
      * Set template object for the collection
      *
-     * @param   Varien_Object $object
+     * @param   Magento_Object $object
      * @return  Mage_Eav_Model_Entity_Collection_Abstract
      */
     public function setObject($object = null)
@@ -225,11 +225,11 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     /**
      * Add an object to the collection
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Eav_Model_Entity_Collection_Abstract
      * @throws Mage_Core_Exception
      */
-    public function addItem(Varien_Object $object)
+    public function addItem(Magento_Object $object)
     {
         if (get_class($object) !== $this->_itemObjectClass) {
             throw Mage::exception(
@@ -297,7 +297,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
         }
 
         if (!empty($conditionSql)) {
-            $this->getSelect()->where($conditionSql, null, Varien_Db_Select::TYPE_CONDITION);
+            $this->getSelect()->where($conditionSql, null, Magento_DB_Select::TYPE_CONDITION);
         } else {
             Mage::throwException('Invalid attribute identifier for filter (' . get_class($attribute) . ')');
         }
@@ -306,7 +306,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     }
 
     /**
-     * Wrapper for compatibility with Varien_Data_Collection_Db
+     * Wrapper for compatibility with Magento_Data_Collection_Db
      *
      * @param mixed $attribute
      * @param mixed $condition
@@ -1145,10 +1145,10 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Varien_Data_Col
     }
 
     /**
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param string $table
      * @param string $type
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _addLoadAttributesSelectValues($select, $table, $type)
     {

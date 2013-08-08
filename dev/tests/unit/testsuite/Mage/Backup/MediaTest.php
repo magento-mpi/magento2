@@ -9,16 +9,16 @@
  * @license     {license_link}
  */
 
-class Mage_Backup_MediaTest extends PHPUnit_Framework_TestCase
+class Magento_Backup_MediaTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param array $methods
-     * @return Mage_Backup_Snapshot
+     * @return Magento_Backup_Snapshot
      */
     protected function _getSnapshotMock(array $methods = array())
     {
         $snapshot = $this->getMock(
-            'Mage_Backup_Snapshot',
+            'Magento_Backup_Snapshot',
             $methods + array('create', 'rollback', 'getDbBackupFilename')
         );
         $snapshot->expects($this->any())
@@ -42,7 +42,7 @@ class Mage_Backup_MediaTest extends PHPUnit_Framework_TestCase
     {
         $snapshot = $this->_getSnapshotMock();
 
-        $model = new Mage_Backup_Media($snapshot);
+        $model = new Magento_Backup_Media($snapshot);
 
         $rootDir = __DIR__ . DIRECTORY_SEPARATOR . '_files';
         $model->setRootDir($rootDir);
@@ -59,11 +59,11 @@ class Mage_Backup_MediaTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Exception
+     * @expectedException Magento_Exception
      */
     public function testConstruct()
     {
-        new Mage_Backup_Media(new StdClass);
+        new Magento_Backup_Media(new StdClass);
     }
 
     public static function actionProvider()
@@ -81,13 +81,13 @@ class Mage_Backup_MediaTest extends PHPUnit_Framework_TestCase
      */
     public function testProxyMethod($method, $parameter)
     {
-        $snapshot = $this->getMock('Mage_Backup_Snapshot', array($method));
+        $snapshot = $this->getMock('Magento_Backup_Snapshot', array($method));
         $snapshot->expects($this->once())
             ->method($method)
             ->with($parameter)
             ->will($this->returnValue($snapshot));
 
-        $model = new Mage_Backup_Media($snapshot);
+        $model = new Magento_Backup_Media($snapshot);
         $this->assertEquals($model, $model->$method($parameter));
     }
 
@@ -95,7 +95,7 @@ class Mage_Backup_MediaTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('setBackupExtension', 'test'),
-            array('setResourceModel', new Mage_Backup_Media()),
+            array('setResourceModel', new Magento_Backup_Media()),
             array('setTime', 1),
             array('setBackupsDir', 'test/test'),
             array('addIgnorePaths', 'test/test'),

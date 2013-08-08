@@ -71,7 +71,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         }
         $this->setIsThemeExist(isset($formData['theme_id']));
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $this->_addThemeFieldset($form, $formData);
 
@@ -88,7 +88,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     /**
      * Add theme fieldset
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @param array $formData
      * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      */

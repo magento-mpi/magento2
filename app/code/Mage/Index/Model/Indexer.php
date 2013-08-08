@@ -130,13 +130,13 @@ class Mage_Index_Model_Indexer
     /**
      * Create new event log and register event in all processes
      *
-     * @param   Varien_Object $entity
+     * @param   Magento_Object $entity
      * @param   string $entityType
      * @param   string $eventType
      * @param   bool $doSave
      * @return  Mage_Index_Model_Event
      */
-    public function logEvent(Varien_Object $entity, $entityType, $eventType, $doSave=true)
+    public function logEvent(Magento_Object $entity, $entityType, $eventType, $doSave=true)
     {
         $event = Mage::getModel('Mage_Index_Model_Event')
             ->setEntity($entityType)
@@ -155,12 +155,12 @@ class Mage_Index_Model_Indexer
      * Create new event log and register event in all processes.
      * Initiate events indexing procedure.
      *
-     * @param   Varien_Object $entity
+     * @param   Magento_Object $entity
      * @param   string $entityType
      * @param   string $eventType
      * @return  Mage_Index_Model_Indexer
      */
-    public function processEntityAction(Varien_Object $entity, $entityType, $eventType)
+    public function processEntityAction(Magento_Object $entity, $entityType, $eventType)
     {
         $event = $this->logEvent($entity, $entityType, $eventType, false);
         /**

@@ -62,7 +62,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTe
 
         $element = $form->getElement('store_id');
         $this->assertNotNull($element);
-        $this->assertInstanceOf('Varien_Data_Form_Element_Select', $element);
+        $this->assertInstanceOf('Magento_Data_Form_Element_Select', $element);
         $this->assertEquals('store_id', $element->getId());
     }
 }

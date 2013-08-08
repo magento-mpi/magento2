@@ -35,7 +35,7 @@ class Mage_Downloadable_Model_Observer
     /**
      * Prepare product to save
      *
-     * @param   Varien_Object $observer
+     * @param   Magento_Object $observer
      * @return  Mage_Downloadable_Model_Observer
      */
     public function prepareProductSave($observer)
@@ -52,10 +52,10 @@ class Mage_Downloadable_Model_Observer
     /**
      * Change product type on the fly depending on selected options
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return Mage_Downloadable_Model_Observer
      */
-    public function transitionProductType(Varien_Event_Observer $observer)
+    public function transitionProductType(Magento_Event_Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
         $product = $observer->getEvent()->getProduct();
@@ -81,7 +81,7 @@ class Mage_Downloadable_Model_Observer
     /**
      * Save data from order to purchased links
      *
-     * @param Varien_Object $observer
+     * @param Magento_Object $observer
      * @return Mage_Downloadable_Model_Observer
      */
     public function saveDownloadableOrderItem($observer)
@@ -159,7 +159,7 @@ class Mage_Downloadable_Model_Observer
     /**
      * Set checkout session flag if order has downloadable product(s)
      *
-     * @param Varien_Object $observer
+     * @param Magento_Object $observer
      * @return Mage_Downloadable_Model_Observer
      */
     public function setHasDownloadableProducts($observer)
@@ -184,7 +184,7 @@ class Mage_Downloadable_Model_Observer
     /**
      * Set status of link
      *
-     * @param Varien_Object $observer
+     * @param Magento_Object $observer
      * @return Mage_Downloadable_Model_Observer
      */
     public function setLinkStatus($observer)
@@ -282,10 +282,10 @@ class Mage_Downloadable_Model_Observer
     /**
      * Check is allowed guest checkout if quote contain downloadable product(s)
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Downloadable_Model_Observer
      */
-    public function isAllowedGuestCheckout(Varien_Event_Observer $observer)
+    public function isAllowedGuestCheckout(Magento_Event_Observer $observer)
     {
         $quote  = $observer->getEvent()->getQuote();
         /* @var $quote Mage_Sales_Model_Quote */
@@ -311,10 +311,10 @@ class Mage_Downloadable_Model_Observer
     /**
      * Initialize product options renderer with downloadable specific params
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Downloadable_Model_Observer
      */
-    public function initOptionRenderer(Varien_Event_Observer $observer)
+    public function initOptionRenderer(Magento_Event_Observer $observer)
     {
         $block = $observer->getBlock();
         $block->addOptionsRenderCfg('downloadable', 'Mage_Downloadable_Helper_Catalog_Product_Configuration');
@@ -324,7 +324,7 @@ class Mage_Downloadable_Model_Observer
     /**
      * Duplicating downloadable product data
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Downloadable_Model_Observer
      */
     public function duplicateProduct($observer)

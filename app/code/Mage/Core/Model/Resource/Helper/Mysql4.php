@@ -9,7 +9,7 @@
  */
 
 /**
- * Resource helper class for MySql Varien DB Adapter
+ * Resource helper class for MySql Magento DB Adapter
  *
  * @category    Mage
  * @package     Mage_Core
@@ -20,11 +20,11 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
     /**
      * Returns array of quoted orders with direction
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param bool $autoReset
      * @return array
      */
-    protected function _prepareOrder(Varien_Db_Select $select, $autoReset = false)
+    protected function _prepareOrder(Magento_DB_Select $select, $autoReset = false)
     {
         $selectOrders = $select->getPart(Zend_Db_Select::ORDER);
         if (!$selectOrders) {
@@ -80,11 +80,11 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
     /**
      * Returns quoted group by fields
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param bool $autoReset
      * @return array
      */
-    protected function _prepareGroup(Varien_Db_Select $select, $autoReset = false)
+    protected function _prepareGroup(Magento_DB_Select $select, $autoReset = false)
     {
         $selectGroups = $select->getPart(Zend_Db_Select::GROUP);
         if (!$selectGroups) {
@@ -106,12 +106,12 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
     /**
      * Prepare and returns having array
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param bool $autoReset
      * @return array
      * @throws Zend_Db_Exception
      */
-    protected function _prepareHaving(Varien_Db_Select $select, $autoReset = false)
+    protected function _prepareHaving(Magento_DB_Select $select, $autoReset = false)
     {
         $selectHavings = $select->getPart(Zend_Db_Select::HAVING);
         if (!$selectHavings) {
@@ -185,12 +185,12 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
     /**
      * Prepare select column list
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param string|null $groupByCondition OPTIONAL
      * @return array
      * @throws Zend_Db_Exception
      */
-    public function prepareColumnsList(Varien_Db_Select $select, $groupByCondition = null)
+    public function prepareColumnsList(Magento_DB_Select $select, $groupByCondition = null)
     {
         if (!count($select->getPart(Zend_Db_Select::FROM))) {
             return $select->getPart(Zend_Db_Select::COLUMNS);
@@ -235,13 +235,13 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
     /**
      * Add prepared column group_concat expression
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param string $fieldAlias Field alias which will be added with column group_concat expression
      * @param string $fields
      * @param string $groupConcatDelimiter
      * @param string $fieldsDelimiter
      * @param string $additionalWhere
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function addGroupConcatColumn(
         $select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '', $additionalWhere = ''

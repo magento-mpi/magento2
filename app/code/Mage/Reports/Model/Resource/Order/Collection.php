@@ -84,7 +84,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
     {
         if (is_null($this->_salesAmountExpression)) {
             $adapter = $this->getConnection();
-            $expressionTransferObject = new Varien_Object(array(
+            $expressionTransferObject = new Magento_Object(array(
                 'expression' => '%s - %s - %s - (%s - %s - %s)',
                 'arguments' => array(
                     $adapter->getIfNullSql('main_table.base_total_invoiced', 0),
@@ -289,7 +289,7 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         $adapter = $this->getConnection();
         $expression = $this->_getRangeExpression($range);
         $attribute  = $adapter->quoteIdentifier($attribute);
-        $periodExpr = $adapter->getDateAddSql($attribute, $tzTo, Varien_Db_Adapter_Interface::INTERVAL_HOUR);
+        $periodExpr = $adapter->getDateAddSql($attribute, $tzTo, Magento_DB_Adapter_Interface::INTERVAL_HOUR);
 
         return str_replace('{{attribute}}', $periodExpr, $expression);
     }
@@ -791,8 +791,8 @@ class Mage_Reports_Model_Resource_Order_Collection extends Mage_Sales_Model_Reso
         }
 
         $this->addFieldToFilter($fieldToFilter, array(
-            'from'  => $from->toString(Varien_Date::DATETIME_INTERNAL_FORMAT),
-            'to'    => $to->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
+            'from'  => $from->toString(Magento_Date::DATETIME_INTERNAL_FORMAT),
+            'to'    => $to->toString(Magento_Date::DATETIME_INTERNAL_FORMAT)
         ));
 
         return $this;

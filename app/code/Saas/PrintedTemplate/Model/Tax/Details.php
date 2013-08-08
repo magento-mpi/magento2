@@ -108,7 +108,7 @@ class Saas_PrintedTemplate_Model_Tax_Details
      * Prepare tax rate request object from quote model
      *
      * @param Mage_Sales_Model_Quote $quote
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _prepareRateRequest(Mage_Sales_Model_Quote $quote)
     {
@@ -126,7 +126,7 @@ class Saas_PrintedTemplate_Model_Tax_Details
     /**
      * Retrieve tax rates information based on request object
      *
-     * @param Varien_Object $taxRateRequest
+     * @param Magento_Object $taxRateRequest
      * @return array
      */
     protected function _getRatesInfo($taxRateRequest)

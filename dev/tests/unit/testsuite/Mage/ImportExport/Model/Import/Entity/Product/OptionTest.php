@@ -419,11 +419,11 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
             ->will($this->returnValue($products));
 
         $fetchStrategy = $this->getMockForAbstractClass(
-            'Varien_Data_Collection_Db_FetchStrategyInterface', array('fetchAll')
+            'Magento_Data_Collection_Db_FetchStrategyInterface', array('fetchAll')
         );
 
         $optionCollection = $this->getMock(
-            'Varien_Data_Collection_Db',
+            'Magento_Data_Collection_Db',
             array('reset', 'addProductToFilter', 'getSelect', 'getNewEmptyItem'),
             array($fetchStrategy)
         );
@@ -483,11 +483,11 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param Varien_Data_Collection_Db $collection
+     * @param Magento_Data_Collection_Db $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(Varien_Data_Collection_Db $collection, $pageSize, array $callbacks)
+    public function iterate(Magento_Data_Collection_Db $collection, $pageSize, array $callbacks)
     {
         foreach ($collection as $option) {
             foreach ($callbacks as $callback) {

@@ -142,7 +142,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
                     'canApplyMAP'      => $canApplyMAP
                 );
 
-                $responseObject = new Varien_Object();
+                $responseObject = new Magento_Object();
                 $args = array('response_object' => $responseObject, 'selection' => $_selection);
                 Mage::dispatchEvent('bundle_product_view_config', $args);
                 if (is_array($responseObject->getAdditionalOptions())) {

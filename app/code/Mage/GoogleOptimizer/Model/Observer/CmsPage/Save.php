@@ -17,7 +17,7 @@ class Mage_GoogleOptimizer_Model_Observer_CmsPage_Save extends Mage_GoogleOptimi
     /**
      * Init entity
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     protected function _initEntity($observer)
     {

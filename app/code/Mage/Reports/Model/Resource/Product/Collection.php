@@ -52,7 +52,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      * Init main class options
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Catalog_Model_Resource_Product $product
     ) {
         $this->setProductEntityId($product->getEntityIdField());
@@ -145,7 +145,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     protected function _joinFields()
     {
-        $this->_totals = new Varien_Object();
+        $this->_totals = new Magento_Object();
 
         $this->addAttributeToSelect('entity_id')
             ->addAttributeToSelect('name')

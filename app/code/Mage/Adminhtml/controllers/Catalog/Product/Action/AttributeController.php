@@ -75,7 +75,7 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
                                 'date_format' => $dateFormat
                             ));
                             $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-                                'date_format' => Varien_Date::DATE_INTERNAL_FORMAT
+                                'date_format' => Magento_Date::DATE_INTERNAL_FORMAT
                             ));
                             $value = $filterInternal->filter($filterInput->filter($value));
                         } else {
@@ -209,10 +209,10 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
      */
     public function validateAction()
     {
-        $response = new Varien_Object();
+        $response = new Magento_Object();
         $response->setError(false);
         $attributesData = $this->getRequest()->getParam('attributes', array());
-        $data = new Varien_Object();
+        $data = new Magento_Object();
 
         try {
             if ($attributesData) {

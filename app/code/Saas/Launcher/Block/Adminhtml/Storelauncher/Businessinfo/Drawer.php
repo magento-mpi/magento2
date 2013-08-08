@@ -62,7 +62,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
     {
         $addressData = $this->getAddressData();
 
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'method' => 'post',
             'id' => 'drawer-form',
             'class' => 'store-info-form',

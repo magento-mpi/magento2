@@ -26,7 +26,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_RendererTest
         );
 
         $objectManager = $this->getMock(
-            'Varien_Object', array('get', 'toCss'), array(), '', false
+            'Magento_Object', array('get', 'toCss'), array(), '', false
         );
 
         $objectManager->expects($this->exactly(4))

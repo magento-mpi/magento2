@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Form extends Mage_Adminhtml_Block_Widge
 
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
             'method'    => 'post',

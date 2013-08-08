@@ -135,7 +135,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
     {
         $generatorClass = 'Mage_Backend_Model_Widget_Grid_Row_UrlGenerator';
 
-        $itemMock = $this->getMock('Varien_Object', array(), array(), '', false);
+        $itemMock = $this->getMock('Magento_Object', array(), array(), '', false);
 
         $rowUrlGenerator = $this->getMock('Mage_Backend_Model_Widget_Grid_Row_UrlGenerator', array('getUrl'), array(),
             '', false
@@ -176,11 +176,11 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
 
     public function testItemHasMultipleRows()
     {
-        $item =  new Varien_Object();
+        $item =  new Magento_Object();
         // prepare sub-collection
-        $subCollection = new Varien_Data_Collection();
-        $subCollection->addItem(new Varien_Object(array('test4' => '1','test5' => '2')));
-        $subCollection->addItem(new Varien_Object(array('test4' => '2','test5' => '2')));
+        $subCollection = new Magento_Data_Collection();
+        $subCollection->addItem(new Magento_Object(array('test4' => '1','test5' => '2')));
+        $subCollection->addItem(new Magento_Object(array('test4' => '2','test5' => '2')));
         $item->setChildren($subCollection);
 
         $this->assertTrue($this->_block->hasMultipleRows($item));
@@ -196,7 +196,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
 
     public function testShouldRenderTotalWithEmptyCollection()
     {
-        $this->_prepareLayoutWithGrid($this->_prepareGridMock(new Varien_Data_Collection()));
+        $this->_prepareLayoutWithGrid($this->_prepareGridMock(new Magento_Data_Collection()));
 
         $this->_block->setCountTotals(true);
         $this->assertFalse($this->_block->shouldRenderTotal());
@@ -211,22 +211,22 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
     public function testShouldRenderSubtotalWithFlagFalse()
     {
         $this->_block->setCountSubTotals(false);
-        $this->assertFalse($this->_block->shouldRenderSubTotal(new Varien_Object()));
+        $this->assertFalse($this->_block->shouldRenderSubTotal(new Magento_Object()));
     }
 
     public function testShouldRenderSubtotalWithEmptySubData()
     {
         $this->_block->setCountSubTotals(true);
-        $this->assertFalse($this->_block->shouldRenderSubTotal(new Varien_Object()));
+        $this->assertFalse($this->_block->shouldRenderSubTotal(new Magento_Object()));
     }
 
     public function testShouldRenderSubtotalWithNotEmptySubData()
     {
-        $item =  new Varien_Object();
+        $item =  new Magento_Object();
         // prepare sub-collection
-        $subCollection = new Varien_Data_Collection();
-        $subCollection->addItem(new Varien_Object(array('test4' => '1','test5' => '2')));
-        $subCollection->addItem(new Varien_Object(array('test4' => '2','test5' => '2')));
+        $subCollection = new Magento_Data_Collection();
+        $subCollection->addItem(new Magento_Object(array('test4' => '1','test5' => '2')));
+        $subCollection->addItem(new Magento_Object(array('test4' => '2','test5' => '2')));
         $item->setChildren($subCollection);
 
         $this->_block->setCountSubTotals(true);
@@ -235,14 +235,14 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
 
     public function testUpdateItemByFirstMultiRow()
     {
-        $item =  new Varien_Object(array('test1' => '1'));
+        $item =  new Magento_Object(array('test1' => '1'));
         // prepare sub-collection
-        $subCollection = new Varien_Data_Collection();
-        $subCollection->addItem(new Varien_Object(array('test4' => '1','test5' => '2')));
-        $subCollection->addItem(new Varien_Object(array('test4' => '2','test5' => '2')));
+        $subCollection = new Magento_Data_Collection();
+        $subCollection->addItem(new Magento_Object(array('test4' => '1','test5' => '2')));
+        $subCollection->addItem(new Magento_Object(array('test4' => '2','test5' => '2')));
         $item->setChildren($subCollection);
 
-        $expectedItem = new Varien_Object(array('test1' => '1'));
+        $expectedItem = new Magento_Object(array('test1' => '1'));
         $expectedItem->addData(array('test4' => '1','test5' => '2'));
         $expectedItem->setChildren($subCollection);
 
@@ -253,21 +253,21 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
     public function testGetSubTotals()
     {
         // prepare sub-collection
-        $subCollection = new Varien_Data_Collection();
-        $subCollection->addItem(new Varien_Object(array('column' => '1')));
-        $subCollection->addItem(new Varien_Object(array('column' => '1')));
+        $subCollection = new Magento_Data_Collection();
+        $subCollection->addItem(new Magento_Object(array('column' => '1')));
+        $subCollection->addItem(new Magento_Object(array('column' => '1')));
 
         $this->_subtotalsMock->expects($this->once())
             ->method('countTotals')
             ->with($subCollection)
-            ->will($this->returnValue(new Varien_Object(array('column' => '2'))));
+            ->will($this->returnValue(new Magento_Object(array('column' => '2'))));
 
         // prepare item
-        $item =  new Varien_Object(array('test1' => '1'));
+        $item =  new Magento_Object(array('test1' => '1'));
         $item->setChildren($subCollection);
 
         $this->assertEquals(
-            new Varien_Object(array('column' => '2')),
+            new Magento_Object(array('column' => '2')),
             $this->_block->getSubTotals($item)
         );
     }
@@ -280,10 +280,10 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
         $this->_totalsMock->expects($this->once())
             ->method('countTotals')
             ->with($collection)
-            ->will($this->returnValue(new Varien_Object(array('test1' => '3', 'test2' => '2'))));
+            ->will($this->returnValue(new Magento_Object(array('test1' => '3', 'test2' => '2'))));
 
         $this->assertEquals(
-            new Varien_Object(array('test1' => '3', 'test2' => '2')),
+            new Magento_Object(array('test1' => '3', 'test2' => '2')),
             $this->_block->getTotals()
         );
     }
@@ -291,7 +291,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
     /**
      * Retrieve prepared mock for Mage_Backend_Model_Widget_Grid with collection
      *
-     * @param Varien_Data_Collection $collection
+     * @param Magento_Data_Collection $collection
      * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function _prepareGridMock($collection)
@@ -308,15 +308,15 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
     /**
      * Retrieve test collection
      *
-     * @return Varien_Data_Collection
+     * @return Magento_Data_Collection
      */
     protected function _getTestCollection()
     {
-        $collection = new Varien_Data_Collection();
+        $collection = new Magento_Data_Collection();
         $items = array(
-            new Varien_Object(array('test1' => '1', 'test2' => '2')),
-            new Varien_Object(array('test1' => '1', 'test2' => '2')),
-            new Varien_Object(array('test1' => '1', 'test2' => '2'))
+            new Magento_Object(array('test1' => '1', 'test2' => '2')),
+            new Magento_Object(array('test1' => '1', 'test2' => '2')),
+            new Magento_Object(array('test1' => '1', 'test2' => '2'))
         );
         foreach ($items as $item) {
             $collection->addItem($item);

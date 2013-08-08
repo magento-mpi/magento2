@@ -62,10 +62,10 @@ class Mage_Core_Model_Theme_Observer
     /**
      * Clean related contents to a theme (before save)
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @throws Mage_Core_Exception
      */
-    public function cleanThemeRelatedContent(Varien_Event_Observer $observer)
+    public function cleanThemeRelatedContent(Magento_Event_Observer $observer)
     {
         $theme = $observer->getEvent()->getData('theme');
         if ($theme instanceof Mage_Core_Model_Theme) {
@@ -82,9 +82,9 @@ class Mage_Core_Model_Theme_Observer
     /**
      * Check a theme, it's assigned to any of store
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function checkThemeIsAssigned(Varien_Event_Observer $observer)
+    public function checkThemeIsAssigned(Magento_Event_Observer $observer)
     {
         $theme = $observer->getEvent()->getData('theme');
         if ($theme instanceof Mage_Core_Model_Theme) {

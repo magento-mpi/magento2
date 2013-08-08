@@ -15,7 +15,7 @@
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_ImportExport_Model_Abstract extends Varien_Object
+abstract class Mage_ImportExport_Model_Abstract extends Magento_Object
 {
     /**
      * Enable loging

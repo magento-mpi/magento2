@@ -45,7 +45,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
     {
         $this->markTestIncomplete('MAGETWO-9058');
         Mage::getConfig()->setCurrentAreaCode('adminhtml');
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), array());
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */
@@ -97,7 +97,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
     {
         $this->markTestIncomplete('MAGETWO-9058');
         Mage::getConfig()->setCurrentAreaCode('adminhtml');
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), array());
 
         /* @TODO Eliminate stub by proper mock / config fixture usage */
@@ -215,8 +215,8 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         );
         $elements = $block->getForm()->getElements();
         foreach ($elements as $element) {
-            /** @var $element Varien_Data_Form_Element_Fieldset */
-            $this->assertInstanceOf('Varien_Data_Form_Element_Fieldset', $element);
+            /** @var $element Magento_Data_Form_Element_Fieldset */
+            $this->assertInstanceOf('Magento_Data_Form_Element_Fieldset', $element);
             $this->assertArrayHasKey($element->getId(), $expectedIds);
             $fields = $element->getElements();
             $this->assertEquals(count($expectedIds[$element->getId()]), count($fields));

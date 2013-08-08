@@ -36,7 +36,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
         $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
         $designChange = Mage::getModel('Mage_Core_Model_Design');
         $designChange->loadChange($storeId)->changeDesign($design);
-        $this->assertEquals('magento_modern', $design->getDesignTheme()->getThemePath());
+        $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
     }
 
     public function testCRUD()
@@ -95,7 +95,7 @@ class Mage_Core_Model_DesignTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadChangeCache()
     {
-        $date = Varien_Date::now(true);
+        $date = Magento_Date::now(true);
         $storeId = Mage::app()->getAnyStoreView()->getId(); // fixture design_change
 
         $cacheId = 'design_change_' . md5($storeId . $date);

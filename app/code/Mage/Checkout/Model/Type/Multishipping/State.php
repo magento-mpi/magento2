@@ -15,7 +15,7 @@
  * @package    Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
+class Mage_Checkout_Model_Type_Multishipping_State extends Magento_Object
 {
     const STEP_SELECT_ADDRESSES = 'multishipping_addresses';
     const STEP_SHIPPING         = 'multishipping_shipping';
@@ -45,19 +45,19 @@ class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
     {
         parent::__construct();
         $this->_steps = array(
-            self::STEP_SELECT_ADDRESSES => new Varien_Object(array(
+            self::STEP_SELECT_ADDRESSES => new Magento_Object(array(
                 'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Select Addresses')
             )),
-            self::STEP_SHIPPING => new Varien_Object(array(
+            self::STEP_SHIPPING => new Magento_Object(array(
                 'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Shipping Information')
             )),
-            self::STEP_BILLING => new Varien_Object(array(
+            self::STEP_BILLING => new Magento_Object(array(
                 'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Billing Information')
             )),
-            self::STEP_OVERVIEW => new Varien_Object(array(
+            self::STEP_OVERVIEW => new Magento_Object(array(
                 'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Place Order')
             )),
-            self::STEP_SUCCESS => new Varien_Object(array(
+            self::STEP_SUCCESS => new Magento_Object(array(
                 'label' => Mage::helper('Mage_Checkout_Helper_Data')->__('Order Success')
             )),
         );

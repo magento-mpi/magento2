@@ -134,7 +134,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
      *
      * Used in event "controller_action_predispatch"
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      * @return  Mage_Log_Model_Visitor
      */
     public function initByRequest($observer)
@@ -160,7 +160,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
      *
      * Used in event "controller_action_postdispatch"
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      * @return  Mage_Log_Model_Visitor
      */
     public function saveByRequest($observer)
@@ -184,7 +184,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
      *
      * Used in event "customer_login"
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      * @return  Mage_Log_Model_Visitor
      */
     public function bindCustomerLogin($observer)
@@ -201,7 +201,7 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
      *
      * Used in event "customer_logout"
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      * @return  Mage_Log_Model_Visitor
      */
     public function bindCustomerLogout($observer)

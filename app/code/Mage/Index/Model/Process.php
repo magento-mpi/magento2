@@ -84,7 +84,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      * @param Mage_Index_Model_Lock_Storage $lockStorage
      * @param Mage_Index_Model_EventRepository $eventRepository
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -92,7 +92,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         Mage_Index_Model_Lock_Storage $lockStorage,
         Mage_Index_Model_EventRepository $eventRepository,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);

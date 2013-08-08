@@ -60,8 +60,8 @@ class Mage_Install_Model_Wizard
     /**
      * Get wizard step by request
      *
-     * @param Zend_Controller_Request_Abstract $request
-     * @return Varien_Object|false
+     * @param   Zend_Controller_Request_Abstract $request
+     * @return  Magento_Object|bool
      */
     public function getStepByRequest(Zend_Controller_Request_Abstract $request)
     {
@@ -78,7 +78,7 @@ class Mage_Install_Model_Wizard
      * Get wizard step by name
      *
      * @param   string $name
-     * @return  Varien_Object || false
+     * @return  Magento_Object|bool
      */
     public function getStepByName($name)
     {

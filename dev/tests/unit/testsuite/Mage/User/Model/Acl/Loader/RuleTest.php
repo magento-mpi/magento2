@@ -40,12 +40,12 @@ class Mage_User_Model_Acl_Loader_RuleTest extends PHPUnit_Framework_TestCase
     {
         $this->_resourceMock->expects($this->any())->method('getTable')->will($this->returnArgument(1));
 
-        $selectMock = $this->getMock('Varien_Db_Select', array(), array(), '', false);
+        $selectMock = $this->getMock('Magento_DB_Select', array(), array(), '', false);
         $selectMock->expects($this->any())
             ->method('from')
             ->will($this->returnValue($selectMock));
 
-        $adapterMock = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false);
+        $adapterMock = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false);
         $adapterMock->expects($this->once())
             ->method('select')
             ->will($this->returnValue($selectMock));

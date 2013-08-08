@@ -32,10 +32,10 @@ class Saas_PrintedTemplate_Block_Widget_TaxGrid_Editor
     /**
      * Add additional HTML to element
      *
-     * @param Varien_Data_Form_Element_Abstract $element Form Element
-     * @return Varien_Data_Form_Element_Abstract
+     * @param Magento_Data_Form_Element_Abstract $element Form Element
+     * @return Magento_Data_Form_Element_Abstract
      */
-    public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
+    public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         return $element->setAfterElementHtml($this->toHtml());
     }

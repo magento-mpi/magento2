@@ -23,7 +23,7 @@ class Mage_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
         );
         $context = Mage::getModel('Mage_Core_Controller_Varien_Action_Context', $arguments);
         $page = Mage::getSingleton('Mage_Cms_Model_Page');
-        $page->load('page_design_modern', 'identifier'); // fixture
+        $page->load('page_design_blank', 'identifier'); // fixture
         /** @var $pageHelper Mage_Cms_Helper_Page */
         $pageHelper = Mage::helper('Mage_Cms_Helper_Page');
         $result = $pageHelper->renderPage(
@@ -36,7 +36,7 @@ class Mage_Cms_Helper_PageTest extends PHPUnit_Framework_TestCase
             ),
             $page->getId()
         );
-        $this->assertEquals('magento_modern', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $this->assertEquals('magento_blank', Mage::getDesign()->getDesignTheme()->getThemePath());
         $this->assertTrue($result);
     }
 }

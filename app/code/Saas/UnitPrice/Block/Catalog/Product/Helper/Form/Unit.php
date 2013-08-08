@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Saas_UnitPrice_Block_Catalog_Product_Helper_Form_Unit extends Varien_Data_Form_Element_Text
+class Saas_UnitPrice_Block_Catalog_Product_Helper_Form_Unit extends Magento_Data_Form_Element_Text
 {
     /**
      * Constructor

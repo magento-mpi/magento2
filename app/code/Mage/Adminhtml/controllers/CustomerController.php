@@ -577,7 +577,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      */
     public function validateAction()
     {
-        $response = new Varien_Object();
+        $response = new Magento_Object();
         $response->setError(0);
 
         $customer = $this->_validateCustomer($response);
@@ -596,7 +596,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     /**
      * Customer validation
      *
-     * @param Varien_Object $response
+     * @param Magento_Object $response
      * @return Mage_Customer_Model_Customer|null
      */
     protected function _validateCustomer($response)
@@ -652,7 +652,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     /**
      * Customer address validation.
      *
-     * @param Varien_Object $response
+     * @param Magento_Object $response
      * @param Mage_Customer_Model_Customer $customer
      */
     protected function _validateCustomerAddress($response, $customer)

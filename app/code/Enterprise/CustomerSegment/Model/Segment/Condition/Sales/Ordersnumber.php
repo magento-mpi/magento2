@@ -82,7 +82,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
      *
      * @param $customer
      * @param int | Zend_Db_Expr $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {

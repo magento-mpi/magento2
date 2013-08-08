@@ -14,7 +14,7 @@
 class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
 {
     /**
-     * @var Varien_Data_Form_Factory
+     * @var Magento_Data_Form_Factory
      */
     protected $_formFactory;
 
@@ -46,14 +46,14 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     /**
      * Constructor
      *
-     * @param Varien_Data_Form_Factory $formFactory
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
      * @param Mage_Core_Model_Translate $translator
      */
     public function __construct(
-        Varien_Data_Form_Factory $formFactory,
+        Magento_Data_Form_Factory $formFactory,
         Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory,
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory,
@@ -70,7 +70,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      * Create varien data form with provided params
      *
      * @param array $data
-     * @return Varien_Data_Form
+     * @return Magento_Data_Form
      * @throws InvalidArgumentException
      */
     public function create(array $data = array())
@@ -91,7 +91,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
         }
 
         if ($isFilePresent) {
-            /** @var $form Varien_Data_Form */
+            /** @var $form Magento_Data_Form */
             $form = $this->_formFactory->create($data);
 
             $this->_addElementTypes($form);
@@ -99,7 +99,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
             $columns = $this->_initColumns($form, $data['tab']);
             $this->_populateColumns($columns, $data['tab']);
         } else {
-            $form = new Varien_Data_Form(array('action' => '#'));
+            $form = new Magento_Data_Form(array('action' => '#'));
         }
 
         if ($this->_isFormEmpty($form)) {
@@ -114,13 +114,13 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     /**
      * Check is any elements present in form
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @return bool
      */
     protected function _isFormEmpty($form)
     {
         $isEmpty = true;
-        /** @var  $elements Varien_Data_Form_Element_Collection */
+        /** @var  $elements Magento_Data_Form_Element_Collection */
         $elements = $form->getElements();
         foreach ($elements as $element) {
             if ($element->getElements()->count()) {
@@ -134,7 +134,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     /**
      * Add column elements to form
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @param string $tab
      * @return array
      */
@@ -225,7 +225,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     /**
      * Add custom element types
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      */
     protected function _addElementTypes($form)
     {

@@ -18,6 +18,9 @@
             <action method="setIsHandle">
                 <applied>1</applied>
             </action>
+            <action method="setLayoutCode">
+                <name>two_columns_left</name>
+            </action>
         </reference>
     </page_two_columns_left>
 </layout>

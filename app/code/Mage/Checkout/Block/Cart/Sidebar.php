@@ -75,7 +75,7 @@ class Mage_Checkout_Block_Cart_Sidebar extends Mage_Checkout_Block_Cart_Abstract
                 if (!isset($products[$productId])) {
                     continue;
                 }
-                $urlDataObject = new Varien_Object($products[$productId]);
+                $urlDataObject = new Magento_Object($products[$productId]);
                 $item->getProduct()->setUrlDataObject($urlDataObject);
             }
 

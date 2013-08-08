@@ -114,10 +114,10 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve error message for the item
      *
-     * @param Varien_Object $item
+     * @param Magento_Object $item
      * @return string
      */
-    public function getMessageByItem(Varien_Object $item)
+    public function getMessageByItem(Magento_Object $item)
     {
         $message = $this->getMessage($item->getCode());
         return $message ? $message : $item->getError();

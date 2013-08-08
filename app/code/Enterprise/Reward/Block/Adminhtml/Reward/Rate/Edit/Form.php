@@ -35,7 +35,7 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Mage_Admin
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id' => 'edit_form',
             'action' => $this->getUrl('*/*/save', array('_current' => true)),
             'method' => 'post'

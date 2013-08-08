@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection
-    extends Varien_Data_Collection
+    extends Magento_Data_Collection
 {
     /**#@+
      * Customer entity finance attribute ids
@@ -100,11 +100,11 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
     /**
      * Compare two collection items
      *
-     * @param Varien_Object $a
-     * @param Varien_Object $b
+     * @param Magento_Object $a
+     * @param Magento_Object $b
      * @return int
      */
-    public function compareAttributes(Varien_Object $a, Varien_Object $b)
+    public function compareAttributes(Magento_Object $a, Magento_Object $b)
     {
         return strnatcmp($a->getData($this->_orderField), $b->getData($this->_orderField));
     }

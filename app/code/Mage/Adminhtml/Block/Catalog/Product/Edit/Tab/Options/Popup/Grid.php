@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid extends M
     /**
      * Return empty row url for disabling JS click events
      *
-     * @param Mage_Catalog_Model_Product|Varien_Object
+     * @param Mage_Catalog_Model_Product|Magento_Object
      * @return string|null
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

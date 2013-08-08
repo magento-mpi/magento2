@@ -57,7 +57,7 @@ class Mage_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_TestCas
             'attribute_set_id' => $set,
         ));
 
-        $entityType = new Varien_Object();
+        $entityType = new Magento_Object();
         $entityType->setEntityTypeCode('test');
         $entityType->setEntityTypeId(0);
         $entityType->setEntityTable('table');
