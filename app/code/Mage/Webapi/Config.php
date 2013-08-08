@@ -168,6 +168,7 @@ class Mage_Webapi_Config
      * Save services into the cache
      *
      * @param string $data serialized version of the webapi registry
+     * @return Mage_Webapi_Config
      */
     protected function _saveToCache($data)
     {
@@ -176,47 +177,9 @@ class Mage_Webapi_Config
     }
 
     /**
-     * Get child nodes of document tree
-     *
-     * @param DOMNodeList $children
-     * @return array
-     */
-    protected function _getChildNodes($children)
-    {
-        if ($children->length == 1) {
-            $child = $children->item(0);
-            if ($child->nodeType == XML_TEXT_NODE) {
-                $result['value'] = $child->nodeValue;
-                if (count($result) == 1) {
-                    return $result['value'];
-                } else {
-                    return $result;
-                }
-            }
-        }
-    }
-
-    /**
-     * Get DOMDocument attributes
-     *
-     * @param DOMDocument|DOMElement $root
-     * @return array
-     */
-    protected function _getAttributes($root)
-    {
-        $attributes = array();
-        if ($root->hasAttributes()) {
-            foreach ($root->attributes as $value) {
-                $attributes[$value->name] = $value->value;
-            }
-        }
-        return $attributes;
-    }
-
-    /**
      * Get node ID of DOMNode class
      *
-     * @param array $children
+     * @param array $children - Child nodes of a DOMNode
      * @param DOMNode $child
      * @return string
      */
@@ -229,19 +192,53 @@ class Mage_Webapi_Config
     }
 
     /**
-     * Convert elements to array
+     * Convert attributes of a DOMNode into an associative array.
      *
-     * @param DOMDocument|DOMElement $root
+     * @param DOMNode $node
      * @return array
      */
-    protected function _toArray($root)
+    protected function _getAttributes($node)
     {
-        $result = $this->_getAttributes($root);
+        $attributes = array();
 
-        $children = $root->childNodes;
+        if ($node->hasAttributes()) {
+            foreach ($node->attributes as $attribute) {
+                $attributes[$attribute->name] = $attribute->value;
+            }
+        }
 
-        $result = array_merge($result, $this->_getChildNodes($children));
+        return $attributes;
+    }
 
+    /**
+     * Check the first DOMNode in a DOMNodeList of size 1 to see if it's an XML_TEXT_NODE and store it's value.
+     *
+     * @param array $result - Associative array of attributes from a DOMNode
+     * @param DOMNodeList $children - Child nodes of a DOMNode
+     * @return array|string|null
+     */
+    protected function _checkForTextNode($result, $children)
+    {
+        if ($children->length == 1) {
+            $child = $children->item(0);
+            if ($child->nodeType == XML_TEXT_NODE) {
+                $result['value'] = $child->nodeValue;
+                return count($result) == 1 ? $result['value'] : $result;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Process all child nodes of a root DOMNode, establishing all operations, routes, etc.
+     *
+     * @param array $result
+     * @param DOMNodeList $children
+     * @return array
+     */
+    protected function _processChildren($result, $children)
+    {
         $group = array();
 
         for ($i = 0; $i < $children->length; $i++) {
@@ -254,15 +251,11 @@ class Mage_Webapi_Config
                 if (!isset($result[self::KEY_OPERATIONS])) {
                     $result[self::KEY_OPERATIONS] = array();
                 }
-                $nodeId = isset($_children['method']) ? $_children['method'] : $child->nodeName;
-                if (!isset($result[self::KEY_OPERATIONS][$nodeId])) {
-                    $result[self::KEY_OPERATIONS][$nodeId] = $_children;
-                } else {
-                    $result[self::KEY_OPERATIONS][$nodeId] = array_merge(
-                        $result['operations'][$nodeId],
-                        $_children
-                    );
-                }
+
+                $result[self::KEY_OPERATIONS][$nodeId] =
+                    isset($result[self::KEY_OPERATIONS][$nodeId])
+                        ? array_merge($result[self::KEY_OPERATIONS][$nodeId], $_children)
+                        : $_children;
 
                 if (isset($result[self::KEY_OPERATIONS][$nodeId]['value'])) {
                     $result[self::KEY_OPERATIONS][$nodeId]['route']
@@ -281,6 +274,28 @@ class Mage_Webapi_Config
                     $result[$nodeId][] = $_children;
                 }
             }
+        }
+
+        return $result;
+    }
+    /**
+     * Convert elements to array
+     *
+     * @param DOMNode $root
+     * @return array|string
+     */
+    protected function _toArray($root)
+    {
+        $result = $this->_getAttributes($root);
+
+        $children = $root->childNodes;
+        if ($children) {
+            $checkResult = $this->_checkForTextNode($result, $children);
+            if ($checkResult != null) {
+                return $checkResult;
+            }
+
+            $result = $this->_processChildren($result, $children);
         }
         unset($result['#text']);
 
