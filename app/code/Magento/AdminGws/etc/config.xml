@@ -253,7 +253,7 @@
                     <website_level></website_level>
                     <store_level>
                         <sales_order_create>Magento_Sales::create</sales_order_create>
-                        <customer_attributes>Enterprise_Customer::attributes</customer_attributes>
+                        <customer_attributes>Magento_CustomerCustomAttributes::attributes</customer_attributes>
                     </store_level>
                 </acl_deny>
                 <collection_load_before>
@@ -532,10 +532,10 @@
                     <magento_adminhtml_block_tax_rate_toolbar_add>removeTaxRateAddButton</magento_adminhtml_block_tax_rate_toolbar_add>
                     <magento_adminhtml_block_tax_rate_toolbar_save>removeTaxRateControlButtons</magento_adminhtml_block_tax_rate_toolbar_save>
                     <magento_adminhtml_block_tax_rate_ImportExport>removeTaxRateImport</magento_adminhtml_block_tax_rate_ImportExport>
-                    <enterprise_customer_block_adminhtml_customer_attribute>removeAddNewCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_attribute>
-                    <enterprise_customer_block_adminhtml_customer_address_attribute>removeAddNewCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_address_attribute>
-                    <enterprise_customer_block_adminhtml_customer_attribute_edit>removeDeleteCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_attribute_edit>
-                    <enterprise_customer_block_adminhtml_customer_address_attribute_edit>removeDeleteCustomerAttributeButton</enterprise_customer_block_adminhtml_customer_address_attribute_edit>
+                    <magento_customerCustomAttributes_block_adminhtml_customer_attribute>removeAddNewCustomerAttributeButton</magento_customerCustomAttributes_block_adminhtml_customer_attribute>
+                    <magento_customerCustomAttributes_block_adminhtml_customer_address_attribute>removeAddNewCustomerAttributeButton</magento_customerCustomAttributes_block_adminhtml_customer_address_attribute>
+                    <magento_customerCustomAttributes_block_adminhtml_customer_attribute_edit>removeDeleteCustomerAttributeButton</magento_customerCustomAttributes_block_adminhtml_customer_attribute_edit>
+                    <magento_customerCustomAttributes_block_adminhtml_customer_address_attribute_edit>removeDeleteCustomerAttributeButton</magento_customerCustomAttributes_block_adminhtml_customer_address_attribute_edit>
                     <magento_adminhtml_block_promo_catalog>removeRuleEntityGridButtons</magento_adminhtml_block_promo_catalog>
                     <magento_adminhtml_block_promo_quote>removeRuleEntityGridButtons</magento_adminhtml_block_promo_quote>
                     <magento_customerSegment_block_adminhtml_customersegment>removeRuleEntityGridButtons</magento_customerSegment_block_adminhtml_customersegment>

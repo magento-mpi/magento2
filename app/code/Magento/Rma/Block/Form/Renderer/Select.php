@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Enterprise_Customer
+ * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */

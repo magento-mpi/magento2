@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <checkout_multishipping_customer_address>
+        <reference name="customer_address_edit">
+            <block type="Magento_CustomerCustomAttributes_Block_Form" name="customer_form_user_attributes" template="form/userattributes.phtml">
+                <action method="setFormCode">
+                    <code>customer_address_edit</code>
+                </action>
+            </block>
+        </reference>
+        <update handle="customer_form_template_handle"/>
+    </checkout_multishipping_customer_address>
+</layout>

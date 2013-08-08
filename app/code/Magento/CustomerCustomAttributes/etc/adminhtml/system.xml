@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_CustomerCustomAttributes
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <system>
+        <section id="customer">
+            <group id="address">
+                <field id="street_lines" showInDefault="0" showInWebsite="0" showInStore="0"></field>
+                <field id="prefix_show" showInDefault="0" showInWebsite="0" showInStore="0"></field>
+                <field id="middlename_show" showInDefault="0" showInWebsite="0" showInStore="0"></field>
+                <field id="suffix_show" showInDefault="0" showInWebsite="0" showInStore="0"></field>
+                <field id="dob_show" showInDefault="0" showInWebsite="0" showInStore="0"></field>
+                <field id="taxvat_show" showInDefault="0" showInWebsite="0" showInStore="0"></field>
+                <field id="gender_show" showInDefault="0" showInWebsite="0" showInStore="0"></field>
+            </group>
+        </section>
+    </system>
+</config>

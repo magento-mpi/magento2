@@ -59,7 +59,7 @@ new_customer_address_attribute:
             tabs:
                 -
                     properties: &addressAttributeProperties
-                        xpath: //a[@id='enterprise_customer_address_attribute_edit_tabs_general']
+                        xpath: //a[@id='magento_customercustomattributes_address_attribute_edit_tabs_general']
                         fieldsets:
                             -
                                 attribute_properties:
@@ -100,11 +100,11 @@ new_customer_address_attribute:
                                     required: [sort_order]
                 -
                     manage_labels_options:
-                        xpath: //a[@id='enterprise_customer_address_attribute_edit_tabs_options']
+                        xpath: //a[@id='magento_customercustomattributes_address_attribute_edit_tabs_options']
                         fieldsets:
                             -
                                 manage_titles:
-                                    xpath: //div[@id="enterprise_customer_address_attribute_edit_tabs_options_content"]//table[@id ="attribute-labels-table"]
+                                    xpath: //div[@id="magento_customercustomattributes_address_attribute_edit_tabs_options_content"]//table[@id ="attribute-labels-table"]
                                     fields:
                                         titles_by_store_name: //td[%storeViewNumber%]/input
                                     required: [attribute_label]
@@ -143,11 +143,11 @@ edit_customer_address_attribute:
                     properties: *addressAttributeProperties
                 -
                     manage_labels_options:
-                        xpath: //a[@id='enterprise_customer_address_attribute_edit_tabs_options']
+                        xpath: //a[@id='magento_customercustomattributes_address_attribute_edit_tabs_options']
                         fieldsets:
                             -
                                 manage_titles:
-                                    xpath: //div[@id="enterprise_customer_address_attribute_edit_tabs_options_content"]//table[@id ="attribute-labels-table"]
+                                    xpath: //div[@id="magento_customercustomattributes_address_attribute_edit_tabs_options_content"]//table[@id ="attribute-labels-table"]
                                     fields:
                                         titles_by_store_name: //td[%storeViewNumber%]/input
                                     required: [attribute_label]

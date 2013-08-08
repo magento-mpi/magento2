@@ -11,7 +11,7 @@
     <module name="Magento_CustomerSegment" version="1.11.0.0.4" active="false">
         <depends>
             <module name="Magento_Customer" />
-            <module name="Enterprise_Customer" />
+            <module name="Magento_CustomerCustomAttributes" />
             <module name="Magento_Adminhtml" />
             <module name="Magento_Catalog" />
             <module name="Magento_CatalogRule" />

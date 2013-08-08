@@ -50,7 +50,7 @@ class Integrity_Theme_RenderersTest extends Magento_Test_TestCase_IntegrityAbstr
     public function rendererDeclarationsDataProvider()
     {
         return array(
-            array('Enterprise_Customer', '//action[@method=\'addRenderer\']/renderer_block'),
+            array('Magento_CustomerCustomAttributes', '//action[@method=\'addRenderer\']/renderer_block'),
             array('Magento_Rma', '//action[@method=\'addRenderer\']/renderer_block'),
             array('Magento_Adminhtml', '//action[@method=\'addOptionRenderer\']/block'),
             array('Magento_Bundle', '//action[@method=\'addRenderer\']/block'),

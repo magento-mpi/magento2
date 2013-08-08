@@ -109,3 +109,6 @@ dev/tests/unit/testsuite/Magento/AdvancedCheckout
 dev/tests/integration/testsuite/Magento/AdvancedCheckout
 app/code/Magento/VersionsCms
 dev/tests/integration/testsuite/Magento/VersionsCms
+app/code/Magento/CustomerCustomAttributes
+dev/tests/unit/testsuite/Magento/CustomerCustomAttributes
+dev/tests/integration/testsuite/Magento/CustomerCustomAttributes

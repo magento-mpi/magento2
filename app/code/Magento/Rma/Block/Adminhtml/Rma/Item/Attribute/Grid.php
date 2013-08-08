@@ -33,7 +33,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
     /**
      * Prepare customer attributes grid collection object
      *
-     * @return Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Grid
+     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Grid
      */
     protected function _prepareCollection()
     {
@@ -48,7 +48,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
     /**
      * Prepare customer attributes grid columns
      *
-     * @return Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Grid
+     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Grid
      */
     protected function _prepareColumns()
     {

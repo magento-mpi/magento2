@@ -381,8 +381,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/cms.xml',
         'app/design/frontend/enterprise/default/template/cms/'
     ),
-    'Enterprise_Customer' => array(
-        'app/code/Enterprise/Customer/',
+    'Magento_CustomerCustomAttributes' => array(
+        'app/code/Magento/CustomerCustomAttributes/',
         'app/design/adminhtml/default/default/layout/enterprise/customer.xml',
         'app/design/adminhtml/default/default/template/enterprise/customerbalance/',
         'app/design/frontend/enterprise/default/layout/customer.xml',
@@ -637,7 +637,7 @@ $CONFIG['helpers']  = array(
     'magento_catalogpermissions' => 'Magento_CatalogPermissions',
     'magento_advancedcheckout'           => 'Magento_AdvancedCheckout',
     'magento_versionscms'                => 'Magento_VersionsCms',
-    'enterprise_customer'           => 'Enterprise_Customer',
+    'magento_customercustomattributes'           => 'Magento_CustomerCustomAttributes',
     'magento_customerbalance'    => 'Magento_CustomerBalance',
     'magento_customersegment'    => 'Magento_CustomerSegment',
     'magento_customattribute'                => 'Magento_CustomAttribute',
