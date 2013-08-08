@@ -14,5 +14,5 @@ return array(
     array('_amountCache', 'Magento_GiftCard_Block_Catalog_Product_Price'),
     array('_minMaxCache', 'Magento_GiftCard_Block_Catalog_Product_Price'),
     array('_skipFields', 'Magento_Logging_Model_Processor'),
-    array('_layoutUpdate', 'Enterprise_WebsiteRestriction_Controller_Index'),
+    array('_layoutUpdate', 'Magento_WebsiteRestriction_Controller_Index'),
 );

@@ -611,7 +611,7 @@ system_configuration:
                                         magento_salesarchive: //select[@name='groups[modules_disable_output][fields][Magento_SalesArchive][value]']
                                         magento_search: //select[@name='groups[modules_disable_output][fields][Magento_Search][value]']
                                         magento_targetrule: //select[@name='groups[modules_disable_output][fields][Magento_TargetRule][value]']
-                                        enterprise_websiterestriction: //select[@name='groups[modules_disable_output][fields][Enterprise_WebsiteRestriction][value]']
+                                        magento_websiterestriction: //select[@name='groups[modules_disable_output][fields][Magento_WebsiteRestriction][value]']
                                         enterprise_wishlist: //select[@id='Enterprise_Wishlist']
                                     checkboxes:
                                         enterprise_admingws_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_AdminGws][inherit]']
@@ -645,7 +645,7 @@ system_configuration:
                                         magento_salesarchive_use_default: //input[@name='groups[modules_disable_output][fields][Magento_SalesArchive][inherit]']
                                         magento_search_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Search][inherit]']
                                         magento_targetrule_use_default: //input[@name='groups[modules_disable_output][fields][Magento_TargetRule][inherit]']
-                                        enterprise_websiterestriction_use_default: //input[@name='groups[modules_disable_output][fields][Enterprise_WebsiteRestriction][inherit]']
+                                        magento_websiterestriction_use_default: //input[@name='groups[modules_disable_output][fields][Magento_WebsiteRestriction][inherit]']
                                         enterprise_wishlist_use_default: //input[@id='Enterprise_Wishlist_inherit']
 
 system_configuration_tabs:

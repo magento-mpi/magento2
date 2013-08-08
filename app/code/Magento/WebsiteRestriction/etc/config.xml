@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_WebsiteRestriction
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <global>
+        <resources>
+            <websiterestriction_setup>
+                <setup>
+                    <module>Magento_WebsiteRestriction</module>
+                    <class>Magento_WebsiteRestriction_Model_Resource_Setup</class>
+                </setup>
+            </websiterestriction_setup>
+        </resources>
+    </global>
+    <frontend>
+        <events>
+            <controller_action_predispatch>
+                <observers>
+                    <magento_websiterestriction>
+                        <class>Magento_WebsiteRestriction_Model_Observer</class>
+                        <method>restrictWebsite</method>
+                    </magento_websiterestriction>
+                </observers>
+            </controller_action_predispatch>
+            <customer_registration_is_allowed>
+                <observers>
+                    <magento_websiterestriction>
+                        <class>Magento_WebsiteRestriction_Model_Observer</class>
+                        <method>restrictCustomersRegistration</method>
+                    </magento_websiterestriction>
+                </observers>
+            </customer_registration_is_allowed>
+            <controller_action_layout_load_before>
+                <observers>
+                    <magento_websiterestriction>
+                        <class>Magento_WebsiteRestriction_Model_Observer</class>
+                        <method>addPrivateSalesLayoutUpdate</method>
+                    </magento_websiterestriction>
+                </observers>
+            </controller_action_layout_load_before>
+        </events>
+        <routers>
+            <restriction>
+                <use>standard</use>
+                <args>
+                    <module>Magento_WebsiteRestriction</module>
+                    <frontName>restriction</frontName>
+                </args>
+            </restriction>
+        </routers>
+        <magento>
+            <websiterestriction>
+                <full_action_names>
+                    <generic>
+                        <captcha_refresh_index />
+                        <customer_account_login />
+                        <customer_account_loginPost />
+                        <customer_account_forgotpassword />
+                        <customer_account_forgotpasswordpost />
+                        <customer_account_confirm />
+                        <customer_account_confirmation />
+                        <customer_account_resetpassword />
+                        <customer_account_createpassword />
+                        <customer_account_resetpasswordpost />
+                        <core_index_noCookies />
+                        <paypal_ipn_standard />
+                        <paypal_ipn_express />
+                        <paypal_ipn_direct />
+                        <paypal_ipn_index />
+                        <paypaluk_ipn_express />
+                        <paypaluk_ipn_direct />
+                        <paypal_payflow_silentPost />
+                        <paypal_payflowadvanced_silentPost />
+                        <googlecheckout_api_index />
+                        <googlecheckout_api_beacon />
+                        <authorizenet_directpost_payment_response />
+                        <magento_pbridge_PbridgeIpn_index />
+                        <authorizenet_directpost_payment_response />
+                        <magento_pbridge_PbridgeIpn_index />
+                    </generic>
+                    <register>
+                        <customer_account_create />
+                        <customer_account_createpost />
+                    </register>
+                </full_action_names>
+            </websiterestriction>
+        </magento>
+        <translate>
+            <modules>
+                <Magento_WebsiteRestriction>
+                    <files>
+                        <default>Magento_WebsiteRestriction.csv</default>
+                    </files>
+                </Magento_WebsiteRestriction>
+            </modules>
+        </translate>
+    </frontend>
+    <default>
+        <general>
+            <restriction>
+                <cms_page>service-unavialable</cms_page>
+            </restriction>
+        </general>
+    </default>
+</config>

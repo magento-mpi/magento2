@@ -511,8 +511,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/targetrule.xml',
         'app/design/frontend/enterprise/default/template/targetrule/'
     ),
-    'Enterprise_WebsiteRestriction' => array(
-        'app/code/Enterprise/WebsiteRestriction/',
+    'Magento_WebsiteRestriction' => array(
+        'app/code/Magento/WebsiteRestriction/',
         'app/design/frontend/enterprise/default/layout/websiterestriction.xml'
     ),
     'Enterprise_Wishlist' => array(
@@ -662,7 +662,7 @@ $CONFIG['helpers']  = array(
     'magento_salesarchive'       => 'Magento_SalesArchive',
     'magento_search'             => 'Magento_Search',
     'magento_targetrule'         => 'Magento_TargetRule',
-    'enterprise_websiterestriction' => 'Enterprise_WebsiteRestriction',
+    'magento_websiterestriction' => 'Magento_WebsiteRestriction',
     'enterprise_wishlist'           => 'Enterprise_Wishlist',
 );
 
