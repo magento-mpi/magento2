@@ -120,7 +120,7 @@
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tools/Magento/Tools/migration/Acl/log</path>
+            <path>dev/tools/Magento/Tools/Migration/Acl/log</path>
         </item>
         <item>
             <word>enterprise</word>
