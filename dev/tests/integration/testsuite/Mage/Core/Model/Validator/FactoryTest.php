@@ -27,7 +27,7 @@ class Mage_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Message', $translator->translate('Message'));
         $this->assertEquals(
             'Message with "placeholder one" and "placeholder two"',
-            __('Message with "%1" and "%2"', 'placeholder one', 'placeholder two')
+            (string)__('Message with "%1" and "%2"', 'placeholder one', 'placeholder two')
         );
     }
 }
