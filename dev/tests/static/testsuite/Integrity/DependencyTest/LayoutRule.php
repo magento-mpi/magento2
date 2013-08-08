@@ -56,7 +56,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      *
      * @var array
      */
-    protected static $_mapRouters = array();
+    protected $_mapRouters = array();
 
     /**
      * List of layout blocks
@@ -68,7 +68,7 @@ class Integrity_DependencyTest_LayoutRule implements Integrity_DependencyTest_Ru
      *
      * @var array
      */
-    protected static $_mapLayoutBlocks = array();
+    protected $_mapLayoutBlocks = array();
 
     /**
      * List of layout handles
