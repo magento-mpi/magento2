@@ -9,24 +9,24 @@
  */
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Mapper/Abstract.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Abstract.php';
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Mapper/Tab.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Tab.php';
 
 /**
- * Test case for Tools_Migration_System_Configuration_Mapper_Tab
+ * Test case for Magento_Tools_Migration_System_Configuration_Mapper_Tab
  */
 class Magento_Test_Tools_Migration_System_Configuration_Mapper_TabTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Tools_Migration_System_Configuration_Mapper_Tab
+     * @var Magento_Tools_Migration_System_Configuration_Mapper_Tab
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Tools_Migration_System_Configuration_Mapper_Tab();
+        $this->_object = new Magento_Tools_Migration_System_Configuration_Mapper_Tab();
     }
 
     protected function tearDown()
