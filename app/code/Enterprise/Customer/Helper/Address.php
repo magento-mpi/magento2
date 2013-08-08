@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Helper_Address extends Enterprise_Eav_Helper_Data
+class Enterprise_Customer_Helper_Address extends Magento_CustomAttribute_Helper_Data
 {
     /**
      * Default attribute entity type code

@@ -16,7 +16,7 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Form_Renderer_Select extends Enterprise_Eav_Block_Form_Renderer_Select
+class Magento_Rma_Block_Form_Renderer_Select extends Magento_CustomAttribute_Block_Form_Renderer_Select
 {
     /**
      * Prepare rma item attribute

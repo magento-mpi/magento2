@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
+class Enterprise_Customer_Helper_Data extends Magento_CustomAttribute_Helper_Data
 {
     /**
      * Return available customer attribute form as select options

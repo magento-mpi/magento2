@@ -16,7 +16,7 @@
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Customer_Block_Form extends Enterprise_Eav_Block_Form
+class Enterprise_Customer_Block_Form extends Magento_CustomAttribute_Block_Form
 {
     /**
      * Name of the block in layout update xml file

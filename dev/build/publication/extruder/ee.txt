@@ -103,3 +103,4 @@ app/code/Magento/TargetRule
 dev/tests/integration/testsuite/Magento/TargetRule
 app/code/Magento/WebsiteRestriction
 dev/tests/integration/testsuite/Magento/WebsiteRestriction
+app/code/Magento/CustomAttribute

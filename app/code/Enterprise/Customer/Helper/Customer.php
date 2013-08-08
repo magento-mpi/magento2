@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Helper_Customer extends Enterprise_Eav_Helper_Data
+class Enterprise_Customer_Helper_Customer extends Magento_CustomAttribute_Helper_Data
 {
     /**
      * Data helper

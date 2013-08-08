@@ -16,7 +16,7 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
+class Magento_Rma_Helper_Eav extends Magento_CustomAttribute_Helper_Data
 {
     /**
      * complicated array of select-typed attribute values for all stores

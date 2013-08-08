@@ -16,7 +16,7 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Form extends Enterprise_Eav_Block_Form
+class Magento_Rma_Block_Form extends Magento_CustomAttribute_Block_Form
 {
     /**
      * Name of the block in layout update xml file

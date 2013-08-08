@@ -16,7 +16,7 @@
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Customer_Block_Form_Renderer_Abstract extends Enterprise_Eav_Block_Form_Renderer_Abstract
+abstract class Enterprise_Customer_Block_Form_Renderer_Abstract extends Magento_CustomAttribute_Block_Form_Renderer_Abstract
 {
 
     /**
