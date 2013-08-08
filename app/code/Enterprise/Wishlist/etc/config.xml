@@ -71,22 +71,22 @@
         <events>
             <wishlist_delete_commit_after>
                 <observers>
-                    <enterprise_pagecache>
-                        <class>Enterprise_PageCache_Model_Observer</class>
+                    <magento_fullpagecache>
+                        <class>Magento_FullPageCache_Model_Observer</class>
                         <method>registerWishlistChange</method>
-                    </enterprise_pagecache>
-                    <enterprise_pagecache>
-                        <class>Enterprise_PageCache_Model_Observer</class>
+                    </magento_fullpagecache>
+                    <magento_fullpagecache>
+                        <class>Magento_FullPageCache_Model_Observer</class>
                         <method>registerWishlistListChange</method>
-                    </enterprise_pagecache>
+                    </magento_fullpagecache>
                 </observers>
             </wishlist_delete_commit_after>
             <wishlist_save_commit_after>
                 <observers>
-                    <enterprise_pagecache>
-                        <class>Enterprise_PageCache_Model_Observer</class>
+                    <magento_fullpagecache>
+                        <class>Magento_FullPageCache_Model_Observer</class>
                         <method>registerWishlistListChange</method>
-                    </enterprise_pagecache>
+                    </magento_fullpagecache>
                 </observers>
             </wishlist_save_commit_after>
         </events>

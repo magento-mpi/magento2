@@ -5,7 +5,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Enterprise_PageCache
+ * @package     Magento_FullPageCache
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}

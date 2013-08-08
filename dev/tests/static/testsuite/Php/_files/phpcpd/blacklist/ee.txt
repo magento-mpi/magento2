@@ -19,7 +19,7 @@ Magento/ScheduledImportExport/Model/Import/Entity/Eav/Customer
 Magento/Invitation
 Magento/Logging/Block
 Magento/Pbridge
-Enterprise/PageCache/Model/Container/Sidebar
+Magento/FullPageCache/Model/Container/Sidebar
 Magento/Reminder
 Magento/Reward/Model/Action
 Magento/Reward/Model/Resource

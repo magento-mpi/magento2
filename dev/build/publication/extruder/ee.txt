@@ -115,3 +115,6 @@ dev/tests/integration/testsuite/Magento/CustomerCustomAttributes
 app/code/Magento/ScheduledImportExport
 dev/tests/unit/testsuite/Magento/ScheduledImportExport
 dev/tests/integration/testsuite/Magento/ScheduledImportExport
+app/code/Magento/FullPageCache
+dev/tests/unit/testsuite/Magento/FullPageCache
+dev/tests/integration/testsuite/Magento/FullPageCache

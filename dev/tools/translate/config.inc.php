@@ -455,8 +455,8 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/enterprise/logging.xml',
         'app/design/adminhtml/default/default/template/enterprise/logging/',
     ),
-    'Enterprise_PageCache' => array(
-        'app/code/Enterprise/PageCache/'
+    'Magento_FullPageCache' => array(
+        'app/code/Magento/FullPageCache/'
     ),
     'Magento_Pbridge' => array(
         'app/code/Magento/Pbridge/',
@@ -650,7 +650,7 @@ $CONFIG['helpers']  = array(
     'magento_invitation'         => 'Magento_Invitation',
     'magento_license'            => 'Magento_License',
     'magento_logging'            => 'Magento_Logging',
-    'enterprise_pagecache'          => 'Enterprise_PageCache',
+    'magento_fullpagecache'          => 'Magento_FullPageCache',
     'magento_pbridge'            => 'Magento_Pbridge',
     'magento_pci'                => 'Magento_Pci',
     'enterprise_persistent'         => 'Enterprise_Persistent',

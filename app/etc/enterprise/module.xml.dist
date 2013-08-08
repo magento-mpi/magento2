@@ -28,7 +28,7 @@
     <module name="Magento_Invitation" active="true" />
     <module name="Magento_License" active="true" />
     <module name="Magento_Logging" active="true" />
-    <module name="Enterprise_PageCache" active="true" />
+    <module name="Magento_FullPageCache" active="true" />
     <module name="Magento_Pbridge" active="true" />
     <module name="Magento_Pci" active="true" />
     <module name="Enterprise_Persistent" active="true" />
