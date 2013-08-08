@@ -463,11 +463,12 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 // Read module's config.xml file
                 $config = simplexml_load_file(self::$_listConfigXml[$module]);
 
-                if ('adminhtml' == $chunks[0]) {
+                if ($module == 'Mage_Adminhtml') {
+                    $nodes = $config->xpath("/config/admin/routers/*") ?: array();
+                } elseif ('adminhtml' == $chunks[0]) {
                     array_shift($chunks);
                     $nodes = $config->xpath("/config/admin/routers/*") ?: array();
-                }
-                else {
+                } else {
                     $nodes = $config->xpath("/config/frontend/routers/*") ?: array();
                     foreach ($nodes as $nodeKey => $node) {
                         // Exclude overridden routers
@@ -481,6 +482,9 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 foreach ($nodes as $node) {
                     /** @var SimpleXMLElement $node */
                     $path = $node->getName() ? $node->getName() . '_' . $controllerName : $controllerName;
+                    if (isset(self::$_mapRouters[$path]) && (self::$_mapRouters[$path] == 'Mage_Adminhtml')) {
+                        continue;
+                    }
                     self::$_mapRouters[$path] = $module;
                 }
             }
