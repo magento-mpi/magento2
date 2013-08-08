@@ -34,7 +34,7 @@ class Magento_Tools_Migration_System_Configuration_Mapper_Group extends Magento_
     /**
      * @param Tools_Migration_System_Configuration_Mapper_Field $fieldMapper
      */
-    public function __construct(Tools_Migration_System_Configuration_Mapper_Field $fieldMapper)
+    public function __construct(Magento_Tools_Migration_System_Configuration_Mapper_Field $fieldMapper)
     {
         $this->_fieldMapper = $fieldMapper;
     }
