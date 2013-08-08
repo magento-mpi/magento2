@@ -18,69 +18,111 @@
             <action method="setCanLoadExtJs">
                 <flag>1</flag>
             </action>
-            <action method="addCss">
-                <file>jquery/fileUploader/css/jquery.fileupload-ui.css</file>
-            </action>
-            <action method="addJs">
-                <file>jquery/jquery.tabs.js</file>
-            </action>
-            <action method="addJs">
-                <file>jquery/jstree/jquery.jstree.js</file>
-            </action>
-            <action method="addJs">
-                <file>jquery/slimScroll/slimScroll.min.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/tools.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/tools-panel.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/custom-css.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_Theme::js/custom-js-list.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/dialog.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/theme-assign.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/vde-frame.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/theme-save.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/image-sizing.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/quick-style-element.js</file>
-            </action>
-            <action method="addJs">
-                <file>jquery/fileUploader/jquery.iframe-transport.js</file>
-            </action>
-            <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload.js</file>
-            </action>
-            <action method="addJs">
-                <file>jquery/fileUploader/jquery.fileupload-fp.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/quick-style-uploader.js</file>
-            </action>
-            <action method="addCss">
-                <file>Mage_DesignEditor::css/styles.css</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/message.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/tools-files.js</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Css" name="jquery-fileuploader-css-jquery-fileupload-ui-css">
+                <arguments>
+                    <file>jquery/fileUploader/css/jquery.fileupload-ui.css</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="jquery-jquery-tabs-js">
+                <arguments>
+                    <file>jquery/jquery.tabs.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="jquery-jstree-jquery-jstree-js">
+                <arguments>
+                    <file>jquery/jstree/jquery.jstree.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="jquery-slimscroll-slimscroll-min-js">
+                <arguments>
+                    <file>jquery/slimScroll/slimScroll.min.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-tools-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/tools.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-tools-panel-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/tools-panel.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-custom-css-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/custom-css.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-theme-js-custom-js-list-js">
+                <arguments>
+                    <file>Mage_Theme::js/custom-js-list.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-dialog-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/dialog.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-theme-assign-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/theme-assign.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-vde-frame-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/vde-frame.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-theme-save-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/theme-save.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-image-sizing-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/image-sizing.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-quick-style-element-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/quick-style-element.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="jquery-fileuploader-jquery-iframe-transport-js">
+                <arguments>
+                    <file>jquery/fileUploader/jquery.iframe-transport.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="jquery-fileuploader-jquery-fileupload-js">
+                <arguments>
+                    <file>jquery/fileUploader/jquery.fileupload.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="jquery-fileuploader-jquery-fileupload-fp-js">
+                <arguments>
+                    <file>jquery/fileUploader/jquery.fileupload-fp.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-quick-style-uploader-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/quick-style-uploader.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="mage-designeditor-css-styles-css">
+                <arguments>
+                    <file>Mage_DesignEditor::css/styles.css</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-message-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/message.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-tools-files-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/tools-files.js</file>
+                </arguments>
+            </block>
         </reference>
         <reference name="content">
             <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Container" name="design_editor" template="Mage_DesignEditor::editor/container.phtml">

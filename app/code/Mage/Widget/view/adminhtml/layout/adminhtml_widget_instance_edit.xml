@@ -13,21 +13,31 @@
             <action method="setCanLoadExtJs">
                 <flag>1</flag>
             </action>
-            <action method="addJs">
-                <file>mage/adminhtml/wysiwyg/widget.js</file>
-            </action>
-            <action method="addJs">
-                <file>prototype/window.js</file>
-            </action>
-            <action method="addCss">
-                <file>prototype/windows/themes/default.css</file>
-            </action>
-            <action method="addCss">
-                <file>Mage_Core::prototype/magento.css</file>
-            </action>
-            <action method="addCss">
-                <file>Mage_Widget::css/styles.css</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-adminhtml-wysiwyg-widget-js">
+                <arguments>
+                    <file>mage/adminhtml/wysiwyg/widget.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="prototype-window-js">
+                <arguments>
+                    <file>prototype/window.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="prototype-windows-themes-default-css">
+                <arguments>
+                    <file>prototype/windows/themes/default.css</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="mage-core-prototype-magento-css">
+                <arguments>
+                    <file>Mage_Core::prototype/magento.css</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="mage-widget-css-styles-css">
+                <arguments>
+                    <file>Mage_Widget::css/styles.css</file>
+                </arguments>
+            </block>
         </reference>
         <reference name="content">
             <block type="Mage_Widget_Block_Adminhtml_Widget_Instance_Edit" name="widget_instance_edit"/>

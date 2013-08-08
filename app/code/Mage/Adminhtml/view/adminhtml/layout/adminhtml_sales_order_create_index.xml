@@ -23,25 +23,37 @@
             </action>
         </reference>
         <reference name="head">
-            <action method="addJs">
-                <file>Mage_Adminhtml::sales/order/create/scripts.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_Adminhtml::sales/order/create/giftmessage.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_Adminhtml::catalog/product/composite/configure.js</file>
-            </action>
-            <action method="addJs">
-                <file>varien/configurable.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_Adminhtml::sales/order/giftoptions_tooltip.js</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-adminhtml-sales-order-create-scripts-js">
+                <arguments>
+                    <file>Mage_Adminhtml::sales/order/create/scripts.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-adminhtml-sales-order-create-giftmessage-js">
+                <arguments>
+                    <file>Mage_Adminhtml::sales/order/create/giftmessage.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-adminhtml-catalog-product-composite-configure-js">
+                <arguments>
+                    <file>Mage_Adminhtml::catalog/product/composite/configure.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="varien-configurable-js">
+                <arguments>
+                    <file>varien/configurable.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-adminhtml-sales-order-giftoptions-tooltip-js">
+                <arguments>
+                    <file>Mage_Adminhtml::sales/order/giftoptions_tooltip.js</file>
+                </arguments>
+            </block>
             <block type="Mage_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Mage_Directory::js/optional_zip_countries.phtml"/>
-            <action method="addCss">
-                <file>Mage_Core::prototype/magento.css</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Css" name="mage-core-prototype-magento-css">
+                <arguments>
+                    <file>Mage_Core::prototype/magento.css</file>
+                </arguments>
+            </block>
         </reference>
         <reference name="js">
             <block type="Mage_Adminhtml_Block_Template" template="sales/order/create/js.phtml" name="create"/>
@@ -50,7 +62,7 @@
             <block type="Mage_Adminhtml_Block_Sales_Order_Create" name="content">
                 <block type="Mage_Adminhtml_Block_Sales_Order_Create_Form" template="sales/order/create/form.phtml" name="order_create_form" as="form">
                     <block type="Mage_Adminhtml_Block_Sales_Order_Create_Messages" name="message"/>
-                    <block type="Mage_Adminhtml_Block_Sales_Order_Create_Customer" template="sales/order/create/abstract.phtml" name='customer.grid.container'/>
+                    <block type="Mage_Adminhtml_Block_Sales_Order_Create_Customer" template="sales/order/create/abstract.phtml" name="customer.grid.container"/>
                     <block type="Mage_Adminhtml_Block_Sales_Order_Create_Store" template="sales/order/create/abstract.phtml" name="store">
                         <block type="Mage_Adminhtml_Block_Sales_Order_Create_Store_Select" template="sales/order/create/store/select.phtml" name="select"/>
                     </block>

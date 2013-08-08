@@ -16,9 +16,11 @@
             </action>
         </reference>
         <reference name="head">
-            <action method="addJs">
-                <file>varien/product.js</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="varien-product-js">
+                <arguments>
+                    <file>varien/product.js</file>
+                </arguments>
+            </block>
         </reference>
         <reference name="content">
             <block type="Mage_Sendfriend_Block_Send" name="sendfriend.send" template="send.phtml"/>

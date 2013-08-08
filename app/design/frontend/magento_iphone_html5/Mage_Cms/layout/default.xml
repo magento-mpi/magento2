@@ -10,11 +10,9 @@
 <layout version="0.1.0">
     <default>
         <reference name="head">
-            <action method="removeItem">
-                <type>css</type>
-                <file>Mage_Cms::widgets.css</file>
-            </action>
+            
         </reference>
+        <remove name="mage-cms-widgets-css"/>
         <remove name="header.callout"/>
         <move element="cms_footer_links" destination="footer" before="footer_links"/>
     </default>

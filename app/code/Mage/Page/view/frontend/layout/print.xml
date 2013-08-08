@@ -16,9 +16,11 @@
             <container name="content" as="content" label="Main Content Area (Print Version)"/>
         </block>
         <reference name="head">
-            <action method="addJs">
-                <file>mage/translate.js</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-translate-js">
+                <arguments>
+                    <file>mage/translate.js</file>
+                </arguments>
+            </block>
         </reference>
     </print>
 </layout>

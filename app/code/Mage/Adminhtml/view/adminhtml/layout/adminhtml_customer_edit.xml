@@ -14,15 +14,21 @@
         </reference>
         <reference name="head">
             <block type="Mage_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Mage_Directory::js/optional_zip_countries.phtml"/>
-            <action method="addJs">
-                <file>Mage_Adminhtml::catalog/product/composite/configure.js</file>
-            </action>
-            <action method="addJs">
-                <file>varien/configurable.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_Adminhtml::customer/edit/tab/js/addresses.js</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-adminhtml-catalog-product-composite-configure-js">
+                <arguments>
+                    <file>Mage_Adminhtml::catalog/product/composite/configure.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="varien-configurable-js">
+                <arguments>
+                    <file>varien/configurable.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-adminhtml-customer-edit-tab-js-addresses.js">
+                <arguments>
+                    <file>Mage_Adminhtml::customer/edit/tab/js/addresses.js</file>
+                </arguments>
+            </block>
         </reference>
         <reference name="left">
             <block type="Mage_Adminhtml_Block_Customer_Edit_Tabs" name="customer_edit_tabs">

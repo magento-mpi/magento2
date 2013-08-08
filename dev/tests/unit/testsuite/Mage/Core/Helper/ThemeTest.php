@@ -120,7 +120,6 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             $fileSystem
         );
         $result = $helper->getCssFiles($theme);
-
         // 9. Compare actual result with expected data
         $this->assertEquals($expectedResult, $result);
     }
@@ -134,7 +133,9 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 '<block type="Mage_Page_Block_Html_Head" name="head">
-                    <action method="addCss"><param>test1.css</param></action>
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>test1.css</file></arguments>
+                    </block>
                 </block>',
                 array(
                     'test1.css' => array(
@@ -146,149 +147,23 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 '<block type="Mage_Page_Block_Html_Head" name="head">
-                    <action method="addCss"><file>test2.css</file></action>
-                </block>',
-                array(
-                    'test2.css' => array(
-                        'id'       => 'test2.css',
-                        'path'     => '/zzz/qqq/test2.css',
-                        'safePath' => 'qqq/test2.css'
-                    )
-                )
-            ),
-            array(
-                '<block type="Mage_Page_Block_Html_Head" name="head">
-                    <action method="addCss"><param>Mage_Core::test3.css</param></action>
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>Mage_Core::test3.css</file></arguments>
+                    </block>
                 </block>',
                 array(
                     'Mage_Core::test3.css' => array(
                         'id'       => 'Mage_Core::test3.css',
                         'path'     => '/zzz/qqq/test3.css',
                         'safePath' => 'qqq/test3.css'
-                    ),
-                )
-            ),
-            array(
-                '<block type="Mage_Page_Block_Html_Head" name="head">
-                    <action method="addCssIe"><param>test4.css</param></action>
-                </block>',
-                array(
-                    'test4.css' => array(
-                        'id'       => 'test4.css',
-                        'path'     => '/zzz/qqq/test4.css',
-                        'safePath' => 'qqq/test4.css'
-                    )
-                )
-            ),
-            array(
-                '<reference name="head"><action method="addCss"><param>test21.css</param></action></reference>',
-                array(
-                    'test21.css' => array(
-                        'id'       => 'test21.css',
-                        'path'     => '/zzz/qqq/test21.css',
-                        'safePath' => 'qqq/test21.css'
-                    ),
-                )
-            ),
-            array(
-                '<reference name="head"><action method="addCss"><file>test22.css</file></action></reference>',
-                array(
-                    'test22.css' => array(
-                        'id'       => 'test22.css',
-                        'path'     => '/zzz/qqq/test22.css',
-                        'safePath' => 'qqq/test22.css'
                     ),
                 )
             ),
             array(
                 '<reference name="head">
-                    <action method="addCss"><param>Mage_Core::test23.css</param></action>
-                </reference>',
-                array(
-                    'Mage_Core::test23.css' => array(
-                        'id'       => 'Mage_Core::test23.css',
-                        'path'     => '/zzz/qqq/test23.css',
-                        'safePath' => 'qqq/test23.css'
-                    ),
-                )
-            ),
-            array(
-                '<reference name="head"><action method="addCssIe"><param>test24.css</param></action></reference>',
-                array(
-                    'test24.css' => array(
-                        'id'       => 'test24.css',
-                        'path'     => '/zzz/qqq/test24.css',
-                        'safePath' => 'qqq/test24.css'
-                    ),
-                )
-            ),
-            array(
-                '<block type="Some_Block_Class"><action method="addCss"><param>test31.css</param></action></block>',
-                array(),
-
-            ),
-            array(
-                '<block type="Some_Block_Class"><action method="addCss"><file>test32.css</file></action></block>',
-                array(),
-            ),
-            array(
-                '<block type="Some_Block_Class">
-                    <action method="addCss"><param>Mage_Core::test33.css</param></action>
-                </block>',
-                array(),
-            ),
-            array(
-                '<block type="Some_Block_Class"><action method="addCssIe"><param>test34.css</param></action></block>',
-                array(),
-            ),
-            array(
-                '<reference name="some_block_name">
-                    <action method="addCss"><param>test41.css</param></action>
-                </reference>',
-                array(),
-            ),
-            array(
-                '<reference name="some_block_name">
-                    <action method="addCss"><file>test42.css</file></action>
-                </reference>',
-                array(),
-            ),
-            array(
-                '<reference name="some_block_name">
-                    <action method="addCss"><param>Mage_Core::test43.css</param></action>
-                </reference>',
-                array(),
-            ),
-            array(
-                '<reference name="some_block_name">
-                    <action method="addCssIe"><param>test44.css</param></action>
-                </reference>',
-                array(),
-            ),
-            array(
-                '<block type="Mage_Page_Block_Html_Head" name="head">
-                    <action method="addCss"><param>test1.css</param></action>
-                    <action method="addCss"><file>test2.css</file></action>
-                    <action method="addCss"><param>Mage_Core::test3.css</param></action>
-                    <action method="addCssIe"><param>test4.css</param></action>
-                </block>
-                <reference name="head">
-                    <action method="addCss"><param>test21.css</param></action>
-                    <action method="addCss"><file>test22.css</file></action>
-                    <action method="addCss"><param>Mage_Core::test23.css</param></action>
-                    <action method="addCssIe"><param>test24.css</param></action>
-                </reference>
-                <block type="Some_Block_Class">
-                    <action method="addCss"><param>test31.css</param></action>
-                    <action method="addCss"><file>test32.css</file></action>
-                    <action method="addCss"><param>Mage_Core::test33.css</param></action>
-                    <action method="addCssIe"><param>test34.css</param></action>
-                </block>
-                <reference name="some_block_name">
-                    <action method="addCss"><param>test41.css</param></action>
-                    <action method="addCss"><file>test42.css</file></action>
-                    <action method="addCss"><param>Mage_Core::test43.css</param></action>
-                    <action method="addCssIe"><param>test44.css</param></action>
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>test21.css</file></arguments>
+                    </block>
                 </reference>',
                 array(
                     'test21.css' => array(
@@ -296,40 +171,103 @@ class Mage_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
                         'path'     => '/zzz/qqq/test21.css',
                         'safePath' => 'qqq/test21.css'
                     ),
-                    'test22.css' => array(
-                        'id'       => 'test22.css',
-                        'path'     => '/zzz/qqq/test22.css',
-                        'safePath' => 'qqq/test22.css'
-                    ),
+                )
+            ),
+            array(
+                '<reference name="head">
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>Mage_Core::test23.css</file></arguments>
+                    </block>
+                </reference>',
+                array(
                     'Mage_Core::test23.css' => array(
                         'id'       => 'Mage_Core::test23.css',
                         'path'     => '/zzz/qqq/test23.css',
                         'safePath' => 'qqq/test23.css'
                     ),
-                    'test24.css' => array(
-                        'id'       => 'test24.css',
-                        'path'     => '/zzz/qqq/test24.css',
-                        'safePath' => 'qqq/test24.css'
+                )
+            ),
+            array(
+                '<block type="Some_Block_Class">
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>Mage_Core::test23.css</file></arguments>
+                    </block>
+                </block>',
+                array(),
+
+            ),
+            array(
+                '<block type="Some_Block_Class">
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>Mage_Core::test23.css</file></arguments>
+                    </block>
+                </block>',
+                array(),
+            ),
+            array(
+                '<reference name="some_block_name">
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>test23.css</file></arguments>
+                    </block>
+                </reference>',
+                array(),
+            ),
+            array(
+                '<reference name="some_block_name">
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>Mage_Core::test23.css</file></arguments>
+                    </block>
+                </reference>',
+                array(),
+            ),
+            array(
+                '<block type="Mage_Page_Block_Html_Head" name="head">
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>test.css</file></arguments>
+                    </block>
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>Mage_Core::test.css</file></arguments>
+                    </block>
+                </block>
+                <reference name="head">
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>testh.css</file></arguments>
+                    </block>
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>Mage_Core::test.css</file></arguments>
+                    </block>
+                </reference>
+                <block type="Some_Block_Class">
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>testa.css</file></arguments>
+                    </block>
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>Mage_Core::testa.css</file></arguments>
+                    </block>
+                </block>
+                <reference name="some_block_name">
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>testb.css</file></arguments>
+                    </block>
+                    <block type="Mage_Page_Block_Html_Head_Css" name="mage-loader-js">
+                        <arguments><file>Mage_Core::testb.css</file></arguments>
+                    </block>
+                </reference>',
+                array(
+                    'testh.css' => array(
+                        'id' => 'testh.css',
+                        'path' => '',
+                        'safePath' => '',
                     ),
-                    'test1.css' => array(
-                        'id'       => 'test1.css',
-                        'path'     => '/zzz/qqq/test1.css',
-                        'safePath' => 'qqq/test1.css'
+                    'Mage_Core::test.css' => array(
+                        'id' => 'Mage_Core::test.css',
+                        'path' => '',
+                        'safePath' => '',
                     ),
-                    'test2.css' => array(
-                        'id'       => 'test2.css',
-                        'path'     => '/zzz/qqq/test2.css',
-                        'safePath' => 'qqq/test2.css'
-                    ),
-                    'Mage_Core::test3.css' => array(
-                        'id'       => 'Mage_Core::test3.css',
-                        'path'     => '/zzz/qqq/test3.css',
-                        'safePath' => 'qqq/test3.css'
-                    ),
-                    'test4.css' => array(
-                        'id'       => 'test4.css',
-                        'path'     => '/zzz/qqq/test4.css',
-                        'safePath' => 'qqq/test4.css'
+                    'test.css' => array(
+                        'id' => 'test.css',
+                        'path' => '',
+                        'safePath' => '',
                     ),
                 ),
             ),

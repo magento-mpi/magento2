@@ -10,12 +10,16 @@
 <layout version="0.1.0">
     <adminhtml_sales_order_view>
         <reference name="head">
-            <action method="addJs">
-                <file>Mage_Adminhtml::sales/order/create/giftmessage.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_Adminhtml::sales/order/giftoptions_tooltip.js</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-adminhtml-sales-order-create-giftmessage-js">
+                <arguments>
+                    <file>Mage_Adminhtml::sales/order/create/giftmessage.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-adminhtml-sales-order-giftoptions-tooltip-js">
+                <arguments>
+                    <file>Mage_Adminhtml::sales/order/giftoptions_tooltip.js</file>
+                </arguments>
+            </block>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Sales_Order_View" name="sales_order_edit"/>

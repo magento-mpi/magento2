@@ -10,9 +10,11 @@
 <layout version="0.1.0">
     <adminhtml_catalog_product_new>
         <reference name="head">
-            <action method="addCss">
-                <file>Enterprise_GiftWrapping::styles.css</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Css" name="enterprise-giftwrapping-styles-css">
+                <arguments>
+                    <file>Enterprise_GiftWrapping::styles.css</file>
+                </arguments>
+            </block>
         </reference>
     </adminhtml_catalog_product_new>
 </layout>

@@ -10,9 +10,11 @@
 <layout version="0.1.0">
     <saas_printed_template_preview>
         <reference name="head">
-            <action method="addJs">
-                <file>prototype/prototype.js</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="prototype-prototype-js">
+                <arguments>
+                    <file>prototype/prototype.js</file>
+                </arguments>
+            </block>
         </reference>
         <block type="Saas_PrintedTemplate_Block_Adminhtml_Template_Preview" name="root" output="1" template="Saas_PrintedTemplate::preview.phtml"/>
     </saas_printed_template_preview>

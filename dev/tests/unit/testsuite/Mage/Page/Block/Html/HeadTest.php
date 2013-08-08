@@ -42,38 +42,6 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->_block = null;
     }
 
-    public function testAddCss()
-    {
-        $this->_pageAssets->expects($this->once())
-            ->method('add')
-            ->with(
-                Mage_Core_Model_View_Publisher::CONTENT_TYPE_CSS . '/test.css',
-                $this->isInstanceOf('Mage_Core_Model_Page_Asset_ViewFile')
-            );
-        $assetViewFile = $this->getMock('Mage_Core_Model_Page_Asset_ViewFile', array(), array(), '', false);
-        $this->_objectManager->expects($this->once(''))
-            ->method('create')
-            ->with('Mage_Core_Model_Page_Asset_ViewFile')
-            ->will($this->returnValue($assetViewFile));
-        $this->_block->addCss('test.css');
-    }
-
-    public function testAddJs()
-    {
-        $this->_pageAssets->expects($this->once())
-            ->method('add')
-            ->with(
-                Mage_Core_Model_View_Publisher::CONTENT_TYPE_JS . '/test.js',
-                $this->isInstanceOf('Mage_Core_Model_Page_Asset_ViewFile')
-            );
-        $assetViewFile = $this->getMock('Mage_Core_Model_Page_Asset_ViewFile', array(), array(), '', false);
-        $this->_objectManager->expects($this->once(''))
-            ->method('create')
-            ->with('Mage_Core_Model_Page_Asset_ViewFile')
-            ->will($this->returnValue($assetViewFile));
-        $this->_block->addJs('test.js');
-    }
-
     public function testAddRss()
     {
         $this->_pageAssets->expects($this->once())
@@ -107,13 +75,5 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             ->with('Mage_Core_Model_Page_Asset_Remote')
             ->will($this->returnValue($assetRemoteFile));
         $this->_block->addLinkRel('rel', 'http://127.0.0.1/');
-    }
-
-    public function testRemoveItem()
-    {
-        $this->_pageAssets->expects($this->once())
-            ->method('remove')
-            ->with('css/test.css');
-        $this->_block->removeItem('css', 'test.css');
     }
 }

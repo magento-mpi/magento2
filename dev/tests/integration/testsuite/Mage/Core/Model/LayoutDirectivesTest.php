@@ -204,7 +204,6 @@ class Mage_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
         );
     }
 
-
     /**
      * Prepare a layout model with pre-loaded fixture of an update XML
      *
@@ -222,4 +221,17 @@ class Mage_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
         $layout->generateElements();
         return $layout;
     }
+
+    /**
+     * @magentoConfigFixture current_store true_options 1
+     */
+    public function testIfConfigForBlock()
+    {
+        $layout = $this->_getLayoutModel('ifconfig.xml');
+        $this->assertFalse($layout->getBlock('block1'));
+        $this->assertInstanceOf('Mage_Core_Block', $layout->getBlock('block2'));
+        $this->assertInstanceOf('Mage_Core_Block', $layout->getBlock('block3'));
+        $this->assertFalse($layout->getBlock('block4'));
+    }
 }
+

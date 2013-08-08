@@ -10,9 +10,11 @@
 <layout version="0.1.0">
     <default>
         <reference name="head">
-            <action method="addCss">
-                <file>Mage_Cms::widgets.css</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Css" name="mage-cms-widgets-css">
+                <arguments>
+                    <file>Mage_Cms::widgets.css</file>
+                </arguments>
+            </block>
         </reference>
         <reference name="footer">
             <block type="Mage_Cms_Block_Block" name="cms_footer_links" before="footer_links">

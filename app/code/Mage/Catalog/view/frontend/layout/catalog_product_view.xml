@@ -16,9 +16,11 @@
             </action>
         </reference>
         <reference name="head">
-            <action method="addCss">
-                <file>Mage_Catalog::zoom.css</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Css" name="mage-catalog-zoom-css">
+                <arguments>
+                    <file>Mage_Catalog::zoom.css</file>
+                </arguments>
+            </block>
         </reference>
         <update handle="page_calendar"/>
         <reference name="content">

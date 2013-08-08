@@ -10,24 +10,36 @@
 <layout version="0.1.0">
     <adminhtml_system_design_editor_firstentrance>
         <reference name="head">
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/dialog.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/infinitescroll.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/theme-selector.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/theme-assign.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_DesignEditor::js/theme-edit.js</file>
-            </action>
-            <action method="addCss">
-                <file>Mage_DesignEditor::css/styles.css</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-dialog-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/dialog.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-infinitescroll-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/infinitescroll.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-theme-selector-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/theme-selector.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-theme-assign-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/theme-assign.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-designeditor-js-theme-edit-js">
+                <arguments>
+                    <file>Mage_DesignEditor::js/theme-edit.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="mage-designeditor-css-styles-css">
+                <arguments>
+                    <file>Mage_DesignEditor::css/styles.css</file>
+                </arguments>
+            </block>
         </reference>
         <reference name="content">
             <block type="Mage_Backend_Block_Template" name="available.theme.list.container" as="theme_container" template="Mage_DesignEditor::theme/selector/first_entrance.phtml">

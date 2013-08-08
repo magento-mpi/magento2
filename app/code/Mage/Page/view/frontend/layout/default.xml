@@ -38,59 +38,97 @@
             <container name="before_body_end" as="before_body_end" label="Page Bottom"/>
         </block>
         <reference name="head">
-            <action method="addCss">
-                <file>mage/calendar.css</file>
-                <params/>
-            </action>
-            <action method="addJs">
-                <file>jquery/jquery.js</file>
-            </action>
-            <action method="addJs">
-                <file>mage/jquery-no-conflict.js</file>
-            </action>
-            <action method="addJs">
-                <file>head.load.min.js</file>
-            </action>
-            <action method="addJs">
-                <file>mage/mage.js</file>
-            </action>
-            <action method="addJs">
-                <file>mage/decorate.js</file>
-            </action>
-            <action method="addJs">
-                <file>mage/translate.js</file>
-            </action>
-            <action method="addJs">
-                <file>mage/cookies.js</file>
-            </action>
-            <action method="addJs">
-                <file>jquery/jquery-ui.js</file>
-            </action>
-            <action method="addJs">
-                <file>jquery/jquery.tmpl.min.js</file>
-            </action>
-            <action method="addJs">
-                <file>mage/bootstrap.js</file>
-            </action>
-            <action method="addJs">
-                <file>Mage_Page::js/truncate.js</file>
-            </action>
-            <action method="addJs">
-                <file>mage/common.js</file>
-            </action>
-            <action method="addJs">
-                <file>mage/toggle.js</file>
-            </action>
-            <action method="addJs">
-                <file>mage/popup-window.js</file>
-            </action>
-            <action method="addCss">
-                <file>Mage_Page::css/tabs.css</file>
-                <params/>
-            </action>
-            <action method="addJs">
-                <file>mage/loader.js</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Css" name="mage-calendar-css">
+                <arguments>
+                    <file>mage/calendar.css</file>
+                    <properties>
+                        <attributes/>
+                    </properties>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="jquery-jquery-js">
+                <arguments>
+                    <file>jquery/jquery.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-jquery-no-conflict-js">
+                <arguments>
+                    <file>mage/jquery-no-conflict.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="head-load-min-js">
+                <arguments>
+                    <file>head.load.min.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-mage-js">
+                <arguments>
+                    <file>mage/mage.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-decorate-js">
+                <arguments>
+                    <file>mage/decorate.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-translate-js">
+                <arguments>
+                    <file>mage/translate.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-cookies-js">
+                <arguments>
+                    <file>mage/cookies.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="jquery-jquery-ui-js">
+                <arguments>
+                    <file>jquery/jquery-ui.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="jquery-jquery-tmpl-min-js">
+                <arguments>
+                    <file>jquery/jquery.tmpl.min.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-bootstrap-js">
+                <arguments>
+                    <file>mage/bootstrap.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-page-js-truncate-js">
+                <arguments>
+                    <file>Mage_Page::js/truncate.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-common-js">
+                <arguments>
+                    <file>mage/common.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-toggle-js">
+                <arguments>
+                    <file>mage/toggle.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-popup-window-js">
+                <arguments>
+                    <file>mage/popup-window.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="mage-page-css-tabs-css">
+                <arguments>
+                    <file>Mage_Page::css/tabs.css</file>
+                    <properties>
+                        <attributes/>
+                    </properties>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-loader-js">
+                <arguments>
+                    <file>mage/loader.js</file>
+                </arguments>
+            </block>
             <!-- Preload resources for widgets -->
             <block type="Mage_Core_Block_Template" name="head.components" as="components" template="Mage_Page::js/components.phtml"/>
         </reference>

@@ -10,9 +10,11 @@
 <layout version="0.1.0">
     <adminhtml_system_config_edit>
         <reference name="head">
-            <action method="addJs">
-                <file>jquery/jquery.ba-hashchange.min.js</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="jquery-jquery-ba-hashchange-min-js">
+                <arguments>
+                    <file>jquery/jquery.ba-hashchange.min.js</file>
+                </arguments>
+            </block>
         </reference>
         <reference name="js">
             <block type="Mage_Backend_Block_Template" template="Mage_Adminhtml::system/shipping/ups.phtml"/>

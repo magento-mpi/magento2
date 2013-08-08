@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <!--
 /**
  * {license_notice}
@@ -10,14 +10,64 @@
 <layout version="0.1.0">
     <default>
         <reference name="head">
-            <action method="addCss"><file>reset.css</file></action>
-            <action method="addCss"><file>boxes.css</file></action>
-            <action method="addCss"><file>custom.css</file></action>
-            <action method="addCss"><file>iestyles.css</file><params/><if>lt IE 8</if></action>
-            <action method="addCss"><file>below_ie7.css</file><params/><if>lt IE 7</if></action>
-            <action method="addCss"><file>ie7.css</file><params/><if>IE 7</if></action>
-            <action method="addCss"><file>menu.css</file><params>media="screen, projection"</params></action>
-            <action method="addCss"><file>print.css</file><params>media="print"</params></action>
+            <block type="Mage_Page_Block_Html_Head_Css" name="reset-css">
+                <arguments>
+                    <file>reset.css</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="boxes-css">
+                <arguments>
+                    <file>boxes.css</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="custom-css">
+                <arguments>
+                    <file>custom.css</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="iestyles-css">
+                <arguments>
+                    <file>iestyles.css</file>
+                    <properties>
+                        <attributes/>
+                        <ie_condition>lt IE 8</ie_condition>
+                    </properties>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="below-ie-css">
+                <arguments>
+                    <file>below_ie7.css</file>
+                    <properties>
+                        <attributes/>
+                        <ie_condition>lt IE 7</ie_condition>
+                    </properties>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="ie-css">
+                <arguments>
+                    <file>ie7.css</file>
+                    <properties>
+                        <attributes/>
+                        <ie_condition>IE 7</ie_condition>
+                    </properties>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="menu-css">
+                <arguments>
+                    <file>menu.css</file>
+                    <properties>
+                        <attributes>media="screen, projection"</attributes>
+                    </properties>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="print-css">
+                <arguments>
+                    <file>print.css</file>
+                    <properties>
+                        <attributes>media="print"</attributes>
+                    </properties>
+                </arguments>
+            </block>
         </reference>
     </default>
 </layout>

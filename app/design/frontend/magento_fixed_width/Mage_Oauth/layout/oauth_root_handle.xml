@@ -9,12 +9,7 @@
 -->
 <layout version="0.1.0">
     <oauth_root_handle>
-        <reference name="head">
-            <action method="removeItem">
-                <type>js</type>
-                <file>js/enterprise/catalogevent.js</file>
-            </action>
-        </reference>
+        <remove name="js-enterprise-catalogevent-js"/>
         <remove name="account.links"/>
         <remove name="checkout.links"/>
         <remove name="welcome"/>

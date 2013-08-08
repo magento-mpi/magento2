@@ -27,10 +27,28 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
     {
         $head = $this->getLayout()->getBlock('head');
         if ($head) {
-            $head->addJs('prototype/window.js')
-                ->addCss('prototype/windows/themes/default.css')
-                ->addCss('Mage_Core::prototype/magento.css')
-                ->setCanLoadTinyMce(true);
+            $head->setCanLoadTinyMce(true);
+            $head->addChild(
+                'prototype-window-js',
+                'Mage_Page_Block_Html_Head_Script',
+                array(
+                    'file' => 'prototype/window.js'
+                )
+            );
+            $head->addChild(
+                'prototype-windows-themes-default-css',
+                'Mage_Page_Block_Html_Head_Css',
+                array(
+                    'file' => 'prototype/windows/themes/default.css'
+                )
+            );
+            $head->addChild(
+                'mage-core-prototype-magento-css',
+                'Mage_Page_Block_Html_Head_Css',
+                array(
+                    'file' => 'Mage_Core::prototype/magento.css'
+                )
+            );
         }
         return parent::_prepareLayout();
     }

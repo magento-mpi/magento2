@@ -32,7 +32,13 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
     protected function _prepareLayout()
     {
         if ($head = $this->getLayout()->getBlock('head')) {
-            $head->addJs('Mage_Adminhtml::catalog/category/edit.js');
+            $head->addChild(
+                'mage-adminhtml-catalog-category-edit-js',
+                'Mage_Page_Block_Html_Head_Script',
+                array(
+                    'file' => 'Mage_Adminhtml::catalog/category/edit.js'
+                )
+            );
         }
 
         $category = $this->getCategory();

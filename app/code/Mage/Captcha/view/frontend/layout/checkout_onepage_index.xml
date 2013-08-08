@@ -28,9 +28,11 @@
             <container name="form.additional.info" label="Form Additional Info">
                 <block type="Mage_Captcha_Block_Captcha" name="captcha.guest.checkout">
                     <reference name="head">
-                        <action method="addJs">
-                            <file>Mage_Captcha::onepage.js</file>
-                        </action>
+                        <block type="Mage_Page_Block_Html_Head_Script" name="mage-captcha-onepage-js">
+                            <arguments>
+                                <file>Mage_Captcha::onepage.js</file>
+                            </arguments>
+                        </block>
                     </reference>
                     <action method="setFormId">
                         <formId>guest_checkout</formId>
@@ -44,9 +46,11 @@
                 </block>
                 <block type="Mage_Captcha_Block_Captcha" name="captcha.register.during.checkout">
                     <reference name="head">
-                        <action method="addJs">
-                            <file>Mage_Captcha::onepage.js</file>
-                        </action>
+                        <block type="Mage_Page_Block_Html_Head_Script" name="mage-captcha-onepage-js">
+                            <arguments>
+                                <file>Mage_Captcha::onepage.js</file>
+                            </arguments>
+                        </block>
                     </reference>
                     <action method="setFormId">
                         <formId>register_during_checkout</formId>

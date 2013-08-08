@@ -75,78 +75,6 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     }
 
     /**
-     * Add CSS file to HEAD entity
-     *
-     * @param string $file
-     * @param string $attributes
-     * @param string|null $ieCondition
-     * @param string|null $flagName
-     * @return Mage_Page_Block_Html_Head
-     */
-    public function addCss($file, $attributes = '', $ieCondition = null, $flagName = null)
-    {
-        $contentType = Mage_Core_Model_View_Publisher::CONTENT_TYPE_CSS;
-        $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
-        );
-        $this->_pageAssets->add("$contentType/$file", $asset, array(
-            'attributes'    => (string)$attributes,
-            'ie_condition'  => (string)$ieCondition,
-            'flag_name'     => (string)$flagName,
-        ));
-        return $this;
-    }
-
-    /**
-     * Add JavaScript file to HEAD entity
-     *
-     * @param string $file
-     * @param string $attributes
-     * @param string|null $ieCondition
-     * @param string|null $flagName
-     * @return Mage_Page_Block_Html_Head
-     */
-    public function addJs($file, $attributes = '', $ieCondition = null, $flagName = null)
-    {
-        $contentType = Mage_Core_Model_View_Publisher::CONTENT_TYPE_JS;
-        $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
-        );
-        $this->_pageAssets->add("$contentType/$file", $asset, array(
-            'attributes'    => (string)$attributes,
-            'ie_condition'  => (string)$ieCondition,
-            'flag_name'     => (string)$flagName,
-        ));
-        return $this;
-    }
-
-    /**
-     * Add CSS file for Internet Explorer only to HEAD entity
-     *
-     * @param string $file
-     * @param string $attributes
-     * @param string|null $flagName
-     * @return Mage_Page_Block_Html_Head
-     */
-    public function addCssIe($file, $attributes = '', $flagName = null)
-    {
-        return $this->addCss($file, $attributes, 'IE', $flagName);
-    }
-
-    /**
-     * Add JavaScript file for Internet Explorer only to HEAD entity
-     *
-     * @param string $file
-     * @param string $attributes
-     * @param string|null $flagName
-     * @return Mage_Page_Block_Html_Head
-     */
-    public function addJsIe($file, $attributes = '', $flagName = null)
-    {
-        return $this->addJs($file, $attributes, 'IE', $flagName);
-    }
-
-    /**
      * Add RSS element to HEAD entity
      *
      * @param string $title
@@ -180,25 +108,25 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     }
 
     /**
-     * Remove Item from HEAD entity
-     *
-     * @param string $type
-     * @param string $name
-     * @return Mage_Page_Block_Html_Head
-     */
-    public function removeItem($type, $name)
-    {
-        $this->_pageAssets->remove("$type/$name");
-        return $this;
-    }
-
-    /**
      * Render HTML for the added head items
      *
      * @return string
      */
     public function getCssJsHtml()
     {
+        foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
+            /** @var $block Mage_Core_Block_Abstract */
+            if ($block instanceof Mage_Page_Block_Html_Head_AssetBlock) {
+                /** @var Mage_Core_Model_Page_Asset_AssetInterface $asset */
+                $asset = $block->getAsset();
+                $this->_pageAssets->add(
+                    $block->getNameInLayout(),
+                    $asset,
+                    (array)$block->getProperties()
+                );
+            }
+        }
+
         $result = '';
         /** @var $group Mage_Page_Model_Asset_PropertyGroup */
         foreach ($this->_pageAssets->getGroups() as $group) {

@@ -10,9 +10,11 @@
 <layout version="0.1.0">
     <adminhtml_sales_order_shipment_new>
         <reference name="head">
-            <action method="addJs">
-                <file>Mage_Adminhtml::sales/order/shipment/packaging.js</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-adminhtml-sales-order-shipment-packaging-js">
+                <arguments>
+                    <file>Mage_Adminhtml::sales/order/shipment/packaging.js</file>
+                </arguments>
+            </block>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Sales_Order_Shipment_Create" name="sales_shipment_create">

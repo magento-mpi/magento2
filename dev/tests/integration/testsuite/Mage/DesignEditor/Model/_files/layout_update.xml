@@ -11,7 +11,11 @@
 -->
 <block name="root" type="Mage_Core_Block_Template" template="template.phtml">
     <block name="head" type="Mage_Page_Block_Html_Head">
-        <action method="addJs"><arg>1</arg></action>
+        <block type="Mage_Page_Block_Html_Head_Script" name="jquery-jqzoom-js-jquery-jqzoom-core-pack-js">
+            <arguments>
+                <file>1</file>
+            </arguments>
+        </block>
     </block>
     <container name="header" label="Header">
         <block name="safe.block" type="Mage_Page_Block_Html_Header"/>
@@ -24,6 +28,11 @@
     </container>
 </block>
 <reference name="head">
+    <block type="Mage_Page_Block_Html_Head_Script" name="jquery-jqzoom-js-jquery-jqzoom-core-pack-js">
+        <arguments>
+            <file>1</file>
+        </arguments>
+    </block>
     <action method="addJs"><arg>1</arg></action>
 </reference>
 <reference name="custom.not_safe">

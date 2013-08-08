@@ -10,9 +10,11 @@
 <layout version="0.1.0">
     <adminhtml_catalog_product_new>
         <reference name="head">
-            <action method="addJs">
-                <script>Saas_UnitPrice::js/unitprice.js</script>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="saas-unitprice-js-unitprice-js">
+                <arguments>
+                    <file>Saas_UnitPrice::js/unitprice.js</file>
+                </arguments>
+            </block>
         </reference>
     </adminhtml_catalog_product_new>
 </layout>

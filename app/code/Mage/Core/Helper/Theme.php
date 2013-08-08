@@ -17,13 +17,13 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
      * XPath selector to get CSS files from layout added for HEAD block directly
      */
     const XPATH_SELECTOR_BLOCKS =
-        '//block[@type="Mage_Page_Block_Html_Head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
+        '//block[@type="Mage_Page_Block_Html_Head"]/block[@type="Mage_Page_Block_Html_Head_Css"]/arguments/file';
 
     /**
      * XPath selector to get CSS files from layout added for HEAD block using reference
      */
     const XPATH_SELECTOR_REFS =
-        '//reference[@name="head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
+        '//reference[@name="head"]/block[@type="Mage_Page_Block_Html_Head_Css"]/arguments/file';
 
     /**
      * Directories

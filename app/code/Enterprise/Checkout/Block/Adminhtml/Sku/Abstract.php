@@ -54,7 +54,13 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Mage_Adm
         $headBlock = parent::_prepareLayout()->getLayout()->getBlock('head');
         if ($headBlock) {
             // Head block is not defined on AJAX request
-            $headBlock->addJs('Enterprise_Checkout::addbysku.js');
+            $headBlock->addChild(
+                'enterprise-checkout-addbysku-js',
+                'Mage_Page_Block_Html_Head_Script',
+                array(
+                    'file' => 'Enterprise_Checkout::addbysku.js'
+                )
+            );
         }
 
         $this->addChild('deleteButton', 'Mage_Adminhtml_Block_Widget_Button', array(

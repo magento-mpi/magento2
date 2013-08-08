@@ -10,9 +10,11 @@
 <layout version="0.1.0">
     <adminhtml_sales_order_create_index>
         <reference name="head">
-            <action method="addJs">
-                <file>mage/directpost.js</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-directpost-js">
+                <arguments>
+                    <file>mage/directpost.js</file>
+                </arguments>
+            </block>
         </reference>
     </adminhtml_sales_order_create_index>
 </layout>

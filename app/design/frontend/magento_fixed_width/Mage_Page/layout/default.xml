@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <!--
 /**
  * {license_notice}
@@ -15,9 +15,28 @@
         </reference>
         <move element="breadcrumbs" destination="breadcrumbs.container"/>
         <reference name="head">
-            <action method="addCss"><file>css/styles.css</file></action>
-            <action method="addCss"><file>css/styles-ie.css</file><params/><if>lt IE 8</if></action>
-            <action method="addCss"><file>css/print.css</file><params>media="print"</params></action>
+            <block type="Mage_Page_Block_Html_Head_Css" name="css-styles-css">
+                <arguments>
+                    <file>css/styles.css</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="css-styles-ie-css">
+                <arguments>
+                    <file>css/styles-ie.css</file>
+                    <properties>
+                        <attributes/>
+                        <ie_condition>lt IE 8</ie_condition>
+                    </properties>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="css-print-css">
+                <arguments>
+                    <file>css/print.css</file>
+                    <properties>
+                        <attributes>media="print"</attributes>
+                    </properties>
+                </arguments>
+            </block>
         </reference>
         <reference name="header">
             <block type="Mage_Page_Block_Template_Links" name="account.links" as="accountLinks" before="top.links"/>

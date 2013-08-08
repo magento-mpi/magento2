@@ -11,9 +11,11 @@
     <checkout_onepage_index>
         <update handle="page_one_column"/>
         <reference name="head">
-            <action method="addJs">
-                <file>Mage_Checkout::js/opcheckout.js</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-checkout-js-opcheckout-js">
+                <arguments>
+                    <file>Mage_Checkout::js/opcheckout.js</file>
+                </arguments>
+            </block>
         </reference>
         <move element="checkout.progress" destination="checkout.onepage" as="checkoutProgress" before="-"/>
         <remove name="checkout.progress.wrapper"/>

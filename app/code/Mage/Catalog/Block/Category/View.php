@@ -103,7 +103,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
      */
     public function isProductMode()
     {
-        return $this->getCurrentCategory()->getDisplayMode()==Mage_Catalog_Model_Category::DM_PRODUCT;
+        return $this->getCurrentCategory()->getDisplayMode() == Mage_Catalog_Model_Category::DM_PRODUCT;
     }
 
     /**
@@ -112,7 +112,7 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
      */
     public function isMixedMode()
     {
-        return $this->getCurrentCategory()->getDisplayMode()==Mage_Catalog_Model_Category::DM_MIXED;
+        return $this->getCurrentCategory()->getDisplayMode() == Mage_Catalog_Model_Category::DM_MIXED;
     }
 
     /**

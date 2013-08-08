@@ -10,21 +10,31 @@
 <layout version="0.1.0">
     <adminhtml_tax_rule_edit>
         <reference name="head">
-            <action method="addJs">
-                <file>jquery/editableMultiselect/js/jquery.editable.js</file>
-            </action>
-            <action method="addJs">
-                <file>jquery/editableMultiselect/js/jquery.multiselect.js</file>
-            </action>
-            <action method="addJs">
-                <file>mage/backend/editablemultiselect.js</file>
-            </action>
-            <action method="addCss">
-                <file>jquery/editableMultiselect/css/jquery.multiselect.css</file>
-            </action>
-            <action method="addCss">
-                <file>Mage_Core::prototype/magento.css</file>
-            </action>
+            <block type="Mage_Page_Block_Html_Head_Script" name="jquery-editablemultiselect-js-jquery-editable-js">
+                <arguments>
+                    <file>jquery/editableMultiselect/js/jquery.editable.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="jquery-editablemultiselect-js-jquery-multiselect-js">
+                <arguments>
+                    <file>jquery/editableMultiselect/js/jquery.multiselect.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Script" name="mage-backend-editablemultiselect-js">
+                <arguments>
+                    <file>mage/backend/editablemultiselect.js</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="jquery-editablemultiselect-css-jquery-multiselect-css">
+                <arguments>
+                    <file>jquery/editableMultiselect/css/jquery.multiselect.css</file>
+                </arguments>
+            </block>
+            <block type="Mage_Page_Block_Html_Head_Css" name="mage-core-prototype-magento-css">
+                <arguments>
+                    <file>Mage_Core::prototype/magento.css</file>
+                </arguments>
+            </block>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Tax_Rule_Edit"/>

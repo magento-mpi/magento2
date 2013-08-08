@@ -817,7 +817,7 @@ class Mage_Core_Model_Layout extends Magento_Simplexml_Config
      * Creates block object based on xml node data and add it to the layout
      *
      * @param string $elementName
-     * @return Mage_Core_Block_Abstract
+     * @return Mage_Core_Block_Abstract|null
      * @throws Magento_Exception
      */
     protected function _generateBlock($elementName)
@@ -825,6 +825,12 @@ class Mage_Core_Model_Layout extends Magento_Simplexml_Config
         list($type, $node, $actions, $arguments) = $this->_scheduledStructure->getElement($elementName);
         if ($type !== self::TYPE_BLOCK) {
             throw new Magento_Exception("Unexpected element type specified for generating block: {$type}.");
+        }
+
+        $configPath = (string)$node->getAttribute('ifconfig');
+        if (!empty($configPath) && !Mage::getStoreConfigFlag($configPath)) {
+            $this->_scheduledStructure->unsetElement($elementName);
+            return;
         }
 
         // create block

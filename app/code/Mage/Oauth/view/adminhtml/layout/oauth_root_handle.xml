@@ -14,128 +14,35 @@
                 <template>Mage_Oauth::empty.phtml</template>
             </action>
         </reference>
-        <reference name="head">
-            <action method="removeItem">
-                <type>js</type>
-                <name>scriptaculous/controls.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>prototype/window.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>scriptaculous/builder.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>scriptaculous/dragdrop.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>scriptaculous/controls.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>scriptaculous/slider.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>lib/ccard.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>varien/js.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/hash.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/events.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/varienLoader.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/grid.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/tabs.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/accordion.js</name>
-            </action>
-            <!--            <action method="removeItem"><type>js</type><name>mage/adminhtml/tools.js</name></action>-->
-            <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/product.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/rules.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>mage/adminhtml/wysiwyg/tiny_mce/setup.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>lib/ds-sleight.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>varien/iehover-fix.js</name>
-            </action>
-            <action method="removeItem">
-                <type>css</type>
-                <name>print.css</name>
-            </action>
-            <action method="removeItem">
-                <type>js_css</type>
-                <name>extjs/resources/css/ext-all.css</name>
-            </action>
-            <action method="removeItem">
-                <type>js_css</type>
-                <name>extjs/resources/css/ytheme-magento.css</name>
-            </action>
-            <action method="removeItem">
-                <type>js_css</type>
-                <name>menu.css</name>
-            </action>
-            <action method="removeItem">
-                <type>js_css</type>
-                <name>mage/calendar.css</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>jquery/jquery-ui-timepicker-addon.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>mage/calendar.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>extjs/fix-defer-before.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>extjs/ext-tree.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>extjs/fix-defer.js</name>
-            </action>
-            <action method="removeItem">
-                <type>js</type>
-                <name>extjs/ext-tree-checkbox.js</name>
-            </action>
-        </reference>
+        <remove name="scriptaculous-controls-js"/>
+        <remove name="prototype-window-js"/>
+        <remove name="scriptaculous-builder-js"/>
+        <remove name="scriptaculous-dragdrop-js"/>
+        <remove name="scriptaculous-controls-js"/>
+        <remove name="scriptaculous-slider-js"/>
+        <remove name="lib-ccard-js"/>
+        <remove name="varien-js-js"/>
+        <remove name="mage-adminhtml-hash-js"/>
+        <remove name="mage-adminhtml-events-js"/>
+        <remove name="mage-adminhtml-varienloader-js"/>
+        <remove name="mage-adminhtml-grid-js"/>
+        <remove name="mage-adminhtml-tabs-js"/>
+        <remove name="mage-adminhtml-accordion-js"/>
+        <remove name="mage-adminhtml-product-js"/>
+        <remove name="mage-adminhtml-rules-js"/>
+        <remove name="mage-adminhtml-wysiwyg-tiny-mce-setup-js"/>
+        <remove name="lib-ds-sleight-js"/>
+        <remove name="varien-iehover-fix-js"/>
+        <remove name="print-css"/>
+        <remove name="extjs-resources-css-ext-all-css"/>
+        <remove name="extjs-resources-css-ytheme-magento-css"/>
+        <remove name="menu-css"/>
+        <remove name="mage-calendar-css"/>
+        <remove name="jquery-jquery-ui-timepicker-addon-js"/>
+        <remove name="mage-calendar-js"/>
+        <remove name="extjs-fix-defer-before-js"/>
+        <remove name="extjs-ext-tree-js"/>
+        <remove name="extjs-fix-defer-js"/>
+        <remove name="extjs-ext-tree-checkbox-js"/>
     </oauth_root_handle>
 </layout>
