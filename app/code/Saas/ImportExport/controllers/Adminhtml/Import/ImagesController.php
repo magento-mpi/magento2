@@ -38,17 +38,6 @@ class Saas_ImportExport_Adminhtml_Import_ImagesController extends Mage_Adminhtml
     }
 
     /**
-     * Custom constructor
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        // Define module dependent translate
-        $this->setUsedModuleName('Saas_ImportExport');
-    }
-
-    /**
      * Check ACL permissions
      *
      * @return bool

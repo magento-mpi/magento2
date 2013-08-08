@@ -19,11 +19,6 @@ class Mage_Backend_Model_Config_Structure_Element_SectionTest extends PHPUnit_Fr
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_factoryHelperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_applicationMock;
 
     /**
@@ -53,7 +48,6 @@ class Mage_Backend_Model_Config_Structure_Element_SectionTest extends PHPUnit_Fr
     {
         unset($this->_model);
         unset($this->_iteratorMock);
-        unset($this->_factoryHelperMock);
         unset($this->_applicationMock);
         unset($this->_authorizationMock);
     }

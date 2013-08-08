@@ -45,27 +45,27 @@
         </template>
         <cache>
             <types>
-                <config translate="label,description" module="Mage_Core">
+                <config translate="label,description">
                     <label>Configuration</label>
                     <description>System(config.xml, local.xml) and modules configuration files(config.xml).</description>
                     <class>Mage_Core_Model_Cache_Type_Config</class>
                 </config>
-                <layout translate="label,description" module="Mage_Core">
+                <layout translate="label,description">
                     <label>Layouts</label>
                     <description>Layout building instructions.</description>
                     <class>Mage_Core_Model_Cache_Type_Layout</class>
                 </layout>
-                <block_html translate="label,description" module="Mage_Core">
+                <block_html translate="label,description">
                     <label>Blocks HTML output</label>
                     <description>Page blocks HTML.</description>
                     <class>Mage_Core_Model_Cache_Type_Block</class>
                 </block_html>
-                <translate translate="label,description" module="Mage_Core">
+                <translate translate="label,description">
                     <label>Translations</label>
                     <description>Translation files.</description>
                     <class>Mage_Core_Model_Cache_Type_Translate</class>
                 </translate>
-                <collections translate="label,description" module="Mage_Core">
+                <collections translate="label,description">
                     <label>Collections Data</label>
                     <description>Collection data files.</description>
                     <class>Mage_Core_Model_Cache_Type_Collection</class>

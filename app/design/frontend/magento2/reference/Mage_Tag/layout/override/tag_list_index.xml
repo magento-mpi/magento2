@@ -16,7 +16,7 @@
             </action>
         </reference>
         <reference name="page.main.title">
-            <action method="setPageTitle" translate="title" module="Mage_Tag">
+            <action method="setPageTitle" translate="title">
                 <title>All Tags</title>
             </action>
         </reference>

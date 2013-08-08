@@ -29,12 +29,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     protected $_publicActions = array('edit');
 
-    protected function _construct()
-    {
-        // Define module dependent translate
-        $this->setUsedModuleName('Mage_Catalog');
-    }
-
     /**
      * Initialize product from request parameters
      *

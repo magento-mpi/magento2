@@ -320,7 +320,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
                 foreach ($configTemplates->values->children() as $name => $template) {
                     $templates[(string)$name] = array(
                         'value' => (string)$template->value,
-                        'label' => __((string)$template->label)
+                        'label' => __((string)$template->label),
                     );
                 }
             } elseif ($configTemplates->value) {

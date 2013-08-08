@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <customer_account>
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="Mage_Sales">
+            <action method="addLink" translate="label">
                 <name>orders</name>
                 <path>sales/order/history/</path>
                 <label>My Orders</label>

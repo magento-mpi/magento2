@@ -19,11 +19,6 @@ class Mage_Backend_Model_Config_Structure_Element_TabTest extends PHPUnit_Framew
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_factoryHelperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_applicationMock;
 
     /**

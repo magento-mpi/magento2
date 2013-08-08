@@ -35,20 +35,9 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     /**
      * @param Mage_Core_Model_App $application
      */
-    public function __construct(
-        Mage_Core_Model_App $application
-    ) {
-        $this->_application = $application;
-    }
-
-    /**
-     * Retrieve element translation module
-     *
-     * @return string
-     */
-    protected function _getTranslationModule()
+    public function __construct(Mage_Core_Model_App $application)
     {
-        return (isset($this->_data['module']) ? $this->_data['module'] : 'Mage_Backend') . '_Helper_Data';
+        $this->_application = $application;
     }
 
     /**

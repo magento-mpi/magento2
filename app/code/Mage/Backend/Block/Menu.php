@@ -99,9 +99,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
      */
     protected function _renderItemAnchorTitle($menuItem)
     {
-        return $menuItem->hasTooltip() ?
-            'title="' . __($menuItem->getTooltip()) . '"' :
-            '';
+        return $menuItem->hasTooltip() ? 'title="' . __($menuItem->getTooltip()) . '"' : '';
     }
 
     /**

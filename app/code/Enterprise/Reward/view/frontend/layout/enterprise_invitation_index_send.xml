@@ -20,10 +20,10 @@
                 <action method="setHideBalance">
                     <value>1</value>
                 </action>
-                <action method="setRewardMessage" translate="message" module="Enterprise_Reward">
+                <action method="setRewardMessage" translate="message">
                     <message>Send this invitation now and earn %1 when your invitee signs up on our site.</message>
                 </action>
-                <action method="setRewardQtyLimitationMessage" translate="message" module="Enterprise_Reward">
+                <action method="setRewardQtyLimitationMessage" translate="message">
                     <message>You can reward up to %1 invitee registration(s).</message>
                 </action>
             </block>
@@ -37,10 +37,10 @@
                 <action method="setHideLink">
                     <value>1</value>
                 </action>
-                <action method="setRewardMessage" translate="message" module="Enterprise_Reward">
+                <action method="setRewardMessage" translate="message">
                     <message>Earn %1 for purchases your invitees make.</message>
                 </action>
-                <action method="setRewardQtyLimitationMessage" translate="message" module="Enterprise_Reward">
+                <action method="setRewardQtyLimitationMessage" translate="message">
                     <message>You can reward up to %1 invitee purchase(s).</message>
                 </action>
             </block>

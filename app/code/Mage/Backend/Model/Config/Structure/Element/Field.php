@@ -106,7 +106,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     {
         $label = '';
         if ($labelPrefix) {
-            $label .= __($labelPrefix) . ' ';
+            $label .= $this->_translateLabel($labelPrefix) . ' ';
         }
         $label .= parent::getLabel();
         return $label;

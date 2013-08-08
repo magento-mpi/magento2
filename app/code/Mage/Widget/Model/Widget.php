@@ -123,12 +123,6 @@ class Mage_Widget_Model_Widget extends Varien_Object
         $object->setType($type);
         $object->setData($xml->asCanonicalArray());
 
-        // Set module for translations etc.
-        $module = $object->getData('@/module');
-        if ($module) {
-            $object->setModule($module);
-        }
-
         // Correct widget parameters and convert its data to objects
         $params = $object->getData('parameters');
         $newParams = array();

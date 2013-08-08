@@ -14,14 +14,14 @@
             <action method="setTemplate">
                 <template>1column.phtml</template>
             </action>
-            <action method="setHeaderTitle" translate="title" module="Mage_Contacts">
+            <action method="setHeaderTitle" translate="title">
                 <title>Contact Us</title>
             </action>
         </reference>
         <reference name="content">
             <block type="Mage_Core_Block_Template" name="contactForm" template="Mage_Contacts::form.phtml"/>
             <block type="Mage_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
-                <action method="addCrumb" translate="crumbName" module="Mage_Catalog">
+                <action method="addCrumb" translate="crumbName">
                     <crumbName>home</crumbName>
                     <crumbInfo>
                         <label>Home</label>
@@ -29,7 +29,7 @@
                         <link>/</link>
                     </crumbInfo>
                 </action>
-                <action method="addCrumb" translate="crumbName" module="Mage_Catalog">
+                <action method="addCrumb" translate="crumbName">
                     <crumbName>categories</crumbName>
                     <crumbInfo>
                         <label>Categories</label>

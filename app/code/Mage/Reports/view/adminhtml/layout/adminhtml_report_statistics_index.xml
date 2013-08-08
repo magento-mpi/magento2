@@ -26,14 +26,14 @@
                             <use_select_all>1</use_select_all>
                             <options>
                                 <refresh_lifetime>
-                                    <label translate="true" module="Mage_Reports">Refresh Lifetime Statistics</label>
+                                    <label translate="true">Refresh Lifetime Statistics</label>
                                     <url>*/*/refreshLifetime</url>
-                                    <confirm translate="true" module="Mage_Reports">Are you sure you want to refresh lifetime statistics? There can be performance impact during this operation.</confirm>
+                                    <confirm translate="true">Are you sure you want to refresh lifetime statistics? There can be performance impact during this operation.</confirm>
                                 </refresh_lifetime>
                                 <refresh_recent>
-                                    <label translate="true" module="Mage_Reports">Refresh Statistics for the Last Day</label>
+                                    <label translate="true">Refresh Statistics for the Last Day</label>
                                     <url>*/*/refreshRecent</url>
-                                    <confirm translate="true" module="Mage_Reports">Are you sure you want to refresh statistics for last day?</confirm>
+                                    <confirm translate="true">Are you sure you want to refresh statistics for last day?</confirm>
                                     <selected>1</selected>
                                 </refresh_recent>
                             </options>
@@ -46,7 +46,7 @@
                         </arguments>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="report">
                             <arguments>
-                                <header translate="true" module="Mage_Reports">Report</header>
+                                <header translate="true">Report</header>
                                 <type>string</type>
                                 <sortable>0</sortable>
                                 <id>report</id>
@@ -57,7 +57,7 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="comment">
                             <arguments>
-                                <header translate="true" module="Mage_Reports">Description</header>
+                                <header translate="true">Description</header>
                                 <type>string</type>
                                 <sortable>0</sortable>
                                 <id>comment</id>
@@ -68,12 +68,12 @@
                         </block>
                         <block type="Mage_Backend_Block_Widget_Grid_Column" as="updated_at">
                             <arguments>
-                                <header translate="true" module="Mage_Reports">Updated</header>
+                                <header translate="true">Updated</header>
                                 <type>datetime</type>
                                 <sortable>0</sortable>
                                 <id>updated_at</id>
                                 <index>updated_at</index>
-                                <default translate="true" module="Mage_Reports">undefined</default>
+                                <default translate="true">undefined</default>
                                 <column_css_class>col-period</column_css_class>
                                 <header_css_class>col-period</header_css_class>
                             </arguments>

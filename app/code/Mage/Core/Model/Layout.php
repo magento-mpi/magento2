@@ -506,7 +506,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected function _readArguments(Mage_Core_Model_Layout_Element $node)
     {
         $arguments = array();
-        $moduleName = isset($node['module']) ? (string)$node['module'] : null;
 
         foreach ($node->children() as $argument) {
             /** @var $argument Mage_Core_Model_Layout_Element */
@@ -518,7 +517,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
             if ($argument->hasChildren()) {
                 $value = array();
-                $this->_fillArgumentsArray($argument, $value, $moduleName);
+                $this->_fillArgumentsArray($argument, $value);
                 unset($value['updater']);
                 unset($value['@']);
 
@@ -532,7 +531,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     $arguments[$argument->getName()]['value'] = $value;
                 }
             } else {
-                $value = $this->_translator->translateArgument($argument, $moduleName);
+                $value = $this->_translator->translateArgument($argument);
                 if ('' !== $value) {
                     $arguments[$argument->getName()]['value'] = $value;
                 }
@@ -546,19 +545,16 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      *
      * @param Mage_Core_Model_Layout_Element $node
      * @param array $argumentsArray
-     * @param string $moduleName
      */
-    protected function _fillArgumentsArray(Mage_Core_Model_Layout_Element $node, &$argumentsArray, $moduleName)
+    protected function _fillArgumentsArray(Mage_Core_Model_Layout_Element $node, &$argumentsArray)
     {
-        $moduleName = isset($node['module']) ? (string)$node['module'] : $moduleName;
-
         /** @var $childNode Mage_Core_Model_Layout_Element */
         foreach ($node->children() as $childNode) {
             $nodeName = $childNode->getName();
             if ($childNode->hasChildren()) {
-                $this->_fillArgumentsArray($childNode, $argumentsArray[$nodeName], $moduleName);
+                $this->_fillArgumentsArray($childNode, $argumentsArray[$nodeName]);
             } else {
-                $argumentsArray[$nodeName] = $this->_translator->translateArgument($childNode, $moduleName);
+                $argumentsArray[$nodeName] = $this->_translator->translateArgument($childNode);
             }
         }
     }
@@ -1583,42 +1579,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             return false;
         }
         return $helper->setLayout($this);
-    }
-
-    /**
-     * Lookup module name for translation from current specified layout node
-     *
-     * Priorities:
-     * 1) "module" attribute in the element
-     * 2) "module" attribute in any ancestor element
-     * 3) layout handle name - first 1 or 2 parts (namespace is determined automatically)
-     *
-     * @param Varien_Simplexml_Element $node
-     * @return string
-     */
-    public static function findTranslationModuleName(Varien_Simplexml_Element $node)
-    {
-        // Commented out code uses not yet implemented functionality.
-        $result = (string) $node->getAttribute('module');
-        if ($result) {
-            //return Mage::getConfig()->getModuleConfig($result) ? $result : 'core';
-            return $result;
-        }
-        foreach (array_reverse($node->xpath('ancestor::*[@module]')) as $element) {
-            $result = (string)$element->getAttribute('module');
-            if ($result) {
-                //return Mage::getConfig()->getModuleConfig($result) ? $result : 'core';
-                return $result;
-            }
-        }
-        foreach ($node->xpath('ancestor-or-self::*[last()-1]') as $handle) {
-            $name = Mage::getConfig()->determineOmittedNamespace($handle->getName(), true);
-            if ($name) {
-                //return Mage::getConfig()->getModuleConfig($name) ? $name : 'core';
-                return $name;
-            }
-        }
-        return 'Mage_Core';
     }
 
     /**

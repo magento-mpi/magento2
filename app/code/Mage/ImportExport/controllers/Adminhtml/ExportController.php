@@ -18,17 +18,6 @@
 class Mage_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Custom constructor.
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        // Define module dependent translate
-        $this->setUsedModuleName('Mage_ImportExport');
-    }
-
-    /**
      * Initialize layout.
      *
      * @return Mage_ImportExport_Adminhtml_ExportController

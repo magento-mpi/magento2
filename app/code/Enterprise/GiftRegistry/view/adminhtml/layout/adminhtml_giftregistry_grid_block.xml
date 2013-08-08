@@ -28,7 +28,7 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="type_id">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftRegistry">ID</header>
+                            <header translate="true">ID</header>
                             <align>right</align>
                             <width>50px</width>
                             <index>type_id</index>
@@ -36,26 +36,26 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftRegistry">Code</header>
+                            <header translate="true">Code</header>
                             <index>code</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="label">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftRegistry">Label</header>
+                            <header translate="true">Label</header>
                             <index>label</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="sort_order">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftRegistry">Sort Order</header>
+                            <header translate="true">Sort Order</header>
                             <index>sort_order</index>
                             <default>-</default>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_listed">
                         <arguments>
-                            <header translate="true" module="Enterprise_GiftRegistry">Listed</header>
+                            <header translate="true">Listed</header>
                             <index>is_listed</index>
                             <type>options</type>
                             <options type="options">Enterprise_GiftRegistry_Model_GiftRegistry_Options_Listed</options>

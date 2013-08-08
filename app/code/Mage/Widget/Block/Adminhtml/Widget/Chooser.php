@@ -77,19 +77,6 @@ class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Mage_Adminhtml_Block_Te
     }
 
     /**
-     * Helper getter for translations
-     *
-     * @return Mage_Core_Helper_Abstract
-     */
-    public function getTranslationHelper()
-    {
-        if ($this->_getData('translation_helper') instanceof Mage_Core_Helper_Abstract) {
-            return $this->_getData('translation_helper');
-        }
-        return $this->helper('Mage_Widget_Helper_Data');
-    }
-
-    /**
      * Unique identifier for block that uses Chooser
      *
      * @return string

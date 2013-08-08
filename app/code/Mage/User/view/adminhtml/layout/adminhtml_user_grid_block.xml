@@ -34,7 +34,7 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="user_id">
                         <arguments>
-                            <header translate="true" module="Mage_User">ID</header>
+                            <header translate="true">ID</header>
                             <width>5px</width>
                             <align>right</align>
                             <sortable>true</sortable>
@@ -43,7 +43,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="username">
                         <arguments>
-                            <header translate="true" module="Mage_User">User Name</header>
+                            <header translate="true">User Name</header>
                             <type>text</type>
                             <index>username</index>
                             <escape>1</escape>
@@ -51,7 +51,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="firstname">
                         <arguments>
-                            <header translate="true" module="Mage_User">First Name</header>
+                            <header translate="true">First Name</header>
                             <type>text</type>
                             <index>firstname</index>
                             <escape>1</escape>
@@ -59,7 +59,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="lastname">
                         <arguments>
-                            <header translate="true" module="Mage_User">Last Name</header>
+                            <header translate="true">Last Name</header>
                             <type>text</type>
                             <index>lastname</index>
                             <escape>1</escape>
@@ -67,7 +67,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="email">
                         <arguments>
-                            <header translate="true" module="Mage_User">Email</header>
+                            <header translate="true">Email</header>
                             <type>text</type>
                             <width>40px</width>
                             <align>left</align>
@@ -76,7 +76,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_active">
                         <arguments>
-                            <header translate="true" module="Mage_User">Status</header>
+                            <header translate="true">Status</header>
                             <type>options</type>
                             <options type="options">Mage_User_Model_Statuses</options>
                             <index>is_active</index>

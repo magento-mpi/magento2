@@ -55,17 +55,6 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
     }
 
     /**
-     * Custom constructor
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        // Define module dependent translate
-        $this->setUsedModuleName('Saas_ImportExport');
-    }
-
-    /**
      * Check access (in the ACL) for current user
      *
      * @return bool

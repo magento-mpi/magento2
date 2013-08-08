@@ -11,7 +11,7 @@
 -->
 <logging>
     <actions>
-        <share translate="label" module="Enterprise_GiftRegistry">
+        <share translate="label">
             <label>Share</label>
         </share>
     </actions>

@@ -23,8 +23,6 @@ class Mage_Adminhtml_Sales_Order_CreateController extends Mage_Adminhtml_Control
      */
     protected function _construct()
     {
-        $this->setUsedModuleName('Mage_Sales');
-
         // During order creation in the backend admin has ability to add any products to order
         Mage::helper('Mage_Catalog_Helper_Product')->setSkipSaleableCheck(true);
     }

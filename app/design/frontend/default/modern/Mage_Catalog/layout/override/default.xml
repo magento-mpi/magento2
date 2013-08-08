@@ -12,7 +12,7 @@
         <reference name="left">
             <!--block type="Mage_Core_Block_Template" name="left.permanent.callout" template="callouts/left_col.phtml">
                 <action method="setImgSrc"><src>images/media/left_col_callout.jpg</src></action>
-                <action method="setImgAlt" translate="alt" module="Mage_Catalog"><alt>Our customer service is available 24/7. Call us at (555) 555-0123.</alt></action>
+                <action method="setImgAlt" translate="alt"><alt>Our customer service is available 24/7. Call us at (555) 555-0123.</alt></action>
                 <action method="setLinkUrl"><url>checkout/cart</url></action>
             </block-->
             <block type="Mage_Catalog_Block_Product_Compare_Sidebar" before="cart_sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>

@@ -28,20 +28,20 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="variable_id">
                         <arguments>
-                            <header translate="true" module="Mage_Adminhtml">Variable ID</header>
+                            <header translate="true">Variable ID</header>
                             <width>1px</width>
                             <index>variable_id</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
-                            <header translate="true" module="Mage_Adminhtml">Variable Code</header>
+                            <header translate="true">Variable Code</header>
                             <index>code</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
-                            <header translate="true" module="Mage_Adminhtml">Name</header>
+                            <header translate="true">Name</header>
                             <index>name</index>
                         </arguments>
                     </block>

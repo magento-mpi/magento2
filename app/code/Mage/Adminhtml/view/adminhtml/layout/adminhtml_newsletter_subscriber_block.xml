@@ -25,11 +25,11 @@
                         <use_select_all>1</use_select_all>
                         <options>
                             <unsubscribe>
-                                <label translate="true" module="Mage_Newsletter">Unsubscribe</label>
+                                <label translate="true">Unsubscribe</label>
                                 <url>*/*/massUnsubscribe</url>
                             </unsubscribe>
                             <delete>
-                                <label translate="true" module="Mage_Newsletter">Delete</label>
+                                <label translate="true">Delete</label>
                                 <url>*/*/massDelete</url>
                             </delete>
                         </options>
@@ -40,11 +40,11 @@
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportCsv</urlPath>
-                                <label translate="true" module="Mage_Customer">CSV</label>
+                                <label translate="true">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportXml</urlPath>
-                                <label translate="true" module="Mage_Customer">Excel XML</label>
+                                <label translate="true">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>

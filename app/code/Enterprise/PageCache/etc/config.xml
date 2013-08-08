@@ -29,7 +29,7 @@
         </resources>
         <cache>
             <types>
-                <full_page translate="label,description" module="Enterprise_PageCache">
+                <full_page translate="label,description">
                     <label>Page Cache</label>
                     <description>Full page caching.</description>
                     <class>Enterprise_PageCache_Model_Cache_Type</class>

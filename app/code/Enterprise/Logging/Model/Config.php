@@ -78,7 +78,7 @@ class Enterprise_Logging_Model_Config
     /**
      * Check whether specified full action name or event group should be logged
      *
-     * @param $reference
+     * @param string $reference
      * @param bool $isGroup
      * @return bool
      */
@@ -145,9 +145,7 @@ class Enterprise_Logging_Model_Config
             return $action;
         }
 
-        $label = (string)$actionLabelNode;
-
-        return __($label);
+        return __((string)$actionLabelNode);
     }
 
     /**

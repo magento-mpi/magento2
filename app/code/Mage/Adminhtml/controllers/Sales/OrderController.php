@@ -25,15 +25,6 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     protected $_publicActions = array('view', 'index');
 
     /**
-     * Additional initialization
-     *
-     */
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Mage_Sales');
-    }
-
-    /**
      * Init layout, menu and breadcrumb
      *
      * @return Mage_Adminhtml_Sales_OrderController

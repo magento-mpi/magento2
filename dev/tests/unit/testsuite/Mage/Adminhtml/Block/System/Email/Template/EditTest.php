@@ -119,28 +119,28 @@ class Mage_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Framew
         $actual = $this->_block->getUsedCurrentlyForPaths(false);
         $expected = array(
             array(
-                array('title' => 'Title',),
-                array('title' => 'Title', 'url' => 'adminhtml/system_config/',),
+                array('title' => __('Title'),),
+                array('title' => __('Title'), 'url' => 'adminhtml/system_config/',),
                 array('title' => 'Section_1_Label', 'url' => 'adminhtml/system_config/edit',),
                 array('title' => 'Group_1_Label',),
-                array('title' => 'Field_1_Label', 'scope' => 'GLOBAL',),
+                array('title' => 'Field_1_Label', 'scope' => __('GLOBAL'),),
             ),
             array(
-                array('title' => 'Title',),
-                array('title' => 'Title', 'url' => 'adminhtml/system_config/',),
+                array('title' => __('Title'),),
+                array('title' => __('Title'), 'url' => 'adminhtml/system_config/',),
                 array('title' => 'Section_1_Label', 'url'   => 'adminhtml/system_config/edit',),
                 array('title' => 'Group_1_Label',),
                 array('title' => 'Group_2_Label',),
-                array('title' => 'Field_1_Label', 'scope' => 'GLOBAL',),
+                array('title' => 'Field_1_Label', 'scope' => __('GLOBAL'),),
             ),
             array(
-                array('title' => 'Title',),
-                array('title' => 'Title', 'url' => 'adminhtml/system_config/',),
+                array('title' => __('Title'),),
+                array('title' => __('Title'), 'url' => 'adminhtml/system_config/',),
                 array('title' => 'Section_1_Label', 'url' => 'adminhtml/system_config/edit',),
                 array('title' => 'Group_1_Label',),
                 array('title' => 'Group_2_Label',),
                 array('title' => 'Group_3_Label',),
-                array('title' => 'Field_1_Label', 'scope' => 'GLOBAL',),
+                array('title' => 'Field_1_Label', 'scope' => __('GLOBAL'),),
             )
         );
         $this->assertEquals($expected, $actual);
