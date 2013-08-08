@@ -7,8 +7,8 @@
  */
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Magento/Tools/Di/Code/Scanner/ScannerInterface.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Di/Magento/Tools/Code/Scanner/FileScanner.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Di/Magento/Tools/Code/Scanner/XmlScanner.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Di/Magento/Tools/Di/Code/Scanner/FileScanner.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Di/Magento/Tools/Di/Code/Scanner/XmlScanner.php';
 
 class Magento_Test_Tools_Di_Code_Scanner_XmlScannerTest extends PHPUnit_Framework_TestCase
 {
