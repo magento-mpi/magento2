@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/migration/Acl/Db/Updater.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Updater.php';
 
 class Magento_Test_Tools_Migration_Acl_Db_UpdaterTest extends PHPUnit_Framework_TestCase
 {
@@ -33,7 +33,7 @@ class Magento_Test_Tools_Migration_Acl_Db_UpdaterTest extends PHPUnit_Framework_
 
     public function setUp()
     {
-        $this->_readerMock = $this->getMock('Tools_Migration_Acl_Db_Reader', array(), array(), '', false);
+        $this->_readerMock = $this->getMock('Magento_Tools_Migration_Acl_Db_Reader', array(), array(), '', false);
         $this->_readerMock->expects($this->once())->method('fetchAll')->will($this->returnValue(array(
             'oldResource1' => 1,
             'oldResource2' => 2,
@@ -49,15 +49,15 @@ class Magento_Test_Tools_Migration_Acl_Db_UpdaterTest extends PHPUnit_Framework_
             "oldResource5"  => "Test::newResource5"
         );
 
-        $this->_writerMock = $this->getMock('Tools_Migration_Acl_Db_Writer', array(), array(), '', false);
+        $this->_writerMock = $this->getMock('Magento_Tools_Migration_Acl_Db_Writer', array(), array(), '', false);
         $this->_loggerMock = $this->getMockForAbstractClass(
-            'Tools_Migration_Acl_Db_LoggerAbstract', array(), '', false, false, false, array('add')
+            'Magento_Tools_Migration_Acl_Db_LoggerAbstract', array(), '', false, false, false, array('add')
         );
     }
 
     public function testMigrateInPreviewModeDoesntWriteToDb()
     {
-        $model = new Tools_Migration_Acl_Db_Updater(
+        $model = new Magento_Tools_Migration_Acl_Db_Updater(
             $this->_readerMock, $this->_writerMock, $this->_loggerMock, null
         );
 
@@ -73,8 +73,8 @@ class Magento_Test_Tools_Migration_Acl_Db_UpdaterTest extends PHPUnit_Framework_
 
     public function testMigrateInRealModeWritesToDb()
     {
-        $model = new Tools_Migration_Acl_Db_Updater(
-            $this->_readerMock, $this->_writerMock, $this->_loggerMock, Tools_Migration_Acl_Db_Updater::WRITE_MODE
+        $model = new Magento_Tools_Migration_Acl_Db_Updater(
+            $this->_readerMock, $this->_writerMock, $this->_loggerMock, Magento_Tools_Migration_Acl_Db_Updater::WRITE_MODE
         );
 
         $this->_writerMock->expects($this->at(0))->method('update')->with('oldResource1', 'Test::newResource1');

@@ -9,19 +9,19 @@
  */
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Generator.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/Generator.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
-    . '/tools/migration/System/FileManager.php';
+    . '/tools/Magento/Tools/Migration/System/FileManager.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
-    . '/tools/migration/System/Configuration/LoggerAbstract.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/LoggerAbstract.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Formatter.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/Formatter.php';
 
 
 class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Tools_Migration_System_Configuration_Generator
+     * @var Magento_Tools_Migration_System_Configuration_Generator
      */
     protected $_model;
 
@@ -42,15 +42,15 @@ class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PH
 
     protected function setUp()
     {
-        $this->_fileManagerMock = $this->getMock('Tools_Migration_System_FileManager', array(), array(), '', false);
-        $this->_loggerMock = $this->getMockForAbstractClass('Tools_Migration_System_Configuration_LoggerAbstract',
+        $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
+        $this->_loggerMock = $this->getMockForAbstractClass('Magento_Tools_Migration_System_Configuration_LoggerAbstract',
             array(), '', false, false, false, array('add')
         );
-        $this->_formatterMock = $this->getMock('Tools_Migration_System_Configuration_Formatter', array(), array(),
+        $this->_formatterMock = $this->getMock('Magento_Tools_Migration_System_Configuration_Formatter', array(), array(),
             '', false
         );
 
-        $this->_model = new Tools_Migration_System_Configuration_Generator(
+        $this->_model = new Magento_Tools_Migration_System_Configuration_Generator(
             $this->_formatterMock, $this->_fileManagerMock, $this->_loggerMock
         );
     }
@@ -87,7 +87,7 @@ class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PH
 
         $this->_loggerMock->expects($this->once())->method('add')->with(
             'someFile',
-            Tools_Migration_System_Configuration_LoggerAbstract:: FILE_KEY_VALID
+            Magento_Tools_Migration_System_Configuration_LoggerAbstract:: FILE_KEY_VALID
         );
 
         $this->_model->createConfiguration('someFile', include __DIR__ . '/_files/mappedConfiguration.php');

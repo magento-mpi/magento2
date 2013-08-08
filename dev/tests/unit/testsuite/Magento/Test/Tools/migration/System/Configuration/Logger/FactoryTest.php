@@ -9,28 +9,28 @@
  */
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
-    . '/tools/migration/System/Configuration/LoggerAbstract.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/LoggerAbstract.php';
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Logger/File.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/Logger/File.php';
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Logger/Console.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/Logger/Console.php';
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Logger/Factory.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/Logger/Factory.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/migration/System/FileManager.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/migration/System/FileReader.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/System/FileManager.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/System/FileReader.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
-    . '/tools/migration/System/WriterInterface.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/migration/System/Writer/Memory.php';
+    . '/tools/Magento/Tools/Migration//System/WriterInterface.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/System/Writer/Memory.php';
 
 
 class Magento_Test_Tools_Migration_System_Configuration_Logger_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Tools_Migration_System_Configuration_Logger_Factory
+     * @var Magento_Tools_Migration_System_Configuration_Logger_Factory
      */
     protected $_model;
 
@@ -41,8 +41,8 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_FactoryTest exten
 
     public function setUp()
     {
-        $this->_model = new Tools_Migration_System_Configuration_Logger_Factory();
-        $this->_fileManagerMock = $this->getMock('Tools_Migration_System_FileManager', array(), array(), '', false);
+        $this->_model = new Magento_Tools_Migration_System_Configuration_Logger_Factory();
+        $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
     }
 
     public function tearDown()
@@ -57,9 +57,9 @@ class Magento_Test_Tools_Migration_System_Configuration_Logger_FactoryTest exten
     public function getLoggerDataProvider()
     {
         return array(
-            array('Tools_Migration_System_Configuration_Logger_File', 'file', 'report.log'),
-            array('Tools_Migration_System_Configuration_Logger_Console', 'console', null),
-            array('Tools_Migration_System_Configuration_Logger_Console', 'dummy', null),
+            array('Magento_Tools_Migration_System_Configuration_Logger_File', 'file', 'report.log'),
+            array('Magento_Tools_Migration_System_Configuration_Logger_Console', 'console', null),
+            array('Magento_Tools_Migration_System_Configuration_Logger_Console', 'dummy', null),
         );
     }
 

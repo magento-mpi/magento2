@@ -8,15 +8,15 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/migration/Acl/Db/LoggerAbstract.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/migration/Acl/Db/Logger/Console.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/LoggerAbstract.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Logger/Console.php';
 
 class Magento_Test_Tools_Migration_Acl_Db_Logger_ConsoleTest extends PHPUnit_Framework_TestCase
 {
     public function testReport()
     {
         $this->expectOutputRegex('/^Mapped items count: 0(.)*/');
-        $model = new Tools_Migration_Acl_Db_Logger_Console();
+        $model = new Magento_Tools_Migration_Acl_Db_Logger_Console();
         $model->report();
     }
 }

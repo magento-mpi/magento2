@@ -8,18 +8,18 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/migration/Acl/Db/LoggerAbstract.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/LoggerAbstract.php';
 
 class Magento_Test_Tools_Migration_Acl_Db_LoggerAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Tools_Migration_Acl_Db_LoggerAbstract
+     * @var Magento_Tools_Migration_Acl_Db_LoggerAbstract
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Tools_Migration_Acl_Db_LoggerAbstract');
+        $this->_model = $this->getMockForAbstractClass('Magento_Tools_Migration_Acl_Db_LoggerAbstract');
     }
 
     public function tearDown()
@@ -28,8 +28,8 @@ class Magento_Test_Tools_Migration_Acl_Db_LoggerAbstractTest extends PHPUnit_Fra
     }
 
     /**
-     * @covers Tools_Migration_Acl_Db_LoggerAbstract::add()
-     * @covers Tools_Migration_Acl_Db_LoggerAbstract::__toString()
+     * @covers Magento_Tools_Migration_Acl_Db_LoggerAbstract::add()
+     * @covers Magento_Tools_Migration_Acl_Db_LoggerAbstract::__toString()
      */
     public function testToString()
     {

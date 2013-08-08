@@ -8,23 +8,23 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/migration/Acl/Db/LoggerAbstract.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/migration/Acl/Db/Logger/Factory.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/migration/Acl/Db/Logger/Console.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/migration/Acl/Db/Logger/File.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/LoggerAbstract.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Logger/Factory.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Logger/Console.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Logger/File.php';
 
 
 
 class Magento_Test_Tools_Migration_Acl_Db_Logger_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Tools_Migration_Acl_Db_Logger_Factory
+     * @var Magento_Tools_Migration_Acl_Db_Logger_Factory
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Tools_Migration_Acl_Db_Logger_Factory();
+        $this->_model = new Magento_Tools_Migration_Acl_Db_Logger_Factory();
     }
 
     public function tearDown()
@@ -50,7 +50,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Logger_FactoryTest extends PHPUnit_Fra
      */
     public function testGetLogger($loggerType, $file)
     {
-        $this->assertInstanceOf('Tools_Migration_Acl_Db_LoggerAbstract', $this->_model->getLogger($loggerType, $file));
+        $this->assertInstanceOf('Magento_Tools_Migration_Acl_Db_LoggerAbstract', $this->_model->getLogger($loggerType, $file));
     }
 
     /**

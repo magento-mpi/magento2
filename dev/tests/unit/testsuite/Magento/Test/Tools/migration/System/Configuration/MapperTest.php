@@ -8,25 +8,25 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../../')
     . '/tools/migration/System/Configuration/Mapper/Abstract.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../../')
     . '/tools/migration/System/Configuration/Mapper.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../../')
     . '/tools/migration/System/Configuration/Mapper/Tab.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../../')
     . '/tools/migration/System/Configuration/Mapper/Section.php';
 
 /**
- * Test case for Tools_Migration_System_Configuration_Mapper
+ * Test case for Magento_Tools_Migration_System_Configuration_Mapper
  */
 class Magento_Test_Tools_Migration_System_Configuration_MapperTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Tools_Migration_System_Configuration_Mapper
+     * @var Magento_Tools_Migration_System_Configuration_Mapper
      */
     protected $_object;
 
@@ -42,14 +42,14 @@ class Magento_Test_Tools_Migration_System_Configuration_MapperTest extends PHPUn
 
     protected function setUp()
     {
-        $this->_tabMapperMock = $this->getMock('Tools_Migration_System_Configuration_Mapper_Tab',
+        $this->_tabMapperMock = $this->getMock('Magento_Tools_Migration_System_Configuration_Mapper_Tab',
             array(), array(), '', false
         );
-        $this->_sectionMapperMock = $this->getMock('Tools_Migration_System_Configuration_Mapper_Section',
+        $this->_sectionMapperMock = $this->getMock('Magento_Tools_Migration_System_Configuration_Mapper_Section',
             array(), array(), '', false
         );
 
-        $this->_object = new Tools_Migration_System_Configuration_Mapper(
+        $this->_object = new Magento_Tools_Migration_System_Configuration_Mapper(
             $this->_tabMapperMock,
             $this->_sectionMapperMock
         );

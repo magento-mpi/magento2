@@ -16,7 +16,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
     /**
      * Helper to process CSS content and fix urls
      *
-     * @var Mage_Core_Helper_Css
+     * @var Magento_Core_Helper_Css
      */
     private $_cssHelper;
 
@@ -53,7 +53,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
     /**
      * Constructor
      *
-     * @param Mage_Core_Helper_Css $cssHelper
+     * @param Magento_Core_Helper_Css $cssHelper
      * @param string $destinationHomeDir
      * @param string $configPermitted
      * @param string|null $configForbidden
@@ -61,7 +61,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
      * @throws Magento_Exception
      */
     public function __construct(
-        Mage_Core_Helper_Css $cssHelper,
+        Magento_Core_Helper_Css $cssHelper,
         $destinationHomeDir,
         $configPermitted,
         $configForbidden = null,
@@ -115,7 +115,7 @@ class Magento_Tools_View_Generator_ThemeDeployment
                 'destinationContext' => $destinationContext,
             );
 
-            $destDir = Mage_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
+            $destDir = Magento_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
                 $destinationContext['area'],
                 $destinationContext['themePath'],
                 $destinationContext['locale'],
@@ -191,13 +191,13 @@ class Magento_Tools_View_Generator_ThemeDeployment
             $destContext = $context['destinationContext'];
             $destHomeDir = $this->_destinationHomeDir;
             $callback = function ($relativeUrl) use ($destContext, $destFileDir, $destHomeDir) {
-                $parts = explode(Mage_Core_Model_View_Service::SCOPE_SEPARATOR, $relativeUrl);
+                $parts = explode(Magento_Core_Model_View_Service::SCOPE_SEPARATOR, $relativeUrl);
                 if (count($parts) == 2) {
                     list($module, $file) = $parts;
                     if (!strlen($module) || !strlen($file)) {
                         throw new Magento_Exception("Wrong module url: {$relativeUrl}");
                     }
-                    $relPath = Mage_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
+                    $relPath = Magento_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
                         $destContext['area'], $destContext['themePath'], $destContext['locale'],
                         $file, $module
                     );

@@ -43,8 +43,8 @@ class Magento_Tools_View_Generator_Config
         if (isset($cmdOptions['destination'])) {
             $destinationDir = $cmdOptions['destination'];
         } else {
-            $dirs = new Mage_Core_Model_Dir($sourceDir);
-            $destinationDir = $dirs->getDir(Mage_Core_Model_Dir::STATIC_VIEW);
+            $dirs = new Magento_Core_Model_Dir($sourceDir);
+            $destinationDir = $dirs->getDir(Magento_Core_Model_Dir::STATIC_VIEW);
         }
         if (!is_dir($destinationDir)) {
             throw new Magento_Exception('Destination directory does not exist: ' . $destinationDir);

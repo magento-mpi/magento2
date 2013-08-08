@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once __DIR__ . '/../../../../../../../../tools/view/Generator/CopyRule.php';
+require_once __DIR__ . '/../../../../../../../../tools/Magento/Tools/View/Generator/CopyRule.php';
 
 class Magento_Test_Tools_View_Generator_CopyRuleTest extends PHPUnit_Framework_TestCase
 {

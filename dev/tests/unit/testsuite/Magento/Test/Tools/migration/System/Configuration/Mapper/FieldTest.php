@@ -8,10 +8,10 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../../../')
     . '/tools/migration/System/Configuration/Mapper/Abstract.php';
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../../../')
     . '/tools/migration/System/Configuration/Mapper/Field.php';
 
 /**
@@ -20,13 +20,13 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../')
 class Magento_Test_Tools_Migration_System_Configuration_Mapper_FieldTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Tools_Migration_System_Configuration_Mapper_Field
+     * @var Magento_Tools_Migration_System_Configuration_Mapper_Field
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Tools_Migration_System_Configuration_Mapper_Field();
+        $this->_object = new Magento_Tools_Migration_System_Configuration_Mapper_Field();
     }
 
     protected function tearDown()

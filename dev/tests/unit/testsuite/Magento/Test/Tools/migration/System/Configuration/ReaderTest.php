@@ -9,19 +9,19 @@
  */
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Reader.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/Reader.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
-    . '/tools/migration/System/FileManager.php';
+    . '/tools/Magento/Tools/Migration/System/FileManager.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Mapper.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Parser.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/Parser.php';
 
 
 class Magento_Test_Tools_Migration_System_Configuration_ReaderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Tools_Migration_System_Configuration_Reader
+     * @var Magento_Tools_Migration_System_Configuration_Reader
      */
     protected $_model;
 
@@ -42,11 +42,11 @@ class Magento_Test_Tools_Migration_System_Configuration_ReaderTest extends PHPUn
 
     protected function setUp()
     {
-        $this->_fileManagerMock = $this->getMock('Tools_Migration_System_FileManager', array(), array(), '', false);
-        $this->_parserMock = $this->getMock('Tools_Migration_System_Configuration_Parser', array(), array(), '', false);
-        $this->_mapperMock = $this->getMock('Tools_Migration_System_Configuration_Mapper', array(), array(), '', false);
+        $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_System_FileManager', array(), array(), '', false);
+        $this->_parserMock = $this->getMock('Magento_Tools_Migration_System_Configuration_Parser', array(), array(), '', false);
+        $this->_mapperMock = $this->getMock('Magento_Tools_Migration_System_Configuration_Mapper', array(), array(), '', false);
 
-        $this->_model = new Tools_Migration_System_Configuration_Reader(
+        $this->_model = new Magento_Tools_Migration_System_Configuration_Reader(
             $this->_fileManagerMock, $this->_parserMock, $this->_mapperMock
         );
     }

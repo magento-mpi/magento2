@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/migration/Acl/Menu/Generator.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Menu/Generator.php';
 
 /**
  * Tools_Migration_Acl_Menu_Generator_Menu generate test case
@@ -16,7 +16,7 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/to
 class Magento_Test_Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var $model Tools_Migration_Acl_Menu_Generator
+     * @var $model Magento_Tools_Migration_Acl_Menu_Generator
      */
     protected $_model;
 
@@ -51,9 +51,9 @@ class Magento_Test_Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framew
             'config/acl/resources/admin/area_config' => 'Module_Name::acl_resource_area',
             'config/acl/resources/admin/some_other_resource' => 'Module_Name::some_other_resource',
         );
-        $this->_fileManagerMock = $this->getMock('Tools_Migration_Acl_FileManager');
+        $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_Acl_FileManager');
 
-        $this->_model = new Tools_Migration_Acl_Menu_Generator(
+        $this->_model = new Magento_Tools_Migration_Acl_Menu_Generator(
             $this->_fixturePath,
             array(1),
             $aclXPathToId,
@@ -164,8 +164,8 @@ class Magento_Test_Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framew
     }
 
     /**
-     * @covers Tools_Migration_Acl_Menu_Generator::buildMenuItemsXPath
-     * @covers Tools_Migration_Acl_Menu_Generator::buildXPath
+     * @covers Magento_Tools_Migration_Acl_Menu_Generator::buildMenuItemsXPath
+     * @covers Magento_Tools_Migration_Acl_Menu_Generator::buildXPath
      */
     public function testBuildMenuItemsXPath()
     {

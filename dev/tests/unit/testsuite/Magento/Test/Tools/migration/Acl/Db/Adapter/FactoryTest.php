@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/migration/Acl/Db/Adapter/Factory.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Adapter/Factory.php';
 
 class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Tools_Migration_Acl_Db_Adapter_Factory
+     * @var Magento_Tools_Migration_Acl_Db_Adapter_Factory
      */
     protected $_model;
 
@@ -24,7 +24,7 @@ class Magento_Test_Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Fr
 
     public function setUp()
     {
-        $this->_model = new Tools_Migration_Acl_Db_Adapter_Factory();
+        $this->_model = new Magento_Tools_Migration_Acl_Db_Adapter_Factory();
         $this->_config = array(
             'dbname' => 'some_db_name',
             'password' => '',

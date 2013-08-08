@@ -8,17 +8,17 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/migration/Acl/Generator.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/migration/Acl/FileManager.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/migration/Acl/Formatter.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Generator.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/FileManager.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Formatter.php';
 
 /**
- * Tools_Migration_Acl_Generator test case
+ * Magento_Tools_Migration_Acl_Generator test case
  */
 class Magento_Test_Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var $model Tools_Migration_Acl_Generator
+     * @var $model Magento_Tools_Migration_Acl_Generator
      */
     protected $_model;
 
@@ -46,9 +46,9 @@ class Magento_Test_Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_T
 
     public function setUp()
     {
-        $this->_xmlFormatterMock = $this->getMock('Tools_Migration_Acl_Formatter');
-        $this->_fileManagerMock = $this->getMock('Tools_Migration_Acl_FileManager');
-        $this->_model = new Tools_Migration_Acl_Generator($this->_xmlFormatterMock, $this->_fileManagerMock);
+        $this->_xmlFormatterMock = $this->getMock('Magento_Tools_Migration_Acl_Formatter');
+        $this->_fileManagerMock = $this->getMock('Magento_Tools_Migration_Acl_FileManager');
+        $this->_model = new Magento_Tools_Migration_Acl_Generator($this->_xmlFormatterMock, $this->_fileManagerMock);
 
         $this->_fixturePath = realpath(__DIR__) . DIRECTORY_SEPARATOR . '_files';
 
@@ -232,8 +232,8 @@ class Magento_Test_Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @covers Tools_Migration_Acl_Generator::parseNode
-     * @covers Tools_Migration_Acl_Generator::generateId
+     * @covers Magento_Tools_Migration_Acl_Generator::parseNode
+     * @covers Magento_Tools_Migration_Acl_Generator::generateId
      */
     public function testParseNode()
     {
@@ -275,8 +275,8 @@ TEMPLATE;
     }
 
     /**
-     * @covers Tools_Migration_Acl_Generator::updateAclResourceIds()
-     * @covers Tools_Migration_Acl_Generator::updateChildAclNodes() (removing of xpath attribute)
+     * @covers Magento_Tools_Migration_Acl_Generator::updateAclResourceIds()
+     * @covers Magento_Tools_Migration_Acl_Generator::updateChildAclNodes() (removing of xpath attribute)
      */
     public function testUpdateAclResourceIds()
     {

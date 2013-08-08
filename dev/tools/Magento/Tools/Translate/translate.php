@@ -14,7 +14,7 @@ USAGE:
 
 ################################################################################
 
-$> php -f translate.php -- --path ~/dev/magento/ --validate ru_RU [--file Mage_Adminhtml] [--file Mage_Catalog]
+$> php -f translate.php -- --path ~/dev/magento/ --validate ru_RU [--file Magento_Adminhtml] [--file Magento_Catalog]
 
 # Validates selected translation against the default (en_US)
 # - checks for missing, redundant or duplicate keys
@@ -25,17 +25,17 @@ $> php -f translate.php -- --path ~/dev/magento/ --validate ru_RU [--file Mage_A
 
 # Output example:
 
-Mage_Adminhtml.csv:
+Magento_Adminhtml.csv:
     "My Wishlist" => missing
     "Report All Bugs" => missing
     "My Account" => redundant (137)
-Mage_Catalog.csv:
+Magento_Catalog.csv:
     "Product Title" => redundant (245)
     "Attributes" => duplicate (119, 235, 307)
 
 ################################################################################
 
-$> php -f translate.php -- --path ~/dev/magento/ --generate [--file Mage_Adminhtml] [--file Mage_Catalog]
+$> php -f translate.php -- --path ~/dev/magento/ --generate [--file Magento_Adminhtml] [--file Magento_Catalog]
 
 # Generates the default translation (en_US)
 
@@ -46,28 +46,28 @@ $> php -f translate.php -- --path ~/dev/magento/ --generate [--file Mage_Adminht
 # Output example:
 
 Created diffs:
-    Mage_Adminhtml.1743-1802.csv
-    Mage_Catalog.1747-1802.csv
+    Magento_Adminhtml.1743-1802.csv
+    Magento_Catalog.1747-1802.csv
 
 Updated files:
-    Mage_Adminhtml.csv
-    Mage_Catalog.csv
+    Magento_Adminhtml.csv
+    Magento_Catalog.csv
 
 ################################################################################
 
-$> php -f translate.php -- --path ~/dev/magento/ --update ru_RU [--file Mage_Adminhtml] [--file Mage_Catalog]
+$> php -f translate.php -- --path ~/dev/magento/ --update ru_RU [--file Magento_Adminhtml] [--file Magento_Catalog]
 
 # Updates the selected translation with the changes (if any) from the default one (en_US)
 
 # Output example:
 
 Created diffs:
-    Mage_Adminhtml.1743-1802.csv
-    Mage_Catalog.1747-1802.csv
+    Magento_Adminhtml.1743-1802.csv
+    Magento_Catalog.1747-1802.csv
 
 Updated files:
-    Mage_Adminhtml.csv
-    Mage_Catalog.csv
+    Magento_Adminhtml.csv
+    Magento_Catalog.csv
 
 ################################################################################
 
@@ -78,8 +78,8 @@ $> php -f translate.php -- --path ~/dev/magento/ --dups [--key "Checkout"]
 # Output example:
 
 "Checkout":
-   Mage_Adminhtml.csv (1472) from app/code/Mage/Adminhtml/Block/Widget/Grid/Container.php (46)
-   Mage_Catalog.csv (723) from design/frontend/default/default/catalog/product/view.phtml (172)
+   Magento_Adminhtml.csv (1472) from app/code/Mage/Adminhtml/Block/Widget/Grid/Container.php (46)
+   Magento_Catalog.csv (723) from design/frontend/default/default/catalog/product/view.phtml (172)
 
 ################################################################################
 

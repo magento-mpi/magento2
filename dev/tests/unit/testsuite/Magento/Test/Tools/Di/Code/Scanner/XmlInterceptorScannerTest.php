@@ -6,7 +6,7 @@
  * @license    {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Di/Code/Scanner/ScannerInterface.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Magento/Tools/Di/Code/Scanner/ScannerInterface.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
     . '/tools/Di/Code/Scanner/XmlInterceptorScanner.php';
 

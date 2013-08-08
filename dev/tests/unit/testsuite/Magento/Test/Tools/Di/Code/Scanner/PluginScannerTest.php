@@ -5,8 +5,8 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Di/Code/Scanner/ScannerInterface.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Di/Code/Scanner/PluginScanner.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Magento/Tools/Di/Code/Scanner/ScannerInterface.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/Magento/Tools/Di/Code/Scanner/PluginScanner.php';
 
 class Magento_Test_Tools_Di_Code_Scanner_PluginScannerTest extends PHPUnit_Framework_TestCase
 {

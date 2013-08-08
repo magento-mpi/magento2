@@ -8,18 +8,18 @@
  * @license     {license_link}
  */
 
-require_once realpath(dirname(__FILE__) . '/../../../../../../../../../') . '/tools/migration/Acl/Db/FileReader.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/FileReader.php';
 
 class Magento_Test_Tools_Migration_Acl_Db_FileReaderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Tools_Migration_Acl_Db_FileReader
+     * @var Magento_Tools_Migration_Acl_Db_FileReader
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Tools_Migration_Acl_Db_FileReader();
+        $this->_model = new Magento_Tools_Migration_Acl_Db_FileReader();
     }
 
     public function testExtractData()

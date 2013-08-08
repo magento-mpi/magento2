@@ -9,7 +9,7 @@
  */
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
-    . '/tools/migration/System/Configuration/Parser.php';
+    . '/tools/Magento/Tools/Migration/System/Configuration/Parser.php';
 
 /**
  * Tools_Migration_System_Configuration_Parser test case
@@ -17,13 +17,13 @@ require_once realpath(dirname(__FILE__) . '/../../../../../../../../../')
 class Magento_Test_Tools_Migration_System_Configuration_ParserTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Tools_Migration_System_Configuration_Parser
+     * @var Magento_Tools_Migration_System_Configuration_Parser
      */
     protected $_parser;
 
     protected function setUp()
     {
-        $this->_parser = new Tools_Migration_System_Configuration_Parser();
+        $this->_parser = new Magento_Tools_Migration_System_Configuration_Parser();
     }
 
     protected function tearDown()
