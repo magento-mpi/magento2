@@ -20,6 +20,7 @@
                 <Magento_Adminhtml />
                 <Magento_AdminNotification />
                 <Magento_Widget />
+                <Magento_User/>
             </depends>
         </Enterprise_Enterprise>
     </modules>
