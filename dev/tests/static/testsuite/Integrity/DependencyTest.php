@@ -13,6 +13,32 @@
 class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Name of report file
+     */
+    const REPORT_FILE = 'dependencies_report.xml';
+
+    /**
+     * Path to report directory
+     *
+     * @var string
+     */
+    protected static $_reportDir = '';
+
+    /**
+     * XML report structure
+     *
+     * @var DOMDocument
+     */
+    protected static $_document;
+
+    /**
+     * Root XML element of report
+     *
+     * @var DOMElement
+     */
+    protected static $_root;
+
+    /**
      * List of config.xml files by modules
      *
      * Format: array(
@@ -66,6 +92,13 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected static $_modulesDependencies = array();
 
     /**
+     * Modules dependency errors
+     *
+     * @var array
+     */
+    protected static $_modulesDependencyErrors = array();
+
+    /**
      * Regex pattern for validation file path of theme
      *
      * @var string
@@ -104,20 +137,85 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        self::prepareListConfigXml();
+        self::_initReportDir();
+        self::_initReportXml();
 
-        self::prepareMapRouters();
-        self::prepareMapLayoutBlocks();
-        self::prepareMapLayoutHandles();
+        self::_prepareListConfigXml();
 
-        self::instantiateConfiguration();
-        self::instantiateRules();
+        self::_prepareMapRouters();
+        self::_prepareMapLayoutBlocks();
+        self::_prepareMapLayoutHandles();
+
+        self::_instantiateConfiguration();
+        self::_instantiateRules();
+    }
+    /**
+     * Save XML reports
+     */
+    public static function tearDownAfterClass()
+    {
+        self::_processDependencyErrors();
+    }
+
+    /**
+     * Initialize report directory
+     */
+    protected static function _initReportDir()
+    {
+        self::$_reportDir = Utility_Files::init()->getPathToSource() . '/dev/tests/static/report';
+        if (!is_dir(self::$_reportDir)) {
+            mkdir(self::$_reportDir, 0777);
+        }
+    }
+
+    /**
+     * Initialize XML report
+     */
+    protected static function _initReportXml()
+    {
+        self::$_document = new DOMDocument('1.0', 'UTF-8');
+        self::$_document->formatOutput = true;
+        self::$_root = self::$_document->createElement('errors');
+
+    }
+
+
+    /**
+     *  Process dependency errors and build XML report
+     */
+    protected static function _processDependencyErrors()
+    {
+        if (empty(self::$_modulesDependencyErrors)) {
+            return;
+        }
+        foreach (self::$_modulesDependencyErrors as $moduleName => $moduleData) {
+            $moduleNode = self::$_document->createElement('module');
+            $moduleNode->setAttribute('name', $moduleName);
+            foreach ($moduleData as $error) {
+                $fileNode = self::$_document->createElement('file');
+                $fileNode->setAttribute('path', $error['file']);
+                $dependenciesNode = self::$_document->createElement('dependencies');
+                foreach ($error['dependencies'] as $dependency) {
+                    $dependencyNode = self::$_document->createElement('source');
+                    $dependencyNode->setAttribute('module', $dependency['module']);
+                    $sourceCdata = self::$_document->createCDATASection($dependency['source']);
+                    $dependencyNode->appendChild($sourceCdata);
+                    $dependenciesNode->appendChild($dependencyNode);
+                }
+                $fileNode->appendChild($dependenciesNode);
+                $moduleNode->appendChild($fileNode);
+
+            }
+            self::$_root->appendChild($moduleNode);
+        }
+        self::$_document->appendChild(self::$_root);
+        self::$_document->save(self::$_reportDir . DIRECTORY_SEPARATOR . self::REPORT_FILE);
     }
 
     /**
      * Build modules dependencies
      */
-    public static function instantiateConfiguration()
+    protected static function _instantiateConfiguration()
     {
         self::$_modulesDependencies = array();
 
@@ -142,7 +240,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     /**
      * Create rules objects
      */
-    public static function instantiateRules()
+    protected static function _instantiateRules()
     {
         self::$_rulesInstances = array();
 
@@ -258,20 +356,15 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
         }
 
         if (count($undeclaredDependencies) > 0) {
-            $this->fail('Undeclared dependencies in ' . $module . ':' . $file
-                . ': ' . var_export($undeclaredDependenciesInfo, true));
+            self::$_modulesDependencyErrors[$module][] =
+                array(
+                    'file' => $file,
+                    'dependencies' => $undeclaredDependenciesInfo
+                );
+            $this->fail();
         }
     }
 
-    /**
-     * Check undeclared modules dependencies for specified file
-     */
-    public function testShowCorrectedDependencies()
-    {
-        $this->fail('Corrected modules dependencies:'
-            . var_export(self::$_correctedModulesDependencies, true));
-    }
-    
     /**
      * Extract Magento relative filename from absolute filename
      *
@@ -343,7 +436,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     /**
      * Prepare list of config.xml files (by modules)
      */
-    public static function prepareListConfigXml()
+    protected static function _prepareListConfigXml()
     {
         $files = Utility_Files::init()->getConfigFiles('config.xml', array(), false);
         foreach ($files as $file) {
@@ -357,7 +450,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     /**
      * Prepare map of routers
      */
-    public static function prepareMapRouters()
+    protected static function _prepareMapRouters()
     {
         $pattern = '/(?<namespace>[A-Z][a-z]+)[_\/](?<module>[A-Z][a-zA-Z]+)\/controllers\/'
             . '(?<path>[\/\w]*)Controller.php/';
@@ -398,7 +491,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     /**
      * Prepare map of layout blocks
      */
-    public static function prepareMapLayoutBlocks()
+    protected static function _prepareMapLayoutBlocks()
     {
         $files = Utility_Files::init()->getLayoutFiles(array(), false);
         foreach ($files as $file) {
@@ -432,7 +525,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     /**
      * Prepare map of layout handles
      */
-    public static function prepareMapLayoutHandles()
+    protected static function _prepareMapLayoutHandles()
     {
         $files = Utility_Files::init()->getLayoutFiles(array(), false);
         foreach ($files as $file) {
