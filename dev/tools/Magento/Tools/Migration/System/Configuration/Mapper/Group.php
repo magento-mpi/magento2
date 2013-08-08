@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-class Tools_Migration_System_Configuration_Mapper_Group extends Tools_Migration_System_Configuration_Mapper_Abstract
+class Magento_Tools_Migration_System_Configuration_Mapper_Group extends Magento_Tools_Migration_System_Configuration_Mapper_Abstract
 {
     /**
      * @var Tools_Migration_System_Configuration_Mapper_Field
