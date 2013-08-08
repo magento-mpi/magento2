@@ -12,13 +12,13 @@
 class Magento_Outbound_Transport_Http_Response
 {
     /**
-     * @var Zend_Http_Response
+     * @var string $string
      */
     protected $_response;
 
-    public function __construct(Zend_Http_Response $response)
+    public function __construct($string)
     {
-        $this->_response = $response;
+        $this->_response = Zend_Http_Response::fromString($string);
     }
 
 
