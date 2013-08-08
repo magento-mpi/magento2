@@ -399,6 +399,7 @@ class Integrity_DependencyTest_TemplateRule implements Integrity_DependencyTest_
 
         // CASE 5: Exception - Undefined block
         $this->_exceptions[self::EXCEPTION_TYPE_UNKNOWN_BLOCK][$block] = $block;
+        return array();
     }
 
     /**
