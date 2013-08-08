@@ -16,7 +16,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Catalog_Model_Resource_Category_Flat_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Event prefix

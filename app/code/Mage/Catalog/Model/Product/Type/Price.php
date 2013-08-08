@@ -349,7 +349,7 @@ class Mage_Catalog_Model_Product_Type_Price
             $rulePrice = false, $wId = null, $gId = null, $productId = null)
     {
         Magento_Profiler::start('__PRODUCT_CALCULATE_PRICE__');
-        if ($wId instanceof Mage_Core_Model_Store) {
+        if ($wId instanceof Magento_Core_Model_Store) {
             $sId = $wId->getId();
             $wId = $wId->getWebsiteId();
         } else {

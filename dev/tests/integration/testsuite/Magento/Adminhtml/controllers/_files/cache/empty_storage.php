@@ -6,6 +6,6 @@
  * @license     {license_link}
  */
 
-/** @var $cache Mage_Core_Model_Cache */
-$cache = Mage::getModel('Mage_Core_Model_Cache');
+/** @var $cache Magento_Core_Model_Cache */
+$cache = Mage::getModel('Magento_Core_Model_Cache');
 $cache->clean();

@@ -15,7 +15,7 @@
  * @package    Mage_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Block_Express_Review extends Mage_Core_Block_Template
+class Mage_Paypal_Block_Express_Review extends Magento_Core_Block_Template
 {
     /**
      * @var Mage_Sales_Model_Quote

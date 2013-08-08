@@ -71,7 +71,7 @@ class Mage_Bundle_Model_Product_Attribute_Source_Price_View extends Mage_Eav_Mod
             'extra'     => null
         );
 
-        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
             $column['type']     = 'int';
             $column['is_null']  = true;
         } else {

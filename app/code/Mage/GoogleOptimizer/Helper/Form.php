@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Mage_GoogleOptimizer_Helper_Form extends Mage_Core_Helper_Abstract
+class Mage_GoogleOptimizer_Helper_Form extends Magento_Core_Helper_Abstract
 {
     /**
      * Prepare form

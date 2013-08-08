@@ -1,7 +1,7 @@
 <?php
 /**
  * Specification factory
- * Proxy object to Mage_Core_Model_ObjectManager
+ * Proxy object to Magento_Core_Model_ObjectManager
  *
  * {license_notice}
  *

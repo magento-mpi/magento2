@@ -33,13 +33,13 @@ class Mage_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Adminhtm
             $validator->reset();
             $this->_getPayment()->importData($paymentData);
             $result['authenticationUrl'] = $validator->getAuthenticationStartUrl();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $result['message'] = $e->getMessage();
         } catch (Exception $e) {
             Mage::logException($e);
             $result['message'] = Mage::helper('Mage_Centinel_Helper_Data')->__('Validation failed.');
         }
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**

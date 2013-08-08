@@ -17,7 +17,7 @@ class Saas_ImportExport_Block_Adminhtml_Import_Edit_Image extends Mage_Backend_B
     /**
      * Core helper
      *
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_coreHelper;
 
@@ -31,14 +31,14 @@ class Saas_ImportExport_Block_Adminhtml_Import_Edit_Image extends Mage_Backend_B
     /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_ImportExport_Helper_Import_Image_Configuration $configuration
-     * @param Mage_Core_Helper_Data $coreHelper
+     * @param Magento_Core_Helper_Data $coreHelper
      * @param Mage_ImportExport_Model_Import $importModel
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Saas_ImportExport_Helper_Import_Image_Configuration $configuration,
-        Mage_Core_Helper_Data $coreHelper,
+        Magento_Core_Helper_Data $coreHelper,
         Mage_ImportExport_Model_Import $importModel,
         array $data = array()
     ) {

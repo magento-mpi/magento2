@@ -25,7 +25,7 @@ class Saas_Launcher_Model_TileTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($resource));
 
         $this->_tile = new Saas_Launcher_Model_Tile(
-            $helper->getObject('Mage_Core_Model_Context'),
+            $helper->getObject('Magento_Core_Model_Context'),
             $resource,
             null,
             null,

@@ -25,7 +25,7 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
+class Mage_Eav_Model_Entity_Attribute_Set extends Magento_Core_Model_Abstract
 {
     /**
      * Resource instance
@@ -37,7 +37,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
     /**
      * Helper instance
      *
-     * @var Mage_Core_Helper_Abstract
+     * @var Magento_Core_Helper_Abstract
      */
     protected $_helperInstance;
 
@@ -48,14 +48,14 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
     protected $_eventPrefix = 'eav_entity_attribute_set';
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -296,7 +296,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
      * Retrieve helper instance by specified helper name
      *
      * @param string $helperName
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     protected function _helper($helperName)
     {
@@ -306,7 +306,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
     /**
      * Get resource instance
      *
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _getResource()
     {

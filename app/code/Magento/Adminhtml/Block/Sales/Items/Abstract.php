@@ -99,7 +99,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
      * Retrieve item renderer block
      *
      * @param string $type
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     public function getItemRenderer($type)
     {
@@ -122,7 +122,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
      *
      * @param string $column
      * @param string $compositePart
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     public function getColumnRenderer($column, $compositePart='')
     {

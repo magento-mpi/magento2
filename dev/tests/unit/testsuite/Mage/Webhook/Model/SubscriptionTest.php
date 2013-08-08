@@ -43,11 +43,11 @@ class Mage_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             ->method('getUser')
             ->will($this->returnValue($this->_mockUser));
 
-        $mockEventDispatcher = $this->getMockBuilder('Mage_Core_Model_Event_Manager')
+        $mockEventDispatcher = $this->getMockBuilder('Magento_Core_Model_Event_Manager')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockContext = $this->getMockBuilder('Mage_Core_Model_Context')
+        $this->_mockContext = $this->getMockBuilder('Magento_Core_Model_Context')
             ->disableOriginalConstructor()
             ->getMock();
 

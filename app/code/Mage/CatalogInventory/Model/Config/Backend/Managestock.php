@@ -17,7 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogInventory_Model_Config_Backend_Managestock
-    extends Mage_Core_Model_Config_Data
+    extends Magento_Core_Model_Config_Data
 {
 /**
      * After change Catalog Inventory Manage value process

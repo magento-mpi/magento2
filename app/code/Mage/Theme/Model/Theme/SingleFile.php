@@ -14,14 +14,14 @@
 class Mage_Theme_Model_Theme_SingleFile
 {
     /**
-     * @var Mage_Core_Model_Theme_Customization_FileInterface
+     * @var Magento_Core_Model_Theme_Customization_FileInterface
      */
     protected $_fileService;
 
     /**
-     * @param Mage_Core_Model_Theme_Customization_FileInterface $fileService
+     * @param Magento_Core_Model_Theme_Customization_FileInterface $fileService
      */
-    public function __construct(Mage_Core_Model_Theme_Customization_FileInterface $fileService)
+    public function __construct(Magento_Core_Model_Theme_Customization_FileInterface $fileService)
     {
         $this->_fileService = $fileService;
     }
@@ -29,11 +29,11 @@ class Mage_Theme_Model_Theme_SingleFile
     /**
      * Creates or updates custom single file which belong to a selected theme
      *
-     * @param Mage_Core_Model_Theme $themeModel
+     * @param Magento_Core_Model_Theme $themeModel
      * @param string $fileContent
-     * @return Mage_Core_Model_Theme_FileInterface
+     * @return Magento_Core_Model_Theme_FileInterface
      */
-    public function update(Mage_Core_Model_Theme $themeModel, $fileContent)
+    public function update(Magento_Core_Model_Theme $themeModel, $fileContent)
     {
         $customFiles = $themeModel->getCustomization()->getFilesByType($this->_fileService->getType());
         $customCss = reset($customFiles);

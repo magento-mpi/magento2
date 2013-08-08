@@ -109,7 +109,7 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
                 $model->setIsProcessed(0);
                 $model->save();
 
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $hasError = true;
             } catch (Exception $e) {

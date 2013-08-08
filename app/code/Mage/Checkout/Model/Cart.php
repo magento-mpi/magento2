@@ -247,7 +247,7 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
         if ($productId) {
             try {
                 $result = $this->getQuote()->addProduct($product, $request);
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->getCheckoutSession()->setUseNotice(false);
                 $result = $e->getMessage();
             }
@@ -373,8 +373,8 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
     {
         Mage::dispatchEvent('checkout_cart_update_items_before', array('cart'=>$this, 'info'=>$data));
 
-        /* @var $messageFactory Mage_Core_Model_Message */
-        $messageFactory = Mage::getSingleton('Mage_Core_Model_Message');
+        /* @var $messageFactory Magento_Core_Model_Message */
+        $messageFactory = Mage::getSingleton('Magento_Core_Model_Message');
         $session = $this->getCheckoutSession();
         $qtyRecalculatedFlag = false;
         foreach ($data as $itemId => $itemInfo) {
@@ -565,7 +565,7 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
             }
 
             $result = $this->getQuote()->updateItem($itemId, $request, $updatingParams);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->getCheckoutSession()->setUseNotice(false);
             $result = $e->getMessage();
         }

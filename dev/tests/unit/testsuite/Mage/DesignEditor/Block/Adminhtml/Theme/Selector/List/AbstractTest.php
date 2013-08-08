@@ -51,14 +51,14 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_AbstractTest
             'Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract', array(), '', false, false, true,
             array('getChildBlock', 'getLayout', '__')
         );
-        /** @var $themeMock Mage_Core_Model_Theme */
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+        /** @var $themeMock Magento_Core_Model_Theme */
+        $themeMock = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);
         /** @var $themeBlockMock Mage_DesignEditor_Block_Adminhtml_Theme */
         $themeBlockMock = $this->getMock(
             'Mage_DesignEditor_Block_Adminhtml_Theme', array('getTheme'), array(), '', false
         );
-        /** @var $layoutMock Mage_Core_Model_Layout */
-        $layoutMock  = $this->getMock('Mage_Core_Model_Layout', array('createBlock'), array(), '', false);
+        /** @var $layoutMock Magento_Core_Model_Layout */
+        $layoutMock  = $this->getMock('Magento_Core_Model_Layout', array('createBlock'), array(), '', false);
         /** @var $buttonMock Mage_Backend_Block_Widget_Button */
         $buttonMock = $this->getMock('Mage_Backend_Block_Widget_Button', array(), array(), '', false);
 

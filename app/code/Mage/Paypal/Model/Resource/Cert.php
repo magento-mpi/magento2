@@ -16,7 +16,7 @@
  * @package     Mage_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Model_Resource_Cert extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Paypal_Model_Resource_Cert extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize connection
@@ -29,12 +29,12 @@ class Mage_Paypal_Model_Resource_Cert extends Mage_Core_Model_Resource_Db_Abstra
     /**
      * Set date of last update
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
-        $object->setUpdatedAt($this->formatDate(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate()));
+        $object->setUpdatedAt($this->formatDate(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate()));
         return parent::_beforeSave($object);
     }
 

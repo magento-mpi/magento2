@@ -11,7 +11,7 @@
 /**
  * Catalo
  */
-class Mage_CatalogInventory_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_SHOW_OUT_OF_STOCK    = 'cataloginventory/options/show_out_of_stock';
     const XML_PATH_ITEM_AUTO_RETURN     = 'cataloginventory/item_options/auto_return';

@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Core_Block_Template
+abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Magento_Core_Block_Template
 {
     /**
      * Product object
@@ -112,13 +112,13 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
         $_priceInclTax = $this->getPrice($value['pricing_value'], true);
         $_priceExclTax = $this->getPrice($value['pricing_value']);
         if ($taxHelper->displayPriceIncludingTax()) {
-            $priceStr .= $this->helper('Mage_Core_Helper_Data')->currencyByStore($_priceInclTax, $store, true, $flag);
+            $priceStr .= $this->helper('Magento_Core_Helper_Data')->currencyByStore($_priceInclTax, $store, true, $flag);
         } elseif ($taxHelper->displayPriceExcludingTax()) {
-            $priceStr .= $this->helper('Mage_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
+            $priceStr .= $this->helper('Magento_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
         } elseif ($taxHelper->displayBothPrices()) {
-            $priceStr .= $this->helper('Mage_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
+            $priceStr .= $this->helper('Magento_Core_Helper_Data')->currencyByStore($_priceExclTax, $store, true, $flag);
             if ($_priceInclTax != $_priceExclTax) {
-                $priceStr .= ' ('.$sign.$this->helper('Mage_Core_Helper_Data')
+                $priceStr .= ' ('.$sign.$this->helper('Magento_Core_Helper_Data')
                     ->currencyByStore($_priceInclTax, $store, true, $flag).' '.$this->__('Incl. Tax').')';
             }
         }
@@ -156,6 +156,6 @@ abstract class Mage_Catalog_Block_Product_View_Options_Abstract extends Mage_Cor
     public function getCurrencyPrice($price)
     {
         $store = $this->getProduct()->getStore();
-        return $this->helper('Mage_Core_Helper_Data')->currencyByStore($price, $store, false);
+        return $this->helper('Magento_Core_Helper_Data')->currencyByStore($price, $store, false);
     }
 }

@@ -23,7 +23,7 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
     /**
      * Registry instance
      *
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
 
@@ -35,18 +35,18 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
     protected $_productType;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Magento_Core_Block_Template_Context $context
      * @param Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
-     * @param Mage_Core_Model_Registry $registryManager
+     * @param Magento_Core_Model_Registry $registryManager
      * @param Mage_Backend_Model_Widget_Grid_SubTotals $subtotals
      * @param Mage_Backend_Model_Widget_Grid_Totals $totals
      * @param Mage_Catalog_Model_Product_Type_Configurable $productType
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Magento_Core_Block_Template_Context $context,
         Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
-        Mage_Core_Model_Registry $registryManager,
+        Magento_Core_Model_Registry $registryManager,
         Mage_Backend_Model_Widget_Grid_SubTotals $subtotals,
         Mage_Backend_Model_Widget_Grid_Totals $totals,
         Mage_Catalog_Model_Product_Type_Configurable $productType,

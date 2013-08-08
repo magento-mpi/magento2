@@ -35,7 +35,7 @@ class Mage_Webhook_Model_Webapi_User_Factory
     /** @var Magento_Acl_CacheInterface  */
     protected $_cache;
 
-    /** @var Mage_Core_Helper_Data  */
+    /** @var Magento_Core_Helper_Data  */
     private $_coreHelper;
 
     /**
@@ -44,7 +44,7 @@ class Mage_Webhook_Model_Webapi_User_Factory
      * @param Mage_Webapi_Model_Acl_Role_Factory $roleFactory
      * @param Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig
      * @param Mage_Webapi_Model_Acl_Cache $cache
-     * @param Mage_Core_Helper_Data $coreHelper
+     * @param Magento_Core_Helper_Data $coreHelper
      */
     public function __construct(
         Mage_Webapi_Model_Acl_Rule_Factory $ruleFactory,
@@ -52,7 +52,7 @@ class Mage_Webhook_Model_Webapi_User_Factory
         Mage_Webapi_Model_Acl_Role_Factory $roleFactory,
         Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader $authorizationConfig,
         Mage_Webapi_Model_Acl_Cache $cache,
-        Mage_Core_Helper_Data $coreHelper
+        Magento_Core_Helper_Data $coreHelper
     ) {
         $this->_ruleFactory = $ruleFactory;
         $this->_userFactory = $userFactory;
@@ -146,7 +146,7 @@ class Mage_Webhook_Model_Webapi_User_Factory
      *
      * @param array $userContext
      * @param Mage_Webapi_Model_Acl_Role $role
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _createWebapiUser(array $userContext, $role)
     {

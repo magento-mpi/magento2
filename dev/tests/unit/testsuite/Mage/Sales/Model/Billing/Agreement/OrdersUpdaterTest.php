@@ -50,7 +50,7 @@ class Mage_Sales_Model_Billing_Agreement_OrdersUpdaterTest extends PHPUnit_Frame
         );
 
         $this->_registryMock = $this->getMock(
-            'Mage_Core_Model_Registry',
+            'Magento_Core_Model_Registry',
             array(),
             array(),
             '',

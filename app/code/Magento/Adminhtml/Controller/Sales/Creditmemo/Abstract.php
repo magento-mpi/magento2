@@ -97,7 +97,7 @@ class Magento_Adminhtml_Controller_Sales_Creditmemo_Abstract extends Magento_Adm
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
-            return $this->_prepareDownloadResponse('creditmemo'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').
+            return $this->_prepareDownloadResponse('creditmemo'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').
                 '.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
@@ -109,7 +109,7 @@ class Magento_Adminhtml_Controller_Sales_Creditmemo_Abstract extends Magento_Adm
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
             if ($creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->load($creditmemoId)) {
                 $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Creditmemo')->getPdf(array($creditmemo));
-                $this->_prepareDownloadResponse('creditmemo'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').
+                $this->_prepareDownloadResponse('creditmemo'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').
                     '.pdf', $pdf->render(), 'application/pdf');
             }
         }

@@ -10,7 +10,7 @@
  */
 -->
 <layout>
-   <block name="root" type="Mage_Core_Block_Template" template="template.phtml">
+   <block name="root" type="Magento_Core_Block_Template" template="template.phtml">
       <block name="head" type="Mage_Page_Block_Html_Head">
          <action method="addJs">
             <arg>1</arg>
@@ -20,7 +20,7 @@
          <block name="safe.block" type="Mage_Page_Block_Html_Header"/>
       </container>
       <container name="content" label="Content">
-         <block name="custom.not_safe" type="Mage_Core_Block_Template" template="Mage_DesignEditor::stub.phtml">%A</block>
+         <block name="custom.not_safe" type="Magento_Core_Block_Template" template="Mage_DesignEditor::stub.phtml">%A</block>
          <block type="Mage_Page_Block_Html" name="content_schedule_block"/>
       </container>
    </block>

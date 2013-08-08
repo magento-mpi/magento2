@@ -21,7 +21,7 @@ class Mage_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Checkout_Block_Cart_Item_Renderer');
         /** @var $item Mage_Sales_Model_Quote_Item */
         $item = Mage::getModel('Mage_Sales_Model_Quote_Item');

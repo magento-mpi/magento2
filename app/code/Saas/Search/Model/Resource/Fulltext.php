@@ -20,7 +20,7 @@ class Saas_Search_Model_Resource_Fulltext extends Mage_CatalogSearch_Model_Resou
      * Init search engine
      */
     public function __construct(
-        Mage_Core_Model_Resource $resource,
+        Magento_Core_Model_Resource $resource,
         Mage_CatalogSearch_Model_Resource_Fulltext_Engine $engine,
         Mage_Catalog_Model_Resource_Product_Attribute_Collection $productAttributes
     ) {

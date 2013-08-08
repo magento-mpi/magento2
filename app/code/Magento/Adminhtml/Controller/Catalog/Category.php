@@ -32,7 +32,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
         if ($categoryId) {
             $category->load($categoryId);
             if ($storeId) {
-                $rootId = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore($storeId)
+                $rootId = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore($storeId)
                     ->getRootCategoryId();
                 if (!in_array($rootId, $category->getPathIds())) {
                     // load root category instead wrong one
@@ -50,8 +50,8 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
         if ($activeTabId) {
             $this->_objectManager->get('Mage_Backend_Model_Auth_Session')->setActiveTabId($activeTabId);
         }
-        $this->_objectManager->get('Mage_Core_Model_Registry')->register('category', $category);
-        $this->_objectManager->get('Mage_Core_Model_Registry')->register('current_category', $category);
+        $this->_objectManager->get('Magento_Core_Model_Registry')->register('category', $category);
+        $this->_objectManager->get('Magento_Core_Model_Registry')->register('current_category', $category);
         $this->_objectManager->get('Mage_Cms_Model_Wysiwyg_Config')->setStoreId($this->getRequest()->getParam('store'));
         return $category;
     }
@@ -107,7 +107,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
         }
 
         if ($storeId && !$categoryId && !$parentId) {
-            $store = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore($storeId);
+            $store = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore($storeId);
             $_prevCategoryId = (int) $store->getRootCategoryId();
             $this->getRequest()->setParam('id', $_prevCategoryId);
         }
@@ -168,7 +168,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
             ));
             $this->getResponse()->setHeader('Content-type', 'application/json', true);
             $this->getResponse()->setBody(
-                $this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($eventResponse->getData())
+                $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($eventResponse->getData())
             );
             return;
         }
@@ -195,8 +195,8 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
     {
         $elementId = $this->getRequest()->getParam('element_id', md5(microtime()));
         $storeId = $this->getRequest()->getParam('store_id', 0);
-        $storeMediaUrl = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore($storeId)
-            ->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+        $storeMediaUrl = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore($storeId)
+            ->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA);
 
         $content = $this->getLayout()->createBlock(
             'Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content',
@@ -255,7 +255,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
                 $parentId = $this->getRequest()->getParam('parent');
                 if (!$parentId) {
                     if ($storeId) {
-                        $parentId = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')
+                        $parentId = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')
                             ->getStore($storeId)->getRootCategoryId();
                     } else {
                         $parentId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
@@ -319,18 +319,18 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
                     foreach ($validate as $code => $error) {
                         if ($error === true) {
                             $attribute = $category->getResource()->getAttribute($code)->getFrontend()->getLabel();
-                            throw new Mage_Core_Exception(
+                            throw new Magento_Core_Exception(
                                 $this->__('Attribute "%s" is required.', $attribute)
                             );
                         } else {
-                            throw new Mage_Core_Exception($error);
+                            throw new Magento_Core_Exception($error);
                         }
                     }
                 }
 
                 $category->unsetData('use_post_data_config');
                 if (isset($data['general']['entity_id'])) {
-                    throw new Mage_Core_Exception($this->__('Unable to save the category'));
+                    throw new Magento_Core_Exception($this->__('Unable to save the category'));
                 }
 
                 $category->save();
@@ -345,10 +345,10 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
         if ($this->getRequest()->getPost('return_session_messages_only')) {
             $category->load($category->getId()); // to obtain truncated category name
 
-            /** @var $block Mage_Core_Block_Messages */
-            $block = $this->_objectManager->get('Mage_Core_Block_Messages');
+            /** @var $block Magento_Core_Block_Messages */
+            $block = $this->_objectManager->get('Magento_Core_Block_Messages');
             $block->setMessages($this->_getSession()->getMessages(true));
-            $body = $this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array(
+            $body = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                 'messages' => $block->getGroupedHtml(),
                 'error'    => $refreshTree !== 'true',
                 'category' => $category->toArray(),
@@ -401,11 +401,11 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
         try {
             $category->move($parentNodeId, $prevNodeId);
             $this->getResponse()->setBody('SUCCESS');
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->getResponse()->setBody($e->getMessage());
         } catch (Exception $e){
             $this->getResponse()->setBody($this->__('There was a category move error %s', $e));
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
 
     }
@@ -427,7 +427,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
 
                 $category->delete();
                 $this->_getSession()->addSuccess($this->__('You deleted the category.'));
-            } catch (Mage_Core_Exception $e){
+            } catch (Magento_Core_Exception $e){
                 $this->_getSession()->addError($e->getMessage());
                 $this->getResponse()->setRedirect($this->getUrl('*/*/edit', array('_current' => true)));
                 return;
@@ -466,7 +466,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
 
         if ($storeId) {
             if (!$categoryId) {
-                $store = $this->_objectManager->get('Mage_Core_Model_StoreManagerInterface')->getStore($storeId);
+                $store = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore($storeId);
                 $rootId = $store->getRootCategoryId();
                 $this->getRequest()->setParam('id', $rootId);
             }
@@ -476,7 +476,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
 
         $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Category_Tree');
         $root  = $block->getRoot();
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array(
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
             'data' => $block->getTree(),
             'parameters' => array(
                 'text'        => $block->buildNodeName($root),
@@ -499,7 +499,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
         if ($categoryId) {
             $category = $this->_objectManager->create('Mage_Catalog_Model_Category')->load($categoryId);
             $this->getResponse()->setBody(
-                $this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array(
+                $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                    'id' => $categoryId,
                    'path' => $category->getPath(),
                 ))

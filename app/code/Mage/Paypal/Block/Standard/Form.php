@@ -33,8 +33,8 @@ class Mage_Paypal_Block_Standard_Form extends Mage_Payment_Block_Form
     {
         $this->_config = Mage::getModel('Mage_Paypal_Model_Config')->setMethod($this->getMethodCode());
         $locale = Mage::app()->getLocale();
-        /** @var $mark Mage_Core_Block_Template */
-        $mark = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Template');
+        /** @var $mark Magento_Core_Block_Template */
+        $mark = Mage::app()->getLayout()->createBlock('Magento_Core_Block_Template');
         $mark->setTemplate('Mage_Paypal::payment/mark.phtml')
             ->setPaymentAcceptanceMarkHref($this->_config->getPaymentMarkWhatIsPaypalUrl($locale))
             ->setPaymentAcceptanceMarkSrc($this->_config->getPaymentMarkImageUrl($locale->getLocaleCode()))

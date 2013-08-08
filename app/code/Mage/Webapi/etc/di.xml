@@ -46,7 +46,7 @@
             <value>api_acl_resources</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Acl_RootResource">
+    <type name="Magento_Core_Model_Acl_RootResource">
         <param name="identifier">
             <value>Mage_Webapi</value>
         </param>

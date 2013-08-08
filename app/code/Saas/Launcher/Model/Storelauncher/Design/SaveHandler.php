@@ -23,7 +23,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
     /**
      * Helper factory
      *
-     * @var Mage_Core_Model_Factory_Helper
+     * @var Magento_Core_Model_Factory_Helper
      */
     protected $_helperLauncher;
 
@@ -37,7 +37,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
     /**
      * Config Writer Model
      *
-     * @var Mage_Core_Model_Config_Storage_WriterInterface
+     * @var Magento_Core_Model_Config_Storage_WriterInterface
      */
     protected $_configWriter;
 
@@ -52,29 +52,29 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
     protected $_themeConfig;
 
     /**
-     * @var Mage_Core_Model_ThemeFactory
+     * @var Magento_Core_Model_ThemeFactory
      */
     protected $_themeFactory;
 
     /**
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
      * @param Mage_Backend_Model_Config_Loader $configLoader
-     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
+     * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo
      * @param Saas_Launcher_Helper_Data $helperLauncher
      * @param Mage_Theme_Model_Config $themeConfig
-     * @param Mage_Core_Model_ThemeFactory $themeFactory
+     * @param Magento_Core_Model_ThemeFactory $themeFactory
      */
     public function __construct(
-        Mage_Core_Model_Config $config,
+        Magento_Core_Model_Config $config,
         Mage_Backend_Model_Config $backendConfigModel,
         Saas_Launcher_Helper_Data $helperLauncher,
         Mage_Backend_Model_Config_Loader $configLoader,
-        Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
+        Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
         Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo,
         Mage_Theme_Model_Config $themeConfig,
-        Mage_Core_Model_ThemeFactory $themeFactory
+        Magento_Core_Model_ThemeFactory $themeFactory
     ) {
         parent::__construct($config, $backendConfigModel);
         $this->_configLoader = $configLoader;
@@ -129,7 +129,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
                 $file = substr($file, 0, strlen($file) - 4);
             }
             $configPath = self::XML_PATH_LOGO;
-            $configScope = Mage_Core_Model_Config::SCOPE_STORES;
+            $configScope = Magento_Core_Model_Config::SCOPE_STORES;
             $scopeId = $store->getId();
             $config = $this->_configLoader->getConfigByPath('design/header', $configScope, $scopeId);
 
@@ -158,12 +158,12 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
      * Get theme customization
      *
      * @param int $themeId
-     * @return Mage_Core_Model_Theme
+     * @return Magento_Core_Model_Theme
      * @throws UnexpectedValueException
      */
     protected function _getThemeCustomization($themeId)
     {
-        /** @var $theme Mage_Core_Model_Theme */
+        /** @var $theme Magento_Core_Model_Theme */
         $theme = $this->_themeFactory->create()->load($themeId);
         if (!$theme->getId()) {
             throw new UnexpectedValueException('Theme is not recognized. Requested id: ' . $themeId);
@@ -171,6 +171,6 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
 
         return $theme->isVirtual()
             ? $theme
-            : $theme->getDomainModel(Mage_Core_Model_Theme::TYPE_PHYSICAL)->createVirtualTheme($theme);
+            : $theme->getDomainModel(Magento_Core_Model_Theme::TYPE_PHYSICAL)->createVirtualTheme($theme);
     }
 }

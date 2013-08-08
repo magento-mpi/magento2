@@ -47,7 +47,7 @@ class Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
             $groupSuggestionMessage = Mage::helper('Mage_Customer_Helper_Data')->__('The customer is currently assigned to Customer Group %s.')
                 . ' ' . Mage::helper('Mage_Customer_Helper_Data')->__('Would you like to change the Customer Group for this order?');
 
-            $vatValidateOptions = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+            $vatValidateOptions = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                 'vatElementId' => $vatElementId,
                 'countryElementId' => $countryElementId,
                 'groupIdHtmlId' => 'group_id',

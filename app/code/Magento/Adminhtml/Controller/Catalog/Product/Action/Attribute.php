@@ -59,7 +59,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
 
         try {
             if ($attributesData) {
-                $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+                $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
@@ -155,7 +155,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
                 $this->__('A total of %d record(s) were updated.', count($this->_getHelper()->getProductIds()))
             );
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
@@ -216,7 +216,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
 
         try {
             if ($attributesData) {
-                $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+                $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
@@ -234,7 +234,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());
             $response->setMessage($e->getMessage());
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (Exception $e) {

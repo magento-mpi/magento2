@@ -38,7 +38,7 @@ abstract class Mage_Tax_Model_Class_TypeAbstract extends Magento_Object implemen
     /**
      * Get Collection of Tax Rules that are assigned to this tax class
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getAssignedToRules()
     {

@@ -16,7 +16,7 @@
  * @package     Mage_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Front_Action
+abstract class Mage_Wishlist_Controller_Abstract extends Magento_Core_Controller_Front_Action
 {
     /**
      * Filter to convert localized values to internal ones
@@ -93,7 +93,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
                     $addedItems[] = $item->getProduct();
                 }
 
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
                     $notSalable[] = $item;
                 } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {

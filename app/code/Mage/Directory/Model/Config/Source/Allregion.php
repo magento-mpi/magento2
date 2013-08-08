@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Directory_Model_Config_Source_Allregion implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Directory_Model_Config_Source_Allregion implements Magento_Core_Model_Option_ArrayInterface
 {
     protected $_countries;
     protected $_options;

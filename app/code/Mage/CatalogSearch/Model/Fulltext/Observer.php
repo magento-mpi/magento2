@@ -170,7 +170,7 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     public function cleanStoreIndex(Magento_Event_Observer $observer)
     {
         $store = $observer->getEvent()->getStore();
-        /* @var $store Mage_Core_Model_Store */
+        /* @var $store Magento_Core_Model_Store */
 
         $this->_getFulltextModel()
             ->cleanIndex($store->getId());

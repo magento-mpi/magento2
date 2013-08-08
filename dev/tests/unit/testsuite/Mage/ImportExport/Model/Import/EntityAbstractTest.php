@@ -63,8 +63,8 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
             'connection'                   => 'not_used',
             'helpers'                      => array('Mage_ImportExport_Helper_Data' => $mageHelper),
             'json_helper'                  => 'not_used',
-            'string_helper'                => new Mage_Core_Helper_String(
-                $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false, false)
+            'string_helper'                => new Magento_Core_Helper_String(
+                $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
             ),
             'page_size'                    => 1,
             'max_data_size'                => 1,
@@ -427,10 +427,10 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      */
     public function testIsAttributeValid(array $data)
     {
-        $registryKey = '_helper/Mage_Core_Helper_String';
+        $registryKey = '_helper/Magento_Core_Helper_String';
         if (!Mage::registry($registryKey)) {
-            $helper = new Mage_Core_Helper_String(
-                $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false, false)
+            $helper = new Magento_Core_Helper_String(
+                $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
             );
             Mage::register($registryKey, $helper);
         }
@@ -580,7 +580,7 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      * Test for method validateData()
      *
      * @covers Mage_ImportExport_Model_Import_EntityAbstract::validateData
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Cannot find required columns: %s
      */
     public function testValidateDataPermanentAttributes()
@@ -600,7 +600,7 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      * Test for method validateData()
      *
      * @covers Mage_ImportExport_Model_Import_EntityAbstract::validateData
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Columns number: "%s" have empty headers
      */
     public function testValidateDataEmptyColumnName()
@@ -613,7 +613,7 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      * Test for method validateData()
      *
      * @covers Mage_ImportExport_Model_Import_EntityAbstract::validateData
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Columns number: "%s" have empty headers
      */
     public function testValidateDataColumnNameWithWhitespaces()
@@ -626,7 +626,7 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
      * Test for method validateData()
      *
      * @covers Mage_ImportExport_Model_Import_EntityAbstract::validateData
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Column names: "%s" are invalid
      */
     public function testValidateDataAttributeNames()

@@ -16,7 +16,7 @@
  * @package     Mage_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_ProductAlert_Model_Resource_Stock_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_ProductAlert_Model_Resource_Stock_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Define stock collection
@@ -61,7 +61,7 @@ class Mage_ProductAlert_Model_Resource_Stock_Collection extends Mage_Core_Model_
         }
         if (is_array($website)) {
             $condition = $adapter->quoteInto('website_id IN(?)', $website);
-        } elseif ($website instanceof Mage_Core_Model_Website) {
+        } elseif ($website instanceof Magento_Core_Model_Website) {
             $condition = $adapter->quoteInto('website_id=?', $website->getId());
         } else {
             $condition = $adapter->quoteInto('website_id=?', $website);

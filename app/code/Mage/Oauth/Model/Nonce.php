@@ -22,7 +22,7 @@
  * @method Mage_Oauth_Model_Resource_Nonce getResource()
  * @method Mage_Oauth_Model_Resource_Nonce _getResource()
  */
-class Mage_Oauth_Model_Nonce extends Mage_Core_Model_Abstract
+class Mage_Oauth_Model_Nonce extends Magento_Core_Model_Abstract
 {
     /**
      * Initialize resource model

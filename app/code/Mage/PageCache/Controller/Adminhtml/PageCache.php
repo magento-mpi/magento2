@@ -32,7 +32,7 @@ class Mage_PageCache_Controller_Adminhtml_PageCache extends Magento_Adminhtml_Co
                 );
             }
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {

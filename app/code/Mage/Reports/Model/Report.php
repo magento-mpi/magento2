@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Reports_Model_Report extends Mage_Core_Model_Abstract
+class Mage_Reports_Model_Report extends Magento_Core_Model_Abstract
 {
     protected $_reportModel;
 

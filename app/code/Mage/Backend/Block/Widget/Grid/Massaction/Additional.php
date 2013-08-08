@@ -20,18 +20,18 @@
 class Mage_Backend_Block_Widget_Grid_Massaction_Additional extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * @var Mage_Core_Model_Layout_Argument_HandlerFactory
+     * @var Magento_Core_Model_Layout_Argument_HandlerFactory
      */
     protected $_handlerFactory;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
+     * @param Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_Layout_Argument_HandlerFactory $handlerFactory,
+        Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);

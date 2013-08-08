@@ -13,12 +13,12 @@
 class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Config_Modules_Reader
+     * @var Magento_Core_Model_Config_Modules_Reader
      */
     protected $_configMock;
 
     /**
-     * @var Mage_Core_Model_CacheInterface
+     * @var Magento_Core_Model_CacheInterface
      */
     protected $_cacheInstanceMock;
 
@@ -79,7 +79,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config_Modules_Reader',
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader',
             array(), array(), '', false, false
         );
 
@@ -91,7 +91,8 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             ->method('get')
             ->will($this->returnCallback(array($this, 'get')));
 
-        $this->_cacheInstanceMock = $this->getMock('Mage_Core_Model_Cache_Type_Config', array(), array(), '', false);
+        $this->_cacheInstanceMock = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(),
+            '', false);
 
         $this->_directorDomMock = $this->getMock('Mage_Backend_Model_Menu_Director_Dom', array(), array(), '', false);
 
@@ -101,10 +102,11 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_domDocumentMock = $this->getMock('DOMDocument', array(), array(), '', false);
 
-        $this->_eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false, false);
+        $this->_eventManagerMock = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(),
+            '', false, false);
 
         $this->_logger = $this->getMock(
-            'Mage_Core_Model_Logger', array('addStoreLog', 'log', 'logException'), array(), '', false
+            'Magento_Core_Model_Logger', array('addStoreLog', 'log', 'logException'), array(), '', false
         );
 
         $this->_menuMock = $this->getMock('Mage_Backend_Model_Menu', array(), array(), '', false);
@@ -307,7 +309,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Callback method for mock object Mage_Core_Model_Config object
+     * Callback method for mock object Magento_Core_Model_Config object
      *
      * @param mixed $model
      * @param mixed $arguments
@@ -321,11 +323,11 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             return $this->_configMenuMock;
         } elseif ($model == 'Mage_Backend_Model_Menu_Builder') {
             return $this->_menuBuilderMock;
-        } elseif ($model == 'Mage_Core_Model_App') {
-            $appMock = $this->getMock('Mage_Core_Model_App', array('getStore'), array(), '', false);
+        } elseif ($model == 'Magento_Core_Model_App') {
+            $appMock = $this->getMock('Magento_Core_Model_App', array('getStore'), array(), '', false);
             $appMock->expects($this->any())
                 ->method('getStore')
-                ->will($this->returnValue($this->getMock('Mage_Core_Model_Store', array(), array(), '', false)));
+                ->will($this->returnValue($this->getMock('Magento_Core_Model_Store', array(), array(), '', false)));
             return $appMock;
         } else {
             return $this->getMock($model, array(), $arguments, '', false);
@@ -333,7 +335,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Callback method for mock object Mage_Core_Model_Config object
+     * Callback method for mock object Magento_Core_Model_Config object
      *
      * @param mixed $model
      * @return PHPUnit_Framework_MockObject_MockObject

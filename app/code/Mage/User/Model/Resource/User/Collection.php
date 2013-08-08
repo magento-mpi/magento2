@@ -16,7 +16,7 @@
  * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Model_Resource_User_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_User_Model_Resource_User_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Define resource model

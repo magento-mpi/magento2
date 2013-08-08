@@ -25,11 +25,11 @@ class Mage_Review_Model_Resource_Review_Summary_Collection extends Magento_Data_
 
     /**
      * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Mage_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Mage_Core_Model_Resource $resource
+        Magento_Core_Model_Resource $resource
     ) {
         $this->_setIdFieldName('primary_id');
 

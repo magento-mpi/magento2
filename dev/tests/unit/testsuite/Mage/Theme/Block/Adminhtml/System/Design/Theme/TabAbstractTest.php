@@ -59,7 +59,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_TabAbstractTest extends PHP
      */
     public function testCanShowTab($isVirtual, $themeId, $result)
     {
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('isVirtual', 'getId'), array(), '', false);
+        $themeMock = $this->getMock('Magento_Core_Model_Theme', array('isVirtual', 'getId'), array(), '', false);
         $themeMock->expects($this->any())
             ->method('isVirtual')
             ->will($this->returnValue($isVirtual));

@@ -39,7 +39,7 @@ class Mage_Log_Model_Resource_Shell
 
         $resHelper = Mage::getResourceHelper('Mage_Log');
         $result = array();
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         foreach ($tables as $table) {
             $info = $resHelper->getTableInfo($resource->getTableName($table));
             if (!$info) {

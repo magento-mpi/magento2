@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Sales_Block_Order_Comments extends Mage_Core_Block_Template
+class Mage_Sales_Block_Order_Comments extends Magento_Core_Block_Template
 {
     /**
      * Current entity (model instance) with getCommentsCollection() method

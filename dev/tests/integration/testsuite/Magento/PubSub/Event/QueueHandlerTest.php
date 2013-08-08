@@ -54,14 +54,14 @@ class Magento_PubSub_Event_QueueHandlerTests extends PHPUnit_Framework_TestCase
             ->save();
 
         Mage::getObjectManager()->configure(array(
-            'Mage_Core_Model_Config_Base' => array(
+            'Magento_Core_Model_Config_Base' => array(
                 'parameters' => array(
                     'sourceData' => __DIR__ . '/../_files/config.xml',
                 ),
             ),
             'Mage_Webhook_Model_Resource_Subscription' => array(
                 'parameters' => array(
-                    'config' => array('instance' => 'Mage_Core_Model_Config_Base'),
+                    'config' => array('instance' => 'Magento_Core_Model_Config_Base'),
                 ),
             )
         ));

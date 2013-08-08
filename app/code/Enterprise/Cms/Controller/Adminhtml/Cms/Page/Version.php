@@ -197,7 +197,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
                 $this->_getSession()->addSuccess(
                     $this->__('A total of %d record(s) have been deleted.', count($ids))
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
@@ -227,7 +227,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_Cms_Helper_Data')->__('You have deleted the version.'));
                 $this->_redirect('*/cms_page/edit', array('page_id' => $version->getPageId()));
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 // display error message
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $error = true;

@@ -56,7 +56,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
             foreach ($filters as $field => $value) {
                 $shipmentCollection->addFieldToFilter($field, $value);
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('filters_invalid', $e->getMessage());
         }
         foreach ($shipmentCollection as $shipment) {
@@ -137,7 +137,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
         try {
             $shipment->save();
             $track->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -167,7 +167,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
 
         try {
             $track->delete();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('track_not_deleted', $e->getMessage());
         }
 
@@ -200,7 +200,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
                 $historyItem->setIsCustomerNotified(1);
                 $historyItem->save();
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -231,7 +231,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
             $shipment->addComment($comment, $email);
             $shipment->sendUpdateEmail($email, ($includeInEmail ? $comment : ''));
             $shipment->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 

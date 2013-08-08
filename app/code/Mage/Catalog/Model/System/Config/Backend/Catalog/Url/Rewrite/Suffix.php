@@ -11,7 +11,7 @@
 /**
  * Url rewrite suffix backend
  */
-class Mage_Catalog_Model_System_Config_Backend_Catalog_Url_Rewrite_Suffix extends Mage_Core_Model_Config_Data
+class Mage_Catalog_Model_System_Config_Backend_Catalog_Url_Rewrite_Suffix extends Magento_Core_Model_Config_Data
 {
     /**
      * Check url rewrite suffix - whether we can support it
@@ -20,7 +20,7 @@ class Mage_Catalog_Model_System_Config_Backend_Catalog_Url_Rewrite_Suffix extend
      */
     protected function _beforeSave()
     {
-        Mage::helper('Mage_Core_Helper_Url_Rewrite')->validateSuffix($this->getValue());
+        Mage::helper('Magento_Core_Helper_Url_Rewrite')->validateSuffix($this->getValue());
         return $this;
     }
 }

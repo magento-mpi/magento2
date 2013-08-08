@@ -11,7 +11,7 @@
 class Mage_Backend_Block_System_Config_Switcher extends Mage_Backend_Block_Template
 {
     /**
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
@@ -30,8 +30,8 @@ class Mage_Backend_Block_System_Config_Switcher extends Mage_Backend_Block_Templ
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore   = $this->getRequest()->getParam('store');
 
-        $storeModel = Mage::getSingleton('Mage_Core_Model_System_Store');
-        /* @var $storeModel Mage_Core_Model_System_Store */
+        $storeModel = Mage::getSingleton('Magento_Core_Model_System_Store');
+        /* @var $storeModel Magento_Core_Model_System_Store */
 
         $options = array();
         $options['default'] = array(
@@ -51,8 +51,8 @@ class Mage_Backend_Block_System_Config_Switcher extends Mage_Backend_Block_Templ
     /**
      * Process website info
      *
-     * @param Mage_Core_Model_System_Store $storeModel
-     * @param Mage_Core_Model_Website $website
+     * @param Magento_Core_Model_System_Store $storeModel
+     * @param Magento_Core_Model_Website $website
      * @param string $section
      * @param string $curStore
      * @param string $curWebsite
@@ -60,8 +60,8 @@ class Mage_Backend_Block_System_Config_Switcher extends Mage_Backend_Block_Templ
      * @return array
      */
     protected function _processWebsite(
-        Mage_Core_Model_System_Store $storeModel,
-        Mage_Core_Model_Website $website,
+        Magento_Core_Model_System_Store $storeModel,
+        Magento_Core_Model_Website $website,
         $section,
         $curStore,
         $curWebsite,

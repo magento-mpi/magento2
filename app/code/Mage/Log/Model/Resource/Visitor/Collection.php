@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Log_Model_Resource_Visitor_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Log_Model_Resource_Visitor_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Visitor data table name
@@ -165,7 +165,7 @@ class Mage_Log_Model_Resource_Visitor_Collection extends Mage_Core_Model_Resourc
      *
      * @param boolean $printQuery
      * @param boolean $logQuery
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function load($printQuery = false, $logQuery = false)
     {

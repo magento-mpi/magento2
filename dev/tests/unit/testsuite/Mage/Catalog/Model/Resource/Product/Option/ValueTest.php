@@ -44,8 +44,8 @@ class Mage_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Frame
      */
     public function testSaveValueTitles()
     {
-        $object = new Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Mage_Core_Model_Stub(
-            $this->getMock('Mage_Core_Model_Context', array(), array(), '', false),
+        $object = new Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Magento_Core_Model_Stub(
+            $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
             null,
             null,
             self::$valueTitleData
@@ -74,9 +74,9 @@ class Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value
     /**
      * Save option value price data
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      */
-    public function saveValueTitles(Mage_Core_Model_Abstract $object)
+    public function saveValueTitles(Magento_Core_Model_Abstract $object)
     {
         $this->_saveValueTitles($object);
     }
@@ -131,9 +131,9 @@ class Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Magento_DB_
 }
 
 /*
- * Because Mage_Core_Model_Abstract is abstract - we can't instantiate it directly
+ * Because Magento_Core_Model_Abstract is abstract - we can't instantiate it directly
  */
-class Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Mage_Core_Model_Stub
-    extends Mage_Core_Model_Abstract
+class Stub_UnitTest_Mage_Catalog_Model_Resource_Product_Option_Value_Magento_Core_Model_Stub
+    extends Magento_Core_Model_Abstract
 {
 }

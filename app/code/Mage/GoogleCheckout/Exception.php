@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_GoogleCheckout_Exception extends Mage_Core_Exception
+class Mage_GoogleCheckout_Exception extends Magento_Core_Exception
 {
 
 }

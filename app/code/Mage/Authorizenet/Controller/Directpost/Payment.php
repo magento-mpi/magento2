@@ -15,7 +15,7 @@
  * @package    Mage_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Authorizenet_Controller_Directpost_Payment extends Mage_Core_Controller_Front_Action
+class Mage_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Controller_Front_Action
 {
     /**
      * @return Mage_Checkout_Model_Session
@@ -58,7 +58,7 @@ class Mage_Authorizenet_Controller_Directpost_Payment extends Mage_Core_Controll
             $paymentMethod->process($data);
             $result['success'] = 1;
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             Mage::logException($e);
             $result['success'] = 0;
             $result['error_msg'] = $e->getMessage();
@@ -139,7 +139,7 @@ class Mage_Authorizenet_Controller_Directpost_Payment extends Mage_Core_Controll
                 'error_messages' => $this->__('Please choose a payment method.'),
                 'goto_section'   => 'payment'
             );
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -150,7 +150,7 @@ class Mage_Authorizenet_Controller_Directpost_Payment extends Mage_Core_Controll
     public function returnQuoteAction()
     {
         $this->_returnCustomerQuote();
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array('success' => 1)));
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array('success' => 1)));
     }
 
     /**

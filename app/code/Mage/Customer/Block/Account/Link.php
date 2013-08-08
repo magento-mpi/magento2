@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Customer_Block_Account_Link extends Mage_Core_Block_Abstract
+class Mage_Customer_Block_Account_Link extends Magento_Core_Block_Abstract
 {
     /**
      * Customer session
@@ -26,12 +26,12 @@ class Mage_Customer_Block_Account_Link extends Mage_Core_Block_Abstract
     protected $_session;
 
     /**
-     * @param Mage_Core_Block_Context $context
+     * @param Magento_Core_Block_Context $context
      * @param Mage_Customer_Model_Session $session
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Context $context,
+        Magento_Core_Block_Context $context,
         Mage_Customer_Model_Session $session,
         array $data = array()
     ) {

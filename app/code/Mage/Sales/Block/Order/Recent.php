@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Sales_Block_Order_Recent extends Mage_Core_Block_Template
+class Mage_Sales_Block_Order_Recent extends Magento_Core_Block_Template
 {
 
     protected function _construct()

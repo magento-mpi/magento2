@@ -15,7 +15,7 @@
  * @package    Mage_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleShopping_Model_Item extends Mage_Core_Model_Abstract
+class Mage_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
 {
     /**
      * Regestry keys for caching attributes and types

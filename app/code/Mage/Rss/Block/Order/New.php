@@ -15,7 +15,7 @@
  * @package    Mage_Rss
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rss_Block_Order_New extends Mage_Core_Block_Abstract
+class Mage_Rss_Block_Order_New extends Magento_Core_Block_Abstract
 {
     protected function _toHtml()
     {
@@ -48,7 +48,7 @@ class Mage_Rss_Block_Order_New extends Mage_Core_Block_Abstract
 
         Mage::dispatchEvent('rss_order_new_collection_select', array('collection' => $collection));
 
-        Mage::getSingleton('Mage_Core_Model_Resource_Iterator')
+        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')
             ->walk($collection->getSelect(), array(array($this, 'addNewOrderXmlCallback')), array('rssObj'=> $rssObj, 'order'=>$order , 'detailBlock' => $detailBlock));
 
         return $rssObj->createRssXml();

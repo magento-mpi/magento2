@@ -87,7 +87,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
     /**
      * retrieve current store
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getCurrentStore()
     {
@@ -252,7 +252,7 @@ class Mage_Catalog_Block_Product_View_Type_Configurable extends Mage_Catalog_Blo
 
         $config = array_merge($config, $this->_getAdditionalConfig());
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
     }
 
     /**

@@ -24,29 +24,29 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessor
     /** @var Mage_Webapi_Helper_Data */
     protected $_apiHelper;
 
-    /** @var Mage_Core_Helper_Data */
+    /** @var Magento_Core_Helper_Data */
     protected $_coreHelper;
 
-    /** @var Mage_Core_Model_App */
+    /** @var Magento_Core_Model_App */
     protected $_app;
 
-    /** @var Mage_Core_Model_Logger */
+    /** @var Magento_Core_Model_Logger */
     protected $_logger;
 
     /**
      * Initialize dependencies. Register custom shutdown function.
      *
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_App $app,
-        Mage_Core_Model_Logger $logger
+        Magento_Core_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_App $app,
+        Magento_Core_Model_Logger $logger
     ) {
         $this->_apiHelper = $helperFactory->get('Mage_Webapi_Helper_Data');
-        $this->_coreHelper = $helperFactory->get('Mage_Core_Helper_Data');
+        $this->_coreHelper = $helperFactory->get('Magento_Core_Helper_Data');
         $this->_app = $app;
         $this->_logger = $logger;
         $this->registerShutdownFunction();

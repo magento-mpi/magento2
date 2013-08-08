@@ -21,12 +21,12 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit extends Mage_Backend_Block_
     protected $_subscriptionData;
 
     /**
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Registry $registry
      * @param Mage_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_Registry $registry,
         Mage_Backend_Block_Template_Context $context,
         array $data = array()
     ) {

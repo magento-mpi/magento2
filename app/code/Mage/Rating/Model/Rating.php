@@ -24,7 +24,7 @@
  * @package    Mage_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rating_Model_Rating extends Mage_Core_Model_Abstract
+class Mage_Rating_Model_Rating extends Magento_Core_Model_Abstract
 {
     /**
      * rating entity codes

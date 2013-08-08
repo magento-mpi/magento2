@@ -61,10 +61,10 @@ class Mage_Sales_Model_Order_Invoice_Api_V2 extends Mage_Sales_Model_Order_Invoi
         $invoice->getOrder()->setIsInProcess(true);
 
         try {
-            Mage::getModel('Mage_Core_Model_Resource_Transaction')->addObject($invoice)->addObject($invoice->getOrder())
+            Mage::getModel('Magento_Core_Model_Resource_Transaction')->addObject($invoice)->addObject($invoice->getOrder())
                 ->save();
             $invoice->sendEmail($email, ($includeComment ? $comment : ''));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 

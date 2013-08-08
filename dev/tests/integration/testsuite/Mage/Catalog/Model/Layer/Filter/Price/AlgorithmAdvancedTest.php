@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -43,7 +43,7 @@ class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHPUni
         $filter = Mage::getModel('Mage_Catalog_Model_Layer_Filter_Price');
         $filter->setLayer($layer)->setAttributeModel(new Magento_Object(array('attribute_code' => 'price')));
         if (!is_null($request)) {
-            $filter->apply($request, Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text'));
+            $filter->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
             $interval = $filter->getInterval();
             if ($interval) {
                 $this->_model->setLimits($interval[0], $interval[1]);

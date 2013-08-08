@@ -16,7 +16,7 @@
  * @package     Mage_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Widget_Model_Resource_Widget_Instance extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Define main table
@@ -33,7 +33,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
      * @param Mage_Widget_Model_Widget_Instance $object
      * @return Mage_Widget_Model_Resource_Widget_Instance
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
@@ -50,7 +50,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
      * @param Mage_Widget_Model_Widget_Instance $object
      * @return Mage_Widget_Model_Resource_Widget_Instance
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $pageTable         = $this->getTable('widget_instance_page');
         $pageLayoutTable   = $this->getTable('widget_instance_page_layout');
@@ -174,7 +174,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
      * @param Magento_Object $object
      * @return Mage_Widget_Model_Resource_Widget_Instance
      */
-    protected function _beforeDelete(Mage_Core_Model_Abstract $object)
+    protected function _beforeDelete(Magento_Core_Model_Abstract $object)
     {
         $writeAdapter = $this->_getWriteAdapter();
         $select = $writeAdapter->select()
@@ -197,7 +197,7 @@ class Mage_Widget_Model_Resource_Widget_Instance extends Mage_Core_Model_Resourc
      * @param Mage_Widget_Model_Widget_Instance $object
      * @return Mage_Widget_Model_Resource_Widget_Instance
      */
-    protected function _afterDelete(Mage_Core_Model_Abstract $object)
+    protected function _afterDelete(Magento_Core_Model_Abstract $object)
     {
         $this->_deleteLayoutUpdates($object->getLayoutUpdateIdsToDelete());
         return parent::_afterDelete($object);

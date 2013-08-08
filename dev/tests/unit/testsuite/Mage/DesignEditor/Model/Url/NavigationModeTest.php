@@ -38,7 +38,7 @@ class Mage_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framework_T
     {
         $this->_helper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getFrontName'),
             array(), '', false);
-        $requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array('getAlias'), array(), '', false);
+        $requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array('getAlias'), array(), '', false);
         $requestMock->expects($this->any())->method('getAlias')->will($this->returnValueMap(array(
              array('editorMode', 'navigation'),
              array('themeId', 1)
@@ -59,7 +59,7 @@ class Mage_DesignEditor_Model_Url_NavigationModeTest extends PHPUnit_Framework_T
             ->method('getFrontName')
             ->will($this->returnValue(self::FRONT_NAME));
 
-        $store = $this->getMock('Mage_Core_Model_Store',
+        $store = $this->getMock('Magento_Core_Model_Store',
             array('getBaseUrl', 'isAdmin', 'isAdminUrlSecure', 'isFrontUrlSecure'),
             array(), '', false
         );

@@ -24,9 +24,9 @@ class Magento_Adminhtml_Block_System_Email_Template_Preview extends Magento_Admi
      */
     protected function _toHtml()
     {
-        /** @var $template Mage_Core_Model_Email_Template */
-        $template = Mage::getModel('Mage_Core_Model_Email_Template',
-            array('data' => array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND)));
+        /** @var $template Magento_Core_Model_Email_Template */
+        $template = Mage::getModel('Magento_Core_Model_Email_Template',
+            array('data' => array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND)));
         $id = (int)$this->getRequest()->getParam('id');
         if ($id) {
             $template->load($id);
@@ -36,8 +36,8 @@ class Magento_Adminhtml_Block_System_Email_Template_Preview extends Magento_Admi
             $template->setTemplateStyles($this->getRequest()->getParam('styles'));
         }
 
-        /* @var $filter Mage_Core_Model_Input_Filter_MaliciousCode */
-        $filter = Mage::getSingleton('Mage_Core_Model_Input_Filter_MaliciousCode');
+        /* @var $filter Magento_Core_Model_Input_Filter_MaliciousCode */
+        $filter = Mage::getSingleton('Magento_Core_Model_Input_Filter_MaliciousCode');
 
         $template->setTemplateText(
             $filter->filter($template->getTemplateText())
@@ -49,7 +49,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Preview extends Magento_Admi
         $template->setDesignConfig(
             array(
                 'area' => Mage::getDesign()->getArea(),
-                'store' => Mage::getSingleton('Mage_Core_Model_StoreManagerInterface')->getDefaultStoreView()->getId()
+                'store' => Mage::getSingleton('Magento_Core_Model_StoreManagerInterface')->getDefaultStoreView()->getId()
             )
         );
         $templateProcessed = $template->getProcessedTemplate($vars, true);

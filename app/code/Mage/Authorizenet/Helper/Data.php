@@ -15,7 +15,7 @@
  * @package    Mage_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Authorizenet_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Return URL for admin area
@@ -38,7 +38,7 @@ class Mage_Authorizenet_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _getUrl($route, $params = array())
     {
-        $params['_type'] = Mage_Core_Model_Store::URL_TYPE_LINK;
+        $params['_type'] = Magento_Core_Model_Store::URL_TYPE_LINK;
         if (isset($params['is_secure'])) {
             $params['_secure'] = (bool)$params['is_secure'];
         } elseif (Mage::app()->getStore()->isCurrentlySecure()) {

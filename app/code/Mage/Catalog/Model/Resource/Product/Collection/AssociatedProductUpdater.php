@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater
-    implements Mage_Core_Model_Layout_Argument_UpdaterInterface
+    implements Magento_Core_Model_Layout_Argument_UpdaterInterface
 {
     /**
      * Stock Item instance

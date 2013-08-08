@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Block_Search_Results extends Mage_Core_Block_Template
+class Enterprise_Wishlist_Block_Search_Results extends Magento_Core_Block_Template
 {
     /**
      * Retrieve wishlist search results

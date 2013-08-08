@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Locale extends Mage_Core_Model_Locale
+class Mage_Backend_Model_Locale extends Magento_Core_Model_Locale
 {
     /**
      * @var Mage_Backend_Model_Session
@@ -26,12 +26,12 @@ class Mage_Backend_Model_Locale extends Mage_Core_Model_Locale
     protected $_localeManager;
 
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
     /**
-     * @var Mage_Core_Model_Locale_Validator
+     * @var Magento_Core_Model_Locale_Validator
      */
     protected $_localeValidator;
 
@@ -40,15 +40,15 @@ class Mage_Backend_Model_Locale extends Mage_Core_Model_Locale
      *
      * @param Mage_Backend_Model_Session $session
      * @param Mage_Backend_Model_Locale_Manager $localeManager
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Model_Locale_Validator $localeValidator
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Model_Locale_Validator $localeValidator
      * @param string $locale
      */
     public function __construct(
         Mage_Backend_Model_Session $session,
         Mage_Backend_Model_Locale_Manager $localeManager,
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Model_Locale_Validator $localeValidator,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Model_Locale_Validator $localeValidator,
         $locale=null
     ) {
         $this->_session = $session;
@@ -63,7 +63,7 @@ class Mage_Backend_Model_Locale extends Mage_Core_Model_Locale
      * Set locale
      *
      * @param   string $locale
-     * @return  Mage_Core_Model_LocaleInterface
+     * @return  Magento_Core_Model_LocaleInterface
      */
     public function setLocale($locale = null)
     {

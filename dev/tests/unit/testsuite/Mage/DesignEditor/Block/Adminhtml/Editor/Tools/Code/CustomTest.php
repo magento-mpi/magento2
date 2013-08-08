@@ -27,7 +27,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends PHP
     protected $_themeContext;
 
     /**
-     * @var Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_theme;
 
@@ -40,7 +40,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends PHP
     {
         $this->_urlBuilder = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false);
         $this->_themeContext = $this->getMock('Mage_DesignEditor_Model_Theme_Context', array(), array(), '', false);
-        $this->_theme = $this->getMock('Mage_Core_Model_Theme', array('getId', 'getCustomization'), array(), '', false);
+        $this->_theme = $this->getMock('Magento_Core_Model_Theme', array('getId', 'getCustomization'), array(),
+            '', false);
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(self::TEST_THEME_ID));
         $this->_themeContext->expects($this->any())->method('getEditableTheme')
             ->will($this->returnValue($this->_theme));
@@ -51,7 +52,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends PHP
         $this->_model = $objectManagerHelper->getObject(
             'Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom',
             array(
-                'config'       => $this->getMock('Mage_Core_Model_Config', array(), array(), '', false),
+                'config'       => $this->getMock('Magento_Core_Model_Config', array(), array(), '', false),
                 'urlBuilder'   => $this->_urlBuilder,
                 'themeContext' => $this->_themeContext
         ));
@@ -96,12 +97,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends PHP
     {
         $expectedContent = 'New file content';
 
-        $customization = $this->getMock('Mage_Core_Model_Theme_Customization', array(), array(), '', false);
+        $customization = $this->getMock('Magento_Core_Model_Theme_Customization', array(), array(), '', false);
         $this->_theme->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
 
-        /** @var $cssFile Mage_Core_Model_Theme_Customization_File_Css */
+        /** @var $cssFile Magento_Core_Model_Theme_Customization_File_Css */
         $cssFile = $this->getMock(
-            'Mage_Core_Model_Theme_Customization_File', array('getContent'), array(), '', false
+            'Magento_Core_Model_Theme_Customization_File', array('getContent'), array(), '', false
         );
 
         $customization->expects($this->once())

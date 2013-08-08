@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Mage_Core_Helper_Abstract
+class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_Helper_Abstract
 {
      /**
      * Init layout of product configuration update result

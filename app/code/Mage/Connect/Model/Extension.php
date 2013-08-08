@@ -76,7 +76,7 @@ class Mage_Connect_Model_Extension extends Magento_Object
             ->_setContents();
         if (!$this->getPackage()->validate()) {
             $message = $this->getPackage()->getErrors();
-            throw Mage::exception('Mage_Core', Mage::helper('Mage_Connect_Helper_Data')->__($message[0]));
+            throw Mage::exception('Magento_Core', Mage::helper('Mage_Connect_Helper_Data')->__($message[0]));
         }
         $this->setPackageXml($this->getPackage()->getPackageXml());
         return $this;
@@ -251,7 +251,7 @@ class Mage_Connect_Model_Extension extends Magento_Object
 
             $this->unsPackageXml();
             $this->unsTargets();
-            $xml = Mage::helper('Mage_Core_Helper_Data')->assocToXml($this->getData());
+            $xml = Mage::helper('Magento_Core_Helper_Data')->assocToXml($this->getData());
             $xml = new Magento_Simplexml_Element($xml->asXML());
 
             // prepare dir to save

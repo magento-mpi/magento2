@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_System_Store_Store extends Mage_Backend_Block_Widg
     protected function _prepareLayout()
     {
         /* Update default add button to add website button */
-        $this->_updateButton('add', 'label', Mage::helper('Mage_Core_Helper_Data')->__('Create Website'));
+        $this->_updateButton('add', 'label', Mage::helper('Magento_Core_Helper_Data')->__('Create Website'));
         $this->_updateButton('add', 'onclick', "setLocation('" . $this->getUrl('*/*/newWebsite') . "')");
 
         /* Add Store Group button */

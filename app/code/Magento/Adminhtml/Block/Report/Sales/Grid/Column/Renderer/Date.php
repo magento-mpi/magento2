@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date
 
                         default:
                             self::$_format = Mage::app()->getLocale()->getDateFormat(
-                                Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
+                                Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
                             );
                             break;
                     }
@@ -82,12 +82,12 @@ class Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date
             try {
                 $data = ($this->getColumn()->getGmtoffset())
                     ? Mage::app()->getLocale()->date($data, $dateFormat)->toString($format)
-                    : Mage::getSingleton('Mage_Core_Model_LocaleInterface')->date($data, Zend_Date::ISO_8601, null, false)->toString($format);
+                    : Mage::getSingleton('Magento_Core_Model_LocaleInterface')->date($data, Zend_Date::ISO_8601, null, false)->toString($format);
             }
             catch (Exception $e) {
                 $data = ($this->getColumn()->getTimezone())
                     ? Mage::app()->getLocale()->date($data, $dateFormat)->toString($format)
-                    : Mage::getSingleton('Mage_Core_Model_LocaleInterface')->date($data, $dateFormat, null, false)->toString($format);
+                    : Mage::getSingleton('Magento_Core_Model_LocaleInterface')->date($data, $dateFormat, null, false)->toString($format);
             }
             return $data;
         }

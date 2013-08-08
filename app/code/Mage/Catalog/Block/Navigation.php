@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Navigation extends Magento_Core_Block_Template
 {
     protected $_categoryInstance = null;
 
@@ -40,7 +40,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
             'cache_lifetime'    => false,
             'cache_tags'        => array(
                 Mage_Catalog_Model_Category::CACHE_TAG,
-                Mage_Core_Model_Store_Group::CACHE_TAG
+                Magento_Core_Model_Store_Group::CACHE_TAG
             ),
         ));
     }

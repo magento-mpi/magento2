@@ -45,7 +45,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku_Errors
     /**
      * Returns current store model
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {

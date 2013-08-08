@@ -14,34 +14,34 @@ class Mage_Webhook_Model_Subscription_Config
     /** Webhook subscription configuration path */
     const XML_PATH_SUBSCRIPTIONS = 'global/webhook/subscriptions';
 
-    /** @var Mage_Core_Model_Translate  */
+    /** @var Magento_Core_Model_Translate  */
     private $_translator;
 
     /** @var Mage_Webhook_Model_Resource_Subscription_Collection  */
     protected $_subscriptionSet;
 
-    /** @var  Mage_Core_Model_Config */
+    /** @var  Magento_Core_Model_Config */
     protected $_mageConfig;
 
     /** @var  Mage_Webhook_Model_Subscription_Factory */
     protected $_subscriptionFactory;
 
-    /** @var Mage_Core_Model_Logger */
+    /** @var Magento_Core_Model_Logger */
     private $_logger;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
+     * @param Magento_Core_Model_Translate $translator
      * @param Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet
-     * @param Mage_Core_Model_Config $mageConfig
+     * @param Magento_Core_Model_Config $mageConfig
      * @param Mage_Webhook_Model_Subscription_Factory $subscriptionFactory
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
-        Mage_Core_Model_Translate $translator,
+        Magento_Core_Model_Translate $translator,
         Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet,
-        Mage_Core_Model_Config $mageConfig,
+        Magento_Core_Model_Config $mageConfig,
         Mage_Webhook_Model_Subscription_Factory $subscriptionFactory,
-        Mage_Core_Model_Logger $logger
+        Magento_Core_Model_Logger $logger
     ) {
         $this->_translator = $translator;
         $this->_subscriptionSet = $subscriptionSet;
@@ -113,7 +113,7 @@ class Mage_Webhook_Model_Subscription_Config
     /**
      * Gets xml node storing subscription configurations
      *
-     * @return Mage_Core_Model_Config_Element
+     * @return Magento_Core_Model_Config_Element
      */
     protected function _getSubscriptionConfigNode()
     {
@@ -138,7 +138,7 @@ class Mage_Webhook_Model_Subscription_Config
      *
      * @param string $alias
      * @param array $configData
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _addSubscriptionFromConfigData($alias, array $configData)
     {
@@ -166,7 +166,7 @@ class Mage_Webhook_Model_Subscription_Config
      *
      * @param Mage_Webhook_Model_Subscription $subscription
      * @param array $configData
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _updateSubscriptionFromConfigData(
         Mage_Webhook_Model_Subscription $subscription,

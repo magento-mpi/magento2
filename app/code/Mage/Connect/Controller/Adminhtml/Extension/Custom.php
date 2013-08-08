@@ -111,7 +111,7 @@ class Mage_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Adminht
             } else {
                 $this->_forward('create');
             }
-        } catch (Mage_Core_Exception $e){
+        } catch (Magento_Core_Exception $e){
             $session->addError($e->getMessage());
             $this->_redirect('*/*');
         } catch (Exception $e){
@@ -142,7 +142,7 @@ class Mage_Connect_Controller_Adminhtml_Extension_Custom extends Magento_Adminht
                 }
             }
             $this->_redirect('*/*');
-        } catch(Mage_Core_Exception $e){
+        } catch(Magento_Core_Exception $e){
             $session->addError($e->getMessage());
             $this->_redirect('*/*');
         } catch(Exception $e){

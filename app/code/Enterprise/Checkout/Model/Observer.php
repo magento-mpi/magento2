@@ -52,7 +52,7 @@ class Enterprise_Checkout_Model_Observer
      */
     public function addBySku(Magento_Event_Observer $observer)
     {
-        /* @var $request Mage_Core_Controller_Request_Http */
+        /* @var $request Magento_Core_Controller_Request_Http */
         $request = $observer->getRequestModel();
         $cart = $this->_getBackendCart($observer);
 

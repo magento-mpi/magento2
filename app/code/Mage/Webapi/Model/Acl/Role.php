@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Acl_Role extends Mage_Core_Model_Abstract
+class Mage_Webapi_Model_Acl_Role extends Magento_Core_Model_Abstract
 {
     /**
      * Prefix of model events names.

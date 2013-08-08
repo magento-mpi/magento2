@@ -23,17 +23,17 @@ class Saas_Launcher_Model_SystemConfigObserver
     protected $_pageCollection;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_applicationConfig;
 
     /**
      * Class constructor
      *
-     * @param Mage_Core_Model_Config $applicationConfig
+     * @param Magento_Core_Model_Config $applicationConfig
      * @param Saas_Launcher_Model_Resource_Page_Collection $pageCollection
      */
-    public function __construct(Mage_Core_Model_Config $applicationConfig,
+    public function __construct(Magento_Core_Model_Config $applicationConfig,
         Saas_Launcher_Model_Resource_Page_Collection $pageCollection
     ) {
         $this->_applicationConfig = $applicationConfig;

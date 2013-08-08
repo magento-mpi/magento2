@@ -15,18 +15,18 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Json implements
      */
     const MIME_TYPE = 'application/json';
 
-    /** @var Mage_Core_Helper_Data */
+    /** @var Magento_Core_Helper_Data */
     protected $_helper;
 
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory
+        Magento_Core_Model_Factory_Helper $helperFactory
     ) {
-        $this->_helper = $helperFactory->get('Mage_Core_Helper_Data');
+        $this->_helper = $helperFactory->get('Magento_Core_Helper_Data');
     }
 
     /**

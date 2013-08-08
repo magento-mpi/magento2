@@ -29,7 +29,7 @@
  * @package     Mage_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Log_Model_Log extends Mage_Core_Model_Abstract
+class Mage_Log_Model_Log extends Magento_Core_Model_Abstract
 {
     const XML_LOG_CLEAN_DAYS    = 'system/log/clean_after_day';
 

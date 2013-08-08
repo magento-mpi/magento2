@@ -28,12 +28,12 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
     /**
      * Entity instance
      *
-     * @var Mage_Core_Model_Abstract
+     * @var Magento_Core_Model_Abstract
      */
     protected $_entity;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_translationHelper;
 
@@ -67,7 +67,7 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
     protected $_extractedData       = array();
 
     /**
-     * Mage_Core_Model_LocaleInterface FORMAT
+     * Magento_Core_Model_LocaleInterface FORMAT
      *
      * @var string
      */
@@ -99,7 +99,7 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
     /**
      * Return Attribute instance
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Eav_Model_Attribute
      */
     public function getAttribute()
@@ -138,10 +138,10 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
     /**
      * Set entity instance
      *
-     * @param Mage_Core_Model_Abstract $entity
+     * @param Magento_Core_Model_Abstract $entity
      * @return Mage_Eav_Model_Attribute_Data_Abstract
      */
-    public function setEntity(Mage_Core_Model_Abstract $entity)
+    public function setEntity(Magento_Core_Model_Abstract $entity)
     {
         $this->_entity = $entity;
         return $this;
@@ -150,7 +150,7 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
     /**
      * Returns entity instance
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     public function getEntity()
     {
@@ -240,7 +240,7 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
         if (is_null($format)) {
             // get format
             if (is_null($this->_dateFilterFormat)) {
-                $this->_dateFilterFormat = Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT;
+                $this->_dateFilterFormat = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT;
             }
             return Mage::app()->getLocale()->getDateFormat($this->_dateFilterFormat);
         } else if ($format === false) {
@@ -535,7 +535,7 @@ abstract class Mage_Eav_Model_Attribute_Data_Abstract
      * Validate data
      *
      * @param array|string $value
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return boolean
      */
     abstract public function validateValue($value);

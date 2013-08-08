@@ -19,7 +19,7 @@ class Mage_AdminNotification_Model_Resource_System_Message_Collection_Synchroniz
     /**
      * Store new messages in database and remove outdated messages
      *
-     * @return $this|Mage_Core_Model_Resource_Db_Abstract
+     * @return $this|Magento_Core_Model_Resource_Db_Abstract
      */
     public function _afterLoad()
     {

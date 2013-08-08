@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Dashboard_Totals extends Magento_Adminhtml_Block_D
 
     protected function _prepareLayout()
     {
-        if (!Mage::helper('Mage_Core_Helper_Data')->isModuleEnabled('Mage_Reports')) {
+        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Mage_Reports')) {
             return $this;
         }
         $isFilter = $this->getRequest()->getParam('store') || $this->getRequest()->getParam('website') || $this->getRequest()->getParam('group');
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Dashboard_Totals extends Magento_Adminhtml_Block_D
             $collection->addFieldToFilter('store_id', array('in' => $storeIds));
         } elseif (!$collection->isLive()) {
             $collection->addFieldToFilter('store_id',
-                array('eq' => Mage::app()->getStore(Mage_Core_Model_Store::ADMIN_CODE)->getId())
+                array('eq' => Mage::app()->getStore(Magento_Core_Model_Store::ADMIN_CODE)->getId())
             );
         }
 

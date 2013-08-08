@@ -20,7 +20,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Time_Created extends Mage_Eav_Mode
     /**
      * Set created date
      *
-     * @param Mage_Core_Model_Object $object
+     * @param Magento_Core_Model_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Time_Created
      */
     public function beforeSave($object)

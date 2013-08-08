@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien_Router_Base
+class Mage_Backend_Controller_Router_Default extends Magento_Core_Controller_Varien_Router_Base
 {
     /**
      * List of required request parameters
@@ -31,17 +31,17 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     protected $_areaFrontName;
 
     /**
-     * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
+     * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_App $app
      * @param string $areaCode
      * @param string $baseController
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
+        Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_App $app,
+        Magento_Core_Model_App $app,
         $areaCode,
         $baseController
     ) {
@@ -139,19 +139,19 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     protected function _shouldBeSecure($path)
     {
         return substr((string)Mage::getConfig()->getNode('default/web/unsecure/base_url'), 0, 5) === 'https'
-            || Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
+            || Mage::getStoreConfigFlag('web/secure/use_in_adminhtml', Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
                 && substr((string)Mage::getConfig()->getNode('default/web/secure/base_url'), 0, 5) === 'https';
     }
 
     /**
      * Retrieve current secure url
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @return string
      */
     protected function _getCurrentSecureUrl($request)
     {
-        return Mage::app()->getStore(Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
+        return Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
             ->getBaseUrl('link', true) . ltrim($request->getPathInfo(), '/');
     }
 

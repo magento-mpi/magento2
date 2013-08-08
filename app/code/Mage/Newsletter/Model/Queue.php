@@ -38,7 +38,7 @@
  * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
+class Mage_Newsletter_Model_Queue extends Magento_Core_Model_Template
 {
     /**
      * Newsletter Template object
@@ -48,7 +48,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
     protected $_template;
 
     /**
-     * @var Mage_Core_Model_Email_Template
+     * @var Magento_Core_Model_Email_Template
      */
     protected $_emailTemplate = null;
 
@@ -87,8 +87,8 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
         $emailTemplate = $this->_getData('email_template');
         if ($emailTemplate) {
             $this->unsetData('email_template');
-            if (!($emailTemplate instanceof Mage_Core_Model_Email_Template)) {
-                throw new Exception('Instance of Mage_Core_Model_Email_Template is expected.');
+            if (!($emailTemplate instanceof Magento_Core_Model_Email_Template)) {
+                throw new Exception('Instance of Magento_Core_Model_Email_Template is expected.');
             }
             $this->_emailTemplate = $emailTemplate;
         }
@@ -134,9 +134,9 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
             $this->setQueueStartAt(null);
         } else {
             $locale = Mage::app()->getLocale();
-            $format = $locale->getDateTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+            $format = $locale->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
             $time = $locale->date($startAt, $format)->getTimestamp();
-            $this->setQueueStartAt(Mage::getModel('Mage_Core_Model_Date')->gmtDate(null, $time));
+            $this->setQueueStartAt(Mage::getModel('Magento_Core_Model_Date')->gmtDate(null, $time));
         }
         return $this;
      }
@@ -168,8 +168,8 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
             ->setCurPage(1)
             ->load();
 
-        /** @var Mage_Core_Model_Email_Template $sender */
-        $sender = $this->_emailTemplate ?: Mage::getModel('Mage_Core_Model_Email_Template');
+        /** @var Magento_Core_Model_Email_Template $sender */
+        $sender = $this->_emailTemplate ?: Mage::getModel('Magento_Core_Model_Email_Template');
         $sender->setSenderName($this->getNewsletterSenderName())
             ->setSenderEmail($this->getNewsletterSenderEmail())
             ->setTemplateType(self::TYPE_HTML)
@@ -216,7 +216,7 @@ class Mage_Newsletter_Model_Queue extends Mage_Core_Model_Template
      */
     protected function _finishQueue()
     {
-        $this->setQueueFinishAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
+        $this->setQueueFinishAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
         $this->setQueueStatus(self::STATUS_SENT);
         $this->save();
 

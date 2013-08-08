@@ -20,7 +20,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     /**
      * Website collection
      *
-     * @var Mage_Core_Model_Resource_Website_Collection
+     * @var Magento_Core_Model_Resource_Website_Collection
      */
     protected $_websiteCollection;
 
@@ -31,13 +31,13 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_Resource_Website_Collection $websiteCollection
+     * @param Magento_Core_Model_Resource_Website_Collection $websiteCollection
      * @param Mage_Theme_Model_Config $themeConfig
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_Resource_Website_Collection $websiteCollection,
+        Magento_Core_Model_Resource_Website_Collection $websiteCollection,
         Mage_Theme_Model_Config_Customization $customizationConfig,
         array $data = array()
     ) {
@@ -50,7 +50,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     /**
      * Get website collection with stores and store-views joined
      *
-     * @return Mage_Core_Model_Resource_Website_Collection
+     * @return Magento_Core_Model_Resource_Website_Collection
      */
     public function getCollection()
     {
@@ -60,7 +60,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     /**
      * Get website, stores and store-views
      *
-     * @return Mage_Core_Model_Resource_Website_Collection
+     * @return Magento_Core_Model_Resource_Website_Collection
      */
     public function getWebsiteStructure()
     {
@@ -68,7 +68,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
         $website = null;
         $store = null;
         $storeView = null;
-        /** @var $row Mage_Core_Model_Website */
+        /** @var $row Magento_Core_Model_Website */
         foreach ($this->getCollection() as $row) {
             $website = $row->getName();
             $store = $row->getGroupTitle();
@@ -142,7 +142,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
             }
 
             $storesByThemes[$themeId] = array();
-            /** @var $store Mage_Core_Model_Store */
+            /** @var $store Magento_Core_Model_Store */
             foreach ($stores as $store) {
                 $storesByThemes[$themeId][] = (int)$store->getId();
             }
@@ -161,7 +161,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
         $isMultipleMode = false;
         $tmpStore = null;
         foreach ($this->_customizationConfig->getStoresByThemes() as $stores) {
-            /** @var $store Mage_Core_Model_Store */
+            /** @var $store Magento_Core_Model_Store */
             foreach ($stores as $store) {
                 if ($tmpStore === null) {
                     $tmpStore = $store->getId();
@@ -193,8 +193,8 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
         $options['actionOnAssign']   = $this->getData('actionOnAssign');
         $options['afterAssignOpen']  = false;
 
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = $this->helper('Mage_Core_Helper_Data');
+        /** @var $helper Magento_Core_Helper_Data */
+        $helper = $this->helper('Magento_Core_Helper_Data');
 
         return $helper->jsonEncode($options);
     }

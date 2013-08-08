@@ -40,7 +40,7 @@ class Mage_Tag_Block_Catalog_Product_Rss_LinkTest extends PHPUnit_Framework_Test
             ->method('getName')
             ->will($this->returnValue('test'));
 
-        $urlModelMock = $this->getMock('Mage_Core_Model_Url', array('getUrl'), array(), '', false);
+        $urlModelMock = $this->getMock('Magento_Core_Model_Url', array('getUrl'), array(), '', false);
         $urlModelMock->expects($this->any())
             ->method('getUrl')
             ->will($this->returnCallback(array($this, 'validateGetUrlCallback')));

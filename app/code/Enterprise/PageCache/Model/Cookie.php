@@ -15,7 +15,7 @@
  * @package    Enterprise_PageCache
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
+class Enterprise_PageCache_Model_Cookie extends Magento_Core_Model_Cookie
 {
     /**
      * Cookie names
@@ -104,7 +104,7 @@ class Enterprise_PageCache_Model_Cookie extends Mage_Core_Model_Cookie
      * @param string $domain
      * @param int|bool $secure
      * @param bool $httponly
-     * @return Mage_Core_Model_Cookie
+     * @return Magento_Core_Model_Cookie
      */
     public function setObscure(
         $name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null

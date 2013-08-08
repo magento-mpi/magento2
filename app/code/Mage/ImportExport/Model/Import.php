@@ -73,7 +73,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
     /**
      * Create instance of entity adapter and return it
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_ImportExport_Model_Import_Entity_Abstract|Mage_ImportExport_Model_Import_EntityAbstract
      */
     protected function _getEntityAdapter()
@@ -225,7 +225,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
     /**
      * Override standard entity getter.
      *
-     * @throw Mage_Core_Exception
+     * @throw Magento_Core_Exception
      * @return string
      */
     public function getEntity()
@@ -417,7 +417,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
     /**
      * Move uploaded file and create source adapter instance.
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return string Source file path
      */
     public function uploadSource()
@@ -435,8 +435,8 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
         }
 
         $entity    = $this->getEntity();
-        /** @var $uploader Mage_Core_Model_File_Uploader */
-        $uploader  = Mage::getModel('Mage_Core_Model_File_Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
+        /** @var $uploader Magento_Core_Model_File_Uploader */
+        $uploader  = Mage::getModel('Magento_Core_Model_File_Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
         $uploader->skipDbProcessing(true);
         $result    = $uploader->save(self::getWorkingDir());
         $extension = pathinfo($result['file'], PATHINFO_EXTENSION);

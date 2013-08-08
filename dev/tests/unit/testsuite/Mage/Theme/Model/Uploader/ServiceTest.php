@@ -30,8 +30,10 @@ class Mage_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_uploader = $this->getMock('Mage_Core_Model_File_Uploader', array(), array(), '', false);
-        $uploaderFactory = $this->getMock('Mage_Core_Model_File_UploaderFactory', array('create'), array(), '', false);
+        $this->_uploader = $this->getMock('Magento_Core_Model_File_Uploader', array(), array(), '', false);
+        $uploaderFactory = $this->getMock(
+            'Magento_Core_Model_File_UploaderFactory', array('create'), array(), '', false
+        );
         $uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($this->_uploader));
         $this->_filesystemMock = $this->getMock('Magento_Io_File', array('read'), array(), '', false);
         /** @var $service Mage_Theme_Model_Uploader_Service */
@@ -116,7 +118,7 @@ class Mage_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testUploadInvalidCssFile()
     {
@@ -170,7 +172,7 @@ class Mage_Theme_Model_Uploader_ServiceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testUploadInvalidJsFile()
     {

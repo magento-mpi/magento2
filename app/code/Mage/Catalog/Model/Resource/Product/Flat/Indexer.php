@@ -96,7 +96,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
     /**
      * Rebuild Catalog Product Flat Data
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return Mage_Catalog_Model_Resource_Product_Flat_Indexer
      */
     public function rebuild($store = null)
@@ -251,7 +251,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
      * Retrieve loaded attribute by code
      *
      * @param string $attributeCode
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Eav_Model_Entity_Attribute
      */
     public function getAttribute($attributeCode)
@@ -398,7 +398,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
     public function getFlatColumns()
     {
         if ($this->_columns === null) {
-            if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
+            if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
                 $this->_columns = $this->_getFlatColumnsOldDefinition();
             } else {
                 $this->_columns = $this->_getFlatColumnsDdlDefinition();
@@ -510,7 +510,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
      */
     public function getFkName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        return Mage::getSingleton('Mage_Core_Model_Resource')
+        return Mage::getSingleton('Magento_Core_Model_Resource')
             ->getFkName($priTableName, $priColumnName, $refTableName, $refColumnName);
     }
 
@@ -518,7 +518,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
      * Prepare flat table for store
      *
      * @param int $storeId
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Catalog_Model_Resource_Product_Flat_Indexer
      */
     public function prepareFlatTable($storeId)
@@ -531,10 +531,10 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
 
         // Extract columns we need to have in flat table
         $columns = $this->getFlatColumns();
-        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
              /* Convert old format of flat columns to new MMDB format that uses DDL types and definitions */
             foreach ($columns as $key => $column) {
-                $columns[$key] = Mage::getResourceHelper('Mage_Core')->convertOldColumnDefinition($column);
+                $columns[$key] = Mage::getResourceHelper('Magento_Core')->convertOldColumnDefinition($column);
             }
         }
 
@@ -783,7 +783,7 @@ class Mage_Catalog_Model_Resource_Product_Flat_Indexer extends Mage_Index_Model_
                 array())
             ->where('t1.entity_type_id = :entity_type_id')
             ->where('t1.attribute_id = :attribute_id')
-            ->where('t1.store_id = ?', Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
+            ->where('t1.store_id = ?', Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
             ->where("{$fieldExpr} = ?", Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
         foreach ($this->getAttributes() as $attributeCode => $attribute) {
             /** @var $attribute Mage_Eav_Model_Entity_Attribute */

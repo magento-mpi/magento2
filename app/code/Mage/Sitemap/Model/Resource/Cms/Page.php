@@ -16,7 +16,7 @@
  * @package     Mage_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sitemap_Model_Resource_Cms_Page extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Sitemap_Model_Resource_Cms_Page extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Init resource model (catalog/category)

@@ -21,7 +21,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     /**
      * Application Event Dispatcher
      *
-     * @var Mage_Core_Model_Event_Manager
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventDispatcher;
 
@@ -31,7 +31,7 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     protected $_configuration;
 
     /**
-     * @var Mage_Core_Model_View_DesignInterface
+     * @var Magento_Core_Model_View_DesignInterface
      */
     protected $_design;
 
@@ -41,12 +41,12 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     protected $_filesystem;
 
     /**
-     * @var Mage_Core_Model_Theme
+     * @var Magento_Core_Model_Theme
      */
     protected $_theme;
 
     /**
-     * @var Mage_Core_Model_Theme
+     * @var Magento_Core_Model_Theme
      */
     protected $_parentTheme;
 
@@ -77,29 +77,29 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     /**
      * View config model
      *
-     * @var Mage_Core_Model_View_Config
+     * @var Magento_Core_Model_View_Config
      */
     protected $_viewConfigLoader;
 
     /**
      * Initialize dependencies
      *
-     * @param Mage_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_Event_Manager $eventDispatcher
-     * @param Mage_Core_Model_View_Config $viewConfig
+     * @param Magento_Core_Model_Event_Manager $eventDispatcher
+     * @param Magento_Core_Model_View_Config $viewConfig
      * @param Mage_DesignEditor_Model_Config_Control_Abstract|null $configuration
-     * @param Mage_Core_Model_Theme|null $theme
-     * @param Mage_Core_Model_Theme $parentTheme
+     * @param Magento_Core_Model_Theme|null $theme
+     * @param Magento_Core_Model_Theme $parentTheme
      */
     public function __construct(
-        Mage_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_View_DesignInterface $design,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Event_Manager $eventDispatcher,
-        Mage_Core_Model_View_Config $viewConfig,
+        Magento_Core_Model_Event_Manager $eventDispatcher,
+        Magento_Core_Model_View_Config $viewConfig,
         Mage_DesignEditor_Model_Config_Control_Abstract $configuration = null,
-        Mage_Core_Model_Theme $theme = null,
-        Mage_Core_Model_Theme $parentTheme = null
+        Magento_Core_Model_Theme $theme = null,
+        Magento_Core_Model_Theme $parentTheme = null
     ) {
         $this->_configuration = $configuration;
         $this->_theme = $theme;
@@ -119,11 +119,11 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
     protected function _initViewConfigs()
     {
         $this->_viewConfig = $this->_viewConfigLoader->getViewConfig(array(
-            'area'       => Mage_Core_Model_View_DesignInterface::DEFAULT_AREA,
+            'area'       => Magento_Core_Model_View_DesignInterface::DEFAULT_AREA,
             'themeModel' => $this->_theme
         ));
         $this->_viewConfigParent = $this->_viewConfigLoader->getViewConfig(array(
-            'area'       => Mage_Core_Model_View_DesignInterface::DEFAULT_AREA,
+            'area'       => Magento_Core_Model_View_DesignInterface::DEFAULT_AREA,
             'themeModel' => $this->_parentTheme
         ));
         return $this;
@@ -194,12 +194,12 @@ class Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration
      *
      * @param string $controlName
      * @return array
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getControlData($controlName)
     {
         if (!isset($this->_controlList[$controlName])) {
-            throw new Mage_Core_Exception("Unknown control: \"{$controlName}\"");
+            throw new Magento_Core_Exception("Unknown control: \"{$controlName}\"");
         }
         return $this->_controlList[$controlName];
     }

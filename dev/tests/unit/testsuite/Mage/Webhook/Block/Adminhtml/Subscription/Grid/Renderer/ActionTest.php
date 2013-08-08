@@ -33,11 +33,11 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_ActionTest extends
      */
     public function testRender($status, $contains)
     {
-        $urlBuilder = $this->getMock('Mage_Core_Model_Url', array('getUrl'), array(), '', false);
+        $urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getUrl'), array(), '', false);
         $urlBuilder->expects($this->any())
             ->method('getUrl')
             ->will($this->returnArgument(0));
-        $translator = $this->getMock('Mage_Core_Model_Translate', array('translate'), array(), '', false);
+        $translator = $this->getMock('Magento_Core_Model_Translate', array('translate'), array(), '', false);
         $context = $this->getMockBuilder('Mage_Backend_Block_Context')
             ->disableOriginalConstructor()
             ->getMock();

@@ -62,7 +62,7 @@
                                         popupId: "#<?php echo $helpLinkId ?>",
                                         productName: '<?php echo $_product->getName() ?>',
                                         realPrice: '<?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_item->getCalculationPrice()) ?>',
-                                        msrpPrice: '<?php echo $this->helper('Mage_Core_Helper_Data')->currency($_product->getMsrp(),true,true) ?>',
+                                        msrpPrice: '<?php echo $this->helper('Magento_Core_Helper_Data')->currency($_product->getMsrp(),true,true) ?>',
                                         closeButtonId: '#map-popup-close',
                                         showAddToCart: false
                                     });

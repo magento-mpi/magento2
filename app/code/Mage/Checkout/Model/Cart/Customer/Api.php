@@ -74,7 +74,7 @@ class Mage_Checkout_Model_Cart_Customer_Api extends Mage_Checkout_Model_Api_Reso
                 ->setPasswordHash($customer->encryptPassword($customer->getPassword()))
                 ->collectTotals()
                 ->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('customer_not_set', $e->getMessage());
         }
 

@@ -42,7 +42,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magent
             $result = $this->_getNodesArray($this->getRoot(null, $recursionLevel));
         }
         if ($asJson) {
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
         }
         return $result;
     }

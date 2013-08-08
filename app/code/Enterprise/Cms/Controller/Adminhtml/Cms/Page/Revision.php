@@ -306,7 +306,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
             $theme = Mage::getDesign()->getConfigurationDesignTheme(null, array('store' => $selectedStoreId));
             Mage::getDesign()->setDesignTheme($theme, 'frontend');
 
-            $designChange = Mage::getSingleton('Mage_Core_Model_Design')
+            $designChange = Mage::getSingleton('Magento_Core_Model_Design')
                 ->loadChange($selectedStoreId);
 
             if ($designChange->getData()) {
@@ -345,7 +345,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
                         'version_id' => $revision->getVersionId()
                     ));
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 // display error message
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $error = true;

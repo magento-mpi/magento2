@@ -93,7 +93,7 @@ class Enterprise_Persistent_Model_Observer
      * Set whislist items count in top wishlist link block
      *
      * @deprecated after 1.11.2.0
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      * @return null
      */
     public function initWishlist($block)
@@ -108,7 +108,7 @@ class Enterprise_Persistent_Model_Observer
      * Set persistent wishlist to wishlist sidebar block
      *
      * @deprecated after 1.11.2.0
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      * @return null
      */
     public function initWishlistSidebar($block)
@@ -122,7 +122,7 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Set persistent orders to recently orders block
      *
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      * @return null
      */
     public function initReorderSidebar($block)
@@ -306,7 +306,7 @@ class Enterprise_Persistent_Model_Observer
         $eventDataObject = $observer->getEvent()->getDataObject();
 
         if ($eventDataObject->getValue()) {
-            $optionCustomerSegm = Mage::getModel('Mage_Core_Model_Config_Data')
+            $optionCustomerSegm = Mage::getModel('Magento_Core_Model_Config_Data')
                 ->setScope($eventDataObject->getScope())
                 ->setScopeId($eventDataObject->getScopeId())
                 ->setPath(Enterprise_Persistent_Helper_Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM)

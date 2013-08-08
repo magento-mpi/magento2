@@ -12,14 +12,14 @@ abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Ser
     /**
      * Registry model
      *
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
 
     /**
      * Logger
      *
-     * @var Mage_Core_Model_Logger
+     * @var Magento_Core_Model_Logger
      */
     protected $_log;
 
@@ -48,14 +48,14 @@ abstract class Saas_Search_Model_Client_BalancerAbstract extends Apache_Solr_Ser
     /**
      * Initialize Solr client
      *
-     * @param Mage_Core_Model_Registry $registry
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Logger $logger
      * @param array $options
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Core_Model_Registry $registry,
-        Mage_Core_Model_Logger $logger,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Logger $logger,
         array $options = array()
     ) {
         $this->_registryManager = $registry;

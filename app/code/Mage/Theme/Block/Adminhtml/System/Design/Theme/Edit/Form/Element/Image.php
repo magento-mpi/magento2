@@ -22,7 +22,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image ext
     {
         $url = false;
         if ($this->getValue()) {
-            $url = Mage::getObjectManager()->get('Mage_Core_Model_Theme_Image_Path')->getPreviewImageDirectoryUrl()
+            $url = Mage::getObjectManager()->get('Magento_Core_Model_Theme_Image_Path')->getPreviewImageDirectoryUrl()
                 . $this->getValue();
         }
         return $url;

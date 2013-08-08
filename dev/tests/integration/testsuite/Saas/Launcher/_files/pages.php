@@ -18,7 +18,7 @@ $page->setPageCode('landing_page_1')
     ->save();
 
 /**
- * @var $tile Mage_Model_Launcher_Tile
+ * @var $tile Magento_Model_Launcher_Tile
  */
 $tile = Mage::getModel('Saas_Launcher_Model_Tile');
 $tile->setPageCode('landing_page_1')

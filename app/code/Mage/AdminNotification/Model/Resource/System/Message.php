@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-class Mage_AdminNotification_Model_Resource_System_Message extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_AdminNotification_Model_Resource_System_Message extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Flag that notifies whether Primary key of table is auto-incremeted

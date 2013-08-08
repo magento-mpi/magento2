@@ -15,6 +15,6 @@
  * @package    Mage_Widget
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Widget_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Widget_Helper_Data extends Magento_Core_Helper_Abstract
 {
 }

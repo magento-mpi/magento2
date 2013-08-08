@@ -16,7 +16,7 @@
  * @package     Mage_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Model_Resource_Report_Settlement extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Paypal_Model_Resource_Report_Settlement extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Table name
@@ -41,7 +41,7 @@ class Mage_Paypal_Model_Resource_Report_Settlement extends Mage_Core_Model_Resou
      * @param Mage_Paypal_Model_Report_Settlement $object
      * @return Mage_Paypal_Model_Resource_Report_Settlement
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $rows = $object->getRows();
         if (is_array($rows)) {
@@ -52,8 +52,8 @@ class Mage_Paypal_Model_Resource_Report_Settlement extends Mage_Core_Model_Resou
                 if ($reportId) {
                     $adapter->delete($this->_rowsTable, array('report_id = ?' => $reportId));
                 }
-                /** @var $date Mage_Core_Model_Date */
-                $date = Mage::getSingleton('Mage_Core_Model_Date');
+                /** @var $date Magento_Core_Model_Date */
+                $date = Mage::getSingleton('Magento_Core_Model_Date');
 
                 foreach ($rows as $key => $row) {
                     /*

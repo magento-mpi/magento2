@@ -16,7 +16,7 @@ class Mage_Webapi_Model_Acl_User_RoleUpdaterrTest extends PHPUnit_Framework_Test
 
         $helper = new Magento_Test_Helper_ObjectManager($this);
 
-        $request = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
+        $request = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
             ->disableOriginalConstructor()
             ->getMock();
         $request->expects($this->any())->method('getParam')->will($this->returnValueMap(array(

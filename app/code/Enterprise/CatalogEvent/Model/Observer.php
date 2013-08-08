@@ -132,7 +132,7 @@ class Enterprise_CatalogEvent_Model_Observer
      *
      * @param Magento_Event_Observer $observer
      * @return void
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function applyEventOnQuoteItemSetProduct(Magento_Event_Observer $observer)
     {
@@ -160,7 +160,7 @@ class Enterprise_CatalogEvent_Model_Observer
      *
      * @param Magento_Event_Observer $observer
      * @return void
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function applyEventOnQuoteItemSetQty(Magento_Event_Observer $observer)
     {

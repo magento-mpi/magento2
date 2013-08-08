@@ -50,7 +50,7 @@ class Mage_Tag_Block_Adminhtml_Edit_Form extends Magento_Adminhtml_Block_Widget_
 
         $fieldset->addField('form_key', 'hidden', array(
             'name'  => 'form_key',
-            'value' => Mage::getSingleton('Mage_Core_Model_Session')->getFormKey(),
+            'value' => Mage::getSingleton('Magento_Core_Model_Session')->getFormKey(),
         ));
 
         $fieldset->addField('store_id', 'hidden', array(

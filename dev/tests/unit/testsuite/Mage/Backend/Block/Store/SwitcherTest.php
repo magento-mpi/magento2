@@ -33,9 +33,15 @@ class Mage_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_applicationModel = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
-        $this->_websiteFactory = $this->getMock('Mage_Core_Model_Website_Factory', array(), array(), '', false);
-        $this->_storeGroupFactory = $this->getMock('Mage_Core_Model_Store_Group_Factory', array(), array(), '', false);
+        $this->_applicationModel = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
+        $this->_websiteFactory = $this->getMock('Magento_Core_Model_Website_Factory', array(), array(), '', false);
+        $this->_storeGroupFactory = $this->getMock(
+            'Magento_Core_Model_Store_Group_Factory',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $helper = new Magento_Test_Helper_ObjectManager($this);
         $this->_object = $helper->getObject('Mage_Backend_Block_Store_Switcher', array(
@@ -51,8 +57,15 @@ class Mage_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCase
      */
     public function testGetWebsiteCollectionWhenWebSiteIdsEmpty()
     {
-        $websiteModel = $this->getMock('Mage_Core_Model_Website', array(), array(), '', false, false);
-        $collection = $this->getMock('Mage_Core_Model_Resource_Website_Collection', array(), array(), '', false, false);
+        $websiteModel = $this->getMock('Magento_Core_Model_Website', array(), array(), '', false, false);
+        $collection = $this->getMock(
+            'Magento_Core_Model_Resource_Website_Collection',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
         $websiteModel->expects($this->once())->method('getResourceCollection')->will($this->returnValue($collection));
 
         $expected = array('test', 'data', 'some');
@@ -75,8 +88,15 @@ class Mage_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCase
      */
     public function testGetWebsiteCollectionWhenWebSiteIdsIsSet()
     {
-        $websiteModel = $this->getMock('Mage_Core_Model_Website', array(), array(), '', false, false);
-        $collection = $this->getMock('Mage_Core_Model_Resource_Website_Collection', array(), array(), '', false, false);
+        $websiteModel = $this->getMock('Magento_Core_Model_Website', array(), array(), '', false, false);
+        $collection = $this->getMock(
+            'Magento_Core_Model_Resource_Website_Collection',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
         $websiteModel->expects($this->once())->method('getResourceCollection')->will($this->returnValue($collection));
 
         $ids = array(1, 2, 3);

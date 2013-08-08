@@ -15,7 +15,7 @@
  * @package    Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Controller_Address extends Mage_Core_Controller_Front_Action
+class Mage_Customer_Controller_Address extends Magento_Core_Controller_Front_Action
 {
     /**
      * Retrieve customer session object
@@ -102,7 +102,7 @@ class Mage_Customer_Controller_Address extends Mage_Core_Controller_Front_Action
             $this->_getSession()->addSuccess($this->__('The address has been saved.'));
             $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
         } catch (Magento_Validator_Exception $e) {
             foreach ($e->getMessages() as $messages) {

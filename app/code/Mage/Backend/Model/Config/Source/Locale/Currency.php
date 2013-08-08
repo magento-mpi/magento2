@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Source_Locale_Currency implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Backend_Model_Config_Source_Locale_Currency implements Magento_Core_Model_Option_ArrayInterface
 {
     protected $_option;
     

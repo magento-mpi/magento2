@@ -20,7 +20,7 @@
  * @method string getEmail() getEmail()
  * @method Mage_Customer_Model_Resource_Customer _getResource()
  */
-class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
+class Mage_Customer_Model_Customer extends Magento_Core_Model_Abstract
 {
     /**
      * Configuration pathes for email templates and identities
@@ -106,30 +106,30 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     private static $_isConfirmationRequired;
 
-    /** @var Mage_Core_Model_Sender */
+    /** @var Magento_Core_Model_Sender */
     protected $_sender;
 
-    /** @var Mage_Core_Model_StoreManager */
+    /** @var Magento_Core_Model_StoreManager */
     protected $_storeManager;
 
     /** @var Mage_Eav_Model_Config */
     protected $_config;
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Sender $sender
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Sender $sender
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Mage_Eav_Model_Config $config
-     * @param Mage_Core_Model_Resource_Abstract|null $resource
+     * @param Magento_Core_Model_Resource_Abstract|null $resource
      * @param Magento_Data_Collection_Db|null $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Sender $sender,
-        Mage_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Sender $sender,
+        Magento_Core_Model_StoreManager $storeManager,
         Mage_Eav_Model_Config $config,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -162,7 +162,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      *
      * @param  string $login
      * @param  string $password
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return boolean
      *
      */
@@ -170,13 +170,13 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     {
         $this->loadByEmail($login);
         if ($this->getConfirmation() && $this->isConfirmationRequired()) {
-            throw Mage::exception('Mage_Core',
+            throw Mage::exception('Magento_Core',
                 Mage::helper('Mage_Customer_Helper_Data')->__('This account is not confirmed.'),
                 self::EXCEPTION_EMAIL_NOT_CONFIRMED
             );
         }
         if (!$this->validatePassword($password)) {
-            throw Mage::exception('Mage_Core',
+            throw Mage::exception('Magento_Core',
                 Mage::helper('Mage_Customer_Helper_Data')->__('Invalid login or password.'),
                 self::EXCEPTION_INVALID_EMAIL_OR_PASSWORD
             );
@@ -381,7 +381,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function hashPassword($password, $salt = null)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->getHash($password, !is_null($salt) ? $salt : 2);
+        return Mage::helper('Magento_Core_Helper_Data')->getHash($password, !is_null($salt) ? $salt : 2);
     }
 
     /**
@@ -392,7 +392,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function generatePassword($length = 6)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->getRandomString($length);
+        return Mage::helper('Magento_Core_Helper_Data')->getRandomString($length);
     }
 
     /**
@@ -407,7 +407,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         if (!$hash) {
             return false;
         }
-        return Mage::helper('Mage_Core_Helper_Data')->validateHash($password, $hash);
+        return Mage::helper('Magento_Core_Helper_Data')->validateHash($password, $hash);
     }
 
 
@@ -419,7 +419,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function encryptPassword($password)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->encrypt($password);
+        return Mage::helper('Magento_Core_Helper_Data')->encrypt($password);
     }
 
     /**
@@ -430,7 +430,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function decryptPassword($password)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->decrypt($password);
+        return Mage::helper('Magento_Core_Helper_Data')->decrypt($password);
     }
 
     /**
@@ -566,7 +566,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      * @param string $type
      * @param string $backUrl
      * @param string $storeId
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Customer_Model_Customer
      */
     public function sendNewAccountEmail($type = 'registered', $backUrl = '', $storeId = '0')
@@ -628,7 +628,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     public function sendPasswordReminderEmail()
     {
         $storeId = $this->getStoreId();
-        if (Mage_Core_Model_AppInterface::ADMIN_STORE_ID == $storeId && ($this->getWebsiteId() * 1)) {
+        if (Magento_Core_Model_AppInterface::ADMIN_STORE_ID == $storeId && ($this->getWebsiteId() * 1)) {
             $storeId = $this->_getWebsiteStoreId();
         }
 
@@ -649,9 +649,9 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     protected function _sendEmailTemplate($template, $sender, $templateParams = array(), $storeId = null)
     {
-        /** @var $mailer Mage_Core_Model_Email_Template_Mailer */
-        $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
-        $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
+        /** @var $mailer Magento_Core_Model_Email_Template_Mailer */
+        $mailer = Mage::getModel('Magento_Core_Model_Email_Template_Mailer');
+        $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
         $emailInfo->addTo($this->getEmail(), $this->getName());
         $mailer->addEmailInfo($emailInfo);
 
@@ -737,12 +737,12 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Check store availability for customer
      *
-     * @param   Mage_Core_Model_Store | int $store
+     * @param   Magento_Core_Model_Store | int $store
      * @return  bool
      */
     public function isInStore($store)
     {
-        if ($store instanceof Mage_Core_Model_Store) {
+        if ($store instanceof Magento_Core_Model_Store) {
             $storeId = $store->getId();
         } else {
             $storeId = $store;
@@ -755,7 +755,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Retrieve store where customer was created
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -810,10 +810,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Set store to customer
      *
-     * @param Mage_Core_Model_Store $store
+     * @param Magento_Core_Model_Store $store
      * @return Mage_Customer_Model_Customer
      */
-    public function setStore(Mage_Core_Model_Store $store)
+    public function setStore(Magento_Core_Model_Store $store)
     {
         $this->setStoreId($store->getId());
         $this->setWebsiteId($store->getWebsite()->getId());
@@ -1070,14 +1070,14 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      *
      * Stores new reset password link token
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @param string $passwordLinkToken
      * @return Mage_Customer_Model_Customer
      */
     public function changeResetPasswordLinkToken($passwordLinkToken)
     {
         if (!is_string($passwordLinkToken) || empty($passwordLinkToken)) {
-            throw Mage::exception('Mage_Core',
+            throw Mage::exception('Magento_Core',
                 Mage::helper('Mage_Customer_Helper_Data')->__('Invalid password reset token.'),
                 self::EXCEPTION_INVALID_RESET_PASSWORD_LINK_TOKEN
             );

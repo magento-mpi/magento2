@@ -12,11 +12,11 @@
 /**
  * Abstract theme list
  *
- * @method Mage_Core_Model_Resource_Theme_Collection getCollection()
+ * @method Magento_Core_Model_Resource_Theme_Collection getCollection()
  * @method bool|null getIsFirstEntrance()
  * @method bool|null getHasThemeAssigned()
  * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract setHasThemeAssigned(bool $flag)
- * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract|Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available setCollection(Mage_Core_Model_Resource_Theme_Collection $collection)
+ * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract|Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available setCollection(Magento_Core_Model_Resource_Theme_Collection $collection)
  * @method Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract setIsFirstEntrance(bool $flag)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -57,7 +57,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
 
         $items = array();
         if (!empty($themeCollection)) {
-            /** @var $theme Mage_Core_Model_Theme */
+            /** @var $theme Magento_Core_Model_Theme */
             foreach ($themeCollection as $theme) {
                 $itemBlock->setTheme($theme);
                 $this->_addThemeButtons($itemBlock);

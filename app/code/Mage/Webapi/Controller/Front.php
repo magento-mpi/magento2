@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterface
+class Mage_Webapi_Controller_Front implements Magento_Core_Controller_FrontInterface
 {
     /**#@+
      * API types
@@ -25,7 +25,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
      */
     protected $_dispatcher;
 
-    /** @var Mage_Core_Model_App */
+    /** @var Magento_Core_Model_App */
     protected $_application;
 
     /** @var Mage_Webapi_Helper_Data */
@@ -46,16 +46,16 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Webapi_Controller_Dispatcher_Factory $dispatcherFactory
-     * @param Mage_Core_Model_App $application
+     * @param Magento_Core_Model_App $application
      * @param Magento_Controller_Router_Route_Factory $routeFactory
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_Factory_Helper $helperFactory,
         Mage_Webapi_Controller_Dispatcher_Factory $dispatcherFactory,
-        Mage_Core_Model_App $application,
+        Magento_Core_Model_App $application,
         Magento_Controller_Router_Route_Factory $routeFactory,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
     ) {
@@ -98,7 +98,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
      * Retrieve front controller for concrete API type (factory method).
      *
      * @return Mage_Webapi_Controller_DispatcherInterface
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _getDispatcher()
     {
@@ -125,7 +125,7 @@ class Mage_Webapi_Controller_Front implements Mage_Core_Controller_FrontInterfac
      * Determine current API type using application request (not web API request).
      *
      * @return string
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @throws Mage_Webapi_Exception If requested API type is invalid.
      */
     public function determineApiType()

@@ -16,7 +16,7 @@ class Mage_Webhook_Model_Resource_EventTest extends PHPUnit_Framework_TestCase
         $tableName = 'webhook_event_table';
         $idFieldName = 'event_id';
 
-        $resourceMock = $this->getMockBuilder('Mage_Core_Model_Resource')
+        $resourceMock = $this->getMockBuilder('Magento_Core_Model_Resource')
             ->disableOriginalConstructor()
             ->getMock();
         $resourceMock->expects($this->once())

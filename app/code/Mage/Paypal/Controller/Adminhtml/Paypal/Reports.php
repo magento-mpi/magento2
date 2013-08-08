@@ -79,7 +79,7 @@ class Mage_Paypal_Controller_Adminhtml_Paypal_Reports extends Magento_Adminhtml_
                     Mage::logException($e);
                 }
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::logException($e);

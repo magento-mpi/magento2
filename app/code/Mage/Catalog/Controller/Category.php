@@ -15,7 +15,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Controller_Category extends Mage_Core_Controller_Front_Action
+class Mage_Catalog_Controller_Category extends Magento_Core_Controller_Front_Action
 {
     /**
      * Initialize requested category object
@@ -47,7 +47,7 @@ class Mage_Catalog_Controller_Category extends Mage_Core_Controller_Front_Action
                     'controller_action' => $this
                 )
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::logException($e);
             return false;
         }

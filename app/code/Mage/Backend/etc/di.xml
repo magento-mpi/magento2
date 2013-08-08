@@ -8,10 +8,10 @@
  */
 -->
 <config>
-    <preference for="Mage_Core_Model_Config_Storage_WriterInterface" type="Mage_Core_Model_Config_Storage_Writer_Db" />
+    <preference for="Magento_Core_Model_Config_Storage_WriterInterface" type="Magento_Core_Model_Config_Storage_Writer_Db" />
     <type name="Mage_Backend_Controller_Context">
         <param name="translator">
-            <instance type="Mage_Core_Model_Translate_Proxy" />
+            <instance type="Magento_Core_Model_Translate_Proxy" />
         </param>
     </type>
     <type name="Mage_Backend_Controller_Router_Default">
@@ -21,7 +21,7 @@
     </type>
     <type name="Mage_Backend_Controller_Adminhtml_System_Config_Save">
         <param name="cache">
-            <instance type="Mage_Core_Model_Cache_Type_Layout" />
+            <instance type="Magento_Core_Model_Cache_Type_Layout" />
         </param>
     </type>
     <virtualType name="Mage_Backend_Model_Cache_Resource_Grid_Options_Statuses" type="Mage_Backend_Model_Config_Source_Statuses_Options">

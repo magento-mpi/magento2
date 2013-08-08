@@ -12,9 +12,9 @@
 class Mage_CatalogRule_Model_Rule_Action_Collection extends Mage_Rule_Model_Action_Collection
 {
     /**
-     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_Url $viewUrl
      */
-    public function __construct(Mage_Core_Model_View_Url $viewUrl)
+    public function __construct(Magento_Core_Model_View_Url $viewUrl)
     {
         parent::__construct($viewUrl);
         $this->setType('Mage_CatalogRule_Model_Rule_Action_Collection');

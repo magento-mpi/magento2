@@ -81,12 +81,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
 
     /**
      * @return Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getRendererFactory()
     {
         if (!$this->_rendererFactory) {
-            throw new Mage_Core_Exception('Renderer factory was not set');
+            throw new Magento_Core_Exception('Renderer factory was not set');
         }
         return $this->_rendererFactory;
     }
@@ -103,12 +103,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column
 
     /**
      * @return Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getElementsFactory()
     {
         if (!$this->_elementsFactory) {
-            throw new Mage_Core_Exception('Form elements factory was not set');
+            throw new Magento_Core_Exception('Form elements factory was not set');
         }
         return $this->_elementsFactory;
     }

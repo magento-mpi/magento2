@@ -18,7 +18,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
 
     protected function setUp()
     {
-        $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
+        $app = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $this->_saveHandler = new Saas_Launcher_Model_Storelauncher_Product_SaveHandler($app, $objectManager);
     }
@@ -137,12 +137,12 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
         $websiteId = 1;
 
         // mock application instance
-        $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
-        $website = $this->getMock('Mage_Core_Model_Website', array('getId'), array(), '', false);
+        $app = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
+        $website = $this->getMock('Magento_Core_Model_Website', array('getId'), array(), '', false);
         $website->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($websiteId));
-        $store = $this->getMock('Mage_Core_Model_Store', array('getWebsite'), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array('getWebsite'), array(), '', false);
         $store->expects($this->once())
             ->method('getWebsite')
             ->will($this->returnValue($website));
@@ -162,7 +162,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
         );
         $product->expects($this->once())
             ->method('setStoreId')
-            ->with(Mage_Core_Model_App::ADMIN_STORE_ID)
+            ->with(Magento_Core_Model_App::ADMIN_STORE_ID)
             ->will($this->returnValue($product));
         if ($isDataValid) {
             $product->expects($this->once())

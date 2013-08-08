@@ -141,7 +141,7 @@ class Enterprise_CustomerSegment_Model_Observer
         $form = $observer->getEvent()->getForm();
         /** @var Magento_Object $model */
         $model = $observer->getEvent()->getModel();
-        /** @var Mage_Core_Block_Abstract $block */
+        /** @var Magento_Core_Block_Abstract $block */
         $block = $observer->getEvent()->getBlock();
 
         /** @var Mage_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies */

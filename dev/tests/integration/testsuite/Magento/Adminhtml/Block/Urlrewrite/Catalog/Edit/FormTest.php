@@ -23,8 +23,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
      */
     protected function _getFormInstance($args = array())
     {
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form */
         $block = $layout->createBlock(
             'Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form', 'block', array('data' => $args)
@@ -74,7 +74,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
      *
      * @dataProvider getEntityStoresDataProvider
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Magento/Core/_files/store.php
      *
      * @param array $productData
      * @param array $categoryData
@@ -97,9 +97,9 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
      * Check exception is thrown when product does not associated with stores
      *
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Magento/Core/_files/store.php
      *
-     * @expectedException Mage_Core_Model_Store_Exception
+     * @expectedException Magento_Core_Model_Store_Exception
      * @expectedExceptionMessage We can't set up a URL rewrite because the product you chose is not associated with
      */
     public function testGetEntityStoresProductStoresException()
@@ -114,9 +114,9 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
      * Check exception is thrown when product stores in intersection with category stores is empty
      *
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Magento/Core/_files/store.php
      *
-     * @expectedException Mage_Core_Model_Store_Exception
+     * @expectedException Magento_Core_Model_Store_Exception
      * @expectedExceptionMessage We can't set up a URL rewrite because the product you chose is not associated with
      */
     public function testGetEntityStoresProductCategoryStoresException()
@@ -132,9 +132,9 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_F
      * Check exception is thrown when category does not associated with stores
      *
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Magento/Core/_files/store.php
      *
-     * @expectedException Mage_Core_Model_Store_Exception
+     * @expectedException Magento_Core_Model_Store_Exception
      * @expectedExceptionMessage We can't set up a URL rewrite because the category your chose is not associated with
      */
     public function testGetEntityStoresCategoryStoresException()

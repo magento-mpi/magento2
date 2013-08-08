@@ -45,7 +45,7 @@ class Magento_Adminhtml_Model_Search_Catalog extends Magento_Object
                 'id'            => 'product/1/'.$product->getId(),
                 'type'          => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Product'),
                 'name'          => $product->getName(),
-                'description'   => Mage::helper('Mage_Core_Helper_String')->substr($description, 0, 30),
+                'description'   => Mage::helper('Magento_Core_Helper_String')->substr($description, 0, 30),
                 'url' => Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
                     '*/catalog_product/edit',
                     array(

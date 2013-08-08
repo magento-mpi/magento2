@@ -34,14 +34,14 @@
               <small>
               <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($_item)); ?>
               <?php foreach (Mage::helper('Mage_Weee_Helper_Data')->getApplied($_item) as $tax): ?>
-                  <span class="nobr">+ <?php echo $tax['title']; ?>: <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($tax['amount'],true,true); ?></span><br />
+                  <span class="nobr">+ <?php echo $tax['title']; ?>: <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($tax['amount'],true,true); ?></span><br />
               <?php endforeach; ?>
               </small>
           <?php elseif ($_item->getWeeeTaxAppliedAmount() && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): // excl. + weee + final ?>
               <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($_item)); ?>
               <br />
               <?php foreach (Mage::helper('Mage_Weee_Helper_Data')->getApplied($_item) as $tax): ?>
-                  <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($tax['amount'],true,true); ?></small></span><br />
+                  <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($tax['amount'],true,true); ?></small></span><br />
               <?php endforeach; ?>
               <span class="nobr">
               <?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total'); ?>:
@@ -84,14 +84,14 @@
               <small>
               <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->helper('Mage_Checkout_Helper_Data')->getSubtotalInclTax($_item)); ?>
               <?php foreach (Mage::helper('Mage_Weee_Helper_Data')->getApplied($_item) as $tax): ?>
-                  <span class="nobr">+ <?php echo $tax['title']; ?>: <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($tax['row_amount'],true,true); ?></span><br />
+                  <span class="nobr">+ <?php echo $tax['title']; ?>: <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($tax['row_amount'],true,true); ?></span><br />
               <?php endforeach; ?>
               </small>
           <?php elseif ($_item->getWeeeTaxAppliedRowAmount() && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 2, 'sales')): // excl. + weee + final ?>
               <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->helper('Mage_Checkout_Helper_Data')->getSubtotalInclTax($_item)); ?>
               <br />
               <?php foreach (Mage::helper('Mage_Weee_Helper_Data')->getApplied($_item) as $tax): ?>
-                  <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($tax['row_amount'],true,true); ?></small></span><br />
+                  <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($tax['row_amount'],true,true); ?></small></span><br />
               <?php endforeach; ?>
               <span class="nobr">
               <?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total'); ?>:

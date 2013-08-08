@@ -249,7 +249,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         if (isset($data['connection'])) {
             $this->_connection = $data['connection'];
         } else {
-            $this->_connection = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
+            $this->_connection = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
         }
         if (isset($data['resource_helper'])) {
             $this->_resourceHelper = $data['resource_helper'];
@@ -328,7 +328,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
      * Helper getter
      *
      * @param string $helperName
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     protected function _helper($helperName)
     {
@@ -350,7 +350,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         }
         foreach ($this->_tables as $key => $value) {
             if ($value == null) {
-                $this->_tables[$key] = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName($key);
+                $this->_tables[$key] = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName($key);
             }
         }
         return $this;
@@ -367,7 +367,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         if (isset($data['stores'])) {
             $this->_storeCodeToId = $data['stores'];
         } else {
-            /** @var $store Mage_Core_Model_Store */
+            /** @var $store Magento_Core_Model_Store */
             foreach (Mage::app()->getStores(true) as $store) {
                 $this->_storeCodeToId[$store->getCode()] = $store->getId();
             }
@@ -709,7 +709,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             $storeCode = $rowData[self::COLUMN_STORE];
             $storeId = $this->_storeCodeToId[$storeCode];
         } else {
-            $storeId = Mage_Core_Model_AppInterface::ADMIN_STORE_ID;
+            $storeId = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
         }
         if (isset($this->_productsSkuToId[$this->_rowProductSku])) {
             // save in existing data array
@@ -1054,20 +1054,20 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
                 $typeValues[$prevOptionId][] = $specificTypeData['value'];
 
                 // ensure default title is set
-                if (!isset($typeTitles[$nextValueId][Mage_Core_Model_AppInterface::ADMIN_STORE_ID])) {
-                    $typeTitles[$nextValueId][Mage_Core_Model_AppInterface::ADMIN_STORE_ID]
+                if (!isset($typeTitles[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID])) {
+                    $typeTitles[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID]
                         = $specificTypeData['title'];
                 }
                 $typeTitles[$nextValueId][$this->_rowStoreId] = $specificTypeData['title'];;
 
                 if ($specificTypeData['price']) {
                     if ($this->_isPriceGlobal) {
-                        $typePrices[$nextValueId][Mage_Core_Model_AppInterface::ADMIN_STORE_ID]
+                        $typePrices[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID]
                             = $specificTypeData['price'];
                     } else {
                         // ensure default price is set
-                        if (!isset($typePrices[$nextValueId][Mage_Core_Model_AppInterface::ADMIN_STORE_ID])) {
-                            $typePrices[$nextValueId][Mage_Core_Model_AppInterface::ADMIN_STORE_ID]
+                        if (!isset($typePrices[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID])) {
+                            $typePrices[$nextValueId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID]
                                 = $specificTypeData['price'];
                         }
                         $typePrices[$nextValueId][$this->_rowStoreId] = $specificTypeData['price'];
@@ -1089,9 +1089,9 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     protected function _collectOptionTitle(array $rowData, $prevOptionId, array &$titles)
     {
         if (!empty($rowData[self::COLUMN_TITLE])) {
-            if (!isset($titles[$prevOptionId][Mage_Core_Model_AppInterface::ADMIN_STORE_ID])) {
+            if (!isset($titles[$prevOptionId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID])) {
                 // ensure default title is set
-                $titles[$prevOptionId][Mage_Core_Model_AppInterface::ADMIN_STORE_ID] = $rowData[self::COLUMN_TITLE];
+                $titles[$prevOptionId][Magento_Core_Model_AppInterface::ADMIN_STORE_ID] = $rowData[self::COLUMN_TITLE];
             }
             $titles[$prevOptionId][$this->_rowStoreId] = $rowData[self::COLUMN_TITLE];
         }

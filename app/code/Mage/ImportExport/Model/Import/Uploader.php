@@ -15,7 +15,7 @@
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_ImportExport_Model_Import_Uploader extends Mage_Core_Model_File_Uploader
+class Mage_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File_Uploader
 {
     protected $_tmpDir  = '';
     protected $_destDir = '';
@@ -28,11 +28,11 @@ class Mage_ImportExport_Model_Import_Uploader extends Mage_Core_Model_File_Uploa
     const DEFAULT_FILE_TYPE = 'application/octet-stream';
 
     /**
-     * @var Mage_Core_Model_Image_AdapterFactory
+     * @var Magento_Core_Model_Image_AdapterFactory
      */
     protected $_imageFactory;
 
-    function __construct(Mage_Core_Model_Image_AdapterFactory $imageFactory, $filePath = null)
+    function __construct(Magento_Core_Model_Image_AdapterFactory $imageFactory, $filePath = null)
     {
         if (!is_null($filePath)) {
             $this->_setUploadFile($filePath);

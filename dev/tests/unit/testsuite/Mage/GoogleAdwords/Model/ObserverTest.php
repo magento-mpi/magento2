@@ -40,7 +40,7 @@ class Mage_GoogleAdwords_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_helperMock = $this->getMock('Mage_GoogleAdwords_Helper_Data', array(), array(), '', false);
-        $this->_registryMock = $this->getMock('Mage_Core_Model_Registry', array(), array(), '', true);
+        $this->_registryMock = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', true);
         $this->_collectionMock = $this->getMock('Mage_Sales_Model_Resource_Order_Collection', array(), array(), '',
             false);
         $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);

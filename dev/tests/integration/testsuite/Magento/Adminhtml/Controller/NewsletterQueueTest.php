@@ -51,13 +51,13 @@ class Magento_Adminhtml_Controller_Newsletter_QueueTest extends Mage_Backend_Uti
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->isEmpty(), Mage_Core_Model_Message::ERROR);
+        $this->assertSessionMessages($this->isEmpty(), Magento_Core_Model_Message::ERROR);
 
         /**
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The newsletter queue has been saved.')), Mage_Core_Model_Message::SUCCESS
+            $this->equalTo(array('The newsletter queue has been saved.')), Magento_Core_Model_Message::SUCCESS
         );
     }
 }

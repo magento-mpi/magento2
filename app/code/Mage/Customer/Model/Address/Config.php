@@ -16,7 +16,7 @@
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
+class Mage_Customer_Model_Address_Config extends Magento_Core_Model_Config_Base
 {
     const DEFAULT_ADDRESS_RENDERER  = 'Mage_Customer_Block_Address_Renderer_Default';
     const XML_PATH_ADDRESS_TEMPLATE = 'customer/address_templates/';
@@ -32,7 +32,7 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
     /**
      * Current store instance
      *
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store           = null;
 
@@ -53,7 +53,7 @@ class Mage_Customer_Model_Address_Config extends Mage_Core_Model_Config_Base
     /**
      * Retrieve store
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {

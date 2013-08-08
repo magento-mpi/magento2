@@ -11,7 +11,7 @@
 /**
  * Catalog category helper
  */
-class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
+class Mage_Catalog_Helper_Product extends Magento_Core_Helper_Url
 {
     const XML_PATH_PRODUCT_URL_SUFFIX                = 'catalog/seo/product_url_suffix';
     const XML_PATH_PRODUCT_URL_USE_CATEGORY          = 'catalog/seo/product_use_categories';
@@ -43,15 +43,15 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     protected $_priceBlock;
 
     /**
-     * @var Mage_Core_Model_View_Url
+     * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_View_Url $viewUrl
      */
-    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_View_Url $viewUrl)
+    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_View_Url $viewUrl)
     {
         parent::__construct($context);
         $this->_viewUrl = $viewUrl;
@@ -290,7 +290,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
      *     If empty (except FALSE) - will be guessed (e.g. from last visited) to load as current.
      *
      * @param int $productId
-     * @param Mage_Core_Controller_Front_Action $controller
+     * @param Magento_Core_Controller_Front_Action $controller
      * @param Magento_Object $params
      *
      * @return false|Mage_Catalog_Model_Product
@@ -351,7 +351,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
                                 'controller_action' => $controller
                             )
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::logException($e);
             return false;
         }

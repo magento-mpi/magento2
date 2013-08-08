@@ -14,13 +14,13 @@
  */
 class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Core_Model_Layout */
+    /** @var Magento_Core_Model_Layout */
     protected $_layout = null;
 
     protected function setUp()
     {
         Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
+        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
     }
 
     /**

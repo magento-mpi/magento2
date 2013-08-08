@@ -88,11 +88,11 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/contacts.xml',
         'app/design/frontend/default/modern/layout/contacts.xml',
     ),
-    'Mage_Core' => array(
-        'app/code/Mage/Core/',
-        'app/code/Mage/Core/view/frontend',
-        'app/code/Mage/Core/view/adminhtml',
-        'app/code/Mage/Core/view/frontend/layout.xml',
+    'Magento_Core' => array(
+        'app/code/Magento/Core/',
+        'app/code/Magento/Core/view/frontend',
+        'app/code/Magento/Core/view/adminhtml',
+        'app/code/Magento/Core/view/frontend/layout.xml',
         'lib/Zend/Validate/',
     ),
     'Mage_Cron' => array(
@@ -579,7 +579,7 @@ $CONFIG['helpers']  = array(
     'compiler'          => 'Mage_Compiler',
     'connect'           => 'Mage_Connect',
     'contacts'          => 'Mage_Contacts',
-    'core'              => 'Mage_Core',
+    'core'              => 'Magento_Core',
     'cron'              => 'Mage_Cron',
     'customer'          => 'Mage_Customer',
     'cybermut'          => 'Mage_Cybermut',

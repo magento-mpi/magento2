@@ -23,7 +23,7 @@ class Mage_Backend_Model_Config_ScopeDefinerTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_model = new Mage_Backend_Model_Config_ScopeDefiner($this->_requestMock);
     }
 

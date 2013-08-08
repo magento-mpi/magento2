@@ -13,10 +13,10 @@
  * Abstract container block with header
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Page_Block_Template_Container extends Mage_Core_Block_Template
+class Mage_Page_Block_Template_Container extends Magento_Core_Block_Template
 {
 
     protected $_template = 'template/container.phtml';

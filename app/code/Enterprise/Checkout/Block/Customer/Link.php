@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
-class Enterprise_Checkout_Block_Customer_Link extends Mage_Core_Block_Template
+class Enterprise_Checkout_Block_Customer_Link extends Magento_Core_Block_Template
 {
     /**
      * Adding link to dashboard links block

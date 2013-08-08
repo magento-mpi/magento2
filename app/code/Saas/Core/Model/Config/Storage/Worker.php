@@ -13,39 +13,39 @@ class Saas_Core_Model_Config_Storage_Worker extends Saas_Core_Model_Config_Stora
     /**
      * Config storage modules
      *
-     * @var Mage_Core_Model_Config_StorageInterface
+     * @var Magento_Core_Model_Config_StorageInterface
      */
     protected $_storageModules;
 
     /**
      * Config storage locales
      *
-     * @var Mage_Core_Model_Config_StorageInterface
+     * @var Magento_Core_Model_Config_StorageInterface
      */
     protected $_storageLocales;
 
     /**
      * Resource configuration
      *
-     * @var Mage_Core_Model_Config_Resource
+     * @var Magento_Core_Model_Config_Resource
      */
     protected $_resourcesConfig;
 
     /**
-     * @param Mage_Core_Model_Config_Cache $cache
-     * @param Mage_Core_Model_Config_LoaderInterface $loader
-     * @param Mage_Core_Model_Config_BaseFactory $factory
-     * @param Mage_Core_Model_Config_Resource $resourcesConfig
-     * @param Mage_Core_Model_Config_StorageInterface $storageModules
-     * @param Mage_Core_Model_Config_StorageInterface $storageLocales
+     * @param Magento_Core_Model_Config_Cache $cache
+     * @param Magento_Core_Model_Config_LoaderInterface $loader
+     * @param Magento_Core_Model_Config_BaseFactory $factory
+     * @param Magento_Core_Model_Config_Resource $resourcesConfig
+     * @param Magento_Core_Model_Config_StorageInterface $storageModules
+     * @param Magento_Core_Model_Config_StorageInterface $storageLocales
      */
     public function __construct(
-        Mage_Core_Model_Config_Cache $cache,
-        Mage_Core_Model_Config_LoaderInterface $loader,
-        Mage_Core_Model_Config_BaseFactory $factory,
-        Mage_Core_Model_Config_Resource $resourcesConfig,
-        Mage_Core_Model_Config_StorageInterface $storageModules,
-        Mage_Core_Model_Config_StorageInterface $storageLocales
+        Magento_Core_Model_Config_Cache $cache,
+        Magento_Core_Model_Config_LoaderInterface $loader,
+        Magento_Core_Model_Config_BaseFactory $factory,
+        Magento_Core_Model_Config_Resource $resourcesConfig,
+        Magento_Core_Model_Config_StorageInterface $storageModules,
+        Magento_Core_Model_Config_StorageInterface $storageLocales
     ) {
         parent::__construct($cache, $loader, $factory);
         $this->_resourcesConfig = $resourcesConfig;
@@ -57,7 +57,7 @@ class Saas_Core_Model_Config_Storage_Worker extends Saas_Core_Model_Config_Stora
     /**
      * Retrieve application configuration
      *
-     * @return Mage_Core_Model_ConfigInterface
+     * @return Magento_Core_Model_ConfigInterface
      */
     public function getConfiguration()
     {

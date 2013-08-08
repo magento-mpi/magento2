@@ -30,7 +30,7 @@ class Mage_Backend_Model_Config_Clone_Factory
      * Create new clone model
      *
      * @param string $cloneModel
-     * @return Mage_Core_Model_Config_Data
+     * @return Magento_Core_Model_Config_Data
      */
     public function create($cloneModel)
     {

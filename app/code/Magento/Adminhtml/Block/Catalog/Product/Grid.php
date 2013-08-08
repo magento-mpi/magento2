@@ -55,7 +55,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
         }
         if ($store->getId()) {
             //$collection->setStoreId($store->getId());
-            $adminStore = Mage_Core_Model_AppInterface::ADMIN_STORE_ID;
+            $adminStore = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
             $collection->addStoreFilter($store);
             $collection->joinAttribute(
                 'name',
@@ -246,7 +246,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => Mage::getModel('Mage_Core_Model_Website')->getCollection()->toOptionHash(),
+                    'options'   => Mage::getModel('Magento_Core_Model_Website')->getCollection()->toOptionHash(),
                     'header_css_class'  => 'col-websites',
                     'column_css_class'  => 'col-websites'
             ));

@@ -16,7 +16,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Block_Order_Info_Buttons extends Mage_Core_Block_Template
+class Mage_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
 {
 
     protected $_template = 'order/info/buttons.phtml';

@@ -27,9 +27,9 @@ class Mage_Sales_Model_Order_Creditmemo_Config extends Mage_Sales_Model_Order_To
     /**
      * Constructor
      *
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      */
-    public function __construct(Mage_Core_Model_Cache_Type_Config $configCacheType)
+    public function __construct(Magento_Core_Model_Cache_Type_Config $configCacheType)
     {
         parent::__construct($configCacheType, Mage::getConfig()->getNode('global/sales/order_creditmemo'));
     }

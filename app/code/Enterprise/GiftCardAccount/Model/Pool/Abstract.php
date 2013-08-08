@@ -9,7 +9,7 @@
  */
 
 
-abstract class Enterprise_GiftCardAccount_Model_Pool_Abstract extends Mage_Core_Model_Abstract
+abstract class Enterprise_GiftCardAccount_Model_Pool_Abstract extends Magento_Core_Model_Abstract
 {
     const STATUS_FREE = 0;
     const STATUS_USED = 1;

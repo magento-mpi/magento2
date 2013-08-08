@@ -15,7 +15,7 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetReturnAddressData($useStoreAddress, $storeConfigData, $mockConfig, $expectedResult)
     {
-        $storeConfigMock = $this->getMock('Mage_Core_Model_Store_Config', array(), array(), '', false);
+        $storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $storeConfigMock->expects($this->any())
             ->method('getConfigFlag')
             ->with(Enterprise_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $mockConfig['store_id'])
@@ -26,7 +26,7 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($storeConfigData));
 
         $model = new Enterprise_Rma_Helper_Data(
-            $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false, false),
+            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
             $this->_getAppMock($mockConfig),
             $storeConfigMock,
             $this->_getCountryFactoryMock($mockConfig),
@@ -40,11 +40,11 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
      * Create application mock
      *
      * @param array $mockConfig
-     * @return Mage_Core_Model_App|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_Core_Model_App|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getAppMock($mockConfig)
     {
-        $appMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
+        $appMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $appMock->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($mockConfig['store_id']));

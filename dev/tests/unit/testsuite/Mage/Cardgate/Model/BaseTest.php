@@ -20,27 +20,27 @@ class Mage_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
     protected $_baseModel;
 
     /**
-     * @var Mage_Core_Model_Store_Config|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Store_Config|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfigMock;
 
     /**
-     * @var Mage_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Config|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var Mage_Core_Model_Dir|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Dir|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirMock;
 
     /**
-     * @var Mage_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_loggerMock;
 
     /**
-     * @var Mage_Core_Model_Resource_Transaction_Factory|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Resource_Transaction_Factory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_transFactoryMock;
 
@@ -65,12 +65,12 @@ class Mage_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
      */
     public function _createModel(array $config = array())
     {
-        $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_Config', array(), array(), '', false);
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
-        $this->_loggerMock = $this->getMock('Mage_Core_Model_Logger', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $this->_dirMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+        $this->_loggerMock = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_transFactoryMock =
-            $this->getMock('Mage_Core_Model_Resource_Transaction_Factory', array('create'), array(), '', false);
+            $this->getMock('Magento_Core_Model_Resource_Transaction_Factory', array('create'), array(), '', false);
         $this->_orderFactoryMock = $this->getMock('Mage_Sales_Model_OrderFactory', array('create'), array(), '', false);
         $this->_helperMock = $this->getMock('Mage_Cardgate_Helper_Data', array(), array(), '', false);
         $this->_filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
@@ -126,7 +126,7 @@ class Mage_Cardgate_Model_BaseTest extends PHPUnit_Framework_TestCase
             array('getIncrementId', 'save', 'sendEmail', 'getOrder', 'register', 'setRequestedCaptureCase',
                 'setEmailSent'),
             array(), '', false);
-        $transactionMock = $this->getMock('Mage_Core_Model_Resource_Transaction', array(), array(), '', false);
+        $transactionMock = $this->getMock('Magento_Core_Model_Resource_Transaction', array(), array(), '', false);
 
         $this->_orderFactoryMock->expects($this->once())->method('create')->will($this->returnValue($order));
 

@@ -15,12 +15,12 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Helpers
  */
-class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
+class Saas_PrintedTemplate_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Returns helper
      *
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     protected function _getBackendHelper()
     {

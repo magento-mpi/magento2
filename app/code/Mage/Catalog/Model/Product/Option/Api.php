@@ -18,15 +18,15 @@
 class Mage_Catalog_Model_Product_Option_Api extends Mage_Catalog_Model_Api_Resource
 {
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request = null;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request
+        Magento_Core_Controller_Request_Http $request
     ) {
         $this->_request = $request;
     }
@@ -188,7 +188,7 @@ class Mage_Catalog_Model_Product_Option_Api extends Mage_Catalog_Model_Api_Resou
         $types = array();
         foreach (Mage::getConfig()->getNode($path)->children() as $group) {
             $groupTypes = Mage::getConfig()->getNode($path . '/' . $group->getName() . '/types')->children();
-            /** @var $type Mage_Core_Model_Config_Element */
+            /** @var $type Magento_Core_Model_Config_Element */
             foreach($groupTypes as $type){
                 $labelPath = $path . '/' . $group->getName() . '/types/' . $type->getName() . '/label';
                 $types[] = array(

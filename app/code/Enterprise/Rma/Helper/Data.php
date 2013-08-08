@@ -16,7 +16,7 @@
  * @package     Enterprise_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Variable to contain country model
@@ -42,14 +42,14 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Application model
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_app;
 
     /**
      * Store config model
      *
-     * @var Mage_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_Config
      */
     protected $_storeConfig;
 
@@ -68,16 +68,16 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_regionFactory;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Mage_Directory_Model_CountryFactory $countryFactory
      * @param Mage_Directory_Model_RegionFactory $regionFactory
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_App $app,
-        Mage_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_App $app,
+        Magento_Core_Model_Store_Config $storeConfig,
         Mage_Directory_Model_CountryFactory $countryFactory,
         Mage_Directory_Model_RegionFactory $regionFactory
     ) {
@@ -120,7 +120,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param  int|Mage_Sales_Model_Order $orderId
      * @param  bool $onlyParents If needs only parent items (only for backend)
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Sales_Model_Resource_Order_Item_Collection
      */
     public function getOrderItems($orderId, $onlyParents = false)
@@ -239,7 +239,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get return address array depending on config settings
      *
-     * @param Mage_Core_Model_Store|null|int $store
+     * @param Magento_Core_Model_Store|null|int $store
      * @return array
      */
     public function getReturnAddressData($store = null)
@@ -286,8 +286,8 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
         $region = $this->_regionFactory->create()->load($data['region_id']);
         $data['region_id'] = $region->getCode();
         $data['region'] = $region->getName();
-        $data['company'] = $this->_storeConfig->getConfig(Mage_Core_Model_Store::XML_PATH_STORE_STORE_NAME, $store);
-        $data['telephone']  = $this->_storeConfig->getConfig(Mage_Core_Model_Store::XML_PATH_STORE_STORE_PHONE, $store);
+        $data['company'] = $this->_storeConfig->getConfig(Magento_Core_Model_Store::XML_PATH_STORE_STORE_NAME, $store);
+        $data['telephone']  = $this->_storeConfig->getConfig(Magento_Core_Model_Store::XML_PATH_STORE_STORE_PHONE, $store);
 
         return $data;
     }
@@ -318,7 +318,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get key=>value array of "big four" shipping carriers with store-defined labels
      *
-     * @param int|Mage_Core_Model_Store|null $store
+     * @param int|Magento_Core_Model_Store|null $store
      * @return array
      */
     public function getShippingCarriers($store = null)
@@ -334,7 +334,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      * Get key=>value array of enabled in website and enabled for RMA shipping carriers
      * from "big four" with their store-defined labels
      *
-     * @param int|Mage_Core_Model_Store|null $store
+     * @param int|Magento_Core_Model_Store|null $store
      * @return array
      */
     public function getAllowedShippingCarriers($store = null)
@@ -386,7 +386,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
         $key    = 'rma_id';
         $method = 'getId';
         $param = array(
-             'hash' => Mage::helper('Mage_Core_Helper_Data')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+             'hash' => Mage::helper('Magento_Core_Helper_Data')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
         );
 
          $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -420,7 +420,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
          $param = array(
-             'hash' => Mage::helper('Mage_Core_Helper_Data')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+             'hash' => Mage::helper('Magento_Core_Helper_Data')->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
          );
 
          $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -436,7 +436,7 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function decodeTrackingHash($hash)
     {
-        $hash = explode(':', Mage::helper('Mage_Core_Helper_Data')->urlDecode($hash));
+        $hash = explode(':', Mage::helper('Magento_Core_Helper_Data')->urlDecode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
             return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
         }
@@ -478,8 +478,8 @@ class Enterprise_Rma_Helper_Data extends Mage_Core_Helper_Abstract
         $storeDate = Mage::app()->getLocale()
             ->storeDate(Mage::app()->getStore(), Magento_Date::toTimestamp($date), true);
 
-        return Mage::helper('Mage_Core_Helper_Data')
-            ->formatDate($storeDate, Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return Mage::helper('Magento_Core_Helper_Data')
+            ->formatDate($storeDate, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

@@ -22,7 +22,7 @@ class Mage_Backend_Block_Widget extends Mage_Backend_Block_Template
     public function getId()
     {
         if (null === $this->getData('id')) {
-            $this->setData('id', $this->helper('Mage_Core_Helper_Data')->uniqHash('id_'));
+            $this->setData('id', $this->helper('Magento_Core_Helper_Data')->uniqHash('id_'));
         }
         return $this->getData('id');
     }

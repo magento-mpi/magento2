@@ -16,13 +16,13 @@ class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Customer_Model_Customer */
     protected $_model;
 
-    /** @var Mage_Core_Model_Website|PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Core_Model_Website|PHPUnit_Framework_MockObject_MockObject */
     protected $_website;
 
-    /** @var Mage_Core_Model_Sender|PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Core_Model_Sender|PHPUnit_Framework_MockObject_MockObject */
     protected $_senderMock;
 
-    /** @var Mage_Core_Model_StoreManager|PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Core_Model_StoreManager|PHPUnit_Framework_MockObject_MockObject */
     protected $_storeManager;
 
     /** @var Mage_Eav_Model_Config|PHPUnit_Framework_MockObject_MockObject */
@@ -31,7 +31,7 @@ class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Eav_Model_Attribute|PHPUnit_Framework_MockObject_MockObject */
     protected $_attribute;
 
-    /** @var Mage_Core_Model_Context|PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Core_Model_Context|PHPUnit_Framework_MockObject_MockObject */
     protected $_contextMock;
 
     /** @var Mage_Customer_Model_Resource_Customer_Collection|PHPUnit_Framework_MockObject_MockObject */
@@ -45,15 +45,15 @@ class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_website = $this->getMockBuilder('Mage_Core_Model_Website')
+        $this->_website = $this->getMockBuilder('Magento_Core_Model_Website')
             ->disableOriginalConstructor()
             ->setMethods(array('getStoreIds'))
             ->getMock();
-        $this->_senderMock = $this->getMockBuilder('Mage_Core_Model_Sender')
+        $this->_senderMock = $this->getMockBuilder('Magento_Core_Model_Sender')
             ->disableOriginalConstructor()
             ->setMethods(array('send'))
             ->getMock();
-        $this->_storeManager = $this->getMockBuilder('Mage_Core_Model_StoreManager')
+        $this->_storeManager = $this->getMockBuilder('Magento_Core_Model_StoreManager')
             ->disableOriginalConstructor()
             ->setMethods(array('getWebsite'))
             ->getMock();
@@ -65,7 +65,7 @@ class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('getIsVisible'))
             ->getMock();
-        $this->_contextMock = $this->getMockBuilder('Mage_Core_Model_Context')
+        $this->_contextMock = $this->getMockBuilder('Magento_Core_Model_Context')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();

@@ -41,7 +41,7 @@ class Mage_User_Controller_Adminhtml_UserTest extends Mage_Backend_Utility_Contr
         $this->getRequest()->setPost('user_id', $userId);
         $this->dispatch('backend/admin/user/save');
         $this->assertSessionMessages(
-            $this->equalTo(array('This user no longer exists.')), Mage_Core_Model_Message::ERROR
+            $this->equalTo(array('This user no longer exists.')), Magento_Core_Model_Message::ERROR
         );
         $this->assertRedirect($this->stringContains('backend/admin/user/index/'));
     }
@@ -53,7 +53,7 @@ class Mage_User_Controller_Adminhtml_UserTest extends Mage_Backend_Utility_Contr
     {
         $this->_createNew();
         $this->assertSessionMessages(
-            $this->equalTo(array('You saved the user.')), Mage_Core_Model_Message::SUCCESS
+            $this->equalTo(array('You saved the user.')), Magento_Core_Model_Message::SUCCESS
         );
         $this->assertRedirect($this->stringContains('backend/admin/user/index/'));
     }

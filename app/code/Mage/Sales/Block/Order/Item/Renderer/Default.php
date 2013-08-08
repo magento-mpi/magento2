@@ -15,7 +15,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Template
+class Mage_Sales_Block_Order_Item_Renderer_Default extends Magento_Core_Block_Template
 {
     public function setItem(Magento_Object $item)
     {
@@ -122,13 +122,13 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Templ
             $_truncatedValue = nl2br($_truncatedValue);
             return array('value' => $_truncatedValue);
         } else {
-            $_truncatedValue = Mage::helper('Mage_Core_Helper_String')->truncate($optionValue, 55, '');
+            $_truncatedValue = Mage::helper('Magento_Core_Helper_String')->truncate($optionValue, 55, '');
             $_truncatedValue = nl2br($_truncatedValue);
         }
 
         $result = array('value' => $_truncatedValue);
 
-        if (Mage::helper('Mage_Core_Helper_String')->strlen($optionValue) > 55) {
+        if (Mage::helper('Magento_Core_Helper_String')->strlen($optionValue) > 55) {
             $result['value'] = $result['value'] . ' <a href="#" class="dots" onclick="return false">...</a>';
             $optionValue = nl2br($optionValue);
             $result = array_merge($result, array('full_view' => $optionValue));
@@ -153,7 +153,7 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Mage_Core_Block_Templ
     /**
      * Return product additional information block
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     public function getProductAdditionalInformationBlock()
     {

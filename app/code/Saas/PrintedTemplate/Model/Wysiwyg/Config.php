@@ -27,9 +27,9 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Mage_Cms_Model_Wysiwyg_C
     /**
      * Initializes config model
      *
-     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_Url $viewUrl
      */
-    public function __construct(Mage_Core_Model_View_Url $viewUrl)
+    public function __construct(Magento_Core_Model_View_Url $viewUrl)
     {
         parent::__construct($viewUrl, array(
             'buttons_to_remove' => 'media',

@@ -11,7 +11,7 @@
 /**
  * Payment method form base block
  */
-class Mage_Payment_Block_Form extends Mage_Core_Block_Template
+class Mage_Payment_Block_Form extends Magento_Core_Block_Template
 {
     /**
      * Retrieve payment method model

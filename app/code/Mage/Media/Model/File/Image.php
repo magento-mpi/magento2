@@ -16,7 +16,7 @@
  * @package    Mage_Media
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Media_Model_File_Image extends Mage_Core_Model_Resource_Abstract
+class Mage_Media_Model_File_Image extends Magento_Core_Model_Resource_Abstract
 {
     /**
      * Resource initialization

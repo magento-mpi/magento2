@@ -56,14 +56,14 @@ class Mage_Directory_Model_Observer
             Mage::getModel('Mage_Directory_Model_Currency')->saveRates($rates);
         }
         else {
-            $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-            /* @var $translate Mage_Core_Model_Translate */
+            $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+            /* @var $translate Magento_Core_Model_Translate */
             $translate->setTranslateInline(false);
 
-            /* @var $mailTemplate Mage_Core_Model_Email_Template */
-            $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
+            /* @var $mailTemplate Magento_Core_Model_Email_Template */
+            $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
             $mailTemplate->setDesignConfig(array(
-                'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+                'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
                 'store' => Mage::app()->getStore()->getId()
             ))
                 ->sendTransactional(

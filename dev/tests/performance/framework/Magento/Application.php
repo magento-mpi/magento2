@@ -180,11 +180,11 @@ class Magento_Application
     protected function _bootstrap()
     {
         if (!Mage::getObjectManager()) {
-            new Mage_Core_Model_ObjectManager(new Mage_Core_Model_Config_Primary(BP, $_SERVER));
+            new Magento_Core_Model_ObjectManager(new Magento_Core_Model_Config_Primary(BP, $_SERVER));
         }
 
-        /** @var $app Mage_Core_Model_App */
-        Mage::getObjectManager()->get('Mage_Core_Model_App');
+        /** @var $app Magento_Core_Model_App */
+        Mage::getObjectManager()->get('Magento_Core_Model_App');
         return $this;
     }
 

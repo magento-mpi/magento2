@@ -16,7 +16,7 @@
  * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Cms_Model_Resource_Block_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Define resource model
@@ -41,13 +41,13 @@ class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_
     /**
      * Add filter by store
      *
-     * @param int|Mage_Core_Model_Store $store
+     * @param int|Magento_Core_Model_Store $store
      * @param bool $withAdmin
      * @return Mage_Cms_Model_Resource_Block_Collection
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
-        if ($store instanceof Mage_Core_Model_Store) {
+        if ($store instanceof Magento_Core_Model_Store) {
             $store = array($store->getId());
         }
 
@@ -56,7 +56,7 @@ class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_
         }
 
         if ($withAdmin) {
-            $store[] = Mage_Core_Model_AppInterface::ADMIN_STORE_ID;
+            $store[] = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
         }
 
         $this->addFilter('store', array('in' => $store), 'public');

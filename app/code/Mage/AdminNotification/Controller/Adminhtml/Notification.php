@@ -33,7 +33,7 @@ class Mage_AdminNotification_Controller_Adminhtml_Notification extends Mage_Back
                 $this->_session->addSuccess(
                     Mage::helper('Mage_AdminNotification_Helper_Data')->__('The message has been marked as Read.')
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_session->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_session->addException($e,
@@ -66,7 +66,7 @@ class Mage_AdminNotification_Controller_Adminhtml_Notification extends Mage_Back
             $responseData['success'] = false;
         }
         $this->getResponse()->setBody(
-            $this->_objectManager->create('Mage_Core_Helper_Data')->jsonEncode($responseData)
+            $this->_objectManager->create('Magento_Core_Helper_Data')->jsonEncode($responseData)
         );
     }
 
@@ -89,7 +89,7 @@ class Mage_AdminNotification_Controller_Adminhtml_Notification extends Mage_Back
                     Mage::helper('Mage_AdminNotification_Helper_Data')
                         ->__('A total of %d record(s) have been marked as Read.', count($ids))
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_session->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_session->addException($e,
@@ -118,7 +118,7 @@ class Mage_AdminNotification_Controller_Adminhtml_Notification extends Mage_Back
                 $this->_session->addSuccess(
                     Mage::helper('Mage_AdminNotification_Helper_Data')->__('The message has been removed.')
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_session->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_session->addException($e,
@@ -154,7 +154,7 @@ class Mage_AdminNotification_Controller_Adminhtml_Notification extends Mage_Back
                     Mage::helper('Mage_AdminNotification_Helper_Data')
                         ->__('Total of %d record(s) have been removed.', count($ids))
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_session->addError($e->getMessage());
             } catch (Exception $e) {
                 $session->addException($e,

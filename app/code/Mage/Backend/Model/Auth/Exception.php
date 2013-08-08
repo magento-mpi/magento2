@@ -16,6 +16,6 @@
  * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Auth_Exception extends Mage_Core_Exception
+class Mage_Backend_Model_Auth_Exception extends Magento_Core_Exception
 {
 }

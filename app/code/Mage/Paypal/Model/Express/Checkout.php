@@ -119,7 +119,7 @@ class Mage_Paypal_Model_Express_Checkout
     protected $_order = null;
 
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
 
@@ -127,13 +127,13 @@ class Mage_Paypal_Model_Express_Checkout
      * Set config, session and quote instances
      *
      * @param Mage_Customer_Model_Session $customerSession
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param array $params
      * @throws Exception
      */
     public function __construct(
         Mage_Customer_Model_Session $customerSession,
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
         $params = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -411,7 +411,7 @@ class Mage_Paypal_Model_Express_Checkout
      * Check whether order review has enough data to initialize
      *
      * @param $token
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function prepareOrderReview($token = null)
     {
@@ -439,7 +439,7 @@ class Mage_Paypal_Model_Express_Checkout
     {
         // prepare debug data
         $logger = Mage::getModel(
-            'Mage_Core_Model_Log_Adapter',
+            'Magento_Core_Model_Log_Adapter',
             array('fileName' => 'payment_' . $this->_methodType . '.log')
         );
         $debugData = array('request' => $request, 'response' => array());
@@ -902,7 +902,7 @@ class Mage_Paypal_Model_Express_Checkout
             $billing->setCustomerGender($quote->getCustomerGender());
         }
 
-        Mage::helper('Mage_Core_Helper_Data')->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('checkout_onepage_billing', 'to_customer', $billing, $customer);
         $customer->setEmail($quote->getCustomerEmail());
         $customer->setPrefix($quote->getCustomerPrefix());
         $customer->setFirstname($quote->getCustomerFirstname());

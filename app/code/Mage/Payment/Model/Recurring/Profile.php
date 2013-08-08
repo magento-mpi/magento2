@@ -10,9 +10,9 @@
 
 /**
  * Recurring payment profile
- * Extends from Mage_Core_Abstract for a reason: to make descendants have its own resource
+ * Extends from Magento_Core_Abstract for a reason: to make descendants have its own resource
  */
-class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
+class Mage_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstract
 {
     /**
      * Constants for passing data through catalog
@@ -49,14 +49,14 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     /**
      * Locale instance used for importing/exporting data
      *
-     * @var Mage_Core_Model_LocaleInterface
+     * @var Magento_Core_Model_LocaleInterface
      */
     protected $_locale = null;
 
     /**
      * Store instance used by locale or method instance
      *
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store = null;
 
@@ -134,7 +134,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         if ($this->_methodInstance) {
             try {
                 $this->_methodInstance->validateRecurringProfile($this);
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_errors['payment_method'][] = $e->getMessage();
             }
         }
@@ -188,14 +188,14 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
      *
      * @param Magento_Object $buyRequest
      * @return Mage_Payment_Model_Recurring_Profile
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function importBuyRequest(Magento_Object $buyRequest)
     {
         $startDate = $buyRequest->getData(self::BUY_REQUEST_START_DATETIME);
         if ($startDate) {
             $this->_ensureLocaleAndStore();
-            $dateFormat = $this->_locale->getDateTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+            $dateFormat = $this->_locale->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
             $localeCode = $this->_locale->getLocaleCode();
             if (!Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
                 Mage::throwException(Mage::helper('Mage_Payment_Helper_Data')->__('The recurring profile start date has invalid format.'));
@@ -296,7 +296,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         }
         $date = $this->_locale->storeDate($this->_store, strtotime($datetime), true);
         if ($asString) {
-            return $date->toString($this->_locale->getDateTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT));
+            return $date->toString($this->_locale->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT));
         }
         return $date;
     }
@@ -304,10 +304,10 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     /**
      * Locale instance setter
      *
-     * @param Mage_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @return Mage_Payment_Model_Recurring_Profile
      */
-    public function setLocale(Mage_Core_Model_LocaleInterface $locale)
+    public function setLocale(Magento_Core_Model_LocaleInterface $locale)
     {
         $this->_locale = $locale;
         return $this;
@@ -316,10 +316,10 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     /**
      * Store instance setter
      *
-     * @param Mage_Core_Model_Store $store
+     * @param Magento_Core_Model_Store $store
      * @return Mage_Payment_Model_Recurring_Profile
      */
-    public function setStore(Mage_Core_Model_Store $store)
+    public function setStore(Magento_Core_Model_Store $store)
     {
         $this->_store = $store;
         return $this;
@@ -571,7 +571,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     /**
      * Perform full validation before saving
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _validateBeforeSave()
     {

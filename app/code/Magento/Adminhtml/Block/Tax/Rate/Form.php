@@ -154,7 +154,7 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Fo
 
         $this->setChild(
             'form_after',
-            $this->getLayout()->createBlock('Mage_Core_Block_Template')
+            $this->getLayout()->createBlock('Magento_Core_Block_Template')
                 ->setTemplate('Magento_Adminhtml::tax/rate/js.phtml')
         );
 

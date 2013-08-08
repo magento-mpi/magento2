@@ -96,7 +96,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Mage_Bac
     /**
      * Get HTML of store chooser
      *
-     * @param Mage_Core_Model_Store $storeTo
+     * @param Magento_Core_Model_Store $storeTo
      * @return string
      */
     public function getChooseFromStoreHtml($storeTo)

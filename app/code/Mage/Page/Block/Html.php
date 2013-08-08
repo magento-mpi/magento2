@@ -15,7 +15,7 @@
  * @package    Mage_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Page_Block_Html extends Mage_Core_Block_Template
+class Mage_Page_Block_Html extends Magento_Core_Block_Template
 {
     protected $_urls = array();
     protected $_title = '';
@@ -82,7 +82,7 @@ class Mage_Page_Block_Html extends Mage_Core_Block_Template
 
         // buld url
         if (!empty($logo)) {
-            $logo = $this->_urlBuilder->getBaseUrl(array('_type' => Mage_Core_Model_Store::URL_TYPE_MEDIA)) . $logo;
+            $logo = $this->_urlBuilder->getBaseUrl(array('_type' => Magento_Core_Model_Store::URL_TYPE_MEDIA)) . $logo;
         }
         else {
             $logo = '';

@@ -15,7 +15,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Helper_Data extends Mage_Core_Helper_Data
+class Mage_Sales_Helper_Data extends Magento_Core_Helper_Data
 {
     /**
      * Maximum available number

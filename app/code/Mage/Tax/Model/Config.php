@@ -155,7 +155,7 @@ class Mage_Tax_Model_Config
      * Get taxes/discounts calculation sequence.
      * This sequence depends on "Apply Customer Tax" and "Apply Discount On Prices" configuration options.
      *
-     * @param   null|int|string|Mage_Core_Model_Store $store
+     * @param   null|int|string|Magento_Core_Model_Store $store
      * @return  string
      */
     public function getCalculationSequence($store=null)

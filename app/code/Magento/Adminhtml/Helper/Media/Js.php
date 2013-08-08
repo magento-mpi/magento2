@@ -17,17 +17,17 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Helper_Media_Js extends Mage_Core_Helper_Js
+class Magento_Adminhtml_Helper_Media_Js extends Magento_Core_Helper_Js
 {
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Config_Modules_Reader $configReader
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config_Modules_Reader $configReader
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Config_Modules_Reader $configReader,
-        Mage_Core_Model_Cache_Type_Config $configCacheType
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config_Modules_Reader $configReader,
+        Magento_Core_Model_Cache_Type_Config $configCacheType
     )
     {
         parent::__construct($context, $configReader, $configCacheType);

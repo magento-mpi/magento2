@@ -17,7 +17,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
      */
     protected function _createModel($selectMock = null)
     {
-        $this->_resource = $this->getMockBuilder('Mage_Core_Model_Resource')
+        $this->_resource = $this->getMockBuilder('Magento_Core_Model_Resource')
             ->disableOriginalConstructor()
             ->setMethods(array('getConnection', 'getTableName'))
             ->getMock();
@@ -149,7 +149,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
         // Init rule.
         $rule = $this->getMockBuilder('Mage_Webapi_Model_Acl_Rule')
             ->setConstructorArgs(array(
-                'context' => $this->getMock('Mage_Core_Model_Context', array(), array(), '', false),
+                'context' => $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
                 'resource' => $ruleResource
             ))
             ->setMethods(array('getResources'))

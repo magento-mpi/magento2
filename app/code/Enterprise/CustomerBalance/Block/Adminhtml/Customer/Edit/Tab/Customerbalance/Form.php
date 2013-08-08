@@ -42,7 +42,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
                 'name'     => 'website_id',
                 'label'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
                 'title'    => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
-                'values'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
                 'onchange' => 'updateEmailWebsites()',
             ));
         }

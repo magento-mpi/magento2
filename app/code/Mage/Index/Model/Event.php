@@ -25,7 +25,7 @@
  * @package     Mage_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
+class Mage_Index_Model_Event extends Magento_Core_Model_Abstract
 {
     /**
      * Predefined event types

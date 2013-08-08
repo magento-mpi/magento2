@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../Mage/Core/_files/store.php';
+require __DIR__ . '/../../../Magento/Core/_files/store.php';
 
 $currentStore = Mage::app()->getStore()->getId();
 $otherStore = Mage::app()->getStore('fixturestore')->getId();

@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abstract
+class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_Abstract
 {
     const XML_PATH_DEFAULT_CREATEACCOUNT_GROUP = 'customer/create_account/default_group';
 
@@ -36,7 +36,7 @@ class Magento_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abst
     /**
      * Store model object
      *
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store   = null;
 
@@ -117,7 +117,7 @@ class Magento_Adminhtml_Model_Session_Quote extends Mage_Core_Model_Session_Abst
     /**
      * Retrieve store model object
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {

@@ -92,7 +92,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Instance of current store
      *
-     * @var null|Mage_Core_Model_Store
+     * @var null|Magento_Core_Model_Store
      */
     protected $_currentStore = null;
 
@@ -136,7 +136,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Return quote store
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -354,7 +354,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      * @param Mage_Sales_Model_Order_Item $orderItem
      * @param int|float $qty
      * @return Mage_Sales_Model_Quote_Item
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function reorderItem(Mage_Sales_Model_Order_Item $orderItem, $qty = 1)
     {
@@ -450,7 +450,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             $config['qty'] = isset($config['qty']) ? (float)$config['qty'] : 1;
             try {
                 $this->addProduct($productId, $config);
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_addResultError($e->getMessage());
             } catch (Exception $e) {
                 return $e;
@@ -1265,7 +1265,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
                 $config = $item['item']['qty'];
             }
             $cart->addProduct($item['item']['id'], $config);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             if (!$suppressSuperMode) {
                 $success = false;
                 $item['code'] = Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;
@@ -1398,13 +1398,13 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             $message = ($addedItemsCount == 1)
                     ? Mage::helper('Enterprise_Checkout_Helper_Data')->__('You added %s product to your shopping cart.', $addedItemsCount)
                     : Mage::helper('Enterprise_Checkout_Helper_Data')->__('You added %s products to your shopping cart.', $addedItemsCount);
-            $messages[] = Mage::getSingleton('Mage_Core_Model_Message')->success($message);
+            $messages[] = Mage::getSingleton('Magento_Core_Model_Message')->success($message);
         }
         if ($failedItemsCount) {
             $warning = ($failedItemsCount == 1)
                     ? Mage::helper('Enterprise_Checkout_Helper_Data')->__('%s product requires your attention.', $failedItemsCount)
                     : Mage::helper('Enterprise_Checkout_Helper_Data')->__('%s products require your attention.', $failedItemsCount);
-            $messages[] = Mage::getSingleton('Mage_Core_Model_Message')->error($warning);
+            $messages[] = Mage::getSingleton('Magento_Core_Model_Message')->error($warning);
         }
         return $messages;
     }
@@ -1541,10 +1541,10 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Sets session where data is going to be stored
      *
-     * @param Mage_Core_Model_Session_Abstract $session
+     * @param Magento_Core_Model_Session_Abstract $session
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function setSession(Mage_Core_Model_Session_Abstract $session)
+    public function setSession(Magento_Core_Model_Session_Abstract $session)
     {
         $this->_getHelper()->setSession($session);
         return $this;
@@ -1553,7 +1553,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Returns current session used to store data about affected items
      *
-     * @return Mage_Core_Model_Session_Abstract
+     * @return Magento_Core_Model_Session_Abstract
      */
     public function getSession()
     {
@@ -1563,7 +1563,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Retrieve instance of current store
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getCurrentStore()
     {

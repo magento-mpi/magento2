@@ -81,7 +81,7 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
         }
 
         $taxHelper = Mage::helper('Mage_Tax_Helper_Data');
-        $coreHelper = $this->helper('Mage_Core_Helper_Data');
+        $coreHelper = $this->helper('Magento_Core_Helper_Data');
         $_priceInclTax = $taxHelper->getPrice($link->getProduct(), $price, true);
         $_priceExclTax = $taxHelper->getPrice($link->getProduct(), $price);
 
@@ -111,7 +111,7 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
     public function getCurrencyPrice($price)
     {
         $store = $this->getProduct()->getStore();
-        return $this->helper('Mage_Core_Helper_Data')->currencyByStore($price, $store, false);
+        return $this->helper('Magento_Core_Helper_Data')->currencyByStore($price, $store, false);
     }
 
     /**
@@ -122,7 +122,7 @@ class Mage_Downloadable_Block_Catalog_Product_Links extends Mage_Catalog_Block_P
     public function getJsonConfig()
     {
         $config = array();
-        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
+        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
 
         foreach ($this->getLinks() as $link) {
             $config[$link->getId()] = $coreHelper->currency($link->getPrice(), false, false);

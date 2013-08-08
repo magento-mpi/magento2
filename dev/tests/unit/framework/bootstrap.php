@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../../app/code/Mage/Core/functions.php';
+require __DIR__ . '/../../../../app/code/Magento/Core/functions.php';
 require __DIR__ . '/../../../../app/autoload.php';
 Magento_Autoload_IncludePath::addIncludePath(array(
     __DIR__,

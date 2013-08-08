@@ -52,7 +52,7 @@ abstract class Saas_PrintedTemplate_Model_Variable_Item_Abstract
     /**
      * Returns parent entity
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     abstract protected function _getParentEntity();
 

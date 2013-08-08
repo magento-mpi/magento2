@@ -17,8 +17,8 @@ $auth->setAuthStorage($session);
 $auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
 $session->activateDesignEditor();
 
-/** @var $theme Mage_Core_Model_Theme */
-$theme = Mage::getModel('Mage_Core_Model_Theme');
+/** @var $theme Magento_Core_Model_Theme */
+$theme = Mage::getModel('Magento_Core_Model_Theme');
 $theme->setData(array(
     'theme_code'           => 'blank',
     'area'                 => 'frontend',

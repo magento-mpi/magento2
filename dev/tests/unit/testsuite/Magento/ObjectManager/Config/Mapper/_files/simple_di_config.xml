@@ -9,21 +9,21 @@
 -->
 <config>
     <!-- Comment within root node -->
-    <preference for="Mage_Core_Model_Db_UpdaterInterface" type="Mage_Core_Model_Db_Updater" />
-    <preference for="Mage_Core_Model_AppInterface" type="Mage_Core_Model_App_Proxy" />
-    <type name="Mage_Core_Model_App_State">
+    <preference for="Magento_Core_Model_Db_UpdaterInterface" type="Magento_Core_Model_Db_Updater" />
+    <preference for="Magento_Core_Model_AppInterface" type="Magento_Core_Model_App_Proxy" />
+    <type name="Magento_Core_Model_App_State">
         <param name="mode">
             <value type="argument">Mage::PARAM_MODE</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Config_Modules">
+    <type name="Magento_Core_Model_Config_Modules">
         <!-- Comment within type node -->
         <param name="storage">
             <!-- Comment within param node -->
-            <instance type="Mage_Core_Model_Config_Storage_Modules" shared="false" />
+            <instance type="Magento_Core_Model_Config_Storage_Modules" shared="false" />
         </param>
-        <plugin name="simple_modules_plugin" type="Mage_Core_Model_Config_Modules_Plugin" disabled="true" sortOrder="10" />
-        <plugin name="simple_modules_plugin_advanced" type="Mage_Core_Model_Config_Modules_PluginAdvanced" />
+        <plugin name="simple_modules_plugin" type="Magento_Core_Model_Config_Modules_Plugin" disabled="true" sortOrder="10" />
+        <plugin name="simple_modules_plugin_advanced" type="Magento_Core_Model_Config_Modules_PluginAdvanced" />
         <plugin name="overridden_plugin" sortOrder="30" disabled="true" />
     </type>
     <type name="Magento_Http_Handler_Composite" shared="false">
@@ -50,7 +50,7 @@
         <param name="cacheLifetime"><value>86400</value></param>
         <param name="cacheTags">
             <value>
-                <const type='const'>Mage_Core_Model_Website::CACHE_TAG</const>
+                <const type='const'>Magento_Core_Model_Website::CACHE_TAG</const>
                 <boolFalse type='bool'>false</boolFalse>
                 <boolTrue type='bool'>true</boolTrue>
                 <boolOne type='bool'>1</boolOne>
@@ -61,7 +61,7 @@
             </value>
         </param>
         <param name="constParam">
-            <value type='const'>Mage_Core_Model_Website::CACHE_TAG</value>
+            <value type='const'>Magento_Core_Model_Website::CACHE_TAG</value>
         </param>
         <param name="boolFalseParam">
             <value type='bool'>false</value>
@@ -85,6 +85,6 @@
             <value type='string' pattern="[a-z\-]*">az-value</value>
         </param>
     </type>
-    <virtualType name="customCacheInstance" type="Mage_Core_Model_Cache" shared="true" />
+    <virtualType name="customCacheInstance" type="Magento_Core_Model_Cache" shared="true" />
     <virtualType name="customOverriddenInstance" shared="false" />
 </config>

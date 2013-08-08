@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author    Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset extends Mage_Core_Block_Text_List
+class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset extends Magento_Core_Block_Text_List
 {
     /**
      *
@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset extends Mage_Co
         $total = count($children);
         $i = 0;
         $this->setText('');
-        /** @var $block Mage_Core_Block_Abstract  */
+        /** @var $block Magento_Core_Block_Abstract  */
         foreach ($children as $block) {
             $i++;
             $block->setIsLastFieldset($i == $total);

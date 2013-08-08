@@ -34,7 +34,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends 
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
 
         $this->_request = $this->getMock(
-            'Mage_Core_Controller_Request_Http', array('getParam', 'getPost'), array(), '', false
+            'Magento_Core_Controller_Request_Http', array('getParam', 'getPost'), array(), '', false
         );
 
         $helper = new Magento_Test_Helper_ObjectManager($this);
@@ -78,19 +78,21 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends 
             ->will($this->returnValue($jsOrder));
         $this->_request->expects($this->once(5))->method('getPost')->will($this->returnValue(true));
 
-        $themeMock = $this->getMock('Mage_Core_Model_Theme',
+        $themeMock = $this->getMock('Magento_Core_Model_Theme',
             array('save', 'load', 'setCustomization', 'getThemeImage'), array(), '', false);
 
-        $themeImage = $this->getMock('Mage_Core_Model_Theme_Image', array(), array(), '', false);
+        $themeImage = $this->getMock('Magento_Core_Model_Theme_Image', array(), array(), '', false);
         $themeMock->expects($this->any())->method('getThemeImage')->will($this->returnValue($themeImage));
 
-        $themeFactory = $this->getMock('Mage_Core_Model_Theme_FlyweightFactory', array('create'), array(), '', false);
+        $themeFactory = $this->getMock(
+            'Magento_Core_Model_Theme_FlyweightFactory', array('create'), array(), '', false
+        );
         $themeFactory->expects($this->once())->method('create')->will($this->returnValue($themeMock));
 
         $this->_objectManagerMock
             ->expects($this->at(0))
             ->method('get')
-            ->with('Mage_Core_Model_Theme_FlyweightFactory')
+            ->with('Magento_Core_Model_Theme_FlyweightFactory')
             ->will($this->returnValue($themeFactory));
 
         $this->_objectManagerMock

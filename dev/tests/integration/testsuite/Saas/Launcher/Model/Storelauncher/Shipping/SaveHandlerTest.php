@@ -53,7 +53,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit
      */
     protected function _getActiveShippingCarriers()
     {
-        $config = Mage::getModel('Mage_Core_Model_Config');
+        $config = Mage::getModel('Magento_Core_Model_Config');
         $carriers = $config->getNode('default/carriers');
         $activeCarries = array();
         foreach ($carriers->children() as $carrierName => $carrier) {

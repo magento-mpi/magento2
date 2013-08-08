@@ -15,7 +15,7 @@
  * @package    Mage_Bundle
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_Abstract
+class Mage_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_Helper_Abstract
     implements Mage_Catalog_Helper_Product_Configuration_Interface
 {
     /**
@@ -109,7 +109,7 @@ class Mage_Bundle_Helper_Catalog_Product_Configuration extends Mage_Core_Helper_
                             $qty = $this->getSelectionQty($product, $bundleSelection->getSelectionId()) * 1;
                             if ($qty) {
                                 $option['value'][] = $qty . ' x ' . $this->escapeHtml($bundleSelection->getName())
-                                    . ' ' . Mage::helper('Mage_Core_Helper_Data')->currency(
+                                    . ' ' . Mage::helper('Magento_Core_Helper_Data')->currency(
                                         $this->getSelectionFinalPrice($item, $bundleSelection)
                                     );
                             }

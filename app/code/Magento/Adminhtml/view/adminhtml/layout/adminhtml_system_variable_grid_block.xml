@@ -13,7 +13,7 @@
             <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.system.variable.grid" as="grid">
                 <arguments>
                     <id>customVariablesGrid</id>
-                    <dataSource type="object">Mage_Core_Model_Resource_Variable_Collection</dataSource>
+                    <dataSource type="object">Magento_Core_Model_Resource_Variable_Collection</dataSource>
                     <default_sort>variable_id</default_sort>
                     <default_dir>ASC</default_dir>
                 </arguments>

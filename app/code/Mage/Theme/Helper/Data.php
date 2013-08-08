@@ -11,6 +11,6 @@
 /**
  * Theme module helper
  */
-class Mage_Theme_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Theme_Helper_Data extends Magento_Core_Helper_Abstract
 {
 }

@@ -15,7 +15,7 @@
  * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Model_Resource_Recommendations extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_Search_Model_Resource_Recommendations extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * @var Mage_CatalogSearch_Model_Query

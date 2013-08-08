@@ -14,7 +14,7 @@ class Mage_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest extend
     /** @var  Mage_Webhook_Block_Adminhtml_Registration_Activate */
     private $_block;
 
-    /** @var Mage_Core_Model_Url */
+    /** @var Magento_Core_Model_Url */
     private $_urlBuilder;
 
     /** @var array  */
@@ -26,14 +26,14 @@ class Mage_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest extend
 
     public function setUp()
     {
-        $this->_urlBuilder = $this->getMock('Mage_Core_Model_Url', array('getUrl'), array(), '', false);
-        /** @var Mage_Core_Block_Template_Context $context */
+        $this->_urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getUrl'), array(), '', false);
+        /** @var Magento_Core_Block_Template_Context $context */
         $context = $this->getMock('Mage_Backend_Block_Template_Context', array('getUrlBuilder'), array(), '', false);
         $context->expects($this->once())
             ->method('getUrlBuilder')
             ->will($this->returnValue($this->_urlBuilder));
 
-        $registry = $this->getMock('Mage_Core_Model_Registry', array('registry'), array(), '', false);
+        $registry = $this->getMock('Magento_Core_Model_Registry', array('registry'), array(), '', false);
         $registry->expects($this->once())
             ->method('registry')
             ->with('current_subscription')

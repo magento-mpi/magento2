@@ -13,7 +13,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
+class Mage_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Template
 {
     /**
      * Payment methods array
@@ -72,7 +72,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
                 $value = $order->getIncrementId();
                 break;
             case 'created_at':
-                $value = $this->helper('Mage_Core_Helper_Data')->formatDate($order->getCreatedAt(), 'short', true);
+                $value = $this->helper('Magento_Core_Helper_Data')->formatDate($order->getCreatedAt(), 'short', true);
                 break;
             case 'shipping_address':
                 $value = $order->getShippingAddress()
@@ -97,7 +97,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
     /**
      * Set pager
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
@@ -154,11 +154,11 @@ class Mage_Sales_Block_Billing_Agreement_View extends Mage_Core_Block_Template
             $createdAt = $this->_billingAgreementInstance->getCreatedAt();
             $updatedAt = $this->_billingAgreementInstance->getUpdatedAt();
             $this->setAgreementCreatedAt(
-                ($createdAt) ? $this->helper('Mage_Core_Helper_Data')->formatDate($createdAt, 'short', true) : $this->__('N/A')
+                ($createdAt) ? $this->helper('Magento_Core_Helper_Data')->formatDate($createdAt, 'short', true) : $this->__('N/A')
             );
             if ($updatedAt) {
                 $this->setAgreementUpdatedAt(
-                    $this->helper('Mage_Core_Helper_Data')->formatDate($updatedAt, 'short', true)
+                    $this->helper('Magento_Core_Helper_Data')->formatDate($updatedAt, 'short', true)
                 );
             }
             $this->setAgreementStatus($this->_billingAgreementInstance->getStatusLabel());

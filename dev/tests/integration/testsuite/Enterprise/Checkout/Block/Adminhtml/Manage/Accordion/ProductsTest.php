@@ -14,13 +14,13 @@
  */
 class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_ProductsTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Core_Block_Abstract */
+    /** @var Magento_Core_Block_Abstract */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
         $this->_block = $layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products');
     }
 

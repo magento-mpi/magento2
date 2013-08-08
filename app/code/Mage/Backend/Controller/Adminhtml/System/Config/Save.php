@@ -81,7 +81,7 @@ class Mage_Backend_Controller_Adminhtml_System_Config_Save extends Mage_Backend_
             $this->_session->addSuccess(
                 $this->_getHelper()->__('You saved the configuration.')
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $messages = explode("\n", $e->getMessage());
             foreach ($messages as $message) {
                 $this->_session->addError($message);

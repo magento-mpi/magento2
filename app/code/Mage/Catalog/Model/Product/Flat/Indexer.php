@@ -35,7 +35,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Flat_Indexer extends Mage_Core_Model_Abstract
+class Mage_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abstract
 {
     /**
      * Catalog product flat entity for indexers

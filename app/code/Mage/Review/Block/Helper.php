@@ -15,7 +15,7 @@
  * @package    Mage_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Block_Helper extends Mage_Core_Block_Template
+class Mage_Review_Block_Helper extends Magento_Core_Block_Template
 {
     protected $_availableTemplates = array(
         'default' => 'helper/summary.phtml',

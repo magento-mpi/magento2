@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Catalog_Model_Config_Backend_Seo_Product extends Mage_Core_Model_Config_Data
+class Mage_Catalog_Model_Config_Backend_Seo_Product extends Magento_Core_Model_Config_Data
 {
     /**
      * Refresh category url rewrites if configuration was changed

@@ -24,7 +24,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Option_Value extends Mage_Core_Model_Abstract
+class Mage_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abstract
 {
     protected $_values = array();
 

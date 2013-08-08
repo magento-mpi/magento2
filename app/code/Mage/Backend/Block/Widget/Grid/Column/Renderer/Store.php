@@ -25,11 +25,11 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Store
     /**
      * Retrieve System Store model
      *
-     * @return Mage_Core_Model_System_Store
+     * @return Magento_Core_Model_System_Store
      */
     protected function _getStoreModel()
     {
-        return Mage::getSingleton('Mage_Core_Model_System_Store');
+        return Mage::getSingleton('Magento_Core_Model_System_Store');
     }
 
     /**

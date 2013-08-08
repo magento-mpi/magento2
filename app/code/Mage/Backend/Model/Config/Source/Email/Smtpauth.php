@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Backend_Model_Config_Source_Email_Smtpauth implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Backend_Model_Config_Source_Email_Smtpauth implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

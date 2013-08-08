@@ -44,7 +44,7 @@ return function (array $params)
     $appParams = $config->getApplicationParams();
     Magento_Profiler::start('mage');
     $entryPoint = new Saas_Core_Model_EntryPoint_Http(
-        new Mage_Core_Model_Config_Primary($rootDir, $appParams)
+        new Magento_Core_Model_Config_Primary($rootDir, $appParams)
     );
     $entryPoint->processRequest();
     Magento_Profiler::stop('mage');

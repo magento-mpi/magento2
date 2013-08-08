@@ -27,7 +27,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default extends Mage_Backe
     /**
      * Set template
      *
-     * @see Mage_Core_Block_Template::_construct()
+     * @see Magento_Core_Block_Template::_construct()
      */
     protected function _construct()
     {
@@ -66,7 +66,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default extends Mage_Backe
      *
      * @param string $productType
      * @param string $property
-     * @return Mage_Core_Block_Abstract|false
+     * @return Magento_Core_Block_Abstract|false
      */
     protected function _getFieldRenderer($productType, $property)
     {

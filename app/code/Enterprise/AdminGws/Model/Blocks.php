@@ -362,7 +362,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     private function _removeButtons($observer, $registryKey, $buttons = array())
     {
-        /* @var $model Mage_Core_Model_Abstract */
+        /* @var $model Magento_Core_Model_Abstract */
         $model = Mage::registry($registryKey);
         if ($model) {
             $storeIds = $model->getStoreId();

@@ -249,7 +249,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
         foreach ($products as $product) {
             $data[$product->getId()] = $this->getConfigurableSettings($product);
         }
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**

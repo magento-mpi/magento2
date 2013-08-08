@@ -11,7 +11,7 @@
 /**
  * Product view price and stock alerts
  */
-class Mage_ProductAlert_Block_Product_View extends Mage_Core_Block_Template
+class Mage_ProductAlert_Block_Product_View extends Magento_Core_Block_Template
 {
     /**
      * Current product instance

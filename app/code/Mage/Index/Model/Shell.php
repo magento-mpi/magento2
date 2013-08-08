@@ -15,7 +15,7 @@
  * @package     Mage_Shell
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Index_Model_Shell extends Mage_Core_Model_ShellAbstract
+class Mage_Index_Model_Shell extends Magento_Core_Model_ShellAbstract
 {
     /**
      * Error status - whether errors have happened
@@ -131,7 +131,7 @@ class Mage_Index_Model_Shell extends Mage_Core_Model_ShellAbstract
             try {
                 $process->setMode($mode)->save();
                 echo $process->getIndexer()->getName() . " index was successfully changed index mode\n";
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 echo $e->getMessage() . "\n";
                 $this->_hasErrors = true;
             } catch (Exception $e) {
@@ -161,7 +161,7 @@ class Mage_Index_Model_Shell extends Mage_Core_Model_ShellAbstract
             try {
                 $process->reindexEverything();
                 echo $process->getIndexer()->getName() . " index was rebuilt successfully\n";
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 echo $e->getMessage() . "\n";
                 $this->_hasErrors = true;
             } catch (Exception $e) {

@@ -108,14 +108,14 @@
                 <label>Design Theme</label>
                 <field id="theme_id" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Design Theme</label>
-                    <source_model>Mage_Core_Model_Theme_Label::getLabelsCollectionForSystemConfiguration</source_model>
-                    <backend_model>Mage_Core_Model_Design_Backend_Theme</backend_model>
+                    <source_model>Magento_Core_Model_Theme_Label::getLabelsCollectionForSystemConfiguration</source_model>
+                    <backend_model>Magento_Core_Model_Design_Backend_Theme</backend_model>
                     <comment><![CDATA[If no value is specified, the system default will be used. The system default may be modified by third party extensions.]]></comment>
                 </field>
                 <field id="ua_regexp" translate="label comment tooltip" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>User-Agent Exceptions</label>
                     <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Regexceptions</frontend_model>
-                    <backend_model>Mage_Core_Model_Design_Backend_Exceptions</backend_model>
+                    <backend_model>Magento_Core_Model_Design_Backend_Exceptions</backend_model>
                     <comment>
                         <![CDATA[Search strings are either normal strings or regular exceptions (PCRE). They are matched in the same order as entered. Examples:<br /><span style="font-family:monospace">Firefox<br />/^mozilla/i</span>]]>
                     </comment>

@@ -102,7 +102,7 @@ class Magento_Adminhtml_Controller_Dashboard extends Magento_Adminhtml_Controlle
                             ->setBody($response->getBody());
                         return;
                     } catch (Exception $e) {
-                        $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+                        $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                         $error = $this->__('see error log for details');
                         $httpCode = 503;
                     }

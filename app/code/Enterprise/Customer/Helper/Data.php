@@ -20,7 +20,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
     /**
      * Return available customer attribute form as select options
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getAttributeFormOptions()
     {
@@ -30,7 +30,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
     /**
      * Default attribute entity type code
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _getEntityTypeCode()
     {

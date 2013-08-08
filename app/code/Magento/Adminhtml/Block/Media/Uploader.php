@@ -24,18 +24,18 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     protected $_template = 'media/uploader.phtml';
 
     /**
-     * @var Mage_Core_Model_View_Url
+     * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_View_Url $viewUrl,
         array $data = array()
     ) {
         $this->_viewUrl = $viewUrl;
@@ -98,7 +98,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
      */
     public function getConfigJson()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
     }
 
     /**

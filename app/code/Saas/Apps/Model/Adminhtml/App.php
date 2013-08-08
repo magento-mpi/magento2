@@ -15,7 +15,7 @@
  * @package     Saas_Apps
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Apps_Model_Adminhtml_App extends Mage_Core_Model_Abstract
+class Saas_Apps_Model_Adminhtml_App extends Magento_Core_Model_Abstract
 {
     /**
      * Apps proxy page cache key
@@ -44,12 +44,12 @@ class Saas_Apps_Model_Adminhtml_App extends Mage_Core_Model_Abstract
     /**
      * Apps model constructor
      *
-     * @param Mage_Core_Model_Context $context
+     * @param Magento_Core_Model_Context $context
      * @param Saas_Apps_Helper_Data $helper
      * @param Magento_HTTP_Adapter_Curl $curl
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
+        Magento_Core_Model_Context $context,
         Saas_Apps_Helper_Data $helper,
         Magento_HTTP_Adapter_Curl $curl
     ) {

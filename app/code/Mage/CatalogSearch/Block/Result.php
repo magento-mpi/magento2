@@ -16,7 +16,7 @@
  * @package    Mage_CatalogSearch
  * @module     Catalog
  */
-class Mage_CatalogSearch_Block_Result extends Mage_Core_Block_Template
+class Mage_CatalogSearch_Block_Result extends Magento_Core_Block_Template
 {
     /**
      * Catalog Product collection

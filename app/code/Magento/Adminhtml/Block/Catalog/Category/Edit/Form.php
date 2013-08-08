@@ -200,7 +200,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Edit_Form extends Magento_Adminht
     {
         $products = $this->getCategory()->getProductsPosition();
         if (!empty($products)) {
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($products);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($products);
         }
         return '{}';
     }

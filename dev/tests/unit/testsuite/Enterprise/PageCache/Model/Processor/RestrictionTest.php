@@ -38,7 +38,7 @@ class Enterprise_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Frame
         $this->_environmentMock = $this->getMock(
             'Enterprise_PageCache_Model_Environment', array(), array(), '', false
         );
-        $this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface', array(), array(), '', false);
+        $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false);
         $this->_model = new Enterprise_PageCache_Model_Processor_Restriction(
             $this->_cacheMock, $this->_environmentMock
         );
@@ -128,7 +128,7 @@ class Enterprise_PageCache_Model_Processor_RestrictionTest extends PHPUnit_Frame
 
         $valueMap = array(
             array('no_cache', false),
-            array(Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM, true),
+            array(Magento_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM, true),
         );
 
         $this->_environmentMock->expects($this->exactly(2))

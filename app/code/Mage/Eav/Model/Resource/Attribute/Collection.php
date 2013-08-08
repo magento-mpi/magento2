@@ -27,7 +27,7 @@ abstract class Mage_Eav_Model_Resource_Attribute_Collection
     /**
      * Current website scope instance
      *
-     * @var Mage_Core_Model_Website
+     * @var Magento_Core_Model_Website
      */
     protected $_website;
 
@@ -82,7 +82,7 @@ abstract class Mage_Eav_Model_Resource_Attribute_Collection
     /**
      * Set Website scope
      *
-     * @param Mage_Core_Model_Website|int $website
+     * @param Magento_Core_Model_Website|int $website
      * @return Mage_Eav_Model_Resource_Attribute_Collection
      */
     public function setWebsite($website)
@@ -95,7 +95,7 @@ abstract class Mage_Eav_Model_Resource_Attribute_Collection
     /**
      * Return current website scope instance
      *
-     * @return Mage_Core_Model_Website
+     * @return Magento_Core_Model_Website
      */
     public function getWebsite()
     {

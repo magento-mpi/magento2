@@ -54,7 +54,7 @@ class Mage_Backend_Block_Widget_Grid_Massaction_Extended extends Mage_Backend_Bl
      *      'complete' => string, // Only for ajax enabled grid (optional)
      *      'url'      => string,
      *      'confirm'  => string, // text of confirmation of this action (optional)
-     *      'additional' => string|array|Mage_Core_Block_Abstract // (optional)
+     *      'additional' => string|array|Magento_Core_Block_Abstract // (optional)
      * );
      *
      * @param string $itemId
@@ -113,7 +113,7 @@ class Mage_Backend_Block_Widget_Grid_Massaction_Extended extends Mage_Backend_Bl
             $result[$itemId] = $item->toArray();
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
     }
 
     /**

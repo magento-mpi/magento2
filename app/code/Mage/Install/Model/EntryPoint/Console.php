@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAbstract
+class Mage_Install_Model_EntryPoint_Console extends Magento_Core_Model_EntryPointAbstract
 {
     /**
      * Application params
@@ -17,22 +17,22 @@ class Mage_Install_Model_EntryPoint_Console extends Mage_Core_Model_EntryPointAb
     protected $_params = array();
 
     /**
-     * @param Mage_Core_Model_Config_Primary $baseDir
+     * @param Magento_Core_Model_Config_Primary $baseDir
      * @param array $params
-     * @param Mage_Core_Model_Config_Primary $config
+     * @param Magento_Core_Model_Config_Primary $config
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Install_Model_EntryPoint_Output $output
      */
     public function __construct(
         $baseDir,
         array $params = array(),
-        Mage_Core_Model_Config_Primary $config = null,
+        Magento_Core_Model_Config_Primary $config = null,
         Magento_ObjectManager $objectManager = null,
         Mage_Install_Model_EntryPoint_Output $output = null
     ) {
         $this->_params = $this->_buildInitParams($params);
         if (!$config) {
-            $config = new Mage_Core_Model_Config_Primary($baseDir, $this->_params);
+            $config = new Magento_Core_Model_Config_Primary($baseDir, $this->_params);
         }
         $this->_output = $output ?: new Mage_Install_Model_EntryPoint_Output();
         parent::__construct($config, $objectManager);

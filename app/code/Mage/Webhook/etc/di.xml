@@ -10,7 +10,7 @@
 <config>
     <type name="Mage_Webhook_Model_Resource_Subscription">
         <param name="config">
-            <instance type="Mage_Core_Model_Config" />
+            <instance type="Magento_Core_Model_Config" />
         </param>
     </type>
     <type name="Magento_Outbound_Formatter_Factory">

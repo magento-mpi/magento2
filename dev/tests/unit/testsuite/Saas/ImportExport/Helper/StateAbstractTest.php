@@ -22,7 +22,7 @@ class Saas_ImportExport_Helper_StateAbstractTest extends PHPUnit_Framework_TestC
         $this->_stateFlagMock = $this->getMock('Saas_ImportExport_Model_State_Flag', array(), array(), '', false);
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_helperModel = $objectManager->getObject('Stub_Saas_ImportExport_Helper_StateAbstract', array(
-            'context' => $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false),
+            'context' => $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false),
             'stateFlag' => $this->_stateFlagMock,
             'dataHelper' => $this->getMock('Saas_ImportExport_Helper_Data', array(), array(), '', false)
         ));

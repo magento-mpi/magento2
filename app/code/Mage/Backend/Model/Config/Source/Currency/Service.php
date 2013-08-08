@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Backend_Model_Config_Source_Currency_Service implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Backend_Model_Config_Source_Currency_Service implements Magento_Core_Model_Option_ArrayInterface
 {
     protected $_options;
 

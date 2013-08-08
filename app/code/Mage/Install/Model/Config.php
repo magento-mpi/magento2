@@ -29,9 +29,9 @@ class Mage_Install_Model_Config extends Magento_Simplexml_Config
     const XML_PATH_CHECK_WRITEABLE  = 'check/filesystem/writeable';
 
     /**
-     * @param Mage_Core_Model_Config_Modules_Reader $configReader
+     * @param Magento_Core_Model_Config_Modules_Reader $configReader
      */
-    public function __construct(Mage_Core_Model_Config_Modules_Reader $configReader)
+    public function __construct(Magento_Core_Model_Config_Modules_Reader $configReader)
     {
         parent::__construct();
         $this->loadString('<?xml version="1.0"?><config></config>');

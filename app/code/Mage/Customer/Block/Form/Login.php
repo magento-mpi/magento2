@@ -15,7 +15,7 @@
  * @package    Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Block_Form_Login extends Mage_Core_Block_Template
+class Mage_Customer_Block_Form_Login extends Magento_Core_Block_Template
 {
     private $_username = -1;
 

@@ -30,7 +30,7 @@
  * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
+class Mage_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
 {
     const STATUS_SUBSCRIBED     = 1;
     const STATUS_NOT_ACTIVE     = 2;
@@ -487,11 +487,11 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-        /* @var $translate Mage_Core_Model_Translate */
+        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        /* @var $translate Magento_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $email = Mage::getModel('Mage_Core_Model_Email_Template');
+        $email = Mage::getModel('Magento_Core_Model_Email_Template');
 
         $email->sendTransactional(
             Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE),
@@ -523,11 +523,11 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-        /* @var $translate Mage_Core_Model_Translate */
+        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        /* @var $translate Magento_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $email = Mage::getModel('Mage_Core_Model_Email_Template');
+        $email = Mage::getModel('Magento_Core_Model_Email_Template');
 
         $email->sendTransactional(
             Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE),
@@ -558,11 +558,11 @@ class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-        /* @var $translate Mage_Core_Model_Translate */
+        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        /* @var $translate Magento_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $email = Mage::getModel('Mage_Core_Model_Email_Template');
+        $email = Mage::getModel('Magento_Core_Model_Email_Template');
 
         $email->sendTransactional(
             Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE),

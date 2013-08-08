@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
             ->setMethods(array('__'))
             ->getMock();
 
-        $helperFactory = $this->getMockBuilder('Mage_Core_Model_Factory_Helper')
+        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMock();
@@ -52,7 +52,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
             ->setMethods(array('getStore'))
             ->getMock();
 
-        $storeMock = $this->getMockBuilder('Mage_Core_Model_Store')
+        $storeMock = $this->getMockBuilder('Magento_Core_Model_Store')
             ->disableOriginalConstructor()
             ->setMethods(array('convertPrice'))
             ->getMock();

@@ -13,7 +13,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Payment_Model_Billing_AgreementAbstract extends Mage_Core_Model_Abstract
+abstract class Mage_Payment_Model_Billing_AgreementAbstract extends Magento_Core_Model_Abstract
 {
     /**
      * Payment method instance
@@ -89,8 +89,8 @@ abstract class Mage_Payment_Model_Billing_AgreementAbstract extends Mage_Core_Mo
     /**
      * Before save, it's overriden just to make data validation on before save event
      *
-     * @throws Mage_Core_Exception
-     * @return Mage_Core_Model_Abstract
+     * @throws Magento_Core_Exception
+     * @return Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
@@ -98,6 +98,6 @@ abstract class Mage_Payment_Model_Billing_AgreementAbstract extends Mage_Core_Mo
             return parent::_beforeSave();
         }
         array_unshift($this->_errors, Mage::helper('Mage_Payment_Helper_Data')->__('Unable to save Billing Agreement:'));
-        throw new Mage_Core_Exception(implode(' ', $this->_errors));
+        throw new Magento_Core_Exception(implode(' ', $this->_errors));
     }
 }

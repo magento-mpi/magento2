@@ -88,7 +88,7 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Tax_Helper_Data')->__('The tax rate has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                 return true;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($ratePost);
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
@@ -112,21 +112,21 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
             $rate = Mage::getModel('Mage_Tax_Model_Calculation_Rate')
                 ->setData($rateData)
                 ->save();
-            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
                 'error_message' => '',
                 'tax_calculation_rate_id' => $rate->getId(),
                 'code' => $rate->getCode(),
             ));
-        } catch (Mage_Core_Exception $e) {
-            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+        } catch (Magento_Core_Exception $e) {
+            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => $e->getMessage(),
                 'tax_calculation_rate_id' => '',
                 'code' => '',
             ));
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => Mage::helper('Mage_Tax_Helper_Data') ->__('Something went wrong saving this rate.'),
                 'tax_calculation_rate_id' => '',
@@ -207,7 +207,7 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
                     $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                     return true;
                 }
-                catch (Mage_Core_Exception $e) {
+                catch (Magento_Core_Exception $e) {
                     Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 }
                 catch (Exception $e) {
@@ -237,17 +237,17 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
         try {
             $rate = Mage::getModel('Mage_Tax_Model_Calculation_Rate')->load($rateId);
             $rate->delete();
-            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => true,
                 'error_message' => ''
             ));
-        } catch (Mage_Core_Exception $e) {
-            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+        } catch (Magento_Core_Exception $e) {
+            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => $e->getMessage()
             ));
         } catch (Exception $e) {
-            $responseContent = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+            $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => Mage::helper('Mage_Tax_Helper_Data')->__('An error occurred while deleting this tax rate.')
             ));
@@ -320,7 +320,7 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
                 $importHandler->importFromCsvFile($this->getRequest()->getFiles('import_rates_file'));
 
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Tax_Helper_Data')->__('The tax rate has been imported.'));
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Tax_Helper_Data')->__('Invalid file upload attempt'));
@@ -355,7 +355,7 @@ class Magento_Adminhtml_Controller_Tax_Rate extends Magento_Adminhtml_Controller
         $storeTaxTitleTemplate       = array();
         $taxCalculationRateTitleDict = array();
 
-        foreach (Mage::getModel('Mage_Core_Model_Store')->getCollection()->setLoadDefault(false) as $store) {
+        foreach (Mage::getModel('Magento_Core_Model_Store')->getCollection()->setLoadDefault(false) as $store) {
             $storeTitle = 'title_' . $store->getId();
             $content   .= ',"' . $store->getCode() . '"';
             $template  .= ',"{{' . $storeTitle . '}}"';

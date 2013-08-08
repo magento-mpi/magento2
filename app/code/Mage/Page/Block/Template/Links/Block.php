@@ -13,10 +13,10 @@
  * Simple links list block
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Page_Block_Template_Links_Block extends Mage_Core_Block_Template
+class Mage_Page_Block_Template_Links_Block extends Magento_Core_Block_Template
 {
 
     /**

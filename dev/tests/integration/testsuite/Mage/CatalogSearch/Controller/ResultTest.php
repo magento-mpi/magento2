@@ -20,7 +20,7 @@ class Mage_CatalogSearch_Controller_ResultTest extends Magento_Test_TestCase_Con
         $this->getRequest()->setParam('q', 'query_text');
         $this->dispatch('catalogsearch/result');
 
-        $fixtureTranslate = Mage::getSingleton('Mage_Core_Model_Translate')->translate(array('Fixture string'));
+        $fixtureTranslate = Mage::getSingleton('Magento_Core_Model_Translate')->translate(array('Fixture string'));
         $this->assertSame('Fixture translation', $fixtureTranslate);
 
         $responseBody = $this->getResponse()->getBody();

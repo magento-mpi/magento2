@@ -92,14 +92,14 @@ class Saas_Launcher_Model_Promotestore_Googleanalytics_StateResolverTest extends
      */
     protected function _getStateResolverWithEmail($accountId)
     {
-        $store = $this->getMock('Mage_Core_Model_Store', array('getConfig'), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array('getConfig'), array(), '', false);
 
         $store->expects($this->once())
             ->method('getConfig')
             ->with('google/analytics/account')
             ->will($this->returnValue($accountId));
 
-        $app = $this->getMock('Mage_Core_Model_App', array('getStore'), array(), '', false);
+        $app = $this->getMock('Magento_Core_Model_App', array('getStore'), array(), '', false);
 
         $app->expects($this->once())
             ->method('getStore')

@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adm
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('Mage_Core_Helper_Data')->isModuleEnabled('Mage_Sales')) {
+        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Mage_Sales')) {
             return $this;
         }
         if ($this->getParam('website')) {

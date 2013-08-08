@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
+class Mage_Weee_Model_Tax extends Magento_Core_Model_Abstract
 {
     /**
      * Including FPT only

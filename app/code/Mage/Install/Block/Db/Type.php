@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Install_Block_Db_Type extends Mage_Core_Block_Template
+class Mage_Install_Block_Db_Type extends Magento_Core_Block_Template
 {
     /**
      * Db title

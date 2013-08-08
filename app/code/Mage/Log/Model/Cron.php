@@ -16,7 +16,7 @@
  * @package    Mage_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Log_Model_Cron extends Mage_Core_Model_Abstract
+class Mage_Log_Model_Cron extends Magento_Core_Model_Abstract
 {
     const XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE     = 'system/log/error_email_template';
     const XML_PATH_EMAIL_LOG_CLEAN_IDENTITY     = 'system/log/error_email_identity';
@@ -44,12 +44,12 @@ class Mage_Log_Model_Cron extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-        /* @var $translate Mage_Core_Model_Translate */
+        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        /* @var $translate Magento_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $emailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
-        /* @var $emailTemplate Mage_Core_Model_Email_Template */
+        $emailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+        /* @var $emailTemplate Magento_Core_Model_Email_Template */
         $emailTemplate->setDesignConfig(array('area' => 'backend', 'store' => Mage::app()->getStore()->getId()))
             ->sendTransactional(
                 Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE),

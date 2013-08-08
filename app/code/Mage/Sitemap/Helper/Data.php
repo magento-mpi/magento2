@@ -14,7 +14,7 @@
  * @category   Mage
  * @package    Mage_Sitemap
  */
-class Mage_Sitemap_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Sitemap_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**#@+
      * Limits xpath config settings

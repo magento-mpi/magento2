@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Ajax_Serializer extends Mage_Core_Block_Template
+class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Ajax_Serializer extends Magento_Core_Block_Template
 {
     public function _construct()
     {

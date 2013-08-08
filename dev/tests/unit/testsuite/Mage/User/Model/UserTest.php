@@ -16,10 +16,10 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     /** @var Mage_User_Model_User */
     protected $_model;
 
-    /** @var Mage_Core_Model_Sender|PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Core_Model_Sender|PHPUnit_Framework_MockObject_MockObject */
     protected $_senderMock;
 
-    /** @var Mage_Core_Model_Context|PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Core_Model_Context|PHPUnit_Framework_MockObject_MockObject */
     protected $_contextMock;
 
     /** @var Mage_Customer_Model_Resource_Customer_Collection|PHPUnit_Framework_MockObject_MockObject */
@@ -33,11 +33,11 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_senderMock = $this->getMockBuilder('Mage_Core_Model_Sender')
+        $this->_senderMock = $this->getMockBuilder('Magento_Core_Model_Sender')
             ->disableOriginalConstructor()
             ->setMethods(array('send'))
             ->getMock();
-        $this->_contextMock = $this->getMockBuilder('Mage_Core_Model_Context')
+        $this->_contextMock = $this->getMockBuilder('Magento_Core_Model_Context')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();

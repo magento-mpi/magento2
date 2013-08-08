@@ -52,8 +52,8 @@ class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Gri
     {
         if (!empty($this->_exportTypes)) {
             foreach ($this->_exportTypes as $exportType) {
-                $url = Mage::helper('Mage_Core_Helper_Url')->removeRequestParam($exportType->getUrl(), 'action');
-                $exportType->setUrl(Mage::helper('Mage_Core_Helper_Url')->addRequestParam($url, array('action' => 'creditmemo')));
+                $url = Mage::helper('Magento_Core_Helper_Url')->removeRequestParam($exportType->getUrl(), 'action');
+                $exportType->setUrl(Mage::helper('Magento_Core_Helper_Url')->addRequestParam($url, array('action' => 'creditmemo')));
             }
             return $this->_exportTypes;
         }

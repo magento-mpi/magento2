@@ -134,7 +134,7 @@ class Mage_Payment_Model_Observer
         $methods = $this->_objectManager->get('Mage_Payment_Model_Config')->getActiveMethods();
         foreach ($methods as $method) {
             if ($method->getConfigData('order_status') == $status) {
-                $this->_objectManager->get('Mage_Core_Model_Resource_Config')
+                $this->_objectManager->get('Magento_Core_Model_Resource_Config')
                     ->saveConfig('payment/' . $method->getCode() . '/order_status', $defaultStatus, 'default', 0);
             }
         }

@@ -234,7 +234,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
      */
     public function getFormatedDate($date)
     {
-        return $this->formatDate($date, Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**
@@ -309,7 +309,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
      * Returns block to render item with some product type
      *
      * @param string $productType
-     * @return Mage_Core_Block_Template
+     * @return Magento_Core_Block_Template
      */
     protected function _getItemPriceBlock($productType)
     {

@@ -20,17 +20,17 @@ class Magento_Adminhtml_Controller_System_Config_System_Storage extends Magento_
     /**
      * Return file storage singleton
      *
-     * @return Mage_Core_Model_File_Storage
+     * @return Magento_Core_Model_File_Storage
      */
     protected function _getSyncSingleton()
     {
-        return Mage::getSingleton('Mage_Core_Model_File_Storage');
+        return Mage::getSingleton('Magento_Core_Model_File_Storage');
     }
 
     /**
      * Return synchronize process status flag
      *
-     * @return Mage_Core_Model_File_Storage_Flag
+     * @return Magento_Core_Model_File_Storage_Flag
      */
     protected function _getSyncFlag()
     {
@@ -51,14 +51,14 @@ class Magento_Adminhtml_Controller_System_Config_System_Storage extends Magento_
         }
 
         $flag = $this->_getSyncFlag();
-        if ($flag && $flag->getState() == Mage_Core_Model_File_Storage_Flag::STATE_RUNNING
+        if ($flag && $flag->getState() == Magento_Core_Model_File_Storage_Flag::STATE_RUNNING
             && $flag->getLastUpdate()
-            && time() <= (strtotime($flag->getLastUpdate()) + Mage_Core_Model_File_Storage_Flag::FLAG_TTL)
+            && time() <= (strtotime($flag->getLastUpdate()) + Magento_Core_Model_File_Storage_Flag::FLAG_TTL)
         ) {
             return;
         }
 
-        $flag->setState(Mage_Core_Model_File_Storage_Flag::STATE_RUNNING)
+        $flag->setState(Magento_Core_Model_File_Storage_Flag::STATE_RUNNING)
             ->setFlagData(array())
             ->save();
 
@@ -74,7 +74,7 @@ class Magento_Adminhtml_Controller_System_Config_System_Storage extends Magento_
             $flag->passError($e);
         }
 
-        $flag->setState(Mage_Core_Model_File_Storage_Flag::STATE_FINISHED)->save();
+        $flag->setState(Magento_Core_Model_File_Storage_Flag::STATE_FINISHED)->save();
     }
 
     /**
@@ -91,18 +91,18 @@ class Magento_Adminhtml_Controller_System_Config_System_Storage extends Magento_
             $state = $flag->getState();
 
             switch ($state) {
-                case Mage_Core_Model_File_Storage_Flag::STATE_INACTIVE:
+                case Magento_Core_Model_File_Storage_Flag::STATE_INACTIVE:
                     $flagData = $flag->getFlagData();
                     if (is_array($flagData)) {
                         if (isset($flagData['destination']) && !empty($flagData['destination'])) {
                             $result['destination'] = $flagData['destination'];
                         }
                     }
-                    $state = Mage_Core_Model_File_Storage_Flag::STATE_INACTIVE;
+                    $state = Magento_Core_Model_File_Storage_Flag::STATE_INACTIVE;
                     break;
-                case Mage_Core_Model_File_Storage_Flag::STATE_RUNNING:
+                case Magento_Core_Model_File_Storage_Flag::STATE_RUNNING:
                     if (!$flag->getLastUpdate()
-                        || time() <= (strtotime($flag->getLastUpdate()) + Mage_Core_Model_File_Storage_Flag::FLAG_TTL)
+                        || time() <= (strtotime($flag->getLastUpdate()) + Magento_Core_Model_File_Storage_Flag::FLAG_TTL)
                     ) {
                         $flagData = $flag->getFlagData();
                         if (is_array($flagData)
@@ -123,7 +123,7 @@ class Magento_Adminhtml_Controller_System_Config_System_Storage extends Magento_
                                 Mage::helper('Magento_Adminhtml_Helper_Data')->__('The timeout limit for response from synchronize process was reached.')
                             ));
 
-                            $state = Mage_Core_Model_File_Storage_Flag::STATE_FINISHED;
+                            $state = Magento_Core_Model_File_Storage_Flag::STATE_FINISHED;
                             $flagData['has_errors']         = true;
                             $flagData['timeout_reached']    = true;
                             $flag->setState($state)
@@ -131,8 +131,8 @@ class Magento_Adminhtml_Controller_System_Config_System_Storage extends Magento_
                                 ->save();
                         }
                     }
-                case Mage_Core_Model_File_Storage_Flag::STATE_FINISHED:
-                case Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED:
+                case Magento_Core_Model_File_Storage_Flag::STATE_FINISHED:
+                case Magento_Core_Model_File_Storage_Flag::STATE_NOTIFIED:
                     $flagData = $flag->getFlagData();
                     if (!isset($flagData['has_errors'])) {
                         $flagData['has_errors'] = false;
@@ -140,14 +140,14 @@ class Magento_Adminhtml_Controller_System_Config_System_Storage extends Magento_
                     $result['has_errors'] = $flagData['has_errors'];
                     break;
                 default:
-                    $state = Mage_Core_Model_File_Storage_Flag::STATE_INACTIVE;
+                    $state = Magento_Core_Model_File_Storage_Flag::STATE_INACTIVE;
                     break;
             }
         } else {
-            $state = Mage_Core_Model_File_Storage_Flag::STATE_INACTIVE;
+            $state = Magento_Core_Model_File_Storage_Flag::STATE_INACTIVE;
         }
         $result['state'] = $state;
-        $result = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+        $result = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
         $this->_response->setBody($result);
     }
 }

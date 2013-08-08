@@ -40,12 +40,12 @@ class Mage_Wishlist_Controller_Index
     protected $_skipAuthentication = false;
 
     /**
-     * @param Mage_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Mage_Wishlist_Model_Config $wishlistConfig
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Controller_Varien_Action_Context $context,
         Mage_Wishlist_Model_Config $wishlistConfig,
         $areaCode = null
     ) {
@@ -115,7 +115,7 @@ class Mage_Wishlist_Controller_Index
             }
 
             Mage::register('wishlist', $wishlist);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Mage_Wishlist_Model_Session')->addError($e->getMessage());
             return false;
         } catch (Exception $e) {
@@ -218,10 +218,10 @@ class Mage_Wishlist_Controller_Index
 
             /** @var $helper Mage_Wishlist_Helper_Data */
             $helper = Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
-            $message = $this->__('%1$s has been added to your wishlist. Click <a href="%2$s">here</a> to continue shopping.', $helper->escapeHtml($product->getName()), Mage::helper('Mage_Core_Helper_Data')->escapeUrl($referer));
+            $message = $this->__('%1$s has been added to your wishlist. Click <a href="%2$s">here</a> to continue shopping.', $helper->escapeHtml($product->getName()), Mage::helper('Magento_Core_Helper_Data')->escapeUrl($referer));
             $session->addSuccess($message);
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $session->addError($this->__('An error occurred while adding item to wish list: %s', $e->getMessage()));
         }
         catch (Exception $e) {
@@ -265,7 +265,7 @@ class Mage_Wishlist_Controller_Index
             }
             $params->setBuyRequest($buyRequest);
             Mage::helper('Mage_Catalog_Helper_Product_View')->prepareAndRender($item->getProductId(), $this, $params);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Mage_Customer_Model_Session')->addError($e->getMessage());
             $this->_redirect('*');
             return;
@@ -321,7 +321,7 @@ class Mage_Wishlist_Controller_Index
 
             $message = $this->__('%1$s has been updated in your wish list.', $product->getName());
             $session->addSuccess($message);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {
             $session->addError($this->__('An error occurred while updating wish list.'));
@@ -393,7 +393,7 @@ class Mage_Wishlist_Controller_Index
                     $updatedItems++;
                 } catch (Exception $e) {
                     Mage::getSingleton('Mage_Customer_Model_Session')->addError(
-                        $this->__('Can\'t save description %s', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($description))
+                        $this->__('Can\'t save description %s', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($description))
                     );
                 }
             }
@@ -434,7 +434,7 @@ class Mage_Wishlist_Controller_Index
         try {
             $item->delete();
             $wishlist->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Mage_Customer_Model_Session')->addError(
                 $this->__('An error occurred while deleting the item from wish list: %s', $e->getMessage())
             );
@@ -483,7 +483,7 @@ class Mage_Wishlist_Controller_Index
             $item->setQty($qty);
         }
 
-        /* @var $session Mage_Core_Model_Session_Generic */
+        /* @var $session Magento_Core_Model_Session_Generic */
         $session    = Mage::getSingleton('Mage_Wishlist_Model_Session');
         $cart       = Mage::getSingleton('Mage_Checkout_Model_Cart');
 
@@ -512,7 +512,7 @@ class Mage_Wishlist_Controller_Index
                 $redirectUrl = $this->_getRefererUrl();
             }
             Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
                 $session->addError(Mage::helper('Mage_Wishlist_Helper_Data')->__('This product(s) is out of stock.'));
             } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
@@ -563,13 +563,13 @@ class Mage_Wishlist_Controller_Index
             $cart->getQuote()->removeItem($itemId);
             $cart->save();
             Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
-            $productName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($item->getProduct()->getName());
-            $wishlistName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($wishlist->getName());
+            $productName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($item->getProduct()->getName());
+            $wishlistName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($wishlist->getName());
             $session->addSuccess(
                 Mage::helper('Mage_Wishlist_Helper_Data')->__("%s has been moved to wish list %s", $productName, $wishlistName)
             );
             $wishlist->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {
             $session->addException($e, Mage::helper('Mage_Wishlist_Helper_Data')->__('We can\'t move the item to the wish list.'));
@@ -593,7 +593,7 @@ class Mage_Wishlist_Controller_Index
     /**
      * Share wishlist
      *
-     * @return Mage_Core_Controller_Varien_Action|void
+     * @return Magento_Core_Controller_Varien_Action|void
      */
     public function sendAction()
     {
@@ -639,8 +639,8 @@ class Mage_Wishlist_Controller_Index
             return;
         }
 
-        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-        /* @var $translate Mage_Core_Model_Translate */
+        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        /* @var $translate Magento_Core_Model_Translate */
         $translate->setTranslateInline(false);
         $sent = 0;
 
@@ -658,8 +658,8 @@ class Mage_Wishlist_Controller_Index
             $wishlistBlock = $this->getLayout()->createBlock('Mage_Wishlist_Block_Share_Email_Items')->toHtml();
 
             $emails = array_unique($emails);
-            /* @var $emailModel Mage_Core_Model_Email_Template */
-            $emailModel = Mage::getModel('Mage_Core_Model_Email_Template');
+            /* @var $emailModel Magento_Core_Model_Email_Template */
+            $emailModel = Mage::getModel('Magento_Core_Model_Email_Template');
 
             $sharingCode = $wishlist->getSharingCode();
 

@@ -16,7 +16,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front_Action
+abstract class Mage_Sales_Controller_Abstract extends Magento_Core_Controller_Front_Action
 {
     /**
      * Check order view availability
@@ -134,7 +134,7 @@ abstract class Mage_Sales_Controller_Abstract extends Mage_Core_Controller_Front
         foreach ($items as $item) {
             try {
                 $cart->addOrderItem($item);
-            } catch (Mage_Core_Exception $e){
+            } catch (Magento_Core_Exception $e){
                 if (Mage::getSingleton('Mage_Checkout_Model_Session')->getUseNotice(true)) {
                     Mage::getSingleton('Mage_Checkout_Model_Session')->addNotice($e->getMessage());
                 }

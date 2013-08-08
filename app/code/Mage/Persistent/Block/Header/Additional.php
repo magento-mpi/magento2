@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Persistent_Block_Header_Additional extends Mage_Core_Block_Html_Link
+class Mage_Persistent_Block_Header_Additional extends Magento_Core_Block_Html_Link
 {
     /**
      * Render additional header html

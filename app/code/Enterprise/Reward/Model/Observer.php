@@ -267,7 +267,7 @@ class Enterprise_Reward_Model_Observer
      */
     protected function _invitationToOrder($observer)
     {
-        if (Mage::helper('Mage_Core_Helper_Data')->isModuleEnabled('Enterprise_Invitation')) {
+        if (Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Enterprise_Invitation')) {
             $invoice = $observer->getEvent()->getInvoice();
             /* @var $invoice Mage_Sales_Model_Order_Invoice */
             $order = $invoice->getOrder();
@@ -711,7 +711,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function prepareCustomerOrphanPoints(Magento_Event_Observer $observer)
     {
-        /* @var $website Mage_Core_Model_Website */
+        /* @var $website Magento_Core_Model_Website */
         $website = $observer->getEvent()->getWebsite();
         Mage::getModel('Enterprise_Reward_Model_Reward')
             ->prepareOrphanPoints($website->getId(), $website->getBaseCurrencyCode());

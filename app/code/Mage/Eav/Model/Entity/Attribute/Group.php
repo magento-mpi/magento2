@@ -28,7 +28,7 @@
  * @method string getTabGroupCode()
  * @method Mage_Eav_Model_Entity_Attribute_Group setTabGroupCode(string $value)
  */
-class Mage_Eav_Model_Entity_Attribute_Group extends Mage_Core_Model_Abstract
+class Mage_Eav_Model_Entity_Attribute_Group extends Magento_Core_Model_Abstract
 {
     /**
      * Resource initialization

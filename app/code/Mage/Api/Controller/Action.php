@@ -11,7 +11,7 @@
 /**
  * Generic API controller
  */
-class Mage_Api_Controller_Action extends Mage_Core_Controller_Front_Action
+class Mage_Api_Controller_Action extends Magento_Core_Controller_Front_Action
 {
     /**
      * Currently used area

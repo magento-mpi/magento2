@@ -55,8 +55,11 @@ class Magento_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_Tes
      */
     protected function _buildBlock($titles)
     {
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel(
+            'Magento_Core_Model_Layout',
+            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        );
         /** @var $block Magento_Adminhtml_Block_Widget_Container */
         $block = $layout->createBlock('Magento_Adminhtml_Block_Widget_Container', 'block');
         foreach ($titles as $id => $title) {

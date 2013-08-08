@@ -27,7 +27,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper');
+        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper');
         $this->_helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('__'))
@@ -39,7 +39,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHPUni
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMockForAbstractClass();
-        $this->_applicationConfig = $this->getMockBuilder('Mage_Core_Model_Config')
+        $this->_applicationConfig = $this->getMockBuilder('Magento_Core_Model_Config')
             ->setMethods(array('getNode'))
             ->disableOriginalConstructor()
             ->getMock();

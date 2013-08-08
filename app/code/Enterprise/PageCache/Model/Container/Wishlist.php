@@ -45,7 +45,7 @@ class Enterprise_PageCache_Model_Container_Wishlist extends Enterprise_PageCache
         $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
 
-        /** @var $block Mage_Core_Block_Template */
+        /** @var $block Magento_Core_Block_Template */
         $block = Mage::app()->getLayout()->createBlock($block);
         $block->setTemplate($template);
 

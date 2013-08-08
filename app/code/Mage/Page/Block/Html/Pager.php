@@ -17,7 +17,7 @@
  *
  * @todo        separate order, mode and pager
  */
-class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
+class Mage_Page_Block_Html_Pager extends Magento_Core_Block_Template
 {
     protected $_collection = null;
     protected $_pageVarName    = 'p';
@@ -135,7 +135,7 @@ class Mage_Page_Block_Html_Pager extends Mage_Core_Block_Template
     }
 
     /**
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getCollection()
     {

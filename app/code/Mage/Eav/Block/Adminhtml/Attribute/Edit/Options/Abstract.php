@@ -15,7 +15,7 @@
  * @package    Mage_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends Mage_Core_Block_Abstract
+abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends Magento_Core_Block_Abstract
 {
     /**
      * Preparing layout, adding buttons

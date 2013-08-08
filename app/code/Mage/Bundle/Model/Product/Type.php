@@ -359,7 +359,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 ->setPositionOrder();
 
             $storeId = $this->getStoreFilter($product);
-            if ($storeId instanceof Mage_Core_Model_Store) {
+            if ($storeId instanceof Magento_Core_Model_Store) {
                 $storeId = $storeId->getId();
             }
 
@@ -903,7 +903,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      *
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Bundle_Model_Product_Type
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function checkProductBuyState($product)
     {

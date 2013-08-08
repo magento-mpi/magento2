@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Enterprise_Queue_Model_Task extends Mage_Core_Model_Abstract
+class Enterprise_Queue_Model_Task extends Magento_Core_Model_Abstract
 {
     /**
      * Percentage of task completion
@@ -22,13 +22,13 @@ class Enterprise_Queue_Model_Task extends Mage_Core_Model_Abstract
     protected $_isEnqueued = false;
 
     /**
-     * @param Mage_Core_Model_Context $context
+     * @param Magento_Core_Model_Context $context
      * @param Enterprise_Queue_Model_Resource_Task $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
+        Magento_Core_Model_Context $context,
         Enterprise_Queue_Model_Resource_Task $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()

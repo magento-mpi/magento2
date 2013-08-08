@@ -24,7 +24,7 @@
  * @package     Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Fulltext extends Mage_Core_Model_Abstract
+class Mage_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
 {
     const SEARCH_TYPE_LIKE              = 1;
     const SEARCH_TYPE_FULLTEXT          = 2;

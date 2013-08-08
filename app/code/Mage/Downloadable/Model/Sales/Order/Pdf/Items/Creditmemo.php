@@ -20,19 +20,19 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
     extends Mage_Downloadable_Model_Sales_Order_Pdf_Items_Abstract
 {
     /**
-     * @var Mage_Core_Helper_String
+     * @var Magento_Core_Helper_String
      */
     protected $_stringHelper;
 
     /**
      * Retrieve string helper instance
      *
-     * @return Mage_Core_Helper_String
+     * @return Magento_Core_Helper_String
      */
     protected function _getStringHelper()
     {
         if (!$this->_stringHelper) {
-            $this->_stringHelper = Mage::helper('Mage_Core_Helper_String');
+            $this->_stringHelper = Mage::helper('Magento_Core_Helper_String');
         }
         return $this->_stringHelper;
     }
@@ -40,9 +40,9 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
     /**
      * Assign string helper instance
      * 
-     * @param Mage_Core_Helper_String $helperInstance
+     * @param Magento_Core_Helper_String $helperInstance
      */
-    public function setStringHelper(Mage_Core_Helper_String $helperInstance)
+    public function setStringHelper(Magento_Core_Helper_String $helperInstance)
     {
         $this->_stringHelper = $helperInstance;
     }

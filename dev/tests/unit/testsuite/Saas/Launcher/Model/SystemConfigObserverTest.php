@@ -73,7 +73,7 @@ class Saas_Launcher_Model_SystemConfigObserverTest extends PHPUnit_Framework_Tes
             ->method('getIterator')
             ->will($this->returnValue(new ArrayIterator(array($page))));
 
-        $applicationConfig = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $applicationConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         return new Saas_Launcher_Model_SystemConfigObserver($applicationConfig, $pageCollection);
     }
 }

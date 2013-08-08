@@ -69,7 +69,7 @@ class Mage_Checkout_Model_Api_Resource_Product extends Mage_Checkout_Model_Api_R
      * @param Mage_Catalog_Model_Product $product
      * @param Magento_Object $requestInfo
      * @return Mage_Sales_Model_Quote_Item
-     * @throw Mage_Core_Exception
+     * @throw Magento_Core_Exception
      */
     protected function _getQuoteItemByProduct(Mage_Sales_Model_Quote $quote,
                             Mage_Catalog_Model_Product $product,

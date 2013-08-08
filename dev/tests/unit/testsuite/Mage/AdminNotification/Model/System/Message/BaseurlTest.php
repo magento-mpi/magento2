@@ -55,22 +55,22 @@ class Mage_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit_Fr
     protected function setUp()
     {
         $helper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_urlBuilderMock = $this->getMock('Mage_Core_Model_UrlInterface');
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $this->_urlBuilderMock = $this->getMock('Magento_Core_Model_UrlInterface');
+        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Mage_AdminNotification_Helper_Data', array(), array(), '', false);
         $this->_helperFactoryMock->expects($this->any())->method('get')
             ->with('Mage_AdminNotification_Helper_Data')->will($this->returnValue($this->_helperMock));
 
-        $this->_storeManagerMock = $this->getMock('Mage_Core_Model_StoreManagerInterface');
-        $configFactoryMock = $this->getMock('Mage_Core_Model_Config_DataFactory', array('create'),
+        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManagerInterface');
+        $configFactoryMock = $this->getMock('Magento_Core_Model_Config_DataFactory', array('create'),
             array(), '', false
         );
-        $this->_configDataMock = $this->getMock('Mage_Core_Model_Config_Data',
+        $this->_configDataMock = $this->getMock('Magento_Core_Model_Config_Data',
             array('getScope', 'getScopeId', 'getCollection'),
             array(), '', false
         );
-        $this->_dataCollectionMock = $this->getMock('Mage_Core_Model_Resource_Config_Data_Collection',
+        $this->_dataCollectionMock = $this->getMock('Magento_Core_Model_Resource_Config_Data_Collection',
             array(), array(), '', false
         );
 
@@ -105,11 +105,11 @@ class Mage_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit_Fr
     public function testGetConfigUrlWithDefaultUnsecureAndSecureBaseUrl()
     {
         $map = array(
-            array('default/' . Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL, '', null,
-                Mage_Core_Model_Store::BASE_URL_PLACEHOLDER
+            array('default/' . Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL, '', null,
+                Magento_Core_Model_Store::BASE_URL_PLACEHOLDER
             ),
-            array('default/' . Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL, '', null,
-                Mage_Core_Model_Store::BASE_URL_PLACEHOLDER
+            array('default/' . Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL, '', null,
+                Magento_Core_Model_Store::BASE_URL_PLACEHOLDER
             ),
         );
         $this->_configMock->expects($this->exactly(2))->method('getNode')->will($this->returnValueMap($map));
@@ -142,7 +142,7 @@ class Mage_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit_Fr
 
         $this->_configDataMock->expects($this->once())->method('getScopeId')->will($this->returnValue(1));
 
-        $storeMock = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method($storeMethod)
             ->with(1)->will($this->returnValue($storeMock));
         $storeMock->expects($this->once())->method('getCode')->will($this->returnValue('some_code'));
@@ -168,7 +168,7 @@ class Mage_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit_Fr
     public function testIsDisplayedWithEmptyConfigUrl()
     {
         $this->_configMock->expects($this->any())->method('getNode')
-            ->will($this->returnValue(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER));
+            ->will($this->returnValue(Magento_Core_Model_Store::BASE_URL_PLACEHOLDER));
         $this->_urlBuilderMock->expects($this->once())->method('getUrl')->will($this->returnValue(''));
         $this->assertFalse($this->_model->isDisplayed());
     }
@@ -176,7 +176,7 @@ class Mage_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit_Fr
     public function testIsDisplayedWithNotEmptyConfigUrl()
     {
         $this->_configMock->expects($this->any())->method('getNode')
-            ->will($this->returnValue(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER));
+            ->will($this->returnValue(Magento_Core_Model_Store::BASE_URL_PLACEHOLDER));
         $this->_urlBuilderMock->expects($this->once())->method('getUrl')->will($this->returnValue('http://some_url'));
         $this->assertTrue($this->_model->isDisplayed());
     }
@@ -184,7 +184,7 @@ class Mage_AdminNotification_Model_System_Message_BaseurlTest extends PHPUnit_Fr
     public function testGetIdentity()
     {
         $this->_configMock->expects($this->any())->method('getNode')
-            ->will($this->returnValue(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER));
+            ->will($this->returnValue(Magento_Core_Model_Store::BASE_URL_PLACEHOLDER));
         $this->_urlBuilderMock->expects($this->once())->method('getUrl')->will($this->returnValue('some_url'));
         $this->assertEquals(md5('BASE_URLsome_url'), $this->_model->getIdentity());
     }

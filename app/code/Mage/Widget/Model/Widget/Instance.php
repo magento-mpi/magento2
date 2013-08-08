@@ -26,7 +26,7 @@
  * @package     Mage_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
+class Mage_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
 {
     const SPECIFIC_ENTITIES = 'specific';
     const ALL_ENTITIES      = 'all';
@@ -58,21 +58,21 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     protected $_eventPrefix = 'widget_widget_instance';
 
     /**
-     * @var Mage_Core_Model_View_FileSystem
+     * @var Magento_Core_Model_View_FileSystem
      */
     protected $_viewFileSystem;
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_View_FileSystem $viewFileSystem,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -222,7 +222,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
     {
         //TODO Shouldn't we get "area" from theme model which we can load using "theme_id"?
         if (!$this->_getData('area')) {
-            return Mage_Core_Model_View_DesignInterface::DEFAULT_AREA;
+            return Magento_Core_Model_View_DesignInterface::DEFAULT_AREA;
         }
         return $this->_getData('area');
     }
@@ -397,7 +397,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         $templateFilename = $this->_viewFileSystem->getFilename($templatePath, array(
             'area'    => $this->getArea(),
             'themeId' => $this->getThemeId(),
-            'module'  => Mage_Core_Block_Abstract::extractModuleName($this->getType()),
+            'module'  => Magento_Core_Block_Abstract::extractModuleName($this->getType()),
         ));
         if (!$this->getId() && !$this->isCompleteToCreate() || ($templatePath && !is_readable($templateFilename))) {
             return '';
@@ -412,7 +412,7 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
             $template = ' template="' . $templatePath . '"';
         }
 
-        $hash = Mage::helper('Mage_Core_Helper_Data')->uniqHash();
+        $hash = Mage::helper('Magento_Core_Helper_Data')->uniqHash();
         $xml .= '<block type="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
             if (is_array($value)) {

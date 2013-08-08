@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Payment_Model_Config_Source_Cctype implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Payment_Model_Config_Source_Cctype implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

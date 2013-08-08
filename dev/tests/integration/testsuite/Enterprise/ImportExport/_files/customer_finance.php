@@ -10,8 +10,8 @@
  */
 
 // add new website
-/** @var $website Mage_Core_Model_Website */
-$website = Mage::getModel('Mage_Core_Model_Website');
+/** @var $website Magento_Core_Model_Website */
+$website = Mage::getModel('Magento_Core_Model_Website');
 $website->setCode('finance_website')
     ->setName('Finance Website');
 $website->save();
@@ -38,7 +38,7 @@ $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
 
 // increment to modify balance values
 $increment = 0;
-/** @var $website Mage_Core_Model_Website */
+/** @var $website Magento_Core_Model_Website */
 foreach (Mage::app()->getWebsites() as $website) {
     $increment += 10;
 

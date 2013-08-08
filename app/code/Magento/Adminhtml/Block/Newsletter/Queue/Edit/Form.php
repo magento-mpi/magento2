@@ -38,8 +38,8 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
             'class'    =>  'fieldset-wide'
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
-        $timeFormat = Mage::app()->getLocale()->getTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $timeFormat = Mage::app()->getLocale()->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
 
         if($queue->getQueueStatus() == Mage_Newsletter_Model_Queue::STATUS_NEVER) {
             $fieldset->addField('date', 'date',array(
@@ -55,7 +55,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
                     'name'          => 'stores[]',
                     'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers From'),
                     'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
-                    'values'        => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(),
+                    'values'        => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
             }
@@ -82,7 +82,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
                     'label'         => Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers From'),
                     'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
                     'required'      => true,
-                    'values'        => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(),
+                    'values'        => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
             }

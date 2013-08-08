@@ -16,7 +16,7 @@
  * @package     Mage_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization
@@ -186,7 +186,7 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
         $result = null;
         if (is_numeric($user)) {
             $userId = $user;
-        } else if ($user instanceof Mage_Core_Model_Abstract) {
+        } else if ($user instanceof Magento_Core_Model_Abstract) {
             $userId = $user->getUserId();
         }
 
@@ -203,10 +203,10 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Action before save
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return Mage_Api_Model_Resource_User
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $user)
+    protected function _beforeSave(Magento_Core_Model_Abstract $user)
     {
         if (!$user->getId()) {
             $user->setCreated(now());
@@ -218,11 +218,11 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Delete the object
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return boolean
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      */
-    public function delete(Mage_Core_Model_Abstract $user)
+    public function delete(Magento_Core_Model_Abstract $user)
     {
         $dbh = $this->_getWriteAdapter();
         $uid = (int) $user->getId();
@@ -230,7 +230,7 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
         try {
             $dbh->delete($this->getTable('api_user'), array('user_id = ?' => $uid));
             $dbh->delete($this->getTable('api_role'), array('user_id = ?' => $uid));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             throw $e;
             return false;
         } catch (Exception $e) {
@@ -244,11 +244,11 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Save user roles
      *
-     * @param Mage_Core_Model_Abstract $user
-     * @return $this|\Mage_Core_Model_Abstract
-     * @throws Exception|Mage_Core_Exception
+     * @param Magento_Core_Model_Abstract $user
+     * @return $this|\Magento_Core_Model_Abstract
+     * @throws Exception|Magento_Core_Exception
      */
-    public function _saveRelations(Mage_Core_Model_Abstract $user)
+    public function _saveRelations(Magento_Core_Model_Abstract $user)
     {
         $rolesIds = $user->getRoleIds();
         if (!is_array($rolesIds) || count($rolesIds) == 0) {
@@ -283,7 +283,7 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
                 $adapter->insert($this->getTable('api_role'), $data);
             }
             $adapter->commit();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             throw $e;
         } catch (Exception $e) {
             $adapter->rollBack();
@@ -294,10 +294,10 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Retrieve roles data
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return array
      */
-    public function _getRoles(Mage_Core_Model_Abstract $user)
+    public function _getRoles(Magento_Core_Model_Abstract $user)
     {
         if (!$user->getId()) {
             return array();
@@ -320,10 +320,10 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Add Role
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return Mage_Api_Model_Resource_User
      */
-    public function add(Mage_Core_Model_Abstract $user)
+    public function add(Magento_Core_Model_Abstract $user)
     {
         $adapter = $this->_getWriteAdapter();
         $aRoles  = $this->hasAssigned2Role($user);
@@ -356,10 +356,10 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Delete from role
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return Mage_Api_Model_Resource_User
      */
-    public function deleteFromRole(Mage_Core_Model_Abstract $user)
+    public function deleteFromRole(Magento_Core_Model_Abstract $user)
     {
         if ($user->getUserId() <= 0) {
             return $this;
@@ -382,10 +382,10 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Retrieve roles which exists for user
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return array
      */
-    public function roleUserExists(Mage_Core_Model_Abstract $user)
+    public function roleUserExists(Magento_Core_Model_Abstract $user)
     {
         $result = array();
         if ($user->getUserId() > 0) {
@@ -401,10 +401,10 @@ class Mage_Api_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Check if user not unique
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return array
      */
-    public function userExists(Mage_Core_Model_Abstract $user)
+    public function userExists(Magento_Core_Model_Abstract $user)
     {
         $usersTable = $this->getTable('api_user');
         $adapter    = $this->_getReadAdapter();

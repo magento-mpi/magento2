@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Tag_Block_Catalog_Product_Rss_Link extends Mage_Core_Block_Template
+class Mage_Tag_Block_Catalog_Product_Rss_Link extends Magento_Core_Block_Template
 {
     /**
      * Keep true in cases when rss feed enabled for tagged products
@@ -38,7 +38,7 @@ class Mage_Tag_Block_Catalog_Product_Rss_Link extends Mage_Core_Block_Template
     protected $_tagModel;
 
     /**
-     * @var Mage_Core_Model_Url
+     * @var Magento_Core_Model_Url
      */
     protected $_coreUrlModel;
 
@@ -68,7 +68,7 @@ class Mage_Tag_Block_Catalog_Product_Rss_Link extends Mage_Core_Block_Template
         if ($this->hasData('core_url_model')) {
             $this->_coreUrlModel = $this->getData('core_url_model');
         } else {
-            $this->_coreUrlModel = Mage::getModel('Mage_Core_Model_Url');
+            $this->_coreUrlModel = Mage::getModel('Magento_Core_Model_Url');
         }
     }
 

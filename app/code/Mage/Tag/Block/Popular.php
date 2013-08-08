@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Tag_Block_Popular extends Mage_Core_Block_Template
+class Mage_Tag_Block_Popular extends Magento_Core_Block_Template
 {
 
     protected $_tags;

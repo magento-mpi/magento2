@@ -62,7 +62,7 @@ class Enterprise_Invitation_Model_Observer
     {
         $messages = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getMessages();
         $errors = $messages->getErrors();
-        $notices = $messages->getItemsByType(Mage_Core_Model_Message::NOTICE);
+        $notices = $messages->getItemsByType(Magento_Core_Model_Message::NOTICE);
         $status = (empty($errors) && empty($notices))
             ? Enterprise_Logging_Model_Event::RESULT_SUCCESS : Enterprise_Logging_Model_Event::RESULT_FAILURE;
         return $eventModel->setStatus($status)

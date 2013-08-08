@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Controller factory
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Controller_Factory extends Mage_Core_Controller_Varien_Action_Factory
+class Mage_Backend_Controller_Factory extends Magento_Core_Controller_Varien_Action_Factory
 {
     /**
      * @param string $controllerName

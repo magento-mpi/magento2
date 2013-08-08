@@ -11,7 +11,7 @@
 /**
  * Ogone Api Controller
  */
-class Mage_Ogone_Controller_Api extends Mage_Core_Controller_Front_Action
+class Mage_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
 {
     /**
      * Order instance
@@ -276,7 +276,7 @@ class Mage_Ogone_Controller_Api extends Mage_Core_Controller_Front_Action
                     $invoice->setState(Mage_Sales_Model_Order_Invoice::STATE_PAID);
                     $invoice->getOrder()->setIsInProcess(true);
 
-                    $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
+                    $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
                         ->addObject($invoice)
                         ->addObject($invoice->getOrder())
                         ->save();

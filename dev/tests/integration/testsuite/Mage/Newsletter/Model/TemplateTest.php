@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Mage/Core/_files/store.php
+ * @magentoDataFixture Magento/Core/_files/store.php
  */
 class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
 {

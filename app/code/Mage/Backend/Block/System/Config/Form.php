@@ -112,7 +112,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     /**
      * Form field factory
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_coreConfig;
 
@@ -124,7 +124,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param Mage_Backend_Block_System_Config_Form_Fieldset_Factory $fieldsetFactory
      * @param Mage_Backend_Block_System_Config_Form_Field_Factory $fieldFactory
-     * @param Mage_Core_Model_Config $coreConfig
+     * @param Magento_Core_Model_Config $coreConfig
      * @param array $data
      */
     public function __construct(
@@ -135,7 +135,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
         Mage_Backend_Model_Config_Structure $configStructure,
         Mage_Backend_Block_System_Config_Form_Fieldset_Factory $fieldsetFactory,
         Mage_Backend_Block_System_Config_Form_Field_Factory $fieldFactory,
-        Mage_Core_Model_Config $coreConfig,
+        Magento_Core_Model_Config $coreConfig,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -455,7 +455,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     /**
      *
      *
-     * @return Mage_Backend_Block_Widget_Form|Mage_Core_Block_Abstract|void
+     * @return Mage_Backend_Block_Widget_Form|Magento_Core_Block_Abstract|void
      */
     protected function _beforeToHtml()
     {

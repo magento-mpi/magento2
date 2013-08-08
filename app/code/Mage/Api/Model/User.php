@@ -36,7 +36,7 @@
  * @package     Mage_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_User extends Mage_Core_Model_Abstract
+class Mage_Api_Model_User extends Magento_Core_Model_Abstract
 {
     /**
      * Prefix of model events names
@@ -51,7 +51,7 @@ class Mage_Api_Model_User extends Mage_Core_Model_Abstract
     }
 
     /**
-     * @return $this|Mage_Core_Model_Abstract
+     * @return $this|Magento_Core_Model_Abstract
      */
     public function save()
     {
@@ -60,7 +60,7 @@ class Mage_Api_Model_User extends Mage_Core_Model_Abstract
                 'firstname' => $this->getFirstname(),
                 'lastname'  => $this->getLastname(),
                 'email'     => $this->getEmail(),
-                'modified'  => Mage::getSingleton('Mage_Core_Model_Date')->gmtDate()
+                'modified'  => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate()
             );
 
         if ($this->getId() > 0) {
@@ -90,7 +90,7 @@ class Mage_Api_Model_User extends Mage_Core_Model_Abstract
     }
 
     /**
-     * @return $this|Mage_Core_Model_Abstract
+     * @return $this|Magento_Core_Model_Abstract
      */
     public function delete()
     {
@@ -154,7 +154,7 @@ class Mage_Api_Model_User extends Mage_Core_Model_Abstract
     }
 
     /**
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract|Mage_Api_Model_Resource_User_Collection
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|Mage_Api_Model_Resource_User_Collection
      */
     public function getCollection()
     {
@@ -201,7 +201,7 @@ class Mage_Api_Model_User extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
-        $auth = Mage::helper('Mage_Core_Helper_Data')->validateHash($apiKey, $this->getApiKey());
+        $auth = Mage::helper('Magento_Core_Helper_Data')->validateHash($apiKey, $this->getApiKey());
         if ($auth) {
             return true;
         } else {
@@ -288,7 +288,7 @@ class Mage_Api_Model_User extends Mage_Core_Model_Abstract
      */
     protected function _getEncodedApiKey($apiKey)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->getHash($apiKey, 2);
+        return Mage::helper('Magento_Core_Helper_Data')->getHash($apiKey, 2);
     }
 
 }

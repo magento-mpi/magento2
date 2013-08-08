@@ -16,7 +16,7 @@
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Define resource model for collection
@@ -51,18 +51,18 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
     /**
      * Add Store Filter to assigned CMS pages
      *
-     * @param int|Mage_Core_Model_Store $store
+     * @param int|Magento_Core_Model_Store $store
      * @param bool $withAdmin Include admin store or not
      * @return Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
-        if ($store instanceof Mage_Core_Model_Store) {
+        if ($store instanceof Magento_Core_Model_Store) {
             $store = $store->getId();
         }
 
         if ($withAdmin) {
-            $storeIds = array(Mage_Core_Model_AppInterface::ADMIN_STORE_ID, $store);
+            $storeIds = array(Magento_Core_Model_AppInterface::ADMIN_STORE_ID, $store);
         } else {
             $storeIds = array($store);
         }
@@ -86,7 +86,7 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node_Collection extends Mage_Core_
             $subSelect = $this->getConnection()->select();
             $subSelect->from(array('store' => $this->getTable('cms_page_store')), array())
                 ->where('store.page_id = main_table.page_id');
-            $subSelect = Mage::getResourceHelper('Mage_Core')->addGroupConcatColumn($subSelect, 'store_id', 'store_id');
+            $subSelect = Mage::getResourceHelper('Magento_Core')->addGroupConcatColumn($subSelect, 'store_id', 'store_id');
             $this->getSelect()->columns(array('page_in_stores' => new Zend_Db_Expr('(' . $subSelect . ')')));
 
             // save subSelect to use later

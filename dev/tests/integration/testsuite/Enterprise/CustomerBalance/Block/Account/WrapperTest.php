@@ -21,7 +21,7 @@ class Enterprise_CustomerBalance_Block_Account_WrapperTest extends PHPUnit_Frame
         $session = Mage::getModel('Mage_Customer_Model_Session');
         $session->login('customer@example.com', 'password');
 
-        $utility = new Mage_Core_Utility_Layout($this);
+        $utility = new Magento_Core_Utility_Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/account_wrapper.xml',
             $utility->getLayoutDependencies()
         );

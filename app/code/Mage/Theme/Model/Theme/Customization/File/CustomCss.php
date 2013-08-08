@@ -12,7 +12,7 @@
  *  Theme customization service class for custom css
  */
 class Mage_Theme_Model_Theme_Customization_File_CustomCss
-    extends Mage_Core_Model_Theme_Customization_FileAbstract
+    extends Magento_Core_Model_Theme_Customization_FileAbstract
 {
     /**#@+
      * Custom CSS file type customization
@@ -50,7 +50,7 @@ class Mage_Theme_Model_Theme_Customization_File_CustomCss
     /**
      * {@inheritdoc}
      */
-    protected  function _prepareFileName(Mage_Core_Model_Theme_FileInterface $file)
+    protected  function _prepareFileName(Magento_Core_Model_Theme_FileInterface $file)
     {
         if (!$file->getFileName()) {
             $file->setFileName(self::FILE_NAME);
@@ -60,7 +60,7 @@ class Mage_Theme_Model_Theme_Customization_File_CustomCss
     /**
      * {@inheritdoc}
      */
-    protected function _prepareSortOrder(Mage_Core_Model_Theme_FileInterface $file)
+    protected function _prepareSortOrder(Magento_Core_Model_Theme_FileInterface $file)
     {
         $file->setData('sort_order', self::SORT_ORDER);
     }

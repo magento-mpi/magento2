@@ -49,7 +49,7 @@ class Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator extends 
         if (!$this->_messageTemplates) {
             $this->_messageTemplates = array(
                 self::NOT_IN_ARRAY =>
-                    Mage::helper('Mage_Core_Helper_Data')->__('Input type "%value%" not found in the input types list.'),
+                    Mage::helper('Magento_Core_Helper_Data')->__('Input type "%value%" not found in the input types list.'),
             );
         }
         return $this;

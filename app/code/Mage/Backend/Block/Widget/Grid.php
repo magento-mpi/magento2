@@ -96,25 +96,25 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     protected $_template = 'Mage_Backend::widget/grid.phtml';
 
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Mage_Core_Model_Url
+     * @var Magento_Core_Model_Url
      */
     protected $_urlModel;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
-     * @param Mage_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Model_Url $urlModel,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -193,8 +193,8 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Retrieve export block
      *
-     * @throws Mage_Core_Exception
-     * @return Mage_Core_Block_Abstract
+     * @throws Magento_Core_Exception
+     * @return Magento_Core_Block_Abstract
      */
     public function getExportBlock()
     {
@@ -228,7 +228,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      * Retrieve column by id
      *
      * @param string $columnId
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     public function getColumn($columnId)
     {
@@ -390,7 +390,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Get massaction block
      *
-     * @return bool|Mage_Core_Block_Abstract
+     * @return bool|Magento_Core_Block_Abstract
      */
     public function getMassactionBlock()
     {
@@ -422,7 +422,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Initialize grid before rendering
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _beforeToHtml()
     {

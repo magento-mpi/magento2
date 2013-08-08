@@ -10,17 +10,17 @@
 class Saas_Search_Helper_Data extends Enterprise_Search_Helper_Data
 {
     /**
-     * @var Mage_Core_Model_ConfigInterface
+     * @var Magento_Core_Model_ConfigInterface
      */
     protected $_config;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Config_Primary $config
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config_Primary $config
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Config_Primary $config
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config_Primary $config
     ) {
         parent::__construct($context);
         $this->_config = $config;

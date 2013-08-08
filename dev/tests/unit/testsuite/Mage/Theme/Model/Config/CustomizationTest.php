@@ -15,17 +15,17 @@
 class Mage_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Mage_Core_Model_View_DesignInterface
+     * @var Magento_Core_Model_View_DesignInterface
      */
     protected $_designPackage;
 
     /**
-     * @var Mage_Core_Model_Resource_Theme_Collection
+     * @var Magento_Core_Model_Resource_Theme_Collection
      */
     protected $_themeCollection;
 
@@ -37,18 +37,19 @@ class Mage_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_TestCa
     protected function setUp()
     {
         $this->_storeManager = $this->getMockForAbstractClass(
-            'Mage_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('getStores')
+            'Magento_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('getStores')
         );
         $this->_designPackage = $this->getMockForAbstractClass(
-            'Mage_Core_Model_View_DesignInterface', array(), '', true, true, true,
+            'Magento_Core_Model_View_DesignInterface', array(), '', true, true, true,
             array('getConfigurationDesignTheme')
         );
         $this->_themeCollection = $this->getMock(
-            'Mage_Core_Model_Resource_Theme_Collection', array('filterThemeCustomizations', 'load'), array(), '', false
+            'Magento_Core_Model_Resource_Theme_Collection',
+            array('filterThemeCustomizations', 'load'), array(), '', false
         );
 
         $collectionFactory = $this->getMock(
-            'Mage_Core_Model_Resource_Theme_CollectionFactory', array('create'), array(), '', false
+            'Magento_Core_Model_Resource_Theme_CollectionFactory', array('create'), array(), '', false
         );
 
         $collectionFactory->expects($this->any())

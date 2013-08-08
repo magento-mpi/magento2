@@ -146,7 +146,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_Abstract
     {
         $entityCode = $this->getEntityTypeCode();
         $this->_entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType($entityCode)->getEntityTypeId();
-        $this->_connection   = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
+        $this->_connection   = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
     }
 
     /**

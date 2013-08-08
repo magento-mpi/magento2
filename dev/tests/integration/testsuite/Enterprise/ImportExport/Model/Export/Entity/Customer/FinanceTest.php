@@ -19,7 +19,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends P
 {
     protected function tearDown()
     {
-        Mage::getSingleton('Mage_Core_Model_StoreManagerInterface')->reinitStores();
+        Mage::getSingleton('Magento_Core_Model_StoreManagerInterface')->reinitStores();
     }
 
     /**
@@ -50,7 +50,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends P
         sort($correctHeader);
         $this->assertEquals($correctHeader, $csvHeader);
 
-        /** @var $website Mage_Core_Model_Website */
+        /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $websiteCode = $website->getCode();
             // CSV data

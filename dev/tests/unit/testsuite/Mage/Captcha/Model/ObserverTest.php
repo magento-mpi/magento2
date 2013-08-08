@@ -44,7 +44,7 @@ class Mage_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $this->_customerSession = $this->getMock('Mage_Customer_Model_Session', array(), array(), '', false);
         $this->_helper = $this->getMock('Mage_Captcha_Helper_Data', array(), array(), '', false);
-        $this->_urlManager = $this->getMock('Mage_Core_Model_Url', array(), array(), '', false);
+        $this->_urlManager = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $this->_observer = new Mage_Captcha_Model_Observer(
             $this->_customerSession,
@@ -60,8 +60,8 @@ class Mage_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $formId = 'contact_us';
         $captchaValue = 'some-value';
 
-        $controller = $this->getMock('Mage_Core_Controller_Varien_Action', array(), array(), '', false);
-        $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $controller = $this->getMock('Magento_Core_Controller_Varien_Action', array(), array(), '', false);
+        $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $request->expects($this->any())
             ->method('getPost')
             ->with(Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE, null)
@@ -99,9 +99,9 @@ class Mage_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->with($redirectRoutePath, null)
             ->will($this->returnValue($redirectUrl));
 
-        $controller = $this->getMock('Mage_Core_Controller_Varien_Action', array(), array(), '', false);
-        $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
-        $response = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false);
+        $controller = $this->getMock('Magento_Core_Controller_Varien_Action', array(), array(), '', false);
+        $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $response = $this->getMock('Magento_Core_Controller_Response_Http', array(), array(), '', false);
         $request->expects($this->any())->method('getPost')->with(Mage_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE, null)
             ->will($this->returnValue(array(
                 $formId => $captchaValue,
@@ -125,7 +125,7 @@ class Mage_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_captcha));
         $this->_customerSession->expects($this->once())->method('addError')->with($warningMessage);
         $controller->expects($this->once())->method('setFlag')
-            ->with('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+            ->with('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
 
         $this->_observer->checkContactUsForm(new Magento_Event_Observer(array('controller_action' => $controller)));
     }

@@ -114,8 +114,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
             'disabled' => true
         ));
 
-        /** @var $label Mage_Core_Model_Theme_Label */
-        $label = Mage::getModel('Mage_Core_Model_Theme_Label');
+        /** @var $label Magento_Core_Model_Theme_Label */
+        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
         $options = $label->getLabelsCollection($this->__('-- Please Select --'));
         $fieldset->addField('theme_id', 'select', array(
             'name'  => 'theme_id',
@@ -140,7 +140,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
                 'label'     => Mage::helper('Mage_Widget_Helper_Data')->__('Assign to Store Views'),
                 'title'     => Mage::helper('Mage_Widget_Helper_Data')->__('Assign to Store Views'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(false, true),
+                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
             ));
             $renderer = $this->getLayout()
                 ->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');

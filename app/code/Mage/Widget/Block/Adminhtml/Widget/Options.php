@@ -26,7 +26,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Block
 
     /**
      * Translation helper instance, defined by the widget type declaration root config node
-     * @var Mage_Core_Helper_Abstract
+     * @var Magento_Core_Helper_Abstract
      */
     protected $_translationHelper = null;
 

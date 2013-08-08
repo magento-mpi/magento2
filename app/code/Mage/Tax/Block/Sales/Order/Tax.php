@@ -11,7 +11,7 @@
 /**
  * Tax totals modification block. Can be used just as subblock of Mage_Sales_Block_Order_Totals
  */
-class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
+class Mage_Tax_Block_Sales_Order_Tax extends Magento_Core_Block_Template
 {
     /**
      * Tax configuration model
@@ -26,7 +26,7 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
      * Initialize configuration object
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Magento_Core_Block_Template_Context $context,
         Mage_Tax_Model_Config $taxConfig,
         array $data = array()
     ) {
@@ -99,7 +99,7 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
     /**
      * Get order store object
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {

@@ -16,7 +16,7 @@
  * @package     Mage_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Resource_Stock_Status extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource model initialization
@@ -136,7 +136,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Mage_Core_Model_
      */
     public function getWebsiteStores()
     {
-        $select = Mage::getModel('Mage_Core_Model_Website')->getDefaultStoresSelect(false);
+        $select = Mage::getModel('Magento_Core_Model_Website')->getDefaultStoresSelect(false);
         return $this->_getReadAdapter()->fetchPairs($select);
     }
 
@@ -186,10 +186,10 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Mage_Core_Model_
      * Add stock status to prepare index select
      *
      * @param Magento_DB_Select $select
-     * @param Mage_Core_Model_Website $website
+     * @param Magento_Core_Model_Website $website
      * @return Mage_CatalogInventory_Model_Resource_Stock_Status
      */
-    public function addStockStatusToSelect(Magento_DB_Select $select, Mage_Core_Model_Website $website)
+    public function addStockStatusToSelect(Magento_DB_Select $select, Magento_Core_Model_Website $website)
     {
         $websiteId = $website->getId();
         $select->joinLeft(

@@ -26,7 +26,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion extends Magento_Admin
             return parent::_toHtml();
         }
         $layout = $this->getLayout();
-        /** @var $child Mage_Core_Block_Abstract  */
+        /** @var $child Magento_Core_Block_Abstract  */
         foreach ($layout->getChildBlocks($this->getNameInLayout()) as $child) {
             $name = $child->getNameInLayout();
             $data = array(

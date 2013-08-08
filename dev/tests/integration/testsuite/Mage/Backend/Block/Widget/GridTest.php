@@ -20,7 +20,7 @@ class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
     protected $_block;
 
     /**
-     * @var Mage_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutMock;
 
@@ -31,7 +31,7 @@ class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
+        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
         $this->_columnSetMock = $this->_getColumnSetMock();
 
         $returnValueMap = array(
@@ -48,8 +48,8 @@ class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
             ->with('Mage_Backend_Block_Widget_Button')
             ->will($this->returnValue(Mage::app()->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')));
         $this->_layoutMock->expects($this->any())->method('helper')
-            ->with('Mage_Core_Helper_Data')
-            ->will($this->returnValue(Mage::helper('Mage_Core_Helper_Data')));
+            ->with('Magento_Core_Helper_Data')
+            ->will($this->returnValue(Mage::helper('Magento_Core_Helper_Data')));
 
 
         $this->_block = Mage::app()->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid');
@@ -65,8 +65,8 @@ class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
     protected function _getColumnSetMock()
     {
         return $this->getMock('Mage_Backend_Block_Widget_Grid_ColumnSet', array(), array(
-            Mage::getModel('Mage_Core_Block_Template_Context', array(
-                'dirs' => new Mage_Core_Model_Dir(__DIR__),
+            Mage::getModel('Magento_Core_Block_Template_Context', array(
+                'dirs' => new Magento_Core_Model_Dir(__DIR__),
                 'filesystem' => new Magento_Filesystem(new Magento_Filesystem_Adapter_Local),
             )),
             Mage::getModel('Mage_Backend_Helper_Data'),

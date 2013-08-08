@@ -29,10 +29,10 @@
  * @package     Enterprise_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
+class Enterprise_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
 {
     /**
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     private $_registry;
 
@@ -61,20 +61,20 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     protected $_customerWebsiteSegments = array();
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Registry $registry
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Customer_Model_Session $customerSession
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Registry $registry,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Mage_Customer_Model_Session $customerSession,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -117,7 +117,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
      *
      * @param   string $eventName
      * @param   Mage_Customer_Model_Customer | int $customer
-     * @param   Mage_Core_Model_Website | int $website
+     * @param   Magento_Core_Model_Website | int $website
      * @return  Enterprise_CustomerSegment_Model_Customer
      */
     public function processEvent($eventName, $customer, $website)
@@ -136,7 +136,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
      * Validate all segments for specific customer/visitor on specific website
      *
      * @param   Mage_Customer_Model_Customer $customer
-     * @param   Mage_Core_Model_Website $website
+     * @param   Magento_Core_Model_Website $website
      * @return  Enterprise_CustomerSegment_Model_Customer
      */
     public function processCustomer(Mage_Customer_Model_Customer $customer, $website)
@@ -155,7 +155,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
      * Check if customer is related to segments and update customer-segment relations
      *
      * @param int|null|Mage_Customer_Model_Customer $customer
-     * @param Mage_Core_Model_Website $website
+     * @param Magento_Core_Model_Website $website
      * @param Enterprise_CustomerSegment_Model_Resource_Segment_Collection $segments
      * @return Enterprise_CustomerSegment_Model_Customer
      */
@@ -240,7 +240,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Add visitor-segment relation for specified website
      *
-     * @param Mage_Core_Model_Session_Abstract $visitorSession
+     * @param Magento_Core_Model_Session_Abstract $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
      * @return Enterprise_CustomerSegment_Model_Customer
@@ -267,7 +267,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Remove visitor-segment relation for specified website
      *
-     * @param Mage_Core_Model_Session_Abstract $visitorSession
+     * @param Magento_Core_Model_Session_Abstract $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
      * @return Enterprise_CustomerSegment_Model_Customer

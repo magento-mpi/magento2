@@ -53,7 +53,7 @@ class Mage_Centinel_Model_Service extends Magento_Object
     /**
      * Return validation session object
      *
-     * @return Mage_Core_Model_Session_Generic
+     * @return Magento_Core_Model_Session_Generic
      */
     protected function _getSession()
     {
@@ -100,7 +100,7 @@ class Mage_Centinel_Model_Service extends Magento_Object
         $params = array(
             '_secure'  => true,
             '_current' => $current,
-            'form_key' => Mage::getSingleton('Mage_Core_Model_Session')->getFormKey(),
+            'form_key' => Mage::getSingleton('Magento_Core_Model_Session')->getFormKey(),
             'isIframe' => true
         );
         if (Mage::app()->getStore()->isAdmin()) {
@@ -246,7 +246,7 @@ class Mage_Centinel_Model_Service extends Magento_Object
      * Workflow state is stored validation state model
      *
      * @param Magento_Object $data
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function validate($data)
     {

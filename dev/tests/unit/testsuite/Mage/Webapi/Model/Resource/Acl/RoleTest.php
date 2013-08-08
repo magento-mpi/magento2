@@ -17,7 +17,7 @@ class Mage_Webapi_Model_Resource_Acl_RoleTest extends Mage_Webapi_Model_Resource
      */
     protected function _createModel($selectMock = null)
     {
-        $this->_resource = $this->getMockBuilder('Mage_Core_Model_Resource')
+        $this->_resource = $this->getMockBuilder('Magento_Core_Model_Resource')
             ->disableOriginalConstructor()
             ->setMethods(array('getConnection', 'getTableName'))
             ->getMock();

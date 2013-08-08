@@ -15,7 +15,7 @@
             <version>1.0.0.3</version>
             <active>true</active>
             <depends>
-                <Mage_Core />
+                <Magento_Core />
                 <Mage_Oauth />
                 <Mage_Backend />
             </depends>

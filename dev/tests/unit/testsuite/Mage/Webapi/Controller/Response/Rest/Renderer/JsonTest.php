@@ -12,14 +12,14 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_JsonTest extends PHPUnit_Fra
     /** @var Mage_Webapi_Controller_Response_Rest_Renderer_Json */
     protected $_restJsonRenderer;
 
-    /** @var Mage_Core_Helper_Data */
+    /** @var Magento_Core_Helper_Data */
     protected $_helperMock;
 
     protected function setUp()
     {
         /** Prepare mocks and objects for SUT constructor. */
-        $this->_helperMock = $this->getMockBuilder('Mage_Core_Helper_Data')->disableOriginalConstructor()->getMock();
-        $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper');
+        $this->_helperMock = $this->getMockBuilder('Magento_Core_Helper_Data')->disableOriginalConstructor()->getMock();
+        $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper');
         $helperFactoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_helperMock));
         /** Initialize SUT. */
         $this->_restJsonRenderer = new Mage_Webapi_Controller_Response_Rest_Renderer_Json($helperFactoryMock);

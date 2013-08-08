@@ -15,7 +15,7 @@
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Config_Backend_Show_Customer extends Mage_Core_Model_Config_Data
+class Mage_Customer_Model_Config_Backend_Show_Customer extends Magento_Core_Model_Config_Data
 {
     /**
      * Retrieve attribute code
@@ -86,7 +86,7 @@ class Mage_Customer_Model_Config_Backend_Show_Customer extends Mage_Core_Model_C
     /**
      * Processing object after delete data
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _afterDelete()
     {

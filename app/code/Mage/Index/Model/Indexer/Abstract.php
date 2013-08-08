@@ -12,7 +12,7 @@
  * Abstract index process class
  * Predefine list of methods required by indexer
  */
-abstract class Mage_Index_Model_Indexer_Abstract extends Mage_Core_Model_Abstract
+abstract class Mage_Index_Model_Indexer_Abstract extends Magento_Core_Model_Abstract
 {
     protected $_matchedEntities = array();
 

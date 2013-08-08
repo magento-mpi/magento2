@@ -16,7 +16,7 @@
  * @package     Mage_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Log_Model_Resource_Visitor_Online extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Log_Model_Resource_Visitor_Online extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize connection and define resource
@@ -52,7 +52,7 @@ class Mage_Log_Model_Resource_Visitor_Online extends Mage_Core_Model_Resource_Db
 
             // retrieve online visitors general data
 
-            $lastDate = Mage::getModel('Mage_Core_Model_Date')->gmtTimestamp() - $object->getOnlineInterval() * 60;
+            $lastDate = Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp() - $object->getOnlineInterval() * 60;
 
             $select = $readAdapter->select()
                 ->from(

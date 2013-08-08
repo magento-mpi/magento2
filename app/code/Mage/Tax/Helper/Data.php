@@ -11,7 +11,7 @@
 /**
  * Catalog data helper
  */
-class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Tax_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const PRICE_CONVERSION_PLUS = 1;
     const PRICE_CONVERSION_MINUS = 2;
@@ -42,10 +42,10 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_postCodeSubStringLength = 10;
 
     /**
-     * @param Mage_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Context $context
      * @param Mage_Tax_Model_Config $taxConfig
      */
-    public function  __construct(Mage_Core_Helper_Context $context, Mage_Tax_Model_Config $taxConfig)
+    public function  __construct(Magento_Core_Helper_Context $context, Mage_Tax_Model_Config $taxConfig)
     {
         parent::__construct($context);
         $this->_config = $taxConfig;
@@ -338,7 +338,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         if ($store) {
             $priceFormat['pattern'] = Mage::app()->getStore($store)->getCurrentCurrency()->getOutputFormat();
         }
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($priceFormat);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($priceFormat);
     }
 
     /**
@@ -373,7 +373,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
             $result["value_{$class}"] = $rate;
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
     }
 
     /**
@@ -739,7 +739,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      * This sequence depends on "Catalog price include tax", "Apply Tax After Discount"
      * and "Apply Discount On Prices Including Tax" configuration options.
      *
-     * @param   null|int|string|Mage_Core_Model_Store $store
+     * @param   null|int|string|Magento_Core_Model_Store $store
      * @return  string
      */
     public function getCalculationSequence($store=null)

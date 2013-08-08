@@ -16,7 +16,7 @@
  * @package     Mage_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cron_Model_Resource_Schedule extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Cron_Model_Resource_Schedule extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize resource

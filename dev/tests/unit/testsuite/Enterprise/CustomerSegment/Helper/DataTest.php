@@ -26,17 +26,17 @@ class Enterprise_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $translate = function (array $args) {
-            /** @var Mage_Core_Model_Translate_Expr $expr */
+            /** @var Magento_Core_Model_Translate_Expr $expr */
             $expr = reset($args);
             return $expr->getText();
         };
-        $translator = $this->getMock('Mage_Core_Model_Translate', array('translate'), array(), '', false);
+        $translator = $this->getMock('Magento_Core_Model_Translate', array('translate'), array(), '', false);
         $translator->expects($this->any())->method('translate')->will($this->returnCallback($translate));
-        $this->_storeConfig = $this->getMock('Mage_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $this->_storeConfig = $this->getMock('Magento_Core_Model_Store_Config', array('getConfig'), array(), '', false);
         $this->_segmentCollection = $this->getMock(
             'Enterprise_CustomerSegment_Model_Resource_Segment_Collection', array('toOptionArray'), array(), '', false
         );
-        $helperContext = $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false);
+        $helperContext = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false);
         $helperContext->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
         $this->_helper = new Enterprise_CustomerSegment_Helper_Data(
             $helperContext,

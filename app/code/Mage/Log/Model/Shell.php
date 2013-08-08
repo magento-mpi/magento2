@@ -15,7 +15,7 @@
  * @package     Mage_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Log_Model_Shell extends Mage_Core_Model_ShellAbstract
+class Mage_Log_Model_Shell extends Magento_Core_Model_ShellAbstract
 {
     /**
      * @var Mage_Log_Model_Shell_Command_Factory

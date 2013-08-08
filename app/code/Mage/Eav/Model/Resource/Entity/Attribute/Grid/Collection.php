@@ -19,19 +19,19 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Grid_Collection
     extends Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection
 {
     /**
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
 
     /**
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Mage_Core_Model_Registry $registryManager
-     * @param Mage_Core_Model_Resource_Db_Abstract $resource
+     * @param Magento_Core_Model_Registry $registryManager
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Mage_Core_Model_Registry $registryManager,
-        Mage_Core_Model_Resource_Db_Abstract $resource = null
+        Magento_Core_Model_Registry $registryManager,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_registryManager = $registryManager;
         parent::__construct($fetchStrategy, $resource);
@@ -40,7 +40,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Grid_Collection
     /**
      *  Add filter by entity type id to collection
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract|Mage_Eav_Model_Resource_Entity_Attribute_Grid_Collection
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|Mage_Eav_Model_Resource_Entity_Attribute_Grid_Collection
      */
     protected function _initSelect()
     {

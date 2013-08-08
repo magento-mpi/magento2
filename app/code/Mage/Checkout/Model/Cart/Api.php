@@ -60,7 +60,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
                     ->setIsActive(false)
                     ->setIsMultiShipping(false)
                     ->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('create_quote_fault', $e->getMessage());
         }
         return (int) $quote->getId();
@@ -244,7 +244,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
             }
 
             Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('create_order_fault', $e->getMessage());
         }
 
@@ -301,7 +301,7 @@ class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
             try {
                 $quote->getPayment()->importData($paymentData);
                 $quote->setTotalsCollectedFlag(false)->collectTotals();
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_fault('payment_method_is_not_set', $e->getMessage());
             }
         }

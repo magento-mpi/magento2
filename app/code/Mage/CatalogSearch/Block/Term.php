@@ -15,7 +15,7 @@
  * @package    Mage_CatalogSearch
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
+class Mage_CatalogSearch_Block_Term extends Magento_Core_Block_Template
 {
     protected $_terms;
     protected $_minPopularity;
@@ -70,7 +70,7 @@ class Mage_CatalogSearch_Block_Term extends Mage_Core_Block_Template
 
     public function getSearchUrl($obj)
     {
-        $url = Mage::getModel('Mage_Core_Model_Url');
+        $url = Mage::getModel('Magento_Core_Model_Url');
         /*
         * url encoding will be done in Url.php http_build_query
         * so no need to explicitly called urlencode for the text

@@ -97,13 +97,13 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected $_calculatePrice = true;
 
     /**
-     * @param Mage_Core_Model_Context $context
+     * @param Magento_Core_Model_Context $context
      * @param Mage_Catalog_Model_Resource_Product $resource
      * @param Mage_Catalog_Model_Resource_Product_Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
+        Magento_Core_Model_Context $context,
         Mage_Catalog_Model_Resource_Product $resource,
         Mage_Catalog_Model_Resource_Product_Collection $resourceCollection,
         array $data = array()

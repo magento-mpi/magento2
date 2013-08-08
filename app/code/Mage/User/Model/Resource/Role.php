@@ -16,7 +16,7 @@
  * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Model_Resource_Role extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_User_Model_Resource_Role extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Users table
@@ -47,10 +47,10 @@ class Mage_User_Model_Resource_Role extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Process role before saving
      *
-     * @param Mage_Core_Model_Abstract $role
+     * @param Magento_Core_Model_Abstract $role
      * @return Mage_User_Model_Resource_Role
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $role)
+    protected function _beforeSave(Magento_Core_Model_Abstract $role)
     {
         if (!$role->getId()) {
             $role->setCreated($this->formatDate(true));
@@ -93,10 +93,10 @@ class Mage_User_Model_Resource_Role extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Process role after saving
      *
-     * @param Mage_Core_Model_Abstract $role
+     * @param Magento_Core_Model_Abstract $role
      * @return Mage_User_Model_Resource_Role
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $role)
+    protected function _afterSave(Magento_Core_Model_Abstract $role)
     {
         $this->_updateRoleUsersAcl($role);
         Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
@@ -107,10 +107,10 @@ class Mage_User_Model_Resource_Role extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Process role after deleting
      *
-     * @param Mage_Core_Model_Abstract $role
+     * @param Magento_Core_Model_Abstract $role
      * @return Mage_User_Model_Resource_Role
      */
-    protected function _afterDelete(Mage_Core_Model_Abstract $role)
+    protected function _afterDelete(Magento_Core_Model_Abstract $role)
     {
         $adapter = $this->_getWriteAdapter();
 

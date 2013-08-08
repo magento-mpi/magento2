@@ -71,18 +71,18 @@ class Mage_Catalog_Model_Product_Image_View extends Magento_Object
     /**
      * View config model
      *
-     * @var Mage_Core_Model_View_Config
+     * @var Magento_Core_Model_View_Config
      */
     protected $_viewConfig;
 
     /**
      * @param Mage_Catalog_Helper_Image $helperImage
-     * @param Mage_Core_Model_View_Config $viewConfig
+     * @param Magento_Core_Model_View_Config $viewConfig
      * @param array $data
      */
     public function __construct(
         Mage_Catalog_Helper_Image $helperImage,
-        Mage_Core_Model_View_Config $viewConfig,
+        Magento_Core_Model_View_Config $viewConfig,
         array $data = array()
     ) {
         $this->_helperImage = $helperImage;

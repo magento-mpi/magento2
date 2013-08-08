@@ -13,7 +13,7 @@
  *
  */
 class Enterprise_CustomerBalance_Block_Adminhtml_Sales_Order_Create_Payment
-extends Mage_Core_Block_Template
+extends Magento_Core_Block_Template
 {
     /**
      * @var Enterprise_CustomerBalance_Model_Balance
@@ -33,11 +33,11 @@ extends Mage_Core_Block_Template
     /**
      * Return store manager instance
      *
-     * @return Mage_Core_Model_StoreManager
+     * @return Magento_Core_Model_StoreManager
      */
     protected function _getStoreManagerModel()
     {
-        return Mage::getSingleton('Mage_Core_Model_StoreManager');
+        return Mage::getSingleton('Magento_Core_Model_StoreManager');
     }
 
     /**

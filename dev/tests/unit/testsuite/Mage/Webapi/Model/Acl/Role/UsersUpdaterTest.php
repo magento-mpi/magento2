@@ -20,7 +20,7 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdaterTest extends PHPUnit_Framework_Test
     protected $_backendHelper;
 
     /**
-     * @var Mage_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
@@ -39,7 +39,7 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdaterTest extends PHPUnit_Framework_Test
             ->getMock();
         $this->_backendHelper->expects($this->any())->method('prepareFilterString')->will($this->returnArgument(0));
 
-        $this->_request = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
+        $this->_request = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_collection = $this->getMockBuilder('Mage_Webapi_Model_Resource_Acl_User_Collection')

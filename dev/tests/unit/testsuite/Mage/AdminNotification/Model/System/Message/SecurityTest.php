@@ -40,12 +40,12 @@ class Mage_AdminNotification_Model_System_Message_SecurityTest extends PHPUnit_F
     public function setUp()
     {
         //Prepare objects for constructor
-        $this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface');
-        $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_Config',
+        $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface');
+        $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config',
             array('getConfig'), array(), '', false);
         $this->_curlFactoryMock = $this->getMock('Magento_HTTP_Adapter_CurlFactory',
             array('create'), array(), '', false);
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
+        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $arguments = array(

@@ -14,12 +14,12 @@
  * @method getArea()
  * @method getTheme()
  */
-class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends Mage_Core_Block_Html_Select
+class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends Magento_Core_Block_Html_Select
 {
     /**
      * Add necessary options
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _beforeToHtml()
     {
@@ -48,12 +48,12 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends Ma
      * Retrieve theme instance by its identifier
      *
      * @param int $themeId
-     * @return Mage_Core_Model_Theme|null
+     * @return Magento_Core_Model_Theme|null
      */
     protected function _getThemeInstance($themeId)
     {
-        /** @var Mage_Core_Model_Resource_Theme_Collection $themeCollection */
-        $themeCollection = Mage::getResourceModel('Mage_Core_Model_Resource_Theme_Collection');
+        /** @var Magento_Core_Model_Resource_Theme_Collection $themeCollection */
+        $themeCollection = Mage::getResourceModel('Magento_Core_Model_Resource_Theme_Collection');
         return $themeCollection->getItemById($themeId);
     }
 
@@ -61,11 +61,11 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends Ma
      * Retrieve new layout merge model instance
      *
      * @param array $arguments
-     * @return Mage_Core_Model_Layout_Merge
+     * @return Magento_Core_Model_Layout_Merge
      */
     protected function _getLayoutMerge(array $arguments)
     {
-        return Mage::getModel('Mage_Core_Model_Layout_Merge', $arguments);
+        return Mage::getModel('Magento_Core_Model_Layout_Merge', $arguments);
     }
 
     /**
@@ -78,7 +78,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout extends Ma
     {
         foreach ($pageTypes as $pageTypeName => $pageTypeInfo) {
             $params = array();
-            if ($pageTypeInfo['type'] == Mage_Core_Model_Layout_Merge::TYPE_FRAGMENT) {
+            if ($pageTypeInfo['type'] == Magento_Core_Model_Layout_Merge::TYPE_FRAGMENT) {
                 $params['class'] = 'fragment';
             }
             $this->addOption($pageTypeName, str_repeat('. ', $level) . $pageTypeInfo['label'], $params);

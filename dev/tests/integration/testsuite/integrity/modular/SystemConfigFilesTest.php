@@ -16,18 +16,18 @@ class Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Framework_TestCase
         $objectManager = Mage::getObjectManager();
 
         // disable config caching to not pollute it
-        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
-        $cacheTypes = $objectManager->get('Mage_Core_Model_Cache_Types');
-        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, false);
+        /** @var $cacheTypes Magento_Core_Model_Cache_Types */
+        $cacheTypes = $objectManager->get('Magento_Core_Model_Cache_Types');
+        $cacheTypes->setEnabled(Magento_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, false);
 
-        /** @var $dirs Mage_Core_Model_Dir */
-        $dirs = $objectManager->get('Mage_Core_Model_Dir');
-        $modulesDir = $dirs->getDir(Mage_Core_Model_Dir::MODULES);
+        /** @var $dirs Magento_Core_Model_Dir */
+        $dirs = $objectManager->get('Magento_Core_Model_Dir');
+        $modulesDir = $dirs->getDir(Magento_Core_Model_Dir::MODULES);
 
         $fileList = glob($modulesDir . '/*/*/etc/adminhtml/system.xml');
 
         $configMock = $this->getMock(
-            'Mage_Core_Model_Config_Modules_Reader', array('getModuleConfigurationFiles', 'getModuleDir'),
+            'Magento_Core_Model_Config_Modules_Reader', array('getModuleConfigurationFiles', 'getModuleDir'),
             array(), '', false
         );
         $configMock->expects($this->any())

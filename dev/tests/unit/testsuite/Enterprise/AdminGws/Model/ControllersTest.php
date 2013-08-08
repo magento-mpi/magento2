@@ -46,12 +46,12 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
     public function setUp()
     {
         $this->_roleMock = $this->getMock('Enterprise_AdminGws_Model_Role', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_objectFactory = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
 
         $this->_controllerMock = $this->getMock('Magento_Adminhtml_Controller_Action', array(), array(), '', false);
         $this->_ctrlRequestMock = $this->getMock(
-            'Mage_Core_Controller_Request_Http',
+            'Magento_Core_Controller_Request_Http',
             array(),
             array(),
             '',

@@ -12,7 +12,7 @@
 /**
  * Authentication start/redirect form
  */
-class Mage_Centinel_Block_Authentication_Start extends Mage_Core_Block_Template
+class Mage_Centinel_Block_Authentication_Start extends Magento_Core_Block_Template
 {
     /**
      * Prepare form parameters and render

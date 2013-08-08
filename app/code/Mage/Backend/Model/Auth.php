@@ -145,7 +145,7 @@ class Mage_Backend_Model_Auth
         } catch (Mage_Backend_Model_Auth_Plugin_Exception $e) {
             Mage::dispatchEvent('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
             throw $e;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::dispatchEvent('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
             self::throwException(
                 Mage::helper('Mage_Backend_Helper_Data')->__('Please correct the user name or password.')

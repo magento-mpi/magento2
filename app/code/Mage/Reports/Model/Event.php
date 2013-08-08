@@ -30,7 +30,7 @@
  * @package     Mage_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Event extends Mage_Core_Model_Abstract
+class Mage_Reports_Model_Event extends Magento_Core_Model_Abstract
 {
     const EVENT_PRODUCT_VIEW    = 1;
     const EVENT_PRODUCT_SEND    = 2;
@@ -55,7 +55,7 @@ class Mage_Reports_Model_Event extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $this->setLoggedAt(Mage::getModel('Mage_Core_Model_Date')->gmtDate());
+        $this->setLoggedAt(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
         return parent::_beforeSave();
     }
 

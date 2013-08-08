@@ -16,7 +16,7 @@
  * @package     Mage_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Widget_Model_Resource_Widget extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Widget_Model_Resource_Widget extends Magento_Core_Model_Resource_Db_Abstract
 {
 
     /**

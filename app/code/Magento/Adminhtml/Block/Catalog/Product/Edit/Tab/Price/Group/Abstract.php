@@ -196,7 +196,7 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
         );
 
         if (!$this->isScopeGlobal() && $this->getProduct()->getStoreId()) {
-            /** @var $website Mage_Core_Model_Website */
+            /** @var $website Magento_Core_Model_Website */
             $website = Mage::app()->getStore($this->getProduct()->getStoreId())->getWebsite();
 
             $this->_websites[$website->getId()] = array(
@@ -207,7 +207,7 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
             $websites = Mage::app()->getWebsites(false);
             $productWebsiteIds  = $this->getProduct()->getWebsiteIds();
             foreach ($websites as $website) {
-                /** @var $website Mage_Core_Model_Website */
+                /** @var $website Magento_Core_Model_Website */
                 if (!in_array($website->getId(), $productWebsiteIds)) {
                     continue;
                 }

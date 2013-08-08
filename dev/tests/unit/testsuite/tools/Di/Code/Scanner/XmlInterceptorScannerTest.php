@@ -41,8 +41,8 @@ class Magento_Tools_Di_Code_Scanner_XmlInterceptorScannerTest extends PHPUnit_Fr
     {
         $actual = $this->_model->collectEntities($this->_testFiles);
         $expected = array(
-            'Mage_Core_Model_Cache_Interceptor',
-            'Mage_Core_Controller_Varien_Action_Context_Interceptor',
+            'Magento_Core_Model_Cache_Interceptor',
+            'Magento_Core_Controller_Varien_Action_Context_Interceptor',
         );
         $this->assertEquals($expected, $actual);
     }

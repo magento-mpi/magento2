@@ -167,7 +167,7 @@ class Mage_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_TestC
 
         $uniq = 'unique string';
 
-        $this->_mockCoreHelper = $this->getMockBuilder('Mage_Core_Helper_Data')
+        $this->_mockCoreHelper = $this->getMockBuilder('Magento_Core_Helper_Data')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockCoreHelper->expects($this->once())

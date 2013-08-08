@@ -39,7 +39,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $previousStoreId = Mage::app()->getStore();
-        Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_AppInterface::ADMIN_STORE_ID));
+        Mage::app()->setCurrentStore(Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
         if ($this->_createdCustomer && $this->_createdCustomer->getId() > 0) {
             $this->_createdCustomer->getAddressesCollection()->delete();
             $this->_createdCustomer->delete();
@@ -96,7 +96,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'password' => '123123q',
                 'default_billing' => null,
                 'default_shipping' => null,
-                'store_id' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID
+                'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
             )),
             'Mandatory data' => array(array(
                 'firstname' => 'SomeName',
@@ -134,7 +134,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'suffix' => null,
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123123q',
-                'store_id' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID
+                'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
             ), 'Magento_Validator_Exception'),
             'Invalid email' => array(array(
                 'website_id' => 0,
@@ -146,7 +146,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'suffix' => null,
                 'email' => '111@111',
                 'password' => '123123q',
-                'store_id' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID
+                'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
             ), 'Magento_Validator_Exception'),
             'Invalid password' => array(array(
                 'website_id' => 0,
@@ -158,7 +158,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'suffix' => null,
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123',
-                'store_id' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID
+                'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
             ), 'Mage_Eav_Model_Entity_Attribute_Exception', 'The password must have at least 6 characters.')
         );
     }
@@ -262,7 +262,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage The address with the specified ID not found.
      */
     public function testCreateWithInvalidAddressId()
@@ -294,7 +294,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdate($customerData)
     {
-        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $expected = $this->_customerFactory->create()
             ->load(1);
 
@@ -335,7 +335,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'dob' => date('Y-m-d H:i:s'),
                 'gender' => 1,
-                'store_id' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID
+                'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
             ))
         );
     }
@@ -349,7 +349,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateExceptions($customerData, $exceptionName, $exceptionMessage = '')
     {
-        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->setExpectedException($exceptionName, $exceptionMessage);
         $this->_model->update(1, $customerData);
     }
@@ -373,7 +373,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage The customer with the specified ID not found.
      */
     public function testUpdateInvalidCustomerId()

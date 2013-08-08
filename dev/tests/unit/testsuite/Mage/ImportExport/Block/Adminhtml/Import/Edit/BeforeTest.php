@@ -66,7 +66,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUnit_F
 
     public function setUp()
     {
-        $coreHelper = $this->getMock('Mage_Core_Helper_Data', array('jsonEncode'), array(), '', false, false);
+        $coreHelper = $this->getMock('Magento_Core_Helper_Data', array('jsonEncode'), array(), '', false, false);
         $coreHelper->expects($this->any())
             ->method('jsonEncode')
             ->will($this->returnCallback(array($this, 'jsonEncodeCallback')));
@@ -99,7 +99,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUnit_F
     }
 
     /**
-     * Callback method for Mage_Core_Helper_Data::jsonEncode
+     * Callback method for Magento_Core_Helper_Data::jsonEncode
      *
      * @param mixed $data
      * @return string

@@ -15,7 +15,7 @@
  * @package    Mage_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Page_Block_Html_Header extends Mage_Core_Block_Template
+class Mage_Page_Block_Html_Header extends Magento_Core_Block_Template
 {
     public function _construct()
     {
@@ -82,9 +82,9 @@ class Mage_Page_Block_Html_Header extends Mage_Core_Block_Template
     {
         $folderName = Mage_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
         $storeLogoPath = $this->_storeConfig->getConfig('design/header/logo_src');
-        $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => Mage_Core_Model_Store::URL_TYPE_MEDIA))
+        $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => Magento_Core_Model_Store::URL_TYPE_MEDIA))
             . $folderName . '/' . $storeLogoPath;
-        $absolutePath = $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR
+        $absolutePath = $this->_dirs->getDir(Magento_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR
             . $folderName . DIRECTORY_SEPARATOR . $storeLogoPath;
 
         if (!is_null($storeLogoPath) && $this->_isFile($absolutePath)) {
@@ -104,7 +104,7 @@ class Mage_Page_Block_Html_Header extends Mage_Core_Block_Template
      */
     protected function _isFile($filename)
     {
-        $helper = $this->_helperFactory->get('Mage_Core_Helper_File_Storage_Database');
+        $helper = $this->_helperFactory->get('Magento_Core_Helper_File_Storage_Database');
 
         if ($helper->checkDbUsage() && !is_file($filename)) {
             $helper->saveFileToFilesystem($filename);

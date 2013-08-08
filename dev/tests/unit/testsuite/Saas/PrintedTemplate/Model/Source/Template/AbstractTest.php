@@ -35,7 +35,7 @@ class Saas_PrintedTemplate_Model_Source_Template_AbstractTest extends PHPUnit_Fr
             )
         );
 
-        $modelConfig = $this->getMockBuilder('Mage_Core_Model_Config')
+        $modelConfig = $this->getMockBuilder('Magento_Core_Model_Config')
             ->setMethods(array('getNode'))
             ->disableOriginalConstructor()
             ->getMock();

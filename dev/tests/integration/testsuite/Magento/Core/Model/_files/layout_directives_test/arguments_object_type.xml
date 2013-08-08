@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <block type="Magento_Core_Block_Text" name="block_with_object_args">
+        <arguments>
+            <one type='object'>Magento_Core_Block_Text</one>
+            <two type='object'>Magento_Core_Block_Text</two>
+            <three type='object'>Magento_Core_Block_Text</three>
+            <four type='object'>Magento_Core_Block_Text</four>
+        </arguments>
+    </block>
+    <reference name="block_with_object_args">
+        <arguments>
+            <two>Magento_Core_Block_Messages</two>
+            <three type=''>3</three>
+        </arguments>
+    </reference>
+</layout>

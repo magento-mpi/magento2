@@ -14,7 +14,7 @@
  * @category   Saas
  * @package    Saas_UnitPrice
  */
-class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
+class Saas_UnitPrice_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Return the unitprice lable for the given product. If no unitprice is set return ''
@@ -106,7 +106,7 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param   string $className
      * @param   array $arguments
-     * @return  Mage_Core_Model_Abstract|false
+     * @return  Magento_Core_Model_Abstract|false
      */
     public function getModel($className = '', $arguments = array())
     {
@@ -117,7 +117,7 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
      * Retrieve helper object
      *
      * @param string $className the helper name
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     public function getHelperModel($className = '')
     {
@@ -132,7 +132,7 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function currency($value)
     {
-        return Mage_Core_Helper_Data::currency($value);
+        return Magento_Core_Helper_Data::currency($value);
     }
 
     /**
@@ -192,7 +192,7 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isUnitPriceProInstalledAndActive()
     {
-        $modulesConfig = Mage::getSingleton('Mage_Core_Model_Config_Modules');
+        $modulesConfig = Mage::getSingleton('Magento_Core_Model_Config_Modules');
         if ($node = $modulesConfig->getNode('modules/UnitPricePro')) {
             return strval($node->active) == 'true';
         }

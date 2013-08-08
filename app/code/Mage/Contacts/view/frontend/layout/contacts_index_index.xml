@@ -24,7 +24,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Mage_Core_Block_Template" name="contactForm" template="Mage_Contacts::form.phtml">
+            <block type="Magento_Core_Block_Template" name="contactForm" template="Mage_Contacts::form.phtml">
                 <container name="form.additional.info" label="Form Additional Info"/>
             </block>
         </reference>

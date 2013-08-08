@@ -36,7 +36,7 @@
  * @package     Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
+class Mage_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
 {
     /**
      * Event prefix

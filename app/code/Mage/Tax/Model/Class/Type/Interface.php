@@ -16,14 +16,14 @@ interface Mage_Tax_Model_Class_Type_Interface
     /**
      * Get Collection of Objects that are assigned to this tax class
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getAssignedToObjects();
 
     /**
      * Get Collection of Tax Rules that are assigned to this tax class
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getAssignedToRules();
 

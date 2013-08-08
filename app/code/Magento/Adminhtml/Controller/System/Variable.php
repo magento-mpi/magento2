@@ -33,7 +33,7 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
     /**
      * Initialize Variable object
      *
-     * @return Mage_Core_Model_Variable
+     * @return Magento_Core_Model_Variable
      */
     protected function _initVariable()
     {
@@ -41,8 +41,8 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
 
         $variableId = $this->getRequest()->getParam('variable_id', null);
         $storeId = (int)$this->getRequest()->getParam('store', 0);
-        /* @var $emailVariable Mage_Core_Model_Variable */
-        $variable = Mage::getModel('Mage_Core_Model_Variable');
+        /* @var $emailVariable Magento_Core_Model_Variable */
+        $variable = Mage::getModel('Magento_Core_Model_Variable');
         if ($variableId) {
             $variable->setStoreId($storeId)
                 ->load($variableId);
@@ -84,7 +84,7 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
 
         $this->_initLayout()
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_System_Variable_Edit'))
-            ->_addJs($this->getLayout()->createBlock('Mage_Core_Block_Template', '', array(
+            ->_addJs($this->getLayout()->createBlock('Magento_Core_Block_Template', '', array(
                 'data' => array('template' => 'Magento_Adminhtml::system/variable/js.phtml')
             )))
             ->renderLayout();
@@ -171,8 +171,8 @@ class Magento_Adminhtml_Controller_System_Variable extends Magento_Adminhtml_Con
      */
     public function wysiwygPluginAction()
     {
-        $customVariables = Mage::getModel('Mage_Core_Model_Variable')->getVariablesOptionArray(true);
-        $storeContactVariabls = Mage::getModel('Mage_Core_Model_Source_Email_Variables')->toOptionArray(true);
+        $customVariables = Mage::getModel('Magento_Core_Model_Variable')->getVariablesOptionArray(true);
+        $storeContactVariabls = Mage::getModel('Magento_Core_Model_Source_Email_Variables')->toOptionArray(true);
         $variables = array($storeContactVariabls, $customVariables);
         $this->getResponse()->setBody(Zend_Json::encode($variables));
     }

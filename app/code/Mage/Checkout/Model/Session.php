@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
+class Mage_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
 {
     const CHECKOUT_STATE_BEGIN = 'begin';
 
@@ -165,7 +165,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
             $this->_quote = $quote;
         }
 
-        if ($remoteAddr = Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr()) {
+        if ($remoteAddr = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr()) {
             $this->_quote->setRemoteIp($remoteAddr);
             $xForwardIp = Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR');
             $this->_quote->setXForwardedFor($xForwardIp);
@@ -295,7 +295,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
      * @param string $itemKey
      * @param bool $clear
      *
-     * @return null|Mage_Core_Model_Message_Collection
+     * @return null|Magento_Core_Model_Message_Collection
      */
     public function getItemAdditionalMessages($itemKey, $clear = false)
     {
@@ -317,7 +317,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
      * itemKey is a unique hash (e.g 'quote_item17') to distinguish item messages among message collections
      *
      * @param string $itemKey
-     * @param Mage_Core_Model_Message $message
+     * @param Magento_Core_Model_Message $message
      *
      * @return Mage_Checkout_Model_Session
      */
@@ -325,7 +325,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
     {
         $allMessages = $this->getAdditionalMessages();
         if (!isset($allMessages[$itemKey])) {
-            $allMessages[$itemKey] = Mage::getModel('Mage_Core_Model_Message_Collection');
+            $allMessages[$itemKey] = Mage::getModel('Magento_Core_Model_Message_Collection');
         }
         $allMessages[$itemKey]->add($message);
         $this->setAdditionalMessages($allMessages);
@@ -338,7 +338,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
      * @param int $itemId
      * @param bool $clear
      *
-     * @return null|Mage_Core_Model_Message_Collection
+     * @return null|Magento_Core_Model_Message_Collection
      */
     public function getQuoteItemMessages($itemId, $clear = false)
     {
@@ -349,7 +349,7 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
      * Adds new message to a list of quote item messages, saved in this session
      *
      * @param int $itemId
-     * @param Mage_Core_Model_Message $message
+     * @param Magento_Core_Model_Message $message
      *
      * @return Mage_Checkout_Model_Session
      */

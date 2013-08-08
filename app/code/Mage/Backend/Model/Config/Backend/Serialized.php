@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Config_Backend_Serialized extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Serialized extends Magento_Core_Model_Config_Data
 {
     protected function _afterLoad()
     {

@@ -15,7 +15,7 @@
  * @package  Mage_Weee
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Weee_Helper_Data extends Magento_Core_Helper_Abstract
 {
 
     const XML_PATH_FPT_ENABLED       = 'tax/weee/enable';
@@ -124,7 +124,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
      * @param Mage_Catalog_Model_Product $product
      * @param array|null                 $compareTo
      * @param string                     $zone
-     * @param Mage_Core_Model_Store      $store
+     * @param Magento_Core_Model_Store      $store
      * @return bool|int
      */
     public function typeOfDisplay($product, $compareTo = null, $zone = null, $store = null)
@@ -171,7 +171,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
      * @param Mage_Catalog_Model_Product $product
      * @param null|false|Magento_Object   $shipping
      * @param null|false|Magento_Object   $billing
-     * @param Mage_Core_Model_Website    $website
+     * @param Magento_Core_Model_Website    $website
      * @param bool                       $calculateTaxes
      * @return array
      */
@@ -247,7 +247,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
      * @param Mage_Catalog_Model_Product $product
      * @param null|false|Magento_Object $shipping Shipping Address
      * @param null|false|Magento_Object $billing Billing Address
-     * @param null|Mage_Core_Model_Website $website
+     * @param null|Magento_Core_Model_Website $website
      * @param mixed $calculateTaxes
      * @return array
      */
@@ -321,7 +321,7 @@ class Mage_Weee_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check if fixed taxes are used in system
      *
-     * @param Mage_Core_Model_Store $store
+     * @param Magento_Core_Model_Store $store
      * @return bool
      */
     public function isEnabled($store = null)

@@ -15,7 +15,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
+class Mage_Sales_Block_Items_Abstract extends Magento_Core_Block_Template
 {
     /**
      * Renderers with render type key
@@ -59,7 +59,7 @@ class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
      * Retrieve item renderer block
      *
      * @param string $type
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     public function getItemRenderer($type)
     {
@@ -79,10 +79,10 @@ class Mage_Sales_Block_Items_Abstract extends Mage_Core_Block_Template
     /**
      * Prepare item before output
      *
-     * @param Mage_Core_Block_Abstract $renderer
+     * @param Magento_Core_Block_Abstract $renderer
      * @return Mage_Sales_Block_Items_Abstract
      */
-    protected function _prepareItem(Mage_Core_Block_Abstract $renderer)
+    protected function _prepareItem(Magento_Core_Block_Abstract $renderer)
     {
         return $this;
     }

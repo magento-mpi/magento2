@@ -21,9 +21,9 @@ class Saas_Launcher_Model_Promotestore_Googleanalytics_StateResolver
     /**
      * Constructor
      *
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_App $app
      */
-    public function __construct(Mage_Core_Model_App $app)
+    public function __construct(Magento_Core_Model_App $app)
     {
         parent::__construct($app);
         $this->_sections = array('google');

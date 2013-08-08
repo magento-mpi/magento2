@@ -39,7 +39,7 @@ class Mage_Backend_Block_Widget_Accordion extends Mage_Backend_Block_Widget
             ->setData($config)
             ->setAccordion($this)
             ->setId($itemId);
-        if (isset($config['content']) && $config['content'] instanceof Mage_Core_Block_Abstract) {
+        if (isset($config['content']) && $config['content'] instanceof Magento_Core_Block_Abstract) {
             $this->_items[$itemId]->setChild($itemId.'_content', $config['content']);
         }
             

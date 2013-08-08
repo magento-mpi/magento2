@@ -48,8 +48,8 @@ class Magento_Adminhtml_Controller_Customer_System_Config_Validatevat extends Ma
      */
     public function validateAdvancedAction()
     {
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
+        /** @var $coreHelper Magento_Core_Helper_Data */
+        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
 
         $result = $this->_validate();
         $valid = $result->getIsValid();

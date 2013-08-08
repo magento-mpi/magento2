@@ -11,14 +11,14 @@
 
 Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
     Mage::PARAM_APP_DIRS => array(
-        Mage_Core_Model_Dir::THEMES => dirname(__DIR__) . '/design'
+        Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/design'
     )
 ));
 
-Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_CONFIG);
+Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
 
-/** @var $registration Mage_Core_Model_Theme_Registration */
-$registration = Mage::getModel('Mage_Core_Model_Theme_Registration');
+/** @var $registration Magento_Core_Model_Theme_Registration */
+$registration = Mage::getModel('Magento_Core_Model_Theme_Registration');
 $registration->register(
     __DIR__,
     implode(DIRECTORY_SEPARATOR, array('*', '*', 'theme.xml'))

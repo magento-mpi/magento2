@@ -74,8 +74,8 @@ class Mage_Api_Model_Wsdl_Config_Base extends Magento_Simplexml_Config
      */
     public function processFileData($text)
     {
-        /** @var $template Mage_Core_Model_Email_Template_Filter */
-        $template = Mage::getModel('Mage_Core_Model_Email_Template_Filter');
+        /** @var $template Magento_Core_Model_Email_Template_Filter */
+        $template = Mage::getModel('Magento_Core_Model_Email_Template_Filter');
 
         $this->_wsdlVariables->setHandler($this->getHandler());
 

@@ -26,7 +26,7 @@
  * @package     Mage_Newsletter
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Problem extends Mage_Core_Model_Abstract
+class Mage_Newsletter_Model_Problem extends Magento_Core_Model_Abstract
 {
     /**
      * Current Subscriber

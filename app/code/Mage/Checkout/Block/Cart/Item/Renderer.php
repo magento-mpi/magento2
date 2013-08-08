@@ -18,7 +18,7 @@
  * @method Mage_Checkout_Block_Cart_Item_Renderer setProductName(string)
  * @method Mage_Checkout_Block_Cart_Item_Renderer setDeleteUrl(string)
  */
-class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
+class Mage_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Template
 {
     /** @var Mage_Checkout_Model_Session */
     protected $_checkoutSession;
@@ -267,12 +267,12 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
             return $this->getData('delete_url');
         }
 
-        $encodedUrl = $this->helper('Mage_Core_Helper_Url')->getEncodedUrl();
+        $encodedUrl = $this->helper('Magento_Core_Helper_Url')->getEncodedUrl();
         return $this->getUrl(
             'checkout/cart/delete',
             array(
                 'id'=>$this->getItem()->getId(),
-                Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $encodedUrl
+                Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $encodedUrl
             )
         );
     }
@@ -331,15 +331,15 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
         // Add messages saved previously in checkout session
         $checkoutSession = $this->getCheckoutSession();
         if ($checkoutSession) {
-            /* @var $collection Mage_Core_Model_Message_Collection */
+            /* @var $collection Magento_Core_Model_Message_Collection */
             $collection = $checkoutSession->getQuoteItemMessages($quoteItem->getId(), true);
             if ($collection) {
                 $additionalMessages = $collection->getItems();
                 foreach ($additionalMessages as $message) {
-                    /* @var $message Mage_Core_Model_Message_Abstract */
+                    /* @var $message Magento_Core_Model_Message_Abstract */
                     $messages[] = array(
                         'text' => $message->getCode(),
-                        'type' => ($message->getType() == Mage_Core_Model_Message::ERROR) ? 'error' : 'notice'
+                        'type' => ($message->getType() == Magento_Core_Model_Message::ERROR) ? 'error' : 'notice'
                     );
                 }
             }
@@ -392,7 +392,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Mage_Core_Block_Template
     /**
      * Return product additional information block
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     public function getProductAdditionalInformationBlock()
     {

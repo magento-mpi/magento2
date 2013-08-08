@@ -19,10 +19,10 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_ProductTest extends PHPUnit_Fram
         $this->markTestIncomplete('Mage_GoogleShopping is not implemented yet');
 
         $block  = Mage::app()->getLayout()->createBlock('Mage_GoogleShopping_Block_Adminhtml_Items_Product');
-        $filter = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
-        $search = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text');
+        $filter = Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text');
+        $search = Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text');
 
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
         $layout->addBlock($block, 'product');
         $layout->addBlock($filter, 'reset_filter_button', 'product');
         $layout->addBlock($search, 'search_button', 'product');

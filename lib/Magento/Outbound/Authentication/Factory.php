@@ -12,7 +12,7 @@
  */
 class Magento_Outbound_Authentication_Factory
 {
-    /** @var Mage_Core_Model_ObjectManager  */
+    /** @var Magento_Core_Model_ObjectManager  */
     private $_objectManager;
 
     /**

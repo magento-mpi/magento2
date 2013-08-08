@@ -183,7 +183,7 @@ class Mage_Catalog_Block_Product_Widget_New extends Mage_Catalog_Block_Product_N
                     ->setTotalLimit($this->getProductsCount())
                     ->setCollection($this->getProductCollection());
             }
-            if ($this->_pager instanceof Mage_Core_Block_Abstract) {
+            if ($this->_pager instanceof Magento_Core_Block_Abstract) {
                 return $this->_pager->toHtml();
             }
         }

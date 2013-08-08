@@ -27,7 +27,7 @@ class Mage_Directory_Model_Region_Api extends Mage_Api_Model_Resource_Abstract
     {
         try {
             $country = Mage::getModel('Mage_Directory_Model_Country')->loadByCode($country);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('country_not_exists', $e->getMessage());
         }
 

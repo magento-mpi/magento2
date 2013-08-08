@@ -21,7 +21,7 @@
  * @package     Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Group extends Mage_Core_Model_Abstract
+class Mage_Customer_Model_Group extends Magento_Core_Model_Abstract
 {
     /**
      * Xml config path for create account default group
@@ -117,7 +117,7 @@ class Mage_Customer_Model_Group extends Mage_Core_Model_Abstract
     /**
      * Prepare data before save
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {

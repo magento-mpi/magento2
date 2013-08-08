@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -40,7 +40,7 @@ class Mage_Catalog_Model_CategoryTreeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testMoveWrongParent()
     {
@@ -49,7 +49,7 @@ class Mage_Catalog_Model_CategoryTreeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testMoveWrongId()
     {

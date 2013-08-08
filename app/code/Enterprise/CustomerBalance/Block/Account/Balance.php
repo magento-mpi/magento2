@@ -12,7 +12,7 @@
  * Customer balance block
  *
  */
-class Enterprise_CustomerBalance_Block_Account_Balance extends Mage_Core_Block_Template
+class Enterprise_CustomerBalance_Block_Account_Balance extends Magento_Core_Block_Template
 {
     /**
      * Retreive current customers balance in base currency

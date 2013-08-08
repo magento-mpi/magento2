@@ -85,7 +85,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
      */
     public function getSelectedStoreId()
     {
-        return (int)$this->_getRequest()->getParam('store', Mage_Core_Model_AppInterface::ADMIN_STORE_ID);
+        return (int)$this->_getRequest()->getParam('store', Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
     }
 
     /**

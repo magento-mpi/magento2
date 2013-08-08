@@ -15,7 +15,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Widget_Model_Resource_Widget_Instance_Options_Types implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Widget_Model_Resource_Widget_Instance_Options_Types implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Mage_Widget_Model_Widget_Instance

@@ -16,7 +16,7 @@
  * @package     Mage_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Resource_Calculation_Rule_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Tax_Model_Resource_Calculation_Rule_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Resource initialization
@@ -125,7 +125,7 @@ class Mage_Tax_Model_Resource_Calculation_Rule_Collection extends Mage_Core_Mode
      *
      * @param string $type
      * @param int $id
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Tax_Model_Resource_Calculation_Rule_Collection
      */
     public function setClassTypeFilter($type, $id)

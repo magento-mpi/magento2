@@ -15,7 +15,7 @@
  * @package    Mage_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rating_Block_Entity_Detailed extends Mage_Core_Block_Template
+class Mage_Rating_Block_Entity_Detailed extends Magento_Core_Block_Template
 {
     protected $_template = 'detailed.phtml';
 

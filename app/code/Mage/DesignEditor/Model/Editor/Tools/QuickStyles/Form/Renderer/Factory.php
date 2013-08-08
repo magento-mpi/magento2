@@ -11,7 +11,7 @@
 /**
  * Block that renders JS tab
  *
- * @method Mage_Core_Model_Theme getTheme()
+ * @method Magento_Core_Model_Theme getTheme()
  * @method setTheme($theme)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -21,7 +21,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
     /**
      * Layout model
      *
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout;
 
@@ -71,9 +71,9 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
     protected $_sharedRenderers = array();
 
     /**
-     * @param Mage_Core_Model_Layout $layout
+     * @param Magento_Core_Model_Layout $layout
      */
-    public function __construct(Mage_Core_Model_Layout $layout)
+    public function __construct(Magento_Core_Model_Layout $layout)
     {
         $this->_layout = $layout;
     }
@@ -84,12 +84,12 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      * @param string $elementClassName
      * @param string $rendererName
      * @return Magento_Data_Form_Element_Renderer_Interface
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function create($elementClassName, $rendererName)
     {
         if (!isset($this->_rendererByElement[$elementClassName])) {
-            throw new Mage_Core_Exception(
+            throw new Magento_Core_Exception(
                 sprintf('No renderer registered for elements of class "%s"', $elementClassName)
             );
         }

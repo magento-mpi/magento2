@@ -14,10 +14,10 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Adminhtml_Controller_System_Account */
     protected $_controller;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Controller_Request_Http */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Controller_Request_Http */
     protected $_requestMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Controller_Response_Http */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Controller_Response_Http */
     protected $_responseMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject|Magento_ObjectManager_ObjectManager */
@@ -35,22 +35,22 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject|Mage_User_Model_User */
     protected $_userMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_Locale_Validator */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Locale_Validator */
     protected $_validatorMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Backend_Model_Locale_Manager */
     protected $_managerMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_Translate */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Translate */
     protected $_translatorMock;
 
     public function setUp()
     {
-        $this->_requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
+        $this->_requestMock = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
             ->disableOriginalConstructor()
             ->setMethods(array('getOriginalPathInfo'))
             ->getMock();
-        $this->_responseMock = $this->getMockBuilder('Mage_Core_Controller_Response_Http')
+        $this->_responseMock = $this->getMockBuilder('Magento_Core_Controller_Response_Http')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
@@ -58,7 +58,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('get', 'create'))
             ->getMock();
-        $frontControllerMock = $this->getMockBuilder('Mage_Core_Controller_Varien_Front')
+        $frontControllerMock = $this->getMockBuilder('Magento_Core_Controller_Varien_Front')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -81,7 +81,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('load', 'save', 'sendPasswordResetNotificationEmail'))
             ->getMock();
 
-        $this->_validatorMock = $this->getMockBuilder('Mage_Core_Model_Locale_Validator')
+        $this->_validatorMock = $this->getMockBuilder('Magento_Core_Model_Locale_Validator')
             ->disableOriginalConstructor()
             ->setMethods(array('isValid'))
             ->getMock();
@@ -91,7 +91,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('switchBackendInterfaceLocale'))
             ->getMock();
 
-        $this->_translatorMock = $this->getMockBuilder('Mage_Core_Model_Translate')
+        $this->_translatorMock = $this->getMockBuilder('Magento_Core_Model_Translate')
             ->disableOriginalConstructor()
             ->setMethods(array('_canUseCache'))
             ->getMock();
@@ -118,7 +118,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
         $contextMock->expects($this->any())->method('getTranslator')->will($this->returnValue($this->_translatorMock));
 
         $args = array(
-            'context' => $contextMock, 'areaCode' => Mage_Core_Model_App_Area::AREA_ADMINHTML
+            'context' => $contextMock, 'areaCode' => Magento_Core_Model_App_Area::AREA_ADMINHTML
         );
 
         $testHelper = new Magento_Test_Helper_ObjectManager($this);
@@ -159,7 +159,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_userMock));
         $this->_objectManagerMock->expects($this->at(2))
             ->method('get')
-            ->with($this->equalTo('Mage_Core_Model_Locale_Validator'))
+            ->with($this->equalTo('Magento_Core_Model_Locale_Validator'))
             ->will($this->returnValue($this->_validatorMock));
         $this->_objectManagerMock->expects($this->at(3))
             ->method('get')

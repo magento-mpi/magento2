@@ -25,7 +25,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Link extends Mage_Core_Model_Abstract
+class Mage_Catalog_Model_Product_Link extends Magento_Core_Model_Abstract
 {
     const LINK_TYPE_RELATED     = 1;
     const LINK_TYPE_GROUPED     = 3;

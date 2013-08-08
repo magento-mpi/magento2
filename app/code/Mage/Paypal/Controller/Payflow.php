@@ -13,7 +13,7 @@
  * @package    Mage_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Controller_Payflow extends Mage_Core_Controller_Front_Action
+class Mage_Paypal_Controller_Payflow extends Magento_Core_Controller_Front_Action
 {
     /**
      * When a customer cancel payment from payflow gateway.

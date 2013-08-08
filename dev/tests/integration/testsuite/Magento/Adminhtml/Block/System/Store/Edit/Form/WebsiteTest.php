@@ -26,15 +26,15 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_WebsiteTest extends PHPUnit
 
         $registryData = array(
             'store_type' => 'website',
-            'store_data' => Mage::getModel('Mage_Core_Model_Website'),
+            'store_data' => Mage::getModel('Magento_Core_Model_Website'),
             'store_action' => 'add'
         );
         foreach ($registryData as $key => $value) {
             Mage::register($key, $value);
         }
 
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
 
         $this->_block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Edit_Form_Website');
 

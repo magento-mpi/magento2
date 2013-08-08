@@ -32,7 +32,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstract
+class Mage_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_Abstract
 {
     /**
      * Supported transaction types
@@ -107,7 +107,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     /**
      * Event object prefix
      *
-     * @see Mage_Core_Model_Absctract::$_eventPrefix
+     * @see Magento_Core_Model_Absctract::$_eventPrefix
      * @var string
      */
     protected $_eventPrefix = 'sales_order_payment_transaction';
@@ -115,7 +115,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     /**
      * Event object prefix
      *
-     * @see Mage_Core_Model_Absctract::$_eventObject
+     * @see Magento_Core_Model_Absctract::$_eventObject
      * @var string
      */
     protected $_eventObject = 'order_payment_transaction';
@@ -165,7 +165,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      * @param string $parentTxnId
      * @param string $txnId
      * @return Mage_Sales_Model_Order_Payment_Transaction
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function setParentTxnId($parentTxnId, $txnId = null)
     {
@@ -363,7 +363,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
                 return false;
             }
             return true;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // jam all logical exceptions, fallback to false
         }
         return false;
@@ -437,7 +437,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      * @param string $key
      * @param mixed $value
      * @return Mage_Sales_Model_Order_Payment_Transaction
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function setAdditionalInformation($key, $value)
     {
@@ -491,7 +491,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      * Close this transaction
      * @param bool $shouldSave
      * @return Mage_Sales_Model_Order_Payment_Transaction
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function close($shouldSave = true)
     {
@@ -613,7 +613,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     /**
      * Verify data required for saving
      * @return Mage_Sales_Model_Order_Payment_Transaction
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _beforeSave()
     {
@@ -629,14 +629,14 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
                 $this->setOrderId($this->_order->getId());
             }
 
-            $this->setCreatedAt(Mage::getModel('Mage_Core_Model_Date')->gmtDate());
+            $this->setCreatedAt(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
         }
         return parent::_beforeSave();
     }
 
     /**
      * Load child transactions
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _loadChildren()
     {
@@ -740,7 +740,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     /**
      * Check whether specified or set transaction type is supported
      * @param string $txnType
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _verifyTxnType($txnType = null)
     {
@@ -765,7 +765,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      * $dryRun allows to not throw exception
      * @param bool $dryRun
      * @return Mage_Sales_Model_Order_Payment|null|false
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _verifyPaymentObject($dryRun = false)
     {
@@ -780,7 +780,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     /**
      * Check whether specified transaction ID is valid
      * @param string $txnId
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _verifyTxnId($txnId)
     {
@@ -792,7 +792,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     /**
      * Make sure this object is a valid transaction
      * TODO for more restriction we can check for data consistency
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _verifyThisTransactionExists()
     {

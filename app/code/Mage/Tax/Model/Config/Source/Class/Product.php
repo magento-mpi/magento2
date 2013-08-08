@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Tax_Model_Config_Source_Class_Product implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Tax_Model_Config_Source_Class_Product implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Retrieve list of products

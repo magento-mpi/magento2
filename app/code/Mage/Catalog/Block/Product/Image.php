@@ -28,7 +28,7 @@
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_Catalog_Block_Product_Image extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Product_Image extends Magento_Core_Block_Template
 {
     /**
      * Template image only
@@ -51,12 +51,12 @@ class Mage_Catalog_Block_Product_Image extends Mage_Core_Block_Template
 
     /**
      * Constructor
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Magento_Core_Block_Template_Context $context
      * @param Mage_Catalog_Model_Product_Image_View $productImageView
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Magento_Core_Block_Template_Context $context,
         Mage_Catalog_Model_Product_Image_View $productImageView,
         array $data = array()
     ) {

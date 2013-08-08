@@ -21,10 +21,10 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
     /**
      * Perform actions before object save
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Catalog_Model_Resource_Attribute
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         $applyTo = $object->getApplyTo();
         if (is_array($applyTo)) {
@@ -36,10 +36,10 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
     /**
      * Perform actions after object save
      *
-     * @param  Mage_Core_Model_Abstract $object
+     * @param  Magento_Core_Model_Abstract $object
      * @return Mage_Catalog_Model_Resource_Attribute
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $this->_clearUselessAttributeValues($object);
         return parent::_afterSave($object);
@@ -48,10 +48,10 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
     /**
      * Clear useless attribute values
      *
-     * @param  Mage_Core_Model_Abstract $object
+     * @param  Magento_Core_Model_Abstract $object
      * @return Mage_Catalog_Model_Resource_Attribute
      */
-    protected function _clearUselessAttributeValues(Mage_Core_Model_Abstract $object)
+    protected function _clearUselessAttributeValues(Magento_Core_Model_Abstract $object)
     {
         $origData = $object->getOrigData();
 
@@ -76,10 +76,10 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
     /**
      * Delete entity
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Catalog_Model_Resource_Attribute
      */
-    public function deleteEntity(Mage_Core_Model_Abstract $object)
+    public function deleteEntity(Magento_Core_Model_Abstract $object)
     {
         if (!$object->getEntityAttributeId()) {
             return $this;
@@ -121,11 +121,11 @@ class Mage_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Enti
     /**
      * Defines is Attribute used by super products
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param int $attributeSet
      * @return int
      */
-    public function isUsedBySuperProducts(Mage_Core_Model_Abstract $object, $attributeSet = null)
+    public function isUsedBySuperProducts(Magento_Core_Model_Abstract $object, $attributeSet = null)
     {
         $adapter      = $this->_getReadAdapter();
         $attrTable    = $this->getTable('catalog_product_super_attribute');

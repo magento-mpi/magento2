@@ -94,7 +94,7 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Entity is unknown
      */
     public function testValidateSourceException()
@@ -111,7 +111,7 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Entity is unknown
      */
     public function testGetEntityEntityIsNotSet()
@@ -141,7 +141,7 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
      *
      * @magentoConfigFixture global/importexport/import_entities/customer/behavior_token Unknown_Behavior_Class
      *
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Invalid behavior token for customer
      */
     public function testGetEntityBehaviorsWithUnknownBehavior()

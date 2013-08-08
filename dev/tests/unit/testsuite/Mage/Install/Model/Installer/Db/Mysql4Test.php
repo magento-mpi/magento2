@@ -22,7 +22,7 @@ class Mage_Install_Model_Installer_Db_Mysql4Test extends PHPUnit_Framework_TestC
     public function testSupportEngine(array $supportedEngines, $expectedResult)
     {
         $connectionMock = $this->getMock('Magento_DB_Adapter_Interface');
-        $resourceMock = $this->getMock('Mage_Core_Model_Resource', array('createConnection'), array(), '', false);
+        $resourceMock = $this->getMock('Magento_Core_Model_Resource', array('createConnection'), array(), '', false);
         $resourceMock->expects($this->once())->method('createConnection')->will($this->returnValue($connectionMock));
 
         $connectionMock->expects($this->once())->method('fetchPairs')->will($this->returnValue($supportedEngines));

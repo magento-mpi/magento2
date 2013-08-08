@@ -68,7 +68,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Datetime extends Mage_Eav_Model_En
         // parse this date in current locale, do not apply GMT offset
         else {
             $date = Mage::app()->getLocale()->date($date,
-               Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT),
+               Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT),
                null, false
             );
         }

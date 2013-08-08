@@ -17,7 +17,7 @@
  */
 class Enterprise_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdater
     extends Enterprise_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
-    implements Mage_Core_Model_Layout_Argument_UpdaterInterface
+    implements Magento_Core_Model_Layout_Argument_UpdaterInterface
 {
     /**
      * Remove massaction items in case they disallowed for user

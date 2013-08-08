@@ -79,10 +79,10 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
                     }
                 )
             );
-        $this->_factoryHelperMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
+        $this->_factoryHelperMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_factoryHelperMock->expects($this->any())->method('get')
             ->will($this->returnValue($helperMock));
-        $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
+        $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $this->_backendFactoryMock = $this->getMock(
             'Mage_Backend_Model_Config_BackendFactory', array(), array(), '', false
         );
@@ -93,10 +93,10 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
             'Mage_Backend_Model_Config_CommentFactory', array(), array(), '', false
         );
         $this->_blockFactoryMock = $this->getMock(
-            'Mage_Core_Model_BlockFactory', array(), array(), '', false
+            'Magento_Core_Model_BlockFactory', array(), array(), '', false
         );
         $this->_dsGraphMock = $this->getMock(
-            'Mage_Core_Model_DataService_Graph', array(), array(), '', false
+            'Magento_Core_Model_DataService_Graph', array(), array(), '', false
         );
         $this->_depMapperMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper', array(), array(), '', false
@@ -169,12 +169,12 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
 
     public function testGetTooltipCreatesTooltipBlock()
     {
-        $this->_model->setData(array('tooltip_block' => 'Mage_Core_Block_Tooltip'), 'scope');
-        $tooltipBlock = $this->getMock('Mage_Core_Block');
+        $this->_model->setData(array('tooltip_block' => 'Magento_Core_Block_Tooltip'), 'scope');
+        $tooltipBlock = $this->getMock('Magento_Core_Block');
         $tooltipBlock->expects($this->once())->method('toHtml')->will($this->returnValue('tooltip block'));
         $this->_blockFactoryMock->expects($this->once())
             ->method('createBlock')
-            ->with('Mage_Core_Block_Tooltip')
+            ->with('Magento_Core_Block_Tooltip')
             ->will($this->returnValue($tooltipBlock));
         $this->assertEquals('tooltip block', $this->_model->getTooltip());
     }
@@ -341,7 +341,7 @@ class Mage_Backend_Model_Config_Structure_Element_FieldTest extends PHPUnit_Fram
     public function testGetOptionsUsesOptionsInterfaceIfNoMethodIsProvided()
     {
         $this->_model->setData(array('source_model' => 'Source_Model_Name'), 'scope');
-        $sourceModelMock = $this->getMock('Mage_Core_Model_Option_ArrayInterface');
+        $sourceModelMock = $this->getMock('Magento_Core_Model_Option_ArrayInterface');
         $this->_sourceFactoryMock->expects($this->once())
             ->method('create')
             ->with('Source_Model_Name')

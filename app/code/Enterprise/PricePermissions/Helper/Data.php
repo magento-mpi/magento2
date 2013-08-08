@@ -15,7 +15,7 @@
  * @package     Enterprise_PricePermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_PricePermissions_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_PricePermissions_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Path to edit_product_price node in ACL
@@ -49,10 +49,10 @@ class Enterprise_PricePermissions_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_authorization;
 
     /**
-     * @param Mage_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_AuthorizationInterface $authorization
      */
-    public function __construct(Mage_Core_Helper_Context $context, Magento_AuthorizationInterface $authorization)
+    public function __construct(Magento_Core_Helper_Context $context, Magento_AuthorizationInterface $authorization)
     {
         parent::__construct($context);
         $this->_authorization = $authorization;

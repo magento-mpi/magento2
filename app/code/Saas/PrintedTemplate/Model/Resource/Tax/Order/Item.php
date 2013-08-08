@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Models
  */
-class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item extends Mage_Core_Model_Resource_Db_Abstract
+class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource model constructor.

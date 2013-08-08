@@ -20,12 +20,12 @@ class Saas_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml_Co
     protected $_fileHelper;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_logger;
 
     /**
-     * @var Mage_Core_Model_Logger
+     * @var Magento_Core_Model_Logger
      */
     protected $_coreHelper;
 
@@ -35,16 +35,16 @@ class Saas_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml_Co
      * @param Mage_Backend_Controller_Context $context
      * @param Saas_ImportExport_Helper_Export_State $stateHelper
      * @param Saas_ImportExport_Helper_Export_File $fileHelper
-     * @param Mage_Core_Helper_Data $coreHelper
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Helper_Data $coreHelper
+     * @param Magento_Core_Model_Logger $logger
      * @param string|null $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
         Saas_ImportExport_Helper_Export_State $stateHelper,
         Saas_ImportExport_Helper_Export_File $fileHelper,
-        Mage_Core_Helper_Data $coreHelper,
-        Mage_Core_Model_Logger $logger,
+        Magento_Core_Helper_Data $coreHelper,
+        Magento_Core_Model_Logger $logger,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);

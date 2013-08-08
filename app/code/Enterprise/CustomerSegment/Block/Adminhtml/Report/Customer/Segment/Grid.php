@@ -84,7 +84,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
                 'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Website'),
                 'index'     => 'website_ids',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
+                'options'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash(),
                 'header_css_class'  => 'col-website',
                 'column_css_class'  => 'col-website'
             ));

@@ -11,7 +11,7 @@
 /**
  * PayPal online logo with additional options
  */
-class Mage_Paypal_Block_Logo extends Mage_Core_Block_Template
+class Mage_Paypal_Block_Logo extends Magento_Core_Block_Template
 {
     /**
      * Return URL for Paypal Landing page

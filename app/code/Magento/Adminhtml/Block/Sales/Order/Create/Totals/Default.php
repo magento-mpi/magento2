@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Default extends Magento_
     /**
      * Retrieve store model object
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {

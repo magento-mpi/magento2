@@ -22,7 +22,7 @@ class Mage_Checkout_Block_Onepage_Payment_MethodsTest extends PHPUnit_Framework_
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::getModel('Mage_Core_Model_Layout')
+        $this->_block = Mage::getModel('Magento_Core_Model_Layout')
             ->createBlock('Mage_Checkout_Block_Onepage_Payment_Methods');
     }
 
@@ -32,7 +32,7 @@ class Mage_Checkout_Block_Onepage_Payment_MethodsTest extends PHPUnit_Framework_
         $expectedLabel = 'Label After Html';
         $method = Mage::getModel('Mage_Payment_Model_Method_Free');
 
-        $block = $this->_block->getLayout()->createBlock('Mage_Core_Block_Text')
+        $block = $this->_block->getLayout()->createBlock('Magento_Core_Block_Text')
             ->setMethodTitle($expectedTitle)
             ->setMethodLabelAfterHtml($expectedLabel);
 

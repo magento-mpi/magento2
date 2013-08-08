@@ -112,7 +112,7 @@ class Mage_Sales_Model_Service_Quote
         $quote = $this->_quote;
         $isVirtual = $quote->isVirtual();
 
-        $transaction = Mage::getModel('Mage_Core_Model_Resource_Transaction');
+        $transaction = Mage::getModel('Magento_Core_Model_Resource_Transaction');
         if ($quote->getCustomerId()) {
             $transaction->addObject($quote->getCustomer());
         }

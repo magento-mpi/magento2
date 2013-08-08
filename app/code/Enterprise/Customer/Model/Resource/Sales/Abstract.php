@@ -16,7 +16,7 @@
  * @package     Enterprise_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Core_Model_Resource_Db_Abstract
+abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Used us prefix to name of column table
@@ -122,7 +122,7 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
     /**
      * Return resource model of the main entity
      *
-     * @return Mage_Core_Model_Resource_Abstract | null
+     * @return Magento_Core_Model_Resource_Abstract | null
      */
     protected function _getParentResourceModel()
     {

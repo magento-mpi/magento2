@@ -10,8 +10,8 @@
  */
 $defaultWebsiteId = Mage::app()->getStore()->getWebsiteId();
 
-/** @var $website Mage_Core_Model_Website */
-$website = Mage::getModel('Mage_Core_Model_Website');
+/** @var $website Magento_Core_Model_Website */
+$website = Mage::getModel('Magento_Core_Model_Website');
 $website->setData(array(
     'code'             => 'base2',
     'name'             => 'Test Website',

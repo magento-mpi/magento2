@@ -37,10 +37,10 @@ class Mage_Eav_Model_Attribute_Data
      * Set entity to data model (need for work)
      *
      * @param Mage_Eav_Model_Attribute $attribute
-     * @param Mage_Core_Model_Abstract $entity
+     * @param Magento_Core_Model_Abstract $entity
      * @return Mage_Eav_Model_Attribute_Data_Abstract
      */
-    public static function factory(Mage_Eav_Model_Attribute $attribute, Mage_Core_Model_Abstract $entity)
+    public static function factory(Mage_Eav_Model_Attribute $attribute, Magento_Core_Model_Abstract $entity)
     {
         /* @var $dataModel Mage_Eav_Model_Attribute_Data_Abstract */
         $dataModelClass = $attribute->getDataModel();

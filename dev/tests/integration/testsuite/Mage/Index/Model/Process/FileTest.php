@@ -43,9 +43,9 @@ class Mage_Index_Model_Process_FileTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManager   = Mage::getObjectManager();
         $this->_model           = $this->_objectManager->create('Mage_Index_Model_Process_File');
-        /** @var $dir Mage_Core_Model_Dir */
-        $dir = $this->_objectManager->get('Mage_Core_Model_Dir');
-        $this->_fileDirectory   = $dir->getDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . 'locks';
+        /** @var $dir Magento_Core_Model_Dir */
+        $dir = $this->_objectManager->get('Magento_Core_Model_Dir');
+        $this->_fileDirectory   = $dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . 'locks';
         $fullFileName           = $this->_fileDirectory . DIRECTORY_SEPARATOR . self::FILE_NAME;
         $this->_testFileHandler = fopen($fullFileName, 'w');
     }

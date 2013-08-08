@@ -19,7 +19,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     protected $_formFactory;
 
     /**
-     * @var Mage_Core_Model_Translate
+     * @var Magento_Core_Model_Translate
      */
     protected $_translator;
 
@@ -50,14 +50,14 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
      * @param Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory
-     * @param Mage_Core_Model_Translate $translator
+     * @param Magento_Core_Model_Translate $translator
      */
     public function __construct(
         Magento_Data_Form_Factory $formFactory,
         Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $configFactory,
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory $rendererFactory,
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory $elementsFactory,
-        Mage_Core_Model_Translate $translator
+        Magento_Core_Model_Translate $translator
     ) {
         $this->_formFactory     = $formFactory;
         $this->_configFactory   = $configFactory;
@@ -241,7 +241,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder
     protected function __()
     {
         $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), 'Mage_DesignEditor');
+        $expr = new Magento_Core_Model_Translate_Expr(array_shift($args), 'Mage_DesignEditor');
         array_unshift($args, $expr);
         return $this->_translator->translate($args);
     }

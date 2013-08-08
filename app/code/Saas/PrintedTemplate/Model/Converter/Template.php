@@ -103,7 +103,7 @@ abstract class Saas_PrintedTemplate_Model_Converter_Template
      * Returns PDF representation of the document
      *
      * @return string
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getPdf()
     {

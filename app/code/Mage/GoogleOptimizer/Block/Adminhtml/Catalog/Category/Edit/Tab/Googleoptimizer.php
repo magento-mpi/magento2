@@ -11,7 +11,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
     extends Magento_Adminhtml_Block_Catalog_Form
 {
     /**
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registry;
 
@@ -27,7 +27,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Registry $registry
      * @param Mage_GoogleOptimizer_Helper_Code $codeHelper
      * @param Mage_GoogleOptimizer_Helper_Form $formHelper
      * @param Magento_Data_Form $form
@@ -35,7 +35,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptim
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_Registry $registry,
         Mage_GoogleOptimizer_Helper_Code $codeHelper,
         Mage_GoogleOptimizer_Helper_Form $formHelper,
         Magento_Data_Form $form,

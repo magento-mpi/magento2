@@ -24,16 +24,16 @@ abstract class Mage_ImportExport_Model_Import_Entity_EavAbstract
     const ATTRIBUTE_COLLECTION_NAME = 'Magento_Data_Collection';
 
     /**
-     * Website manager (currently Mage_Core_Model_App works as website manager)
+     * Website manager (currently Magento_Core_Model_App works as website manager)
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_websiteManager;
 
     /**
-     * Store manager (currently Mage_Core_Model_App works as store manager)
+     * Store manager (currently Magento_Core_Model_App works as store manager)
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_storeManager;
 
@@ -132,7 +132,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_EavAbstract
      */
     protected function _initWebsites($withDefault = false)
     {
-        /** @var $website Mage_Core_Model_Website */
+        /** @var $website Magento_Core_Model_Website */
         foreach ($this->_websiteManager->getWebsites($withDefault) as $website) {
             $this->_websiteCodeToId[$website->getCode()] = $website->getId();
         }
@@ -147,7 +147,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_EavAbstract
      */
     protected function _initStores($withDefault = false)
     {
-        /** @var $store Mage_Core_Model_Store */
+        /** @var $store Magento_Core_Model_Store */
         foreach ($this->_storeManager->getStores($withDefault) as $store) {
             $this->_storeCodeToId[$store->getCode()] = $store->getId();
         }

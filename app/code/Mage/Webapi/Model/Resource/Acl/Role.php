@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Webapi_Model_Resource_Acl_Role extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * @var Mage_Webapi_Helper_Data
@@ -17,10 +17,10 @@ class Mage_Webapi_Model_Resource_Acl_Role extends Mage_Core_Model_Resource_Db_Ab
     /**
      * Class constructor.
      *
-     * @param Mage_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Resource $resource
      * @param Mage_Webapi_Helper_Data $helper
      */
-    public function __construct(Mage_Core_Model_Resource $resource, Mage_Webapi_Helper_Data $helper)
+    public function __construct(Magento_Core_Model_Resource $resource, Mage_Webapi_Helper_Data $helper)
     {
         $this->_helper = $helper;
         parent::__construct($resource);

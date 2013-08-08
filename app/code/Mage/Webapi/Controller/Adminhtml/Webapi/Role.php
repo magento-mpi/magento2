@@ -187,7 +187,7 @@ class Mage_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_Con
     protected function _validateRole($role)
     {
         $group = $role->isObjectNew() ? 'create' : 'update';
-        $validator = $this->_objectManager->get('Mage_Core_Model_Validator_Factory')
+        $validator = $this->_objectManager->get('Magento_Core_Model_Validator_Factory')
             ->createValidator('api_role', $group);
         if (!$validator->isValid($role)) {
             throw new Magento_Validator_Exception($validator->getMessages());
@@ -205,7 +205,7 @@ class Mage_Webapi_Controller_Adminhtml_Webapi_Role extends Magento_Adminhtml_Con
         // parse resource list
         $resources = explode(',', $this->getRequest()->getParam('resource', false));
         $isAll = $this->getRequest()->getParam('all');
-        $rootResource = $this->_objectManager->get('Mage_Core_Model_Acl_RootResource');
+        $rootResource = $this->_objectManager->get('Magento_Core_Model_Acl_RootResource');
         if ($isAll) {
             $resources = array($rootResource->getId());
         } elseif (in_array($rootResource->getId(), $resources)) {

@@ -169,7 +169,7 @@ class Mage_Backend_Model_Config_Structure_Element_Group_Proxy
     /**
      * Retrieve clone model
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     public function getCloneModel()
     {

@@ -16,7 +16,7 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Resource_Person_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_GiftRegistry_Model_Resource_Person_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Collection initialization

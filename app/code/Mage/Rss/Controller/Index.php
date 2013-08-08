@@ -15,7 +15,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Rss_Controller_Index extends Mage_Core_Controller_Front_Action
+class Mage_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**
      * Current wishlist
@@ -110,7 +110,7 @@ class Mage_Rss_Controller_Index extends Mage_Core_Controller_Front_Action
         if (is_null($this->_customer)) {
             $this->_customer = Mage::getModel('Mage_Customer_Model_Customer');
 
-            $params = Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('data'));
+            $params = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $customerId    = abs(intval($data[0]));
             if ($customerId && ($customerId == Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId()) ) {

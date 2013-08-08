@@ -19,7 +19,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_T
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout;
 
@@ -33,14 +33,14 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_T
         parent::setUp();
 
         $this->_objectManager = Mage::getObjectManager();
-        $this->_layout = $this->_objectManager->get('Mage_Core_Model_Layout');
+        $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Mage_Webapi_Block_Adminhtml_User_Edit_Tabs',
             'webapi.user.edit.tabs');
     }
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Mage_Core_Model_Layout');
+        $this->_objectManager->removeSharedInstance('Magento_Core_Model_Layout');
         unset($this->_objectManager, $this->_layout, $this->_block);
     }
 
@@ -52,13 +52,13 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_T
         // TODO: Move to unit tests after MAGETWO-4015 complete.
         /** @var Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main $mainTabBlock */
         $mainTabBlock = $this->_layout->addBlock(
-            'Mage_Core_Block_Text',
+            'Magento_Core_Block_Text',
             'webapi.user.edit.tab.main',
             'webapi.user.edit.tabs'
         )->setText('Main Block Content');
 
         $this->_layout->addBlock(
-            'Mage_Core_Block_Text',
+            'Magento_Core_Block_Text',
             'webapi.user.edit.tab.roles.grid',
             'webapi.user.edit.tabs'
         )->setText('Grid Block Content');

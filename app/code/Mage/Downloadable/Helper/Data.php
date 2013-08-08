@@ -15,7 +15,7 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Downloadable_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Check is link shareable or not

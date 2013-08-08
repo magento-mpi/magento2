@@ -35,12 +35,12 @@ class Mage_ImportExport_Model_Resource_Import_CustomerComposite_Data
     /**
      * Class constructor
      *
-     * @param Mage_Core_Model_Resource $resource
-     * @param Mage_Core_Helper_Data $coreHelper
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Helper_Data $coreHelper
      * @param array $arguments
      */
-    public function __construct(Mage_Core_Model_Resource $resource,
-        Mage_Core_Helper_Data $coreHelper,
+    public function __construct(Magento_Core_Model_Resource $resource,
+        Magento_Core_Helper_Data $coreHelper,
         array $arguments = array()
     ) {
         parent::__construct($resource, $coreHelper, $arguments);

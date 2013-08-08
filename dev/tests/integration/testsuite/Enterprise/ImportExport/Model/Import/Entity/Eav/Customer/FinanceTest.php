@@ -19,7 +19,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
      */
     protected function tearDown()
     {
-        /** @var $testWebsite Mage_Core_Model_Website */
+        /** @var $testWebsite Magento_Core_Model_Website */
         $testWebsite = Mage::registry('Enterprise_ImportExport_Model_Website');
         if ($testWebsite) {
             // Clear test website info from application cache.
@@ -44,13 +44,13 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
          * Try to get test website instance,
          * in this case test website will be added into protected property of Application instance class.
          */
-        /** @var $testWebsite Mage_Core_Model_Website */
+        /** @var $testWebsite Magento_Core_Model_Website */
         $testWebsite = Mage::registry('Enterprise_ImportExport_Model_Website');
         Mage::app()->getWebsite($testWebsite->getId());
 
         // load websites to have ability get website code by id.
         $websiteCodes = array();
-        /** @var $website Mage_Core_Model_Website */
+        /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $websiteCodes[$website->getId()] = $website->getCode();
         }

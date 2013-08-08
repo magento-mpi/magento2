@@ -58,35 +58,35 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     /**
      * Block factory
      *
-     * @var Mage_Core_Model_BlockFactory
+     * @var Magento_Core_Model_BlockFactory
      */
     protected $_blockFactory;
 
     /**
      * dataservice graph
      *
-     * @var Mage_Core_Model_DataService_Graph
+     * @var Magento_Core_Model_DataService_Graph
      */
      protected $_dataServiceGraph;
 
     /**
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_App $application
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_App $application
      * @param Mage_Backend_Model_Config_BackendFactory $backendFactory
      * @param Mage_Backend_Model_Config_SourceFactory $sourceFactory
      * @param Mage_Backend_Model_Config_CommentFactory $commentFactory
-     * @param Mage_Core_Model_BlockFactory $blockFactory
-     * @param Mage_Core_Model_DataService_Graph $dataServiceGraph,
+     * @param Magento_Core_Model_BlockFactory $blockFactory
+     * @param Magento_Core_Model_DataService_Graph $dataServiceGraph,
      * @param Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_App $application,
+        Magento_Core_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_App $application,
         Mage_Backend_Model_Config_BackendFactory $backendFactory,
         Mage_Backend_Model_Config_SourceFactory $sourceFactory,
         Mage_Backend_Model_Config_CommentFactory $commentFactory,
-        Mage_Core_Model_BlockFactory $blockFactory,
-        Mage_Core_Model_DataService_Graph $dataServiceGraph,
+        Magento_Core_Model_BlockFactory $blockFactory,
+        Magento_Core_Model_DataService_Graph $dataServiceGraph,
         Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
     ) {
         parent::__construct($helperFactory, $application);
@@ -239,7 +239,7 @@ class Mage_Backend_Model_Config_Structure_Element_Field
     /**
      * Retrieve backend model
      *
-     * @return Mage_Core_Model_Config_Data
+     * @return Magento_Core_Model_Config_Data
      */
     public function getBackendModel()
     {

@@ -15,7 +15,7 @@
  * @method Mage_Cms_Model_Page_Urlrewrite setCmsPageId() setCmsPageId(int)
  * @method Mage_Cms_Model_Page_Urlrewrite setUrlRewriteId() setUrlRewriteId(int)
  */
-class Mage_Cms_Model_Page_Urlrewrite extends Mage_Core_Model_Abstract
+class Mage_Cms_Model_Page_Urlrewrite extends Magento_Core_Model_Abstract
 {
     /**
      * Initialize resource model

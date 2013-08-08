@@ -258,7 +258,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
          */
         if ($data = $this->getRequest()->getPost('add_products')) {
             $this->_getGiftmessageSaveModel()
-                ->importAllowQuoteItemsFromProducts(Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data));
+                ->importAllowQuoteItemsFromProducts(Mage::helper('Magento_Core_Helper_Data')->jsonDecode($data));
         }
 
         /**
@@ -359,7 +359,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
             $this->_initSession()
                 ->_processData();
         }
-        catch (Mage_Core_Exception $e){
+        catch (Magento_Core_Exception $e){
             $this->_reloadQuote();
             $this->_getSession()->addError($e->getMessage());
         }
@@ -491,7 +491,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
                 $this->_getSession()->addError($message);
             }
             $this->_redirect('*/*/');
-        } catch (Mage_Core_Exception $e){
+        } catch (Magento_Core_Exception $e){
             $message = $e->getMessage();
             if( !empty($message) ) {
                 $this->_getSession()->addError($message);

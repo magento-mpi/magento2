@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCard_Model_Source_Status extends Mage_Core_Model_Abstract
+class Enterprise_GiftCard_Model_Source_Status extends Magento_Core_Model_Abstract
 {
     public function toOptionArray()
     {

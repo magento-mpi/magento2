@@ -15,7 +15,7 @@
  * @package    Mage_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_Session extends Mage_Core_Model_Session_Abstract
+class Mage_Api_Model_Session extends Magento_Core_Model_Session_Abstract
 {
     public $sessionIds = array();
     protected $_currentSessId = null;

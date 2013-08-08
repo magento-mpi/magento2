@@ -15,7 +15,7 @@
  * @package    Mage_CatalogSearch
  * @module     Catalog
  */
-class Mage_CatalogSearch_Controller_Advanced extends Mage_Core_Controller_Front_Action
+class Mage_CatalogSearch_Controller_Advanced extends Magento_Core_Controller_Front_Action
 {
 
     public function indexAction()
@@ -30,10 +30,10 @@ class Mage_CatalogSearch_Controller_Advanced extends Mage_Core_Controller_Front_
         $this->loadLayout();
         try {
             Mage::getSingleton('Mage_CatalogSearch_Model_Advanced')->addFilters($this->getRequest()->getQuery());
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Mage_CatalogSearch_Model_Session')->addError($e->getMessage());
             $this->_redirectError(
-                Mage::getModel('Mage_Core_Model_Url')
+                Mage::getModel('Magento_Core_Model_Url')
                     ->setQueryParams($this->getRequest()->getQuery())
                     ->getUrl('*/*/')
             );

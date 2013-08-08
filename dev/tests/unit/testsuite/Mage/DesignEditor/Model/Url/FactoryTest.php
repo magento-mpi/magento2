@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -35,7 +35,7 @@ class Mage_DesignEditor_Model_Url_FactoryTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManager->expects($this->once())
             ->method('configure')
-            ->with(array('preferences' => array('Mage_Core_Model_Url' => 'TestClass')));
+            ->with(array('preferences' => array('Magento_Core_Model_Url' => 'TestClass')));
 
         $this->assertEquals($this->_model, $this->_model->replaceClassName('TestClass'));
     }
@@ -44,7 +44,7 @@ class Mage_DesignEditor_Model_Url_FactoryTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('Mage_Core_Model_Url', array())
+            ->with('Magento_Core_Model_Url', array())
             ->will($this->returnValue('ModelInstance'));
 
         $this->assertEquals('ModelInstance', $this->_model->create());

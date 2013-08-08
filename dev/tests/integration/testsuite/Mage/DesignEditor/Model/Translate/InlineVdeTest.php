@@ -17,7 +17,7 @@ class Mage_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framework_
     protected $_model;
 
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
@@ -36,7 +36,7 @@ class Mage_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framework_
         $objectManager = Mage::getObjectManager();
 
         $this->_model = $objectManager->get('Mage_DesignEditor_Model_Translate_InlineVde');
-        $this->_request = $objectManager->get('Mage_Core_Controller_Request_Http');
+        $this->_request = $objectManager->get('Magento_Core_Controller_Request_Http');
         $this->_request->setParam('translation_mode', 'text');
 
         $this->_helperData = $objectManager->get('Mage_DesignEditor_Helper_Data');
@@ -46,7 +46,7 @@ class Mage_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framework_
     public function testObjectCreation()
     {
         $this->assertInstanceOf('Mage_DesignEditor_Model_Translate_InlineVde', $this->_model);
-        $this->assertInstanceOf('Mage_Core_Controller_Request_Http', $this->_request);
+        $this->assertInstanceOf('Magento_Core_Controller_Request_Http', $this->_request);
         $this->assertInstanceOf('Mage_DesignEditor_Helper_Data', $this->_helperData);
     }
 

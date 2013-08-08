@@ -16,7 +16,7 @@
  * @package     Mage_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Review_Model_Resource_Review extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Review table
@@ -106,10 +106,10 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
      * @param Magento_Object $object
      * @return Mage_Review_Model_Resource_Review
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if (!$object->getId()) {
-            $object->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
+            $object->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
         }
         if ($object->hasData('stores') && is_array($object->getStores())) {
             $stores = $object->getStores();
@@ -127,7 +127,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
      * @param Magento_Object $object
      * @return Mage_Review_Model_Resource_Review
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $adapter = $this->_getWriteAdapter();
         /**
@@ -192,7 +192,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
      * @param Magento_Object $object
      * @return Mage_Review_Model_Resource_Review
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
@@ -210,10 +210,10 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     /**
      * Action before delete
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Review_Model_Resource_Review
      */
-    protected function _beforeDelete(Mage_Core_Model_Abstract $object)
+    protected function _beforeDelete(Magento_Core_Model_Abstract $object)
     {
         // prepare rating ids, that depend on review
         $this->_deleteCache = array(
@@ -226,10 +226,10 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     /**
      * Perform actions after object delete
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Review_Model_Resource_Review
      */
-    public function afterDeleteCommit(Mage_Core_Model_Abstract $object)
+    public function afterDeleteCommit(Magento_Core_Model_Abstract $object)
     {
         $this->aggregate($object);
 
@@ -277,7 +277,7 @@ class Mage_Review_Model_Resource_Review extends Mage_Core_Model_Resource_Db_Abst
     /**
      * Aggregate
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      */
     public function aggregate($object)
     {

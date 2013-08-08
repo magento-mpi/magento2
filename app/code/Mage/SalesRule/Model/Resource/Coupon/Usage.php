@@ -16,7 +16,7 @@
  * @package     Mage_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Coupon_Usage extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_SalesRule_Model_Resource_Coupon_Usage extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Constructor
@@ -89,7 +89,7 @@ class Mage_SalesRule_Model_Resource_Coupon_Usage extends Mage_Core_Model_Resourc
                 $object->setData($data);
             }
         }
-        if ($object instanceof Mage_Core_Model_Abstract) {
+        if ($object instanceof Magento_Core_Model_Abstract) {
             $this->_afterLoad($object);
         }
         return $this;

@@ -26,7 +26,7 @@ class Mage_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
 
         $this->_helper = $this->getMock('Mage_Customer_Helper_Data', array(), array(), '', false);
 
-        $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
+        $helperFactory = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
         $helperFactory->expects($this->any())
             ->method('get')
             ->with('Mage_Customer_Helper_Data')
@@ -34,13 +34,13 @@ class Mage_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
 
         $this->_targetBlock = $this->getMock('Mage_Page_Block_Template_Links', array(), array(), '', false);
 
-        $layout = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
         $layout->expects($this->any())
             ->method('getBlock')
             ->with('target_block')
             ->will($this->returnValue($this->_targetBlock));
 
-        $context = $this->getMock('Mage_Core_Block_Context', array(), array(), '', false);
+        $context = $this->getMock('Magento_Core_Block_Context', array(), array(), '', false);
         $context->expects($this->any())
             ->method('getHelperFactory')
             ->will($this->returnValue($helperFactory));

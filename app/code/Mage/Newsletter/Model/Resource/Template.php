@@ -16,7 +16,7 @@
  * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Resource_Template extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Newsletter_Model_Resource_Template extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize connection
@@ -106,10 +106,10 @@ class Mage_Newsletter_Model_Resource_Template extends Mage_Core_Model_Resource_D
     /**
      * Perform actions before object save
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Newsletter_Model_Resource_Template
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if ($this->checkCodeUsage($object)) {
             Mage::throwException(Mage::helper('Mage_Newsletter_Helper_Data')->__('Duplicate template code'));
@@ -119,9 +119,9 @@ class Mage_Newsletter_Model_Resource_Template extends Mage_Core_Model_Resource_D
             $object->setTemplateActual(1);
         }
         if (!$object->hasAddedAt()) {
-            $object->setAddedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
+            $object->setAddedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
         }
-        $object->setModifiedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
+        $object->setModifiedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
 
         return parent::_beforeSave($object);
     }

@@ -34,7 +34,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order_Item_Configurable 
      * Returns model instance
      *
      * @param string $modelName
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     public function getModel($modelName)
     {

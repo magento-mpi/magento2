@@ -10,7 +10,7 @@ class Saas_Limitation_Model_Mage_User_Model_UserTest extends PHPUnit_Framework_T
     /**
      * @magentoConfigFixture limitations/admin_account 1
      * @magentoDbIsolation enabled
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Sorry, you are using all the admin users your account allows
      */
     public function testSaveCreateRestriction()

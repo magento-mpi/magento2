@@ -11,7 +11,7 @@
 class Saas_UnitPrice_Model_Entity_Backend_Unitprice_UnitTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testValidateShouldThrowExceptionIfNoConversionRateIsDefinedAndUnitPriceUsed()
     {
@@ -22,7 +22,7 @@ class Saas_UnitPrice_Model_Entity_Backend_Unitprice_UnitTest extends PHPUnit_Fra
         $unitPriceModel->expects($this->once())
             ->method('getConversionRate')
             ->with($this->equalTo(1), $this->equalTo(2))
-            ->will($this->throwException(new Mage_Core_Exception));
+            ->will($this->throwException(new Magento_Core_Exception));
 
         $unitPriceHelper = $this->getMockBuilder('Saas_UnitPrice_Helper_Data')
             ->setMethods(array('__'))

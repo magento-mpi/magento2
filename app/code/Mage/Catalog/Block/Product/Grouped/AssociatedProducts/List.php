@@ -20,14 +20,14 @@ class Mage_Catalog_Block_Product_Grouped_AssociatedProducts_List extends Mage_Ba
     /**
      * Store manager
      *
-     * @var Mage_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     /**
      * Registry
      *
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registry;
 
@@ -35,13 +35,13 @@ class Mage_Catalog_Block_Product_Grouped_AssociatedProducts_List extends Mage_Ba
      * @inheritdoc
      *
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_Registry $storeManager
+     * @param Magento_Core_Model_Registry $storeManager
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManager $storeManager,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         parent::__construct($context, $data);

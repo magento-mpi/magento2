@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Payment_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_PAYMENT_METHODS = 'payment';
     const XML_PATH_PAYMENT_GROUPS = 'global/payment/groups';
@@ -97,7 +97,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      * Retrieve payment information block
      *
      * @param  Mage_Payment_Model_Info $info
-     * @return Mage_Core_Block_Template
+     * @return Magento_Core_Block_Template
      */
     public function getInfoBlock(Mage_Payment_Model_Info $info)
     {
@@ -118,14 +118,14 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getInfoBlockHtml(Mage_Payment_Model_Info $info, $storeId)
     {
-        /** @var $appEmulation Mage_Core_Model_App_Emulation */
-        $appEmulation = Mage::getSingleton('Mage_Core_Model_App_Emulation');
+        /** @var $appEmulation Magento_Core_Model_App_Emulation */
+        $appEmulation = Mage::getSingleton('Magento_Core_Model_App_Emulation');
         $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
 
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
             $paymentBlock = $info->getBlockMock() ?: $this->getInfoBlock($info);
-            $paymentBlock->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)
+            $paymentBlock->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
                 ->setIsSecureMode(true);
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();

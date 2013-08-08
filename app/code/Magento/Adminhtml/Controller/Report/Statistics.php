@@ -109,7 +109,7 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
                 Mage::getResourceModel($collectionName)->aggregate($date);
             }
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Recent statistics have been updated.'));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Adminhtml_Helper_Data')->__('We can\'t refresh recent statistics.'));
@@ -137,7 +137,7 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
                 Mage::getResourceModel($collectionName)->aggregate();
             }
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Adminhtml_Helper_Data')->__('We updated lifetime statistics.'));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Adminhtml_Helper_Data')->__('We can\'t refresh lifetime statistics.'));

@@ -11,7 +11,7 @@
 /**
  * Theme storage helper
  */
-class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
+class Mage_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
 {
     /**
      * Parameter name of node
@@ -75,21 +75,21 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     protected $_session;
 
     /**
-     * @var Mage_Core_Model_Theme_FlyweightFactory
+     * @var Magento_Core_Model_Theme_FlyweightFactory
      */
     protected $_themeFactory;
 
     /**
      * @param Magento_Filesystem $filesystem
      * @param Mage_Backend_Model_Session $session
-     * @param Mage_Core_Model_Theme_FlyweightFactory $themeFactory
-     * @param Mage_Core_Helper_Context $context
+     * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
+     * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Mage_Backend_Model_Session $session,
-        Mage_Core_Model_Theme_FlyweightFactory $themeFactory,
-        Mage_Core_Helper_Context $context
+        Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
+        Magento_Core_Helper_Context $context
     ) {
         parent::__construct($context);
         $this->_filesystem = $filesystem;
@@ -158,7 +158,7 @@ class Mage_Theme_Helper_Storage extends Mage_Core_Helper_Abstract
     /**
      * Get theme module for custom static files
      *
-     * @return Mage_Core_Model_Theme
+     * @return Magento_Core_Model_Theme
      * @throws InvalidArgumentException
      */
     protected function _getTheme()

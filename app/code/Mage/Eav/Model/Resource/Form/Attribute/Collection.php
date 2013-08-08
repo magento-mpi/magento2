@@ -16,7 +16,7 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Resource_Form_Attribute_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Current module pathname
@@ -35,7 +35,7 @@ class Mage_Eav_Model_Resource_Form_Attribute_Collection extends Mage_Core_Model_
     /**
      * Current store instance
      *
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store;
 
@@ -49,7 +49,7 @@ class Mage_Eav_Model_Resource_Form_Attribute_Collection extends Mage_Core_Model_
     /**
      * Resource initialization
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _construct()
     {
@@ -77,7 +77,7 @@ class Mage_Eav_Model_Resource_Form_Attribute_Collection extends Mage_Core_Model_
     /**
      * Set current store to collection
      *
-     * @param Mage_Core_Model_Store|string|int $store
+     * @param Magento_Core_Model_Store|string|int $store
      * @return Mage_Eav_Model_Resource_Form_Attribute_Collection
      */
     public function setStore($store)
@@ -89,7 +89,7 @@ class Mage_Eav_Model_Resource_Form_Attribute_Collection extends Mage_Core_Model_
     /**
      * Return current store instance
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {

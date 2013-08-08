@@ -16,7 +16,7 @@
  * @package     Mage_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Api_Model_Resource_Acl extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize resource connections

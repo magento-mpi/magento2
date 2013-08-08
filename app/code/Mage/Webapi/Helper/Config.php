@@ -9,7 +9,7 @@ use Zend\Server\Reflection\ReflectionMethod;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Helper_Config extends Mage_Core_Helper_Abstract
+class Mage_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
 {
     /**
      * Convert singular form of word to plural.

@@ -13,12 +13,12 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
     protected $_controller;
 
     /**
-     * @var Mage_Core_Controller_Response_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Controller_Response_Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_responseMock;
 
     /**
-     * @var Mage_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
@@ -38,18 +38,18 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
     protected function setUp()
     {
         $helper = new Magento_Test_Helper_ObjectManager($this);
-        $this->_responseMock = $this->getMock('Mage_Core_Controller_Response_Http',
+        $this->_responseMock = $this->getMock('Magento_Core_Controller_Response_Http',
             array('setRedirect'), array(), '', false
         );
         $this->_responseMock->headersSentThrowsException = false;
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_sessionMock = $this->getMock('Mage_Backend_Model_Session',
             array('addError', 'setFormData'), array(), '', false);
         $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
-        $registryMock = $this->getMock('Mage_Core_Model_Registry', array(), array(), '', false, false);
+        $registryMock = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false, false);
         $this->_objectManager->expects($this->any())
             ->method('get')
-            ->with($this->equalTo('Mage_Core_Model_Registry'))
+            ->with($this->equalTo('Magento_Core_Model_Registry'))
             ->will($this->returnValue($registryMock));
 
         $arguments = array(
@@ -132,7 +132,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
     }
 
     /**
-     * Set expectations in case of Mage_Core_Exception for saveAction method
+     * Set expectations in case of Magento_Core_Exception for saveAction method
      *
      * @param array $data
      * @param string $errorMessage

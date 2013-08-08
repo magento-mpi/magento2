@@ -145,7 +145,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
         $args = array('creditmemo' => $creditmemo, 'request' => $this->getRequest());
         $this->_eventManager->dispatch('adminhtml_sales_order_creditmemo_register_before', $args);
 
-        $this->_objectManager->get('Mage_Core_Model_Registry')->register('current_creditmemo', $creditmemo);
+        $this->_objectManager->get('Magento_Core_Model_Registry')->register('current_creditmemo', $creditmemo);
         return $creditmemo;
     }
 
@@ -155,7 +155,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
      */
     protected function _saveCreditmemo($creditmemo)
     {
-        $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
+        $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
             ->addObject($creditmemo)
             ->addObject($creditmemo->getOrder());
         if ($creditmemo->getInvoice()) {
@@ -233,18 +233,18 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
             $creditmemo = $this->_initCreditmemo(true);
             $this->loadLayout();
             $response = $this->getLayout()->getBlock('order_items')->toHtml();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
+            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $this->__('Cannot update the item\'s quantity.')
             );
-            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
+            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -263,7 +263,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
             $creditmemo = $this->_initCreditmemo();
             if ($creditmemo) {
                 if (($creditmemo->getGrandTotal() <=0) && (!$creditmemo->getAllowZeroGrandTotal())) {
-                    throw new Mage_Core_Exception(
+                    throw new Magento_Core_Exception(
                         $this->__('Credit memo\'s total must be positive.')
                     );
                 }
@@ -286,7 +286,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
                 if (isset($data['do_offline'])) {
                     //do not allow online refund for Refund to Store Credit
                     if (!$data['do_offline'] && !empty($data['refund_customerbalance_return_enable'])) {
-                        throw new Mage_Core_Exception(
+                        throw new Magento_Core_Exception(
                             $this->__('Cannot create online refund for Refund to Store Credit.')
                         );
                     }
@@ -309,7 +309,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
                 $this->_forward('noRoute');
                 return;
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_getSession()->setFormData($data);
         } catch (Exception $e) {
@@ -330,7 +330,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
                 $creditmemo->cancel();
                 $this->_saveCreditmemo($creditmemo);
                 $this->_getSession()->addSuccess($this->__('The credit memo has been canceled.'));
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addError($this->__('You canceled the credit memo.'));
@@ -352,7 +352,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
                 $creditmemo->void();
                 $this->_saveCreditmemo($creditmemo);
                 $this->_getSession()->addSuccess($this->__('You voided the credit memo.'));
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addError($this->__('We can\'t void the credit memo.'));
@@ -388,18 +388,18 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
 
             $this->loadLayout();
             $response = $this->getLayout()->getBlock('creditmemo_comments')->toHtml();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
+            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $this->__('Cannot add new comment.')
             );
-            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
+            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }

@@ -12,7 +12,7 @@
  * Centinel Authenticate Controller
  *
  */
-class Mage_Centinel_Controller_Index extends Mage_Core_Controller_Front_Action
+class Mage_Centinel_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**
      * Process autentication start action

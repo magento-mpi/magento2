@@ -15,7 +15,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framework_T
     protected $_block;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_Layout
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Layout
      */
     protected $_layout;
 
@@ -25,7 +25,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framework_T
     protected $_helper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Controller_Request_Http
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
@@ -36,12 +36,12 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framework_T
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_layout = $this->getMockBuilder('Mage_Core_Model_Layout')
+        $this->_layout = $this->getMockBuilder('Magento_Core_Model_Layout')
             ->disableOriginalConstructor()
             ->setMethods(array('helper', 'getBlock'))
             ->getMock();
 
-        $this->_request = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
+        $this->_request = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
             ->getMock();
 
         $this->_helper = new Magento_Test_Helper_ObjectManager($this);
@@ -73,9 +73,9 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framework_T
     {
         $this->_block->setApiRole($apiRole);
 
-        $mainBlock = $this->_helper->getObject('Mage_Core_Block_Text');
-        $resourceBlock = $this->_helper->getObject('Mage_Core_Block_Text');
-        $userBlock = $this->_helper->getObject('Mage_Core_Block_Text');
+        $mainBlock = $this->_helper->getObject('Magento_Core_Block_Text');
+        $resourceBlock = $this->_helper->getObject('Magento_Core_Block_Text');
+        $userBlock = $this->_helper->getObject('Magento_Core_Block_Text');
 
         $this->_layout->expects($this->any())
             ->method('getBlock')

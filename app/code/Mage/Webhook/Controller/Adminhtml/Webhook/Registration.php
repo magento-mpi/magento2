@@ -26,7 +26,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Registration extends Mage_Backen
     const PARAM_EMAIL = 'email';
     const PARAM_COMPANY = 'company';
 
-    /** @var Mage_Core_Model_Registry */
+    /** @var Magento_Core_Model_Registry */
     private $_registry;
 
     /** @var Mage_Webhook_Service_SubscriptionV1Interface */
@@ -39,14 +39,14 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Registration extends Mage_Backen
     /**
      * @param Mage_Webhook_Model_Webapi_User_Factory $userFactory
      * @param Mage_Webhook_Service_SubscriptionV1Interface $subscriptionService
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Registry $registry
      * @param Mage_Backend_Controller_Context $context
      * @param string $areaCode
      */
     public function __construct(
         Mage_Webhook_Model_Webapi_User_Factory $userFactory,
         Mage_Webhook_Service_SubscriptionV1Interface $subscriptionService,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_Registry $registry,
         Mage_Backend_Controller_Context $context,
         $areaCode = null
     ) {
@@ -66,7 +66,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Registration extends Mage_Backen
             $this->_initSubscription();
             $this->loadLayout();
             $this->renderLayout();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_redirectFailed($e->getMessage());
         }
     }
@@ -85,7 +85,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Registration extends Mage_Backen
                 $route,
                 array(self::PARAM_SUBSCRIPTION_ID => $subscriptionData[self::DATA_SUBSCRIPTION_ID])
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_redirectFailed($e->getMessage());
         }
     }
@@ -99,7 +99,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Registration extends Mage_Backen
             $this->_initSubscription();
             $this->loadLayout();
             $this->renderLayout();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_redirectFailed($e->getMessage());
         }
     }
@@ -148,7 +148,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Registration extends Mage_Backen
 
             $this->_redirectSucceeded($subscriptionData);
 
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_redirectFailed($e->getMessage());
         }
     }
@@ -167,7 +167,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Registration extends Mage_Backen
                 $this->__('The subscription \'%s\' has been activated.',
                     $subscriptionData[self::DATA_NAME])
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
     }
@@ -184,7 +184,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Registration extends Mage_Backen
     /**
      * Initialize general settings for subscription
      *
-     * @throws Exception|Mage_Core_Exception if subscription can't be found
+     * @throws Exception|Magento_Core_Exception if subscription can't be found
      * @return array
      */
     protected function _initSubscription()

@@ -26,8 +26,8 @@ class Mage_Rss_Model_Resource_Order
      */
     public function getAllCommentCollection($orderId)
     {
-        /** @var $res Mage_Core_Model_Resource */
-        $res = Mage::getSingleton('Mage_Core_Model_Resource');
+        /** @var $res Magento_Core_Model_Resource */
+        $res = Mage::getSingleton('Magento_Core_Model_Resource');
         $read = $res->getConnection('core_read');
 
         $fields = array(

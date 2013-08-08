@@ -64,15 +64,15 @@ class Enterprise_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCa
         $currentStore = new Magento_Object(array('id' => 42));
         $currentWebsite = new Magento_Object(array('id' => 57));
         $storeManager = $this->getMockForAbstractClass(
-            'Mage_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('getStore', 'getWebsite')
+            'Magento_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('getStore', 'getWebsite')
         );
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($currentStore));
         $storeManager->expects($this->once())->method('getWebsite')->will($this->returnValue($currentWebsite));
 
         $this->_block = new Enterprise_Banner_Block_Widget_Banner(
-            $this->getMock('Mage_Core_Block_Template_Context', array(), array(), '', false),
+            $this->getMock('Magento_Core_Block_Template_Context', array(), array(), '', false),
             $this->_bannerResource,
-            $this->getMock('Mage_Core_Model_Session', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Session', array(), array(), '', false),
             $this->_checkoutSession,
             $this->_customerSession,
             $cmsHelper,

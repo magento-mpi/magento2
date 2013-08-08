@@ -280,7 +280,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
     {
         $elementId = $this->getRequest()->getParam('element_id', md5(microtime()));
         $storeId = $this->getRequest()->getParam('store_id', 0);
-        $storeMediaUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
+        $storeMediaUrl = Mage::app()->getStore($storeId)->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_MEDIA);
 
         $content = $this->getLayout()->createBlock(
             'Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content',
@@ -607,7 +607,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());
             $response->setMessage($e->getMessage());
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (Exception $e) {
@@ -647,7 +647,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
             $product->addData($productData);
             $product->setCollectExceptionMessages(true);
-            $configurableAttribute = Mage::helper('Mage_Core_Helper_Data')
+            $configurableAttribute = Mage::helper('Magento_Core_Helper_Data')
                 ->jsonDecode($productData['configurable_attribute']);
             $configurableAttribute = implode('-', $configurableAttribute);
 
@@ -797,7 +797,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
             $stockData['use_config_manage_stock'] = 0;
         }
         if ($stockData['use_config_manage_stock'] == 1 && !isset($stockData['manage_stock'])) {
-            $stockData['manage_stock'] = $this->_objectManager->get('Mage_Core_Model_StoreManager')->getStore()
+            $stockData['manage_stock'] = $this->_objectManager->get('Magento_Core_Model_StoreManager')->getStore()
                 ->getConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
         }
         if (isset($stockData['qty']) && (float)$stockData['qty'] > self::MAX_QTY_VALUE) {
@@ -833,7 +833,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 
             try {
                 if (isset($data['product'][$product->getIdFieldName()])) {
-                    throw new Mage_Core_Exception($this->__('Unable to save product'));
+                    throw new Magento_Core_Exception($this->__('Unable to save product'));
                 }
 
                 $originalSku = $product->getSku();
@@ -858,9 +858,9 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
                 $this->_getSession()->addSuccess($this->__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
                     $this->_getSession()->addNotice(
-                        $this->__('SKU for product %s has been changed to %s.', Mage::helper('Mage_Core_Helper_Data')
+                        $this->__('SKU for product %s has been changed to %s.', Mage::helper('Magento_Core_Helper_Data')
                             ->escapeHtml($product->getName()),
-                            Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku()))
+                            Mage::helper('Magento_Core_Helper_Data')->escapeHtml($product->getSku()))
                     );
                 }
 
@@ -874,7 +874,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
                     $this->_getSession()->addSuccess($this->__('You duplicated the product.'));
                 }
 
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage())
                     ->setProductData($data);
                 $redirectBack = true;
@@ -1011,9 +1011,9 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
                 $this->__('A total of %d record(s) have been updated.', count($productIds))
             );
         }
-        catch (Mage_Core_Model_Exception $e) {
+        catch (Magento_Core_Model_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()
@@ -1026,7 +1026,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
     /**
      * Validate batch of products before theirs status will be set
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @param  array $productIds
      * @param  int $status
      * @return void
@@ -1035,7 +1035,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
     {
         if ($status == Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
             if (!Mage::getModel('Mage_Catalog_Model_Product')->isProductsHasSku($productIds)) {
-                throw new Mage_Core_Exception(
+                throw new Magento_Core_Exception(
                     $this->__('Please make sure to define SKU values for all processed products.')
                 );
             }
@@ -1096,7 +1096,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
     public function suggestProductTemplatesAction()
     {
         $this->_initProduct();
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
             $this->getLayout()->createBlock('Mage_Catalog_Block_Product_TemplateSelector')
                 ->getSuggestedTemplates($this->getRequest()->getParam('label_part'))
         ));
@@ -1107,7 +1107,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
      */
     public function suggestAttributesAction()
     {
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(
             $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search')
                 ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
         ));

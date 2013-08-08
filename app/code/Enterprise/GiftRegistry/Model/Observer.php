@@ -112,7 +112,7 @@ class Enterprise_GiftRegistry_Model_Observer
      */
     public function addressFormatAdmin($observer)
     {
-        if (Mage::getDesign()->getArea() == Mage_Core_Model_App_Area::AREA_FRONTEND) {
+        if (Mage::getDesign()->getArea() == Magento_Core_Model_App_Area::AREA_FRONTEND) {
             $this->_addressFormat($observer);
         }
         return $this;
@@ -280,7 +280,7 @@ class Enterprise_GiftRegistry_Model_Observer
      */
     public function assignHtmlHeadRenderingFlag(Magento_Event_Observer $observer)
     {
-        /** @var $layout Mage_Core_Model_Layout */
+        /** @var $layout Magento_Core_Model_Layout */
         $layout = $observer->getEvent()->getLayout();
         /** @var $blockHead Mage_Page_Block_Html_Head */
         $blockHead = $layout->getBlock('head');

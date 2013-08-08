@@ -11,7 +11,7 @@
 /**
  * Generate options for media database selection
  */
-class Mage_Backend_Model_Config_Source_Storage_Media_Database implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Backend_Model_Config_Source_Storage_Media_Database implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Store all detected connections

@@ -31,7 +31,7 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
+class Enterprise_GiftRegistry_Model_Item extends Magento_Core_Model_Abstract
     implements Mage_Catalog_Model_Product_Configuration_Item_Interface
 {
 
@@ -79,7 +79,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
      * Return true if product was successful added or exception with code
      * Return false for disabled or unvisible products
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @param Mage_Checkout_Model_Cart $cart
      * @param int $qty
      * @return bool
@@ -348,7 +348,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     /**
      * Add option to item
      *
-     * @throws  Mage_Core_Exception
+     * @throws  Magento_Core_Exception
      * @param   Enterprise_GiftRegistry_Model_Item_Option $option
      * @return  Enterprise_GiftRegistry_Model_Item
      */
@@ -388,7 +388,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
     /**
      * Register option code
      *
-     * @throws  Mage_Core_Exception
+     * @throws  Magento_Core_Exception
      * @param   Enterprise_GiftRegistry_Model_Item_Option $option
      * @return  Enterprise_GiftRegistry_Model_Item
      */
@@ -463,7 +463,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
      * Validates and sets quantity for the related product
      *
      * @param int|float $quantity New item quantity
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Enterprise_GiftRegistry_Model_Item
      */
     public function setQty($quantity)

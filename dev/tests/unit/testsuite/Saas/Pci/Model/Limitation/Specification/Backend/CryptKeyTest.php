@@ -19,7 +19,7 @@ class Saas_Pci_Model_Limitation_Specification_Backend_CryptKeyTest extends PHPUn
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http');
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http');
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_modelSpecification = $objectManagerHelper->getObject(

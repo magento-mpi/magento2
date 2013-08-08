@@ -73,7 +73,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
             $config = array_merge($additionalConfig, $config);
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
     }
 
     /**
@@ -136,7 +136,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
 
         foreach ($groups as $groupId) {
             foreach ($websites as $website) {
-                /* @var $website Mage_Core_Model_Website */
+                /* @var $website Magento_Core_Model_Website */
                 $websiteId = $website->getId();
 
                 $store = $website->getDefaultStore();

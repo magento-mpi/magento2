@@ -16,7 +16,7 @@
  * @package    Mage_Persistent
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Persistent_Helper_Data extends Mage_Core_Helper_Data
+class Mage_Persistent_Helper_Data extends Magento_Core_Helper_Data
 {
     const XML_PATH_ENABLED = 'persistent/options/enabled';
     const XML_PATH_LIFE_TIME = 'persistent/options/lifetime';
@@ -35,7 +35,7 @@ class Mage_Persistent_Helper_Data extends Mage_Core_Helper_Data
     /**
      * Checks whether Persistence Functionality is enabled
      *
-     * @param int|string|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      * @return bool
      */
     public function isEnabled($store = null)
@@ -46,7 +46,7 @@ class Mage_Persistent_Helper_Data extends Mage_Core_Helper_Data
     /**
      * Checks whether "Remember Me" enabled
      *
-     * @param int|string|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      * @return bool
      */
     public function isRememberMeEnabled($store = null)
@@ -57,7 +57,7 @@ class Mage_Persistent_Helper_Data extends Mage_Core_Helper_Data
     /**
      * Is "Remember Me" checked by default
      *
-     * @param int|string|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      * @return bool
      */
     public function isRememberMeCheckedDefault($store = null)
@@ -68,7 +68,7 @@ class Mage_Persistent_Helper_Data extends Mage_Core_Helper_Data
     /**
      * Is shopping cart persist
      *
-     * @param int|string|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      * @return bool
      */
     public function isShoppingCartPersist($store = null)
@@ -79,7 +79,7 @@ class Mage_Persistent_Helper_Data extends Mage_Core_Helper_Data
     /**
      * Get Persistence Lifetime
      *
-     * @param int|string|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      * @return int
      */
     public function getLifeTime($store = null)
@@ -139,11 +139,11 @@ class Mage_Persistent_Helper_Data extends Mage_Core_Helper_Data
         $action = $observer->getEvent()->getAction();
         $controllerAction = $observer->getEvent()->getControllerAction();
 
-        if ($action instanceof Mage_Core_Controller_Varien_Action) {
-            return !$action->getFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
+        if ($action instanceof Magento_Core_Controller_Varien_Action) {
+            return !$action->getFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
         }
-        if ($controllerAction instanceof Mage_Core_Controller_Varien_Action) {
-            return !$controllerAction->getFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
+        if ($controllerAction instanceof Magento_Core_Controller_Varien_Action) {
+            return !$controllerAction->getFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
         }
         return true;
     }
@@ -157,7 +157,7 @@ class Mage_Persistent_Helper_Data extends Mage_Core_Helper_Data
     public function getCreateAccountUrl($url)
     {
         if (Mage::helper('Mage_Checkout_Helper_Data')->isContextCheckout()) {
-            $url = Mage::helper('Mage_Core_Helper_Url')->addRequestParam($url, array('context' => 'checkout'));
+            $url = Mage::helper('Magento_Core_Helper_Url')->addRequestParam($url, array('context' => 'checkout'));
         }
         return $url;
     }

@@ -34,7 +34,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
+class Enterprise_Cms_Model_Page_Version extends Magento_Core_Model_Abstract
 {
     /**
      * Prefix of model events names.
@@ -80,7 +80,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
                         $this->getPageId(), Enterprise_Cms_Model_Increment::LEVEL_VERSION);
 
             $this->setVersionNumber($incrementNumber);
-            $this->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
+            $this->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
         }
 
         if (!$this->getLabel()) {

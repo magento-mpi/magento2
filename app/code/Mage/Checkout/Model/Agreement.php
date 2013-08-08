@@ -28,7 +28,7 @@
  * @package     Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Model_Agreement extends Mage_Core_Model_Abstract
+class Mage_Checkout_Model_Agreement extends Magento_Core_Model_Abstract
 {
     protected function _construct()
     {

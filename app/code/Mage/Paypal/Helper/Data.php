@@ -9,7 +9,7 @@
 /**
  * Paypal Data helper
  */
-class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Cache for shouldAskToCreateBillingAgreement()
@@ -57,6 +57,6 @@ class Mage_Paypal_Helper_Data extends Mage_Core_Helper_Abstract
         if (isset($config['disable_for_countries'])) {
             $config['disable_for_countries'] = explode(',', str_replace(' ', '', $config['disable_for_countries']));
         }
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
     }
 }

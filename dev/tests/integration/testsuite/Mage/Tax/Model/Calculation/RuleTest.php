@@ -23,7 +23,7 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     public function testGetCustomerTaxClassWithDefaultFirstValue()
     {
         $model = new Mage_Tax_Model_Calculation_Rule(
-            Mage::getModel('Mage_Core_Model_Context'),
+            Mage::getModel('Magento_Core_Model_Context'),
             Mage::helper('Mage_Tax_Helper_Data'),
             $this->_getTaxClassMock(
                 'getCustomerClasses',
@@ -44,7 +44,7 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     public function testGetCustomerTaxClassWithDefaultFromConfig()
     {
         $model = new Mage_Tax_Model_Calculation_Rule(
-            Mage::getModel('Mage_Core_Model_Context'),
+            Mage::getModel('Magento_Core_Model_Context'),
             Mage::helper('Mage_Tax_Helper_Data'),
             $this->_getTaxClassMock(
                 'getCustomerClasses',
@@ -65,7 +65,7 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     public function testGetProductTaxClassWithDefaultFirstValue()
     {
         $model = new Mage_Tax_Model_Calculation_Rule(
-            Mage::getModel('Mage_Core_Model_Context'),
+            Mage::getModel('Magento_Core_Model_Context'),
             Mage::helper('Mage_Tax_Helper_Data'),
             $this->_getTaxClassMock(
                 'getProductClasses',
@@ -86,7 +86,7 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     public function testGetProductTaxClassWithDefaultFromConfig()
     {
         $model = new Mage_Tax_Model_Calculation_Rule(
-            Mage::getModel('Mage_Core_Model_Context'),
+            Mage::getModel('Magento_Core_Model_Context'),
             Mage::helper('Mage_Tax_Helper_Data'),
             $this->_getTaxClassMock(
                 'getProductClasses',
@@ -107,7 +107,7 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
     public function testGetAllOptions($classFilter, $expected)
     {
         $model = new Mage_Tax_Model_Calculation_Rule(
-            Mage::getModel('Mage_Core_Model_Context'),
+            Mage::getModel('Magento_Core_Model_Context'),
             Mage::helper('Mage_Tax_Helper_Data'),
             Mage::getModel('Mage_Tax_Model_Class'),
             null,
@@ -167,7 +167,7 @@ class Mage_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
             'Mage_Tax_Model_Class',
             array('getCollection'),
             array(
-                Mage::getModel('Mage_Core_Model_Context'),
+                Mage::getModel('Magento_Core_Model_Context'),
                 Mage::getModel('Mage_Tax_Model_Class_Factory'),
                 Mage::helper('Mage_Tax_Helper_Data')
             ),

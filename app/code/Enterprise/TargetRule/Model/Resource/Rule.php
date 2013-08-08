@@ -42,10 +42,10 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
     /**
      * Get Customer Segment Ids by rule
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return array
      */
-    public function getCustomerSegmentIds(Mage_Core_Model_Abstract $object)
+    public function getCustomerSegmentIds(Magento_Core_Model_Abstract $object)
     {
         $ids = $this->getReadConnection()->select()
             ->from($this->getTable('enterprise_targetrule_customersegment'), 'segment_id')
@@ -88,10 +88,10 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
     /**
      * Add customer segment ids to rule
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         $object->setData('customer_segment_ids', $this->getCustomerSegmentIds($object));
         return parent::_afterLoad($object);
@@ -100,11 +100,11 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
     /**
      * Save matched products for current rule and clean index
      *
-     * @param Mage_Core_Model_Abstract|Enterprise_TargetRule_Model_Rule $object
+     * @param Magento_Core_Model_Abstract|Enterprise_TargetRule_Model_Rule $object
      *
      * @return Enterprise_TargetRule_Model_Resource_Rule
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         parent::_afterSave($object);
         $segmentIds = $object->getUseCustomerSegment() ? $object->getCustomerSegmentIds() : array(0);
@@ -129,11 +129,11 @@ class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource
     /**
      * Clean index
      *
-     * @param Mage_Core_Model_Abstract|Enterprise_TargetRule_Model_Rule $object
+     * @param Magento_Core_Model_Abstract|Enterprise_TargetRule_Model_Rule $object
      *
      * @return Enterprise_TargetRule_Model_Resource_Rule
      */
-    protected function _beforeDelete(Mage_Core_Model_Abstract $object)
+    protected function _beforeDelete(Magento_Core_Model_Abstract $object)
     {
         Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             new Magento_Object(array('type_id' => $object->getData('apply_to'))),

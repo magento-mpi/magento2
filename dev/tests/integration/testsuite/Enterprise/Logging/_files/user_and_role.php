@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+Mage::app()->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
 $user = Mage::getModel('Mage_User_Model_User');
 $user->setUsername('newuser')
     ->setFirstname('first_name')

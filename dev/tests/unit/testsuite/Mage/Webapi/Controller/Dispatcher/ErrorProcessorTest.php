@@ -15,21 +15,25 @@ class Mage_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Frame
     /** @var Mage_Webapi_Helper_Data */
     protected $_helperMock;
 
-    /** @var Mage_Core_Model_App */
+    /** @var Magento_Core_Model_App */
     protected $_appMock;
 
-    /** @var Mage_Core_Model_Logger */
+    /** @var Magento_Core_Model_Logger */
     protected $_loggerMock;
 
     protected function setUp()
     {
         /** Set up mocks for SUT. */
-        $this->_helperMock = $this->getMockBuilder('Mage_Core_Helper_Data')->disableOriginalConstructor()->getMock();
+        $this->_helperMock = $this->getMockBuilder('Magento_Core_Helper_Data')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
-        $helperFactoryMock = $this->getMockBuilder('Mage_Core_Model_Factory_Helper')->getMock();
+        $helperFactoryMock = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')->getMock();
         $helperFactoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_helperMock));
-        $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
-        $this->_loggerMock = $this->getMockBuilder('Mage_Core_Model_Logger')->disableOriginalConstructor()->getMock();
+        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
+        $this->_loggerMock = $this->getMockBuilder('Magento_Core_Model_Logger')
+            ->disableOriginalConstructor()
+            ->getMock();
         /** Initialize SUT. */
         $this->_errorProcessor = new Mage_Webapi_Controller_Dispatcher_ErrorProcessor(
             $helperFactoryMock,

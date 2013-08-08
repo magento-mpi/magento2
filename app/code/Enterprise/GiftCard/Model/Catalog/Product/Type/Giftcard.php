@@ -29,14 +29,14 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
     /**
      * Mock for store instance
      *
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store;
 
     /**
      * Locale instance
      *
-     * @var Mage_Core_Model_LocaleInterface
+     * @var Magento_Core_Model_LocaleInterface
      */
     protected $_locale;
 
@@ -150,7 +150,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
 
         try {
             $amount = $this->_validate($buyRequest, $product, $processMode);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             return $e->getMessage();
         } catch (Exception $e) {
             Mage::logException($e);
@@ -329,13 +329,13 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
             if (!$maxAmount || $maxAmount && $customAmount <= $maxAmount) {
                 return $customAmount;
             } elseif ($customAmount > $maxAmount && $isStrict) {
-                $messageAmount = $this->_helper('Mage_Core_Helper_Data')->currency($maxAmount, true, false);
+                $messageAmount = $this->_helper('Magento_Core_Helper_Data')->currency($maxAmount, true, false);
                 Mage::throwException(
                     $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card max amount is %s', $messageAmount)
                 );
             }
         } elseif ($customAmount < $minAmount && $isStrict) {
-            $messageAmount = $this->_helper('Mage_Core_Helper_Data')->currency($minAmount, true, false);
+            $messageAmount = $this->_helper('Magento_Core_Helper_Data')->currency($minAmount, true, false);
             Mage::throwException(
                 $this->_helper('Enterprise_GiftCard_Helper_Data')->__('Gift Card min amount is %s', $messageAmount)
             );
@@ -405,7 +405,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
      *
      * @param  Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Product_Type_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function checkProductBuyState($product)
     {

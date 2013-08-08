@@ -11,7 +11,7 @@
 /**
  * Gift Registry helper
  */
-class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_GiftRegistry_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_ENABLED = 'enterprise_giftregistry/general/enabled';
     const XML_PATH_SEND_LIMIT = 'enterprise_giftregistry/sharing_email/send_limit';
@@ -198,7 +198,7 @@ class Enterprise_GiftRegistry_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getRegistryLink($entity)
     {
-        return Mage::getModel('Mage_Core_Model_Url')->setStore($entity->getStoreId())
+        return Mage::getModel('Magento_Core_Model_Url')->setStore($entity->getStoreId())
             ->getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
     }
 

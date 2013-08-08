@@ -72,7 +72,7 @@ class Mage_Catalog_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
 
         try {
             $storeId = Mage::app()->getStore($store)->getId();
-        } catch (Mage_Core_Model_Store_Exception $e) {
+        } catch (Magento_Core_Model_Store_Exception $e) {
             $this->_fault('store_not_exists');
         }
 
@@ -107,7 +107,7 @@ class Mage_Catalog_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
         if (!is_null($store)) {
             try {
                 $storeId = Mage::app()->getStore($store)->getId();
-            } catch (Mage_Core_Model_Store_Exception $e) {
+            } catch (Magento_Core_Model_Store_Exception $e) {
                 $this->_fault('store_not_exists');
             }
 

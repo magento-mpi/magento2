@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 class Mage_Tax_Model_Resource_Rule_Grid_Options_ProductTaxClass
-    implements Mage_Core_Model_Option_ArrayInterface
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Mage_Tax_Model_Resource_Class_CollectionFactory

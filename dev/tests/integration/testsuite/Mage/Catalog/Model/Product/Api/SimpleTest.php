@@ -351,7 +351,7 @@ class Mage_Catalog_Model_Product_Api_SimpleTest extends Mage_Catalog_Model_Produ
      */
     public function testProductUpdateCustomStore()
     {
-        /** @var Mage_Core_Model_Store $store */
+        /** @var Magento_Core_Model_Store $store */
         $store = Mage::registry('store_on_new_website');
 
         $data = require __DIR__ . '/_files/ProductData.php';

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Reward_Controller_Cart extends Mage_Core_Controller_Front_Action
+class Enterprise_Reward_Controller_Cart extends Magento_Core_Controller_Front_Action
 {
     /**
      * Only logged in users can use this functionality,

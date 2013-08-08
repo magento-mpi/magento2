@@ -115,13 +115,13 @@ class Mage_Webapi_Controller_Adminhtml_Webapi_User extends Mage_Backend_Controll
                     ->setWebapiUserData(null)
                     ->addSuccess($this->__('The API user has been saved.'));
                 $redirectBack = $this->getRequest()->has('back');
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()
                     ->setWebapiUserData($data)
                     ->addError($e->getMessage());
                 $redirectBack = true;
             } catch (Exception $e) {
-                $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
                 $this->_getSession()
                     ->setWebapiUserData($data)
                     ->addError($e->getMessage());
@@ -203,7 +203,7 @@ class Mage_Webapi_Controller_Adminhtml_Webapi_User extends Mage_Backend_Controll
     protected function _validateUserData($user)
     {
         $group = $user->isObjectNew() ? 'create' : 'update';
-        $validator = $this->_objectManager->get('Mage_Core_Model_Validator_Factory')
+        $validator = $this->_objectManager->get('Magento_Core_Model_Validator_Factory')
             ->createValidator('api_user', $group);
         if (!$validator->isValid($user)) {
             throw new Magento_Validator_Exception($validator->getMessages());

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -56,7 +56,7 @@ class Mage_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework_Te
 
         $request = new Magento_Test_Request();
         $request->setParam('attribute', array());
-        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text'));
+        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
 
         $this->assertEmpty($this->_model->getLayer()->getState()->getFilters());
     }
@@ -67,7 +67,7 @@ class Mage_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework_Te
 
         $request = new Magento_Test_Request();
         $request->setParam('attribute', $this->_attributeOptionId);
-        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text'));
+        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
 
         $this->assertNotEmpty($this->_model->getLayer()->getState()->getFilters());
     }

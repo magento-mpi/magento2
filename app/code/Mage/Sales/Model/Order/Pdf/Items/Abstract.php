@@ -15,7 +15,7 @@
  * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model_Abstract
+abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Magento_Core_Model_Abstract
 {
     /**
      * Order model
@@ -27,7 +27,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     /**
      * Source model (invoice, shipment, creditmemo)
      *
-     * @var Mage_Core_Model_Abstract
+     * @var Magento_Core_Model_Abstract
      */
     protected $_source;
 
@@ -67,10 +67,10 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     /**
      * Set Source model
      *
-     * @param  Mage_Core_Model_Abstract $source
+     * @param  Magento_Core_Model_Abstract $source
      * @return Mage_Sales_Model_Order_Pdf_Items_Abstract
      */
-    public function setSource(Mage_Core_Model_Abstract $source)
+    public function setSource(Magento_Core_Model_Abstract $source)
     {
         $this->_source = $source;
         return $this;
@@ -115,7 +115,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     /**
      * Retrieve order object
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Sales_Model_Order
      */
     public function getOrder()
@@ -129,8 +129,8 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     /**
      * Retrieve source object
      *
-     * @throws Mage_Core_Exception
-     * @return Mage_Core_Model_Abstract
+     * @throws Magento_Core_Exception
+     * @return Magento_Core_Model_Abstract
      */
     public function getSource()
     {
@@ -143,7 +143,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     /**
      * Retrieve item object
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Magento_Object
      */
     public function getItem()
@@ -157,7 +157,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     /**
      * Retrieve Pdf model
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Sales_Model_Order_Pdf_Abstract
      */
     public function getPdf()
@@ -171,7 +171,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     /**
      * Retrieve Pdf page object
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Zend_Pdf_Page
      */
     public function getPage()

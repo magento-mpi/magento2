@@ -42,7 +42,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
                 if (null === $store) {
                     if (null === $categoryId) {
                         foreach ($website->getStores() as $store) {
-                            /* @var $store Mage_Core_Model_Store */
+                            /* @var $store Magento_Core_Model_Store */
                             $ids[] = $store->getRootCategoryId();
                         }
                     } else {
@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
                 } else {
                     $this->_fault('store_not_exists');
                 }
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_fault('website_not_exists', $e->getMessage());
             }
         }
@@ -65,7 +65,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
                     $store = Mage::app()->getStore($store);
                     $storeId = $store->getId();
                     $ids = $store->getRootCategoryId();
-                } catch (Mage_Core_Model_Store_Exception $e) {
+                } catch (Magento_Core_Model_Store_Exception $e) {
                     $this->_fault('store_not_exists');
                 }
             }
@@ -266,7 +266,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
 
             $category->save();
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -309,7 +309,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
             }
 
             $category->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         } catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
@@ -343,7 +343,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
 
         try {
             $category->move($parentId, $afterId);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('not_moved', $e->getMessage());
         }
 
@@ -366,7 +366,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
 
         try {
             $category->delete();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('not_deleted', $e->getMessage());
         }
 
@@ -439,7 +439,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
 
         try {
             $category->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -469,7 +469,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
 
         try {
             $category->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -498,7 +498,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
 
         try {
             $category->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 

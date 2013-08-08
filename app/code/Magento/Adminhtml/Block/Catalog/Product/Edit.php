@@ -228,7 +228,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
      */
     public function getTypeSwitcherData()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
             'tab_id' => 'product_info_tabs_downloadable_items',
             'is_virtual_id' => Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight::VIRTUAL_FIELD_HTML_ID,
             'weight_id' => 'weight',

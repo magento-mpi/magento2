@@ -52,7 +52,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
+class Enterprise_Cms_Model_Page_Revision extends Magento_Core_Model_Abstract
 {
     /**
      * Prefix of model events names.
@@ -114,7 +114,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
          */
         if ($this->_revisionedDataWasModified() || $this->getVersionId() != $this->getOrigData('version_id')) {
             $this->unsetData($this->getIdFieldName());
-            $this->setCreatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
+            $this->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
 
             $incrementNumber = Mage::getModel('Enterprise_Cms_Model_Increment')
                 ->getNewIncrementId(Enterprise_Cms_Model_Increment::TYPE_PAGE,

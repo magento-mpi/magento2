@@ -22,7 +22,7 @@
  * @package     Mage_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Model_Payment_Transaction extends Mage_Core_Model_Abstract
+class Mage_Paypal_Model_Payment_Transaction extends Magento_Core_Model_Abstract
 {
     /**
      * Whether to throw exceptions on different operations
@@ -34,7 +34,7 @@ class Mage_Paypal_Model_Payment_Transaction extends Mage_Core_Model_Abstract
     /**
      * Event object prefix
      *
-     * @see Mage_Core_Model_Absctract::$_eventPrefix
+     * @see Magento_Core_Model_Absctract::$_eventPrefix
      * @var string
      */
     protected $_eventPrefix = 'paypal_payment_transaction';
@@ -42,7 +42,7 @@ class Mage_Paypal_Model_Payment_Transaction extends Mage_Core_Model_Abstract
     /**
      * Event object prefix
      *
-     * @see Mage_Core_Model_Absctract::$_eventObject
+     * @see Magento_Core_Model_Absctract::$_eventObject
      * @var string
      */
     protected $_eventObject = 'paypal_payment_transaction';
@@ -123,7 +123,7 @@ class Mage_Paypal_Model_Payment_Transaction extends Mage_Core_Model_Abstract
      * @param string $key
      * @param mixed $value
      * @return Mage_Paypal_Model_Order_Payment_Transaction
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function setAdditionalInformation($key, $value)
     {
@@ -190,12 +190,12 @@ class Mage_Paypal_Model_Payment_Transaction extends Mage_Core_Model_Abstract
     /**
      * Verify data required for saving
      * @return Mage_Paypal_Model_Payment_Transaction
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _beforeSave()
     {
         if (!$this->getId()) {
-            $this->setCreatedAt(Mage::getModel('Mage_Core_Model_Date')->gmtDate());
+            $this->setCreatedAt(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
         }
         return parent::_beforeSave();
     }
@@ -203,7 +203,7 @@ class Mage_Paypal_Model_Payment_Transaction extends Mage_Core_Model_Abstract
     /**
      * Check whether specified transaction ID is valid
      * @param string $txnId
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _verifyTxnId($txnId)
     {
@@ -215,7 +215,7 @@ class Mage_Paypal_Model_Payment_Transaction extends Mage_Core_Model_Abstract
     /**
      * Make sure this object is a valid transaction
      * TODO for more restriction we can check for data consistency
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _verifyThisTransactionExists()
     {

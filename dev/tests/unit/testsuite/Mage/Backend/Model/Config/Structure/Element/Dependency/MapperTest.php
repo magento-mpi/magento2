@@ -73,7 +73,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_MapperTest extends 
             ),
         );
 
-        $this->_applicationMock = $this->getMockBuilder('Mage_Core_Model_App')
+        $this->_applicationMock = $this->getMockBuilder('Magento_Core_Model_App')
             ->setMethods(array('getStore'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -105,7 +105,7 @@ class Mage_Backend_Model_Config_Structure_Element_Dependency_MapperTest extends 
      */
     public function testGetDependenciesWhenDependentIsInvisible($isValueSatisfy)
     {
-        $storeMock = $this->getMockBuilder('Mage_Core_Model_Store')
+        $storeMock = $this->getMockBuilder('Magento_Core_Model_Store')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_applicationMock->expects($this->exactly(count($this->_testData)))

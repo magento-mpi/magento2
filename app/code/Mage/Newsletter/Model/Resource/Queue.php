@@ -16,7 +16,7 @@
  * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Newsletter_Model_Resource_Queue extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Define main table
@@ -166,10 +166,10 @@ class Mage_Newsletter_Model_Resource_Queue extends Mage_Core_Model_Resource_Db_A
     /**
      * Saving template after saving queue action
      *
-     * @param Mage_Core_Model_Abstract $queue
+     * @param Magento_Core_Model_Abstract $queue
      * @return Mage_Newsletter_Model_Resource_Queue
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $queue)
+    protected function _afterSave(Magento_Core_Model_Abstract $queue)
     {
         if ($queue->getSaveStoresFlag()) {
             $this->setStores($queue);

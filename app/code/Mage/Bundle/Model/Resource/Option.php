@@ -16,7 +16,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Bundle_Model_Resource_Option extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize connection and define resource
@@ -30,10 +30,10 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
     /**
      * After save process
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Bundle_Model_Resource_Option
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         parent::_afterSave($object);
 
@@ -68,10 +68,10 @@ class Mage_Bundle_Model_Resource_Option extends Mage_Core_Model_Resource_Db_Abst
     /**
      * After delete process
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Bundle_Model_Resource_Option
      */
-    protected function _afterDelete(Mage_Core_Model_Abstract $object)
+    protected function _afterDelete(Magento_Core_Model_Abstract $object)
     {
         parent::_afterDelete($object);
 

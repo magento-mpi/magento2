@@ -12,10 +12,10 @@
  * Captcha controller
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Captcha_Controller_Refresh extends Mage_Core_Controller_Front_Action
+class Mage_Captcha_Controller_Refresh extends Magento_Core_Controller_Front_Action
 {
     /**
      * Refreshes captcha and returns JSON encoded URL to image (AJAX action)

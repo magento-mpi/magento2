@@ -154,7 +154,7 @@ class Mage_User_Block_Role_Grid_User extends Mage_Backend_Block_Widget_Grid_Exte
                 foreach ($users as $usrid) {
                     $jsonUsers[$usrid] = 0;
                 }
-                return Mage::helper('Mage_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
+                return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
             } else {
                 return array_values($users);
             }

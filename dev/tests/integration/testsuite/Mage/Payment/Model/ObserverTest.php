@@ -66,8 +66,8 @@ class Mage_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $defaultStatus = (string)Mage::getStoreConfig('payment/checkmo/order_status');
 
-        /** @var Mage_Core_Model_Resource_Config $config */
-        $config = $this->_objectManager->get('Mage_Core_Model_Resource_Config');
+        /** @var Magento_Core_Model_Resource_Config $config */
+        $config = $this->_objectManager->get('Magento_Core_Model_Resource_Config');
         $config->saveConfig('payment/checkmo/order_status', $statusCode, 'default', 0);
 
         $this->_resetConfig();
@@ -93,8 +93,8 @@ class Mage_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $statusCode = 'custom_new_status';
 
-        /** @var Mage_Core_Model_Resource_Config $config */
-        $config = $this->_objectManager->get('Mage_Core_Model_Resource_Config');
+        /** @var Magento_Core_Model_Resource_Config $config */
+        $config = $this->_objectManager->get('Magento_Core_Model_Resource_Config');
         $config->saveConfig('payment/checkmo/order_status', $statusCode, 'default', 0);
 
         $this->_resetConfig();
@@ -126,6 +126,6 @@ class Mage_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected function _resetConfig()
     {
         Mage::getConfig()->reinit();
-        $this->_objectManager->create('Mage_Core_Model_StoreManagerInterface')->reinitStores();
+        $this->_objectManager->create('Magento_Core_Model_StoreManagerInterface')->reinitStores();
     }
 }

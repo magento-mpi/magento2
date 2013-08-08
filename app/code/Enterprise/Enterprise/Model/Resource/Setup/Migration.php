@@ -11,7 +11,7 @@
 /**
  * Resource setup model with methods needed for migration process between Magento versions in Enterprise edition
  */
-class Enterprise_Enterprise_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_Setup_Migration
+class Enterprise_Enterprise_Model_Resource_Setup_Migration extends Magento_Core_Model_Resource_Setup_Migration
 {
     /**
      * List of correspondence between composite module aliases and module names

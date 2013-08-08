@@ -11,8 +11,8 @@
 /**
  * Block for URL rewrites edit page
  *
- * @method Mage_Core_Model_Url_Rewrite getUrlRewrite()
- * @method Magento_Adminhtml_Block_Urlrewrite_Edit setUrlRewrite(Mage_Core_Model_Url_Rewrite $urlRewrite)
+ * @method Magento_Core_Model_Url_Rewrite getUrlRewrite()
+ * @method Magento_Adminhtml_Block_Urlrewrite_Edit setUrlRewrite(Magento_Core_Model_Url_Rewrite $urlRewrite)
  *
  * @category   Magento
  * @package    Magento_Adminhtml
@@ -227,12 +227,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     /**
      * Get or create new instance of URL rewrite
      *
-     * @return Mage_Core_Model_Url_Rewrite
+     * @return Magento_Core_Model_Url_Rewrite
      */
     protected function _getUrlRewrite()
     {
         if (!$this->hasData('url_rewrite')) {
-            $this->setUrlRewrite(Mage::getModel('Mage_Core_Model_Url_Rewrite'));
+            $this->setUrlRewrite(Mage::getModel('Magento_Core_Model_Url_Rewrite'));
         }
         return $this->getUrlRewrite();
     }

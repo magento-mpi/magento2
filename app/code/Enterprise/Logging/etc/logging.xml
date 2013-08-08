@@ -159,7 +159,7 @@
     <core_urlrewrites translate="label">
         <label>URL Redirects</label>
         <expected_models>
-            <Mage_Core_Model_Url_Rewrite/>
+            <Magento_Core_Model_Url_Rewrite/>
         </expected_models>
         <actions>
             <adminhtml_urlrewrite_edit>
@@ -1315,7 +1315,7 @@
     <adminhtml_system_websites translate="label">
         <label>Manage Websites</label>
         <expected_models>
-            <Mage_Core_Model_Website/>
+            <Magento_Core_Model_Website/>
         </expected_models>
         <actions>
             <adminhtml_system_store_editWebsite>
@@ -1324,8 +1324,8 @@
 
             <adminhtml_system_store_save>
                 <expected_models extends="merge">
-                    <Mage_Core_Model_Store_Group/>
-                    <Mage_Core_Model_Store/>
+                    <Magento_Core_Model_Store_Group/>
+                    <Magento_Core_Model_Store/>
                 </expected_models>
                 <action>save</action>
             </adminhtml_system_store_save>
@@ -1339,7 +1339,7 @@
     <adminhtml_system_store_groups translate="label">
         <label>Manage Stores</label>
         <expected_models>
-            <Mage_Core_Model_Store/>
+            <Magento_Core_Model_Store/>
         </expected_models>
         <actions>
             <adminhtml_system_store_editStore>
@@ -1355,7 +1355,7 @@
     <adminhtml_system_stores translate="label">
         <label>Manage Store Views</label>
         <expected_models>
-            <Mage_Core_Model_Store_Group/>
+            <Magento_Core_Model_Store_Group/>
         </expected_models>
         <actions>
             <adminhtml_system_store_deleteGroupPost>
@@ -1371,7 +1371,7 @@
     <adminhtml_system_design translate="label">
         <label>Manage Design</label>
         <expected_models>
-            <Mage_Core_Model_Design/>
+            <Magento_Core_Model_Design/>
         </expected_models>
         <actions>
             <adminhtml_system_design_save>
@@ -1398,7 +1398,7 @@
         <label>Transactional Emails</label>
 
         <expected_models>
-            <Mage_Core_Model_Email_Template/>
+            <Magento_Core_Model_Email_Template/>
         </expected_models>
 
         <actions>
@@ -1419,7 +1419,7 @@
     <adminhtml_system_variable translate="label">
         <label>Custom Variables</label>
         <expected_models>
-            <Mage_Core_Model_Variable/>
+            <Magento_Core_Model_Variable/>
         </expected_models>
         <actions>
             <adminhtml_system_variable_save>

@@ -11,7 +11,7 @@
 /**
  * Gift registry frontend controller
  */
-class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Front_Action
+class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**
      * Only logged in users can use this functionality,
@@ -99,7 +99,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                     );
                 }
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             if ($e->getCode() == Enterprise_GiftRegistry_Model_Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                 $this->_getCheckoutSession()->addError($e->getMessage());
                 $this->_redirectReferer('*/*');
@@ -138,7 +138,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                     Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('The wish list item has been added to this gift registry.')
                 );
                 $redirectParams['wishlist_id'] = $wishlistItem->getWishlistId();
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 if ($e->getCode() == Enterprise_GiftRegistry_Model_Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                     $product = Mage::getModel('Mage_Catalog_Model_Product')->load((int)$wishlistItem->getProductId());
                     $query['options'] = Enterprise_GiftRegistry_Block_Product_View::FLAG;
@@ -172,7 +172,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                     Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('You deleted this gift registry.')
                 );
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $message = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Something went wrong while deleting the gift registry.');
@@ -199,7 +199,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
             $this->getLayout()->getBlock('giftregistry.customer.share')->setEntity($entity);
             $this->renderLayout();
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $message = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Something went wrong while sharing the gift registry.');
@@ -226,7 +226,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
             }
             $this->renderLayout();
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
@@ -252,7 +252,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                     Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('You updated the gift registry items.')
                 );
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
@@ -290,7 +290,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                 $this->_redirect('*/*/share', array('_current' => true));
                 return;
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $message = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Something went wrong while sending email(s).');
@@ -384,7 +384,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                 $headBlock->setTitle($pageTitle);
             }
             $this->renderLayout();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         }
@@ -523,7 +523,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Mage_Core_Controller_Fron
                         $model->sendNewRegistryEmail();
                     }
                 }
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $isError = true;
             } catch (Exception $e) {

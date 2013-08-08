@@ -149,7 +149,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
      *
      * @param string $model
      * @param string $entityModel
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _init($model, $entityModel)
     {
@@ -165,13 +165,13 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
      *
      * @param Mage_Eav_Model_Entity_Abstract $entity
      * @return Mage_Eav_Model_Entity_Collection_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function setEntity($entity)
     {
         if ($entity instanceof Mage_Eav_Model_Entity_Abstract) {
             $this->_entity = $entity;
-        } elseif (is_string($entity) || $entity instanceof Mage_Core_Model_Config_Element) {
+        } elseif (is_string($entity) || $entity instanceof Magento_Core_Model_Config_Element) {
             $this->_entity = Mage::getModel('Mage_Eav_Model_Entity')->setType($entity);
         } else {
             throw Mage::exception(
@@ -186,7 +186,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
      * Get collection's entity object
      *
      * @return Mage_Eav_Model_Entity_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getEntity()
     {
@@ -199,7 +199,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
     /**
      * Get resource instance
      *
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
     public function getResource()
     {
@@ -227,7 +227,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
      *
      * @param Magento_Object $object
      * @return Mage_Eav_Model_Entity_Collection_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function addItem(Magento_Object $object)
     {
@@ -388,10 +388,10 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
      *
      * If $attribute == '*' select all attributes
      *
-     * @param   array|string|integer|Mage_Core_Model_Config_Element $attribute
+     * @param   array|string|integer|Magento_Core_Model_Config_Element $attribute
      * @param bool|string $joinType flag for joining attribute
      * @return  Mage_Eav_Model_Entity_Collection_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function addAttributeToSelect($attribute, $joinType = false)
     {
@@ -470,7 +470,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
      * @param string $expression
      * @param string $attribute
      * @return Mage_Eav_Model_Entity_Collection_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function addExpressionAttributeToSelect($alias, $expression, $attribute)
     {
@@ -580,7 +580,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
      * @param string $joinType inner|left
      * @param null $storeId
      * @return Mage_Eav_Model_Entity_Collection_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function joinAttribute($alias, $attribute, $bind, $filter = null, $joinType = 'inner', $storeId = null)
     {
@@ -671,7 +671,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
      * @param string|array $cond "{{table}}.language_code='en'" OR array('language_code'=>'en')
      * @param string $joinType 'left'
      * @return Mage_Eav_Model_Entity_Collection_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function joinField($alias, $table, $field, $bind, $cond = null, $joinType = 'inner')
     {
@@ -683,7 +683,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
             );
         }
 
-        $table = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName($table);
+        $table = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName($table);
         $tableAlias = $this->_getAttributeTableAlias($alias);
 
         // validate bind
@@ -736,7 +736,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
      * @param null|array $cond
      * @param string $joinType
      * @return Mage_Eav_Model_Entity_Collection_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function joinTable($table, $bind, $fields = null, $cond = null, $joinType = 'inner')
     {
@@ -747,7 +747,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
             $tableName = $table;
         }
 
-        $tableName = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName($tableName);
+        $tableName = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName($tableName);
         if (empty($tableAlias)) {
             $tableAlias = $tableName;
         }
@@ -1163,7 +1163,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
      *
      * @param   array $valueInfo
      * @return  Mage_Eav_Model_Entity_Collection_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _setItemAttributeValue($valueInfo)
     {
@@ -1206,7 +1206,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
      *
      * @param string $attributeCode
      * @return string
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _getAttributeFieldName($attributeCode)
     {
@@ -1249,7 +1249,7 @@ abstract class Mage_Eav_Model_Entity_Collection_Abstract extends Magento_Data_Co
      * @param   string $attributeCode
      * @param   string $joinType inner|left
      * @return  Mage_Eav_Model_Entity_Collection_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _addAttributeJoin($attributeCode, $joinType = 'inner')
     {

@@ -82,7 +82,7 @@ class Mage_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Framewo
      * Test for method validateData()
      *
      * @covers Mage_ImportExport_Model_Import_Entity_Abstract::validateData
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Columns number: "%s" have empty headers
      */
     public function testValidateDataEmptyColumnName()
@@ -96,7 +96,7 @@ class Mage_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Framewo
      * Test for method validateData()
      *
      * @covers Mage_ImportExport_Model_Import_Entity_Abstract::validateData
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Columns number: "%s" have empty headers
      */
     public function testValidateDataColumnNameWithWhitespaces()
@@ -110,7 +110,7 @@ class Mage_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Framewo
      * Test for method validateData()
      *
      * @covers Mage_ImportExport_Model_Import_Entity_Abstract::validateData
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Column names: "%s" are invalid
      */
     public function testValidateDataAttributeNames()

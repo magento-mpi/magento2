@@ -14,7 +14,7 @@
 class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
@@ -44,11 +44,11 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
         $this->_filesystem = $this->_objectManager->get('Magento_Filesystem');
         $this->_filesystem->setIsAllowCreateDirectories(true);
 
-        /** @var $theme Mage_Core_Model_Theme */
-        $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->getCollection()->getFirstItem();
+        /** @var $theme Magento_Core_Model_Theme */
+        $theme = $this->_objectManager->create('Magento_Core_Model_Theme')->getCollection()->getFirstItem();
 
-        /** @var $request Mage_Core_Controller_Request_Http */
-        $request = $this->_objectManager->get('Mage_Core_Controller_Request_Http');
+        /** @var $request Magento_Core_Controller_Request_Http */
+        $request = $this->_objectManager->get('Magento_Core_Controller_Request_Http');
         $request->setParam(Mage_Theme_Helper_Storage::PARAM_THEME_ID, $theme->getId());
         $request->setParam(Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE, Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE);
 

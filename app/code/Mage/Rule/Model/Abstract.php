@@ -11,7 +11,7 @@
 /**
  * Abstract Rule entity data model
  */
-abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
+abstract class Mage_Rule_Model_Abstract extends Magento_Core_Model_Abstract
 {
     /**
      * Store rule combine conditions model

@@ -29,7 +29,7 @@ class Enterprise_Banner_Block_Adminhtml_Permission_Monitor extends Magento_Admin
         parent::_prepareLayout();
 
         if (!$this->_authorization->isAllowed('Enterprise_Banner::enterprise_banner')) {
-            /** @var $layout Mage_Core_Model_Layout */
+            /** @var $layout Magento_Core_Model_Layout */
             $layout = $this->getLayout();
             if ($layout->getBlock('salesrule.related.banners') !== false) {
                 /** @var $promoQuoteBlock Magento_Adminhtml_Block_Widget_Tabs */

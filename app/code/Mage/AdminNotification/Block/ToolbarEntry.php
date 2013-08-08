@@ -67,8 +67,8 @@ class Mage_AdminNotification_Block_ToolbarEntry extends Mage_Backend_Block_Templ
     public function formatNotificationDate($dateString)
     {
         if (date('Ymd') == date('Ymd', strtotime($dateString))) {
-            return $this->formatTime($dateString, Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT, false);
+            return $this->formatTime($dateString, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT, false);
         }
-        return $this->formatDate($dateString, Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true);
+        return $this->formatDate($dateString, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true);
     }
 }

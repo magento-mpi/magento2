@@ -8,7 +8,7 @@
 class Mage_Index_Model_System_Message_IndexOutdated implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
-     * @var Mage_Core_Model_Factory_Helper
+     * @var Magento_Core_Model_Factory_Helper
      */
     protected $_helperFactory;
 
@@ -18,7 +18,7 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_AdminNotific
     protected $_indexer;
 
     /**
-     * @var Mage_Core_Model_UrlInterface
+     * @var Magento_Core_Model_UrlInterface
      */
     protected $_urlBuilder;
 
@@ -33,15 +33,15 @@ class Mage_Index_Model_System_Message_IndexOutdated implements Mage_AdminNotific
     protected $_indexes = null;
 
     /**
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Index_Model_Indexer $indexer
-     * @param Mage_Core_Model_UrlInterface $urlBuilder
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
      * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_Factory_Helper $helperFactory,
         Mage_Index_Model_Indexer $indexer,
-        Mage_Core_Model_UrlInterface $urlBuilder,
+        Magento_Core_Model_UrlInterface $urlBuilder,
         Magento_AuthorizationInterface $authorization
     ) {
         $this->_helperFactory = $helperFactory;

@@ -13,7 +13,7 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Core />
+                <Magento_Core />
                 <Mage_Index />
             </depends>
         </Saas_Index>

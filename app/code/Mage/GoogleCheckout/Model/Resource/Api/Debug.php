@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_GoogleCheckout_Model_Resource_Api_Debug extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_GoogleCheckout_Model_Resource_Api_Debug extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource constructor

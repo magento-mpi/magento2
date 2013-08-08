@@ -24,18 +24,18 @@ class Mage_Backend_Block_System_Config_Form_Field
     /**
      * Application
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_application;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_App $application
+     * @param Magento_Core_Model_App $application
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_App $application,
+        Magento_Core_Model_App $application,
         array $data = array()
     ) {
         $this->_application = $application;

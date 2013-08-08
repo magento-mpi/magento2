@@ -77,9 +77,9 @@ class Mage_Backend_Model_Observer
      */
     public function setUrlClassName(Magento_Event_Observer $observer)
     {
-        /** @var $storeCollection Mage_Core_Model_Resource_Store_Collection */
+        /** @var $storeCollection Magento_Core_Model_Resource_Store_Collection */
         $storeCollection = $observer->getEvent()->getStoreCollection();
-        /** @var $store Mage_Core_Model_Store */
+        /** @var $store Magento_Core_Model_Store */
         foreach ($storeCollection as $store) {
             if ($store->getId() == 0) {
                 $store->setUrlClassName('Mage_Backend_Model_Url');

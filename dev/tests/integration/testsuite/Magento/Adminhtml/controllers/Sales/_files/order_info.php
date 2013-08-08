@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+Mage::app()->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
 
 /** @var $product Mage_Catalog_Model_Product */
 $product = Mage::getModel('Mage_Catalog_Model_Product');
@@ -88,7 +88,7 @@ foreach ($creditmemo->getAllItems() as $creditmemoItem) {
 $creditmemo->register();
 $creditmemo->save();
 
-$transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
+$transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
     ->addObject($creditmemo)
     ->addObject($creditmemo->getOrder());
 if ($creditmemo->getInvoice()) {

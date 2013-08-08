@@ -493,7 +493,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
      *
      * @param int $entityId
      * @param int|string|array $attribute atrribute's ids or codes
-     * @param int|Mage_Core_Model_Store $store
+     * @param int|Magento_Core_Model_Store $store
      * @return bool|string|array
      */
     public function getAttributeRawValue($entityId, $attribute, $store)
@@ -544,7 +544,7 @@ abstract class Mage_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entit
         /**
          * Collecting typed attributes, performing separate SQL query for each attribute type table
          */
-        if ($store instanceof Mage_Core_Model_Store) {
+        if ($store instanceof Magento_Core_Model_Store) {
             $store = $store->getId();
         }
 

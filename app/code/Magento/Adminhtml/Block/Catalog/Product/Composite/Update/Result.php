@@ -17,7 +17,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Update_Result extends Mage_Core_Block_Template
+class Magento_Adminhtml_Block_Catalog_Product_Composite_Update_Result extends Magento_Core_Block_Template
 {
     /**
      * Forms script response
@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Update_Result extends Ma
     public function _toHtml()
     {
         $updateResult = Mage::registry('composite_update_result');
-        $resultJson = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($updateResult);
+        $resultJson = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($updateResult);
         $jsVarname = $updateResult->getJsVarName();
         return Mage::helper('Magento_Adminhtml_Helper_Js')->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
     }

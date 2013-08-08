@@ -29,15 +29,15 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
         $lines  = array();
 
         // draw Product name
-        $stringHelper = Mage::helper('Mage_Core_Helper_String');
+        $stringHelper = Mage::helper('Magento_Core_Helper_String');
         $lines[0] = array(array(
-            'text' => Mage::helper('Mage_Core_Helper_String')->str_split($item->getName(), 35, true, true),
+            'text' => Mage::helper('Magento_Core_Helper_String')->str_split($item->getName(), 35, true, true),
             'feed' => 35,
         ));
 
         // draw SKU
         $lines[0][] = array(
-            'text'  => Mage::helper('Mage_Core_Helper_String')->str_split($this->getSku($item), 17),
+            'text'  => Mage::helper('Magento_Core_Helper_String')->str_split($this->getSku($item), 17),
             'feed'  => 255,
             'align' => 'right'
         );
@@ -90,7 +90,7 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => Mage::helper('Mage_Core_Helper_String')->str_split(strip_tags($option['label']), 40, true, true),
+                    'text' => Mage::helper('Magento_Core_Helper_String')->str_split(strip_tags($option['label']), 40, true, true),
                     'font' => 'italic',
                     'feed' => 35
                 );
@@ -98,7 +98,7 @@ class Mage_Sales_Model_Order_Pdf_Items_Creditmemo_Default extends Mage_Sales_Mod
                 // draw options value
                 $_printValue = isset($option['print_value']) ? $option['print_value'] : strip_tags($option['value']);
                 $lines[][] = array(
-                    'text' => Mage::helper('Mage_Core_Helper_String')->str_split($_printValue, 30, true, true),
+                    'text' => Mage::helper('Magento_Core_Helper_String')->str_split($_printValue, 30, true, true),
                     'feed' => 40
                 );
             }

@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Newsletter_Model_Queue_Options_Status implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Newsletter_Model_Queue_Options_Status implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Newsletter Helper Data

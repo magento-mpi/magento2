@@ -12,14 +12,14 @@ class Saas_Queue_Model_Observer_Config extends Saas_Queue_Model_ObserverAbstract
     /**
      * Instance of config model
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
     /**
-     * @param Mage_Core_Model_ConfigInterface $config
+     * @param Magento_Core_Model_ConfigInterface $config
      */
-    public function __construct(Mage_Core_Model_ConfigInterface $config)
+    public function __construct(Magento_Core_Model_ConfigInterface $config)
     {
         $this->_config = $config;
     }

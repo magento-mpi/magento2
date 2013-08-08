@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Install_Block_Abstract extends Mage_Core_Block_Template
+abstract class Mage_Install_Block_Abstract extends Magento_Core_Block_Template
 {
     /**
      * Retrieve installer model

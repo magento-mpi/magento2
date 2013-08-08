@@ -154,7 +154,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
                 ->setTemplateSenderName($request->getParam('sender_name'))
                 ->setTemplateText($request->getParam('text'))
                 ->setTemplateStyles($request->getParam('styles'))
-                ->setModifiedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
+                ->setModifiedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
 
             if (!$template->getId()) {
                 $template->setTemplateType(Mage_Newsletter_Model_Template::TYPE_HTML);
@@ -174,7 +174,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
 
             $this->_redirect('*/*');
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError(nl2br($e->getMessage()));
             $this->_getSession()->setData('newsletter_template_form_data',
                 $this->getRequest()->getParams());
@@ -201,7 +201,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
                 $template->delete();
                 $this->_getSession()->addSuccess($this->_getHelper()->__('The newsletter template has been deleted.'));
                 $this->_getSession()->setFormData(false);
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,

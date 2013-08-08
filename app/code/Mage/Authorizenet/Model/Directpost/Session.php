@@ -15,7 +15,7 @@
  * @package    Mage_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Authorizenet_Model_Directpost_Session extends Mage_Core_Model_Session_Abstract
+class Mage_Authorizenet_Model_Directpost_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
      * Class constructor. Initialize session namespace

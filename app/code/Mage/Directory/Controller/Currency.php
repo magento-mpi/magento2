@@ -15,7 +15,7 @@
  * @package    Mage_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Directory_Controller_Currency extends Mage_Core_Controller_Front_Action
+class Mage_Directory_Controller_Currency extends Magento_Core_Controller_Front_Action
 {
     public function switchAction()
     {

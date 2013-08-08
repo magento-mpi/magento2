@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
+class Mage_Catalog_Helper_Image extends Magento_Core_Helper_Abstract
 {
     /**
      * Current model
@@ -93,15 +93,15 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     protected $_placeholder;
 
     /**
-     * @var Mage_Core_Model_View_Url
+     * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_View_Url $viewUrl
      */
-    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_View_Url $viewUrl)
+    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_View_Url $viewUrl)
     {
         parent::__construct($context);
         $this->_viewUrl = $viewUrl;

@@ -12,7 +12,7 @@
 class Mage_Wishlist_Block_Customer_Wishlist_Item_ColumnTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout = null;
 
@@ -23,9 +23,9 @@ class Mage_Wishlist_Block_Customer_Wishlist_Item_ColumnTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
+        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->addBlock('Mage_Wishlist_Block_Customer_Wishlist_Item_Column', 'test');
-        $this->_layout->addBlock('Mage_Core_Block_Text', 'child', 'test');
+        $this->_layout->addBlock('Magento_Core_Block_Text', 'child', 'test');
     }
 
     public function testToHtml()

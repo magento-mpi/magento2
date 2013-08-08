@@ -15,7 +15,7 @@
  * @package    Mage_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Page_Block_Html_Breadcrumbs extends Mage_Core_Block_Template
+class Mage_Page_Block_Html_Breadcrumbs extends Magento_Core_Block_Template
 {
     /**
      * Array of breadcrumbs

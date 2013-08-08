@@ -26,7 +26,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Fra
             ->setMethods(array('getResourceIdsByRole'))
             ->getMock();
 
-        $rootResource = new Mage_Core_Model_Acl_RootResource('Mage_Webapi');
+        $rootResource = new Magento_Core_Model_Acl_RootResource('Mage_Webapi');
 
         $helper = new Magento_Test_Helper_ObjectManager($this);
         $this->_block = $helper->getObject('Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource', array(

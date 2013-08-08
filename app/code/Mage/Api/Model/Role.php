@@ -30,7 +30,7 @@
  * @package     Mage_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_Role extends Mage_Core_Model_Abstract
+class Mage_Api_Model_Role extends Magento_Core_Model_Abstract
 {
     /**
      * Initialize resource

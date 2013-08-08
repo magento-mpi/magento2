@@ -29,7 +29,7 @@ class Mage_Catalog_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new Mage_Catalog_Model_Observer();
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
     }
 
     public function testTransitionProductTypeSimple()

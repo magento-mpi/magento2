@@ -196,7 +196,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Abstract
      * Check if customer is matched by segment
      *
      * @param int|Mage_Customer_Model_Customer|Magento_Object $customer
-     * @param null|Mage_Core_Model_Website|bool|int|string $website
+     * @param null|Magento_Core_Model_Website|bool|int|string $website
      *
      * @return bool
      */

@@ -30,10 +30,10 @@ class Mage_ProductAlert_Model_Resource_Price extends Mage_ProductAlert_Model_Res
     /**
      * Before save process, check exists the same alert
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_ProductAlert_Model_Resource_Price
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if (is_null($object->getId()) && $object->getCustomerId()
                 && $object->getProductId() && $object->getWebsiteId()) {
@@ -47,7 +47,7 @@ class Mage_ProductAlert_Model_Resource_Price extends Mage_ProductAlert_Model_Res
             }
         }
         if (is_null($object->getAddDate())) {
-            $object->setAddDate(Mage::getModel('Mage_Core_Model_Date')->gmtDate());
+            $object->setAddDate(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
         }
         return parent::_beforeSave($object);
     }

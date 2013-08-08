@@ -488,7 +488,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     /**
      * Retrieve store model instance
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -1087,7 +1087,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      * Attempt to unhold the order
      *
      * @return Mage_Sales_Model_Order
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function unhold()
     {
@@ -1122,7 +1122,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      * @param string $comment
      * @param bool $graceful
      * @return Mage_Sales_Model_Order
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function registerCancellation($comment = '', $graceful = true)
     {
@@ -1246,8 +1246,8 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $customerName = $this->getCustomerName();
         }
 
-        $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
-        $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
+        $mailer = Mage::getModel('Magento_Core_Model_Email_Template_Mailer');
+        $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
         $emailInfo->addTo($this->getCustomerEmail(), $customerName);
         if ($copyTo && $copyMethod == 'bcc') {
             // Add bcc to customer email
@@ -1260,7 +1260,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         // Email copies are sent as separated emails if their copy method is 'copy'
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
+                $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -1315,9 +1315,9 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $customerName = $this->getCustomerName();
         }
 
-        $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
+        $mailer = Mage::getModel('Magento_Core_Model_Email_Template_Mailer');
         if ($notifyCustomer) {
-            $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
+            $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
             $emailInfo->addTo($this->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -1332,7 +1332,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         // 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
+                $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -1954,10 +1954,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     /**
      * Add New object to related array
      *
-     * @param   Mage_Core_Model_Abstract $object
+     * @param   Magento_Core_Model_Abstract $object
      * @return  Mage_Sales_Model_Order
      */
-    public function addRelatedObject(Mage_Core_Model_Abstract $object)
+    public function addRelatedObject(Magento_Core_Model_Abstract $object)
     {
         $this->_relatedObjects[] = $object;
         return $this;
@@ -1971,7 +1971,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function getCreatedAtFormated($format)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->formatDate($this->getCreatedAtStoreDate(), $format, true);
+        return Mage::helper('Magento_Core_Helper_Data')->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
     public function getEmailCustomerNote()
@@ -1985,7 +1985,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     /**
      * Processing object before save data
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {

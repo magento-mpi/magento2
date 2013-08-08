@@ -44,7 +44,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
      *
      * @param bool $useRedirects
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @throws Enterprise_Checkout_Exception
      * @return Enterprise_Checkout_Controller_Adminhtml_Checkout
      */
@@ -81,7 +81,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
             if ($storeId && $useRedirects) {
                 // Redirect to preferred store view
                 if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
-                    $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+                    $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                         'url' => $this->getUrl('*/*/index', array('store' => $storeId, 'customer' => $customerId))
                     )));
                 } else {
@@ -163,7 +163,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
             $this->_initTitle();
             $this->renderLayout();
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::logException($e);
@@ -209,7 +209,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
             $customer = Mage::registry('checkout_current_customer');
             $store = Mage::registry('checkout_current_store');
 
-            $source = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
+            $source = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
 
             // Reorder products
             if (isset($source['source_ordered']) && is_array($source['source_ordered'])) {
@@ -366,7 +366,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
                 'store_id' => Mage::registry('checkout_current_store')->getId(),
             ));
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::logException($e);
@@ -436,7 +436,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
         $customer   = Mage::registry('checkout_current_customer');
         $store      = Mage::registry('checkout_current_store');
 
-        $storeId    = ($store instanceof Mage_Core_Model_Store) ? $store->getId() : (int) $store;
+        $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
         $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
 
         // Prepare data
@@ -471,7 +471,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
             $customer   = Mage::registry('checkout_current_customer');
             $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
             $store      = Mage::registry('checkout_current_store');
-            $storeId    = ($store instanceof Mage_Core_Model_Store) ? $store->getId() : (int) $store;
+            $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
 
             $itemId = (int) $this->getRequest()->getParam('id');
             if (!$itemId) {
@@ -516,7 +516,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
             $customer   = Mage::registry('checkout_current_customer');
             $customerId = ($customer instanceof Mage_Customer_Model_Customer) ? $customer->getId() : (int) $customer;
             $store      = Mage::registry('checkout_current_store');
-            $storeId    = ($store instanceof Mage_Core_Model_Store) ? $store->getId() : (int) $store;
+            $storeId    = ($store instanceof Magento_Core_Model_Store) ? $store->getId() : (int) $store;
 
             $itemId = (int) $this->getRequest()->getParam('id');
             if (!$itemId) {
@@ -553,7 +553,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
      */
     protected function _processException(Exception $e)
     {
-        if ($e instanceof Mage_Core_Exception) {
+        if ($e instanceof Magento_Core_Exception) {
             $result = array('error' => $e->getMessage());
         } elseif ($e instanceof Exception) {
             Mage::logException($e);
@@ -561,7 +561,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
                 'error' => Mage::helper('Enterprise_Checkout_Helper_Data')->__('An error has occurred. See error log for details.')
             );
         }
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -656,7 +656,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
         } catch (Enterprise_Checkout_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $criticalException = true;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_reloadQuote();
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
@@ -793,7 +793,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
                 $this->getCartModel()->updateQuoteItems($items);
                 if ($this->getCartModel()->getQuote()->getHasError()){
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
-                        /* @var $error Mage_Core_Model_Message_Error */
+                        /* @var $error Magento_Core_Model_Message_Error */
                         Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($error->getCode());
                     }
                 }
@@ -870,7 +870,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
                     } else {
                         try {
                             $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
-                        } catch (Mage_Core_Exception $e){
+                        } catch (Magento_Core_Exception $e){
                             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                         } catch (Exception $e){
                             Mage::logException($e);
@@ -956,7 +956,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
     {
         try {
             $this->_initData();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::logException($e);
             $this->_redirect('*/customer');
             $this->_redirectFlag = true;

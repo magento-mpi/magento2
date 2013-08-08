@@ -56,7 +56,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     /**
      * Get logo upload url
      *
-     * @param Mage_Core_Model_Store $store
+     * @param Magento_Core_Model_Store $store
      * @return string
      */
     public function getLogoUploadUrl($store)
@@ -69,7 +69,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     /**
      * Get logo upload url
      *
-     * @param Mage_Core_Model_Store $store
+     * @param Magento_Core_Model_Store $store
      * @return string
      */
     public function getLogoRemoveUrl($store)
@@ -82,7 +82,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     /**
      * Get logo image
      *
-     * @param Mage_Core_Model_Store $store
+     * @param Magento_Core_Model_Store $store
      * @return string|null
      */
     public function getLogoImage($store)
@@ -97,7 +97,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     /**
      * Get stores list
      *
-     * @return Mage_Core_Model_Store|null
+     * @return Magento_Core_Model_Store|null
      */
     public function getStoresList()
     {

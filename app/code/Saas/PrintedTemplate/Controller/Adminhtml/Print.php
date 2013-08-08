@@ -44,10 +44,10 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Magento_Adminhtml_
             }
 
             $pdf = Mage::helper('Saas_PrintedTemplate_Helper_Locator')->getConverter($entity)->getPdf();
-            $fileName = $type . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf';
+            $fileName = $type . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf';
 
             $this->_prepareDownloadResponse($fileName, $pdf, 'application/pdf');
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectReferer();
         } catch (Exception $e) {
@@ -95,7 +95,7 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Magento_Adminhtml_
 
             $pdf = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Batch', array('collection' => $collection))
                 ->getPdf();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectReferer();
             return;
@@ -106,7 +106,7 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Magento_Adminhtml_
             return;
         }
 
-        $fileName = $type . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf';
+        $fileName = $type . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf';
         $this->_prepareDownloadResponse($fileName, $pdf, 'application/pdf');
     }
 
@@ -130,7 +130,7 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Magento_Adminhtml_
 
             $pdf = Mage::getModel('Saas_PrintedTemplate_Model_Converter_Batch', array('collection' => $collection))
                 ->getPdf();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectReferer();
             return;
@@ -141,7 +141,7 @@ class Saas_PrintedTemplate_Controller_Adminhtml_Print extends Magento_Adminhtml_
             return;
         }
 
-        $fileName = 'docs' . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf';
+        $fileName = 'docs' . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf';
         $this->_prepareDownloadResponse($fileName, $pdf, 'application/pdf');
     }
 

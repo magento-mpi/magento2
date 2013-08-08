@@ -53,7 +53,7 @@
  * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Model_Page extends Mage_Core_Model_Abstract
+class Mage_Cms_Model_Page extends Magento_Core_Model_Abstract
 {
     const NOROUTE_PAGE_ID = 'no-route';
 

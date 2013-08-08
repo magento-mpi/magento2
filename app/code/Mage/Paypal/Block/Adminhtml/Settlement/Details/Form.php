@@ -28,7 +28,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Adminh
         $settlement = Mage::getSingleton('Mage_Paypal_Model_Report_Settlement');
         /* @var $settlement Mage_Paypal_Model_Report_Settlement */
 
-        $coreHelper = $this->helper('Mage_Core_Helper_Data');
+        $coreHelper = $this->helper('Magento_Core_Helper_Data');
         $fieldsets = array(
             'reference_fieldset' => array(
                 'fields' => array(
@@ -57,7 +57,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Adminh
                         'label' => $settlement->getFieldLabel('transaction_initiation_date'),
                         'value' => $coreHelper->formatDate(
                             $model->getData('transaction_initiation_date'),
-                            Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
+                            Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
                             true
                         )
                     ),
@@ -65,7 +65,7 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Adminh
                         'label' => $settlement->getFieldLabel('transaction_completion_date'),
                         'value' => $coreHelper->formatDate(
                             $model->getData('transaction_completion_date'),
-                            Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
+                            Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
                             true
                         )
                     ),

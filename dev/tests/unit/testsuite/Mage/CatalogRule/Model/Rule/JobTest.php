@@ -16,7 +16,7 @@ class Mage_CatalogRule_Model_Rule_JobTest extends PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
-        $eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $eventManager->expects($this->once())
             ->method('dispatch')
             ->with($this->equalTo('catalogrule_apply_all'));

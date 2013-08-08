@@ -68,7 +68,7 @@ class Saas_PrintedTemplate_Model_Variable_Item_Creditmemo extends Saas_PrintedTe
     /**
      * Retrieve item's parent entity
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _getParentEntity()
     {

@@ -16,15 +16,15 @@
  * @package     Mage_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_ProductAlert_Model_Resource_Abstract extends Mage_Core_Model_Resource_Db_Abstract
+abstract class Mage_ProductAlert_Model_Resource_Abstract extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Retrieve alert row by object parameters
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return array|bool
      */
-    protected function _getAlertRow(Mage_Core_Model_Abstract $object)
+    protected function _getAlertRow(Magento_Core_Model_Abstract $object)
     {
         $adapter = $this->_getReadAdapter();
         if ($object->getCustomerId() && $object->getProductId() && $object->getWebsiteId()) {
@@ -46,10 +46,10 @@ abstract class Mage_ProductAlert_Model_Resource_Abstract extends Mage_Core_Model
     /**
      * Load object data by parameters
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_ProductAlert_Model_Resource_Abstract
      */
-    public function loadByParam(Mage_Core_Model_Abstract $object)
+    public function loadByParam(Magento_Core_Model_Abstract $object)
     {
         $row = $this->_getAlertRow($object);
         if ($row) {
@@ -61,12 +61,12 @@ abstract class Mage_ProductAlert_Model_Resource_Abstract extends Mage_Core_Model
     /**
      * Delete all customer alerts on website
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param int $customerId
      * @param int $websiteId
      * @return Mage_ProductAlert_Model_Resource_Abstract
      */
-    public function deleteCustomer(Mage_Core_Model_Abstract $object, $customerId, $websiteId=null)
+    public function deleteCustomer(Magento_Core_Model_Abstract $object, $customerId, $websiteId=null)
     {
         $adapter = $this->_getWriteAdapter();
         $where   = array();

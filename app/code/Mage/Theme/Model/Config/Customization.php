@@ -14,17 +14,17 @@
 class Mage_Theme_Model_Config_Customization
 {
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Mage_Core_Model_View_DesignInterface
+     * @var Magento_Core_Model_View_DesignInterface
      */
     protected $_design;
 
     /**
-     * @var Mage_Core_Model_Resource_Theme_CollectionFactory
+     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
      */
     protected $_collectionFactory;
 
@@ -45,14 +45,14 @@ class Mage_Theme_Model_Config_Customization
     protected $_unassignedTheme;
 
     /**
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager,
-     * @param Mage_Core_Model_View_DesignInterface $design
-     * @param Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager,
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
      */
     public function __construct(
-        Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Model_View_DesignInterface $design,
-        Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
     ) {
         $this->_storeManager    = $storeManager;
         $this->_design          = $design;
@@ -96,7 +96,7 @@ class Mage_Theme_Model_Config_Customization
     {
         $storesByThemes = array();
         $stores = $this->_storeManager->getStores();
-        /** @var $store Mage_Core_Model_Store */
+        /** @var $store Magento_Core_Model_Store */
         foreach ($stores as $store) {
             $themeId = $this->_getConfigurationThemeId($store);
             if (!isset($storesByThemes[$themeId])) {
@@ -110,8 +110,8 @@ class Mage_Theme_Model_Config_Customization
     /**
      * Check if current theme has assigned to any store
      *
-     * @param Mage_Core_Model_Theme $theme
-     * @param null|Mage_Core_Model_Store $store
+     * @param Magento_Core_Model_Theme $theme
+     * @param null|Magento_Core_Model_Store $store
      * @return bool
      */
     public function isThemeAssignedToStore($theme, $store = null)
@@ -136,8 +136,8 @@ class Mage_Theme_Model_Config_Customization
     /**
      * Is theme assigned to specific store
      *
-     * @param Mage_Core_Model_Theme $theme
-     * @param Mage_Core_Model_Store $store
+     * @param Magento_Core_Model_Theme $theme
+     * @param Magento_Core_Model_Store $store
      * @return bool
      */
     protected function _isThemeAssignedToSpecificStore($theme, $store)
@@ -154,7 +154,7 @@ class Mage_Theme_Model_Config_Customization
     protected function _getConfigurationThemeId($store)
     {
         return $this->_design->getConfigurationDesignTheme(
-            Mage_Core_Model_App_Area::AREA_FRONTEND,
+            Magento_Core_Model_App_Area::AREA_FRONTEND,
             array('store' => $store)
         );
     }
@@ -170,7 +170,7 @@ class Mage_Theme_Model_Config_Customization
      */
     protected function _prepareThemeCustomizations()
     {
-        /** @var Mage_Core_Model_Resource_Theme_Collection $themeCollection */
+        /** @var Magento_Core_Model_Resource_Theme_Collection $themeCollection */
         $themeCollection = $this->_collectionFactory->create();
         $themeCollection->filterThemeCustomizations();
 
@@ -179,7 +179,7 @@ class Mage_Theme_Model_Config_Customization
         $this->_assignedTheme = array();
         $this->_unassignedTheme = array();
 
-        /** @var $theme Mage_Core_Model_Theme */
+        /** @var $theme Magento_Core_Model_Theme */
         foreach ($themeCollection as $theme) {
             if (isset($assignedThemes[$theme->getId()])) {
                 $theme->setAssignedStores($assignedThemes[$theme->getId()]);

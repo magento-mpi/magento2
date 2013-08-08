@@ -79,8 +79,8 @@ class Mage_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_Fram
             ->method('getAttributeOptions')
             ->will($this->returnValue($testAttributeOptions));
 
-        /** @var $item Mage_Core_Model_Abstract|PHPUnit_Framework_MockObject_MockObject */
-        $item = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', array(), '', false, true, true,
+        /** @var $item Magento_Core_Model_Abstract|PHPUnit_Framework_MockObject_MockObject */
+        $item = $this->getMockForAbstractClass('Magento_Core_Model_Abstract', array(), '', false, true, true,
             array('getData'));
         $item->expects($this->any())
             ->method('getData')

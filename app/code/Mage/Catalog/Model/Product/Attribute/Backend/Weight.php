@@ -23,7 +23,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Weight extends Mage_Eav_Model
      * Validate
      *
      * @param Mage_Catalog_Model_Product $object
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return bool
      */
     public function validate($object)

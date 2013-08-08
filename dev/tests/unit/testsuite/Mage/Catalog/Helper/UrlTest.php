@@ -11,7 +11,7 @@
 
 class Mage_Catalog_Helper_UrlTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Core_Model_Config */
+    /** @var Magento_Core_Model_Config */
     protected $_configMock;
 
     /** @var  Mage_Catalog_Helper_Product_Url */
@@ -19,8 +19,9 @@ class Mage_Catalog_Helper_UrlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $contextMock = $this->getMockBuilder('Mage_Core_Helper_Context')->disableOriginalConstructor()->getMock();
-        $this->_configMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
+        $contextMock = $this->getMockBuilder('Magento_Core_Helper_Context')->disableOriginalConstructor()->getMock();
+        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_Config')
+            ->disableOriginalConstructor()->getMock();
 
         $this->_urlHelper = new Mage_Catalog_Helper_Product_Url($contextMock, $this->_configMock);
     }

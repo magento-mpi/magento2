@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Directory_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Config value that lists ISO2 country codes which have optional Zip/Postal pre-configured
@@ -66,15 +66,15 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_optionalZipCountries = null;
 
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      */
-    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_Cache_Type_Config $configCacheType)
+    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Cache_Type_Config $configCacheType)
     {
         parent::__construct($context);
         $this->_configCacheType = $configCacheType;
@@ -144,7 +144,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
                         'name' => $this->__($region->getName())
                     );
                 }
-                $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($regions);
+                $json = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($regions);
 
                 $this->_configCacheType->save($json, $cacheKey);
             }
@@ -188,7 +188,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
                 Mage::getStoreConfig(self::OPTIONAL_ZIP_COUNTRIES_CONFIG_PATH), 0, PREG_SPLIT_NO_EMPTY);
         }
         if ($asJson) {
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->_optionalZipCountries);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->_optionalZipCountries);
         }
         return $this->_optionalZipCountries;
     }
@@ -215,7 +215,7 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $countryList = explode(',', Mage::getStoreConfig(self::XML_PATH_STATES_REQUIRED));
         if ($asJson) {
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($countryList);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($countryList);
         }
         return $countryList;
     }

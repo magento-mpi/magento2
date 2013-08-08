@@ -11,7 +11,7 @@
  */
 -->
 <layout>
-    <block name="root" type="Mage_Core_Block_Template" template="template.phtml">
+    <block name="root" type="Magento_Core_Block_Template" template="template.phtml">
         <block name="head" type="Mage_Page_Block_Html_Head">
             <action method="safeMethod"><arg>1</arg></action>
         </block>

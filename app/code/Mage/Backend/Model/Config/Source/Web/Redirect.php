@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Config_Source_Web_Redirect implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Backend_Model_Config_Source_Web_Redirect implements Magento_Core_Model_Option_ArrayInterface
 {
 
     public function toOptionArray()

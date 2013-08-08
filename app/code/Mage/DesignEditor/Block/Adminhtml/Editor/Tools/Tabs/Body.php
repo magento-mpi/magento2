@@ -18,7 +18,7 @@
  * @method Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body setIsActive($flag)
  * @method Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body setTabId($id)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body extends Magento_Core_Block_Template
 {
     /**
      * Get tab content

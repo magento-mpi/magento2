@@ -16,7 +16,7 @@
  * @package     Mage_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Log_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Log_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Init Resource model and connection
@@ -63,7 +63,7 @@ class Mage_Log_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstract
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
 
-        $timeLimit = $this->formatDate(Mage::getModel('Mage_Core_Model_Date')->gmtTimestamp() - $time);
+        $timeLimit = $this->formatDate(Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp() - $time);
 
         while (true) {
             $select = $readAdapter->select()
@@ -112,7 +112,7 @@ class Mage_Log_Model_Resource_Log extends Mage_Core_Model_Resource_Db_Abstract
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
 
-        $timeLimit = $this->formatDate(Mage::getModel('Mage_Core_Model_Date')->gmtTimestamp() - $time);
+        $timeLimit = $this->formatDate(Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp() - $time);
 
         // retrieve last active customer log id
         $lastLogId = $readAdapter->fetchOne(

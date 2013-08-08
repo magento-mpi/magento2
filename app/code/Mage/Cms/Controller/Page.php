@@ -16,7 +16,7 @@
  * @package    Mage_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Controller_Page extends Mage_Core_Controller_Front_Action
+class Mage_Cms_Controller_Page extends Magento_Core_Controller_Front_Action
 {
     /**
      * View CMS page action

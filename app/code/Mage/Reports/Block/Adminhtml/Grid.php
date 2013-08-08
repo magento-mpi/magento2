@@ -80,7 +80,7 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
     /**
      * Locale instance
      *
-     * @var Mage_Core_Model_LocaleInterface
+     * @var Magento_Core_Model_LocaleInterface
      */
     protected $_locale;
 
@@ -279,7 +279,7 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
      */
     public function getDateFormat()
     {
-        return $this->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
@@ -342,7 +342,7 @@ class Mage_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
     /**
      * Retrieve locale
      *
-     * @return Mage_Core_Model_LocaleInterface
+     * @return Magento_Core_Model_LocaleInterface
      */
     public function getLocale()
     {

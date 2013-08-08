@@ -11,7 +11,7 @@
 /**
  * Cardgate data helper
  */
-class Mage_Cardgate_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Cardgate_Helper_Data extends Magento_Core_Helper_Abstract
 {
 
 }

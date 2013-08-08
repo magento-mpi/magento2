@@ -238,7 +238,7 @@ class Mage_Checkout_Controller_Multishipping extends Mage_Checkout_Controller_Ac
             if ($shipToInfo = $this->getRequest()->getPost('ship')) {
                 $this->_getCheckout()->setShippingItemsInformation($shipToInfo);
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getCheckoutSession()->addError($e->getMessage());
             $this->_redirect('*/*/addresses');
         } catch (Exception $e) {
@@ -431,7 +431,7 @@ class Mage_Checkout_Controller_Multishipping extends Mage_Checkout_Controller_Ac
             $this->_initLayoutMessages('Mage_Checkout_Model_Session');
             $this->_initLayoutMessages('Mage_Customer_Model_Session');
             $this->renderLayout();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getCheckoutSession()->addError($e->getMessage());
             $this->_redirect('*/*/billing');
         } catch (Exception $e) {
@@ -494,7 +494,7 @@ class Mage_Checkout_Controller_Multishipping extends Mage_Checkout_Controller_Ac
             $this->_getCheckout()->getCheckoutSession()->clear();
             $this->_getCheckoutSession()->addError($e->getMessage());
             $this->_redirect('*/cart');
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::helper('Mage_Checkout_Helper_Data')
                 ->sendPaymentFailedEmail($this->_getCheckout()->getQuote(), $e->getMessage(), 'multi-shipping');
             $this->_getCheckoutSession()->addError($e->getMessage());
@@ -536,7 +536,7 @@ class Mage_Checkout_Controller_Multishipping extends Mage_Checkout_Controller_Ac
             ->setBeforeAuthUrl(Mage::getUrl('*/*', array('_secure' => true)));
 
         $this->getResponse()->setRedirect(
-            Mage::helper('Mage_Core_Helper_Url')->addRequestParam(
+            Mage::helper('Magento_Core_Helper_Url')->addRequestParam(
                 $this->_getHelper()->getMSLoginUrl(),
                 array('context' => 'checkout')
             )

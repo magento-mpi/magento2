@@ -15,7 +15,7 @@
  * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Controller_Subscriber extends Mage_Core_Controller_Front_Action
+class Mage_Newsletter_Controller_Subscriber extends Magento_Core_Controller_Front_Action
 {
     /**
       * New subscription action
@@ -23,7 +23,7 @@ class Mage_Newsletter_Controller_Subscriber extends Mage_Core_Controller_Front_A
     public function newAction()
     {
         if ($this->getRequest()->isPost() && $this->getRequest()->getPost('email')) {
-            $session            = Mage::getSingleton('Mage_Core_Model_Session');
+            $session            = Mage::getSingleton('Magento_Core_Model_Session');
             $customerSession    = Mage::getSingleton('Mage_Customer_Model_Session');
             $email              = (string) $this->getRequest()->getPost('email');
 
@@ -53,7 +53,7 @@ class Mage_Newsletter_Controller_Subscriber extends Mage_Core_Controller_Front_A
                     $session->addSuccess($this->__('Thank you for your subscription.'));
                 }
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Magento_Core_Exception $e) {
                 $session->addException($e, $this->__('There was a problem with the subscription: %s', $e->getMessage()));
             }
             catch (Exception $e) {
@@ -73,7 +73,7 @@ class Mage_Newsletter_Controller_Subscriber extends Mage_Core_Controller_Front_A
 
         if ($id && $code) {
             $subscriber = Mage::getModel('Mage_Newsletter_Model_Subscriber')->load($id);
-            $session = Mage::getSingleton('Mage_Core_Model_Session');
+            $session = Mage::getSingleton('Magento_Core_Model_Session');
 
             if($subscriber->getId() && $subscriber->getCode()) {
                 if($subscriber->confirm($code)) {
@@ -98,14 +98,14 @@ class Mage_Newsletter_Controller_Subscriber extends Mage_Core_Controller_Front_A
         $code  = (string) $this->getRequest()->getParam('code');
 
         if ($id && $code) {
-            $session = Mage::getSingleton('Mage_Core_Model_Session');
+            $session = Mage::getSingleton('Magento_Core_Model_Session');
             try {
                 Mage::getModel('Mage_Newsletter_Model_Subscriber')->load($id)
                     ->setCheckCode($code)
                     ->unsubscribe();
                 $session->addSuccess($this->__('You have been unsubscribed.'));
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Magento_Core_Exception $e) {
                 $session->addException($e, $e->getMessage());
             }
             catch (Exception $e) {

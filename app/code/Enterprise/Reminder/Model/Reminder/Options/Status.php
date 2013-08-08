@@ -15,7 +15,7 @@
  * @package    Enterprice_Reminder
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reminder_Model_Reminder_Options_Status implements Mage_Core_Model_Option_ArrayInterface
+class Enterprise_Reminder_Model_Reminder_Options_Status implements Magento_Core_Model_Option_ArrayInterface
 {
 
     /**

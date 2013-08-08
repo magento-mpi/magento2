@@ -51,7 +51,7 @@ class Enterprise_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Fram
         );
 
         $this->_resource = $this->getMock(
-            'Mage_Core_Model_Resource', array('getConnection', 'getTableName'), array(), '', false
+            'Magento_Core_Model_Resource', array('getConnection', 'getTableName'), array(), '', false
         );
         $this->_resource->expects($this->any())->method('getTableName')->will($this->returnArgument(0));
         $this->_resource

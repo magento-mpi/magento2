@@ -34,7 +34,7 @@ $canApplyMAP  = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_product
                 <span class="label"><?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                 <span class="price" id="price-excluding-tax-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>">
                 <?php if (!$canApplyMAP): ?>
-                    <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($_finalPrice,true,false) ?>
+                    <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_finalPrice,true,false) ?>
                 <?php endif ?>
                 </span>
             </span>
@@ -48,7 +48,7 @@ $canApplyMAP  = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_product
                         <?php endif; ?>
 
                         <?php echo $_weeeSeparator; ?>
-                        <?php echo $_weeeTaxAttribute->getName(); ?>: <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($amount, true, true); ?>
+                        <?php echo $_weeeTaxAttribute->getName(); ?>: <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($amount, true, true); ?>
                         <?php $_weeeSeparator = ' + '; ?>
                     <?php endforeach; ?>
                 </small>)</span>
@@ -57,7 +57,7 @@ $canApplyMAP  = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_product
                 <span class="label"><?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>">
                 <?php if (!$canApplyMAP): ?>
-                    <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($_finalPriceInclTax,true,false) ?>
+                    <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_finalPriceInclTax,true,false) ?>
                 <?php endif ?>
                 </span>
             </span>
@@ -65,7 +65,7 @@ $canApplyMAP  = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_product
         <?php else: ?>
         <span class="price" id="product-price-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>">
             <?php if (!$canApplyMAP): ?>
-                <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($_finalPrice,true,false) ?>
+                <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_finalPrice,true,false) ?>
             <?php endif ?>
         </span>
         <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
@@ -78,7 +78,7 @@ $canApplyMAP  = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_product
                     <?php endif; ?>
 
                     <?php echo $_weeeSeparator; ?>
-                    <?php echo $_weeeTaxAttribute->getName(); ?>: <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($amount, true, true); ?>
+                    <?php echo $_weeeTaxAttribute->getName(); ?>: <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($amount, true, true); ?>
                     <?php $_weeeSeparator = ' + '; ?>
                 <?php endforeach; ?>
             </small>)</span>

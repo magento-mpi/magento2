@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_CustomerBalance
  */
-class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends Mage_Core_Block_Template
+class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends Magento_Core_Block_Template
 {
     /**
      * Customer balance instance

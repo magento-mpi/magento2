@@ -44,7 +44,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
             'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css',
             array(
                  'objectManager'   => $this->_objectManager,
-                 'dirs'            => new Mage_Core_Model_Dir(__DIR__),
+                 'dirs'            => new Magento_Core_Model_Dir(__DIR__),
                  'uploaderService' => $this->getMock('Mage_Theme_Model_Uploader_Service', array(), array(), '', false),
                  'urlBuilder'      => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
             )
@@ -82,12 +82,12 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
     {
         $method = self::getMethod('_getAdditionalElementTypes');
 
-        /** @var $configModel Mage_Core_Model_Config */
-        $configModel = $this->getMock('Mage_Core_Model_Config', null, array(), '', false);
+        /** @var $configModel Magento_Core_Model_Config */
+        $configModel = $this->getMock('Magento_Core_Model_Config', null, array(), '', false);
 
         $this->_objectManager->expects($this->any())
             ->method('get')
-            ->with('Mage_Core_Model_Config')
+            ->with('Magento_Core_Model_Config')
             ->will($this->returnValue($configModel));
 
         $result = $method->invokeArgs($this->_model, array());

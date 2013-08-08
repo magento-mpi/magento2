@@ -24,6 +24,6 @@ class Mage_AdminNotification_Controller_Adminhtml_System_Message extends Mage_Ba
         }
         $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
-            ->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+            ->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 }

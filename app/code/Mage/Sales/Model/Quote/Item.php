@@ -178,16 +178,16 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     protected $_errorInfos;
 
     /**
-     * @param Mage_Core_Model_Context $context
+     * @param Magento_Core_Model_Context $context
      * @param Mage_Sales_Model_Status_ListFactory $statusListFactory
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
+        Magento_Core_Model_Context $context,
         Mage_Sales_Model_Status_ListFactory $statusListFactory,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

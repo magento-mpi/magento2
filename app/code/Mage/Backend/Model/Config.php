@@ -29,14 +29,14 @@ class Mage_Backend_Model_Config extends Magento_Object
     /**
      * Root config node
      *
-     * @var Mage_Core_Model_Config_Element
+     * @var Magento_Core_Model_Config_Element
      */
     protected $_configRoot;
 
     /**
      * Event dispatcher
      *
-     * @var Mage_Core_Model_Event_Manager
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager;
 
@@ -50,28 +50,28 @@ class Mage_Backend_Model_Config extends Magento_Object
     /**
      * Application config
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_appConfig;
 
     /**
      * Global factory
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_objectFactory;
 
     /**
      * TransactionFactory
      *
-     * @var Mage_Core_Model_Resource_Transaction_Factory
+     * @var Magento_Core_Model_Resource_Transaction_Factory
      */
     protected $_transactionFactory;
 
     /**
      * Global Application
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_application;
 
@@ -85,35 +85,35 @@ class Mage_Backend_Model_Config extends Magento_Object
     /**
      * Config data factory
      *
-     * @var Mage_Core_Model_Config_DataFactory
+     * @var Magento_Core_Model_Config_DataFactory
      */
     protected $_configDataFactory;
 
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Mage_Core_Model_App $application
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_App $application
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Mage_Backend_Model_Config_Structure $configStructure
-     * @param Mage_Core_Model_Resource_Transaction_Factory $transactionFactory
+     * @param Magento_Core_Model_Resource_Transaction_Factory $transactionFactory
      * @param Mage_Backend_Model_Config_Loader $configLoader
-     * @param Mage_Core_Model_Config_DataFactory $configDataFactory
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Config_DataFactory $configDataFactory
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_App $application,
-        Mage_Core_Model_Config $config,
-        Mage_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_App $application,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Event_Manager $eventManager,
         Mage_Backend_Model_Config_Structure $configStructure,
-        Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
+        Magento_Core_Model_Resource_Transaction_Factory $transactionFactory,
         Mage_Backend_Model_Config_Loader $configLoader,
-        Mage_Core_Model_Config_DataFactory $configDataFactory,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Config_DataFactory $configDataFactory,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -150,9 +150,9 @@ class Mage_Backend_Model_Config extends Magento_Object
         $oldConfig = $this->_getConfig(true);
 
         $deleteTransaction = $this->_transactionFactory->create();
-        /* @var $deleteTransaction Mage_Core_Model_Resource_Transaction */
+        /* @var $deleteTransaction Magento_Core_Model_Resource_Transaction */
         $saveTransaction = $this->_transactionFactory->create();
-        /* @var $saveTransaction Mage_Core_Model_Resource_Transaction */
+        /* @var $saveTransaction Magento_Core_Model_Resource_Transaction */
 
         // Extends for old config data
         $extraOldGroups = array();
@@ -202,8 +202,8 @@ class Mage_Backend_Model_Config extends Magento_Object
      * @param string $sectionPath
      * @param array $extraOldGroups
      * @param array $oldConfig
-     * @param Mage_Core_Model_Resource_Transaction $saveTransaction
-     * @param Mage_Core_Model_Resource_Transaction $deleteTransaction
+     * @param Magento_Core_Model_Resource_Transaction $saveTransaction
+     * @param Magento_Core_Model_Resource_Transaction $deleteTransaction
      */
     protected function _processGroup(
         $groupId,
@@ -212,8 +212,8 @@ class Mage_Backend_Model_Config extends Magento_Object
         $sectionPath,
         array &$extraOldGroups,
         array &$oldConfig,
-        Mage_Core_Model_Resource_Transaction $saveTransaction,
-        Mage_Core_Model_Resource_Transaction $deleteTransaction
+        Magento_Core_Model_Resource_Transaction $saveTransaction,
+        Magento_Core_Model_Resource_Transaction $deleteTransaction
     ) {
         $groupPath = $sectionPath . '/' . $groupId;
         $website = $this->getWebsite();
@@ -256,7 +256,7 @@ class Mage_Backend_Model_Config extends Magento_Object
                 /** @var $field Mage_Backend_Model_Config_Structure_Element_Field */
                 $field = $this->_configStructure->getElement($groupPath . '/' . $originalFieldId);
 
-                /** @var Mage_Core_Model_Config_Data $backendModel */
+                /** @var Magento_Core_Model_Config_Data $backendModel */
                 $backendModel = $field->hasBackendModel() ?
                     $field->getBackendModel() :
                     $this->_configDataFactory->create();
@@ -419,7 +419,7 @@ class Mage_Backend_Model_Config extends Magento_Object
      * Set correct scope if isSingleStoreMode = true
      *
      * @param Mage_Backend_Model_Config_Structure_Element_Field $fieldConfig
-     * @param Mage_Core_Model_Config_Data $dataObject
+     * @param Magento_Core_Model_Config_Data $dataObject
      */
     protected function _checkSingleStoreMode(
         Mage_Backend_Model_Config_Structure_Element_Field $fieldConfig,
@@ -466,7 +466,7 @@ class Mage_Backend_Model_Config extends Magento_Object
     /**
      * Get config root node for current scope
      *
-     * @return Mage_Core_Model_Config_Element
+     * @return Magento_Core_Model_Config_Element
      */
     public function getConfigRoot()
     {

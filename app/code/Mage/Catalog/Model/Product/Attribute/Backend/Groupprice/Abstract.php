@@ -45,7 +45,7 @@ abstract class Mage_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstract
             $this->_rates = array();
             $baseCurrency = Mage::app()->getBaseCurrencyCode();
             foreach (Mage::app()->getWebsites() as $website) {
-                /* @var $website Mage_Core_Model_Website */
+                /* @var $website Magento_Core_Model_Website */
                 if ($website->getBaseCurrencyCode() != $baseCurrency) {
                     $rate = Mage::getModel('Mage_Directory_Model_Currency')
                         ->load($baseCurrency)
@@ -101,7 +101,7 @@ abstract class Mage_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstract
      * Validate group price data
      *
      * @param Mage_Catalog_Model_Product $object
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return bool
      */
     public function validate($object)

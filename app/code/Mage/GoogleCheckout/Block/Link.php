@@ -15,7 +15,7 @@
  * @package    Mage_GoogleCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleCheckout_Block_Link extends Mage_Core_Block_Template
+class Mage_GoogleCheckout_Block_Link extends Magento_Core_Block_Template
 {
     public function getImageStyle()
     {

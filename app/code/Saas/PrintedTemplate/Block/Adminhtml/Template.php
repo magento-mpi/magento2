@@ -28,7 +28,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template extends Mage_Backend_Block_T
     /**
      * Create add button and grid blocks
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {

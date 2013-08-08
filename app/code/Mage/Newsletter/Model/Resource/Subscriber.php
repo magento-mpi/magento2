@@ -16,7 +16,7 @@
  * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Resource_Subscriber extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Newsletter_Model_Resource_Subscriber extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * DB read connection
@@ -128,7 +128,7 @@ class Mage_Newsletter_Model_Resource_Subscriber extends Mage_Core_Model_Resource
      */
     protected function _generateRandomCode()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
+        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
     }
 
     /**
@@ -142,7 +142,7 @@ class Mage_Newsletter_Model_Resource_Subscriber extends Mage_Core_Model_Resource
     {
         $this->_write->beginTransaction();
         try {
-            $data['letter_sent_at'] = Mage::getSingleton('Mage_Core_Model_Date')->gmtDate();
+            $data['letter_sent_at'] = Mage::getSingleton('Magento_Core_Model_Date')->gmtDate();
             $this->_write->update($this->_subscriberLinkTable, $data, array(
                 'subscriber_id = ?' => $subscriber->getId(),
                 'queue_id = ?' => $queue->getId()

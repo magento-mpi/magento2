@@ -118,7 +118,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Magento_
             'fileUploadUrl'    => $this->getFileUploadUrl(),
         );
 
-        $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
+        $json = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
         return $json;
     }
 

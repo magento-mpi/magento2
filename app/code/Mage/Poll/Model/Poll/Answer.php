@@ -27,7 +27,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Poll_Model_Poll_Answer extends Mage_Core_Model_Abstract
+class Mage_Poll_Model_Poll_Answer extends Magento_Core_Model_Abstract
 {
     protected function _construct()
     {

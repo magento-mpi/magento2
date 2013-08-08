@@ -15,7 +15,7 @@
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Controller_Testtransaction extends Mage_Core_Controller_Front_Action
+class Saas_Launcher_Controller_Testtransaction extends Magento_Core_Controller_Front_Action
 {
     /**
      * @var Mage_Checkout_Model_Cart
@@ -40,7 +40,7 @@ class Saas_Launcher_Controller_Testtransaction extends Mage_Core_Controller_Fron
     /**
      * Constructor
      *
-     * @param Mage_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Mage_Checkout_Model_Cart $cartModel
      * @param Mage_Catalog_Model_Product $productModel
      * @param Mage_Checkout_Model_Session $checkoutSession
@@ -48,7 +48,7 @@ class Saas_Launcher_Controller_Testtransaction extends Mage_Core_Controller_Fron
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Controller_Varien_Action_Context $context,
         Mage_Checkout_Model_Cart $cartModel,
         Mage_Catalog_Model_Product $productModel,
         Mage_Checkout_Model_Session $checkoutSession,

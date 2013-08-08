@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
     protected $_url;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_coreHelper;
 
@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
     protected $_fileConfig;
 
     /**
-     * @var Mage_Core_Model_View_Url
+     * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
 
@@ -53,12 +53,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
     {
         parent::__construct($attributes);
 
-        $this->_viewUrl = Mage::getModel('Mage_Core_Model_View_Url');
+        $this->_viewUrl = Mage::getModel('Magento_Core_Model_View_Url');
 
         $this->_url = isset($attributes['url']) ? $attributes['url']
             : Mage::getModel('Mage_Backend_Model_Url');
         $this->_coreHelper = isset($attributes['coreHelper']) ? $attributes['coreHelper']
-            : Mage::helper('Mage_Core_Helper_Data');
+            : Mage::helper('Magento_Core_Helper_Data');
         $this->_catalogHelperData = isset($attributes['catalogHelperData']) ? $attributes['catalogHelperData']
             : Mage::helper('Mage_Catalog_Helper_Data');
         $this->_fileConfig = isset($attributes['fileConfig']) ? $attributes['fileConfig'] :
@@ -167,7 +167,7 @@ HTML;
      * Must be called with Mage_Catalog_Helper_Data $className only
      *
      * @param string $className
-     * @return Mage_Catalog_Helper_Data|Mage_Core_Helper_Data
+     * @return Mage_Catalog_Helper_Data|Magento_Core_Helper_Data
      */
     private function helper($className)
     {

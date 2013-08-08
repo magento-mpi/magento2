@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paypal_Model_Resource_Report_Settlement_Options_TransactionEvents
-    implements Mage_Core_Model_Option_ArrayInterface
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Mage_Paypal_Model_Report_Settlement_Row

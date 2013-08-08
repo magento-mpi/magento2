@@ -16,7 +16,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Catalog_Model_Resource_Url extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Stores configuration array
@@ -66,7 +66,7 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
      * Retrieve stores array or store model
      *
      * @param int $storeId
-     * @return Mage_Core_Model_Store|array
+     * @return Magento_Core_Model_Store|array
      */
     public function getStores($storeId = null)
     {
@@ -644,14 +644,14 @@ class Mage_Catalog_Model_Resource_Url extends Mage_Core_Model_Resource_Db_Abstra
     {
         $rootCategoryIds = array();
         foreach ($stores as $store) {
-            /* @var $store Mage_Core_Model_Store */
+            /* @var $store Magento_Core_Model_Store */
             $rootCategoryIds[$store->getRootCategoryId()] = $store->getRootCategoryId();
         }
         if ($rootCategoryIds) {
             $categories = $this->_getCategories($rootCategoryIds);
         }
         foreach ($stores as $store) {
-            /* @var $store Mage_Core_Model_Store */
+            /* @var $store Magento_Core_Model_Store */
             $rootCategoryId = $store->getRootCategoryId();
             if (isset($categories[$rootCategoryId])) {
                 $store->setRootCategoryPath($categories[$rootCategoryId]->getPath());

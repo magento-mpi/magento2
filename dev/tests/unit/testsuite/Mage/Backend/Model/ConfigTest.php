@@ -52,13 +52,13 @@ class Mage_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_dataFactoryMock;
 
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     public function setUp()
     {
-        $this->_eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
+        $this->_eventManagerMock = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $this->_structureReaderMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Reader', array(), array(), '', false
         );
@@ -67,13 +67,13 @@ class Mage_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
             $this->returnValue($structureMock)
         );
         $this->_transFactoryMock = $this->getMock(
-            'Mage_Core_Model_Resource_Transaction_Factory', array(), array(), '', false
+            'Magento_Core_Model_Resource_Transaction_Factory', array(), array(), '', false
         );
-        $this->_appConfigMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $this->_appConfigMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $this->_configLoaderMock = $this->getMock('Mage_Backend_Model_Config_Loader', array(), array(), '', false);
-        $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
-        $this->_dataFactoryMock = $this->getMock('Mage_Core_Model_Config_DataFactory', array(), array(), '', false);
-        $this->_storeManager = $this->getMockForAbstractClass('Mage_Core_Model_StoreManagerInterface');
+        $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
+        $this->_dataFactoryMock = $this->getMock('Magento_Core_Model_Config_DataFactory', array(), array(), '', false);
+        $this->_storeManager = $this->getMockForAbstractClass('Magento_Core_Model_StoreManagerInterface');
 
         $this->_model = new Mage_Backend_Model_Config(
             $this->_applicationMock,

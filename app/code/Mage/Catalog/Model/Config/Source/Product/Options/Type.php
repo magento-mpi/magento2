@@ -15,7 +15,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Config_Source_Product_Options_Type implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Catalog_Model_Config_Source_Product_Options_Type implements Magento_Core_Model_Option_ArrayInterface
 {
     const PRODUCT_OPTIONS_GROUPS_PATH = 'global/catalog/product/options/custom/groups';
 

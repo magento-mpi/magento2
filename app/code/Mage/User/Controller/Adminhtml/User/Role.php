@@ -157,7 +157,7 @@ class Mage_User_Controller_Adminhtml_User_Role extends Mage_Backend_Controller_A
 
         $isAll = $this->getRequest()->getParam('all');
         if ($isAll) {
-            $resource = array($this->_objectManager->get('Mage_Core_Model_Acl_RootResource')->getId());
+            $resource = array($this->_objectManager->get('Magento_Core_Model_Acl_RootResource')->getId());
         }
 
         $role = $this->_initRole('role_id');
@@ -195,7 +195,7 @@ class Mage_User_Controller_Adminhtml_User_Role extends Mage_Backend_Controller_A
             $this->_session->addSuccess(
                 $this->__('You saved the role.')
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_session->addError(

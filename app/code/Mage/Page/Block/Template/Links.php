@@ -13,10 +13,10 @@
  * Simple links list block
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Page_Block_Template_Links extends Mage_Core_Block_Template
+class Mage_Page_Block_Template_Links extends Magento_Core_Block_Template
 {
     /**
      * All links
@@ -108,7 +108,7 @@ class Mage_Page_Block_Template_Links extends Mage_Core_Block_Template
     public function removeLinkBlock($blockName)
     {
         foreach ($this->_links as $key => $link) {
-            if ($link instanceof Mage_Core_Block_Abstract && $link->getNameInLayout() == $blockName) {
+            if ($link instanceof Magento_Core_Block_Abstract && $link->getNameInLayout() == $blockName) {
                 unset($this->_links[$key]);
             }
         }
@@ -219,10 +219,10 @@ class Mage_Page_Block_Template_Links extends Mage_Core_Block_Template
     /**
      * Render Block
      *
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      * @return string
      */
-    public function renderBlock(Mage_Core_Block_Abstract $block)
+    public function renderBlock(Magento_Core_Block_Abstract $block)
     {
         return $this->getLayout()->renderElement($block->getNameInLayout());
     }

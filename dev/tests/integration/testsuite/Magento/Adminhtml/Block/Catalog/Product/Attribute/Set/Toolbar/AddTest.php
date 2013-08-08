@@ -16,13 +16,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_AddTest exte
 {
     public function testToHtmlFormId()
     {
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
 
         $block = $layout->addBlock('Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add', 'block');
         $block->setArea('adminhtml')->unsetChild('setForm');
 
-        $childBlock = $layout->addBlock('Mage_Core_Block_Template', 'setForm', 'block');
+        $childBlock = $layout->addBlock('Magento_Core_Block_Template', 'setForm', 'block');
         $form = new Magento_Object();
         $childBlock->setForm($form);
 

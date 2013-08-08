@@ -34,7 +34,7 @@ abstract class Mage_Eav_Model_Form
     /**
      * Current store instance
      *
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store;
 
@@ -48,7 +48,7 @@ abstract class Mage_Eav_Model_Form
     /**
      * Current entity instance
      *
-     * @var Mage_Core_Model_Abstract
+     * @var Magento_Core_Model_Abstract
      */
     protected $_entity;
 
@@ -109,7 +109,7 @@ abstract class Mage_Eav_Model_Form
     /**
      * Checks correct module choice
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function __construct()
     {
@@ -148,7 +148,7 @@ abstract class Mage_Eav_Model_Form
     /**
      * Set current store
      *
-     * @param Mage_Core_Model_Store|string|int $store
+     * @param Magento_Core_Model_Store|string|int $store
      * @return Mage_Eav_Model_Form
      */
     public function setStore($store)
@@ -160,10 +160,10 @@ abstract class Mage_Eav_Model_Form
     /**
      * Set entity instance
      *
-     * @param Mage_Core_Model_Abstract $entity
+     * @param Magento_Core_Model_Abstract $entity
      * @return Mage_Eav_Model_Form
      */
-    public function setEntity(Mage_Core_Model_Abstract $entity)
+    public function setEntity(Magento_Core_Model_Abstract $entity)
     {
         $this->_entity = $entity;
         if ($entity->getEntityTypeId()) {
@@ -199,7 +199,7 @@ abstract class Mage_Eav_Model_Form
     /**
      * Return current store instance
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -212,7 +212,7 @@ abstract class Mage_Eav_Model_Form
     /**
      * Return current form code
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return string
      */
     public function getFormCode()
@@ -240,8 +240,8 @@ abstract class Mage_Eav_Model_Form
     /**
      * Return current entity instance
      *
-     * @throws Mage_Core_Exception
-     * @return Mage_Core_Model_Abstract
+     * @throws Magento_Core_Exception
+     * @return Magento_Core_Model_Abstract
      */
     public function getEntity()
     {
@@ -394,7 +394,7 @@ abstract class Mage_Eav_Model_Form
     protected function _getValidator(array $data)
     {
         if (is_null($this->_validator)) {
-            $configFiles = Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader')
+            $configFiles = Mage::getSingleton('Magento_Core_Model_Config_Modules_Reader')
                 ->getModuleConfigurationFiles('validation.xml');
             $validatorFactory = new Magento_Validator_Config($configFiles);
             $builder = $validatorFactory->createValidatorBuilder('eav_entity', 'form');

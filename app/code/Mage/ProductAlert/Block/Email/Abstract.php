@@ -16,7 +16,7 @@
  * @package    Mage_ProductAlert
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_ProductAlert_Block_Email_Abstract extends Mage_Core_Block_Template
+abstract class Mage_ProductAlert_Block_Email_Abstract extends Magento_Core_Block_Template
 {
     /**
      * Product collection array
@@ -28,22 +28,22 @@ abstract class Mage_ProductAlert_Block_Email_Abstract extends Mage_Core_Block_Te
     /**
      * Current Store scope object
      *
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store;
 
     /**
      * Set Store scope
      *
-     * @param int|string|Mage_Core_Model_Website|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Website|Magento_Core_Model_Store $store
      * @return Mage_ProductAlert_Block_Email_Abstract
      */
     public function setStore($store)
     {
-        if ($store instanceof Mage_Core_Model_Website) {
+        if ($store instanceof Magento_Core_Model_Website) {
             $store = $store->getDefaultStore();
         }
-        if (!$store instanceof Mage_Core_Model_Store) {
+        if (!$store instanceof Magento_Core_Model_Store) {
             $store = Mage::app()->getStore($store);
         }
 
@@ -55,7 +55,7 @@ abstract class Mage_ProductAlert_Block_Email_Abstract extends Mage_Core_Block_Te
     /**
      * Retrieve current store object
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {

@@ -11,19 +11,19 @@
 class Mage_User_Model_Acl_Loader_Rule implements Magento_Acl_LoaderInterface
 {
     /**
-     * @var Mage_Core_Model_Resource
+     * @var Magento_Core_Model_Resource
      */
     protected $_resource;
 
     /**
-     * @param Mage_Core_Model_Acl_RootResource $rootResource
-     * @param Mage_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Acl_RootResource $rootResource
+     * @param Magento_Core_Model_Resource $resource
      * @param array $data
      * @SuppressWarnings(PHPMD.UnusedFormalParameter):
      */
     public function __construct(
-        Mage_Core_Model_Acl_RootResource $rootResource,
-        Mage_Core_Model_Resource $resource,
+        Magento_Core_Model_Acl_RootResource $rootResource,
+        Magento_Core_Model_Resource $resource,
         array $data = array()
     ) {
         $this->_resource = $resource;

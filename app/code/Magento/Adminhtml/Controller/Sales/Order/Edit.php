@@ -35,7 +35,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Edit extends Magento_Adminhtml_Co
             else {
                 $this->_redirect('*/sales_order/');
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
         } catch (Exception $e) {

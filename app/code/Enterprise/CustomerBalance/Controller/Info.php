@@ -12,7 +12,7 @@
  * Customerbalance controller for My Account
  *
  */
-class Enterprise_CustomerBalance_Controller_Info extends Mage_Core_Controller_Front_Action
+class Enterprise_CustomerBalance_Controller_Info extends Magento_Core_Controller_Front_Action
 {
     /**
      * Only logged in users can use this functionality,

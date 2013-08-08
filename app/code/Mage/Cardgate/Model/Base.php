@@ -18,28 +18,28 @@ class Mage_Cardgate_Model_Base extends Magento_Object
     /**
      * Store Config object
      *
-     * @var Mage_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_Config
      */
     protected $_storeConfig;
 
     /**
      * Config object
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_configObject;
 
     /**
      * Dir object
      *
-     * @var Mage_Core_Model_Dir
+     * @var Magento_Core_Model_Dir
      */
     protected $_dir;
 
     /**
      * Resource Transaction factory
      *
-     * @var Mage_Core_Model_Resource_Transaction_Factory
+     * @var Magento_Core_Model_Resource_Transaction_Factory
      */
     protected $_transactionFactory;
 
@@ -53,7 +53,7 @@ class Mage_Cardgate_Model_Base extends Magento_Object
     /**
      * Logger object
      *
-     * @var Mage_Core_Model_Logger
+     * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
@@ -109,22 +109,22 @@ class Mage_Cardgate_Model_Base extends Magento_Object
     /**
      * Constructor
      *
-     * @param Mage_Core_Model_Store_Config $storeConfig
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_Dir $dir
-     * @param Mage_Core_Model_Logger $logger
-     * @param Mage_Core_Model_Resource_Transaction_Factory $transactionFactory
+     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Dir $dir
+     * @param Magento_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Resource_Transaction_Factory $transactionFactory
      * @param Mage_Sales_Model_OrderFactory $orderFactory
      * @param Mage_Cardgate_Helper_Data $helper
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Core_Model_Config $config,
-        Mage_Core_Model_Dir $dir,
-        Mage_Core_Model_Logger $logger,
-        Mage_Core_Model_Resource_Transaction_Factory $transactionFactory,
+        Magento_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Dir $dir,
+        Magento_Core_Model_Logger $logger,
+        Magento_Core_Model_Resource_Transaction_Factory $transactionFactory,
         Mage_Sales_Model_OrderFactory $orderFactory,
         Mage_Cardgate_Helper_Data $helper,
         Magento_Filesystem $filesystem,
@@ -145,7 +145,7 @@ class Mage_Cardgate_Model_Base extends Magento_Object
         if ($this->getConfigData('debug')) {
             $this->_logger->addStreamLog('cardgate', $this->_logFileName);
         }
-        $this->_lockDir = $this->_dir->getDir(Mage_Core_Model_Dir::VAR_DIR) . DS . 'locks';
+        $this->_lockDir = $this->_dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . 'locks';
     }
 
     /**

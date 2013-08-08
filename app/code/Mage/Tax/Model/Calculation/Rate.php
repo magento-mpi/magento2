@@ -34,7 +34,7 @@
  * @package     Mage_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
+class Mage_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
 {
     protected $_titles = null;
     protected $_titleModel = null;
@@ -123,8 +123,8 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
     /**
      * Processing object before delete data
      *
-     * @return Mage_Core_Model_Abstract
-     * @throws Mage_Core_Exception
+     * @return Magento_Core_Model_Abstract
+     * @throws Magento_Core_Exception
      */
     protected function _beforeDelete()
     {

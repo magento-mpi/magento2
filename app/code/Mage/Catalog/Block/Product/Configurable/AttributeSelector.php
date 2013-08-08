@@ -25,7 +25,8 @@ class Mage_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Bac
      */
     public function getSuggestedAttributes($labelPart)
     {
-        $escapedLabelPart = Mage::getResourceHelper('Mage_Core')->addLikeEscape($labelPart, array('position' => 'any'));
+        $escapedLabelPart = Mage::getResourceHelper('Magento_Core')
+            ->addLikeEscape($labelPart, array('position' => 'any'));
         /** @var $collection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
             ->addFieldToFilter('frontend_input', 'select')

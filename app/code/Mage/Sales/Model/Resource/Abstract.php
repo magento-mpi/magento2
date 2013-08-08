@@ -16,7 +16,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Sales_Model_Resource_Abstract extends Mage_Core_Model_Resource_Db_Abstract
+abstract class Mage_Sales_Model_Resource_Abstract extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Data converter object
@@ -28,10 +28,10 @@ abstract class Mage_Sales_Model_Resource_Abstract extends Mage_Core_Model_Resour
     /**
      * Prepare data for save
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return array
      */
-    protected function _prepareDataForSave(Mage_Core_Model_Abstract $object)
+    protected function _prepareDataForSave(Magento_Core_Model_Abstract $object)
     {
         $currentTime = Magento_Date::now();
         if ((!$object->getId() || $object->isObjectNew()) && !$object->getCreatedAt()) {
@@ -56,10 +56,10 @@ abstract class Mage_Sales_Model_Resource_Abstract extends Mage_Core_Model_Resour
     /**
      * Perform actions before object save
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Sales_Model_Resource_Abstract
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         parent::_beforeSave($object);
 
@@ -74,10 +74,10 @@ abstract class Mage_Sales_Model_Resource_Abstract extends Mage_Core_Model_Resour
     /**
      * Perform actions after object save
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Sales_Model_Resource_Abstract
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         if (true == $this->_shouldBeConverted()) {
             foreach($object->getData() as $fieldName => $fieldValue) {
@@ -90,10 +90,10 @@ abstract class Mage_Sales_Model_Resource_Abstract extends Mage_Core_Model_Resour
     /**
      * Perform actions after object load
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Sales_Model_Resource_Abstract
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         if (true == $this->_shouldBeConverted()) {
             foreach($object->getData() as $fieldName => $fieldValue) {

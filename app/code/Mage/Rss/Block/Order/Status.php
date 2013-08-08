@@ -15,7 +15,7 @@
  * @package    Mage_Rss
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
+class Mage_Rss_Block_Order_Status extends Magento_Core_Block_Template
 {
     protected function _construct()
     {

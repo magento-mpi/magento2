@@ -88,7 +88,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Magento_Admin
      * Get catalog entity associated stores
      *
      * @return array
-     * @throws Mage_Core_Model_Store_Exception
+     * @throws Magento_Core_Model_Store_Exception
      */
     protected function _getEntityStores()
     {
@@ -107,7 +107,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Magento_Admin
             }
             // @codingStandardsIgnoreStart
             if (!$entityStores) {
-                throw new Mage_Core_Model_Store_Exception(
+                throw new Magento_Core_Model_Store_Exception(
                     Mage::helper('Magento_Adminhtml_Helper_Data')->__('We can\'t set up a URL rewrite because the product you chose is not associated with a website.')
                 );
             }
@@ -115,7 +115,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Magento_Admin
         } elseif ($category->getId()) {
             $entityStores = (array) $category->getStoreIds();
             if (!$entityStores) {
-                throw new Mage_Core_Model_Store_Exception(
+                throw new Magento_Core_Model_Store_Exception(
                     Mage::helper('Magento_Adminhtml_Helper_Data')->__('We can\'t set up a URL rewrite because the category your chose is not associated with a website.')
                 );
             }

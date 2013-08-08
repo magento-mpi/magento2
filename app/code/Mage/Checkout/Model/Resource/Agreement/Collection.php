@@ -16,7 +16,7 @@
  * @package     Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Model_Resource_Agreement_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Checkout_Model_Resource_Agreement_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     protected $_map = array('fields' => array(
         'agreement_id' => 'main_table.agreement_id',
@@ -41,13 +41,13 @@ class Mage_Checkout_Model_Resource_Agreement_Collection extends Mage_Core_Model_
     /**
      * Filter collection by specified store ids
      *
-     * @param int|Mage_Core_Model_Store $store
+     * @param int|Magento_Core_Model_Store $store
      * @return Mage_Checkout_Model_Resource_Agreement_Collection
      */
     public function addStoreFilter($store)
     {
         // check and prepare data
-        if ($store instanceof Mage_Core_Model_Store) {
+        if ($store instanceof Magento_Core_Model_Store) {
             $store = array($store->getId());
         } elseif (is_numeric($store)) {
             $store = array($store);

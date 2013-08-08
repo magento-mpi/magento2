@@ -22,20 +22,20 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
     /** @var Mage_Webhook_Model_Resource_Subscription_Collection $_subscriptionSet */
     private $_subscriptionSet;
 
-    /** @var Mage_Core_Model_Translate Mage_Core_Model_Translate */
+    /** @var Magento_Core_Model_Translate Magento_Core_Model_Translate */
     private $_translator;
 
     /**
      * @param Mage_Webhook_Model_Subscription_Factory $subscriptionFactory
      * @param Mage_Webhook_Model_User_Factory $whUserFactory
      * @param Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet
-     * @param Mage_Core_Model_Translate $translator
+     * @param Magento_Core_Model_Translate $translator
      */
     public function __construct(
         Mage_Webhook_Model_Subscription_Factory $subscriptionFactory,
         Mage_Webhook_Model_User_Factory $whUserFactory,
         Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet,
-        Mage_Core_Model_Translate $translator
+        Magento_Core_Model_Translate $translator
     ) {
         $this->_subscriptionFactory = $subscriptionFactory;
         $this->_whUserFactory = $whUserFactory;
@@ -48,7 +48,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
      *
      * @param array $subscriptionData
      * @return array Subscription data
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function create(array $subscriptionData)
@@ -61,7 +61,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
             $subscription->save();
 
             return $subscription->getData();
-        } catch (Mage_Core_Exception $exception) {
+        } catch (Magento_Core_Exception $exception) {
             // These messages are already translated, we can simply surface them.
             throw $exception;
         } catch (Exception $exception) {
@@ -76,7 +76,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
      * Get all Subscriptions associated with a given api user.
      *
      * @param int $apiUserId
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      * @return array of Subscription data arrays
      */
@@ -92,7 +92,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
             }
 
             return $result;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
         } catch (Exception $e) {
@@ -108,7 +108,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
      *
      * @param array $subscriptionData
      * @return array Subscription data
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function update(array $subscriptionData)
@@ -122,7 +122,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
             $subscription->save();
 
             return $subscription->getData();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
         } catch (Exception $e) {
@@ -138,7 +138,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
      *
      * @param int $subscriptionId
      * @return array Subscription data
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function get($subscriptionId)
@@ -146,7 +146,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
         try {
             $subscription = $this->_loadSubscriptionById($subscriptionId);
             return $subscription->getData();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
         } catch (Exception $e) {
@@ -162,7 +162,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
      *
      * @param int $subscriptionId
      * @return array Subscription data
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function delete($subscriptionId)
@@ -174,7 +174,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
             $subscription->delete();
 
             return $subscriptionData;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
         } catch (Exception $e) {
@@ -190,7 +190,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
      *
      * @param int $subscriptionId
      * @return array
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function activate($subscriptionId)
@@ -201,7 +201,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
             $subscription->activate();
             $subscription->save();
             return $subscription->getData();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
         } catch (Exception $e) {
@@ -217,7 +217,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
      *
      * @param int $subscriptionId
      * @return array
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function deactivate($subscriptionId)
@@ -228,7 +228,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
             $subscription->deactivate();
             $subscription->save();
             return $subscription->getData();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
         } catch (Exception $e) {
@@ -244,7 +244,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
      *
      * @param int $subscriptionId
      * @return array
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function revoke($subscriptionId)
@@ -255,7 +255,7 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
             $subscription->revoke();
             $subscription->save();
             return $subscription->getData();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // These messages are already translated, we can simply surface them.
             throw $e;
         } catch (Exception $e) {

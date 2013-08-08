@@ -16,7 +16,7 @@
  * @package     Mage_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Model_Resource_Payment_Transaction extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Paypal_Model_Resource_Payment_Transaction extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Serializeable field: additional_information
@@ -54,12 +54,12 @@ class Mage_Paypal_Model_Resource_Payment_Transaction extends Mage_Core_Model_Res
     /**
      * Serialize additional information, if any
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      *
-     * @param Mage_Core_Model_Abstract $transaction
+     * @param Magento_Core_Model_Abstract $transaction
      * @return Mage_Paypal_Model_Resource_Payment_Transaction
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $transaction)
+    protected function _beforeSave(Magento_Core_Model_Abstract $transaction)
     {
         $txnId       = $transaction->getData('txn_id');
         $idFieldName = $this->getIdFieldName();

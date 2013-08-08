@@ -82,7 +82,7 @@ class Magento_Adminhtml_Controller_Tax_Rule extends Magento_Adminhtml_Controller
                 $this->_redirect('*/*/');
                 return;
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             }
             catch (Exception $e) {
@@ -115,7 +115,7 @@ class Magento_Adminhtml_Controller_Tax_Rule extends Magento_Adminhtml_Controller
 
             return;
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {

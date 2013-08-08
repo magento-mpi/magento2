@@ -43,30 +43,30 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
     /**
      * Registry model
      *
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
 
     /**
      * Application model
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_app;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig
-     * @param Mage_Core_Model_Registry $registry
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_App $app
      * @param Enterprise_Banner_Helper_Data $bannerHelper
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig,
-        Mage_Core_Model_Registry $registry,
-        Mage_Core_Model_App $app,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_App $app,
         Enterprise_Banner_Helper_Data $bannerHelper,
         array $data = array()
     ) {

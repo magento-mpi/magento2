@@ -15,7 +15,7 @@
  * @package     Mage_Webpi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Resource_Acl_Rule_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Webapi_Model_Resource_Acl_Rule_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Resource collection initialization.

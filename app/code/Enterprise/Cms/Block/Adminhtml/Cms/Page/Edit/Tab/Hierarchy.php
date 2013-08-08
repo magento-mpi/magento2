@@ -41,7 +41,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      */
     public function getNodesJson()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getNodes());
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getNodes());
     }
 
     /**
@@ -53,7 +53,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
         if (is_null($this->_nodes)) {
             $this->_nodes = array();
             try{
-                $data = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getPage()->getNodesData());
+                $data = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getPage()->getNodesData());
             }catch (Zend_Json_Exception $e){
                 $data = null;
             }
@@ -168,7 +168,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
             'id' => $this->getPage()->getId()
         );
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**

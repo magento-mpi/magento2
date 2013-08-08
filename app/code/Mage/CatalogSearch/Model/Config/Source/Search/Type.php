@@ -16,7 +16,7 @@
  * @package    Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Config_Source_Search_Type implements Mage_Core_Model_Option_ArrayInterface
+class Mage_CatalogSearch_Model_Config_Source_Search_Type implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

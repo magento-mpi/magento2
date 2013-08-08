@@ -16,7 +16,7 @@
  * @package     Mage_Persistent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Persistent_Model_Resource_Session extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Persistent_Model_Resource_Session extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Use is object new method for object saving

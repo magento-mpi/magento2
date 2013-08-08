@@ -176,7 +176,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_Report_Customer_Customerse
                 );
                 $this->_redirect('*/*/detail', array('_current' => true));
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             }
         }

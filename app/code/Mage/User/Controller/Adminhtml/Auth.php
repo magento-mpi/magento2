@@ -131,7 +131,7 @@ class Mage_User_Controller_Adminhtml_Auth extends Mage_Backend_Controller_Action
                 Mage::helper('Mage_User_Helper_Data')->__('Your password has been updated.')
             );
             $this->getResponse()->setRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
-        } catch (Mage_Core_Exception $exception) {
+        } catch (Magento_Core_Exception $exception) {
             $this->_getSession()->addMessages($exception->getMessages());
             $this->_redirect('*/auth/resetpassword', array(
                 '_nosecret' => true,
@@ -148,7 +148,7 @@ class Mage_User_Controller_Adminhtml_Auth extends Mage_Backend_Controller_Action
      *
      * @param int $userId
      * @param string $resetPasswordToken
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _validateResetPasswordLinkToken($userId, $resetPasswordToken)
     {
@@ -159,7 +159,7 @@ class Mage_User_Controller_Adminhtml_Auth extends Mage_Backend_Controller_Action
             || $userId < 0
         ) {
             throw Mage::exception(
-                'Mage_Core',
+                'Magento_Core',
                 Mage::helper('Mage_User_Helper_Data')->__('Please correct the password reset token.')
             );
         }
@@ -168,7 +168,7 @@ class Mage_User_Controller_Adminhtml_Auth extends Mage_Backend_Controller_Action
         $user = Mage::getModel('Mage_User_Model_User')->load($userId);
         if (!$user->getId()) {
             throw Mage::exception(
-                'Mage_Core',
+                'Magento_Core',
                 Mage::helper('Mage_User_Helper_Data')->__('Please specify the correct account and try again.')
             );
         }
@@ -176,7 +176,7 @@ class Mage_User_Controller_Adminhtml_Auth extends Mage_Backend_Controller_Action
         $userToken = $user->getRpToken();
         if (strcmp($userToken, $resetPasswordToken) != 0 || $user->isResetPasswordLinkTokenExpired()) {
             throw Mage::exception(
-                'Mage_Core',
+                'Magento_Core',
                 Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.')
             );
         }

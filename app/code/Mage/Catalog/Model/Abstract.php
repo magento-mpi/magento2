@@ -15,7 +15,7 @@
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Catalog_Model_Abstract extends Mage_Core_Model_Abstract
+abstract class Mage_Catalog_Model_Abstract extends Magento_Core_Model_Abstract
 {
     /**
      * Identifuer of default store
@@ -221,7 +221,7 @@ abstract class Mage_Catalog_Model_Abstract extends Mage_Core_Model_Abstract
     /**
      * Retrieve sore object
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {

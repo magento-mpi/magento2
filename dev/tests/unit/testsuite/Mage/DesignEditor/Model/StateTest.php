@@ -13,17 +13,17 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     /**
      * Name of layout classes that will be used as main layout
      */
-    const LAYOUT_NAVIGATION_CLASS_NAME = 'Mage_Core_Model_Layout';
+    const LAYOUT_NAVIGATION_CLASS_NAME = 'Magento_Core_Model_Layout';
 
     /**
-     * Url model classes that will be used instead of Mage_Core_Model_Url in different vde modes
+     * Url model classes that will be used instead of Magento_Core_Model_Url in different vde modes
      */
     const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Mage_DesignEditor_Model_Url_NavigationMode';
 
     /**#@+
      * Layout update resource models
      */
-    const LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME = 'Mage_Core_Model_Resource_Layout_Update';
+    const LAYOUT_UPDATE_RESOURCE_MODEL_CORE_CLASS_NAME = 'Magento_Core_Model_Resource_Layout_Update';
     const LAYOUT_UPDATE_RESOURCE_MODEL_VDE_CLASS_NAME  = 'Mage_DesignEditor_Model_Resource_Layout_Update';
     /**#@-*/
 
@@ -55,7 +55,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_backendSession;
 
     /**
-     * @var Mage_Core_Model_Layout_Factory|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Layout_Factory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_layoutFactory;
 
@@ -65,7 +65,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_urlModelFactory;
 
     /**
-     * @var Mage_Core_Model_Cache|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Cache|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cacheManager;
 
@@ -80,7 +80,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_App|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_App|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_application;
 
@@ -104,37 +104,37 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
         $this->_backendSession = $this->getMock('Mage_Backend_Model_Session', array('setData', 'getData', 'unsetData'),
             array(), '', false
         );
-        $this->_layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array('createLayout'),
+        $this->_layoutFactory = $this->getMock('Magento_Core_Model_Layout_Factory', array('createLayout'),
             array(), '', false
         );
         $this->_urlModelFactory = $this->getMock('Mage_DesignEditor_Model_Url_Factory', array('replaceClassName'),
             array(), '', false
         );
-        $this->_cacheTypes = $this->getMockBuilder('Mage_Core_Model_Cache_Types')
+        $this->_cacheTypes = $this->getMockBuilder('Magento_Core_Model_Cache_Types')
             ->disableOriginalConstructor()->getMock();
 
         $this->_dataHelper = $this->getMock('Mage_DesignEditor_Helper_Data', array('getDisabledCacheTypes'),
             array(), '', false);
 
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
-        $this->_application = $this->getMock('Mage_Core_Model_App', array('getStore', 'getConfig'),
+        $this->_application = $this->getMock('Magento_Core_Model_App', array('getStore', 'getConfig'),
             array(), '', false);
 
-        $storeManager = $this->getMock('Mage_Core_Model_StoreManager', array('setConfig'), array(), '', false);
+        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array('setConfig'), array(), '', false);
         $storeManager->expects($this->any())
             ->method('setConfig')
-            ->with($this->equalTo(Mage_Core_Model_View_Design::XML_PATH_THEME_ID), $this->equalTo(self::THEME_ID))
+            ->with($this->equalTo(Magento_Core_Model_View_Design::XML_PATH_THEME_ID), $this->equalTo(self::THEME_ID))
             ->will($this->returnSelf());
 
         $this->_application->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($storeManager));
 
-        $configMock = $this->getMock('Mage_Core_Model_Config', array('setNode'), array(), '', false);
+        $configMock = $this->getMock('Magento_Core_Model_Config', array('setNode'), array(), '', false);
         $configMock->expects($this->any())
             ->method('setNode')
             ->with(
-                $this->equalTo('default/' . Mage_Core_Model_View_Design::XML_PATH_THEME_ID),
+                $this->equalTo('default/' . Magento_Core_Model_View_Design::XML_PATH_THEME_ID),
                 $this->equalTo(self::THEME_ID)
             )
             ->will($this->returnSelf());
@@ -143,7 +143,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValue($configMock));
 
-        $this->_theme = $this->getMock('Mage_Core_Model_Theme', array('getId'), array(), '', false);
+        $this->_theme = $this->getMock('Magento_Core_Model_Theme', array('getId'), array(), '', false);
         $this->_theme->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(self::THEME_ID));
@@ -216,7 +216,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     public function testUpdateNavigationMode()
     {
         $this->_setAdditionalExpectations();
-        $request = $this->getMock('Mage_Core_Controller_Request_Http', array('getPathInfo'), array(), '', false);
+        $request = $this->getMock('Magento_Core_Controller_Request_Http', array('getPathInfo'), array(), '', false);
 
         $request->expects($this->once())
             ->method('getPathInfo')

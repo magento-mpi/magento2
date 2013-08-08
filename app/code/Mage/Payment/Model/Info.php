@@ -15,7 +15,7 @@
  * @package    Mage_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
+class Mage_Payment_Model_Info extends Magento_Core_Model_Abstract
 {
     /**
      * Additional information container
@@ -50,7 +50,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
      * Retrieve payment method model object
      *
      * @return Mage_Payment_Model_Method_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getMethodInstance()
     {
@@ -78,7 +78,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
     public function encrypt($data)
     {
         if ($data) {
-            return Mage::helper('Mage_Core_Helper_Data')->encrypt($data);
+            return Mage::helper('Magento_Core_Helper_Data')->encrypt($data);
         }
         return $data;
     }
@@ -92,7 +92,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
     public function decrypt($data)
     {
         if ($data) {
-            return Mage::helper('Mage_Core_Helper_Data')->decrypt($data);
+            return Mage::helper('Magento_Core_Helper_Data')->decrypt($data);
         }
         return $data;
     }
@@ -105,7 +105,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
      * @param string|array $key
      * @param mixed $value
      * @return Mage_Payment_Model_Info
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function setAdditionalInformation($key, $value = null)
     {

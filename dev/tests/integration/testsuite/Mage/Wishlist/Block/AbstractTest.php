@@ -20,7 +20,7 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $this->_block = $this->getMockForAbstractClass(
             'Mage_Wishlist_Block_Abstract',
-            array(Mage::getSingleton('Mage_Core_Block_Template_Context'))
+            array(Mage::getSingleton('Magento_Core_Block_Template_Context'))
         );
     }
 
@@ -30,8 +30,8 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testImage()
     {
-        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
-        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
+        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
 

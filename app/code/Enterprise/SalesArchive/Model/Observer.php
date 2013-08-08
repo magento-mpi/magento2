@@ -160,11 +160,11 @@ class Enterprise_SalesArchive_Model_Observer
          */
         $controller = $observer->getControllerAction();
         /**
-         * @var Mage_Core_Controller_Response_Http $response
+         * @var Magento_Core_Controller_Response_Http $response
          */
         $response = $controller->getResponse();
         /**
-         * @var Mage_Core_Controller_Request_Http $request
+         * @var Magento_Core_Controller_Request_Http $request
          */
         $request = $controller->getRequest();
 

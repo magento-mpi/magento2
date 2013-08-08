@@ -11,7 +11,7 @@
 /**
  * Backup data helper
  */
-class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Backup_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Backup type constant for database backup
@@ -49,12 +49,12 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_authorization;
 
     /**
-     * @param Mage_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_Filesystem $filesystem
      * @param Magento_AuthorizationInterface $authorization
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
+        Magento_Core_Helper_Context $context,
         Magento_Filesystem $filesystem,
         Magento_AuthorizationInterface $authorization
     ) {
@@ -265,7 +265,7 @@ class Mage_Backup_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function invalidateCache()
     {
-        if ($cacheTypesNode = Mage::getConfig()->getNode(Mage_Core_Model_Cache::XML_PATH_TYPES)) {
+        if ($cacheTypesNode = Mage::getConfig()->getNode(Magento_Core_Model_Cache::XML_PATH_TYPES)) {
             $cacheTypesList = array_keys($cacheTypesNode->asArray());
             Mage::app()->getCacheInstance()->invalidateType($cacheTypesList);
         }

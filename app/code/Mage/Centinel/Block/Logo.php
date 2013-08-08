@@ -11,7 +11,7 @@
 /**
  * Centinel payment form logo block
  */
-class Mage_Centinel_Block_Logo extends Mage_Core_Block_Template
+class Mage_Centinel_Block_Logo extends Magento_Core_Block_Template
 {
 
     protected $_template = 'logo.phtml';

@@ -26,16 +26,16 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
     const NONCE_CACHE_ID_PREFIX = 'WEBAPI_NONCE_';
 
     /**
-     * @var Mage_Core_Model_CacheInterface
+     * @var Magento_Core_Model_CacheInterface
      */
     protected $_cacheInstance;
 
     /**
      * Construct nonce storage object.
      *
-     * @param Mage_Core_Model_CacheInterface $cacheInstance
+     * @param Magento_Core_Model_CacheInterface $cacheInstance
      */
-    public function __construct(Mage_Core_Model_CacheInterface $cacheInstance)
+    public function __construct(Magento_Core_Model_CacheInterface $cacheInstance)
     {
         $this->_cacheInstance = $cacheInstance;
     }

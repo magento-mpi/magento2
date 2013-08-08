@@ -95,16 +95,16 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
 */
                 ->setTemplateText($request->getParam('template_text'))
                 ->setTemplateStyles($request->getParam('template_styles'))
-                ->setModifiedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
+                ->setModifiedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
                 ->setOrigTemplateCode($request->getParam('orig_template_code'))
                 ->setOrigTemplateVariables($request->getParam('orig_template_variables'));
 
             if (!$template->getId()) {
-                $template->setTemplateType(Mage_Core_Model_Email_Template::TYPE_HTML);
+                $template->setTemplateType(Magento_Core_Model_Email_Template::TYPE_HTML);
             }
 
             if($request->getParam('_change_type_flag')) {
-                $template->setTemplateType(Mage_Core_Model_Email_Template::TYPE_TEXT);
+                $template->setTemplateType(Magento_Core_Model_Email_Template::TYPE_TEXT);
                 $template->setTemplateStyles('');
             }
 
@@ -133,7 +133,7 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
                 $this->_redirect('*/*/');
                 return;
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
             catch (Exception $e) {
@@ -174,7 +174,7 @@ class Magento_Adminhtml_Controller_System_Email_Template extends Magento_Adminht
             $templateBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_System_Email_Template_Edit');
             $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
 
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($template->getData()));
+            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($template->getData()));
         } catch (Exception $e) {
             Mage::logException($e);
         }

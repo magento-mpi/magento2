@@ -10,17 +10,17 @@
 class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstract
 {
     /**
-     * @var Mage_Core_Model_Validator_Factory
+     * @var Magento_Core_Model_Validator_Factory
      */
     protected $_validatorFactory;
 
     /**
      * Initialize object dependencies
      *
-     * @param Mage_Core_Model_Validator_Factory $validatorFactory
+     * @param Magento_Core_Model_Validator_Factory $validatorFactory
      * @param array $data
      */
-    public function __construct(Mage_Core_Model_Validator_Factory $validatorFactory, $data = array())
+    public function __construct(Magento_Core_Model_Validator_Factory $validatorFactory, $data = array())
     {
         $this->_validatorFactory = $validatorFactory;
         parent::__construct($data);
@@ -31,7 +31,7 @@ class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstrac
      */
     protected function _construct()
     {
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         $this->setType('customer_address')->setConnection(
             $resource->getConnection('customer_read'),
             $resource->getConnection('customer_write')

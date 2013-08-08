@@ -28,13 +28,13 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
     {
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
 
-        $request = $this->getMock('Mage_Core_Controller_Request_Http');
+        $request = $this->getMock('Magento_Core_Controller_Request_Http');
         $request->expects($this->any())->method('setActionName')->will($this->returnSelf());
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
-        /** @var $layoutMock Mage_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject */
-        $layoutMock = $this->getMock('Mage_Core_Model_Layout',
+        /** @var $layoutMock Magento_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject */
+        $layoutMock = $this->getMock('Magento_Core_Model_Layout',
             array(
                 'getBlock',
                 'getUpdate',
@@ -46,15 +46,15 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
                 'getMessagesBlock'
             ),
             array(), '', false);
-        /** @var $layoutMock Mage_Core_Model_Layout */
+        /** @var $layoutMock Magento_Core_Model_Layout */
         $layoutMock->expects($this->any())->method('generateXml')->will($this->returnSelf());
         $layoutMock->expects($this->any())->method('getNode')
             ->will($this->returnValue(new Magento_Simplexml_Element('<root />')));
-        $blockMessage = $this->getMock('Mage_Core_Block_Messages',
+        $blockMessage = $this->getMock('Magento_Core_Block_Messages',
             array('addMessages', 'setEscapeMessageFlag', 'addStorageType'), array(), '', false);
         $layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMessage));
 
-        $blockMock = $this->getMock('Mage_Core_Block_Template', array('setActive', 'getMenuModel', 'getParentItems'),
+        $blockMock = $this->getMock('Magento_Core_Block_Template', array('setActive', 'getMenuModel', 'getParentItems'),
             array(), '', false);
         $blockMock->expects($this->any())->method('getMenuModel')->will($this->returnSelf());
         $blockMock->expects($this->any())->method('getParentItems')->will($this->returnValue(array()));
@@ -82,27 +82,27 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
      * Return mocked theme collection factory model
      *
      * @param int $countCustomization
-     * @return Mage_Core_Model_Resource_Theme_CollectionFactory
+     * @return Magento_Core_Model_Resource_Theme_CollectionFactory
      */
     protected function _getThemeCollectionFactory($countCustomization)
     {
-        $themeCollectionMock = $this->getMockBuilder('Mage_Core_Model_Resource_Theme_Collection')
+        $themeCollectionMock = $this->getMockBuilder('Magento_Core_Model_Resource_Theme_Collection')
             ->disableOriginalConstructor()
             ->setMethods(array('addTypeFilter', 'getSize'))
             ->getMock();
 
         $themeCollectionMock->expects($this->once())
             ->method('addTypeFilter')
-            ->with(Mage_Core_Model_Theme::TYPE_VIRTUAL)
+            ->with(Magento_Core_Model_Theme::TYPE_VIRTUAL)
             ->will($this->returnValue($themeCollectionMock));
 
         $themeCollectionMock->expects($this->once())
             ->method('getSize')
             ->will($this->returnValue($countCustomization));
 
-        /** @var Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory */
+        /** @var Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory */
         $collectionFactory = $this->getMock(
-            'Mage_Core_Model_Resource_Theme_CollectionFactory', array('create'), array(), '', false
+            'Magento_Core_Model_Resource_Theme_CollectionFactory', array('create'), array(), '', false
         );
         $collectionFactory->expects($this->once())
             ->method('create')
@@ -161,41 +161,41 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
      */
     protected function _getObjectManagerMap($countCustomization)
     {
-        $translate = $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false);
+        $translate = $this->getMock('Magento_Core_Model_Translate', array(), array(), '', false);
         $translate->expects($this->any())->method('translate')
             ->will($this->returnSelf());
 
-        $storeManager = $this->getMock('Mage_Core_Model_StoreManager',
+        $storeManager = $this->getMock('Magento_Core_Model_StoreManager',
             array('getStore', 'getBaseUrl'), array(), '', false);
         $storeManager->expects($this->any())->method('getStore')
             ->will($this->returnSelf());
 
-        $eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
-        $configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $authMock = $this->getMock('Magento_AuthorizationInterface');
         $authMock->expects($this->any())->method('filterAclNodes')->will($this->returnSelf());
         $backendSession = $this->getMock('Mage_Backend_Model_Session', array('getMessages', 'getEscapeMessages'),
             array(), '', false);
         $backendSession->expects($this->any())->method('getMessages')->will(
-            $this->returnValue($this->getMock('Mage_Core_Model_Message_Collection', array(), array(), '', false))
+            $this->returnValue($this->getMock('Magento_Core_Model_Message_Collection', array(), array(), '', false))
         );
 
-        $inlineMock = $this->getMock('Mage_Core_Model_Translate_Inline', array(), array(), '', false);
-        $aclFilterMock = $this->getMock('Mage_Core_Model_Layout_Filter_Acl', array(), array(), '', false);
+        $inlineMock = $this->getMock('Magento_Core_Model_Translate_Inline', array(), array(), '', false);
+        $aclFilterMock = $this->getMock('Magento_Core_Model_Layout_Filter_Acl', array(), array(), '', false);
 
         return array(
             array(
-                'Mage_Core_Model_Resource_Theme_CollectionFactory',
+                'Magento_Core_Model_Resource_Theme_CollectionFactory',
                 $this->_getThemeCollectionFactory($countCustomization)
             ),
-            array('Mage_Core_Model_Translate', $translate),
-            array('Mage_Core_Model_Config', $configMock),
-            array('Mage_Core_Model_Event_Manager', $eventManager),
-            array('Mage_Core_Model_StoreManager', $storeManager),
+            array('Magento_Core_Model_Translate', $translate),
+            array('Magento_Core_Model_Config', $configMock),
+            array('Magento_Core_Model_Event_Manager', $eventManager),
+            array('Magento_Core_Model_StoreManager', $storeManager),
             array('Magento_AuthorizationInterface', $authMock),
             array('Mage_Backend_Model_Session', $backendSession),
-            array('Mage_Core_Model_Translate_Inline', $inlineMock),
-            array('Mage_Core_Model_Layout_Filter_Acl', $aclFilterMock),
+            array('Magento_Core_Model_Translate_Inline', $inlineMock),
+            array('Magento_Core_Model_Layout_Filter_Acl', $aclFilterMock),
         );
     }
 }

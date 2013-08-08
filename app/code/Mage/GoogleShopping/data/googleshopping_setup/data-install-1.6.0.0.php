@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this Mage_Core_Model_Resource_Setup */
+/** @var $this Magento_Core_Model_Resource_Setup */
 $installer = $this;
 
 if (Mage::helper('Mage_GoogleShopping_Helper_Data')->isModuleEnabled('Mage_GoogleBase')) {

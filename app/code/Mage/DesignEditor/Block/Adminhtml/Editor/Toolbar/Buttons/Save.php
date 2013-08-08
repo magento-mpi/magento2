@@ -21,7 +21,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     /**
      * Current theme used for preview
      *
-     * @var Mage_Core_Model_Theme
+     * @var Magento_Core_Model_Theme
      */
     protected $_theme;
 
@@ -35,10 +35,10 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     {
         $theme = $this->getTheme();
         $themeType = $theme->getType();
-        if ($themeType == Mage_Core_Model_Theme::TYPE_PHYSICAL) {
+        if ($themeType == Magento_Core_Model_Theme::TYPE_PHYSICAL) {
             $this->_initPhysical();
-        } else if ($themeType == Mage_Core_Model_Theme::TYPE_VIRTUAL) {
-            if ($theme->getDomainModel(Mage_Core_Model_Theme::TYPE_VIRTUAL)->isAssigned()) {
+        } else if ($themeType == Magento_Core_Model_Theme::TYPE_VIRTUAL) {
+            if ($theme->getDomainModel(Magento_Core_Model_Theme::TYPE_VIRTUAL)->isAssigned()) {
                 $this->_initAssigned();
             } else {
                 $this->_initUnAssigned();
@@ -55,7 +55,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     /**
      * Get current theme
      *
-     * @return Mage_Core_Model_Theme
+     * @return Magento_Core_Model_Theme
      * @throws InvalidArgumentException
      */
     public function getTheme()
@@ -69,7 +69,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
     /**
      * Set current theme
      *
-     * @param Mage_Core_Model_Theme $theme
+     * @param Magento_Core_Model_Theme $theme
      * @return $this
      */
     public function setTheme($theme)

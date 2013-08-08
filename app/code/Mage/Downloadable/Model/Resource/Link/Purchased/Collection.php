@@ -16,7 +16,7 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Model_Resource_Link_Purchased_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Downloadable_Model_Resource_Link_Purchased_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Init resource model

@@ -10,7 +10,7 @@
 class Mage_Backend_Model_Menu_Factory
 {
     /**
-     * @var Mage_Core_Model_Logger
+     * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
@@ -21,9 +21,9 @@ class Mage_Backend_Model_Menu_Factory
 
     /**
      * @param Magento_ObjectManager $factory
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Logger $logger
      */
-    public function __construct(Magento_ObjectManager $factory, Mage_Core_Model_Logger $logger)
+    public function __construct(Magento_ObjectManager $factory, Magento_Core_Model_Logger $logger)
     {
         $this->_factory = $factory;
         $this->_logger = $logger;

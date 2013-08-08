@@ -63,7 +63,7 @@ class Mage_Tax_Model_Class_FactoryTest extends PHPUnit_Framework_TestCase
         $taxClassFactory = new Mage_Tax_Model_Class_Factory($objectManager);
 
         $this->setExpectedException(
-            'Mage_Core_Exception',
+            'Magento_Core_Exception',
             sprintf('Invalid type of tax class "%s"', $wrongClassType)
         );
         $taxClassFactory->create($classMock);

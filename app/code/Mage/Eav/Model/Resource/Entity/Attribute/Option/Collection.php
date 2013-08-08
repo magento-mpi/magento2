@@ -16,7 +16,7 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Option value table
@@ -31,7 +31,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage_Co
     protected function _construct()
     {
         $this->_init('Mage_Eav_Model_Entity_Attribute_Option', 'Mage_Eav_Model_Resource_Entity_Attribute_Option');
-        $this->_optionValueTable = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('eav_attribute_option_value');
+        $this->_optionValueTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('eav_attribute_option_value');
     }
 
     /**

@@ -30,9 +30,9 @@ class Mage_Wishlist_Model_Config
     protected $_sharingTextLimit;
 
     /**
-     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_Store_Config $storeConfig
      */
-    public function __construct(Mage_Core_Model_Store_Config $storeConfig)
+    public function __construct(Magento_Core_Model_Store_Config $storeConfig)
     {
         $emailLimitInConfig = (int) $storeConfig->getConfig(self::XML_PATH_SHARING_EMAIL_LIMIT);
         $textLimitInConfig = (int) $storeConfig->getConfig(self::XML_PATH_SHARING_TEXT_LIMIT);

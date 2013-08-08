@@ -11,32 +11,32 @@
 class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Action
 {
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Magento_Core_Model_Cache
      */
     private $_cache;
 
     /**
-     * @var Mage_Core_Model_Cache_Types
+     * @var Magento_Core_Model_Cache_Types
      */
     private $_cacheTypes;
 
     /**
-     * @var Mage_Core_Model_Cache_Frontend_Pool
+     * @var Magento_Core_Model_Cache_Frontend_Pool
      */
     private $_cacheFrontendPool;
 
     /**
      * @param Mage_Backend_Controller_Context $context
-     * @param Mage_Core_Model_Cache $cache
-     * @param Mage_Core_Model_Cache_Types $cacheTypes
-     * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
+     * @param Magento_Core_Model_Cache $cache
+     * @param Magento_Core_Model_Cache_Types $cacheTypes
+     * @param Magento_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
      * @param string $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
-        Mage_Core_Model_Cache $cache,
-        Mage_Core_Model_Cache_Types $cacheTypes,
-        Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
+        Magento_Core_Model_Cache $cache,
+        Magento_Core_Model_Cache_Types $cacheTypes,
+        Magento_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);
@@ -120,7 +120,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
                     Mage::helper('Magento_Adminhtml_Helper_Data')->__("%s cache type(s) enabled.", $updatedTypes)
                 );
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
@@ -154,7 +154,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
                     Mage::helper('Magento_Adminhtml_Helper_Data')->__("%s cache type(s) disabled.", $updatedTypes)
                 );
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
@@ -185,7 +185,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
                     Mage::helper('Magento_Adminhtml_Helper_Data')->__("%s cache type(s) refreshed.", $updatedTypes)
                 );
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
@@ -221,14 +221,14 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
     public function cleanMediaAction()
     {
         try {
-            $this->_objectManager->get('Mage_Core_Model_Page_Asset_MergeService')
+            $this->_objectManager->get('Magento_Core_Model_Page_Asset_MergeService')
                 ->cleanMergedJsCss();
             $this->_eventManager->dispatch('clean_media_cache_after');
             $this->_getSession()->addSuccess(
                 $this->_objectManager->get('Magento_Adminhtml_Helper_Data')->__('The JavaScript/CSS cache has been cleaned.')
             );
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
@@ -252,7 +252,7 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
                 Mage::helper('Magento_Adminhtml_Helper_Data')->__('The image cache was cleaned.')
             );
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {

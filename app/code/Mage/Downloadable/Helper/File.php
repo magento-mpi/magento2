@@ -15,13 +15,13 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Helper_File extends Mage_Core_Helper_Abstract
+class Mage_Downloadable_Helper_File extends Magento_Core_Helper_Abstract
 {
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_Config $config)
+    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Config $config)
     {
         parent::__construct($context);
         $nodes = $config->getNode('global/mime/types');
@@ -83,9 +83,9 @@ class Mage_Downloadable_Helper_File extends Mage_Core_Helper_Abstract
         }
 
         $destFile = dirname($file) . $ioObject->dirsep()
-                  . Mage_Core_Model_File_Uploader::getNewFileName($this->getFilePath($basePath, $file));
+                  . Magento_Core_Model_File_Uploader::getNewFileName($this->getFilePath($basePath, $file));
 
-        Mage::helper('Mage_Core_Helper_File_Storage_Database')->copyFile(
+        Mage::helper('Magento_Core_Helper_File_Storage_Database')->copyFile(
             $this->getFilePath($baseTmpPath, $file),
             $this->getFilePath($basePath, $destFile)
         );

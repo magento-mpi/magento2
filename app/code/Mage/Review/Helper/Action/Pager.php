@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Helper_Action_Pager extends Mage_Core_Helper_Abstract
+class Mage_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
 {
     const STORAGE_PREFIX = 'search_result_ids';
 

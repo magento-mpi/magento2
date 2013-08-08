@@ -15,7 +15,7 @@
 class Mage_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_LocaleInterface
+     * @var Magento_Core_Model_LocaleInterface
      */
     protected $_model;
 
@@ -26,15 +26,15 @@ class Mage_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Core_Model_LocaleInterface::setLocale
+     * @covers Magento_Core_Model_LocaleInterface::setLocale
      */
     public function testSetLocaleWithDefaultLocale()
     {
-        $this->_checkSetLocale(Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE);
+        $this->_checkSetLocale(Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE);
     }
 
     /**
-     * @covers Mage_Core_Model_LocaleInterface::setLocale
+     * @covers Magento_Core_Model_LocaleInterface::setLocale
      */
     public function testSetLocaleWithBaseInterfaceLocale()
     {
@@ -46,7 +46,7 @@ class Mage_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Core_Model_LocaleInterface::setLocale
+     * @covers Magento_Core_Model_LocaleInterface::setLocale
      */
     public function testSetLocaleWithSessionLocale()
     {
@@ -55,7 +55,7 @@ class Mage_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Core_Model_LocaleInterface::setLocale
+     * @covers Magento_Core_Model_LocaleInterface::setLocale
      */
     public function testSetLocaleWithRequestLocale()
     {

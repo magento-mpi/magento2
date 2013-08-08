@@ -16,7 +16,7 @@
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Customer_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Query param name for last url visited
@@ -175,7 +175,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
             && !Mage::getSingleton('Mage_Customer_Model_Session')->getNoReferer()
         ) {
             $referer = Mage::getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
-            $referer = Mage::helper('Mage_Core_Helper_Data')->urlEncode($referer);
+            $referer = Mage::helper('Magento_Core_Helper_Data')->urlEncode($referer);
         }
 
         if ($referer) {
@@ -366,7 +366,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function generateResetPasswordLinkToken()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
+        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
     }
 
     /**
@@ -382,7 +382,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get default customer group id
      *
-     * @param Mage_Core_Model_Store|string|int $store
+     * @param Magento_Core_Model_Store|string|int $store
      * @return int
      */
     public function getDefaultCustomerGroupId($store = null)
@@ -395,7 +395,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param string $customerCountryCode
      * @param Magento_Object $vatValidationResult
-     * @param Mage_Core_Model_Store|string|int $store
+     * @param Magento_Core_Model_Store|string|int $store
      * @return null|int
      */
     public function getCustomerGroupIdBasedOnVatNumber($customerCountryCode, $vatValidationResult, $store = null)
@@ -439,8 +439,8 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
         ));
 
         if (!extension_loaded('soap')) {
-            Mage::logException(Mage::exception('Mage_Core',
-                Mage::helper('Mage_Core_Helper_Data')->__('PHP SOAP extension is required.')));
+            Mage::logException(Mage::exception('Magento_Core',
+                Mage::helper('Magento_Core_Helper_Data')->__('PHP SOAP extension is required.')));
             return $gatewayResponse;
         }
 
@@ -486,8 +486,8 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
     public function canCheckVatNumber($countryCode, $vatNumber, $requesterCountryCode, $requesterVatNumber)
     {
         $result = true;
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
+        /** @var $coreHelper Magento_Core_Helper_Data */
+        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
 
         if (!is_string($countryCode)
             || !is_string($vatNumber)
@@ -511,7 +511,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param string $customerCountryCode
      * @param Magento_Object $vatValidationResult
-     * @param Mage_Core_Model_Store|string|int|null $store
+     * @param Magento_Core_Model_Store|string|int|null $store
      * @return null|string
      */
     public function getCustomerVatClass($customerCountryCode, $vatValidationResult, $store = null)
@@ -522,7 +522,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
 
         if (is_string($customerCountryCode)
             && !empty($customerCountryCode)
-            && $customerCountryCode === Mage::helper('Mage_Core_Helper_Data')->getMerchantCountryCode($store)
+            && $customerCountryCode === Mage::helper('Magento_Core_Helper_Data')->getMerchantCountryCode($store)
             && $isVatNumberValid
         ) {
             $vatClass = self::VAT_CLASS_DOMESTIC;
@@ -608,7 +608,7 @@ class Mage_Customer_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param Zend_Controller_Request_Http $request
      * @param string $formCode The code of EAV form to take the list of attributes from
-     * @param Mage_Core_Model_Abstract $entity entity model for the form
+     * @param Magento_Core_Model_Abstract $entity entity model for the form
      * @param array $additionalAttributes The list of attribute codes to skip filtration for
      * @param string $scope scope of the request
      * @param Mage_Eav_Model_Form|null $eavForm EAV form model to use for extraction

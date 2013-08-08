@@ -17,7 +17,7 @@
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Mage_Backend_Block_Template extends Mage_Core_Block_Template
+class Mage_Backend_Block_Template extends Magento_Core_Block_Template
 {
     /**
      * @var Magento_AuthorizationInterface
@@ -41,7 +41,7 @@ class Mage_Backend_Block_Template extends Mage_Core_Block_Template
      */
     public function getFormKey()
     {
-        return Mage::getSingleton('Mage_Core_Model_Session')->getFormKey();
+        return Mage::getSingleton('Magento_Core_Model_Session')->getFormKey();
     }
 
     /**

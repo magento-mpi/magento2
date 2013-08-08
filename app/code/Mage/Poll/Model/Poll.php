@@ -34,7 +34,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
+class Mage_Poll_Model_Poll extends Magento_Core_Model_Abstract
 {
     const XML_PATH_POLL_CHECK_BY_IP = 'web/polls/poll_check_by_ip';
 
@@ -50,7 +50,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
     /**
      * Retrieve Cookie Object
      *
-     * @return Mage_Core_Model_Cookie
+     * @return Magento_Core_Model_Cookie
      */
     public function getCookie()
     {
@@ -134,7 +134,7 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
         }
 
         // check by ip
-        if (count($this->_getResource()->getVotedPollIdsByIp(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(), $pollId))) {
+        if (count($this->_getResource()->getVotedPollIdsByIp(Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(), $pollId))) {
             return true;
         }
 
@@ -213,14 +213,14 @@ class Mage_Poll_Model_Poll extends Mage_Core_Model_Abstract
             $pattern = '#^' . preg_quote($this->_pollCookieDefaultName, '#') . '(\d+)$#';
             $match   = array();
             if (preg_match($pattern, $cookieName, $match)) {
-                if ($match[1] != Mage::getSingleton('Mage_Core_Model_Session')->getJustVotedPoll()) {
+                if ($match[1] != Mage::getSingleton('Magento_Core_Model_Session')->getJustVotedPoll()) {
                     $idsArray[$match[1]] = $match[1];
                 }
             }
         }
 
         // load from db for this ip
-        foreach ($this->_getResource()->getVotedPollIdsByIp(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr()) as $pollId) {
+        foreach ($this->_getResource()->getVotedPollIdsByIp(Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr()) as $pollId) {
             $idsArray[$pollId] = $pollId;
         }
 

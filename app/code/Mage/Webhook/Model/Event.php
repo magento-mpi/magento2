@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webhook_Model_Event extends Mage_Core_Model_Abstract implements Magento_PubSub_EventInterface
+class Mage_Webhook_Model_Event extends Magento_Core_Model_Abstract implements Magento_PubSub_EventInterface
 {
     /**
      * Initialize Model

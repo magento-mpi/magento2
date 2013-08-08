@@ -16,7 +16,7 @@
  * @package    Mage_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Flag extends Mage_Core_Model_Flag
+class Mage_Reports_Model_Flag extends Magento_Core_Model_Flag
 {
     const REPORT_ORDER_FLAG_CODE    = 'report_order_aggregated';
     const REPORT_TAX_FLAG_CODE      = 'report_tax_aggregated';

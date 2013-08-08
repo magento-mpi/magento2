@@ -15,7 +15,7 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Connect_Helper_Data extends Mage_Core_Helper_Data
+class Mage_Connect_Helper_Data extends Magento_Core_Helper_Data
 {
     /**
      * @var Magento_Filesystem
@@ -23,13 +23,13 @@ class Mage_Connect_Helper_Data extends Mage_Core_Helper_Data
     protected $_filesystem;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Config_Modules $modulesConfig
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config_Modules $modulesConfig
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Config_Modules $modulesConfig,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config_Modules $modulesConfig,
         Magento_Filesystem $filesystem
     ) {
         parent::__construct($context, $modulesConfig);
@@ -132,7 +132,7 @@ class Mage_Connect_Helper_Data extends Mage_Core_Helper_Data
 
         if ($this->_filesystem->isFile($xmlFile) && $this->_filesystem->isReadable($xmlFile)) {
             $xml  = simplexml_load_string($this->_filesystem->read($xmlFile));
-            $data = Mage::helper('Mage_Core_Helper_Data')->xmlToAssoc($xml);
+            $data = Mage::helper('Magento_Core_Helper_Data')->xmlToAssoc($xml);
             if (!empty($data)) {
                 return $data;
             }

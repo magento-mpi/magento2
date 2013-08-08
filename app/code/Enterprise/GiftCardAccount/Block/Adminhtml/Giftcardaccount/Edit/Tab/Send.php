@@ -78,7 +78,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
             }
         }
 
-        $websiteStores = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($websiteStores);
+        $websiteStores = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($websiteStores);
 
         $result  = '<script type="text/javascript">//<![CDATA[' . "\n";
         $result .= "var websiteStores = $websiteStores;";

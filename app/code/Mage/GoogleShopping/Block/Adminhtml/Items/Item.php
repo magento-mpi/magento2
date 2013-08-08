@@ -102,7 +102,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Item extends Magento_Adminhtml_B
     /**
      * Get store model by request param
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getStore()
     {

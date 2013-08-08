@@ -25,7 +25,7 @@
  * @method boolean getIsLogged()
  * @method Mage_Oauth_Block_AuthorizeBaseAbstract setIsLogged() setIsLogged(boolean $flag)
  */
-abstract class Mage_Oauth_Block_Authorize_Abstract extends Mage_Core_Block_Template
+abstract class Mage_Oauth_Block_Authorize_Abstract extends Magento_Core_Block_Template
 {
     /**
      * Helper

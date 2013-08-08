@@ -102,7 +102,7 @@ class Mage_User_Block_User_Edit_Tab_Roles extends Mage_Backend_Block_Widget_Grid
             foreach ($uRoles as $urid) {
                 $jsonRoles[$urid] = 0;
             }
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode((object)$jsonRoles);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((object)$jsonRoles);
         } else {
             return $uRoles;
         }

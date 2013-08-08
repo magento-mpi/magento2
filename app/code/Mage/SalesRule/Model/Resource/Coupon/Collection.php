@@ -16,7 +16,7 @@
  * @package     Mage_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Coupon_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_SalesRule_Model_Resource_Coupon_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Constructor
@@ -75,7 +75,7 @@ class Mage_SalesRule_Model_Resource_Coupon_Collection extends Mage_Core_Model_Re
     /**
      * Callback function that filters collection by field "Used" from grid
      *
-     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $collection
+     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $collection
      * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
      */
     public function addIsUsedFilterCallback($collection, $column)

@@ -21,7 +21,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Rating_Model_Rating_Entity extends Mage_Core_Model_Abstract
+class Mage_Rating_Model_Rating_Entity extends Magento_Core_Model_Abstract
 {
     protected function _construct()
     {

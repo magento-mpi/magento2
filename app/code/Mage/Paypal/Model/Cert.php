@@ -11,7 +11,7 @@
 /**
  * PayPal specific model for certificate based authentication
  */
-class Mage_Paypal_Model_Cert extends Mage_Core_Model_Abstract
+class Mage_Paypal_Model_Cert extends Magento_Core_Model_Abstract
 {
     /**
      * Certificate base path
@@ -75,7 +75,7 @@ class Mage_Paypal_Model_Cert extends Mage_Core_Model_Abstract
             $this->_removeOutdatedCertFile();
         }
 
-        file_put_contents($file, Mage::helper('Mage_Core_Helper_Data')->decrypt($this->getContent()));
+        file_put_contents($file, Mage::helper('Magento_Core_Helper_Data')->decrypt($this->getContent()));
     }
 
     /**

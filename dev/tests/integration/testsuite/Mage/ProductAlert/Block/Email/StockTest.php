@@ -26,7 +26,7 @@ class Mage_ProductAlert_Block_Email_StockTest extends PHPUnit_Framework_TestCase
      */
     public function testThumbnail()
     {
-        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);
 

@@ -15,7 +15,7 @@
  * @package    Mage_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Wishlist_Block_Render_Item_Price extends Mage_Core_Block_Template
+class Mage_Wishlist_Block_Render_Item_Price extends Magento_Core_Block_Template
 {
     /**
      * Returns html for rendering non-configured product

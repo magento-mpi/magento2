@@ -33,7 +33,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHP
         parent::setUp();
         $this->_model = Mage::getModel('Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address');
 
-        /** @var $website Mage_Core_Model_Website */
+        /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites(true) as $website) {
             $this->_websites[$website->getId()] = $website->getCode();
         }

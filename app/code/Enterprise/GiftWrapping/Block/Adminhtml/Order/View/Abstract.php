@@ -15,7 +15,7 @@
  * @package     Enterprise_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Mage_Core_Block_Template
+class Enterprise_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_Core_Block_Template
 {
     protected $_designCollection;
 

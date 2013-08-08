@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -29,14 +29,14 @@ class Mage_Catalog_Model_Product_UrlTest extends PHPUnit_Framework_TestCase
     public function testGetUrlInstance()
     {
         $instance = $this->_model->getUrlInstance();
-        $this->assertInstanceOf('Mage_Core_Model_Url', $instance);
+        $this->assertInstanceOf('Magento_Core_Model_Url', $instance);
         $this->assertSame($instance, $this->_model->getUrlInstance());
     }
 
     public function testGetUrlRewrite()
     {
         $instance = $this->_model->getUrlRewrite();
-        $this->assertInstanceOf('Mage_Core_Model_Url_Rewrite', $instance);
+        $this->assertInstanceOf('Magento_Core_Model_Url_Rewrite', $instance);
         $this->assertSame($instance, $this->_model->getUrlRewrite());
     }
 

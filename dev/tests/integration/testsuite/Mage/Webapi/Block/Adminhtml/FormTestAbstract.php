@@ -36,12 +36,12 @@ class Mage_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_Tes
     protected $_urlBuilder;
 
     /**
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout;
 
     /**
-     * @var Mage_Core_Model_BlockFactory
+     * @var Magento_Core_Model_BlockFactory
      */
     protected $_blockFactory;
 
@@ -52,8 +52,8 @@ class Mage_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_Tes
         $this->_urlBuilder = $this->getMockBuilder('Mage_Backend_Model_Url')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_layout = $this->_objectManager->get('Mage_Core_Model_Layout');
-        $this->_blockFactory = $this->_objectManager->get('Mage_Core_Model_BlockFactory');
+        $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
+        $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
         $this->_block = $this->_blockFactory->createBlock($this->_formClass, array(
             'context' => Mage::getModel(
                 'Mage_Backend_Block_Template_Context',
@@ -65,7 +65,7 @@ class Mage_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_Tes
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Mage_Core_Model_Layout');
+        $this->_objectManager->removeSharedInstance('Magento_Core_Model_Layout');
         unset($this->_objectManager, $this->_urlBuilder, $this->_layout, $this->_blockFactory, $this->_block);
     }
 

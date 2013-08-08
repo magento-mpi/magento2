@@ -75,7 +75,7 @@ class Mage_Catalog_Model_Resource_Category_FlatTest extends PHPUnit_Framework_Te
 
         $model->expects($this->never())->method('_createTable');
 
-        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $store->expects($this->any())->method('getId')->will($this->returnValue(1));
 
         $model->rebuild(array($store));
@@ -91,7 +91,7 @@ class Mage_Catalog_Model_Resource_Category_FlatTest extends PHPUnit_Framework_Te
 
         $model->expects($this->atLeastOnce())->method('_createTable');
 
-        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $store->expects($this->any())->method('getId')->will($this->returnValue(1));
 
         $model->rebuild(array($store));

@@ -15,7 +15,7 @@
  * @package    Mage_CatalogSearch
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Terms_Grid_OptionsArray implements Mage_Core_Model_Option_ArrayInterface
+class Mage_CatalogSearch_Model_Terms_Grid_OptionsArray implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Catalog Helper

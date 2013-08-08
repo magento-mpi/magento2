@@ -13,10 +13,10 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Template
+abstract class Mage_Checkout_Block_Onepage_Abstract extends Magento_Core_Block_Template
 {
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
 
@@ -28,13 +28,13 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     protected $_addressesCollection;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -132,7 +132,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
                 }
             }
 
-            $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+            $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
                 ->setName($type.'_address_id')
                 ->setId($type.'-address-select')
                 ->setClass('address-select')
@@ -152,9 +152,9 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
     {
         $countryId = $this->getAddress()->getCountryId();
         if (is_null($countryId)) {
-            $countryId = Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry();
+            $countryId = Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry();
         }
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setName($type.'[country_id]')
             ->setId($type.':country_id')
             ->setTitle(Mage::helper('Mage_Checkout_Helper_Data')->__('Country'))
@@ -167,7 +167,7 @@ abstract class Mage_Checkout_Block_Onepage_Abstract extends Mage_Core_Block_Temp
 
     public function getRegionHtmlSelect($type)
     {
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setName($type.'[region]')
             ->setId($type.':region')
             ->setTitle(Mage::helper('Mage_Checkout_Helper_Data')->__('State/Province'))

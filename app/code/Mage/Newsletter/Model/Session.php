@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Newsletter_Model_Session extends Mage_Core_Model_Session_Abstract
+class Mage_Newsletter_Model_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
      * Class constructor. Initialize session namespace

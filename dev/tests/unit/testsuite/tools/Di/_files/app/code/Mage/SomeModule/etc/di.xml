@@ -8,10 +8,10 @@
  */
 -->
 <config>
-    <preference for="Mage_Core_Model_AppInterface" type="Mage_Core_Model_App_Proxy" />
-    <!--<preference for="Mage_Core_Model_Config_InvalidatorInterface" type="Mage_Core_Model_Config_Invalidator_Proxy" />-->
-    <preference for="Mage_Core_Model_CacheInterface" type="Mage_Core_Model_Cache_Proxy" />
-    <virtualType name="custom_cache_instance" type="Mage_Core_Model_Cache">
-        <plugin name="tag" type="Mage_Core_Model_Cache_TagPlugin" />
+    <preference for="Magento_Core_Model_AppInterface" type="Magento_Core_Model_App_Proxy" />
+    <!--<preference for="Magento_Core_Model_Config_InvalidatorInterface" type="Magento_Core_Model_Config_Invalidator_Proxy" />-->
+    <preference for="Magento_Core_Model_CacheInterface" type="Magento_Core_Model_Cache_Proxy" />
+    <virtualType name="custom_cache_instance" type="Magento_Core_Model_Cache">
+        <plugin name="tag" type="Magento_Core_Model_Cache_TagPlugin" />
     </virtualType>
 </config>

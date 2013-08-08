@@ -188,7 +188,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
         foreach (explode("\n", Mage::getStoreConfig('sales/identity/address', $store)) as $value){
             if ($value !== '') {
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
-                foreach (Mage::helper('Mage_Core_Helper_String')->str_split($value, 45, true, true) as $_value) {
+                foreach (Mage::helper('Magento_Core_Helper_String')->str_split($value, 45, true, true) as $_value) {
                     $page->drawText(trim(strip_tags($_value)),
                         $this->getAlignRight($_value, 130, 440, $font, 10),
                         $top,
@@ -210,7 +210,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     {
         $return = array();
         foreach (explode('|', $address) as $str) {
-            foreach (Mage::helper('Mage_Core_Helper_String')->str_split($str, 45, true, true) as $part) {
+            foreach (Mage::helper('Magento_Core_Helper_String')->str_split($str, 45, true, true) as $part) {
                 if (empty($part)) {
                     continue;
                 }
@@ -232,7 +232,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
         foreach ($address as $value){
             if ($value !== '') {
                 $text = array();
-                foreach (Mage::helper('Mage_Core_Helper_String')->str_split($value, 55, true, true) as $_value) {
+                foreach (Mage::helper('Magento_Core_Helper_String')->str_split($value, 55, true, true) as $_value) {
                     $text[] = $_value;
                 }
                 foreach ($text as $part) {
@@ -276,7 +276,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
             );
         }
         $page->drawText(
-            Mage::helper('Mage_Sales_Helper_Data')->__('Order Date: ') . Mage::helper('Mage_Core_Helper_Data')->formatDate(
+            Mage::helper('Mage_Sales_Helper_Data')->__('Order Date: ') . Mage::helper('Magento_Core_Helper_Data')->formatDate(
                 $order->getCreatedAtStoreDate(), 'medium', false
             ),
             35,
@@ -341,7 +341,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
         foreach ($billingAddress as $value){
             if ($value !== '') {
                 $text = array();
-                foreach (Mage::helper('Mage_Core_Helper_String')->str_split($value, 45, true, true) as $_value) {
+                foreach (Mage::helper('Magento_Core_Helper_String')->str_split($value, 45, true, true) as $_value) {
                     $text[] = $_value;
                 }
                 foreach ($text as $part) {
@@ -358,7 +358,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
             foreach ($shippingAddress as $value){
                 if ($value!=='') {
                     $text = array();
-                    foreach (Mage::helper('Mage_Core_Helper_String')->str_split($value, 45, true, true) as $_value) {
+                    foreach (Mage::helper('Magento_Core_Helper_String')->str_split($value, 45, true, true) as $_value) {
                         $text[] = $_value;
                     }
                     foreach ($text as $part) {
@@ -400,7 +400,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
             if (trim($value) != '') {
                 //Printing "Payment Method" lines
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
-                foreach (Mage::helper('Mage_Core_Helper_String')->str_split($value, 45, true, true) as $_value) {
+                foreach (Mage::helper('Magento_Core_Helper_String')->str_split($value, 45, true, true) as $_value) {
                     $page->drawText(strip_tags(trim($_value)), $paymentLeft, $yPayments, 'UTF-8');
                     $yPayments -= 15;
                 }
@@ -420,7 +420,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
             $methodStartY = $this->y;
             $this->y     -= 15;
 
-            foreach (Mage::helper('Mage_Core_Helper_String')->str_split($shippingMethod, 45, true, true) as $_value) {
+            foreach (Mage::helper('Magento_Core_Helper_String')->str_split($shippingMethod, 45, true, true) as $_value) {
                 $page->drawText(strip_tags(trim($_value)), 285, $this->y, 'UTF-8');
                 $this->y -= 15;
             }
@@ -618,8 +618,8 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      * Before getPdf processing
      */
     protected function _beforeGetPdf() {
-        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-        /* @var $translate Mage_Core_Model_Translate */
+        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        /* @var $translate Magento_Core_Model_Translate */
         $translate->setTranslateInline(false);
     }
 
@@ -627,8 +627,8 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      * After getPdf processing
      */
     protected function _afterGetPdf() {
-        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-        /* @var $translate Mage_Core_Model_Translate */
+        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        /* @var $translate Magento_Core_Model_Translate */
         $translate->setTranslateInline(true);
     }
 
@@ -678,7 +678,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      * Retrieve renderer model
      *
      * @param  string $type
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Sales_Model_Order_Pdf_Items_Abstract
      */
     protected function _getRenderer($type)
@@ -791,7 +791,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
     /**
      * Retrieve PDF object
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Zend_Pdf
      */
     protected function _getPdf()
@@ -841,7 +841,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
      * @param  Zend_Pdf_Page $page
      * @param  array $draw
      * @param  array $pageSettings
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Zend_Pdf_Page
      */
     public function drawLineBlocks(Zend_Pdf_Page $page, array $draw, array $pageSettings = array())

@@ -19,8 +19,11 @@ class Magento_Adminhtml_Block_Customer_OnlineTest extends PHPUnit_Framework_Test
      */
     public function testGetFilterFormHtml()
     {
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel(
+            'Magento_Core_Model_Layout',
+            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        );
         /** @var $block Magento_Adminhtml_Block_Customer_Online */
         $block = $layout->createBlock('Magento_Adminhtml_Block_Customer_Online', 'block');
         $this->assertNotEmpty($block->getFilterFormHtml());

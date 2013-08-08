@@ -394,7 +394,7 @@ class Mage_Checkout_Model_Type_Onepage
         $quote->getBillingAddress()->setEmail($customer->getEmail());
 
         // copy customer data to quote
-        Mage::helper('Mage_Core_Helper_Data')->copyFieldset('customer_account', 'to_quote', $customer, $quote);
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('customer_account', 'to_quote', $customer, $quote);
 
         return true;
     }
@@ -601,7 +601,7 @@ class Mage_Checkout_Model_Type_Onepage
             $customerBilling->setIsDefaultShipping(true);
         }
 
-        Mage::helper('Mage_Core_Helper_Data')->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
         $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
         $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
         $quote->setCustomer($customer)

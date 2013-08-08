@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Catalog_Controller_Index extends Mage_Core_Controller_Front_Action
+class Mage_Catalog_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**
      * Index action

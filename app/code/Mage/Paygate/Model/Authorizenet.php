@@ -400,7 +400,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @param Mage_Payment_Model_Info $payment
      * @param decimal $amount
      * @return Mage_Paygate_Model_Authorizenet
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function refund(Magento_Object $payment, $requestedAmount)
     {
@@ -489,7 +489,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * @param decimal $amount
      * @param string $requestType
      * @return Mage_Paygate_Model_Authorizenet
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _place($payment, $amount, $requestType)
     {
@@ -1328,7 +1328,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Retrieve session object
      *
-     * @return Mage_Core_Model_Session_Abstract
+     * @return Magento_Core_Model_Session_Abstract
      */
     protected function _getSession()
     {

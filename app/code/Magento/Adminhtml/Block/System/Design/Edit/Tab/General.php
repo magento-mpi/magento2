@@ -20,14 +20,14 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Adm
         $form = new Magento_Data_Form();
 
         $fieldset = $form->addFieldset('general', array(
-            'legend' => Mage::helper('Mage_Core_Helper_Data')->__('General Settings'))
+            'legend' => Mage::helper('Magento_Core_Helper_Data')->__('General Settings'))
         );
 
         if (!Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
-                'label'    => Mage::helper('Mage_Core_Helper_Data')->__('Store'),
-                'title'    => Mage::helper('Mage_Core_Helper_Data')->__('Store'),
-                'values'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(),
+                'label'    => Mage::helper('Magento_Core_Helper_Data')->__('Store'),
+                'title'    => Mage::helper('Magento_Core_Helper_Data')->__('Store'),
+                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
                 'name'     => 'store_id',
                 'required' => true,
             ));
@@ -41,29 +41,29 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Adm
             ));
         }
 
-        /** @var $label Mage_Core_Model_Theme_Label */
-        $label = Mage::getModel('Mage_Core_Model_Theme_Label');
-        $options = $label->getLabelsCollection(Mage::helper('Mage_Core_Helper_Data')->__('-- Please Select --'));
+        /** @var $label Magento_Core_Model_Theme_Label */
+        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+        $options = $label->getLabelsCollection(Mage::helper('Magento_Core_Helper_Data')->__('-- Please Select --'));
         $fieldset->addField('design', 'select', array(
-            'label'    => Mage::helper('Mage_Core_Helper_Data')->__('Custom Design'),
-            'title'    => Mage::helper('Mage_Core_Helper_Data')->__('Custom Design'),
+            'label'    => Mage::helper('Magento_Core_Helper_Data')->__('Custom Design'),
+            'title'    => Mage::helper('Magento_Core_Helper_Data')->__('Custom Design'),
             'values'   => $options,
             'name'     => 'design',
             'required' => true,
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('date_from', 'date', array(
-            'label'    => Mage::helper('Mage_Core_Helper_Data')->__('Date From'),
-            'title'    => Mage::helper('Mage_Core_Helper_Data')->__('Date From'),
+            'label'    => Mage::helper('Magento_Core_Helper_Data')->__('Date From'),
+            'title'    => Mage::helper('Magento_Core_Helper_Data')->__('Date From'),
             'name'     => 'date_from',
             'image'    => $this->getViewFileUrl('images/grid-cal.gif'),
             'date_format' => $dateFormat,
             //'required' => true,
         ));
         $fieldset->addField('date_to', 'date', array(
-            'label'    => Mage::helper('Mage_Core_Helper_Data')->__('Date To'),
-            'title'    => Mage::helper('Mage_Core_Helper_Data')->__('Date To'),
+            'label'    => Mage::helper('Magento_Core_Helper_Data')->__('Date To'),
+            'title'    => Mage::helper('Magento_Core_Helper_Data')->__('Date To'),
             'name'     => 'date_to',
             'image'    => $this->getViewFileUrl('images/grid-cal.gif'),
             'date_format' => $dateFormat,

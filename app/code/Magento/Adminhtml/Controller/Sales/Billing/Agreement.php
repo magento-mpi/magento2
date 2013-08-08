@@ -96,7 +96,7 @@ class Magento_Adminhtml_Controller_Sales_Billing_Agreement extends Magento_Admin
                 $this->_getSession()->addSuccess($this->__('You canceled the billing agreement.'));
                 $this->_redirect('*/*/view', array('_current' => true));
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addError($this->__('We could not cancel the billing agreement.'));
@@ -120,7 +120,7 @@ class Magento_Adminhtml_Controller_Sales_Billing_Agreement extends Magento_Admin
                 $this->_getSession()->addSuccess($this->__('You deleted the billing agreement.'));
                 $this->_redirect('*/*/');
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addError($this->__('We could not delete the billing agreement.'));

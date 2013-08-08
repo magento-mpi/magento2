@@ -89,7 +89,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
                 Mage_Downloadable_Model_Sample::getBasePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && !is_file($file)) {
-                Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
+                Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
             }
             if ($item->getSampleFile() && is_file($file)) {
                 $tmpSampleItem['file_save'] = array(
@@ -176,7 +176,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
     }
 
     /**

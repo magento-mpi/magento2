@@ -27,17 +27,17 @@ class Mage_AdminNotification_Model_System_Message_Security
     private $_verificationTimeOut  = 2;
 
     /**
-     * @var Mage_Core_Model_CacheInterface
+     * @var Magento_Core_Model_CacheInterface
      */
     protected $_cache;
 
     /**
-     * @var Mage_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_Config
      */
     protected $_storeConfig;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
@@ -47,23 +47,23 @@ class Mage_AdminNotification_Model_System_Message_Security
     protected $_curlFactory;
 
     /**
-     * @var Mage_Core_Model_Factory_Helper
+     * @var Magento_Core_Model_Factory_Helper
      */
     protected $_helperFactory;
 
     /**
-     * @param Mage_Core_Model_CacheInterface $cache
-     * @param Mage_Core_Model_Store_Config $storeConfig
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_Config $config
      * @param Magento_HTTP_Adapter_CurlFactory $curlFactory
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
-        Mage_Core_Model_CacheInterface $cache,
-        Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Core_Model_Config $config,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Model_Config $config,
         Magento_HTTP_Adapter_CurlFactory $curlFactory,
-        Mage_Core_Model_Factory_Helper $helperFactory
+        Magento_Core_Model_Factory_Helper $helperFactory
     ) {
         $this->_cache = $cache;
         $this->_storeConfig = $storeConfig;
@@ -100,7 +100,7 @@ class Mage_AdminNotification_Model_System_Message_Security
     private function _isFileAccessible()
     {
         $unsecureBaseURL = (string) $this->_config->getNode(
-            'default/' . Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
+            'default/' . Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
         );
 
         /** @var $http Magento_HTTP_Adapter_Curl */

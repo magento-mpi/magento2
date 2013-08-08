@@ -61,9 +61,9 @@ class Mage_Sales_Model_Resource_Order_Address extends Mage_Sales_Model_Resource_
      * Update related grid table after object save
      *
      * @param Magento_Object $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $resource = parent::_afterSave($object);
         if ($object->hasDataChanges() && $object->getOrder()) {

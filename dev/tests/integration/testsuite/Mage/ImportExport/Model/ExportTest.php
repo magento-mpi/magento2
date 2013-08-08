@@ -66,7 +66,7 @@ class Mage_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
     /**
      * Test method '_getEntityAdapter' in case when entity is invalid
      *
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @covers Mage_ImportExport_Model_Export::_getEntityAdapter
      */
     public function testGetEntityAdapterWithInvalidEntity()

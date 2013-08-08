@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Customer_Block_Account_Dashboard_Block extends Mage_Core_Block_Template
+class Mage_Customer_Block_Account_Dashboard_Block extends Magento_Core_Block_Template
 {
 
 }

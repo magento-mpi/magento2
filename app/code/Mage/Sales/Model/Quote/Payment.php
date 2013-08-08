@@ -96,7 +96,7 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
      * can be related to quote totals
      *
      * @param   array $data
-     * @throws  Mage_Core_Exception
+     * @throws  Magento_Core_Exception
      * @return  Mage_Sales_Model_Quote_Payment
      */
     public function importData(array $data)
@@ -145,7 +145,7 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
         }
         try {
             $method = $this->getMethodInstance();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             return parent::_beforeSave();
         }
         $method->prepareSave();

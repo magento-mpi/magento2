@@ -27,7 +27,7 @@ class Saas_PageCache_Model_Processor_Restriction
             return false;
         }
 
-        if ($this->_environment->hasQuery(Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM)) {
+        if ($this->_environment->hasQuery(Magento_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM)) {
             return false;
         }
 

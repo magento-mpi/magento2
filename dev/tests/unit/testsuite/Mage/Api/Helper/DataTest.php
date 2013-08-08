@@ -17,10 +17,10 @@ class Mage_Api_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array('getPathInfo'));
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array('getPathInfo'));
 
-        /** @var $contextMock Mage_Core_Helper_Context */
-        $contextMock = $this->getMockBuilder('Mage_Core_Helper_Context')->disableOriginalConstructor()->getMock();
+        /** @var $contextMock Magento_Core_Helper_Context */
+        $contextMock = $this->getMockBuilder('Magento_Core_Helper_Context')->disableOriginalConstructor()->getMock();
         $this->_helper = new Mage_Api_Helper_Data($contextMock, $this->_requestMock);
     }
 

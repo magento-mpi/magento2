@@ -37,14 +37,14 @@ class Mage_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
     /**
      * Initialize dependencies
      *
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Magento_Core_Block_Template_Context $context
      * @param Mage_Tax_Helper_Data $taxHelper
      * @param Mage_Tax_Model_Calculation $taxCalculation
      * @param Magento_ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Magento_Core_Block_Template_Context $context,
         Mage_Tax_Helper_Data $taxHelper,
         Mage_Tax_Model_Calculation $taxCalculation,
         Magento_ObjectManager $objectManager,

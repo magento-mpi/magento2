@@ -16,11 +16,11 @@
  * @package     Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Store extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Store extends Magento_Core_Model_Config_Data
 {
     protected function _afterSave()
     {
-        Mage::app()->getStore()->setConfig(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getValue());
+        Mage::app()->getStore()->setConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getValue());
         Mage::app()->cleanCache();
     }
 }

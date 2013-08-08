@@ -15,7 +15,7 @@
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
+class Mage_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
 {
     protected $_width;
     protected $_height;
@@ -46,37 +46,37 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
     protected $_filesystem;
 
     /**
-     * @var Mage_Core_Model_Image_Factory
+     * @var Magento_Core_Model_Image_Factory
      */
     protected $_imageFactory;
 
     /**
-     * @var Mage_Core_Model_View_Url
+     * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
 
     /**
-     * @var Mage_Core_Model_View_FileSystem
+     * @var Magento_Core_Model_View_FileSystem
      */
     protected $_viewFileSystem;
 
     /**
-     * @param Mage_Core_Model_Context $context
+     * @param Magento_Core_Model_Context $context
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_Image_Factory $imageFactory
-     * @param Mage_Core_Model_View_Url $viewUrl
-     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Image_Factory $imageFactory
+     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
+        Magento_Core_Model_Context $context,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Image_Factory $imageFactory,
-        Mage_Core_Model_View_Url $viewUrl,
-        Mage_Core_Model_View_FileSystem $viewFileSystem,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Image_Factory $imageFactory,
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -511,7 +511,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         }
         $filename = $this->getNewFile();
         $this->getImageProcessor()->save($filename);
-        Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFile($filename);
+        Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFile($filename);
         return $this;
     }
 
@@ -721,7 +721,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         $directory = Mage::getBaseDir('media') . DS . 'catalog' . DS . 'product' . DS.'cache' . DS;
         $this->_filesystem->delete($directory);
 
-        Mage::helper('Mage_Core_Helper_File_Storage_Database')->deleteFolder($directory);
+        Mage::helper('Magento_Core_Helper_File_Storage_Database')->deleteFolder($directory);
     }
 
     /**
@@ -736,7 +736,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
         if ($this->_filesystem->isFile($filename)) {
             return true;
         } else {
-            return Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($filename);
+            return Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($filename);
         }
     }
 }

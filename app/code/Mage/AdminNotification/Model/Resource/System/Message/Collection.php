@@ -7,7 +7,7 @@
  */
 
 class Mage_AdminNotification_Model_Resource_System_Message_Collection
-    extends Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * System message list
@@ -26,12 +26,12 @@ class Mage_AdminNotification_Model_Resource_System_Message_Collection
     /**
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Mage_AdminNotification_Model_System_MessageList $messageList
-     * @param Mage_Core_Model_Resource_Db_Abstract $resource
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_AdminNotification_Model_System_MessageList $messageList,
-        Mage_Core_Model_Resource_Db_Abstract $resource = null
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         $this->_messageList = $messageList;
         parent::__construct($fetchStrategy, $resource);
@@ -50,7 +50,7 @@ class Mage_AdminNotification_Model_Resource_System_Message_Collection
     /**
      * Initialize db query
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract|void
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|void
      */
     protected function _initSelect()
     {
@@ -62,7 +62,7 @@ class Mage_AdminNotification_Model_Resource_System_Message_Collection
     /**
      * Initialize system messages after load
      *
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _afterLoad()
     {
@@ -85,7 +85,7 @@ class Mage_AdminNotification_Model_Resource_System_Message_Collection
      * Set message severity filter
      *
      * @param int $severity
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
     public function setSeverity($severity)
     {

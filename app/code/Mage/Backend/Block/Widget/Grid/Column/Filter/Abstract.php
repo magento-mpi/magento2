@@ -86,7 +86,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Abstract extends Mage_Backend
      */
     public function getCondition()
     {
-        $helper = Mage::getResourceHelper('Mage_Core');
+        $helper = Mage::getResourceHelper('Magento_Core');
         $likeExpression = $helper->addLikeEscape($this->getValue(), array('position' => 'any'));
         return array('like' => $likeExpression);
     }

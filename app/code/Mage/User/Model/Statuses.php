@@ -15,7 +15,7 @@
  * @package    Mage_User
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Model_Statuses implements Mage_Core_Model_Option_ArrayInterface
+class Mage_User_Model_Statuses implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * User Helper

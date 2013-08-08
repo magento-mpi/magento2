@@ -21,18 +21,18 @@ interface Mage_Sales_Model_ConverterInterface
     /**
      * Decode data
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param $filedName
      * @return mixed
      */
-    public function decode(Mage_Core_Model_Abstract $object, $filedName);
+    public function decode(Magento_Core_Model_Abstract $object, $filedName);
 
     /**
      * Encode data
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param $filedName
      * @return mixed
      */
-    public function encode(Mage_Core_Model_Abstract $object, $filedName);
+    public function encode(Magento_Core_Model_Abstract $object, $filedName);
 }

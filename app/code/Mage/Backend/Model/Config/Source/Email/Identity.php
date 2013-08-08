@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Backend_Model_Config_Source_Email_Identity implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Backend_Model_Config_Source_Email_Identity implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Email Identity options

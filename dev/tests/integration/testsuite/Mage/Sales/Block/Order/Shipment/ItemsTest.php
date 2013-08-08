@@ -13,9 +13,9 @@ class Mage_Sales_Block_Order_Shipment_ItemsTest extends PHPUnit_Framework_TestCa
 {
     public function testGetCommentsHtml()
     {
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Sales_Block_Order_Shipment_Items', 'block');
-        $childBlock = $layout->addBlock('Mage_Core_Block_Text', 'shipment_comments', 'block');
+        $childBlock = $layout->addBlock('Magento_Core_Block_Text', 'shipment_comments', 'block');
         $shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment');
 
         $expectedHtml = '<b>Any html</b>';

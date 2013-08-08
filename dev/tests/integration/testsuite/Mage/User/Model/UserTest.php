@@ -140,13 +140,13 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public function testGetCollection()
     {
-        $this->assertInstanceOf('Mage_Core_Model_Resource_Db_Collection_Abstract',
+        $this->assertInstanceOf('Magento_Core_Model_Resource_Db_Collection_Abstract',
             $this->_model->getCollection());
     }
 
     public function testSendPasswordResetConfirmationEmail()
     {
-        $mailer = $this->getMock('Mage_Core_Model_Email_Template_Mailer');
+        $mailer = $this->getMock('Magento_Core_Model_Email_Template_Mailer');
         $mailer->expects($this->once())
             ->method('setTemplateId')
             ->with(Mage::getStoreConfig(Mage_User_Model_User::XML_PATH_FORGOT_EMAIL_TEMPLATE));
@@ -267,7 +267,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage User Name is a required field.
      * @expectedExceptionMessage First Name is a required field.
      * @expectedExceptionMessage Last Name is a required field.
@@ -282,7 +282,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Your password confirmation must match your password.
      * @magentoDbIsolation enabled
      */
@@ -294,7 +294,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Your password must include both numeric and alphabetic characters.
      * @magentoDbIsolation enabled
      */
@@ -306,7 +306,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider beforeSavePasswordInsecureDataProvider
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Your password must include both numeric and alphabetic characters.
      * @magentoDbIsolation enabled
      * @param string $password
@@ -326,7 +326,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage A user with the same user name or email already exists.
      * @magentoDbIsolation enabled
      */

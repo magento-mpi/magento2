@@ -19,7 +19,7 @@ class Mage_Log_Model_EntryPoint_ShellTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $config = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false);
+        $config = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
         $entryFileName = 'shell.php';
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
         $this->_model = new Mage_Log_Model_EntryPoint_Shell($config, $entryFileName, $this->_objectManagerMock);

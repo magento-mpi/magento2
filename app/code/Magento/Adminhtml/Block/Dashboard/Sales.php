@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Dashboard_Sales extends Magento_Adminhtml_Block_Da
 
     protected function _prepareLayout()
     {
-        if (!Mage::helper('Mage_Core_Helper_Data')->isModuleEnabled('Mage_Reports')) {
+        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Mage_Reports')) {
             return $this;
         }
         $isFilter = $this->getRequest()->getParam('store') || $this->getRequest()->getParam('website') || $this->getRequest()->getParam('group');

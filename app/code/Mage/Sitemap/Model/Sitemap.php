@@ -28,7 +28,7 @@
  * @package     Mage_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
+class Mage_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
 {
     const OPEN_TAG_KEY = 'start';
     const CLOSE_TAG_KEY = 'end';
@@ -98,15 +98,15 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     protected $_filesystem;
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         Magento_Filesystem $filesystem,
         array $data = array()
@@ -126,7 +126,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     /**
      * Get file handler
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Magento_Io_File
      */
     protected function _getFileHandler()
@@ -217,8 +217,8 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     /**
      * Check sitemap file location and permissions
      *
-     * @throws Mage_Core_Exception
-     * @return Mage_Core_Model_Abstract
+     * @throws Magento_Core_Exception
+     * @return Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
@@ -238,7 +238,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
          */
         if (!$file->fileExists($realPath, false)) {
             Mage::throwException($helper->__('Please create the specified folder "%s" before saving the sitemap.',
-                Mage::helper('Mage_Core_Helper_Data')->escapeHtml($this->getSitemapPath())));
+                Mage::helper('Magento_Core_Helper_Data')->escapeHtml($this->getSitemapPath())));
         }
 
         if (!$file->isWriteable($realPath)) {
@@ -311,7 +311,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $this->_addSitemapToRobotsTxt($this->getSitemapFilename());
         }
 
-        $this->setSitemapTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate('Y-m-d H:i:s'));
+        $this->setSitemapTime(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate('Y-m-d H:i:s'));
         $this->save();
 
         return $this;
@@ -530,7 +530,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      * @param string $type
      * @return string
      */
-    protected function _getStoreBaseUrl($type = Mage_Core_Model_Store::URL_TYPE_LINK)
+    protected function _getStoreBaseUrl($type = Magento_Core_Model_Store::URL_TYPE_LINK)
     {
         return rtrim(Mage::app()->getStore($this->getStoreId())->getBaseUrl($type), '/') . '/';
     }
@@ -542,7 +542,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      * @param string $type
      * @return string
      */
-    protected function _getUrl($url, $type = Mage_Core_Model_Store::URL_TYPE_LINK)
+    protected function _getUrl($url, $type = Magento_Core_Model_Store::URL_TYPE_LINK)
     {
         return $this->_getStoreBaseUrl($type) . ltrim($url, '/');
     }
@@ -555,7 +555,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      */
     protected function _getMediaUrl($url)
     {
-        return $this->_getUrl($url, Mage_Core_Model_Store::URL_TYPE_MEDIA);
+        return $this->_getUrl($url, Magento_Core_Model_Store::URL_TYPE_MEDIA);
     }
 
     /**
@@ -598,7 +598,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $storeDomain = rtrim($url . '/' . $installationFolder, '/');
         } else {
             //case when documentRoot contains symlink to basedir
-            $url = $this->_getStoreBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
+            $url = $this->_getStoreBaseUrl(Magento_Core_Model_Store::URL_TYPE_WEB);
             $storeDomain = rtrim($url, '/');
         }
 

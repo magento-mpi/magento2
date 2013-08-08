@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Catalog_Model_Config_Source_ListMode implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Catalog_Model_Config_Source_ListMode implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

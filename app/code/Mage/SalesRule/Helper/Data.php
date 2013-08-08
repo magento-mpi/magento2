@@ -11,7 +11,7 @@
 /**
  * SalesRule data helper
  */
-class Mage_SalesRule_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_SalesRule_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Set store and base price which will be used during discount calculation to item object

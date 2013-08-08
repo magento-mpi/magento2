@@ -33,7 +33,7 @@
  * @package     Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
+class Mage_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
 {
     /**
      * User friendly search criteria list
@@ -64,16 +64,16 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
     /**
      * Initialize dependencies
      *
-     * @param Mage_Core_Model_Context $context
+     * @param Magento_Core_Model_Context $context
      * @param Mage_CatalogSearch_Helper_Data $helper
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
+        Magento_Core_Model_Context $context,
         Mage_CatalogSearch_Helper_Data $helper,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -113,7 +113,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
      *
      * @param   array $values
      * @return  Mage_CatalogSearch_Model_Advanced
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function addFilters($values)
     {
@@ -172,7 +172,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
         if ($allConditions) {
             $this->getProductCollection()->addFieldsToFilter($allConditions);
         } else if (!$hasConditions) {
-            throw new Mage_Core_Exception($this->_helper->__('Please specify at least one search term.'));
+            throw new Magento_Core_Exception($this->_helper->__('Please specify at least one search term.'));
         }
 
         return $this;

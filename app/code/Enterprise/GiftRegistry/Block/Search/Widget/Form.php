@@ -113,7 +113,7 @@ class Enterprise_GiftRegistry_Block_Search_Widget_Form
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setName('search_by')
             ->setId('search-by')
             ->setOptions($options);

@@ -19,7 +19,7 @@
 class Mage_Eav_Model_Attribute_Data_Text extends Mage_Eav_Model_Attribute_Data_Abstract
 {
     /**
-     * @var Mage_Core_Helper_String
+     * @var Magento_Core_Helper_String
      */
     protected $_stringHelper;
 
@@ -32,7 +32,7 @@ class Mage_Eav_Model_Attribute_Data_Text extends Mage_Eav_Model_Attribute_Data_A
     {
         parent::__construct($arguments);
         $this->_stringHelper = isset($arguments['stringHelper'])
-            ? $arguments['stringHelper'] : Mage::helper('Mage_Core_Helper_String');
+            ? $arguments['stringHelper'] : Mage::helper('Magento_Core_Helper_String');
     }
 
     /**

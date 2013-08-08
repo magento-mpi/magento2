@@ -15,7 +15,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Widget_Model_Resource_Widget_Instance_Options_ThemeId implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Widget_Model_Resource_Widget_Instance_Options_ThemeId implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Mage_Widget_Model_Widget_Instance
@@ -23,9 +23,9 @@ class Mage_Widget_Model_Resource_Widget_Instance_Options_ThemeId implements Mage
     protected $_resourceModel;
 
     /**
-     * @param Mage_Core_Model_Resource_Theme_Collection $widgetResourceModel
+     * @param Magento_Core_Model_Resource_Theme_Collection $widgetResourceModel
      */
-    public function __construct(Mage_Core_Model_Resource_Theme_Collection $widgetResourceModel)
+    public function __construct(Magento_Core_Model_Resource_Theme_Collection $widgetResourceModel)
     {
         $this->_resourceModel = $widgetResourceModel;
     }

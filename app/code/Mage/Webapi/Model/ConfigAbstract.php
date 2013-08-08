@@ -34,7 +34,7 @@ abstract class Mage_Webapi_Model_ConfigAbstract
     /** @var Mage_Webapi_Helper_Config */
     protected $_helper;
 
-    /** @var Mage_Core_Model_App */
+    /** @var Magento_Core_Model_App */
     protected $_application;
 
     /**
@@ -49,12 +49,12 @@ abstract class Mage_Webapi_Model_ConfigAbstract
      *
      * @param Mage_Webapi_Model_Config_ReaderAbstract $reader
      * @param Mage_Webapi_Helper_Config $helper
-     * @param Mage_Core_Model_App $application
+     * @param Magento_Core_Model_App $application
      */
     public function __construct(
         Mage_Webapi_Model_Config_ReaderAbstract $reader,
         Mage_Webapi_Helper_Config $helper,
-        Mage_Core_Model_App $application
+        Magento_Core_Model_App $application
     ) {
         $this->_reader = $reader;
         $this->_helper = $helper;

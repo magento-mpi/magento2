@@ -13,7 +13,7 @@ class Mage_Cms_Block_BlockTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Mage/Cms/_files/block.php
-     * @magentoDataFixture Mage/Core/_files/variable.php
+     * @magentoDataFixture Magento/Core/_files/variable.php
      * @magentoConfigFixture current_store web/unsecure/base_url http://example.com/
      * @magentoConfigFixture current_store web/unsecure/base_link_url http://example.com/
      */

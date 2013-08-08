@@ -55,7 +55,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Nominal_Tax extends Mage_Tax_Model_Sales_
      * This method can be used for changing totals collect sort order
      *
      * @param array $config
-     * @param int|string|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      * @return array
      */
     public function processConfigArray($config, $store)

@@ -16,7 +16,7 @@
  * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Model_Template_Filter extends Mage_Core_Model_Email_Template_Filter
+class Mage_Cms_Model_Template_Filter extends Magento_Core_Model_Email_Template_Filter
 {
     /**
      * Whether to allow SID in store directive: AUTO

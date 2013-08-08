@@ -37,7 +37,7 @@ class Mage_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Framew
     {
         $this->_helperMock = $this->getMock('Mage_GoogleAdwords_Helper_Data', array(), array(), '', false);
         $this->_localeMock = $this->getMock('Zend_Locale', array(), array(), '', false);
-        $this->_localeModelMock = $this->getMock('Mage_Core_Model_LocaleInterface', array(), array(), '', false);
+        $this->_localeModelMock = $this->getMock('Magento_Core_Model_LocaleInterface', array(), array(), '', false);
         $this->_localeModelMock->expects($this->once())->method('getLocale')
             ->will($this->returnValue($this->_localeMock));
         $this->_uppercaseFilterMock = $this->getMock('Mage_GoogleAdwords_Model_Filter_UppercaseTitle', array(), array(),

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Reward_Block_Sales_Order_Total extends Mage_Core_Block_Template
+class Enterprise_Reward_Block_Sales_Order_Total extends Magento_Core_Block_Template
 {
     /**
      * Get label cell tag properties

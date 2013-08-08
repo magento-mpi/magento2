@@ -15,7 +15,7 @@
  * @package    Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
+class Mage_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Template
 {
     public function _prepareLayout()
     {
@@ -235,7 +235,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
     {
         $block = $this->getData('_select_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select');
+            $block = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select');
             $this->setData('_select_block', $block);
         }
         return $block;
@@ -245,7 +245,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
     {
         $block = $this->getData('_date_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('Mage_Core_Block_Html_Date');
+            $block = $this->getLayout()->createBlock('Magento_Core_Block_Html_Date');
             $this->setData('_date_block', $block);
         }
         return $block;
@@ -288,8 +288,8 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Mage_Core_Block_Template
             ->setId($attribute->getAttributeCode() . ($part == 'from' ? '' : '_' . $part))
             ->setTitle($this->getAttributeLabel($attribute))
             ->setValue($value)
-            ->setImage($this->getViewFileUrl('Mage_Core::calendar.gif'))
-            ->setDateFormat(Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT))
+            ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
+            ->setDateFormat(Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT))
             ->setClass('input-text')
             ->getHtml();
     }

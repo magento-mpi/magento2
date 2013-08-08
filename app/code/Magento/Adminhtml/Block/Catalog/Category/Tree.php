@@ -100,7 +100,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         $collection = Mage::getModel('Mage_Catalog_Model_Category')->getCollection();
 
         $matchingNamesCollection = clone $collection;
-        $escapedNamePart = Mage::getResourceHelper('Mage_Core')->addLikeEscape($namePart, array('position' => 'any'));
+        $escapedNamePart = Mage::getResourceHelper('Magento_Core')->addLikeEscape($namePart, array('position' => 'any'));
         $matchingNamesCollection->addAttributeToFilter('name', array('like' => $escapedNamePart))
             ->addAttributeToFilter('entity_id', array('neq' => Mage_Catalog_Model_Category::TREE_ROOT_ID))
             ->addAttributeToSelect('path')
@@ -134,7 +134,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
             $categoryById[$category->getParentId()]['children'][] = &$categoryById[$category->getId()];
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
             $categoryById[Mage_Catalog_Model_Category::TREE_ROOT_ID]['children']
         );
     }
@@ -208,7 +208,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     public function getTreeJson($parenNodeCategory=null)
     {
         $rootArray = $this->_getNodeJson($this->getRoot($parenNodeCategory));
-        $json = Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+        $json = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
             isset($rootArray['children']) ? $rootArray['children'] : array()
         );
         return $json;
@@ -237,7 +237,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         }
         return
             '<script type="text/javascript">'
-            . $javascriptVarName . ' = ' . Mage::helper('Mage_Core_Helper_Data')->jsonEncode($categories) . ';'
+            . $javascriptVarName . ' = ' . Mage::helper('Magento_Core_Helper_Data')->jsonEncode($categories) . ';'
             . ($this->canAddSubCategory()
                 ? '$("add_subcategory_button").show();'
                 : '$("add_subcategory_button").hide();')
@@ -261,7 +261,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         $item = array();
         $item['text'] = $this->buildNodeName($node);
 
-        /* $rootForStores = Mage::getModel('Mage_Core_Model_Store')
+        /* $rootForStores = Mage::getModel('Magento_Core_Model_Store')
             ->getCollection()
             ->loadByCategoryIds(array($node->getEntityId())); */
         $rootForStores = in_array($node->getEntityId(), $this->getRootIds());

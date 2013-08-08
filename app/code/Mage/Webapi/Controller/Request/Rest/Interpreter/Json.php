@@ -13,17 +13,17 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Json implements
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
-    /** @var Mage_Core_Model_Factory_Helper */
+    /** @var Magento_Core_Model_Factory_Helper */
     protected $_helperFactory;
 
-    /** @var Mage_Core_Model_App */
+    /** @var Magento_Core_Model_App */
     protected $_app;
 
     /**
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_App $app
      */
-    public function __construct(Mage_Core_Model_Factory_Helper $helperFactory, Mage_Core_Model_App $app)
+    public function __construct(Magento_Core_Model_Factory_Helper $helperFactory, Magento_Core_Model_App $app)
     {
         $this->_helperFactory = $helperFactory;
         $this->_helper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');
@@ -47,8 +47,8 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Json implements
             ));
         }
         try {
-            /** @var Mage_Core_Helper_Data $jsonHelper */
-            $jsonHelper = $this->_helperFactory->get('Mage_Core_Helper_Data');
+            /** @var Magento_Core_Helper_Data $jsonHelper */
+            $jsonHelper = $this->_helperFactory->get('Magento_Core_Helper_Data');
             $decodedBody = $jsonHelper->jsonDecode($encodedBody);
         } catch (Zend_Json_Exception $e) {
             if (!$this->_app->isDeveloperMode()) {

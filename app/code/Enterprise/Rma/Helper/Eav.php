@@ -119,7 +119,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
      *
      * Uses internal protected method, which must use data from protected variable
      *
-     * @param null|int|Mage_Core_Model_Store $storeId
+     * @param null|int|Magento_Core_Model_Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -141,7 +141,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
      * Uses internal protected method, which must use data from protected variable
      *
      * @param string $attributeCode
-     * @param null|int|Mage_Core_Model_Store $storeId
+     * @param null|int|Magento_Core_Model_Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -160,7 +160,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
     /**
      * Get complicated array of select-typed attribute values depending by store
      *
-     * @param null|int|Mage_Core_Model_Store $storeId
+     * @param null|int|Magento_Core_Model_Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -168,7 +168,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
     {
         if (is_null($storeId)) {
             $storeId = Mage::app()->getStore()->getId();
-        } elseif ($storeId instanceof Mage_Core_Model_Store) {
+        } elseif ($storeId instanceof Magento_Core_Model_Store) {
             $storeId = $storeId->getId();
         }
 
@@ -179,11 +179,11 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
             $optionCollection
                 ->getSelect()
                 ->join(
-                    array('ea' => Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('eav_attribute')),
+                    array('ea' => Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('eav_attribute')),
                     'main_table.attribute_id = ea.attribute_id',
                     array('attribute_code' => 'ea.attribute_code'))
                 ->join(
-                    array('eat' => Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('eav_entity_type')),
+                    array('eat' => Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('eav_entity_type')),
                     'ea.entity_type_id = eat.entity_type_id',
                     array(''))
                 ->where('eat.entity_type_code = ?', $this->_getEntityTypeCode());

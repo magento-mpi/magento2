@@ -187,7 +187,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
     /**
      * Get helper object
      *
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     protected function _getHelper()
     {

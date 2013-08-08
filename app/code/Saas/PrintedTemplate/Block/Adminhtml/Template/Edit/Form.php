@@ -29,7 +29,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
         if ($head) {
             $head->addJs('prototype/window.js')
                 ->addCss('prototype/windows/themes/default.css')
-                ->addCss('Mage_Core::prototype/magento.css')
+                ->addCss('Magento_Core::prototype/magento.css')
                 ->setCanLoadTinyMce(true);
         }
         return parent::_prepareLayout();
@@ -233,7 +233,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backe
             return Mage::helper('Saas_PrintedTemplate_Helper_Locator')
                 ->getPdfRenderer()
                 ->canCalculateHeightsDynamically();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             return false;
         }
     }

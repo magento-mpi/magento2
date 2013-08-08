@@ -33,8 +33,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest extends 
             ->will($this->returnArgument(0));
 
         // 2. Inject helper to layout
-        /** @var $layout Mage_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject */
-        $layout = $this->getMock('Mage_Core_Model_Layout', array('helper'), array(), '', false);
+        /** @var $layout Magento_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject */
+        $layout = $this->getMock('Magento_Core_Model_Layout', array('helper'), array(), '', false);
         $layout->expects($this->any())
             ->method('helper')
             ->with('Mage_Backend_Helper_Data')
@@ -45,8 +45,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest extends 
         $service = $this->getMock('Mage_Backend_Helper_Data', array('escapeHtml'), array(), '', false);
 
         // 4. Get URL model
-        /** @var $urlBuilder Mage_Core_Model_Url|PHPUnit_Framework_MockObject_MockObject */
-        $urlBuilder = $this->getMock('Mage_Core_Model_Url', array('getUrl'), array(), '', false);
+        /** @var $urlBuilder Magento_Core_Model_Url|PHPUnit_Framework_MockObject_MockObject */
+        $urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getUrl'), array(), '', false);
         $urlBuilder->expects($this->any())
             ->method('getUrl')
             ->will($this->returnValue($this->_url));
@@ -62,7 +62,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest extends 
     }
 
     /**
-     * @param Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject $theme
+     * @param Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject $theme
      * @param string $expected
      * @param array $expectedOptions
      * @dataProvider initDataProvider
@@ -120,7 +120,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest extends 
     {
         return array(
             'Physical theme' => array(
-                $this->_getThemeMock(Mage_Core_Model_Theme::TYPE_PHYSICAL),
+                $this->_getThemeMock(Magento_Core_Model_Theme::TYPE_PHYSICAL),
                 array(
                     'button' => array(
                         'event'     => 'assign',
@@ -134,7 +134,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest extends 
                 array()
             ),
             'Virtual assigned theme' => array(
-                $this->_getThemeMock(Mage_Core_Model_Theme::TYPE_VIRTUAL, true),
+                $this->_getThemeMock(Magento_Core_Model_Theme::TYPE_VIRTUAL, true),
                 array(
                     'button' => array(
                         'event'     => 'save',
@@ -149,7 +149,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest extends 
                 array()
             ),
             'Virtual unassigned theme' => array(
-                $this->_getThemeMock(Mage_Core_Model_Theme::TYPE_VIRTUAL, false),
+                $this->_getThemeMock(Magento_Core_Model_Theme::TYPE_VIRTUAL, false),
                 array(
                     'button' => array(
                         'event'     => 'save',
@@ -196,7 +196,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest extends 
     public function testInitStaging()
     {
         // 1. Get theme mock
-        $stagingTheme = $this->_getThemeMock(Mage_Core_Model_Theme::TYPE_STAGING);
+        $stagingTheme = $this->_getThemeMock(Magento_Core_Model_Theme::TYPE_STAGING);
 
         $block = $this->_block;
 
@@ -207,16 +207,16 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest extends 
     /**
      * @param int $type
      * @param null|bool $isAssigned
-     * @return Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getThemeMock($type, $isAssigned = null)
     {
         $themeId = 123;
 
-        if ($type == Mage_Core_Model_Theme::TYPE_VIRTUAL) {
+        if ($type == Magento_Core_Model_Theme::TYPE_VIRTUAL) {
             $theme = $this->_getVirtualThemeMock($type, $isAssigned);
         } else {
-            $theme = $this->getMock('Mage_Core_Model_Theme', null, array(), '', false);
+            $theme = $this->getMock('Magento_Core_Model_Theme', null, array(), '', false);
         }
 
         $theme->setType($type);
@@ -228,21 +228,21 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest extends 
     /**
      * @param int $type
      * @param bool $isAssigned
-     * @return Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getVirtualThemeMock($type, $isAssigned)
     {
         // 1. Get domain model
-        /** @var $domainModel Mage_Core_Model_Theme_Domain_Virtual|PHPUnit_Framework_MockObject_MockObject */
-        $domainModel = $this->getMock('Mage_Core_Model_Theme_Domain_Virtual',
+        /** @var $domainModel Magento_Core_Model_Theme_Domain_Virtual|PHPUnit_Framework_MockObject_MockObject */
+        $domainModel = $this->getMock('Magento_Core_Model_Theme_Domain_Virtual',
             array('isAssigned'), array(), '', false);
         $domainModel->expects($this->any())
             ->method('isAssigned')
             ->will($this->returnValue($isAssigned));
 
         // 2. Get Theme mock
-        /** @var $theme Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
-        $theme = $this->getMock('Mage_Core_Model_Theme', array('getDomainModel'), array(), '', false);
+        /** @var $theme Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject */
+        $theme = $this->getMock('Magento_Core_Model_Theme', array('getDomainModel'), array(), '', false);
         $theme->expects($this->any())
             ->method('getDomainModel')
             ->with($type)

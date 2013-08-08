@@ -43,7 +43,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
                 ->renderLayout()
             ;
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::logException($e);
@@ -59,7 +59,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
         try {
             $this->loadLayout()->renderLayout();
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::logException($e);
@@ -102,7 +102,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
                     break;
             }
             $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('The profile state has been updated.'));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(Mage::helper('Mage_Sales_Helper_Data')->__('We could not update the profile.'));
@@ -130,7 +130,7 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
             } else {
                 $this->_getSession()->addNotice($this->__('The profile has no changes.'));
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('We could not update the profile.'));

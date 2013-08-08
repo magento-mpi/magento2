@@ -408,7 +408,7 @@ class Enterprise_AdminGws_Model_Role extends Magento_Object
      * store group in case store group is not preloaded
      *
      * @param int|string $findGroupId
-     * @return Mage_Core_Model_Store_Group|null
+     * @return Magento_Core_Model_Store_Group|null
      */
     public function getGroup($findGroupId)
     {

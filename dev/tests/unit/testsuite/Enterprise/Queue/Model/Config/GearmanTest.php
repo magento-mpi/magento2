@@ -19,7 +19,7 @@ class Enterprise_Queue_Model_Config_GearmanTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config_Modules', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $this->_config = new Enterprise_Queue_Model_Config_Gearman($this->_configMock);
     }
 

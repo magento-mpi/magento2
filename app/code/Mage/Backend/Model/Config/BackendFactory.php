@@ -29,13 +29,13 @@ class Mage_Backend_Model_Config_BackendFactory
      * Create backend model by name
      *
      * @param string $modelName
-     * @return Mage_Core_Model_Config_Data
+     * @return Magento_Core_Model_Config_Data
      * @throws InvalidArgumentException
      */
     public function create($modelName)
     {
         $model = $this->_objectManager->create($modelName);
-        if (!$model instanceof Mage_Core_Model_Config_Data) {
+        if (!$model instanceof Magento_Core_Model_Config_Data) {
             throw new InvalidArgumentException('Invalid config field backend model: ' . $modelName);
         }
         return $model;

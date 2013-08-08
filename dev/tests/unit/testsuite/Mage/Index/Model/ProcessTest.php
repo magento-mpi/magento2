@@ -93,7 +93,7 @@ class Mage_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_processFile));
 
         $resource = $this->getMockForAbstractClass(
-            'Mage_Core_Model_Resource_Db_Abstract',
+            'Magento_Core_Model_Resource_Db_Abstract',
             array(), '', false, false, true, array('getIdFieldName')
         );
         $resource->expects($this->any())->method('getIdFieldName')->will($this->returnValue('process_id'));

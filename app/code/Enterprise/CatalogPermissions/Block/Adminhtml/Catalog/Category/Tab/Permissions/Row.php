@@ -86,12 +86,12 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     /**
      * Retrieve websites collection
      *
-     * @return Mage_Core_Model_Resource_Website_Collection
+     * @return Magento_Core_Model_Resource_Website_Collection
      */
     public function getWebsiteCollection()
     {
         if (!$this->hasData('website_collection')) {
-            $collection = Mage::getModel('Mage_Core_Model_Website')->getCollection();
+            $collection = Mage::getModel('Magento_Core_Model_Website')->getCollection();
             $this->setData('website_collection', $collection);
         }
 

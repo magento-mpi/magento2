@@ -28,7 +28,7 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_tmpDir = Mage::getBaseDir(Mage_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
+        self::$_tmpDir = Mage::getBaseDir(Magento_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
         self::$_tmpConfigFile = self::$_tmpDir . DIRECTORY_SEPARATOR . 'local.xml';
         mkdir(self::$_tmpDir);
     }
@@ -53,9 +53,9 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = Mage::getObjectManager();
         $installerConfig = new Mage_Install_Model_Installer_Config(
-            $objectManager->get('Mage_Core_Model_Config'),
-            new Mage_Core_Model_Dir(__DIR__, array(), array(Mage_Core_Model_Dir::CONFIG => $dir)),
-            $objectManager->get('Mage_Core_Model_Config_Resource'),
+            $objectManager->get('Magento_Core_Model_Config'),
+            new Magento_Core_Model_Dir(__DIR__, array(), array(Magento_Core_Model_Dir::CONFIG => $dir)),
+            $objectManager->get('Magento_Core_Model_Config_Resource'),
             new Magento_Filesystem(new Magento_Filesystem_Adapter_Local())
         );
         $objectManager->addSharedInstance($installerConfig, 'Mage_Install_Model_Installer_Config');
@@ -167,9 +167,9 @@ class Mage_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
         $this->_model->finish();
 
-        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
-        $cacheTypes = Mage::getModel('Mage_Core_Model_Cache_Types');
-        $types = array_keys(Mage::getModel('Mage_Core_Model_Cache')->getTypes());
+        /** @var $cacheTypes Magento_Core_Model_Cache_Types */
+        $cacheTypes = Mage::getModel('Magento_Core_Model_Cache_Types');
+        $types = array_keys(Mage::getModel('Magento_Core_Model_Cache')->getTypes());
         foreach ($types as $type) {
             $this->assertTrue(
                 $cacheTypes->isEnabled($type),

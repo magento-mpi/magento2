@@ -71,7 +71,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
                 }
             }
             foreach ($temp as $key => $value) {
-                $authors[$key] = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($value);
+                $authors[$key] = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($value);
             }
         }
         return $authors;

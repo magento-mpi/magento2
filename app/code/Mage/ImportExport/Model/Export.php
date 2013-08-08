@@ -52,7 +52,7 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
     /**
      * Create instance of entity adapter and return it
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_ImportExport_Model_Export_Entity_Abstract|Mage_ImportExport_Model_Export_EntityAbstract
      */
     protected function _getEntityAdapter()
@@ -99,7 +99,7 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
     /**
      * Get writer object.
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_ImportExport_Model_Export_Adapter_Abstract
      */
     protected function _getWriter()
@@ -134,7 +134,7 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
     /**
      * Export data.
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return string
      */
     public function export()

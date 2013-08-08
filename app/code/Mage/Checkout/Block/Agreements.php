@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Checkout_Block_Agreements extends Mage_Core_Block_Template
+class Mage_Checkout_Block_Agreements extends Magento_Core_Block_Template
 {
     public function getAgreements()
     {

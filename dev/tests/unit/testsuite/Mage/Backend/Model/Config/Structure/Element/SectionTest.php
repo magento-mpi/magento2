@@ -41,8 +41,8 @@ class Mage_Backend_Model_Config_Structure_Element_SectionTest extends PHPUnit_Fr
         $this->_iteratorMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Iterator_Field', array(), array(), '', false
         );
-        $this->_factoryHelperMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
-        $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
+        $this->_factoryHelperMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
+        $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $this->_authorizationMock = $this->getMock('Magento_AuthorizationInterface');
 
         $this->_model = new Mage_Backend_Model_Config_Structure_Element_Section(

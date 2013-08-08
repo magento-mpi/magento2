@@ -44,7 +44,7 @@ class Magento_Adminhtml_Model_Sales_Order_Random
     protected function _getStores()
     {
         if (!self::$_storeCollection) {
-            self::$_storeCollection = Mage::getResourceModel('Mage_Core_Model_Resource_Store_Collection')
+            self::$_storeCollection = Mage::getResourceModel('Magento_Core_Model_Resource_Store_Collection')
                 ->load();
         }
         return self::$_storeCollection->getItems();

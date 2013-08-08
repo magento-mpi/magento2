@@ -110,7 +110,7 @@ class Saas_PrintedTemplate_Model_Converter_PdfAdapter_Wkhtmltopdf
      *
      * @param string $html
      * @return string
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function renderHtml($bodyHtml, Saas_PrintedTemplate_Model_PageSize $pageSize = null, $pageOrientation = null)
     {
@@ -250,7 +250,7 @@ HTML;
             Mage::throwException('Cannot make temporary directory for html file');
         }
 
-        $tempFileName = Mage::helper('Mage_Core_Helper_Data')->uniqHash($prefix) . '.html';
+        $tempFileName = Mage::helper('Magento_Core_Helper_Data')->uniqHash($prefix) . '.html';
         $htmlFilePath = $tempDir . DS . $tempFileName;
 
         $result = file_put_contents($htmlFilePath, $content);

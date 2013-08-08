@@ -32,11 +32,11 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
         Mage_Catalog_Model_Category::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
-        Mage_Core_Model_Store::ENTITY => array(
+        Magento_Core_Model_Store::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE,
             Mage_Index_Model_Event::TYPE_DELETE
         ),
-        Mage_Core_Model_Store_Group::ENTITY => array(
+        Magento_Core_Model_Store_Group::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
     );
@@ -105,11 +105,11 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
         }
 
         $entity = $event->getEntity();
-        if ($entity == Mage_Core_Model_Store::ENTITY) {
+        if ($entity == Magento_Core_Model_Store::ENTITY) {
             if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
                 $result = true;
             } elseif ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
-                /** @var $store Mage_Core_Model_Store */
+                /** @var $store Magento_Core_Model_Store */
                 $store = $event->getDataObject();
                 if ($store && ($store->isObjectNew()
                     || $store->dataHasChangedFor('group_id')
@@ -122,8 +122,8 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
             } else {
                 $result = false;
             }
-        } elseif ($entity == Mage_Core_Model_Store_Group::ENTITY) {
-            /** @var $storeGroup Mage_Core_Model_Store_Group */
+        } elseif ($entity == Magento_Core_Model_Store_Group::ENTITY) {
+            /** @var $storeGroup Magento_Core_Model_Store_Group */
             $storeGroup = $event->getDataObject();
             if ($storeGroup
                 && ($storeGroup->dataHasChangedFor('website_id') || $storeGroup->dataHasChangedFor('root_category_id'))
@@ -154,12 +154,12 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
                 $this->_registerCatalogCategoryEvent($event);
                 break;
 
-            case Mage_Core_Model_Store::ENTITY:
+            case Magento_Core_Model_Store::ENTITY:
                 if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
                     $this->_registerCoreStoreEvent($event);
                     break;
                 }
-            case Mage_Core_Model_Store_Group::ENTITY:
+            case Magento_Core_Model_Store_Group::ENTITY:
                 $event->addNewData('catalog_category_flat_skip_call_event_handler', true);
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
@@ -204,7 +204,7 @@ class Mage_Catalog_Model_Category_Indexer_Flat extends Mage_Index_Model_Indexer_
     protected function _registerCoreStoreEvent(Mage_Index_Model_Event $event)
     {
         if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
-            /* @var $store Mage_Core_Model_Store */
+            /* @var $store Magento_Core_Model_Store */
             $store = $event->getDataObject();
             $event->addNewData('catalog_category_flat_delete_store_id', $store->getId());
         }

@@ -16,7 +16,7 @@
  * @package    Mage_Newsletter
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Newsletter_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_TEMPLATE_FILTER = 'global/newsletter/tempate_filter';
 
@@ -28,7 +28,7 @@ class Mage_Newsletter_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getConfirmationUrl($subscriber)
     {
-        return Mage::getModel('Mage_Core_Model_Url')
+        return Mage::getModel('Magento_Core_Model_Url')
             ->setStore($subscriber->getStoreId())
             ->getUrl('newsletter/subscriber/confirm', array(
                 'id'     => $subscriber->getId(),
@@ -45,7 +45,7 @@ class Mage_Newsletter_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getUnsubscribeUrl($subscriber)
     {
-        return Mage::getModel('Mage_Core_Model_Url')
+        return Mage::getModel('Magento_Core_Model_Url')
             ->setStore($subscriber->getStoreId())
             ->getUrl('newsletter/subscriber/unsubscribe', array(
                 'id'     => $subscriber->getId(),

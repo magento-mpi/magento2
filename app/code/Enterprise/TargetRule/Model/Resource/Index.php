@@ -476,14 +476,14 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
      * Remove index data from index tables
      *
      * @param int|null $typeId
-     * @param Mage_Core_Model_Store|int|array|null $store
+     * @param Magento_Core_Model_Store|int|array|null $store
      * @return Enterprise_TargetRule_Model_Resource_Index
      */
     public function cleanIndex($typeId = null, $store = null)
     {
         $adapter = $this->_getWriteAdapter();
 
-        if ($store instanceof Mage_Core_Model_Store) {
+        if ($store instanceof Magento_Core_Model_Store) {
             $store = $store->getId();
         }
 

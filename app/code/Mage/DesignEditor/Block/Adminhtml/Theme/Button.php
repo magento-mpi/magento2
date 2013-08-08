@@ -11,7 +11,7 @@
 /**
  * Button widget
  */
-class Mage_DesignEditor_Block_Adminhtml_Theme_Button extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Theme_Button extends Magento_Core_Block_Template
 {
     /**
      * Define block template

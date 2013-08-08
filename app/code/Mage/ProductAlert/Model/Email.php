@@ -16,7 +16,7 @@
  * @package    Mage_ProductAlert
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
+class Mage_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
 {
     const XML_PATH_EMAIL_PRICE_TEMPLATE = 'catalog/productalert/email_price_template';
     const XML_PATH_EMAIL_STOCK_TEMPLATE = 'catalog/productalert/email_stock_template';
@@ -32,7 +32,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
     /**
      * Website Model
      *
-     * @var Mage_Core_Model_Website
+     * @var Magento_Core_Model_Website
      */
     protected $_website;
 
@@ -94,10 +94,10 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
     /**
      * Set website model
      *
-     * @param Mage_Core_Model_Website $website
+     * @param Magento_Core_Model_Website $website
      * @return Mage_ProductAlert_Model_Email
      */
-    public function setWebsite(Mage_Core_Model_Website $website)
+    public function setWebsite(Magento_Core_Model_Website $website)
     {
         $this->_website = $website;
         return $this;
@@ -237,7 +237,7 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
             return false;
         }
 
-        $appEmulation = Mage::getSingleton('Mage_Core_Model_App_Emulation');
+        $appEmulation = Mage::getSingleton('Magento_Core_Model_App_Emulation');
         $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
 
         if ($this->_type == 'price') {
@@ -264,9 +264,9 @@ class Mage_ProductAlert_Model_Email extends Mage_Core_Model_Abstract
 
         $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
-        Mage::getModel('Mage_Core_Model_Email_Template')
+        Mage::getModel('Magento_Core_Model_Email_Template')
             ->setDesignConfig(array(
-                'area'  => Mage_Core_Model_App_Area::AREA_FRONTEND,
+                'area'  => Magento_Core_Model_App_Area::AREA_FRONTEND,
                 'store' => $storeId
             ))->sendTransactional(
                 $templateId,

@@ -107,7 +107,7 @@
                     </arguments>
                 </block>
             </block>
-            <block type="Mage_Core_Block_Template" as="grid.js">
+            <block type="Magento_Core_Block_Template" as="grid.js">
                 <arguments>
                     <js_object_name>wishlistGridJsObject</js_object_name>
                     <template>Mage_Wishlist::customer/edit/tab/wishlist.phtml</template>

@@ -38,7 +38,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      */
     protected $_helper;
 
-    /** @var Mage_Core_Model_CacheInterface */
+    /** @var Magento_Core_Model_CacheInterface */
     protected $_cache;
 
     /**
@@ -47,7 +47,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
      * @param Mage_Webapi_Model_Config_Soap $apiConfig
      * @param Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
      * @param Mage_Webapi_Helper_Config $helper
-     * @param Mage_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_CacheInterface $cache
      *
      * @throws InvalidArgumentException
      */
@@ -55,7 +55,7 @@ class Mage_Webapi_Model_Soap_AutoDiscover
         Mage_Webapi_Model_Config_Soap $apiConfig,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
         Mage_Webapi_Helper_Config $helper,
-        Mage_Core_Model_CacheInterface $cache
+        Magento_Core_Model_CacheInterface $cache
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;

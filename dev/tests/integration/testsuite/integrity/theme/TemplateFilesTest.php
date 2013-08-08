@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -34,7 +34,7 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
                 'module'   => $module
             );
             try {
-                $templateFilename = Mage::getObjectmanager()->get('Mage_Core_Model_View_FileSystem')->getFilename(
+                $templateFilename = Mage::getObjectmanager()->get('Magento_Core_Model_View_FileSystem')->getFilename(
                     $file, $params
                 );
                 $this->assertFileExists($templateFilename);
@@ -54,8 +54,8 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
 
         $themes = $this->_getDesignThemes();
         foreach ($themes as $theme) {
-            /** @var Mage_Core_Model_Layout_Merge $layoutUpdate */
-            $layoutUpdate = Mage::getModel('Mage_Core_Model_Layout_Merge', array('theme' => $theme));
+            /** @var Magento_Core_Model_Layout_Merge $layoutUpdate */
+            $layoutUpdate = Mage::getModel('Magento_Core_Model_Layout_Merge', array('theme' => $theme));
             $layoutTemplates = $this->_getLayoutTemplates($layoutUpdate->getFileLayoutUpdatesXml());
             foreach ($layoutTemplates as $templateData) {
                 $templates[] = array_merge(array($theme->getArea(), $theme->getId()), $templateData);

@@ -52,7 +52,7 @@ class Mage_Tax_Model_Class_Type_Product
     /**
      * Get Products with this tax class
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getAssignedToObjects()
     {

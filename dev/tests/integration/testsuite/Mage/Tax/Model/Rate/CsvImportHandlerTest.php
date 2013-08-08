@@ -49,7 +49,7 @@ class Mage_Tax_Model_Rate_CsvImportHandlerTest extends PHPUnit_Framework_TestCas
 
     /**
      * @magentoDbIsolation enabled
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage One of the countries has invalid code.
      */
     public function testImportFromCsvFileThrowsExceptionWhenCountryCodeIsInvalid()

@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Block_Hierarchy_Head extends Mage_Core_Block_Abstract
+class Enterprise_Cms_Block_Hierarchy_Head extends Magento_Core_Block_Abstract
 {
     /**
      * Prepare Global Layout

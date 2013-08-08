@@ -19,24 +19,24 @@
 class Enterprise_Pbridge_Model_Observer
 {
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
 
     /**
      * Writer of configuration storage
      *
-     * @var Mage_Core_Model_Config_Storage_WriterInterface
+     * @var Magento_Core_Model_Config_Storage_WriterInterface
      */
     protected $_configWriter;
 
     /**
-     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      */
     public function __construct(
-        Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Mage_Core_Model_Cache_Type_Config $configCacheType
+        Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
+        Magento_Core_Model_Cache_Type_Config $configCacheType
     ) {
         $this->_configWriter = $configWriter;
         $this->_configCacheType = $configCacheType;
@@ -50,7 +50,7 @@ class Enterprise_Pbridge_Model_Observer
      */
     public function addPrivacyHeader(Magento_Event_Observer $observer)
     {
-        /* @var $controllerAction Mage_Core_Controller_Varien_Action */
+        /* @var $controllerAction Magento_Core_Controller_Varien_Action */
         $controllerAction = $observer->getEvent()->getData('controller_action');
         $controllerAction->getResponse()->setHeader("P3P", 'CP="CAO PSA OUR"', true);
         return $this;

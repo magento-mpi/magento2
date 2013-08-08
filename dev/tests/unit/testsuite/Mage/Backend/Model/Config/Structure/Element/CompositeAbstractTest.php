@@ -50,8 +50,8 @@ class Mage_Backend_Model_Config_Structure_Element_CompositeAbstractTest extends 
         $this->_iteratorMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Iterator', array(), array(), '', false
         );
-        $this->_factoryHelperMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
-        $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
+        $this->_factoryHelperMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
+        $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
             'Mage_Backend_Model_Config_Structure_Element_CompositeAbstract',

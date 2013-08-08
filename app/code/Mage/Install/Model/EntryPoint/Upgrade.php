@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Install_Model_EntryPoint_Upgrade extends Mage_Core_Model_EntryPointAbstract
+class Mage_Install_Model_EntryPoint_Upgrade extends Magento_Core_Model_EntryPointAbstract
 {
     /**
      * Key for passing reindexing parameter
@@ -26,15 +26,15 @@ class Mage_Install_Model_EntryPoint_Upgrade extends Mage_Core_Model_EntryPointAb
      */
     protected function _processRequest()
     {
-        /** @var $cacheFrontendPool Mage_Core_Model_Cache_Frontend_Pool */
-        $cacheFrontendPool = $this->_objectManager->get('Mage_Core_Model_Cache_Frontend_Pool');
+        /** @var $cacheFrontendPool Magento_Core_Model_Cache_Frontend_Pool */
+        $cacheFrontendPool = $this->_objectManager->get('Magento_Core_Model_Cache_Frontend_Pool');
         /** @var $cacheFrontend Magento_Cache_FrontendInterface */
         foreach ($cacheFrontendPool as $cacheFrontend) {
             $cacheFrontend->clean();
         }
 
-        /** @var $updater \Mage_Core_Model_Db_Updater */
-        $updater = $this->_objectManager->get('Mage_Core_Model_Db_Updater');
+        /** @var $updater \Magento_Core_Model_Db_Updater */
+        $updater = $this->_objectManager->get('Magento_Core_Model_Db_Updater');
         $updater->updateScheme();
         $updater->updateData();
 
@@ -46,8 +46,8 @@ class Mage_Install_Model_EntryPoint_Upgrade extends Mage_Core_Model_EntryPointAb
      */
     private function _reindex()
     {
-        /** @var $config Mage_Core_Model_Config_Primary */
-        $config = $this->_objectManager->get('Mage_Core_Model_Config_Primary');
+        /** @var $config Magento_Core_Model_Config_Primary */
+        $config = $this->_objectManager->get('Magento_Core_Model_Config_Primary');
         $reindexMode = $config->getParam(self::REINDEX);
         if ($reindexMode) {
             /** @var $indexer Mage_Index_Model_Indexer */

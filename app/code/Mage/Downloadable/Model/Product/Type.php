@@ -151,7 +151,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                         $sampleModel = Mage::getModel('Mage_Downloadable_Model_Sample');
                         $files = array();
                         if (isset($sampleItem['file'])) {
-                            $files = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($sampleItem['file']);
+                            $files = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($sampleItem['file']);
                             unset($sampleItem['file']);
                         }
 
@@ -189,7 +189,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                         }
                         $files = array();
                         if (isset($linkItem['file'])) {
-                            $files = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($linkItem['file']);
+                            $files = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($linkItem['file']);
                             unset($linkItem['file']);
                         }
                         $sample = array();
@@ -217,7 +217,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                             }
                             $linkModel->setSampleType($sample['type']);
                             if (isset($sample['file'])) {
-                                $sampleFile = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($sample['file']);
+                                $sampleFile = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($sample['file']);
                             }
                         }
                         if ($linkModel->getLinkType() == Mage_Downloadable_Helper_Download::LINK_TYPE_FILE) {
@@ -305,7 +305,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      *
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Bundle_Model_Product_Type
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function checkProductBuyState($product)
     {

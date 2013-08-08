@@ -70,10 +70,10 @@ class Mage_Sales_Model_Order_Shipment_Api_V2 extends Mage_Sales_Model_Order_Ship
             }
             $shipment->getOrder()->setIsInProcess(true);
             try {
-                $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction');
+                $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction');
                 $transactionSave->addObject($shipment)->addObject($shipment->getOrder())->save();
                 $shipment->sendEmail($email, ($includeComment ? $comment : ''));
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_fault('data_invalid', $e->getMessage());
             }
             return $shipment->getIncrementId();

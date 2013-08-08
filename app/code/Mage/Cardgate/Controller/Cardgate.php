@@ -15,7 +15,7 @@
  * @package    Mage_Cardgate
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cardgate_Controller_Cardgate extends Mage_Core_Controller_Front_Action
+class Mage_Cardgate_Controller_Cardgate extends Magento_Core_Controller_Front_Action
 {
     /**
      * Card Gate Base Object
@@ -48,7 +48,7 @@ class Mage_Cardgate_Controller_Cardgate extends Mage_Core_Controller_Front_Actio
     /**
      * Registry
      *
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registry;
 
@@ -62,21 +62,21 @@ class Mage_Cardgate_Controller_Cardgate extends Mage_Core_Controller_Front_Actio
     /**
      * Constructor
      *
-     * @param Mage_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Mage_Cardgate_Model_Base $base
      * @param Mage_Cardgate_Model_BaseFactory $baseFactory
      * @param Mage_Checkout_Model_Session $checkoutSession
      * @param Mage_Sales_Model_Order $salesOrder
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Registry $registry
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Controller_Varien_Action_Context $context,
         Mage_Cardgate_Model_Base $base,
         Mage_Cardgate_Model_BaseFactory $baseFactory,
         Mage_Checkout_Model_Session $checkoutSession,
         Mage_Sales_Model_Order $salesOrder,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_Registry $registry,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);

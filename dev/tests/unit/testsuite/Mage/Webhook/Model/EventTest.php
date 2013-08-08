@@ -28,11 +28,11 @@ class Mage_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_mockContext = $this->getMockBuilder('Mage_Core_Model_Context')
+        $this->_mockContext = $this->getMockBuilder('Magento_Core_Model_Context')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockEventManager = $this->getMockBuilder('Mage_Core_Model_Event_Manager')
+        $mockEventManager = $this->getMockBuilder('Magento_Core_Model_Event_Manager')
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -16,7 +16,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Magento_Core_Model_Resource_Db_Abstract
 {
     const GALLERY_TABLE       = 'catalog_product_entity_media_gallery';
     const GALLERY_VALUE_TABLE = 'catalog_product_entity_media_gallery_value';

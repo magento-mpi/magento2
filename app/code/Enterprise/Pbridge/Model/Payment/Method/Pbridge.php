@@ -454,11 +454,11 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Fill cart request section from order
      *
-     * @param Mage_Core_Model_Abstract $order
+     * @param Magento_Core_Model_Abstract $order
      *
      * @return array
      */
-    protected function _getCart(Mage_Core_Model_Abstract $order)
+    protected function _getCart(Magento_Core_Model_Abstract $order)
     {
         list($items, $totals) = Mage::helper('Enterprise_Pbridge_Helper_Data')->prepareCart($order);
         //Getting cart items

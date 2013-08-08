@@ -32,12 +32,12 @@ class Mage_Cardgate_Block_Form_Ideal extends Mage_Payment_Block_Form
     /**
      * Constructor
      *
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Magento_Core_Block_Template_Context $context
      * @param Magento_Data_FormFactory $formFactory
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Magento_Core_Block_Template_Context $context,
         Magento_Data_FormFactory $formFactory,
         array $data = array()
     ) {

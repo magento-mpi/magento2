@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Sitemap_Model_Config_Backend_Priority extends Mage_Core_Model_Config_Data
+class Mage_Sitemap_Model_Config_Backend_Priority extends Magento_Core_Model_Config_Data
 {
 
     protected function _beforeSave()

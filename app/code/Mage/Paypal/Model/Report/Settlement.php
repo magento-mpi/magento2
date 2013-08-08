@@ -31,7 +31,7 @@
  * @package     Mage_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
+class Mage_Paypal_Model_Report_Settlement extends Magento_Core_Model_Abstract
 {
     /**
      * Default PayPal SFTP host
@@ -158,7 +158,7 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
     /**
      * Stop saving process if file with same report date, account ID and last modified date was already ferched
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
@@ -184,7 +184,7 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
         $fetched = 0;
         $listing = $this->_filterReportsList($connection->rawls());
         foreach ($listing as $filename => $attributes) {
-            $localCsv = tempnam(Mage::getBaseDir(Mage_Core_Model_Dir::TMP), 'PayPal_STL');
+            $localCsv = tempnam(Mage::getBaseDir(Magento_Core_Model_Dir::TMP), 'PayPal_STL');
             if ($connection->read($filename, $localCsv)) {
                 if (!is_writable($localCsv)) {
                     Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('We cannot create a target file for reading reports.'));
@@ -385,7 +385,7 @@ class Mage_Paypal_Model_Report_Settlement extends Mage_Core_Model_Abstract
         $configs = array();
         $uniques = array();
         foreach(Mage::app()->getStores() as $store) {
-            /*@var $store Mage_Core_Model_Store */
+            /*@var $store Magento_Core_Model_Store */
             $active = (bool)$store->getConfig('paypal/fetch_reports/active');
             if (!$active && $automaticMode) {
                 continue;

@@ -19,8 +19,8 @@ $websiteCode = $this->getRequest()->getParam('website');
 $storeCode = $this->getRequest()->getParam('store');
 
 if (!$storeCode && $websiteCode) {
-    /** @var $web Mage_Core_Model_Website */
-    $web = Mage::getModel('Mage_Core_Model_Website')->load($websiteCode);
+    /** @var $web Magento_Core_Model_Website */
+    $web = Mage::getModel('Magento_Core_Model_Website')->load($websiteCode);
     $storedAllowedMethods = explode(',', $web->getConfig('carriers/ups/allowed_methods'));
     $storedOriginShipment = $web->getConfig('carriers/ups/origin_shipment');
     $storedFreeShipment   = $web->getConfig('carriers/ups/free_method');
@@ -87,7 +87,7 @@ if (!$storeCode && $websiteCode) {
             this.storedOriginShipment = '<?php echo $storedOriginShipment ?>';
             this.storedFreeShipment = '<?php echo $storedFreeShipment ?>';
             this.storedUpsType = '<?php echo $storedUpsType ?>';
-            <?php /** @var $_coreHelper Mage_Core_Helper_Data */ $_coreHelper = Mage::helper('Mage_Core_Helper_Data'); ?>
+            <?php /** @var $_coreHelper Magento_Core_Helper_Data */ $_coreHelper = Mage::helper('Magento_Core_Helper_Data'); ?>
             this.storedAllowedMethods = <?php echo $_coreHelper->jsonEncode($storedAllowedMethods) ?>;
             this.originShipmentObj = <?php echo $_coreHelper->jsonEncode($orShipArr) ?>;
             this.originShipmentObj['default'] = <?php echo $_coreHelper->jsonEncode($defShipArr) ?>;

@@ -15,7 +15,7 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Item_Option extends Mage_Core_Model_Abstract
+class Enterprise_GiftRegistry_Model_Item_Option extends Magento_Core_Model_Abstract
     implements Mage_Catalog_Model_Product_Configuration_Item_Option_Interface
 {
     /**

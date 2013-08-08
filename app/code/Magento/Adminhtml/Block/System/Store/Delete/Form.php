@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_System_Store_Delete_Form extends Magento_Adminhtml
 
         $form->setHtmlIdPrefix('store_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => Mage::helper('Mage_Core_Helper_Data')->__('Backup Options'), 'class' => 'fieldset-wide'));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => Mage::helper('Magento_Core_Helper_Data')->__('Backup Options'), 'class' => 'fieldset-wide'));
 
         $fieldset->addField('item_id', 'hidden', array(
             'name'  => 'item_id',

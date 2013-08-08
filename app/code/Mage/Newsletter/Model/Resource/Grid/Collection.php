@@ -21,7 +21,7 @@ class Mage_Newsletter_Model_Resource_Grid_Collection extends Mage_Newsletter_Mod
     /**
      * Adds queue info to grid
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract|Mage_Newsletter_Model_Resource_Grid_Collection
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|Mage_Newsletter_Model_Resource_Grid_Collection
      */
     protected function _initSelect()
     {

@@ -101,7 +101,7 @@ class Mage_PaypalUk_Model_Pro extends Mage_Paypal_Model_Pro
      *
      * @param Mage_Payment_Model_Info $payment
      * @param string $transactionId
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return void
      */
     public function fetchTransactionInfo(Mage_Payment_Model_Info $payment, $transactionId)

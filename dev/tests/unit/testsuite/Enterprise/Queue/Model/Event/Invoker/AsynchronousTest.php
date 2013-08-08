@@ -36,7 +36,7 @@ class Enterprise_Queue_Model_Event_Invoker_AsynchronousTest extends PHPUnit_Fram
     {
         $this->_queueHandlerMock = $this->getMock('Enterprise_Queue_Model_Event_HandlerInterface');
         $this->_invokerDefaultMock = $this->getMock(
-            'Mage_Core_Model_Event_Invoker_InvokerDefault',
+            'Magento_Core_Model_Event_Invoker_InvokerDefault',
             array(),
             array(),
             '',

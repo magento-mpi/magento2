@@ -437,7 +437,7 @@ class Mage_Paypal_Model_Config
     {
         $countryCode = Mage::getStoreConfig($this->_mapGeneralFieldset('merchant_country'), $this->_storeId);
         if (!$countryCode) {
-            $countryCode = Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry($this->_storeId);
+            $countryCode = Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry($this->_storeId);
         }
         return $countryCode;
     }
@@ -691,9 +691,9 @@ class Mage_Paypal_Model_Config
      * Get "What Is PayPal" localized URL
      * Supposed to be used with "mark" as popup window
      *
-     * @param Mage_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_LocaleInterface $locale
      */
-    public function getPaymentMarkWhatIsPaypalUrl(Mage_Core_Model_LocaleInterface $locale = null)
+    public function getPaymentMarkWhatIsPaypalUrl(Magento_Core_Model_LocaleInterface $locale = null)
     {
         $countryCode = 'US';
         if (null !== $locale) {

@@ -60,7 +60,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items extends Magento_Adminhtml_Block_
     /**
      * Get selecetd store
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {

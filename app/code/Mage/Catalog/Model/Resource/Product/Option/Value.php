@@ -16,7 +16,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Catalog_Model_Resource_Product_Option_Value extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Define main table and initialize connection
@@ -31,10 +31,10 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
      * Proceed operations after object is saved
      * Save options store data
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $this->_saveValuePrices($object);
         $this->_saveValueTitles($object);
@@ -45,9 +45,9 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
     /**
      * Save option value price data
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      */
-    protected function _saveValuePrices(Mage_Core_Model_Abstract $object)
+    protected function _saveValuePrices(Magento_Core_Model_Abstract $object)
     {
         $priceTable = $this->getTable('catalog_product_option_type_price');
 
@@ -86,9 +86,9 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
             }
         }
 
-        $scope = (int)Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+        $scope = (int)Mage::app()->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
 
-        if ($object->getStoreId() != '0' && $scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE
+        if ($object->getStoreId() != '0' && $scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE
             && !$object->getData('scope', 'price')) {
 
             $baseCurrency = Mage::app()->getBaseCurrencyCode();
@@ -141,7 +141,7 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
                     }
                 }// end of foreach()
             }
-        } else if ($scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE && $object->getData('scope', 'price')) {
+        } else if ($scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE && $object->getData('scope', 'price')) {
             $where = array(
                 'option_type_id = ?'    => (int)$object->getId(),
                 'store_id = ?'          => (int)$object->getStoreId(),
@@ -154,9 +154,9 @@ class Mage_Catalog_Model_Resource_Product_Option_Value extends Mage_Core_Model_R
     /**
      * Save option value title data
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      */
-    protected function _saveValueTitles(Mage_Core_Model_Abstract $object)
+    protected function _saveValueTitles(Magento_Core_Model_Abstract $object)
     {
         $titleTable = $this->getTable('catalog_product_option_type_title');
 

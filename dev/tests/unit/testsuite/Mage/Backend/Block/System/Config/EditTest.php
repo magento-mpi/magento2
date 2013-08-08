@@ -47,7 +47,7 @@ class Mage_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_TestCa
             array(), array(), '', false, false
         );
 
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http',
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http',
             array(), array(), '', false, false
         );
         $this->_requestMock->expects($this->any())
@@ -55,7 +55,7 @@ class Mage_Backend_Block_System_Config_EditTest extends PHPUnit_Framework_TestCa
             ->with('section')
             ->will($this->returnValue('test_section'));
 
-        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout',
+        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout',
             array(), array(), '', false, false
         );
 

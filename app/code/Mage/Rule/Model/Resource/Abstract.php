@@ -15,7 +15,7 @@
  * @package Mage_Rule
  * @author Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Rule_Model_Resource_Abstract extends Mage_Core_Model_Resource_Db_Abstract
+abstract class Mage_Rule_Model_Resource_Abstract extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Store associated with rule entities information map
@@ -42,11 +42,11 @@ abstract class Mage_Rule_Model_Resource_Abstract extends Mage_Core_Model_Resourc
     /**
      * Prepare rule's active "from" and "to" dates
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      *
      * @return Mage_Rule_Model_Resource_Abstract
      */
-    public function _beforeSave(Mage_Core_Model_Abstract $object)
+    public function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         $fromDate = $object->getFromDate();
         if ($fromDate instanceof Zend_Date) {
@@ -226,7 +226,7 @@ abstract class Mage_Rule_Model_Resource_Abstract extends Mage_Core_Model_Resourc
         }
 
         $e = Mage::exception(
-            'Mage_Core',
+            'Magento_Core',
             Mage::helper('Mage_Rule_Helper_Data')->__(
                 'There is no information about associated entity type "%s".', $entityType
             )

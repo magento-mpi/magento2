@@ -16,7 +16,7 @@
  * @package     Mage_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_Core_Model_Resource_Db_Abstract
+abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Update Customer from visitor (Customer logged in)
@@ -105,7 +105,7 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Abstract extends Mage_C
      * @param Mage_Reports_Model_Product_Index_Abstract $object
      * @return Mage_Reports_Model_Resource_Product_Index_Abstract
      */
-    public function save(Mage_Core_Model_Abstract  $object)
+    public function save(Magento_Core_Model_Abstract  $object)
     {
         if ($object->isDeleted()) {
             return $this->delete($object);

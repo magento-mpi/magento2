@@ -234,7 +234,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initWebsites()
     {
-        /** @var $website Mage_Core_Model_Website */
+        /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
@@ -252,7 +252,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         $select = $this->_connection->select()
             ->from($resource->getTableName('catalog_product_entity_tier_price'))
             ->where('entity_id IN(?)', $productIds);
@@ -285,7 +285,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         $select = $this->_connection->select()
             ->from($resource->getTableName('catalog_product_entity_group_price'))
             ->where('entity_id IN(?)', $productIds);
@@ -318,7 +318,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         $select = $this->_connection->select()
                 ->from(
                         array('mg' => $resource->getTableName('catalog_product_entity_media_gallery')),
@@ -388,7 +388,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         $adapter = $this->_connection;
         $select = $adapter->select()
             ->from(

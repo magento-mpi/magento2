@@ -80,7 +80,7 @@ class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Magento_Adminhtm
 
         try {
             $model = $this->_initRule();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
@@ -179,7 +179,7 @@ class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Magento_Adminhtm
                     return;
                 }
 
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
@@ -202,7 +202,7 @@ class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Magento_Adminhtm
             $model->delete();
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess($this->__('You deleted the reminder rule.'));
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $model->getId()));
             return;
@@ -222,7 +222,7 @@ class Enterprise_Reminder_Controller_Adminhtml_Reminder extends Magento_Adminhtm
             $model = $this->_initRule();
             $model->sendReminderEmails();
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess($this->__('You matched the reminder rule.'));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addException($e, $this->__('Reminder rule matching error.'));

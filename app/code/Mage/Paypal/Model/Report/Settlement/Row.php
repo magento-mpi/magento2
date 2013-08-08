@@ -51,7 +51,7 @@
  * @package     Mage_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Model_Report_Settlement_Row extends Mage_Core_Model_Abstract
+class Mage_Paypal_Model_Report_Settlement_Row extends Magento_Core_Model_Abstract
 {
     /**
      * Assoc array event code => label

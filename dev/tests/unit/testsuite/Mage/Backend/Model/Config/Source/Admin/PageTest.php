@@ -37,11 +37,11 @@ class Mage_Backend_Model_Config_Source_Admin_PageTest extends PHPUnit_Framework_
 
     public function setUp()
     {
-        $logger = $this->getMock('Mage_Core_Model_Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_menuModel = new Mage_Backend_Model_Menu($logger);
         $this->_menuSubModel = new Mage_Backend_Model_Menu($logger);
 
-        $this->_factoryMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $this->_factoryMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
 
         $item1 = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $item1->expects($this->any())->method('getId')->will($this->returnValue('item1'));

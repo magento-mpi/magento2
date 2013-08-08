@@ -164,8 +164,8 @@ class Mage_ImportExport_Block_Adminhtml_Import_Frame_Result extends Magento_Admi
      */
     public function getMessagesHtml()
     {
-        /** @var $messagesBlock Mage_Core_Block_Messages */
-        $messagesBlock = $this->_layout->createBlock('Mage_Core_Block_Messages');
+        /** @var $messagesBlock Magento_Core_Block_Messages */
+        $messagesBlock = $this->_layout->createBlock('Magento_Core_Block_Messages');
 
         foreach ($this->_messages as $priority => $messages) {
             $method = "add{$priority}";
@@ -188,6 +188,6 @@ class Mage_ImportExport_Block_Adminhtml_Import_Frame_Result extends Magento_Admi
         if (!isset($this->_actions['import_validation_messages'])) {
             $this->addAction('innerHTML', 'import_validation_messages', $this->getMessagesHtml());
         }
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->_actions);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->_actions);
     }
 }

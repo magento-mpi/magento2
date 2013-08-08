@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Eav_Exception extends Mage_Core_Exception 
+class Mage_Eav_Exception extends Magento_Core_Exception 
 {
     
 }

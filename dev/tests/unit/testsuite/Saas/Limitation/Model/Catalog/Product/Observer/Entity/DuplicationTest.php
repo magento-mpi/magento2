@@ -51,7 +51,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Entity_DuplicationTest exte
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Fixture Message Text
      */
     public function testRestrictActive()

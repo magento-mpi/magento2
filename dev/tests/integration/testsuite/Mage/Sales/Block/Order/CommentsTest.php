@@ -55,7 +55,7 @@ class Mage_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testGetCommentsWrongEntityException()
     {

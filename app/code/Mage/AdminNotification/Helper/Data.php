@@ -16,7 +16,7 @@
  * @package    Mage_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_AdminNotification_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_POPUP_URL    = 'system/adminnotification/popup_url';
 

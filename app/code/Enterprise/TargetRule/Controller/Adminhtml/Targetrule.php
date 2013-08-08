@@ -155,7 +155,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Admi
                     ));
                     return;
                 }
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $hasError = true;
             } catch (Zend_Date_Exception $e) {

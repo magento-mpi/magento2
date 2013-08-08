@@ -25,8 +25,8 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
         $product->load(1); // fixture
         Mage::register('current_product', $product);
 
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getSingleton('Mage_Core_Model_Layout');
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
         /** @var $block  Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSet */
         $block = $layout->createBlock(
             'Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSet',

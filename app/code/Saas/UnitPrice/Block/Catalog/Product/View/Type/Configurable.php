@@ -39,7 +39,7 @@ class Saas_UnitPrice_Block_Catalog_Product_View_Type_Configurable
      */
     protected function _getBasePriceHtml($product)
     {
-        return $this->getLayout()->createBlock('Mage_Core_Block_Template')
+        return $this->getLayout()->createBlock('Magento_Core_Block_Template')
             ->setTemplate('Saas_UnitPrice::unitprice.phtml')
             ->setProduct($product)
             ->toHtml();

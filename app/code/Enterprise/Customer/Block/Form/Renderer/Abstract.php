@@ -41,7 +41,7 @@ abstract class Enterprise_Customer_Block_Form_Renderer_Abstract extends Enterpri
      * Validate attribute value
      *
      * @param array|string $value
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return boolean
      */
     public function validateValue($value)

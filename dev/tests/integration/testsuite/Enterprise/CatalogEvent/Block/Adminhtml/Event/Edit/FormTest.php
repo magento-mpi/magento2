@@ -20,7 +20,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends PHPUni
      */
     public function testPrepareForm()
     {
-        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         /** @var $event Enterprise_CatalogEvent_Model_Event */
         $event = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
         $event->setCategoryId(1)->setId(1);

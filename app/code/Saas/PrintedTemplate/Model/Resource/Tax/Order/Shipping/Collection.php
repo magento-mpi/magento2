@@ -16,7 +16,7 @@
  * @subpackage  Models
  */
 class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection
-    extends Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Collection constructor.
@@ -34,7 +34,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping_Collection
      * Adds percent, real_percent, priority, item_id columns
      * and adds sorting by priority and percent
      *
-     * @see Mage_Core_Model_Resource_Db_Collection_Abstract::_initSelect()
+     * @see Magento_Core_Model_Resource_Db_Collection_Abstract::_initSelect()
      */
     protected function _initSelect()
     {

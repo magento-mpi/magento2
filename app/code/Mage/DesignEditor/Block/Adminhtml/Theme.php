@@ -11,8 +11,8 @@
 /**
  * Design editor theme
  *
- * @method Mage_DesignEditor_Block_Adminhtml_Theme setTheme(Mage_Core_Model_Theme $theme)
- * @method Mage_Core_Model_Theme getTheme()
+ * @method Mage_DesignEditor_Block_Adminhtml_Theme setTheme(Magento_Core_Model_Theme $theme)
+ * @method Magento_Core_Model_Theme getTheme()
  */
 class Mage_DesignEditor_Block_Adminhtml_Theme extends Mage_Backend_Block_Template
 {
@@ -69,7 +69,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme extends Mage_Backend_Block_Templat
     public function getStoresTitles()
     {
         $storesTitles = array();
-        /** @var $store Mage_Core_Model_Store */
+        /** @var $store Magento_Core_Model_Store */
         foreach ($this->getTheme()->getAssignedStores() as $store) {
             $storesTitles[] = $store->getName();
         }
@@ -89,8 +89,8 @@ class Mage_DesignEditor_Block_Adminhtml_Theme extends Mage_Backend_Block_Templat
             'theme_title' => $theme->getThemeTitle()
         );
 
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = $this->helper('Mage_Core_Helper_Data');
+        /** @var $helper Magento_Core_Helper_Data */
+        $helper = $this->helper('Magento_Core_Helper_Data');
         return $helper->jsonEncode($options);
     }
 

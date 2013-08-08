@@ -668,7 +668,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         $success = true;
         $body = Mage::app()->getResponse()->getBody();
-        $messages = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($body);
+        $messages = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($body);
         if (!empty($messages['success'])) {
             $success = $messages['success'];
             if (empty($classId) && !empty($messages['class_id'])) {

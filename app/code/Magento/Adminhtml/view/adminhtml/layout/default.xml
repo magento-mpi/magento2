@@ -160,16 +160,16 @@
                     <if/>
                     <condition>can_load_tiny_mce</condition>
                 </action>
-                <block type="Mage_Core_Block_Template" name="head.components" as="components" template="Magento_Adminhtml::page/js/components.phtml"/>
-                <block type="Mage_Core_Block_Html_Calendar" name="head.calendar" as="calendar" template="Magento_Adminhtml::page/js/calendar.phtml"/>
+                <block type="Magento_Core_Block_Template" name="head.components" as="components" template="Magento_Adminhtml::page/js/components.phtml"/>
+                <block type="Magento_Core_Block_Html_Calendar" name="head.calendar" as="calendar" template="Magento_Adminhtml::page/js/calendar.phtml"/>
             </block>
             <block type="Magento_Adminhtml_Block_Page_Notices" name="global_notices" as="global_notices" template="page/notices.phtml"/>
             <block type="Magento_Adminhtml_Block_Page_Header" name="header" as="header">
                 <block type="Mage_Backend_Block_GlobalSearch" as="search" acl="Magento_Adminhtml::global_search" />
             </block>
             <block type="Magento_Adminhtml_Block_Widget_Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
-            <!--<update handle="formkey"/> this won't work, see the try/catch and a jammed exception in Mage_Core_Model_Layout::createBlock() -->
-            <block type="Mage_Core_Block_Template" name="formkey" as="formkey" template="Magento_Adminhtml::admin/formkey.phtml"/>
+            <!--<update handle="formkey"/> this won't work, see the try/catch and a jammed exception in Magento_Core_Model_Layout::createBlock() -->
+            <block type="Magento_Core_Block_Template" name="formkey" as="formkey" template="Magento_Adminhtml::admin/formkey.phtml"/>
             <!-- deprecated since 1.7.0.0 see Mage_Page_Block_Js_Translate -->
             <block type="Mage_Page_Block_Js_Translate" name="js_translate" as="js_translate" template="Magento_Adminhtml::page/js/translate.phtml"/>
             <container name="main-top" label="main-top" as="main-top">
@@ -181,7 +181,7 @@
             </container>
             <container name="left" as="left" label="Left Column"/>
             <container name="content" as="content" label="Content"/>
-            <block type="Mage_Core_Block_Messages" name="messages" as="messages"/>
+            <block type="Magento_Core_Block_Messages" name="messages" as="messages"/>
             <container name="js" as="js" label="JavaScript"/>
             <block type="Magento_Adminhtml_Block_Page_Footer" name="footer" as="footer">
                 <action method="setBugreportUrl">

@@ -355,9 +355,9 @@ class Mage_Catalog_Model_Resource_Product extends Mage_Catalog_Model_Resource_Ab
      * if store parameter is null - index will refreshed for all stores
      * if product parameter is null - idex will be refreshed for all products
      *
-     * @param Mage_Core_Model_Store $store
+     * @param Magento_Core_Model_Store $store
      * @param Mage_Catalog_Model_Product $product
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Catalog_Model_Resource_Product
      */
     public function refreshEnabledIndex($store = null, $product = null)

@@ -15,7 +15,7 @@
  * @package    Mage_Contacts
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Contacts_Controller_Index extends Mage_Core_Controller_Front_Action
+class Mage_Contacts_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     const XML_PATH_EMAIL_RECIPIENT  = 'contacts/email/recipient_email';
     const XML_PATH_EMAIL_SENDER     = 'contacts/email/sender_email_identity';
@@ -61,8 +61,8 @@ class Mage_Contacts_Controller_Index extends Mage_Core_Controller_Front_Action
         }
         $post = $this->getRequest()->getPost();
         if ($post) {
-            $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-            /* @var $translate Mage_Core_Model_Translate */
+            $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+            /* @var $translate Magento_Core_Model_Translate */
             $translate->setTranslateInline(false);
             try {
                 $postObject = new Magento_Object();
@@ -89,10 +89,10 @@ class Mage_Contacts_Controller_Index extends Mage_Core_Controller_Front_Action
                 if ($error) {
                     throw new Exception();
                 }
-                $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
-                /* @var $mailTemplate Mage_Core_Model_Email_Template */
+                $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+                /* @var $mailTemplate Magento_Core_Model_Email_Template */
                 $mailTemplate->setDesignConfig(array(
-                    'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+                    'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
                     'store' => Mage::app()->getStore()->getId()
                 ))
                     ->setReplyTo($post['email'])

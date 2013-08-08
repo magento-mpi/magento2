@@ -12,19 +12,19 @@
     <preference for="Magento_JobQueue_ClientInterface" type="Magento_JobQueue_Client_Gearman" />
     <preference for="Magento_JobQueue_Client_ConfigInterface" type="Enterprise_Queue_Model_Config_Gearman" />
     <preference for="Enterprise_PageCache_Model_Processor_RestrictionInterface" type="Saas_PageCache_Model_Processor_Restriction" />
-    <type name="Mage_Core_Model_Config_Locales">
+    <type name="Magento_Core_Model_Config_Locales">
         <param name="storage">
             <instance type="Saas_Core_Model_Config_Storage_Locales" />
         </param>
     </type>
-    <type name="Mage_Core_Model_Config_Modules">
+    <type name="Magento_Core_Model_Config_Modules">
         <param name="storage">
             <instance type="Saas_Core_Model_Config_Storage_Modules" />
         </param>
     </type>
     <type name="Saas_Core_Model_Config_Storage_Worker">
         <param name="loader">
-            <instance type="Mage_Core_Model_Config_Loader_Proxy" />
+            <instance type="Magento_Core_Model_Config_Loader_Proxy" />
         </param>
         <param name="storageModules">
             <instance type="Saas_Core_Model_Config_Storage_Modules" />
@@ -35,17 +35,17 @@
     </type>
     <type name="Saas_Core_Model_Config_Storage">
         <param name="loader">
-            <instance type="Mage_Core_Model_Config_Loader_Proxy" />
+            <instance type="Magento_Core_Model_Config_Loader_Proxy" />
         </param>
     </type>
     <type name="Saas_Core_Model_Config_Storage_Modules">
         <param name="loader">
-            <instance type="Mage_Core_Model_Config_Loader_Modules_Proxy" />
+            <instance type="Magento_Core_Model_Config_Loader_Modules_Proxy" />
         </param>
     </type>
     <type name="Saas_Core_Model_Config_Storage_Locales">
         <param name="loader">
-            <instance type="Mage_Core_Model_Config_Loader_Locales_Proxy" />
+            <instance type="Magento_Core_Model_Config_Loader_Locales_Proxy" />
         </param>
     </type>
     <type name="Magento_HTTP_Handler_Composite">

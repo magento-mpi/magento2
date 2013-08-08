@@ -148,7 +148,7 @@ class Mage_Cron_Model_Observer
          * generate global crontab jobs
          */
         $config = Mage::getConfig()->getNode('crontab/jobs');
-        if ($config instanceof Mage_Core_Model_Config_Element) {
+        if ($config instanceof Magento_Core_Model_Config_Element) {
             $this->_generateJobs($config->children(), $exists);
         }
 
@@ -156,7 +156,7 @@ class Mage_Cron_Model_Observer
          * generate configurable crontab jobs
          */
         $config = Mage::getConfig()->getNode('default/crontab/jobs');
-        if ($config instanceof Mage_Core_Model_Config_Element) {
+        if ($config instanceof Magento_Core_Model_Config_Element) {
             $this->_generateJobs($config->children(), $exists);
         }
 

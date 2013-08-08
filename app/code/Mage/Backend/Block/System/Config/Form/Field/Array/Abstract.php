@@ -83,7 +83,7 @@ abstract class Mage_Backend_Block_System_Config_Form_Field_Array_Abstract
             'class'     => $this->_getParam($params, 'class'),
             'renderer'  => false,
         );
-        if ((!empty($params['renderer'])) && ($params['renderer'] instanceof Mage_Core_Block_Abstract)) {
+        if ((!empty($params['renderer'])) && ($params['renderer'] instanceof Magento_Core_Block_Abstract)) {
             $this->_columns[$name]['renderer'] = $params['renderer'];
         }
     }

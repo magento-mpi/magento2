@@ -15,7 +15,7 @@
  * @package     Mage_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PageCache_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Paths to external cache config options
@@ -47,9 +47,9 @@ class Mage_PageCache_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Initialize 'no cache' cookie locking
      *
-     * @param Mage_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Context $context
      */
-    function __construct(Mage_Core_Helper_Context $context)
+    function __construct(Magento_Core_Helper_Context $context)
     {
         parent::__construct($context);
         $this->_isNoCacheCookieLocked = (bool)$this->_getCookie()->get(self::NO_CACHE_LOCK_COOKIE);
@@ -58,11 +58,11 @@ class Mage_PageCache_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve the cookie model instance
      *
-     * @return Mage_Core_Model_Cookie
+     * @return Magento_Core_Model_Cookie
      */
     protected function _getCookie()
     {
-        return Mage::getSingleton('Mage_Core_Model_Cookie');
+        return Mage::getSingleton('Magento_Core_Model_Cookie');
     }
 
     /**
@@ -89,7 +89,7 @@ class Mage_PageCache_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Initialize proper external cache control model
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_PageCache_Model_Control_Interface
      */
     public function getCacheControlInstance()

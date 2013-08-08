@@ -12,15 +12,15 @@
     <type name="Mage_User_Model_Role" shared="false" />
     <type name="Mage_User_Model_Resource_Rules">
         <param name="rootResource">
-            <instance type="Mage_Core_Model_Acl_RootResource_Proxy" />
+            <instance type="Magento_Core_Model_Acl_RootResource_Proxy" />
         </param>
         <param name="aclCache">
-            <instance type="Mage_Core_Model_Acl_Cache_Proxy" />
+            <instance type="Magento_Core_Model_Acl_Cache_Proxy" />
         </param>
     </type>
     <type name="Mage_User_Model_Resource_User">
         <param name="aclCache">
-            <instance type="Mage_Core_Model_Acl_Cache_Proxy" />
+            <instance type="Magento_Core_Model_Acl_Cache_Proxy" />
         </param>
     </type>
     <preference for="Mage_Backend_Model_Auth_Credential_StorageInterface" type="Mage_User_Model_User" />

@@ -89,7 +89,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
     /**
      * Retrieve active Product Type Id
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      *
      * @return string
      */

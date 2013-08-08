@@ -13,7 +13,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
+class Mage_Tax_Model_Calculation extends Magento_Core_Model_Abstract
 {
     const CALC_TAX_BEFORE_DISCOUNT_ON_EXCL      = '0_0';
     const CALC_TAX_BEFORE_DISCOUNT_ON_INCL      = '0_1';
@@ -206,7 +206,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
      * store price excluding tax
      *
      * @param Magento_Object $request
-     * @param null|string|bool|int|Mage_Core_Model_Store $store
+     * @param null|string|bool|int|Magento_Core_Model_Store $store
      * @return float
      */
     public function getStoreRate($request, $store=null)
@@ -219,7 +219,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     /**
      * Get request object for getting tax rate based on store shipping original address
      *
-     * @param   null|string|bool|int|Mage_Core_Model_Store $store
+     * @param   null|string|bool|int|Magento_Core_Model_Store $store
      * @return  Magento_Object
      */
     public function getRateOriginRequest($store = null)

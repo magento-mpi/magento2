@@ -16,7 +16,7 @@
  * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Resource_Problem extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Newsletter_Model_Resource_Problem extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Define main table

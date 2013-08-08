@@ -109,8 +109,8 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
         $tables = array();
         $selects = array();
 
-        /* @var $resHelper Mage_Core_Model_Resource_Helper_Abstract */
-        $resHelper = Mage::getResourceHelper('Mage_Core');
+        /* @var $resHelper Magento_Core_Model_Resource_Helper_Abstract */
+        $resHelper = Mage::getResourceHelper('Magento_Core');
         $likeOptions = array('position' => 'any');
 
         /**
@@ -185,7 +185,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
             return false;
         }
 
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         $optionTable      = $resource->getTableName('eav_attribute_option');
         $optionValueTable = $resource->getTableName('eav_attribute_option_value');
         $attributesTable  = $resource->getTableName('eav_attribute');
@@ -193,7 +193,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
         /**
          * Select option Ids
          */
-        $resHelper = Mage::getResourceHelper('Mage_Core');
+        $resHelper = Mage::getResourceHelper('Magento_Core');
         $ifStoreId = $this->getConnection()->getIfNullSql('s.store_id', 'd.store_id');
         $ifValue   = $this->getConnection()->getCheckSql('s.value_id > 0', 's.value', 'd.value');
         $select = $this->getConnection()->select()

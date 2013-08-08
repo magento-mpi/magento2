@@ -197,7 +197,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
     /**
      * Get link collection for cross-sell
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection|null
      */
     protected function _getTargetLinkCollection()

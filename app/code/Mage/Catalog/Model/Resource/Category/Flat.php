@@ -422,7 +422,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Index_Model_Resourc
         if ($this->_isBuilt === null) {
             $defaultStoreView = Mage::app()->getDefaultStoreView();
             if ($defaultStoreView === null) {
-                $defaultStoreId = Mage_Core_Model_AppInterface::ADMIN_STORE_ID;
+                $defaultStoreId = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
             } else {
                 $defaultStoreId = $defaultStoreView->getId();
             }
@@ -471,7 +471,7 @@ class Mage_Catalog_Model_Resource_Category_Flat extends Mage_Index_Model_Resourc
         $rootId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
         $categories = array();
         $categoriesIds = array();
-        /* @var $store Mage_Core_Model_Store */
+        /* @var $store Magento_Core_Model_Store */
         foreach ($stores as $store) {
 
             if (!isset($categories[$store->getRootCategoryId()])) {

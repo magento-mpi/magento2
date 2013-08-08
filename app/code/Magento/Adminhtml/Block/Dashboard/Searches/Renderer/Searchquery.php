@@ -21,9 +21,9 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Renderer_Searchquery
     public function render(Magento_Object $row)
     {
         $value = $row->getData($this->getColumn()->getIndex());
-        if (Mage::helper('Mage_Core_Helper_String')->strlen($value) > 30) {
+        if (Mage::helper('Magento_Core_Helper_String')->strlen($value) > 30) {
             $value = '<span title="'. $this->escapeHtml($value) .'">'
-                . $this->escapeHtml(Mage::helper('Mage_Core_Helper_String')->truncate($value, 30)) . '</span>';
+                . $this->escapeHtml(Mage::helper('Magento_Core_Helper_String')->truncate($value, 30)) . '</span>';
         }
         else {
             $value = $this->escapeHtml($value);

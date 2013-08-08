@@ -87,7 +87,7 @@ class Mage_ProductAlert_Model_Observer
     {
         $email->setType('price');
         foreach ($this->_getWebsites() as $website) {
-            /* @var $website Mage_Core_Model_Website */
+            /* @var $website Magento_Core_Model_Website */
 
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
@@ -143,7 +143,7 @@ class Mage_ProductAlert_Model_Observer
                         $email->addPriceProduct($product);
 
                         $alert->setPrice($productPrice);
-                        $alert->setLastSendDate(Mage::getModel('Mage_Core_Model_Date')->gmtDate());
+                        $alert->setLastSendDate(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
                         $alert->setSendCount($alert->getSendCount() + 1);
                         $alert->setStatus(1);
                         $alert->save();
@@ -176,7 +176,7 @@ class Mage_ProductAlert_Model_Observer
         $email->setType('stock');
 
         foreach ($this->_getWebsites() as $website) {
-            /* @var $website Mage_Core_Model_Website */
+            /* @var $website Magento_Core_Model_Website */
 
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
@@ -232,7 +232,7 @@ class Mage_ProductAlert_Model_Observer
                     if ($product->isSalable()) {
                         $email->addStockProduct($product);
 
-                        $alert->setSendDate(Mage::getModel('Mage_Core_Model_Date')->gmtDate());
+                        $alert->setSendDate(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
                         $alert->setSendCount($alert->getSendCount() + 1);
                         $alert->setStatus(1);
                         $alert->save();
@@ -268,12 +268,12 @@ class Mage_ProductAlert_Model_Observer
                 return $this;
             }
 
-            $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-            /* @var $translate Mage_Core_Model_Translate */
+            $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+            /* @var $translate Magento_Core_Model_Translate */
             $translate->setTranslateInline(false);
 
-            $emailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
-            /* @var $emailTemplate Mage_Core_Model_Email_Template */
+            $emailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+            /* @var $emailTemplate Magento_Core_Model_Email_Template */
             $emailTemplate->setDesignConfig(array('area'  => 'backend'))
                 ->sendTransactional(
                     Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),

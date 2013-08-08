@@ -30,7 +30,7 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
     protected $_sections = array();
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
@@ -40,11 +40,11 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
     protected $_backendConfigModel;
 
     /**
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
      */
     public function __construct(
-        Mage_Core_Model_Config $config,
+        Magento_Core_Model_Config $config,
         Mage_Backend_Model_Config $backendConfigModel
     ) {
         $this->_config = $config;

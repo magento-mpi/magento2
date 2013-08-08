@@ -34,7 +34,7 @@ class Mage_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
         $this->_mockUserFactory = $this->getMockBuilder('Mage_Webhook_Model_User_Factory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockContext = $this->getMockBuilder('Mage_Core_Model_Context')
+        $this->_mockContext = $this->getMockBuilder('Magento_Core_Model_Context')
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -103,7 +103,7 @@ class Mage_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
      */
     public function testBeforeSave($hasAuthType, $hasDataChanges)
     {
-        $mockEventManager = $this->getMockBuilder('Mage_Core_Model_Event_Manager')
+        $mockEventManager = $this->getMockBuilder('Magento_Core_Model_Event_Manager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -157,7 +157,7 @@ class Mage_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
     /**
      * This mocks the methods called in the save() method such that beforeSave()
      * will be called and no errors will be produced during the save() call
-     * See Mage_Core_Model_Abstract::save() for details
+     * See Magento_Core_Model_Abstract::save() for details
      */
     private function _mockMethodsForSaveCall()
     {

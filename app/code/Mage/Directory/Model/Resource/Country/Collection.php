@@ -16,31 +16,31 @@
  * @package     Mage_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Directory_Model_Resource_Country_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Directory_Model_Resource_Country_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * String helper
      *
-     * @var Mage_Core_Helper_String
+     * @var Magento_Core_Helper_String
      */
     protected $_stringHelper;
 
     /**
      * Locale model
      *
-     * @var Mage_Core_Model_LocaleInterface
+     * @var Magento_Core_Model_LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Mage_Core_Helper_String $stringHelper
-     * @param Mage_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Helper_String $stringHelper
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Mage_Core_Model_Resource_Db_Abstract $resource
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
-        Mage_Core_Helper_String $stringHelper,
-        Mage_Core_Model_LocaleInterface $locale,
+        Magento_Core_Helper_String $stringHelper,
+        Magento_Core_Model_LocaleInterface $locale,
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         $resource = null
     ) {

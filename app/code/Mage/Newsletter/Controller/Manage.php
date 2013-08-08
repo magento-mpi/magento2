@@ -16,7 +16,7 @@
  * @package    Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Controller_Manage extends Mage_Core_Controller_Front_Action
+class Mage_Newsletter_Controller_Manage extends Magento_Core_Controller_Front_Action
 {
     /**
      * Action predispatch

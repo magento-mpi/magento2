@@ -15,7 +15,7 @@
  * @package    Mage_Persistent
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Persistent_Controller_Index extends Mage_Core_Controller_Front_Action
+class Mage_Persistent_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**
      * Whether clear checkout session when logout
@@ -104,7 +104,7 @@ class Mage_Persistent_Controller_Index extends Mage_Core_Controller_Front_Action
      */
     public function expressCheckoutAction()
     {
-        Mage::getSingleton('Mage_Core_Model_Session')->addNotice(
+        Mage::getSingleton('Magento_Core_Model_Session')->addNotice(
             Mage::helper('Mage_Persistent_Helper_Data')->__('Your shopping cart has been updated with new prices.')
         );
         $this->_redirect('checkout/cart');

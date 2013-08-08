@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -20,10 +20,10 @@ class Mage_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('MAGETWO-3393');
         $this->_model = new Mage_Cms_Controller_Router(
-            Mage::getObjectManager()->get('Mage_Core_Controller_Varien_Action_Factory'),
-            new Mage_Core_Model_Event_ManagerStub(
-                $this->getMockForAbstractClass('Mage_Core_Model_Event_InvokerInterface', array(), '', false),
-                $this->getMock('Mage_Core_Model_Event_Config', array(), array(), '', false),
+            Mage::getObjectManager()->get('Magento_Core_Controller_Varien_Action_Factory'),
+            new Magento_Core_Model_Event_ManagerStub(
+                $this->getMockForAbstractClass('Magento_Core_Model_Event_InvokerInterface', array(), '', false),
+                $this->getMock('Magento_Core_Model_Event_Config', array(), array(), '', false),
                 $this->getMock('Magento_EventFactory', array(), array(), '', false),
                 $this->getMock('Magento_Event_ObserverFactory', array(), array(), '', false)
             )
@@ -36,27 +36,27 @@ class Mage_Cms_Controller_RouterTest extends PHPUnit_Framework_TestCase
     public function testMatch()
     {
         $this->markTestIncomplete('MAGETWO-3393');
-        $request = new Mage_Core_Controller_Request_Http();
+        $request = new Magento_Core_Controller_Request_Http();
         //Open Node
-        Mage::getObjectManager()->get('Mage_Core_Controller_Response_Http')
+        Mage::getObjectManager()->get('Magento_Core_Controller_Response_Http')
             ->headersSentThrowsException = Mage::$headersSentThrowsException;
         $request->setPathInfo('parent_node');
         $controller = $this->_model->match($request);
-        $this->assertInstanceOf('Mage_Core_Controller_Varien_Action_Redirect', $controller);
+        $this->assertInstanceOf('Magento_Core_Controller_Varien_Action_Redirect', $controller);
     }
 }
 
 /**
  * Event manager stub
  */
-class Mage_Core_Model_Event_ManagerStub extends Mage_Core_Model_Event_Manager
+class Magento_Core_Model_Event_ManagerStub extends Magento_Core_Model_Event_Manager
 {
     /**
      * Stub dispatch event
      *
      * @param string $eventName
      * @param array $params
-     * @return Mage_Core_Model_App|null
+     * @return Magento_Core_Model_App|null
      */
     public function dispatch($eventName, array $params = array())
     {

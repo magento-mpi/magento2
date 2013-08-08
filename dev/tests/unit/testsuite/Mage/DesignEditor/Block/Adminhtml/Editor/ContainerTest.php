@@ -44,7 +44,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_Fra
             ->with($params['expectedTranslation'])
             ->will($this->returnValue($params['expectedTranslation']));
 
-        $helperFactory = $this->getMock('Mage_Core_Model_Factory_Helper', array('get'));
+        $helperFactory = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'));
         $helperFactory->expects($this->once())
             ->method('get')
             ->will($this->returnValue($helper));
@@ -86,14 +86,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_Fra
     public function testPrepareLayout()
     {
         $buttonTitle = 'Back';
-        $eventManager = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $arguments = $this->_getBlockArguments(array('expectedTranslation' => $buttonTitle));
         $arguments['eventManager'] = $eventManager;
 
         /** @var $block Mage_DesignEditor_Block_Adminhtml_Editor_Container */
         $block = $this->_helper->getObject('Mage_DesignEditor_Block_Adminhtml_Editor_Container', $arguments);
 
-        $layout = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
         $block->setLayout($layout);
 
         $expectedButtonData = array(

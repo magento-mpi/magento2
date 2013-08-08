@@ -97,7 +97,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
         $layout->generateXml();
         $layout->generateElements();
         $output = $layout->getOutput();
-        $this->_objectManager->get('Mage_Core_Model_Translate')->processResponseBody($output);
+        $this->_objectManager->get('Magento_Core_Model_Translate')->processResponseBody($output);
         return $output;
     }
 
@@ -299,7 +299,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
         if ($this->getRequest()->isPost()) {
             $method = $this->getRequest()->getPost('method');
             $result = $this->getOnepage()->saveCheckoutMethod($method);
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -341,7 +341,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
                 }
             }
 
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -365,7 +365,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
                     'html' => $this->_getShippingMethodsHtml()
                 );
             }
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -386,7 +386,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
                         array('request'=>$this->getRequest(),
                             'quote'=>$this->getOnepage()->getQuote()));
                 $this->getOnepage()->getQuote()->collectTotals();
-                $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+                $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
 
                 $result['goto_section'] = 'payment';
                 $result['update_section'] = array(
@@ -395,7 +395,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
                 );
             }
             $this->getOnepage()->getQuote()->collectTotals()->save();
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -435,13 +435,13 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
                 $result['fields'] = $e->getFields();
             }
             $result['error'] = $e->getMessage();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $result['error'] = $e->getMessage();
         } catch (Exception $e) {
             Mage::logException($e);
             $result['error'] = $this->__('Unable to set Payment Method');
         }
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -457,7 +457,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
             $this->_order->load($this->getOnepage()->getQuote()->getId(), 'quote_id');
             if (!$this->_order->getId()) {
                 throw new Mage_Payment_Model_Info_Exception(
-                    Mage::helper('Mage_Core_Helper_Data')->__('Can not create invoice. Order was not found.')
+                    Mage::helper('Magento_Core_Helper_Data')->__('Can not create invoice. Order was not found.')
                 );
             }
         }
@@ -504,7 +504,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
                     $result['error'] = true;
                     $result['error_messages'] = $this
                         ->__('Please agree to all the terms and conditions before placing the order.');
-                    $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+                    $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
                     return;
                 }
             }
@@ -534,7 +534,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
                 'name' => 'payment-method',
                 'html' => $this->_getPaymentMethodsHtml()
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::logException($e);
             Mage::helper('Mage_Checkout_Helper_Data')->sendPaymentFailedEmail(
                 $this->getOnepage()->getQuote(),
@@ -580,7 +580,7 @@ class Mage_Checkout_Controller_Onepage extends Mage_Checkout_Controller_Action
             $result['redirect'] = $redirectUrl;
         }
 
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**

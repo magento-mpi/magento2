@@ -121,11 +121,11 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Returns helper mock
      *
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     protected function helper(array $urls = array())
     {
-        $helper = $this->getMock('Mage_Core_Helper_Abstract', array('__', 'getUrl'), array(), '', false);
+        $helper = $this->getMock('Magento_Core_Helper_Abstract', array('__', 'getUrl'), array(), '', false);
         $helper->expects($this->any())
             ->method('__')
             ->will(

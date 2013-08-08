@@ -115,7 +115,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
                 'label'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Websites'),
                 'title'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Websites'),
                 'required' => true,
-                'values'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
             ));
             $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
@@ -129,7 +129,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             'values'    => Mage::getResourceModel('Mage_Customer_Model_Resource_Group_Collection')->toOptionArray()
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
             'label'  => Mage::helper('Mage_CatalogRule_Helper_Data')->__('From Date'),

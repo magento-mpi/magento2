@@ -15,7 +15,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Bundle_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_NODE_BUNDLE_PRODUCT_TYPE      = 'global/catalog/product/type/bundle';
 

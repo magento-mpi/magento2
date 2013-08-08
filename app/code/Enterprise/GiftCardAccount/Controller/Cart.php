@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCardAccount_Controller_Cart extends Mage_Core_Controller_Front_Action
+class Enterprise_GiftCardAccount_Controller_Cart extends Magento_Core_Controller_Front_Action
 {
     /**
      * No index action, forward to 404
@@ -36,9 +36,9 @@ class Enterprise_GiftCardAccount_Controller_Cart extends Mage_Core_Controller_Fr
                     ->loadByCode($code)
                     ->addToCart();
                 Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
-                    $this->__('Gift Card "%s" was added.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($code))
+                    $this->__('Gift Card "%s" was added.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($code))
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_eventManager->dispatch(
                     'enterprise_giftcardaccount_add', array('status' => 'fail', 'code' => $code)
                 );
@@ -60,9 +60,9 @@ class Enterprise_GiftCardAccount_Controller_Cart extends Mage_Core_Controller_Fr
                     ->loadByCode($code)
                     ->removeFromCart();
                 Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
-                    $this->__('Gift Card "%s" was removed.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($code))
+                    $this->__('Gift Card "%s" was removed.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($code))
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Mage_Checkout_Model_Session')->addError(
                     $e->getMessage()
                 );
@@ -88,7 +88,7 @@ class Enterprise_GiftCardAccount_Controller_Cart extends Mage_Core_Controller_Fr
         try {
             $card->isValid(true, true, true, false);
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $card->unsetData();
         }
 

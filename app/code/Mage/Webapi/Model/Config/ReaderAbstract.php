@@ -30,12 +30,12 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     protected $_classReflector;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_applicationConfig;
 
     /**
-     * @var Mage_Core_Model_CacheInterface
+     * @var Magento_Core_Model_CacheInterface
      */
     protected $_cache;
 
@@ -48,13 +48,13 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
      * Construct config reader.
      *
      * @param Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector
-     * @param Mage_Core_Model_Config $appConfig
-     * @param Mage_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Config $appConfig
+     * @param Magento_Core_Model_CacheInterface $cache
      */
     public function __construct(
         Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector,
-        Mage_Core_Model_Config $appConfig,
-        Mage_Core_Model_CacheInterface $cache
+        Magento_Core_Model_Config $appConfig,
+        Magento_Core_Model_CacheInterface $cache
     ) {
         $this->_classReflector = $classReflector;
         $this->_applicationConfig = $appConfig;
@@ -77,7 +77,7 @@ abstract class Mage_Webapi_Model_Config_ReaderAbstract
     {
         if (!$this->_directoryScanner) {
             $this->_directoryScanner = new Zend\Code\Scanner\DirectoryScanner();
-            /** @var Mage_Core_Model_Config_Element $module */
+            /** @var Magento_Core_Model_Config_Element $module */
             foreach ($this->_applicationConfig->getNode('modules')->children() as $moduleName => $module) {
                 if ($module->is('active')) {
                     /** Invalid type is specified to retrieve path to module directory. */

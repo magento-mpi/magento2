@@ -99,7 +99,7 @@
                             <?php if($_item->getMessage(false)): ?>
                                 <?php foreach ($_item->getMessage(false) as $message): ?>
                                 <div class="<?php if($_item->getHasError()): ?>error<?php else: ?>notice<?php endif; ?>">
-                                    <div style="font-size:95%"><?php echo Mage::helper('Mage_Core_Helper_Data')->escapeHtml($message); ?></div>
+                                    <div style="font-size:95%"><?php echo Mage::helper('Magento_Core_Helper_Data')->escapeHtml($message); ?></div>
                                 </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>

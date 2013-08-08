@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -65,7 +65,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
         );
 
         try {
-            /** @var $website Mage_Core_Model_Website */
+            /** @var $website Magento_Core_Model_Website */
             Mage::app()->getStore()->setWebsiteId(0);
 
             $templateBlocks = array();
@@ -78,7 +78,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
                     continue;
                 }
                 $class = new ReflectionClass($blockClass);
-                if ($class->isAbstract() || !$class->isSubclassOf('Mage_Core_Block_Template')) {
+                if ($class->isAbstract() || !$class->isSubclassOf('Magento_Core_Block_Template')) {
                     continue;
                 }
                 $templateBlocks = $this->_addBlock($module, $blockClass, $class, $templateBlocks);
@@ -109,8 +109,8 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
             $area = 'adminhtml';
         }
         Mage::app()->loadAreaPart(
-            Mage_Core_Model_App_Area::AREA_ADMINHTML,
-            Mage_Core_Model_App_Area::PART_CONFIG
+            Magento_Core_Model_App_Area::AREA_ADMINHTML,
+            Magento_Core_Model_App_Area::PART_CONFIG
         );
         $templateBlocks[$module . ', ' . $blockClass . ', ' . $area]
             = array($module, $blockClass, $area);

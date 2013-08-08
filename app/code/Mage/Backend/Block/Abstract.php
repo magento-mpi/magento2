@@ -17,7 +17,7 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_Backend_Block_Abstract extends Mage_Core_Block_Abstract
+class Mage_Backend_Block_Abstract extends Magento_Core_Block_Abstract
 {
     /**
      * @var Magento_AuthorizationInterface

@@ -15,7 +15,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento
  */
-class Enterprise_Pbridge_Block_Checkout_Payment_Review_Container extends Mage_Core_Block_Template
+class Enterprise_Pbridge_Block_Checkout_Payment_Review_Container extends Magento_Core_Block_Template
 {
     /**
      * Custom rewrite for _toHtml() method

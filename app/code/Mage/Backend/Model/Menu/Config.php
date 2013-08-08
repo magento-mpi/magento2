@@ -13,7 +13,7 @@ class Mage_Backend_Model_Menu_Config
     const CACHE_MENU_OBJECT = 'backend_menu_object';
 
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
 
@@ -23,12 +23,12 @@ class Mage_Backend_Model_Menu_Config
     protected $_factory;
 
     /**
-     * @var Mage_Core_Model_Config_Modules_Reader
+     * @var Magento_Core_Model_Config_Modules_Reader
      */
     protected $_moduleReader;
 
     /**
-     * @var Mage_Core_Model_Event_Manager
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager;
 
@@ -44,24 +44,24 @@ class Mage_Backend_Model_Menu_Config
     protected $_menu;
 
     /**
-     * @var Mage_Core_Model_Logger
+     * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
     /**
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_ObjectManager $factory
-     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
-     * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Logger $logger
      * @param Mage_Backend_Model_Menu_Factory $menuFactory
      */
     public function __construct(
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
         Magento_ObjectManager $factory,
-        Mage_Core_Model_Config_Modules_Reader $moduleReader,
-        Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Model_Logger $logger,
+        Magento_Core_Model_Config_Modules_Reader $moduleReader,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Logger $logger,
         Mage_Backend_Model_Menu_Factory $menuFactory
     ) {
         $this->_configCacheType = $configCacheType;
@@ -80,7 +80,7 @@ class Mage_Backend_Model_Menu_Config
      */
     public function getMenu()
     {
-        $store = $this->_factory->get('Mage_Core_Model_App')->getStore();
+        $store = $this->_factory->get('Magento_Core_Model_App')->getStore();
         $this->_logger->addStoreLog(Mage_Backend_Model_Menu::LOGGER_KEY, $store);
         try {
             $this->_initMenu();

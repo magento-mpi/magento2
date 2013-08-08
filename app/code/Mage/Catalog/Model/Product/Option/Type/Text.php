@@ -20,7 +20,7 @@ class Mage_Catalog_Model_Product_Option_Type_Text extends Mage_Catalog_Model_Pro
     /**
      * Validate user input for option
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
      * @return Mage_Catalog_Model_Product_Option_Type_Default
      */
@@ -39,7 +39,7 @@ class Mage_Catalog_Model_Product_Option_Type_Text extends Mage_Catalog_Model_Pro
 
         // Check maximal length limit
         $maxCharacters = $option->getMaxCharacters();
-        if ($maxCharacters > 0 && Mage::helper('Mage_Core_Helper_String')->strlen($value) > $maxCharacters) {
+        if ($maxCharacters > 0 && Mage::helper('Magento_Core_Helper_String')->strlen($value) > $maxCharacters) {
             $this->setIsValid(false);
             Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The text is too long.'));
         }
@@ -70,6 +70,6 @@ class Mage_Catalog_Model_Product_Option_Type_Text extends Mage_Catalog_Model_Pro
      */
     public function getFormattedOptionValue($value)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->escapeHtml($value);
+        return Mage::helper('Magento_Core_Helper_Data')->escapeHtml($value);
     }
 }

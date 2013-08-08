@@ -9,7 +9,7 @@
 /**
  * Hosted Sole Solution helper
  */
-class Mage_Paypal_Helper_Hss extends Mage_Core_Helper_Abstract
+class Mage_Paypal_Helper_Hss extends Magento_Core_Helper_Abstract
 {
     /**
      * Hosted Sole Solution methods

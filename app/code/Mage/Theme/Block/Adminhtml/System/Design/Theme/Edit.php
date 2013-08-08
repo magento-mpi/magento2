@@ -16,7 +16,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
     /**
      * Prepare layout
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
@@ -28,7 +28,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
             $this->getLayout()->getBlock('page-title')->setPageTitle($this->getHeaderText());
         }
 
-        /** @var $theme Mage_Core_Model_Theme */
+        /** @var $theme Magento_Core_Model_Theme */
         $theme = $this->_getCurrentTheme();
         if ($theme) {
             if ($theme->isEditable()) {
@@ -73,7 +73,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
      */
     public function getHeaderText()
     {
-        /** @var $theme Mage_Core_Model_Theme */
+        /** @var $theme Magento_Core_Model_Theme */
         $theme = $this->_getCurrentTheme();
         if ($theme->getId()) {
             $header = $this->__('Theme: %s', $theme->getThemeTitle());
@@ -86,7 +86,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_B
     /**
      * Get current theme
      *
-     * @return Mage_Core_Model_Theme
+     * @return Magento_Core_Model_Theme
      */
     protected function _getCurrentTheme()
     {

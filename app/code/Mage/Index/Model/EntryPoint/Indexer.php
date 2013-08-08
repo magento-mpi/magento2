@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Index_Model_EntryPoint_Indexer extends Mage_Core_Model_EntryPointAbstract
+class Mage_Index_Model_EntryPoint_Indexer extends Magento_Core_Model_EntryPointAbstract
 {
     /**
      * Report directory
@@ -22,13 +22,13 @@ class Mage_Index_Model_EntryPoint_Indexer extends Mage_Core_Model_EntryPointAbst
     /**
      * @param string $reportDir absolute path to report directory to be cleaned
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_Config_Primary $config
+     * @param Magento_Core_Model_Config_Primary $config
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         $reportDir,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Config_Primary $config,
+        Magento_Core_Model_Config_Primary $config,
         Magento_ObjectManager $objectManager = null
     ) {
         parent::__construct($config, $objectManager);

@@ -11,7 +11,7 @@
  */
 class Mage_Webhook_Model_Source_Format
 {
-    /** @var Mage_Core_Model_Translate  */
+    /** @var Magento_Core_Model_Translate  */
     private $_translator;
 
     /** @var string[] $_formats */
@@ -25,10 +25,10 @@ class Mage_Webhook_Model_Source_Format
     protected $_options = null;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
+     * @param Magento_Core_Model_Translate $translator
      * @param string[] $formats
      */
-    public function __construct(array $formats, Mage_Core_Model_Translate $translator)
+    public function __construct(array $formats, Magento_Core_Model_Translate $translator)
     {
         $this->_translator = $translator;
         $this->_formats = $formats;

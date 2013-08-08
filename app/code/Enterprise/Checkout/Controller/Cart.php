@@ -17,7 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Checkout_Controller_Cart
-    extends Mage_Core_Controller_Front_Action
+    extends Magento_Core_Controller_Front_Action
     implements Mage_Catalog_Controller_Product_View_Interface
 {
     /**
@@ -104,7 +104,7 @@ class Enterprise_Checkout_Controller_Cart
             if ($cart->hasErrorMessage()) {
                 Mage::throwException($cart->getErrorMessage());
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
         }
 
@@ -136,7 +136,7 @@ class Enterprise_Checkout_Controller_Cart
     public function removeFailedAction()
     {
         $removed = $this->_getFailedItemsCart()->removeAffectedItem(
-            Mage::helper('Mage_Core_Helper_Url')->urlDecode($this->getRequest()->getParam('sku'))
+            Mage::helper('Magento_Core_Helper_Url')->urlDecode($this->getRequest()->getParam('sku'))
         );
 
         if ($removed) {
@@ -185,7 +185,7 @@ class Enterprise_Checkout_Controller_Cart
             $params->setBuyRequest($buyRequest);
 
             Mage::helper('Mage_Catalog_Helper_Product_View')->prepareAndRender($id, $this, $params);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getCustomerSession()->addError($e->getMessage());
             $this->_redirect('*');
             return;
@@ -220,12 +220,12 @@ class Enterprise_Checkout_Controller_Cart
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $productName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName());
+                    $productName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($product->getName());
                     $message = $this->__('You added %s to your shopping cart.', $productName);
                     $this->_getSession()->addSuccess($message);
                 }
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $hasError = true;
         } catch (Exception $e) {

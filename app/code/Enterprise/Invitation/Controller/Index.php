@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Controller_Index extends Mage_Core_Controller_Front_Action
+class Enterprise_Invitation_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**
      * Only logged in users can use this functionality,
@@ -68,11 +68,11 @@ class Enterprise_Invitation_Controller_Index extends Mage_Core_Controller_Front_
                         $sent++;
                     }
                     else {
-                        throw new Exception(''); // not Mage_Core_Exception intentionally
+                        throw new Exception(''); // not Magento_Core_Exception intentionally
                     }
 
                 }
-                catch (Mage_Core_Exception $e) {
+                catch (Magento_Core_Exception $e) {
                     if (Enterprise_Invitation_Model_Invitation::ERROR_CUSTOMER_EXISTS === $e->getCode()) {
                         $customerExists++;
                     }

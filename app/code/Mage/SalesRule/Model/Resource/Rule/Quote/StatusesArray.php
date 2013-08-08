@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_SalesRule_Model_Resource_Rule_Quote_StatusesArray implements Mage_Core_Model_Option_ArrayInterface
+class Mage_SalesRule_Model_Resource_Rule_Quote_StatusesArray implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * SalesRule Helper

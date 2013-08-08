@@ -25,7 +25,7 @@
  * @package     Mage_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
+class Mage_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
 {
     /**
      * Prefix of model events names
@@ -43,7 +43,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     /**
      * Store filter for wishlist
      *
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store = null;
 
@@ -55,13 +55,13 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     protected $_storeIds = null;
 
     /**
-     * @param Mage_Core_Model_Context $context
+     * @param Magento_Core_Model_Context $context
      * @param Mage_Wishlist_Model_Resource_Wishlist $resource
      * @param Mage_Wishlist_Model_Resource_Wishlist_Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
+        Magento_Core_Model_Context $context,
         Mage_Wishlist_Model_Resource_Wishlist $resource,
         Mage_Wishlist_Model_Resource_Wishlist_Collection $resourceCollection,
         array $data = array()
@@ -142,7 +142,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
      */
     protected function _getSharingRandomCode()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
+        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
     }
 
     /**
@@ -153,7 +153,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         parent::_beforeSave();
-        $this->setUpdatedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
+        $this->setUpdatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
         return $this;
     }
 
@@ -423,7 +423,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     /**
      * Retrieve wishlist store object
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -436,7 +436,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
     /**
      * Set wishlist store
      *
-     * @param Mage_Core_Model_Store $store
+     * @param Magento_Core_Model_Store $store
      * @return Mage_Wishlist_Model_Wishlist
      */
     public function setStore($store)

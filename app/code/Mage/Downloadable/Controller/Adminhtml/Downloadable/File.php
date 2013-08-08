@@ -34,7 +34,7 @@ class Mage_Downloadable_Controller_Adminhtml_Downloadable_File extends Magento_A
         }
         $result = array();
         try {
-            $uploader = new Mage_Core_Model_File_Uploader($type);
+            $uploader = new Magento_Core_Model_File_Uploader($type);
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save($tmpPath);
@@ -47,7 +47,7 @@ class Mage_Downloadable_Controller_Adminhtml_Downloadable_File extends Magento_A
 
             if (isset($result['file'])) {
                 $fullPath = rtrim($tmpPath, DS) . DS . ltrim($result['file'], DS);
-                Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFile($fullPath);
+                Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFile($fullPath);
             }
 
             $result['cookie'] = array(
@@ -61,7 +61,7 @@ class Mage_Downloadable_Controller_Adminhtml_Downloadable_File extends Magento_A
             $result = array('error'=>$e->getMessage(), 'errorcode'=>$e->getCode());
         }
 
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**

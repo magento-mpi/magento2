@@ -44,7 +44,7 @@ class Mage_Api_Model_Config extends Magento_Simplexml_Config
             }
         }
 
-        $config = Mage::getSingleton('Mage_Core_Model_Config_Modules_Reader')->loadModulesConfiguration('api.xml');
+        $config = Mage::getSingleton('Magento_Core_Model_Config_Modules_Reader')->loadModulesConfiguration('api.xml');
         $this->setXml($config->getNode('api'));
 
         if (Mage::app()->useCache(Mage_Api_Model_Cache_Type::TYPE_IDENTIFIER)) {
@@ -151,7 +151,7 @@ class Mage_Api_Model_Config extends Magento_Simplexml_Config
      * Load Acl resources from config
      *
      * @param Mage_Api_Model_Acl $acl
-     * @param Mage_Core_Model_Config_Element $resource
+     * @param Magento_Core_Model_Config_Element $resource
      * @param string $parentName
      * @return Mage_Api_Model_Config
      */
@@ -186,7 +186,7 @@ class Mage_Api_Model_Config extends Magento_Simplexml_Config
      * Get acl assert config
      *
      * @param string $name
-     * @return Mage_Core_Model_Config_Element|boolean
+     * @return Magento_Core_Model_Config_Element|boolean
      */
     public function getAclAssert($name='')
     {
@@ -206,7 +206,7 @@ class Mage_Api_Model_Config extends Magento_Simplexml_Config
      * Retrieve privilege set by name
      *
      * @param string $name
-     * @return Mage_Core_Model_Config_Element|boolean
+     * @return Magento_Core_Model_Config_Element|boolean
      */
     public function getAclPrivilegeSet($name='')
     {

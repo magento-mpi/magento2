@@ -65,12 +65,12 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Abstra
      * Create a form element with necessary controls
      *
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _prepareForm()
     {
         if (!$this->_formId || !$this->_tab) {
-            throw new Mage_Core_Exception(
+            throw new Magento_Core_Exception(
                 $this->__('We found an invalid block of class "%s". Please define the required properties.',
                     get_class($this))
             );

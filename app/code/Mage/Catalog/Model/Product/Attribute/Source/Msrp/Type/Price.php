@@ -55,7 +55,7 @@ class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
             'extra'     => null
         );
 
-        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
             $column['type']     = $attributeType;
             $column['is_null']  = true;
         } else {

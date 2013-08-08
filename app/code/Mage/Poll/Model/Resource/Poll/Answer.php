@@ -16,7 +16,7 @@
  * @package     Mage_Poll
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Poll_Model_Resource_Poll_Answer extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Poll_Model_Resource_Poll_Answer extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize Poll_Answer resource

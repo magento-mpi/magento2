@@ -11,7 +11,7 @@
 /**
  * Abstract Express Checkout Controller
  */
-abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Controller_Front_Action
+abstract class Mage_Paypal_Controller_Express_Abstract extends Magento_Core_Controller_Front_Action
 {
     /**
      * @var Mage_Paypal_Model_Express_Checkout
@@ -106,7 +106,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
                 $this->getResponse()->setRedirect($url);
                 return;
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getCheckoutSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getCheckoutSession()->addError($this->__('We can\'t start Express Checkout.'));
@@ -155,7 +155,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             } else {
                 $this->_getCheckoutSession()->addSuccess($this->__('Express Checkout has been canceled.'));
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getCheckoutSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getCheckoutSession()->addError($this->__('Unable to cancel Express Checkout'));
@@ -176,7 +176,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $this->_redirect('*/*/review');
             return;
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Mage_Checkout_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {
@@ -205,7 +205,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $this->renderLayout();
             return;
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Mage_Checkout_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {
@@ -225,7 +225,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
         try {
             $this->getResponse()->setRedirect($this->_config->getExpressCheckoutEditUrl($this->_initToken()));
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/review');
         }
@@ -247,7 +247,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
                     ->toHtml());
                 return;
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('We can\'t update shipping method.'));
@@ -275,7 +275,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
                 ->setQuote($this->_getQuote())
                 ->toHtml());
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('We can\'t update Order data.'));
@@ -301,7 +301,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
                     ->toHtml());
                 return;
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('We can\'t update Order data.'));
@@ -372,7 +372,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
             $this->_redirect('checkout/onepage/success');
             return;
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         catch (Exception $e) {
@@ -384,7 +384,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
 
     /**
      * Instantiate quote and checkout
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     private function _initCheckout()
     {
@@ -439,7 +439,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     /**
      * PayPal session instance getter
      *
-     * @return Mage_Core_Model_Session_Generic
+     * @return Magento_Core_Model_Session_Generic
      */
     private function _getSession()
     {
@@ -477,7 +477,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Mage_Core_Control
     {
         $this->setFlag('', 'no-dispatch', true);
         $this->getResponse()->setRedirect(
-            Mage::helper('Mage_Core_Helper_Url')->addRequestParam(
+            Mage::helper('Magento_Core_Helper_Url')->addRequestParam(
                 Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl(),
                 array('context' => 'checkout')
             )

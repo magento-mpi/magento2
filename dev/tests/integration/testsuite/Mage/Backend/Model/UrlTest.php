@@ -76,20 +76,20 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      * @param string $controller
      * @param string $action
      * @param string $expectedHash
-     * @magentoConfigFixture global/helpers/core/encryption_model Mage_Core_Model_Encryption
+     * @magentoConfigFixture global/helpers/core/encryption_model Magento_Core_Model_Encryption
      * @dataProvider getSecretKeyDataProvider
      * @magentoAppIsolation enabled
      */
     public function testGetSecretKey($routeName, $controller, $action, $expectedHash)
     {
-        /** @var $request Mage_Core_Controller_Request_Http */
-        $request = Mage::getModel('Mage_Core_Controller_Request_Http');
+        /** @var $request Magento_Core_Controller_Request_Http */
+        $request = Mage::getModel('Magento_Core_Controller_Request_Http');
         $request->setControllerName('default_controller')
             ->setActionName('default_action')
             ->setRouteName('default_router');
 
         $this->_model->setRequest($request);
-        Mage::getSingleton('Mage_Core_Model_Session')->setData('_form_key', 'salt');
+        Mage::getSingleton('Magento_Core_Model_Session')->setData('_form_key', 'salt');
         $this->assertEquals($expectedHash, $this->_model->getSecretKey($routeName, $controller, $action));
     }
 
@@ -112,17 +112,17 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture global/helpers/core/encryption_model Mage_Core_Model_Encryption
+     * @magentoConfigFixture global/helpers/core/encryption_model Magento_Core_Model_Encryption
      * @magentoAppIsolation enabled
      */
     public function testGetSecretKeyForwarded()
     {
-        /** @var $request Mage_Core_Controller_Request_Http */
-        $request = Mage::getModel('Mage_Core_Controller_Request_Http');
+        /** @var $request Magento_Core_Controller_Request_Http */
+        $request = Mage::getModel('Magento_Core_Controller_Request_Http');
         $request->setControllerName('controller')->setActionName('action');
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);
-        Mage::getSingleton('Mage_Core_Model_Session')->setData('_form_key', 'salt');
+        Mage::getSingleton('Magento_Core_Model_Session')->setData('_form_key', 'salt');
         $this->assertEquals('c36d05473b54f437889608cbe8d50339', $this->_model->getSecretKey());
     }
 

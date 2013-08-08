@@ -15,7 +15,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_
     /** @var Mage_Webapi_Controller_Request_Rest */
     protected $_requestMock;
 
-    /** @var Mage_Core_Model_Config */
+    /** @var Magento_Core_Model_Config */
     protected $_applicationMock;
 
     /** @var Magento_ObjectManager */
@@ -26,11 +26,11 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_
         /** Init dependencies for SUT. */
         $this->_objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->disableOriginalConstructor()
             ->getMock();
-        $this->_applicationMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()
+        $this->_applicationMock = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()
             ->getMock();
         $helperDataMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
         $helperDataMock->expects($this->any())->method('__')->will($this->returnArgument(0));
-        $helperFactoryMock = $this->getMockBuilder('Mage_Core_Model_Factory_Helper')->disableOriginalConstructor()
+        $helperFactoryMock = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')->disableOriginalConstructor()
             ->getMock();
         $helperFactoryMock->expects($this->any())->method('get')->will($this->returnValue($helperDataMock));
         $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest')->disableOriginalConstructor()
@@ -93,8 +93,8 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_FactoryTest extends PHPUnit_
             </application_json>
         </renders>
 XML;
-        /** Return Mage_Core_Model_Config_Element with stored renders data. */
-        return new Mage_Core_Model_Config_Element($rendersXml);
+        /** Return Magento_Core_Model_Config_Element with stored renders data. */
+        return new Magento_Core_Model_Config_Element($rendersXml);
     }
 
     /**

@@ -12,26 +12,26 @@
  * Store and language switcher block
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Page_Block_Switch extends Mage_Core_Block_Template
+class Mage_Page_Block_Switch extends Magento_Core_Block_Template
 {
     protected $_storeInUrl;
 
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -73,7 +73,7 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
             $websiteStores = Mage::app()->getWebsite()->getStores();
             $stores = array();
             foreach ($websiteStores as $store) {
-                /* @var $store Mage_Core_Model_Store */
+                /* @var $store Magento_Core_Model_Store */
                 if (!$store->getIsActive()) {
                     continue;
                 }
@@ -109,7 +109,7 @@ class Mage_Page_Block_Switch extends Mage_Core_Block_Template
             $groups = array();
             $localeCode = Mage::getStoreConfig('general/locale/code');
             foreach ($rawGroups as $group) {
-                /* @var $group Mage_Core_Model_Store_Group */
+                /* @var $group Magento_Core_Model_Store_Group */
                 if (!isset($rawStores[$group->getId()])) {
                     continue;
                 }

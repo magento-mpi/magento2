@@ -12,7 +12,7 @@
 /**
  * Centinel validation form lookup
  */
-class Mage_Centinel_Block_Authentication_Complete extends Mage_Core_Block_Template
+class Mage_Centinel_Block_Authentication_Complete extends Magento_Core_Block_Template
 {
     /**
      * Prepare authentication result params and render

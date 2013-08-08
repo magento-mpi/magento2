@@ -32,7 +32,7 @@
  * @package     Mage_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
+class Mage_Cron_Model_Schedule extends Magento_Core_Model_Abstract
 {
     const STATUS_PENDING = 'pending';
     const STATUS_RUNNING = 'running';
@@ -74,7 +74,7 @@ class Mage_Cron_Model_Schedule extends Mage_Core_Model_Abstract
             $time = strtotime($time);
         }
 
-        $d = getdate(Mage::getSingleton('Mage_Core_Model_Date')->timestamp($time));
+        $d = getdate(Mage::getSingleton('Magento_Core_Model_Date')->timestamp($time));
 
         $match = $this->matchCronExpression($e[0], $d['minutes'])
             && $this->matchCronExpression($e[1], $d['hours'])

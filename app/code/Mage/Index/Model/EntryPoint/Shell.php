@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Index_Model_EntryPoint_Shell extends Mage_Core_Model_EntryPointAbstract
+class Mage_Index_Model_EntryPoint_Shell extends Magento_Core_Model_EntryPointAbstract
 {
     /**
      * Filename of the entry point script
@@ -22,13 +22,13 @@ class Mage_Index_Model_EntryPoint_Shell extends Mage_Core_Model_EntryPointAbstra
     /**
      * @param string $entryFileName filename of the entry point script
      * @param Mage_Index_Model_EntryPoint_Shell_ErrorHandler $errorHandler
-     * @param Mage_Core_Model_Config_Primary $config
+     * @param Magento_Core_Model_Config_Primary $config
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         $entryFileName,
         Mage_Index_Model_EntryPoint_Shell_ErrorHandler $errorHandler,
-        Mage_Core_Model_Config_Primary $config,
+        Magento_Core_Model_Config_Primary $config,
         Magento_ObjectManager $objectManager = null
     ) {
         parent::__construct($config, $objectManager);

@@ -28,7 +28,7 @@
  * @package     Mage_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
+class Mage_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abstract
 {
     const STATUS_OUT_OF_STOCK       = 0;
     const STATUS_IN_STOCK           = 1;
@@ -276,7 +276,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
         $websites   = $this->getWebsites($websiteId);
 
         foreach (array_keys($websites) as $websiteId) {
-            /* @var $website Mage_Core_Model_Website */
+            /* @var $website Magento_Core_Model_Website */
             $statuses[$websiteId] = $status;
         }
 
@@ -481,10 +481,10 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
      * Add stock status to prepare index select
      *
      * @param Magento_DB_Select $select
-     * @param Mage_Core_Model_Website $website
+     * @param Magento_Core_Model_Website $website
      * @return Mage_CatalogInventory_Model_Stock_Status
      */
-    public function addStockStatusToSelect(Magento_DB_Select $select, Mage_Core_Model_Website $website)
+    public function addStockStatusToSelect(Magento_DB_Select $select, Magento_Core_Model_Website $website)
     {
         $this->_getResource()->addStockStatusToSelect($select, $website);
         return $this;

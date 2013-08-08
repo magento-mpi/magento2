@@ -79,11 +79,11 @@ class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Block
     /**
      * Helper getter for translations
      *
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     public function getTranslationHelper()
     {
-        if ($this->_getData('translation_helper') instanceof Mage_Core_Helper_Abstract) {
+        if ($this->_getData('translation_helper') instanceof Magento_Core_Helper_Abstract) {
             return $this->_getData('translation_helper');
         }
         return $this->helper('Mage_Widget_Helper_Data');
@@ -159,7 +159,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Block
         $chooser->setData('after_element_html', $hiddenHtml . $chooseButton->toHtml());
 
         // render label and chooser scripts
-        $configJson = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config->getData());
+        $configJson = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config->getData());
         return '
             <label class="widget-option-label" id="' . $chooserId . 'label">'
             . ($this->getLabel() ? $this->getLabel() : Mage::helper('Mage_Widget_Helper_Data')->__('Not Selected')) . '</label>

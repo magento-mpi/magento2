@@ -72,7 +72,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Admi
      * Get catalog entity associated stores
      *
      * @return array
-     * @throws Mage_Core_Model_Store_Exception
+     * @throws Magento_Core_Model_Store_Exception
      */
     protected function _getEntityStores()
     {
@@ -85,7 +85,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Admi
             $this->_requireStoresFilter = !in_array(0, $entityStores);
 
             if (!$entityStores) {
-                throw new Mage_Core_Model_Store_Exception(
+                throw new Magento_Core_Model_Store_Exception(
                     Mage::helper('Magento_Adminhtml_Helper_Data')
                         ->__('Chosen cms page does not associated with any website.')
                 );

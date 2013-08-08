@@ -16,7 +16,7 @@
  * @package     Mage_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Resource_Stock extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Is initialized configuration flag

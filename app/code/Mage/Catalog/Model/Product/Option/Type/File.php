@@ -136,7 +136,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     /**
      * Validate user input for option
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
      * @return Mage_Catalog_Model_Product_Option_Type_File
      */
@@ -189,7 +189,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     /**
      * Validate uploaded file
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Catalog_Model_Product_Option_Type_File
      */
     protected function _validateUploadedFile()
@@ -278,8 +278,8 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
 
             $extension = pathinfo(strtolower($fileInfo['name']), PATHINFO_EXTENSION);
 
-            $fileName = Mage_Core_Model_File_Uploader::getCorrectFileName($fileInfo['name']);
-            $dispersion = Mage_Core_Model_File_Uploader::getDispretionPath($fileName);
+            $fileName = Magento_Core_Model_File_Uploader::getCorrectFileName($fileInfo['name']);
+            $dispersion = Magento_Core_Model_File_Uploader::getDispretionPath($fileName);
 
             $filePath = $dispersion;
             $dirName = dirname($fileInfo['tmp_name']);
@@ -339,7 +339,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     /**
      * Validate file
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @param array $optionValue
      * @return Mage_Catalog_Model_Product_Option_Type_Default
      */
@@ -363,7 +363,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         $fileFullPath = null;
         foreach ($checkPaths as $path) {
             if (!$this->_filesystem->isFile($path)) {
-                if (!Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($fileFullPath)) {
+                if (!Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($fileFullPath)) {
                     continue;
                 }
             }
@@ -557,7 +557,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
 
             return sprintf('<a href="%s" target="_blank">%s</a> %s',
                 $this->_getOptionDownloadUrl($urlRoute, $urlParams),
-                Mage::helper('Mage_Core_Helper_Data')->escapeHtml($title),
+                Mage::helper('Magento_Core_Helper_Data')->escapeHtml($title),
                 $sizes
             );
         } catch (Exception $e) {
@@ -604,7 +604,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
         try {
             $value = unserialize($optionValue);
             return sprintf('%s [%d]',
-                Mage::helper('Mage_Core_Helper_Data')->escapeHtml($value['title']),
+                Mage::helper('Magento_Core_Helper_Data')->escapeHtml($value['title']),
                 $this->getConfigurationItemOption()->getId()
             );
 
@@ -675,7 +675,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             $orderFileFullPath = Mage::getBaseDir() . $value['order_path'];
             $dir = pathinfo($orderFileFullPath, PATHINFO_DIRNAME);
             $this->_createWritableDir($dir);
-            Mage::helper('Mage_Core_Helper_File_Storage_Database')->copyFile($quoteFileFullPath, $orderFileFullPath);
+            Mage::helper('Magento_Core_Helper_File_Storage_Database')->copyFile($quoteFileFullPath, $orderFileFullPath);
             $this->_filesystem->copy($quoteFileFullPath, $orderFileFullPath);
         } catch (Exception $e) {
             return $this;
@@ -752,7 +752,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      *
      * @param string Absolute directory path
      * @return void
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _createWritableDir($path)
     {
@@ -761,7 +761,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 $this->_filesystem->createDirectory($path, 0777);
             }
         } catch (Magento_Filesystem_Exception $e) {
-            throw new Mage_Core_Exception($this->_helper->__("Cannot create writable directory '%s'.", $path));
+            throw new Magento_Core_Exception($this->_helper->__("Cannot create writable directory '%s'.", $path));
         }
     }
 

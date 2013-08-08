@@ -143,7 +143,7 @@ class Magento_Adminhtml_Controller_Cms_Page extends Magento_Adminhtml_Controller
                 $this->_redirect('*/*/');
                 return;
 
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
             catch (Exception $e) {

@@ -126,7 +126,7 @@ class Mage_Customer_Model_Observer
             $customerHelper = Mage::helper('Mage_Customer_Helper_Data');
 
             if ($customerAddress->getVatId() == ''
-                || !Mage::helper('Mage_Core_Helper_Data')->isCountryInEU($customerAddress->getCountry()))
+                || !Mage::helper('Magento_Core_Helper_Data')->isCountryInEU($customerAddress->getCountry()))
             {
                 $defaultGroupId = $customerHelper->getDefaultCustomerGroupId($customer->getStore());
 

@@ -99,7 +99,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     protected function _saveShipment($shipment)
     {
         $shipment->getOrder()->setIsInProcess(true);
-        $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
+        $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
             ->addObject($shipment)
             ->addObject($shipment->getOrder())
             ->save();
@@ -212,7 +212,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             $this->_getSession()->addSuccess($isNeedCreateLabel ? $shipmentCreatedMessage . ' ' . $labelCreatedMessage
                 : $shipmentCreatedMessage);
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCommentText(true);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             if ($isNeedCreateLabel) {
                 $responseAjax->setError(true);
                 $responseAjax->setMessage($e->getMessage());
@@ -258,7 +258,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 }
                 $this->_getSession()->addSuccess($this->__('You sent the shipment.'));
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('Cannot send shipment information.'));
@@ -300,7 +300,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                     'message'   => $this->__('Cannot initialize shipment for adding tracking number.'),
                 );
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
@@ -312,7 +312,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
+            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -351,7 +351,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
+            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -388,7 +388,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             $this->getResponse()->setBody($block->toHtml());
         } else {
             if (is_array($response)) {
-                $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
+                $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
             }
 
             $this->getResponse()->setBody($response);
@@ -420,18 +420,18 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
 
             $this->loadLayout(false);
             $response = $this->getLayout()->getBlock('shipment_comments')->toHtml();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
+            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
         } catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $this->__('Cannot add new comment.')
             );
-            $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
+            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -498,7 +498,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('You created the shipping label.'));
                 $response->setOk(true);
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (Exception $e) {
@@ -539,7 +539,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                     'application/pdf'
                 );
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::logException($e);
@@ -562,7 +562,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
 
         if ($shipment) {
             $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment_Packaging')->getPdf($shipment);
-            $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf',
+            $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf',
                 $pdf->render(), 'application/pdf'
             );
         }
@@ -664,8 +664,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     {
         /** @var Magento_Filesystem $filesystem */
         $filesystem = $this->_objectManager->get('Magento_Filesystem');
-        /** @var $tmpDir Mage_Core_Model_Dir */
-        $tmpDir = $this->_objectManager->get('Mage_Core_Model_Dir', $filesystem->getWorkingDirectory());
+        /** @var $tmpDir Magento_Core_Model_Dir */
+        $tmpDir = $this->_objectManager->get('Magento_Core_Model_Dir', $filesystem->getWorkingDirectory());
         $image = imagecreatefromstring($imageString);
         if (!$image) {
             return false;
@@ -676,7 +676,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
         $page = new Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $tmpFileName = $tmpDir->getDir(Mage_Core_Model_Dir::TMP) . 'shipping_labels_'
+        $tmpFileName = $tmpDir->getDir(Magento_Core_Model_Dir::TMP) . 'shipping_labels_'
                      . uniqid(mt_rand()) . time() . '.png';
         imagepng($image, $tmpFileName);
         $pdfImage = Zend_Pdf_Image::imageWithPath($tmpFileName);
@@ -688,7 +688,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     /**
      * Return grid with shipping items for Ajax request
      *
-     * @return Mage_Core_Controller_Response_Http
+     * @return Magento_Core_Controller_Response_Http
      */
     public function getShippingItemsGridAction()
     {

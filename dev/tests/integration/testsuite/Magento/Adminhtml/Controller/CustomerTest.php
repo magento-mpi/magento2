@@ -61,7 +61,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends Mage_Backend_Utility_Con
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Mage_Core_Model_Message::ERROR);
+        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Magento_Core_Model_Message::ERROR);
         /**
          * Check that customer data were set to session
          */
@@ -88,7 +88,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends Mage_Backend_Utility_Con
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Mage_Core_Model_Message::ERROR);
+        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Magento_Core_Model_Message::ERROR);
         /**
          * Check that customer data were set to session
          */
@@ -130,7 +130,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends Mage_Backend_Utility_Con
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->isEmpty(), Mage_Core_Model_Message::ERROR);
+        $this->assertSessionMessages($this->isEmpty(), Magento_Core_Model_Message::ERROR);
         /**
          * Check that customer data were set to session
          */
@@ -139,7 +139,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends Mage_Backend_Utility_Con
         /**
          * Check that success message is set
          */
-        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Mage_Core_Model_Message::SUCCESS);
+        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Magento_Core_Model_Message::SUCCESS);
 
         /**
          * Check that customer id set and addresses saved
@@ -210,7 +210,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends Mage_Backend_Utility_Con
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('You saved the customer.')), Mage_Core_Model_Message::SUCCESS
+            $this->equalTo(array('You saved the customer.')), Magento_Core_Model_Message::SUCCESS
         );
 
         /**
@@ -263,7 +263,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends Mage_Backend_Utility_Con
         */
         $this->assertSessionMessages(
             $this->equalTo(array('Customer with the same email already exists.')),
-            Mage_Core_Model_Message::ERROR
+            Magento_Core_Model_Message::ERROR
         );
         $this->assertEquals($post, Mage::getSingleton('Mage_Backend_Model_Session')->getCustomerData());
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'new/key/'));

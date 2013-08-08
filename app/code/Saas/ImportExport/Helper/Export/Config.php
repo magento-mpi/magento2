@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Helper_Export_Config extends Mage_Core_Helper_Abstract
+class Saas_ImportExport_Helper_Export_Config extends Magento_Core_Helper_Abstract
 {
     /**
      * Default items per page
@@ -20,24 +20,24 @@ class Saas_ImportExport_Helper_Export_Config extends Mage_Core_Helper_Abstract
     const XML_PATH_CONFIG_KEY_ENTITIES = 'global/importexport/export_entities/%s/per_page';
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_applicationConfig;
 
     /**
-     * @var Mage_Core_Model_Dir
+     * @var Magento_Core_Model_Dir
      */
     protected $_dir;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Config $applicationConfig
-     * @param Mage_Core_Model_Dir $dir
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $applicationConfig
+     * @param Magento_Core_Model_Dir $dir
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Config $applicationConfig,
-        Mage_Core_Model_Dir $dir
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $applicationConfig,
+        Magento_Core_Model_Dir $dir
     ) {
         parent::__construct($context);
 

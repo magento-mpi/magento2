@@ -26,15 +26,15 @@ class Mage_Backend_Model_Menu extends ArrayObject
     protected $_path = '';
 
     /**
-     * @var Mage_Core_Model_Logger
+     * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
     /**
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Logger $logger
      * @param string $pathInMenuStructure
      */
-    public function __construct(Mage_Core_Model_Logger $logger, $pathInMenuStructure = '')
+    public function __construct(Magento_Core_Model_Logger $logger, $pathInMenuStructure = '')
     {
         if ($pathInMenuStructure) {
             $this->_path = $pathInMenuStructure . '/';

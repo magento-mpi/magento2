@@ -48,17 +48,17 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $observerData = new Magento_Event_Observer();
         $arguments = array('request' => $request, 'response' => $response);
-        $context = Mage::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
+        $context = Mage::getObjectManager()->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
         $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
-                'Mage_Core_Controller_Front_Action',
+                'Magento_Core_Controller_Front_Action',
                 array('context' => $context, 'areaCode' => 'frontend')
             )
         )));
 
         $this->_cookie->expects($this->once())->method('updateCustomerCookies');
 
-        Mage::app()->getCacheInstance()->allowUse(Mage_Core_Block_Abstract::CACHE_GROUP);
+        Mage::app()->getCacheInstance()->allowUse(Magento_Core_Block_Abstract::CACHE_GROUP);
 
         /** @var $session Mage_Catalog_Model_Session */
         $session = Mage::getSingleton('Mage_Catalog_Model_Session');
@@ -66,7 +66,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_observer->processPreDispatch($observerData);
 
-        $this->assertFalse(Mage::app()->useCache(Mage_Core_Block_Abstract::CACHE_GROUP));
+        $this->assertFalse(Mage::app()->useCache(Magento_Core_Block_Abstract::CACHE_GROUP));
         $this->assertTrue(Mage::getSingleton('Mage_Catalog_Model_Session')->getParamsMemorizeDisabled());
     }
 
@@ -81,10 +81,10 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $observerData = new Magento_Event_Observer();
         $arguments = array('request' => new Magento_Test_Request(), 'response' => new Magento_Test_Response());
-        $context = Mage::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
+        $context = Mage::getObjectManager()->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
         $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
-                'Mage_Core_Controller_Front_Action',
+                'Magento_Core_Controller_Front_Action',
                 array('context' => $context, 'areaCode' => 'frontend')
             )
         )));

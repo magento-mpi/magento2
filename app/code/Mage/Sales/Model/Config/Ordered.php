@@ -15,7 +15,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Base
+abstract class Mage_Sales_Model_Config_Ordered extends Magento_Core_Model_Config_Base
 {
     /**
      * Cache key for collectors
@@ -53,15 +53,15 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
     protected $_collectors = array();
 
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
 
     /**
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Simplexml_Element $sourceData
      */
-    public function __construct(Mage_Core_Model_Cache_Type_Config $configCacheType, $sourceData = null)
+    public function __construct(Magento_Core_Model_Cache_Type_Config $configCacheType, $sourceData = null)
     {
         parent::__construct($sourceData);
         $this->_configCacheType = $configCacheType;
@@ -100,7 +100,7 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
      * Prepare configuration array for total model
      *
      * @param   string $code
-     * @param   Mage_Core_Model_Config_Element $totalConfig
+     * @param   Magento_Core_Model_Config_Element $totalConfig
      * @return  array
      */
     protected function _prepareConfigArray($code, $totalConfig)

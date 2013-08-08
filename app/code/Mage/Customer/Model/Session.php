@@ -15,7 +15,7 @@
  * @package    Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
+class Mage_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
 {
     /**
      * Customer object
@@ -242,11 +242,11 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     /**
      * Authenticate controller action by login customer
      *
-     * @param   Mage_Core_Controller_Varien_Action $action
+     * @param   Magento_Core_Controller_Varien_Action $action
      * @param   bool $loginUrl
      * @return  bool
      */
-    public function authenticate(Mage_Core_Controller_Varien_Action $action, $loginUrl = null)
+    public function authenticate(Magento_Core_Controller_Varien_Action $action, $loginUrl = null)
     {
         if ($this->isLoggedIn()) {
             return true;
@@ -273,10 +273,10 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     protected function _setAuthUrl($key, $url)
     {
-        $url = Mage::helper('Mage_Core_Helper_Url')
-            ->removeRequestParam($url, Mage::getSingleton('Mage_Core_Model_Session')->getSessionIdQueryParam());
+        $url = Mage::helper('Magento_Core_Helper_Url')
+            ->removeRequestParam($url, Mage::getSingleton('Magento_Core_Model_Session')->getSessionIdQueryParam());
         // Add correct session ID to URL if needed
-        $url = Mage::getModel('Mage_Core_Model_Url')->getRebuiltUrl($url);
+        $url = Mage::getModel('Magento_Core_Model_Url')->getRebuiltUrl($url);
         return $this->setData($key, $url);
     }
 

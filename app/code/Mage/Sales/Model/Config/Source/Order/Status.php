@@ -11,7 +11,7 @@
 /**
  * Order Statuses source model
  */
-class Mage_Sales_Model_Config_Source_Order_Status implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Sales_Model_Config_Source_Order_Status implements Magento_Core_Model_Option_ArrayInterface
 {
     // set null to enable all possible
     protected $_stateStatuses = array(

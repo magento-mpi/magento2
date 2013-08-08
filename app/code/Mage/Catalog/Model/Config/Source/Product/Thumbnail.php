@@ -15,7 +15,7 @@
  * @category   Mage
  * @package    Mage_Catalog
  */
-class Mage_Catalog_Model_Config_Source_Product_Thumbnail implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Catalog_Model_Config_Source_Product_Thumbnail implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

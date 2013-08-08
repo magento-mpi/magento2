@@ -15,24 +15,24 @@
  * @package     Mage_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_Db_Abstract
 {
     const RATING_STATUS_APPROVED = 'Approved';
 
     /**
      * Store manager
      *
-     * @var Mage_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
     /**
      * Class constructor
      *
-     * @param Mage_Core_Model_Resource $resource
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_StoreManager $storeManager
      */
-    public function __construct(Mage_Core_Model_Resource $resource, Mage_Core_Model_StoreManager $storeManager)
+    public function __construct(Magento_Core_Model_Resource $resource, Magento_Core_Model_StoreManager $storeManager)
     {
         $this->_storeManager = $storeManager;
         parent::__construct($resource);
@@ -91,7 +91,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
      * @param Mage_Rating_Model_Rating $object
      * @return Mage_Rating_Model_Resource_Rating
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         parent::_afterLoad($object);
 
@@ -137,7 +137,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
      * @param Mage_Rating_Model_Rating $object
      * @return Mage_Rating_Model_Resource_Rating
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         parent::_afterSave($object);
 
@@ -233,7 +233,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
      * @param Mage_Rating_Model_Rating $object
      * @return Mage_Rating_Model_Resource_Rating
      */
-    protected function _afterDelete(Mage_Core_Model_Abstract $object)
+    protected function _afterDelete(Magento_Core_Model_Abstract $object)
     {
         parent::_afterDelete($object);
         if (!Mage::helper('Mage_Rating_Helper_Data')->isModuleEnabled('Mage_Review')) {
@@ -273,7 +273,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
         $result = array();
 
         //$stores = Mage::app()->getStore()->getResourceCollection()->load();
-        $stores = Mage::getModel('Mage_Core_Model_Store')->getResourceCollection()->load();
+        $stores = Mage::getModel('Magento_Core_Model_Store')->getResourceCollection()->load();
 
         foreach ($data as $row) {
             $clone = clone $object;

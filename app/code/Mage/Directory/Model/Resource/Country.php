@@ -16,7 +16,7 @@
  * @package     Mage_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Directory_Model_Resource_Country extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Directory_Model_Resource_Country extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization
@@ -33,7 +33,7 @@ class Mage_Directory_Model_Resource_Country extends Mage_Core_Model_Resource_Db_
      * @param Mage_Directory_Model_Country $country
      * @param string $code
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * 
      * @return Mage_Directory_Model_Resource_Country
      */

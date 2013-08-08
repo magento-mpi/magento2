@@ -43,15 +43,15 @@ class Mage_DesignEditor_Model_Observer
      */
     public function clearJs(Magento_Event_Observer $event)
     {
-        /** @var $layout Mage_Core_Model_Layout */
+        /** @var $layout Magento_Core_Model_Layout */
         $layout = $event->getEvent()->getLayout();
         $blockHead = $layout->getBlock('head');
         if (!$blockHead || !$blockHead->getData('vde_design_mode')) {
             return;
         }
 
-        /** @var $page Mage_Core_Model_Page */
-        $page = $this->_objectManager->get('Mage_Core_Model_Page');
+        /** @var $page Magento_Core_Model_Page */
+        $page = $this->_objectManager->get('Magento_Core_Model_Page');
 
         /** @var $pageAssets Mage_Page_Model_Asset_GroupedCollection */
         $pageAssets = $page->getAssets();
@@ -63,11 +63,11 @@ class Mage_DesignEditor_Model_Observer
             }
         }
 
-        /** @var $nonVdeAssets Mage_Core_Model_Page_Asset_AssetInterface[] */
+        /** @var $nonVdeAssets Magento_Core_Model_Page_Asset_AssetInterface[] */
         $nonVdeAssets = array_diff_key($pageAssets->getAll(), $vdeAssets);
 
         foreach ($nonVdeAssets as $assetId => $asset) {
-            if ($asset->getContentType() == Mage_Core_Model_View_Publisher::CONTENT_TYPE_JS) {
+            if ($asset->getContentType() == Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS) {
                 $pageAssets->remove($assetId);
             }
         }
@@ -82,7 +82,7 @@ class Mage_DesignEditor_Model_Observer
     {
         /** @var $configuration Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration */
         $configuration = $event->getData('configuration');
-        /** @var $theme Mage_Core_Model_Theme */
+        /** @var $theme Magento_Core_Model_Theme */
         $theme = $event->getData('theme');
         if ($configuration->getControlConfig() instanceof Mage_DesignEditor_Model_Config_Control_QuickStyles) {
             /** @var $renderer Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer */
@@ -106,7 +106,7 @@ class Mage_DesignEditor_Model_Observer
      */
     public function saveChangeTime($event)
     {
-        /** @var $theme Mage_Core_Model_Theme|null */
+        /** @var $theme Magento_Core_Model_Theme|null */
         $theme = $event->getTheme() ?: $event->getDataObject()->getTheme();
         /** @var $change Mage_DesignEditor_Model_Theme_Change */
         $change = $this->_objectManager->create('Mage_DesignEditor_Model_Theme_Change');
@@ -124,9 +124,9 @@ class Mage_DesignEditor_Model_Observer
      */
     public function copyChangeTime($event)
     {
-        /** @var $sourceTheme Mage_Core_Model_Theme|null */
+        /** @var $sourceTheme Magento_Core_Model_Theme|null */
         $sourceTheme = $event->getData('sourceTheme');
-        /** @var $targetTheme Mage_Core_Model_Theme|null */
+        /** @var $targetTheme Magento_Core_Model_Theme|null */
         $targetTheme = $event->getData('targetTheme');
         if ($sourceTheme && $targetTheme) {
             /** @var $sourceChange Mage_DesignEditor_Model_Theme_Change */

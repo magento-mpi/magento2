@@ -61,8 +61,8 @@ class Mage_Catalog_Block_Product_Compare_List extends Mage_Catalog_Block_Product
      */
     public function getAddToWishlistUrl($product)
     {
-        $continueUrl    = Mage::helper('Mage_Core_Helper_Data')->urlEncode($this->getUrl('customer/account'));
-        $urlParamName   = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
+        $continueUrl    = Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getUrl('customer/account'));
+        $urlParamName   = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
 
         $params = array(
             $urlParamName   => $continueUrl

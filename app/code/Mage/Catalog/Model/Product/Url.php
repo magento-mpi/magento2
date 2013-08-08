@@ -23,26 +23,26 @@ class Mage_Catalog_Model_Product_Url extends Magento_Object
     /**
      * Static URL instance
      *
-     * @var Mage_Core_Model_Url
+     * @var Magento_Core_Model_Url
      */
     protected static $_url;
 
     /**
      * Static URL Rewrite Instance
      *
-     * @var Mage_Core_Model_Url_Rewrite
+     * @var Magento_Core_Model_Url_Rewrite
      */
     protected static $_urlRewrite;
 
     /**
      * Retrieve URL Instance
      *
-     * @return Mage_Core_Model_Url
+     * @return Magento_Core_Model_Url
      */
     public function getUrlInstance()
     {
         if (!self::$_url) {
-            self::$_url = Mage::getModel('Mage_Core_Model_Url');
+            self::$_url = Mage::getModel('Magento_Core_Model_Url');
         }
         return self::$_url;
     }
@@ -50,12 +50,12 @@ class Mage_Catalog_Model_Product_Url extends Magento_Object
     /**
      * Retrieve URL Rewrite Instance
      *
-     * @return Mage_Core_Model_Url_Rewrite
+     * @return Magento_Core_Model_Url_Rewrite
      */
     public function getUrlRewrite()
     {
         if (!self::$_urlRewrite) {
-            self::$_urlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite');
+            self::$_urlRewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite');
         }
         return self::$_urlRewrite;
     }

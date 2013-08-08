@@ -92,7 +92,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
             $result[$stores->getId()] = $stores->getName();
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
     }
 
     /**
@@ -138,7 +138,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
             );
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($nodes);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($nodes);
     }
 
     /**

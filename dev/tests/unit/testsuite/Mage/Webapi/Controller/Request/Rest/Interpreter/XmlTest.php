@@ -25,7 +25,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit_Fr
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper');
+        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper');
         $this->_apiHelperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('__'))
@@ -34,7 +34,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit_Fr
         $this->_helperFactoryMock->expects($this->any())->method('get')
             ->will($this->returnValue($this->_apiHelperMock));
         $this->_xmlParserMock = $this->getMock('Magento_Xml_Parser', array('xmlToArray', 'loadXML'));
-        $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')
+        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')
             ->setMethods(array('isDeveloperMode'))
             ->disableOriginalConstructor()
             ->getMock();

@@ -12,7 +12,7 @@
  * Customer balance controller for shopping cart
  *
  */
-class Enterprise_CustomerBalance_Controller_Cart extends Mage_Core_Controller_Front_Action
+class Enterprise_CustomerBalance_Controller_Cart extends Magento_Core_Controller_Front_Action
 {
     /**
      * Only logged in users can use this functionality,

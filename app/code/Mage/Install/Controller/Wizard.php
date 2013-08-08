@@ -399,7 +399,7 @@ class Mage_Install_Controller_Wizard extends Mage_Install_Controller_Action
             /** @var $session Mage_Core_Model_Session_Generic */
             $session = Mage::getSingleton('Mage_Install_Model_Session');
             $session->setAdminData($adminData);
-            if ($e instanceof Mage_Core_Exception) {
+            if ($e instanceof Magento_Core_Exception) {
                 $session->addMessages($e->getMessages());
             } else {
                 $session->addError($e->getMessage());

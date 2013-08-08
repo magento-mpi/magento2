@@ -15,5 +15,5 @@ $orderService = new Mage_Sales_Model_Service_Order($order);
 $invoice = $orderService->prepareInvoice();
 $invoice->register();
 $order->setIsInProcess(true);
-$transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction');
+$transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction');
 $transactionSave->addObject($invoice)->addObject($order)->save();

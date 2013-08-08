@@ -35,7 +35,7 @@ class Mage_GiftMessage_Model_Api extends Mage_Checkout_Model_Api_Resource_Produc
      * Raise event for setting a giftMessage.
      *
      * @param String $entityId
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @param Mage_Sales_Model_Quote $quote
      * @return AssociativeArray
      */
@@ -44,12 +44,12 @@ class Mage_GiftMessage_Model_Api extends Mage_Checkout_Model_Api_Resource_Produc
 
         /**
          * Below code will catch exceptions only in DeveloperMode
-         * @see Mage_Core_Model_App::_callObserverMethod($object, $method, $observer)
-         * And result of Mage::dispatchEvent will always return an Object of Mage_Core_Model_App.
+         * @see Magento_Core_Model_App::_callObserverMethod($object, $method, $observer)
+         * And result of Mage::dispatchEvent will always return an Object of Magento_Core_Model_App.
          */
         try {
             /** Frontend area events must be loaded as we emulate frontend behavior. */
-            Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_FRONTEND, Mage_Core_Model_App_Area::PART_EVENTS);
+            Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_FRONTEND, Magento_Core_Model_App_Area::PART_EVENTS);
             Mage::dispatchEvent(
                 'checkout_controller_onepage_save_shipping_method',
                 array('request' => $request, 'quote' => $quote)
@@ -80,7 +80,7 @@ class Mage_GiftMessage_Model_Api extends Mage_Checkout_Model_Api_Resource_Produc
 
         $giftMessage['type'] = 'quote';
         $giftMessages = array($quoteId => $giftMessage);
-        $request = new Mage_Core_Controller_Request_Http();
+        $request = new Magento_Core_Controller_Request_Http();
         $request->setParam("giftmessage", $giftMessages);
 
         return $this->_setGiftMessage($quote->getId(), $request, $quote);
@@ -163,7 +163,7 @@ class Mage_GiftMessage_Model_Api extends Mage_Checkout_Model_Api_Resource_Produc
 
         $giftMessages = array($quoteItem->getId() => $giftMessage);
 
-        $request = new Mage_Core_Controller_Request_Http();
+        $request = new Magento_Core_Controller_Request_Http();
         $request->setParam("giftmessage", $giftMessages);
 
         return $this->_setGiftMessage($quoteItemId, $request, $quote);

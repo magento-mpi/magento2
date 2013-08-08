@@ -25,7 +25,7 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Entity_Store extends Mage_Core_Model_Abstract
+class Mage_Eav_Model_Entity_Store extends Magento_Core_Model_Abstract
 {
     /**
      * Resource initialization

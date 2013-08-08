@@ -15,7 +15,7 @@
  * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**#@+
      * Endpoint types with appropriate routes
@@ -72,11 +72,11 @@ class Mage_Oauth_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _generateRandomString($length)
     {
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::helper('Mage_Core_Helper_Data');
+        /** @var $helper Magento_Core_Helper_Data */
+        $helper = Mage::helper('Magento_Core_Helper_Data');
 
         return $helper->getRandomString(
-            $length, Mage_Core_Helper_Data::CHARS_DIGITS . Mage_Core_Helper_Data::CHARS_LOWERS
+            $length, Magento_Core_Helper_Data::CHARS_DIGITS . Magento_Core_Helper_Data::CHARS_LOWERS
         );
     }
 
@@ -209,8 +209,8 @@ class Mage_Oauth_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function sendNotificationOnTokenStatusChange($userEmail, $userName, $applicationName, $status)
     {
-        /* @var $mailTemplate Mage_Core_Model_Email_Template */
-        $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
+        /* @var $mailTemplate Magento_Core_Model_Email_Template */
+        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
 
         $mailTemplate->sendTransactional(
             Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),

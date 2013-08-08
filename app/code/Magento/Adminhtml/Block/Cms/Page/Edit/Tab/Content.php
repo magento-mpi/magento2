@@ -21,19 +21,19 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
-     * @var Mage_Core_Model_Event_Manager
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager;
 
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;

@@ -35,7 +35,7 @@ class Saas_Saas_Model_Limitation_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_modelSpecificationCompositeMock = $this->getMock('Saas_Saas_Model_Limitation_SpecificationInterface');
         $this->_saasHelperMock = $this->getMock('Saas_Saas_Helper_Data', array(), array(), '', false);
         $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);

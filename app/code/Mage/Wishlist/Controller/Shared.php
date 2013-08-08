@@ -77,7 +77,7 @@ class Mage_Wishlist_Controller_Shared extends Mage_Wishlist_Controller_Abstract
         $item = Mage::getModel('Mage_Wishlist_Model_Item')->load($itemId);
 
 
-        /* @var $session Mage_Core_Model_Session_Generic */
+        /* @var $session Magento_Core_Model_Session_Generic */
         $session    = Mage::getSingleton('Mage_Wishlist_Model_Session');
         $cart       = Mage::getSingleton('Mage_Checkout_Model_Cart');
 
@@ -94,7 +94,7 @@ class Mage_Wishlist_Controller_Shared extends Mage_Wishlist_Controller_Abstract
             if (Mage::helper('Mage_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
                 $redirectUrl = Mage::helper('Mage_Checkout_Helper_Cart')->getCartUrl();
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
                 $session->addError(Mage::helper('Mage_Wishlist_Helper_Data')->__('This product(s) is out of stock.'));
             } else {

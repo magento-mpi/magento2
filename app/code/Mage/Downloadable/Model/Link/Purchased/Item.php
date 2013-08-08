@@ -48,7 +48,7 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Model_Link_Purchased_Item extends Mage_Core_Model_Abstract
+class Mage_Downloadable_Model_Link_Purchased_Item extends Magento_Core_Model_Abstract
 {
     const XML_PATH_ORDER_ITEM_STATUS = 'catalog/downloadable/order_item_status';
 
@@ -71,7 +71,7 @@ class Mage_Downloadable_Model_Link_Purchased_Item extends Mage_Core_Model_Abstra
     /**
      * Check order item id
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     public function _beforeSave()
     {

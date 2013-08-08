@@ -16,7 +16,7 @@
  * @package    Mage_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Wishlist_Block_Customer_Sharing extends Mage_Core_Block_Template
+class Mage_Wishlist_Block_Customer_Sharing extends Magento_Core_Block_Template
 {
     /**
      * Entered Data cache
@@ -33,12 +33,12 @@ class Mage_Wishlist_Block_Customer_Sharing extends Mage_Core_Block_Template
     protected $_wishlistConfig;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Magento_Core_Block_Template_Context $context
      * @param Mage_Wishlist_Model_Config $wishlistConfig
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Magento_Core_Block_Template_Context $context,
         Mage_Wishlist_Model_Config $wishlistConfig,
         array $data = array()
     ) {

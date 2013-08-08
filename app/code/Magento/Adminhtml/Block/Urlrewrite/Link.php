@@ -19,7 +19,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Link extends Mage_Core_Block_Abstract
+class Magento_Adminhtml_Block_Urlrewrite_Link extends Magento_Core_Block_Abstract
 {
     /**
      * Render output

@@ -56,7 +56,7 @@ class Mage_AdminNotification_Model_NotificationServiceTest extends PHPUnit_Frame
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Wrong notification ID specified.
      */
     public function testMarkAsReadThrowsExceptionWhenNotificationIdIsInvalid()

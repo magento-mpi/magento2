@@ -19,7 +19,7 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
      */
     protected $_objectManager;
 
-    /** @var Mage_Core_Model_Config */
+    /** @var Magento_Core_Model_Config */
     protected $_applicationConfig;
 
     /** @var Mage_Webapi_Helper_Data */
@@ -32,14 +32,14 @@ class Mage_Webapi_Controller_Response_Rest_Renderer_Factory
      * Initialize dependencies.
      *
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Config $applicationConfig
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_Config $applicationConfig
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Webapi_Controller_Request_Rest $request
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Config $applicationConfig,
-        Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_Config $applicationConfig,
+        Magento_Core_Model_Factory_Helper $helperFactory,
         Mage_Webapi_Controller_Request_Rest $request
     ) {
         $this->_objectManager = $objectManager;

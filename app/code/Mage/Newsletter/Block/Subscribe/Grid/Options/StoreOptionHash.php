@@ -7,19 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Newsletter_Block_Subscribe_Grid_Options_StoreOptionHash implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Newsletter_Block_Subscribe_Grid_Options_StoreOptionHash implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * System Store Model
      *
-     * @var Mage_Core_Model_System_Store
+     * @var Magento_Core_Model_System_Store
      */
     protected $_systemStore;
 
     /**
-     * @param Mage_Core_Model_System_Store
+     * @param Magento_Core_Model_System_Store
      */
-    public function __construct(Mage_Core_Model_System_Store $systemStore)
+    public function __construct(Magento_Core_Model_System_Store $systemStore)
     {
         $this->_systemStore = $systemStore;
     }

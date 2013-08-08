@@ -59,7 +59,7 @@
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
                 <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml"/>
                 <container name="product.info.extrahint" as="extrahint" label="Product View Extra Hint"/>
-                <block type="Mage_Core_Block_Template" name="product.info.container" as="options_container">
+                <block type="Magento_Core_Block_Template" name="product.info.container" as="options_container">
                     <block type="Mage_Catalog_Block_Product_View" name="product.info.options.wrapper" as="product_options_wrapper" template="product/view/options/wrapper.phtml" translate="label">
                         <label>Info Column Options Wrapper</label>
                         <block type="Mage_Catalog_Block_Product_View_Options" name="product.info.options" as="product_options" template="product/view/options.phtml">
@@ -84,7 +84,7 @@
                                 <template>product/view/options/type/date.phtml</template>
                             </action>
                         </block>
-                        <block type="Mage_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Mage_Page::js/calendar.phtml"/>
+                        <block type="Magento_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Mage_Page::js/calendar.phtml"/>
                     </block>
                     <block type="Mage_Catalog_Block_Product_View" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="product/view/options/wrapper/bottom.phtml" translate="label">
                         <label>Bottom Block Options Wrapper</label>

@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Source_Customer_Groups implements Mage_Core_Model_Option_ArrayInterface
+class Enterprise_Reward_Model_Source_Customer_Groups implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Retrieve option array of customer groups

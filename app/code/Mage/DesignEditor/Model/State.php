@@ -16,10 +16,10 @@ class Mage_DesignEditor_Model_State
     /**
      * Name of layout classes that will be used as main layout
      */
-    const LAYOUT_NAVIGATION_CLASS_NAME = 'Mage_Core_Model_Layout';
+    const LAYOUT_NAVIGATION_CLASS_NAME = 'Magento_Core_Model_Layout';
 
     /**
-     * Url model classes that will be used instead of Mage_Core_Model_Url in navigation vde modes
+     * Url model classes that will be used instead of Magento_Core_Model_Url in navigation vde modes
      */
     const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Mage_DesignEditor_Model_Url_NavigationMode';
 
@@ -41,7 +41,7 @@ class Mage_DesignEditor_Model_State
     protected $_backendSession;
 
     /**
-     * @var Mage_Core_Model_Layout_Factory
+     * @var Magento_Core_Model_Layout_Factory
      */
     protected $_layoutFactory;
 
@@ -53,7 +53,7 @@ class Mage_DesignEditor_Model_State
     /**
      * Application Cache Manager
      *
-     * @var Mage_Core_Model_Cache_Types
+     * @var Magento_Core_Model_Cache_Types
      */
     protected $_cacheTypes;
 
@@ -68,28 +68,28 @@ class Mage_DesignEditor_Model_State
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_application;
 
     /**
      * @param Mage_Backend_Model_Session $backendSession
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Magento_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_DesignEditor_Model_Url_Factory $urlModelFactory
-     * @param Mage_Core_Model_Cache_Types $cacheTypes
+     * @param Magento_Core_Model_Cache_Types $cacheTypes
      * @param Mage_DesignEditor_Helper_Data $dataHelper
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_App $application
+     * @param Magento_Core_Model_App $application
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      */
     public function __construct(
         Mage_Backend_Model_Session $backendSession,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Magento_Core_Model_Layout_Factory $layoutFactory,
         Mage_DesignEditor_Model_Url_Factory $urlModelFactory,
-        Mage_Core_Model_Cache_Types $cacheTypes,
+        Magento_Core_Model_Cache_Types $cacheTypes,
         Mage_DesignEditor_Helper_Data $dataHelper,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_App $application,
+        Magento_Core_Model_App $application,
         Mage_DesignEditor_Model_Theme_Context $themeContext
     ) {
         $this->_backendSession  = $backendSession;
@@ -106,9 +106,9 @@ class Mage_DesignEditor_Model_State
      * Update system data for current VDE environment
      *
      * @param string $areaCode
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      */
-    public function update($areaCode, Mage_Core_Controller_Request_Http $request)
+    public function update($areaCode, Magento_Core_Controller_Request_Http $request)
     {
         $mode = $request->getAlias('editorMode') ?: self::MODE_NAVIGATION;
         $this->_themeContext->setEditableThemeById($request->getAlias('themeId'));
@@ -153,7 +153,7 @@ class Mage_DesignEditor_Model_State
     }
 
     /**
-     * Create url model instance that will be used instead of Mage_Core_Model_Url in navigation mode
+     * Create url model instance that will be used instead of Magento_Core_Model_Url in navigation mode
      */
     protected function _injectUrlModel($mode)
     {
@@ -173,11 +173,11 @@ class Mage_DesignEditor_Model_State
         if ($this->_themeContext->getEditableTheme()) {
             $themeId = $this->_themeContext->getVisibleTheme()->getId();
             $this->_application->getStore()->setConfig(
-                Mage_Core_Model_View_Design::XML_PATH_THEME_ID,
+                Magento_Core_Model_View_Design::XML_PATH_THEME_ID,
                 $themeId
             );
             $this->_application->getConfig()->setNode(
-                'default/' . Mage_Core_Model_View_Design::XML_PATH_THEME_ID,
+                'default/' . Magento_Core_Model_View_Design::XML_PATH_THEME_ID,
                 $themeId
             );
         }

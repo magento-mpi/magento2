@@ -188,7 +188,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
             $items[] = $item;
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($items);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($items);
     }
 
     /**
@@ -242,7 +242,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
             );
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($items);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($items);
     }
 
     /**

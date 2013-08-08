@@ -71,25 +71,25 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     /**
      * Resource config
      *
-     * @var Mage_Core_Model_Config_Resource
+     * @var Magento_Core_Model_Config_Resource
      */
     protected $_resourceConfig;
 
     /**
      * DB updater
      *
-     * @var Mage_Core_Model_Db_UpdaterInterface
+     * @var Magento_Core_Model_Db_UpdaterInterface
      */
     protected $_dbUpdater;
 
     /**
-     * @param Mage_Core_Model_Config_Resource $resourceConfig
-     * @param Mage_Core_Model_Db_UpdaterInterface $daUpdater
+     * @param Magento_Core_Model_Config_Resource $resourceConfig
+     * @param Magento_Core_Model_Db_UpdaterInterface $daUpdater
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Mage_Core_Model_Config_Resource $resourceConfig,
-        Mage_Core_Model_Db_UpdaterInterface $daUpdater,
+        Magento_Core_Model_Config_Resource $resourceConfig,
+        Magento_Core_Model_Db_UpdaterInterface $daUpdater,
         Magento_Filesystem $filesystem
     ) {
         $this->_resourceConfig = $resourceConfig;
@@ -315,8 +315,8 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             $this->_filesystem->changePermissions(Mage::getBaseDir('var'), 0777, true);
             return $encryptionKey;
         } catch (Exception $e) {
-            if ($e instanceof Mage_Core_Exception) {
-                foreach ($e->getMessages(Mage_Core_Model_Message::ERROR) as $errorMessage) {
+            if ($e instanceof Magento_Core_Exception) {
+                foreach ($e->getMessages(Magento_Core_Model_Message::ERROR) as $errorMessage) {
                     $this->addError($errorMessage);
                 }
             } else {
@@ -332,7 +332,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     protected function _cleanUpDatabase()
     {
         $dbConfig = $this->_resourceConfig
-            ->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
+            ->getResourceConnectionConfig(Magento_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
         $modelName = 'Mage_Install_Model_Installer_Db_' . ucfirst($dbConfig->model);
 
         if (!class_exists($modelName)) {
@@ -359,10 +359,10 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
         $this->_cleanUpDatabase();
 
         /* Remove temporary directories and local.xml */
-        foreach (glob(Mage::getBaseDir(Mage_Core_Model_Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
+        foreach (glob(Mage::getBaseDir(Magento_Core_Model_Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
             $this->_filesystem->delete($dir);
         }
-        $this->_filesystem->delete(Mage::getBaseDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . '/local.xml');
+        $this->_filesystem->delete(Mage::getBaseDir(Magento_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . '/local.xml');
         return true;
     }
 

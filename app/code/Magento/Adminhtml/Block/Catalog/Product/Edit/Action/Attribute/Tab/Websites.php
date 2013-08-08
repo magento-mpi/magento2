@@ -24,12 +24,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Websites
         return Mage::app()->getWebsites();
     }
 
-    public function getGroupCollection(Mage_Core_Model_Website $website)
+    public function getGroupCollection(Magento_Core_Model_Website $website)
     {
         return $website->getGroups();
     }
 
-    public function getStoreCollection(Mage_Core_Model_Store_Group $group)
+    public function getStoreCollection(Magento_Core_Model_Store_Group $group)
     {
         return $group->getStores();
     }

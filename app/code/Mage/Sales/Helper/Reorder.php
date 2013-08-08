@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Helper_Reorder extends Mage_Core_Helper_Data
+class Mage_Sales_Helper_Reorder extends Magento_Core_Helper_Data
 {
     const XML_PATH_SALES_REORDER_ALLOW = 'sales/reorder/allow';
 
@@ -25,7 +25,7 @@ class Mage_Sales_Helper_Reorder extends Mage_Core_Helper_Data
     /**
      * Check if reorder is allowed for given store
      *
-     * @param Mage_Core_Model_Store|int|null $store
+     * @param Magento_Core_Model_Store|int|null $store
      * @return bool
      */
     public function isAllowed($store = null)

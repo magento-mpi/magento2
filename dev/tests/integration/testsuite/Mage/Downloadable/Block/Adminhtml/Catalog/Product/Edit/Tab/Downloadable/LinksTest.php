@@ -23,15 +23,15 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     /**
      * Reuse code for testing getUploadButtonHtml()
      *
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      */
-    public static function performUploadButtonTest(Mage_Core_Block_Abstract $block)
+    public static function performUploadButtonTest(Magento_Core_Block_Abstract $block)
     {
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
         $layout->addBlock($block, 'links');
         $expected = uniqid();
-        $text = Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text', '',
+        $text = Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text', '',
             array('data' => array('text' => $expected))
         );
         $block->unsetChild('upload_button');

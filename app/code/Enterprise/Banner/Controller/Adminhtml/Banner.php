@@ -123,7 +123,7 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Co
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
                     Mage::helper('Enterprise_Banner_Helper_Data')->__('You saved the banner.')
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $redirectBack = true;
             } catch (Exception $e) {
@@ -161,7 +161,7 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Co
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addError(
@@ -204,7 +204,7 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Co
                 $this->_getSession()->addSuccess(
                     $this->__('You deleted %d record(s).', count($ids))
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addError(

@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="Mage_Core_Model_Page">
+    <type name="Magento_Core_Model_Page">
         <param name="assets">
             <instance type="Mage_Page_Model_Asset_GroupedCollection" />
         </param>

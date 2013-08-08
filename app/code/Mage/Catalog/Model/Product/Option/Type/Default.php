@@ -55,7 +55,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Magento_Object
     /**
      * Option Instance getter
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Catalog_Model_Product_Option
      */
     public function getOption()
@@ -81,7 +81,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Magento_Object
     /**
      * Product Instance getter
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Catalog_Model_Product
      */
     public function getProduct()
@@ -157,7 +157,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Magento_Object
     /**
      * Validate user input for option
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
      * @return Mage_Catalog_Model_Product_Option_Type_Default
      */
@@ -191,7 +191,7 @@ class Mage_Catalog_Model_Product_Option_Type_Default extends Magento_Object
     /**
      * Prepare option value for cart
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return mixed Prepared option value
      */
     public function prepareForCart()

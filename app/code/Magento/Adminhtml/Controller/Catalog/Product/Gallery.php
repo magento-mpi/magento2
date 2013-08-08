@@ -20,9 +20,9 @@ class Magento_Adminhtml_Controller_Catalog_Product_Gallery extends Magento_Admin
     public function uploadAction()
     {
         try {
-            $uploader = Mage::getModel('Mage_Core_Model_File_Uploader', array('fileId' => 'image'));
+            $uploader = Mage::getModel('Magento_Core_Model_File_Uploader', array('fileId' => 'image'));
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
-            $imageAdapter = $this->_objectManager->get('Mage_Core_Model_Image_AdapterFactory')->create();
+            $imageAdapter = $this->_objectManager->get('Magento_Core_Model_Image_AdapterFactory')->create();
             $uploader->addValidateCallback('catalog_product_image', $imageAdapter, 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
@@ -49,7 +49,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Gallery extends Magento_Admin
             );
         }
 
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     protected function _isAllowed()

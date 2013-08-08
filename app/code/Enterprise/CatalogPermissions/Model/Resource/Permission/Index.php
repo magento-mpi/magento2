@@ -101,7 +101,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             ))
             ->where('permission.category_id IN (?)', $categoryIds);
 
-        $websiteIds = Mage::getModel('Mage_Core_Model_Website')->getCollection()
+        $websiteIds = Mage::getModel('Magento_Core_Model_Website')->getCollection()
             ->addFieldToFilter('website_id', array('neq'=>0))
             ->getAllIds();
 

@@ -128,7 +128,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
                     $review->aggregate();
 
                     $session->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('You saved the review.'));
-                } catch (Mage_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     $session->addError($e->getMessage());
                 } catch (Exception $e){
                     $session->addException($e, Mage::helper('Mage_Catalog_Helper_Data')->__('Something went wrong while saving this review.'));
@@ -162,7 +162,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
                 $this->getResponse()->setRedirect($this->getUrl('*/*/'));
             }
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e){
             $session->addException($e, Mage::helper('Mage_Catalog_Helper_Data')->__('Something went wrong  deleting this review.'));
@@ -187,7 +187,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
                     Mage::helper('Magento_Adminhtml_Helper_Data')->__('A total of %d record(s) have been deleted.', count($reviewsIds))
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $session->addError($e->getMessage());
             } catch (Exception $e){
                 $session->addException($e, Mage::helper('Magento_Adminhtml_Helper_Data')->__('An error occurred while deleting record(s).'));
@@ -217,7 +217,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
                 $session->addSuccess(
                     Mage::helper('Magento_Adminhtml_Helper_Data')->__('A total of %d record(s) have been updated.', count($reviewsIds))
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $session->addError($e->getMessage());
             } catch (Exception $e) {
                 $session->addException($e, Mage::helper('Magento_Adminhtml_Helper_Data')->__('An error occurred while updating the selected review(s).'));
@@ -247,7 +247,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
                 $session->addSuccess(
                     Mage::helper('Magento_Adminhtml_Helper_Data')->__('A total of %d record(s) have been updated.', count($reviewsIds))
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $session->addError($e->getMessage());
             } catch (Exception $e) {
                 $session->addException($e, Mage::helper('Magento_Adminhtml_Helper_Data')->__('An error occurred while updating the selected review(s).'));
@@ -332,7 +332,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
                 }
 
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $session->addError($e->getMessage());
             } catch (Exception $e) {
                 $session->addException($e, Mage::helper('Magento_Adminhtml_Helper_Data')->__('An error occurred while saving review.'));

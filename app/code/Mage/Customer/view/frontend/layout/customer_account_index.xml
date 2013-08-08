@@ -19,7 +19,7 @@
         <reference name="my.account.wrapper">
             <block type="Mage_Customer_Block_Account_Dashboard" name="customer_account_dashboard" template="account/dashboard.phtml">
                 <block type="Mage_Customer_Block_Account_Dashboard_Hello" name="customer_account_dashboard_hello" as="hello" template="account/dashboard/hello.phtml"/>
-                <block type="Mage_Core_Block_Template" name="customer_account_dashboard_top" as="top"/>
+                <block type="Magento_Core_Block_Template" name="customer_account_dashboard_top" as="top"/>
                 <block type="Mage_Customer_Block_Account_Dashboard_Info" name="customer_account_dashboard_info" as="info" template="account/dashboard/info.phtml"/>
                 <block type="Mage_Customer_Block_Account_Dashboard_Newsletter" name="customer_account_dashboard_newsletter" as="newsletter" template="account/dashboard/newsletter.phtml"/>
                 <block type="Mage_Customer_Block_Account_Dashboard_Address" name="customer_account_dashboard_address" as="address" template="account/dashboard/address.phtml"/>

@@ -155,7 +155,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
      * Validate incoming request data, as PayPal recommends
      *
      * @param Mage_Sales_Model_Order $order
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _verifyOrder(Mage_Sales_Model_Order $order)
     {
@@ -242,7 +242,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
                         break;
                 }
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Magento_Core_Exception $e) {
                 $history = $this->_createIpnComment(Mage::helper('Mage_Paypal_Helper_Data')->__('Note: %s', $e->getMessage()))
                     ->save();
                 $this->_notifyAdmin($history->getComment(), $e);
@@ -262,7 +262,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
      *
      * Everything after saving order is not critical, thus done outside the transaction.
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _registerPaymentCapture()
     {

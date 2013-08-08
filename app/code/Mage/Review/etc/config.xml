@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Mage_Catalog />
-                <Mage_Core />
+                <Magento_Core />
             </depends>
         </Mage_Review>
     </modules>

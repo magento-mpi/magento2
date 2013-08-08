@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Tag_Block_Product_List extends Mage_Core_Block_Template
+class Mage_Tag_Block_Product_List extends Magento_Core_Block_Template
 {
     protected $_collection;
 
@@ -65,10 +65,10 @@ class Mage_Tag_Block_Product_List extends Mage_Core_Block_Template
 
     public function getFormAction()
     {
-        $helper = Mage::helper('Mage_Core_Helper_Url');
+        $helper = Mage::helper('Magento_Core_Helper_Url');
         return Mage::getUrl('tag/index/save', array(
             'product' => $this->getProductId(),
-            Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $helper->getEncodedUrl()
+            Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $helper->getEncodedUrl()
         ));
     }
 
@@ -99,7 +99,7 @@ class Mage_Tag_Block_Product_List extends Mage_Core_Block_Template
     public function getUniqueHtmlId($prefix = '')
     {
         if (is_null($this->_uniqueHtmlId)) {
-            $this->_uniqueHtmlId = Mage::helper('Mage_Core_Helper_Data')->uniqHash($prefix);
+            $this->_uniqueHtmlId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($prefix);
         }
         return $this->_uniqueHtmlId;
     }

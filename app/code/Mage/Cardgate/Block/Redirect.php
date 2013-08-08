@@ -15,12 +15,12 @@
  * @package    Mage_Cardgate
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cardgate_Block_Redirect extends Mage_Core_Block_Template
+class Mage_Cardgate_Block_Redirect extends Magento_Core_Block_Template
 {
     /**
      * Registry
      *
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registry;
 
@@ -41,15 +41,15 @@ class Mage_Cardgate_Block_Redirect extends Mage_Core_Block_Template
     /**
      * Constructor
      *
-     * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Mage_Cardgate_Model_Gateway_Factory $gatewayFactory
      * @param Magento_Data_FormFactory $formFactory
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         Mage_Cardgate_Model_Gateway_Factory $gatewayFactory,
         Magento_Data_FormFactory $formFactory,
         array $data = array()

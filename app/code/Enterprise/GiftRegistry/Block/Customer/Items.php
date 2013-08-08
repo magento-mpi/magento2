@@ -46,7 +46,7 @@ class Enterprise_GiftRegistry_Block_Customer_Items extends Mage_Catalog_Block_Pr
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getAddedAt(), Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getAddedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**
@@ -122,6 +122,6 @@ class Enterprise_GiftRegistry_Block_Customer_Items extends Mage_Catalog_Block_Pr
     {
         $product = $item->getProduct();
         $product->setCustomOptions($item->getOptionsByCode());
-        return Mage::helper('Mage_Core_Helper_Data')->currency($product->getFinalPrice(),true,true);
+        return Mage::helper('Magento_Core_Helper_Data')->currency($product->getFinalPrice(),true,true);
     }
 }

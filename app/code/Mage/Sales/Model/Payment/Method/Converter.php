@@ -33,23 +33,23 @@ class Mage_Sales_Model_Payment_Method_Converter
     );
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_encryptor;
 
     public function __construct(array $data = array())
     {
-        $this->_encryptor = isset($data['encryptor']) ? $data['encryptor'] : Mage::helper('Mage_Core_Helper_Data');
+        $this->_encryptor = isset($data['encryptor']) ? $data['encryptor'] : Mage::helper('Magento_Core_Helper_Data');
     }
 
     /**
      * Check if specified field is encrypted
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param string $filedName
      * @return bool
      */
-    protected function _shouldBeEncrypted(Mage_Core_Model_Abstract $object, $filedName)
+    protected function _shouldBeEncrypted(Magento_Core_Model_Abstract $object, $filedName)
     {
         $method = $object->getData('method');
         return isset($this->_encryptFields[$method][$filedName]) &&
@@ -60,11 +60,11 @@ class Mage_Sales_Model_Payment_Method_Converter
     /**
      * Decode data
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param string $filedName
      * @return mixed
      */
-    public function decode(Mage_Core_Model_Abstract $object, $filedName)
+    public function decode(Magento_Core_Model_Abstract $object, $filedName)
     {
         $value = $object->getData($filedName);
 
@@ -78,11 +78,11 @@ class Mage_Sales_Model_Payment_Method_Converter
     /**
      * Encode data
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param string $filedName
      * @return mixed
      */
-    public function encode(Mage_Core_Model_Abstract $object, $filedName)
+    public function encode(Magento_Core_Model_Abstract $object, $filedName)
     {
         $value = $object->getData($filedName);
 

@@ -18,14 +18,14 @@
 class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magento_Data_Form_Element_Multiselect
 {
     /**
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout;
 
-    public function __construct($attributes = array(), Mage_Core_Model_Layout $layout = null)
+    public function __construct($attributes = array(), Magento_Core_Model_Layout $layout = null)
     {
         parent::__construct($attributes);
-        $this->_layout = $layout ?: Mage::getObjectManager()->get('Mage_Core_Model_Layout');
+        $this->_layout = $layout ?: Mage::getObjectManager()->get('Magento_Core_Model_Layout');
     }
 
     /**
@@ -69,8 +69,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
      */
     public function getAfterElementHtml()
     {
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
+        /** @var $coreHelper Magento_Core_Helper_Data */
+        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
         $htmlId = $this->getHtmlId();
         $suggestPlaceholder = Mage::helper('Mage_Catalog_Helper_Data')->__('start typing to search category');
         $selectorOptions = $coreHelper->jsonEncode($this->_getSelectorOptions());

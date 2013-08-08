@@ -19,7 +19,7 @@ class Enterprise_Reward_Block_Customer_RewardTest extends PHPUnit_Framework_Test
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer->load(1);
         Mage::getSingleton('Mage_Customer_Model_Session')->setCustomer($customer);
-        $utility = new Mage_Core_Utility_Layout($this);
+        $utility = new Magento_Core_Utility_Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/customer_info.xml',
             $utility->getLayoutDependencies());
         $layout->getUpdate()->addHandle('enterprise_reward_customer_info')->load();

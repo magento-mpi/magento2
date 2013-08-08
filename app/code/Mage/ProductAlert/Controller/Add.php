@@ -15,7 +15,7 @@
  * @package    Mage_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_ProductAlert_Controller_Add extends Mage_Core_Controller_Front_Action
+class Mage_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_Action
 {
     public function preDispatch()
     {
@@ -39,7 +39,7 @@ class Mage_ProductAlert_Controller_Add extends Mage_Core_Controller_Front_Action
     public function priceAction()
     {
         $session = Mage::getSingleton('Mage_Catalog_Model_Session');
-        $backUrl    = $this->getRequest()->getParam(Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
+        $backUrl    = $this->getRequest()->getParam(Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
             $this->_redirect('/');
@@ -77,7 +77,7 @@ class Mage_ProductAlert_Controller_Add extends Mage_Core_Controller_Front_Action
     {
         $session = Mage::getSingleton('Mage_Catalog_Model_Session');
         /* @var $session Mage_Catalog_Model_Session */
-        $backUrl    = $this->getRequest()->getParam(Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
+        $backUrl    = $this->getRequest()->getParam(Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
             $this->_redirect('/');

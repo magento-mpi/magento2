@@ -168,7 +168,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
             $attributeSet = $this->_objectManager->create('Mage_Eav_Model_Entity_Attribute_Set');
             $attributeSet->setEntityTypeId($this->_entityTypeId)->load($setName, 'attribute_set_name');
             if ($attributeSet->getId()) {
-                $setName = $this->_objectManager->get('Mage_Core_Helper_Data')->escapeHtml($setName);
+                $setName = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($setName);
                 $this->_getSession()->addError(
                     $this->_objectManager->get('Mage_Catalog_Helper_Data')->__('Attribute Set with name \'%s\' already exists.', $setName)
                 );
@@ -231,7 +231,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
                     $attributeSet->save();
                     $attributeSet->initFromSkeleton($this->getRequest()->getParam('set'))->save();
                     $isNewAttributeSet = true;
-                } catch (Mage_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     $session->addError($e->getMessage());
                 } catch (Exception $e) {
                     $session->addException($e, Mage::helper('Mage_Catalog_Helper_Data')->__('Something went wrong saving the attribute.'));
@@ -419,7 +419,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
      */
     public function suggestConfigurableAttributesAction()
     {
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(
             $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Configurable_AttributeSelector')
                 ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
         ));

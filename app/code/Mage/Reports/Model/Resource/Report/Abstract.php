@@ -16,7 +16,7 @@
  * @package     Mage_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Model_Resource_Db_Abstract
+abstract class Mage_Reports_Model_Resource_Report_Abstract extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Flag object
@@ -325,7 +325,7 @@ abstract class Mage_Reports_Model_Resource_Report_Abstract extends Mage_Core_Mod
      * @param string $column
      * @param mixed $from
      * @param mixed $to
-     * @param int|string|Mage_Core_Model_Store|null $store
+     * @param int|string|Magento_Core_Model_Store|null $store
      * @return string
      */
     public function getStoreTZOffsetQuery($table, $column, $from = null, $to = null, $store = null)

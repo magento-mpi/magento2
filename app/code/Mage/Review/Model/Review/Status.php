@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Review_Model_Review_Status extends Mage_Core_Model_Abstract
+class Mage_Review_Model_Review_Status extends Magento_Core_Model_Abstract
 {
 
     public function __construct()

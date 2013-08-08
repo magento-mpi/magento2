@@ -12,7 +12,7 @@
  * Address Total Collector model
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Quote_Address_Total_Collector extends Mage_Sales_Model_Config_Ordered
@@ -32,7 +32,7 @@ class Mage_Sales_Model_Quote_Address_Total_Collector extends Mage_Sales_Model_Co
     /**
      * Corresponding store object
      *
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store;
 
@@ -53,10 +53,10 @@ class Mage_Sales_Model_Quote_Address_Total_Collector extends Mage_Sales_Model_Co
     /**
      * Init corresponding total models
      *
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
-     * @param Mage_Core_Model_Store $store
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Store $store
      */
-    public function __construct(Mage_Core_Model_Cache_Type_Config $configCacheType, $store = null)
+    public function __construct(Magento_Core_Model_Cache_Type_Config $configCacheType, $store = null)
     {
         parent::__construct($configCacheType);
         $this->_store = $store ?: Mage::app()->getStore();

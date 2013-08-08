@@ -313,7 +313,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             $quote->collectTotals();
         }
 
-        Mage::helper('Mage_Core_Helper_Data')->copyFieldset('sales_copy_order', 'to_edit', $order, $quote);
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('sales_copy_order', 'to_edit', $order, $quote);
 
         Mage::dispatchEvent('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
 
@@ -344,7 +344,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     protected function _initBillingAddressFromOrder(Mage_Sales_Model_Order $order)
     {
         $this->getQuote()->getBillingAddress()->setCustomerAddressId('');
-        Mage::helper('Mage_Core_Helper_Data')->copyFieldset(
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
             'sales_copy_order_billing_address',
             'to_order',
             $order->getBillingAddress(),
@@ -358,7 +358,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         $quoteShippingAddress = $this->getQuote()->getShippingAddress()
             ->setCustomerAddressId('')
             ->setSameAsBilling($orderShippingAddress && $orderShippingAddress->getSameAsBilling());
-        Mage::helper('Mage_Core_Helper_Data')->copyFieldset(
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
             'sales_copy_order_shipping_address',
             'to_order',
             $orderShippingAddress,
@@ -775,7 +775,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             try {
                 $this->addProduct($productId, $config);
             }
-            catch (Mage_Core_Exception $e){
+            catch (Magento_Core_Exception $e){
                 $this->getSession()->addError($e->getMessage());
             }
             catch (Exception $e){
@@ -834,7 +834,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                         }
                     }
                 }
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->recollectCart();
                 throw $e;
             } catch (Exception $e) {
@@ -1281,7 +1281,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Check whether we need to create new customer (for another website) during order creation
      *
-     * @param   Mage_Core_Model_Store $store
+     * @param   Magento_Core_Model_Store $store
      * @return  boolean
      */
     protected function _customerIsInStore($store)
@@ -1339,7 +1339,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
 
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = $this->getSession()->getCustomer();
-        /** @var $store Mage_Core_Model_Store */
+        /** @var $store Magento_Core_Model_Store */
         $store = $this->getSession()->getStore();
 
         $customerIsInStore = $this->_customerIsInStore($store);
@@ -1575,7 +1575,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 } else {
                     try {
                         $method->validate();
-                    } catch (Mage_Core_Exception $e) {
+                    } catch (Magento_Core_Exception $e) {
                         $this->_errors[] = $e->getMessage();
                     }
                 }

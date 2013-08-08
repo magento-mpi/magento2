@@ -24,7 +24,7 @@ class Mage_Oauth_Block_Adminhtml_Oauth_Authorize extends Mage_Oauth_Block_Author
      */
     public function getFormKey()
     {
-        return Mage::getSingleton('Mage_Core_Model_Session')->getFormKey();
+        return Mage::getSingleton('Magento_Core_Model_Session')->getFormKey();
     }
 
     /**

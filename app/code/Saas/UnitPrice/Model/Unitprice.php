@@ -48,7 +48,7 @@ class Saas_UnitPrice_Model_Unitprice
     /**
      * Returns reference unit
      *
-     * @throws Mage_Core_Exception if unit was not passed to constructor
+     * @throws Magento_Core_Exception if unit was not passed to constructor
      * @return string
      */
     protected function _getReferenceUnit()
@@ -82,7 +82,7 @@ class Saas_UnitPrice_Model_Unitprice
      * @param float $productAmount Amount (positive real value)
      * @param string $productUnit Unit
      * @param price $productPrice Price
-     * @throws Mage_Core_Exception On incorrect arguments
+     * @throws Magento_Core_Exception On incorrect arguments
      * @return float Unit price
      */
     public function getUnitPrice($productAmount, $productUnit, $productPrice)
@@ -128,11 +128,11 @@ class Saas_UnitPrice_Model_Unitprice
     }
 
     /**
-     * Throws Mage_Core_Exception
+     * Throws Magento_Core_Exception
      * (for unit tests)
      *
      * @param string $message Message
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _throwMageException($message)
     {

@@ -22,7 +22,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHP
      * @var array
      */
     protected $_websites = array(
-        Mage_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
+        Magento_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
         1                                            => 'website1',
     );
 
@@ -169,7 +169,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHP
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == Mage_Core_Model_AppInterface::ADMIN_STORE_ID) {
+            if (!$withDefault && $id == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
                 continue;
             }
             $websiteData = array(
@@ -221,9 +221,9 @@ class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHP
         $this->_model->setWriter($writer);
         $this->_model->setParameters(array());
 
-        $arguments = $this->_objectManager->getConstructArguments('Mage_Core_Model_Abstract');
+        $arguments = $this->_objectManager->getConstructArguments('Magento_Core_Model_Abstract');
         $arguments['data'] = $this->_addressData;
-        $item = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', $arguments);
+        $item = $this->getMockForAbstractClass('Magento_Core_Model_Abstract', $arguments);
         $this->_model->exportItem($item);
     }
 

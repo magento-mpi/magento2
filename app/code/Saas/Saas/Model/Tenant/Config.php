@@ -160,21 +160,21 @@ class Saas_Saas_Model_Tenant_Config
         $viewCacheDir = "{$this->_mediaDir}/view_cache";
         return array(
             Mage::PARAM_APP_DIRS => array(
-                Mage_Core_Model_Dir::MEDIA => "{$this->_rootDir}/{$this->_mediaDir}",
-                Mage_Core_Model_Dir::STATIC_VIEW => "{$this->_rootDir}/skin",
-                Mage_Core_Model_Dir::VAR_DIR => "{$this->_rootDir}/var/{$varDirWorkaround}",
-                Mage_Core_Model_Dir::PUB_VIEW_CACHE => "{$this->_rootDir}/$viewCacheDir",
+                Magento_Core_Model_Dir::MEDIA => "{$this->_rootDir}/{$this->_mediaDir}",
+                Magento_Core_Model_Dir::STATIC_VIEW => "{$this->_rootDir}/skin",
+                Magento_Core_Model_Dir::VAR_DIR => "{$this->_rootDir}/var/{$varDirWorkaround}",
+                Magento_Core_Model_Dir::PUB_VIEW_CACHE => "{$this->_rootDir}/$viewCacheDir",
             ),
             Mage::PARAM_APP_URIS => array(
-                Mage_Core_Model_Dir::MEDIA => $this->_mediaDir,
-                Mage_Core_Model_Dir::STATIC_VIEW => $this->_staticDir,
-                Mage_Core_Model_Dir::PUB_VIEW_CACHE => $viewCacheDir,
+                Magento_Core_Model_Dir::MEDIA => $this->_mediaDir,
+                Magento_Core_Model_Dir::STATIC_VIEW => $this->_staticDir,
+                Magento_Core_Model_Dir::PUB_VIEW_CACHE => $viewCacheDir,
             ),
             Mage::PARAM_CUSTOM_LOCAL_CONFIG => $this->_config->getXmlString(),
             'status' => $this->_status,
             'maintenance_mode' => $this->_maintenanceMode,
             Enterprise_Queue_Model_Queue::PARAM_TASK_NAME_PREFIX => $this->_taskNamePrefix,
-            Mage::PARAM_MODE => Mage_Core_Model_App_State::MODE_PRODUCTION,
+            Mage::PARAM_MODE => Magento_Core_Model_App_State::MODE_PRODUCTION,
         );
     }
 

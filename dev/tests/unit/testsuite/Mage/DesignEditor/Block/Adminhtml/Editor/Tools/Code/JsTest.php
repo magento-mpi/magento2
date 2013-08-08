@@ -27,7 +27,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit
     protected $_themeContext;
 
     /**
-     * @var Mage_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_theme;
 
@@ -40,7 +40,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit
     {
         $this->_urlBuilder = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false);
         $this->_themeContext = $this->getMock('Mage_DesignEditor_Model_Theme_Context', array(), array(), '', false);
-        $this->_theme = $this->getMock('Mage_Core_Model_Theme', array('getId', 'getCustomization'), array(), '', false);
+        $this->_theme = $this->getMock('Magento_Core_Model_Theme', array('getId', 'getCustomization'), array(),
+            '', false);
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(self::TEST_THEME_ID));
         $this->_themeContext->expects($this->any())->method('getEditableTheme')
             ->will($this->returnValue($this->_theme));
@@ -113,15 +114,15 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_JsTest extends PHPUnit
      */
     public function testGetJsFiles()
     {
-        $customization = $this->getMock('Mage_Core_Model_Theme_Customization', array(), array(), '', false);
+        $customization = $this->getMock('Magento_Core_Model_Theme_Customization', array(), array(), '', false);
         $this->_theme->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
 
         $customization->expects($this->once())
             ->method('getFilesByType')
-            ->with(Mage_Core_Model_Theme_Customization_File_Js::TYPE)
+            ->with(Magento_Core_Model_Theme_Customization_File_Js::TYPE)
             ->will($this->returnValue(array()));
-        $helperMock = $this->getMock('Mage_Core_Helper_Data', array(), array(), '', false);
-        $this->_model->expects($this->once())->method('helper')->with('Mage_Core_Helper_Data')
+        $helperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $this->_model->expects($this->once())->method('helper')->with('Magento_Core_Helper_Data')
             ->will($this->returnValue($helperMock));
 
         $this->_model->getFiles();

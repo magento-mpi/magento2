@@ -11,7 +11,7 @@
  */
 class Mage_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test_Block_Adminhtml
 {
-    /** @var  Mage_Core_Model_Registry */
+    /** @var  Magento_Core_Model_Registry */
     private $_registry;
 
     /** @var  Mage_Webhook_Block_Adminhtml_Subscription_Edit */
@@ -22,7 +22,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test_Bl
         $subscriptionData = array(
             Mage_Webhook_Block_Adminhtml_Subscription_Edit::DATA_SUBSCRIPTION_ID => true,
             'alias' => 'alias_value');
-        $this->_registry = new Mage_Core_Model_Registry();
+        $this->_registry = new Magento_Core_Model_Registry();
         $this->_registry->register(Mage_Webhook_Block_Adminhtml_Subscription_Edit::REGISTRY_KEY_CURRENT_SUBSCRIPTION,
             $subscriptionData);
 
@@ -37,7 +37,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_EditTest extends Magento_Test_Bl
 
     public function testGetHeaderTestNew()
     {
-        $this->_registry = new Mage_Core_Model_Registry();
+        $this->_registry = new Magento_Core_Model_Registry();
         $this->_block = new Mage_Webhook_Block_Adminhtml_Subscription_Edit(
             $this->_registry,
             $this->_context

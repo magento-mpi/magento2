@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Mage_Core_Block_Template
+class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Magento_Core_Block_Template
 {
     /**
      * Id of current customer

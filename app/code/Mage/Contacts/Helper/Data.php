@@ -15,7 +15,7 @@
  * @package    Mage_Contacts
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Contacts_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Contacts_Helper_Data extends Magento_Core_Helper_Abstract
 {
 
     const XML_PATH_ENABLED   = 'contacts/contacts/enabled';

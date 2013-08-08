@@ -15,7 +15,7 @@
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Helper_Data extends Mage_Core_Helper_Data
+class Saas_Launcher_Helper_Data extends Magento_Core_Helper_Data
 {
     /**
      * Config path to launcher phase
@@ -30,28 +30,28 @@ class Saas_Launcher_Helper_Data extends Mage_Core_Helper_Data
     /**
      * Store Manager
      *
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Core Config Model
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_configModel;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Config_Modules $config
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
-     * @param Mage_Core_Model_Config $configModel
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config_Modules $config
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Config $configModel
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Config_Modules $config,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Model_Config $configModel
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config_Modules $config,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Config $configModel
     ) {
         parent::__construct($context, $config);
         $this->_storeManager = $storeManager;
@@ -75,7 +75,7 @@ class Saas_Launcher_Helper_Data extends Mage_Core_Helper_Data
     /**
      * Get current Store
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getCurrentStoreView()
     {

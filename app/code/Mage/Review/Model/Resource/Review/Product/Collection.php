@@ -55,7 +55,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
     {
         $this->_init('Mage_Catalog_Model_Product', 'Mage_Catalog_Model_Resource_Product');
         $this->setRowIdFieldName('review_id');
-        $this->_reviewStoreTable = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('review_store');
+        $this->_reviewStoreTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('review_store');
         $this->_initTables();
     }
 
@@ -258,8 +258,8 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
      */
     protected function _joinFields()
     {
-        $reviewTable = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('review');
-        $reviewDetailTable = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('review_detail');
+        $reviewTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('review');
+        $reviewDetailTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('review_detail');
 
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('sku');
@@ -383,7 +383,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
                         $this->_getConditionSql('rdt.customer_id', array('is' => new Zend_Db_Expr('NULL'))),
                         $this->_getConditionSql(
                             'rdt.store_id',
-                            array('eq' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
+                            array('eq' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
                         )
                     );
                     $conditionSql = implode(' AND ', $conditionParts);
@@ -394,7 +394,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Mage_Catalog_
                         $this->_getConditionSql('rdt.customer_id', array('is' => new Zend_Db_Expr('NULL'))),
                         $this->_getConditionSql(
                             'rdt.store_id',
-                            array('neq' => Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
+                            array('neq' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
                         )
                     );
                     $conditionSql = implode(' AND ', $conditionParts);

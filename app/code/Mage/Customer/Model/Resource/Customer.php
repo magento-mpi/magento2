@@ -10,16 +10,16 @@
 class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstract
 {
     /**
-     * @var Mage_Core_Model_Validator_Factory
+     * @var Magento_Core_Model_Validator_Factory
      */
     protected $_validatorFactory;
 
     /**
      * Resource initialization
      *
-     * @param Mage_Core_Model_Validator_Factory $validatorFactory
+     * @param Magento_Core_Model_Validator_Factory $validatorFactory
      */
-    public function __construct(Mage_Core_Model_Validator_Factory $validatorFactory)
+    public function __construct(Magento_Core_Model_Validator_Factory $validatorFactory)
     {
         $this->_validatorFactory = $validatorFactory;
         $this->setType('customer');
@@ -49,7 +49,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      *
      * @param Magento_Object $customer
      * @throws Mage_Customer_Exception
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Customer_Model_Resource_Customer
      */
     protected function _beforeSave(Magento_Object $customer)
@@ -199,7 +199,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
     /**
      * Load customer by email
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      *
      * @param Mage_Customer_Model_Customer $customer
      * @param string $email

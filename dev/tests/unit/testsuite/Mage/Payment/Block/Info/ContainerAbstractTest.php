@@ -26,7 +26,7 @@ class Mage_Payment_Block_Info_ContainerAbstractTest extends PHPUnit_Framework_Te
             ->method('getPaymentInfo')
             ->will($this->returnValue($paymentInfo));
 
-        $childBlock = $objectManagerHelper->getObject('Mage_Core_Block_Template');
+        $childBlock = $objectManagerHelper->getObject('Magento_Core_Block_Template');
         $block->expects($this->atLeastOnce())
             ->method('getChildBlock')
             ->with('payment.info.checkmo')

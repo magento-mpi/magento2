@@ -11,7 +11,7 @@
 /**
  * Paygate data helper
  */
-class Mage_Paygate_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Converts a lot of messages to message

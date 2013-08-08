@@ -28,7 +28,7 @@
  * @method int getSubscriptionId()
  */
 class Mage_Webhook_Model_Subscription
-    extends Mage_Core_Model_Abstract
+    extends Magento_Core_Model_Abstract
     implements Magento_PubSub_SubscriptionInterface
 {
     const FIELD_ENDPOINT_URL = 'endpoint_url';
@@ -56,15 +56,15 @@ class Mage_Webhook_Model_Subscription
 
     /**
      * @param Mage_Webhook_Model_Endpoint $endpoint
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Mage_Webhook_Model_Endpoint $endpoint,
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -85,7 +85,7 @@ class Mage_Webhook_Model_Subscription
     /**
      * Prepare data to be saved to database
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
@@ -117,7 +117,7 @@ class Mage_Webhook_Model_Subscription
      *
      * We need to be sure that related objects like Endpoint are also deleted.
      *
-     * @return Mage_Core_Model_Abstract|void
+     * @return Magento_Core_Model_Abstract|void
      */
     protected function _afterDelete()
     {

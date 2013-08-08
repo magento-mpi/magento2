@@ -11,13 +11,13 @@
 /**
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Magento_Core
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
+class Mage_Backend_Block_Widget_Grid_ColumnSet extends Magento_Core_Block_Template
 {
     /**
-     * @var Mage_Core_Helper_Abstract
+     * @var Magento_Core_Helper_Abstract
      */
     protected $_helper;
 
@@ -105,7 +105,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     protected $_totals = null;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Magento_Core_Block_Template_Context $context
      * @param Mage_Backend_Helper_Data $helper
      * @param Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
      * @param Mage_Backend_Model_Widget_Grid_SubTotals $subtotals
@@ -113,7 +113,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Magento_Core_Block_Template_Context $context,
         Mage_Backend_Helper_Data $helper,
         Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
         Mage_Backend_Model_Widget_Grid_SubTotals $subtotals,
@@ -228,7 +228,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
     /**
      * Prepare block for rendering
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _beforeToHtml()
     {

@@ -181,7 +181,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adminhtm
                     $nodeModel->collectTree(array(), array());
                 }
                 $this->_getSession()->addSuccess($this->__('You deleted the pages hierarchy from the selected scopes.'));
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
@@ -216,7 +216,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adminhtm
                     $nodeHeritageModel->copyTo($scope, $scopeId);
                 }
                 $this->_getSession()->addSuccess($this->__('You copied the pages hierarchy to the selected scopes.'));
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
@@ -261,7 +261,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adminhtm
                 } else {
                     if (!empty($data['nodes_data'])) {
                         try{
-                            $nodesData = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($data['nodes_data']);
+                            $nodesData = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($data['nodes_data']);
                         }catch (Zend_Json_Exception $e){
                             $nodesData = array();
                         }
@@ -296,7 +296,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adminhtm
                 $this->_getSession()->addSuccess(
                     Mage::helper('Enterprise_Cms_Helper_Data')->__('You have saved the hierarchy.')
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,

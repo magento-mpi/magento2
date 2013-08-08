@@ -97,7 +97,7 @@ class Mage_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Validato
     /**
      * Validate EAV model attributes with data models
      *
-     * @param Mage_Core_Model_Abstract $entity
+     * @param Magento_Core_Model_Abstract $entity
      * @return bool
      */
     public function isValid($entity)
@@ -146,7 +146,7 @@ class Mage_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Validato
 
         if ($this->_attributes) {
             $attributes = $this->_attributes;
-        } elseif ($entity instanceof Mage_Core_Model_Abstract
+        } elseif ($entity instanceof Magento_Core_Model_Abstract
                   && $entity->getResource() instanceof Mage_Eav_Model_Entity_Abstract
         ) { // $entity is EAV-model
             $attributes = $entity->getEntityType()->getAttributeCollection()->getItems();

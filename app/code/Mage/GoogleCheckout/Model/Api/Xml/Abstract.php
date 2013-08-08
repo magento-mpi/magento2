@@ -16,15 +16,15 @@ require_once('googlecheckout/googlerequest.php');
 abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Magento_Object
 {
     /**
-     * @var Mage_Core_Model_Translate
+     * @var Magento_Core_Model_Translate
      */
     protected $_translator;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
+     * @param Magento_Core_Model_Translate $translator
      * @param array $data
      */
-    public function __construct(Mage_Core_Model_Translate $translator, array $data = array())
+    public function __construct(Magento_Core_Model_Translate $translator, array $data = array())
     {
         parent::__construct($data);
         $this->_translator = $translator;
@@ -39,7 +39,7 @@ abstract class Mage_GoogleCheckout_Model_Api_Xml_Abstract extends Magento_Object
     public function __()
     {
         $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), 'Mage_GoogleCheckout');
+        $expr = new Magento_Core_Model_Translate_Expr(array_shift($args), 'Mage_GoogleCheckout');
         array_unshift($args, $expr);
         return $this->_translator->translate($args);
     }

@@ -12,7 +12,7 @@
  * Base payment iformation block
  *
  */
-class Mage_Payment_Block_Info extends Mage_Core_Block_Template
+class Mage_Payment_Block_Info extends Magento_Core_Block_Template
 {
     /**
      * Payment rendered specific information

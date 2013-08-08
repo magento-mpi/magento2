@@ -11,7 +11,7 @@
 /**
  * Autocomplete queries list
  */
-class Mage_CatalogSearch_Block_Autocomplete extends Mage_Core_Block_Abstract
+class Mage_CatalogSearch_Block_Autocomplete extends Magento_Core_Block_Abstract
 {
     protected $_suggestData = null;
 

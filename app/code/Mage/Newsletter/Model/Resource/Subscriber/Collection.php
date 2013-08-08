@@ -16,7 +16,7 @@
  * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
 
     /**

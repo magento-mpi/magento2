@@ -213,7 +213,7 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Magento_Adminhtml_Bl
     {
         $queries = array_flip($this->_getSelectedQueries());
         if (!empty($queries)) {
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($queries);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($queries);
         }
         return '{}';
     }

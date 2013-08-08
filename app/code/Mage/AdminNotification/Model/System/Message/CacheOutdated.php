@@ -9,7 +9,7 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdated
     implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
-     * @var Mage_Core_Model_UrlInterface
+     * @var Magento_Core_Model_UrlInterface
      */
     protected $_urlBuilder;
 
@@ -19,26 +19,26 @@ class Mage_AdminNotification_Model_System_Message_CacheOutdated
     protected $_authorization;
 
     /**
-     * @var Mage_Core_Model_Cache
+     * @var Magento_Core_Model_Cache
      */
     protected $_cache;
 
     /**
-     * @var Mage_Core_Model_Factory_Helper
+     * @var Magento_Core_Model_Factory_Helper
      */
     protected $_helperFactory;
 
     /**
      * @param Magento_AuthorizationInterface $authorization
-     * @param Mage_Core_Model_UrlInterface $urlBuilder
-     * @param Mage_Core_Model_Cache $cache
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param Magento_Core_Model_Cache $cache
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Magento_AuthorizationInterface $authorization,
-        Mage_Core_Model_UrlInterface $urlBuilder,
-        Mage_Core_Model_Cache $cache,
-        Mage_Core_Model_Factory_Helper $helperFactory
+        Magento_Core_Model_UrlInterface $urlBuilder,
+        Magento_Core_Model_Cache $cache,
+        Magento_Core_Model_Factory_Helper $helperFactory
     ) {
         $this->_authorization = $authorization;
         $this->_urlBuilder = $urlBuilder;

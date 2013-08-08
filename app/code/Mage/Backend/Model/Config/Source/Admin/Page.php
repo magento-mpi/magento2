@@ -16,7 +16,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Source_Admin_Page implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Backend_Model_Config_Source_Admin_Page implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Menu model
@@ -28,7 +28,7 @@ class Mage_Backend_Model_Config_Source_Admin_Page implements Mage_Core_Model_Opt
     /**
      * Object factory
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_objectFactory;
 

@@ -16,7 +16,7 @@
  * @package     Mage_Poll
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Poll_Model_Resource_Poll extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize resource
@@ -184,9 +184,9 @@ class Mage_Poll_Model_Resource_Poll extends Mage_Core_Model_Resource_Db_Abstract
      * Delete current poll from the table poll_store and then
      * insert to update "poll to store" relations
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      */
-    public function _afterSave(Mage_Core_Model_Abstract $object)
+    public function _afterSave(Magento_Core_Model_Abstract $object)
     {
         /** stores */
         $deleteWhere = $this->_getWriteAdapter()->quoteInto('poll_id = ?', $object->getId());

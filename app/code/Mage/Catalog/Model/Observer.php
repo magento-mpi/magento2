@@ -26,7 +26,7 @@ class Mage_Catalog_Model_Observer
      */
     public function storeEdit(Magento_Event_Observer $observer)
     {
-        /** @var $store Mage_Core_Model_Store */
+        /** @var $store Magento_Core_Model_Store */
         $store = $observer->getEvent()->getStore();
         if ($store->dataHasChangedFor('group_id')) {
             Mage::app()->reinitStores();
@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Observer
      */
     public function storeAdd(Magento_Event_Observer $observer)
     {
-        /* @var $store Mage_Core_Model_Store */
+        /* @var $store Magento_Core_Model_Store */
         $store = $observer->getEvent()->getStore();
         Mage::app()->reinitStores();
         Mage::getConfig()->reinit();
@@ -71,7 +71,7 @@ class Mage_Catalog_Model_Observer
      */
     public function storeGroupSave(Magento_Event_Observer $observer)
     {
-        /* @var $group Mage_Core_Model_Store_Group */
+        /* @var $group Magento_Core_Model_Store_Group */
         $group = $observer->getEvent()->getGroup();
         if ($group->dataHasChangedFor('root_category_id') || $group->dataHasChangedFor('website_id')) {
             Mage::app()->reinitStores();

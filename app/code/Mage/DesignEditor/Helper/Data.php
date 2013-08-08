@@ -11,7 +11,7 @@
 /**
  * Design Editor main helper
  */
-class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_DesignEditor_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**#@+
      * XML paths to VDE settings
@@ -26,7 +26,7 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     const TRANSLATION_MODE = "translation_mode";
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_configuration;
 
@@ -41,12 +41,12 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_translationMode;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Config $configuration
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $configuration
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Config $configuration
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $configuration
     ) {
         parent::__construct($context);
         $this->_configuration = $configuration;
@@ -76,7 +76,7 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Returns the translate object for this helper.
      *
-     * @return Mage_Core_Model_Translate
+     * @return Magento_Core_Model_Translate
      */
     public function getTranslator()
     {
@@ -86,10 +86,10 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * This method returns an indicator of whether or not the current request is for vde
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @return bool
      */
-    public function isVdeRequest(Mage_Core_Controller_Request_Http $request = null)
+    public function isVdeRequest(Magento_Core_Controller_Request_Http $request = null)
     {
         if (null !== $request) {
             $result = false;
@@ -127,10 +127,10 @@ class Mage_DesignEditor_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Sets the translation mode for the current request (null, text, script, or alt);
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @return Mage_DesignEditor_Helper_Data
      */
-    public function setTranslationMode(Mage_Core_Controller_Request_Http $request)
+    public function setTranslationMode(Magento_Core_Controller_Request_Http $request)
     {
         $this->_translationMode = $request->getParam(self::TRANSLATION_MODE, null);
         return $this;

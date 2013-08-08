@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Controller_Tracking extends Mage_Core_Controller_Front_Action
+class Enterprise_Rma_Controller_Tracking extends Magento_Core_Controller_Front_Action
 {
     /**
      * Popup action
@@ -148,7 +148,7 @@ class Enterprise_Rma_Controller_Tracking extends Mage_Core_Controller_Front_Acti
                     'application/pdf'
                 );
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::logException($e);
@@ -182,7 +182,7 @@ class Enterprise_Rma_Controller_Tracking extends Mage_Core_Controller_Front_Acti
             ;
 
             $this->_prepareDownloadResponse(
-                'packingslip'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
+                'packingslip'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
                 'application/pdf'
             );
         }

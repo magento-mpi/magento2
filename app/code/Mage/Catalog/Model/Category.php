@@ -57,14 +57,14 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     /**
      * URL Model instance
      *
-     * @var Mage_Core_Model_Url
+     * @var Magento_Core_Model_Url
      */
     protected static $_url;
 
     /**
      * URL rewrite model
      *
-     * @var Mage_Core_Model_Url_Rewrite
+     * @var Magento_Core_Model_Url_Rewrite
      */
     protected static $_urlRewrite;
 
@@ -115,12 +115,12 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     /**
      * Retrieve URL instance
      *
-     * @return Mage_Core_Model_Url
+     * @return Magento_Core_Model_Url
      */
     public function getUrlInstance()
     {
         if (!self::$_url) {
-            self::$_url = Mage::getModel('Mage_Core_Model_Url');
+            self::$_url = Mage::getModel('Magento_Core_Model_Url');
         }
         return self::$_url;
     }
@@ -128,12 +128,12 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     /**
      * Get url rewrite model
      *
-     * @return Mage_Core_Model_Url_Rewrite
+     * @return Magento_Core_Model_Url_Rewrite
      */
     public function getUrlRewrite()
     {
         if (!self::$_urlRewrite) {
-            self::$_urlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite');
+            self::$_urlRewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite');
         }
         return self::$_urlRewrite;
     }
@@ -334,7 +334,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
         }
 
         $storeIds = array();
-        $storeCollection = Mage::getModel('Mage_Core_Model_Store')->getCollection()->loadByCategoryIds($nodes);
+        $storeCollection = Mage::getModel('Magento_Core_Model_Store')->getCollection()->loadByCategoryIds($nodes);
         foreach ($storeCollection as $store) {
             $storeIds[$store->getId()] = $store->getId();
         }
@@ -445,7 +445,7 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
      */
     public function formatUrlKey($str)
     {
-        $str = Mage::helper('Mage_Core_Helper_Data')->removeAccents($str);
+        $str = Mage::helper('Magento_Core_Helper_Data')->removeAccents($str);
         $urlKey = preg_replace('#[^0-9a-z]+#i', '-', $str);
         $urlKey = strtolower($urlKey);
         $urlKey = trim($urlKey, '-');

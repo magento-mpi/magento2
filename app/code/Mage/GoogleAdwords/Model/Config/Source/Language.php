@@ -8,7 +8,7 @@
  * @license {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Mage_GoogleAdwords_Model_Config_Source_Language implements Mage_Core_Model_Option_ArrayInterface
+class Mage_GoogleAdwords_Model_Config_Source_Language implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Zend_Locale
@@ -28,12 +28,12 @@ class Mage_GoogleAdwords_Model_Config_Source_Language implements Mage_Core_Model
     /**
      * Constructor
      *
-     * @param Mage_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Mage_GoogleAdwords_Helper_Data $helper
      * @param Mage_GoogleAdwords_Model_Filter_UppercaseTitle $uppercaseFilter
      */
     public function __construct(
-        Mage_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_LocaleInterface $locale,
         Mage_GoogleAdwords_Helper_Data $helper,
         Mage_GoogleAdwords_Model_Filter_UppercaseTitle $uppercaseFilter
     ) {

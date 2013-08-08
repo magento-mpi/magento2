@@ -96,7 +96,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     /**
      * Retrieve Catalog Product List identifier
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return int
      */
     public function getType()
@@ -199,7 +199,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     /**
      * Retrieve Product data object
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Magento_Object
      */
     public function getProduct()
@@ -290,7 +290,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
         $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
 
         foreach ($websites as $website) {
-            /* @var $website Mage_Core_Model_Website */
+            /* @var $website Magento_Core_Model_Website */
             $store = $website->getDefaultStore();
             $date  = Mage::app()->getLocale()->storeDate($store);
             if ($date->equals(0, Zend_Date::HOUR)) {
@@ -406,7 +406,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
      * Remove targetrule's index
      *
      * @param int|null $typeId
-     * @param Mage_Core_Model_Store|int|array|null $store
+     * @param Magento_Core_Model_Store|int|array|null $store
      * @return Enterprise_TargetRule_Model_Index
      */
     protected function _cleanIndex($typeId = null, $store = null)

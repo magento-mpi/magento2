@@ -25,8 +25,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
      */
     public function testPrepareLayout($blockAttributes, $expected)
     {
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel(
+            'Magento_Core_Model_Layout',
+            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        );
 
         /** @var $block Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit */
         $block = $layout->createBlock(
@@ -198,14 +201,14 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
      */
     public function prepareLayoutDataProvider()
     {
-        /** @var $urlRewrite Mage_Core_Model_Url_Rewrite */
-        $urlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite');
+        /** @var $urlRewrite Magento_Core_Model_Url_Rewrite */
+        $urlRewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite');
         /** @var $cmsPage Mage_Cms_Model_Page */
         $cmsPage = Mage::getModel('Mage_Cms_Model_Page',
             array('data' => array('page_id' => 1, 'title' => 'Test CMS Page'))
         );
-        /** @var $existingUrlRewrite Mage_Core_Model_Url_Rewrite */
-        $existingUrlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite',
+        /** @var $existingUrlRewrite Magento_Core_Model_Url_Rewrite */
+        $existingUrlRewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );
 

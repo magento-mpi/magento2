@@ -15,17 +15,17 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Controller_Download extends Mage_Core_Controller_Front_Action
+class Mage_Downloadable_Controller_Download extends Magento_Core_Controller_Front_Action
 {
 
     /**
      * Return core session object
      *
-     * @return Mage_Core_Model_Session
+     * @return Magento_Core_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Core_Model_Session');
+        return Mage::getSingleton('Magento_Core_Model_Session');
     }
 
     /**
@@ -95,7 +95,7 @@ class Mage_Downloadable_Controller_Download extends Mage_Core_Controller_Front_A
             try {
                 $this->_processDownload($resource, $resourceType);
                 exit(0);
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError(Mage::helper('Mage_Downloadable_Helper_Data')->__('Sorry, there was an error getting requested content. Please contact the store owner.'));
             }
         }
@@ -125,7 +125,7 @@ class Mage_Downloadable_Controller_Download extends Mage_Core_Controller_Front_A
             try {
                 $this->_processDownload($resource, $resourceType);
                 exit(0);
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getCustomerSession()->addError(Mage::helper('Mage_Downloadable_Helper_Data')->__('Sorry, there was an error getting requested content. Please contact the store owner.'));
             }
         }

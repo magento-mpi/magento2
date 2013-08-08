@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Poll_Model_Resource_Poll_Answer_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Poll_Model_Resource_Poll_Answer_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Initialize collection

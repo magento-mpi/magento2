@@ -26,7 +26,7 @@ class Mage_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest extend
     public function setUp()
     {
         $this->_blockFactoryMock = $this->getMock(
-            'Mage_Core_Model_BlockFactory', array('createBlock'), array(), '', false
+            'Magento_Core_Model_BlockFactory', array('createBlock'), array(), '', false
         );
         $this->_observerMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
         $this->_model = new Mage_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer(
@@ -37,7 +37,7 @@ class Mage_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest extend
     public function testRender()
     {
         $blockMock = $this->getMock(
-            'Mage_Core_Block', array(
+            'Magento_Core_Block', array(
                 'setNameInLayout', 'setParentElement', 'setProductEntity', 'toHtml', 'addFieldMap',
                 'addFieldDependence', 'addConfigOptions'
             )

@@ -29,8 +29,8 @@ class Mage_Customer_Model_Customer_Attribute_Backend_Password extends Mage_Eav_M
     public function beforeSave($object)
     {
         $password = $object->getPassword();
-        /** @var Mage_Core_Helper_String $stringHelper */
-        $stringHelper = Mage::helper('Mage_Core_Helper_String');
+        /** @var Magento_Core_Helper_String $stringHelper */
+        $stringHelper = Mage::helper('Magento_Core_Helper_String');
 
         $length = $stringHelper->strlen($password);
         if ($length > 0) {

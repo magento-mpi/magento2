@@ -51,7 +51,7 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Form extends Magento_Adminhtml_Block
                 'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Visible In'),
                 'required'  => true,
                 'name'      => 'store_ids[]',
-                'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
                 'value'     => Mage::registry('poll_data')->getStoreIds()
             ));
             $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');

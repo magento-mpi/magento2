@@ -496,7 +496,7 @@ final class Maged_Controller
                     include_once self::getBootstrapPath();
                     Mage::setIsDownloader();
                 }
-                Mage::getObjectManager()->get('Mage_Core_Model_App');
+                Mage::getObjectManager()->get('Magento_Core_Model_App');
                 if (self::isInstalled()) {
                     Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
                 }
@@ -923,8 +923,8 @@ final class Maged_Controller
                 // reinit config and apply all updates
                 Mage::app()->getConfig()->reinit();
 
-                /** @var $updater Mage_Core_Model_Db_UpdaterInterface*/
-                $updater = Mage::getObjectManager()->get('Mage_Core_Model_Db_UpdaterInterface');
+                /** @var $updater Magento_Core_Model_Db_UpdaterInterface*/
+                $updater = Mage::getObjectManager()->get('Magento_Core_Model_Db_UpdaterInterface');
                 $updater->updateScheme();
                 $updater->updateData();
                 $message .= 'Cache cleaned successfully';

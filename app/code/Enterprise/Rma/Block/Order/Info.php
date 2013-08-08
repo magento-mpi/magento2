@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Rma_Block_Order_Info extends Mage_Core_Block_Template
+class Enterprise_Rma_Block_Order_Info extends Magento_Core_Block_Template
 {
     public function _construct()
     {

@@ -358,7 +358,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
      * Get order item extra info block
      *
      * @param Mage_Sales_Model_Quote_Item $item
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     public function getItemExtraInfo($item)
     {

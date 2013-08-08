@@ -33,8 +33,8 @@ class Mage_Webhook_Block_Adminhtml_Subscription_GridTest extends Magento_Test_Bl
         $this->_subxConfigMock = $this->_makeMock('Mage_Webhook_Model_Subscription_Config');
         $this->_subxFactoryMock = $this->_makeMock('Mage_Webhook_Model_Subscription_Factory');
         $this->_subscriptionMock = $this->_makeMock('Mage_Webhook_Model_Subscription');
-        $storeManagerMock = $this->_makeMock('Mage_Core_Model_StoreManagerInterface');
-        $urlMock = $this->_makeMock('Mage_Core_Model_Url');
+        $storeManagerMock = $this->_makeMock('Magento_Core_Model_StoreManagerInterface');
+        $urlMock = $this->_makeMock('Magento_Core_Model_Url');
 
         $this->_setStub($this->_subxFactoryMock, 'create', $this->_subscriptionMock);
 

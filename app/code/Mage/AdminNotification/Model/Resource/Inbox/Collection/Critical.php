@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 class Mage_AdminNotification_Model_Resource_Inbox_Collection_Critical
-    extends Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Resource collection initialization
@@ -19,7 +19,7 @@ class Mage_AdminNotification_Model_Resource_Inbox_Collection_Critical
     }
 
     /**
-     * @return $this|Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return $this|Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _initSelect()
     {

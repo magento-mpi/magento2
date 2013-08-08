@@ -118,7 +118,7 @@ class Mage_Backend_Block_Widget_Grid_Export
     /**
      * Prepare export button
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {

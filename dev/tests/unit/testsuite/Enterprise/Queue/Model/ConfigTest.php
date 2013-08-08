@@ -20,7 +20,7 @@ class Enterprise_Queue_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config_Modules', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $this->_model = new Enterprise_Queue_Model_Config($this->_configMock);
     }
 

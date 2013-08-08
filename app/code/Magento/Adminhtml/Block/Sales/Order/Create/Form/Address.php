@@ -62,7 +62,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
 
         $emptyAddress = $this->getCustomer()
             ->getAddressById(null)
-            ->setCountryId(Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry($this->getStore()));
+            ->setCountryId(Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry($this->getStore()));
         $data[0] = $addressForm->setEntity($emptyAddress)
             ->outputData(Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON);
 
@@ -72,7 +72,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
                 Mage_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON
             );
         }
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**
@@ -152,7 +152,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
         }
         if (is_null($this->_form->getElement('country_id')->getValue())) {
             $this->_form->getElement('country_id')->setValue(
-                Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry($this->getStore())
+                Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry($this->getStore())
             );
         }
 

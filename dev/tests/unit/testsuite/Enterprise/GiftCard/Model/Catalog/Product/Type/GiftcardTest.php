@@ -37,7 +37,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
     protected $_product;
 
     /**
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store;
 
@@ -51,7 +51,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
      */
     protected function setUp()
     {
-        $this->_store = $this->getMock('Mage_Core_Model_Store', array('getCurrentCurrencyRate'), array(), '', false);
+        $this->_store = $this->getMock('Magento_Core_Model_Store', array('getCurrentCurrencyRate'), array(), '', false);
         $this->_mockModel(array('_isStrictProcessMode'));
     }
 
@@ -66,14 +66,14 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
             'Enterprise_GiftCard_Helper_Data'        => $this->getMock(
                 'Enterprise_GiftCard_Helper_Data', array(), array(), '', false, false
             ),
-            'Mage_Core_Helper_Data'                  => $this->getMock(
-                'Mage_Core_Helper_Data', array(), array(), '', false, false
+            'Magento_Core_Helper_Data'                  => $this->getMock(
+                'Magento_Core_Helper_Data', array(), array(), '', false, false
             ),
             'Mage_Catalog_Helper_Data'               => $this->getMock(
                 'Mage_Catalog_Helper_Data', array(), array(), '', false, false
             ),
-            'Mage_Core_Helper_File_Storage_Database' => $this->getMock(
-                'Mage_Core_Helper_File_Storage_Database', array(), array(), '', false, false
+            'Magento_Core_Helper_File_Storage_Database' => $this->getMock(
+                'Magento_Core_Helper_File_Storage_Database', array(), array(), '', false, false
             )
         );
 
@@ -82,7 +82,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
         }
 
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
-        $locale = $this->getMock('Mage_Core_Model_Locale', array('getNumber'), array(), '', false);
+        $locale = $this->getMock('Magento_Core_Model_Locale', array('getNumber'), array(), '', false);
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
         $this->_model = $this->getMock(
             'Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard',
@@ -152,7 +152,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
         $this->_setGetGiftcardAmountsReturnEmpty();
 
         $this->_setStrictProcessMode(true);
-        $this->setExpectedException('Mage_Core_Exception', 'Please specify all the required information.');
+        $this->setExpectedException('Magento_Core_Exception', 'Please specify all the required information.');
         $this->_model->checkProductBuyState($this->_product);
     }
 
@@ -361,7 +361,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUni
 
         $this->_product->setCustomOptions($this->_customOptions);
 
-        $this->setExpectedException('Mage_Core_Exception', $exceptionMessage);
+        $this->setExpectedException('Magento_Core_Exception', $exceptionMessage);
         $this->_model->checkProductBuyState($this->_product);
     }
 

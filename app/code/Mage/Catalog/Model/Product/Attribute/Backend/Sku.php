@@ -29,12 +29,12 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Sku extends Mage_Eav_Model_En
      * Validate SKU
      *
      * @param Mage_Catalog_Model_Product $object
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return bool
      */
     public function validate($object)
     {
-        $helper = Mage::helper('Mage_Core_Helper_String');
+        $helper = Mage::helper('Magento_Core_Helper_String');
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
         if ($this->getAttribute()->getIsRequired() && $this->getAttribute()->isValueEmpty($value)) {

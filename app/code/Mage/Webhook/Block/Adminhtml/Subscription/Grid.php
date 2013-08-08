@@ -23,16 +23,16 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid extends Mage_Backend_Block_
      * @param Mage_Webhook_Model_Subscription_Config $subscriptionConfig
      * @param Mage_Webhook_Model_Subscription_Factory $subscriptionFactory
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
-     * @param Mage_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
      * @param array $data
      */
     public function __construct(
         Mage_Webhook_Model_Subscription_Config $subscriptionConfig,
         Mage_Webhook_Model_Subscription_Factory $subscriptionFactory,
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Model_Url $urlModel,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
         array $data = array()
     ) {
         $this->_subscriptionConfig = $subscriptionConfig;

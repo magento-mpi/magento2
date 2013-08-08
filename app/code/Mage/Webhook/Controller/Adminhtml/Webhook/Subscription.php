@@ -29,7 +29,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
     /** Value stored under the key REGISTRY_KEY_WEBHOOK_ACTION to indicate that this is a new subscription */
     const ACTION_NEW = 'new';
 
-    /** @var Mage_Core_Model_Registry  */
+    /** @var Magento_Core_Model_Registry  */
     private $_registry;
 
     /** @var Mage_Webhook_Service_SubscriptionV1Interface */
@@ -38,13 +38,13 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
     /**
      * Class constructor
      *
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Registry $registry
      * @param Mage_Webhook_Service_SubscriptionV1Interface $subscriptionService
      * @param Mage_Backend_Controller_Context $context
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_Registry $registry,
         Mage_Webhook_Service_SubscriptionV1Interface $subscriptionService,
         Mage_Backend_Controller_Context $context,
         $areaCode = null
@@ -106,7 +106,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
             }
 
             $this->renderLayout();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         }
@@ -148,7 +148,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
                     array(self::PARAM_SUBSCRIPTION_ID => $this->getRequest()->getParam(self::PARAM_SUBSCRIPTION_ID))
                 );
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         }
@@ -169,7 +169,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
                         $subscriptionData[self::DATA_NAME])
                     );
                 }
-                catch (Mage_Core_Exception $e) {
+                catch (Magento_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                 }
             } else {
@@ -178,7 +178,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
                     $subscriptionData[self::DATA_NAME])
                 );
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
@@ -200,7 +200,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
             } else {
                 $this->_getSession()->addError($this->__('No Subscription ID was provided with the request.'));
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
 
@@ -223,7 +223,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
             } else {
                 $this->_getSession()->addError($this->__('No Subscription ID was provided with the request.'));
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
 

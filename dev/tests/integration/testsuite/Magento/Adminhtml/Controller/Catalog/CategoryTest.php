@@ -15,7 +15,7 @@
 class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Mage_Backend_Utility_Controller
 {
     /**
-     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Magento/Core/_files/store.php
      * @magentoDbIsolation enabled
      * @dataProvider saveActionDataProvider
      * @param array $inputData
@@ -24,8 +24,8 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Mage_Backend_Uti
      */
     public function testSaveAction($inputData, $defaultAttributes, $attributesSaved = array())
     {
-        /** @var $store Mage_Core_Model_Store */
-        $store = Mage::getModel('Mage_Core_Model_Store');
+        /** @var $store Magento_Core_Model_Store */
+        $store = Mage::getModel('Magento_Core_Model_Store');
         $store->load('fixturestore', 'code');
         $storeId = $store->getId();
 
@@ -35,7 +35,7 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Mage_Backend_Uti
         $this->dispatch('backend/admin/catalog_category/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(array('You saved the category.')), Mage_Core_Model_Message::SUCCESS
+            $this->equalTo(array('You saved the category.')), Magento_Core_Model_Message::SUCCESS
         );
 
         /** @var $category Mage_Catalog_Model_Category */
@@ -83,7 +83,7 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Mage_Backend_Uti
                 $body
             );
         } else {
-            $result = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($body);
+            $result = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($body);
             $this->assertArrayHasKey('messages', $result);
             $this->assertFalse($result['error']);
             $category = $result['category'];
@@ -284,7 +284,7 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Mage_Backend_Uti
         ));
         $this->dispatch('backend/admin/catalog_category/save');
         $this->assertSessionMessages(
-            $this->equalTo(array('Unable to save the category')), Mage_Core_Model_Message::ERROR
+            $this->equalTo(array('Unable to save the category')), Magento_Core_Model_Message::ERROR
         );
     }
 }

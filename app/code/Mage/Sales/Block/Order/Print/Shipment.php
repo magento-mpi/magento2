@@ -92,7 +92,7 @@ class Mage_Sales_Block_Order_Print_Shipment extends Mage_Sales_Block_Items_Abstr
         return Mage::registry('current_shipment');
     }
 
-    protected function _prepareItem(Mage_Core_Block_Abstract $renderer)
+    protected function _prepareItem(Magento_Core_Block_Abstract $renderer)
     {
         $renderer->setPrintStatus(true);
 

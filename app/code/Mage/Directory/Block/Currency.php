@@ -15,7 +15,7 @@
  * @package    Mage_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Directory_Block_Currency extends Mage_Core_Block_Template
+class Mage_Directory_Block_Currency extends Magento_Core_Block_Template
 {
     /**
      * Retrieve count of currencies

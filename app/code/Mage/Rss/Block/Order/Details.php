@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Rss_Block_Order_Details extends Mage_Core_Block_Template
+class Mage_Rss_Block_Order_Details extends Magento_Core_Block_Template
 {
 
     protected $_template = 'order/details.phtml';

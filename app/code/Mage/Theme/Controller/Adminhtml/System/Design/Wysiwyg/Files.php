@@ -33,8 +33,8 @@ class Mage_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files extends Magent
                     ->getTreeJson($this->_getStorage()->getTreeArray())
             );
         } catch (Exception $e) {
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array()));
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array()));
         }
     }
 
@@ -47,13 +47,13 @@ class Mage_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files extends Magent
         try {
             $path = $this->_getSession()->getStoragePath();
             $result = $this->_getStorage()->createFolder($name, $path);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $this->__('Sorry, there was an unknown error.'));
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -66,7 +66,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files extends Magent
             $this->_getStorage()->deleteDirectory($path);
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -85,7 +85,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files extends Magent
             );
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -100,7 +100,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files extends Magent
         } catch (Exception $e) {
             $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -117,7 +117,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files extends Magent
                 'value' => $helper->getThumbnailPath($file)
             ));
         } catch (Exception $e) {
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             $this->_redirect('core/index/notfound');
         }
     }
@@ -132,7 +132,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files extends Magent
             if (!$this->getRequest()->isPost()) {
                 throw new Exception('Wrong request');
             }
-            $files = $this->_objectManager->get('Mage_Core_Helper_Data')->jsonDecode(
+            $files = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonDecode(
                 $this->getRequest()->getParam('files')
             );
             foreach ($files as $file) {
@@ -140,7 +140,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files extends Magent
             }
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 

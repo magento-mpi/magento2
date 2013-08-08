@@ -36,7 +36,7 @@ class Mage_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockContext = $this->getMockBuilder('Mage_Core_Model_Context')
+        $this->_mockContext = $this->getMockBuilder('Magento_Core_Model_Context')
             ->disableOriginalConstructor()
             ->getMock();
 

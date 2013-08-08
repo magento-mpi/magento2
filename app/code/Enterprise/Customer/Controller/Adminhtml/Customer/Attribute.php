@@ -189,7 +189,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
             //filtering
             try {
                 $data = $this->_filterPostData($data);
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                     if (isset($data['attribute_id'])) {
                         $this->_redirect('*/*/edit', array('_current' => true));
@@ -285,7 +285,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
                     $this->_redirect('*/*/');
                 }
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('*/*/edit', array('_current' => true));
@@ -332,7 +332,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
                 );
                 $this->_redirect('*/*/');
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;

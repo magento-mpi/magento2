@@ -15,20 +15,20 @@ class Saas_Sitemap_Block_Html_Head extends Mage_Page_Block_Html_Head
     protected $_helper;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Magento_Core_Block_Template_Context $context
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Page $page
-     * @param Mage_Core_Model_Page_Asset_MergeService $assetMergeService
-     * @param Mage_Core_Model_Page_Asset_MinifyService $assetMinifyService
+     * @param Magento_Core_Model_Page $page
+     * @param Magento_Core_Model_Page_Asset_MergeService $assetMergeService
+     * @param Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService
      * @param Saas_Sitemap_Helper_Data $helper
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Magento_Core_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Page $page,
-        Mage_Core_Model_Page_Asset_MergeService $assetMergeService,
-        Mage_Core_Model_Page_Asset_MinifyService $assetMinifyService,
+        Magento_Core_Model_Page $page,
+        Magento_Core_Model_Page_Asset_MergeService $assetMergeService,
+        Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService,
         Saas_Sitemap_Helper_Data $helper,
         array $data = array()
     ) {

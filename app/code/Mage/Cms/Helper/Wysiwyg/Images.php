@@ -11,7 +11,7 @@
 /**
  * Wysiwyg Images Helper
  */
-class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
+class Mage_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
 {
 
     /**
@@ -39,10 +39,10 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
     protected $_filesystem;
 
     /**
-     * @param Mage_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_Filesystem $filesystem
      */
-    public function __construct(Mage_Core_Helper_Context $context, Magento_Filesystem $filesystem)
+    public function __construct(Magento_Core_Helper_Context $context, Magento_Filesystem $filesystem)
     {
         parent::__construct($context);
         $this->_filesystem = $filesystem;
@@ -70,7 +70,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
      */
     public function getStorageRoot()
     {
-        return Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA) . DS . Mage_Cms_Model_Wysiwyg_Config::IMAGE_DIRECTORY
+        return Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA) . DS . Mage_Cms_Model_Wysiwyg_Config::IMAGE_DIRECTORY
             . DS;
     }
 
@@ -182,7 +182,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
             if ($this->isUsingStaticUrlsAllowed()) {
                 $html = $fileurl; // $mediaPath;
             } else {
-                $directive = Mage::helper('Mage_Core_Helper_Data')->urlEncode($directive);
+                $directive = Mage::helper('Magento_Core_Helper_Data')->urlEncode($directive);
                 $html = Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
                     '*/cms_wysiwyg/directive',
                     array('___directive' => $directive)
@@ -196,7 +196,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
      * Return path of the current selected directory or root directory for startup
      * Try to create target directory if it doesn't exist
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return string
      */
     public function getCurrentPath()
@@ -231,7 +231,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
     public function getCurrentUrl()
     {
         if (!$this->_currentUrl) {
-            $path = str_replace(Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA), '', $this->getCurrentPath());
+            $path = str_replace(Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA), '', $this->getCurrentPath());
             $path = trim($path, DS);
             $this->_currentUrl = Mage::app()->getStore($this->_storeId)->getBaseUrl('media') .
                                  $this->convertPathToUrl($path) . '/';

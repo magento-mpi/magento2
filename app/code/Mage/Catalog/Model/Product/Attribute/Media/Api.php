@@ -39,17 +39,17 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
     protected $_mediaConfig;
 
     /**
-     * @var Mage_Core_Model_Image_Factory
+     * @var Magento_Core_Model_Image_Factory
      */
     protected $_imageFactory;
 
     /**
      * @param Mage_Catalog_Model_Product_Media_Config $mediaConfig
-     * @param Mage_Core_Model_Image_Factory $imageFactory
+     * @param Magento_Core_Model_Image_Factory $imageFactory
      */
     public function __construct(
         Mage_Catalog_Model_Product_Media_Config $mediaConfig,
-        Mage_Core_Model_Image_Factory $imageFactory
+        Magento_Core_Model_Image_Factory $imageFactory
     ) {
         $this->_mediaConfig = $mediaConfig;
         $this->_storeIdSessionField = 'product_store_id';
@@ -162,7 +162,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
                 // Remove temporary directory
                 $ioAdapter->rmdir($tmpDirectory, true);
 
-                throw new Mage_Core_Exception($e->getMessage());
+                throw new Magento_Core_Exception($e->getMessage());
             }
 
             // Adding image to gallery
@@ -183,7 +183,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
             }
 
             $product->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('not_created', $e->getMessage());
         } catch (Exception $e) {
             $this->_fault('not_created', Mage::helper('Mage_Catalog_Helper_Data')->__('We can\'t create the image.'));
@@ -257,7 +257,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
 
         try {
             $product->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('not_updated', $e->getMessage());
         }
 
@@ -285,7 +285,7 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
 
         try {
             $product->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('not_removed', $e->getMessage());
         }
 

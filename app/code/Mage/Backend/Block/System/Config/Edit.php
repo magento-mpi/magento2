@@ -58,7 +58,7 @@ class Mage_Backend_Block_System_Config_Edit extends Mage_Backend_Block_Widget
     /**
      * Prepare layout object
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {

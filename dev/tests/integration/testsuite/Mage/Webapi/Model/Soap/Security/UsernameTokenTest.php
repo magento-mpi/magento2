@@ -29,8 +29,8 @@ class Mage_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Framewor
     {
         $this->_objectManager = Mage::getObjectManager();
         $this->_objectManager->addSharedInstance(
-            Mage::getObjectManager()->get('Mage_Core_Model_Dir'),
-            'Mage_Core_Model_Dir'
+            Mage::getObjectManager()->get('Magento_Core_Model_Dir'),
+            'Magento_Core_Model_Dir'
         );
         $userFactory = new Mage_Webapi_Model_Acl_User_Factory($this->_objectManager);
         $this->_user = $userFactory->create();

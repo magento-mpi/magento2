@@ -265,7 +265,7 @@ class Mage_Checkout_Block_Multishipping_Overview extends Mage_Sales_Block_Items_
      * Retrieve renderer block for row-level item output
      *
      * @param string $type
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     public function _getRowItemRenderer($type)
     {

@@ -359,7 +359,7 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
      */
     protected function _getEntityMock()
     {
-        $entity = $this->getMockBuilder('Mage_Core_Model_Abstract')
+        $entity = $this->getMockBuilder('Magento_Core_Model_Abstract')
             ->setMethods(array('getAttribute', 'getResource', 'getEntityType'))
             ->disableOriginalConstructor()
             ->getMock();

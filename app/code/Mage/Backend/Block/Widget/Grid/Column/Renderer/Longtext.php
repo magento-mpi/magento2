@@ -37,7 +37,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Longtext
         if ($this->getColumn()->getTruncate()) {
             $truncateLength = $this->getColumn()->getTruncate();
         }
-        $text = Mage::helper('Mage_Core_Helper_String')->truncate(parent::_getValue($row), $truncateLength);
+        $text = Mage::helper('Magento_Core_Helper_String')->truncate(parent::_getValue($row), $truncateLength);
         if ($this->getColumn()->getEscape()) {
             $text = $this->escapeHtml($text);
         }

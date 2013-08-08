@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
+class Enterprise_Rma_Model_Rma extends Magento_Core_Model_Abstract
 {
     /**
      * XML configuration paths
@@ -58,7 +58,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
     /**
      * Processing object before save data
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
@@ -214,7 +214,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         if ($this->getCustomerCustomEmail()) {
             $validateEmail = $this->_validateEmail($this->getCustomerCustomEmail());
             if (is_array($validateEmail)) {
-                $session = Mage::getSingleton('Mage_Core_Model_Session');
+                $session = Mage::getSingleton('Magento_Core_Model_Session');
                 foreach($validateEmail as $error) {
                     $session->addError($error);
                 }
@@ -276,12 +276,12 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             return $this;
         }
 
-        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-        /* @var $translate Mage_Core_Model_Translate */
+        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        /* @var $translate Magento_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
-        /* @var $mailTemplate Mage_Core_Model_Email_Template */
+        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+        /* @var $mailTemplate Magento_Core_Model_Email_Template */
         $copyTo = $configRmaEmail->getCopyTo();
         $copyMethod = $configRmaEmail->getCopyMethod();
         if ($copyTo && $copyMethod == 'bcc') {
@@ -325,7 +325,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
 
         foreach ($sendTo as $recipient) {
             $mailTemplate->setDesignConfig(array(
-                'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+                'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
                 'store' => $this->getStoreId()
             ))
                 ->sendTransactional(
@@ -433,7 +433,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         }
 
         if ($errors) {
-            $session = Mage::getSingleton('Mage_Core_Model_Session');
+            $session = Mage::getSingleton('Magento_Core_Model_Session');
             $session->addError(
                 Mage::helper('Enterprise_Rma_Helper_Data')->__('There is an error in quantities for item %s.', $preparePost['product_name'])
             );
@@ -649,7 +649,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             $errorKeys  = array_merge($errorKey, $errorKeys);
         }
 
-        $session    = Mage::getSingleton('Mage_Core_Model_Session');
+        $session    = Mage::getSingleton('Magento_Core_Model_Session');
         $eMessages  = $session->getMessages()->getErrors();
 
         if (!empty($errors) || !empty($eMessages)) {
@@ -731,7 +731,7 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
      */
     public function getCreatedAtFormated($format)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->formatDate($this->getCreatedAtStoreDate(), $format, true);
+        return Mage::helper('Magento_Core_Helper_Data')->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
     /**

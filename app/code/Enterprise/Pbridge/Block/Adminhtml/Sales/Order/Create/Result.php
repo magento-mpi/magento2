@@ -25,7 +25,7 @@ class Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Result extends Magen
      */
     public function getJsonHiddenPbridgeParams()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
             Mage::helper('Enterprise_Pbridge_Helper_Data')->getPbridgeParams()
         );
     }

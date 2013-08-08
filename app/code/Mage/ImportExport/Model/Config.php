@@ -22,7 +22,7 @@ class Mage_ImportExport_Model_Config
      *
      * @static
      * @param string $configKey
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return array
      */
     public static function getModels($configKey)

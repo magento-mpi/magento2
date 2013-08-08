@@ -15,7 +15,7 @@
  * @package    Mage_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Controller_Product extends Mage_Core_Controller_Front_Action
+class Mage_Review_Controller_Product extends Magento_Core_Controller_Front_Action
 {
 
     /**
@@ -74,7 +74,7 @@ class Mage_Review_Controller_Product extends Mage_Core_Controller_Front_Action
                 'product'           => $product,
                 'controller_action' => $this
             ));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::logException($e);
             return false;
         }
@@ -150,8 +150,8 @@ class Mage_Review_Controller_Product extends Mage_Core_Controller_Front_Action
         }
 
         if (($product = $this->_initProduct()) && !empty($data)) {
-            $session    = Mage::getSingleton('Mage_Core_Model_Session');
-            /* @var $session Mage_Core_Model_Session */
+            $session    = Mage::getSingleton('Magento_Core_Model_Session');
+            /* @var $session Magento_Core_Model_Session */
             $review     = Mage::getModel('Mage_Review_Model_Review')->setData($data);
             /* @var $review Mage_Review_Model_Review */
 

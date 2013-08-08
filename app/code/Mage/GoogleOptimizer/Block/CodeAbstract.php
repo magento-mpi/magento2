@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-abstract class Mage_GoogleOptimizer_Block_CodeAbstract extends Mage_Core_Block_Template
+abstract class Mage_GoogleOptimizer_Block_CodeAbstract extends Magento_Core_Block_Template
 {
     /**
      * @var Entity name in registry
@@ -15,7 +15,7 @@ abstract class Mage_GoogleOptimizer_Block_CodeAbstract extends Mage_Core_Block_T
     protected $_registryName;
 
     /**
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registry;
 
@@ -30,16 +30,16 @@ abstract class Mage_GoogleOptimizer_Block_CodeAbstract extends Mage_Core_Block_T
     protected $_codeHelper;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Magento_Core_Block_Template_Context $context
      * @param Mage_GoogleOptimizer_Helper_Data $helper
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Registry $registry
      * @param Mage_GoogleOptimizer_Helper_Code $codeHelper
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Magento_Core_Block_Template_Context $context,
         Mage_GoogleOptimizer_Helper_Data $helper,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_Registry $registry,
         Mage_GoogleOptimizer_Helper_Code $codeHelper,
         array $data = array()
     ) {

@@ -19,8 +19,8 @@ class Mage_Checkout_Block_Multishipping_Success extends Mage_Checkout_Block_Mult
 {
     public function getOrderIds()
     {
-        $ids = Mage::getSingleton('Mage_Core_Model_Session')->getOrderIds(true);
-//        Zend_Debug::dump(Mage::getSingleton('Mage_Core_Model_Session')->getOrderIds());
+        $ids = Mage::getSingleton('Magento_Core_Model_Session')->getOrderIds(true);
+//        Zend_Debug::dump(Mage::getSingleton('Magento_Core_Model_Session')->getOrderIds());
         if ($ids && is_array($ids)) {
             return $ids;
             return implode(', ', $ids);

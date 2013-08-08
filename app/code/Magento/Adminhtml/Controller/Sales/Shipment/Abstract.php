@@ -76,7 +76,7 @@ class Magento_Adminhtml_Controller_Sales_Shipment_Abstract extends Magento_Admin
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
-            return $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+            return $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');
     }
@@ -88,7 +88,7 @@ class Magento_Adminhtml_Controller_Sales_Shipment_Abstract extends Magento_Admin
         if ($shipmentId = $this->getRequest()->getParam('invoice_id')) { // invoice_id o_0
             if ($shipment = Mage::getModel('Mage_Sales_Model_Order_Shipment')->load($shipmentId)) {
                 $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Shipment')->getPdf(array($shipment));
-                $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
+                $this->_prepareDownloadResponse('packingslip'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(), 'application/pdf');
             }
         }
         else {

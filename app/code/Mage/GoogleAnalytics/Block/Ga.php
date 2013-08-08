@@ -16,7 +16,7 @@
  * @package    Mage_GoogleAnalytics
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleAnalytics_Block_Ga extends Mage_Core_Block_Template
+class Mage_GoogleAnalytics_Block_Ga extends Magento_Core_Block_Template
 {
     /**
      * Get a specific page name (may be customized via layout)
@@ -78,9 +78,9 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
                 $order->getBaseGrandTotal(),
                 $order->getBaseTaxAmount(),
                 $order->getBaseShippingAmount(),
-                $this->jsQuoteEscape(Mage::helper('Mage_Core_Helper_Data')->escapeHtml($address->getCity())),
-                $this->jsQuoteEscape(Mage::helper('Mage_Core_Helper_Data')->escapeHtml($address->getRegion())),
-                $this->jsQuoteEscape(Mage::helper('Mage_Core_Helper_Data')->escapeHtml($address->getCountry()))
+                $this->jsQuoteEscape(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($address->getCity())),
+                $this->jsQuoteEscape(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($address->getRegion())),
+                $this->jsQuoteEscape(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($address->getCountry()))
             );
             foreach ($order->getAllVisibleItems() as $item) {
                 $result[] = sprintf("_gaq.push(['_addItem', '%s', '%s', '%s', '%s', '%s', '%s']);",

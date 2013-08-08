@@ -150,7 +150,7 @@ class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento
 
         $isUploaded = true;
         try {
-            $uploader = new Mage_Core_Model_File_Uploader('image');
+            $uploader = new Magento_Core_Model_File_Uploader('image');
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);

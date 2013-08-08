@@ -15,7 +15,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_File extends Magento_Core_Model_Config_Data
 {
     /**
      * @var Mage_Backend_Model_Config_Backend_File_RequestData_Interface
@@ -35,18 +35,18 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
     protected $_filesystem;
 
     /**
-     * @param Mage_Core_Model_Context $context
+     * @param Magento_Core_Model_Context $context
      * @param Mage_Backend_Model_Config_Backend_File_RequestData_Interface $requestData
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
+        Magento_Core_Model_Context $context,
         Mage_Backend_Model_Config_Backend_File_RequestData_Interface $requestData,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -76,7 +76,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
         if (!empty($file)) {
             $uploadDir = $this->_getUploadDir();
             try {
-                $uploader = new Mage_Core_Model_File_Uploader($file);
+                $uploader = new Magento_Core_Model_File_Uploader($file);
                 $uploader->setAllowedExtensions($this->_getAllowedExtensions());
                 $uploader->setAllowRenameFiles(true);
                 $uploader->addValidateCallback('size', $this, 'validateMaxSize');
@@ -109,14 +109,14 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
      * Validation callback for checking max file size
      *
      * @param  string $filePath Path to temporary uploaded file
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function validateMaxSize($filePath)
     {
         if ($this->_maxFileSize > 0
             && $this->_filesystem->getFileSize($filePath, dirname($filePath)) > ($this->_maxFileSize * 1024)) {
             throw Mage::exception(
-                'Mage_Core', Mage::helper('Mage_Backend_Helper_Data')
+                'Magento_Core', Mage::helper('Mage_Backend_Helper_Data')
                     ->__('The file you\'re uploading exceeds the server size limit of %.2f kilobytes.',
                          $this->_maxFileSize)
             );
@@ -139,7 +139,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
      * Return path to directory for upload file
      *
      * @return string
-     * @throw Mage_Core_Exception
+     * @throw Magento_Core_Exception
      */
     protected function _getUploadDir()
     {

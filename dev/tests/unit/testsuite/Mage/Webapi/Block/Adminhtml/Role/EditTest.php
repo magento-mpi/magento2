@@ -10,7 +10,7 @@
 class Mage_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
@@ -20,7 +20,7 @@ class Mage_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_TestCa
     protected $_urlBuilder;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_Layout
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Layout
      */
     protected $_layout;
 
@@ -35,12 +35,12 @@ class Mage_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_TestCa
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_layout = $this->getMockBuilder('Mage_Core_Model_Layout')
+        $this->_layout = $this->getMockBuilder('Magento_Core_Model_Layout')
             ->disableOriginalConstructor()
             ->setMethods(array('helper', 'getChildBlock', 'getChildName'))
             ->getMock();
 
-        $this->_request = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
+        $this->_request = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
             ->disableOriginalConstructor()
             ->setMethods(array('getParam'))
             ->getMock();
@@ -97,7 +97,7 @@ class Mage_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_TestCa
         $apiRole->setId(1)->setRoleName('Test Role');
 
         /** @var PHPUnit_Framework_MockObject_MockObject $coreHelper  */
-        $coreHelper = $this->getMockBuilder('Mage_Core_Helper_Data')
+        $coreHelper = $this->getMockBuilder('Magento_Core_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('escapeHtml'))
             ->getMock();
@@ -107,7 +107,7 @@ class Mage_Webapi_Block_Adminhtml_Role_EditTest extends PHPUnit_Framework_TestCa
             ->will($this->returnArgument(0));
         $this->_layout->expects($this->once())
             ->method('helper')
-            ->with('Mage_Core_Helper_Data')
+            ->with('Magento_Core_Helper_Data')
             ->will($this->returnValue($coreHelper));
 
         $this->assertEquals("Edit API Role 'Test Role'", $this->_block->getHeaderText());

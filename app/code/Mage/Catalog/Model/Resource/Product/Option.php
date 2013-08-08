@@ -16,7 +16,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Define main table and initialize connection
@@ -30,10 +30,10 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
     /**
      * Save options store data
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $this->_saveValuePrices($object);
         $this->_saveValueTitles($object);
@@ -44,10 +44,10 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
     /**
      * Save value prices
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Catalog_Model_Resource_Product_Option
      */
-    protected function _saveValuePrices(Mage_Core_Model_Abstract $object)
+    protected function _saveValuePrices(Magento_Core_Model_Abstract $object)
     {
         $priceTable   = $this->getTable('catalog_product_option_price');
         $readAdapter  = $this->_getReadAdapter();
@@ -109,9 +109,9 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
                 }
             }
 
-            $scope = (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+            $scope = (int) Mage::app()->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
 
-            if ($object->getStoreId() != '0' && $scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE
+            if ($object->getStoreId() != '0' && $scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE
                 && !$object->getData('scope', 'price')) {
 
                 $baseCurrency = Mage::app()->getBaseCurrencyCode();
@@ -170,7 +170,7 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
                         }
                     }// end foreach()
                 }
-            } elseif ($scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE && $object->getData('scope', 'price')) {
+            } elseif ($scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE && $object->getData('scope', 'price')) {
                 $writeAdapter->delete(
                     $priceTable,
                     array(
@@ -187,10 +187,10 @@ class Mage_Catalog_Model_Resource_Product_Option extends Mage_Core_Model_Resourc
     /**
      * Save titles
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Catalog_Model_Resource_Product_Option
      */
-    protected function _saveValueTitles(Mage_Core_Model_Abstract $object)
+    protected function _saveValueTitles(Magento_Core_Model_Abstract $object)
     {
         $readAdapter  = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();

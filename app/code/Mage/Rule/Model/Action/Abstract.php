@@ -15,15 +15,15 @@
 abstract class Mage_Rule_Model_Action_Abstract extends Magento_Object implements Mage_Rule_Model_Action_Interface
 {
     /**
-     * @var Mage_Core_Model_View_Url
+     * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
 
     /**
-     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $data
      */
-    public function __construct(Mage_Core_Model_View_Url $viewUrl, array $data = array())
+    public function __construct(Magento_Core_Model_View_Url $viewUrl, array $data = array())
     {
         $this->_viewUrl = $viewUrl;
 

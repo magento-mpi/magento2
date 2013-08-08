@@ -333,14 +333,14 @@ class Mage_Customer_Service_Customer
      *
      * @param int|string $customerId
      * @return Mage_Customer_Model_Customer
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _loadCustomerById($customerId)
     {
         $customer = $this->_customerFactory->create();
         $customer->load($customerId);
         if (!$customer->getId()) {
-            throw new Mage_Core_Exception($this->_translateHelper->__("The customer with the specified ID not found."));
+            throw new Magento_Core_Exception($this->_translateHelper->__("The customer with the specified ID not found."));
         }
 
         return $customer;
@@ -351,7 +351,7 @@ class Mage_Customer_Service_Customer
      *
      * @param Mage_Customer_Model_Customer $customer
      * @param array $addressesData
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _prepareCustomerAddressesForSave($customer, array $addressesData)
     {
@@ -367,7 +367,7 @@ class Mage_Customer_Service_Customer
             if (null !== $addressId) {
                 $address = $customer->getAddressItemById($addressId);
                 if (!$address || !$address->getId()) {
-                    throw new Mage_Core_Exception(
+                    throw new Magento_Core_Exception(
                         $this->_translateHelper->__('The address with the specified ID not found.'));
                 }
             } else {

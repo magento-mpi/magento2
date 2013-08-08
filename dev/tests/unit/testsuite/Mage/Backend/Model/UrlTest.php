@@ -28,32 +28,32 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     protected $_areaFrontName = 'backendArea';
 
     /**
-     * @var Mage_Core_Model_Session|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Session|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreSessionMock;
 
     /**
-     * @var Mage_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreHelperMock;
 
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_storeConfigMock;
 
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_menuConfigMock;
 
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_backendHelperMock;
 
     /**
-     * @var Mage_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
@@ -64,10 +64,10 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->_menuConfigMock = $this->getMock('Mage_Backend_Model_Menu_Config', array(), array(), '', false);
         $this->_menuConfigMock->expects($this->any())->method('getMenu')->will($this->returnValue($this->_menuMock));
 
-        $this->_coreSessionMock = $this->getMock('Mage_Core_Model_Session', array('getFormKey'), array(), '', false);
+        $this->_coreSessionMock = $this->getMock('Magento_Core_Model_Session', array('getFormKey'), array(), '', false);
         $this->_coreSessionMock->expects($this->any())->method('getFormKey')->will($this->returnValue('salt'));
 
-        $this->_coreHelperMock = $this->getMock('Mage_Core_Helper_Data', array('getHash'), array(), '', false);
+        $this->_coreHelperMock = $this->getMock('Magento_Core_Helper_Data', array('getHash'), array(), '', false);
         $this->_coreHelperMock->expects($this->any())->method('getHash')->will($this->returnArgument(0));
 
         $mockItem = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
@@ -86,7 +86,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
         $helperMock->expects($this->any())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
-        $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_Config', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false);
         $this->_storeConfigMock->expects($this->any())
             ->method('getConfig')
             ->with(Mage_Backend_Model_Url::XML_PATH_STARTUP_MENU_ITEM)
@@ -100,7 +100,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             $this->_menuConfigMock
         );
 
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_model->setRequest($this->_requestMock);
     }
 
@@ -270,7 +270,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
         $keyFromParams = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
 
-        $requestMock = $this->getMock('Mage_Core_Controller_Request_Http',
+        $requestMock = $this->getMock('Magento_Core_Controller_Request_Http',
             array('getRouteName', 'getControllerName', 'getActionName', 'getBeforeForwardInfo'),
             array(),
             '',
@@ -297,7 +297,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
         $keyFromParams = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
 
-        $requestMock = $this->getMock('Mage_Core_Controller_Request_Http',
+        $requestMock = $this->getMock('Magento_Core_Controller_Request_Http',
             array('getBeforeForwardInfo'),
             array(),
             '',

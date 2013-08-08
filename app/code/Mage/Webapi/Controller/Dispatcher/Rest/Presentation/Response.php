@@ -24,7 +24,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
     /** @var Mage_Webapi_Controller_Response_Rest_RendererInterface */
     protected $_renderer;
 
-    /** @var Mage_Core_Model_Config */
+    /** @var Magento_Core_Model_Config */
     protected $_applicationConfig;
 
     /**
@@ -35,7 +35,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
      * @param Mage_Webapi_Controller_Response_Rest $response
      * @param Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
      * @param Magento_Controller_Router_Route_Factory $routeFactory
-     * @param Mage_Core_Model_Config $applicationConfig
+     * @param Magento_Core_Model_Config $applicationConfig
      */
     public function __construct(
         Mage_Webapi_Model_Config_Rest $apiConfig,
@@ -43,7 +43,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
         Mage_Webapi_Controller_Response_Rest $response,
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Magento_Controller_Router_Route_Factory $routeFactory,
-        Mage_Core_Model_Config $applicationConfig
+        Magento_Core_Model_Config $applicationConfig
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_request = $requestFactory->get();
@@ -63,7 +63,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
     {
         switch ($method) {
             case Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE:
-                /** @var $createdItem Mage_Core_Model_Abstract */
+                /** @var $createdItem Magento_Core_Model_Abstract */
                 $createdItem = $outputData;
                 $this->_response->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
                 break;
@@ -105,7 +105,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_Presentation_Response
     /**
      * Generate resource location.
      *
-     * @param Mage_Core_Model_Abstract $createdItem
+     * @param Magento_Core_Model_Abstract $createdItem
      * @return string URL
      */
     protected function _getCreatedItemLocation($createdItem)

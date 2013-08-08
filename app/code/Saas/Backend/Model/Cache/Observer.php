@@ -10,7 +10,7 @@
 class Saas_Backend_Model_Cache_Observer
 {
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
@@ -20,10 +20,10 @@ class Saas_Backend_Model_Cache_Observer
     protected $_saasHelper;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @param Saas_Saas_Helper_Data $saasHelper
      */
-    public function __construct(Mage_Core_Controller_Request_Http $request, Saas_Saas_Helper_Data $saasHelper)
+    public function __construct(Magento_Core_Controller_Request_Http $request, Saas_Saas_Helper_Data $saasHelper)
     {
         $this->_request = $request;
         $this->_saasHelper = $saasHelper;

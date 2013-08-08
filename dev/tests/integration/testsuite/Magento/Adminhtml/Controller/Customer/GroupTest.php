@@ -47,7 +47,7 @@ class Magento_Adminhtml_Controller_Customer_GroupTest extends Mage_Backend_Utili
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The customer group has been deleted.')), Mage_Core_Model_Message::SUCCESS
+            $this->equalTo(array('The customer group has been deleted.')), Magento_Core_Model_Message::SUCCESS
         );
     }
 
@@ -60,7 +60,7 @@ class Magento_Adminhtml_Controller_Customer_GroupTest extends Mage_Backend_Utili
          * Check that error message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The customer group no longer exists.')), Mage_Core_Model_Message::ERROR
+            $this->equalTo(array('The customer group no longer exists.')), Magento_Core_Model_Message::ERROR
         );
     }
 }

@@ -12,7 +12,7 @@
  * @method int getRoleId() getRoleId()
  * @method Mage_Webapi_Model_Resource_Acl_Rule setRoleId() setRoleId(int $roleId)
  */
-class Mage_Webapi_Model_Resource_Acl_Rule extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Webapi_Model_Resource_Acl_Rule extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization.

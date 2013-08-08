@@ -31,7 +31,7 @@ class Mage_Eav_Model_Entity extends Mage_Eav_Model_Entity_Abstract
      */
     public function __construct()
     {
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         $this->setConnection($resource->getConnection('eav_read'));
     }
 

@@ -15,7 +15,7 @@
  * @package    Mage_Rss
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rss_Controller_Catalog extends Mage_Core_Controller_Front_Action
+class Mage_Rss_Controller_Catalog extends Magento_Core_Controller_Front_Action
 {
     /**
      * Emulate admin area for certain actions

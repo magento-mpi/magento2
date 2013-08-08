@@ -50,7 +50,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search extends
      */
     public function getSuggestedAttributes($labelPart, $templateId = null)
     {
-        $escapedLabelPart = Mage::getResourceHelper('Mage_Core')->addLikeEscape($labelPart, array('position' => 'any'));
+        $escapedLabelPart = Mage::getResourceHelper('Magento_Core')
+            ->addLikeEscape($labelPart, array('position' => 'any'));
         /** @var $collection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
             ->addFieldToFilter('frontend_label', array('like' => $escapedLabelPart));

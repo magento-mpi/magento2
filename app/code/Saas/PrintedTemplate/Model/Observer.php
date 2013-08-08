@@ -137,8 +137,8 @@ class Saas_PrintedTemplate_Model_Observer
      */
     protected function _addObserver($area, $eventName, $observerName, $observerClass, $observerMethod)
     {
-        /** @var $eventManager Mage_Core_Model_Event_Manager */
-        $eventManager = Mage::getSingleton('Mage_Core_Model_Event_Manager');
+        /** @var $eventManager Magento_Core_Model_Event_Manager */
+        $eventManager = Mage::getSingleton('Magento_Core_Model_Event_Manager');
         $eventManager->addObservers($area, $eventName, array(
             $observerName => array(
                 'type' => 'model',

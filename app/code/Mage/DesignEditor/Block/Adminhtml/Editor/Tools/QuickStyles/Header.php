@@ -11,7 +11,7 @@
 /**
  * Block that renders JS tab
  *
- * @method Mage_Core_Model_Theme getTheme()
+ * @method Magento_Core_Model_Theme getTheme()
  * @method setTheme($theme)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)

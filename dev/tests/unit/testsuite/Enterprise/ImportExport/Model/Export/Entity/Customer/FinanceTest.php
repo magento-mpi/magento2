@@ -24,7 +24,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
      * @var array
      */
     protected $_websites = array(
-        Mage_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
+        Magento_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
         1                                            => 'website1',
     );
 
@@ -131,7 +131,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == Mage_Core_Model_AppInterface::ADMIN_STORE_ID) {
+            if (!$withDefault && $id == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
                 continue;
             }
             $websiteData = array(
@@ -161,8 +161,8 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
 
         $this->_model->setWriter($writer);
 
-        $item = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', array(), '', false);
-        /** @var $item Mage_Core_Model_Abstract */
+        $item = $this->getMockForAbstractClass('Magento_Core_Model_Abstract', array(), '', false);
+        /** @var $item Magento_Core_Model_Abstract */
         $item->setData($this->_customerData);
 
         $this->_model->exportItem($item);

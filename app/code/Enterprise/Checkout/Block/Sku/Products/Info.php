@@ -17,7 +17,7 @@
  *
  * @method Mage_Sales_Model_Quote_Item getItem()
  */
-class Enterprise_Checkout_Block_Sku_Products_Info extends Mage_Core_Block_Template
+class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Template
 {
     /**
      * Helper instance

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -52,7 +52,7 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_AppInterface::ADMIN_STORE_ID));
+        Mage::app()->setCurrentStore(Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
         $this->_model->setTypeId('simple')->setAttributeSetId(4)
             ->setName('Simple Product')->setSku(uniqid())->setPrice(10)
             ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
@@ -138,11 +138,11 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     /**
      * Delete model
      *
-     * @param Mage_Core_Model_Abstract $duplicate
+     * @param Magento_Core_Model_Abstract $duplicate
      */
     protected function _undo($duplicate)
     {
-        Mage::app()->getStore()->setId(Mage_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         $duplicate->delete();
     }
 
@@ -325,7 +325,7 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_model->getOrigData());
 
         $storeId = Mage::app()->getStore()->getId();
-        Mage::app()->getStore()->setId(Mage_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         try {
             $this->_model->setOrigData('key', 'value');
             $this->assertEquals('value', $this->_model->getOrigData('key'));
@@ -366,7 +366,7 @@ class Mage_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     /**
      * Check is model empty or not
      *
-     * @param Mage_Core_Model_Abstract $model
+     * @param Magento_Core_Model_Abstract $model
      */
     protected function _assertEmpty($model)
     {

@@ -20,7 +20,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Instance of http request
      *
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
@@ -349,7 +349,7 @@ class Enterprise_PricePermissions_Model_Observer
      */
     public function coreBlockAbstractToHtmlBefore($observer)
     {
-         /** @var $block Mage_Core_Block_Abstract */
+         /** @var $block Magento_Core_Block_Abstract */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
@@ -753,7 +753,7 @@ class Enterprise_PricePermissions_Model_Observer
     /**
      * Hide price elements on Price Tab of Product Edit Page if needed
      *
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      * @return void
      */
     protected function _hidePriceElements($block)

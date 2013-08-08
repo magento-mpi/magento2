@@ -49,7 +49,7 @@ class Mage_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_Tes
     public function setUp()
     {
         $this->_selectMock = $this->_makeMock('Magento_DB_Select');
-        $this->_resourceMock = $this->_makeMock('Mage_Core_Model_Resource');
+        $this->_resourceMock = $this->_makeMock('Magento_Core_Model_Resource');
         $this->_adapterMock = $this->_makeMock('Magento_DB_Adapter_Pdo_Mysql');
         $this->_adapterMock->expects($this->any())
             ->method('select')
@@ -58,7 +58,7 @@ class Mage_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_Tes
 
         // Config mock
         $configMethods = array('getNode', 'setNode', 'getXpath', 'reinit');
-        $this->_configMock = $this->getMock('Mage_Core_Model_ConfigInterface', $configMethods, array(), '', false);
+        $this->_configMock = $this->getMock('Magento_Core_Model_ConfigInterface', $configMethods, array(), '', false);
     }
 
     /**
@@ -119,7 +119,7 @@ class Mage_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_Tes
             ->method('getData')
             ->with('topics')
             ->will($this->returnValue($newTopics));
-        $configElement = new Mage_Core_Model_Config_Element(self::TOPICS_XML);
+        $configElement = new Magento_Core_Model_Config_Element(self::TOPICS_XML);
         $this->_configMock->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue($configElement));

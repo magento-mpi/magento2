@@ -15,7 +15,7 @@
  * @package    Mage_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
+class Mage_Page_Block_Html_Footer extends Magento_Core_Block_Template
 {
 
     protected $_copyright;
@@ -24,7 +24,7 @@ class Mage_Page_Block_Html_Footer extends Mage_Core_Block_Template
     {
         $this->addData(array(
             'cache_lifetime'=> false,
-            'cache_tags'    => array(Mage_Core_Model_Store::CACHE_TAG, Mage_Cms_Model_Block::CACHE_TAG)
+            'cache_tags'    => array(Magento_Core_Model_Store::CACHE_TAG, Mage_Cms_Model_Block::CACHE_TAG)
         ));
     }
 

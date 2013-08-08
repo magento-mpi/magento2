@@ -252,11 +252,11 @@ abstract class Mage_ImportExport_Model_Export_Entity_EavAbstract
     /**
      * Fill row with attributes values
      *
-     * @param Mage_Core_Model_Abstract $item export entity
+     * @param Magento_Core_Model_Abstract $item export entity
      * @param array $row data row
      * @return array
      */
-    protected function _addAttributeValuesToRow(Mage_Core_Model_Abstract $item, array $row = array())
+    protected function _addAttributeValuesToRow(Magento_Core_Model_Abstract $item, array $row = array())
     {
         $validAttributeCodes = $this->_getExportAttributeCodes();
         // go through all valid attribute codes

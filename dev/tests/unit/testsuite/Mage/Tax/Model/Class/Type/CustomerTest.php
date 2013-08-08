@@ -13,7 +13,7 @@ class Mage_Tax_Model_Class_Type_CustomerTest extends PHPUnit_Framework_TestCase
 {
     public function testGetAssignedObjects()
     {
-        $collectionMock = $this->getMockBuilder('Mage_Core_Model_Resource_Db_Collection_Abstract')
+        $collectionMock = $this->getMockBuilder('Magento_Core_Model_Resource_Db_Collection_Abstract')
             ->setMethods(array(
                 'addFieldToFilter'
             ))

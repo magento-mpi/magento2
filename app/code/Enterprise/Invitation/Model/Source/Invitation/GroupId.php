@@ -15,7 +15,7 @@
  * @package    Enterprise_Invitation
  */
 class Enterprise_Invitation_Model_Source_Invitation_GroupId
-    implements Mage_Core_Model_Option_ArrayInterface
+    implements Magento_Core_Model_Option_ArrayInterface
 
 {
     /**

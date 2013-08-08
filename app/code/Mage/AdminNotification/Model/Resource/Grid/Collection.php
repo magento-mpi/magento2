@@ -22,7 +22,7 @@ class Mage_AdminNotification_Model_Resource_Grid_Collection
     /**
      * Add remove filter
      *
-     * @return Mage_AdminNotification_Model_Resource_Grid_Collection|Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Mage_AdminNotification_Model_Resource_Grid_Collection|Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _initSelect()
     {

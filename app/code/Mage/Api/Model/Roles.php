@@ -30,7 +30,7 @@
  * @package     Mage_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
+class Mage_Api_Model_Roles extends Magento_Core_Model_Abstract
 {
     /**
      * Filters
@@ -154,8 +154,8 @@ class Mage_Api_Model_Roles extends Mage_Core_Model_Abstract
         if (!$this->_filters || !$data) {
             return $this;
         }
-        /** @var $filter Mage_Core_Model_Input_Filter */
-        $filter = Mage::getModel('Mage_Core_Model_Input_Filter');
+        /** @var $filter Magento_Core_Model_Input_Filter */
+        $filter = Mage::getModel('Magento_Core_Model_Input_Filter');
         $filter->setFilters($this->_filters);
         $this->setData($filter->filter($data));
         return $this;

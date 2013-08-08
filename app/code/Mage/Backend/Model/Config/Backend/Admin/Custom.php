@@ -16,7 +16,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Admin_Custom extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Admin_Custom extends Magento_Core_Model_Config_Data
 {
     const CONFIG_SCOPE                      = 'stores';
     const CONFIG_SCOPE_ID                   = 0;
@@ -29,21 +29,21 @@ class Mage_Backend_Model_Config_Backend_Admin_Custom extends Mage_Core_Model_Con
     /**
      * Writer of configuration storage
      *
-     * @var Mage_Core_Model_Config_Storage_WriterInterface
+     * @var Magento_Core_Model_Config_Storage_WriterInterface
      */
     protected $_configWriter;
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

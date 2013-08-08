@@ -16,7 +16,7 @@
  * @package     Mage_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Resource_Calculation_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Tax_Model_Resource_Calculation_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Resource initialization

@@ -131,7 +131,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $origCompanyName = $requestDhl->getOrigCompanyName();
         if (!$origCompanyName) {
             $origCompanyName = Mage::getStoreConfig(
-                Mage_Core_Model_Store::XML_PATH_STORE_STORE_NAME,
+                Magento_Core_Model_Store::XML_PATH_STORE_STORE_NAME,
                 $requestDhl->getStoreId()
             );
         }
@@ -332,7 +332,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         $r->setValueWithDiscount($request->getPackageValueWithDiscount());
         $r->setCustomsValue($request->getPackageCustomsValue());
         $r->setDestStreet(
-            Mage::helper('Mage_Core_Helper_String')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35)
+            Mage::helper('Magento_Core_Helper_String')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35)
         );
         $r->setDestStreetLine2($request->getDestStreetLine2());
         $r->setDestCity($request->getDestCity());
@@ -458,7 +458,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Get xml quotes
      *
-     * @return Mage_Core_Model_Abstract|Magento_Object
+     * @return Magento_Core_Model_Abstract|Magento_Object
      */
     protected function _getXmlQuotes()
     {

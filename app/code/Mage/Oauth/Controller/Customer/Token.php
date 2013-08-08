@@ -17,7 +17,7 @@
  * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_Controller_Customer_Token extends Mage_Core_Controller_Front_Action
+class Mage_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Front_Action
 {
     /**
      * Customer session model
@@ -120,7 +120,7 @@ class Mage_Oauth_Controller_Customer_Token extends Mage_Core_Controller_Front_Ac
             } else {
                 $this->_session->addError($this->__('Application not found.'));
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_session->addError($this->__('An error occurred on update revoke status.'));
@@ -161,7 +161,7 @@ class Mage_Oauth_Controller_Customer_Token extends Mage_Core_Controller_Front_Ac
             } else {
                 $this->_session->addError($this->__('Application not found.'));
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_session->addError($this->__('An error occurred on delete application.'));

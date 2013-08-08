@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,13 +11,13 @@
 class Integrity_Modular_CodePoolConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
     protected function setUp()
     {
-        $this->_config = Mage::getSingleton('Mage_Core_Model_Config');
+        $this->_config = Mage::getSingleton('Magento_Core_Model_Config');
     }
 
     public function testCodePoolConfigNode()

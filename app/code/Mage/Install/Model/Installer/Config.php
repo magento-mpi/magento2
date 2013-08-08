@@ -27,19 +27,19 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     protected $_localConfigFile;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
     /**
      * Resource configuration
      *
-     * @var Mage_Core_Model_Config_Resource
+     * @var Magento_Core_Model_Config_Resource
      */
     protected $_resourceConfig;
 
     /**
-     * @var Mage_Core_Model_Dir
+     * @var Magento_Core_Model_Dir
      */
     protected $_dirs;
 
@@ -51,18 +51,18 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     protected $_filesystem;
 
     /**
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_Config_Resource $resourceConfig
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Dir $dirs
+     * @param Magento_Core_Model_Config_Resource $resourceConfig
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Mage_Core_Model_Config $config,
-        Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Config_Resource $resourceConfig,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Dir $dirs,
+        Magento_Core_Model_Config_Resource $resourceConfig,
         Magento_Filesystem $filesystem
     ) {
-        $this->_localConfigFile = $dirs->getDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
+        $this->_localConfigFile = $dirs->getDir(Magento_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
         $this->_dirs = $dirs;
         $this->_config = $config;
         $this->_resourceConfig = $resourceConfig;
@@ -90,9 +90,9 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         $data = $this->getConfigData();
 
         $defaults = array(
-            'root_dir' => $this->_dirs->getDir(Mage_Core_Model_Dir::ROOT),
-            'app_dir'  => $this->_dirs->getDir(Mage_Core_Model_Dir::APP),
-            'var_dir'  => $this->_dirs->getDir(Mage_Core_Model_Dir::VAR_DIR),
+            'root_dir' => $this->_dirs->getDir(Magento_Core_Model_Dir::ROOT),
+            'app_dir'  => $this->_dirs->getDir(Magento_Core_Model_Dir::APP),
+            'var_dir'  => $this->_dirs->getDir(Magento_Core_Model_Dir::VAR_DIR),
             'base_url' => $this->_config->getDistroBaseUrl(),
         );
         foreach ($defaults as $index => $value) {
@@ -130,7 +130,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
 
         $this->_getInstaller()->getDataModel()->setConfigData($data);
 
-        $path = $this->_dirs->getDir(Mage_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml.template';
+        $path = $this->_dirs->getDir(Magento_Core_Model_Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml.template';
         $contents = $this->_filesystem->read($path);
         foreach ($data as $index => $value) {
             $contents = str_replace('{{' . $index . '}}', '<![CDATA[' . $value . ']]>', $contents);
@@ -153,7 +153,7 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
         }
 
         $connectDefault = $this->_resourceConfig
-                ->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
+                ->getResourceConnectionConfig(Magento_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
 
         $data = new Magento_Object();
         $data->setDbHost($connectDefault->host)
@@ -178,9 +178,9 @@ class Mage_Install_Model_Installer_Config extends Mage_Install_Model_Installer_A
     protected function _checkUrl($baseUrl)
     {
         try {
-            $pubLibDir = $this->_dirs->getDir(Mage_Core_Model_Dir::PUB_LIB);
+            $pubLibDir = $this->_dirs->getDir(Magento_Core_Model_Dir::PUB_LIB);
             $staticFile = $this->_findFirstFileRelativePath($pubLibDir, '/.+\.(html?|js|css|gif|jpe?g|png)$/');
-            $staticUrl = $baseUrl . $this->_dirs->getUri(Mage_Core_Model_Dir::PUB_LIB) . '/' . $staticFile;
+            $staticUrl = $baseUrl . $this->_dirs->getUri(Magento_Core_Model_Dir::PUB_LIB) . '/' . $staticFile;
             $client = new Magento_HTTP_ZendClient($staticUrl);
             $response = $client->request('GET');
         } catch (Exception $e){

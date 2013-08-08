@@ -57,7 +57,7 @@ class Enterprise_GiftCardAccount_Model_Observer
                 $giftCardAccount->load($card['i']);
                 try {
                     $giftCardAccount->isValid(true, true, false, (float)$quote->getBaseGiftCardsAmountUsed());
-                } catch (Mage_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     $quote->setErrorMessage($e->getMessage());
                 }
             }
@@ -188,7 +188,7 @@ class Enterprise_GiftCardAccount_Model_Observer
                 Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->addToCart(true, $quote);
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->addError(
                     $e->getMessage()
                 );
@@ -207,7 +207,7 @@ class Enterprise_GiftCardAccount_Model_Observer
                 Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
                     ->loadByCode($code)
                     ->removeFromCart(false, $quote);
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->addError(
                     $e->getMessage()
                 );

@@ -25,7 +25,7 @@ class Mage_Webapi_Model_Resource_Acl_TestAbstract extends PHPUnit_Framework_Test
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Resource|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Resource|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resource;
 

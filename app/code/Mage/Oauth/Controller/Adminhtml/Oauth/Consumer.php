@@ -187,9 +187,9 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtml_C
             $model->save();
             $this->_getSession()->addSuccess($this->__('The consumer has been saved.'));
             $this->_setFormData(null);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_setFormData($data);
-            $this->_getSession()->addError(Mage::helper('Mage_Core_Helper_Data')->escapeHtml($e->getMessage()));
+            $this->_getSession()->addError(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($e->getMessage()));
             $this->getRequest()->setParam('back', 'edit');
         } catch (Exception $e) {
             $this->_setFormData(null);
@@ -274,7 +274,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtml_C
                 $consumer->delete();
 
                 $this->_getSession()->addSuccess(Mage::helper('Mage_Oauth_Helper_Data')->__('The consumer has been deleted.'));
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException(

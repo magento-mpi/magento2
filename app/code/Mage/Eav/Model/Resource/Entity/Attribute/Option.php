@@ -16,7 +16,7 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Resource_Entity_Attribute_Option extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Eav_Model_Resource_Entity_Attribute_Option extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization
@@ -82,7 +82,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Option extends Mage_Core_Model_Re
             . " AND %s.attribute_id = " . $attribute->getId()
             . " AND %s.store_id = %d";
         $joinCondition = sprintf($joinConditionTemplate, 'e', 't1', 't1', 't1', 't1',
-            Mage_Core_Model_AppInterface::ADMIN_STORE_ID);
+            Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         if ($attribute->getFlatAddChildData()) {
             $joinCondition .= ' AND e.child_id = t1.entity_id';
         }

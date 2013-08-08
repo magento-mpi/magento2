@@ -32,13 +32,13 @@ class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
      */
     public function testAddGetClearRss($isUseStoreInUrl, $setStoreCount)
     {
-        $urlMock = $this->getMock('Mage_Core_Model_Url', array(), array(), '', false);
+        $urlMock = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
         $urlMock->expects($this->at($setStoreCount))->method('setStore');
         $urlMock->expects($this->any())->method('getUrl')->will($this->returnValue('some_url'));
 
-        $storeMock = $this->getMock('Mage_Core_Model_Store', array('isUseStoreInUrl'), array(), '', false);
+        $storeMock = $this->getMock('Magento_Core_Model_Store', array('isUseStoreInUrl'), array(), '', false);
         $storeMock->expects($this->any())->method('isUseStoreInUrl')->will($this->returnValue($isUseStoreInUrl));
-        $storeManager = $this->getMock('Mage_Core_Model_StoreManagerInterface');
+        $storeManager = $this->getMock('Magento_Core_Model_StoreManagerInterface');
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
 
         /** @var $block Mage_Backend_Block_Widget_Grid */

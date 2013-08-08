@@ -12,15 +12,15 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
 {
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
-     * @param Mage_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
      * @param Mage_SalesRule_Model_Resource_Rule_Collection $ruleCollection
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Model_Url $urlModel,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
         Mage_SalesRule_Model_Resource_Rule_Collection $ruleCollection,
         array $data = array()
     ) {

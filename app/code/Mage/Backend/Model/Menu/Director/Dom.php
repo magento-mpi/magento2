@@ -16,19 +16,19 @@ class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_Direc
     protected $_extractedData = array();
 
     /**
-     * @var Mage_Core_Model_Logger
+     * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
     /**
      * @param DOMDocument $menuConfig
      * @param Magento_ObjectManager $factory
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
         DOMDocument $menuConfig,
         Magento_ObjectManager $factory,
-        Mage_Core_Model_Logger $logger
+        Magento_Core_Model_Logger $logger
     ) {
         parent::__construct($menuConfig, $factory);
         $this->_logger = $logger;

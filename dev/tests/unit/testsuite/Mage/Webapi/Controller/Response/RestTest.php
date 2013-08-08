@@ -12,7 +12,7 @@ class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCas
     /** @var Mage_Webapi_Controller_Response_Rest */
     protected $_responseRest;
 
-    /** @var Mage_Core_Model_App */
+    /** @var Magento_Core_Model_App */
     protected $_appMock;
 
     /** @var Mage_Webapi_Controller_Response_Rest_Renderer_Xml */
@@ -33,7 +33,7 @@ class Mage_Webapi_Controller_Response_RestTest extends PHPUnit_Framework_TestCas
             ->disableOriginalConstructor()->getMock();
         $this->_errorProcessorMock->expects($this->once())->method('maskException')->will($this->returnArgument(0));
         $helperMock = $this->getMockBuilder('Mage_Webapi_Helper_Data')->disableOriginalConstructor()->getMock();
-        $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
+        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
 
         /** Init SUP. */
         $this->_responseRest = new Mage_Webapi_Controller_Response_Rest(

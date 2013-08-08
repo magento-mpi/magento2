@@ -19,7 +19,7 @@ class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCa
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout;
 
@@ -36,7 +36,7 @@ class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCa
         parent::setUp();
 
         $this->_objectManager = Mage::getObjectManager();
-        $this->_layout = Mage::getObjectManager()->get('Mage_Core_Model_Layout');
+        $this->_layout = Mage::getObjectManager()->get('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Mage_Webapi_Block_Adminhtml_User_Edit');
     }
 

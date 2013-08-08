@@ -15,15 +15,15 @@ class Mage_GoogleOptimizer_Model_Observer_Block_Category_Tab
     protected $_helper;
 
     /**
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout;
 
     /**
      * @param Mage_GoogleOptimizer_Helper_Data $helper
-     * @param Mage_Core_Model_Layout $layout
+     * @param Magento_Core_Model_Layout $layout
      */
-    public function __construct(Mage_GoogleOptimizer_Helper_Data $helper, Mage_Core_Model_Layout $layout)
+    public function __construct(Mage_GoogleOptimizer_Helper_Data $helper, Magento_Core_Model_Layout $layout)
     {
         $this->_helper = $helper;
         $this->_layout = $layout;

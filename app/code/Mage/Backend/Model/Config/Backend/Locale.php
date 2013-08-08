@@ -16,7 +16,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Locale extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Config_Data
 {
 
     /**
@@ -26,7 +26,7 @@ class Mage_Backend_Model_Config_Backend_Locale extends Mage_Core_Model_Config_Da
      */
     protected function _afterSave()
     {
-        $collection = Mage::getModel('Mage_Core_Model_Config_Data')
+        $collection = Mage::getModel('Magento_Core_Model_Config_Data')
             ->getCollection()
             ->addPathFilter('currency/options');
 
@@ -52,14 +52,15 @@ class Mage_Backend_Model_Config_Backend_Locale extends Mage_Core_Model_Config_Da
                             break;
 
                         case 'website':
-                            $websiteName = Mage::getModel('Mage_Core_Model_Website')
+                            $websiteName = Mage::getModel('Magento_Core_Model_Website')
                                 ->load($data->getScopeId())->getName();
                             $scopeName = Mage::helper('Mage_Backend_Helper_Data')
                                 ->__('website(%s) scope', $websiteName);
                             break;
 
                         case 'store':
-                            $storeName = Mage::getModel('Mage_Core_Model_Store')->load($data->getScopeId())->getName();
+                            $storeName = Mage::getModel('Magento_Core_Model_Store')->load($data->getScopeId())
+                                ->getName();
                             $scopeName = Mage::helper('Mage_Backend_Helper_Data')->__('store(%s) scope', $storeName);
                             break;
                     }

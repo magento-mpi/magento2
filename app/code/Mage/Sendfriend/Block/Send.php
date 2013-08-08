@@ -16,7 +16,7 @@
  * @package     Mage_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sendfriend_Block_Send extends Mage_Core_Block_Template
+class Mage_Sendfriend_Block_Send extends Magento_Core_Block_Template
 {
     /**
      * Retrieve username for form field

@@ -17,10 +17,10 @@
  */
 class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Mage_Backend_Block_Template
 {
-    /** @var Mage_Core_Model_StoreManager */
+    /** @var Magento_Core_Model_StoreManager */
     protected $_storeManager;
 
-    /** @var Mage_Core_Model_Registry */
+    /** @var Magento_Core_Model_Registry */
     protected $_registry;
 
     /**
@@ -31,15 +31,15 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Mage_Backe
     /**
      * @inheritdoc
      *
-     * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManager $storeManager
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManager $storeManager,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -177,7 +177,7 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options extends Mage_Backe
 
         foreach ($this->getStores() as $store) {
             $storeId = $store->getId();
-            $value['store' . $storeId] = $storeId == Mage_Core_Model_AppInterface::ADMIN_STORE_ID
+            $value['store' . $storeId] = $storeId == Magento_Core_Model_AppInterface::ADMIN_STORE_ID
                 ? $valuePrefix . $this->escapeHtml($option['label'])
                 : '';
         }

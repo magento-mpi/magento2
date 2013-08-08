@@ -15,7 +15,7 @@
  * @package    Mage_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Page_Helper_Layout extends Mage_Core_Helper_Abstract
+class Mage_Page_Helper_Layout extends Magento_Core_Helper_Abstract
 {
     /**
      * Apply page layout handle

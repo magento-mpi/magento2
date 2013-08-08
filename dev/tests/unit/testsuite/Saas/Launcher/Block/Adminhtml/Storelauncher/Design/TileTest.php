@@ -24,14 +24,14 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
     /**
      * Theme Service mock
      *
-     * @var Mage_Core_Model_ThemeFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_ThemeFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeFactoryMock;
 
     /**
      * Store mock
      *
-     * @var Mage_Core_Model_Store|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Model_Store|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeMock;
 
@@ -53,14 +53,14 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
-        $config = $this->getMock('Mage_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $config = $this->getMock('Magento_Core_Model_Store_Config', array('getConfig'), array(), '', false);
         $config->expects($this->any())
             ->method('getConfig')
             ->will($this->returnCallback(array($this, 'configCallback')));
 
-        $this->_themeFactoryMock = $this->getMock('Mage_Core_Model_ThemeFactory', array('create'), array(), '', false);
+        $this->_themeFactoryMock = $this->getMock('Magento_Core_Model_ThemeFactory', array('create'), array(), '', false);
 
-        $this->_storeMock = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $this->_storeMock = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
 
         $this->_launcherHelperMock = $this->getMock('Saas_Launcher_Helper_Data', array(), array(), '', false);
 
@@ -102,11 +102,11 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
     {
         return array(
             1 => array(
-                Mage_Core_Model_View_Design::XML_PATH_THEME_ID => '118',
+                Magento_Core_Model_View_Design::XML_PATH_THEME_ID => '118',
                 Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'stores/1/dragons.png'
             ),
             null => array(
-                Mage_Core_Model_View_Design::XML_PATH_THEME_ID => '272',
+                Magento_Core_Model_View_Design::XML_PATH_THEME_ID => '272',
                 Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => 'default/magento.png'
             ),
         );
@@ -148,7 +148,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_TileTest extends PHPUni
      */
     public function testGetThemeName($store, $themeId, $themeExists, $expected)
     {
-        $theme = $this->getMock('Mage_Core_Model_Theme', array('getThemeTitle', 'load'), array(), '', false);
+        $theme = $this->getMock('Magento_Core_Model_Theme', array('getThemeTitle', 'load'), array(), '', false);
 
         if ($themeExists) {
             $theme->expects($this->once())

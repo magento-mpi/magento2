@@ -16,7 +16,7 @@
 class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Mage_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store;
 
@@ -173,7 +173,7 @@ class Enterprise_GiftWrapping_Model_Total_Quote_Giftwrapping extends Mage_Sales_
      * Return wrapping model for wrapping ID
      *
      * @param  int $wrappingId
-     * @param  Mage_Core_Model_Store $store
+     * @param  Magento_Core_Model_Store $store
      * @return Enterprise_GiftWrapping_Model_Wrapping
      */
     protected function _getWrapping($wrappingId, $store)

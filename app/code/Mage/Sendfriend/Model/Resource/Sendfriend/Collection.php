@@ -16,7 +16,7 @@
  * @package     Mage_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sendfriend_Model_Resource_Sendfriend_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Sendfriend_Model_Resource_Sendfriend_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Init resource collection

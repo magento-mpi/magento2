@@ -20,23 +20,23 @@ class Mage_Api_Model_Wsdl_Config extends Mage_Api_Model_Wsdl_Config_Base
     protected static $_namespacesPrefix = null;
 
     /**
-     * @var Mage_Core_Model_Config_Modules_Reader
+     * @var Magento_Core_Model_Config_Modules_Reader
      */
     protected $_configReader;
 
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
 
     /**
-     * @param Mage_Core_Model_Config_Modules_Reader $configReader
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Config_Modules_Reader $configReader
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param Magento_Simplexml_Element|null $sourceData
      */
     public function __construct(
-        Mage_Core_Model_Config_Modules_Reader $configReader,
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Config_Modules_Reader $configReader,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
         $sourceData = null
     ) {
         parent::__construct($sourceData);

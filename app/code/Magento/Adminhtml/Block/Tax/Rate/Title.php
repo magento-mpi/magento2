@@ -14,7 +14,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Tax_Rate_Title extends Mage_Core_Block_Template
+class Magento_Adminhtml_Block_Tax_Rate_Title extends Magento_Core_Block_Template
 {
     protected $_titles;
 
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Tax_Rate_Title extends Mage_Core_Block_Template
     {
         $stores = $this->getData('stores');
         if (is_null($stores)) {
-            $stores = Mage::getModel('Mage_Core_Model_Store')
+            $stores = Mage::getModel('Magento_Core_Model_Store')
                 ->getResourceCollection()
                 ->setLoadDefault(false)
                 ->load();

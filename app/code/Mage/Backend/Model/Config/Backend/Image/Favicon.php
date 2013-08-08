@@ -34,7 +34,7 @@ class Mage_Backend_Model_Config_Backend_Image_Favicon extends Mage_Backend_Model
      * Return path to directory for upload file
      *
      * @return string
-     * @throw Mage_Core_Exception
+     * @throw Magento_Core_Exception
      */
     protected function _getUploadDir()
     {

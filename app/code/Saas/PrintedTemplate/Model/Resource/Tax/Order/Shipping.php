@@ -16,7 +16,7 @@
  * @subpackage  Models
  */
 class Saas_PrintedTemplate_Model_Resource_Tax_Order_Shipping
-    extends Mage_Core_Model_Resource_Db_Abstract
+    extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource model constructor. Initialize connection to database and associated table.

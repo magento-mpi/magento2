@@ -33,14 +33,14 @@ class Mage_Backend_Block_System_Config_TabsTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_requestMock->expects($this->any())->method('getParam')->with('section')
             ->will($this->returnValue('currentSectionId'));
         $this->_structureMock = $this->getMock('Mage_Backend_Model_Config_Structure', array(), array(), '', false);
         $this->_structureMock->expects($this->once())->method('getTabs')->will($this->returnValue(array()));
         $this->_urlBuilderMock = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false);
-        $layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
-        $helperMock = $this->getMock('Mage_Core_Helper_Data', array('__', 'addPageHelpUrl'), array(), '', false);
+        $layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento_Core_Helper_Data', array('__', 'addPageHelpUrl'), array(), '', false);
         $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $helperMock->expects($this->once())->method('addPageHelpUrl')->with('currentSectionId/');
         $layoutMock->expects($this->any())->method('helper')->will($this->returnValue($helperMock));

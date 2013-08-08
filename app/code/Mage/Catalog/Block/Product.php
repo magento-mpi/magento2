@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Catalog_Block_Product extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Product extends Magento_Core_Block_Template
 {
     protected $_finalPrice = array();
 

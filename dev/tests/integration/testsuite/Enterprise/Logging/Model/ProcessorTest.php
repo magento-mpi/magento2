@@ -28,7 +28,7 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
      */
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {
-        Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+        Mage::app()->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $collection = Mage::getModel('Enterprise_Logging_Model_Event')->getCollection();
         $eventCountBefore = count($collection);
 
@@ -39,7 +39,7 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
 
         $this->getRequest()->setServer(array('REQUEST_METHOD' => 'POST'));
         $this->getRequest()->setPost(
-            array_merge($post, array('form_key' => Mage::getSingleton('Mage_Core_Model_Session')->getFormKey()))
+            array_merge($post, array('form_key' => Mage::getSingleton('Magento_Core_Model_Session')->getFormKey()))
         );
         $this->dispatch($url);
         $collection = Mage::getModel('Enterprise_Logging_Model_Event')->getCollection();

@@ -26,8 +26,8 @@
             </block>
             <block type="Mage_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
             <container name="left" as="left" label="Left Column"/>
-            <block type="Mage_Core_Block_Messages" name="global_messages" as="global_messages"/>
-            <block type="Mage_Core_Block_Messages" name="messages" as="messages"/>
+            <block type="Magento_Core_Block_Messages" name="global_messages" as="global_messages"/>
+            <block type="Magento_Core_Block_Messages" name="messages" as="messages"/>
             <container name="content" as="content" label="Main Content Area"/>
             <container name="right" as="right" label="Right Column"/>
             <block type="Mage_Page_Block_Html_Footer" name="footer" as="footer" template="html/footer.phtml">
@@ -92,7 +92,7 @@
                 <file>mage/loader.js</file>
             </action>
             <!-- Preload resources for widgets -->
-            <block type="Mage_Core_Block_Template" name="head.components" as="components" template="Mage_Page::js/components.phtml"/>
+            <block type="Magento_Core_Block_Template" name="head.components" as="components" template="Mage_Page::js/components.phtml"/>
         </reference>
     </default>
 </layout>

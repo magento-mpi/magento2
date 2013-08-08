@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Controller_Varien_Router_Base
+class Mage_DesignEditor_Controller_Varien_Router_Standard extends Magento_Core_Controller_Varien_Router_Base
 {
     /**
      * @var Magento_ObjectManager
@@ -23,18 +23,18 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     protected $_excludedRouters = array('admin', 'vde');
 
     /**
-     * @param Mage_Core_Controller_Varien_Action_Factory $controllerFactory
+     * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_App $app
      * @param string $areaCode
      * @param $baseController
      */
     public function __construct(
-        Mage_Core_Controller_Varien_Action_Factory $controllerFactory,
+        Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
         Magento_ObjectManager $objectManager,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_App $app,
+        Magento_Core_Model_App $app,
         $areaCode,
         $baseController
     ) {
@@ -45,10 +45,10 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     /**
      * Match provided request and if matched - return corresponding controller
      *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @return Mage_Core_Controller_Front_Action|null
+     * @param Magento_Core_Controller_Request_Http $request
+     * @return Magento_Core_Controller_Front_Action|null
      */
-    public function match(Mage_Core_Controller_Request_Http $request)
+    public function match(Magento_Core_Controller_Request_Http $request)
     {
         // if URL has VDE prefix
         if (!$this->_objectManager->get('Mage_DesignEditor_Helper_Data')->isVdeRequest($request)) {
@@ -72,9 +72,9 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
         // match routers
         $controller = null;
         $routers = $this->_getMatchedRouters();
-        /** @var $router Mage_Core_Controller_Varien_Router_Abstract */
+        /** @var $router Magento_Core_Controller_Varien_Router_Abstract */
         foreach ($routers as $router) {
-            /** @var $controller Mage_Core_Controller_Varien_ActionAbstract */
+            /** @var $controller Magento_Core_Controller_Varien_ActionAbstract */
             $controller = $router->match($request);
             if ($controller) {
                 $this->_objectManager->get('Mage_DesignEditor_Model_State')
@@ -92,10 +92,10 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
     /**
      * Modify request path to imitate basic request
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @return Mage_DesignEditor_Controller_Varien_Router_Standard
      */
-    protected function _prepareVdeRequest(Mage_Core_Controller_Request_Http $request)
+    protected function _prepareVdeRequest(Magento_Core_Controller_Request_Http $request)
     {
         list($vdeFrontName, $designMode, $themeId) = explode('/', trim($request->getPathInfo(), '/'));
         $request->setAlias('editorMode', $designMode);
@@ -127,10 +127,10 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Mage_Core_Cont
      */
     protected function _overrideConfiguration()
     {
-        $vdeNode = $this->_objectManager->get('Mage_Core_Model_Config')
+        $vdeNode = $this->_objectManager->get('Magento_Core_Model_Config')
             ->getNode(Mage_DesignEditor_Model_Area::AREA_VDE);
         if ($vdeNode) {
-            $this->_objectManager->get('Mage_Core_Model_Config')->getNode(Mage_Core_Model_App_Area::AREA_FRONTEND)
+            $this->_objectManager->get('Magento_Core_Model_Config')->getNode(Magento_Core_Model_App_Area::AREA_FRONTEND)
                 ->extend($vdeNode, true);
         }
     }

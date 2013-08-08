@@ -14,7 +14,7 @@ class Saas_JobNotification_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $configMock = $this->getMock('Mage_Core_Model_ConfigInterface');
+        $configMock = $this->getMock('Magento_Core_Model_ConfigInterface');
         $nodeMock = $this->getMock('stdClass', array('asArray'), array(), '', false);
 
         $configMock->expects($this->once())

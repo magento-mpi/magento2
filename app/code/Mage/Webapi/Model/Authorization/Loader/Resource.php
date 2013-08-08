@@ -48,7 +48,7 @@ class Mage_Webapi_Model_Authorization_Loader_Resource extends Magento_Acl_Loader
      * Populate ACL with resources from external storage.
      *
      * @param Magento_Acl $acl
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function populateAcl(Magento_Acl $acl)
     {

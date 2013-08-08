@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Config_Source_Watermark_Position implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Catalog_Model_Config_Source_Watermark_Position implements Magento_Core_Model_Option_ArrayInterface
 {
 
     /**

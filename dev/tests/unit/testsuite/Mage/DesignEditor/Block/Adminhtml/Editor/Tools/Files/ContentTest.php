@@ -26,7 +26,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_ContentTest extends P
     protected $_filesContent;
 
     /**
-     * @var Mage_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
@@ -34,7 +34,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_ContentTest extends P
     {
         $this->_helperStorage = $this->getMock('Mage_Theme_Helper_Storage', array(), array(), '', false);
         $this->_urlBuilder = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false);
-        $this->_request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $constructArguments =  $objectManagerHelper->getConstructArguments(

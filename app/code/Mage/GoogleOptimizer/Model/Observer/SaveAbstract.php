@@ -20,7 +20,7 @@ abstract class Mage_GoogleOptimizer_Model_Observer_SaveAbstract
     protected $_modelCode;
 
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
@@ -32,12 +32,12 @@ abstract class Mage_GoogleOptimizer_Model_Observer_SaveAbstract
     /**
      * @param Mage_GoogleOptimizer_Helper_Data $helper
      * @param Mage_GoogleOptimizer_Model_Code $modelCode
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
         Mage_GoogleOptimizer_Helper_Data $helper,
         Mage_GoogleOptimizer_Model_Code $modelCode,
-        Mage_Core_Controller_Request_Http $request
+        Magento_Core_Controller_Request_Http $request
     ) {
         $this->_helper = $helper;
         $this->_modelCode = $modelCode;

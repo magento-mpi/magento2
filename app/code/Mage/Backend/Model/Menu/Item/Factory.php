@@ -15,15 +15,15 @@ class Mage_Backend_Model_Menu_Item_Factory
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Factory_Helper
+     * @var Magento_Core_Model_Factory_Helper
      */
     protected $_helperFactory;
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
      */
-    public function __construct(Magento_ObjectManager $objectManager, Mage_Core_Model_Factory_Helper $helperFactory)
+    public function __construct(Magento_ObjectManager $objectManager, Magento_Core_Model_Factory_Helper $helperFactory)
     {
         $this->_objectManager = $objectManager;
         $this->_helperFactory = $helperFactory;

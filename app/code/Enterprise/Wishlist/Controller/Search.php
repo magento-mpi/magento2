@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_Action
+class Enterprise_Wishlist_Controller_Search extends Magento_Core_Controller_Front_Action
 {
     /**
      * Localization filter
@@ -118,7 +118,7 @@ class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_A
             $this->_getSession()->setLastWishlistSearchParams($params);
         } catch (InvalidArgumentException $e) {
             $this->_getSession()->addNotice($e->getMessage());
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(Mage::helper('Enterprise_Wishlist_Helper_Data')->__('We could not perform the search.'));
@@ -186,7 +186,7 @@ class Enterprise_Wishlist_Controller_Search extends Mage_Core_Controller_Front_A
                     if ($item->addToCart($cart, false)) {
                         $addedItems[] = $item->getProduct();
                     }
-                } catch (Mage_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
                         $notSalable[] = $item;
                     } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {

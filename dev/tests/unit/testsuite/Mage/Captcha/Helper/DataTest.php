@@ -23,19 +23,19 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_dirMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
+        $this->_dirMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false, false);
     }
 
     /**
      * Return helper to be tested
      *
-     * @param Mage_Core_Model_Store $store
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_Store $store
+     * @param Magento_Core_Model_Config $config
      * @return Mage_Captcha_Helper_Data
      */
     protected function _getHelper($store, $config)
     {
-        $app = $this->getMockBuilder('Mage_Core_Model_App')
+        $app = $this->getMockBuilder('Magento_Core_Model_App')
             ->disableOriginalConstructor()
             ->getMock();
         $app->expects($this->any())
@@ -53,7 +53,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
 
-        $context = $this->getMock('Mage_Core_Helper_Context', array(), array(), '', false);
+        $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false);
 
         return new Mage_Captcha_Helper_Data($context, $this->_dirMock, $app, $config, $filesystem);
     }
@@ -107,7 +107,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->_dirMock->expects($this->once())
             ->method('getDir')
-            ->with(Mage_Core_Model_Dir::LIB)
+            ->with(Magento_Core_Model_Dir::LIB)
             ->will($this->returnValue(TESTS_TEMP_DIR . '/lib'));
 
         $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub());
@@ -128,7 +128,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->_dirMock->expects($this->once())
             ->method('getDir')
-            ->with(Mage_Core_Model_Dir::MEDIA)
+            ->with(Magento_Core_Model_Dir::MEDIA)
             ->will($this->returnValue(TESTS_TEMP_DIR . '/media'));
 
         $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub());
@@ -152,12 +152,12 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Create Config Stub
      *
-     * @return Mage_Core_Model_Config
+     * @return Magento_Core_Model_Config
      */
     protected function _getConfigStub()
     {
         $config = $this->getMock(
-            'Mage_Core_Model_Config',
+            'Magento_Core_Model_Config',
             array('getNode', 'getModelInstance'),
             array(), '', false
         );
@@ -171,12 +171,12 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Create Website Stub
      *
-     * @return Mage_Core_Model_Website
+     * @return Magento_Core_Model_Website
      */
     protected function _getWebsiteStub()
     {
         $website = $this->getMock(
-            'Mage_Core_Model_Website',
+            'Magento_Core_Model_Website',
             array('getCode'),
             array(), '', false
         );
@@ -191,12 +191,12 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
     /**
      * Create store stub
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getStoreStub()
     {
         $store = $this->getMock(
-            'Mage_Core_Model_Store',
+            'Magento_Core_Model_Store',
             array('isAdmin', 'getConfig', 'getBaseUrl'),
             array(), '', false
         );

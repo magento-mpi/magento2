@@ -142,7 +142,7 @@ class Mage_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_Test
             ->method('getType')
             ->will($this->returnValue(Mage_Index_Model_Event::TYPE_SAVE));
 
-        $store = $this->getMockBuilder('Mage_Core_Model_Store')
+        $store = $this->getMockBuilder('Magento_Core_Model_Store')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -165,7 +165,7 @@ class Mage_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_Test
             ->method('getType')
             ->will($this->returnValue(Mage_Index_Model_Event::TYPE_SAVE));
 
-        $store = $this->getMockBuilder('Mage_Core_Model_Store')
+        $store = $this->getMockBuilder('Magento_Core_Model_Store')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -196,7 +196,7 @@ class Mage_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_Test
 
         $this->_event->expects($this->any())
             ->method('getEntity')
-            ->will($this->returnValue(Mage_Core_Model_Store::ENTITY));
+            ->will($this->returnValue(Magento_Core_Model_Store::ENTITY));
     }
 
     public function testMatchEventForEmptyStoreGroup()
@@ -215,7 +215,7 @@ class Mage_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_Test
 
         $this->_event->expects($this->any())
             ->method('getEntity')
-            ->will($this->returnValue(Mage_Core_Model_Store_Group::ENTITY));
+            ->will($this->returnValue(Magento_Core_Model_Store_Group::ENTITY));
 
         $this->_event->expects($this->any())
             ->method('getDataObject')
@@ -241,9 +241,9 @@ class Mage_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_Test
 
         $this->_event->expects($this->any())
             ->method('getEntity')
-            ->will($this->returnValue(Mage_Core_Model_Store_Group::ENTITY));
+            ->will($this->returnValue(Magento_Core_Model_Store_Group::ENTITY));
 
-        $storeGroup = $this->getMockBuilder('Mage_Core_Model_Store_Group')
+        $storeGroup = $this->getMockBuilder('Magento_Core_Model_Store_Group')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -274,9 +274,9 @@ class Mage_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_Test
 
         $this->_event->expects($this->any())
             ->method('getEntity')
-            ->will($this->returnValue(Mage_Core_Model_Store_Group::ENTITY));
+            ->will($this->returnValue(Magento_Core_Model_Store_Group::ENTITY));
 
-        $storeGroup = $this->getMockBuilder('Mage_Core_Model_Store_Group')
+        $storeGroup = $this->getMockBuilder('Magento_Core_Model_Store_Group')
             ->disableOriginalConstructor()
             ->getMock();
 

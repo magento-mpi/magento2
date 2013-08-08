@@ -522,8 +522,8 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = Mage::getObjectManager();
         /** Prepare arguments for SUT constructor. */
-        /** @var Mage_Core_Model_CacheInterface $cache */
-        $cache = $this->getMock('Mage_Core_Model_CacheInterface');
+        /** @var Magento_Core_Model_CacheInterface $cache */
+        $cache = $this->getMock('Magento_Core_Model_CacheInterface');
 
         /** @var Mage_Webapi_Model_Config_Reader_Soap $reader */
         $reader = $objectManager->create('Mage_Webapi_Model_Config_Reader_Soap', array(

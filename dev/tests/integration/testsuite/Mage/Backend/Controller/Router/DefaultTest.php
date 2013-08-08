@@ -32,14 +32,14 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
             'areaCode'        => Mage::helper('Mage_Backend_Helper_Data')->getAreaCode(),
             'baseController'  => 'Mage_Backend_Controller_ActionAbstract',
         );
-        $this->_frontMock = $this->getMock('Mage_Core_Controller_Varien_Front', array(), array(), '', false);
+        $this->_frontMock = $this->getMock('Magento_Core_Controller_Varien_Front', array(), array(), '', false);
         $this->_model = Mage::getModel('Mage_Backend_Controller_Router_Default', $options);
         $this->_model->setFront($this->_frontMock);
     }
 
     public function testRouterCannotProcessRequestsWithWrongFrontName()
     {
-        $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $request->expects($this->once())
             ->method('getPathInfo')
             ->will($this->returnValue('frontend/admin/dashboard'));
@@ -50,7 +50,7 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
 
     public function testRouterCanProcessRequestsWithProperFrontName()
     {
-        $request = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
+        $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $request->expects($this->once())
             ->method('getPathInfo')
             ->will($this->returnValue('backend/admin/dashboard'));

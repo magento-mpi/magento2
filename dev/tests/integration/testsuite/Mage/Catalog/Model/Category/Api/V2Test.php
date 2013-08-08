@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -22,7 +22,7 @@ class Mage_Catalog_Model_Category_Api_V2Test extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = Mage::getModel('Mage_Catalog_Model_Category_Api_V2');
-        Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+        Mage::app()->setCurrentStore(Magento_Core_Model_App::ADMIN_STORE_ID);
     }
 
     public function testCRUD()

@@ -15,13 +15,13 @@
 class Mage_Backend_Model_Config_MenuTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_Config
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Config
      */
     protected $_configMock;
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $this->_configMock->expects($this->any())
             ->method('getModuleDir')
             ->with('etc', 'Mage_Backend')

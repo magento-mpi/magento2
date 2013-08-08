@@ -98,7 +98,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Magento
                 $formType->save();
                 $formType->createFromSkeleton($skeleton);
             }
-            catch(Mage_Core_Exception $e) {
+            catch(Magento_Core_Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addError($e->getMessage());
             }
@@ -231,12 +231,12 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Magento
                 $formType->setLabel($request->getPost('label'));
                 $formType->save();
 
-                $treeData = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($request->getPost('form_type_data'));
+                $treeData = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($request->getPost('form_type_data'));
                 if (!empty($treeData) && is_array($treeData)) {
                     $this->_saveTreeData($formType, $treeData);
                 }
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Magento_Core_Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addError($e->getMessage());
             }
@@ -273,7 +273,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Magento
                     $message = Mage::helper('Enterprise_Customer_Helper_Data')->__('The form type has been deleted.');
                     $this->_getSession()->addSuccess($message);
                 }
-                catch (Mage_Core_Exception $e) {
+                catch (Magento_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                 }
                 catch (Exception $e) {

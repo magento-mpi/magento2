@@ -15,7 +15,7 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Block_Customer_Products_List extends Mage_Core_Block_Template
+class Mage_Downloadable_Block_Customer_Products_List extends Magento_Core_Block_Template
 {
 
     /**

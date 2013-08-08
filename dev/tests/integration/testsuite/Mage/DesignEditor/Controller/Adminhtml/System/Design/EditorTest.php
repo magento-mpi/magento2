@@ -15,14 +15,14 @@
 class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends Mage_Backend_Utility_Controller
 {
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_dataHelper;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_dataHelper = $this->_objectManager->get('Mage_Core_Helper_Data');
+        $this->_dataHelper = $this->_objectManager->get('Magento_Core_Helper_Data');
     }
 
     public function testIndexAction()
@@ -41,7 +41,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends Ma
         $this->dispatch('backend/admin/system_design_editor/launch');
         $this->assertSessionMessages($this->equalTo(
             array('We can\'t find theme "' . $wrongThemeId . '".')),
-            Mage_Core_Model_Message::ERROR
+            Magento_Core_Model_Message::ERROR
         );
         $expected = 'http://localhost/index.php/backend/admin/system_design_editor/index/';
         $this->assertRedirect($this->stringStartsWith($expected));

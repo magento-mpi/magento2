@@ -76,7 +76,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
      * Get component of 'checkbox' type (actually 'tile')
      *
      * @return Magento_Data_Form_Element_Checkbox
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getCheckboxElement()
     {
@@ -89,7 +89,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
             }
         }
 
-        throw new Mage_Core_Exception(
+        throw new Magento_Core_Exception(
             $this->_helper->__('Element "%s" is not found in "%s".', $checkboxId, $this->getData('name'))
         );
     }
@@ -98,7 +98,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
      * Get component of 'image-uploader' type
      *
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getImageUploaderElement()
     {
@@ -109,7 +109,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader
                 return $e;
             }
         }
-        throw new Mage_Core_Exception(
+        throw new Magento_Core_Exception(
             $this->_helper->__('Element "%s" is not found in "%s".', $imageUploaderId, $this->getData('name'))
         );
     }

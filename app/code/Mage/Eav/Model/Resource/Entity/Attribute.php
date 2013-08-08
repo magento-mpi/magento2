@@ -16,7 +16,7 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Eav_Model_Resource_Entity_Attribute extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Eav Entity attributes cache
@@ -28,7 +28,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Application instance
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_application;
 
@@ -44,14 +44,14 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      *
      * @param array $arguments
      */
-    public function __construct(Mage_Core_Model_Resource $resource,
+    public function __construct(Magento_Core_Model_Resource $resource,
         array $arguments = array()
     ) {
-        if (isset($arguments['application']) && $arguments['application'] instanceof Mage_Core_Model_App) {
+        if (isset($arguments['application']) && $arguments['application'] instanceof Magento_Core_Model_App) {
             $this->_application = $arguments['application'];
             unset($arguments['application']);
         }
-        if (isset($arguments['helper']) && $arguments['helper'] instanceof Mage_Core_Helper_Abstract) {
+        if (isset($arguments['helper']) && $arguments['helper'] instanceof Magento_Core_Helper_Abstract) {
             $this->_helperInstance = $arguments['helper'];
             unset($arguments['helper']);
         }
@@ -71,7 +71,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      * Retrieve helper instance
      *
      * @param string $helperName
-     * @return Mage_Core_Helper_Abstract|Mage_Eav_Helper_Data
+     * @return Magento_Core_Helper_Abstract|Mage_Eav_Helper_Data
      */
     protected function _helper($helperName)
     {
@@ -81,7 +81,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Retrieve application instance
      *
-     * @return Mage_Core_Model_App
+     * @return Magento_Core_Model_App
      */
     protected function _getApplication()
     {
@@ -129,12 +129,12 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Load attribute data by attribute code
      *
-     * @param Mage_Eav_Model_Entity_Attribute|Mage_Core_Model_Abstract $object
+     * @param Mage_Eav_Model_Entity_Attribute|Magento_Core_Model_Abstract $object
      * @param int $entityTypeId
      * @param string $code
      * @return bool
      */
-    public function loadByCode(Mage_Core_Model_Abstract $object, $entityTypeId, $code)
+    public function loadByCode(Magento_Core_Model_Abstract $object, $entityTypeId, $code)
     {
         $bind   = array(':entity_type_id' => $entityTypeId);
         $select = $this->_getLoadSelect('attribute_code', $code, $object)
@@ -152,10 +152,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Retrieve Max Sort order for attribute in group
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return int
      */
-    private function _getMaxSortOrder(Mage_Core_Model_Abstract $object)
+    private function _getMaxSortOrder(Magento_Core_Model_Abstract $object)
     {
         if (intval($object->getAttributeGroupId()) > 0) {
             $adapter = $this->_getReadAdapter();
@@ -177,10 +177,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Delete entity
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Entity_Attribute
      */
-    public function deleteEntity(Mage_Core_Model_Abstract $object)
+    public function deleteEntity(Magento_Core_Model_Abstract $object)
     {
         if (!$object->getEntityAttributeId()) {
             return $this;
@@ -196,10 +196,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Validate attribute data before save
      *
-     * @param Mage_Eav_Model_Entity_Attribute|Mage_Core_Model_Abstract $object
+     * @param Mage_Eav_Model_Entity_Attribute|Magento_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Entity_Attribute
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         $frontendLabel = $object->getFrontendLabel();
         if (is_array($frontendLabel)) {
@@ -225,10 +225,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Save additional attribute data after save attribute
      *
-     * @param Mage_Eav_Model_Entity_Attribute|Mage_Core_Model_Abstract $object
+     * @param Mage_Eav_Model_Entity_Attribute|Magento_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Entity_Attribute
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $this->_saveStoreLabels($object)
              ->_saveAdditionalAttributeData($object)
@@ -241,10 +241,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Save store labels
      *
-     * @param Mage_Eav_Model_Entity_Attribute|Mage_Core_Model_Abstract $object
+     * @param Mage_Eav_Model_Entity_Attribute|Magento_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Entity_Attribute
      */
-    protected function _saveStoreLabels(Mage_Core_Model_Abstract $object)
+    protected function _saveStoreLabels(Magento_Core_Model_Abstract $object)
     {
         $storeLabels = $object->getStoreLabels();
         if (is_array($storeLabels)) {
@@ -272,10 +272,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Save additional data of attribute
      *
-     * @param Mage_Eav_Model_Entity_Attribute|Mage_Core_Model_Abstract $object
+     * @param Mage_Eav_Model_Entity_Attribute|Magento_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Entity_Attribute
      */
-    protected function _saveAdditionalAttributeData(Mage_Core_Model_Abstract $object)
+    protected function _saveAdditionalAttributeData(Magento_Core_Model_Abstract $object)
     {
         $additionalTable = $this->getAdditionalAttributeTable($object->getEntityTypeId());
         if ($additionalTable) {
@@ -299,10 +299,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Save in set including
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Entity_Attribute
      */
-    public function saveInSetIncluding(Mage_Core_Model_Abstract $object)
+    public function saveInSetIncluding(Magento_Core_Model_Abstract $object)
     {
         $attributeId = (int)$object->getId();
         $setId       = (int)$object->getAttributeSetId();
@@ -336,10 +336,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Save attribute options
      *
-     * @param Mage_Eav_Model_Entity_Attribute|Mage_Core_Model_Abstract $object
+     * @param Mage_Eav_Model_Entity_Attribute|Magento_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Entity_Attribute
      */
-    protected function _saveOption(Mage_Core_Model_Abstract $object)
+    protected function _saveOption(Magento_Core_Model_Abstract $object)
     {
         $option = $object->getOption();
         if (!is_array($option)) {
@@ -361,7 +361,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Save changes of attribute options, return obtained default value
      *
-     * @param Mage_Eav_Model_Entity_Attribute|Mage_Core_Model_Abstract $object
+     * @param Mage_Eav_Model_Entity_Attribute|Magento_Core_Model_Abstract $object
      * @param array $option
      * @return array
      */
@@ -384,7 +384,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      * Check default option value presence
      *
      * @param array $values
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _checkDefaultOptionValue($values)
     {
@@ -396,7 +396,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Update attribute default value
      *
-     * @param Mage_Eav_Model_Entity_Attribute|Mage_Core_Model_Abstract $object
+     * @param Mage_Eav_Model_Entity_Attribute|Magento_Core_Model_Abstract $object
      * @param int|string $optionId
      * @param int $intOptionId
      * @param array $defaultValue
@@ -416,7 +416,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Save attribute default value
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param array $defaultValue
      */
     protected function _saveDefaultValue($object, $defaultValue)
@@ -431,7 +431,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     /**
      * Save option records
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param int $optionId
      * @param array $option
      * @return int|bool
@@ -552,7 +552,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
             ." AND %s.store_id = %d";
         $joinCondition = sprintf($joinConditionTemplate,
             'e', 't1', 't1', 't1', 't1',
-            Mage_Core_Model_AppInterface::ADMIN_STORE_ID);
+            Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         if ($attribute->getFlatAddChildData()) {
             $joinCondition .= ' AND e.child_id = t1.entity_id';
         }
@@ -603,10 +603,10 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      * Load additional attribute data.
      * Load label of current active store
      *
-     * @param Mage_Eav_Model_Entity_Attribute|Mage_Core_Model_Abstract $object
+     * @param Mage_Eav_Model_Entity_Attribute|Magento_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Entity_Attribute
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         /** @var $entityType Mage_Eav_Model_Entity_Type */
         $entityType = $object->getData('entity_type');

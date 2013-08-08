@@ -13,7 +13,7 @@
  * @package    Mage_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Controller_Standard extends Mage_Core_Controller_Front_Action
+class Mage_Paypal_Controller_Standard extends Magento_Core_Controller_Front_Action
 {
     /**
      * Order instance
@@ -77,7 +77,7 @@ class Mage_Paypal_Controller_Standard extends Mage_Core_Controller_Front_Action
             $order = $this->_objectManager->create('Mage_Sales_Model_Order')
                 ->loadByIncrementId($session->getLastRealOrderId());
             if ($order->getId()) {
-                $this->_objectManager->get('Mage_Core_Model_Event_Manager')->dispatch(
+                $this->_objectManager->get('Magento_Core_Model_Event_Manager')->dispatch(
                     'paypal_payment_cancel',
                     array(
                         'order' => $order,

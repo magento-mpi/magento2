@@ -12,8 +12,8 @@
     <preference for="Magento_Authorization_RoleLocator" type="Mage_Backend_Model_Authorization_RoleLocator" />
     <preference for="Magento_Acl_Loader_Resource_ConfigReaderInterface" type="Magento_Acl_Loader_Resource_ConfigReader_Xml" />
     <preference for="Magento_Acl_Loader_Resource_ConfigReader_FileListInterface" type="Mage_Backend_Model_Acl_Config_FileList" />
-    <preference for="Mage_Core_Model_LocaleInterface" type="Mage_Backend_Model_Locale" />
-    <preference for="Mage_Core_Model_UrlInterface" type="Mage_Backend_Model_Url" />
+    <preference for="Magento_Core_Model_LocaleInterface" type="Mage_Backend_Model_Locale" />
+    <preference for="Magento_Core_Model_UrlInterface" type="Mage_Backend_Model_Url" />
     <preference for="Mage_Backend_Model_Auth_StorageInterface" type="Mage_Backend_Model_Auth_Session" />
     <preference for="Mage_Backend_Model_Config_Structure_SearchInterface" type="Mage_Backend_Model_Config_Structure" />
     <preference for="Mage_Backend_Model_Config_Backend_File_RequestData_Interface" type="Mage_Backend_Model_Config_Backend_File_RequestData" />
@@ -22,17 +22,17 @@
             <instance type="Magento_Acl_Loader_Resource" />
         </param>
     </type>
-    <type name="Mage_Core_Model_Acl_Cache">
+    <type name="Magento_Core_Model_Acl_Cache">
         <param name="cacheKey">
             <value>backend_acl_resources</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Acl_RootResource">
+    <type name="Magento_Core_Model_Acl_RootResource">
         <param name="identifier">
             <value>Magento_Adminhtml::all</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Session">
+    <type name="Magento_Core_Model_Session">
         <param name="sessionName">
             <value>adminhtml</value>
         </param>
@@ -66,7 +66,7 @@
         </param>
     </type>
     <type name="Mage_Backend_Model_Config_Structure_Element_Group_Proxy" shared="false" />
-    <type name="Mage_Core_Model_Layout">
+    <type name="Magento_Core_Model_Layout">
         <param name="area">
             <value>adminhtml</value>
         </param>

@@ -32,7 +32,7 @@
  * @package     Enterprise_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_Abstract
+class Enterprise_CustomerBalance_Model_Balance_History extends Magento_Core_Model_Abstract
 {
     const ACTION_UPDATED  = 1;
     const ACTION_CREATED  = 2;
@@ -90,7 +90,7 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
                 // break intentionally omitted
             case self::ACTION_UPDATED:
                 if (!$balance->getUpdatedActionAdditionalInfo()) {
-                    if (Mage::getSingleton('Mage_Core_Model_StoreManagerInterface')->getStore()->isAdmin()
+                    if (Mage::getSingleton('Magento_Core_Model_StoreManagerInterface')->getStore()->isAdmin()
                         && $user = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()
                     ) {
                         if ($user->getUsername()) {
@@ -144,7 +144,7 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
         $this->setIsCustomerNotified(false);
         if ($this->getBalanceModel()->getNotifyByEmail()) {
             $storeId = $this->getBalanceModel()->getStoreId();
-            $email = Mage::getModel('Mage_Core_Model_Email_Template')
+            $email = Mage::getModel('Magento_Core_Model_Email_Template')
                 ->setDesignConfig(array('store' => $storeId, 'area' => Mage::getDesign()->getArea()));
             $customer = $this->getBalanceModel()->getCustomer();
             $email->sendTransactional(

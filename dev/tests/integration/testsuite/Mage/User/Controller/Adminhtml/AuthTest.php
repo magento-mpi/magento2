@@ -76,7 +76,7 @@ class Mage_User_Controller_Adminhtml_AuthTest extends Mage_Backend_Utility_Contr
         $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
         $this->dispatch('backend/admin/auth/resetpassword');
         $this->assertSessionMessages(
-            $this->equalTo(array('Your password reset link has expired.')), Mage_Core_Model_Message::ERROR
+            $this->equalTo(array('Your password reset link has expired.')), Magento_Core_Model_Message::ERROR
         );
         $this->assertRedirect();
     }
@@ -109,7 +109,9 @@ class Mage_User_Controller_Adminhtml_AuthTest extends Mage_Backend_Utility_Contr
 
         /** @var $user Mage_User_Model_User */
         $user = Mage::getModel('Mage_User_Model_User')->loadByUsername('dummy_username');
-        $this->assertTrue(Mage::helper('Mage_Core_Helper_Data')->validateHash($newDummyPassword, $user->getPassword()));
+        $this->assertTrue(
+            Mage::helper('Magento_Core_Helper_Data')->validateHash($newDummyPassword, $user->getPassword())
+        );
     }
 
     /**
@@ -122,7 +124,7 @@ class Mage_User_Controller_Adminhtml_AuthTest extends Mage_Backend_Utility_Contr
         $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
         $this->dispatch('backend/admin/auth/resetpasswordpost');
         $this->assertSessionMessages(
-            $this->equalTo(array('Your password reset link has expired.')), Mage_Core_Model_Message::ERROR
+            $this->equalTo(array('Your password reset link has expired.')), Magento_Core_Model_Message::ERROR
         );
         $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
     }
@@ -155,7 +157,7 @@ class Mage_User_Controller_Adminhtml_AuthTest extends Mage_Backend_Utility_Contr
 
         $this->assertSessionMessages(
             $this->equalTo(array('Your password confirmation must match your password.')),
-            Mage_Core_Model_Message::ERROR
+            Magento_Core_Model_Message::ERROR
         );
         $this->assertRedirect();
     }

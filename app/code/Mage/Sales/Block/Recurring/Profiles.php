@@ -11,7 +11,7 @@
 /**
  * Recurring profiles listing
  */
-class Mage_Sales_Block_Recurring_Profiles extends Mage_Core_Block_Template
+class Mage_Sales_Block_Recurring_Profiles extends Magento_Core_Block_Template
 {
     /**
      * Profiles collection

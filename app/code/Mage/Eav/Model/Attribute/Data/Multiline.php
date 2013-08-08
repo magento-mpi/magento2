@@ -87,7 +87,7 @@ class Mage_Eav_Model_Attribute_Data_Multiline extends Mage_Eav_Model_Attribute_D
     /**
      * Export attribute value to entity model
      *
-     * @param Mage_Core_Model_Abstract $entity
+     * @param Magento_Core_Model_Abstract $entity
      * @param array|string $value
      * @return Mage_Eav_Model_Attribute_Data_Multiline
      */

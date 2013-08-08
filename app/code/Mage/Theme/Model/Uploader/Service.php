@@ -47,31 +47,31 @@ class Mage_Theme_Model_Uploader_Service
     /**
      * File uploader
      *
-     * @var Mage_Core_Model_File_Uploader
+     * @var Magento_Core_Model_File_Uploader
      */
     protected $_uploader;
 
     /**
-     * @var Mage_Core_Model_File_Uploader
+     * @var Magento_Core_Model_File_Uploader
      */
     protected $_uploaderFactory;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_helper;
 
     /**
      * @param Magento_Io_File $fileIo
      * @param Magento_File_Size $fileSize
-     * @param Mage_Core_Model_File_UploaderFactory $uploaderFactory
-     * @param Mage_Core_Helper_Data $helper
+     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
+     * @param Magento_Core_Helper_Data $helper
      */
     public function __construct(
         Magento_Io_File $fileIo,
         Magento_File_Size $fileSize,
-        Mage_Core_Model_File_UploaderFactory $uploaderFactory,
-        Mage_Core_Helper_Data $helper
+        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
+        Magento_Core_Helper_Data $helper
     ) {
         $this->_fileIo = $fileIo;
         $this->_fileSize = $fileSize;
@@ -84,11 +84,11 @@ class Mage_Theme_Model_Uploader_Service
      *
      * @param string $file - Key in the $_FILES array
      * @return array
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function uploadCssFile($file)
     {
-        /** @var $fileUploader Mage_Core_Model_File_Uploader */
+        /** @var $fileUploader Magento_Core_Model_File_Uploader */
         $fileUploader = $this->_uploaderFactory->create(array('fileId' => $file));
         $fileUploader->setAllowedExtensions(array('css'));
         $fileUploader->setAllowRenameFiles(true);
@@ -96,7 +96,7 @@ class Mage_Theme_Model_Uploader_Service
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getCssUploadMaxSize());
         if (!$isValidFileSize) {
-            throw new Mage_Core_Exception($this->_helper->__(
+            throw new Magento_Core_Exception($this->_helper->__(
                 'The CSS file must be less than %sM.', $this->getCssUploadMaxSizeInMb()
             ));
         }
@@ -110,11 +110,11 @@ class Mage_Theme_Model_Uploader_Service
      *
      * @param string $file - Key in the $_FILES array
      * @return array
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function uploadJsFile($file)
     {
-        /** @var $fileUploader Mage_Core_Model_File_Uploader */
+        /** @var $fileUploader Magento_Core_Model_File_Uploader */
         $fileUploader = $this->_uploaderFactory->create(array('fileId' => $file));
         $fileUploader->setAllowedExtensions(array('js'));
         $fileUploader->setAllowRenameFiles(true);
@@ -122,7 +122,7 @@ class Mage_Theme_Model_Uploader_Service
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getJsUploadMaxSize());
         if (!$isValidFileSize) {
-            throw new Mage_Core_Exception($this->_helper->__(
+            throw new Magento_Core_Exception($this->_helper->__(
                 'The JS file must be less than %sM.', $this->getJsUploadMaxSizeInMb()
             ));
         }

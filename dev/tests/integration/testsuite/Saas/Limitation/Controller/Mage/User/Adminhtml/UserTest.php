@@ -46,7 +46,7 @@ class Saas_Limitation_Mage_User_Controller_Adminhtml_UserTest extends Mage_Backe
             // @codingStandardsIgnoreStart
             $this->equalTo(array('Sorry, you are using all the admin users your account allows. To add more, first delete an admin user or upgrade your service.')),
             // @codingStandardsIgnoreEnd
-            Mage_Core_Model_Message::ERROR
+            Magento_Core_Model_Message::ERROR
         );
         $this->assertRedirect($this->stringContains('backend/admin/user/edit/'));
         $this->assertSame($usersCountBefore, $userModel->countAll());

@@ -17,9 +17,12 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
      */
     public function testToHtmlHasOnClick()
     {
-        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
+        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel(
+            'Magento_Core_Model_Layout',
+            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        );
         $block = $layout->createBlock(
             'Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid',
             'block');

@@ -12,7 +12,7 @@
 /**
  * Controller for onepage and multishipping checkouts
  */
-abstract class Mage_Checkout_Controller_Action extends Mage_Core_Controller_Front_Action
+abstract class Mage_Checkout_Controller_Action extends Magento_Core_Controller_Front_Action
 {
     /**
      * Make sure customer is valid, if logged in

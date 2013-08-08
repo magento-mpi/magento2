@@ -84,7 +84,7 @@ class Magento_Adminhtml_Block_Review_Product_Grid extends Magento_Adminhtml_Bloc
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => Mage::getModel('Mage_Core_Model_Website')->getCollection()->toOptionHash(),
+                    'options'   => Mage::getModel('Magento_Core_Model_Website')->getCollection()->toOptionHash(),
             ));
         }
     }

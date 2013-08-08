@@ -15,7 +15,7 @@
  * @package    Mage_Rss
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rss_Block_List extends Mage_Core_Block_Template
+class Mage_Rss_Block_List extends Magento_Core_Block_Template
 {
     const XML_PATH_RSS_METHODS = 'rss';
 
@@ -54,7 +54,7 @@ class Mage_Rss_Block_List extends Mage_Core_Block_Template
      *
      * @param   string $url
      * @param   string $label
-     * @return  Mage_Core_Helper_Abstract
+     * @return  Magento_Core_Helper_Abstract
      */
     public function addRssFeed($url, $label, $param = array(), $customerGroup=false)
     {

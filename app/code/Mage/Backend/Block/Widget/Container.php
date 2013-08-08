@@ -184,7 +184,7 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
     /**
      * Preparing child blocks for each added button
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {

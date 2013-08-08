@@ -13,20 +13,20 @@
 class Mage_Rule_Model_Condition_Context implements Magento_ObjectManager_ContextInterface
 {
     /**
-     * @var Mage_Core_Model_View_Url
+     * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
 
     /**
-     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_Url $viewUrl
      */
-    public function __construct(Mage_Core_Model_View_Url $viewUrl)
+    public function __construct(Magento_Core_Model_View_Url $viewUrl)
     {
         $this->_viewUrl = $viewUrl;
     }
 
     /**
-     * @return Mage_Core_Model_View_Url
+     * @return Magento_Core_Model_View_Url
      */
     public function getViewUrl()
     {

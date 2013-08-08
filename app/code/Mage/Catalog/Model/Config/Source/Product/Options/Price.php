@@ -15,7 +15,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Config_Source_Product_Options_Price implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Catalog_Model_Config_Source_Product_Options_Price implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

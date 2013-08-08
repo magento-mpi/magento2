@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Helper_Product_Options extends Mage_Core_Helper_Abstract
+class Mage_Catalog_Helper_Product_Options extends Magento_Core_Helper_Abstract
 {
     /**
      * @var Magento_Filesystem
@@ -24,10 +24,10 @@ class Mage_Catalog_Helper_Product_Options extends Mage_Core_Helper_Abstract
     protected $_filesystem;
 
     /**
-     * @param Mage_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_Filesystem $filesystem
      */
-    public function __construct(Mage_Core_Helper_Context $context, Magento_Filesystem $filesystem)
+    public function __construct(Magento_Core_Helper_Context $context, Magento_Filesystem $filesystem)
     {
         parent::__construct($context);
         $this->_filesystem = $filesystem;
@@ -41,7 +41,7 @@ class Mage_Catalog_Helper_Product_Options extends Mage_Core_Helper_Abstract
      *  - 'size' - size of file
      *  - 'title' - user-friendly name of file (usually - original name as uploaded in Magento)
      *
-     * @param Mage_Core_Controller_Response_Http $response
+     * @param Magento_Core_Controller_Response_Http $response
      * @param string $filePath
      * @param array $info
      * @return bool

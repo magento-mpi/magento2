@@ -24,12 +24,12 @@ class Mage_Webhook_Block_Adminhtml_Registration_Activate extends Mage_Backend_Bl
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         parent::__construct($context, $data);

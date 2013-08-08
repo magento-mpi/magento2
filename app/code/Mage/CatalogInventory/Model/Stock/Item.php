@@ -54,7 +54,7 @@
  * @package     Mage_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
+class Mage_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstract
 {
     const XML_PATH_GLOBAL                = 'cataloginventory/options/';
     const XML_PATH_CAN_SUBTRACT          = 'cataloginventory/options/can_subtract';
@@ -416,7 +416,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      * Check quantity
      *
      * @param   decimal $qty
-     * @exception Mage_Core_Exception
+     * @exception Magento_Core_Exception
      * @return  bool
      */
     public function checkQty($qty)
@@ -629,7 +629,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             $qtyIncrements = $this->getDefaultQtyIncrements();
         }
 
-        if ($qtyIncrements && (Mage::helper('Mage_Core_Helper_Data')->getExactDivision($qty, $qtyIncrements) != 0)) {
+        if ($qtyIncrements && (Mage::helper('Magento_Core_Helper_Data')->getExactDivision($qty, $qtyIncrements) != 0)) {
             $result->setHasError(true)
                 ->setQuoteMessage(
                     Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Please correct the quantity for some products.')

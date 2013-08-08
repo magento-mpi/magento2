@@ -45,9 +45,9 @@ class Saas_Saas_Mage_Backend_Controller_Adminhtml_System_ConfigTest extends Mage
         ));
 
         // Disable cache of already composed config, so it will be processed again, using the saas converter
-        /** @var $cacheTypes Mage_Core_Model_Cache_Types */
-        $cacheTypes = $this->_objectManager->get('Mage_Core_Model_Cache_Types');
-        $cacheTypes->setEnabled(Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, false);
+        /** @var $cacheTypes Magento_Core_Model_Cache_Types */
+        $cacheTypes = $this->_objectManager->get('Magento_Core_Model_Cache_Types');
+        $cacheTypes->setEnabled(Magento_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, false);
     }
 
     /**

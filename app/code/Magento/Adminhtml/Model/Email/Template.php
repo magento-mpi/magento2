@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Model_Email_Template extends Mage_Core_Model_Email_Template
+class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Template
 {
     /**
      * Collect all system config pathes where current template is used as default

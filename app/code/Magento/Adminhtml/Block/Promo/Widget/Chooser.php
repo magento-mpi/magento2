@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Blo
      */
     public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
-        $uniqId = Mage::helper('Mage_Core_Helper_Data')->uniqHash($element->getId());
+        $uniqId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/promo_quote/chooser', array('uniq_id' => $uniqId));
 
         $chooser = $this->getLayout()->createBlock('Mage_Widget_Block_Adminhtml_Widget_Chooser')

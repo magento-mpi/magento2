@@ -26,12 +26,12 @@ class Saas_Launcher_Model_Storelauncher_Shipping_StateResolver
     protected $_isConfigRequired;
 
     /**
-     * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
-        Mage_Core_Model_App $app,
-        Mage_Core_Controller_Request_Http $request
+        Magento_Core_Model_App $app,
+        Magento_Core_Controller_Request_Http $request
     ) {
         parent::__construct($app);
         // shipping tile can be considered complete when user simply deselects 'Shipping Enabled' checkbox

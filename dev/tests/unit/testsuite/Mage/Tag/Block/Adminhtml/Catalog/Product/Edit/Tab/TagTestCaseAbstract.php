@@ -52,7 +52,7 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_TagTestCaseAbstract exte
             ->with('Mage_Tag::tag_all')
             ->will($this->returnValue(true));
 
-        $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
+        $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
         $helperFactoryMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue($helperMock));

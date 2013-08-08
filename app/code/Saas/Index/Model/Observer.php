@@ -10,12 +10,12 @@
 class Saas_Index_Model_Observer
 {
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     private $_request;
 
     /**
-     * @var Mage_Core_Controller_Response_Http
+     * @var Magento_Core_Controller_Response_Http
      */
     private $_response;
 
@@ -25,13 +25,13 @@ class Saas_Index_Model_Observer
     private $_modelUrl;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Response_Http $response
      * @param Mage_Backend_Model_Url $modelUrl
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Controller_Response_Http $response,
         Mage_Backend_Model_Url $modelUrl
     ) {
         $this->_request = $request;

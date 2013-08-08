@@ -16,7 +16,7 @@
  * @subpackage Models
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
+class Saas_PrintedTemplate_Model_Template extends Magento_Core_Model_Template
 {
     /**
      * Configuration path for default printed templates
@@ -77,7 +77,7 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
     /**
      * Template filter instance
      *
-     * @var Mage_Core_Model_Email_Template_Filter
+     * @var Magento_Core_Model_Email_Template_Filter
      */
     protected $_templateFilter;
 
@@ -340,7 +340,7 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
     /**
      * Get filter object for template processing
      *
-     * @return Mage_Core_Model_Email_Template_Filter
+     * @return Magento_Core_Model_Email_Template_Filter
      */
     public function getTemplateFilter()
     {
@@ -439,7 +439,7 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
 
         if (!file_exists($filePath)) {  // If no template specified as  store default locale, use en_US
             $filePath = $localeDir . DS
-                . Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE
+                . Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE
                 . DS . 'template' . DS . $type . DS . $file;
         }
 
@@ -566,7 +566,7 @@ class Saas_PrintedTemplate_Model_Template extends Mage_Core_Model_Template
             return array();
         }
 
-        $configData = Mage::getModel('Mage_Core_Model_Config_Data')
+        $configData = Mage::getModel('Magento_Core_Model_Config_Data')
             ->getCollection()
             ->addValueFilter($templateId)
             ->addFieldToFilter('path', array('in' => $paths));

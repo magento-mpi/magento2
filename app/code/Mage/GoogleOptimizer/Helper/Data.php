@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_GoogleOptimizer_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Xml path google experiments enabled
@@ -20,7 +20,7 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_activeForCmsFlag;
 
     /**
-     * @var Mage_Core_Model_Store_ConfigInterface
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_storeConfig;
 
@@ -30,13 +30,13 @@ class Mage_GoogleOptimizer_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_analyticsHelper;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Store_ConfigInterface $storeConfig
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
      * @param Mage_GoogleAnalytics_Helper_Data $analyticsHelper
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Store_ConfigInterface $storeConfig,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Store_ConfigInterface $storeConfig,
         Mage_GoogleAnalytics_Helper_Data $analyticsHelper
     ) {
         $this->_storeConfig = $storeConfig;

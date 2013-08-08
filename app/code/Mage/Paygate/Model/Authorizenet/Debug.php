@@ -29,7 +29,7 @@
  * @package     Mage_Paygate
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paygate_Model_Authorizenet_Debug extends Mage_Core_Model_Abstract
+class Mage_Paygate_Model_Authorizenet_Debug extends Magento_Core_Model_Abstract
 {
     protected function _construct()
     {

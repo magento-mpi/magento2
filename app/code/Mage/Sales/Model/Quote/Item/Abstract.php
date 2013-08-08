@@ -22,7 +22,7 @@
  * @package    Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abstract
+abstract class Mage_Sales_Model_Quote_Item_Abstract extends Magento_Core_Model_Abstract
     implements Mage_Catalog_Model_Product_Configuration_Item_Interface
 {
     protected $_parentItem  = null;
@@ -227,7 +227,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     /**
      * Retrieve store model object
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -248,7 +248,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
 
         try {
             $this->setQty($qty);
-        } catch (Mage_Core_Exception $e){
+        } catch (Magento_Core_Exception $e){
             $this->setHasError(true);
             $this->setMessage($e->getMessage());
         } catch (Exception $e){
@@ -258,7 +258,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
 
         try {
             $this->getProduct()->getTypeInstance()->checkProductBuyState($this->getProduct());
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->setHasError(true)
                 ->setMessage($e->getMessage());
             $this->getQuote()->setHasError(true)

@@ -16,7 +16,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Resource_Quote_Address_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Sales_Model_Resource_Quote_Address_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Event prefix

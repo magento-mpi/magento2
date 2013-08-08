@@ -15,7 +15,7 @@
  * @package     Mage_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Helper_Coupon extends Mage_Core_Helper_Abstract
+class Mage_SalesRule_Helper_Coupon extends Magento_Core_Helper_Abstract
 {
     /**
      * Constants which defines all possible coupon codes formats

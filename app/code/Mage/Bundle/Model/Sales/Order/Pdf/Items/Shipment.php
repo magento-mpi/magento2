@@ -35,7 +35,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
         $_prevOptionId = '';
         $drawItems = array();
 
-        $stringHelper = Mage::helper('Mage_Core_Helper_String');
+        $stringHelper = Mage::helper('Magento_Core_Helper_String');
         foreach ($items as $_item) {
             $line   = array();
 
@@ -58,7 +58,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => Mage::helper('Mage_Core_Helper_String')->str_split($attributes['option_label'], 60, true, true),
+                        'text'  => Mage::helper('Magento_Core_Helper_String')->str_split($attributes['option_label'], 60, true, true),
                         'feed'  => 60
                     );
 
@@ -111,7 +111,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
 
             // draw SKUs
             $text = array();
-            foreach (Mage::helper('Mage_Core_Helper_String')->str_split($_item->getSku(), 25) as $part) {
+            foreach (Mage::helper('Magento_Core_Helper_String')->str_split($_item->getSku(), 25) as $part) {
                 $text[] = $part;
             }
             $line[] = array(

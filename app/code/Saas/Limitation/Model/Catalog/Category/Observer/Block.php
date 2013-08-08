@@ -96,10 +96,10 @@ class Saas_Limitation_Model_Catalog_Category_Observer_Block
     /**
      * Disable child buttons of a block
      *
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      * @param array $buttonNames
      */
-    protected function _disableChildButtons(Mage_Core_Block_Abstract $block, array $buttonNames)
+    protected function _disableChildButtons(Magento_Core_Block_Abstract $block, array $buttonNames)
     {
         foreach ($buttonNames as $buttonName) {
             $button = $block->getChildBlock($buttonName);

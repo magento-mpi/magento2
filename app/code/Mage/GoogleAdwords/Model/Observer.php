@@ -23,12 +23,12 @@ class Mage_GoogleAdwords_Model_Observer
      * Constructor
      *
      * @param Mage_GoogleAdwords_Helper_Data $helper
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Registry $registry
      * @param Mage_Sales_Model_Resource_Order_Collection $collection
      */
     public function __construct(
         Mage_GoogleAdwords_Helper_Data $helper,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_Registry $registry,
         Mage_Sales_Model_Resource_Order_Collection $collection
     ) {
         $this->_helper = $helper;

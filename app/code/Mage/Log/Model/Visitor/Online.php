@@ -31,7 +31,7 @@
  * @package     Mage_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Log_Model_Visitor_Online extends Mage_Core_Model_Abstract
+class Mage_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
 {
     const XML_PATH_ONLINE_INTERVAL      = 'customer/online_customers/online_minutes_interval';
     const XML_PATH_UPDATE_FREQUENCY     = 'log/visitor/online_update_frequency';

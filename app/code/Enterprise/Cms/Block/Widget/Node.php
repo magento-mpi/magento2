@@ -16,7 +16,7 @@
  * @package    Enterprise_Cms
  */
 class Enterprise_Cms_Block_Widget_Node
-    extends Mage_Core_Block_Html_Link
+    extends Magento_Core_Block_Html_Link
     implements Mage_Widget_Block_Interface
 {
     /**

@@ -79,7 +79,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUnit_
     {
         $themeId = 2;
         $uploadUrl = 'upload_url';
-        $themeMock = $this->getMock('Mage_Core_Model_Theme', array('isVirtual', 'getId'), array(), '', false);
+        $themeMock = $this->getMock('Magento_Core_Model_Theme', array('isVirtual', 'getId'), array(), '', false);
         $themeMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($themeId));

@@ -24,7 +24,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     protected $_isThemeEditable = false;
 
     /**
-     * @var Mage_Core_Model_Theme_Image_Path
+     * @var Magento_Core_Model_Theme_Image_Path
      */
     protected $_themeImagePath;
 
@@ -36,14 +36,14 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Theme_Image_Path $themeImagePath
+     * @param Magento_Core_Model_Theme_Image_Path $themeImagePath
      * @param Magento_File_Size $fileSize
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Theme_Image_Path $themeImagePath,
+        Magento_Core_Model_Theme_Image_Path $themeImagePath,
         Magento_File_Size $fileSize,
         array $data = array()
     ) {
@@ -105,18 +105,18 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
             ));
         }
 
-        /** @var $themesCollections Mage_Core_Model_Theme_Collection */
-        $themesCollections = $this->_objectManager->create('Mage_Core_Model_Theme_Collection');
+        /** @var $themesCollections Magento_Core_Model_Theme_Collection */
+        $themesCollections = $this->_objectManager->create('Magento_Core_Model_Theme_Collection');
 
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = $this->_objectManager->get('Mage_Core_Helper_Data');
+        /** @var $helper Magento_Core_Helper_Data */
+        $helper = $this->_objectManager->get('Magento_Core_Helper_Data');
 
         $onChangeScript = sprintf('parentThemeOnChange(this.value, %s)', str_replace(
             '"', '\'', $helper->jsonEncode($this->_getDefaultsInherited($themesCollections->addDefaultPattern()))
         ));
 
-        /** @var $parentTheme Mage_Core_Model_Theme */
-        $parentTheme = $this->_objectManager->create('Mage_Core_Model_Theme');
+        /** @var $parentTheme Magento_Core_Model_Theme */
+        $parentTheme = $this->_objectManager->create('Magento_Core_Model_Theme');
         if (!empty($formData['parent_id'])) {
             $parentTheme->load($formData['parent_id']);
         }
@@ -271,7 +271,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     {
         $data = array('' => $this->_getDefaults());
 
-        /** @var $theme Mage_Core_Model_Theme */
+        /** @var $theme Magento_Core_Model_Theme */
         foreach ($themesCollections as $theme) {
             $theme->load($theme->getThemePath(), 'theme_path');
             if (!$theme->getId()) {

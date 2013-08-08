@@ -67,7 +67,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_Customersegment extends Ma
         try {
             $model = $this->_initSegment();
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
@@ -111,7 +111,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_Customersegment extends Ma
             if ($model->getApplyTo() != Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
                 $model->matchCustomers();
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
@@ -221,7 +221,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_Customersegment extends Ma
                     return;
                 }
 
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
@@ -244,7 +244,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_Customersegment extends Ma
             $model->delete();
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess($this->__('You deleted the segment.'));
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;

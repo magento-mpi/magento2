@@ -36,7 +36,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
     protected $_fileHandler;
 
     /**
-     * @var Mage_Core_Model_Logger
+     * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
@@ -51,7 +51,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
      *
      * @param string $destination
      * @param Saas_ImportExport_Helper_Data $helper
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
      * @param bool $createPath
      * @throws Magento_Filesystem_Exception
@@ -59,7 +59,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
     final public function __construct(
         $destination,
         Saas_ImportExport_Helper_Data $helper,
-        Mage_Core_Model_Logger $logger,
+        Magento_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
         $createPath = true
     ) {

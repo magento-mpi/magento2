@@ -15,7 +15,7 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
+class Mage_Downloadable_Helper_Download extends Magento_Core_Helper_Abstract
 {
     const LINK_TYPE_URL         = 'url';
     const LINK_TYPE_FILE        = 'file';
@@ -150,7 +150,7 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
             elseif ($this->_linkType == self::LINK_TYPE_FILE) {
                 $this->_handle = new Magento_Io_File();
                 if (!is_file($this->_resourceFile)) {
-                    Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($this->_resourceFile);
+                    Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($this->_resourceFile);
                 }
                 $this->_handle->open(array('path'=>Mage::getBaseDir('var')));
                 if (!$this->_handle->fileExists($this->_resourceFile, true)) {
@@ -232,8 +232,8 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
     {
         if (self::LINK_TYPE_FILE == $linkType) {
             //check LFI protection
-            /** @var $helper Mage_Core_Helper_Data */
-            $helper = Mage::helper('Mage_Core_Helper_Data');
+            /** @var $helper Magento_Core_Helper_Data */
+            $helper = Mage::helper('Magento_Core_Helper_Data');
             $helper->checkLfiProtection($resourceFile);
         }
 
@@ -246,7 +246,7 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
     /**
      * Retrieve Http Request Object
      *
-     * @return Mage_Core_Controller_Request_Http
+     * @return Magento_Core_Controller_Request_Http
      */
     public function getHttpRequest()
     {
@@ -256,7 +256,7 @@ class Mage_Downloadable_Helper_Download extends Mage_Core_Helper_Abstract
     /**
      * Retrieve Http Response Object
      *
-     * @return Mage_Core_Controller_Response_Http
+     * @return Magento_Core_Controller_Response_Http
      */
     public function getHttpResponse()
     {

@@ -16,7 +16,7 @@
  * @package     Mage_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sitemap_Model_Resource_Sitemap_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Sitemap_Model_Resource_Sitemap_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Init collection

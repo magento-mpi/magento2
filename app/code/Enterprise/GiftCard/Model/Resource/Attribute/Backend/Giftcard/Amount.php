@@ -16,7 +16,7 @@
  * @package     Enterprise_GiftCard
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Define main table and primary key

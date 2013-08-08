@@ -175,7 +175,7 @@ class Mage_Checkout_Model_Cart_Payment_Api extends Mage_Checkout_Model_Api_Resou
             $quote->setTotalsCollectedFlag(false)
                     ->collectTotals()
                     ->save();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('payment_method_is_not_set', $e->getMessage());
         }
         return true;

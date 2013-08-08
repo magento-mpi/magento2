@@ -38,7 +38,7 @@ class Mage_Ogone_Model_Config extends Mage_Payment_Model_Config
      */
     public function getShaInCode($storeId=null)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->decrypt($this->getConfigData('secret_key_in', $storeId));
+        return Mage::helper('Magento_Core_Helper_Data')->decrypt($this->getConfigData('secret_key_in', $storeId));
     }
 
     /**
@@ -48,7 +48,7 @@ class Mage_Ogone_Model_Config extends Mage_Payment_Model_Config
      */
     public function getShaOutCode($storeId=null)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->decrypt($this->getConfigData('secret_key_out', $storeId));
+        return Mage::helper('Magento_Core_Helper_Data')->decrypt($this->getConfigData('secret_key_out', $storeId));
     }
 
     /**

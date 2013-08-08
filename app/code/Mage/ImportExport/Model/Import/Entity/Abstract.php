@@ -187,7 +187,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
         $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType($this->getEntityTypeCode());
         $this->_entityTypeId    = $entityType->getEntityTypeId();
         $this->_dataSourceModel = Mage_ImportExport_Model_Import::getDataSourceModel();
-        $this->_connection      = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
+        $this->_connection      = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
     }
 
     /**
@@ -280,7 +280,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
 
                 if ($this->validateRow($rowData, $source->key())) { // add row to bunch for save
                     $rowData = $this->_prepareRowForDb($rowData);
-                    $rowSize = strlen(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($rowData));
+                    $rowSize = strlen(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($rowData));
 
                     $isBunchSizeExceeded = ($bunchSize > 0 && count($bunchRows) >= $bunchSize);
 
@@ -530,8 +530,8 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
     {
         switch ($attrParams['type']) {
             case 'varchar':
-                $val   = Mage::helper('Mage_Core_Helper_String')->cleanString($rowData[$attrCode]);
-                $valid = Mage::helper('Mage_Core_Helper_String')->strlen($val) < self::DB_MAX_VARCHAR_LENGTH;
+                $val   = Mage::helper('Magento_Core_Helper_String')->cleanString($rowData[$attrCode]);
+                $valid = Mage::helper('Magento_Core_Helper_String')->strlen($val) < self::DB_MAX_VARCHAR_LENGTH;
                 break;
             case 'decimal':
                 $val   = trim($rowData[$attrCode]);
@@ -550,8 +550,8 @@ abstract class Mage_ImportExport_Model_Import_Entity_Abstract
                 $valid = strtotime($val) !== false;
                 break;
             case 'text':
-                $val   = Mage::helper('Mage_Core_Helper_String')->cleanString($rowData[$attrCode]);
-                $valid = Mage::helper('Mage_Core_Helper_String')->strlen($val) < self::DB_MAX_TEXT_LENGTH;
+                $val   = Mage::helper('Magento_Core_Helper_String')->cleanString($rowData[$attrCode]);
+                $valid = Mage::helper('Magento_Core_Helper_String')->strlen($val) < self::DB_MAX_TEXT_LENGTH;
                 break;
             default:
                 $valid = true;

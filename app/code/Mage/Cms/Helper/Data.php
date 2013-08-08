@@ -16,7 +16,7 @@
  * @package    Mage_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Cms_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_NODE_PAGE_TEMPLATE_FILTER     = 'global/cms/page/tempate_filter';
     const XML_NODE_BLOCK_TEMPLATE_FILTER    = 'global/cms/block/tempate_filter';

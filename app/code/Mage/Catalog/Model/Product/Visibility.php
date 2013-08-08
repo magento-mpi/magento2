@@ -140,7 +140,7 @@ class Mage_Catalog_Model_Product_Visibility extends Magento_Object
             'extra'     => null
         );
 
-        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
             $column['type']     = 'tinyint';
             $column['is_null']  = true;
         } else {

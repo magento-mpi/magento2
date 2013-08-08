@@ -16,7 +16,7 @@
  * @package    Mage_Persistent
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Persistent_Helper_Session extends Mage_Core_Helper_Data
+class Mage_Persistent_Helper_Session extends Magento_Core_Helper_Data
 {
     /**
      * Instance of Session Model

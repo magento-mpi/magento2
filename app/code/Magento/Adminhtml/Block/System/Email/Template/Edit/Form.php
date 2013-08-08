@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
         if ($head = $this->getLayout()->getBlock('head')) {
             $head->addJs('prototype/window.js')
                 ->addCss('prototype/windows/themes/default.css')
-                ->addCss('Mage_Core::prototype/magento.css')
+                ->addCss('Magento_Core::prototype/magento.css')
                 ->addJs('Magento_Adminhtml::variables.js');
         }
         return parent::_prepareLayout();
@@ -143,7 +143,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
     /**
      * Return current email template model
      *
-     * @return Mage_Core_Model_Email_Template
+     * @return Magento_Core_Model_Email_Template
      */
     public function getEmailTemplate()
     {
@@ -158,14 +158,14 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
     public function getVariables()
     {
         $variables = array();
-        $variables[] = Mage::getModel('Mage_Core_Model_Source_Email_Variables')
+        $variables[] = Mage::getModel('Magento_Core_Model_Source_Email_Variables')
             ->toOptionArray(true);
-        $customVariables = Mage::getModel('Mage_Core_Model_Variable')
+        $customVariables = Mage::getModel('Magento_Core_Model_Variable')
             ->getVariablesOptionArray(true);
         if ($customVariables) {
             $variables[] = $customVariables;
         }
-        /* @var $template Mage_Core_Model_Email_Template */
+        /* @var $template Magento_Core_Model_Email_Template */
         $template = Mage::registry('current_email_template');
         if ($template->getId() && $templateVariables = $template->getVariablesOptionArray(true)) {
             $variables[] = $templateVariables;

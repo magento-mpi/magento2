@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Review_Controller_Customer extends Mage_Core_Controller_Front_Action
+class Mage_Review_Controller_Customer extends Magento_Core_Controller_Front_Action
 {
     /**
      * Action predispatch

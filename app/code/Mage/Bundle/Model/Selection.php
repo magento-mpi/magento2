@@ -36,7 +36,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Model_Selection extends Mage_Core_Model_Abstract
+class Mage_Bundle_Model_Selection extends Magento_Core_Model_Abstract
 {
     /**
      * Initialize resource model

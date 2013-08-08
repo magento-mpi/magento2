@@ -15,7 +15,7 @@
  * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_Controller_Authorize extends Mage_Core_Controller_Front_Action
+class Mage_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_Action
 {
     /**
      * Session name
@@ -40,7 +40,7 @@ class Mage_Oauth_Controller_Authorize extends Mage_Core_Controller_Front_Action
         $isException = false;
         try {
             $server->checkAuthorizeRequest();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Mage_Oauth_Exception $e) {
             $isException = true;
@@ -65,8 +65,8 @@ class Mage_Oauth_Controller_Authorize extends Mage_Core_Controller_Front_Action
             $block = $contentBlock->getChildBlock('oauth.authorize.form');
         }
 
-        /** @var $helper Mage_Core_Helper_Url */
-        $helper = Mage::helper('Mage_Core_Helper_Url');
+        /** @var $helper Magento_Core_Helper_Url */
+        $helper = Mage::helper('Magento_Core_Helper_Url');
         $session->setAfterAuthUrl(Mage::getUrl('customer/account/login', array('_nosid' => true)))
                 ->setBeforeAuthUrl($helper->getCurrentUrl());
 
@@ -116,7 +116,7 @@ class Mage_Oauth_Controller_Authorize extends Mage_Core_Controller_Front_Action
                 $block->setVerifier($token->getVerifier());
                 $session->addSuccess($this->__('Authorization confirmed.'));
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Mage_Oauth_Exception $e) {
             $session->addException($e, $this->__('An error occurred. Your authorization request is invalid.'));
@@ -161,7 +161,7 @@ class Mage_Oauth_Controller_Authorize extends Mage_Core_Controller_Front_Action
             } else {
                 $session->addNotice($this->__('The application access request is rejected.'));
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {
             $session->addException($e, $this->__('An error occurred on reject authorize.'));

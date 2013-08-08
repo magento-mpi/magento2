@@ -18,37 +18,37 @@
 class Mage_Widget_Model_Widget extends Magento_Object
 {
     /**
-     * @var Mage_Core_Model_Config_Modules_Reader
+     * @var Magento_Core_Model_Config_Modules_Reader
      */
     protected $_configReader;
 
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
 
     /**
-     * @var Mage_Core_Model_View_Url
+     * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
 
     /**
-     * @var Mage_Core_Model_View_FileSystem
+     * @var Magento_Core_Model_View_FileSystem
      */
     protected $_viewFileSystem;
 
     /**
-     * @param Mage_Core_Model_Config_Modules_Reader $configReader
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
-     * @param Mage_Core_Model_View_Url $viewUrl
-     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Core_Model_Config_Modules_Reader $configReader
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Config_Modules_Reader $configReader,
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
-        Mage_Core_Model_View_Url $viewUrl,
-        Mage_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Core_Model_Config_Modules_Reader $configReader,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_View_FileSystem $viewFileSystem,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -266,7 +266,7 @@ class Mage_Widget_Model_Widget extends Magento_Object
         $html = sprintf('<img id="%s" src="%s" title="%s">',
             $this->_idEncode($directive),
             $this->getPlaceholderImageUrl($type),
-            Mage::helper('Mage_Core_Helper_Data')->escapeUrl($directive)
+            Mage::helper('Magento_Core_Helper_Data')->escapeUrl($directive)
         );
         return $html;
     }

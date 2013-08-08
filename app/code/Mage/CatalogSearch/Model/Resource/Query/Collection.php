@@ -16,7 +16,7 @@
  * @package     Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Resource_Query_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Store for filter
@@ -42,7 +42,7 @@ class Mage_CatalogSearch_Model_Resource_Query_Collection extends Mage_Core_Model
      */
     public function setStoreId($store)
     {
-        if ($store instanceof Mage_Core_Model_Store) {
+        if ($store instanceof Magento_Core_Model_Store) {
             $store = $store->getId();
         }
         $this->_storeId = $store;
@@ -75,7 +75,7 @@ class Mage_CatalogSearch_Model_Resource_Query_Collection extends Mage_Core_Model
                 array('query'      => $ifSynonymFor, 'num_results')
             )
             ->where('num_results > 0 AND display_in_terms = 1 AND query_text LIKE ?',
-                Mage::getResourceHelper('Mage_Core')->addLikeEscape($query, array('position' => 'start')))
+                Mage::getResourceHelper('Magento_Core')->addLikeEscape($query, array('position' => 'start')))
             ->order('popularity ' . Magento_DB_Select::SQL_DESC);
         if ($this->getStoreId()) {
             $this->getSelect()

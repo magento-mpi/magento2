@@ -103,8 +103,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Mage_Back
      */
     public function getAfterElementHtml()
     {
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
+        /** @var $coreHelper Magento_Core_Helper_Data */
+        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
         $widgetOptions = $coreHelper->jsonEncode(array(
             'suggestOptions' => array(
                 'source' => $this->getUrl('adminhtml/catalog_category/suggestCategories'),

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Customer_Model_Resource_Customer_CustomersTypeOptions implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Customer_Model_Resource_Customer_CustomersTypeOptions implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Mage_Customer_Helper_Data

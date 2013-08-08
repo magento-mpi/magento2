@@ -15,7 +15,7 @@
  * @package    Mage_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleShopping_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_GoogleShopping_Helper_Data extends Magento_Core_Helper_Abstract
 {
 
     /**
@@ -41,7 +41,7 @@ class Mage_GoogleShopping_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function cleanAtomAttribute($string)
     {
-        return Mage::helper('Mage_Core_Helper_String')
+        return Mage::helper('Magento_Core_Helper_String')
             ->substr(preg_replace('/[\pC¢€•—™°½]|shipping/ui', '', $string), 0, 3500);
     }
 

@@ -16,7 +16,7 @@
  * @package     Mage_Poll
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Poll_Model_Resource_Poll_Vote extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Poll_Model_Resource_Poll_Vote extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize vote resource
@@ -33,7 +33,7 @@ class Mage_Poll_Model_Resource_Poll_Vote extends Mage_Core_Model_Resource_Db_Abs
      * @param Magento_Object $object
      * @return Mage_Poll_Model_Resource_Poll_Vote
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         /**
          * Increase answer votes

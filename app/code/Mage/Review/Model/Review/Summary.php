@@ -16,16 +16,16 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Review_Model_Review_Summary extends Mage_Core_Model_Abstract
+class Mage_Review_Model_Review_Summary extends Magento_Core_Model_Abstract
 {
     /**
-     * @param Mage_Core_Model_Context $context
+     * @param Magento_Core_Model_Context $context
      * @param Mage_Review_Model_Resource_Review_Summary $resource
      * @param Mage_Review_Model_Resource_Review_Summary_Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
+        Magento_Core_Model_Context $context,
         Mage_Review_Model_Resource_Review_Summary $resource,
         Mage_Review_Model_Resource_Review_Summary_Collection $resourceCollection,
         array $data = array()

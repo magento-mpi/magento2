@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Mage_GoogleAdwords_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_GoogleAdwords_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**#@+
      * Google AdWords language codes
@@ -54,31 +54,31 @@ class Mage_GoogleAdwords_Helper_Data extends Mage_Core_Helper_Abstract
     /**#@-*/
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
     /**
-     * @var Mage_Core_Model_Store_ConfigInterface
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_storeConfig;
 
     /**
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registry;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_Store_ConfigInterface $storeConfig
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
+     * @param Magento_Core_Model_Registry $registry
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Config $config,
-        Mage_Core_Model_Store_ConfigInterface $storeConfig,
-        Mage_Core_Model_Registry $registry
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_Store_ConfigInterface $storeConfig,
+        Magento_Core_Model_Registry $registry
     ) {
         parent::__construct($context);
         $this->_config = $config;

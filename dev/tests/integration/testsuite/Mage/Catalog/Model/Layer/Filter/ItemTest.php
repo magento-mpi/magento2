@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -37,7 +37,7 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testGetFilterException()
     {
@@ -49,7 +49,7 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
     public function testGetUrl()
     {
         $action = Mage::getModel(
-            'Mage_Core_Controller_Front_Action',
+            'Magento_Core_Controller_Front_Action',
             array(
                 'request' => new Magento_Test_Request(),
                 'response' => new Magento_Test_Response(),
@@ -73,7 +73,7 @@ class Mage_Catalog_Model_Layer_Filter_ItemTest extends PHPUnit_Framework_TestCas
 
         $request = new Magento_Test_Request();
         $request->setParam('cat', 4);
-        $this->_model->getFilter()->apply($request, Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text'));
+        $this->_model->getFilter()->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
 
         $this->assertStringEndsWith('/x/y/z/?cat=3', $this->_model->getRemoveUrl());
     }

@@ -16,7 +16,7 @@
  * @package    Mage_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_ProductAlert_Helper_Data extends Mage_Core_Helper_Url
+class Mage_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
 {
     /**
      * Current product instance (override registry one)
@@ -64,15 +64,15 @@ class Mage_ProductAlert_Helper_Data extends Mage_Core_Helper_Url
     {
         return $this->_getUrl('productalert/add/' . $type, array(
             'product_id'    => $this->getProduct()->getId(),
-            Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
+            Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
         ));
     }
 
     /**
      * Create block instance
      *
-     * @param string|Mage_Core_Block_Abstract $block
-     * @return Mage_Core_Block_Abstract
+     * @param string|Magento_Core_Block_Abstract $block
+     * @return Magento_Core_Block_Abstract
      */
     public function createBlock($block)
     {
@@ -81,8 +81,8 @@ class Mage_ProductAlert_Helper_Data extends Mage_Core_Helper_Url
                 $block = Mage::getObjectManager()->create($block);
             }
         }
-        if (!$block instanceof Mage_Core_Block_Abstract) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $block));
+        if (!$block instanceof Magento_Core_Block_Abstract) {
+            Mage::throwException(Mage::helper('Magento_Core_Helper_Data')->__('Invalid block type: %s', $block));
         }
         return $block;
     }

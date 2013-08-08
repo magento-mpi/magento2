@@ -20,7 +20,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandler implements Saas_Laun
     /**
      * Application instance
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_app;
 
@@ -32,11 +32,11 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandler implements Saas_Laun
     protected $_objectManager;
 
     /**
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_App $app
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
-        Mage_Core_Model_App $app,
+        Magento_Core_Model_App $app,
         Magento_ObjectManager $objectManager
     ) {
         $this->_app = $app;
@@ -55,7 +55,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandler implements Saas_Laun
         try {
             /** @var $product Mage_Catalog_Model_Product */
             $product = $this->_objectManager->create('Mage_Catalog_Model_Product', array())
-                ->setStoreId(Mage_Core_Model_App::ADMIN_STORE_ID)
+                ->setStoreId(Magento_Core_Model_App::ADMIN_STORE_ID)
                 ->setTypeId($preparedData['product']['typeId'])
                 ->addData($preparedData['product'])
                 ->setData('_edit_mode', true)

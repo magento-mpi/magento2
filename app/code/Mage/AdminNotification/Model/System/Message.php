@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-class Mage_AdminNotification_Model_System_Message extends Mage_Core_Model_Abstract
+class Mage_AdminNotification_Model_System_Message extends Magento_Core_Model_Abstract
     implements Mage_AdminNotification_Model_System_MessageInterface
 {
     protected function _construct()

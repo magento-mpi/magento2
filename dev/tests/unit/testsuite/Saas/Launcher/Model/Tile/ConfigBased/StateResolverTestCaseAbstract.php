@@ -18,10 +18,10 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstrac
     public abstract function isTileCompleteDataProvider();
 
     /**
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_App $app
      * @return Saas_Launcher_Model_Tile_StateResolver
      */
-    protected abstract function _getStateResolverInstance(Mage_Core_Model_App $app);
+    protected abstract function _getStateResolverInstance(Magento_Core_Model_App $app);
 
     /**
      * @dataProvider handleSystemConfigChangeDataProvider
@@ -29,8 +29,8 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstrac
      */
     public function testHandleSystemConfigChange($currentState)
     {
-        $app = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
-        $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $app = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
+        $config = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $stateResolver = $this->_getStateResolverInstance($app, $config);
         // Tile is not system-config depended, so this method always has to return current tile state
         $resultState = $stateResolver->handleSystemConfigChange('general', $currentState);
@@ -84,7 +84,7 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstrac
      */
     protected function _getStateResolverForIsTileCompleteTest(array $configSettings)
     {
-        $store = $this->getMock('Mage_Core_Model_Store', array('getConfig'), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array('getConfig'), array(), '', false);
 
         // Mock getConfig() call
         $store->expects($this->any())
@@ -96,7 +96,7 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_StateResolverTestCaseAbstrac
         ));
 
         // Create mock object of Application
-        $app = $this->getMock('Mage_Core_Model_App', array('getStore'), array(), '', false);
+        $app = $this->getMock('Magento_Core_Model_App', array('getStore'), array(), '', false);
         $app->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($store));

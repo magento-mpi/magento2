@@ -38,7 +38,7 @@
  * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
+class Mage_Newsletter_Model_Template extends Magento_Core_Model_Template
 {
     /**
      * Template Text Preprocessed flag
@@ -66,7 +66,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
     /**
      * Validate Newsletter template
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return bool
      */
     public function validate()
@@ -262,7 +262,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Template
      */
     public function isValidForSend()
     {
-        return !Mage::getStoreConfigFlag(Mage_Core_Helper_Data::XML_PATH_SYSTEM_SMTP_DISABLE)
+        return !Mage::getStoreConfigFlag(Magento_Core_Helper_Data::XML_PATH_SYSTEM_SMTP_DISABLE)
             && $this->getTemplateSenderName()
             && $this->getTemplateSenderEmail()
             && $this->getTemplateSubject();

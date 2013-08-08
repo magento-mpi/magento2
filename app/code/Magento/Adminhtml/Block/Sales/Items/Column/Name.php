@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Sales_Items_Column_Name extends Magento_Adminhtml_
     public function getFormattedOption($value)
     {
         $_remainder = '';
-        $value = Mage::helper('Mage_Core_Helper_String')->truncate($value, 55, '', $_remainder);
+        $value = Mage::helper('Magento_Core_Helper_String')->truncate($value, 55, '', $_remainder);
         $result = array(
             'value' => nl2br($value),
             'remainder' => nl2br($_remainder)

@@ -33,10 +33,10 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_ErrorTes
 
     public function setUp()
     {
-        $this->_syncFlagMock = $this->getMock('Mage_Core_Model_File_Storage_Flag', array(), array(), '', false);
+        $this->_syncFlagMock = $this->getMock('Magento_Core_Model_File_Storage_Flag', array(), array(), '', false);
 
-        $this->_fileStorage = $this->getMock('Mage_Core_Model_File_Storage', array(), array(), '', false);
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
+        $this->_fileStorage = $this->getMock('Magento_Core_Model_File_Storage', array(), array(), '', false);
+        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_fileStorage->expects($this->any())->method('getSyncFlag')
             ->will($this->returnValue($this->_syncFlagMock));
 

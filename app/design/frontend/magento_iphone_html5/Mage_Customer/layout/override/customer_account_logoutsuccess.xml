@@ -16,7 +16,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Mage_Core_Block_Template" name="customer_logout" template="Mage_Customer::logout.phtml"/>
+            <block type="Magento_Core_Block_Template" name="customer_logout" template="Mage_Customer::logout.phtml"/>
         </reference>
     </customer_account_logoutsuccess>
 </layout>

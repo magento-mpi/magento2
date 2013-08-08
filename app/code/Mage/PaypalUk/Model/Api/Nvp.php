@@ -519,7 +519,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
      */
     protected function getRequestId()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
+        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
     }
 
     /**

@@ -46,7 +46,7 @@ class Enterprise_PageCache_Model_Observer
     /**
      * Application cache model
      *
-     * @var Mage_Core_Model_CacheInterface
+     * @var Magento_Core_Model_CacheInterface
      */
     protected $_cache;
 
@@ -87,7 +87,7 @@ class Enterprise_PageCache_Model_Observer
      * @param Enterprise_PageCache_Model_Processor $processor
      * @param Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier
      * @param Enterprise_PageCache_Model_Config $config
-     * @param Mage_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_CacheInterface $cache
      * @param Enterprise_PageCache_Model_Cache $fpcCache
      * @param Enterprise_PageCache_Model_Cookie $cookie
      * @param Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction
@@ -97,7 +97,7 @@ class Enterprise_PageCache_Model_Observer
         Enterprise_PageCache_Model_Processor $processor,
         Enterprise_PageCache_Model_Request_Identifier $_requestIdentifier,
         Enterprise_PageCache_Model_Config $config,
-        Mage_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_CacheInterface $cache,
         Enterprise_PageCache_Model_Cache $fpcCache,
         Enterprise_PageCache_Model_Cookie $cookie,
         Enterprise_PageCache_Model_Processor_RestrictionInterface $restriction,
@@ -155,13 +155,13 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
         $action = $observer->getEvent()->getControllerAction();
-        /* @var $request Mage_Core_Controller_Request_Http */
+        /* @var $request Magento_Core_Controller_Request_Http */
         $request = $action->getRequest();
         /**
          * Check if request will be cached
          */
         if ($this->_processor->canProcessRequest($request) && $this->_processor->getRequestProcessor($request)) {
-            $this->_cache->banUse(Mage_Core_Block_Abstract::CACHE_GROUP); // disable blocks cache
+            $this->_cache->banUse(Magento_Core_Block_Abstract::CACHE_GROUP); // disable blocks cache
             Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
         } else {
             Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(false);
@@ -320,7 +320,7 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
         $event = $observer->getEvent();
-        /** @var $layout Mage_Core_Model_Layout */
+        /** @var $layout Magento_Core_Model_Layout */
         $layout = $event->getData('layout');
         $name = $event->getData('element_name');
         if (!$layout->isBlock($name)) {
@@ -641,8 +641,8 @@ class Enterprise_PageCache_Model_Observer
         $url = $transport->getUrl();
         $httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost();
         $urlHost = parse_url($url, PHP_URL_HOST);
-        if ($httpHost != $urlHost && Mage::getSingleton('Mage_Core_Model_Session')->getMessages()->count() > 0) {
-            $transport->setUrl(Mage::helper('Mage_Core_Helper_Url')->addRequestParam(
+        if ($httpHost != $urlHost && Mage::getSingleton('Magento_Core_Model_Session')->getMessages()->count() > 0) {
+            $transport->setUrl(Mage::helper('Magento_Core_Helper_Url')->addRequestParam(
                 $url,
                 array(Enterprise_PageCache_Model_Cache::REQUEST_MESSAGE_GET_PARAM => null)
             ));
@@ -707,7 +707,7 @@ class Enterprise_PageCache_Model_Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        /** @var $design Mage_Core_Model_Design */
+        /** @var $design Magento_Core_Model_Design */
         $design = $observer->getEvent()->getObject();
         $cacheId = $this->_designRules->getCacheId($design->getStoreId());
         $this->_fpcCache->remove($cacheId);

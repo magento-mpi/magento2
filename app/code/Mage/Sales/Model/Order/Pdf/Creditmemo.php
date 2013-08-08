@@ -41,41 +41,41 @@ class Mage_Sales_Model_Order_Pdf_Creditmemo extends Mage_Sales_Model_Order_Pdf_A
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Mage_Core_Helper_String')->str_split(Mage::helper('Mage_Sales_Helper_Data')->__('SKU'), 12, true, true),
+            'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(Mage::helper('Mage_Sales_Helper_Data')->__('SKU'), 12, true, true),
             'feed'  => 255,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Mage_Core_Helper_String')->str_split(Mage::helper('Mage_Sales_Helper_Data')->__('Total (ex)'), 12, true, true),
+            'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(Mage::helper('Mage_Sales_Helper_Data')->__('Total (ex)'), 12, true, true),
             'feed'  => 330,
             'align' => 'right',
             //'width' => 50,
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Mage_Core_Helper_String')->str_split(Mage::helper('Mage_Sales_Helper_Data')->__('Discount'), 12, true, true),
+            'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(Mage::helper('Mage_Sales_Helper_Data')->__('Discount'), 12, true, true),
             'feed'  => 380,
             'align' => 'right',
             //'width' => 50,
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Mage_Core_Helper_String')->str_split(Mage::helper('Mage_Sales_Helper_Data')->__('Qty'), 12, true, true),
+            'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(Mage::helper('Mage_Sales_Helper_Data')->__('Qty'), 12, true, true),
             'feed'  => 445,
             'align' => 'right',
             //'width' => 30,
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Mage_Core_Helper_String')->str_split(Mage::helper('Mage_Sales_Helper_Data')->__('Tax'), 12, true, true),
+            'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(Mage::helper('Mage_Sales_Helper_Data')->__('Tax'), 12, true, true),
             'feed'  => 495,
             'align' => 'right',
             //'width' => 45,
         );
 
         $lines[0][] = array(
-            'text'  => Mage::helper('Mage_Core_Helper_String')->str_split(Mage::helper('Mage_Sales_Helper_Data')->__('Total (inc)'), 12, true, true),
+            'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(Mage::helper('Mage_Sales_Helper_Data')->__('Total (inc)'), 12, true, true),
             'feed'  => 565,
             'align' => 'right'
         );

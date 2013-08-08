@@ -186,7 +186,7 @@ class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Backend_Block_Widg
             'add_button_caption' => Mage::helper('Mage_Tax_Helper_Data')->__('Add New Tax Class'),
             'submit_data' => array(
                 'class_type' => $classType,
-                'form_key' => Mage::getSingleton('Mage_Core_Model_Session')->getFormKey(),
+                'form_key' => Mage::getSingleton('Magento_Core_Model_Session')->getFormKey(),
             ),
             'entity_id_name' => 'class_id',
             'entity_value_name' => 'class_name',

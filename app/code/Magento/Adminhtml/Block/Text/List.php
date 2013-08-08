@@ -16,6 +16,6 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Text_List extends Mage_Core_Block_Text_List
+class Magento_Adminhtml_Block_Text_List extends Magento_Core_Block_Text_List
 {
 }

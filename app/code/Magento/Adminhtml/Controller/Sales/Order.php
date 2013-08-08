@@ -120,7 +120,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
                     $historyItem->save();
                 }
                 $this->_getSession()->addSuccess($this->__('You sent the order email.'));
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addError($this->__('We couldn\'t send the email order.'));
@@ -143,7 +143,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
                 $this->_getSession()->addSuccess(
                     $this->__('You canceled the order.')
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addError($this->__('You have not canceled the item.'));
@@ -166,7 +166,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
                 $this->_getSession()->addSuccess(
                     $this->__('You put the order on hold.')
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addError($this->__('You have not put the order on hold.'));
@@ -188,7 +188,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
                 $this->_getSession()->addSuccess(
                     $this->__('You released the order from holding status.')
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addError($this->__('The order was not on hold.'));
@@ -229,7 +229,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
             }
             $order->save();
             $this->_getSession()->addSuccess($message);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('We couldn\'t update the payment.'));
@@ -267,7 +267,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
 
                 $this->loadLayout('empty');
                 $this->renderLayout();
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $response = array(
                     'error'     => true,
                     'message'   => $e->getMessage(),
@@ -279,7 +279,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
                 );
             }
             if (is_array($response)) {
-                $response = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response);
+                $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
                 $this->getResponse()->setBody($response);
             }
         }
@@ -472,7 +472,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'invoice' . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
+                    'invoice' . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
                 );
@@ -510,7 +510,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'packingslip' . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
+                    'packingslip' . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
                 );
@@ -548,7 +548,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'creditmemo' . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
+                    'creditmemo' . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
                 );
@@ -612,7 +612,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
             }
             if ($flag) {
                 return $this->_prepareDownloadResponse(
-                    'docs' . Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
+                    'docs' . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
                 );
@@ -640,7 +640,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
             );
             $order->save();
             $this->_getSession()->addSuccess($this->__('The payment has been voided.'));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('We couldn\'t void the payment.'));
@@ -766,7 +766,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
                 $this->_getSession()->addSuccess($this->__('You updated the order address.'));
                 $this->_redirect('*/*/view', array('order_id' => $address->getParentId()));
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException(

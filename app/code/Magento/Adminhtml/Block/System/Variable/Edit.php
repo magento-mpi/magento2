@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_System_Variable_Edit extends Magento_Adminhtml_Blo
     /**
      * Getter
      *
-     * @return Mage_Core_Model_Variable
+     * @return Magento_Core_Model_Variable
      */
     public function getVariable()
     {

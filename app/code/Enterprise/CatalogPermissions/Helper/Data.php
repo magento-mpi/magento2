@@ -15,7 +15,7 @@
  * @package    Enterprise_CatalogPermissions
  */
 
-class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_ENABLED = 'catalog/enterprise_catalogpermissions/enabled';
     const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/enterprise_catalogpermissions/grant_catalog_category_view';

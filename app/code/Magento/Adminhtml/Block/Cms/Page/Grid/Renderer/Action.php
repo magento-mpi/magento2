@@ -13,7 +13,7 @@ class Magento_Adminhtml_Block_Cms_Page_Grid_Renderer_Action
 {
     public function render(Magento_Object $row)
     {
-        $urlModel = Mage::getModel('Mage_Core_Model_Url')->setStore($row->getData('_first_store_id'));
+        $urlModel = Mage::getModel('Magento_Core_Model_Url')->setStore($row->getData('_first_store_id'));
         $href = $urlModel->getUrl(
             $row->getIdentifier(), array(
                 '_current' => false,

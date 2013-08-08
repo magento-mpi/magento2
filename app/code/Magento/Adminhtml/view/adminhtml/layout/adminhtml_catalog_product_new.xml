@@ -70,14 +70,14 @@
             </block>
             <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Magento_Adminhtml::catalog/product/edit/attribute_set.phtml"/>
             <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory" name="new-category" template="Magento_Adminhtml::catalog/product/edit/category/new/form.phtml"/>
-            <block type="Mage_Core_Block_Template" name="affected-attribute-set-form" template="Mage_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
+            <block type="Magento_Core_Block_Template" name="affected-attribute-set-form" template="Mage_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
         </reference>
         <reference name="left">
             <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"/>
         </reference>
         <reference name="js">
             <block type="Magento_Adminhtml_Block_Catalog_Product_Edit_Js" name="catalog_product_js" template="catalog/product/js.phtml"/>
-            <block type="Mage_Core_Block_Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml"/>
+            <block type="Magento_Core_Block_Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml"/>
             <block type="Mage_Catalog_Block_Product_Configurable_AttributeSelector" template="Mage_Catalog::product/configurable/attribute-selector/js.phtml"/>
             <block type="Mage_Catalog_Block_Product_Configurable_AttributeSelector" template="Mage_Catalog::product/configurable/affected-attribute-set-selector/js.phtml"/>
         </reference>

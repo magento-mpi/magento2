@@ -296,7 +296,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
 
         /**
          * Track saving is implemented in _afterSave()
-         * This enforces Mage_Core_Model_Abstract::save() not to skip _afterSave()
+         * This enforces Magento_Core_Model_Abstract::save() not to skip _afterSave()
          */
         $this->_hasDataChanges = true;
 
@@ -392,10 +392,10 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
             $customerName = $order->getCustomerName();
         }
 
-        /** @var $mailer Mage_Core_Model_Email_Template_Mailer */
-        $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
+        /** @var $mailer Magento_Core_Model_Email_Template_Mailer */
+        $mailer = Mage::getModel('Magento_Core_Model_Email_Template_Mailer');
         if ($notifyCustomer) {
-            $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
+            $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
             $emailInfo->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -409,7 +409,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
+                $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -467,9 +467,9 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
+        $mailer = Mage::getModel('Magento_Core_Model_Email_Template_Mailer');
         if ($notifyCustomer) {
-            $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
+            $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
             $emailInfo->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -483,7 +483,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
+                $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -575,7 +575,7 @@ class Mage_Sales_Model_Order_Shipment extends Mage_Sales_Model_Abstract
     /**
      * Retrieve store model instance
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {

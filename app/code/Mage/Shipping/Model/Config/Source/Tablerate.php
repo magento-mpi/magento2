@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Shipping_Model_Config_Source_Tablerate implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Shipping_Model_Config_Source_Tablerate implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

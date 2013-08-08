@@ -15,7 +15,7 @@
  * @package     Enterprise_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Items for requiring attention grid (doesn't include sku-failed items)
@@ -71,7 +71,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Contains session object to which data is saved
      *
-     * @var Mage_Core_Model_Session_Abstract
+     * @var Magento_Core_Model_Session_Abstract
      */
     protected $_session;
 
@@ -88,7 +88,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Return session for affected items
      *
-     * @return Mage_Core_Model_Session_Abstract
+     * @return Magento_Core_Model_Session_Abstract
      */
     public function getSession()
     {
@@ -104,9 +104,9 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Sets session instance to use for saving data
      *
-     * @param Mage_Core_Model_Session_Abstract $session
+     * @param Magento_Core_Model_Session_Abstract $session
      */
-    public function setSession(Mage_Core_Model_Session_Abstract $session)
+    public function setSession(Magento_Core_Model_Session_Abstract $session)
     {
         $this->_session = $session;
     }
@@ -328,7 +328,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Process SKU file uploading and get uploaded data
      *
-     * @param Mage_Core_Model_Session_Abstract|null $session
+     * @param Magento_Core_Model_Session_Abstract|null $session
      * @return array|bool
      */
     public function processSkuFileUploading($session)
@@ -342,7 +342,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
                 Mage::throwException($this->__('The file is empty.'));
             }
             return $rows;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             if (!is_null($session)) {
                 $session->addError($e->getMessage());
             }
@@ -356,10 +356,10 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check whether SKU file was uploaded
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @return bool
      */
-    public function isSkuFileUploaded(Mage_Core_Controller_Request_Http $request)
+    public function isSkuFileUploaded(Magento_Core_Controller_Request_Http $request)
     {
         return (bool)$request->getPost(self::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG);
     }
@@ -371,7 +371,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getAccountSkuUrl()
     {
-        return Mage::getSingleton('Mage_Core_Model_Url')->getUrl('enterprise_checkout/sku');
+        return Mage::getSingleton('Magento_Core_Model_Url')->getUrl('enterprise_checkout/sku');
     }
 
     /**

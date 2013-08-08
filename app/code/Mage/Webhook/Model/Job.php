@@ -21,7 +21,7 @@
  * @method Mage_Webhook_Model_Job setRetryAt()
  * @method Mage_Webhook_Model_Job setUpdatedAt()
  */
-class Mage_Webhook_Model_Job extends Mage_Core_Model_Abstract implements Magento_PubSub_JobInterface
+class Mage_Webhook_Model_Job extends Magento_Core_Model_Abstract implements Magento_PubSub_JobInterface
 {
     /** @var  Mage_Webhook_Model_Event_Factory */
     protected $_eventFactory;
@@ -44,16 +44,16 @@ class Mage_Webhook_Model_Job extends Mage_Core_Model_Abstract implements Magento
     /**
      * @param Mage_Webhook_Model_Event_Factory $eventFactory
      * @param Mage_Webhook_Model_Subscription_Factory $subscriptionFactory
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Mage_Webhook_Model_Event_Factory $eventFactory,
         Mage_Webhook_Model_Subscription_Factory $subscriptionFactory,
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

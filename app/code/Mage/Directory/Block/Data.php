@@ -15,21 +15,21 @@
  * @package    Mage_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Directory_Block_Data extends Mage_Core_Block_Template
+class Mage_Directory_Block_Data extends Magento_Core_Block_Template
 {
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -66,7 +66,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
             $options = $this->getCountryCollection()->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);
         }
-        $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $html = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setName($name)
             ->setId($id)
             ->setTitle(Mage::helper('Mage_Directory_Helper_Data')->__($title))
@@ -103,7 +103,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
             $options = $this->getRegionCollection()->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);
         }
-        $html = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $html = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setName('region')
             ->setTitle(Mage::helper('Mage_Directory_Helper_Data')->__('State/Province'))
             ->setId('state')
@@ -119,7 +119,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
     {
         $countryId = $this->getData('country_id');
         if (is_null($countryId)) {
-            $countryId = Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry();
+            $countryId = Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry();
         }
         return $countryId;
     }
@@ -146,7 +146,7 @@ class Mage_Directory_Block_Data extends Mage_Core_Block_Template
                     'name'=>$region->getName()
                 );
             }
-            $regionsJs = Mage::helper('Mage_Core_Helper_Data')->jsonEncode($regions);
+            $regionsJs = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($regions);
         }
         Magento_Profiler::stop('TEST: '.__METHOD__);
         return $regionsJs;

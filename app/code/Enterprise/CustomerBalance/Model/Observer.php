@@ -26,7 +26,7 @@ class Enterprise_CustomerBalance_Model_Observer
         }
         /* @var $customer Mage_Customer_Model_Customer */
         $customer = $observer->getCustomer();
-        /* @var $request Mage_Core_Controller_Request_Http */
+        /* @var $request Magento_Core_Controller_Request_Http */
         $request = $observer->getRequest();
         $data = $request->getPost('customerbalance');
         if ($data) {

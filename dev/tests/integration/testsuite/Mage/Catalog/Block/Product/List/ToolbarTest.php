@@ -13,12 +13,12 @@ class Mage_Catalog_Block_Product_List_ToolbarTest extends PHPUnit_Framework_Test
 {
     public function testGetPagerHtml()
     {
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
         /** @var $block Mage_Catalog_Block_Product_List_Toolbar */
         $block = $layout->createBlock('Mage_Catalog_Block_Product_List_Toolbar', 'block');
-        /** @var $childBlock Mage_Core_Block_Text */
-        $childBlock = $layout->addBlock('Mage_Core_Block_Text', 'product_list_toolbar_pager', 'block');
+        /** @var $childBlock Magento_Core_Block_Text */
+        $childBlock = $layout->addBlock('Magento_Core_Block_Text', 'product_list_toolbar_pager', 'block');
 
         $expectedHtml = '<b>Any text there</b>';
         $this->assertNotEquals($expectedHtml, $block->getPagerHtml());

@@ -15,7 +15,7 @@
  * @package     Mage_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Wishlist_Block_Customer_Wishlist_Button extends Mage_Core_Block_Template
+class Mage_Wishlist_Block_Customer_Wishlist_Button extends Magento_Core_Block_Template
 {
     /**
      * Wishlist config
@@ -25,12 +25,12 @@ class Mage_Wishlist_Block_Customer_Wishlist_Button extends Mage_Core_Block_Templ
     protected $_wishlistConfig;
 
     /**
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Magento_Core_Block_Template_Context $context
      * @param Mage_Wishlist_Model_Config $wishlistConfig
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Block_Template_Context $context, Mage_Wishlist_Model_Config $wishlistConfig, array $data = array()
+        Magento_Core_Block_Template_Context $context, Mage_Wishlist_Model_Config $wishlistConfig, array $data = array()
     ) {
         $this->_wishlistConfig = $wishlistConfig;
         parent::__construct($context, $data);

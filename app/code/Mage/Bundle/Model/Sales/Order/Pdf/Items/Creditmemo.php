@@ -34,7 +34,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
         $leftBound  = 35;
         $rightBound = 565;
 
-        $stringHelper = Mage::helper('Mage_Core_Helper_String');
+        $stringHelper = Mage::helper('Magento_Core_Helper_String');
         foreach ($items as $_item) {
             $x      = $leftBound;
             $line   = array();
@@ -59,7 +59,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => Mage::helper('Mage_Core_Helper_String')->str_split($attributes['option_label'], 38, true, true),
+                        'text'  => Mage::helper('Magento_Core_Helper_String')->str_split($attributes['option_label'], 38, true, true),
                         'feed'  => $x
                     );
 
@@ -83,7 +83,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
             }
 
             $line[] = array(
-                'text'  => Mage::helper('Mage_Core_Helper_String')->str_split($name, 35, true, true),
+                'text'  => Mage::helper('Magento_Core_Helper_String')->str_split($name, 35, true, true),
                 'feed'  => $feed
             );
 
@@ -92,7 +92,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
             // draw SKUs
             if (!$_item->getOrderItem()->getParentItem()) {
                 $text = array();
-                foreach (Mage::helper('Mage_Core_Helper_String')->str_split($item->getSku(), 17) as $part) {
+                foreach (Mage::helper('Magento_Core_Helper_String')->str_split($item->getSku(), 17) as $part) {
                     $text[] = $part;
                 }
                 $line[] = array(
@@ -172,7 +172,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
                 foreach ($options['options'] as $option) {
                     $lines = array();
                     $lines[][] = array(
-                        'text'  => Mage::helper('Mage_Core_Helper_String')->str_split(strip_tags($option['label']), 40, true, true),
+                        'text'  => Mage::helper('Magento_Core_Helper_String')->str_split(strip_tags($option['label']), 40, true, true),
                         'font'  => 'italic',
                         'feed'  => $leftBound
                     );
@@ -184,7 +184,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
                             : strip_tags($option['value']);
                         $values = explode(', ', $_printValue);
                         foreach ($values as $value) {
-                            foreach (Mage::helper('Mage_Core_Helper_String')->str_split($value, 30, true, true) as $_value) {
+                            foreach (Mage::helper('Magento_Core_Helper_String')->str_split($value, 30, true, true) as $_value) {
                                 $text[] = $_value;
                             }
                         }

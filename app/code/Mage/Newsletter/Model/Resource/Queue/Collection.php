@@ -16,7 +16,7 @@
  * @package     Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * True when subscribers info joined
@@ -183,7 +183,7 @@ class Mage_Newsletter_Model_Resource_Queue_Collection extends Mage_Core_Model_Re
         $this->getSelect()
             ->where('main_table.queue_status in (?)', array(Mage_Newsletter_Model_Queue::STATUS_SENDING,
                                                             Mage_Newsletter_Model_Queue::STATUS_NEVER))
-            ->where('main_table.queue_start_at < ?', Mage::getSingleton('Mage_Core_Model_Date')->gmtdate())
+            ->where('main_table.queue_start_at < ?', Mage::getSingleton('Magento_Core_Model_Date')->gmtdate())
             ->where('main_table.queue_start_at IS NOT NULL');
 
         return $this;

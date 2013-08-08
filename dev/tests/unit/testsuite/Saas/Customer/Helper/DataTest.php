@@ -17,7 +17,7 @@ class Saas_Customer_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $abstractHelperMock = $this->getMockBuilder('Mage_Core_Helper_Abstract')
+        $abstractHelperMock = $this->getMockBuilder('Magento_Core_Helper_Abstract')
             ->disableOriginalConstructor()->getMock();
         $abstractHelperMock->expects($this->any())
             ->method('__')
@@ -43,7 +43,7 @@ class Saas_Customer_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function getAttributeInputTypesDefault()
     {
-        $contextMock = $this->getMockBuilder('Mage_Core_Helper_Context')->disableOriginalConstructor()->getMock();
+        $contextMock = $this->getMockBuilder('Magento_Core_Helper_Context')->disableOriginalConstructor()->getMock();
         $helper = new Saas_Customer_Helper_Data($contextMock);
         $types = $helper->getAttributeInputTypes();
 
@@ -58,7 +58,7 @@ class Saas_Customer_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function getAttributeInputTypesParams($argument)
     {
-        $contextMock = $this->getMockBuilder('Mage_Core_Helper_Context')->disableOriginalConstructor()->getMock();
+        $contextMock = $this->getMockBuilder('Magento_Core_Helper_Context')->disableOriginalConstructor()->getMock();
         $helper = new Saas_Customer_Helper_Data($contextMock);
 
         $this->assertEquals(array(), $helper->getAttributeInputTypes($argument));

@@ -81,6 +81,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created exte
             );
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
     }
 }

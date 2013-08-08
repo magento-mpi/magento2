@@ -26,7 +26,7 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
-    /** @var Mage_Core_Model_App */
+    /** @var Magento_Core_Model_App */
     protected $_app;
 
     /**
@@ -35,13 +35,13 @@ class Mage_Webapi_Controller_Response_Rest extends Mage_Webapi_Controller_Respon
      * @param Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
      * @param Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
      * @param Mage_Webapi_Helper_Data $helper
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_App $app
      */
     public function __construct(
         Mage_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
         Mage_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
         Mage_Webapi_Helper_Data $helper,
-        Mage_Core_Model_App $app
+        Magento_Core_Model_App $app
     ) {
         $this->_renderer = $rendererFactory->get();
         $this->_errorProcessor = $errorProcessor;

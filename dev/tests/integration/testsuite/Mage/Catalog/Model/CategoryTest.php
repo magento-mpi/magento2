@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -38,7 +38,7 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     protected static $_indexerTables = array();
 
     /**
-     * @var Mage_Core_Model_Store
+     * @var Magento_Core_Model_Store
      */
     protected $_store;
 
@@ -52,16 +52,16 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
         self::$_objectManager = Mage::getObjectManager();
 
         // get list of not existing tables
-        /** @var $application Mage_Core_Model_App */
-        $application = self::$_objectManager->get('Mage_Core_Model_App');
+        /** @var $application Magento_Core_Model_App */
+        $application = self::$_objectManager->get('Magento_Core_Model_App');
         /** @var $categoryResource Mage_Catalog_Model_Resource_Category_Flat */
         $categoryResource = self::$_objectManager->create('Mage_Catalog_Model_Resource_Category_Flat');
-        /** @var $setupModel Mage_Core_Model_Resource_Setup */
-        $setupModel = self::$_objectManager->create('Mage_Core_Model_Resource_Setup',
-            array('resourceName' => Mage_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION)
+        /** @var $setupModel Magento_Core_Model_Resource_Setup */
+        $setupModel = self::$_objectManager->create('Magento_Core_Model_Resource_Setup',
+            array('resourceName' => Magento_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION)
         );
         $stores = $application->getStores();
-        /** @var $store Mage_Core_Model_Store */
+        /** @var $store Magento_Core_Model_Store */
         foreach ($stores as $store) {
             $tableName = $categoryResource->getMainStoreTable($store->getId());
             if (!$setupModel->getConnection()->isTableExists($tableName)) {
@@ -89,9 +89,9 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
         $process->save();
 
         // remove flat tables
-        /** @var $setupModel Mage_Core_Model_Resource_Setup */
-        $setupModel = self::$_objectManager->create('Mage_Core_Model_Resource_Setup',
-            array('resourceName' => Mage_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION)
+        /** @var $setupModel Magento_Core_Model_Resource_Setup */
+        $setupModel = self::$_objectManager->create('Magento_Core_Model_Resource_Setup',
+            array('resourceName' => Magento_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION)
         );
         foreach (self::$_indexerTables as $tableName) {
             if ($setupModel->getConnection()->isTableExists($tableName)) {
@@ -118,8 +118,8 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var $application Mage_Core_Model_App */
-        $application  = self::$_objectManager->get('Mage_Core_Model_App');
+        /** @var $application Magento_Core_Model_App */
+        $application  = self::$_objectManager->get('Magento_Core_Model_App');
         $this->_store = $application->getStore();
         $this->_model = self::$_objectManager->create('Mage_Catalog_Model_Category');
     }
@@ -127,14 +127,14 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     public function testGetUrlInstance()
     {
         $instance = $this->_model->getUrlInstance();
-        $this->assertInstanceOf('Mage_Core_Model_Url', $instance);
+        $this->assertInstanceOf('Magento_Core_Model_Url', $instance);
         $this->assertSame($instance, $this->_model->getUrlInstance());
     }
 
     public function testGetUrlRewrite()
     {
         $rewrite = $this->_model->getUrlRewrite();
-        $this->assertInstanceOf('Mage_Core_Model_Url_Rewrite', $rewrite);
+        $this->assertInstanceOf('Magento_Core_Model_Url_Rewrite', $rewrite);
         $this->assertSame($rewrite, $this->_model->getUrlRewrite());
     }
 
@@ -202,13 +202,13 @@ class Mage_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Magento/Core/_files/store.php
      * @magentoAppIsolation enabled
      */
     public function testSetStoreIdWithNonNumericValue()
     {
-        /** @var $store Mage_Core_Model_Store */
-        $store = Mage::getModel('Mage_Core_Model_Store');
+        /** @var $store Magento_Core_Model_Store */
+        $store = Mage::getModel('Magento_Core_Model_Store');
         $store->load('fixturestore');
 
         $this->assertNotEquals($this->_model->getStoreId(), $store->getId());

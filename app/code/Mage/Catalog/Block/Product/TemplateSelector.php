@@ -15,7 +15,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Product_TemplateSelector extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Product_TemplateSelector extends Magento_Core_Block_Template
 {
     /**
      * Retrieve list of product templates with search part contained in label
@@ -27,7 +27,7 @@ class Mage_Catalog_Block_Product_TemplateSelector extends Mage_Core_Block_Templa
     {
         $product = Mage::registry('product');
         $entityType = $product->getResource()->getEntityType();
-        $labelPart = Mage::getResourceHelper('Mage_Core')->addLikeEscape($labelPart, array('position' => 'any'));
+        $labelPart = Mage::getResourceHelper('Magento_Core')->addLikeEscape($labelPart, array('position' => 'any'));
         $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter($entityType->getId())
             ->addFieldToFilter('attribute_set_name', array('like' => $labelPart))

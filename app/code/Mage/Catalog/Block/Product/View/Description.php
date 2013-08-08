@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Product_View_Description extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Product_View_Description extends Magento_Core_Block_Template
 {
     protected $_product = null;
 

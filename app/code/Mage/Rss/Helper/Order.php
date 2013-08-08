@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rss_Helper_Order extends Mage_Core_Helper_Abstract
+class Mage_Rss_Helper_Order extends Magento_Core_Helper_Abstract
 {
     /**
      * Check whether status notification is allowed

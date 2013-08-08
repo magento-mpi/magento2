@@ -107,7 +107,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                            target="_blank"><?php echo $this->escapeHtml($product->getName())?></a>
 
                         <button type="button" data-action="choose" class="action-choose" title="<?php echo $this->__('Choose'); ?>"
-                                data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>">
+                                data-attributes="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode($attributeValues)); ?>">
                             <span><?php echo $this->__('Choose'); ?></span>
                         </button>
                     </td>
@@ -180,10 +180,10 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                value="<?php echo $this->escapeHtml($this->getProduct()->getName()), '-', implode('-', $attributeLabels)?>"
                                class="<?php echo $this->getAttributeFrontendClass('name'); ?>"<?php echo $disabled?>/>
                         <input type="hidden" name="variations-matrix[<?php echo $key?>][configurable_attribute]"
-                               value="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
+                               value="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
 
                         <button type="button" data-action="choose" class="action-choose" title="<?php echo $this->__('Choose'); ?>"
-                                data-attributes="<?php echo $this->escapeHtml($this->helper('Mage_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled;?>>
+                                data-attributes="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled;?>>
                             <span><?php echo $this->__('Choose'); ?></span>
                         </button>
                     </td>

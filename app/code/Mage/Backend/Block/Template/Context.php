@@ -9,7 +9,7 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_Backend_Block_Template_Context extends Mage_Core_Block_Template_Context
+class Mage_Backend_Block_Template_Context extends Magento_Core_Block_Template_Context
 {
     /**
      * @var Magento_AuthorizationInterface
@@ -17,47 +17,47 @@ class Mage_Backend_Block_Template_Context extends Mage_Core_Block_Template_Conte
     protected $_authorization;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Model_Layout $layout
-     * @param Mage_Core_Model_Event_Manager $eventManager
-     * @param Mage_Core_Model_UrlInterface $urlBuilder
-     * @param Mage_Core_Model_Translate $translator
-     * @param Mage_Core_Model_CacheInterface $cache
-     * @param Mage_Core_Model_View_DesignInterface $design
-     * @param Mage_Core_Model_Session $session
-     * @param Mage_Core_Model_Store_Config $storeConfig
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_View_Url $viewUrl
-     * @param Mage_Core_Model_View_Config $viewConfig
-     * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Model_Layout $layout
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param Magento_Core_Model_Translate $translator
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param Magento_Core_Model_Session $session
+     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Controller_Varien_Front $frontController
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_Config $viewConfig
+     * @param Magento_Core_Model_Dir $dirs
+     * @param Magento_Core_Model_Logger $logger
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_View_FileSystem $viewFileSystem
-     * @param Mage_Core_Model_TemplateEngine_Factory $engineFactory
+     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param Magento_Core_Model_TemplateEngine_Factory $engineFactory
      * @param Magento_AuthorizationInterface $authorization
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Model_Layout $layout,
-        Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Model_UrlInterface $urlBuilder,
-        Mage_Core_Model_Translate $translator,
-        Mage_Core_Model_CacheInterface $cache,
-        Mage_Core_Model_View_DesignInterface $design,
-        Mage_Core_Model_Session $session,
-        Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_View_Url $viewUrl,
-        Mage_Core_Model_View_Config $viewConfig,
-        Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_Logger $logger,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Model_Layout $layout,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_UrlInterface $urlBuilder,
+        Magento_Core_Model_Translate $translator,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Session $session,
+        Magento_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Controller_Varien_Front $frontController,
+        Magento_Core_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_View_Config $viewConfig,
+        Magento_Core_Model_Dir $dirs,
+        Magento_Core_Model_Logger $logger,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_View_FileSystem $viewFileSystem,
-        Mage_Core_Model_TemplateEngine_Factory $engineFactory,
+        Magento_Core_Model_View_FileSystem $viewFileSystem,
+        Magento_Core_Model_TemplateEngine_Factory $engineFactory,
         Magento_AuthorizationInterface $authorization
     ) {
         parent::__construct(

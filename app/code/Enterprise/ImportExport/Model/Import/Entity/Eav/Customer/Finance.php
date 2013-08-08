@@ -86,7 +86,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Object factory model, currently it is config model
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_objectFactory;
 
@@ -364,7 +364,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
                 $customerId     = $this->_getCustomerId($email, $website);
 
                 if (!isset($this->_websiteCodeToId[$financeWebsite])
-                    || $this->_websiteCodeToId[$financeWebsite] == Mage_Core_Model_AppInterface::ADMIN_STORE_ID
+                    || $this->_websiteCodeToId[$financeWebsite] == Magento_Core_Model_AppInterface::ADMIN_STORE_ID
                 ) {
                     $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
                 } elseif ($customerId === false) {
@@ -406,7 +406,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
                 $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
 
                 if (!isset($this->_websiteCodeToId[$financeWebsite])
-                    || $this->_websiteCodeToId[$financeWebsite] == Mage_Core_Model_AppInterface::ADMIN_STORE_ID
+                    || $this->_websiteCodeToId[$financeWebsite] == Magento_Core_Model_AppInterface::ADMIN_STORE_ID
                 ) {
                     $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
                 } elseif (!$this->_getCustomerId($email, $website)) {

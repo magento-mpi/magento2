@@ -85,7 +85,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
 
         $product = null;
         if ($isProductNew !== null) {
-            $product = $this->getMock('Mage_Core_Model_Abstract', array('isObjectNew'), array(), '', false);
+            $product = $this->getMock('Magento_Core_Model_Abstract', array('isObjectNew'), array(), '', false);
             $product->expects($this->any())->method('isObjectNew')->will($this->returnValue($isProductNew));
         }
 
@@ -138,7 +138,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_FormTest extends PHPUnit_Fr
     {
         $this->_emulateThresholdIsReached($isThresholdReached);
 
-        $block = $this->getMock('Mage_Core_Block_Abstract', array('getChildBlock'), array(), '', false);
+        $block = $this->getMock('Magento_Core_Block_Abstract', array('getChildBlock'), array(), '', false);
         $block->expects($this->never())->method('getChildBlock');
 
         $this->_model->removeSavingButtons(new Magento_Event_Observer(array(

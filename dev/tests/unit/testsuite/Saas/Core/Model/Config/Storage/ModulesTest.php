@@ -13,7 +13,7 @@
 class Saas_Core_Model_Config_Storage_ModulesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Config_Storage
+     * @var Magento_Core_Model_Config_Storage
      */
     protected $_model;
 
@@ -39,13 +39,13 @@ class Saas_Core_Model_Config_Storage_ModulesTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Core_Model_ConfigInterface',
+        $this->_configMock = $this->getMock('Magento_Core_Model_ConfigInterface',
             array(), array(), '', false, false);
-        $this->_cacheMock = $this->getMock('Mage_Core_Model_Config_Cache',
+        $this->_cacheMock = $this->getMock('Magento_Core_Model_Config_Cache',
             array(), array(), '', false, false);
-        $this->_loaderMock = $this->getMock('Mage_Core_Model_Config_LoaderInterface',
+        $this->_loaderMock = $this->getMock('Magento_Core_Model_Config_LoaderInterface',
             array(), array(), '', false, false);
-        $this->_factoryMock = $this->getMock('Mage_Core_Model_Config_BaseFactory',
+        $this->_factoryMock = $this->getMock('Magento_Core_Model_Config_BaseFactory',
             array(), array(), '', false, false);
         $this->_model = new Saas_Core_Model_Config_Storage_Modules($this->_cacheMock, $this->_loaderMock,
             $this->_factoryMock);
@@ -71,7 +71,7 @@ class Saas_Core_Model_Config_Storage_ModulesTest extends PHPUnit_Framework_TestC
 
     public function testGetConfigurationWithoutData()
     {
-        $mockConfigBase = $this->getMockBuilder('Mage_Core_Model_Config_Base')->disableOriginalConstructor()->getMock();
+        $mockConfigBase = $this->getMockBuilder('Magento_Core_Model_Config_Base')->disableOriginalConstructor()->getMock();
         $this->_cacheMock->expects($this->once())->method('load')->will($this->returnValue(false));
         $this->_factoryMock->expects($this->once())->method('create')->will($this->returnValue($mockConfigBase));
         $this->_loaderMock->expects($this->once())->method('load');
@@ -81,7 +81,7 @@ class Saas_Core_Model_Config_Storage_ModulesTest extends PHPUnit_Framework_TestC
 
     public function testGetConfigurationWithRemoveCache()
     {
-        $mockConfigBase = $this->getMockBuilder('Mage_Core_Model_Config_Base')->disableOriginalConstructor()->getMock();
+        $mockConfigBase = $this->getMockBuilder('Magento_Core_Model_Config_Base')->disableOriginalConstructor()->getMock();
         $this->_cacheMock->expects($this->once())->method('load')->will($this->returnValue($this->_configMock));
         $this->_factoryMock->expects($this->once())->method('create')->will($this->returnValue($mockConfigBase));
         $this->_loaderMock->expects($this->once())->method('load');

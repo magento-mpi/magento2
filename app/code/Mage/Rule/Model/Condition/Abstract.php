@@ -44,7 +44,7 @@ abstract class Mage_Rule_Model_Condition_Abstract
     protected $_arrayInputTypes = array();
 
     /**
-     * @var Mage_Core_Model_View_Url
+     * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
 

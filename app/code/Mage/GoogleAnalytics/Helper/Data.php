@@ -15,7 +15,7 @@
  * @category   Mage
  * @package    Mage_GoogleAnalytics
  */
-class Mage_GoogleAnalytics_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_GoogleAnalytics_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Config paths for using throughout the code

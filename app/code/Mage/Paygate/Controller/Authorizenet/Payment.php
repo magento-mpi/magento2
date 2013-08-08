@@ -15,7 +15,7 @@
  * @package    Mage_Paygate
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paygate_Controller_Authorizenet_Payment extends Mage_Core_Controller_Front_Action
+class Mage_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Controller_Front_Action
 {
 
     /**
@@ -32,7 +32,7 @@ class Mage_Paygate_Controller_Authorizenet_Payment extends Mage_Core_Controller_
             }
             $result['success']  = true;
             $result['update_html'] = $this->_getPaymentMethodsHtml();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::logException($e);
             $result['error_message'] = $e->getMessage();
         } catch (Exception $e) {
@@ -41,7 +41,7 @@ class Mage_Paygate_Controller_Authorizenet_Payment extends Mage_Core_Controller_
         }
 
         Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->getPayment()->save();
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**

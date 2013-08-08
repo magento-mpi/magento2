@@ -56,7 +56,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
             ->method('getId')
             ->will($this->returnValue('test_grid'));
 
-        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array('getParentName', 'getBlock', 'helper'),
+        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array('getParentName', 'getBlock', 'helper'),
             array(), '', false, false
         );
 
@@ -73,7 +73,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
             ->with('test_grid')
             ->will($this->returnValue($this->_gridMock));
 
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array('getParam'), array(), '',
+        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array('getParam'), array(), '',
             false
         );
 

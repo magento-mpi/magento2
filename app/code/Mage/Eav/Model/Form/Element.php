@@ -27,7 +27,7 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Form_Element extends Mage_Core_Model_Abstract
+class Mage_Eav_Model_Form_Element extends Magento_Core_Model_Abstract
 {
     /**
      * Prefix of model events names
@@ -68,7 +68,7 @@ class Mage_Eav_Model_Form_Element extends Mage_Core_Model_Abstract
     /**
      * Validate data before save data
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Eav_Model_Form_Element
      */
     protected function _beforeSave()

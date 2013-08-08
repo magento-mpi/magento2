@@ -17,10 +17,10 @@
  */
 class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Mage_Backend_Block_Template
 {
-    /** @var Mage_Core_Model_StoreManager */
+    /** @var Magento_Core_Model_StoreManager */
     protected $_storeManager;
 
-    /** @var Mage_Core_Model_Registry */
+    /** @var Magento_Core_Model_Registry */
     protected $_registry;
 
     /**
@@ -31,15 +31,15 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Mage_Backen
     /**
      * @inheritdoc
      *
-     * @param Mage_Core_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManager $storeManager
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManager $storeManager,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -50,7 +50,7 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Mage_Backen
     /**
      * Retrieve stores collection with default store
      *
-     * @return Mage_Core_Model_Resource_Store_Collection
+     * @return Magento_Core_Model_Resource_Store_Collection
      */
     public function getStores()
     {

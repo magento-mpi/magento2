@@ -72,12 +72,12 @@ class Mage_Sitemap_Model_Observer
         }
 
         if ($errors && Mage::getStoreConfig(self::XML_PATH_ERROR_RECIPIENT)) {
-            $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-            /* @var $translate Mage_Core_Model_Translate */
+            $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+            /* @var $translate Magento_Core_Model_Translate */
             $translate->setTranslateInline(false);
 
-            $emailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
-            /* @var $emailTemplate Mage_Core_Model_Email_Template */
+            $emailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+            /* @var $emailTemplate Magento_Core_Model_Email_Template */
             $emailTemplate->setDesignConfig(array('area' => 'backend'))
                 ->sendTransactional(
                     Mage::getStoreConfig(self::XML_PATH_ERROR_TEMPLATE),

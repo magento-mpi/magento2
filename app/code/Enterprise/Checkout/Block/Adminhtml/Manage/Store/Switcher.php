@@ -47,7 +47,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Store_Switcher extends Mage_Bac
     /**
      * Return current store from regisrty
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getStore()
     {

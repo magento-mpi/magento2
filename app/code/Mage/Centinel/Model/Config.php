@@ -16,7 +16,7 @@ class Mage_Centinel_Model_Config
     /**
      * Store id or store model
      *
-     * @var int|Mage_Core_Model_Store
+     * @var int|Magento_Core_Model_Store
      */
     protected $_store = false;
 
@@ -37,7 +37,7 @@ class Mage_Centinel_Model_Config
     /**
      * Set store to congif model
      *
-     * @param int|Mage_Core_Model_Store $store
+     * @param int|Magento_Core_Model_Store $store
      * @return Mage_Centinel_Model_Config
      */
     public function setStore($store)
@@ -49,7 +49,7 @@ class Mage_Centinel_Model_Config
     /**
      * Return store
      *
-     * @return int|Mage_Core_Model_Store
+     * @return int|Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -98,7 +98,7 @@ class Mage_Centinel_Model_Config
      */
     public function getTransactionPwd()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->decrypt($this->_getServiceConfigValue('password'));
+        return Mage::helper('Magento_Core_Helper_Data')->decrypt($this->_getServiceConfigValue('password'));
     }
 
     /**

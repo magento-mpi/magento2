@@ -114,14 +114,14 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
     /**
      * Helper to encode/decode json
      *
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_jsonHelper;
 
     /**
      * Helper to manipulate with string
      *
-     * @var Mage_Core_Helper_String
+     * @var Magento_Core_Helper_String
      */
     protected $_stringHelper;
 
@@ -245,11 +245,11 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
         $this->_dataSourceModel     = isset($data['data_source_model']) ? $data['data_source_model']
             : Mage_ImportExport_Model_Import::getDataSourceModel();
         $this->_connection          = isset($data['connection']) ? $data['connection']
-            : Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
+            : Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
         $this->_jsonHelper          = isset($data['json_helper']) ? $data['json_helper']
-            : Mage::helper('Mage_Core_Helper_Data');
+            : Mage::helper('Magento_Core_Helper_Data');
         $this->_stringHelper        = isset($data['string_helper']) ? $data['string_helper']
-            : Mage::helper('Mage_Core_Helper_String');
+            : Mage::helper('Magento_Core_Helper_String');
         $this->_pageSize            = isset($data['page_size']) ? $data['page_size']
             : (static::XML_PATH_PAGE_SIZE ? (int) Mage::getStoreConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_maxDataSize         = isset($data['max_data_size']) ? $data['max_data_size']
@@ -262,7 +262,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
      * Helper getter
      *
      * @param string $helperName
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     protected function _helper($helperName)
     {

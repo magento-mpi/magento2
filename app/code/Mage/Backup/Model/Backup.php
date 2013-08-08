@@ -338,7 +338,7 @@ class Mage_Backup_Model_Backup extends Magento_Object
     public function validateUserPassword($password)
     {
         $userPasswordHash = Mage::getModel('Mage_Backend_Model_Auth_Session')->getUser()->getPassword();
-        return Mage::helper('Mage_Core_Helper_Data')->validateHash($password, $userPasswordHash);
+        return Mage::helper('Magento_Core_Helper_Data')->validateHash($password, $userPasswordHash);
     }
 
     /**

@@ -19,24 +19,24 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Factory
      */
     protected $_objectManager;
 
-    /** @var Mage_Core_Model_Config */
+    /** @var Magento_Core_Model_Config */
     protected $_applicationConfig;
 
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
-    /** @var Mage_Core_Model_Factory_Helper */
+    /** @var Magento_Core_Model_Factory_Helper */
     protected $_helperFactory;
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Config $applicationConfig
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_Config $applicationConfig
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Config $applicationConfig,
-        Mage_Core_Model_Factory_Helper $helperFactory
+        Magento_Core_Model_Config $applicationConfig,
+        Magento_Core_Model_Factory_Helper $helperFactory
     ) {
         $this->_objectManager = $objectManager;
         $this->_applicationConfig = $applicationConfig;

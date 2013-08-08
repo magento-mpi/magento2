@@ -19,17 +19,17 @@
 class Magento_Adminhtml_Block_Customer_Form_Element_File extends Magento_Data_Form_Element_Abstract
 {
     /**
-     * @var Mage_Core_Model_View_Url
+     * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
 
     /**
      * Initialize Form Element
      *
-     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $attributes
      */
-    public  function __construct(Mage_Core_Model_View_Url $viewUrl, $attributes = array())
+    public  function __construct(Magento_Core_Model_View_Url $viewUrl, $attributes = array())
     {
         $this->_viewUrl = $viewUrl;
         parent::__construct($attributes);
@@ -160,7 +160,7 @@ class Magento_Adminhtml_Block_Customer_Form_Element_File extends Magento_Data_Fo
     protected function _getPreviewUrl()
     {
         return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/customer/viewfile', array(
-            'file' => Mage::helper('Mage_Core_Helper_Data')->urlEncode($this->getValue()),
+            'file' => Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getValue()),
         ));
     }
 

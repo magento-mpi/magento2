@@ -34,7 +34,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
      * @var array
      */
     protected $_websites = array(
-        Mage_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
+        Magento_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
         1                                            => 'website1',
         2                                            => 'website2',
     );
@@ -215,7 +215,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'data_source_model'            => $dataSourceModel,
             'connection'                   => $connection,
             'json_helper'                  => 'not_used',
-            'string_helper'                => $this->getMock('Mage_Core_Helper_String',
+            'string_helper'                => $this->getMock('Magento_Core_Helper_String',
                 array(), array(), '', false, false
             ),
             'page_size'                    => 1,
@@ -287,7 +287,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == Mage_Core_Model_AppInterface::ADMIN_STORE_ID) {
+            if (!$withDefault && $id == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
                 continue;
             }
             $websiteData = array(
@@ -301,7 +301,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
     }
 
     /**
-     * Callback method for mock object Mage_Core_Model_Config object
+     * Callback method for mock object Magento_Core_Model_Config object
      *
      * @param string $modelClass
      * @param array|object $constructArguments

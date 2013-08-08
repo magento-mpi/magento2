@@ -39,7 +39,7 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_Operation extends M
             $this->_title($this->__('Scheduled Imports/Exports'))
                 ->loadLayout()
                 ->_setActiveMenu('Enterprise_ImportExport::system_convert_enterprise_scheduled_operation');
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/scheduled_operation/index');
         }
@@ -141,7 +141,7 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_Operation extends M
                     Mage::helper('Enterprise_ImportExport_Helper_Data')
                         ->getSuccessSaveMessage($operation->getOperationType())
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
@@ -170,7 +170,7 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_Operation extends M
                         $request->getParam('type')
                     )
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
@@ -215,7 +215,7 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_Operation extends M
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
                     $this->__('We deleted a total of %s record(s).', count($operations))
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
@@ -252,7 +252,7 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_Operation extends M
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
                     $this->__('A total of %s record(s) have been updated.', count($operations))
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
@@ -324,7 +324,7 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_Operation extends M
             $area = Mage::getDesign()->getArea();
             $theme = Mage::getDesign()->getDesignTheme();
             Mage::getDesign()->setDesignTheme(
-                Mage::getDesign()->getConfigurationDesignTheme(Mage_Core_Model_App_Area::AREA_FRONTEND)
+                Mage::getDesign()->getConfigurationDesignTheme(Magento_Core_Model_App_Area::AREA_FRONTEND)
             );
 
             /** @var $observer Enterprise_ImportExport_Model_Observer */

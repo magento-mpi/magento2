@@ -503,10 +503,10 @@ class Enterprise_CatalogPermissions_Model_Observer
 
         $action = $observer->getEvent()->getControllerAction();
         if (!$this->_helper->isAllowedCatalogSearch()
-            && !$action->getFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH)
+            && !$action->getFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH)
             && $action->getRequest()->isDispatched()
         ) {
-            $action->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+            $action->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
             $action->getResponse()->setRedirect($this->_helper->getLandingPageUrl());
         }
 

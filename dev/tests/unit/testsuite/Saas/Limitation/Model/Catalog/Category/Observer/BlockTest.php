@@ -69,7 +69,7 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
     {
         $this->_emulateThresholdIsReached($isThresholdReached);
 
-        $block = $this->getMock('Mage_Core_Block_Abstract', array('getChildBlock'), array(), '', false);
+        $block = $this->getMock('Magento_Core_Block_Abstract', array('getChildBlock'), array(), '', false);
         $block->expects($this->never())->method('getChildBlock');
 
         $this->_model->disableCreationButtons(new Magento_Event_Observer(array(

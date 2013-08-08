@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Checkout_Block_Onepage_Failure extends Mage_Core_Block_Template
+class Mage_Checkout_Block_Onepage_Failure extends Magento_Core_Block_Template
 {
     public function getRealOrderId()
     {

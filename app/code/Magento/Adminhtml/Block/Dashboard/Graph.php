@@ -174,7 +174,7 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
             $this->setAxisLabels($axis, $this->getRowsData($attr, true));
         }
 
-        $timezoneLocal = Mage::app()->getStore()->getConfig(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        $timezoneLocal = Mage::app()->getStore()->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
 
         list ($dateStart, $dateEnd) = Mage::getResourceModel('Mage_Reports_Model_Resource_Order_Collection')
             ->getDateRange($this->getDataHelper()->getParam('period'), '', '', true);

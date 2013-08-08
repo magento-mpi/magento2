@@ -23,7 +23,7 @@ class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
     const REQUEST_PARAM_RESOURCES = 'resources';
     const REQUEST_PARAM_WSDL = 'wsdl';
 
-    /** @var Mage_Core_Model_Store */
+    /** @var Magento_Core_Model_Store */
     protected $_application;
 
     /** @var Magento_DomDocument_Factory */
@@ -35,12 +35,12 @@ class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Core_Model_App $application
+     * @param Magento_Core_Model_App $application
      * @param Mage_Webapi_Controller_Request_Soap $request
      * @param Magento_DomDocument_Factory $domDocumentFactory
      */
     public function __construct(
-        Mage_Core_Model_App $application,
+        Magento_Core_Model_App $application,
         Mage_Webapi_Controller_Request_Soap $request,
         Magento_DomDocument_Factory $domDocumentFactory
     ) {
@@ -176,7 +176,7 @@ class Mage_Webapi_Model_Soap_Server extends \Zend\Soap\Server
     public function getEndpointUri()
     {
         // @TODO: Implement proper endpoint URL retrieval mechanism in APIA-718 story
-        return $this->_application->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB)
+        return $this->_application->getStore()->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_WEB)
             . $this->_application->getConfig()->getAreaFrontName() . '/'
             . Mage_Webapi_Controller_Front::API_TYPE_SOAP;
     }

@@ -20,7 +20,7 @@ class Mage_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminhtml_
     /**
      * Helper object.
      *
-     * @var Mage_Core_Helper_Abstract
+     * @var Magento_Core_Helper_Abstract
      */
     protected $_helper;
 
@@ -55,12 +55,12 @@ class Mage_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminhtml_
             'name'         => $this->getFilterElementName($attribute->getAttributeCode()) . '[]',
             'id'           => $this->getFilterElementId($attribute->getAttributeCode()),
             'class'        => 'input-text input-text-range-date',
-            'date_format'  => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT),
+            'date_format'  => Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif')
         );
-        /** @var $selectBlock Mage_Core_Block_Html_Date */
+        /** @var $selectBlock Magento_Core_Block_Html_Date */
         $dateBlock = $this->_layout->getBlockFactory()->createBlock(
-            'Mage_Core_Block_Html_Date', array('data' => $arguments)
+            'Magento_Core_Block_Html_Date', array('data' => $arguments)
         );
         $fromValue = null;
         $toValue   = null;
@@ -122,9 +122,9 @@ class Mage_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminhtml_
                 'class'        => 'multiselect multiselect-export-filter',
                 'extra_params' => 'multiple="multiple" size="' . ($size > 5 ? 5 : ($size < 2 ? 2 : $size))
             );
-            /** @var $selectBlock Mage_Core_Block_Html_Select */
+            /** @var $selectBlock Magento_Core_Block_Html_Select */
             $selectBlock = $this->_layout->getBlockFactory()->createBlock(
-                'Mage_Core_Block_Html_Select', array('data' => $arguments)
+                'Magento_Core_Block_Html_Select', array('data' => $arguments)
             );
             return $selectBlock->setOptions($options)
                 ->setValue($value)
@@ -192,9 +192,9 @@ class Mage_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminhtml_
                 'id'           => $this->getFilterElementId($attribute->getAttributeCode()),
                 'class'        => 'select select-export-filter'
             );
-            /** @var $selectBlock Mage_Core_Block_Html_Select */
+            /** @var $selectBlock Magento_Core_Block_Html_Select */
             $selectBlock = $this->_layout->getBlockFactory()->createBlock(
-                'Mage_Core_Block_Html_Select', array('data' => $arguments)
+                'Magento_Core_Block_Html_Select', array('data' => $arguments)
             );
             return $selectBlock->setOptions($options)
                 ->setValue($value)

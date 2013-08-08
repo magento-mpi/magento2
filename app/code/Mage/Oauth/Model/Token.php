@@ -42,7 +42,7 @@
  * @method int getAuthorized()
  * @method Mage_Oauth_Model_Token setAuthorized() setAuthorized(int $authorized)
  */
-class Mage_Oauth_Model_Token extends Mage_Core_Model_Abstract
+class Mage_Oauth_Model_Token extends Magento_Core_Model_Abstract
 {
     /**#@+
      * Token types
@@ -221,12 +221,12 @@ class Mage_Oauth_Model_Token extends Mage_Core_Model_Abstract
      * Validate data
      *
      * @return array|bool
-     * @throw Mage_Core_Exception|Exception   Throw exception on fail validation
+     * @throw Magento_Core_Exception|Exception   Throw exception on fail validation
      */
     public function validate()
     {
-        /** @var $validatorUrl Mage_Core_Model_Url_Validator */
-        $validatorUrl = Mage::getSingleton('Mage_Core_Model_Url_Validator');
+        /** @var $validatorUrl Magento_Core_Model_Url_Validator */
+        $validatorUrl = Mage::getSingleton('Magento_Core_Model_Url_Validator');
         if (Mage_Oauth_Model_Server::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
             && !$validatorUrl->isValid($this->getCallbackUrl())
         ) {

@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Customer_Controller_Review extends Mage_Core_Controller_Front_Action
+class Mage_Customer_Controller_Review extends Magento_Core_Controller_Front_Action
 {
     public function indexAction()
     {

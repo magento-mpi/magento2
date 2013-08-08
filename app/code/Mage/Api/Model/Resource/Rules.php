@@ -16,7 +16,7 @@
  * @package     Mage_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Api_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization
@@ -62,7 +62,7 @@ class Mage_Api_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstract
             }
 
             $adapter->commit();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             throw $e;
         } catch (Exception $e) {
             $adapter->rollBack();

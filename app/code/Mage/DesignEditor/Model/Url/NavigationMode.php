@@ -11,7 +11,7 @@
 /**
  * Navigation mode design editor url model
  */
-class Mage_DesignEditor_Model_Url_NavigationMode extends Mage_Core_Model_Url
+class Mage_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_Url
 {
     /**
      * VDE helper

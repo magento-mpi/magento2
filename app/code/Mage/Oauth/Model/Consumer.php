@@ -31,7 +31,7 @@
  * @method string getRejectedCallbackUrl()
  * @method Mage_Oauth_Model_Consumer setRejectedCallbackUrl() setRejectedCallbackUrl(string $rejectedCallbackUrl)
  */
-abstract class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract implements Mage_Oauth_Model_ConsumerInterface
+abstract class Mage_Oauth_Model_Consumer extends Magento_Core_Model_Abstract implements Mage_Oauth_Model_ConsumerInterface
 {
     /**
      * Key hash length
@@ -72,7 +72,7 @@ abstract class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract implem
      * Validate data
      *
      * @return array|bool
-     * @throw Mage_Core_Exception|Exception   Throw exception on fail validation
+     * @throw Magento_Core_Exception|Exception   Throw exception on fail validation
      */
     public function validate()
     {
@@ -80,8 +80,8 @@ abstract class Mage_Oauth_Model_Consumer extends Mage_Core_Model_Abstract implem
             $this->setCallbackUrl(trim($this->getCallbackUrl()));
             $this->setRejectedCallbackUrl(trim($this->getRejectedCallbackUrl()));
 
-            /** @var $validatorUrl Mage_Core_Model_Url_Validator */
-            $validatorUrl = Mage::getSingleton('Mage_Core_Model_Url_Validator');
+            /** @var $validatorUrl Magento_Core_Model_Url_Validator */
+            $validatorUrl = Mage::getSingleton('Magento_Core_Model_Url_Validator');
 
             if ($this->getCallbackUrl() && !$validatorUrl->isValid($this->getCallbackUrl())) {
                 Mage::throwException(Mage::helper('Mage_Oauth_Helper_Data')->__('Invalid Callback URL'));

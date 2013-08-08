@@ -70,7 +70,7 @@ class Mage_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml_Co
                     $model->export(),
                     $model->getContentType()
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);

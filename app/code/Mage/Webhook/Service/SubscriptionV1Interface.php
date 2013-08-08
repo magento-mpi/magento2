@@ -19,7 +19,7 @@ interface Mage_Webhook_Service_SubscriptionV1Interface
      *
      * @param array $subscriptionData
      * @return array Subscription data
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function create(array $subscriptionData);
@@ -29,7 +29,7 @@ interface Mage_Webhook_Service_SubscriptionV1Interface
      *
      * @param int $apiUserId
      * @return array of Subscription data arrays
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function getAll($apiUserId);
@@ -39,7 +39,7 @@ interface Mage_Webhook_Service_SubscriptionV1Interface
      *
      * @param array $subscriptionData
      * @return array Subscription data
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function update(array $subscriptionData);
@@ -49,7 +49,7 @@ interface Mage_Webhook_Service_SubscriptionV1Interface
      *
      * @param int $subscriptionId
      * @return array Subscription data
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function get($subscriptionId);
@@ -59,7 +59,7 @@ interface Mage_Webhook_Service_SubscriptionV1Interface
      *
      * @param int $subscriptionId
      * @return array Subscription data
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function delete($subscriptionId);
@@ -69,7 +69,7 @@ interface Mage_Webhook_Service_SubscriptionV1Interface
      *
      * @param int $subscriptionId
      * @return array
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function activate($subscriptionId);
@@ -79,7 +79,7 @@ interface Mage_Webhook_Service_SubscriptionV1Interface
      *
      * @param int $subscriptionId
      * @return array
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function deactivate($subscriptionId);
@@ -89,7 +89,7 @@ interface Mage_Webhook_Service_SubscriptionV1Interface
      *
      * @param int $subscriptionId
      * @return array
-     * @throws Exception|Mage_Core_Exception
+     * @throws Exception|Magento_Core_Exception
      * @throws Mage_Webhook_Exception
      */
     public function revoke($subscriptionId);

@@ -24,7 +24,7 @@ class Mage_Sales_Model_Order_StatusTest extends PHPUnit_Framework_TestCase
             $resource = $this->getMock('Mage_Sales_Model_Resource_Order_Status', array(), array(), '', false);
         }
         if (!$eventDispatcher) {
-            $eventDispatcher = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
+            $eventDispatcher = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         }
         $helper = new Magento_Test_Helper_ObjectManager($this);
         $model = $helper->getObject('Mage_Sales_Model_Order_Status', array(
@@ -46,7 +46,7 @@ class Mage_Sales_Model_Order_StatusTest extends PHPUnit_Framework_TestCase
         $resource->expects($this->once())->method('commit');
 
         $params = array('status' => $status, 'state' => $state);
-        $eventDispatcher = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventDispatcher = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $eventDispatcher->expects($this->once())->method('dispatch')
             ->with($this->equalTo('sales_order_status_unassign'), $this->equalTo($params));
 

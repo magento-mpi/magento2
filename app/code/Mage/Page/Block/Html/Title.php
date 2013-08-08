@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +14,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Page_Block_Html_Title extends Mage_Core_Block_Template
+class Mage_Page_Block_Html_Title extends Magento_Core_Block_Template
 {
     /**
      * Own page title to display on the page

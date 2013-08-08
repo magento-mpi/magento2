@@ -15,7 +15,7 @@
  * @package     Mage_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Index_Model_Resource_Abstract extends Mage_Core_Model_Resource_Db_Abstract
+abstract class Mage_Index_Model_Resource_Abstract extends Magento_Core_Model_Resource_Db_Abstract
 {
     const IDX_SUFFIX= '_idx';
     const TMP_SUFFIX= '_tmp';

@@ -34,14 +34,14 @@ class Mage_Catalog_Model_Template_Filter extends Magento_Filter_Template
     protected $_useSessionInUrl = false;
 
     /**
-     * @var Mage_Core_Model_View_Url
+     * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
 
     /**
-     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_Url $viewUrl
      */
-    public function __construct(Mage_Core_Model_View_Url $viewUrl)
+    public function __construct(Magento_Core_Model_View_Url $viewUrl)
     {
         $this->_viewUrl = $viewUrl;
     }
@@ -50,7 +50,7 @@ class Mage_Catalog_Model_Template_Filter extends Magento_Filter_Template
      * Set use absolute links flag
      *
      * @param bool $flag
-     * @return Mage_Core_Model_Email_Template_Filter
+     * @return Magento_Core_Model_Email_Template_Filter
      */
     public function setUseAbsoluteLinks($flag)
     {
@@ -63,7 +63,7 @@ class Mage_Catalog_Model_Template_Filter extends Magento_Filter_Template
      * Doesn't set anything intentionally, since SID is not allowed in any kind of emails
      *
      * @param bool $flag
-     * @return Mage_Core_Model_Email_Template_Filter
+     * @return Magento_Core_Model_Email_Template_Filter
      */
     public function setUseSessionInUrl($flag)
     {
@@ -76,7 +76,7 @@ class Mage_Catalog_Model_Template_Filter extends Magento_Filter_Template
      *
      * @param array $construction
      * @return string
-     * @see Mage_Core_Model_Email_Template_Filter::viewDirective() method has been copypasted
+     * @see Magento_Core_Model_Email_Template_Filter::viewDirective() method has been copypasted
      */
     public function viewDirective($construction)
     {
@@ -93,7 +93,7 @@ class Mage_Catalog_Model_Template_Filter extends Magento_Filter_Template
      *
      * @param array $construction
      * @return string
-     * @see Mage_Core_Model_Email_Template_Filter::mediaDirective() method has been copypasted
+     * @see Magento_Core_Model_Email_Template_Filter::mediaDirective() method has been copypasted
      */
     public function mediaDirective($construction)
     {
@@ -107,7 +107,7 @@ class Mage_Catalog_Model_Template_Filter extends Magento_Filter_Template
      *
      * @param array $construction
      * @return string
-     * @see Mage_Core_Model_Email_Template_Filter::storeDirective() method has been copypasted
+     * @see Magento_Core_Model_Email_Template_Filter::storeDirective() method has been copypasted
      */
     public function storeDirective($construction)
     {

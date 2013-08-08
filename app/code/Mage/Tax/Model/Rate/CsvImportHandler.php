@@ -20,14 +20,14 @@ class Mage_Tax_Model_Rate_CsvImportHandler
     /**
      * Helper factory
      *
-     * @var Mage_Core_Model_Factory_Helper
+     * @var Magento_Core_Model_Factory_Helper
      */
     protected $_helperFactory;
 
     /**
      * Collection of publicly available stores
      *
-     * @var Mage_Core_Model_Resource_Store_Collection
+     * @var Magento_Core_Model_Resource_Store_Collection
      */
     protected $_publicStores;
 
@@ -55,15 +55,15 @@ class Mage_Tax_Model_Rate_CsvImportHandler
     protected $_taxRateFactory;
 
     /**
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Resource_Store_Collection $storeCollection
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_Resource_Store_Collection $storeCollection
      * @param Mage_Directory_Model_Resource_Region_Collection $regionCollection
      * @param Mage_Directory_Model_CountryFactory $countryFactory
      * @param Mage_Tax_Model_Calculation_RateFactory $taxRateFactory
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Resource_Store_Collection $storeCollection,
+        Magento_Core_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_Resource_Store_Collection $storeCollection,
         Mage_Directory_Model_Resource_Region_Collection $regionCollection,
         Mage_Directory_Model_CountryFactory $countryFactory,
         Mage_Tax_Model_Calculation_RateFactory $taxRateFactory
@@ -101,7 +101,7 @@ class Mage_Tax_Model_Rate_CsvImportHandler
      * Import Tax Rates from CSV file
      *
      * @param array $file file info retrieved from $_FILES array
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function importFromCsvFile($file)
     {
@@ -158,7 +158,7 @@ class Mage_Tax_Model_Rate_CsvImportHandler
      * @param array $invalidFields assoc array of invalid file fields
      * @param array $validFields assoc array of valid file fields
      * @return array
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _filterRateData(array $rateRawData, array $invalidFields, array $validFields)
     {
@@ -232,7 +232,7 @@ class Mage_Tax_Model_Rate_CsvImportHandler
      * @param array $regionsCache cache of regions of already used countries (is used to optimize performance)
      * @param array $storesCache cache of stores related to tax rate titles
      * @return array regions cache populated with regions related to country of imported tax rate
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _importRate(array $rateData, array $regionsCache, array $storesCache)
     {

@@ -172,7 +172,7 @@ class Mage_Backend_Block_Widget_Grid_Extended
     /**
      * Initialize child blocks
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
@@ -205,7 +205,7 @@ class Mage_Backend_Block_Widget_Grid_Extended
     /**
      * Retrieve column set block
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     public function getColumnSet()
     {

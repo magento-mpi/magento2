@@ -24,7 +24,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
     /**
      * Store Config Mock object
      *
-     * @var Mage_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_Config
      */
     protected $_config;
 
@@ -47,7 +47,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
             'name' => 'Store Name',
         );
 
-        $this->_config = $this->getMock('Mage_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $this->_config = $this->getMock('Magento_Core_Model_Store_Config', array('getConfig'), array(), '', false);
         $this->_config->expects($this->any())
             ->method('getConfig')
             ->will($this->returnCallback(array($this, 'configCallback')));

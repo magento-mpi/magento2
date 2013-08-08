@@ -27,13 +27,13 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_Design_Drawer
 
     /**
      * @param Mage_Backend_Controller_Context $context
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param string $areaCode
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
-        Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_Factory_Helper $helperFactory,
         $areaCode = null,
         array $data = array()
     ) {
@@ -47,11 +47,11 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_Design_Drawer
     public function uploadLogoAction()
     {
         try {
-            /** @var $uploader Mage_Core_Model_File_Uploader */
-            $uploader = $this->_objectManager->create('Mage_Core_Model_File_Uploader',
+            /** @var $uploader Magento_Core_Model_File_Uploader */
+            $uploader = $this->_objectManager->create('Magento_Core_Model_File_Uploader',
                 array('fileId' => 'logo_upload'));
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
-            $imageAdapter = $this->_objectManager->get('Mage_Core_Model_Image_AdapterFactory')->create();
+            $imageAdapter = $this->_objectManager->get('Magento_Core_Model_Image_AdapterFactory')->create();
             $uploader->addValidateCallback('store_logo_image', $imageAdapter, 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
 
@@ -93,7 +93,7 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_Design_Drawer
             /** @var $launcherHelper Saas_Launcher_Helper_Data */
             $launcherHelper = $this->_helperFactory->get('Saas_Launcher_Helper_Data');
 
-            $logoImage = $this->_objectManager->get('Mage_Core_Model_Image_Factory')->create();
+            $logoImage = $this->_objectManager->get('Magento_Core_Model_Image_Factory')->create();
             $logoImage->createPngFromString($logoCaption,
                 Mage::getBaseDir() . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf');
             $logoImage->save($launcherHelper->getTmpLogoPath(), Saas_Launcher_Helper_Data::GENERATED_LOGO_NAME);

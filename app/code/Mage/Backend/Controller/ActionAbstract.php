@@ -13,7 +13,7 @@
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controller_Varien_Action
+abstract class Mage_Backend_Controller_ActionAbstract extends Magento_Core_Controller_Varien_Action
 {
     /**
      * Name of "is URLs checked" flag
@@ -50,7 +50,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     protected $_session;
 
     /**
-     * @var Mage_Core_Model_Event_Manager
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager;
 
@@ -60,7 +60,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     protected $_authorization;
 
     /**
-     * @var Mage_Core_Model_Translate
+     * @var Magento_Core_Model_Translate
      */
     protected $_translator;
 
@@ -137,28 +137,28 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     }
 
     /**
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      * @return Mage_Backend_Controller_ActionAbstract
      */
-    protected function _addContent(Mage_Core_Block_Abstract $block)
+    protected function _addContent(Magento_Core_Block_Abstract $block)
     {
         return $this->_moveBlockToContainer($block, 'content');
     }
 
     /**
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      * @return Mage_Backend_Controller_ActionAbstract
      */
-    protected function _addLeft(Mage_Core_Block_Abstract $block)
+    protected function _addLeft(Magento_Core_Block_Abstract $block)
     {
         return $this->_moveBlockToContainer($block, 'left');
     }
 
     /**
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      * @return Mage_Backend_Controller_ActionAbstract
      */
-    protected function _addJs(Mage_Core_Block_Abstract $block)
+    protected function _addJs(Magento_Core_Block_Abstract $block)
     {
         return $this->_moveBlockToContainer($block, 'js');
     }
@@ -168,11 +168,11 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      *
      * The block will be moved to the container from previous parent after all other elements
      *
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      * @param string $containerName
      * @return Mage_Backend_Controller_ActionAbstract
      */
-    private function _moveBlockToContainer(Mage_Core_Block_Abstract $block, $containerName)
+    private function _moveBlockToContainer(Magento_Core_Block_Abstract $block, $containerName)
     {
         $this->getLayout()->setChild($containerName, $block->getNameInLayout(), '');
         return $this;
@@ -185,8 +185,8 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      */
     public function preDispatch()
     {
-        /** @var $storeManager Mage_Core_Model_StoreManager */
-        $storeManager = $this->_objectManager->get('Mage_Core_Model_StoreManager');
+        /** @var $storeManager Magento_Core_Model_StoreManager */
+        $storeManager = $this->_objectManager->get('Magento_Core_Model_StoreManager');
         $storeManager->setCurrentStore('admin');
 
         $this->_eventManager->dispatch('adminhtml_controller_action_predispatch_start', array());
@@ -250,7 +250,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
             if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
-                $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+                $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                     'error' => true,
                     'message' => $_keyErrorMsg
                 )));
@@ -271,7 +271,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     protected function _processLocaleSettings()
     {
         $forceLocale = $this->getRequest()->getParam('locale', null);
-        if ($this->_objectManager->get('Mage_Core_Model_Locale_Validator')->isValid($forceLocale)) {
+        if ($this->_objectManager->get('Magento_Core_Model_Locale_Validator')->isValid($forceLocale)) {
             $this->_getSession()->setSessionLocale($forceLocale);
         }
 
@@ -330,9 +330,9 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     /**
      * Process not logged in user data
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      */
-    protected function _processNotLoggedInUser(Mage_Core_Controller_Request_Http $request)
+    protected function _processNotLoggedInUser(Magento_Core_Controller_Request_Http $request)
     {
         $isRedirectNeeded = false;
         if ($request->getPost('login') && $this->_performLogin()) {
@@ -410,7 +410,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         }
 
         $this->getResponse()->setRedirect($requestUri);
-        $this->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+        $this->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
         return true;
     }
 
@@ -431,12 +431,13 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      * @param string|null|bool|array $ids
      * @param bool $generateBlocks
      * @param bool $generateXml
-     * @return Mage_Backend_Controller_ActionAbstract|Mage_Core_Controller_Varien_Action
+     * @return Mage_Backend_Controller_ActionAbstract|Magento_Core_Controller_Varien_Action
      */
     public function loadLayout($ids = null, $generateBlocks = true, $generateXml = true)
     {
         parent::loadLayout($ids, false, $generateXml);
-        $this->_objectManager->get('Mage_Core_Model_Layout_Filter_Acl')->filterAclNodes($this->getLayout()->getNode());
+        $this->_objectManager->get('Magento_Core_Model_Layout_Filter_Acl')
+            ->filterAclNodes($this->getLayout()->getNode());
         if ($generateBlocks) {
             $this->generateLayoutBlocks();
             $this->_isLayoutLoaded = true;
@@ -533,7 +534,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     public function __()
     {
         $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->_getRealModuleName());
+        $expr = new Magento_Core_Model_Translate_Expr(array_shift($args), $this->_getRealModuleName());
         array_unshift($args, $expr);
         return $this->_translator->translate($args);
     }
@@ -552,7 +553,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
             $block->assign($index, $value);
         }
         $html = $block->toHtml();
-        $this->_objectManager->get('Mage_Core_Model_Translate')->processResponseBody($html);
+        $this->_objectManager->get('Magento_Core_Model_Translate')->processResponseBody($html);
         $this->getResponse()->setBody($html);
     }
 

@@ -11,7 +11,7 @@
 /**
  * Theme change resource model
  */
-class Mage_DesignEditor_Model_Theme_Resource_Change extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_DesignEditor_Model_Theme_Resource_Change extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization
@@ -24,10 +24,10 @@ class Mage_DesignEditor_Model_Theme_Resource_Change extends Mage_Core_Model_Reso
     /**
      * {@inheritdoc}
      *
-     * @param Mage_Core_Model_Abstract $change
+     * @param Magento_Core_Model_Abstract $change
      * @return $this
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $change)
+    protected function _beforeSave(Magento_Core_Model_Abstract $change)
     {
         if (!$change->getChangeTime()) {
             $change->setChangeTime($this->formatDate(true));

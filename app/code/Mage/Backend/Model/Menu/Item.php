@@ -32,7 +32,7 @@ class Mage_Backend_Model_Menu_Item
     /**
      * Module of menu item
      *
-     * @var Mage_Core_Helper_Abstract
+     * @var Magento_Core_Helper_Abstract
      */
     protected $_moduleHelper;
 
@@ -114,7 +114,7 @@ class Mage_Backend_Model_Menu_Item
     protected $_submenu;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_appConfig;
 
@@ -129,7 +129,7 @@ class Mage_Backend_Model_Menu_Item
     protected $_urlModel;
 
     /**
-     * @var Mage_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_Config
      */
     protected $_storeConfig;
 
@@ -148,21 +148,21 @@ class Mage_Backend_Model_Menu_Item
     /**
      * @param Mage_Backend_Model_Menu_Item_Validator $validator
      * @param Magento_AuthorizationInterface $authorization
-     * @param Mage_Core_Model_Config $applicationConfig
-     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_Config $applicationConfig
+     * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Mage_Backend_Model_Menu_Factory $menuFactory
      * @param Mage_Backend_Model_Url $urlModel
-     * @param Mage_Core_Helper_Abstract $helper
+     * @param Magento_Core_Helper_Abstract $helper
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Model_Menu_Item_Validator $validator,
         Magento_AuthorizationInterface $authorization,
-        Mage_Core_Model_Config $applicationConfig,
-        Mage_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Model_Config $applicationConfig,
+        Magento_Core_Model_Store_Config $storeConfig,
         Mage_Backend_Model_Menu_Factory $menuFactory,
         Mage_Backend_Model_Url $urlModel,
-        Mage_Core_Helper_Abstract $helper,
+        Magento_Core_Helper_Abstract $helper,
         array $data = array()
     ) {
         $this->_validator = $validator;
@@ -353,7 +353,7 @@ class Mage_Backend_Model_Menu_Item
      * Retrieve module helper object linked to item.
      * Should be used to translate item labels
      *
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     public function getModuleHelper()
     {
@@ -363,11 +363,11 @@ class Mage_Backend_Model_Menu_Item
     /**
      * Set Item module
      *
-     * @param Mage_Core_Helper_Abstract $helper
+     * @param Magento_Core_Helper_Abstract $helper
      * @return Mage_Backend_Model_Menu_Item
      * @throws InvalidArgumentException
      */
-    public function setModuleHelper(Mage_Core_Helper_Abstract $helper)
+    public function setModuleHelper(Magento_Core_Helper_Abstract $helper)
     {
         $this->_validator->validateParam('module', $helper);
         $this->_moduleHelper = $helper;
@@ -489,7 +489,7 @@ class Mage_Backend_Model_Menu_Item
             $this->_validator = Mage::getSingleton('Mage_Backend_Model_Menu_Item_Validator');
             $this->_acl = Mage::getSingleton('Magento_AuthorizationInterface');
             $this->_appConfig = Mage::getConfig();
-            $this->_storeConfig =  Mage::getSingleton('Mage_Core_Model_Store_Config');
+            $this->_storeConfig =  Mage::getSingleton('Magento_Core_Model_Store_Config');
             $this->_menuFactory = Mage::getSingleton('Mage_Backend_Model_Menu_Factory');
             $this->_urlModel = Mage::getSingleton('Mage_Backend_Model_Url');
             if ($this->_serializedSubmenu) {

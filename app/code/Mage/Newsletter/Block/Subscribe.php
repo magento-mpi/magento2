@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Newsletter_Block_Subscribe extends Mage_Core_Block_Template
+class Mage_Newsletter_Block_Subscribe extends Magento_Core_Block_Template
 {
     public function getSuccessMessage()
     {

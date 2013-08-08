@@ -49,7 +49,7 @@ class Mage_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_Wid
     /**
      * Store getter
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getStore()
     {

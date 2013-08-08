@@ -15,7 +15,7 @@
  * @package    Mage_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleShopping_Model_Type extends Mage_Core_Model_Abstract
+class Mage_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
 {
     /**
      * Mapping attributes collection

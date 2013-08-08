@@ -9,7 +9,7 @@
 /**
  * Unified IPN controller for all supported PayPal methods
  */
-class Mage_Paypal_Controller_Ipn extends Mage_Core_Controller_Front_Action
+class Mage_Paypal_Controller_Ipn extends Magento_Core_Controller_Front_Action
 {
     /**
      * Instantiate IPN model and pass IPN request to it

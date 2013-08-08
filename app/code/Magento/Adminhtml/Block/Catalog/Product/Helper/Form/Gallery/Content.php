@@ -90,7 +90,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
                     $image['url'] = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')
                         ->getMediaUrl($image['file']);
                 }
-                return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($value['images']);
+                return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($value['images']);
             }
         }
         return '[]';
@@ -105,7 +105,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
                 $attribute->getAttributeCode()
             );
         }
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($values);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($values);
     }
 
     /**
@@ -152,7 +152,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
 
     public function getImageTypesJson()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getImageTypes());
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getImageTypes());
     }
 
 }

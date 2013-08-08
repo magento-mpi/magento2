@@ -17,7 +17,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      * Limit store views collection. Adding limitation depending
      * on allowed group ids for user.
      *
-     * @param Mage_Core_Model_Resource_Store_Collection $collection
+     * @param Magento_Core_Model_Resource_Store_Collection $collection
      */
     public function limitStores($collection)
     {
@@ -29,7 +29,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit websites collection
      *
-     * @param Mage_Core_Model_Resource_Website_Collection $collection
+     * @param Magento_Core_Model_Resource_Website_Collection $collection
      */
     public function limitWebsites($collection)
     {
@@ -40,7 +40,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit store groups collection
      *
-     * @param Mage_Core_Model_Resource_Store_Group_Collection $collection
+     * @param Magento_Core_Model_Resource_Store_Group_Collection $collection
      */
     public function limitStoreGroups($collection)
     {
@@ -52,7 +52,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit a collection by allowed stores without admin
      *
-     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $collection
+     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $collection
      */
     public function addStoreFilterNoAdmin($collection)
     {
@@ -62,7 +62,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Add filter by store views to a collection
      *
-     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $collection
+     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $collection
      */
     public function addStoreFilter($collection)
     {
@@ -211,7 +211,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit core URL rewrites
      *
-     * @param Mage_Core_Model_Resource_Url_Rewrite_Collection $collection
+     * @param Magento_Core_Model_Resource_Url_Rewrite_Collection $collection
      */
     public function limitCoreUrlRewrites($collection)
     {
@@ -392,7 +392,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit Automated Email Marketing Reminder Rules collection
      *
-     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $collection
+     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $collection
      */
     public function limitRuleEntityCollection($collection)
     {
@@ -420,7 +420,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      *
      * @deprecated after 1.12.0.0 use $this->limitRuleEntityCollection() for any rule based collection
      *
-     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $collection
+     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $collection
      */
     public function limitPriceRules($collection)
     {

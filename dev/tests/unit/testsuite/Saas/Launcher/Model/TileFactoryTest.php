@@ -19,7 +19,7 @@ class Saas_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
     public function testCreateEmptyTile()
     {
         $objectManager = $this->getMock('Magento_ObjectManager');
-        $applicationConfig = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $applicationConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
 
         $tile = $this->getMock('Saas_Launcher_Model_Tile', array(), array(), '', false);
         $objectManager->expects($this->once())
@@ -42,7 +42,7 @@ class Saas_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $objectManager = $this->getMock('Magento_ObjectManager');
-        $applicationConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
+        $applicationConfig = $this->getMock('Magento_Core_Model_Config', array('getNode'), array(), '', false);
 
         $tile = $this->getMock(
             'Saas_Launcher_Model_Tile',
@@ -115,7 +115,7 @@ class Saas_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
     public function testGetStateResolverClassName()
     {
         $objectManagerStub = $this->getMock('Magento_ObjectManager');
-        $applicationConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
+        $applicationConfig = $this->getMock('Magento_Core_Model_Config', array('getNode'), array(), '', false);
 
         $applicationConfig->expects($this->once())
             ->method('getNode')
@@ -135,7 +135,7 @@ class Saas_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
     public function testGetStateResolverClassNameThrowsException()
     {
         $objectManagerStub = $this->getMock('Magento_ObjectManager');
-        $applicationConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
+        $applicationConfig = $this->getMock('Magento_Core_Model_Config', array('getNode'), array(), '', false);
 
         $applicationConfig->expects($this->once())
             ->method('getNode')
@@ -149,7 +149,7 @@ class Saas_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
     public function testGetSaveHandlerClassName()
     {
         $objectManagerStub = $this->getMock('Magento_ObjectManager');
-        $applicationConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
+        $applicationConfig = $this->getMock('Magento_Core_Model_Config', array('getNode'), array(), '', false);
 
         $applicationConfig->expects($this->once())
             ->method('getNode')
@@ -169,7 +169,7 @@ class Saas_Launcher_Model_TileFactoryTest extends PHPUnit_Framework_TestCase
     public function testGetSaveHandlerClassNameThrowsException()
     {
         $objectManagerStub = $this->getMock('Magento_ObjectManager');
-        $applicationConfig = $this->getMock('Mage_Core_Model_Config', array('getNode'), array(), '', false);
+        $applicationConfig = $this->getMock('Magento_Core_Model_Config', array('getNode'), array(), '', false);
 
         $applicationConfig->expects($this->once())
             ->method('getNode')

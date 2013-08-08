@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webhook_Exception extends Mage_Core_Exception
+class Mage_Webhook_Exception extends Magento_Core_Exception
 {
 
 }

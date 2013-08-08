@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_GoogleCheckout_Controller_Api extends Mage_Core_Controller_Front_Action
+class Mage_GoogleCheckout_Controller_Api extends Magento_Core_Controller_Front_Action
 {
     public function indexAction()
     {

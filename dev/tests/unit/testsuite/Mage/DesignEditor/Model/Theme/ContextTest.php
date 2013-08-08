@@ -21,37 +21,37 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
     protected $_model;
 
     /**
-     * @var Mage_Core_Model_ThemeFactory
+     * @var Magento_Core_Model_ThemeFactory
      */
     protected $_themeFactory;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_helper;
 
     /**
-     * @var Mage_Core_Model_Theme_CopyService
+     * @var Magento_Core_Model_Theme_CopyService
      */
     protected $_copyService;
 
     /**
-     * @var Mage_Core_Model_Theme
+     * @var Magento_Core_Model_Theme
      */
     protected $_theme;
 
     public function setUp()
     {
-        $this->_themeFactory = $this->getMock('Mage_Core_Model_ThemeFactory', array('create'), array(), '', false);
+        $this->_themeFactory = $this->getMock('Magento_Core_Model_ThemeFactory', array('create'), array(), '', false);
 
-        $this->_theme = $this->getMock('Mage_Core_Model_Theme',
+        $this->_theme = $this->getMock('Magento_Core_Model_Theme',
             array('load', 'getId', 'getType', 'getDomainModel', 'isVirtual'), array(), '', false);
         $this->_themeFactory->expects($this->any())->method('create')->will($this->returnValue($this->_theme));
 
-        $this->_helper = $this->getMock('Mage_Core_Helper_Data', array('__'), array(), '', false);
+        $this->_helper = $this->getMock('Magento_Core_Helper_Data', array('__'), array(), '', false);
         $this->_helper->expects($this->any())->method('__')->will($this->returnArgument(0));
 
-        $this->_copyService = $this->getMock('Mage_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
+        $this->_copyService = $this->getMock('Magento_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
 
         $this->_model = new Mage_DesignEditor_Model_Theme_Context(
             $this->_themeFactory,
@@ -89,13 +89,13 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
 
         $this->_theme->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue(Mage_Core_Model_Theme::TYPE_PHYSICAL));
+            ->will($this->returnValue(Magento_Core_Model_Theme::TYPE_PHYSICAL));
 
         $this->assertEquals($this->_model, $this->_model->setEditableThemeById(self::THEME_ID));
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Wrong theme type set as editable
      */
     public function testSetEditableThemeByIdWrongType()
@@ -111,13 +111,13 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
 
         $this->_theme->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue(Mage_Core_Model_Theme::TYPE_STAGING));
+            ->will($this->returnValue(Magento_Core_Model_Theme::TYPE_STAGING));
 
         $this->_model->setEditableThemeById(self::THEME_ID);
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage We can't find theme "%s".
      */
     public function testSetEditableThemeByIdWrongThemeId()
@@ -144,7 +144,7 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Theme has not been set
      */
     public function testGetEditableThemeNotSet()
@@ -160,13 +160,13 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
             ->method('isVirtual')
             ->will($this->returnValue(true));
 
-        $themeObj = $this->getMock('Mage_Core_Model_Theme_Domain_Virtual', array('getStagingTheme'),
+        $themeObj = $this->getMock('Magento_Core_Model_Theme_Domain_Virtual', array('getStagingTheme'),
             array(), '', false);
         $themeObj->expects($this->atLeastOnce())->method('getStagingTheme')->will($this->returnSelf());
 
         $this->_theme->expects($this->atLeastOnce())
             ->method('getDomainModel')
-            ->with($this->equalTo(Mage_Core_Model_Theme::TYPE_VIRTUAL))
+            ->with($this->equalTo(Magento_Core_Model_Theme::TYPE_VIRTUAL))
             ->will($this->returnValue($themeObj));
 
         $this->assertEquals($themeObj, $this->_model->getStagingTheme());
@@ -179,7 +179,7 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Theme "%s" is not editable.
      */
     public function testGetStagingThemeWrongType()
@@ -237,7 +237,7 @@ class Mage_DesignEditor_Model_Theme_ContextTest extends PHPUnit_Framework_TestCa
     {
         $writersProperty = new ReflectionProperty($this->_model, '_stagingTheme');
         $writersProperty->setAccessible(true);
-        $themeObject = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+        $themeObject = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);
         $writersProperty->setValue($this->_model, $themeObject);
         return $themeObject;
     }

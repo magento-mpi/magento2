@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -40,7 +40,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_ApiTest extends PHPUnit_Fra
 
     public function testUpdate()
     {
-        Mage::app()->setCurrentStore(Mage::app()->getStore(Mage_Core_Model_App::ADMIN_STORE_ID));
+        Mage::app()->setCurrentStore(Mage::app()->getStore(Magento_Core_Model_App::ADMIN_STORE_ID));
         $this->_model->update(1, array(array('qty' => 3, 'price' => 8)));
         $info = $this->_model->info(1);
         $this->assertEquals(1, count($info));

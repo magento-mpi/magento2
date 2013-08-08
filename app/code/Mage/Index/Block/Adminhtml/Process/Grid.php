@@ -33,15 +33,15 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block_Wi
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
-     * @param Mage_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
      * @param Mage_Index_Model_EventRepository $eventRepository
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Model_Url $urlModel,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
         Mage_Index_Model_EventRepository $eventRepository,
         array $data = array()
     ) {

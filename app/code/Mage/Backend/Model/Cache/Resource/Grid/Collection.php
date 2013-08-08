@@ -10,14 +10,14 @@
 class Mage_Backend_Model_Cache_Resource_Grid_Collection extends Magento_Data_Collection
 {
     /**
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_app;
 
     /**
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_App $app
      */
-    public function __construct(Mage_Core_Model_App $app)
+    public function __construct(Magento_Core_Model_App $app)
     {
         $this->_app = $app;
     }

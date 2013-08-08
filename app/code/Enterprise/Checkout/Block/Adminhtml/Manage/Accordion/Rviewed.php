@@ -40,7 +40,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
     /**
      * Prepare customer wishlist product collection
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getItemsCollection()
     {

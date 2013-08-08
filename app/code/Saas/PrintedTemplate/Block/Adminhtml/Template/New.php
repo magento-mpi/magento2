@@ -28,7 +28,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_New extends Mage_Backend_Blo
     /**
      * Prepares buttons
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {

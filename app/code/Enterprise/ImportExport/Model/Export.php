@@ -27,7 +27,7 @@ class Enterprise_ImportExport_Model_Export extends Mage_ImportExport_Model_Expor
     /**
      * Date model instance
      *
-     * @var Mage_Core_Model_Date
+     * @var Magento_Core_Model_Date
      */
     protected $_dateModel;
 
@@ -40,13 +40,13 @@ class Enterprise_ImportExport_Model_Export extends Mage_ImportExport_Model_Expor
     {
         parent::__construct($data);
 
-        $this->_dateModel = isset($data['date_model']) ? $data['date_model'] : Mage::getModel('Mage_Core_Model_Date');
+        $this->_dateModel = isset($data['date_model']) ? $data['date_model'] : Mage::getModel('Magento_Core_Model_Date');
     }
 
     /**
      * Date model instance getter
      *
-     * @return Mage_Core_Model_Date
+     * @return Magento_Core_Model_Date
      */
     public function getDateModel()
     {

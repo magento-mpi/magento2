@@ -32,7 +32,7 @@ class Mage_Index_Model_Observer
         $store = $observer->getEvent()->getStore();
         $this->_indexer->processEntityAction(
             $store,
-            Mage_Core_Model_Store::ENTITY,
+            Magento_Core_Model_Store::ENTITY,
             Mage_Index_Model_Event::TYPE_SAVE
         );
     }
@@ -47,7 +47,7 @@ class Mage_Index_Model_Observer
         $storeGroup = $observer->getEvent()->getStoreGroup();
         $this->_indexer->processEntityAction(
             $storeGroup,
-            Mage_Core_Model_Store_Group::ENTITY,
+            Magento_Core_Model_Store_Group::ENTITY,
             Mage_Index_Model_Event::TYPE_SAVE
         );
     }
@@ -62,7 +62,7 @@ class Mage_Index_Model_Observer
         $website = $observer->getEvent()->getWebsite();
         $this->_indexer->processEntityAction(
             $website,
-            Mage_Core_Model_Website::ENTITY,
+            Magento_Core_Model_Website::ENTITY,
             Mage_Index_Model_Event::TYPE_SAVE
         );
     }
@@ -77,7 +77,7 @@ class Mage_Index_Model_Observer
         $store = $observer->getEvent()->getStore();
         $this->_indexer->processEntityAction(
             $store,
-            Mage_Core_Model_Store::ENTITY,
+            Magento_Core_Model_Store::ENTITY,
             Mage_Index_Model_Event::TYPE_DELETE
         );
     }
@@ -92,7 +92,7 @@ class Mage_Index_Model_Observer
         $storeGroup = $observer->getEvent()->getStoreGroup();
         $this->_indexer->processEntityAction(
             $storeGroup,
-            Mage_Core_Model_Store_Group::ENTITY,
+            Magento_Core_Model_Store_Group::ENTITY,
             Mage_Index_Model_Event::TYPE_DELETE
         );
     }
@@ -107,7 +107,7 @@ class Mage_Index_Model_Observer
         $website = $observer->getEvent()->getWebsite();
         $this->_indexer->processEntityAction(
             $website,
-            Mage_Core_Model_Website::ENTITY,
+            Magento_Core_Model_Website::ENTITY,
             Mage_Index_Model_Event::TYPE_DELETE
         );
     }
@@ -122,7 +122,7 @@ class Mage_Index_Model_Observer
         $configData = $observer->getEvent()->getConfigData();
         $this->_indexer->processEntityAction(
             $configData,
-            Mage_Core_Model_Config_Data::ENTITY,
+            Magento_Core_Model_Config_Data::ENTITY,
             Mage_Index_Model_Event::TYPE_SAVE
         );
     }

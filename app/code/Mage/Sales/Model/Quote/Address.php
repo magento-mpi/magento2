@@ -281,7 +281,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
      */
     public function importCustomerAddress(Mage_Customer_Model_Address $address)
     {
-        Mage::helper('Mage_Core_Helper_Data')->copyFieldset('customer_address', 'to_quote_address', $address, $this);
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('customer_address', 'to_quote_address', $address, $this);
         $email = null;
         if ($address->hasEmail()) {
             $email =  $address->getEmail();
@@ -302,7 +302,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function exportCustomerAddress()
     {
         $address = Mage::getModel('Mage_Customer_Model_Address');
-        Mage::helper('Mage_Core_Helper_Data')
+        Mage::helper('Magento_Core_Helper_Data')
             ->copyFieldset('sales_convert_quote_address', 'to_customer_address', $this, $address);
         return $address;
     }
@@ -320,7 +320,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
             ->setCustomerAddressId($address->getCustomerAddressId())
             ->setEmail($address->getEmail());
 
-        Mage::helper('Mage_Core_Helper_Data')
+        Mage::helper('Magento_Core_Helper_Data')
             ->copyFieldset('sales_convert_order_address', 'to_quote_address', $address, $this);
 
         return $this;

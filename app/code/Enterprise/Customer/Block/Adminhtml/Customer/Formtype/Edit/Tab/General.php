@@ -76,8 +76,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
             'value'     => $model->getLabel()
         ));
 
-        /** @var $label Mage_Core_Model_Theme_Label */
-        $label = Mage::getModel('Mage_Core_Model_Theme_Label');
+        /** @var $label Magento_Core_Model_Theme_Label */
+        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
         $options = $label->getLabelsCollection();
         array_unshift($options, array(
             'label' => Mage::helper('Enterprise_Customer_Helper_Data')->__('All Themes'),
@@ -96,7 +96,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
             'name'      => 'store_id',
             'label'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Store View'),
             'title'     => Mage::helper('Enterprise_Customer_Helper_Data')->__('Store View'),
-            'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(false, true),
+            'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
             'value'     => $model->getStoreId(),
             'disabled'  => true
         ));

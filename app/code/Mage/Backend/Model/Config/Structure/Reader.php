@@ -38,19 +38,19 @@ class Mage_Backend_Model_Config_Structure_Reader extends Magento_Config_XmlAbstr
     /**
      * Module configuration reader
      *
-     * @var Mage_Core_Model_Config_Modules_Reader
+     * @var Magento_Core_Model_Config_Modules_Reader
      */
     protected $_modulesReader;
 
     /**
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
-     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      * @param Mage_Backend_Model_Config_Structure_Converter $structureConverter
      * @param bool $runtimeValidation
      */
     public function __construct(
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
-        Mage_Core_Model_Config_Modules_Reader $moduleReader,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Config_Modules_Reader $moduleReader,
         Mage_Backend_Model_Config_Structure_Converter $structureConverter,
         $runtimeValidation = true
     ) {

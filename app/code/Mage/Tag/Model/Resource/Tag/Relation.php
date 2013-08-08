@@ -16,7 +16,7 @@
  * @package     Mage_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Model_Resource_Tag_Relation extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Tag_Model_Resource_Tag_Relation extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize resource connection and define table resource

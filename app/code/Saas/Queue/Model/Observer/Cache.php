@@ -14,14 +14,14 @@
 class Saas_Queue_Model_Observer_Cache extends Saas_Queue_Model_ObserverAbstract
 {
     /**
-     * @var Mage_Core_Model_CacheInterface $_cache
+     * @var Magento_Core_Model_CacheInterface $_cache
      */
     protected $_cache;
 
     /**
-     * @param Mage_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_CacheInterface $cache
      */
-    public function __construct(Mage_Core_Model_CacheInterface $cache)
+    public function __construct(Magento_Core_Model_CacheInterface $cache)
     {
         $this->_cache = $cache;
     }

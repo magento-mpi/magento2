@@ -81,10 +81,10 @@ class Mage_CatalogSearch_Model_Resource_Advanced_Collection extends Mage_Catalog
                                     Mage::throwException($invalidDateMessage);
                                 }
                                 if (!is_numeric($conditionValue['from'])){
-                                    $conditionValue['from'] = Mage::getSingleton('Mage_Core_Model_Date')
+                                    $conditionValue['from'] = Mage::getSingleton('Magento_Core_Model_Date')
                                         ->gmtDate(null, $conditionValue['from']);
                                     if (!$conditionValue['from']) {
-                                        $conditionValue['from'] = Mage::getSingleton('Mage_Core_Model_Date')->gmtDate();
+                                        $conditionValue['from'] = Mage::getSingleton('Magento_Core_Model_Date')->gmtDate();
                                     }
                                 }
                                 $conditionData[] = array('gteq' => $conditionValue['from']);
@@ -94,10 +94,10 @@ class Mage_CatalogSearch_Model_Resource_Advanced_Collection extends Mage_Catalog
                                     Mage::throwException($invalidDateMessage);
                                 }
                                 if (!is_numeric($conditionValue['to'])){
-                                    $conditionValue['to'] = Mage::getSingleton('Mage_Core_Model_Date')
+                                    $conditionValue['to'] = Mage::getSingleton('Magento_Core_Model_Date')
                                         ->gmtDate(null, $conditionValue['to']);
                                     if (!$conditionValue['to']) {
-                                        $conditionValue['to'] = Mage::getSingleton('Mage_Core_Model_Date')->gmtDate();
+                                        $conditionValue['to'] = Mage::getSingleton('Magento_Core_Model_Date')->gmtDate();
                                     }
                                 }
                                 $conditionData[] = array('lteq' => $conditionValue['to']);

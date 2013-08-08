@@ -41,7 +41,7 @@ class Mage_ImportExport_Model_Resource_Import_DataTest extends PHPUnit_Framework
     /**
      * Test getUniqueColumnData() in case when in data stored in requested column is NOT unique
      *
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testGetUniqueColumnDataException()
     {

@@ -115,7 +115,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
         $layoutName = $element->getId() . '-renderer';
         try {
             $renderer = $this->_rendererFactory->create($className, $layoutName);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $renderer = null;
         }
         if ($renderer) {
@@ -131,14 +131,14 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
      * @param string $type
      * @param string|null $subtype
      * @return array
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getComponent($type, $subtype = null)
     {
         $components = $this->getComponents();
         $componentId = $this->getComponentId($type);
         if (!isset($components[$componentId])) {
-            throw new Mage_Core_Exception($this->_helper->__(
+            throw new Magento_Core_Exception($this->_helper->__(
                 'Component of the type "%s" is not found between elements of "%s"', $type, $this->getData('name')
             ));
         }

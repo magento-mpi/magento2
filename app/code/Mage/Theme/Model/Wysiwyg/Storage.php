@@ -61,7 +61,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Image_AdapterFactory
+     * @var Magento_Core_Model_Image_AdapterFactory
      */
     protected $_imageFactory;
 
@@ -71,13 +71,13 @@ class Mage_Theme_Model_Wysiwyg_Storage
      * @param Magento_Filesystem $filesystem
      * @param Mage_Theme_Helper_Storage $helper
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Image_AdapterFactory $imageFactory
+     * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Mage_Theme_Helper_Storage $helper,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Image_AdapterFactory $imageFactory
+        Magento_Core_Model_Image_AdapterFactory $imageFactory
     ) {
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
@@ -91,19 +91,19 @@ class Mage_Theme_Model_Wysiwyg_Storage
      *
      * @param string $targetPath
      * @return bool
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function uploadFile($targetPath)
     {
-        /** @var $uploader Mage_Core_Model_File_Uploader */
-        $uploader = $this->_objectManager->create('Mage_Core_Model_File_Uploader', array('fileId' => 'file'));
+        /** @var $uploader Magento_Core_Model_File_Uploader */
+        $uploader = $this->_objectManager->create('Magento_Core_Model_File_Uploader', array('fileId' => 'file'));
         $uploader->setAllowedExtensions($this->_helper->getAllowedExtensionsByType());
         $uploader->setAllowRenameFiles(true);
         $uploader->setFilesDispersion(false);
         $result = $uploader->save($targetPath);
 
         if (!$result) {
-            throw new Mage_Core_Exception($this->_helper->__('We cannot upload the file.') );
+            throw new Magento_Core_Exception($this->_helper->__('We cannot upload the file.') );
         }
 
         $this->_createThumbnail(
@@ -144,7 +144,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
             $image->resize(self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);
             $image->save($thumbnailPath);
         } catch (Magento_Filesystem_Exception $e) {
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
             return false;
         }
 
@@ -160,12 +160,12 @@ class Mage_Theme_Model_Wysiwyg_Storage
      * @param string $name
      * @param string $path
      * @return array
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function createFolder($name, $path)
     {
         if (!preg_match(self::DIRECTORY_NAME_REGEXP, $name)) {
-            throw new Mage_Core_Exception(
+            throw new Magento_Core_Exception(
                 $this->_helper->__('Use only standard alphanumeric, dashes and underscores.')
             );
         }
@@ -176,7 +176,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $newPath = $path . Magento_Filesystem::DIRECTORY_SEPARATOR . $name;
 
         if ($this->_filesystem->has($newPath)) {
-            throw new Mage_Core_Exception($this->_helper->__('We found a directory with the same name.'));
+            throw new Magento_Core_Exception($this->_helper->__('We found a directory with the same name.'));
         }
 
         $this->_filesystem->ensureDirectoryExists($newPath);
@@ -221,12 +221,12 @@ class Mage_Theme_Model_Wysiwyg_Storage
      *
      * @param string $currentPath
      * @return array
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getDirsCollection($currentPath)
     {
         if (!$this->_filesystem->has($currentPath)) {
-            throw new Mage_Core_Exception($this->_helper->__('We cannot find a directory with this name.'));
+            throw new Magento_Core_Exception($this->_helper->__('We cannot find a directory with this name.'));
         }
 
         $paths = $this->_filesystem->searchKeys($currentPath, '*');
@@ -298,7 +298,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
      *
      * @param string $path
      * @return bool
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function deleteDirectory($path)
     {
@@ -306,7 +306,7 @@ class Mage_Theme_Model_Wysiwyg_Storage
         $pathCmp = rtrim($path, Magento_Filesystem::DIRECTORY_SEPARATOR);
 
         if ($rootCmp == $pathCmp) {
-            throw new Mage_Core_Exception($this->_helper->__('We cannot delete root directory %s.', $path));
+            throw new Magento_Core_Exception($this->_helper->__('We cannot delete root directory %s.', $path));
         }
 
         return $this->_filesystem->delete($path);

@@ -16,7 +16,7 @@
  * @package     Mage_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_Resource_Db_Abstract
 {
     const NOT_SELECTED_IMAGE = 'no_selection';
 
@@ -106,7 +106,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
             ->joinLeft(
                 array('t1_' . $attributeCode => $attribute['table']),
                 'e.entity_id = t1_' . $attributeCode . '.entity_id AND '
-                . $adapter->quoteInto(' t1_' . $attributeCode . '.store_id = ?', Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
+                . $adapter->quoteInto(' t1_' . $attributeCode . '.store_id = ?', Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
                 . $adapter->quoteInto(' AND t1_'.$attributeCode . '.attribute_id = ?', $attribute['attribute_id']),
                 array());
 
@@ -148,14 +148,14 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
     /**
      * Get category collection array
      *
-     * @param null|string|bool|int|Mage_Core_Model_Store $storeId
+     * @param null|string|bool|int|Magento_Core_Model_Store $storeId
      * @return array
      */
     public function getCollection($storeId)
     {
         $products = array();
 
-        /* @var $store Mage_Core_Model_Store */
+        /* @var $store Magento_Core_Model_Store */
         $store = Mage::app()->getStore($storeId);
         if (!$store) {
             return false;

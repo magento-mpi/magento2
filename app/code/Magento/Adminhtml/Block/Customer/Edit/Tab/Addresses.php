@@ -86,7 +86,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
         );
 
         $addressModel = Mage::getModel('Mage_Customer_Model_Address');
-        $addressModel->setCountryId(Mage::helper('Mage_Core_Helper_Data')->getDefaultCountry($customer->getStore()));
+        $addressModel->setCountryId(Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry($customer->getStore()));
         /** @var $addressForm Mage_Customer_Model_Form */
         $addressForm = Mage::getModel('Mage_Customer_Model_Form');
         $addressForm->setFormCode('adminhtml_customer_address')
@@ -207,15 +207,15 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Adminh
      * @return string
      */
     public function getDefaultCountriesJson() {
-        $websites = Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(false, true);
+        $websites = Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(false, true);
         $result = array();
         foreach ($websites as $website) {
             $result[$website['value']] = Mage::app()->getWebsite($website['value'])->getConfig(
-                Mage_Core_Helper_Data::XML_PATH_DEFAULT_COUNTRY
+                Magento_Core_Helper_Data::XML_PATH_DEFAULT_COUNTRY
             );
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
     }
 
     /**

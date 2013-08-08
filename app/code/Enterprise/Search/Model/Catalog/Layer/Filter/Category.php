@@ -43,7 +43,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
 
             if ($category->getIsActive() && $category->getProductCount()) {
                 $data[] = array(
-                    'label' => Mage::helper('Mage_Core_Helper_Data')->escapeHtml($category->getName()),
+                    'label' => Mage::helper('Magento_Core_Helper_Data')->escapeHtml($category->getName()),
                     'value' => $categoryId,
                     'count' => $category->getProductCount(),
                 );

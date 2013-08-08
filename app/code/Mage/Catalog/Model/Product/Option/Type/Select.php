@@ -25,7 +25,7 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
     /**
      * Validate user input for option
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
      * @return Mage_Catalog_Model_Product_Option_Type_Default
      */
@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
     /**
      * Prepare option value for cart
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return mixed Prepared option value
      */
     public function prepareForCart()
@@ -75,7 +75,7 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
     public function getFormattedOptionValue($optionValue)
     {
         if ($this->_formattedOptionValue === null) {
-            $this->_formattedOptionValue = Mage::helper('Mage_Core_Helper_Data')->escapeHtml(
+            $this->_formattedOptionValue = Mage::helper('Magento_Core_Helper_Data')->escapeHtml(
                 $this->getEditableOptionValue($optionValue)
             );
         }
@@ -129,7 +129,7 @@ class Mage_Catalog_Model_Product_Option_Type_Select extends Mage_Catalog_Model_P
                     }
                 }
             }
-            $result = Mage::helper('Mage_Core_Helper_String')->substr($result, 0, -2);
+            $result = Mage::helper('Magento_Core_Helper_String')->substr($result, 0, -2);
         } elseif ($this->_isSingleSelection()) {
             if ($_result = $option->getValueById($optionValue)) {
                 $result = $_result->getTitle();

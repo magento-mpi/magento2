@@ -13,14 +13,14 @@ class Mage_Backend_Model_Acl_Config_FileList
     /**
      * Module file reader
      *
-     * @var Mage_Core_Model_Config_Modules_Reader
+     * @var Magento_Core_Model_Config_Modules_Reader
      */
     protected $_moduleReader;
 
     /**
-     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      */
-    public function __construct(Mage_Core_Model_Config_Modules_Reader $moduleReader)
+    public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
     {
         $this->_moduleReader = $moduleReader;
     }

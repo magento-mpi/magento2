@@ -15,7 +15,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Block_Widget_Grid_Serializer extends Mage_Core_Block_Template
+class Mage_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Template
 {
 
     /**
@@ -63,7 +63,7 @@ class Mage_Backend_Block_Widget_Grid_Serializer extends Mage_Core_Block_Template
     public function getColumnInputNames($asJSON = false)
     {
         if ($asJSON) {
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->_inputsToSerialize);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->_inputsToSerialize);
         }
         return $this->_inputsToSerialize;
     }
@@ -81,7 +81,7 @@ class Mage_Backend_Block_Widget_Grid_Serializer extends Mage_Core_Block_Template
         } elseif (!empty($this->_inputsToSerialize)) {
             return '{}';
         }
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
     }
 
 

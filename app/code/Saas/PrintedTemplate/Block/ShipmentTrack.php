@@ -22,7 +22,7 @@ class Saas_PrintedTemplate_Block_ShipmentTrack extends Mage_Backend_Block_Templa
     /**
      * Initializes block
      *
-     * @see Mage_Core_Block_Template::_construct()
+     * @see Magento_Core_Block_Template::_construct()
      */
     protected function _construct()
     {
@@ -44,7 +44,7 @@ class Saas_PrintedTemplate_Block_ShipmentTrack extends Mage_Backend_Block_Templa
      * If tracks collection is empty return empty string.
      *
      * @return string HTML
-     * @see Mage_Core_Block_Template::_toHtml()
+     * @see Magento_Core_Block_Template::_toHtml()
      */
     protected function _toHtml()
     {

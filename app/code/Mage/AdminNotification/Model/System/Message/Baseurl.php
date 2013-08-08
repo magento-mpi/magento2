@@ -9,43 +9,43 @@ class Mage_AdminNotification_Model_System_Message_Baseurl
     implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
-     * @var Mage_Core_Model_UrlInterface
+     * @var Magento_Core_Model_UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @var Mage_Core_Model_Factory_Helper
+     * @var Magento_Core_Model_Factory_Helper
      */
     protected $_helperFactory;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Mage_Core_Model_Config_DataFactory
+     * @var Magento_Core_Model_Config_DataFactory
      */
     protected $_configDataFactory;
 
     /**
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
-     * @param Mage_Core_Model_UrlInterface $urlBuilder
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_Config_DataFactory $configDataFactory
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_Config_DataFactory $configDataFactory
      */
     public function __construct(
-        Mage_Core_Model_Config $config,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Model_UrlInterface $urlBuilder,
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_Config_DataFactory $configDataFactory
+        Magento_Core_Model_Config $config,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_UrlInterface $urlBuilder,
+        Magento_Core_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_Config_DataFactory $configDataFactory
     ) {
         $this->_urlBuilder = $urlBuilder;
         $this->_helperFactory = $helperFactory;
@@ -63,23 +63,23 @@ class Mage_AdminNotification_Model_System_Message_Baseurl
     {
         $output = '';
         $defaultUnsecure= (string) $this->_config->getNode(
-            'default/' . Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
+            'default/' . Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL
         );
 
         $defaultSecure  = (string) $this->_config->getNode(
-            'default/' . Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL
+            'default/' . Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL
         );
 
-        if ($defaultSecure == Mage_Core_Model_Store::BASE_URL_PLACEHOLDER
-            || $defaultUnsecure == Mage_Core_Model_Store::BASE_URL_PLACEHOLDER
+        if ($defaultSecure == Magento_Core_Model_Store::BASE_URL_PLACEHOLDER
+            || $defaultUnsecure == Magento_Core_Model_Store::BASE_URL_PLACEHOLDER
         ) {
             $output = $this->_urlBuilder->getUrl('adminhtml/system_config/edit', array('section' => 'web'));
         } else {
-            /** @var $dataCollection Mage_Core_Model_Resource_Config_Data_Collection */
+            /** @var $dataCollection Magento_Core_Model_Resource_Config_Data_Collection */
             $dataCollection = $this->_configDataFactory->create()->getCollection();
-            $dataCollection->addValueFilter(Mage_Core_Model_Store::BASE_URL_PLACEHOLDER);
+            $dataCollection->addValueFilter(Magento_Core_Model_Store::BASE_URL_PLACEHOLDER);
 
-            /** @var $data Mage_Core_Model_Config_Data */
+            /** @var $data Magento_Core_Model_Config_Data */
             foreach ($dataCollection as $data) {
                 if ($data->getScope() == 'stores') {
                     $code = $this->_storeManager->getStore($data->getScopeId())->getCode();

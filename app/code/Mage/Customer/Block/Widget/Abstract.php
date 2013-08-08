@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Customer_Block_Widget_Abstract extends Mage_Core_Block_Template
+class Mage_Customer_Block_Widget_Abstract extends Magento_Core_Block_Template
 {
     public function getConfig($key)
     {

@@ -16,7 +16,7 @@
  * @package     Mage_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Tag_Model_Resource_Tag extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Define main table and primary index
@@ -53,8 +53,8 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
         if ( $name ) {
             $read = $this->_getReadAdapter();
             $select = $read->select();
-            if (Mage::helper('Mage_Core_Helper_String')->strlen($name) > 255) {
-                $name = Mage::helper('Mage_Core_Helper_String')->substr($name, 0, 255);
+            if (Mage::helper('Magento_Core_Helper_String')->strlen($name) > 255) {
+                $name = Mage::helper('Magento_Core_Helper_String')->substr($name, 0, 255);
             }
 
             $select->from($this->getMainTable())
@@ -70,10 +70,10 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Before saving actions
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Tag_Model_Resource_Tag
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if (!$object->getId() && $object->getStatus() == $object->getApprovedStatus()) {
             $searchTag = new Magento_Object();
@@ -84,8 +84,8 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
             }
         }
 
-        if (Mage::helper('Mage_Core_Helper_String')->strlen($object->getName()) > 255) {
-            $object->setName(Mage::helper('Mage_Core_Helper_String')->substr($object->getName(), 0, 255));
+        if (Mage::helper('Magento_Core_Helper_String')->strlen($object->getName()) > 255) {
+            $object->setName(Mage::helper('Magento_Core_Helper_String')->substr($object->getName(), 0, 255));
         }
 
         return parent::_beforeSave($object);
@@ -94,10 +94,10 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Saving tag's base popularity
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         if (!$object->getStore() || !Mage::app()->getStore()->isAdmin()) {
             return parent::_afterSave($object);
@@ -141,7 +141,7 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
      *
      * @param string $field
      * @param mixed $value
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -163,7 +163,7 @@ class Mage_Tag_Model_Resource_Tag extends Mage_Core_Model_Resource_Db_Abstract
      * @param Mage_Tag_Model_Resource_Tag $object
      * @return Mage_Tag_Model_Resource_Tag
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         $read = $this->_getReadAdapter();
         $select = $read->select()

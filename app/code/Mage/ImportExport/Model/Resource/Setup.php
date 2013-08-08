@@ -15,6 +15,6 @@
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_ImportExport_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
+class Mage_ImportExport_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
 {
 }

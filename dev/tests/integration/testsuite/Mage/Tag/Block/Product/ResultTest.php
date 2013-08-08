@@ -17,12 +17,12 @@ class Mage_Tag_Block_Product_ResultTest extends PHPUnit_Framework_TestCase
     protected $_block = null;
 
     /**
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout = null;
 
     /**
-     * @var Mage_Core_Block_Text
+     * @var Magento_Core_Block_Text
      */
     protected $_child = null;
 
@@ -33,16 +33,16 @@ class Mage_Tag_Block_Product_ResultTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
-        $this->_layout->addBlock('Mage_Core_Block_Text', 'root');
-        $this->_layout->addBlock('Mage_Core_Block_Text', 'head');
-        $context = Mage::getObjectManager()->create('Mage_Core_Block_Template_Context',
+        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
+        $this->_layout->addBlock('Magento_Core_Block_Text', 'root');
+        $this->_layout->addBlock('Magento_Core_Block_Text', 'head');
+        $context = Mage::getObjectManager()->create('Magento_Core_Block_Template_Context',
             array('layout' => $this->_layout)
         );
         $this->_block = $this->_layout->createBlock('Mage_Tag_Block_Product_Result', 'test',
             array('context' => $context)
         );
-        $this->_child = Mage::getObjectManager()->create('Mage_Core_Block_Text');
+        $this->_child = Mage::getObjectManager()->create('Magento_Core_Block_Text');
         $this->_layout->addBlock($this->_child, 'search_result_list', 'test');
     }
 

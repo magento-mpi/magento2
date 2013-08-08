@@ -21,11 +21,11 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $helperMockCore = $this->getMock('Mage_Core_Helper_Data', array('__'), array(), '', false, false);
+        $helperMockCore = $this->getMock('Magento_Core_Helper_Data', array('__'), array(), '', false, false);
         $helperMockCore->expects($this->any())
             ->method('__')
             ->will($this->returnArgument(0));
-        Mage::register('_helper/Mage_Core_Helper_Data', $helperMockCore, true);
+        Mage::register('_helper/Magento_Core_Helper_Data', $helperMockCore, true);
 
         $helperMockSitemap = $this->getMock('Mage_Sitemap_Helper_Data', array(
             '__',
@@ -77,7 +77,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        Mage::unregister('_helper/Mage_Core_Helper_Data');
+        Mage::unregister('_helper/Magento_Core_Helper_Data');
         Mage::unregister('_helper/Mage_Sitemap_Helper_Data');
         unset($this->_resourceMock);
     }
@@ -85,7 +85,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     /**
      * Check not allowed sitemap path validation
      *
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Please define a correct path.
      */
     public function testNotAllowedPath()
@@ -108,7 +108,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     /**
      * Check not exists sitemap path validation
      *
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Please create the specified folder "%s" before saving the sitemap.
      */
     public function testPathNotExists()
@@ -133,7 +133,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     /**
      * Check not writable sitemap path validation
      *
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Please make sure that "%s" is writable by the web-server.
      */
     public function testPathNotWritable()
@@ -163,7 +163,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     /**
      * Check invalid chars in sitemap filename validation
      *
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Please use only letters (a-z or A-Z), numbers (0-9) or underscores (_) in the filename. No spaces or other characters are allowed.
      */
     //@codingStandardsIgnoreEnd
@@ -327,10 +327,10 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     protected function _prepareSitemapModelMock(&$actualData, $maxLines, $maxFileSize,
         $expectedFile, $expectedWrites, $robotsInfo
     ) {
-        $dateMock = $this->getMockBuilder('Mage_Core_Model_Date')
+        $dateMock = $this->getMockBuilder('Magento_Core_Model_Date')
             ->disableOriginalConstructor()
             ->getMock();
-        Mage::register('_singleton/Mage_Core_Model_Date', $dateMock, true);
+        Mage::register('_singleton/Magento_Core_Model_Date', $dateMock, true);
 
         $fileMock = $this->getMockBuilder('Magento_Io_File')
             ->setMethods(array('streamWrite', 'open', 'streamOpen', 'streamClose',

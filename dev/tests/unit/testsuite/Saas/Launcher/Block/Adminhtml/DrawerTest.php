@@ -136,7 +136,7 @@ class Saas_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCas
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
         // mock system configuration instance
-        $config = $this->getMock('Mage_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $config = $this->getMock('Magento_Core_Model_Store_Config', array('getConfig'), array(), '', false);
         $config->expects($this->any())
             ->method('getConfig')
             ->will($this->returnCallback(

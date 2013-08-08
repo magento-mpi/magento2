@@ -12,10 +12,10 @@
 class Mage_Rule_Model_Action_Collection extends Mage_Rule_Model_Action_Abstract
 {
     /**
-     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $data
      */
-    public function __construct(Mage_Core_Model_View_Url $viewUrl, array $data = array())
+    public function __construct(Magento_Core_Model_View_Url $viewUrl, array $data = array())
     {
         parent::__construct($viewUrl, $data);
         $this->setActions(array());

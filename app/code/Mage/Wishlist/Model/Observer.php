@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
+class Mage_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
 {
     /**
      * Get customer wishlist model instance

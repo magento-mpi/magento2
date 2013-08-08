@@ -22,7 +22,7 @@ class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_EventTest extends Mag
     }
 
     /**
-     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Magento/Core/_files/store.php
      * @magentoDataFixture Enterprise/CatalogEvent/_files/events.php
      */
     public function testEditActionMultipleStore()

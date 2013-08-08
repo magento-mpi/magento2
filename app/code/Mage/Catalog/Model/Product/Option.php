@@ -36,7 +36,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
+class Mage_Catalog_Model_Product_Option extends Magento_Core_Model_Abstract
 {
     const OPTION_GROUP_TEXT   = 'text';
     const OPTION_GROUP_FILE   = 'file';
@@ -65,14 +65,14 @@ class Mage_Catalog_Model_Product_Option extends Mage_Core_Model_Abstract
     /**
      * Translate instance
      *
-     * @var Mage_Core_Model_Translate
+     * @var Magento_Core_Model_Translate
      */
     protected $_translate;
 
     /**
      * Get resource instance
      *
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
     protected function _getResource()
     {

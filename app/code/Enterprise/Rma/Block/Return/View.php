@@ -298,7 +298,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
         $data['id'] = $this->getRma()->getId();
         $url = $this->getUrl('*/rma/printLabel', $data);
         return $this->getLayout()
-            ->createBlock('Mage_Core_Block_Html_Link')
+            ->createBlock('Magento_Core_Block_Html_Link')
             ->setData(array(
                 'label'   => Mage::helper('Enterprise_Rma_Helper_Data')->__('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
@@ -315,7 +315,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
     public function getShowPackagesButton()
     {
         return $this->getLayout()
-            ->createBlock('Mage_Core_Block_Html_Link')
+            ->createBlock('Magento_Core_Block_Html_Link')
             ->setData(array(
                 'href'      => "javascript:void(0)",
                 'title'     => Mage::helper('Enterprise_Rma_Helper_Data')->__('Show Packages'),
@@ -336,7 +336,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
     public function getPrintShippingLabelButton()
     {
         return $this->getLayout()
-            ->createBlock('Mage_Core_Block_Html_Link')
+            ->createBlock('Magento_Core_Block_Html_Link')
             ->setData(array(
                 'href'      => $this->helper('Enterprise_Rma_Helper_Data')->getPackagePopupUrlByRmaModel(
                     $this->getRma(),

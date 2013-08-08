@@ -129,7 +129,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
                 $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('You have saved the order status.'));
                 $this->_redirect('*/*/');
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException(
@@ -175,7 +175,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
                     $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('You have assigned the order status.'));
                     $this->_redirect('*/*/');
                     return;
-                } catch (Mage_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                 } catch (Exception $e) {
                     $this->_getSession()->addException(
@@ -200,7 +200,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
             try {
                 $status->unassignState($state);
                 $this->_getSession()->addSuccess(Mage::helper('Mage_Sales_Helper_Data')->__('You have unassigned the order status.'));
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException(

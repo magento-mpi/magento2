@@ -54,7 +54,7 @@ class Mage_Downloadable_Model_Link_Api extends Mage_Catalog_Model_Api_Resource
 
             if (isset($result['file'])) {
                 $fullPath = rtrim($tmpPath, DS) . DS . ltrim($result['file'], DS);
-                Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFile($fullPath);
+                Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFile($fullPath);
             }
         } catch (Exception $e) {
             if ($e->getMessage() != '') {
@@ -66,7 +66,7 @@ class Mage_Downloadable_Model_Link_Api extends Mage_Catalog_Model_Api_Resource
 
         $result['status'] = 'new';
         $result['name'] = substr($result['file'], strrpos($result['file'], '/')+1);
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array($result));
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array($result));
     }
 
     /**
@@ -159,7 +159,7 @@ class Mage_Downloadable_Model_Link_Api extends Mage_Catalog_Model_Api_Resource
             );
 
             if ($item->getLinkFile() && !is_file($file)) {
-                Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
+                Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
             }
 
             if ($item->getLinkFile() && is_file($file)) {

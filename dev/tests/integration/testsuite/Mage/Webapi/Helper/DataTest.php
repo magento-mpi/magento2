@@ -38,7 +38,7 @@ class Mage_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
         $reader = $objectManager->create(
             'Mage_Webapi_Model_Config_Reader_Soap',
             array(
-                'cache' => $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false)
+                'cache' => $this->getMock('Magento_Core_Model_Cache', array(), array(), '', false)
             )
         );
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToFixtures));

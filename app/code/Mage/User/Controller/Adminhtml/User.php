@@ -48,7 +48,7 @@ class Mage_User_Controller_Adminhtml_User extends Mage_Backend_Controller_Action
                 return;
             }
         } else {
-            $model->setInterfaceLocale(Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE);
+            $model->setInterfaceLocale(Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE);
         }
 
         $this->_title($model->getId() ? $model->getName() : $this->__('New User'));
@@ -93,7 +93,7 @@ class Mage_User_Controller_Adminhtml_User extends Mage_Backend_Controller_Action
 
         $currentUser = $this->_objectManager->get('Mage_Backend_Model_Auth_Session')->getUser();
         if ($userId == $currentUser->getId()
-            && $this->_objectManager->get('Mage_Core_Model_Locale_Validator')->isValid($data['interface_locale'])
+            && $this->_objectManager->get('Magento_Core_Model_Locale_Validator')->isValid($data['interface_locale'])
         ) {
             $this->_objectManager->get('Mage_Backend_Model_Locale_Manager')
                 ->switchBackendInterfaceLocale($data['interface_locale']);
@@ -104,7 +104,7 @@ class Mage_User_Controller_Adminhtml_User extends Mage_Backend_Controller_Action
             $this->_getSession()->addSuccess($this->__('You saved the user.'));
             $this->_getSession()->setUserData(false);
             $this->_redirect('*/*/');
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addMessages($e->getMessages());
             $this->_getSession()->setUserData($data);
             $this->_redirect('*/*/edit', array('_current' => true));

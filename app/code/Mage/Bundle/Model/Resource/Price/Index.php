@@ -16,7 +16,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * EAV attributes cache
@@ -193,7 +193,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
             $priceData = $this->getProductsPriceData($productId, $website);
             $priceData = $priceData[$productId];
 
-            /* @var $website Mage_Core_Model_Website */
+            /* @var $website Magento_Core_Model_Website */
             foreach ($this->_getCustomerGroups() as $group) {
                 /* @var $group Mage_Customer_Model_Group */
                 if ($priceType == Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
@@ -295,10 +295,10 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
      * Retrieve salable product statuses
      *
      * @param int|array $products
-     * @param Mage_Core_Model_Website $website
+     * @param Magento_Core_Model_Website $website
      * @return array
      */
-    public function getProductsSalableStatus($products, Mage_Core_Model_Website $website)
+    public function getProductsSalableStatus($products, Magento_Core_Model_Website $website)
     {
         $read = $this->_getReadAdapter();
         $productsData = array();
@@ -377,10 +377,10 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
      * Retrieve product(s) price data
      *
      * @param int|array $products
-     * @param Mage_Core_Model_Website $website
+     * @param Magento_Core_Model_Website $website
      * @return array
      */
-    public function getProductsPriceData($products, Mage_Core_Model_Website $website)
+    public function getProductsPriceData($products, Magento_Core_Model_Website $website)
     {
         $productsData = array();
         $read = $this->_getReadAdapter();
@@ -411,11 +411,11 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
      *
      * @param Magento_DB_Select $select
      * @param string $attributeCode
-     * @param Mage_Core_Model_Website $website
+     * @param Magento_Core_Model_Website $website
      * @return Mage_Bundle_Model_Resource_Price_Index
      */
     protected function _addAttributeDataToSelect(Magento_DB_Select $select, $attributeCode,
-        Mage_Core_Model_Website $website)
+        Magento_Core_Model_Website $website)
     {
         $attribute  = $this->_getAttribute($attributeCode);
         $store      = $website->getDefaultStore();
@@ -461,7 +461,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
      *
      * @param int $productId
      * @param array $priceData
-     * @param Mage_Core_Model_Website $website
+     * @param Magento_Core_Model_Website $website
      * @param Mage_Customer_Model_Group $customerGroup
      * @return float
      */
@@ -485,10 +485,10 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
      * Retrieve custom options for product
      *
      * @param int $productId
-     * @param Mage_Core_Model_Website $website
+     * @param Magento_Core_Model_Website $website
      * @return array
      */
-    public function getCustomOptions($productId, Mage_Core_Model_Website $website)
+    public function getCustomOptions($productId, Magento_Core_Model_Website $website)
     {
         $options = array();
         $store   = $website->getDefaultStore();
@@ -676,7 +676,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
      * @param float $basePrice
      * @param array $priceData
      * @param array $priceIndex
-     * @param Mage_Core_Model_Website $website
+     * @param Magento_Core_Model_Website $website
      * @param Mage_Customer_Model_Group $group
      * @return array
      */
@@ -756,10 +756,10 @@ class Mage_Bundle_Model_Resource_Price_Index extends Mage_Core_Model_Resource_Db
      *
      * @param float $finalPrice
      * @param array $priceData
-     * @param Mage_Core_Model_Website $website
+     * @param Magento_Core_Model_Website $website
      * @return float
      */
-    public function _calculateSpecialPrice($finalPrice, array $priceData, Mage_Core_Model_Website $website)
+    public function _calculateSpecialPrice($finalPrice, array $priceData, Magento_Core_Model_Website $website)
     {
         $store              = $website->getDefaultStore();
         $specialPrice       = $priceData['special_price'];

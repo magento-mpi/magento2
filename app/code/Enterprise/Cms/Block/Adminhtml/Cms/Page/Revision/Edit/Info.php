@@ -121,7 +121,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Magento
     public function getCreatedAt()
     {
         $format = Mage::app()->getLocale()->getDateTimeFormat(
-                Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
+                Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
             );
         $data = $this->_page->getRevisionCreatedAt();
         try {

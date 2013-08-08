@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Eav_Model_Entity_Attribute_Abstract
-    extends Mage_Core_Model_Abstract
+    extends Magento_Core_Model_Abstract
     implements Mage_Eav_Model_Entity_Attribute_Interface
 {
     const TYPE_STATIC = 'static';
@@ -85,7 +85,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
      * @param  mixed $entityType
      * @param  string $code
      * @return Mage_Eav_Model_Entity_Attribute_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function loadByCode($entityType, $code)
     {
@@ -299,7 +299,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
      * Retrieve backend instance
      *
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getBackend()
     {
@@ -339,7 +339,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
      * Retrieve source instance
      *
      * @return Mage_Eav_Model_Entity_Attribute_Source_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getSource()
     {
@@ -497,7 +497,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract
             return $this->getSource()->getFlatColums();
         }
 
-        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
             return $this->_getFlatColumnsOldDefinition();
         } else {
             return $this->_getFlatColumnsDdlDefinition();

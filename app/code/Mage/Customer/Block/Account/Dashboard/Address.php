@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Customer_Block_Account_Dashboard_Address extends Mage_Core_Block_Template
+class Mage_Customer_Block_Account_Dashboard_Address extends Magento_Core_Block_Template
 {
     public function getCustomer()
     {

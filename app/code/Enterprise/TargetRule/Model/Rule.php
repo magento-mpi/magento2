@@ -185,7 +185,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
 
             $this->_productIds = array();
             $this->_products   = array();
-            Mage::getSingleton('Mage_Core_Model_Resource_Iterator')->walk(
+            Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
                 $productCollection->getSelect(),
                 array(
                     array($this, 'callbackValidateProduct')

@@ -222,7 +222,7 @@ class Enterprise_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Ma
         try {
             Mage::getModel('Enterprise_GiftCardAccount_Model_Pool')->generatePool();
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('New code pool was generated.'));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addException($e, Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('We were unable to generate a new code pool.'));

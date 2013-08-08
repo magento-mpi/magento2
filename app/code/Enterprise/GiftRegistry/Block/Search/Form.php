@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_GiftRegistry
  */
-class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
+class Enterprise_GiftRegistry_Block_Search_Form extends Magento_Core_Block_Template
 {
     protected $_formData = null;
 
@@ -63,7 +63,7 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => 'params-type-id',
                 'class' => 'select'

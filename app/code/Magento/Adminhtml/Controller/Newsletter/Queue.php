@@ -88,7 +88,7 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
                 return;
             }
 
-            $queue->setQueueStartAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate())
+            $queue->setQueueStartAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
                 ->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_SENDING)
                 ->save();
         }
@@ -246,7 +246,7 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
 
             $this->_redirect('*/*');
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $id = $this->getRequest()->getParam('id');
             if ($id) {

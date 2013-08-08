@@ -211,8 +211,8 @@ class Mage_Sales_Model_Observer
     /**
      * Retrieve sales address (order or quote) on which tax calculation must be based
      *
-     * @param Mage_Core_Model_Abstract $salesModel
-     * @param Mage_Core_Model_Store|string|int|null $store
+     * @param Magento_Core_Model_Abstract $salesModel
+     * @param Magento_Core_Model_Store|string|int|null $store
      * @return Mage_Customer_Model_Address_Abstract|null
      */
     protected function _getVatRequiredSalesAddress($salesModel, $store = null)
@@ -233,7 +233,7 @@ class Mage_Sales_Model_Observer
      * Retrieve customer address (default billing or default shipping) ID on which tax calculation must be based
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param Mage_Core_Model_Store|string|int|null $store
+     * @param Magento_Core_Model_Store|string|int|null $store
      * @return int|string
      */
     protected function _getVatRequiredCustomerAddress(Mage_Customer_Model_Customer $customer, $store = null)
@@ -282,7 +282,7 @@ class Mage_Sales_Model_Observer
         $customerCountryCode = $quoteAddress->getCountryId();
         $customerVatNumber = $quoteAddress->getVatId();
 
-        if (empty($customerVatNumber) || !Mage::helper('Mage_Core_Helper_Data')->isCountryInEU($customerCountryCode)) {
+        if (empty($customerVatNumber) || !Mage::helper('Magento_Core_Helper_Data')->isCountryInEU($customerCountryCode)) {
             $groupId = ($customerInstance->getId()) ? $customerHelper->getDefaultCustomerGroupId($storeId)
                 : Mage_Customer_Model_Group::NOT_LOGGED_IN_ID;
 
@@ -293,8 +293,8 @@ class Mage_Sales_Model_Observer
             return;
         }
 
-        /** @var $coreHelper Mage_Core_Helper_Data */
-        $coreHelper = Mage::helper('Mage_Core_Helper_Data');
+        /** @var $coreHelper Magento_Core_Helper_Data */
+        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
         $merchantCountryCode = $coreHelper->getMerchantCountryCode();
         $merchantVatNumber = $coreHelper->getMerchantVatNumber();
 

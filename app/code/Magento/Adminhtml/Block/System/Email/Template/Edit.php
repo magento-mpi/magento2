@@ -19,7 +19,7 @@
 class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminhtml_Block_Widget
 {
     /**
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
 
@@ -42,14 +42,14 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Registry $registry
      * @param Mage_Backend_Model_Menu_Config $menuConfig
      * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_Registry $registry,
         Mage_Backend_Model_Menu_Config $menuConfig,
         Mage_Backend_Model_Config_Structure $configStructure,
         array $data = array()
@@ -179,7 +179,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     protected function _beforeToHtml()
     {
         $groupedOptions = array();
-        foreach (Mage_Core_Model_Email_Template::getDefaultTemplatesAsOptionsArray() as $option) {
+        foreach (Magento_Core_Model_Email_Template::getDefaultTemplatesAsOptionsArray() as $option) {
             $groupedOptions[$option['group']][] = $option;
         }
         ksort($groupedOptions);
@@ -307,7 +307,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     /**
      * Retrive email template model
      *
-     * @return Mage_Core_Model_Email_Template
+     * @return Magento_Core_Model_Email_Template
      */
     public function getEmailTemplate()
     {
@@ -337,7 +337,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         $paths = $template->getSystemConfigPathsWhereUsedAsDefault();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
         if($asJSON){
-            return $this->helper('Mage_Core_Helper_Data')->jsonEncode($pathsParts);
+            return $this->helper('Magento_Core_Helper_Data')->jsonEncode($pathsParts);
         }
         return $pathsParts;
     }
@@ -355,7 +355,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
         $paths = $template->getSystemConfigPathsWhereUsedCurrently();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
         if($asJSON){
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($pathsParts);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($pathsParts);
         }
         return $pathsParts;
     }

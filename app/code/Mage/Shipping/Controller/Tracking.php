@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Shipping_Controller_Tracking extends Mage_Core_Controller_Front_Action
+class Mage_Shipping_Controller_Tracking extends Magento_Core_Controller_Front_Action
 {
     /**
      * Ajax action
@@ -28,8 +28,8 @@ class Mage_Shipping_Controller_Tracking extends Mage_Core_Controller_Front_Actio
             $response = '';
             $tracks = $order->getTracksCollection();
 
-            $block = $this->_objectManager->create('Mage_Core_Block_Template');
-            $block->setType('Mage_Core_Block_Template')
+            $block = $this->_objectManager->create('Magento_Core_Block_Template');
+            $block->setType('Magento_Core_Block_Template')
                 ->setTemplate('order/trackinginfo.phtml');
 
             foreach ($tracks as $track){

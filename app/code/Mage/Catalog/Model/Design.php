@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
+class Mage_Catalog_Model_Design extends Magento_Core_Model_Abstract
 {
     const APPLY_FOR_PRODUCT     = 1;
     const APPLY_FOR_CATEGORY    = 2;

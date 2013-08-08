@@ -38,7 +38,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Sharing
                 'label'    => $this->helper('Enterprise_GiftRegistry_Helper_Data')->__('Send From'),
                 'required' => true,
                 'name'     => 'store_id',
-                'values'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm()
+                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm()
             ));
         }
 

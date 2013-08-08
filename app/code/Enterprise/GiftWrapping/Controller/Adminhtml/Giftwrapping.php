@@ -130,7 +130,7 @@ class Enterprise_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_
                     $this->_redirect('*/*/edit', array('id' => $model->getId(), 'store' => $model->getStoreId()));
                     return;
                 }
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
@@ -159,7 +159,7 @@ class Enterprise_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_
                 } catch (Exception $e) {
                     Mage::throwException(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('You have not updated the image.'));
                 }
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
                 $this->_getSession()->setFormData($wrappingRawData);
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
@@ -196,7 +196,7 @@ class Enterprise_GiftWrapping_Controller_Adminhtml_Giftwrapping extends Magento_
             $this->_getSession()->addSuccess(
                 Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('You updated a total of %d records.', count($wrappingIds))
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addException($e, Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Something went wrong while updating the wrapping(s) status.'));

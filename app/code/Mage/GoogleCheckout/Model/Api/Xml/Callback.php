@@ -604,7 +604,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
      * Return shipping method code by shipping method name received from Google
      *
      * @param string $name
-     * @param int|string|Mage_Core_Model_Store $storeId
+     * @param int|string|Magento_Core_Model_Store $storeId
      * @return string|false
      */
     protected function _getShippingMethodByName($name, $storeId = null)
@@ -773,11 +773,11 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $order->addStatusToHistory($order->getStatus(), $msg);
 
         $order->setPaymentAuthorizationAmount($payment->getAmountAuthorized());
-        $timestamp = Mage::getModel('Mage_Core_Model_Date')->gmtTimestamp(
+        $timestamp = Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp(
             $this->getData('root/authorization-expiration-date/VALUE')
         );
         $order->setPaymentAuthorizationExpiration(
-            $timestamp ? $timestamp : Mage::getModel('Mage_Core_Model_Date')->gmtTimestamp()
+            $timestamp ? $timestamp : Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp()
         );
 
         $order->save();
@@ -837,7 +837,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             ->register()
             ->pay();
 
-        $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
+        $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
             ->addObject($invoice)
             ->addObject($invoice->getOrder());
 
@@ -855,7 +855,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
 
             $order->setIsInProcess(true);
 
-            $transactionSave = Mage::getModel('Mage_Core_Model_Resource_Transaction')
+            $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
                 ->addObject($shipment)
                 ->addObject($shipment->getOrder())
                 ->save();
@@ -1085,7 +1085,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
     protected function _formatAmount($amount)
     {
         // format currency in currency format, but don't enclose it into <span>
-        return Mage::helper('Mage_Core_Helper_Data')->currency($amount, true, false);
+        return Mage::helper('Magento_Core_Helper_Data')->currency($amount, true, false);
     }
 
 }

@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Page_Helper_Html extends Mage_Core_Helper_Abstract
+class Mage_Page_Helper_Html extends Magento_Core_Helper_Abstract
 {
     
 }

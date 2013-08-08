@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Helper_Product_Url extends Mage_Core_Helper_Url
+class Mage_Catalog_Helper_Product_Url extends Magento_Core_Helper_Url
 {
     /**
      * Symbol convert table
@@ -82,10 +82,10 @@ class Mage_Catalog_Helper_Product_Url extends Mage_Core_Helper_Url
     /**
      * Check additional instruction for convertation table in configuration
      *
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_Config $config)
+    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Config $config)
     {
         parent::__construct($context);
         $convertNode = $config->getNode('default/url/convert');
@@ -116,7 +116,7 @@ class Mage_Catalog_Helper_Product_Url extends Mage_Core_Helper_Url
     {
         $string = strtr($string, $this->getConvertTable());
         return '"libiconv"' == ICONV_IMPL
-            ? iconv(Mage_Core_Helper_String::ICONV_CHARSET, 'ascii//ignore//translit', $string)
+            ? iconv(Magento_Core_Helper_String::ICONV_CHARSET, 'ascii//ignore//translit', $string)
             : $string;
     }
 }

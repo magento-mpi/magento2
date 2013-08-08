@@ -9,7 +9,7 @@
 /**
  * Collection of banner <-> catalog rule associations
  */
-class Enterprise_Banner_Model_Resource_Catalogrule_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Enterprise_Banner_Model_Resource_Catalogrule_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * @var string
@@ -33,7 +33,7 @@ class Enterprise_Banner_Model_Resource_Catalogrule_Collection extends Mage_Core_
     /**
      * Filter out disabled banners
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _initSelect()
     {

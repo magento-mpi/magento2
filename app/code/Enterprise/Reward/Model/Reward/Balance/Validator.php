@@ -18,7 +18,7 @@ class Enterprise_Reward_Model_Reward_Balance_Validator
     protected $_modelFactory;
 
     /**
-     * @var Mage_Core_Model_StoreManager
+     * @var Magento_Core_Model_StoreManager
      */
     protected $_storeManager;
 
@@ -28,13 +28,13 @@ class Enterprise_Reward_Model_Reward_Balance_Validator
     protected $_session;
 
     /**
-     * @param Mage_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_StoreManager $storeManager
      * @param Enterprise_Reward_Helper_Data $helper
      * @param Enterprise_Reward_Model_RewardFactory $modelFactory
      * @param Mage_Checkout_Model_Session $session
      */
     public function __construct(
-        Mage_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_StoreManager $storeManager,
         Enterprise_Reward_Helper_Data $helper,
         Enterprise_Reward_Model_RewardFactory $modelFactory,
         Mage_Checkout_Model_Session $session

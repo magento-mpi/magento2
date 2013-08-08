@@ -36,8 +36,8 @@ class Mage_Backend_Model_Config_Structure_Element_TabTest extends PHPUnit_Framew
         $this->_iteratorMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Iterator_Field', array(), array(), '', false
         );
-        $this->_factoryHelperMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
-        $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
+        $this->_factoryHelperMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
+        $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
 
         $this->_model = new Mage_Backend_Model_Config_Structure_Element_Tab(
             $this->_factoryHelperMock, $this->_applicationMock, $this->_iteratorMock

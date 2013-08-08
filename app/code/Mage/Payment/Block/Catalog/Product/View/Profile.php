@@ -11,7 +11,7 @@
 /**
  * Recurring profile info/options product view block
  */
-class Mage_Payment_Block_Catalog_Product_View_Profile extends Mage_Core_Block_Template
+class Mage_Payment_Block_Catalog_Product_View_Profile extends Magento_Core_Block_Template
 {
     /**
      * Recurring profile instance
@@ -47,13 +47,13 @@ class Mage_Payment_Block_Catalog_Product_View_Profile extends Mage_Core_Block_Te
         if ($this->_profile->getStartDateIsEditable()) {
             $this->setDateHtmlId('recurring_start_date');
             $calendar = $this->getLayout()
-                ->createBlock('Mage_Core_Block_Html_Date')
+                ->createBlock('Magento_Core_Block_Html_Date')
                 ->setId('recurring_start_date')
                 ->setName(Mage_Payment_Model_Recurring_Profile::BUY_REQUEST_START_DATETIME)
                 ->setClass('datetime-picker input-text')
-                ->setImage($this->getViewFileUrl('Mage_Core::calendar.gif'))
-                ->setDateFormat(Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT))
-                ->setTimeFormat(Mage::app()->getLocale()->getTimeFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT));
+                ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
+                ->setDateFormat(Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT))
+                ->setTimeFormat(Mage::app()->getLocale()->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT));
             return $calendar->getHtml();
         }
     }

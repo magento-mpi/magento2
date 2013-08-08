@@ -12,7 +12,7 @@
  * Shopping cart controller
  */
 class Mage_Checkout_Controller_Cart
-    extends Mage_Core_Controller_Front_Action
+    extends Magento_Core_Controller_Front_Action
     implements Mage_Catalog_Controller_Product_View_Interface
 {
     /**
@@ -23,7 +23,7 @@ class Mage_Checkout_Controller_Cart
     protected $_cookieCheckActions = array('add');
 
     /**
-     * @var Mage_Core_Model_Store_ConfigInterface
+     * @var Magento_Core_Model_Store_ConfigInterface
      */
     protected $_storeConfig;
 
@@ -33,14 +33,14 @@ class Mage_Checkout_Controller_Cart
     protected $_checkoutSession;
 
     /**
-     * @param Mage_Core_Controller_Varien_Action_Context $context
-     * @param Mage_Core_Model_Store_ConfigInterface $storeConfig
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Store_ConfigInterface $storeConfig
      * @param Mage_Checkout_Model_Session $checkoutSession
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Varien_Action_Context $context,
-        Mage_Core_Model_Store_ConfigInterface $storeConfig,
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Store_ConfigInterface $storeConfig,
         Mage_Checkout_Model_Session $checkoutSession,
         $areaCode = null
     ) {
@@ -141,7 +141,7 @@ class Mage_Checkout_Controller_Cart
         foreach ($cart->getQuote()->getMessages() as $message) {
             if ($message) {
                 // Escape HTML entities in quote message to prevent XSS
-                $message->setCode(Mage::helper('Mage_Core_Helper_Data')->escapeHtml($message->getCode()));
+                $message->setCode(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($message->getCode()));
                 $messages[] = $message;
             }
         }
@@ -207,18 +207,18 @@ class Mage_Checkout_Controller_Cart
 
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $message = $this->__('You added %s to your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName()));
+                    $message = $this->__('You added %s to your shopping cart.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($product->getName()));
                     $this->_checkoutSession->addSuccess($message);
                 }
                 $this->_goBack();
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             if ($this->_checkoutSession->getUseNotice(true)) {
-                $this->_checkoutSession->addNotice(Mage::helper('Mage_Core_Helper_Data')->escapeHtml($e->getMessage()));
+                $this->_checkoutSession->addNotice(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($e->getMessage()));
             } else {
                 $messages = array_unique(explode("\n", $e->getMessage()));
                 foreach ($messages as $message) {
-                    $this->_checkoutSession->addError(Mage::helper('Mage_Core_Helper_Data')->escapeHtml($message));
+                    $this->_checkoutSession->addError(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($message));
                 }
             }
 
@@ -248,7 +248,7 @@ class Mage_Checkout_Controller_Cart
             foreach ($itemsCollection as $item) {
                 try {
                     $cart->addOrderItem($item, 1);
-                } catch (Mage_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     if ($this->_checkoutSession->getUseNotice(true)) {
                         $this->_checkoutSession->addNotice($e->getMessage());
                     } else {
@@ -349,12 +349,12 @@ class Mage_Checkout_Controller_Cart
             );
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $message = $this->__('%s was updated in your shopping cart.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($item->getProduct()->getName()));
+                    $message = $this->__('%s was updated in your shopping cart.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($item->getProduct()->getName()));
                     $this->_checkoutSession->addSuccess($message);
                 }
                 $this->_goBack();
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             if ($this->_checkoutSession->getUseNotice(true)) {
                 $this->_checkoutSession->addNotice($e->getMessage());
             } else {
@@ -425,8 +425,8 @@ class Mage_Checkout_Controller_Cart
                     ->save();
             }
             $this->_checkoutSession->setCartWasUpdated(true);
-        } catch (Mage_Core_Exception $e) {
-            $this->_checkoutSession->addError(Mage::helper('Mage_Core_Helper_Data')->escapeHtml($e->getMessage()));
+        } catch (Magento_Core_Exception $e) {
+            $this->_checkoutSession->addError(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($e->getMessage()));
         } catch (Exception $e) {
             $this->_checkoutSession->addException($e, $this->__('We cannot update the shopping cart.'));
             Mage::logException($e);
@@ -441,7 +441,7 @@ class Mage_Checkout_Controller_Cart
         try {
             $this->_getCart()->truncate()->save();
             $this->_checkoutSession->setCartWasUpdated(true);
-        } catch (Mage_Core_Exception $exception) {
+        } catch (Magento_Core_Exception $exception) {
             $this->_checkoutSession->addError($exception->getMessage());
         } catch (Exception $exception) {
             $this->_checkoutSession->addException($exception, $this->__('We cannot update the shopping cart.'));
@@ -533,18 +533,18 @@ class Mage_Checkout_Controller_Cart
             if ($codeLength) {
                 if ($isCodeLengthValid && $couponCode == $this->_getQuote()->getCouponCode()) {
                     $this->_checkoutSession->addSuccess(
-                        $this->__('The coupon code "%s" was applied.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($couponCode))
+                        $this->__('The coupon code "%s" was applied.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($couponCode))
                     );
                 } else {
                     $this->_checkoutSession->addError(
-                        $this->__('The coupon code "%s" is not valid.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($couponCode))
+                        $this->__('The coupon code "%s" is not valid.', Mage::helper('Magento_Core_Helper_Data')->escapeHtml($couponCode))
                     );
                 }
             } else {
                 $this->_checkoutSession->addSuccess($this->__('The coupon code was canceled.'));
             }
 
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_checkoutSession->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_checkoutSession->addError($this->__('We cannot apply the coupon code.'));

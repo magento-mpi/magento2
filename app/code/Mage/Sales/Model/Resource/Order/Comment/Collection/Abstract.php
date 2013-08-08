@@ -22,12 +22,12 @@ abstract class Mage_Sales_Model_Resource_Order_Comment_Collection_Abstract
     /**
      * Set filter on comments by their parent item
      *
-     * @param Mage_Core_Model_Abstract|int $parent
+     * @param Magento_Core_Model_Abstract|int $parent
      * @return Mage_Sales_Model_Resource_Order_Comment_Collection_Abstract
      */
     public function setParentFilter($parent)
     {
-        if ($parent instanceof Mage_Core_Model_Abstract) {
+        if ($parent instanceof Magento_Core_Model_Abstract) {
             $parent = $parent->getId();
         }
         return $this->addFieldToFilter('parent_id', $parent);

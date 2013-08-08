@@ -15,7 +15,7 @@
  * @package     Enterprise_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Gift wrapping allow section in configuration
@@ -51,7 +51,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
      * Check availablity of gift wrapping for product
      *
      * @param int $productConfig
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function isGiftWrappingAvailableForProduct($productConfig, $store = null)
@@ -66,7 +66,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check availablity of gift wrapping on items level
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function isGiftWrappingAvailableForItems($store = null)
@@ -77,7 +77,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check availablity of gift wrapping on order level
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function isGiftWrappingAvailableForOrder($store = null)
@@ -88,7 +88,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check ability to display both prices for printed card
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function getWrappingTaxClass($store = null)
@@ -99,7 +99,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check printed card allow
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function allowPrintedCard($store = null)
@@ -110,7 +110,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check allow gift receipt
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function allowGiftReceipt($store = null)
@@ -121,7 +121,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Return printed card base price
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return mixed
      */
     public function getPrintedCardPrice($store = null)
@@ -132,7 +132,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check ability to display prices including tax for gift wrapping in shopping cart
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function displayCartWrappingIncludeTaxPrice($store = null)
@@ -145,7 +145,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check ability to display prices excluding tax for gift wrapping in shopping cart
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function displayCartWrappingExcludeTaxPrice($store = null)
@@ -157,7 +157,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check ability to display both prices for gift wrapping in shopping cart
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function displayCartWrappingBothPrices($store = null)
@@ -169,7 +169,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check ability to display prices including tax for printed card in shopping cart
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function displayCartCardIncludeTaxPrice($store = null)
@@ -182,7 +182,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check ability to display both prices for printed card in shopping cart
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function displayCartCardBothPrices($store = null)
@@ -194,7 +194,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check ability to display prices including tax for gift wrapping in backend sales
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function displaySalesWrappingIncludeTaxPrice($store = null)
@@ -207,7 +207,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check ability to display prices excluding tax for gift wrapping in backend sales
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function displaySalesWrappingExcludeTaxPrice($store = null)
@@ -219,7 +219,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check ability to display both prices for gift wrapping in backend sales
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function displaySalesWrappingBothPrices($store = null)
@@ -231,7 +231,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check ability to display prices including tax for printed card in backend sales
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function displaySalesCardIncludeTaxPrice($store = null)
@@ -244,7 +244,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check ability to display both prices for printed card in backend sales
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      * @return bool
      */
     public function displaySalesCardBothPrices($store = null)

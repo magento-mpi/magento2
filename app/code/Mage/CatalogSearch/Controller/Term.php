@@ -9,7 +9,7 @@
  */
 
 
-class Mage_CatalogSearch_Controller_Term extends Mage_Core_Controller_Front_Action {
+class Mage_CatalogSearch_Controller_Term extends Magento_Core_Controller_Front_Action {
 
     public function preDispatch(){
         parent::preDispatch();

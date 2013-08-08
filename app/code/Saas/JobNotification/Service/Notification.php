@@ -53,7 +53,7 @@ class Saas_JobNotification_Service_Notification
         try {
             $model->addData($data);
             $model->save();
-        } catch (Mage_Core_Exception $exception) {
+        } catch (Magento_Core_Exception $exception) {
             throw new Saas_JobNotification_Service_Exception($exception->getMessage());
         }
     }

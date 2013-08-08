@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Helper_Sales extends Mage_Core_Helper_Abstract
+class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
 {
     /**
      * Display price attribute value in base order currency and in place order currency
@@ -71,8 +71,8 @@ class Magento_Adminhtml_Helper_Sales extends Mage_Core_Helper_Abstract
     /**
      * Filter collection by removing not available product types
      *
-     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $collection
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $collection
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function applySalableProductTypesFilter($collection)
     {

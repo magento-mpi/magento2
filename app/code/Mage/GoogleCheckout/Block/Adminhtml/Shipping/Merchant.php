@@ -84,12 +84,12 @@ class Mage_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
 
             $storeId = null;
             if (!is_null($website)) {
-                $storeId = Mage::getModel('Mage_Core_Model_Website')
+                $storeId = Mage::getModel('Magento_Core_Model_Website')
                     ->load($website, 'code')
                     ->getDefaultGroup()
                     ->getDefaultStoreId();
             } elseif (!is_null($store)) {
-                $storeId = Mage::getModel('Mage_Core_Model_Store')
+                $storeId = Mage::getModel('Magento_Core_Model_Store')
                     ->load($store, 'code')
                     ->getId();
             }

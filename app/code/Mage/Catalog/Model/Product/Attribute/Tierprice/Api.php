@@ -84,7 +84,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
             $product->save();
         } catch (Mage_Api_Exception $e) {
             throw $e;
-        }catch (Mage_Core_Exception $e) {
+        }catch (Magento_Core_Exception $e) {
             $this->_fault('not_updated', $e->getMessage());
         }
 
@@ -122,7 +122,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api extends Mage_Catalog_Mo
             } else {
                 try {
                     $tierPrice['website'] = Mage::app()->getWebsite($tierPrice['website'])->getId();
-                } catch (Mage_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     $tierPrice['website'] = 0;
                 }
             }

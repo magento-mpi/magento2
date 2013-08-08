@@ -18,7 +18,7 @@
  * @package     Mage_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Coupon_Massgenerator extends Mage_Core_Model_Abstract
+class Mage_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Abstract
     implements Mage_SalesRule_Model_Coupon_CodegeneratorInterface
 {
     /**
@@ -119,7 +119,7 @@ class Mage_SalesRule_Model_Coupon_Massgenerator extends Mage_Core_Model_Abstract
         }
 
         $now = $this->getResource()->formatDate(
-            Mage::getSingleton('Mage_Core_Model_Date')->gmtTimestamp()
+            Mage::getSingleton('Magento_Core_Model_Date')->gmtTimestamp()
         );
 
         for ($i = 0; $i < $size; $i++) {

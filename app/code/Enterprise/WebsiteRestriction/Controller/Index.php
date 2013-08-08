@@ -15,12 +15,12 @@
  * @package     Enterprise_WebsiteRestriction
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_WebsiteRestriction_Controller_Index extends Mage_Core_Controller_Front_Action
+class Enterprise_WebsiteRestriction_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     protected $_stubPageIdentifier = Enterprise_WebsiteRestriction_Helper_Data::XML_PATH_RESTRICTION_LANDING_PAGE;
 
     /**
-     * @var Mage_Core_Model_Cache_Type_Config
+     * @var Magento_Core_Model_Cache_Type_Config
      */
     protected $_configCacheType;
 
@@ -32,13 +32,13 @@ class Enterprise_WebsiteRestriction_Controller_Index extends Mage_Core_Controlle
     protected $_cacheKeyPrefix = 'RESTRICTION_LANGING_PAGE_';
 
     /**
-     * @param Mage_Core_Controller_Varien_Action_Context $context
-     * @param Mage_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Core_Controller_Varien_Action_Context $context,
-        Mage_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);
@@ -96,7 +96,7 @@ class Enterprise_WebsiteRestriction_Controller_Index extends Mage_Core_Controlle
             $this->renderLayout();
 
             $this->_configCacheType->save(
-                $this->getResponse()->getBody(), $this->_cacheKey, array(Mage_Core_Model_Website::CACHE_TAG)
+                $this->getResponse()->getBody(), $this->_cacheKey, array(Magento_Core_Model_Website::CACHE_TAG)
             );
         }
     }

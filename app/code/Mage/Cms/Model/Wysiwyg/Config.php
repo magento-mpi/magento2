@@ -31,18 +31,18 @@ class Mage_Cms_Model_Wysiwyg_Config extends Magento_Object
     protected $_authorization;
     
     /**
-     * @var Mage_Core_Model_View_Url
+     * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
 
     /**
      * @param Magento_AuthorizationInterface $authorization
-     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $data
      */
     public function __construct(
         Magento_AuthorizationInterface $authorization,
-        Mage_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_View_Url $viewUrl,
         array $data = array()
     ) {
         $this->_authorization = $authorization;

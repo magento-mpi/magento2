@@ -16,7 +16,7 @@
  * @package     Mage_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sitemap_Model_Resource_Catalog_Category extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Collection Zend Db select
@@ -44,7 +44,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Category extends Mage_Core_Model_Resou
     /**
      * Get category collection array
      *
-     * @param null|string|bool|int|Mage_Core_Model_Store $storeId
+     * @param null|string|bool|int|Magento_Core_Model_Store $storeId
      * @return array
      */
     public function getCollection($storeId)
@@ -52,7 +52,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Category extends Mage_Core_Model_Resou
         $categories = array();
 
         $store = Mage::app()->getStore($storeId);
-        /* @var $store Mage_Core_Model_Store */
+        /* @var $store Magento_Core_Model_Store */
 
         if (!$store) {
             return false;

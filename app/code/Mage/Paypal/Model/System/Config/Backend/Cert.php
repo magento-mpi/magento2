@@ -11,7 +11,7 @@
 /**
  * Backend model for saving certificate file in case of using certificate based authentication
  */
-class Mage_Paypal_Model_System_Config_Backend_Cert extends Mage_Core_Model_Config_Data
+class Mage_Paypal_Model_System_Config_Backend_Cert extends Magento_Core_Model_Config_Data
 {
     /**
      * Process additional data before save config
@@ -35,7 +35,7 @@ class Mage_Paypal_Model_System_Config_Backend_Cert extends Mage_Core_Model_Confi
                 Mage::throwException(Mage::helper('Mage_Paypal_Helper_Data')->__('The PayPal certificate file is empty.'));
             }
             $this->setValue($_FILES['groups']['name'][$this->getGroupId()]['fields'][$this->getField()]['value']);
-            $content = Mage::helper('Mage_Core_Helper_Data')->encrypt(file_get_contents($tmpPath));
+            $content = Mage::helper('Magento_Core_Helper_Data')->encrypt(file_get_contents($tmpPath));
             Mage::getModel('Mage_Paypal_Model_Cert')->loadByWebsite($this->getScopeId())
                 ->setContent($content)
                 ->save();

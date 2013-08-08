@@ -24,18 +24,18 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
     /**
      * Root ACL Resource
      *
-     * @var Mage_Core_Model_Acl_RootResource
+     * @var Magento_Core_Model_Acl_RootResource
      */
     protected $_rootResource;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_Acl_RootResource $rootResource
+     * @param Magento_Core_Model_Acl_RootResource $rootResource
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_Acl_RootResource $rootResource,
+        Magento_Core_Model_Acl_RootResource $rootResource,
         array $data = array()
     ) {
         parent::__construct($context, $data);

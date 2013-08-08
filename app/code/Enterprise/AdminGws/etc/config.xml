@@ -25,7 +25,7 @@
             <enterprise_admingws_setup>
                 <setup>
                     <module>Enterprise_AdminGws</module>
-                    <class>Mage_Core_Model_Resource_Setup</class>
+                    <class>Magento_Core_Model_Resource_Setup</class>
                 </setup>
             </enterprise_admingws_setup>
         </resources>
@@ -271,9 +271,9 @@
                     <mage_sales_model_resource_report_bestsellers_collection>limitBestsellersCollection</mage_sales_model_resource_report_bestsellers_collection>
                     <mage_reports_model_resource_product_collection>limitProductReports</mage_reports_model_resource_product_collection>
                     <mage_reports_model_resource_report_product_viewed_collection>limitMostViewedCollection</mage_reports_model_resource_report_product_viewed_collection>
-                    <mage_core_model_resource_store_collection>limitStores</mage_core_model_resource_store_collection>
-                    <mage_core_model_resource_website_collection>limitWebsites</mage_core_model_resource_website_collection>
-                    <mage_core_model_resource_store_group_collection>limitStoreGroups</mage_core_model_resource_store_group_collection>
+                    <magento_core_model_resource_store_collection>limitStores</magento_core_model_resource_store_collection>
+                    <magento_core_model_resource_website_collection>limitWebsites</magento_core_model_resource_website_collection>
+                    <magento_core_model_resource_store_group_collection>limitStoreGroups</magento_core_model_resource_store_group_collection>
                     <mage_cms_model_resource_page_collection>addStoreFilter</mage_cms_model_resource_page_collection>
                     <mage_cms_model_resource_block_collection>addStoreFilter</mage_cms_model_resource_block_collection>
                     <mage_poll_model_resource_poll_collection>addStoreFilterNoAdmin</mage_poll_model_resource_poll_collection>
@@ -288,7 +288,7 @@
                     <enterprise_catalogEvent_model_resource_event_collection>limitCatalogEvents</enterprise_catalogEvent_model_resource_event_collection>
                     <enterprise_cms_model_resource_hierarchy_node_collection>addStoreFilter</enterprise_cms_model_resource_hierarchy_node_collection>
                     <mage_catalog_model_resource_category_collection>limitCatalogCategories</mage_catalog_model_resource_category_collection>
-                    <mage_core_model_resource_url_rewrite_collection>limitCoreUrlRewrites</mage_core_model_resource_url_rewrite_collection>
+                    <magento_core_model_resource_url_rewrite_collection>limitCoreUrlRewrites</magento_core_model_resource_url_rewrite_collection>
                     <mage_rating_model_resource_rating_collection>limitRatings</mage_rating_model_resource_rating_collection>
                     <mage_googleShopping_model_resource_item_collection>addStoreFilter</mage_googleShopping_model_resource_item_collection>
                     <mage_sitemap_model_resource_sitemap_collection>addStoreFilter</mage_sitemap_model_resource_sitemap_collection>
@@ -298,7 +298,7 @@
                     <mage_checkout_model_resource_agreement_collection>limitCheckoutAgreements</mage_checkout_model_resource_agreement_collection>
                     <mage_newsletter_model_resource_queue_collection>addStoreFilter</mage_newsletter_model_resource_queue_collection>
                     <mage_newsletter_model_resource_subscriber_collection>addStoreFilter</mage_newsletter_model_resource_subscriber_collection>
-                    <mage_core_model_resource_design_collection>addStoreFilter</mage_core_model_resource_design_collection>
+                    <magento_core_model_resource_design_collection>addStoreFilter</magento_core_model_resource_design_collection>
                     <mage_user_model_resource_role_collection>limitAdminPermissionRoles</mage_user_model_resource_role_collection>
                     <mage_user_model_resource_role_collection>limitAdminPermissionRoles</mage_user_model_resource_role_collection>
                     <mage_user_model_resource_user_collection>limitAdminPermissionUsers</mage_user_model_resource_user_collection>
@@ -336,9 +336,9 @@
                     <mage_customer_model_customer>customerSaveBefore</mage_customer_model_customer>
                     <mage_customer_model_attribute>customerAttributeSaveBefore</mage_customer_model_attribute>
                     <enterprise_catalogEvent_model_event>catalogEventSaveBefore</enterprise_catalogEvent_model_event>
-                    <mage_core_model_website>coreWebsiteSaveBefore</mage_core_model_website>
-                    <mage_core_model_store_group>coreStoreGroupSaveBefore</mage_core_model_store_group>
-                    <mage_core_model_store>coreStoreGroupSaveBefore</mage_core_model_store>
+                    <magento_core_model_website>coreWebsiteSaveBefore</magento_core_model_website>
+                    <magento_core_model_store_group>coreStoreGroupSaveBefore</magento_core_model_store_group>
+                    <magento_core_model_store>coreStoreGroupSaveBefore</magento_core_model_store>
                     <mage_catalog_model_entity_attribute>catalogEntityAttributeSaveBefore</mage_catalog_model_entity_attribute>
                     <mage_eav_model_entity_attribute_set>eavEntityAttributeSetSaveBefore</mage_eav_model_entity_attribute_set>
                     <mage_eav_model_entity_attribute_group>eavEntityAttributeGroupSaveBefore</mage_eav_model_entity_attribute_group>
@@ -362,9 +362,9 @@
                     <mage_customer_model_customer>customerDeleteBefore</mage_customer_model_customer>
                     <mage_customer_model_attribute>customerAttributeDeleteBefore</mage_customer_model_attribute>
                     <enterprise_catalogEvent_model_event>catalogEventDeleteBefore</enterprise_catalogEvent_model_event>
-                    <mage_core_model_website>coreWebsiteDeleteBefore</mage_core_model_website>
-                    <mage_core_model_store_group>coreStoreGroupDeleteBefore</mage_core_model_store_group>
-                    <mage_core_model_store>coreStoreGroupDeleteBefore</mage_core_model_store>
+                    <magento_core_model_website>coreWebsiteDeleteBefore</magento_core_model_website>
+                    <magento_core_model_store_group>coreStoreGroupDeleteBefore</magento_core_model_store_group>
+                    <magento_core_model_store>coreStoreGroupDeleteBefore</magento_core_model_store>
                     <mage_catalog_model_entity_attribute>catalogEntityAttributeDeleteBefore</mage_catalog_model_entity_attribute>
                     <mage_eav_model_entity_attribute_set>eavEntityAttributeSetDeleteBefore</mage_eav_model_entity_attribute_set>
                     <mage_eav_model_entity_attribute_group>eavEntityAttributeGroupDeleteBefore</mage_eav_model_entity_attribute_group>
@@ -384,10 +384,10 @@
                     <mage_sales_model_order>salesOrderLoadAfter</mage_sales_model_order>
                     <mage_sales_model_order_payment_transaction>salesOrderTransactionLoadAfter</mage_sales_model_order_payment_transaction>
                     <mage_rule_model_abstract>ruleLoadAfter</mage_rule_model_abstract>
-                    <mage_core_model_website>coreWebsiteLoadAfter</mage_core_model_website>
-                    <mage_core_model_store_group>coreStoreGroupLoadAfter</mage_core_model_store_group>
-                    <mage_core_model_store>coreStoreGroupLoadAfter</mage_core_model_store>
-                    <mage_core_model_url_rewrite>coreUrlRewriteLoadAfter</mage_core_model_url_rewrite>
+                    <magento_core_model_website>coreWebsiteLoadAfter</magento_core_model_website>
+                    <magento_core_model_store_group>coreStoreGroupLoadAfter</magento_core_model_store_group>
+                    <magento_core_model_store>coreStoreGroupLoadAfter</magento_core_model_store>
+                    <magento_core_model_url_rewrite>coreUrlRewriteLoadAfter</magento_core_model_url_rewrite>
                     <mage_newsletter_model_queue>newsletterQueueLoadAfter</mage_newsletter_model_queue>
                     <enterprise_banner_model_banner>bannerLoadAfter</enterprise_banner_model_banner>
                     <mage_widget_model_widget_instance>widgetInstanceLoadAfter</mage_widget_model_widget_instance>

@@ -17,7 +17,7 @@
  * @method Mage_GoogleOptimizer_Model_Code setExperimentScript(int $value)
  * @method string getExperimentScript()
  */
-class Mage_GoogleOptimizer_Model_Code extends Mage_Core_Model_Abstract
+class Mage_GoogleOptimizer_Model_Code extends Magento_Core_Model_Abstract
 {
     /**#@+
      * Entity types

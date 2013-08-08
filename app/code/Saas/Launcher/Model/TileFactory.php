@@ -28,7 +28,7 @@ class Saas_Launcher_Model_TileFactory
     const XML_PATH_TILE_SAVE_HANDLER_PATTERN = 'adminhtml/launcher/pages/%s/tiles/%s/save_handler';
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_applicationConfig;
 
@@ -39,11 +39,11 @@ class Saas_Launcher_Model_TileFactory
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Model_Config $applicationConfig
+     * @param Magento_Core_Model_Config $applicationConfig
      */
     public function __construct(
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Config $applicationConfig
+        Magento_Core_Model_Config $applicationConfig
     ) {
         $this->_objectManager = $objectManager;
         $this->_applicationConfig = $applicationConfig;

@@ -17,9 +17,9 @@ data
 Mage/Paypal
 Mage/Paygate
 Mage/Downloadable
-Mage/Core/Model/Resource/Helper
-Mage/Core/Model/Url/RewriteFactory
-Mage/Core/Model/Layout/Merge/Factory
+Magento/Core/Model/Resource/Helper
+Magento/Core/Model/Url/RewriteFactory
+Magento/Core/Model/Layout/Merge/Factory
 Mage/Catalog/Model/Resource/Product/Indexer
 Mage/CatalogInventory/Model/Resource/Indexer/Stock
 Mage/Sales/Model/Order
@@ -38,7 +38,7 @@ Mage/Sales/Model/Resource/Order
 Mage/Tag/Block
 Mage/Tag/Model/Resource
 Mage/Catalog/Model/Resource/Product
-Mage/Core/Model/Store
+Magento/Core/Model/Store
 Mage/Cron/Model/Config/Backend/Product
 Mage/DesignEditor/Block/Adminhtml/Editor/Tools/Code
 Mage/DesignEditor/Block/Adminhtml/Theme/Selector/Tab

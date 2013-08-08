@@ -15,14 +15,14 @@
  * @package    Mage_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Authorizenet_Block_Directpost_Iframe extends Mage_Core_Block_Template
+class Mage_Authorizenet_Block_Directpost_Iframe extends Magento_Core_Block_Template
 {
     /**
      * Preparing global layout
      *
      * You can redefine this method in child classes for changing layout
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {

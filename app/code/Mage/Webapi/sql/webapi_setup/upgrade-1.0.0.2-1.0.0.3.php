@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var Mage_Core_Model_Resource_Setup $installer */
+/* @var Magento_Core_Model_Resource_Setup $installer */
 $installer = $this;
 $installer->startSetup();
 $connection = $installer->getConnection();

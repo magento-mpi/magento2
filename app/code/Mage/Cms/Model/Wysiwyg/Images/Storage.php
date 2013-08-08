@@ -24,7 +24,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     /**
      * Config object
      *
-     * @var Mage_Core_Model_Config_Element
+     * @var Magento_Core_Model_Config_Element
      */
     protected $_config;
 
@@ -41,12 +41,12 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     protected $_filesystem;
 
     /**
-     * @var Mage_Core_Model_Image_AdapterFactory
+     * @var Magento_Core_Model_Image_AdapterFactory
      */
     protected $_imageFactory;
 
     /**
-     * @var Mage_Core_Model_View_Url
+     * @var Magento_Core_Model_View_Url
      */
     protected $_viewUrl;
 
@@ -54,14 +54,14 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      * Constructor
      *
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_Image_AdapterFactory $imageFactory
-     * @param Mage_Core_Model_View_Url $viewUrl
+     * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
+     * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $data
      */
     public function __construct(
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Image_AdapterFactory $imageFactory,
-        Mage_Core_Model_View_Url $viewUrl,
+        Magento_Core_Model_Image_AdapterFactory $imageFactory,
+        Magento_Core_Model_View_Url $viewUrl,
         array $data = array()
     ) {
         $this->_filesystem = $filesystem;
@@ -80,8 +80,8 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function getDirsCollection($path)
     {
-        if (Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()) {
-            $subDirectories = Mage::getModel('Mage_Core_Model_File_Storage_Directory_Database')
+        if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
+            $subDirectories = Mage::getModel('Magento_Core_Model_File_Storage_Directory_Database')
                 ->getSubdirectories($path);
             foreach ($subDirectories as $directory) {
                 $fullPath = rtrim($path, DS) . DS . $directory['name'];
@@ -127,10 +127,10 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function getFilesCollection($path, $type = null)
     {
-        if (Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()) {
-            $files = Mage::getModel('Mage_Core_Model_File_Storage_Database')->getDirectoryFiles($path);
+        if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
+            $files = Mage::getModel('Magento_Core_Model_File_Storage_Database')->getDirectoryFiles($path);
 
-            $fileStorageModel = Mage::getModel('Mage_Core_Model_File_Storage_File');
+            $fileStorageModel = Mage::getModel('Magento_Core_Model_File_Storage_File');
             foreach ($files as $file) {
                 $fileStorageModel->saveFile($file);
             }
@@ -200,7 +200,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      *
      * @param string $name New directory name
      * @param string $path Parent directory path
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return array New directory info
      */
     public function createDirectory($name, $path)
@@ -220,9 +220,9 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
 
         $this->_filesystem->createDirectory($newPath);
         try {
-            if (Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()) {
-                $relativePath = Mage::helper('Mage_Core_Helper_File_Storage_Database')->getMediaRelativePath($newPath);
-                Mage::getModel('Mage_Core_Model_File_Storage_Directory_Database')->createRecursive($relativePath);
+            if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
+                $relativePath = Mage::helper('Magento_Core_Helper_File_Storage_Database')->getMediaRelativePath($newPath);
+                Mage::getModel('Magento_Core_Model_File_Storage_Directory_Database')->createRecursive($relativePath);
             }
 
             $result = array(
@@ -256,8 +256,8 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         }
 
 
-        if (Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()) {
-            Mage::getModel('Mage_Core_Model_File_Storage_Directory_Database')->deleteDirectory($path);
+        if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
+            Mage::getModel('Magento_Core_Model_File_Storage_Directory_Database')->deleteDirectory($path);
         }
         try {
             $this->_filesystem->delete($path);
@@ -283,14 +283,14 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
         if ($this->_filesystem->isFile($target)) {
             $this->_filesystem->delete($target);
         }
-        Mage::helper('Mage_Core_Helper_File_Storage_Database')->deleteFile($target);
+        Mage::helper('Magento_Core_Helper_File_Storage_Database')->deleteFile($target);
 
         $thumb = $this->getThumbnailPath($target, true);
         if ($thumb) {
             if ($this->_filesystem->isFile($thumb)) {
                 $this->_filesystem->delete($thumb);
             }
-            Mage::helper('Mage_Core_Helper_File_Storage_Database')->deleteFile($thumb);
+            Mage::helper('Magento_Core_Helper_File_Storage_Database')->deleteFile($thumb);
         }
         return $this;
     }
@@ -301,12 +301,12 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      *
      * @param string $targetPath Target directory
      * @param string $type Type of storage, e.g. image, media etc.
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return array File info Array
      */
     public function uploadFile($targetPath, $type = null)
     {
-        $uploader = new Mage_Core_Model_File_Uploader('image');
+        $uploader = new Magento_Core_Model_File_Uploader('image');
         $allowed = $this->getAllowedExtensions($type);
         if ($allowed) {
             $uploader->setAllowedExtensions($allowed);
@@ -437,7 +437,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
      */
     public function getThumbsPath($filePath = false)
     {
-        $mediaRootDir = Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA);
+        $mediaRootDir = Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA);
         $thumbnailDir = $this->getThumbnailRoot();
 
         if ($filePath && strpos($filePath, $mediaRootDir) === 0) {
@@ -469,7 +469,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Magento_Object
     /**
      * Config object getter
      *
-     * @return Mage_Core_Model_Config_Element
+     * @return Magento_Core_Model_Config_Element
      */
     public function getConfig()
     {

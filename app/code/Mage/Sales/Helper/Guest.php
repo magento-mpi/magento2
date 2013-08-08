@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Helper_Guest extends Mage_Core_Helper_Data
+class Mage_Sales_Helper_Guest extends Magento_Core_Helper_Data
 {
     /**
      * Cookie params
@@ -46,7 +46,7 @@ class Mage_Sales_Helper_Guest extends Mage_Core_Helper_Data
         /** @var $order Mage_Sales_Model_Order */
         $order = Mage::getModel('Mage_Sales_Model_Order');
 
-        if (empty($post) && !Mage::getSingleton('Mage_Core_Model_Cookie')->get($this->_cookieName)) {
+        if (empty($post) && !Mage::getSingleton('Magento_Core_Model_Cookie')->get($this->_cookieName)) {
             Mage::app()->getResponse()->setRedirect(Mage::getUrl('sales/guest/form'));
             return false;
         } elseif (!empty($post) && isset($post['oar_order_id']) && isset($post['oar_type']))  {
@@ -81,16 +81,16 @@ class Mage_Sales_Helper_Guest extends Mage_Core_Helper_Data
 
             if (!$errors) {
                 $toCookie = base64_encode($order->getProtectCode());
-                Mage::getSingleton('Mage_Core_Model_Cookie')->set($this->_cookieName, $toCookie, $this->_lifeTime, '/');
+                Mage::getSingleton('Magento_Core_Model_Cookie')->set($this->_cookieName, $toCookie, $this->_lifeTime, '/');
             }
-        } elseif (Mage::getSingleton('Mage_Core_Model_Cookie')->get($this->_cookieName)) {
-            $fromCookie     = Mage::getSingleton('Mage_Core_Model_Cookie')->get($this->_cookieName);
+        } elseif (Mage::getSingleton('Magento_Core_Model_Cookie')->get($this->_cookieName)) {
+            $fromCookie     = Mage::getSingleton('Magento_Core_Model_Cookie')->get($this->_cookieName);
             $protectCode    = base64_decode($fromCookie);
 
             if (!empty($protectCode)) {
                 $order->loadByAttribute('protect_code', $protectCode);
 
-                Mage::getSingleton('Mage_Core_Model_Cookie')->renew($this->_cookieName, $this->_lifeTime, '/');
+                Mage::getSingleton('Magento_Core_Model_Cookie')->renew($this->_cookieName, $this->_lifeTime, '/');
             } else {
                 $errors = true;
             }
@@ -101,7 +101,7 @@ class Mage_Sales_Helper_Guest extends Mage_Core_Helper_Data
             return true;
         }
 
-        Mage::getSingleton('Mage_Core_Model_Session')->addError(
+        Mage::getSingleton('Magento_Core_Model_Session')->addError(
             $this->__('You entered incorrect data. Please try again.')
         );
         Mage::app()->getResponse()->setRedirect(Mage::getUrl('sales/guest/form'));
@@ -111,7 +111,7 @@ class Mage_Sales_Helper_Guest extends Mage_Core_Helper_Data
     /**
      * Get Breadcrumbs for current controller action
      *
-     * @param  Mage_Core_Controller_Front_Action $controller
+     * @param  Magento_Core_Controller_Front_Action $controller
      */
     public function getBreadcrumbs($controller)
     {

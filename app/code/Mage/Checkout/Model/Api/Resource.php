@@ -97,7 +97,7 @@ class Mage_Checkout_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
         try {
             $storeId = Mage::app()->getStore($store)->getId();
 
-        } catch (Mage_Core_Model_Store_Exception $e) {
+        } catch (Magento_Core_Model_Store_Exception $e) {
             $this->_fault('store_not_exists');
         }
 
@@ -150,7 +150,7 @@ class Mage_Checkout_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
      * Update attributes for entity
      *
      * @param array $data
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param string $type
      * @param array|null $attributes
      * @return Mage_Checkout_Model_Api_Resource
@@ -169,7 +169,7 @@ class Mage_Checkout_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
     /**
      * Retrieve entity attributes values
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param string $type
      * @param array $attributes
      * @return Mage_Checkout_Model_Api_Resource

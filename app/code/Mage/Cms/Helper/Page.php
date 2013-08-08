@@ -16,7 +16,7 @@
  * @package    Mage_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
+class Mage_Cms_Helper_Page extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_NO_ROUTE_PAGE        = 'web/default/cms_no_route';
     const XML_PATH_NO_COOKIES_PAGE      = 'web/default/cms_no_cookies';
@@ -27,11 +27,11 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
     *
     * Call from controller action
     *
-    * @param Mage_Core_Controller_Front_Action $action
+    * @param Magento_Core_Controller_Front_Action $action
     * @param integer $pageId
     * @return boolean
     */
-    public function renderPage(Mage_Core_Controller_Front_Action $action, $pageId = null)
+    public function renderPage(Magento_Core_Controller_Front_Action $action, $pageId = null)
     {
         return $this->_renderPage($action, $pageId);
     }
@@ -39,12 +39,12 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
     /**
      * Renders CMS page
      *
-     * @param Mage_Core_Controller_Front_Action|Mage_Core_Controller_Varien_Action $action
+     * @param Magento_Core_Controller_Front_Action|Magento_Core_Controller_Varien_Action $action
      * @param integer $pageId
      * @param bool $renderLayout
      * @return boolean
      */
-    protected function _renderPage(Mage_Core_Controller_Varien_Action  $action, $pageId = null, $renderLayout = true)
+    protected function _renderPage(Magento_Core_Controller_Varien_Action  $action, $pageId = null, $renderLayout = true)
     {
 
         $page = Mage::getSingleton('Mage_Cms_Model_Page');
@@ -125,12 +125,12 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
      * Allows to use also backend action as first parameter.
      * Also takes third parameter which allows not run renderLayout method.
      *
-     * @param Mage_Core_Controller_Varien_Action $action
+     * @param Magento_Core_Controller_Varien_Action $action
      * @param $pageId
      * @param $renderLayout
      * @return bool
      */
-    public function renderPageExtended(Mage_Core_Controller_Varien_Action $action, $pageId = null, $renderLayout = true)
+    public function renderPageExtended(Magento_Core_Controller_Varien_Action $action, $pageId = null, $renderLayout = true)
     {
         return $this->_renderPage($action, $pageId, $renderLayout);
     }

@@ -30,7 +30,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(
             'Mage_Page_Block_Html_Head',
-            array('page' => new Mage_Core_Model_Page($this->_pageAssets), 'objectManager' => $this->_objectManager)
+            array('page' => new Magento_Core_Model_Page($this->_pageAssets), 'objectManager' => $this->_objectManager)
         );
         $this->_block = $objectManagerHelper->getObject('Mage_Page_Block_Html_Head', $arguments);
     }
@@ -47,13 +47,13 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->_pageAssets->expects($this->once())
             ->method('add')
             ->with(
-                Mage_Core_Model_View_Publisher::CONTENT_TYPE_CSS . '/test.css',
-                $this->isInstanceOf('Mage_Core_Model_Page_Asset_ViewFile')
+                Magento_Core_Model_View_Publisher::CONTENT_TYPE_CSS . '/test.css',
+                $this->isInstanceOf('Magento_Core_Model_Page_Asset_ViewFile')
             );
-        $assetViewFile = $this->getMock('Mage_Core_Model_Page_Asset_ViewFile', array(), array(), '', false);
+        $assetViewFile = $this->getMock('Magento_Core_Model_Page_Asset_ViewFile', array(), array(), '', false);
         $this->_objectManager->expects($this->once(''))
             ->method('create')
-            ->with('Mage_Core_Model_Page_Asset_ViewFile')
+            ->with('Magento_Core_Model_Page_Asset_ViewFile')
             ->will($this->returnValue($assetViewFile));
         $this->_block->addCss('test.css');
     }
@@ -63,13 +63,13 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->_pageAssets->expects($this->once())
             ->method('add')
             ->with(
-                Mage_Core_Model_View_Publisher::CONTENT_TYPE_JS . '/test.js',
-                $this->isInstanceOf('Mage_Core_Model_Page_Asset_ViewFile')
+                Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS . '/test.js',
+                $this->isInstanceOf('Magento_Core_Model_Page_Asset_ViewFile')
             );
-        $assetViewFile = $this->getMock('Mage_Core_Model_Page_Asset_ViewFile', array(), array(), '', false);
+        $assetViewFile = $this->getMock('Magento_Core_Model_Page_Asset_ViewFile', array(), array(), '', false);
         $this->_objectManager->expects($this->once(''))
             ->method('create')
-            ->with('Mage_Core_Model_Page_Asset_ViewFile')
+            ->with('Magento_Core_Model_Page_Asset_ViewFile')
             ->will($this->returnValue($assetViewFile));
         $this->_block->addJs('test.js');
     }
@@ -80,13 +80,13 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             ->method('add')
             ->with(
                 'link/http://127.0.0.1/test.rss',
-                $this->isInstanceOf('Mage_Core_Model_Page_Asset_Remote'),
+                $this->isInstanceOf('Magento_Core_Model_Page_Asset_Remote'),
                 array('attributes' => 'rel="alternate" type="application/rss+xml" title="RSS Feed"')
             );
-        $assetRemoteFile = $this->getMock('Mage_Core_Model_Page_Asset_Remote', array(), array(), '', false);
+        $assetRemoteFile = $this->getMock('Magento_Core_Model_Page_Asset_Remote', array(), array(), '', false);
         $this->_objectManager->expects($this->once(''))
             ->method('create')
-            ->with('Mage_Core_Model_Page_Asset_Remote')
+            ->with('Magento_Core_Model_Page_Asset_Remote')
             ->will($this->returnValue($assetRemoteFile));
 
         $this->_block->addRss('RSS Feed', 'http://127.0.0.1/test.rss');
@@ -98,13 +98,13 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
             ->method('add')
             ->with(
                 'link/http://127.0.0.1/',
-                $this->isInstanceOf('Mage_Core_Model_Page_Asset_Remote'),
+                $this->isInstanceOf('Magento_Core_Model_Page_Asset_Remote'),
                 array('attributes' => 'rel="rel"')
             );
-        $assetRemoteFile = $this->getMock('Mage_Core_Model_Page_Asset_Remote', array(), array(), '', false);
+        $assetRemoteFile = $this->getMock('Magento_Core_Model_Page_Asset_Remote', array(), array(), '', false);
         $this->_objectManager->expects($this->once(''))
             ->method('create')
-            ->with('Mage_Core_Model_Page_Asset_Remote')
+            ->with('Magento_Core_Model_Page_Asset_Remote')
             ->will($this->returnValue($assetRemoteFile));
         $this->_block->addLinkRel('rel', 'http://127.0.0.1/');
     }

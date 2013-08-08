@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Mage_GoogleAdwords_Block_Code extends Mage_Core_Block_Template
+class Mage_GoogleAdwords_Block_Code extends Magento_Core_Block_Template
 {
     /**
      * @var Mage_GoogleAdwords_Helper_Data
@@ -17,10 +17,10 @@ class Mage_GoogleAdwords_Block_Code extends Mage_Core_Block_Template
     /**
      * Constructor
      *
-     * @param Mage_Core_Block_Template_Context $context
+     * @param Magento_Core_Block_Template_Context $context
      * @param Mage_GoogleAdwords_Helper_Data $helper
      */
-    public function __construct(Mage_Core_Block_Template_Context $context, Mage_GoogleAdwords_Helper_Data $helper)
+    public function __construct(Magento_Core_Block_Template_Context $context, Mage_GoogleAdwords_Helper_Data $helper)
     {
         parent::__construct($context);
         $this->_helper = $helper;

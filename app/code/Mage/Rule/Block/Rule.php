@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Rule_Block_Rule extends Mage_Core_Block_Abstract
+class Mage_Rule_Block_Rule extends Magento_Core_Block_Abstract
 {
 
 }

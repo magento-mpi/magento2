@@ -172,7 +172,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset
     {
         $htmlId = $element->getHtmlId();
         $output = "Fieldset.applyCollapse('{$htmlId}');";
-        return $this->helper('Mage_Core_Helper_Js')->getScript($output);
+        return $this->helper('Magento_Core_Helper_Js')->getScript($output);
     }
 
     /**

@@ -36,7 +36,7 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
     /**
      * URL generator
      *
-     * @var Mage_Core_Model_Url
+     * @var Magento_Core_Model_Url
      */
     protected $_urlGenerator;
 
@@ -50,7 +50,7 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
     /**
      * Store Config object
      *
-     * @var Mage_Core_Model_Store_Config
+     * @var Magento_Core_Model_Store_Config
      */
     protected $_storeConfig;
 
@@ -121,16 +121,16 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
      *
      * @param Mage_Checkout_Model_Session $checkoutSession
      * @param Mage_Sales_Model_OrderFactory $orderFactory
-     * @param Mage_Core_Model_Url $urlGenerator
-     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Model_Url $urlGenerator
+     * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Mage_Cardgate_Model_Base $base
      * @param Mage_Cardgate_Helper_Data $helper
      */
     public function __construct(
         Mage_Checkout_Model_Session $checkoutSession,
         Mage_Sales_Model_OrderFactory $orderFactory,
-        Mage_Core_Model_Url $urlGenerator,
-        Mage_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Model_Url $urlGenerator,
+        Magento_Core_Model_Store_Config $storeConfig,
         Mage_Cardgate_Model_Base $base,
         Mage_Cardgate_Helper_Data $helper
     ) {
@@ -220,7 +220,7 @@ abstract class Mage_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_M
      * Retrieve config value for store by path
      *
      * @param string $field
-     * @param int|string|null|Mage_Core_Model_Store $storeId
+     * @param int|string|null|Magento_Core_Model_Store $storeId
      * @return mixed
      */
     public function getConfigData($field, $storeId = null)

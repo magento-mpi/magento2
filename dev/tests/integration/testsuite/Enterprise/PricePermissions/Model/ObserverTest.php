@@ -14,14 +14,14 @@
  */
 class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Core_Model_Layout */
+    /** @var Magento_Core_Model_Layout */
     protected $_layout = null;
 
     protected function setUp()
     {
         parent::setUp();
         Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
+        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
     }
 
     public function testAdminhtmlBlockHtmlBeforeProductOpt()
@@ -64,9 +64,9 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     /**
      * Prepare event and run Enterprise_PricePermissions_Model_Observer::adminhtmlBlockHtmlBefore
      *
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      */
-    protected function _runAdminhtmlBlockHtmlBefore(Mage_Core_Block_Abstract $block)
+    protected function _runAdminhtmlBlockHtmlBefore(Magento_Core_Block_Abstract $block)
     {
         $event = new Magento_Event_Observer();
         $event->setBlock($block);

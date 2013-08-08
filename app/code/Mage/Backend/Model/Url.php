@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Url extends Mage_Core_Model_Url
+class Mage_Backend_Model_Url extends Magento_Core_Model_Url
 {
     /**
      * Secret key query param name
@@ -43,12 +43,12 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
     protected $_backendHelper;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_coreHelper;
 
     /**
-     * @var Mage_Core_Model_Session
+     * @var Magento_Core_Model_Session
      */
     protected $_coreSession;
 
@@ -61,17 +61,17 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
 
     /**
      * @param Mage_Backend_Helper_Data $backendHelper
-     * @param Mage_Core_Helper_Data $coreHelper
-     * @param Mage_Core_Model_Session $coreSession
-     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Magento_Core_Helper_Data $coreHelper
+     * @param Magento_Core_Model_Session $coreSession
+     * @param Magento_Core_Model_Store_Config $storeConfig
      * @param Mage_Backend_Model_Menu_Config $menuConfig
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Helper_Data $backendHelper,
-        Mage_Core_Helper_Data $coreHelper,
-        Mage_Core_Model_Session $coreSession,
-        Mage_Core_Model_Store_Config $storeConfig,
+        Magento_Core_Helper_Data $coreHelper,
+        Magento_Core_Model_Session $coreSession,
+        Magento_Core_Model_Store_Config $storeConfig,
         Mage_Backend_Model_Menu_Config $menuConfig,
         array $data = array()
     ) {

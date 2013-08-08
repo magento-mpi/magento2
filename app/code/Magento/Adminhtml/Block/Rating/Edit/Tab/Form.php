@@ -21,18 +21,18 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Wi
     /**
      * Store manager instance
      *
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -61,7 +61,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Wi
             'required' => true,
         ));
 
-        foreach (Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreCollection() as $store) {
+        foreach (Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreCollection() as $store) {
             $fieldset->addField('rating_code_' . $store->getId(), 'text', array(
                 'label' => $store->getName(),
                 'name' => 'rating_codes[' . $store->getId() . ']',
@@ -115,7 +115,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Wi
             $field = $fieldset->addField('stores', 'multiselect', array(
                 'label' => Mage::helper('Mage_Rating_Helper_Data')->__('Visible In'),
                 'name' => 'stores[]',
-                'values' => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values' => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
             ));
             $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);

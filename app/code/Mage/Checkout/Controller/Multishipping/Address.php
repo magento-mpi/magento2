@@ -15,7 +15,7 @@
  * @package    Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Controller_Multishipping_Address extends Mage_Core_Controller_Front_Action
+class Mage_Checkout_Controller_Multishipping_Address extends Magento_Core_Controller_Front_Action
 {
     /**
      * Retrieve multishipping checkout model

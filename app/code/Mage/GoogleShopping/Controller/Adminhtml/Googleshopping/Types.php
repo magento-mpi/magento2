@@ -254,7 +254,7 @@ class Mage_GoogleShopping_Controller_Adminhtml_Googleshopping_Types extends Mage
     /**
      * Get store object, basing on request
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function _getStore()
     {

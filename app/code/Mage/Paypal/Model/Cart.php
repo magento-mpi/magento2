@@ -472,7 +472,7 @@ class Mage_Paypal_Model_Cart
      * - run shopping cart and estimate shipping
      * - go to PayPal
      *
-     * @param Mage_Core_Model_Abstract $salesEntity
+     * @param Magento_Core_Model_Abstract $salesEntity
      */
     private function _applyHiddenTaxWorkaround($salesEntity)
     {

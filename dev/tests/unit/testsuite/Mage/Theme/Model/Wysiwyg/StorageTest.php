@@ -43,7 +43,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
         $this->_filesystem = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $this->_helperStorage = $this->getMock('Mage_Theme_Helper_Storage', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
-        $this->_imageFactory = $this->getMock('Mage_Core_Model_Image_AdapterFactory', array(), array(), '', false);
+        $this->_imageFactory = $this->getMock('Magento_Core_Model_Image_AdapterFactory', array(), array(), '', false);
 
         $this->_storageModel = new Mage_Theme_Model_Wysiwyg_Storage(
             $this->_filesystem,
@@ -139,7 +139,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Mage_Theme_Model_Wysiwyg_Storage::uploadFile
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testUploadInvalidFile()
     {
@@ -154,7 +154,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     protected function _prepareUploader()
     {
-        $uploader = $this->getMock('Mage_Core_Model_File_Uploader', array(), array(), '', false);
+        $uploader = $this->getMock('Magento_Core_Model_File_Uploader', array(), array(), '', false);
 
         $this->_objectManager->expects($this->once())
             ->method('create')
@@ -228,7 +228,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Mage_Theme_Model_Wysiwyg_Storage::createFolder
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testCreateFolderWithInvalidName()
     {
@@ -238,7 +238,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Mage_Theme_Model_Wysiwyg_Storage::createFolder
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testCreateFolderDirectoryAlreadyExist()
     {
@@ -287,7 +287,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Mage_Theme_Model_Wysiwyg_Storage::getDirsCollection
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testGetDirsCollectionWrongDirName()
     {
@@ -513,7 +513,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Mage_Theme_Model_Wysiwyg_Storage::deleteDirectory
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testDeleteRootDirectory()
     {

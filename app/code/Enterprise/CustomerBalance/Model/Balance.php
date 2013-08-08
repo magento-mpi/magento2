@@ -28,7 +28,7 @@
  * @package     Enterprise_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
+class Enterprise_CustomerBalance_Model_Balance extends Magento_Core_Model_Abstract
 {
     /**
      * @var Mage_Customer_Model_Customer
@@ -62,7 +62,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
      * Website id should either be set or not admin
      *
      * @return Enterprise_CustomerBalance_Model_Balance
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function loadByCustomer()
     {
@@ -86,7 +86,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
      * @param bool $shouldNotify
      * @param int $storeId
      * @return Enterprise_CustomerBalance_Model_Balance
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function setNotifyByEmail($shouldNotify, $storeId = null)
     {
@@ -159,7 +159,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     /**
      * Make sure proper customer information is set. Load customer if required
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _ensureCustomer()
     {
@@ -259,7 +259,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     /**
      * Public version of afterLoad
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     public function afterLoad()
     {

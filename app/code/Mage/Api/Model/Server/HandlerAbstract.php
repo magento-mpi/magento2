@@ -22,7 +22,7 @@ abstract class Mage_Api_Model_Server_HandlerAbstract
     public function __construct()
     {
         set_error_handler(array($this, 'handlePhpError'), E_ALL);
-        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMIN, Mage_Core_Model_App_Area::PART_EVENTS);
+        Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMIN, Magento_Core_Model_App_Area::PART_EVENTS);
     }
 
     public function handlePhpError($errorCode, $errorMessage, $errorFile)

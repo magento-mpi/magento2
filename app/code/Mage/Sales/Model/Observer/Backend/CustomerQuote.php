@@ -13,7 +13,7 @@ class Mage_Sales_Model_Observer_Backend_CustomerQuote
     protected $_config;
 
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -23,12 +23,12 @@ class Mage_Sales_Model_Observer_Backend_CustomerQuote
     protected $_quote;
 
     /**
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Customer_Model_Config_Share $config
      * @param Mage_Sales_Model_Quote $quote
      */
     public function __construct(
-        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Mage_Customer_Model_Config_Share $config,
         Mage_Sales_Model_Quote $quote
     ) {
@@ -52,7 +52,7 @@ class Mage_Sales_Model_Observer_Backend_CustomerQuote
              * It is needed to process customer's quotes for all websites
              * if customer accounts are shared between all of them
              */
-            /** @var $websites Mage_Core_Model_Website[] */
+            /** @var $websites Magento_Core_Model_Website[] */
             $websites = $this->_config->isWebsiteScope() ?
                 array($this->_storeManager->getWebsite($customer->getWebsiteId())) :
                 $this->_storeManager->getWebsites();

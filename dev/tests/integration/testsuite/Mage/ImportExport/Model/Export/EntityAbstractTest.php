@@ -53,7 +53,7 @@ class Mage_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Framewor
     /**
      * Check that method throw exception when writer was not defined
      *
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testGetWriterThrowsException()
     {

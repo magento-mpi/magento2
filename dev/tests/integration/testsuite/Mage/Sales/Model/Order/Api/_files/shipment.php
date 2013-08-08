@@ -13,8 +13,8 @@ include 'order_with_shipping.php';
 $shipment = $order->prepareShipment();
 $shipment->register();
 $shipment->getOrder()->setIsInProcess(true);
-/** @var Mage_Core_Model_Resource_Transaction $transaction */
-$transaction = Mage::getModel('Mage_Core_Model_Resource_Transaction');
+/** @var Magento_Core_Model_Resource_Transaction $transaction */
+$transaction = Mage::getModel('Magento_Core_Model_Resource_Transaction');
 $transaction->addObject($shipment)->addObject($order)->save();
 
 Mage::register('shipment', $shipment);

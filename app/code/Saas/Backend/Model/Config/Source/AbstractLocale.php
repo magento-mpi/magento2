@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Saas_Backend_Model_Config_Source_AbstractLocale implements Mage_Core_Model_Option_ArrayInterface
+abstract class Saas_Backend_Model_Config_Source_AbstractLocale implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Allowed locale codes
@@ -19,7 +19,7 @@ abstract class Saas_Backend_Model_Config_Source_AbstractLocale implements Mage_C
     /**
      * Locale model
      *
-     * @var Mage_Core_Model_LocaleInterface
+     * @var Magento_Core_Model_LocaleInterface
      */
     protected $_locale;
 
@@ -32,9 +32,9 @@ abstract class Saas_Backend_Model_Config_Source_AbstractLocale implements Mage_C
      * Create instance of current class with appropriate parameters
      *
      * @param array $allowedLocaleCodes
-     * @param Mage_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_LocaleInterface $locale
      */
-    public function __construct(Mage_Core_Model_LocaleInterface $locale, array $allowedLocaleCodes = array())
+    public function __construct(Magento_Core_Model_LocaleInterface $locale, array $allowedLocaleCodes = array())
     {
         $this->_locale = $locale;
         $this->_allowedLocaleCodes = $allowedLocaleCodes;

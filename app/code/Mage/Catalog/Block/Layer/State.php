@@ -15,7 +15,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Layer_State extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Layer_State extends Magento_Core_Block_Template
 {
     protected $_template = 'layer/state.phtml';
 

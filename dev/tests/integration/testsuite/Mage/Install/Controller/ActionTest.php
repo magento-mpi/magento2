@@ -13,7 +13,7 @@ class Mage_Install_Controller_ActionTest extends Magento_Test_TestCase_Controlle
 {
     public function testConstruct()
     {
-        Mage::getObjectManager()->get('Mage_Core_Controller_Varien_Action_Factory')
+        Mage::getObjectManager()->get('Magento_Core_Controller_Varien_Action_Factory')
             ->createController('Mage_Install_Controller_Action', array('areaCode' => 'frontend'));
         $this->assertEquals('install', Mage::getConfig()->getCurrentAreaCode());
     }

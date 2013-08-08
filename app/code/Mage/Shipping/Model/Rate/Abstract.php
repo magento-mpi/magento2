@@ -9,7 +9,7 @@
  */
 
 
-abstract class Mage_Shipping_Model_Rate_Abstract extends Mage_Core_Model_Abstract
+abstract class Mage_Shipping_Model_Rate_Abstract extends Magento_Core_Model_Abstract
 {
     static protected $_instances;
 

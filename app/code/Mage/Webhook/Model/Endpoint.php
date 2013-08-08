@@ -22,7 +22,7 @@
  * @method Mage_Webhook_Model_Endpoint setAuthenticationType(string $value)
  * @method Mage_Webhook_Model_Endpoint setTimeoutInSecs(string $value)
  */
-class Mage_Webhook_Model_Endpoint extends Mage_Core_Model_Abstract implements Magento_Outbound_EndpointInterface
+class Mage_Webhook_Model_Endpoint extends Magento_Core_Model_Abstract implements Magento_Outbound_EndpointInterface
 {
     /**
      * Used to create a User abstraction from a given webapi user associated with this subscription.
@@ -32,15 +32,15 @@ class Mage_Webhook_Model_Endpoint extends Mage_Core_Model_Abstract implements Ma
 
     /**
      * @param Mage_Webhook_Model_User_Factory $userFactory
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Mage_Webhook_Model_User_Factory $userFactory,
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -81,7 +81,7 @@ class Mage_Webhook_Model_Endpoint extends Mage_Core_Model_Abstract implements Ma
     /**
      * Prepare data to be saved to database
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      * @throws Mage_Webhook_Exception
      */
     protected function _beforeSave()

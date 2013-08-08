@@ -15,7 +15,7 @@
  * @package     Mage_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Wishlist_Block_Customer_Wishlist_Items extends Mage_Core_Block_Template
+class Mage_Wishlist_Block_Customer_Wishlist_Items extends Magento_Core_Block_Template
 {
     /**
      * Retreive table column object list

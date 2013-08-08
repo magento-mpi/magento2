@@ -11,7 +11,7 @@
 /**
  * Editor toolbar
  *
- * @method Mage_DesignEditor_Block_Adminhtml_Editor_Container setTheme(Mage_Core_Model_Theme $theme)
+ * @method Mage_DesignEditor_Block_Adminhtml_Editor_Container setTheme(Magento_Core_Model_Theme $theme)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Container extends Mage_Backend_Block_Widget_Container
 {

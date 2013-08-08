@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Helper_Addresses extends Mage_Core_Helper_Abstract
+class Magento_Adminhtml_Helper_Addresses extends Magento_Core_Helper_Abstract
 {
     const DEFAULT_STREET_LINES_COUNT = 2;
 

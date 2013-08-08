@@ -14,24 +14,24 @@
 class Mage_Theme_Model_Config
 {
     /**
-     * @var Mage_Core_Model_Config_Storage_WriterInterface
+     * @var Magento_Core_Model_Config_Storage_WriterInterface
      */
     protected $_configWriter;
 
     /**
-     * @var Mage_Core_Model_Config_Data
+     * @var Magento_Core_Model_Config_Data
      */
     protected $_configData;
 
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Application event manager
      *
-     * @var Mage_Core_Model_Event_Manager
+     * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager;
 
@@ -46,18 +46,18 @@ class Mage_Theme_Model_Config
     protected $_layoutCache;
 
     /**
-     * @param Mage_Core_Model_Config_Data $configData
-     * @param Mage_Core_Model_Config_Storage_WriterInterface $configWriter
-     * @param Mage_Core_Model_StoreManagerInterface $storeManager
-     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Config_Data $configData
+     * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Cache_FrontendInterface $configCache
      * @param Magento_Cache_FrontendInterface $layoutCache
      */
     public function __construct(
-        Mage_Core_Model_Config_Data $configData,
-        Mage_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Mage_Core_Model_StoreManagerInterface $storeManager,
-        Mage_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Config_Data $configData,
+        Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Event_Manager $eventManager,
         Magento_Cache_FrontendInterface $configCache,
         Magento_Cache_FrontendInterface $layoutCache
     ) {
@@ -72,12 +72,12 @@ class Mage_Theme_Model_Config
     /**
      * Assign theme to the stores
      *
-     * @param Mage_Core_Model_Theme $theme
+     * @param Magento_Core_Model_Theme $theme
      * @param array $stores
      * @param string $scope
      * @return $this
      */
-    public function assignToStore($theme, array $stores = array(), $scope = Mage_Core_Model_Config::SCOPE_STORES)
+    public function assignToStore($theme, array $stores = array(), $scope = Magento_Core_Model_Config::SCOPE_STORES)
     {
         $isReassigned = false;
 
@@ -112,7 +112,7 @@ class Mage_Theme_Model_Config
      *
      * @param string $scope
      * @param string $configPath
-     * @return Mage_Core_Model_Resource_Config_Data_Collection
+     * @return Magento_Core_Model_Resource_Config_Data_Collection
      */
     protected function _getAssignedScopesCollection($scope, $configPath)
     {
@@ -132,8 +132,8 @@ class Mage_Theme_Model_Config
      */
     protected function _unassignThemeFromStores($themeId, $stores, $scope, &$isReassigned)
     {
-        $configPath = Mage_Core_Model_View_Design::XML_PATH_THEME_ID;
-        /** @var $config Mage_Core_Model_Config_Data */
+        $configPath = Magento_Core_Model_View_Design::XML_PATH_THEME_ID;
+        /** @var $config Magento_Core_Model_Config_Data */
         foreach ($this->_getAssignedScopesCollection($scope, $configPath) as $config) {
             if ($config->getValue() == $themeId && !in_array($config->getScopeId(), $stores)) {
                 $this->_configWriter->delete($configPath, $scope, $config->getScopeId());
@@ -154,7 +154,7 @@ class Mage_Theme_Model_Config
      */
     protected function _assignThemeToStores($themeId, $stores, $scope, &$isReassigned)
     {
-        $configPath = Mage_Core_Model_View_Design::XML_PATH_THEME_ID;
+        $configPath = Magento_Core_Model_View_Design::XML_PATH_THEME_ID;
         if (count($stores) > 0) {
             foreach ($stores as $storeId) {
                 $this->_configWriter->save($configPath, $themeId, $scope, $storeId);
@@ -173,8 +173,8 @@ class Mage_Theme_Model_Config
      */
     protected function _assignThemeToDefaultScope($themeId, &$isReassigned)
     {
-        $configPath = Mage_Core_Model_View_Design::XML_PATH_THEME_ID;
-        $this->_configWriter->save($configPath, $themeId, Mage_Core_Model_Config::SCOPE_DEFAULT);
+        $configPath = Magento_Core_Model_View_Design::XML_PATH_THEME_ID;
+        $this->_configWriter->save($configPath, $themeId, Magento_Core_Model_Config::SCOPE_DEFAULT);
         $isReassigned = true;
         return $this;
     }

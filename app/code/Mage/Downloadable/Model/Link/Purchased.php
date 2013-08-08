@@ -36,7 +36,7 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Model_Link_Purchased extends Mage_Core_Model_Abstract
+class Mage_Downloadable_Model_Link_Purchased extends Magento_Core_Model_Abstract
 {
     /**
      * Enter description here...
@@ -51,7 +51,7 @@ class Mage_Downloadable_Model_Link_Purchased extends Mage_Core_Model_Abstract
     /**
      * Check order id
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     public function _beforeSave()
     {

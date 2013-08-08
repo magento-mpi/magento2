@@ -18,12 +18,12 @@ class Mage_Backend_Block_Cache_Grid_Column_Statuses extends Mage_Backend_Block_W
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_App $app
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_App $app,
+        Magento_Core_Model_App $app,
         array $data = array()
     ) {
         parent::__construct ($context, $data);
@@ -45,7 +45,7 @@ class Mage_Backend_Block_Cache_Grid_Column_Statuses extends Mage_Backend_Block_W
      * Decorate status column values
      *
      * @param string $value
-     * @param  Mage_Core_Model_Abstract $row
+     * @param  Magento_Core_Model_Abstract $row
      * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
      * @param bool $isExport
      * @return string

@@ -18,8 +18,8 @@
         <move element="checkout.progress" destination="checkout.onepage" as="checkoutProgress" before="-"/>
         <remove name="checkout.progress.wrapper"/>
         <reference name="checkout.onepage.payment">
-            <block type="Mage_Core_Block_Template" name="checkout.onepage.payment.additional" as="additional" after="checkout.payment.methods"/>
-            <block type="Mage_Core_Block_Template" name="checkout.onepage.payment.methods_additional" as="methods_additional" after="checkout.onepage.payment.additional"/>
+            <block type="Magento_Core_Block_Template" name="checkout.onepage.payment.additional" as="additional" after="checkout.payment.methods"/>
+            <block type="Magento_Core_Block_Template" name="checkout.onepage.payment.methods_additional" as="methods_additional" after="checkout.onepage.payment.additional"/>
         </reference>
     </checkout_onepage_index>
 </layout>

@@ -25,22 +25,22 @@ class Mage_Webhook_Block_Adminhtml_Registration_Create_Form extends Mage_Backend
     /** @var Magento_Data_Form_Factory */
     private $_formFactory;
 
-    /** @var Mage_Core_Helper_Data  */
+    /** @var Magento_Core_Helper_Data  */
     private $_coreHelper;
 
-    /** @var Mage_Core_Model_Registry  */
+    /** @var Magento_Core_Model_Registry  */
     private $_registry;
 
     /**
-     * @param Mage_Core_Helper_Data $coreHelper
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Helper_Data $coreHelper
+     * @param Magento_Core_Model_Registry $registry
      * @param Mage_Backend_Block_Template_Context $context
      * @param Magento_Data_Form_Factory $formFactory
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Helper_Data $coreHelper,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Helper_Data $coreHelper,
+        Magento_Core_Model_Registry $registry,
         Mage_Backend_Block_Template_Context $context,
         Magento_Data_Form_Factory $formFactory,
         array $data = array()
@@ -121,6 +121,6 @@ class Mage_Webhook_Block_Adminhtml_Registration_Create_Form extends Mage_Backend
     private function _generateRandomString($length)
     {
         return $this->_coreHelper
-            ->getRandomString($length, Mage_Core_Helper_Data::CHARS_DIGITS . Mage_Core_Helper_Data::CHARS_LOWERS);
+            ->getRandomString($length, Magento_Core_Helper_Data::CHARS_DIGITS . Magento_Core_Helper_Data::CHARS_LOWERS);
     }
 }

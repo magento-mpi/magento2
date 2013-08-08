@@ -15,7 +15,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Helper_Product_Configuration extends Mage_Core_Helper_Abstract
+class Mage_Catalog_Helper_Product_Configuration extends Magento_Core_Helper_Abstract
     implements Mage_Catalog_Helper_Product_Configuration_Interface
 {
     const XML_PATH_CONFIGURABLE_ALLOWED_TYPES = 'global/catalog/product/type/configurable/allow_product_types';
@@ -228,7 +228,7 @@ class Mage_Catalog_Helper_Product_Configuration extends Mage_Core_Helper_Abstrac
             return array('value' => $_truncatedValue);
         } else {
             if ($maxLength) {
-                $_truncatedValue = Mage::helper('Mage_Core_Helper_String')->truncate($optionValue, $maxLength, '');
+                $_truncatedValue = Mage::helper('Magento_Core_Helper_String')->truncate($optionValue, $maxLength, '');
             } else {
                 $_truncatedValue = $optionValue;
             }
@@ -237,7 +237,7 @@ class Mage_Catalog_Helper_Product_Configuration extends Mage_Core_Helper_Abstrac
 
         $result = array('value' => $_truncatedValue);
 
-        if ($maxLength && (Mage::helper('Mage_Core_Helper_String')->strlen($optionValue) > $maxLength)) {
+        if ($maxLength && (Mage::helper('Magento_Core_Helper_String')->strlen($optionValue) > $maxLength)) {
             $result['value'] = $result['value'] . $cutReplacer;
             $optionValue = nl2br($optionValue);
             $result['full_view'] = $optionValue;

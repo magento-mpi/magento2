@@ -11,7 +11,7 @@
 /**
  * Product information tabs
  */
-class Mage_Catalog_Block_Product_View_Tabs extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Product_View_Tabs extends Magento_Core_Block_Template
 {
     /**
      * Configured tabs

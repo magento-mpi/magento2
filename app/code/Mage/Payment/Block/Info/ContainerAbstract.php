@@ -15,7 +15,7 @@
  * @package    Mage_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Payment_Block_Info_ContainerAbstract extends Mage_Core_Block_Template
+abstract class Mage_Payment_Block_Info_ContainerAbstract extends Magento_Core_Block_Template
 {
     /**
      * Add payment info block to layout

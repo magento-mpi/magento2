@@ -194,7 +194,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
 
         $origCompanyName = $this->_getDefaultValue(
             $requestDhl->getOrigCompanyName(),
-            Mage_Core_Model_Store::XML_PATH_STORE_STORE_NAME
+            Magento_Core_Model_Store::XML_PATH_STORE_STORE_NAME
         );
         $origCountryId = $this->_getDefaultValue(
             $requestDhl->getOrigCountryId(),
@@ -309,7 +309,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             ->setValueWithDiscount($request->getPackageValueWithDiscount())
             ->setCustomsValue($request->getPackageCustomsValue())
             ->setDestStreet(
-                Mage::helper('Mage_Core_Helper_String')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35))
+                Mage::helper('Magento_Core_Helper_String')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35))
             ->setDestStreetLine2($request->getDestStreetLine2())
             ->setDestCity($request->getDestCity())
             ->setOrigCompanyName($request->getOrigCompanyName())
@@ -607,7 +607,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
                        if ($itemWeight > $maxWeight) {
                            $qtyItem = floor($itemWeight / $maxWeight);
                            $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
-                           $weightItem = Mage::helper('Mage_Core_Helper_Data')->getExactDivision($itemWeight, $maxWeight);
+                           $weightItem = Mage::helper('Magento_Core_Helper_Data')->getExactDivision($itemWeight, $maxWeight);
                            if ($weightItem) {
                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
                            }
@@ -773,7 +773,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Get shipping quotes
      *
-     * @return Mage_Core_Model_Abstract|Mage_Shipping_Model_Rate_Result
+     * @return Magento_Core_Model_Abstract|Mage_Shipping_Model_Rate_Result
      */
     protected function _getQuotes()
     {
@@ -1265,7 +1265,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeConsignee->addChild('CompanyName', substr($companyName, 0, 35));
 
         $address = $rawRequest->getRecipientAddressStreet1(). ' ' . $rawRequest->getRecipientAddressStreet2();
-        $address = Mage::helper('Mage_Core_Helper_String')->str_split($address, 35, false, true);
+        $address = Mage::helper('Magento_Core_Helper_String')->str_split($address, 35, false, true);
         if (is_array($address)) {
             foreach ($address as $addressLine) {
                 $nodeConsignee->addChild('AddressLine', $addressLine);
@@ -1324,7 +1324,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeShipper->addChild('RegisteredAccount', (string)$this->getConfigData('account'));
 
         $address = $rawRequest->getShipperAddressStreet1(). ' ' . $rawRequest->getShipperAddressStreet2();
-        $address = Mage::helper('Mage_Core_Helper_String')->str_split($address, 35, false, true);
+        $address = Mage::helper('Magento_Core_Helper_String')->str_split($address, 35, false, true);
         if (is_array($address)) {
             foreach ($address as $addressLine) {
                 $nodeShipper->addChild('AddressLine', $addressLine);
@@ -1433,7 +1433,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
             $nodeShipmentDetails->addChild('GlobalProductCode', $rawRequest->getShippingMethod());
             $nodeShipmentDetails->addChild('LocalProductCode', $rawRequest->getShippingMethod());
 
-            $nodeShipmentDetails->addChild('Date', Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d'));
+            $nodeShipmentDetails->addChild('Date', Mage::getModel('Magento_Core_Model_Date')->date('Y-m-d'));
             $nodeShipmentDetails->addChild('Contents', 'DHL Parcel');
             /*
              * The DoorTo Element defines the type of delivery service that applies to the shipment.
@@ -1471,7 +1471,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_International
              * Door non-compliant)
              */
             $nodeShipmentDetails->addChild('DoorTo', 'DD');
-            $nodeShipmentDetails->addChild('Date', Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d'));
+            $nodeShipmentDetails->addChild('Date', Mage::getModel('Magento_Core_Model_Date')->date('Y-m-d'));
             $nodeShipmentDetails->addChild('Contents', 'DHL Parcel TEST');
         }
     }

@@ -39,7 +39,7 @@ class Mage_Backup_Model_Resource_Db
      */
     public function __construct()
     {
-        $this->_write = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('backup_write');
+        $this->_write = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('backup_write');
     }
 
     /**

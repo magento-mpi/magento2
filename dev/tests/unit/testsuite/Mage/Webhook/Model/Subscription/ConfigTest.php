@@ -127,17 +127,17 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
      * Creates stub config element given a fragment of valid xml string
      *
      * @param string $xmlString
-     * @return Mage_Core_Model_Config_Element
+     * @return Magento_Core_Model_Config_Element
      */
     protected function _createStubConfigElement($xmlString)
     {
-        return new Mage_Core_Model_Config_Element($xmlString);
+        return new Magento_Core_Model_Config_Element($xmlString);
     }
 
     /**
      * Initializes a set of mocks and stubs
      *
-     * @param Mage_Core_Model_Config_Element          $configNode
+     * @param Magento_Core_Model_Config_Element          $configNode
      * @param PHPUnit_Framework_MockObject_MockObject $subxCollection
      *        Mocks Mage_Webhook_Model_Resource_Subscription_Collection
      * @param string[]                                $expectedErrors
@@ -149,7 +149,7 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockMageConfig = $this->getMockBuilder('Mage_Core_Model_Config')
+        $this->_mockMageConfig = $this->getMockBuilder('Magento_Core_Model_Config')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -157,11 +157,11 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockLogger = $this->getMockBuilder('Mage_Core_Model_Logger')
+        $this->_mockLogger = $this->getMockBuilder('Magento_Core_Model_Logger')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockTranslator = $this->getMockBuilder('Mage_Core_Model_Translate')
+        $this->_mockTranslator = $this->getMockBuilder('Magento_Core_Model_Translate')
             ->disableOriginalConstructor()
             ->getMock();
 

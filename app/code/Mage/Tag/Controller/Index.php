@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Tag_Controller_Index extends Mage_Core_Controller_Front_Action
+class Mage_Tag_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**
      * Saving tag and relation between tag, customer, product and store
@@ -32,7 +32,7 @@ class Mage_Tag_Controller_Index extends Mage_Core_Controller_Front_Action
         $productId  = (int)$this->getRequest()->getParam('product');
 
         if (strlen($tagName) && $productId) {
-            /** @var $session Mage_Core_Model_Session_Generic */
+            /** @var $session Magento_Core_Model_Session_Generic */
             $session = Mage::getSingleton('Mage_Tag_Model_Session');
             $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->load($productId);
@@ -117,9 +117,9 @@ class Mage_Tag_Controller_Index extends Mage_Core_Controller_Front_Action
      */
     protected function _fillMessageBox($counter)
     {
-        /** @var $session Mage_Core_Model_Session_Generic */
+        /** @var $session Magento_Core_Model_Session_Generic */
         $session = Mage::getSingleton('Mage_Tag_Model_Session');
-        $helper = Mage::helper('Mage_Core_Helper_Data');
+        $helper = Mage::helper('Magento_Core_Helper_Data');
 
         if (count($counter[Mage_Tag_Model_Tag::ADD_STATUS_NEW])) {
             $tagsCount = count($counter[Mage_Tag_Model_Tag::ADD_STATUS_NEW]);

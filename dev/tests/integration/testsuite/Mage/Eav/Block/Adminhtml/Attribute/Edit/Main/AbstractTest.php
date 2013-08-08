@@ -20,7 +20,7 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
      */
     public function testPrepareForm()
     {
-        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer');
         $model = Mage::getObjectManager()->create('Mage_Customer_Model_Attribute');
         $model->setEntityTypeId($entityType->getId());
@@ -30,7 +30,7 @@ class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
             'Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract',
             array(Mage::getSingleton('Mage_Backend_Block_Template_Context'))
         )
-        ->setLayout(Mage::getObjectManager()->create('Mage_Core_Model_Layout'));
+        ->setLayout(Mage::getObjectManager()->create('Magento_Core_Model_Layout'));
 
         $method = new ReflectionMethod(
             'Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract', '_prepareForm');

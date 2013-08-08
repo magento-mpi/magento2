@@ -52,14 +52,14 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
                 'message' => $this->__('You updated the custom.css file.'),
                 'content' => $cssFileData['content']
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $response = array('error' => true, 'message' => $this->__('We cannot upload the CSS file.'));
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response));
     }
 
     /**
@@ -82,14 +82,14 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
                 'filename' => $customCss->getFileName(),
                 'message'  => $this->__('You updated the %s file.', $customCss->getFileName())
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $response = array('error' => true, 'message' => $this->__('We can\'t save the custom css file.'));
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response));
     }
 
     /**
@@ -101,11 +101,11 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
             $customization = $editableTheme->getCustomization();
-            $customJsFiles = $customization->getFilesByType(Mage_Core_Model_Theme_Customization_File_Js::TYPE);
+            $customJsFiles = $customization->getFilesByType(Magento_Core_Model_Theme_Customization_File_Js::TYPE);
             $result = array('error' => false, 'files' => $customization->generateFileInfo($customJsFiles));
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
         } catch (Exception $e) {
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
     }
 
@@ -116,8 +116,8 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
     {
         /** @var $serviceModel Mage_Theme_Model_Uploader_Service */
         $serviceModel = $this->_objectManager->get('Mage_Theme_Model_Uploader_Service');
-        /** @var $jsService Mage_Core_Model_Theme_Customization_File_Js */
-        $jsService = $this->_objectManager->create('Mage_Core_Model_Theme_Customization_File_Js');
+        /** @var $jsService Magento_Core_Model_Theme_Customization_File_Js */
+        $jsService = $this->_objectManager->create('Magento_Core_Model_Theme_Customization_File_Js');
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
@@ -129,14 +129,14 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
             $jsFile->save();
             $this->_forward('jsList');
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $response = array('error' => true, 'message' => $this->__('We cannot upload the JS file.'));
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response));
     }
 
     /**
@@ -152,7 +152,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
             $this->_forward('jsList');
         } catch (Exception $e) {
             $this->_redirectUrl($this->_getRefererUrl());
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
     }
 
@@ -166,17 +166,17 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
             $editableTheme->getCustomization()->reorder(
-                Mage_Core_Model_Theme_Customization_File_Js::TYPE, $reorderJsFiles
+                Magento_Core_Model_Theme_Customization_File_Js::TYPE, $reorderJsFiles
             );
             $result = array('success' => true);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $this->__('We cannot upload the CSS file.'));
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**
@@ -201,14 +201,14 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
             $imageSizing = $imageSizingValidator->validate($configuration->getAllControlsData(), $imageSizing);
             $configuration->saveData($imageSizing);
             $result = array('success' => true, 'message' => $this->__('We saved the image sizes.'));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $this->__('We can\'t save image sizes.'));
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
 
     }
 
@@ -235,17 +235,17 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
             $configuration->saveData(array($keys[0] => $result['css_path']));
 
             $response = array('error' => false, 'content' => $result);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
             $response = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $errorMessage = $this->__('Something went wrong uploading the image.' .
                 ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response));
     }
 
     /**
@@ -274,42 +274,42 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
             $configuration->saveData(array($elementName => ''));
 
             $response = array('error' => false, 'content' => $result);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $errorMessage = $this->__('Something went wrong uploading the image.' .
                 ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response));
     }
 
     /**
      * Upload store logo
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function uploadStoreLogoAction()
     {
         $storeId = (int)$this->getRequest()->getParam('store_id');
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         try {
-            /** @var $theme Mage_Core_Model_Theme */
-            $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
+            /** @var $theme Magento_Core_Model_Theme */
+            $theme = $this->_objectManager->create('Magento_Core_Model_Theme');
             if (!$theme->load($themeId)->getId() || !$theme->isEditable()) {
-                throw new Mage_Core_Exception(
+                throw new Magento_Core_Exception(
                     $this->__('The file can\'t be found or edited.')
                 );
             }
 
             /** @var $customizationConfig Mage_Theme_Model_Config_Customization */
             $customizationConfig = $this->_objectManager->get('Mage_Theme_Model_Config_Customization');
-            $store = $this->_objectManager->get('Mage_Core_Model_Store')->load($storeId);
+            $store = $this->_objectManager->get('Magento_Core_Model_Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
-                throw new Mage_Core_Exception($this->__('This theme is not assigned to a store view.',
+                throw new Magento_Core_Exception($this->__('This theme is not assigned to a store view.',
                     $theme->getId()));
             }
             /** @var $storeLogo Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader */
@@ -319,42 +319,42 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
             $this->_reinitSystemConfiguration();
 
             $response = array('error' => false, 'content' => array('name' => basename($storeLogo->getValue())));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $errorMessage = $this->__('Something went wrong uploading the image.' .
                 ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response));
     }
 
     /**
      * Remove store logo
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function removeStoreLogoAction()
     {
         $storeId = (int)$this->getRequest()->getParam('store_id');
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         try {
-            /** @var $theme Mage_Core_Model_Theme */
-            $theme = $this->_objectManager->create('Mage_Core_Model_Theme');
+            /** @var $theme Magento_Core_Model_Theme */
+            $theme = $this->_objectManager->create('Magento_Core_Model_Theme');
             if (!$theme->load($themeId)->getId() || !$theme->isEditable()) {
-                throw new Mage_Core_Exception(
+                throw new Magento_Core_Exception(
                     $this->__('The file can\'t be found or edited.')
                 );
             }
 
             /** @var $customizationConfig Mage_Theme_Model_Config_Customization */
             $customizationConfig = $this->_objectManager->get('Mage_Theme_Model_Config_Customization');
-            $store = $this->_objectManager->get('Mage_Core_Model_Store')->load($storeId);
+            $store = $this->_objectManager->get('Magento_Core_Model_Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
-                throw new Mage_Core_Exception($this->__('This theme is not assigned to a store view.',
+                throw new Magento_Core_Exception($this->__('This theme is not assigned to a store view.',
                     $theme->getId()));
             }
 
@@ -364,16 +364,16 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
 
             $this->_reinitSystemConfiguration();
             $response = array('error' => false, 'content' => array());
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $errorMessage = $this->__('Something went wrong uploading the image.' .
                 ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response));
     }
 
     /**
@@ -394,27 +394,27 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
             );
             $configuration->saveData(array($controlId => $controlValue));
             $response = array('success' => true);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         } catch (Exception $e) {
             $errorMessage = $this->__('Something went wrong uploading the image.' .
                 ' Please check the file format and try again (JPEG, GIF, or PNG).');
             $response = array('error' => true, 'message' => $errorMessage);
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
         }
-        $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($response));
+        $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($response));
     }
 
     /**
      * Re-init system configuration
      *
-     * @return Mage_Core_Model_Config
+     * @return Magento_Core_Model_Config
      */
     protected function _reinitSystemConfiguration()
     {
-        /** @var $configModel Mage_Core_Model_Config */
-        $configModel = $this->_objectManager->get('Mage_Core_Model_Config');
+        /** @var $configModel Magento_Core_Model_Config */
+        $configModel = $this->_objectManager->get('Magento_Core_Model_Config');
         return $configModel->reinit();
     }
 }

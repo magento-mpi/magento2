@@ -116,8 +116,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
     /**
      * Get theme file (with custom CSS)
      *
-     * @param Mage_Core_Model_Theme $theme
-     * @return Mage_Core_Model_Theme_FileInterface|null
+     * @param Magento_Core_Model_Theme $theme
+     * @return Magento_Core_Model_Theme_FileInterface|null
      */
     protected function _getCustomCss($theme)
     {

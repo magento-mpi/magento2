@@ -16,7 +16,7 @@
  * @package     Enterprise_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
+class Enterprise_Eav_Block_Form extends Magento_Core_Block_Template
 {
     /**
      * Name of the block in layout update xml file
@@ -77,7 +77,7 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
     /**
      * EAV Entity Model
      *
-     * @var Mage_Core_Model_Abstract
+     * @var Magento_Core_Model_Abstract
      */
     protected $_entity;
 
@@ -118,7 +118,7 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
      * Get Attribute renderers from it, and add to self
      *
      * @return Enterprise_Eav_Block_Form
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _prepareLayout()
     {
@@ -165,10 +165,10 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
     /**
      * Set Entity object
      *
-     * @param Mage_Core_Model_Abstract $entity
+     * @param Magento_Core_Model_Abstract $entity
      * @return Enterprise_Eav_Block_Form
      */
-    public function setEntity(Mage_Core_Model_Abstract $entity)
+    public function setEntity(Magento_Core_Model_Abstract $entity)
     {
         $this->_entity = $entity;
         return $this;
@@ -201,7 +201,7 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
     /**
      * Return Entity object
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     public function getEntity()
     {

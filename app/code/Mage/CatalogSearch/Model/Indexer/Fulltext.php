@@ -51,14 +51,14 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
             Mage_Index_Model_Event::TYPE_SAVE,
             Mage_Index_Model_Event::TYPE_DELETE,
         ),
-        Mage_Core_Model_Store::ENTITY => array(
+        Magento_Core_Model_Store::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE,
             Mage_Index_Model_Event::TYPE_DELETE
         ),
-        Mage_Core_Model_Store_Group::ENTITY => array(
+        Magento_Core_Model_Store_Group::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
-        Mage_Core_Model_Config_Data::ENTITY => array(
+        Magento_Core_Model_Config_Data::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
         Mage_Catalog_Model_Category::ENTITY => array(
@@ -134,11 +134,11 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
             } else {
                 $result = false;
             }
-        } else if ($entity == Mage_Core_Model_Store::ENTITY) {
+        } else if ($entity == Magento_Core_Model_Store::ENTITY) {
             if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
                 $result = true;
             } else {
-                /* @var $store Mage_Core_Model_Store */
+                /* @var $store Magento_Core_Model_Store */
                 $store = $event->getDataObject();
                 if ($store && $store->isObjectNew()) {
                     $result = true;
@@ -146,15 +146,15 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
                     $result = false;
                 }
             }
-        } else if ($entity == Mage_Core_Model_Store_Group::ENTITY) {
-            /* @var $storeGroup Mage_Core_Model_Store_Group */
+        } else if ($entity == Magento_Core_Model_Store_Group::ENTITY) {
+            /* @var $storeGroup Magento_Core_Model_Store_Group */
             $storeGroup = $event->getDataObject();
             if ($storeGroup && $storeGroup->dataHasChangedFor('website_id')) {
                 $result = true;
             } else {
                 $result = false;
             }
-        } else if ($entity == Mage_Core_Model_Config_Data::ENTITY) {
+        } else if ($entity == Magento_Core_Model_Config_Data::ENTITY) {
             $data = $event->getDataObject();
             if ($data && in_array($data->getPath(), $this->_relatedConfigSettings)) {
                 $result = $data->isValueChanged();
@@ -183,10 +183,10 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
                 $this->_registerCatalogProductEvent($event);
                 break;
 
-            case Mage_Core_Model_Config_Data::ENTITY:
-            case Mage_Core_Model_Store::ENTITY:
+            case Magento_Core_Model_Config_Data::ENTITY:
+            case Magento_Core_Model_Store::ENTITY:
             case Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY:
-            case Mage_Core_Model_Store_Group::ENTITY:
+            case Magento_Core_Model_Store_Group::ENTITY:
                 $event->addNewData('catalogsearch_fulltext_skip_call_event_handler', true);
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);

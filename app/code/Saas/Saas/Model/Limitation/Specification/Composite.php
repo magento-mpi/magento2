@@ -30,10 +30,10 @@ class Saas_Saas_Model_Limitation_Specification_Composite implements Saas_Saas_Mo
     /**
      * Check is allowed functionality for the module
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @return bool
      */
-    public function isSatisfiedBy(Mage_Core_Controller_Request_Http $request)
+    public function isSatisfiedBy(Magento_Core_Controller_Request_Http $request)
     {
         if ($this->_specifications) {
             /** @var $specification Saas_Saas_Model_Limitation_SpecificationInterface */

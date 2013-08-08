@@ -38,8 +38,8 @@ class Mage_Backend_Block_System_Config_Form_FieldTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_appModelMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false, false);
-        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false, false);
+        $this->_appModelMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false, false);
+        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
 
         $data = array(
             'layout' => $this->_layoutMock,

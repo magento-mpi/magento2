@@ -9,7 +9,7 @@
 /**
  * Checkout workflow helper
  */
-class Mage_Paypal_Helper_Checkout extends Mage_Core_Helper_Abstract
+class Mage_Paypal_Helper_Checkout extends Magento_Core_Helper_Abstract
 {
     /**
      * @var Mage_Checkout_Model_SessionFactory

@@ -16,7 +16,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Resource_Config extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Catalog_Model_Resource_Config extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * catalog_product entity type id

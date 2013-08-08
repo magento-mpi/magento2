@@ -17,8 +17,8 @@ class Mage_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
      */
     public function testGetChildPdfAsArray()
     {
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
         $block = $layout->createBlock('Mage_Payment_Block_Info', 'block');
 
         /** @var $paymentInfoBankMage_Payment_Model_Info  */
@@ -30,7 +30,7 @@ class Mage_Payment_Block_InfoTest extends PHPUnit_Framework_TestCase
             ->setArea('adminhtml');
 
         $nonExpectedHtml = 'non-expected html';
-        $childHtml = $layout->addBlock('Mage_Core_Block_Text', 'child.html', 'block');
+        $childHtml = $layout->addBlock('Magento_Core_Block_Text', 'child.html', 'block');
         $childHtml->setText($nonExpectedHtml);
 
         /** @var $paymentInfoCheckmo Mage_Payment_Model_Info */

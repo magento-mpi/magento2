@@ -41,7 +41,7 @@ class Mage_Paypal_Controller_Express extends Mage_Paypal_Controller_Express_Abst
         $this->setFlag('', 'no-dispatch', true);
         Mage::getSingleton('Mage_Customer_Model_Session')->setBeforeAuthUrl($this->_getRefererUrl());
         $this->getResponse()->setRedirect(
-            Mage::helper('Mage_Core_Helper_Url')->addRequestParam(
+            Mage::helper('Magento_Core_Helper_Url')->addRequestParam(
                 Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl(),
                 array('context' => 'checkout')
             )

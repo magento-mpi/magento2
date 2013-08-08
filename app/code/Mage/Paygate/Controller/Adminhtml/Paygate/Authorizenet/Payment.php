@@ -34,7 +34,7 @@ class Mage_Paygate_Controller_Adminhtml_Paygate_Authorizenet_Payment extends Mag
 
             $result['success']  = true;
             $result['update_html'] = $this->_getPaymentMethodsHtml();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::logException($e);
             $result['error_message'] = $e->getMessage();
         } catch (Exception $e) {
@@ -43,7 +43,7 @@ class Mage_Paygate_Controller_Adminhtml_Paygate_Authorizenet_Payment extends Mag
         }
 
         Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getPayment()->save();
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 
     /**

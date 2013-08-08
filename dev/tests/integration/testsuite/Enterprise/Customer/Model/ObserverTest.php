@@ -20,7 +20,7 @@ class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_blockInjections = array(
-        'Mage_Core_Model_Context',
+        'Magento_Core_Model_Context',
         null,
         null
     );
@@ -63,7 +63,7 @@ class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $address->load('admin@example.com', 'email');
         $arguments = $this->_prepareConstructorArguments();
         $arguments[] = array('id' => $address->getId());
-        $entity = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', $arguments);
+        $entity = $this->getMockForAbstractClass('Magento_Core_Model_Abstract', $arguments);
         $observer = new Magento_Event_Observer(array(
             'event' => new Magento_Object(array(
                 'address' => $entity,

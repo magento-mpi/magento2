@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Template
+abstract class Mage_Catalog_Block_Product_Abstract extends Magento_Core_Block_Template
 {
     protected $_priceBlock = array();
 
@@ -176,7 +176,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
      * Prepares and returns block to render some product type
      *
      * @param string $productType
-     * @return Mage_Core_Block_Template
+     * @return Magento_Core_Block_Template
      */
     public function _preparePriceRenderer($productType)
     {

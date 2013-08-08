@@ -23,17 +23,17 @@ class Mage_Webhook_Model_Source_Hook
      */
     protected $_options = null;
 
-    /** @var Mage_Core_Model_Translate  */
+    /** @var Magento_Core_Model_Translate  */
     private $_translator;
 
-    /** @var  Mage_Core_Model_Config */
+    /** @var  Magento_Core_Model_Config */
     private $_config;
 
     /**
-     * @param Mage_Core_Model_Translate $translator
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_Translate $translator
+     * @param Magento_Core_Model_Config $config
      */
-    public function __construct(Mage_Core_Model_Translate $translator, Mage_Core_Model_Config $config )
+    public function __construct(Magento_Core_Model_Translate $translator, Magento_Core_Model_Config $config )
     {
         $this->_translator = $translator;
         $this->_config = $config;

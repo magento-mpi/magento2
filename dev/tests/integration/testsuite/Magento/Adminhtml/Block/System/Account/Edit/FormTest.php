@@ -22,8 +22,8 @@ class Magento_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Frame
         $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         $session->setUser($user);
 
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
 
         /** @var Magento_Adminhtml_Block_System_Account_Edit_Form */
         $block = $layout->createBlock('Magento_Adminhtml_Block_System_Account_Edit_Form');

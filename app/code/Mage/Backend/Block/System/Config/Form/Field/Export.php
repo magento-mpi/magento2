@@ -18,7 +18,7 @@
 class Mage_Backend_Block_System_Config_Form_Field_Export extends Magento_Data_Form_Element_Abstract
 {
     /**
-     * @var Mage_Core_Model_Factory_Helper
+     * @var Magento_Core_Model_Factory_Helper
      */
     protected $_helperFactory;
 
@@ -31,7 +31,7 @@ class Mage_Backend_Block_System_Config_Form_Field_Export extends Magento_Data_Fo
             $this->_helperFactory = $attributes['helperFactory'];
             unset($attributes['helperFactory']);
         } else {
-            $this->_helperFactory = Mage::getSingleton('Mage_Core_Model_Factory_Helper');
+            $this->_helperFactory = Mage::getSingleton('Magento_Core_Model_Factory_Helper');
         }
 
         parent::__construct($attributes);

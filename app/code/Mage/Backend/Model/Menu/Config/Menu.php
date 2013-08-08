@@ -14,17 +14,17 @@
 class Mage_Backend_Model_Menu_Config_Menu extends Magento_Config_XmlAbstract
 {
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
     /**
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_Config $config
      * @param array $configFiles
      * @throws InvalidArgumentException
      */
     public function __construct(
-        Mage_Core_Model_Config $config,
+        Magento_Core_Model_Config $config,
         array $configFiles
     ) {
         parent::__construct($configFiles);

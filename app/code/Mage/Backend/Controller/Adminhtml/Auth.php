@@ -60,7 +60,7 @@ class Mage_Backend_Controller_Adminhtml_Auth extends Mage_Backend_Controller_Act
      */
     protected function _getDeniedJson()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
             'ajaxExpired' => 1,
             'ajaxRedirect' => Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()
         ));

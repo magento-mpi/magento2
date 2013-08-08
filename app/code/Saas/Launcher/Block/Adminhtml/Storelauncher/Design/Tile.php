@@ -25,20 +25,20 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile extends Saas_Launc
     protected  $_launcherHelper;
 
     /**
-     * @var Mage_Core_Model_ThemeFactory
+     * @var Magento_Core_Model_ThemeFactory
      */
     protected $_themeFactory;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Helper_Data $launcherHelper
-     * @param Mage_Core_Model_ThemeFactory $themeFactory
+     * @param Magento_Core_Model_ThemeFactory $themeFactory
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Saas_Launcher_Helper_Data $launcherHelper,
-        Mage_Core_Model_ThemeFactory $themeFactory,
+        Magento_Core_Model_ThemeFactory $themeFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -66,7 +66,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile extends Saas_Launc
     public function getThemeName()
     {
         $themeName = '';
-        $themeId = $this->_storeConfig->getConfig(Mage_Core_Model_View_Design::XML_PATH_THEME_ID,
+        $themeId = $this->_storeConfig->getConfig(Magento_Core_Model_View_Design::XML_PATH_THEME_ID,
             $this->_launcherHelper->getCurrentStoreView());
         if ($themeId) {
             $themeName = $this->_themeFactory->create()->load($themeId)->getThemeTitle();

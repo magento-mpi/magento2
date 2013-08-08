@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_Rma_Block_Return_Returns extends Mage_Core_Block_Template
+class Enterprise_Rma_Block_Return_Returns extends Magento_Core_Block_Template
 {
     public function _construct()
     {

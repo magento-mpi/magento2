@@ -315,7 +315,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Abstract
     /**
      * Get Rule label by specified store
      *
-     * @param Mage_Core_Model_Store|int|bool|null $store
+     * @param Magento_Core_Model_Store|int|bool|null $store
      *
      * @return string|bool
      */
@@ -424,7 +424,7 @@ class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Abstract
                 try {
                     $coupon->save();
                 } catch (Exception $e) {
-                    if ($e instanceof Mage_Core_Exception || $coupon->getId()) {
+                    if ($e instanceof Magento_Core_Exception || $coupon->getId()) {
                         throw $e;
                     }
                     $coupon->setCode(

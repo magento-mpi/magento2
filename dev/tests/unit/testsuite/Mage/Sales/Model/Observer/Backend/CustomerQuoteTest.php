@@ -49,7 +49,7 @@ class Mage_Sales_Model_Observer_Backend_CustomerQuoteTest extends PHPUnit_Framew
             array('setWebsite', 'loadByCustomer', 'getId', 'setCustomerGroupId', 'collectTotals'), array(), '', false
         );
         $this->_observerMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
-        $this->_storeManagerMock = $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $this->_configMock = $this->getMock('Mage_Customer_Model_Config_Share', array(), array(), '', false);
         $this->_eventMock = $this->getMock('Magento_Event', array('getCustomer'), array(), '', false);
         $this->_customerMock = $this->getMock('Mage_Customer_Model_Customer', array(), array(), '', false);
@@ -85,7 +85,7 @@ class Mage_Sales_Model_Observer_Backend_CustomerQuoteTest extends PHPUnit_Framew
 
     public function testDispatchIfWebsiteScopeDisable()
     {
-        $websiteMock = $this->getMock('Mage_Core_Model_Website', array(), array(), '', false);
+        $websiteMock = $this->getMock('Magento_Core_Model_Website', array(), array(), '', false);
         $this->_customerMock->expects($this->once())->method('getGroupId')->will($this->returnValue(1));
         $this->_customerMock->expects($this->once())->method('getOrigData')->will($this->returnValue(2));
         $this->_configMock->expects($this->any())->method('isWebsiteScope')->will($this->returnValue(false));
@@ -104,7 +104,7 @@ class Mage_Sales_Model_Observer_Backend_CustomerQuoteTest extends PHPUnit_Framew
      */
     public function testDispatchIfArrayExist($quoteId)
     {
-        $websiteMock = $this->getMock('Mage_Core_Model_Website', array(), array(), '', false);
+        $websiteMock = $this->getMock('Magento_Core_Model_Website', array(), array(), '', false);
         $this->_customerMock->expects($this->any())->method('getGroupId')->will($this->returnValue(1));
         $this->_customerMock->expects($this->once())->method('getOrigData')->will($this->returnValue(2));
         $this->_configMock->expects($this->any())->method('isWebsiteScope')->will($this->returnValue(true));

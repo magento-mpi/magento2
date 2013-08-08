@@ -16,7 +16,7 @@
  * @package    Mage_Wishlist
  * @module     Wishlist
  */
-class Mage_Wishlist_Block_Item_Configure extends Mage_Core_Block_Template
+class Mage_Wishlist_Block_Item_Configure extends Magento_Core_Block_Template
 {
     /**
      * Returns product being edited

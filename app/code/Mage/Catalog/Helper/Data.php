@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const PRICE_SCOPE_GLOBAL               = 0;
     const PRICE_SCOPE_WEBSITE              = 1;
@@ -179,7 +179,7 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function splitSku($sku, $length = 30)
     {
-        return Mage::helper('Mage_Core_Helper_String')->str_split($sku, $length, true, false, '[\-\s]');
+        return Mage::helper('Magento_Core_Helper_String')->str_split($sku, $length, true, false, '[\-\s]');
     }
 
     /**

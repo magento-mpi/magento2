@@ -22,8 +22,8 @@ return function (array $params)
     $config = new Saas_Saas_Model_Tenant_Config($rootDir, $params);
     $appParams = $config->getApplicationParams();
 
-    $entryPoint = new Mage_Core_Model_EntryPoint_Cron(
-        new Mage_Core_Model_Config_Primary($rootDir, $appParams)
+    $entryPoint = new Magento_Core_Model_EntryPoint_Cron(
+        new Magento_Core_Model_Config_Primary($rootDir, $appParams)
     );
     $entryPoint->processRequest();
 };

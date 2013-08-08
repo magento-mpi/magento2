@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_System_Variable_Edit_Form extends Magento_Adminhtm
     /**
      * Getter
      *
-     * @return Mage_Core_Model_Variable
+     * @return Magento_Core_Model_Variable
      */
     public function getVariable()
     {

@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 class Mage_Webhook_Model_Resource_Subscription_Collection
-    extends Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
     implements Magento_PubSub_Subscription_CollectionInterface
 {
     /**
@@ -23,12 +23,12 @@ class Mage_Webhook_Model_Resource_Subscription_Collection
      *
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Mage_Webhook_Model_Resource_Endpoint $endpointResource
-     * @param Mage_Core_Model_Resource_Db_Abstract $resource
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Webhook_Model_Resource_Endpoint $endpointResource,
-        Mage_Core_Model_Resource_Db_Abstract $resource = null
+        Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         parent::__construct($fetchStrategy, $resource);
         $this->_endpointResource = $endpointResource;

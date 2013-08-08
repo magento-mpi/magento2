@@ -83,7 +83,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract_Entity extends Saas_PrintedTe
      * Get variable item model
      *
      * @param mixed $arguments Arguments for model initialization
-     * @return false|Mage_Core_Model_Abstract
+     * @return false|Magento_Core_Model_Abstract
      */
     protected function _getVariableItemModel($arguments)
     {

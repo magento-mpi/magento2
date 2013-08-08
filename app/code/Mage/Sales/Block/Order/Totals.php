@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
+class Mage_Sales_Block_Order_Totals extends Magento_Core_Block_Template
 {
     /**
      * Associated array of totals

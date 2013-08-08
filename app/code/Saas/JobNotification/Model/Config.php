@@ -15,9 +15,9 @@ class Saas_JobNotification_Model_Config
     protected $_configuration = array();
 
     /**
-     * @param Mage_Core_Model_ConfigInterface $config
+     * @param Magento_Core_Model_ConfigInterface $config
      */
-    public function __construct(Mage_Core_Model_ConfigInterface $config)
+    public function __construct(Magento_Core_Model_ConfigInterface $config)
     {
         foreach ($config->getNode('global/tasks')->asArray() as $taskCode => $taskConfig) {
             $notificationConfig = isset($taskConfig['notification']) ? $taskConfig['notification'] : array();

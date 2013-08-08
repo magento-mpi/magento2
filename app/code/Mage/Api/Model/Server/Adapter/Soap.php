@@ -165,7 +165,7 @@ class Mage_Api_Model_Server_Adapter_Soap extends Magento_Object
      */
     protected function getWsdlUrl($params = null, $withAuth = true)
     {
-        $urlModel = Mage::getModel('Mage_Core_Model_Url')
+        $urlModel = Mage::getModel('Magento_Core_Model_Url')
             ->setUseSession(false);
 
         $wsdlUrl = $params !== null

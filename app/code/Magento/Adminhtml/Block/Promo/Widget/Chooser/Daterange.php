@@ -47,7 +47,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Mage_Backen
             return '';
         }
 
-        $idSuffix = Mage::helper('Mage_Core_Helper_Data')->uniqHash();
+        $idSuffix = Mage::helper('Magento_Core_Helper_Data')->uniqHash();
         $form = new Magento_Data_Form();
         foreach (array(
             'from' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('From'),

@@ -27,7 +27,7 @@ class Mage_Checkout_Model_Observer
         try {
             Mage::getSingleton('Mage_Checkout_Model_Session')->loadCustomerQuote();
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Mage_Checkout_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {

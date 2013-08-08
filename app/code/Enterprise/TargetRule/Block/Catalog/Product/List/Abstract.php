@@ -153,7 +153,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract
     /**
      * Get link collection with limit parameter
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @param null|int $limit
      * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection|null
      */

@@ -26,7 +26,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
+class Mage_Tag_Model_Tag extends Magento_Core_Model_Abstract
 {
     const STATUS_DISABLED = -1;
     const STATUS_PENDING = 0;

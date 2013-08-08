@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Sales_Model_Email_Template extends Mage_Core_Model_Email_Template
+class Mage_Sales_Model_Email_Template extends Magento_Core_Model_Email_Template
 {
     /**
      * @param string $template

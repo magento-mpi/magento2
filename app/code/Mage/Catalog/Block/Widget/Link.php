@@ -17,7 +17,7 @@
  */
 
 class Mage_Catalog_Block_Widget_Link
-    extends Mage_Core_Block_Html_Link
+    extends Magento_Core_Block_Html_Link
     implements Mage_Widget_Block_Interface
 {
     /**
@@ -56,11 +56,11 @@ class Mage_Catalog_Block_Widget_Link
                 $store = Mage::app()->getStore();
             }
 
-            /* @var $store Mage_Core_Model_Store */
+            /* @var $store Magento_Core_Model_Store */
             $href = "";
             if ($this->getData('id_path')) {
-                /* @var $urlRewriteResource Mage_Core_Model_Resource_Url_Rewrite */
-                $urlRewriteResource = Mage::getResourceSingleton('Mage_Core_Model_Resource_Url_Rewrite');
+                /* @var $urlRewriteResource Magento_Core_Model_Resource_Url_Rewrite */
+                $urlRewriteResource = Mage::getResourceSingleton('Magento_Core_Model_Resource_Url_Rewrite');
                 $href = $urlRewriteResource->getRequestPathByIdPath($this->getData('id_path'), $store);
                 if (!$href) {
                     return false;

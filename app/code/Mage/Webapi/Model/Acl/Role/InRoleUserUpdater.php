@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Acl_Role_InRoleUserUpdater implements Mage_Core_Model_Layout_Argument_UpdaterInterface
+class Mage_Webapi_Model_Acl_Role_InRoleUserUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
 {
     /**
      * @var int
@@ -22,11 +22,11 @@ class Mage_Webapi_Model_Acl_Role_InRoleUserUpdater implements Mage_Core_Model_La
     /**
      * Constructor.
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @param Mage_Webapi_Model_Resource_Acl_User $userResource
      */
     public function __construct(
-        Mage_Core_Controller_Request_Http $request,
+        Magento_Core_Controller_Request_Http $request,
         Mage_Webapi_Model_Resource_Acl_User $userResource
     ) {
         $this->_roleId = (int)$request->getParam('role_id');

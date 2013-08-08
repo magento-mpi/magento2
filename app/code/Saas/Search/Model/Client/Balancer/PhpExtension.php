@@ -12,14 +12,14 @@ class Saas_Search_Model_Client_Balancer_PhpExtension extends Saas_Search_Model_C
     /**
      * Initialize Solr client
      *
-     * @param Mage_Core_Model_Registry $registry
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Logger $logger
      * @param Enterprise_Search_Model_Client_SolrClient_Factory $_solrClientFactory
      * @param array $options
      */
     public function __construct(
-        Mage_Core_Model_Registry $registry,
-        Mage_Core_Model_Logger $logger,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Logger $logger,
         Enterprise_Search_Model_Client_SolrClient_Factory $_solrClientFactory,
         array $options = array()
     ) {

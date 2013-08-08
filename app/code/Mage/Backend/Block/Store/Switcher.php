@@ -57,28 +57,28 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     /**
      * Application model
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_application;
 
     /**
      * Website factory
      *
-     * @var Mage_Core_Model_Website_Factory
+     * @var Magento_Core_Model_Website_Factory
      */
     protected $_websiteFactory;
 
     /**
      * Store Group Factory
      *
-     * @var Mage_Core_Model_Store_Group_Factory
+     * @var Magento_Core_Model_Store_Group_Factory
      */
     protected $_storeGroupFactory;
 
     /**
      * Store Factory
      *
-     * @var Mage_Core_Model_StoreFactory
+     * @var Magento_Core_Model_StoreFactory
      */
     protected $_storeFactory;
 
@@ -86,18 +86,18 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
      * Constructor
      *
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_App $application
-     * @param Mage_Core_Model_Website_Factory $websiteFactory
-     * @param Mage_Core_Model_Store_Group_Factory $storeGroupFactory
-     * @param Mage_Core_Model_StoreFactory $storeFactory
+     * @param Magento_Core_Model_App $application
+     * @param Magento_Core_Model_Website_Factory $websiteFactory
+     * @param Magento_Core_Model_Store_Group_Factory $storeGroupFactory
+     * @param Magento_Core_Model_StoreFactory $storeFactory
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_App $application,
-        Mage_Core_Model_Website_Factory $websiteFactory,
-        Mage_Core_Model_Store_Group_Factory $storeGroupFactory,
-        Mage_Core_Model_StoreFactory $storeFactory,
+        Magento_Core_Model_App $application,
+        Magento_Core_Model_Website_Factory $websiteFactory,
+        Magento_Core_Model_Store_Group_Factory $storeGroupFactory,
+        Magento_Core_Model_StoreFactory $storeFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -118,7 +118,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     }
 
     /**
-     * @return Mage_Core_Model_Resource_Website_Collection
+     * @return Magento_Core_Model_Resource_Website_Collection
      */
     public function getWebsiteCollection()
     {
@@ -151,12 +151,12 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     }
 
     /**
-     * @param int|Mage_Core_Model_Website $website
-     * @return Mage_Core_Model_Resource_Store_Group_Collection
+     * @param int|Magento_Core_Model_Website $website
+     * @return Magento_Core_Model_Resource_Store_Group_Collection
      */
     public function getGroupCollection($website)
     {
-        if (!$website instanceof Mage_Core_Model_Website) {
+        if (!$website instanceof Magento_Core_Model_Website) {
             $website = $this->_websiteFactory->create()->load($website);
         }
         return $website->getGroupCollection();
@@ -165,24 +165,24 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     /**
      * Get store groups for specified website
      *
-     * @param Mage_Core_Model_Website|int $website
+     * @param Magento_Core_Model_Website|int $website
      * @return array
      */
     public function getStoreGroups($website)
     {
-        if (!$website instanceof Mage_Core_Model_Website) {
+        if (!$website instanceof Magento_Core_Model_Website) {
             $website = $this->_application->getWebsite($website);
         }
         return $website->getGroups();
     }
 
     /**
-     * @param Mage_Core_Model_Store_Group|int $group
-     * @return Mage_Core_Model_Resource_Store_Collection
+     * @param Magento_Core_Model_Store_Group|int $group
+     * @return Magento_Core_Model_Resource_Store_Collection
      */
     public function getStoreCollection($group)
     {
-        if (!$group instanceof Mage_Core_Model_Store_Group) {
+        if (!$group instanceof Magento_Core_Model_Store_Group) {
             $group = $this->_storeGroupFactory->create()->load($group);
         }
         $stores = $group->getStoreCollection();
@@ -196,12 +196,12 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     /**
      * Get store views for specified store group
      *
-     * @param Mage_Core_Model_Store_Group|int $group
+     * @param Magento_Core_Model_Store_Group|int $group
      * @return array
      */
     public function getStores($group)
     {
-        if (!$group instanceof Mage_Core_Model_Store_Group) {
+        if (!$group instanceof Magento_Core_Model_Store_Group) {
             $group = $this->_application->getGroup($group);
         }
         $stores = $group->getStores();
@@ -319,7 +319,7 @@ class Mage_Backend_Block_Store_Switcher extends Mage_Backend_Block_Template
     public function getHintUrl()
     {
         if (null === $this->_hintUrl) {
-            $this->_hintUrl = $this->helper('Mage_Core_Helper_Hint')->getHintByCode(self::XPATH_HINT_KEY);
+            $this->_hintUrl = $this->helper('Magento_Core_Helper_Hint')->getHintByCode(self::XPATH_HINT_KEY);
         }
         return $this->_hintUrl;
     }

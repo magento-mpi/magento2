@@ -15,7 +15,7 @@
  * @package    Mage_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleShopping_Model_Resource_Type_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_GoogleShopping_Model_Resource_Type_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
 
     protected function _construct()

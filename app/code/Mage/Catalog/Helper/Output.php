@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
+class Mage_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
 {
     /**
      * Array of existing handlers
@@ -25,9 +25,9 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
     protected $_templateProcessor = null;
 
     /**
-     * @param Mage_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Context $context
      */
-    public function __construct(Mage_Core_Helper_Context $context)
+    public function __construct(Magento_Core_Helper_Context $context)
     {
         parent::__construct($context);
         Mage::dispatchEvent('catalog_helper_output_construct', array('helper'=>$this));

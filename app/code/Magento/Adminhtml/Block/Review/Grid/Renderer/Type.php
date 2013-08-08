@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Review_Grid_Renderer_Type extends Magento_Adminhtm
     {
 
         if (is_null($row->getCustomerId())) {
-            if ($row->getStoreId() == Mage_Core_Model_AppInterface::ADMIN_STORE_ID) {
+            if ($row->getStoreId() == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
                 return Mage::helper('Mage_Review_Helper_Data')->__('Administrator');
             } else {
                 return Mage::helper('Mage_Review_Helper_Data')->__('Guest');

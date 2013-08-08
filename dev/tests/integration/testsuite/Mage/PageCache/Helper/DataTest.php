@@ -23,8 +23,8 @@ class Mage_PageCache_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testSetNoCacheCookie()
     {
-        /** @var $cookie Mage_Core_Model_Cookie */
-        $cookie = Mage::getSingleton('Mage_Core_Model_Cookie');
+        /** @var $cookie Magento_Core_Model_Cookie */
+        $cookie = Mage::getSingleton('Magento_Core_Model_Cookie');
         $this->assertEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
         $this->_helper->setNoCacheCookie();
         $this->assertNotEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
@@ -32,8 +32,8 @@ class Mage_PageCache_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testRemoveNoCacheCookie()
     {
-        /** @var $cookie Mage_Core_Model_Cookie */
-        $cookie = Mage::getSingleton('Mage_Core_Model_Cookie');
+        /** @var $cookie Magento_Core_Model_Cookie */
+        $cookie = Mage::getSingleton('Magento_Core_Model_Cookie');
         $this->_helper->setNoCacheCookie();
         $this->_helper->removeNoCacheCookie();
         $this->assertEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
@@ -41,8 +41,8 @@ class Mage_PageCache_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testLockUnlockNoCacheCookie()
     {
-        /** @var $cookie Mage_Core_Model_Cookie */
-        $cookie = Mage::getSingleton('Mage_Core_Model_Cookie');
+        /** @var $cookie Magento_Core_Model_Cookie */
+        $cookie = Mage::getSingleton('Magento_Core_Model_Cookie');
         $this->_helper->setNoCacheCookie();
         $this->assertNotEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
 

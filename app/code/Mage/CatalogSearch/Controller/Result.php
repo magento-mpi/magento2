@@ -11,7 +11,7 @@
 /**
  * Catalog Search Controller
  */
-class Mage_CatalogSearch_Controller_Result extends Mage_Core_Controller_Front_Action
+class Mage_CatalogSearch_Controller_Result extends Magento_Core_Controller_Front_Action
 {
     /**
      * Retrieve catalog session

@@ -89,7 +89,7 @@ class Saas_Index_Controller_Adminhtml_Saas_Index extends Magento_Adminhtml_Contr
      */
     protected function _endAjax($res)
     {
-        $helper = $this->_objectManager->get('Mage_Core_Helper_Data');
+        $helper = $this->_objectManager->get('Magento_Core_Helper_Data');
         $responseContent = $helper->jsonEncode($res);
         $this->getResponse()->setBody($responseContent);
     }

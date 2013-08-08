@@ -49,7 +49,7 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends PHPUnit_Framewo
 
 
         $authorization = $this->getMock('Magento_AuthorizationInterface');
-        $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
+        $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
         $helperFactoryMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue($this->_helperMock));
@@ -90,7 +90,7 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends PHPUnit_Framewo
             ->will($this->returnValue($isAllowed));
 
 
-        $helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
+        $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
         $helperFactoryMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue($this->_helperMock));

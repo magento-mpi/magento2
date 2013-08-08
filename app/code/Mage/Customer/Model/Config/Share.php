@@ -15,7 +15,7 @@
  * @package    Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Config_Share extends Mage_Core_Model_Config_Data
+class Mage_Customer_Model_Config_Share extends Magento_Core_Model_Config_Data
 {
     /**
      * Xml config path to customers sharing scope value
@@ -67,7 +67,7 @@ class Mage_Customer_Model_Config_Share extends Mage_Core_Model_Config_Data
      * Check for email dublicates before saving customers sharing options
      *
      * @return Mage_Customer_Model_Config_Share
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function _beforeSave()
     {

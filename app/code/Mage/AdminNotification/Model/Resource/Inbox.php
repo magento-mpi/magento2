@@ -16,7 +16,7 @@
  * @package     Mage_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_AdminNotification_Model_Resource_Inbox extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_AdminNotification_Model_Resource_Inbox extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * AdminNotification Resource initialization

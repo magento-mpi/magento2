@@ -25,9 +25,9 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg extends Magento_Adminhtml_Control
     public function directiveAction()
     {
         $directive = $this->getRequest()->getParam('___directive');
-        $directive = Mage::helper('Mage_Core_Helper_Data')->urlDecode($directive);
-        $url = Mage::getModel('Mage_Core_Model_Email_Template_Filter')->filter($directive);
-        $image = $this->_objectManager->get('Mage_Core_Model_Image_AdapterFactory')->create();
+        $directive = Mage::helper('Magento_Core_Helper_Data')->urlDecode($directive);
+        $url = Mage::getModel('Magento_Core_Model_Email_Template_Filter')->filter($directive);
+        $image = $this->_objectManager->get('Magento_Core_Model_Image_AdapterFactory')->create();
         $response = $this->getResponse();
         try {
             $image->open($url);

@@ -29,7 +29,7 @@
  * @package     Mage_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
+class Mage_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     implements Mage_Catalog_Model_Product_Configuration_Item_Interface
 {
     const EXCEPTION_CODE_NOT_SALABLE            = 901;
@@ -220,7 +220,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     /**
      * Validate wish list item data
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return bool
      */
     public function validate()
@@ -254,7 +254,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
 
         // set current date if added at data is not defined
         if (is_null($this->getAddedAt())) {
-            $this->setAddedAt(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
+            $this->setAddedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
         }
 
         return $this;
@@ -281,7 +281,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
     /**
      * Retrieve item product instance
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Catalog_Model_Product
      */
     public function getProduct()
@@ -313,7 +313,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
      * Return true if product was successful added or exception with code
      * Return false for disabled or unvisible products
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @param Mage_Checkout_Model_Cart $cart
      * @param bool $delete  delete the item after successful add to cart
      * @return bool
@@ -345,7 +345,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
         }
 
         if (!$product->isSalable()) {
-            throw new Mage_Core_Exception(null, self::EXCEPTION_CODE_NOT_SALABLE);
+            throw new Magento_Core_Exception(null, self::EXCEPTION_CODE_NOT_SALABLE);
         }
 
         $buyRequest = $this->getBuyRequest();

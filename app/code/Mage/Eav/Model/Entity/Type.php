@@ -42,7 +42,7 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
+class Mage_Eav_Model_Entity_Type extends Magento_Core_Model_Abstract
 {
     /**
      * Collection of attributes
@@ -305,7 +305,7 @@ class Mage_Eav_Model_Entity_Type extends Mage_Core_Model_Abstract
     /**
      * Retreive resource entity object
      *
-     * @return Mage_Core_Model_Resource_Abstract
+     * @return Magento_Core_Model_Resource_Abstract
      */
     public function getEntity()
     {

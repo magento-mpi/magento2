@@ -16,7 +16,7 @@
  * @package     Enterprise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_GiftRegistry_Model_Resource_Item extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_GiftRegistry_Model_Resource_Item extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource model initialization
@@ -30,10 +30,10 @@ class Enterprise_GiftRegistry_Model_Resource_Item extends Mage_Core_Model_Resour
     /**
      * Add creation date to object
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $object
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if (!$object->getAddedAt()) {
             $object->setAddedAt($this->formatDate(true));

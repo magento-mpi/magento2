@@ -512,7 +512,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initWebsites()
     {
-        /** @var $website Mage_Core_Model_Website */
+        /** @var $website Magento_Core_Model_Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $this->_websiteCodeToId[$website->getCode()] = $website->getId();
             $this->_websiteCodeToStoreIds[$website->getCode()] = array_flip($website->getStoreCodes());
@@ -1179,7 +1179,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
 
             $this->_fileUploader->init();
 
-            $mediaDir = Mage::getBaseDir(Mage_Core_Model_Dir::MEDIA);
+            $mediaDir = Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA);
             if (!$mediaDir) {
                 throw new Magento_Exception('Media directory is unavailable.');
             }

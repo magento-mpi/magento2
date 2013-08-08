@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Tag_Controller_List extends Mage_Core_Controller_Front_Action
+class Mage_Tag_Controller_List extends Magento_Core_Controller_Front_Action
 {
     public function indexAction()
     {

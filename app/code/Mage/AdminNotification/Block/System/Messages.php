@@ -106,7 +106,7 @@ class Mage_AdminNotification_Block_System_Messages extends Mage_Backend_Block_Te
      */
     public function getSystemMessageDialogJson()
     {
-        return $this->helper('Mage_Core_Helper_Data')->jsonEncode(array(
+        return $this->helper('Magento_Core_Helper_Data')->jsonEncode(array(
             'systemMessageDialog' => array(
                 'autoOpen' => false,
                 'width' => 600,

@@ -25,7 +25,7 @@
  * @package     Mage_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
+class Mage_Review_Model_Review extends Magento_Core_Model_Abstract
 {
 
     /**
@@ -118,7 +118,7 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
     /**
      * Perform actions after object delete
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _afterDeleteCommit()
     {
@@ -178,7 +178,7 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
     /**
      * Check if current review available on passed store
      *
-     * @param int|Mage_Core_Model_Store $store
+     * @param int|Magento_Core_Model_Store $store
      * @return bool
      */
     public function isAvailableOnStore($store = null)

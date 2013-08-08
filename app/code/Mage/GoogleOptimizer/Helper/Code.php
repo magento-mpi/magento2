@@ -15,7 +15,7 @@ class Mage_GoogleOptimizer_Helper_Code
     protected $_codeModel;
 
     /**
-     * @var Mage_Core_Model_Abstract
+     * @var Magento_Core_Model_Abstract
      */
     protected $_entity;
 
@@ -30,10 +30,10 @@ class Mage_GoogleOptimizer_Helper_Code
     /**
      * Get loaded Code object by Entity
      *
-     * @param Mage_Core_Model_Abstract $entity
+     * @param Magento_Core_Model_Abstract $entity
      * @return Mage_GoogleOptimizer_Model_Code
      */
-    public function getCodeObjectByEntity(Mage_Core_Model_Abstract $entity)
+    public function getCodeObjectByEntity(Magento_Core_Model_Abstract $entity)
     {
         $this->_entity = $entity;
 

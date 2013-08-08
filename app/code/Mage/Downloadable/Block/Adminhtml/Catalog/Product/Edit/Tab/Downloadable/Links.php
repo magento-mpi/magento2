@@ -134,8 +134,8 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
      */
     public function getIsPriceWebsiteScope()
     {
-        $scope =  (int) Mage::app()->getStore()->getConfig(Mage_Core_Model_Store::XML_PATH_PRICE_SCOPE);
-        if ($scope == Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE) {
+        $scope =  (int) Mage::app()->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+        if ($scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE) {
             return true;
         }
         return false;
@@ -174,7 +174,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
             );
 
             if ($item->getLinkFile() && !is_file($file)) {
-                Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
+                Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
             }
 
             if ($item->getLinkFile() && is_file($file)) {
@@ -306,7 +306,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
     }
 
     /**

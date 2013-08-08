@@ -21,14 +21,14 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form_CouponTest extends PHPUnit_F
     /**
      * Application object
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_application;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_application = Mage::getObjectManager()->get('Mage_Core_Model_App');
+        $this->_application = Mage::getObjectManager()->get('Magento_Core_Model_App');
     }
 
     /**

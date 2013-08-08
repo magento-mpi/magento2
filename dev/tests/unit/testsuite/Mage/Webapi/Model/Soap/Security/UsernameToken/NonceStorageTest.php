@@ -29,7 +29,7 @@ class Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorageTest extends PHP
      */
     protected function setUp()
     {
-        $this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface');
+        $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface');
         $this->_nonceStorage = new Mage_Webapi_Model_Soap_Security_UsernameToken_NonceStorage($this->_cacheMock);
     }
 

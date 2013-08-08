@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Js extends Magento_Adminhtml_
     /**
      * Get store object of curently edited product
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {

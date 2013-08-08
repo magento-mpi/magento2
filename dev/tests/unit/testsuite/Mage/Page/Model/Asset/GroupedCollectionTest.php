@@ -17,7 +17,7 @@ class Mage_Page_Model_Asset_GroupedCollectionTest extends PHPUnit_Framework_Test
     protected $_object;
 
     /**
-     * @var Mage_Core_Model_Page_Asset_AssetInterface
+     * @var Magento_Core_Model_Page_Asset_AssetInterface
      */
     protected $_asset;
 
@@ -31,7 +31,7 @@ class Mage_Page_Model_Asset_GroupedCollectionTest extends PHPUnit_Framework_Test
             ->will($this->returnCallback(array($this, 'createAssetGroup')))
         ;
         $this->_object = new Mage_Page_Model_Asset_GroupedCollection($objectManager);
-        $this->_asset = new Mage_Core_Model_Page_Asset_Remote('http://127.0.0.1/magento/test.css');
+        $this->_asset = new Magento_Core_Model_Page_Asset_Remote('http://127.0.0.1/magento/test.css');
         $this->_object->add('asset', $this->_asset);
     }
 
@@ -77,7 +77,7 @@ class Mage_Page_Model_Asset_GroupedCollectionTest extends PHPUnit_Framework_Test
 
     public function testAdd()
     {
-        $assetNew = new Mage_Core_Model_Page_Asset_Remote('http://127.0.0.1/magento/test_new.css');
+        $assetNew = new Magento_Core_Model_Page_Asset_Remote('http://127.0.0.1/magento/test_new.css');
         $this->_object->add('asset_new', $assetNew, array('test_property' => 'test_value'));
         $this->assertEquals(array('asset' => $this->_asset, 'asset_new' => $assetNew), $this->_object->getAll());
     }
@@ -90,9 +90,9 @@ class Mage_Page_Model_Asset_GroupedCollectionTest extends PHPUnit_Framework_Test
 
     public function testGetGroups()
     {
-        $cssAsset = new Mage_Core_Model_Page_Asset_Remote('http://127.0.0.1/style.css', 'css');
-        $jsAsset = new Mage_Core_Model_Page_Asset_Remote('http://127.0.0.1/script.js', 'js');
-        $jsAssetAllowingMerge = $this->getMockForAbstractClass('Mage_Core_Model_Page_Asset_MergeableInterface');
+        $cssAsset = new Magento_Core_Model_Page_Asset_Remote('http://127.0.0.1/style.css', 'css');
+        $jsAsset = new Magento_Core_Model_Page_Asset_Remote('http://127.0.0.1/script.js', 'js');
+        $jsAssetAllowingMerge = $this->getMockForAbstractClass('Magento_Core_Model_Page_Asset_MergeableInterface');
         $jsAssetAllowingMerge->expects($this->any())->method('getContentType')->will($this->returnValue('js'));
 
         // assets with identical properties should be grouped together

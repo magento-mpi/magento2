@@ -35,7 +35,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Magento_Adminhtml_Block
     /**
      * Prepare layout, create buttons
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
@@ -113,7 +113,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Magento_Adminhtml_Block
     /**
      * Return current store from regisrty
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getStore()
     {
@@ -183,7 +183,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage extends Magento_Adminhtml_Block
             'store_id' => $this->_getStore()->getId()
         );
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
     }
 
     /**

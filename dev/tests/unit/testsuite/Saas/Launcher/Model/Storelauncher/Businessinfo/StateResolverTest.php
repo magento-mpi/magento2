@@ -95,14 +95,14 @@ class Saas_Launcher_Model_Storelauncher_Businessinfo_StateResolverTest extends P
      */
     protected function _getStateResolverWithEmail($email)
     {
-        $store = $this->getMock('Mage_Core_Model_Store', array('getConfig'), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array('getConfig'), array(), '', false);
 
         $store->expects($this->once())
             ->method('getConfig')
             ->with('trans_email/ident_general/email')
             ->will($this->returnValue($email));
 
-        $app = $this->getMock('Mage_Core_Model_App', array('getStore'), array(), '', false);
+        $app = $this->getMock('Magento_Core_Model_App', array('getStore'), array(), '', false);
 
         $app->expects($this->once())
             ->method('getStore')

@@ -80,7 +80,7 @@ class Mage_Reports_Model_Resource_Report_Collection extends Magento_Data_Collect
     protected $_dateFactory;
 
     /**
-     * @var Mage_Core_Model_LocaleInterface
+     * @var Magento_Core_Model_LocaleInterface
      */
     protected $_locale;
 
@@ -95,13 +95,13 @@ class Mage_Reports_Model_Resource_Report_Collection extends Magento_Data_Collect
     protected $_collectionFactory;
 
     /**
-     * @param Mage_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param Mage_Reports_Helper_Data $helper
      * @param Zend_DateFactory $dateFactory
      * @param Mage_Reports_Model_Resource_Report_Collection_Factory $collectionFactory
      */
     public function __construct(
-        Mage_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_LocaleInterface $locale,
         Mage_Reports_Helper_Data $helper,
         Zend_DateFactory $dateFactory,
         Mage_Reports_Model_Resource_Report_Collection_Factory $collectionFactory
@@ -333,7 +333,7 @@ class Mage_Reports_Model_Resource_Report_Collection extends Magento_Data_Collect
      *
      * @param int $fromDate
      * @param int $toDate
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _getReport($fromDate, $toDate)
     {

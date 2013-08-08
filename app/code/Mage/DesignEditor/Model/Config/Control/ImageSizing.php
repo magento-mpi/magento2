@@ -21,15 +21,15 @@ class Mage_DesignEditor_Model_Config_Control_ImageSizing extends Mage_DesignEdit
     protected $_controlAttributes = array('title');
 
     /**
-     * @var Mage_Core_Model_Config_Modules_Reader
+     * @var Magento_Core_Model_Config_Modules_Reader
      */
     protected $_moduleReader;
 
     /**
-     * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      * @param array $configFiles
      */
-    public function __construct(Mage_Core_Model_Config_Modules_Reader $moduleReader, array $configFiles)
+    public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader, array $configFiles)
     {
         $this->_moduleReader = $moduleReader;
         parent::__construct($configFiles);

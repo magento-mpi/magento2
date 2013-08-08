@@ -15,7 +15,7 @@
  * @package    Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Block_Onepage_Success extends Mage_Core_Block_Template
+class Mage_Checkout_Block_Onepage_Success extends Magento_Core_Block_Template
 {
     /**
      * See if the order has state, visible on frontend

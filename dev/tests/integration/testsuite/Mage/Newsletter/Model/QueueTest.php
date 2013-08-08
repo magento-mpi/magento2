@@ -19,8 +19,8 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
      */
     public function testSendPerSubscriber()
     {
-        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
+        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        $collection = Mage::getModel('Magento_Core_Model_Resource_Theme_Collection');
         $themeId = $collection->getThemeByFullPath('frontend/magento_demo')->getId();
         Mage::app()->getStore('fixturestore')->setConfig('design/theme/theme_id', $themeId);
 
@@ -34,7 +34,7 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
             $this->stringEndsWith('/static/frontend/magento_demo/de_DE/images/logo.gif')
         );
 
-        $emailTemplate = $this->getMock('Mage_Core_Model_Email_Template',
+        $emailTemplate = $this->getMock('Magento_Core_Model_Email_Template',
             array('_getMail', '_getLogoUrl'), array(), '', false
         );
         $emailTemplate->expects($this->exactly(2))->method('_getMail')->will($this->onConsecutiveCalls(
@@ -54,12 +54,12 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
      */
     public function testSendPerSubscriberProblem()
     {
-        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $mail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $brokenMail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $errorMsg = md5(microtime());
         $brokenMail->expects($this->any())->method('send')->will($this->throwException(new Exception($errorMsg, 99)));
-        $template = $this->getMock('Mage_Core_Model_Email_Template',
+        $template = $this->getMock('Magento_Core_Model_Email_Template',
             array('_getMail', '_getLogoUrl'), array(), '', false
         );
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));

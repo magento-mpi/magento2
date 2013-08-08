@@ -11,7 +11,7 @@
 class Mage_User_Model_Acl_Loader_Role implements Magento_Acl_LoaderInterface
 {
     /**
-     * @var Mage_Core_Model_Resource
+     * @var Magento_Core_Model_Resource
      */
     protected $_resource;
 
@@ -19,7 +19,7 @@ class Mage_User_Model_Acl_Loader_Role implements Magento_Acl_LoaderInterface
     {
         $this->_resource = isset($data['resource'])
             ? $data['resource']
-            : Mage::getSingleton('Mage_Core_Model_Resource');
+            : Mage::getSingleton('Magento_Core_Model_Resource');
 
         $this->_objectFactory = isset($data['objectFactory'])
             ? $data['objectFactory']

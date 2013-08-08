@@ -160,7 +160,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
         }
 
         $store = $observer->getEvent()->getStore();
-        /* @var $store Mage_Core_Model_Store */
+        /* @var $store Magento_Core_Model_Store */
         $this->_getIndexer()->rebuild($store->getId());
 
         return $this;
@@ -179,7 +179,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
         }
 
         $store = $observer->getEvent()->getStore();
-        /* @var $store Mage_Core_Model_Store */
+        /* @var $store Magento_Core_Model_Store */
         if ($store->dataHasChangedFor('group_id')) {
             $this->_getIndexer()->rebuild($store->getId());
         }
@@ -200,7 +200,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
         }
 
         $store = $observer->getEvent()->getStore();
-        /* @var $store Mage_Core_Model_Store */
+        /* @var $store Magento_Core_Model_Store */
 
         $this->_getIndexer()->deleteStore($store->getId());
 
@@ -220,11 +220,11 @@ class Mage_Catalog_Model_Product_Flat_Observer
         }
 
         $group = $observer->getEvent()->getGroup();
-        /* @var $group Mage_Core_Model_Store_Group */
+        /* @var $group Magento_Core_Model_Store_Group */
 
         if ($group->dataHasChangedFor('website_id')) {
             foreach ($group->getStores() as $store) {
-                /* @var $store Mage_Core_Model_Store */
+                /* @var $store Magento_Core_Model_Store */
                 $this->_getIndexer()->rebuild($store->getId());
             }
         }

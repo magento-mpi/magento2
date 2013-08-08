@@ -489,7 +489,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage The customer with the specified ID not found.
      */
     public function testLoadCustomerByIdException()
@@ -661,7 +661,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage The address with the specified ID not found.
      */
     public function testPrepareCustomerAddressForSaveException()

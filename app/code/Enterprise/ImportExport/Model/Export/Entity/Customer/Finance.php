@@ -112,7 +112,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
      */
     protected function _initFrontendWebsites()
     {
-        /** @var $website Mage_Core_Model_Website */
+        /** @var $website Magento_Core_Model_Website */
         foreach ($this->_websiteManager->getWebsites() as $website) {
             $this->_frontendWebsiteIdToCode[$website->getId()] = $website->getCode();
         }

@@ -11,7 +11,7 @@
 /**
  * GoogleCheckout data helper
  */
-class Mage_GoogleCheckout_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_GoogleCheckout_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Google Checkout settings

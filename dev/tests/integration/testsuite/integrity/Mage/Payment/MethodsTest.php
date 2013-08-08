@@ -22,8 +22,8 @@ class Integrity_Mage_Payment_MethodsTest extends PHPUnit_Framework_TestCase
      */
     public function testPaymentMethod($code, $methodClass)
     {
-        /** @var $blockFactory Mage_Core_Model_BlockFactory */
-        $blockFactory = Mage::getObjectManager()->get('Mage_Core_Model_BlockFactory');
+        /** @var $blockFactory Magento_Core_Model_BlockFactory */
+        $blockFactory = Mage::getObjectManager()->get('Magento_Core_Model_BlockFactory');
         $storeId = Mage::app()->getStore()->getId();
         /** @var $model Mage_Payment_Model_Method_Abstract */
         if (empty($methodClass)) {
@@ -36,13 +36,13 @@ class Integrity_Mage_Payment_MethodsTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($model->getTitle());
         foreach (array($model->getFormBlockType(), $model->getInfoBlockType()) as $blockClass) {
             $message = "Block class: {$blockClass}";
-            /** @var $block Mage_Core_Block_Template */
+            /** @var $block Magento_Core_Block_Template */
             $block = $blockFactory->createBlock($blockClass);
             $block->setArea('frontend');
             $this->assertFileExists($block->getTemplateFile(), $message);
             if ($model->canUseInternal()) {
                 try {
-                    Mage::app()->getStore()->setId(Mage_Core_Model_AppInterface::ADMIN_STORE_ID);
+                    Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
                     $block->setArea('adminhtml');
                     $this->assertFileExists($block->getTemplateFile(), $message);
                     Mage::app()->getStore()->setId($storeId);

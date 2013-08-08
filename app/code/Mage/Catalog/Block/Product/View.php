@@ -52,7 +52,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             if ($description) {
                 $headBlock->setDescription( ($description) );
             } else {
-                $headBlock->setDescription(Mage::helper('Mage_Core_Helper_String')->substr($product->getDescription(), 0, 255));
+                $headBlock->setDescription(Mage::helper('Magento_Core_Helper_String')->substr($product->getDescription(), 0, 255));
             }
             if ($this->helper('Mage_Catalog_Helper_Product')->canUseCanonicalTag()) {
                 $params = array('_ignore_category'=>true);
@@ -109,9 +109,9 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             $additional['wishlist_next'] = 1;
         }
 
-        $addUrlKey = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
+        $addUrlKey = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
         $addUrlValue = Mage::getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
-        $additional[$addUrlKey] = Mage::helper('Mage_Core_Helper_Data')->urlEncode($addUrlValue);
+        $additional[$addUrlKey] = Mage::helper('Magento_Core_Helper_Data')->urlEncode($addUrlValue);
 
         return $this->helper('Mage_Checkout_Helper_Cart')->getAddUrl($product, $additional);
     }
@@ -126,7 +126,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
     {
         $config = array();
         if (!$this->hasOptions()) {
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
         }
 
         $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest(false, false, false);
@@ -146,8 +146,8 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         $_tierPrices = array();
         $_tierPricesInclTax = array();
         foreach ($product->getTierPrice() as $tierPrice) {
-            $_tierPrices[] = Mage::helper('Mage_Core_Helper_Data')->currency($tierPrice['website_price'], false, false);
-            $_tierPricesInclTax[] = Mage::helper('Mage_Core_Helper_Data')->currency(
+            $_tierPrices[] = Mage::helper('Magento_Core_Helper_Data')->currency($tierPrice['website_price'], false, false);
+            $_tierPricesInclTax[] = Mage::helper('Magento_Core_Helper_Data')->currency(
                 Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, (int)$tierPrice['website_price'], true),
                 false, false);
         }
@@ -157,10 +157,10 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             'includeTax'          => Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax() ? 'true' : 'false',
             'showIncludeTax'      => Mage::helper('Mage_Tax_Helper_Data')->displayPriceIncludingTax(),
             'showBothPrices'      => Mage::helper('Mage_Tax_Helper_Data')->displayBothPrices(),
-            'productPrice'        => Mage::helper('Mage_Core_Helper_Data')->currency($_finalPrice, false, false),
-            'productOldPrice'     => Mage::helper('Mage_Core_Helper_Data')->currency($_regularPrice, false, false),
-            'priceInclTax'        => Mage::helper('Mage_Core_Helper_Data')->currency($_priceInclTax, false, false),
-            'priceExclTax'        => Mage::helper('Mage_Core_Helper_Data')->currency($_priceExclTax, false, false),
+            'productPrice'        => Mage::helper('Magento_Core_Helper_Data')->currency($_finalPrice, false, false),
+            'productOldPrice'     => Mage::helper('Magento_Core_Helper_Data')->currency($_regularPrice, false, false),
+            'priceInclTax'        => Mage::helper('Magento_Core_Helper_Data')->currency($_priceInclTax, false, false),
+            'priceExclTax'        => Mage::helper('Magento_Core_Helper_Data')->currency($_priceExclTax, false, false),
             'defaultTax'          => $defaultTax,
             'currentTax'          => $currentTax,
             'idSuffix'            => '_clone',
@@ -181,7 +181,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             }
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
     }
 
     /**

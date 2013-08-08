@@ -129,9 +129,9 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_History
             return '';
         }
         if ('date' === $dateType) {
-            return $this->helper('Mage_Core_Helper_Data')->formatDate($item['created_at'], $format);
+            return $this->helper('Magento_Core_Helper_Data')->formatDate($item['created_at'], $format);
         }
-        return $this->helper('Mage_Core_Helper_Data')->formatTime($item['created_at'], $format);
+        return $this->helper('Magento_Core_Helper_Data')->formatTime($item['created_at'], $format);
     }
 
     /**

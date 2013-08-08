@@ -16,7 +16,7 @@
  * @package     Mage_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleShopping_Model_Flag extends Mage_Core_Model_Flag
+class Mage_GoogleShopping_Model_Flag extends Magento_Core_Model_Flag
 {
     /**
      * Flag time to live in seconds

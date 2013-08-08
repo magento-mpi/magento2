@@ -15,7 +15,7 @@
  * @package    Mage_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Captcha_Block_Captcha extends Mage_Core_Block_Template
+class Mage_Captcha_Block_Captcha extends Magento_Core_Block_Template
 {
     /**
      * Renders captcha HTML (if required)

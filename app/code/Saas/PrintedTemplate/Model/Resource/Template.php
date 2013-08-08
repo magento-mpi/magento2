@@ -16,7 +16,7 @@
  * @subpackage Models
  */
 class Saas_PrintedTemplate_Model_Resource_Template
-    extends Mage_Core_Model_Resource_Db_Abstract
+    extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource model constructor.
@@ -30,10 +30,10 @@ class Saas_PrintedTemplate_Model_Resource_Template
     /**
      * Prepare data for save
      *
-     * @param   Mage_Core_Model_Abstract $object
+     * @param   Magento_Core_Model_Abstract $object
      * @return  array
      */
-    protected function _prepareDataForSave(Mage_Core_Model_Abstract $object)
+    protected function _prepareDataForSave(Magento_Core_Model_Abstract $object)
     {
         $date = now();
         if (!$object->getId() || $object->isObjectNew()) {

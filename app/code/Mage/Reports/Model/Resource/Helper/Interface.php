@@ -29,7 +29,7 @@ interface Mage_Reports_Model_Resource_Helper_Interface
      * @param string $column
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return Mage_Core_Model_Resource_Helper_Abstract
+     * @return Magento_Core_Model_Resource_Helper_Abstract
      */
     public function updateReportRatingPos($type, $column, $mainTable, $aggregationTable);
 }

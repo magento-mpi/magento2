@@ -58,7 +58,7 @@ class Mage_Persistent_Model_Observer
             return $this;
         }
 
-        /** @var $block Mage_Core_Block_Abstract */
+        /** @var $block Magento_Core_Block_Abstract */
         $block = $observer->getEvent()->getBlock();
 
         if (!$block) {
@@ -85,12 +85,12 @@ class Mage_Persistent_Model_Observer
     /**
      * Emulate 'welcome' block with persistent data
      *
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      * @return Mage_Persistent_Model_Observer
      */
     public function emulateWelcomeBlock($block)
     {
-        $escapedName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml(
+        $escapedName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml(
             $this->_getPersistentCustomer()->getName(),
             null
         );
@@ -115,7 +115,7 @@ class Mage_Persistent_Model_Observer
     /**
      * Emulate 'top links' block with persistent data
      *
-     * @param Mage_Core_Block_Abstract $block
+     * @param Magento_Core_Block_Abstract $block
      */
     public function emulateTopLinks($block)
     {
@@ -313,10 +313,10 @@ class Mage_Persistent_Model_Observer
             return;
         }
 
-        /** @var $controllerAction Mage_Core_Controller_Front_Action */
+        /** @var $controllerAction Magento_Core_Controller_Front_Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
         if (method_exists($controllerAction, 'redirectLogin')) {
-            Mage::getSingleton('Mage_Core_Model_Session')->addNotice(
+            Mage::getSingleton('Magento_Core_Model_Session')->addNotice(
                 Mage::helper('Mage_Persistent_Helper_Data')->__('To check out, please log in using your email address.')
             );
             $controllerAction->redirectLogin();
@@ -494,7 +494,7 @@ class Mage_Persistent_Model_Observer
      */
     public function clearExpiredCronJob(Mage_Cron_Model_Schedule $schedule)
     {
-        $websiteIds = Mage::getResourceModel('Mage_Core_Model_Resource_Website_Collection')->getAllIds();
+        $websiteIds = Mage::getResourceModel('Magento_Core_Model_Resource_Website_Collection')->getAllIds();
         if (!is_array($websiteIds)) {
             return $this;
         }

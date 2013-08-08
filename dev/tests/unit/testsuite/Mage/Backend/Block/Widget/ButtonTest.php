@@ -45,7 +45,7 @@ class Mage_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
             $this->getMock('Mage_Backend_Helper_Data', array('uniqHash'), array(), '', false, false);
 
         $this->_layoutMock =
-            $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false, false);
+            $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
         $this->_layoutMock
             ->expects($this->any())
             ->method('helper')

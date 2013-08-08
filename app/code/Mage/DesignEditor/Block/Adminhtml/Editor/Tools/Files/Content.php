@@ -48,6 +48,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content
             'showBreadcrumbs' => false
         ));
 
-        return $this->helper('Mage_Core_Helper_Data')->jsonEncode($setupObject);
+        return $this->helper('Magento_Core_Helper_Data')->jsonEncode($setupObject);
     }
 }

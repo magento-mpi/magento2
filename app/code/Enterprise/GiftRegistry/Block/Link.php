@@ -11,7 +11,7 @@
 /**
  * Front end helper block to add links
  */
-class Enterprise_GiftRegistry_Block_Link extends Mage_Core_Block_Template
+class Enterprise_GiftRegistry_Block_Link extends Magento_Core_Block_Template
 {
     /**
      * Adding link to dashboard links block

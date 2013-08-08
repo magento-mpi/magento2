@@ -40,7 +40,7 @@ class Mage_Tax_Model_Resource_Calculation_Rule_CollectionTest extends PHPUnit_Fr
     /**
      * Test setClassTypeFilter with wrong Class Type
      *
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testSetClassTypeFilterWithWrongType()
     {

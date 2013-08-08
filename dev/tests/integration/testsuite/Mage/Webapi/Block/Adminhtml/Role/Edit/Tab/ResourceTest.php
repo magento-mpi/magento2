@@ -19,7 +19,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Fra
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout;
 
@@ -34,7 +34,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Fra
     protected $_ruleResource;
 
     /**
-     * @var Mage_Core_Model_BlockFactory
+     * @var Magento_Core_Model_BlockFactory
      */
     protected $_blockFactory;
 
@@ -58,8 +58,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Fra
             ->getMock();
 
         $this->_objectManager = Mage::getObjectManager();
-        $this->_layout = $this->_objectManager->get('Mage_Core_Model_Layout');
-        $this->_blockFactory = $this->_objectManager->get('Mage_Core_Model_BlockFactory');
+        $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
+        $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
         $this->_block = $this->_blockFactory->createBlock('Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource', array(
             'configReader' => $this->_configReader,
             'ruleResource' => $this->_ruleResource
@@ -69,7 +69,7 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Fra
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Mage_Core_Model_Layout');
+        $this->_objectManager->removeSharedInstance('Magento_Core_Model_Layout');
         unset($this->_objectManager, $this->_layout, $this->_configReader, $this->_blockFactory, $this->_block);
     }
 

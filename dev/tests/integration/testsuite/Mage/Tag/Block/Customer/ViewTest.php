@@ -23,12 +23,12 @@ class Mage_Tag_Block_Customer_ViewTest extends PHPUnit_Framework_TestCase
 
     public function testGetMode()
     {
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
         $layout->addBlock($this->_block, 'test');
         $expected = uniqid();
         $toolbar = Mage::app()->getLayout()->createBlock(
-            'Mage_Core_Block_Text',
+            'Magento_Core_Block_Text',
             '',
             array('data' => array('current_mode' => $expected))
         );
@@ -43,7 +43,7 @@ class Mage_Tag_Block_Customer_ViewTest extends PHPUnit_Framework_TestCase
      */
     public function testImage()
     {
-        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
+        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
 
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1);

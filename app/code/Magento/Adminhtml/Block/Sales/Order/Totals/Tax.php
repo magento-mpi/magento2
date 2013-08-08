@@ -95,7 +95,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Tax extends Mage_Tax_Block_Sale
     /**
      * Get store object for process configuration settings
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getStore()
     {

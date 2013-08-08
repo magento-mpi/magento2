@@ -11,7 +11,7 @@
 /**
  * Paypal expess checkout shortcut link
  */
-class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
+class Mage_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
 {
     /**
      * Position of "OR" label against shortcut
@@ -90,7 +90,7 @@ class Mage_Paypal_Block_Express_Shortcut extends Mage_Core_Block_Template
         }
 
         // set misc data
-        $this->setShortcutHtmlId($this->helper('Mage_Core_Helper_Data')->uniqHash('ec_shortcut_'))
+        $this->setShortcutHtmlId($this->helper('Magento_Core_Helper_Data')->uniqHash('ec_shortcut_'))
             ->setCheckoutUrl($this->getUrl($this->_startAction))
         ;
 

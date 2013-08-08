@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_Queue_Model_Event_Invoker_Asynchronous implements Mage_Core_Model_Event_InvokerInterface
+class Enterprise_Queue_Model_Event_Invoker_Asynchronous implements Magento_Core_Model_Event_InvokerInterface
 {
     /**#@+
      * Configuration parameters
@@ -26,17 +26,17 @@ class Enterprise_Queue_Model_Event_Invoker_Asynchronous implements Mage_Core_Mod
     /**
      * Event invoker
      *
-     * @var Mage_Core_Model_Event_Invoker_InvokerDefault
+     * @var Magento_Core_Model_Event_Invoker_InvokerDefault
      */
     protected $_invokerDefault;
 
     /**
      * @param Enterprise_Queue_Model_Event_HandlerInterface $queueHandler
-     * @param Mage_Core_Model_Event_Invoker_InvokerDefault $invokerDefault
+     * @param Magento_Core_Model_Event_Invoker_InvokerDefault $invokerDefault
      */
     public function __construct(
         Enterprise_Queue_Model_Event_HandlerInterface $queueHandler,
-        Mage_Core_Model_Event_Invoker_InvokerDefault $invokerDefault
+        Magento_Core_Model_Event_Invoker_InvokerDefault $invokerDefault
     ) {
         $this->_queueHandler = $queueHandler;
         $this->_invokerDefault = $invokerDefault;

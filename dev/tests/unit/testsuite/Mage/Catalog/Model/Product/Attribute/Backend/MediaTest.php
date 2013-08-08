@@ -24,7 +24,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
             ->will($this->returnValue('table'));
 
         $mediaConfig = $this->getMock('Mage_Catalog_Model_Product_Media_Config', array(), array(), '', false);
-        $dirs = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false);
+        $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $this->_model = new Mage_Catalog_Model_Product_Attribute_Backend_Media(
             $mediaConfig,

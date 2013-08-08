@@ -12,7 +12,7 @@
 class Mage_Page_Block_Html_FooterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Theme
+     * @var Magento_Core_Model_Theme
      */
     protected $_theme;
 

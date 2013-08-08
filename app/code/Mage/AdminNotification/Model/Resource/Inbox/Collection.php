@@ -16,7 +16,7 @@
  * @package     Mage_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_AdminNotification_Model_Resource_Inbox_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_AdminNotification_Model_Resource_Inbox_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Resource collection initialization

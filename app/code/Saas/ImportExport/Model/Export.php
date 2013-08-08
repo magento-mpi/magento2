@@ -50,7 +50,7 @@ class Saas_ImportExport_Model_Export
     protected $_options = array();
 
     /**
-     * @var Mage_Core_Model_Logger
+     * @var Magento_Core_Model_Logger
      */
     protected $_logger;
 
@@ -61,14 +61,14 @@ class Saas_ImportExport_Model_Export
      * @param Saas_ImportExport_Model_Export_StorageFactory $storageFactory
      * @param Saas_ImportExport_Helper_Export_Config $configHelper
      * @param Saas_ImportExport_Helper_Export_State $stateHelper
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
         Saas_ImportExport_Model_Export_EntityFactory $entityFactory,
         Saas_ImportExport_Model_Export_StorageFactory $storageFactory,
         Saas_ImportExport_Helper_Export_Config $configHelper,
         Saas_ImportExport_Helper_Export_State $stateHelper,
-        Mage_Core_Model_Logger $logger
+        Magento_Core_Model_Logger $logger
     ) {
         $this->_exportEntityFactory = $entityFactory;
         $this->_storageFactory = $storageFactory;

@@ -53,10 +53,10 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
         Mage_Catalog_Model_Category::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
-        Mage_Core_Model_Store::ENTITY => array(
+        Magento_Core_Model_Store::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
-        Mage_Core_Model_Store_Group::ENTITY => array(
+        Magento_Core_Model_Store_Group::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
     );
@@ -104,14 +104,14 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
         }
 
         $entity = $event->getEntity();
-        if ($entity == Mage_Core_Model_Store::ENTITY) {
+        if ($entity == Magento_Core_Model_Store::ENTITY) {
             $store = $event->getDataObject();
             if ($store && ($store->isObjectNew() || $store->dataHasChangedFor('group_id'))) {
                 $result = true;
             } else {
                 $result = false;
             }
-        } elseif ($entity == Mage_Core_Model_Store_Group::ENTITY) {
+        } elseif ($entity == Magento_Core_Model_Store_Group::ENTITY) {
             $storeGroup = $event->getDataObject();
             $hasDataChanges = $storeGroup && ($storeGroup->dataHasChangedFor('root_category_id')
                 || $storeGroup->dataHasChangedFor('website_id'));
@@ -149,8 +149,8 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
                 $this->_registerCategoryEvent($event);
                 break;
 
-            case Mage_Core_Model_Store::ENTITY:
-            case Mage_Core_Model_Store_Group::ENTITY:
+            case Magento_Core_Model_Store::ENTITY:
+            case Magento_Core_Model_Store_Group::ENTITY:
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                 break;

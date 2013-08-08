@@ -22,7 +22,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
     protected $_block;
 
     /**
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout;
 
@@ -34,7 +34,7 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
 
         $this->_setFixtureTheme();
 
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => 'adminhtml'));
+        $this->_layout = Mage::getModel('Magento_Core_Model_Layout', array('area' => 'adminhtml'));
         $this->_layout->getUpdate()->load('layout_test_grid_handle');
         $this->_layout->generateXml();
         $this->_layout->generateElements();
@@ -51,12 +51,12 @@ class Mage_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_Te
             Mage::PARAM_RUN_CODE => 'admin',
             Mage::PARAM_RUN_TYPE => 'store',
             Mage::PARAM_APP_DIRS => array(
-                Mage_Core_Model_Dir::THEMES => __DIR__ . '/../../_files/design'
+                Magento_Core_Model_Dir::THEMES => __DIR__ . '/../../_files/design'
             ),
         ));
 
         Mage::app()->getConfig()->setNode(
-            'adminhtml/' . Mage_Core_Model_View_Design::XML_PATH_THEME,
+            'adminhtml/' . Magento_Core_Model_View_Design::XML_PATH_THEME,
             'test/default'
         );
     }

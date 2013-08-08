@@ -47,7 +47,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Mage_User_Model_User
-    extends Mage_Core_Model_Abstract
+    extends Magento_Core_Model_Abstract
     implements Mage_Backend_Model_Auth_Credential_StorageInterface
 {
     /**
@@ -87,24 +87,24 @@ class Mage_User_Model_User
     /**
      * Mail handler
      *
-     * @var  Mage_Core_Model_Email_Template_Mailer
+     * @var  Magento_Core_Model_Email_Template_Mailer
      */
     protected $_mailer;
 
-    /** @var Mage_Core_Model_Sender */
+    /** @var Magento_Core_Model_Sender */
     protected $_sender;
 
     /**
-     * @param Mage_Core_Model_Sender $sender
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Sender $sender
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Sender $sender,
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Sender $sender,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -251,7 +251,7 @@ class Mage_User_Model_User
     /**
      * Process data after model is saved
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _afterSave()
     {
@@ -336,10 +336,10 @@ class Mage_User_Model_User
     /**
      * Set custom mail handler
      *
-     * @param Mage_Core_Model_Email_Template_Mailer $mailer
+     * @param Magento_Core_Model_Email_Template_Mailer $mailer
      * @return Mage_User_Model_User
      */
-    public function setMailer(Mage_Core_Model_Email_Template_Mailer $mailer)
+    public function setMailer(Magento_Core_Model_Email_Template_Mailer $mailer)
     {
         $this->_mailer = $mailer;
         return $this;
@@ -348,12 +348,12 @@ class Mage_User_Model_User
     /**
      * Retrieve mailer
      *
-     * @return Mage_Core_Model_Email_Template_Mailer
+     * @return Magento_Core_Model_Email_Template_Mailer
      */
     protected function _getMailer()
     {
         if (!$this->_mailer) {
-            $this->_mailer = Mage::getModel('Mage_Core_Model_Email_Template_Mailer');
+            $this->_mailer = Mage::getModel('Magento_Core_Model_Email_Template_Mailer');
         }
         return $this->_mailer;
     }
@@ -366,8 +366,8 @@ class Mage_User_Model_User
     public function sendPasswordResetConfirmationEmail()
     {
         $mailer = $this->_getMailer();
-        /** @var $mailer Mage_Core_Model_Email_Template_Mailer */
-        $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
+        /** @var $mailer Magento_Core_Model_Email_Template_Mailer */
+        $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
         $emailInfo->addTo($this->getEmail(), $this->getName());
         $mailer->addEmailInfo($emailInfo);
 
@@ -438,7 +438,7 @@ class Mage_User_Model_User
      * @param string $username
      * @param string $password
      * @return boolean
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @throws Mage_Backend_Model_Auth_Exception
      * @throws Mage_Backend_Model_Auth_Plugin_Exception
      */
@@ -457,7 +457,7 @@ class Mage_User_Model_User
 
             if ($sensitive
                 && $this->getId()
-                && Mage::helper('Mage_Core_Helper_Data')->validateHash($password, $this->getPassword())
+                && Mage::helper('Magento_Core_Helper_Data')->validateHash($password, $this->getPassword())
             ) {
                 if ($this->getIsActive() != '1') {
                     throw new Mage_Backend_Model_Auth_Exception(
@@ -478,7 +478,7 @@ class Mage_User_Model_User
                 'user'     => $this,
                 'result'   => $result,
             ));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->unsetData();
             throw $e;
         }
@@ -551,7 +551,7 @@ class Mage_User_Model_User
      */
     protected function _getEncodedPassword($password)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->getHash($password, 2);
+        return Mage::helper('Magento_Core_Helper_Data')->getHash($password, 2);
     }
 
     /**
@@ -561,13 +561,13 @@ class Mage_User_Model_User
      *
      * @param string $newToken
      * @return Mage_User_Model_User
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function changeResetPasswordLinkToken($newToken)
     {
         if (!is_string($newToken) || empty($newToken)) {
             Mage::throwException(
-                'Mage_Core',
+                'Magento_Core',
                 Mage::helper('Mage_User_Helper_Data')->__('Please correct the password reset token.')
             );
         }

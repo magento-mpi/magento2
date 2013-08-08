@@ -121,13 +121,13 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
     /**
      * Get custom js files
      *
-     * @return Mage_Core_Model_Resource_Theme_File_Collection
+     * @return Magento_Core_Model_Resource_Theme_File_Collection
      */
     public function getFiles()
     {
         $customization = $this->_themeContext->getStagingTheme()->getCustomization();
-        $jsFiles = $customization->getFilesByType(Mage_Core_Model_Theme_Customization_File_Js::TYPE);
-        return $this->helper('Mage_Core_Helper_Data')->jsonEncode($customization->generateFileInfo($jsFiles));
+        $jsFiles = $customization->getFilesByType(Magento_Core_Model_Theme_Customization_File_Js::TYPE);
+        return $this->helper('Magento_Core_Helper_Data')->jsonEncode($customization->generateFileInfo($jsFiles));
     }
 
     /**

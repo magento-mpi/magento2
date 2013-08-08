@@ -20,8 +20,8 @@ class Mage_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
      */
     public function testSetFieldset()
     {
-        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
-        $layout = Mage::getObjectManager()->create('Mage_Core_Model_Layout');
+        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        $layout = Mage::getObjectManager()->create('Magento_Core_Model_Layout');
         $formBlock = $layout->addBlock('Mage_Backend_Block_Widget_Form');
         $fieldSet = Mage::getObjectManager()->create('Magento_Data_Form_Element_Fieldset');
         $arguments = array(

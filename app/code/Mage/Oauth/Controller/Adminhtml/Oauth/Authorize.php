@@ -99,7 +99,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminhtml_
         $isException = false;
         try {
             $server->checkAuthorizeRequest();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Mage_Oauth_Exception $e) {
             $isException = true;
@@ -172,7 +172,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminhtml_
                 $block->setVerifier($token->getVerifier());
                 $session->addSuccess($this->__('Authorization confirmed.'));
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $block->setHasException(true);
             $session->addError($e->getMessage());
         } catch (Exception $e) {
@@ -217,7 +217,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminhtml_
             } else {
                 $session->addNotice($this->__('The application access request is rejected.'));
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {
             $session->addException($e, $this->__('An error occurred on reject authorize.'));

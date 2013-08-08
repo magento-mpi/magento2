@@ -9,19 +9,19 @@
  */
 
 class Mage_Backend_Model_Config_Source_Website_OptionHash
-    implements Mage_Core_Model_Option_ArrayInterface
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * System Store Model
      *
-     * @var Mage_Core_Model_System_Store
+     * @var Magento_Core_Model_System_Store
      */
     protected $_systemStore;
 
     /**
-     * @param Mage_Core_Model_System_Store
+     * @param Magento_Core_Model_System_Store
      */
-    public function __construct(Mage_Core_Model_System_Store $systemStore)
+    public function __construct(Magento_Core_Model_System_Store $systemStore)
     {
         $this->_systemStore = $systemStore;
     }

@@ -16,7 +16,7 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Add attribute set info flag
@@ -355,7 +355,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute_Collection extends Mage_Core_Mode
     /**
      * Ad information about attribute sets to collection result data
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _afterLoadData()
     {

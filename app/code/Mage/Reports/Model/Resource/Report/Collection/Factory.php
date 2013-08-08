@@ -25,7 +25,7 @@ class Mage_Reports_Model_Resource_Report_Collection_Factory
      *
      * @param string $className
      * @param array $arguments
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function create($className, array $arguments = array())
     {

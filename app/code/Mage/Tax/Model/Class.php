@@ -23,7 +23,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Tax_Model_Class extends Mage_Core_Model_Abstract
+class Mage_Tax_Model_Class extends Magento_Core_Model_Abstract
 {
     /**
      * Defines Customer Tax Class string
@@ -46,18 +46,18 @@ class Mage_Tax_Model_Class extends Mage_Core_Model_Abstract
     protected $_helper;
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param Mage_Tax_Model_Class_Factory $classFactory
      * @param Mage_Tax_Helper_Data $helper
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
+        Magento_Core_Model_Context $context,
         Mage_Tax_Model_Class_Factory $classFactory,
         Mage_Tax_Helper_Data $helper,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -75,7 +75,7 @@ class Mage_Tax_Model_Class extends Mage_Core_Model_Abstract
      * Check whether this class can be deleted
      *
      * @return bool
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function checkClassCanBeDeleted()
     {

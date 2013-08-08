@@ -28,11 +28,11 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
             Mage_Index_Model_Event::TYPE_SAVE,
             Mage_Index_Model_Event::TYPE_DELETE,
         ),
-        Mage_Core_Model_Store::ENTITY => array(
+        Magento_Core_Model_Store::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE,
             Mage_Index_Model_Event::TYPE_DELETE
         ),
-        Mage_Core_Model_Store_Group::ENTITY => array(
+        Magento_Core_Model_Store_Group::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
         Mage_Catalog_Model_Product_Flat_Indexer::ENTITY => array(
@@ -109,11 +109,11 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
                 $result = $this->_matchAttributeEvent($event, $productFlatHelper);
                 break;
 
-            case Mage_Core_Model_Store::ENTITY:
+            case Magento_Core_Model_Store::ENTITY:
                 $result = $this->_matchStoreEvent($event);
                 break;
 
-            case Mage_Core_Model_Store_Group::ENTITY:
+            case Magento_Core_Model_Store_Group::ENTITY:
                 $result = $this->_matchStoreGroupEvent($event);
                 break;
 
@@ -135,7 +135,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
      */
     protected function _matchStoreGroupEvent(Mage_Index_Model_Event $event)
      {
-         /* @var $storeGroup Mage_Core_Model_Store_Group */
+         /* @var $storeGroup Magento_Core_Model_Store_Group */
          $storeGroup = $event->getDataObject();
          if ($storeGroup && $storeGroup->dataHasChangedFor('website_id')) {
              return true;
@@ -154,7 +154,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
         if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
             return true;
         } else {
-            /* @var $store Mage_Core_Model_Store */
+            /* @var $store Magento_Core_Model_Store */
             $store = $event->getDataObject();
             if ($store && $store->isObjectNew()) {
                 return true;
@@ -221,13 +221,13 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
             case Mage_Catalog_Model_Product::ENTITY:
                 $this->_registerCatalogProductEvent($event);
                 break;
-            case Mage_Core_Model_Store::ENTITY:
+            case Magento_Core_Model_Store::ENTITY:
                 if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
                     $this->_registerCoreStoreEvent($event);
                     break;
                 }
             case Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY:
-            case Mage_Core_Model_Store_Group::ENTITY:
+            case Magento_Core_Model_Store_Group::ENTITY:
                 $event->addNewData('catalog_product_flat_skip_call_event_handler', true);
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
@@ -309,7 +309,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
     protected function _registerCoreStoreEvent(Mage_Index_Model_Event $event)
     {
         if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
-            /* @var $store Mage_Core_Model_Store */
+            /* @var $store Magento_Core_Model_Store */
             $store = $event->getDataObject();
             $event->addNewData('catalog_product_flat_delete_store_id', $store->getId());
         }

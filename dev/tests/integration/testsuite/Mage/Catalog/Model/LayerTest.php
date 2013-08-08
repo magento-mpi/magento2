@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -128,14 +128,14 @@ class Mage_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
             $model = Mage::getModel('Mage_Catalog_Model_Layer');
             $model->setCurrentCategory(new Magento_Object());
             $this->fail('Assign category of invalid class.');
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
         }
 
         try {
             $model = Mage::getModel('Mage_Catalog_Model_Layer');
             $model->setCurrentCategory(Mage::getModel('Mage_Catalog_Model_Category'));
             $this->fail('Assign category with invalid id.');
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
         }
     }
 

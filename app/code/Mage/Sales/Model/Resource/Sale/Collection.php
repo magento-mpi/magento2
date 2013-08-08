@@ -162,7 +162,7 @@ class Mage_Sales_Model_Resource_Sale_Collection extends Magento_Data_Collection_
         $data = $this->getData();
         $this->resetData();
 
-        $stores = Mage::getResourceModel('Mage_Core_Model_Resource_Store_Collection')
+        $stores = Mage::getResourceModel('Magento_Core_Model_Resource_Store_Collection')
             ->setWithoutDefaultFilter()
             ->load()
             ->toOptionHash();

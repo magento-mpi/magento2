@@ -80,7 +80,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
                 'label'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Assigned to Website'),
                 'title'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Assigned to Website'),
                 'required' => true,
-                'values'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds()
             ));
         }
@@ -99,7 +99,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
             $model->setData('is_active', '1');
         }
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',

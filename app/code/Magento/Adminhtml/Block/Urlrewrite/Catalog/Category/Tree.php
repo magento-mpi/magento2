@@ -57,7 +57,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_A
         }
 
         if ($asJson) {
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
         }
 
         $this->_allowedCategoryIds = null;

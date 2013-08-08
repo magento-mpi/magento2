@@ -13,17 +13,17 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
     extends Saas_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 {
     /**
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
      * @param string $locale
      * @return Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandler
      */
     protected function _getFlatRateSaveHandlerInstance(
-        Mage_Core_Model_Config $config,
+        Magento_Core_Model_Config $config,
         Mage_Backend_Model_Config $backendConfigModel,
         $locale
     ) {
-        $localeMock = $this->getMockBuilder('Mage_Core_Model_Locale')
+        $localeMock = $this->getMockBuilder('Magento_Core_Model_Locale')
             ->setMethods(array('getLocale'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -43,12 +43,12 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
     }
 
     /**
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
      * @return Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     public function getSaveHandlerInstance(
-        Mage_Core_Model_Config $config,
+        Magento_Core_Model_Config $config,
         Mage_Backend_Model_Config $backendConfigModel
     ) {
         return $this->_getFlatRateSaveHandlerInstance($config, $backendConfigModel, 'en_US');
@@ -150,7 +150,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
             ->disableOriginalConstructor()
             ->getMock();
 
-        $config = $this->getMockBuilder('Mage_Core_Model_Config')
+        $config = $this->getMockBuilder('Magento_Core_Model_Config')
             ->disableOriginalConstructor()
             ->getMock();
 

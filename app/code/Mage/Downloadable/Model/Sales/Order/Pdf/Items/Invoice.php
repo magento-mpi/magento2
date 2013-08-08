@@ -32,7 +32,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Invoice
         $lines  = array();
 
         // draw Product name
-        $stringHelper = Mage::helper('Mage_Core_Helper_String');
+        $stringHelper = Mage::helper('Magento_Core_Helper_String');
         $lines[0] = array(array(
             'text' => $stringHelper->str_split($item->getName(), 35, true, true),
             'feed' => 35,

@@ -35,7 +35,7 @@
  * @package     Mage_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Coupon extends Mage_Core_Model_Abstract
+class Mage_SalesRule_Model_Coupon extends Magento_Core_Model_Abstract
 {
     /**
      * Coupon's owner rule instance
@@ -53,7 +53,7 @@ class Mage_SalesRule_Model_Coupon extends Mage_Core_Model_Abstract
     /**
      * Processing object before save data
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {

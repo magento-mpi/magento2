@@ -128,7 +128,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getCreatedAt(), Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getCreatedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**

@@ -16,7 +16,7 @@
  * @package    Mage_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_ProductAlert_Controller_Unsubscribe extends Mage_Core_Controller_Front_Action
+class Mage_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controller_Front_Action
 {
     public function preDispatch()
     {

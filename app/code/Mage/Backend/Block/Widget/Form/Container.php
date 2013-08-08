@@ -66,7 +66,7 @@ class Mage_Backend_Block_Widget_Form_Container extends Mage_Backend_Block_Widget
     /**
      * Create form block
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {

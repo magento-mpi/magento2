@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_GUEST_CHECKOUT = 'checkout/options/guest_checkout';
     const XML_PATH_CUSTOMER_MUST_BE_LOGGED = 'checkout/options/customer_must_be_logged';
@@ -131,12 +131,12 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function sendPaymentFailedEmail($checkout, $message, $checkoutType = 'onepage')
     {
-        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
-        /* @var $translate Mage_Core_Model_Translate */
+        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
+        /* @var $translate Magento_Core_Model_Translate */
         $translate->setTranslateInline(false);
 
-        $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
-        /* @var $mailTemplate Mage_Core_Model_Email_Template */
+        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+        /* @var $mailTemplate Magento_Core_Model_Email_Template */
 
         $template = Mage::getStoreConfig('checkout/payment_failed/template', $checkout->getStoreId());
 
@@ -184,7 +184,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
 
         foreach ($sendTo as $recipient) {
             $mailTemplate->setDesignConfig(array(
-                'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+                'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
                 'store' => $checkout->getStoreId()
             ))
                 ->sendTransactional(
@@ -250,7 +250,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
      * Use config settings and observer
      *
      * @param Mage_Sales_Model_Quote $quote
-     * @param int|Mage_Core_Model_Store $store
+     * @param int|Magento_Core_Model_Store $store
      * @return bool
      */
     public function isAllowedGuestCheckout(Mage_Sales_Model_Quote $quote, $store = null)

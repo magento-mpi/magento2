@@ -31,23 +31,23 @@ class Saas_Search_Helper_Cache extends Saas_Search_Helper_Data
     /**
      * Logger
      *
-     * @var Mage_Core_Model_Logger
+     * @var Magento_Core_Model_Logger
      */
     protected $_log;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Config_Primary $config
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config_Primary $config
      * @param Enterprise_PageCache_Model_Metadata $metadata
      * @param Enterprise_Search_Model_Client_FactoryInterface $clientFactory
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Logger $logger
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Config_Primary $config,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config_Primary $config,
         Enterprise_PageCache_Model_Metadata $metadata,
         Enterprise_Search_Model_Client_FactoryInterface $clientFactory,
-        Mage_Core_Model_Logger $logger
+        Magento_Core_Model_Logger $logger
     ) {
         parent::__construct($context, $config);
         $this->_log = $logger;
@@ -62,7 +62,7 @@ class Saas_Search_Helper_Cache extends Saas_Search_Helper_Data
      *
      * @param  string $field
      * @param  int $storeId
-     * @return Mage_Core_Model_Config_Element
+     * @return Magento_Core_Model_Config_Element
      */
     public function getSearchConfigData($field, $storeId = null)
     {

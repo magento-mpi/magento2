@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Paypal_Block_Standard_Redirect extends Mage_Core_Block_Abstract
+class Mage_Paypal_Block_Standard_Redirect extends Magento_Core_Block_Abstract
 {
     protected function _toHtml()
     {
@@ -22,7 +22,7 @@ class Mage_Paypal_Block_Standard_Redirect extends Mage_Core_Block_Abstract
         foreach ($standard->getStandardCheckoutFormFields() as $field=>$value) {
             $form->addField($field, 'hidden', array('name'=>$field, 'value'=>$value));
         }
-        $idSuffix = Mage::helper('Mage_Core_Helper_Data')->uniqHash();
+        $idSuffix = Mage::helper('Magento_Core_Helper_Data')->uniqHash();
         $submitButton = new Magento_Data_Form_Element_Submit(array(
             'value'    => $this->__('Click here if you are not redirected within 10 seconds.'),
         ));

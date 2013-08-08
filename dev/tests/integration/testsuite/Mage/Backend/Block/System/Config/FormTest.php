@@ -16,14 +16,14 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
 {
     public function testDependenceHtml()
     {
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => 'adminhtml'));
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel('Magento_Core_Model_Layout', array('area' => 'adminhtml'));
         Mage::getConfig()->setCurrentAreaCode('adminhtml');
         /** @var $block Mage_Backend_Block_System_Config_Form */
         $block = $layout->createBlock('Mage_Backend_Block_System_Config_Form', 'block');
 
-        /** @var $childBlock Mage_Core_Block_Text */
-        $childBlock = $layout->addBlock('Mage_Core_Block_Text', 'element_dependence', 'block');
+        /** @var $childBlock Magento_Core_Block_Text */
+        $childBlock = $layout->addBlock('Magento_Core_Block_Text', 'element_dependence', 'block');
 
         $expectedValue = 'dependence_html_relations';
         $this->assertNotContains($expectedValue, $block->toHtml());
@@ -125,9 +125,9 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
             Mage::PARAM_BAN_CACHE => true,
         ));
         Mage::getConfig()->setCurrentAreaCode('adminhtml');
-        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_CONFIG);
+        Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
 
-        $configMock = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false);
+        $configMock = $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false);
         $configMock->expects($this->any())->method('getModuleConfigurationFiles')
             ->will($this->returnValue(array(__DIR__ . '/_files/test_section_config.xml')));
         $configMock->expects($this->any())->method('getModuleDir')
@@ -168,7 +168,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
     public function testInitFormAddsFieldsets()
     {
         Mage::getModel(
-            'Mage_Core_Controller_Front_Action',
+            'Magento_Core_Controller_Front_Action',
             array('request' => Mage::app()->getRequest(), 'response' => Mage::app()->getResponse(),
                 'areaCode' => 'adminhtml'
             )

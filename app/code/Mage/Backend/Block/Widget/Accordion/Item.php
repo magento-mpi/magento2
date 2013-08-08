@@ -46,7 +46,7 @@ class Mage_Backend_Block_Widget_Accordion_Item extends Mage_Backend_Block_Widget
         if (is_string($content)) {
             return $content;
         }
-        if ($content instanceof Mage_Core_Block_Abstract) {
+        if ($content instanceof Magento_Core_Block_Abstract) {
             return $content->toHtml();
         }
         return null;

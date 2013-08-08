@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_CatalogSearch
+ * @package     Mage_CatalogSearch
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -48,7 +48,7 @@ class Mage_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
         /** @var $mock Mage_CatalogSearch_Helper_Data */
         $mock = $this->getMock(
             'Mage_CatalogSearch_Helper_Data',
-            array('getQueryText'), array(Mage::getObjectManager()->get('Mage_Core_Helper_Context'))
+            array('getQueryText'), array(Mage::getObjectManager()->get('Magento_Core_Helper_Context'))
         );
         $mock->expects($this->any())
             ->method('getQueryText')

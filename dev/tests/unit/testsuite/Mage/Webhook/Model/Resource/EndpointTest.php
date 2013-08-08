@@ -51,7 +51,7 @@ class Mage_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_TestCas
             ->will($this->returnValue(1));
 
         // Resources mock
-        $this->_resourceMock = $this->_makeMock('Mage_Core_Model_Resource');
+        $this->_resourceMock = $this->_makeMock('Magento_Core_Model_Resource');
         // Resources stubs
         $stubReturnMap = array(
             array('core_read', $this->_adapterMock),

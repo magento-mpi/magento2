@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@ class Mage_DesignEditor_Model_Url_Factory
     /**
      * Default url model class name
      */
-    const CLASS_NAME = 'Mage_Core_Model_Url';
+    const CLASS_NAME = 'Magento_Core_Model_Url';
 
     /**
      * @var Magento_ObjectManager
@@ -45,7 +45,7 @@ class Mage_DesignEditor_Model_Url_Factory
      * Create url model new instance
      *
      * @param array $arguments
-     * @return Mage_Core_Model_Url
+     * @return Magento_Core_Model_Url
      */
     public function create(array $arguments = array())
     {

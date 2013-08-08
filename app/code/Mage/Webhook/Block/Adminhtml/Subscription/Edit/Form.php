@@ -19,7 +19,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
     /** @var Magento_Data_Form_Factory $_formFactory */
     private $_formFactory;
 
-    /** @var  Mage_Core_Model_Registry $_registry */
+    /** @var  Magento_Core_Model_Registry $_registry */
     private $_registry;
 
     /** @var  Mage_Webhook_Model_Source_Format $_format */
@@ -33,7 +33,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
 
     /**
      * @param Magento_Data_Form_Factory $formFactory
-     * @param Mage_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Registry $registry
      * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Webhook_Model_Source_Format $format
      * @param Mage_Webhook_Model_Source_Authentication $authentication
@@ -42,7 +42,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
      */
     public function __construct(
         Magento_Data_Form_Factory $formFactory,
-        Mage_Core_Model_Registry $registry,
+        Magento_Core_Model_Registry $registry,
         Mage_Backend_Block_Template_Context $context,
         Mage_Webhook_Model_Source_Format $format,
         Mage_Webhook_Model_Source_Authentication $authentication,

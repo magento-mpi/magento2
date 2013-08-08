@@ -26,6 +26,6 @@ class Magento_Adminhtml_Block_Page_Head extends Mage_Page_Block_Html_Head
      */
     public function getFormKey()
     {
-        return Mage::getSingleton('Mage_Core_Model_Session')->getFormKey();
+        return Mage::getSingleton('Magento_Core_Model_Session')->getFormKey();
     }
 }

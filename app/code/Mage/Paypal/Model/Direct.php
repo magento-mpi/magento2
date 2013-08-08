@@ -65,7 +65,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      * Store setter
      * Also updates store ID in config object
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      */
     public function setStore($store)
     {
@@ -330,7 +330,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 
         try {
             $api->callGetTransactionDetails();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // if we receive errors, but DoDirectPayment response is Success, then set Pending status for transaction
             $payment->setIsTransactionPending(true);
         }

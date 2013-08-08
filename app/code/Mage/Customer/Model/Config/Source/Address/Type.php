@@ -15,7 +15,7 @@
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Config_Source_Address_Type implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Customer_Model_Config_Source_Address_Type implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Retrieve possible customer address types

@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
     protected function _prepareLayout()
     {
         $onclick = "jQuery('[data-form=edit-product]').attr('action', "
-            . $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getContinueUrl())
+            . $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getContinueUrl())
             . ").addClass('ignore-validate').submit();";
         $this->addChild('continue_button', 'Mage_Backend_Block_Widget_Button', array(
             'label'   => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variations'),

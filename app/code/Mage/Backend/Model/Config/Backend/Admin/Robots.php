@@ -15,7 +15,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Admin_Robots extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Model_Config_Data
 {
     /**
      * @var Magento_Filesystem
@@ -28,16 +28,16 @@ class Mage_Backend_Model_Config_Backend_Admin_Robots extends Mage_Core_Model_Con
     protected $_filePath;
 
     /**
-     * @param Mage_Core_Model_Context $context
+     * @param Magento_Core_Model_Context $context
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
+        Magento_Core_Model_Context $context,
         Magento_Filesystem $filesystem,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
     public function testGetVariations()
     {
         Mage::register('current_product', Mage::getModel('Mage_Catalog_Model_Product')->load(1));
-        Mage::app()->getLayout()->createBlock('Mage_Core_Block_Text', 'head');
+        Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text', 'head');
         /** @var $usedAttribute Mage_Catalog_Model_Entity_Attribute */
         $usedAttribute = Mage::getSingleton('Mage_Catalog_Model_Entity_Attribute')->loadByCode(
             Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('catalog_product')->getId(),

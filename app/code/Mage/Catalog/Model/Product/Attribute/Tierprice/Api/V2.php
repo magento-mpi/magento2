@@ -44,7 +44,7 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api_V2 extends Mage_Catalog
             } else {
                 try {
                     $tierPrice->website = Mage::app()->getWebsite($tierPrice->website)->getId();
-                } catch (Mage_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     $tierPrice->website = 0;
                 }
             }

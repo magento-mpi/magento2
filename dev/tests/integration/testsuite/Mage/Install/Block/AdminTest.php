@@ -20,12 +20,12 @@ class Mage_Install_Block_AdminTest extends PHPUnit_Framework_TestCase
             'password_confirmation' => 'password_with_1_number',
         );
 
-        /** @var $session Mage_Core_Model_Session_Generic */
+        /** @var $session Magento_Core_Model_Session_Generic */
         $session = Mage::getSingleton('Mage_Install_Model_Session');
         $session->setAdminData(array_merge($preserve, $omit));
 
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout', array('area' => 'install'));
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel('Magento_Core_Model_Layout', array('area' => 'install'));
         /** @var $block Mage_Install_Block_Admin */
         $block = $layout->createBlock('Mage_Install_Block_Admin');
         $output = $block->toHtml();

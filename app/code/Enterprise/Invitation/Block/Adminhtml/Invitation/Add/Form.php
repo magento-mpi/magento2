@@ -63,7 +63,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_
                 'label' => $this->helper('Enterprise_Invitation_Helper_Data')->__('Send From'),
                 'required' => true,
                 'name' => 'store_id',
-                'values' => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values' => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
             ));
             $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);

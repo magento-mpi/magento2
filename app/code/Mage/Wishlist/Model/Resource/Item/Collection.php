@@ -16,7 +16,7 @@
  * @package     Mage_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Product Visibility Filter to product collection flag
@@ -256,7 +256,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
      */
     public function addStoreData()
     {
-        $storeTable = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('core_store');
+        $storeTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('core_store');
         $this->getSelect()->join(array('store'=>$storeTable), 'main_table.store_id=store.store_id', array(
             'store_name'=>'name',
             'item_store_id' => 'store_id'
@@ -340,8 +340,8 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
 
         $filter = array();
 
-        $now = Mage::getSingleton('Mage_Core_Model_Date')->date();
-        $gmtOffset = (int) Mage::getSingleton('Mage_Core_Model_Date')->getGmtOffset();
+        $now = Mage::getSingleton('Magento_Core_Model_Date')->date();
+        $gmtOffset = (int) Mage::getSingleton('Magento_Core_Model_Date')->getGmtOffset();
         if (isset($constraints['from'])) {
             $lastDay = new Zend_Date($now, Magento_Date::DATETIME_INTERNAL_FORMAT);
             $lastDay->subSecond($gmtOffset)
@@ -448,11 +448,11 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Mage_Core_Model_Resou
         parent::_afterLoadData();
 
         if ($this->_addDaysInWishlist) {
-            $gmtOffset = (int) Mage::getSingleton('Mage_Core_Model_Date')->getGmtOffset();
-            $nowTimestamp = Mage::getSingleton('Mage_Core_Model_Date')->timestamp();
+            $gmtOffset = (int) Mage::getSingleton('Magento_Core_Model_Date')->getGmtOffset();
+            $nowTimestamp = Mage::getSingleton('Magento_Core_Model_Date')->timestamp();
 
             foreach ($this as $wishlistItem) {
-                $wishlistItemTimestamp = Mage::getSingleton('Mage_Core_Model_Date')
+                $wishlistItemTimestamp = Mage::getSingleton('Magento_Core_Model_Date')
                     ->timestamp($wishlistItem->getAddedAt());
 
                 $wishlistItem->setDaysInWishlist(

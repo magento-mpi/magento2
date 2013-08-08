@@ -16,7 +16,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_GridTest extends PHPUnit_Framewo
 {
     public function testPrepareColumns()
     {
-        $layout = Mage::getObjectManager()->create('Mage_Core_Model_Layout');
+        $layout = Mage::getObjectManager()->create('Magento_Core_Model_Layout');
         /** @var Mage_Webhook_Block_Adminhtml_Subscription_Grid $block */
         $block = $layout->addBlock('Mage_Webhook_Block_Adminhtml_Subscription_Grid');
         $block->toHtml();

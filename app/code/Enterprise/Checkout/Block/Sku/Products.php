@@ -119,7 +119,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
         }
         $renderer->setDeleteUrl(
             $this->getUrl('checkout/cart/removeFailed', array(
-                'sku' => Mage::helper('Mage_Core_Helper_Url')->urlEncode($item->getSku())
+                'sku' => Mage::helper('Magento_Core_Helper_Url')->urlEncode($item->getSku())
             ))
         );
         $renderer->setIgnoreProductUrl(!$this->showItemLink($item));

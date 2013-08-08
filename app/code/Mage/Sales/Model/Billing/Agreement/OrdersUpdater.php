@@ -15,11 +15,11 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Billing_Agreement_OrdersUpdater implements Mage_Core_Model_Layout_Argument_UpdaterInterface
+class Mage_Sales_Model_Billing_Agreement_OrdersUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
 {
 
     /**
-     * @var Mage_Core_Model_Registry
+     * @var Magento_Core_Model_Registry
      */
     protected $_registryManager;
     /**
@@ -30,10 +30,10 @@ class Mage_Sales_Model_Billing_Agreement_OrdersUpdater implements Mage_Core_Mode
     {
         $this->_registryManager = isset($data['registry']) ?
             $data['registry'] :
-            Mage::getSingleton('Mage_Core_Model_Registry');
+            Mage::getSingleton('Magento_Core_Model_Registry');
 
-        if (false === ($this->_registryManager instanceof Mage_Core_Model_Registry)) {
-            throw new InvalidArgumentException('registry object has to be an instance of Mage_Core_Model_Registry');
+        if (false === ($this->_registryManager instanceof Magento_Core_Model_Registry)) {
+            throw new InvalidArgumentException('registry object has to be an instance of Magento_Core_Model_Registry');
         }
     }
 

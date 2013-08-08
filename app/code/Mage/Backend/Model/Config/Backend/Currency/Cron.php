@@ -15,7 +15,7 @@
  * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Currency_Cron extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Currency_Cron extends Magento_Core_Model_Config_Data
 {
 
     const CRON_STRING_PATH = 'crontab/jobs/currency_rates_update/schedule/cron_expr';
@@ -39,7 +39,7 @@ class Mage_Backend_Model_Config_Backend_Currency_Cron extends Mage_Core_Model_Co
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            Mage::getModel('Mage_Core_Model_Config_Data')
+            Mage::getModel('Magento_Core_Model_Config_Data')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)

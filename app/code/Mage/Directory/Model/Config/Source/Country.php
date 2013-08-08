@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Directory_Model_Config_Source_Country implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Directory_Model_Config_Source_Country implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Countries

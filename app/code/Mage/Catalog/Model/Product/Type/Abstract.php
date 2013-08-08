@@ -280,7 +280,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         // try to add custom options
         try {
             $options = $this->_prepareOptions($buyRequest, $product, $processMode);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             return $e->getMessage();
         }
 
@@ -425,13 +425,13 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                             }
                             Mage::throwException($this->_helper('Mage_Catalog_Helper_Data')->__("The file upload failed."));
                         }
-                        $this->_helper('Mage_Core_Helper_File_Storage_Database')->saveFile($dst);
+                        $this->_helper('Magento_Core_Helper_File_Storage_Database')->saveFile($dst);
                         break;
                     case 'move_uploaded_file':
                         $src = $queueOptions['src_name'];
                         $dst = $queueOptions['dst_name'];
                         move_uploaded_file($src, $dst);
-                        $this->_helper('Mage_Core_Helper_File_Storage_Database')->saveFile($dst);
+                        $this->_helper('Magento_Core_Helper_File_Storage_Database')->saveFile($dst);
                         break;
                     default:
                         break;
@@ -517,7 +517,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      *
      * @param  Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Product_Type_Abstract
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function checkProductBuyState($product)
     {
@@ -784,7 +784,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Retrieve store filter for associated products
      *
-     * @return int|Mage_Core_Model_Store
+     * @return int|Magento_Core_Model_Store
      */
     public function getStoreFilter($product)
     {
@@ -795,7 +795,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
     /**
      * Set store filter for associated products
      *
-     * @param $store int|Mage_Core_Model_Store
+     * @param $store int|Magento_Core_Model_Store
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Product_Type_Abstract
      */
@@ -936,7 +936,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
             if (is_string($result)) {
                $errors[] = $result;
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $errors[] = $e->getMessages();
         } catch (Exception $e) {
             Mage::logException($e);
@@ -962,7 +962,7 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      * Retrieve helper by specified name
      *
      * @param string $name
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     protected function _helper($name)
     {

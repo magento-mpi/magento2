@@ -15,7 +15,7 @@
  * @package    Mage_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Block_Form extends Mage_Core_Block_Template
+class Mage_Review_Block_Form extends Magento_Core_Block_Template
 {
     protected function _construct()
     {
@@ -38,7 +38,7 @@ class Mage_Review_Block_Form extends Mage_Core_Block_Template
             $customerSession->isLoggedIn() || Mage::helper('Mage_Review_Helper_Data')->getIsGuestAllowToWrite()
         );
         if (!$this->getAllowWriteReviewFlag()) {
-            $queryParam = Mage::helper('Mage_Core_Helper_Data')->urlEncode(
+            $queryParam = Mage::helper('Magento_Core_Helper_Data')->urlEncode(
                 Mage::getUrl('*/*/*', array('_current' => true)) .
                 '#review-form'
             );

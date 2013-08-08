@@ -18,7 +18,7 @@
 class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Observer_Abstract
 {
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
@@ -34,12 +34,12 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
     /**
      * @param Enterprise_AdminGws_Model_Role $role
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         Enterprise_AdminGws_Model_Role $role,
-        Mage_Core_Controller_Request_Http $request,
+        Magento_Core_Controller_Request_Http $request,
         Magento_ObjectManager $objectManager
     ) {
         parent::__construct($role);
@@ -71,7 +71,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                     }
                 }
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Magento_Core_Exception $e) {
                 // redirect later from non-existing website
             }
         }
@@ -144,7 +144,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             return;
         }
 
-        $store = Mage::app()->getStore($this->_request->getParam('store', Mage_Core_Model_AppInterface::ADMIN_STORE_ID));
+        $store = Mage::app()->getStore($this->_request->getParam('store', Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
         if (!$this->_role->hasStoreAccess($store->getId())) {
             $this->_forward();
         }
@@ -427,7 +427,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     protected function _redirect($controller, $url = null)
     {
-        $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+        $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
             $url = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/*/denied');
         }
@@ -776,7 +776,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     {
         $id = $this->_request->getParam('id');
         if ($id) {
-            $object = Mage::getModel('Mage_Core_Model_Url_Rewrite')->load($id);
+            $object = Mage::getModel('Magento_Core_Model_Url_Rewrite')->load($id);
             if ($object && $object->getId()) {
                 if (!$this->_role->hasStoreAccess($object->getStoreId())) {
                     $this->_forward();
@@ -1169,7 +1169,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      * @deprecated after 1.11.2.0 use $this->validateRuleEntityAction() instead
      *
      * @param Magento_Adminhtml_Controller_Action $controller
-     * @param Mage_Core_Model_Abstract $model
+     * @param Magento_Core_Model_Abstract $model
      *
      * @return bool
      */
@@ -1223,7 +1223,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                 $this->_forward();
                 return false;
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_forward();
             return false;
         }

@@ -68,7 +68,7 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
         $this->_subscriptionSet = $this->getMockBuilder('Mage_Webhook_Model_Resource_Subscription_Collection')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_translator = $this->getMockBuilder('Mage_Core_Model_Translate')
+        $this->_translator = $this->getMockBuilder('Magento_Core_Model_Translate')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_translator->expects($this->any())
@@ -101,7 +101,7 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage topics
      */
     public function testCreateInvalidTopics()
@@ -114,7 +114,7 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Unexpected
      */
     public function testCreateException()
@@ -144,7 +144,7 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage verifiable_message
      */
     public function testGetAllInvalidUser()
@@ -152,7 +152,7 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
         $apiUserId = 42;
         $this->_subscriptionSet->expects($this->once())
             ->method('getApiUserSubscriptions')
-            ->will($this->throwException(new Mage_Core_Exception('verifiable_message')));
+            ->will($this->throwException(new Magento_Core_Exception('verifiable_message')));
         $this->_subscriptionMock->expects($this->never())
             ->method('save');
 
@@ -160,7 +160,7 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Unexpected
      */
     public function testGetAllException()
@@ -190,7 +190,7 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage verifiable_message
      */
     public function testUpdateFailed()
@@ -200,13 +200,13 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->_subscriptionMock->expects($this->once())
             ->method('save')
-            ->will($this->throwException(new Mage_Core_Exception('verifiable_message')));
+            ->will($this->throwException(new Magento_Core_Exception('verifiable_message')));
 
         $this->_service->update($this->_subscriptionData);
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Unexpected
      */
     public function testUpdateException()
@@ -235,14 +235,14 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage verifiable_message
      */
     public function testGetFailed()
     {
         $this->_subscriptionMock->expects($this->once())
             ->method('load')
-            ->will($this->throwException(new Mage_Core_Exception('verifiable_message')));
+            ->will($this->throwException(new Magento_Core_Exception('verifiable_message')));
         $this->_subscriptionMock->expects($this->never())
             ->method('save');
 
@@ -252,7 +252,7 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Unexpected
      */
     public function testGetException()
@@ -283,7 +283,7 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage verifiable_message
      */
     public function testDeleteFailed()
@@ -293,13 +293,13 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->_subscriptionMock->expects($this->once())
             ->method('delete')
-            ->will($this->throwException(new Mage_Core_Exception('verifiable_message')));
+            ->will($this->throwException(new Magento_Core_Exception('verifiable_message')));
 
         $this->_service->delete(self::VALUE_SUBSCRIPTION_ID);
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Unexpected
      */
     public function testDeleteException()
@@ -332,7 +332,7 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage verifiable_message
      */
     public function testActivateFailure()
@@ -343,13 +343,13 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
 
         $this->_subscriptionMock->expects($this->once())
             ->method('activate')
-            ->will($this->throwException(new Mage_Core_Exception('verifiable_message')));
+            ->will($this->throwException(new Magento_Core_Exception('verifiable_message')));
 
         $this->_service->activate(self::VALUE_SUBSCRIPTION_ID);
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Unexpected
      */
     public function testActivateException()
@@ -383,7 +383,7 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage verifiable_message
      */
     public function testDeactivateFailure()
@@ -394,13 +394,13 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
 
         $this->_subscriptionMock->expects($this->once())
             ->method('deactivate')
-            ->will($this->throwException(new Mage_Core_Exception('verifiable_message')));
+            ->will($this->throwException(new Magento_Core_Exception('verifiable_message')));
 
         $this->_service->deactivate(self::VALUE_SUBSCRIPTION_ID);
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Unexpected
      */
     public function testDeactivateException()
@@ -434,7 +434,7 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage verifiable_message
      */
     public function testRevokeFailure()
@@ -445,13 +445,13 @@ class Mage_Webhook_Service_SubscriptionV1Test extends PHPUnit_Framework_TestCase
 
         $this->_subscriptionMock->expects($this->once())
             ->method('revoke')
-            ->will($this->throwException(new Mage_Core_Exception('verifiable_message')));
+            ->will($this->throwException(new Magento_Core_Exception('verifiable_message')));
 
         $this->_service->revoke(self::VALUE_SUBSCRIPTION_ID);
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @expectedExceptionMessage Unexpected
      */
     public function testRevokeException()

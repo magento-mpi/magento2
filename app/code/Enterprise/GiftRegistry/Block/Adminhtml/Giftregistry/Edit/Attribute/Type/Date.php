@@ -41,19 +41,19 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Type_D
     {
          return array(
             array(
-                'value' => Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT,
+                'value' => Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT,
                 'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Short')
             ),
             array(
-                'value' => Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
+                'value' => Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
                 'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Medium')
             ),
             array(
-                'value' => Mage_Core_Model_LocaleInterface::FORMAT_TYPE_LONG,
+                'value' => Magento_Core_Model_LocaleInterface::FORMAT_TYPE_LONG,
                 'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Long')
             ),
             array(
-                'value' => Mage_Core_Model_LocaleInterface::FORMAT_TYPE_FULL,
+                'value' => Magento_Core_Model_LocaleInterface::FORMAT_TYPE_FULL,
                 'label' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Full')
             )
         );

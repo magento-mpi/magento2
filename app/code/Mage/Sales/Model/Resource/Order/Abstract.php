@@ -269,11 +269,11 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
     /**
      * Before save object attribute
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param string $attribute
      * @return Mage_Sales_Model_Resource_Order_Abstract
      */
-    protected function _beforeSaveAttribute(Mage_Core_Model_Abstract $object, $attribute)
+    protected function _beforeSaveAttribute(Magento_Core_Model_Abstract $object, $attribute)
     {
         if ($this->_eventObject && $this->_eventPrefix) {
             Mage::dispatchEvent($this->_eventPrefix . '_save_attribute_before', array(
@@ -288,11 +288,11 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
     /**
      * After save object attribute
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param string $attribute
      * @return Mage_Sales_Model_Resource_Order_Abstract
      */
-    protected function _afterSaveAttribute(Mage_Core_Model_Abstract $object, $attribute)
+    protected function _afterSaveAttribute(Magento_Core_Model_Abstract $object, $attribute)
     {
         if ($this->_eventObject && $this->_eventPrefix) {
             Mage::dispatchEvent($this->_eventPrefix . '_save_attribute_after', array(
@@ -307,11 +307,11 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
     /**
      * Perform actions after object save
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param string $attribute
      * @return Mage_Sales_Model_Resource_Order_Abstract
      */
-    public function saveAttribute(Mage_Core_Model_Abstract $object, $attribute)
+    public function saveAttribute(Magento_Core_Model_Abstract $object, $attribute)
     {
         if ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
             $attribute = $attribute->getAttributeCode();
@@ -354,7 +354,7 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
      * @param Magento_Object $object
      * @return Mage_Sales_Model_Resource_Order_Abstract
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if ($this->_useIncrementId && !$object->getIncrementId()) {
             /* @var $entityType Mage_Eav_Model_Entity_Type */
@@ -368,7 +368,7 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
     /**
      * Update field in table if model have been already saved
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param array $data
      * @return Mage_Sales_Model_Resource_Order_Abstract
      */
@@ -400,10 +400,10 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
     /**
      * Save object data
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Sales_Model_Resource_Order_Abstract
      */
-    public function save(Mage_Core_Model_Abstract $object)
+    public function save(Magento_Core_Model_Abstract $object)
     {
         if (!$object->getForceObjectSave()) {
             parent::save($object);

@@ -21,7 +21,7 @@ class Mage_User_Model_Resource_User_Locked_Collection extends Mage_User_Model_Re
     /**
      * Collection Init Select
      *
-     * @param Mage_Core_Model_Resource_Db_Abstract $resource
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
      */
     protected function _initSelect()
     {

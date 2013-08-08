@@ -76,7 +76,7 @@ class Mage_Catalog_Helper_Product_Flat extends Mage_Catalog_Helper_Flat_Abstract
     /**
      * Check Catalog Product Flat functionality is enabled
      *
-     * @param int|string|null|Mage_Core_Model_Store $store this parameter is deprecated and no longer in use
+     * @param int|string|null|Magento_Core_Model_Store $store this parameter is deprecated and no longer in use
      *
      * @return bool
      */

@@ -126,11 +126,11 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Abstract
      */
     public function sendReminderEmails()
     {
-        /** @var $mail Mage_Core_Model_Email_Template */
-        $mail = Mage::getModel('Mage_Core_Model_Email_Template');
+        /** @var $mail Magento_Core_Model_Email_Template */
+        $mail = Mage::getModel('Magento_Core_Model_Email_Template');
 
-        /* @var $translate Mage_Core_Model_Translate */
-        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
+        /* @var $translate Magento_Core_Model_Translate */
+        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
         $translate->setTranslateInline(false);
 
         $identity = Mage::helper('Enterprise_Reminder_Helper_Data')->getEmailIdentity();
@@ -170,7 +170,7 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Abstract
             );
 
             $mail->setDesignConfig(array(
-                'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+                'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
                 'store' => $store->getId()
             ));
             $mail->sendTransactional($storeData['template_id'], $identity,
@@ -196,7 +196,7 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Abstract
     protected function _matchCustomers()
     {
         $threshold   = Mage::helper('Enterprise_Reminder_Helper_Data')->getSendFailureThreshold();
-        $currentDate = Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d');
+        $currentDate = Mage::getModel('Magento_Core_Model_Date')->date('Y-m-d');
         $rules       = $this->getCollection()->addDateFilter($currentDate)->addIsActiveFilter(1);
 
         if ($this->getRuleId()) {

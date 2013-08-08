@@ -11,7 +11,7 @@
 /**
  * List of page assets that combines into groups ones having the same properties
  */
-class Mage_Page_Model_Asset_GroupedCollection extends Mage_Core_Model_Page_Asset_Collection
+class Mage_Page_Model_Asset_GroupedCollection extends Magento_Core_Model_Page_Asset_Collection
 {
     /**#@+
      * Special properties, enforced to be grouped by
@@ -42,14 +42,14 @@ class Mage_Page_Model_Asset_GroupedCollection extends Mage_Core_Model_Page_Asset
      * Add an instance, identified by a unique identifier, to the list and to the corresponding group
      *
      * @param string $identifier
-     * @param Mage_Core_Model_Page_Asset_AssetInterface $asset
+     * @param Magento_Core_Model_Page_Asset_AssetInterface $asset
      * @param array $properties
      */
-    public function add($identifier, Mage_Core_Model_Page_Asset_AssetInterface $asset, array $properties = array())
+    public function add($identifier, Magento_Core_Model_Page_Asset_AssetInterface $asset, array $properties = array())
     {
         parent::add($identifier, $asset);
         $properties[self::PROPERTY_CONTENT_TYPE] = $asset->getContentType();
-        $properties[self::PROPERTY_CAN_MERGE] = $asset instanceof Mage_Core_Model_Page_Asset_MergeableInterface;
+        $properties[self::PROPERTY_CAN_MERGE] = $asset instanceof Magento_Core_Model_Page_Asset_MergeableInterface;
         $this->_getGroupFor($properties)->add($identifier, $asset);
     }
 

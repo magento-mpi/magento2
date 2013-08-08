@@ -23,7 +23,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Ba
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Mage_Catalog_Model_Resource_Eav_Attribute(
-            Mage::getModel('Mage_Core_Model_Context')
+            Mage::getModel('Magento_Core_Model_Context')
         );
         $model->load($postData['attribute_id']);
         $this->assertNull($model->getData('apply_to'));
@@ -38,7 +38,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Ba
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Mage_Catalog_Model_Resource_Eav_Attribute(
-            Mage::getModel('Mage_Core_Model_Context')
+            Mage::getModel('Magento_Core_Model_Context')
         );
         $model->load($postData['attribute_id']);
         $this->assertEquals('simple,configurable', $model->getData('apply_to'));
@@ -54,14 +54,14 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Ba
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
         $model = new Mage_Catalog_Model_Resource_Eav_Attribute(
-            Mage::getModel('Mage_Core_Model_Context')
+            Mage::getModel('Magento_Core_Model_Context')
         );
         $model->load($postData['attribute_id']);
         $this->assertEquals(array('simple', 'configurable'), $model->getApplyTo());
     }
 
     /**
-     * @magentoDataFixture Mage/Core/_files/db_translate_admin_store.php
+     * @magentoDataFixture Magento/Core/_files/db_translate_admin_store.php
      * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_enabled.php
      * @magentoDataFixture Mage/Catalog/controllers/_files/attribute_user_defined.php
      * @magentoAppIsolation enabled
@@ -70,10 +70,10 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Ba
     {
         // ensure string translation is cached
         $this->_translate('Fixture String');
-        /** @var Mage_Core_Model_Resource_Translate_String $translateString */
-        $translateString = Mage::getModel('Mage_Core_Model_Resource_Translate_String');
+        /** @var Magento_Core_Model_Resource_Translate_String $translateString */
+        $translateString = Mage::getModel('Magento_Core_Model_Resource_Translate_String');
         $translateString->saveTranslate(
-            'Fixture String', 'New Db Translation', 'en_US', Mage_Core_Model_AppInterface::ADMIN_STORE_ID
+            'Fixture String', 'New Db Translation', 'en_US', Magento_Core_Model_AppInterface::ADMIN_STORE_ID
         );
         $this->assertEquals(
             'Fixture Db Translation', $this->_translate('Fixture String'), 'Translation is expected to be cached'
@@ -97,10 +97,10 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Ba
     protected function _translate($string)
     {
         // emulate admin store and design
-        Mage::app()->setCurrentStore(Mage_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Mage::app()->setCurrentStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         Mage::getDesign()->setDesignTheme(1);
-        /** @var Mage_Core_Model_Translate $translate */
-        $translate = Mage::getModel('Mage_Core_Model_Translate');
+        /** @var Magento_Core_Model_Translate $translate */
+        $translate = Mage::getModel('Magento_Core_Model_Translate');
         $translate->init(Mage_Backend_Helper_Data::BACKEND_AREA_CODE, null);
         return $translate->translate(array($string));
     }
@@ -133,7 +133,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Ba
             'used_for_sort_by' => '0',
             'apply_to' => array('simple', 'configurable'),
             'frontend_label' => array(
-                Mage_Core_Model_AppInterface::ADMIN_STORE_ID => 'Fixture String',
+                Magento_Core_Model_AppInterface::ADMIN_STORE_ID => 'Fixture String',
             ),
         );
     }

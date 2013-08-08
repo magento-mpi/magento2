@@ -334,7 +334,7 @@ class Mage_Paypal_Model_Pro
      * Validate RP data
      *
      * @param Mage_Payment_Model_Recurring_Profile $profile
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function validateRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile)
     {
@@ -360,7 +360,7 @@ class Mage_Paypal_Model_Pro
      *
      * @param Mage_Payment_Model_Recurring_Profile $profile
      * @param Mage_Payment_Model_Info $paymentInfo
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function submitRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile,
         Mage_Payment_Model_Info $paymentInfo

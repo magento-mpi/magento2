@@ -16,7 +16,7 @@
  * @package    Mage_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_CatalogInventory_Block_Stockqty_Abstract extends Mage_Core_Block_Template
+abstract class Mage_CatalogInventory_Block_Stockqty_Abstract extends Magento_Core_Block_Template
 {
     const XML_PATH_STOCK_THRESHOLD_QTY = 'cataloginventory/options/stock_threshold_qty';
 

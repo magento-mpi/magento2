@@ -13,7 +13,7 @@
  * @package     Mage_GoogleCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleCheckout_Controller_Redirect extends Mage_Core_Controller_Front_Action
+class Mage_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller_Front_Action
 {
     /**
      *  Send request to Google Checkout and return Response Api
@@ -155,7 +155,7 @@ class Mage_GoogleCheckout_Controller_Redirect extends Mage_Core_Controller_Front
     {
         $this->setFlag('', 'no-dispatch', true);
         $this->getResponse()->setRedirect(
-            Mage::helper('Mage_Core_Helper_Url')->addRequestParam(
+            Mage::helper('Magento_Core_Helper_Url')->addRequestParam(
                 Mage::helper('Mage_Customer_Helper_Data')->getLoginUrl(),
                 array('context' => 'checkout')
             )

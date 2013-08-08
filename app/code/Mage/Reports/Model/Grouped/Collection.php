@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 class Mage_Reports_Model_Grouped_Collection
-    extends Magento_Data_Collection //Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Data_Collection //Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Column name for group by clause 
@@ -20,7 +20,7 @@ class Mage_Reports_Model_Grouped_Collection
     /**
      * Collection resource
      *
-     * @var Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @var Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected $_resourceCollection  = null;
 

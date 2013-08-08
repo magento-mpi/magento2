@@ -16,14 +16,14 @@ class Mage_Backend_Model_Config_Loader
     /**
      * Config data factory
      *
-     * @var Mage_Core_Model_Config_DataFactory
+     * @var Magento_Core_Model_Config_DataFactory
      */
     protected $_configDataFactory;
 
     /**
-     * @param Mage_Core_Model_Config_DataFactory $configDataFactory
+     * @param Magento_Core_Model_Config_DataFactory $configDataFactory
      */
-    public function __construct(Mage_Core_Model_Config_DataFactory $configDataFactory)
+    public function __construct(Magento_Core_Model_Config_DataFactory $configDataFactory)
     {
         $this->_configDataFactory = $configDataFactory;
     }

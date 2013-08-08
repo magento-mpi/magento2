@@ -14,12 +14,12 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Sales_Model_Abstract extends Mage_Core_Model_Abstract
+abstract class Mage_Sales_Model_Abstract extends Magento_Core_Model_Abstract
 {
     /**
      * Get object store identifier
      *
-     * @return int | string | Mage_Core_Model_Store
+     * @return int | string | Magento_Core_Model_Store
      */
     abstract public function getStore();
 

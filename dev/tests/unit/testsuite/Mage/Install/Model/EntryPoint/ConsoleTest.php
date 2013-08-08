@@ -19,7 +19,7 @@ class Mage_Install_Model_EntryPoint_ConsoleTest extends PHPUnit_Framework_TestCa
     protected $_objectManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_Config_Primary
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Config_Primary
      */
     protected $_configMock;
 
@@ -29,7 +29,7 @@ class Mage_Install_Model_EntryPoint_ConsoleTest extends PHPUnit_Framework_TestCa
     protected $_installerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Mage_Core_Model_Dir_Verification
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Dir_Verification
      */
     protected $_dirVerifierMock;
 
@@ -41,9 +41,9 @@ class Mage_Install_Model_EntryPoint_ConsoleTest extends PHPUnit_Framework_TestCa
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager');
-        $this->_configMock = $this->getMock('Mage_Core_Model_Config_Primary', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
         $this->_installerMock = $this->getMock('Mage_Install_Model_Installer_Console', array(), array(), '', false);
-        $this->_dirVerifierMock = $this->getMock('Mage_Core_Model_Dir_Verification', array(), array(), '', false);
+        $this->_dirVerifierMock = $this->getMock('Magento_Core_Model_Dir_Verification', array(), array(), '', false);
         $this->_outputMock = $this->getMock('Mage_Install_Model_EntryPoint_Output', array(), array(), '', false);
 
         $this->_objectManagerMock->expects($this->once())->method('create')

@@ -28,7 +28,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
+class Enterprise_Reward_Model_Reward extends Magento_Core_Model_Abstract
 {
     const XML_PATH_BALANCE_UPDATE_TEMPLATE = 'enterprise_reward/notification/balance_update_template';
     const XML_PATH_BALANCE_WARNING_TEMPLATE = 'enterprise_reward/notification/expiry_warning_template';
@@ -263,7 +263,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      * Getter for store (for emails etc)
      * Trying get store from customer if its not assigned
      *
-     * @return Mage_Core_Model_Store|null
+     * @return Magento_Core_Model_Store|null
      */
     public function getStore()
     {
@@ -597,9 +597,9 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         }
         $history = $this->getHistory();
         $store = Mage::app()->getStore($this->getStore());
-        $mail  = Mage::getModel('Mage_Core_Model_Email_Template');
-        /* @var $mail Mage_Core_Model_Email_Template */
-        $mail->setDesignConfig(array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
+        $mail  = Mage::getModel('Magento_Core_Model_Email_Template');
+        /* @var $mail Magento_Core_Model_Email_Template */
+        $mail->setDesignConfig(array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
         $templateVars = array(
             'store' => $store,
             'customer' => $this->getCustomer(),
@@ -640,10 +640,10 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
      */
     public function sendBalanceWarningNotification($item, $websiteId)
     {
-        $mail  = Mage::getModel('Mage_Core_Model_Email_Template');
-        /* @var $mail Mage_Core_Model_Email_Template */
+        $mail  = Mage::getModel('Magento_Core_Model_Email_Template');
+        /* @var $mail Magento_Core_Model_Email_Template */
         $mail->setDesignConfig(array(
-            'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+            'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
             'store' => $item->getStoreId()
         ));
         $store = Mage::app()->getStore($item->getStoreId());

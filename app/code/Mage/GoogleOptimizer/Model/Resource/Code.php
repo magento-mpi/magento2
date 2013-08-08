@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Mage_GoogleOptimizer_Model_Resource_Code extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_GoogleOptimizer_Model_Resource_Code extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization

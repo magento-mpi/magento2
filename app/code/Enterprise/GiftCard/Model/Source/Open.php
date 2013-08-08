@@ -73,7 +73,7 @@ class Enterprise_GiftCard_Model_Source_Open extends Mage_Eav_Model_Entity_Attrib
             'default'  => $isNullable ? null : $attributeDefaultValue
         );
 
-        if (Mage::helper('Mage_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
             $column['type']     = $attributeType;
             $column['is_null']  = $isNullable;
         } else {

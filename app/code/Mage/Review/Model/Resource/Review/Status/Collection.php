@@ -15,7 +15,7 @@
  * @package     Mage_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Model_Resource_Review_Status_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Review_Model_Resource_Review_Status_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Review status table

@@ -12,7 +12,7 @@
  * Base sales archive helper
  *
  */
-class Enterprise_SalesArchive_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_SalesArchive_Helper_Data extends Magento_Core_Helper_Abstract
 {
 
 }

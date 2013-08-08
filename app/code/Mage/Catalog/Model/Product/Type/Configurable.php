@@ -634,7 +634,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      *
      * @param  Mage_Catalog_Model_Product $product
      * @return Mage_Catalog_Model_Product_Type_Configurable
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function checkProductBuyState($product)
     {
@@ -888,7 +888,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         $generatedProductIds = array();
         foreach ($productsData as $simpleProductData) {
             $newSimpleProduct = Mage::getModel('Mage_Catalog_Model_Product');
-            $configurableAttribute = Mage::helper('Mage_Core_Helper_Data')->jsonDecode(
+            $configurableAttribute = Mage::helper('Magento_Core_Helper_Data')->jsonDecode(
                 $simpleProductData['configurable_attribute']
             );
             unset($simpleProductData['configurable_attribute']);
@@ -961,7 +961,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         Mage_Catalog_Model_Product $parentProduct,
         $postData
     ) {
-        $product->setStoreId(Mage_Core_Model_AppInterface::ADMIN_STORE_ID)
+        $product->setStoreId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
             ->setTypeId($postData['weight']
                 ? Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
                 : Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
@@ -985,7 +985,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
 
         $postData['stock_data'] = $parentProduct->getStockData();
         $postData['stock_data']['manage_stock'] = $postData['quantity_and_stock_status']['qty'] === '' ? 0 : 1;
-        $configDefaultValue = Mage::getSingleton('Mage_Core_Model_StoreManager')->getStore()
+        $configDefaultValue = Mage::getSingleton('Magento_Core_Model_StoreManager')->getStore()
             ->getConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
         $postData['stock_data']['use_config_manage_stock'] =
             $postData['stock_data']['manage_stock'] == $configDefaultValue ? 1 : 0;

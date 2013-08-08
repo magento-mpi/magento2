@@ -16,7 +16,7 @@
  * @package    Mage_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
+class Mage_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
 {
     /**
      * Giftmessages allow section in configuration
@@ -67,7 +67,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      *
      * @param string $type
      * @param Magento_Object $entity
-     * @param Mage_Core_Model_Store|integer $store
+     * @param Magento_Core_Model_Store|integer $store
      * @return boolean
      */
     public function isMessagesAvailable($type, Magento_Object $entity, $store = null)
@@ -129,7 +129,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      * Check availablity of gift messages from store config if flag eq 2.
      *
      * @param int $productGiftMessageAllow
-     * @param Mage_Core_Model_Store|integer $store
+     * @param Magento_Core_Model_Store|integer $store
      * @return boolean
      */
     protected function _getDependenceFromStoreConfig($productGiftMessageAllow, $store=null)
@@ -147,7 +147,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      *
      * @param string $type
      * @param Magento_Object $entity
-     * @param Mage_Core_Model_Store|integer $store
+     * @param Magento_Core_Model_Store|integer $store
      * @return boolen
      */
     public function getIsMessagesAvailable($type, Magento_Object $entity, $store=null)
@@ -230,7 +230,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      * Check availability for onepage checkout items
      *
      * @param array $items
-     * @param Mage_Core_Model_Store|integer $store
+     * @param Magento_Core_Model_Store|integer $store
      * @return boolen
      */
     public function getAvailableForQuoteItems($quote, $store=null)
@@ -248,7 +248,7 @@ class Mage_GiftMessage_Helper_Message extends Mage_Core_Helper_Data
      * Check availability for multishiping checkout items
      *
      * @param array $items
-     * @param Mage_Core_Model_Store|integer $store
+     * @param Magento_Core_Model_Store|integer $store
      * @return boolen
      */
     public function getAvailableForAddressItems($items, $store=null)

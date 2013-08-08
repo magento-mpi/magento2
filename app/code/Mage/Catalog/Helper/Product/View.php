@@ -15,7 +15,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
+class Mage_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
 {
     // List of exceptions throwable during prepareAndRender() method
     public $ERR_NO_PRODUCT_LOADED = 1;
@@ -29,17 +29,17 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
     /**
      * General config object
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Config $config
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Config $config
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Config $config
     ) {
         parent::__construct($context);
         $this->_config = $config;
@@ -49,7 +49,7 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
      * Inits layout for viewing product page
      *
      * @param Mage_Catalog_Model_Product $product
-     * @param Mage_Core_Controller_Front_Action $controller
+     * @param Magento_Core_Controller_Front_Action $controller
      *
      * @return Mage_Catalog_Helper_Product_View
      */
@@ -111,11 +111,11 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
      *   - 'configure_mode' - boolean, whether we're in Configure-mode to edit product configuration
      *
      * @param int $productId
-     * @param Mage_Core_Controller_Front_Action $controller
+     * @param Magento_Core_Controller_Front_Action $controller
      * @param null|Magento_Object $params
      *
      * @return Mage_Catalog_Helper_Product_View
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function prepareAndRender($productId, $controller, $params = null)
     {
@@ -128,7 +128,7 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
         // Standard algorithm to prepare and rendern product view page
         $product = $productHelper->initProduct($productId, $controller, $params);
         if (!$product) {
-            throw new Mage_Core_Exception($this->__('Product is not loaded'), $this->ERR_NO_PRODUCT_LOADED);
+            throw new Magento_Core_Exception($this->__('Product is not loaded'), $this->ERR_NO_PRODUCT_LOADED);
         }
 
         $buyRequest = $params->getBuyRequest();
@@ -156,7 +156,7 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
                 $controller->initLayoutMessages($sessionModel);
             }
         } else {
-            throw new Mage_Core_Exception(
+            throw new Magento_Core_Exception(
                 $this->__('Bad controller interface for showing product'),
                 $this->ERR_BAD_CONTROLLER_INTERFACE
             );

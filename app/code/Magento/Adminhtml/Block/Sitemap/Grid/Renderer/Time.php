@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Time extends Magento_Adminht
      */
     public function render(Magento_Object $row)
     {
-        $time =  date('Y-m-d H:i:s', strtotime($row->getSitemapTime()) + Mage::getSingleton('Mage_Core_Model_Date')->getGmtOffset());
+        $time =  date('Y-m-d H:i:s', strtotime($row->getSitemapTime()) + Mage::getSingleton('Magento_Core_Model_Date')->getGmtOffset());
 
         return $time;
     }

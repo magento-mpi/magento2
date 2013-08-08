@@ -12,7 +12,7 @@
 class Mage_Sales_Block_Order_Creditmemo_ItemsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout;
 
@@ -28,14 +28,14 @@ class Mage_Sales_Block_Order_Creditmemo_ItemsTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        $this->_layout = Mage::getModel('Mage_Core_Model_Layout');
+        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
         $this->_block = $this->_layout->createBlock('Mage_Sales_Block_Order_Creditmemo_Items', 'block');
         $this->_creditmemo = Mage::getModel('Mage_Sales_Model_Order_Creditmemo');
     }
 
     public function testGetTotalsHtml()
     {
-        $childBlock = $this->_layout->addBlock('Mage_Core_Block_Text', 'creditmemo_totals', 'block');
+        $childBlock = $this->_layout->addBlock('Magento_Core_Block_Text', 'creditmemo_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';
         $this->assertEmpty($childBlock->getCreditmemo());
@@ -49,7 +49,7 @@ class Mage_Sales_Block_Order_Creditmemo_ItemsTest extends PHPUnit_Framework_Test
 
     public function testGetCommentsHtml()
     {
-        $childBlock = $this->_layout->addBlock('Mage_Core_Block_Text', 'creditmemo_comments', 'block');
+        $childBlock = $this->_layout->addBlock('Magento_Core_Block_Text', 'creditmemo_comments', 'block');
 
         $expectedHtml = '<b>Any html</b>';
         $this->assertEmpty($childBlock->getEntity());

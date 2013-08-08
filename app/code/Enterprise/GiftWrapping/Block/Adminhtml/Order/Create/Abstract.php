@@ -101,7 +101,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
             $shippingAddress,
             $billingAddress
         );
-        return Mage::helper('Mage_Core_Helper_Data')->currency($price, true, false);
+        return Mage::helper('Magento_Core_Helper_Data')->currency($price, true, false);
     }
 
     /**

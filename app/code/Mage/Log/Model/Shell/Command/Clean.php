@@ -8,7 +8,7 @@
 class Mage_Log_Model_Shell_Command_Clean implements Mage_Log_Model_Shell_CommandInterface
 {
     /**
-     * @var Mage_Core_Model_StoreManagerInterface
+     * @var Magento_Core_Model_StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -25,7 +25,7 @@ class Mage_Log_Model_Shell_Command_Clean implements Mage_Log_Model_Shell_Command
     protected $_days;
 
     public function __construct(
-        Mage_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
         Mage_Log_Model_LogFactory $logFactory,
         $days
     ) {

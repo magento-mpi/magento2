@@ -107,7 +107,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
                 if (!$model->getId()) {
                     Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('This attribute set no longer exists.'));
                 }
-                $data = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('data'));
+                $data = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('data'));
 
                 //filter html tags
                 $data['attribute_set_name'] = $helper->stripTags($data['attribute_set_name']);
@@ -122,7 +122,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
             }
             $model->save();
             $this->_getSession()->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('You saved the attribute set.'));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $hasError = true;
         } catch (Exception $e) {
@@ -133,10 +133,10 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
 
         if ($isNewSet) {
             if ($this->getRequest()->getPost('return_session_messages_only')) {
-                /** @var $block Mage_Core_Block_Messages */
-                $block = $this->_objectManager->get('Mage_Core_Block_Messages');
+                /** @var $block Magento_Core_Block_Messages */
+                $block = $this->_objectManager->get('Magento_Core_Block_Messages');
                 $block->setMessages($this->_getSession()->getMessages(true));
-                $body = $this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array(
+                $body = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
                     'messages' => $block->getGroupedHtml(),
                     'error'    => $hasError,
                     'id'       => $model->getId(),
@@ -159,7 +159,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
                 $response['error']   = 0;
                 $response['url']     = $this->getUrl('*/*/');
             }
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($response));
+            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response));
         }
     }
 

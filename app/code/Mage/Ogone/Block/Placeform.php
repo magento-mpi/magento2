@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Ogone_Block_Placeform extends Mage_Core_Block_Template
+class Mage_Ogone_Block_Placeform extends Magento_Core_Block_Template
 {
 
     /**

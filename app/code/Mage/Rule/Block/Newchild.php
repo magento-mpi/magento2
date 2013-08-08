@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Rule_Block_Newchild extends Mage_Core_Block_Abstract
+class Mage_Rule_Block_Newchild extends Magento_Core_Block_Abstract
     implements Magento_Data_Form_Element_Renderer_Interface
 {
     public function render(Magento_Data_Form_Element_Abstract $element)

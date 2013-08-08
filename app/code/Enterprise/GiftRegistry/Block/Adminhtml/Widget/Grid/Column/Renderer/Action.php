@@ -22,7 +22,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Action
      */
     protected function _getValue(Magento_Object $row)
     {
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setId($this->getColumn()->getId())
             ->setName('items[' . $row->getItemId() . '][action]')
             ->setOptions($this->getColumn()->getOptions());

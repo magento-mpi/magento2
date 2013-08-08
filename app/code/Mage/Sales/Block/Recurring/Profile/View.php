@@ -11,7 +11,7 @@
 /**
  * Recurring profile view
  */
-class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
+class Mage_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Template
 {
     /**
      * @var Mage_Sales_Model_Recurring_Profile
@@ -223,7 +223,7 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
             if ($value) {
                 $this->_addInfo(array(
                     'label' => $this->_profile->getFieldLabel($key),
-                    'value' => Mage::helper('Mage_Core_Helper_Data')->formatCurrency($value, false),
+                    'value' => Mage::helper('Magento_Core_Helper_Data')->formatCurrency($value, false),
                     'is_amount' => true,
                 ));
             }
@@ -307,7 +307,7 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
                 'increment_id' => $order->getIncrementId(),
                 'created_at' => $this->formatDate($order->getCreatedAt()),
                 'customer_name' => $order->getCustomerName(),
-                'base_grand_total' => Mage::helper('Mage_Core_Helper_Data')->formatCurrency(
+                'base_grand_total' => Mage::helper('Magento_Core_Helper_Data')->formatCurrency(
                     $order->getBaseGrandTotal(), false
                 ),
                 'status' => $order->getStatusLabel(),

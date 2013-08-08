@@ -17,7 +17,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeTest extends Mage_Backe
     /** @var Magento_Filesystem */
     protected $_filesystem;
 
-    /** @var Mage_Core_Model_Dir */
+    /** @var Magento_Core_Model_Dir */
     protected $_dirs;
 
     protected function setUp()
@@ -25,7 +25,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeTest extends Mage_Backe
         parent::setUp();
 
         $this->_filesystem = $this->_objectManager->get('Magento_Filesystem');
-        $this->_dirs = $this->_objectManager->get('Mage_Core_Model_Dir');
+        $this->_dirs = $this->_objectManager->get('Magento_Core_Model_Dir');
     }
 
     /**
@@ -43,7 +43,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeTest extends Mage_Backe
             )
         );
 
-        $theme = $this->_objectManager->create('Mage_Core_Model_Theme')->getCollection()->getFirstItem();
+        $theme = $this->_objectManager->create('Magento_Core_Model_Theme')->getCollection()->getFirstItem();
 
         $this->getRequest()->setPost('id', $theme->getId());
         $this->dispatch('backend/admin/system_design_theme/uploadjs');
@@ -64,7 +64,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeTest extends Mage_Backe
          * Uploader can copy(upload) and then remove this temporary file.
          */
         $fileName = implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'simple-js-file.js'));
-        $varDir = $this->_dirs->getDir(Mage_Core_Model_Dir::VAR_DIR);
+        $varDir = $this->_dirs->getDir(Magento_Core_Model_Dir::VAR_DIR);
         $destinationFilePath = $varDir . DIRECTORY_SEPARATOR . 'simple-js-file.js';
 
         $this->_filesystem->copy($fileName, $destinationFilePath);

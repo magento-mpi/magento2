@@ -37,12 +37,12 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
             array('setSortable', 'setRendererType', 'setFilterType', 'addHeaderCssClass', 'setGrid'),
             array(), '', false
         );
-        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
+        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
         $this->_layoutMock->expects($this->any())->method('getChildBlocks')->will($this->returnValue(
             array($this->_columnMock)
         ));
 
-        $context = Mage::getModel('Mage_Core_Block_Template_Context', array('layout' => $this->_layoutMock));
+        $context = Mage::getModel('Magento_Core_Block_Template_Context', array('layout' => $this->_layoutMock));
         $this->_block = Mage::app()->getLayout()->createBlock(
             'Mage_Backend_Block_Widget_Grid_ColumnSet', '', array('context' => $context)
         );

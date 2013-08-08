@@ -50,14 +50,14 @@
             <cache_lifetime>86400</cache_lifetime>
         </compare_list_sidebar>
         <messages>
-            <block>Mage_Core_Block_Messages</block>
+            <block>Magento_Core_Block_Messages</block>
             <placeholder>MESSAGES</placeholder>
             <name>messages</name>
             <container>Enterprise_PageCache_Model_Container_Messages</container>
             <cache_lifetime>86400</cache_lifetime>
         </messages>
         <global_messages>
-            <block>Mage_Core_Block_Messages</block>
+            <block>Magento_Core_Block_Messages</block>
             <placeholder>GLOBAL_MESSAGES</placeholder>
             <name>global_messages</name>
             <container>Enterprise_PageCache_Model_Container_Messages</container>

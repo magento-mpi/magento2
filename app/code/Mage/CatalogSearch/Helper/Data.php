@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const QUERY_VAR_NAME = 'q';
     const MAX_QUERY_LEN  = 200;
@@ -88,7 +88,7 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
     public function isMinQueryLength()
     {
         $minQueryLength = $this->getMinQueryLength();
-        $thisQueryLength = Mage::helper('Mage_Core_Helper_String')->strlen($this->getQueryText());
+        $thisQueryLength = Mage::helper('Magento_Core_Helper_String')->strlen($this->getQueryText());
         return !$thisQueryLength || $minQueryLength !== '' && $thisQueryLength < $minQueryLength;
     }
 
@@ -104,8 +104,8 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
             if ($this->_queryText === null) {
                 $this->_queryText = '';
             } else {
-                /* @var $stringHelper Mage_Core_Helper_String */
-                $stringHelper = Mage::helper('Mage_Core_Helper_String');
+                /* @var $stringHelper Magento_Core_Helper_String */
+                $stringHelper = Mage::helper('Magento_Core_Helper_String');
                 $this->_queryText = is_array($this->_queryText) ? ''
                     : $stringHelper->cleanString(trim($this->_queryText));
 
@@ -265,8 +265,8 @@ class Mage_CatalogSearch_Helper_Data extends Mage_Core_Helper_Abstract
             $this->addNoteMessage($this->__('Your search query can\'t be longer than %s, so we had to shorten your query.', $this->getMaxQueryLength()));
         }
 
-        /* @var $stringHelper Mage_Core_Helper_String */
-        $stringHelper = Mage::helper('Mage_Core_Helper_String');
+        /* @var $stringHelper Magento_Core_Helper_String */
+        $stringHelper = Mage::helper('Magento_Core_Helper_String');
 
         $searchType = Mage::getStoreConfig(Mage_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
         if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE

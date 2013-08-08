@@ -17,18 +17,18 @@ class Mage_Webhook_Model_Observer
     /** @var  Mage_Webhook_Model_Resource_Subscription_Collection $_subscriptionSet */
     private $_subscriptionSet;
 
-    /** @var Mage_Core_Model_Logger */
+    /** @var Magento_Core_Model_Logger */
     private $_logger;
 
     /**
      * @param Mage_Webhook_Model_Webapi_EventHandler                        $webapiEventHandler
      * @param Mage_Webhook_Model_Resource_Subscription_Collection           $subscriptionSet
-     * @param Mage_Core_Model_Logger                                        $logger
+     * @param Magento_Core_Model_Logger                                        $logger
      */
     public function __construct(
         Mage_Webhook_Model_Webapi_EventHandler $webapiEventHandler,
         Mage_Webhook_Model_Resource_Subscription_Collection $subscriptionSet,
-        Mage_Core_Model_Logger $logger
+        Magento_Core_Model_Logger $logger
     ) {
         $this->_webapiEventHandler = $webapiEventHandler;
         $this->_subscriptionSet = $subscriptionSet;

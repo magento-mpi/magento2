@@ -113,7 +113,7 @@ class Enterprise_BannerCustomerSegment_Model_Observer
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /** @var Mage_Core_Model_Resource_Db_Collection_Abstract $collection */
+        /** @var Magento_Core_Model_Resource_Db_Collection_Abstract $collection */
         $collection = $observer->getEvent()->getCollection();
         $segmentIds = $this->_segmentCustomer->getCurrentCustomerSegmentIds();
         $this->_bannerSegmentLink->addBannerSegmentFilter($collection->getSelect(), $segmentIds);

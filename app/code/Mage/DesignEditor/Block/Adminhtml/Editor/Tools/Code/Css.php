@@ -11,7 +11,7 @@
 /**
  * Block that renders CSS tab
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css extends Mage_Core_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css extends Magento_Core_Block_Template
 {
     /**
      * Get file groups content

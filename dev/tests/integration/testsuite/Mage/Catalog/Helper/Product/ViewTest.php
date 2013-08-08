@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -35,7 +35,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
             'request' => $request,
             'response' => new Magento_Test_Response(),
         );
-        $context = Mage::getObjectManager()->create('Mage_Core_Controller_Varien_Action_Context', $arguments);
+        $context = Mage::getObjectManager()->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
         $this->_controller = Mage::getModel(
             'Mage_Catalog_Controller_Product',
             array(
@@ -87,13 +87,13 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      * @magentoAppIsolation enabled
      */
     public function testPrepareAndRenderWrongController()
     {
         $controller = Mage::getModel(
-            'Mage_Core_Controller_Front_Action',
+            'Magento_Core_Controller_Front_Action',
             array(
                 'request'  => new Magento_Test_Request,
                 'response' => new Magento_Test_Response,
@@ -105,7 +105,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testPrepareAndRenderWrongProduct()
     {
@@ -129,7 +129,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 
         // add messages
         foreach ($expectedMessages as $sessionModel => $messageText) {
-            /** @var $session Mage_Core_Model_Session_Abstract */
+            /** @var $session Magento_Core_Model_Session_Abstract */
             $session = Mage::getSingleton($sessionModel);
             $session->addNotice($messageText);
         }
@@ -145,7 +145,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 
         sort($expectedMessages);
 
-        /** @var $message Mage_Core_Model_Message_Notice */
+        /** @var $message Magento_Core_Model_Message_Notice */
         foreach ($actualMessages as $key => $message) {
             $actualMessages[$key] = $message->getText();
         }

@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Frame
     /**
      * Test prepare grid when there is more than one store
      *
-     * @magentoDataFixture Mage/Core/_files/store.php
+     * @magentoDataFixture Magento/Core/_files/store.php
      */
     public function testPrepareGridForMultipleStores()
     {

@@ -17,7 +17,7 @@
         </reference>
         <reference name="content">
             <block type="Mage_Catalog_Block_Navigation" name="hp_nav" template="navigation/top.phtml"/>
-            <block type="Mage_Core_Block_Template" name="default_no_route" template="Mage_Cms::default/no-route.phtml"/>
+            <block type="Magento_Core_Block_Template" name="default_no_route" template="Mage_Cms::default/no-route.phtml"/>
         </reference>
     </cms_index_defaultnoroute>
 </layout>

@@ -57,7 +57,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Invitation extends Magento_Admi
             $this->loadLayout()->_setActiveMenu('Enterprise_Invitation::customer_enterprise_invitation');
             $this->renderLayout();
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         }
@@ -123,7 +123,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Invitation extends Magento_Admi
                         $failedCount++;
                     }
                 }
-                catch (Mage_Core_Exception $e) {
+                catch (Magento_Core_Exception $e) {
                     if ($e->getCode()) {
                         $failedCount++;
                         if ($e->getCode() == Enterprise_Invitation_Model_Invitation::ERROR_CUSTOMER_EXISTS) {
@@ -148,7 +148,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Invitation extends Magento_Admi
             $this->_redirect('*/*/');
             return;
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/new');
@@ -184,7 +184,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Invitation extends Magento_Admi
                 $this->_getSession()->addSuccess(Mage::helper('Enterprise_Invitation_Helper_Data')->__('The invitation has been saved.'));
             }
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/view', array('_current' => true));
@@ -214,7 +214,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Invitation extends Magento_Admi
                         $sent++;
                     }
                 }
-                catch (Mage_Core_Exception $e) {
+                catch (Magento_Core_Exception $e) {
                     // jam all exceptions with codes
                     if (!$e->getCode()) {
                         throw $e;
@@ -241,7 +241,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Invitation extends Magento_Admi
                 );
             }
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
@@ -270,7 +270,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Invitation extends Magento_Admi
                         $cancelled++;
                     }
                 }
-                catch (Mage_Core_Exception $e) {
+                catch (Magento_Core_Exception $e) {
                     // jam all exceptions with codes
                     if (!$e->getCode()) {
                         throw $e;
@@ -284,7 +284,7 @@ class Enterprise_Invitation_Controller_Adminhtml_Invitation extends Magento_Admi
                 $this->_getSession()->addNotice(Mage::helper('Enterprise_Invitation_Helper_Data')->__('We skipped %d of the selected invitations.', $failed));
             }
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');

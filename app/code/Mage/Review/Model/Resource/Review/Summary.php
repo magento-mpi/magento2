@@ -16,7 +16,7 @@
  * @package     Mage_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Model_Resource_Review_Summary extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Review_Model_Resource_Review_Summary extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Define module
@@ -32,7 +32,7 @@ class Mage_Review_Model_Resource_Review_Summary extends Mage_Core_Model_Resource
      *
      * @param string $field
      * @param mixed $value
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return unknown
      */
     protected function _getLoadSelect($field, $value, $object)

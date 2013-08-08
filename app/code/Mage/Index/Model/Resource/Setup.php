@@ -16,7 +16,7 @@
  * @package     Mage_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Index_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup
+class Mage_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
 {
     /**
      * Apply Index module DB updates and sync indexes declaration

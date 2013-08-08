@@ -13,7 +13,7 @@
  * @package     Mage_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Sales_Order_Tax_Item extends Mage_Core_Model_Abstract
+class Mage_Tax_Model_Sales_Order_Tax_Item extends Magento_Core_Model_Abstract
 {
     /**
      * Initialization

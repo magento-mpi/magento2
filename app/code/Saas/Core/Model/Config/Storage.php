@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Core_Model_Config_Storage implements Mage_Core_Model_Config_StorageInterface
+class Saas_Core_Model_Config_Storage implements Magento_Core_Model_Config_StorageInterface
 {
     /**
      * Cache invalidation flag
@@ -19,14 +19,14 @@ class Saas_Core_Model_Config_Storage implements Mage_Core_Model_Config_StorageIn
     /**
      * Cache storage object
      *
-     * @var Mage_Core_Model_Config_Cache
+     * @var Magento_Core_Model_Config_Cache
      */
     protected $_cache;
 
     /**
      * Resource configuration
      *
-     * @var Mage_Core_Model_Config_Resource
+     * @var Magento_Core_Model_Config_Resource
      */
     protected $_resourcesConfig;
 
@@ -43,14 +43,14 @@ class Saas_Core_Model_Config_Storage implements Mage_Core_Model_Config_StorageIn
     protected $_eventFactory;
 
     /**
-     * @param Mage_Core_Model_Config_Cache $cache
-     * @param Mage_Core_Model_Config_Resource $resourcesConfig
+     * @param Magento_Core_Model_Config_Cache $cache
+     * @param Magento_Core_Model_Config_Resource $resourcesConfig
      * @param Enterprise_Queue_Model_Event_HandlerInterface $queueHandler
      * @param Magento_EventFactory $eventFactory
      */
     public function __construct(
-        Mage_Core_Model_Config_Cache $cache,
-        Mage_Core_Model_Config_Resource $resourcesConfig,
+        Magento_Core_Model_Config_Cache $cache,
+        Magento_Core_Model_Config_Resource $resourcesConfig,
         Enterprise_Queue_Model_Event_HandlerInterface $queueHandler,
         Magento_EventFactory $eventFactory
     ) {
@@ -65,7 +65,7 @@ class Saas_Core_Model_Config_Storage implements Mage_Core_Model_Config_StorageIn
      * Retrieve application configuration
      *
      * @throws Saas_Core_Model_Config_Exception
-     * @return Mage_Core_Model_ConfigInterface
+     * @return Magento_Core_Model_ConfigInterface
      */
     public function getConfiguration()
     {

@@ -13,12 +13,12 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PayflowProSaveHand
     extends Saas_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 {
     /**
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
      * @return Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     public function getSaveHandlerInstance(
-        Mage_Core_Model_Config $config,
+        Magento_Core_Model_Config $config,
         Mage_Backend_Model_Config $backendConfigModel
     ) {
         return new Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_PayflowProSaveHandler(

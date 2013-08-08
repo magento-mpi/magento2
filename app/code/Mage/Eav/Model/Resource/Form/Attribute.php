@@ -16,7 +16,7 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Eav_Model_Resource_Form_Attribute extends Mage_Core_Model_Resource_Db_Abstract
+abstract class Mage_Eav_Model_Resource_Form_Attribute extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Return form attribute IDs by form code

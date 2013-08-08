@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Helper_Url extends Mage_Core_Helper_Url
+class Mage_Checkout_Helper_Url extends Magento_Core_Helper_Url
 {
     /**
      * Retrieve shopping cart url

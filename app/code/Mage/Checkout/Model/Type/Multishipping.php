@@ -510,7 +510,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
                 $orderIds[$order->getId()] = $order->getIncrementId();
             }
 
-            Mage::getSingleton('Mage_Core_Model_Session')->setOrderIds($orderIds);
+            Mage::getSingleton('Magento_Core_Model_Session')->setOrderIds($orderIds);
             Mage::getSingleton('Mage_Checkout_Model_Session')->setLastQuoteId($this->getQuote()->getId());
 
             $this->getQuote()
@@ -592,7 +592,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
      */
     public function getOrderIds($asAssoc = false)
     {
-        $idsAssoc = Mage::getSingleton('Mage_Core_Model_Session')->getOrderIds();
+        $idsAssoc = Mage::getSingleton('Magento_Core_Model_Session')->getOrderIds();
         return $asAssoc ? $idsAssoc : array_keys($idsAssoc);
     }
 }

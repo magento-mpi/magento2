@@ -48,9 +48,16 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false, false);
+        $this->_requestMock = $this->getMock(
+            'Magento_Core_Controller_Request_Http',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
         $this->_urlModelMock = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false, false);
-        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false, false);
+        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
         $groupMock = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Group', array(), array(), '', false);
         $groupMock->expects($this->once())->method('getFieldsetCss')->will($this->returnValue('test_fieldset_css'));
 
@@ -97,11 +104,11 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
 
     public function testRenderWithoutStoredElements()
     {
-        $helperMock = $this->getMock('Mage_Core_Helper_Js', array(), array(), '', false, false);
+        $helperMock = $this->getMock('Magento_Core_Helper_Js', array(), array(), '', false, false);
         $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         $this->_layoutMock->expects($this->any())->method('helper')
-            ->with('Mage_Core_Helper_Js')->will($this->returnValue($helperMock));
+            ->with('Magento_Core_Helper_Js')->will($this->returnValue($helperMock));
 
         $collection = $this->_testHelper->getObject('Magento_Data_Form_Element_Collection');
         $this->_elementMock->expects($this->any())->method('getElements')->will($this->returnValue($collection));
@@ -113,12 +120,12 @@ class Mage_Backend_Block_System_Config_Form_FieldsetTest extends PHPUnit_Framewo
 
     public function testRenderWithStoredElements()
     {
-        $helperMock = $this->getMock('Mage_Core_Helper_Js', array(), array(), '', false, false);
+        $helperMock = $this->getMock('Magento_Core_Helper_Js', array(), array(), '', false, false);
         $helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
         $helperMock->expects($this->any())->method('getScript')->will($this->returnArgument(0));
 
         $this->_layoutMock->expects($this->any())->method('helper')
-            ->with('Mage_Core_Helper_Js')->will($this->returnValue($helperMock));
+            ->with('Magento_Core_Helper_Js')->will($this->returnValue($helperMock));
 
         $fieldMock = $this->getMock('Magento_Data_Form_Element_Text',
             array('getId', 'getTooltip', 'toHtml'),

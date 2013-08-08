@@ -9,7 +9,7 @@ class Saas_Backend_Model_Config_Source_AbstractLocaleTest extends PHPUnit_Framew
 {
     public function testToOptionArray()
     {
-        $modelLocale = $this->getMock('Mage_Core_Model_LocaleInterface');
+        $modelLocale = $this->getMock('Magento_Core_Model_LocaleInterface');
         $modelSourceLocalMock = $this->getMockForAbstractClass('Saas_Backend_Model_Config_Source_AbstractLocale',
             array($modelLocale, array('locale_code_1')), '', true, true, true, array('_getLocales'));
 

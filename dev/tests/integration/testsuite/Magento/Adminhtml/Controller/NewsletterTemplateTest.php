@@ -52,12 +52,12 @@ class Magento_Adminhtml_Controller_Newsletter_TemplateTest extends Mage_Backend_
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->isEmpty(), Mage_Core_Model_Message::ERROR);
+        $this->assertSessionMessages($this->isEmpty(), Magento_Core_Model_Message::ERROR);
         /**
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The newsletter template has been saved.')), Mage_Core_Model_Message::SUCCESS
+            $this->equalTo(array('The newsletter template has been saved.')), Magento_Core_Model_Message::SUCCESS
         );
     }
 
@@ -74,13 +74,13 @@ class Magento_Adminhtml_Controller_Newsletter_TemplateTest extends Mage_Backend_
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->isEmpty(), Mage_Core_Model_Message::ERROR);
+        $this->assertSessionMessages($this->isEmpty(), Magento_Core_Model_Message::ERROR);
 
         /**
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The newsletter template has been saved.')), Mage_Core_Model_Message::SUCCESS
+            $this->equalTo(array('The newsletter template has been saved.')), Magento_Core_Model_Message::SUCCESS
         );
     }
 
@@ -101,12 +101,12 @@ class Magento_Adminhtml_Controller_Newsletter_TemplateTest extends Mage_Backend_
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Mage_Core_Model_Message::ERROR);
+        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Magento_Core_Model_Message::ERROR);
 
         /**
          * Check that success message is not set
          */
-        $this->assertSessionMessages($this->isEmpty(), Mage_Core_Model_Message::SUCCESS);
+        $this->assertSessionMessages($this->isEmpty(), Magento_Core_Model_Message::SUCCESS);
     }
 
     /**
@@ -122,13 +122,13 @@ class Magento_Adminhtml_Controller_Newsletter_TemplateTest extends Mage_Backend_
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->isEmpty(), Mage_Core_Model_Message::ERROR);
+        $this->assertSessionMessages($this->isEmpty(), Magento_Core_Model_Message::ERROR);
 
         /**
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The newsletter template has been deleted.')), Mage_Core_Model_Message::SUCCESS
+            $this->equalTo(array('The newsletter template has been deleted.')), Magento_Core_Model_Message::SUCCESS
         );
     }
 }

@@ -20,7 +20,7 @@ class Mage_Eav_Model_Attribute_Data_File extends Mage_Eav_Model_Attribute_Data_A
     /**
      * Validator for check not protected extensions
      *
-     * @var Mage_Core_Model_File_Validator_NotProtectedExtension
+     * @var Magento_Core_Model_File_Validator_NotProtectedExtension
      */
     protected $_validatorNotProtectedExtensions;
 
@@ -107,8 +107,8 @@ class Mage_Eav_Model_Attribute_Data_File extends Mage_Eav_Model_Attribute_Data_A
         /**
          * Check protected file extension
          */
-        /** @var $validator Mage_Core_Model_File_Validator_NotProtectedExtension */
-        $validator = Mage::getSingleton('Mage_Core_Model_File_Validator_NotProtectedExtension');
+        /** @var $validator Magento_Core_Model_File_Validator_NotProtectedExtension */
+        $validator = Mage::getSingleton('Magento_Core_Model_File_Validator_NotProtectedExtension');
         if (!$validator->isValid($extension)) {
             return $validator->getMessages();
         }
@@ -135,7 +135,7 @@ class Mage_Eav_Model_Attribute_Data_File extends Mage_Eav_Model_Attribute_Data_A
      * Validate data
      *
      * @param array|string $value
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return boolean
      */
     public function validateValue($value)
@@ -177,7 +177,7 @@ class Mage_Eav_Model_Attribute_Data_File extends Mage_Eav_Model_Attribute_Data_A
     /**
      * Export attribute value to entity model
      *
-     * @param Mage_Core_Model_Abstract $entity
+     * @param Magento_Core_Model_Abstract $entity
      * @param array|string $value
      * @return Mage_Eav_Model_Attribute_Data_File
      */
@@ -253,7 +253,7 @@ class Mage_Eav_Model_Attribute_Data_File extends Mage_Eav_Model_Attribute_Data_A
                 case Mage_Eav_Model_Attribute_Data::OUTPUT_FORMAT_JSON:
                     $output = array(
                         'value'     => $value,
-                        'url_key'   => Mage::helper('Mage_Core_Helper_Data')->urlEncode($value)
+                        'url_key'   => Mage::helper('Magento_Core_Helper_Data')->urlEncode($value)
                     );
                     break;
             }

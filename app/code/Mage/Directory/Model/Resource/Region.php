@@ -16,7 +16,7 @@
  * @package     Mage_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Directory_Model_Resource_Region extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Directory_Model_Resource_Region extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Table with localized region names
@@ -40,7 +40,7 @@ class Mage_Directory_Model_Resource_Region extends Mage_Core_Model_Resource_Db_A
      *
      * @param string $field
      * @param mixed $value
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * 
      * @return Magento_DB_Select
      */
@@ -77,7 +77,7 @@ class Mage_Directory_Model_Resource_Region extends Mage_Core_Model_Resource_Db_A
     /**
      * Load object by country id and code or default name
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param int $countryId
      * @param string $value
      * @param string $field

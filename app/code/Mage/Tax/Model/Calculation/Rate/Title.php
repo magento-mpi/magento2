@@ -25,7 +25,7 @@
  * @package     Mage_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Calculation_Rate_Title extends Mage_Core_Model_Abstract
+class Mage_Tax_Model_Calculation_Rate_Title extends Magento_Core_Model_Abstract
 {
     protected function _construct()
     {

@@ -36,10 +36,10 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_Tes
         );
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        /** @var $model Mage_Core_Model_Abstract */
-        $arguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Abstract');
+        /** @var $model Magento_Core_Model_Abstract */
+        $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
         $arguments['data'] = $attributeData;
-        $model = $this->getMock('Mage_Core_Model_Abstract', null, $arguments);
+        $model = $this->getMock('Magento_Core_Model_Abstract', null, $arguments);
         $model->setDefault(array('2'));
         $model->setOption(array('delete' => array(1 => '', 2 => '')));
 
@@ -91,10 +91,10 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_Tes
 
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        /** @var $model Mage_Core_Model_Abstract */
-        $arguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Abstract');
+        /** @var $model Magento_Core_Model_Abstract */
+        $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
         $arguments['data'] = $attributeData;
-        $model = $this->getMock('Mage_Core_Model_Abstract', null, $arguments);
+        $model = $this->getMock('Magento_Core_Model_Abstract', null, $arguments);
         $model->setOption(array('value' => array('option_1' => array('Backend Label', 'Frontend Label'))));
 
         $adapter->expects($this->any())
@@ -152,9 +152,9 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_Tes
         list($adapter, $resourceModel) = $this->_prepareResourceModel();
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        /** @var $model Mage_Core_Model_Abstract */
-        $arguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Abstract');
-        $model = $this->getMock('Mage_Core_Model_Abstract', null, $arguments);
+        /** @var $model Magento_Core_Model_Abstract */
+        $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
+        $model = $this->getMock('Magento_Core_Model_Abstract', null, $arguments);
         $model->setOption('not-an-array');
 
         $adapter->expects($this->once())->method('insert')->with('eav_attribute');
@@ -187,7 +187,7 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_Tes
                 array('status', '"status"'),
             )));
 
-        $application = $this->getMock('Mage_Core_Model_App', array('getStores'), array(), '', false);
+        $application = $this->getMock('Magento_Core_Model_App', array('getStores'), array(), '', false);
         $application->expects($this->any())
             ->method('getStores')
             ->with(true)
@@ -196,8 +196,8 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_Tes
                 new Magento_Object(array('id' => 1)),
             )));
 
-        /** @var $resource Mage_Core_Model_Resource */
-        $resource = $this->getMock('Mage_Core_Model_Resource',
+        /** @var $resource Magento_Core_Model_Resource */
+        $resource = $this->getMock('Magento_Core_Model_Resource',
             array('getTableName', 'getConnection'), array(), '', false, false
         );
         $resource->expects($this->any())

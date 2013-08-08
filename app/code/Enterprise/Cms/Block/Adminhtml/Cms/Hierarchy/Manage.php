@@ -100,7 +100,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_Adminh
      */
     protected function _prepareOptions($all = false, $excludeScopes)
     {
-        $storeStructure = Mage::getSingleton('Mage_Core_Model_System_Store')
+        $storeStructure = Mage::getSingleton('Magento_Core_Model_System_Store')
                 ->getStoresStructure($all);
         $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');
         $options = array();

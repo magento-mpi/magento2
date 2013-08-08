@@ -16,7 +16,7 @@
  * @package     Enterprise_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Eav_Block_Form_Renderer_Abstract extends Mage_Core_Block_Template
+abstract class Enterprise_Eav_Block_Form_Renderer_Abstract extends Magento_Core_Block_Template
 {
     /**
      * Attribute instance
@@ -28,7 +28,7 @@ abstract class Enterprise_Eav_Block_Form_Renderer_Abstract extends Mage_Core_Blo
     /**
      * EAV Entity Model
      *
-     * @var Mage_Core_Model_Abstract
+     * @var Magento_Core_Model_Abstract
      */
     protected $_entity;
 
@@ -71,10 +71,10 @@ abstract class Enterprise_Eav_Block_Form_Renderer_Abstract extends Mage_Core_Blo
     /**
      * Set Entity object
      *
-     * @param Mage_Core_Model_Abstract
+     * @param Magento_Core_Model_Abstract
      * @return Enterprise_Eav_Block_Form_Renderer_Abstract
      */
-    public function setEntity(Mage_Core_Model_Abstract $entity)
+    public function setEntity(Magento_Core_Model_Abstract $entity)
     {
         $this->_entity = $entity;
         return $this;
@@ -83,7 +83,7 @@ abstract class Enterprise_Eav_Block_Form_Renderer_Abstract extends Mage_Core_Blo
     /**
      * Return Entity object
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     public function getEntity()
     {
@@ -101,7 +101,7 @@ abstract class Enterprise_Eav_Block_Form_Renderer_Abstract extends Mage_Core_Blo
         if ($filterCode) {
             $filterClass = 'Magento_Data_Form_Filter_' . ucfirst($filterCode);
             if ($filterCode == 'date') {
-                $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+                $format = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
                 $filter = new $filterClass($format);
             } else {
                 $filter = new $filterClass();

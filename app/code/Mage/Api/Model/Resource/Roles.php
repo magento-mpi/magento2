@@ -16,7 +16,7 @@
  * @package     Mage_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Api_Model_Resource_Roles extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * User table name
@@ -47,10 +47,10 @@ class Mage_Api_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Action before save
      *
-     * @param Mage_Core_Model_Abstract $role
+     * @param Magento_Core_Model_Abstract $role
      * @return Mage_Api_Model_Resource_Roles
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $role)
+    protected function _beforeSave(Magento_Core_Model_Abstract $role)
     {
         if ($role->getId() == '') {
             if ($role->getIdFieldName()) {
@@ -73,10 +73,10 @@ class Mage_Api_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Action after save
      *
-     * @param Mage_Core_Model_Abstract $role
+     * @param Magento_Core_Model_Abstract $role
      * @return Mage_Api_Model_Resource_Roles
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $role)
+    protected function _afterSave(Magento_Core_Model_Abstract $role)
     {
         $this->_updateRoleUsersAcl($role);
         Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG);
@@ -86,10 +86,10 @@ class Mage_Api_Model_Resource_Roles extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Action after delete
      *
-     * @param Mage_Core_Model_Abstract $role
+     * @param Magento_Core_Model_Abstract $role
      * @return Mage_Api_Model_Resource_Roles
      */
-    protected function _afterDelete(Mage_Core_Model_Abstract $role)
+    protected function _afterDelete(Magento_Core_Model_Abstract $role)
     {
         $adapter = $this->_getWriteAdapter();
         $adapter->delete($this->getMainTable(), array('parent_id=?'=>$role->getId()));

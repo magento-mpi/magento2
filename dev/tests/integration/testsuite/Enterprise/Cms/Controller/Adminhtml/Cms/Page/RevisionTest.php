@@ -30,7 +30,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_RevisionTest extends Mage_Bac
     }
 
     /**
-     * @magentoDataFixture Mage/Core/_files/design_change.php
+     * @magentoDataFixture Magento/Core/_files/design_change.php
      * @magentoDataFixture Mage/Cms/_files/pages.php
      */
     public function testDropAction()

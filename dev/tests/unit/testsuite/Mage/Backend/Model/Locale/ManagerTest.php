@@ -17,7 +17,7 @@ class Mage_Backend_Model_Locale_ManagerTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Mage_Core_Model_Translate
+     * @var Magento_Core_Model_Translate
      */
     protected $_translator;
 
@@ -44,7 +44,7 @@ class Mage_Backend_Model_Locale_ManagerTest extends PHPUnit_Framework_TestCase
             ->method('getUser')
             ->will($this->returnValue($userMock));
 
-        $this->_translator = $this->getMock('Mage_Core_Model_Translate',
+        $this->_translator = $this->getMock('Magento_Core_Model_Translate',
             array(), array(), '', false);
 
         $this->_translator->expects($this->any())
@@ -96,7 +96,7 @@ class Mage_Backend_Model_Locale_ManagerTest extends PHPUnit_Framework_TestCase
     {
         $locale = $this->_model->getUserInterfaceLocale();
 
-        $this->assertEquals($locale, Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE);
+        $this->assertEquals($locale, Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE);
     }
 
     /**

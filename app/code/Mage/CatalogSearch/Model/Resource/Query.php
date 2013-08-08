@@ -16,7 +16,7 @@
  * @package     Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Resource_Query extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_CatalogSearch_Model_Resource_Query extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Init resource data
@@ -29,11 +29,11 @@ class Mage_CatalogSearch_Model_Resource_Query extends Mage_Core_Model_Resource_D
     /**
      * Custom load model by search query string
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param string $value
      * @return Mage_CatalogSearch_Model_Resource_Query
      */
-    public function loadByQuery(Mage_Core_Model_Abstract $object, $value)
+    public function loadByQuery(Magento_Core_Model_Abstract $object, $value)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
@@ -53,11 +53,11 @@ class Mage_CatalogSearch_Model_Resource_Query extends Mage_Core_Model_Resource_D
     /**
      * Custom load model only by query text (skip synonym for)
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param string $value
      * @return Mage_CatalogSearch_Model_Resource_Query
      */
-    public function loadByQueryText(Mage_Core_Model_Abstract $object, $value)
+    public function loadByQueryText(Magento_Core_Model_Abstract $object, $value)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
@@ -75,12 +75,12 @@ class Mage_CatalogSearch_Model_Resource_Query extends Mage_Core_Model_Resource_D
     /**
      * Loading string as a value or regular numeric
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param int|string $value
      * @param null|string $field
      * @return Mage_CatalogSearch_Model_Resource_Query
      */
-    public function load(Mage_Core_Model_Abstract $object, $value, $field = null)
+    public function load(Magento_Core_Model_Abstract $object, $value, $field = null)
     {
         if (is_numeric($value)) {
             return parent::load($object, $value);
@@ -91,12 +91,12 @@ class Mage_CatalogSearch_Model_Resource_Query extends Mage_Core_Model_Resource_D
     }
 
     /**
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_CatalogSearch_Model_Resource_Query
      */
-    public function _beforeSave(Mage_Core_Model_Abstract $object)
+    public function _beforeSave(Magento_Core_Model_Abstract $object)
     {
-        $object->setUpdatedAt($this->formatDate(Mage::getModel('Mage_Core_Model_Date')->gmtTimestamp()));
+        $object->setUpdatedAt($this->formatDate(Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp()));
         return $this;
     }
 }

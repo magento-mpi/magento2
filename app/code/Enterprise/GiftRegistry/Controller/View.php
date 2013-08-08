@@ -11,7 +11,7 @@
 /**
  * Gift registry frontend controller
  */
-class Enterprise_GiftRegistry_Controller_View extends Mage_Core_Controller_Front_Action
+class Enterprise_GiftRegistry_Controller_View extends Magento_Core_Controller_Front_Action
 {
     /**
      * Check if gift registry is enabled on current store before all other actions
@@ -65,7 +65,7 @@ class Enterprise_GiftRegistry_Controller_View extends Mage_Core_Controller_Front
         }
         /* @var Mage_Checkout_Model_Cart */
         $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
-        /* @var $session Mage_Core_Model_Session_Generic */
+        /* @var $session Magento_Core_Model_Session_Generic */
         $session    = Mage::getSingleton('Mage_Customer_Model_Session');
         $success = false;
 
@@ -88,7 +88,7 @@ class Enterprise_GiftRegistry_Controller_View extends Mage_Core_Controller_Front
                 $success = false;
                 $session->addError(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter the quantity of items to add to cart.'));
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $session->addError(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__($e->getMessage()));
         } catch (Exception $e) {
             $session->addException($e, Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('We cannot add this item to your shopping cart.'));

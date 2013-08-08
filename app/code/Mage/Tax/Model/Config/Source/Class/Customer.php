@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Tax_Model_Config_Source_Class_Customer implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Tax_Model_Config_Source_Class_Customer implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Retrieve a list of customer tax classes

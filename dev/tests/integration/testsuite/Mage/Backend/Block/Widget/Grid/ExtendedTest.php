@@ -20,7 +20,7 @@ class Mage_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_Test
     protected $_block;
 
     /**
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layoutMock;
 
@@ -28,7 +28,7 @@ class Mage_Backend_Block_Widget_Grid_ExtendedTest extends PHPUnit_Framework_Test
     {
         parent::setUp();
 
-        $this->_layoutMock = Mage::getModel('Mage_Core_Model_Layout');
+        $this->_layoutMock = Mage::getModel('Magento_Core_Model_Layout');
         $context = Mage::getModel('Mage_Backend_Block_Template_Context', array('layout' => $this->_layoutMock));
         $this->_block = $this->_layoutMock->createBlock(
             'Mage_Backend_Block_Widget_Grid_Extended', 'grid', array('context' => $context)

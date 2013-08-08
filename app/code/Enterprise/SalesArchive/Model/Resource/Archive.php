@@ -16,7 +16,7 @@
  * @package     Enterprise_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_SalesArchive_Model_Resource_Archive extends Mage_Core_Model_Resource_Db_Abstract
+class Enterprise_SalesArchive_Model_Resource_Archive extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Archive entities tables association

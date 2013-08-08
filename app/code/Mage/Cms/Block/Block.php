@@ -16,7 +16,7 @@
  * @package    Mage_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Block_Block extends Mage_Core_Block_Abstract
+class Mage_Cms_Block_Block extends Magento_Core_Block_Abstract
 {
     /**
      * Prepare Content HTML

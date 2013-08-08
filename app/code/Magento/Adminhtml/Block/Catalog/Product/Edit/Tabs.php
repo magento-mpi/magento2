@@ -103,7 +103,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
                 unset($advancedGroups['advanced-pricing']);
             }
 
-            if (Mage::helper('Mage_Core_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
+            if (Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
                 $this->addTab('advanced-inventory', array(
                     'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Advanced Inventory'),
                     'content'   => $this->_translateHtml($this->getLayout()

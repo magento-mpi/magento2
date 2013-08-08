@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Controller_Pbridge extends Mage_Core_Controller_Front_Action
+class Enterprise_Pbridge_Controller_Pbridge extends Magento_Core_Controller_Front_Action
 {
     /**
      * Load only action layout handles
@@ -142,6 +142,6 @@ class Enterprise_Pbridge_Controller_Pbridge extends Mage_Core_Controller_Front_A
                 $result['error_messages'] = $this->__('Please agree to all the terms and conditions before placing the order.');
             }
         }
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
     }
 }

@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_GroupTest extends PHPUnit_F
 
         $registryData = array(
             'store_type' => 'group',
-            'store_data' => Mage::getModel('Mage_Core_Model_Store_Group'),
+            'store_data' => Mage::getModel('Magento_Core_Model_Store_Group'),
             'store_action' => 'add'
         );
         foreach ($registryData as $key => $value) {
@@ -34,8 +34,8 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_GroupTest extends PHPUnit_F
         }
 
 
-        /** @var $layout Mage_Core_Model_Layout */
-        $layout = Mage::getModel('Mage_Core_Model_Layout');
+        /** @var $layout Magento_Core_Model_Layout */
+        $layout = Mage::getModel('Magento_Core_Model_Layout');
 
         $this->_block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Edit_Form_Group');
 

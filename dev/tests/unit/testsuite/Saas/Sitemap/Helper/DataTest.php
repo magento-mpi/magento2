@@ -19,7 +19,7 @@ class Saas_Sitemap_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_ConfigInterface');
+        $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_ConfigInterface');
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_helperData = $objectManagerHelper->getObject('Saas_Sitemap_Helper_Data', array(

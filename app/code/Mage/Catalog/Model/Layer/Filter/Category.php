@@ -64,7 +64,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
      * Apply category filter to layer
      *
      * @param   Zend_Controller_Request_Abstract $request
-     * @param   Mage_Core_Block_Abstract $filterBlock
+     * @param   Magento_Core_Block_Abstract $filterBlock
      * @return  Mage_Catalog_Model_Layer_Filter_Category
      */
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
@@ -149,7 +149,7 @@ class Mage_Catalog_Model_Layer_Filter_Category extends Mage_Catalog_Model_Layer_
         foreach ($categories as $category) {
             if ($category->getIsActive() && $category->getProductCount()) {
                 $data[] = array(
-                    'label' => Mage::helper('Mage_Core_Helper_Data')->escapeHtml($category->getName()),
+                    'label' => Mage::helper('Magento_Core_Helper_Data')->escapeHtml($category->getName()),
                     'value' => $category->getId(),
                     'count' => $category->getProductCount(),
                 );

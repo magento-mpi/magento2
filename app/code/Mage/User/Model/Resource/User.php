@@ -16,7 +16,7 @@
  * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_User_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * @var Magento_Acl_CacheInterface
@@ -24,10 +24,10 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     protected $_aclCache;
 
     /**
-     * @param Mage_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Resource $resource
      * @param Magento_Acl_CacheInterface $aclCache
      */
-    public function __construct(Mage_Core_Model_Resource $resource, Magento_Acl_CacheInterface $aclCache)
+    public function __construct(Magento_Core_Model_Resource $resource, Magento_Acl_CacheInterface $aclCache)
     {
         $this->_aclCache = $aclCache;
         parent::__construct($resource);
@@ -110,14 +110,14 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Check if user is assigned to any role
      *
-     * @param int|Mage_Core_Admin_Model_User $user
+     * @param int|Magento_Core_Admin_Model_User $user
      * @return null|false|array
      */
     public function hasAssigned2Role($user)
     {
         if (is_numeric($user)) {
             $userId = $user;
-        } else if ($user instanceof Mage_Core_Model_Abstract) {
+        } else if ($user instanceof Magento_Core_Model_Abstract) {
             $userId = $user->getUserId();
         } else {
             return null;
@@ -145,10 +145,10 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Set created/modified values before user save
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return Mage_User_Model_Resource_User
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $user)
+    protected function _beforeSave(Magento_Core_Model_Abstract $user)
     {
         if ($user->isObjectNew()) {
             $user->setCreated($this->formatDate(true));
@@ -161,10 +161,10 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Unserialize user extra data after user save
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return Mage_User_Model_Resource_User
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $user)
+    protected function _afterSave(Magento_Core_Model_Abstract $user)
     {
         $user->setExtra(unserialize($user->getExtra()));
         if ($user->hasRoleId()) {
@@ -221,10 +221,10 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Unserialize user extra data after user load
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return Mage_User_Model_Resource_User
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $user)
+    protected function _afterLoad(Magento_Core_Model_Abstract $user)
     {
         if (is_string($user->getExtra())) {
             $user->setExtra(unserialize($user->getExtra()));
@@ -235,11 +235,11 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Delete user role record with user
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return bool
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
-    public function delete(Mage_Core_Model_Abstract $user)
+    public function delete(Magento_Core_Model_Abstract $user)
     {
         $this->_beforeDelete($user);
         $adapter = $this->_getWriteAdapter();
@@ -253,7 +253,7 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
 
             $adapter->delete($this->getMainTable(), $conditions);
             $adapter->delete($this->getTable('admin_role'), $conditions);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             throw $e;
             return false;
         } catch (Exception $e){
@@ -268,10 +268,10 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Get user roles
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return array
      */
-    public function getRoles(Mage_Core_Model_Abstract $user)
+    public function getRoles(Magento_Core_Model_Abstract $user)
     {
         if ( !$user->getId() ) {
             return array();
@@ -305,10 +305,10 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Delete user role
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return Mage_User_Model_Resource_User
      */
-    public function deleteFromRole(Mage_Core_Model_Abstract $user)
+    public function deleteFromRole(Magento_Core_Model_Abstract $user)
     {
         if ( $user->getUserId() <= 0 ) {
             return $this;
@@ -331,10 +331,10 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Check if role user exists
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return array|false
      */
-    public function roleUserExists(Mage_Core_Model_Abstract $user)
+    public function roleUserExists(Magento_Core_Model_Abstract $user)
     {
         if ( $user->getUserId() > 0 ) {
             $roleTable = $this->getTable('admin_role');
@@ -359,10 +359,10 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Check if user exists
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return array|false
      */
-    public function userExists(Mage_Core_Model_Abstract $user)
+    public function userExists(Magento_Core_Model_Abstract $user)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select();
@@ -383,10 +383,10 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Whether a user's identity is confirmed
      *
-     * @param Mage_Core_Model_Abstract $user
+     * @param Magento_Core_Model_Abstract $user
      * @return bool
      */
-    public function isUserUnique(Mage_Core_Model_Abstract $user)
+    public function isUserUnique(Magento_Core_Model_Abstract $user)
     {
         return !$this->userExists($user);
     }
@@ -394,7 +394,7 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Save user extra data
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param string $data
      * @return Mage_User_Model_Resource_User
      */

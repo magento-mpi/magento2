@@ -16,7 +16,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Sales_Model_Resource_Collection_Abstract extends Mage_Core_Model_Resource_Db_Collection_Abstract
+abstract class Mage_Sales_Model_Resource_Collection_Abstract extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Check if $attribute is Mage_Eav_Model_Entity_Attribute and convert to string field name

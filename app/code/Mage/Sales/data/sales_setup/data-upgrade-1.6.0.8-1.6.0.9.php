@@ -10,8 +10,8 @@
 
 /** @var $installer Mage_Sales_Model_Resource_Setup */
 $installer = $this;
-/** @var Mage_Core_Helper_Data $converter */
-$converter = Mage::helper('Mage_Core_Helper_Data');
+/** @var Magento_Core_Helper_Data $converter */
+$converter = Mage::helper('Magento_Core_Helper_Data');
 
 $installer->startSetup();
 $itemsPerPage = 1000;

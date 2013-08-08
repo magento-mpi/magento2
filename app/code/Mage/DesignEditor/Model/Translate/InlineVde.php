@@ -3,14 +3,14 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 /**
  * Inline translation specific to Vde.
  */
-class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Translate_InlineInterface
+class Mage_DesignEditor_Model_Translate_InlineVde implements Magento_Core_Model_Translate_InlineInterface
 {
     /**
      * data-translate-mode attribute name
@@ -48,12 +48,12 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
     protected $_helper;
 
     /**
-     * @var Mage_Core_Model_Translate_InlineParser
+     * @var Magento_Core_Model_Translate_InlineParser
      */
     protected $_parser;
 
     /**
-     * @var Mage_Core_Model_Url
+     * @var Magento_Core_Model_Url
      */
     protected $_url;
 
@@ -72,15 +72,15 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
     /**
      * Initialize inline translation model specific for vde
      *
-     * @param Mage_Core_Model_Translate_InlineParser $parser
+     * @param Magento_Core_Model_Translate_InlineParser $parser
      * @param Mage_DesignEditor_Helper_Data $helper
-     * @param Mage_Core_Model_Url $url
+     * @param Magento_Core_Model_Url $url
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
-        Mage_Core_Model_Translate_InlineParser $parser,
+        Magento_Core_Model_Translate_InlineParser $parser,
         Mage_DesignEditor_Helper_Data $helper,
-        Mage_Core_Model_Url $url,
+        Magento_Core_Model_Url $url,
         Magento_ObjectManager $objectManager
     ) {
         $this->_parser = $parser;
@@ -147,8 +147,8 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Mage_Core_Model_Tra
             Mage_DesignEditor_Helper_Data::TRANSLATION_MODE => $this->_helper->getTranslationMode()
         ));
 
-        /** @var $block Mage_Core_Block_Template */
-        $block = $this->_objectManager->create('Mage_Core_Block_Template');
+        /** @var $block Magento_Core_Block_Template */
+        $block = $this->_objectManager->create('Magento_Core_Block_Template');
 
         $block->setArea($this->_parser->getDesignPackage()->getArea());
         $block->setAjaxUrl($ajaxUrl);

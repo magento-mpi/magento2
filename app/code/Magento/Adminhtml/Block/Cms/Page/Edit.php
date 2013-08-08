@@ -95,7 +95,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit extends Magento_Adminhtml_Block_Widg
     /**
      * Prepare layout
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {

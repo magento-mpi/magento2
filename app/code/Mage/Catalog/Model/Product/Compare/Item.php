@@ -25,7 +25,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
+class Mage_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abstract
 {
 
     /**

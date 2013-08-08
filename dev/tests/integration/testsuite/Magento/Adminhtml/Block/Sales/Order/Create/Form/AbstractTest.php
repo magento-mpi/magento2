@@ -20,13 +20,13 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
      */
     public function testAddAttributesToForm()
     {
-        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         $arguments = array(
             Mage::getObjectManager()->get('Mage_Backend_Block_Template_Context')
         );
         /** @var $block Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract */
         $block = $this->getMockForAbstractClass('Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract', $arguments);
-        $block->setLayout(Mage::getObjectManager()->create('Mage_Core_Model_Layout'));
+        $block->setLayout(Mage::getObjectManager()->create('Magento_Core_Model_Layout'));
 
         $method = new ReflectionMethod(
             'Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract', '_addAttributesToForm');

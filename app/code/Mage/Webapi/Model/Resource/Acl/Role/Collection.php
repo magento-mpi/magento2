@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Resource_Acl_Role_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Webapi_Model_Resource_Acl_Role_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Resource collection initialization.

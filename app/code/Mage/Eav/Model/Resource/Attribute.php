@@ -40,10 +40,10 @@ abstract class Mage_Eav_Model_Resource_Attribute extends Mage_Eav_Model_Resource
     /**
      * Perform actions before object save
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Attribute
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         $validateRules = $object->getData('validate_rules');
         if (is_array($validateRules)) {
@@ -57,7 +57,7 @@ abstract class Mage_Eav_Model_Resource_Attribute extends Mage_Eav_Model_Resource
      *
      * @param string $field
      * @param mixed $value
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Magento_DB_Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -89,10 +89,10 @@ abstract class Mage_Eav_Model_Resource_Attribute extends Mage_Eav_Model_Resource
     /**
      * Save attribute/form relations after attribute save
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Eav_Model_Resource_Attribute
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $forms      = $object->getData('used_in_forms');
         $adapter    = $this->_getWriteAdapter();
@@ -177,10 +177,10 @@ abstract class Mage_Eav_Model_Resource_Attribute extends Mage_Eav_Model_Resource
     /**
      * Return forms in which the attribute
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return array
      */
-    public function getUsedInForms(Mage_Core_Model_Abstract $object)
+    public function getUsedInForms(Magento_Core_Model_Abstract $object)
     {
         $adapter = $this->_getReadAdapter();
         $bind    = array('attribute_id' => (int)$object->getId());

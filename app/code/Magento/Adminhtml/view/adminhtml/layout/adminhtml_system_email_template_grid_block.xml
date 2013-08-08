@@ -13,7 +13,7 @@
             <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.system.email.template.grid" as="grid">
                 <arguments>
                     <id>systemEmailTemplateGrid</id>
-                    <dataSource type="object">Mage_Core_Model_Resource_Email_Template_Collection</dataSource>
+                    <dataSource type="object">Magento_Core_Model_Resource_Email_Template_Collection</dataSource>
                     <use_ajax>1</use_ajax>
                     <save_parameters_in_session>1</save_parameters_in_session>
                     <grid_url type="url">

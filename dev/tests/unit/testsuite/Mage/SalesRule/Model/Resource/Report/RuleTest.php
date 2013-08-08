@@ -45,8 +45,8 @@ class Mage_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework_Te
             ->with($select)
             ->will($this->returnCallback(array($this, 'fetchAllCallback')));
 
-        $resourceMock = $this->getMock('Mage_Core_Model_Resource', array('getConnection', 'getTableName'), array(), '',
-            false
+        $resourceMock = $this->getMock('Magento_Core_Model_Resource',
+            array('getConnection', 'getTableName'), array(), '', false
         );
         $resourceMock->expects($this->any())
             ->method('getConnection')

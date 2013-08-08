@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Helper_Catalog extends Mage_Core_Helper_Abstract
+class Magento_Adminhtml_Helper_Catalog extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_SITEMAP_VALID_PATHS = 'general/file/sitemap_generate_valid_paths';
 
@@ -85,8 +85,8 @@ class Magento_Adminhtml_Helper_Catalog extends Mage_Core_Helper_Abstract
     public function getSitemapValidPaths()
     {
         $path = Mage::getStoreConfig(self::XML_PATH_SITEMAP_VALID_PATHS);
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::helper('Mage_Core_Helper_Data');
+        /** @var $helper Magento_Core_Helper_Data */
+        $helper = Mage::helper('Magento_Core_Helper_Data');
         $path = array_merge($path, $helper->getPublicFilesValidPath());
         return $path;
     }

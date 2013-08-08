@@ -255,7 +255,7 @@ class Mage_Shipping_Model_Shipping
                        if ($itemWeight > $maxWeight) {
                            $qtyItem = floor($itemWeight / $maxWeight);
                            $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
-                           $weightItem = Mage::helper('Mage_Core_Helper_Data')->getExactDivision($itemWeight, $maxWeight);
+                           $weightItem = Mage::helper('Magento_Core_Helper_Data')->getExactDivision($itemWeight, $maxWeight);
                            if ($weightItem) {
                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
                            }
@@ -389,7 +389,7 @@ class Mage_Shipping_Model_Shipping
      *
      * @param string $carrierCode
      * @param null|int $storeId
-     * @return bool|Mage_Core_Model_Abstract
+     * @return bool|Magento_Core_Model_Abstract
      */
     public function getCarrierByCode($carrierCode, $storeId = null)
     {

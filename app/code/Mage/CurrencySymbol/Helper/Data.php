@@ -15,7 +15,7 @@
  * @package    Mage_CurrencySymbol
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CurrencySymbol_Helper_Data extends Mage_Core_Helper_Data
+class Mage_CurrencySymbol_Helper_Data extends Magento_Core_Helper_Data
 {
 
     /**

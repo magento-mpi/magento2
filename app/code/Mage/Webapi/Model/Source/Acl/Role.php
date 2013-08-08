@@ -15,7 +15,7 @@
  * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Webapi_Model_Source_Acl_Role implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Webapi_Model_Source_Acl_Role implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Mage_Webapi_Model_Resource_Acl_Role

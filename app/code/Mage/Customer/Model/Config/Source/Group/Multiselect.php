@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Customer_Model_Config_Source_Group_Multiselect implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Customer_Model_Config_Source_Group_Multiselect implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Customer groups options array

@@ -48,13 +48,13 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
             Mage_Index_Model_Event::TYPE_MASS_ACTION,
             Mage_Index_Model_Event::TYPE_DELETE
         ),
-        Mage_Core_Model_Store::ENTITY => array(
+        Magento_Core_Model_Store::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
-        Mage_Core_Model_Store_Group::ENTITY => array(
+        Magento_Core_Model_Store_Group::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
-        Mage_Core_Model_Config_Data::ENTITY => array(
+        Magento_Core_Model_Config_Data::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
     );
@@ -123,23 +123,23 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
         }
 
         $entity = $event->getEntity();
-        if ($entity == Mage_Core_Model_Store::ENTITY) {
-            /* @var $store Mage_Core_Model_Store */
+        if ($entity == Magento_Core_Model_Store::ENTITY) {
+            /* @var $store Magento_Core_Model_Store */
             $store = $event->getDataObject();
             if ($store && $store->isObjectNew()) {
                 $result = true;
             } else {
                 $result = false;
             }
-        } else if ($entity == Mage_Core_Model_Store_Group::ENTITY) {
-            /* @var $storeGroup Mage_Core_Model_Store_Group */
+        } else if ($entity == Magento_Core_Model_Store_Group::ENTITY) {
+            /* @var $storeGroup Magento_Core_Model_Store_Group */
             $storeGroup = $event->getDataObject();
             if ($storeGroup && $storeGroup->dataHasChangedFor('website_id')) {
                 $result = true;
             } else {
                 $result = false;
             }
-        } else if ($entity == Mage_Core_Model_Config_Data::ENTITY) {
+        } else if ($entity == Magento_Core_Model_Config_Data::ENTITY) {
             $configData = $event->getDataObject();
             if ($configData && in_array($configData->getPath(), $this->_relatedConfigSettings)) {
                 $result = $configData->isValueChanged();
@@ -172,14 +172,14 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
                 $this->_registerCatalogProductEvent($event);
                 break;
 
-            case Mage_Core_Model_Store::ENTITY:
-            case Mage_Core_Model_Store_Group::ENTITY:
-            case Mage_Core_Model_Config_Data::ENTITY:
+            case Magento_Core_Model_Store::ENTITY:
+            case Magento_Core_Model_Store_Group::ENTITY:
+            case Magento_Core_Model_Config_Data::ENTITY:
                 $event->addNewData('cataloginventory_stock_skip_call_event_handler', true);
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
 
-                if ($event->getEntity() == Mage_Core_Model_Config_Data::ENTITY) {
+                if ($event->getEntity() == Magento_Core_Model_Config_Data::ENTITY) {
                     $configData = $event->getDataObject();
                     if ($configData->getPath() == Mage_CatalogInventory_Helper_Data::XML_PATH_SHOW_OUT_OF_STOCK) {
                         Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_product_price')

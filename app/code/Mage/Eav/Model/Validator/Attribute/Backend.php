@@ -20,15 +20,15 @@ class Mage_Eav_Model_Validator_Attribute_Backend extends Magento_Validator_Valid
     /**
      * Returns true if and only if $value meets the validation requirements.
      *
-     * @param Mage_Core_Model_Abstract $entity
+     * @param Magento_Core_Model_Abstract $entity
      * @return boolean
      * @throws InvalidArgumentException
      */
     public function isValid($entity)
     {
         $this->_messages = array();
-        if (!($entity instanceof Mage_Core_Model_Abstract)) {
-            throw new InvalidArgumentException('Model must be extended from Mage_Core_Model_Abstract');
+        if (!($entity instanceof Magento_Core_Model_Abstract)) {
+            throw new InvalidArgumentException('Model must be extended from Magento_Core_Model_Abstract');
         }
         /** @var Mage_Eav_Model_Entity_Abstract $resource */
         $resource = $entity->getResource();
@@ -52,7 +52,7 @@ class Mage_Eav_Model_Validator_Attribute_Backend extends Magento_Validator_Valid
                 } elseif (is_string($result)) {
                     $this->_messages[$attribute->getAttributeCode()][] = $result;
                 }
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_messages[$attribute->getAttributeCode()][] = $e->getMessage();
             }
         }

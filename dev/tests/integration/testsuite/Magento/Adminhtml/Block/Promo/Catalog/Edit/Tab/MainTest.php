@@ -21,11 +21,11 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_MainTest extends PHPUnit_Fr
      */
     public function testPrepareForm()
     {
-        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         Mage::register('current_promo_catalog_rule', Mage::getObjectManager()->create('Mage_CatalogRule_Model_Rule'));
 
         $block = Mage::getObjectManager()->create('Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main');
-        $block->setLayout(Mage::getObjectManager()->create('Mage_Core_Model_Layout'));
+        $block->setLayout(Mage::getObjectManager()->create('Magento_Core_Model_Layout'));
         $prepareFormMethod = new ReflectionMethod(
             'Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main', '_prepareForm');
         $prepareFormMethod->setAccessible(true);

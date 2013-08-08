@@ -17,7 +17,7 @@
  */
 
 class Mage_Sales_Block_Widget_Guest_Form
-    extends Mage_Core_Block_Template
+    extends Magento_Core_Block_Template
     implements Mage_Widget_Block_Interface
 {
     /**
@@ -37,7 +37,7 @@ class Mage_Sales_Block_Widget_Guest_Form
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Mage_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
             ->setData(array(
                 'id'    => 'quick_search_type_id',
                 'class' => 'select guest-select',

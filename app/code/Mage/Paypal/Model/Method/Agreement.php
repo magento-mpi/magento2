@@ -65,7 +65,7 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
      * Store setter
      * Also updates store ID in config object
      *
-     * @param Mage_Core_Model_Store|int $store
+     * @param Magento_Core_Model_Store|int $store
      */
     public function setStore($store)
     {
@@ -147,7 +147,7 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
             ->setBillingAgreementStatus($targetStatus);
         try {
             $api->callUpdateBillingAgreement();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // when BA was already canceled, just pretend that the operation succeeded
             if (!(Mage_Sales_Model_Billing_Agreement::STATUS_CANCELED == $targetStatus
                 && $api->getIsBillingAgreementAlreadyCancelled())) {

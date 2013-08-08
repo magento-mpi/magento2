@@ -39,7 +39,7 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
 
     public function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Enterprise_Reward_Helper_Data', array(), array(), '', false);
         $this->_modelFactoryMock =
             $this->getMock('Enterprise_Reward_Model_RewardFactory', array('create'), array(), '', false);
@@ -58,7 +58,7 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
     public function testValidateWhenBalanceAboveNull()
     {
         $this->_orderMock->expects($this->any())->method('getRewardPointsBalance')->will($this->returnValue(1));
-        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->once())->method('getWebsiteId');
         $reward = $this->getMock('Enterprise_Reward_Model_Reward', array('getPointsBalance'), array(), '', false);
@@ -74,7 +74,7 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
     public function testValidateWhenBalanceNotEnoughToPlaceOrder()
     {
         $this->_orderMock->expects($this->any())->method('getRewardPointsBalance')->will($this->returnValue(1));
-        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->once())->method('getWebsiteId');
         $reward = $this->getMock('Enterprise_Reward_Model_Reward', array('getPointsBalance'), array(), '', false);

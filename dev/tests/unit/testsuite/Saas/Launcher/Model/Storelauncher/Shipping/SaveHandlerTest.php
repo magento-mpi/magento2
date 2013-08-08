@@ -19,7 +19,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit
     protected function setUp()
     {
         // Mock core configuration model
-        $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $config = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         // Mock shipping save handler factory
         $saveHandlerFactory = $this->getMock('Saas_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory',
             array(), array(), '', false);
@@ -79,7 +79,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit
             ->will($this->returnValue($shippingSaveHandler));
 
         // Mock core configuration model
-        $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $config = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
 
         $saveHandler = new Saas_Launcher_Model_Storelauncher_Shipping_SaveHandler(
             $config,

@@ -15,7 +15,7 @@
  * @package     Mage_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Page_Block_Html_Topmenu extends Mage_Core_Block_Template
+class Mage_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
 {
     /**
      * Top menu data tree
@@ -37,7 +37,7 @@ class Mage_Page_Block_Html_Topmenu extends Mage_Core_Block_Template
         $this->addData(array(
             'cache_lifetime'    => false,
             'cache_tags'        => array(
-                Mage_Core_Model_Store_Group::CACHE_TAG
+                Magento_Core_Model_Store_Group::CACHE_TAG
             ),
         ));
     }

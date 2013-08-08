@@ -528,7 +528,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Magento_Object
      *
      * @param Mage_Payment_Model_Info $payment
      * @return bool
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function acceptPayment(Mage_Payment_Model_Info $payment)
     {
@@ -543,7 +543,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Magento_Object
      *
      * @param Mage_Payment_Model_Info $payment
      * @return bool
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function denyPayment(Mage_Payment_Model_Info $payment)
     {
@@ -567,7 +567,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Magento_Object
      * Retrieve information from payment configuration
      *
      * @param string $field
-     * @param int|string|null|Mage_Core_Model_Store $storeId
+     * @param int|string|null|Magento_Core_Model_Store $storeId
      *
      * @return mixed
      */
@@ -726,7 +726,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Magento_Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            Mage::getModel('Mage_Core_Model_Log_Adapter', array('fileName' => 'payment_' . $this->getCode() . '.log'))
+            Mage::getModel('Magento_Core_Model_Log_Adapter', array('fileName' => 'payment_' . $this->getCode() . '.log'))
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

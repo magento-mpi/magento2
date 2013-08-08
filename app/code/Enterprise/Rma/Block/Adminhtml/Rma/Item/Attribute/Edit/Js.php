@@ -26,7 +26,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Js
      */
     public function getValidateFiltersJson()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
             Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeValidateFilters()
         );
     }
@@ -38,7 +38,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Js
      */
     public function getFilteTypesJson()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
             Mage::helper('Enterprise_Rma_Helper_Eav')->getAttributeFilterTypes()
         );
     }

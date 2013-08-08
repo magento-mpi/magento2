@@ -152,7 +152,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Magento_Adminhtml
     /**
      * Return current store from registry
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function getStore()
     {

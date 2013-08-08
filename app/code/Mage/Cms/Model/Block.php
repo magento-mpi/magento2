@@ -31,7 +31,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Cms_Model_Block extends Mage_Core_Model_Abstract
+class Mage_Cms_Model_Block extends Magento_Core_Model_Abstract
 {
     const CACHE_TAG     = 'cms_block';
     protected $_cacheTag= 'cms_block';
@@ -51,8 +51,8 @@ class Mage_Cms_Model_Block extends Mage_Core_Model_Abstract
     /**
      * Prevent blocks recursion
      *
-     * @throws Mage_Core_Exception
-     * @return Mage_Core_Model_Abstract
+     * @throws Magento_Core_Exception
+     * @return Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {

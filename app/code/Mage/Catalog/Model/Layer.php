@@ -172,7 +172,7 @@ class Mage_Catalog_Model_Layer extends Magento_Object
     /**
      * Retrieve current store model
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getCurrentStore()
     {

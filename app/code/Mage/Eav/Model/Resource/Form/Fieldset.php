@@ -16,7 +16,7 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Resource_Form_Fieldset extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Eav_Model_Resource_Form_Fieldset extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize connection and define main table
@@ -36,7 +36,7 @@ class Mage_Eav_Model_Resource_Form_Fieldset extends Mage_Core_Model_Resource_Db_
      * @param Mage_Eav_Model_Form_Fieldset $object
      * @return Mage_Eav_Model_Resource_Form_Fieldset
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         if ($object->hasLabels()) {
             $new        = $object->getLabels();

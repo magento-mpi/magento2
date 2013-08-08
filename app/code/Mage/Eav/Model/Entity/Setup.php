@@ -16,29 +16,29 @@
  * @package    Mage_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
+class Mage_Eav_Model_Entity_Setup extends Magento_Core_Model_Resource_Setup
 {
     /**
      * Application cache model
      *
-     * @var Mage_Core_Model_CacheInterface
+     * @var Magento_Core_Model_CacheInterface
      */
     protected $_cache;
 
     /**
-     * @param Mage_Core_Model_Config_Resource $resourcesConfig
-     * @param Mage_Core_Model_Config_Modules $modulesConfig
-     * @param Mage_Core_Model_Resource $resource
-     * @param Mage_Core_Model_Config_Modules_Reader $modulesReader
-     * @param Mage_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Config_Resource $resourcesConfig
+     * @param Magento_Core_Model_Config_Modules $modulesConfig
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_CacheInterface $cache
      * @param string $resourceName
      */
     public function __construct(
-        Mage_Core_Model_Config_Resource $resourcesConfig,
-        Mage_Core_Model_Config_Modules $modulesConfig,
-        Mage_Core_Model_Resource $resource,
-        Mage_Core_Model_Config_Modules_Reader $modulesReader,
-        Mage_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Config_Resource $resourcesConfig,
+        Magento_Core_Model_Config_Modules $modulesConfig,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_CacheInterface $cache,
         $resourceName
     )
     {

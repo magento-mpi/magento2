@@ -62,7 +62,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
             array(), array(), '', false, false
         );
 
-        $requestMock = $this->getMock('Mage_Core_Controller_Request_Http',
+        $requestMock = $this->getMock('Magento_Core_Controller_Request_Http',
             array(), array(), '', false, false
         );
         $requestParams = array(
@@ -76,7 +76,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
 
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false, false);
 
-        $layoutMock = $this->getMock('Mage_Core_Model_Layout',
+        $layoutMock = $this->getMock('Magento_Core_Model_Layout',
             array(), array(), '', false, false
         );
         $layoutMock->expects($this->any())->method('helper')->will($this->returnValue($helperMock));
@@ -94,7 +94,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         $this->_fieldFactoryMock = $this->getMock('Mage_Backend_Block_System_Config_Form_Field_Factory',
             array(), array(), '', false, false
         );
-        $this->_coreConfigMock = $this->getMock('Mage_Core_Model_Config',
+        $this->_coreConfigMock = $this->getMock('Magento_Core_Model_Config',
             array(), array(), '', false, false
         );
 
@@ -303,7 +303,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
      */
     public function initFieldsDataProvider()
     {
-        $xmlConfig = new Mage_Core_Model_Config_Element('
+        $xmlConfig = new Magento_Core_Model_Config_Element('
             <default>
                 <some>
                     <config>

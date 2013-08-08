@@ -15,7 +15,7 @@
  * @package    Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Category_View extends Magento_Core_Block_Template
 {
     protected function _prepareLayout()
     {

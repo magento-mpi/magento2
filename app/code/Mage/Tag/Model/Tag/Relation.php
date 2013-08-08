@@ -31,7 +31,7 @@
  * @package     Mage_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Model_Tag_Relation extends Mage_Core_Model_Abstract
+class Mage_Tag_Model_Tag_Relation extends Magento_Core_Model_Abstract
 {
     /**
      * Relation statuses

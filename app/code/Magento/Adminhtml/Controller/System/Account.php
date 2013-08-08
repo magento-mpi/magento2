@@ -52,7 +52,7 @@ class Magento_Adminhtml_Controller_System_Account extends Magento_Adminhtml_Cont
             $user->setPasswordConfirmation($passwordConfirmation);
         }
 
-        if ($this->_objectManager->get('Mage_Core_Model_Locale_Validator')->isValid($interfaceLocale)) {
+        if ($this->_objectManager->get('Magento_Core_Model_Locale_Validator')->isValid($interfaceLocale)) {
 
             $user->setInterfaceLocale($interfaceLocale);
             $this->_objectManager->get('Mage_Backend_Model_Locale_Manager')
@@ -65,7 +65,7 @@ class Magento_Adminhtml_Controller_System_Account extends Magento_Adminhtml_Cont
             $this->_getSession()->addSuccess(
                 $this->__('The account has been saved.')
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addMessages($e->getMessages());
         } catch (Exception $e) {
             $this->_getSession()->addError(

@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Ogone_Block_Paypage extends Mage_Core_Block_Template
+class Mage_Ogone_Block_Paypage extends Magento_Core_Block_Template
 {
     protected $_template = 'paypage.phtml';
 }

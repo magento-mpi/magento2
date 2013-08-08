@@ -45,7 +45,7 @@ class Mage_Rss_Block_Catalog_Abstract extends Mage_Rss_Block_Abstract
      * Return Price Block renderer for specified product type
      *
      * @param string $productTypeId Catalog Product type
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _getPriceBlock($productTypeId)
     {

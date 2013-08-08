@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_System_Email_Template extends Magento_Adminhtml_Bl
     /**
      * Create add button and grid blocks
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {

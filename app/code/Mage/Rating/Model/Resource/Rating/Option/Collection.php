@@ -16,7 +16,7 @@
  * @package     Mage_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rating_Model_Resource_Rating_Option_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Rating_Model_Resource_Rating_Option_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Rating votes table

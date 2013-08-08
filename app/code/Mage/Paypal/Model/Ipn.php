@@ -252,7 +252,7 @@ class Mage_Paypal_Model_Ipn
                 default:
                     $this->_registerTransaction();
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $comment = $this->_createIpnComment(Mage::helper('Mage_Paypal_Helper_Data')->__('Note: %s', $e->getMessage()), true);
             $comment->save();
             throw $e;
@@ -374,7 +374,7 @@ class Mage_Paypal_Model_Ipn
                 default:
                     throw new Exception("Cannot handle payment status '{$paymentStatus}'.");
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $comment = $this->_createIpnComment(Mage::helper('Mage_Paypal_Helper_Data')->__('Note: %s', $e->getMessage()), true);
             $comment->save();
             throw $e;
@@ -402,7 +402,7 @@ class Mage_Paypal_Model_Ipn
                 default:
                     throw new Exception("Cannot handle payment status '{$paymentStatus}'.");
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
 // TODO: add to payment profile comments
 //            $comment = $this->_createIpnComment(Mage::helper('Mage_Paypal_Helper_Data')->__('Note: %s', $e->getMessage()), true);
 //            $comment->save();
@@ -741,7 +741,7 @@ class Mage_Paypal_Model_Ipn
         if ($this->_config && $this->_config->debug) {
             $file = $this->_config->getMethodCode() ? "payment_{$this->_config->getMethodCode()}.log"
                 : self::DEFAULT_LOG_FILE;
-            Mage::getModel('Mage_Core_Model_Log_Adapter', array('fileName' => $file))->log($this->_debugData);
+            Mage::getModel('Magento_Core_Model_Log_Adapter', array('fileName' => $file))->log($this->_debugData);
         }
     }
 }

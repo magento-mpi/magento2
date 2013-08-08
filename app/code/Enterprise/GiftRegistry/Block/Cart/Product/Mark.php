@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftRegistry_Block_Cart_Product_Mark extends Mage_Core_Block_Template
+class Enterprise_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block_Template
 {
     /**
      * Check whether module is available

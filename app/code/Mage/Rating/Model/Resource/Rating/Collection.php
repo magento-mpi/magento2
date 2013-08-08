@@ -15,12 +15,12 @@
  * @package     Mage_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Application instance
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_app;
 
@@ -28,18 +28,18 @@ class Mage_Rating_Model_Resource_Rating_Collection extends Mage_Core_Model_Resou
      * Collection constructor
      *
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Mage_Core_Model_Resource_Db_Abstract $resource
+     * @param Magento_Core_Model_Resource_Db_Abstract $resource
      * @param array $data
      * @throws InvalidArgumentException
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Mage_Core_Model_Resource_Db_Abstract $resource = null,
+        Magento_Core_Model_Resource_Db_Abstract $resource = null,
         $data = array()
     ) {
         $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
 
-        if (!($this->_app instanceof Mage_Core_Model_App)) {
+        if (!($this->_app instanceof Magento_Core_Model_App)) {
             throw new InvalidArgumentException('Required app object is invalid');
         }
         parent::__construct($fetchStrategy, $resource);

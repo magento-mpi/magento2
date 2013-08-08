@@ -116,7 +116,7 @@ abstract class Mage_Sales_Model_Quote_Address_Total_Abstract
     /**
      * Get quote address object
      *
-     * @throw   Mage_Core_Exception if address not declared
+     * @throw   Magento_Core_Exception if address not declared
      * @return  Mage_Sales_Model_Quote_Address
      */
     protected function _getAddress()

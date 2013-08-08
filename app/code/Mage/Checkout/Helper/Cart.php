@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
+class Mage_Checkout_Helper_Cart extends Magento_Core_Helper_Url
 {
     const XML_PATH_REDIRECT_TO_CART = 'checkout/cart/redirect_to_cart';
 
@@ -40,8 +40,8 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
      */
     public function getAddUrl($product, $additional = array())
     {
-        $continueUrl    = Mage::helper('Mage_Core_Helper_Data')->urlEncode($this->getCurrentUrl());
-        $urlParamName   = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
+        $continueUrl    = Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getCurrentUrl());
+        $urlParamName   = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
 
         $routeParams = array(
             $urlParamName   => $continueUrl,
@@ -75,7 +75,7 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
     {
         $params = array(
             'id'=>$item->getId(),
-            Mage_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
+            Magento_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
         );
         return $this->_getUrl('checkout/cart/delete', $params);
     }
@@ -143,7 +143,7 @@ class Mage_Checkout_Helper_Cart extends Mage_Core_Helper_Url
     /**
      * Checks if customer should be redirected to shopping cart after adding a product
      *
-     * @param int|string|Mage_Core_Model_Store $store
+     * @param int|string|Magento_Core_Model_Store $store
      * @return bool
      */
     public function getShouldRedirectToCart($store = null)

@@ -35,7 +35,7 @@ class Mage_Install_Controller_WizardTest extends Magento_Test_TestCase_Controlle
 
         // emulate invalid installation date, so that application will think it is not installed
         self::$_params = array(Mage::PARAM_CUSTOM_LOCAL_CONFIG
-            => sprintf(Mage_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
+            => sprintf(Magento_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
         );
     }
 
@@ -44,8 +44,8 @@ class Mage_Install_Controller_WizardTest extends Magento_Test_TestCase_Controlle
         Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(self::$_params);
         Mage::getObjectManager()->configure(array(
             'preferences' => array(
-                'Mage_Core_Controller_Request_Http' => 'Magento_Test_Request',
-                'Mage_Core_Controller_Response_Http' => 'Magento_Test_Response'
+                'Magento_Core_Controller_Request_Http' => 'Magento_Test_Request',
+                'Magento_Core_Controller_Response_Http' => 'Magento_Test_Response'
             )
         ));
         $this->dispatch('install/wizard');
@@ -60,12 +60,12 @@ class Mage_Install_Controller_WizardTest extends Magento_Test_TestCase_Controlle
     public function testPreDispatchImpossibleToRenderPage($action)
     {
         $params = self::$_params;
-        $params[Mage::PARAM_APP_DIRS][Mage_Core_Model_Dir::STATIC_VIEW] = self::$_tmpDir;
+        $params[Mage::PARAM_APP_DIRS][Magento_Core_Model_Dir::STATIC_VIEW] = self::$_tmpDir;
         Magento_Test_Helper_Bootstrap::getInstance()->reinitialize($params);
         Mage::getObjectManager()->configure(array(
             'preferences' => array(
-                'Mage_Core_Controller_Request_Http' => 'Magento_Test_Request',
-                'Mage_Core_Controller_Response_Http' => 'Magento_Test_Response'
+                'Magento_Core_Controller_Request_Http' => 'Magento_Test_Request',
+                'Magento_Core_Controller_Response_Http' => 'Magento_Test_Response'
             )
         ));
         $this->dispatch("install/wizard/{$action}");

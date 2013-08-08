@@ -17,7 +17,7 @@ class Integrity_Mage_Widget_SkinFilesTest extends PHPUnit_Framework_TestCase
     public function testWidgetPlaceholderImages($skinImage)
     {
         $this->assertFileExists(
-            Mage::getObjectmanager()->get('Mage_Core_Model_View_FileSystem')->getViewFile(
+            Mage::getObjectmanager()->get('Magento_Core_Model_View_FileSystem')->getViewFile(
                 $skinImage,
                 array('area' => 'adminhtml')
             )

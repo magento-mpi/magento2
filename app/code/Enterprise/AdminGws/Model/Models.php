@@ -787,7 +787,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Make websites read-only
      *
-     * @param Mage_Core_Model_Website $model
+     * @param Magento_Core_Model_Website $model
      */
     public function coreWebsiteLoadAfter($model)
     {
@@ -797,7 +797,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Disallow saving websites
      *
-     * @param Mage_Core_Model_Website $model
+     * @param Magento_Core_Model_Website $model
      */
     public function coreWebsiteSaveBefore($model)
     {
@@ -807,7 +807,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Disallow deleting websites
      *
-     * @param Mage_Core_Model_Website $model
+     * @param Magento_Core_Model_Website $model
      */
     public function coreWebsiteDeleteBefore($model)
     {
@@ -817,7 +817,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Set store group or store read-only
      *
-     * @param Mage_Core_Model_Store|Mage_Core_Model_Store_Group $model
+     * @param Magento_Core_Model_Store|Magento_Core_Model_Store_Group $model
      */
     public function coreStoreGroupLoadAfter($model)
     {
@@ -830,7 +830,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Disallow saving store group or store
      *
-     * @param Mage_Core_Model_Store|Mage_Core_Model_Store_Group $model
+     * @param Magento_Core_Model_Store|Magento_Core_Model_Store_Group $model
      */
     public function coreStoreGroupSaveBefore($model)
     {
@@ -879,7 +879,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Disallow deleting store group or store
      *
-     * @param Mage_Core_Model_Store|Mage_Core_Model_Store_Group $model
+     * @param Magento_Core_Model_Store|Magento_Core_Model_Store_Group $model
      */
     public function coreStoreGroupDeleteBefore($model)
     {
@@ -892,7 +892,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Prevent loading disallowed urlrewrites
      *
-     * @param Mage_Core_Model_Url_Rewrite $model
+     * @param Magento_Core_Model_Url_Rewrite $model
      */
     public function coreUrlRewriteLoadAfter($model)
     {
@@ -1083,7 +1083,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      * Prevent loosing disallowed websites from model
      *
      * @param array $websiteIds
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return array
      */
     protected function _forceAssignToWebsite($websiteIds)
@@ -1099,7 +1099,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      * Prevent losing disallowed store views from model
      *
      * @param array $storeIds
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return array
      */
     protected function _forceAssignToStore($storeIds)
@@ -1112,7 +1112,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _throwSave()
     {
@@ -1122,7 +1122,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _throwDelete()
     {

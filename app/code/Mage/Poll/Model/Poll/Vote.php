@@ -28,7 +28,7 @@
  * @package     Mage_Poll
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Poll_Model_Poll_Vote extends Mage_Core_Model_Abstract
+class Mage_Poll_Model_Poll_Vote extends Magento_Core_Model_Abstract
 {
     protected function _construct()
     {
@@ -38,12 +38,12 @@ class Mage_Poll_Model_Poll_Vote extends Mage_Core_Model_Abstract
     /**
      * Processing object before save data
      *
-     * @return Mage_Core_Model_Abstract
+     * @return Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
         if (!$this->getVoteTime()) {
-            $this->setVoteTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate());
+            $this->setVoteTime(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
         }
         return parent::_beforeSave();
     }

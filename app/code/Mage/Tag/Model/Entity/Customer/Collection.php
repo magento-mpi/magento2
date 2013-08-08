@@ -23,7 +23,7 @@ class Mage_Tag_Model_Entity_Customer_Collection extends Mage_Customer_Model_Reso
 
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Mage_Core_Model_Resource $resource
+        Magento_Core_Model_Resource $resource
     ) {
         parent::__construct($fetchStrategy);
         $this->_tagTable = $resource->getTableName('tag');

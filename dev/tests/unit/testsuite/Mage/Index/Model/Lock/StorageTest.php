@@ -24,10 +24,10 @@ class Mage_Index_Model_Lock_StorageTest extends PHPUnit_Framework_TestCase
 
     public function testGetFile()
     {
-        $this->_dirsMock = $this->getMock('Mage_Core_Model_Dir', array(), array(), '', false, false);
+        $this->_dirsMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false, false);
         $this->_dirsMock->expects($this->any())
             ->method('getDir')
-            ->with(Mage_Core_Model_Dir::VAR_DIR)
+            ->with(Magento_Core_Model_Dir::VAR_DIR)
             ->will($this->returnValue(__DIR__ . DIRECTORY_SEPARATOR. 'var'));
 
         $fileModel = $this->getMock('Mage_Index_Model_Process_File',

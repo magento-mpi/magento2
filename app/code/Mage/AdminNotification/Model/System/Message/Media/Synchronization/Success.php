@@ -25,7 +25,7 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_Success
         $state = $this->_syncFlag->getState();
         $data = $this->_syncFlag->getFlagData();
         $hasErrors = isset($data['has_errors']) && true == $data['has_errors'] ? true : false;
-        return false == $hasErrors && Mage_Core_Model_File_Storage_Flag::STATE_FINISHED == $state;
+        return false == $hasErrors && Magento_Core_Model_File_Storage_Flag::STATE_FINISHED == $state;
     }
 
     /**

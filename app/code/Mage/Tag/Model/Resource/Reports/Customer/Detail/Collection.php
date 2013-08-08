@@ -18,24 +18,24 @@
 class Mage_Tag_Model_Resource_Reports_Customer_Detail_Collection extends Mage_Tag_Model_Resource_Product_Collection
 {
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
     /**
      * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Mage_Core_Controller_Request_Http $request
+        Magento_Core_Controller_Request_Http $request
     ) {
         $this->_request = $request;
         parent::__construct($fetchStrategy);
     }
 
     /**
-     * @return Mage_Core_Controller_Request_Http
+     * @return Magento_Core_Controller_Request_Http
      */
     public function getRequest()
     {

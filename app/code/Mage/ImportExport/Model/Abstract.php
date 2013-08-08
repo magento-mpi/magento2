@@ -26,7 +26,7 @@ abstract class Mage_ImportExport_Model_Abstract extends Magento_Object
 
     /**
      * Loger instance
-     * @var Mage_Core_Model_Log_Adapter
+     * @var Magento_Core_Model_Log_Adapter
      */
     protected $_logInstance;
 
@@ -77,7 +77,7 @@ abstract class Mage_ImportExport_Model_Abstract extends Magento_Object
             }
             $fileName = substr(strstr(Mage_ImportExport_Model_Scheduled_Operation::LOG_DIRECTORY, DS), 1)
                 . $dirName . $fileName . '.log';
-            $this->_logInstance = Mage::getModel('Mage_Core_Model_Log_Adapter', array('fileName' => $fileName))
+            $this->_logInstance = Mage::getModel('Magento_Core_Model_Log_Adapter', array('fileName' => $fileName))
                 ->setFilterDataKeys($this->_debugReplacePrivateDataKeys);
         }
         $this->_logInstance->log($debugData);

@@ -11,7 +11,7 @@
 /**
  * Reports data helper
  */
-class Mage_Reports_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Reports_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const REPORT_PERIOD_TYPE_DAY    = 'day';
     const REPORT_PERIOD_TYPE_MONTH  = 'month';

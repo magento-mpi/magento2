@@ -9,18 +9,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webhook_Model_Resource_Subscription extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Webhook_Model_Resource_Subscription extends Magento_Core_Model_Resource_Db_Abstract
 {
-    /** @var  Mage_Core_Model_ConfigInterface $_coreConfig */
+    /** @var  Magento_Core_Model_ConfigInterface $_coreConfig */
     private $_coreConfig;
 
     /**
-     * @param Mage_Core_Model_Resource $resource
-     * @param Mage_Core_Model_ConfigInterface $config
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_ConfigInterface $config
      */
     public function __construct(
-        Mage_Core_Model_Resource $resource,
-        Mage_Core_Model_ConfigInterface $config
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_ConfigInterface $config
     ) {
         parent::__construct($resource);
         $this->_coreConfig = $config;
@@ -38,10 +38,10 @@ class Mage_Webhook_Model_Resource_Subscription extends Mage_Core_Model_Resource_
     /**
      * Perform actions after subscription load
      *
-     * @param Mage_Core_Model_Abstract $subscription
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $subscription
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $subscription)
+    protected function _afterLoad(Magento_Core_Model_Abstract $subscription)
     {
         $this->loadTopics($subscription);
         return parent::_afterLoad($subscription);
@@ -50,10 +50,10 @@ class Mage_Webhook_Model_Resource_Subscription extends Mage_Core_Model_Resource_
     /**
      * Perform actions after subscription save
      *
-     * @param Mage_Core_Model_Abstract $subscription
-     * @return Mage_Core_Model_Resource_Db_Abstract
+     * @param Magento_Core_Model_Abstract $subscription
+     * @return Magento_Core_Model_Resource_Db_Abstract
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $subscription)
+    protected function _afterSave(Magento_Core_Model_Abstract $subscription)
     {
         $oldTopics = $this->_getTopics($subscription->getId());
         $this->_updateTopics($oldTopics, $subscription);
@@ -78,9 +78,9 @@ class Mage_Webhook_Model_Resource_Subscription extends Mage_Core_Model_Resource_
     /**
      * Load topics of given subscription
      *
-     * @param Mage_Core_Model_Abstract $subscription
+     * @param Magento_Core_Model_Abstract $subscription
      */
-    public function loadTopics(Mage_Core_Model_Abstract $subscription)
+    public function loadTopics(Magento_Core_Model_Abstract $subscription)
     {
         $subscription->setData('topics', $this->_getTopics($subscription->getId()));
     }
@@ -88,10 +88,10 @@ class Mage_Webhook_Model_Resource_Subscription extends Mage_Core_Model_Resource_
      * Updates list of topics for subscription
      *
      * @param array $oldTopics
-     * @param Mage_Core_Model_Abstract $subscription
+     * @param Magento_Core_Model_Abstract $subscription
      * @return Mage_Webhook_Model_Resource_Subscription
      */
-    protected function _updateTopics($oldTopics, Mage_Core_Model_Abstract $subscription)
+    protected function _updateTopics($oldTopics, Magento_Core_Model_Abstract $subscription)
     {
         $newTopics = $subscription->getData('topics');
         $supportedTopics = $this->_getSupportedTopics();

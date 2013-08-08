@@ -29,7 +29,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
     /**
      * Config Writer Model
      *
-     * @var Mage_Core_Model_Config_Storage_WriterInterface
+     * @var Magento_Core_Model_Config_Storage_WriterInterface
      */
     protected $_configWriter;
 
@@ -50,13 +50,13 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
     /**
      * Theme factory
      *
-     * @var Mage_Core_Model_ThemeFactory
+     * @var Magento_Core_Model_ThemeFactory
      */
     protected $_themeFactory;
 
     protected function setUp()
     {
-        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $store->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(1));
@@ -77,7 +77,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
         );
         $this->_configLoader->expects($this->any())
             ->method('getConfigByPath')
-            ->with($this->equalTo('design/header'), $this->equalTo(Mage_Core_Model_Config::SCOPE_STORES),
+            ->with($this->equalTo('design/header'), $this->equalTo(Magento_Core_Model_Config::SCOPE_STORES),
                 $this->equalTo(1))
             ->will($this->returnValue(array (
                 Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO => array (
@@ -87,13 +87,13 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
                 ),
             )));
 
-        $this->_configWriter = $this->getMock('Mage_Core_Model_Config_Storage_WriterInterface',
+        $this->_configWriter = $this->getMock('Magento_Core_Model_Config_Storage_WriterInterface',
             array(), array(), '', false, false
         );
         $this->_configWriter->expects($this->any())
             ->method('save')
             ->with($this->equalTo(Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO),
-                $this->isEmpty(), Mage_Core_Model_Config::SCOPE_STORES, 1)
+                $this->isEmpty(), Magento_Core_Model_Config::SCOPE_STORES, 1)
             ->will($this->returnSelf());
 
         $this->_modelLogo = $this->getMockBuilder('Mage_Backend_Model_Config_Backend_Image_Logo')
@@ -110,7 +110,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
         $this->_modelLogo->expects($this->any())->method('setConfigId')->with($this->equalTo('69'))
             ->will($this->returnSelf());
         $this->_modelLogo->expects($this->any())->method('setScope')
-            ->with($this->equalTo(Mage_Core_Model_Config::SCOPE_STORES))
+            ->with($this->equalTo(Magento_Core_Model_Config::SCOPE_STORES))
             ->will($this->returnSelf());
         $this->_modelLogo->expects($this->any())->method('setValue')->with($this->equalTo(array(
                 'value' => 'dragons.png',
@@ -120,7 +120,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
         $this->_modelLogo->expects($this->any())->method('save')
             ->will($this->returnSelf());
 
-        $themeMock = $this->getMockBuilder('Mage_Core_Model_Theme')
+        $themeMock = $this->getMockBuilder('Magento_Core_Model_Theme')
             ->disableOriginalConstructor()
             ->setMethods(array('getId', 'isVirtual'))
             ->getMock();
@@ -136,7 +136,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             ->will($this->returnValue($this->_themeConfig));
 
         $this->_themeFactory = $this->getMock(
-            'Mage_Core_Model_ThemeFactory', array('create', 'load'), array(), '', false
+            'Magento_Core_Model_ThemeFactory', array('create', 'load'), array(), '', false
         );
 
         $this->_themeFactory->expects($this->any())
@@ -151,12 +151,12 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
     }
 
     /**
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
      * @return Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     public function getSaveHandlerInstance(
-        Mage_Core_Model_Config $config,
+        Magento_Core_Model_Config $config,
         Mage_Backend_Model_Config $backendConfigModel
     ) {
         return new Saas_Launcher_Model_Storelauncher_Design_SaveHandler(

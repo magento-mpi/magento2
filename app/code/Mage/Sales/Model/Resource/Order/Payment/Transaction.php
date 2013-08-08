@@ -120,12 +120,12 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
      * Lookup for parent_id in already saved transactions of this payment by the order_id
      * Also serialize additional information, if any
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      *
      * @param Mage_Sales_Model_Order_Payment_Transaction $transaction
      * @return Mage_Sales_Model_Resource_Order_Payment_Transaction
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $transaction)
+    protected function _beforeSave(Magento_Core_Model_Abstract $transaction)
     {
         $parentTxnId = $transaction->getData('parent_txn_id');
         $txnId       = $transaction->getData('txn_id');

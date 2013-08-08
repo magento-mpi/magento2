@@ -11,7 +11,7 @@
 /**
  * Gift registry frontend search controller
  */
-class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Front_Action
+class Enterprise_GiftRegistry_Controller_Search extends Magento_Core_Controller_Front_Action
 {
     /**
      * Check if gift registry is enabled on current store before all other actions
@@ -157,7 +157,7 @@ class Enterprise_GiftRegistry_Controller_Search extends Mage_Core_Controller_Fro
             return $array;
         }
         if (is_null($format)) {
-            $format = Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT;
+            $format = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT;
         }
 
         $filterInput = new Zend_Filter_LocalizedToNormalized(array(

@@ -20,14 +20,14 @@ class Mage_Backend_Model_Config_ScopeDefiner
     /**
      * Request object
      *
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_request;
 
     /**
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      */
-    public function __construct(Mage_Core_Controller_Request_Http $request)
+    public function __construct(Magento_Core_Controller_Request_Http $request)
     {
         $this->_request = $request;
     }

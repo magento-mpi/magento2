@@ -27,7 +27,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Preview extends Mage_Backend
     /**
      * Before rendering html, but after trying to load cache
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _beforeToHtml()
     {

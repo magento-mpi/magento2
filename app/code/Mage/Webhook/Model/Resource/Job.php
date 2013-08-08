@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webhook_Model_Resource_Job extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Webhook_Model_Resource_Job extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initializes resource model

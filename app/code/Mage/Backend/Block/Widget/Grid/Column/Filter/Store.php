@@ -27,8 +27,8 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Store
      */
     public function getHtml()
     {
-        $storeModel = Mage::getSingleton('Mage_Core_Model_System_Store');
-        /* @var $storeModel Mage_Core_Model_System_Store */
+        $storeModel = Mage::getSingleton('Magento_Core_Model_System_Store');
+        /* @var $storeModel Magento_Core_Model_System_Store */
         $websiteCollection = $storeModel->getWebsiteCollection();
         $groupCollection = $storeModel->getGroupCollection();
         $storeCollection = $storeModel->getStoreCollection();

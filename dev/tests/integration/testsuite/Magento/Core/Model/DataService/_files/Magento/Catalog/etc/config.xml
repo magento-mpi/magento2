@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Magento_Catalog>
+            <version>1.6.0.0.23</version>
+            <active>true</active>
+            <depends />
+        </Magento_Catalog>
+    </modules>
+</config>

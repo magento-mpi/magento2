@@ -38,7 +38,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     private $_cmsPage;
 
     /**
-     * @var Mage_Core_Model_Url_Rewrite
+     * @var Magento_Core_Model_Url_Rewrite
      */
     private $_urlRewrite;
 
@@ -173,12 +173,12 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
             $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
             try {
                 // set basic urlrewrite data
-                /** @var $model Mage_Core_Model_Url_Rewrite */
+                /** @var $model Magento_Core_Model_Url_Rewrite */
                 $model = $this->_getUrlRewrite();
 
                 // Validate request path
                 $requestPath = $this->getRequest()->getParam('request_path');
-                Mage::helper('Mage_Core_Helper_Url_Rewrite')->validateRequestPath($requestPath);
+                Mage::helper('Magento_Core_Helper_Url_Rewrite')->validateRequestPath($requestPath);
 
                 // Proceed and save request
                 $model->setIdPath($this->getRequest()->getParam('id_path'))
@@ -206,7 +206,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
                 );
                 $this->_redirect('*/*/');
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $session->addError($e->getMessage())
                     ->setUrlrewriteData($data);
             } catch (Exception $e) {
@@ -221,7 +221,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     /**
      * Call before save urlrewrite handlers
      *
-     * @param Mage_Core_Model_Url_Rewrite $model
+     * @param Magento_Core_Model_Url_Rewrite $model
      */
     protected function _onUrlRewriteSaveBefore($model)
     {
@@ -232,7 +232,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     /**
      * Call after save urlrewrite handlers
      *
-     * @param Mage_Core_Model_Url_Rewrite $model
+     * @param Magento_Core_Model_Url_Rewrite $model
      */
     protected function _onUrlRewriteSaveAfter($model)
     {
@@ -242,7 +242,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     /**
      * Override urlrewrite data, basing on current category and product
      *
-     * @param Mage_Core_Model_Url_Rewrite $model
+     * @param Magento_Core_Model_Url_Rewrite $model
      */
     protected function _handleCatalogUrlRewrite($model)
     {
@@ -257,10 +257,10 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
 
             // if redirect specified try to find friendly URL
             $generateTarget = true;
-            if (Mage::helper('Mage_Core_Helper_Url_Rewrite')->hasRedirectOptions($model)) {
+            if (Mage::helper('Magento_Core_Helper_Url_Rewrite')->hasRedirectOptions($model)) {
                 /** @var $rewriteResource Mage_Catalog_Model_Resource_Url */
                 $rewriteResource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Url');
-                /** @var $rewrite Mage_Core_Model_Url_Rewrite */
+                /** @var $rewrite Magento_Core_Model_Url_Rewrite */
                 $rewrite = $rewriteResource->getRewriteByIdPath($idPath, $model->getStoreId());
                 if (!$rewrite) {
                     if ($product) {
@@ -284,7 +284,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     /**
      * Get product instance applicable for generatePath
      *
-     * @param Mage_Core_Model_Url_Rewrite $model
+     * @param Magento_Core_Model_Url_Rewrite $model
      * @return Mage_Catalog_Model_Product|null
      */
     private function _getInitializedProduct($model)
@@ -303,7 +303,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     /**
      * Get category instance applicable for generatePath
      *
-     * @param Mage_Core_Model_Url_Rewrite $model
+     * @param Magento_Core_Model_Url_Rewrite $model
      * @return Mage_Catalog_Model_Category|null
      */
     private function _getInitializedCategory($model)
@@ -321,7 +321,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     /**
      * Override URL rewrite data, basing on current CMS page
      *
-     * @param Mage_Core_Model_Url_Rewrite $model
+     * @param Magento_Core_Model_Url_Rewrite $model
      */
     private function _handleCmsPageUrlRewrite($model)
     {
@@ -338,10 +338,10 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
 
         // if redirect specified try to find friendly URL
         $generateTarget = true;
-        if (Mage::helper('Mage_Core_Helper_Url_Rewrite')->hasRedirectOptions($model)) {
+        if (Mage::helper('Magento_Core_Helper_Url_Rewrite')->hasRedirectOptions($model)) {
             /** @var $rewriteResource Mage_Catalog_Model_Resource_Url */
             $rewriteResource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Url');
-            /** @var $rewrite Mage_Core_Model_Url_Rewrite */
+            /** @var $rewrite Magento_Core_Model_Url_Rewrite */
             $rewrite = $rewriteResource->getRewriteByIdPath($idPath, $model->getStoreId());
             if (!$rewrite) {
                 Mage::throwException(Mage::helper('Magento_Adminhtml_Helper_Data')
@@ -360,7 +360,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     /**
      * Save CMS page URL rewrite additional information
      *
-     * @param Mage_Core_Model_Url_Rewrite $model
+     * @param Magento_Core_Model_Url_Rewrite $model
      */
     private function _handleCmsPageUrlRewriteSave($model)
     {
@@ -486,12 +486,12 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     /**
      * Get URL rewrite from request
      *
-     * @return Mage_Core_Model_Url_Rewrite
+     * @return Magento_Core_Model_Url_Rewrite
      */
     private function _getUrlRewrite()
     {
         if (!$this->_urlRewrite) {
-            $this->_urlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite');
+            $this->_urlRewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite');
 
             $urlRewriteId = (int) $this->getRequest()->getParam('id', 0);
             if ($urlRewriteId) {

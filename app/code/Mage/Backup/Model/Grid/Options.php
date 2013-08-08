@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backup_Model_Grid_Options implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Backup_Model_Grid_Options implements Magento_Core_Model_Option_ArrayInterface
 {
 
     /**

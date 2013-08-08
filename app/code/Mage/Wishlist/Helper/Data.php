@@ -16,7 +16,7 @@
  * @package    Mage_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Config key 'Display Wishlist Summary'
@@ -183,7 +183,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      * Retrieve Item Store for URL
      *
      * @param Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getUrlStore($item)
     {
@@ -313,8 +313,8 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getAddToCartUrl($item)
     {
-        $urlParamName = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
-        $continueUrl  = Mage::helper('Mage_Core_Helper_Data')->urlEncode(
+        $urlParamName = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
+        $continueUrl  = Mage::helper('Magento_Core_Helper_Data')->urlEncode(
             Mage::getUrl('*/*/*', array(
                 '_current'      => true,
                 '_use_rewrite'  => true,
@@ -322,7 +322,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
             ))
         );
 
-        $urlParamName = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
+        $urlParamName = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
         $params = array(
             'item' => is_string($item) ? $item : $item->getWishlistItemId(),
             $urlParamName => $continueUrl
@@ -338,13 +338,13 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getSharedAddToCartUrl($item)
     {
-        $continueUrl  = Mage::helper('Mage_Core_Helper_Data')->urlEncode(Mage::getUrl('*/*/*', array(
+        $continueUrl  = Mage::helper('Magento_Core_Helper_Data')->urlEncode(Mage::getUrl('*/*/*', array(
             '_current'      => true,
             '_use_rewrite'  => true,
             '_store_to_url' => true,
         )));
 
-        $urlParamName = Mage_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
+        $urlParamName = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
         $params = array(
             'item' => is_string($item) ? $item : $item->getWishlistItemId(),
             $urlParamName => $continueUrl
@@ -415,7 +415,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
         if ($customer) {
             $key = $customer->getId() . ',' . $customer->getEmail();
             $params = array(
-                'data' => Mage::helper('Mage_Core_Helper_Data')->urlEncode($key),
+                'data' => Mage::helper('Magento_Core_Helper_Data')->urlEncode($key),
                 '_secure' => false,
             );
         }

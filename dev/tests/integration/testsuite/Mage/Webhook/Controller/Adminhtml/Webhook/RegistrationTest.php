@@ -76,7 +76,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Mage_Ba
         $this->dispatch('backend/admin/webhook_registration/register');
         $this->assertSessionMessages(
             $this->equalTo(array("API Key, API Secret and Contact Email are required fields.")),
-            Mage_Core_Model_Message::ERROR
+            Magento_Core_Model_Message::ERROR
         );
         $this->assertRedirect($this->stringContains('webhook_registration/failed'));
     }
@@ -128,7 +128,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Mage_Ba
         $this->dispatch('backend/admin/webhook_registration/register');
         $this->assertSessionMessages(
             $this->equalTo(array("The subscription 'dummy' has been activated.")),
-            Mage_Core_Model_Message::SUCCESS
+            Magento_Core_Model_Message::SUCCESS
         );
         $this->assertRedirect($this->stringContains('webhook_registration/succeeded'));
     }
@@ -174,7 +174,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Mage_Ba
         $this->getRequest()->setParam('id', $subscriptionId);
         $this->dispatch('backend/admin/webhook_registration/register');
         $this->assertSessionMessages(
-            $this->equalTo(array("Invalid Email address provided")), Mage_Core_Model_Message::ERROR
+            $this->equalTo(array("Invalid Email address provided")), Magento_Core_Model_Message::ERROR
         );
     }
 
@@ -186,7 +186,7 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends Mage_Ba
         $this->assertContains('page-popup adminhtml-webhook-registration-succeeded', $response);
         $this->assertSessionMessages(
             $this->equalTo(array("The subscription 'dummy' has been activated.")),
-            Mage_Core_Model_Message::SUCCESS
+            Magento_Core_Model_Message::SUCCESS
         );
     }
 

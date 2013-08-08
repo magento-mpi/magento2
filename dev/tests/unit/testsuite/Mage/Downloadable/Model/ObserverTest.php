@@ -22,13 +22,13 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_helperJsonEncode;
 
     protected function setUp()
     {
-        $this->_helperJsonEncode = $this->getMockBuilder('Mage_Core_Helper_Data')
+        $this->_helperJsonEncode = $this->getMockBuilder('Magento_Core_Helper_Data')
             ->setMethods(array('jsonEncode'))
             ->disableOriginalConstructor()
             ->getMock();

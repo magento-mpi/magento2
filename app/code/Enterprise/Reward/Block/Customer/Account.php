@@ -15,7 +15,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Customer_Account extends Mage_Core_Block_Abstract
+class Enterprise_Reward_Block_Customer_Account extends Magento_Core_Block_Abstract
 {
     /**
      * Add RP link to tab if we have all rates

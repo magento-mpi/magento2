@@ -22,7 +22,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection_Grid extends Mage_Wishlist_Mo
     /**
      * Initialize db select
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _initSelect()
     {

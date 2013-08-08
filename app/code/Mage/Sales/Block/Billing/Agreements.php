@@ -13,7 +13,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Block_Billing_Agreements extends Mage_Core_Block_Template
+class Mage_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
 {
     /**
      * Payment methods array
@@ -32,7 +32,7 @@ class Mage_Sales_Block_Billing_Agreements extends Mage_Core_Block_Template
     /**
      * Set Billing Agreement instance
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
@@ -73,7 +73,7 @@ class Mage_Sales_Block_Billing_Agreements extends Mage_Core_Block_Template
             case 'created_at':
             case 'updated_at':
                 $value = ($item->getData($key))
-                    ? $this->helper('Mage_Core_Helper_Data')->formatDate($item->getData($key), 'short', true) : $this->__('N/A');
+                    ? $this->helper('Magento_Core_Helper_Data')->formatDate($item->getData($key), 'short', true) : $this->__('N/A');
                 break;
             case 'edit_url':
                 $value = $this->getUrl('*/billing_agreement/view', array('agreement' => $item->getAgreementId()));

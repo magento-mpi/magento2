@@ -31,6 +31,6 @@ class Magento_Adminhtml_System_AccountTest extends Mage_Backend_Utility_Controll
         /** @var $user Mage_User_Model_User */
         $user = Mage::getModel('Mage_User_Model_User')->load($userId);
         $this->assertNotEquals($oldPassword, $user->getPassword());
-        $this->assertTrue(Mage::helper('Mage_Core_Helper_Data')->validateHash($password, $user->getPassword()));
+        $this->assertTrue(Mage::helper('Magento_Core_Helper_Data')->validateHash($password, $user->getPassword()));
     }
 }

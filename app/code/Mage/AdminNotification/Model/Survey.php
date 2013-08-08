@@ -56,12 +56,12 @@ class Mage_AdminNotification_Model_Survey
     /**
      * Return core flag model
      *
-     * @return Mage_Core_Model_Flag
+     * @return Magento_Core_Model_Flag
      */
     protected static function _getFlagModel()
     {
         if (self::$_flagModel === null) {
-            self::$_flagModel = Mage::getModel('Mage_Core_Model_Flag',
+            self::$_flagModel = Mage::getModel('Magento_Core_Model_Flag',
                 array('data' => array('flag_code' => self::$_flagCode)))
                 ->loadSelf();
         }

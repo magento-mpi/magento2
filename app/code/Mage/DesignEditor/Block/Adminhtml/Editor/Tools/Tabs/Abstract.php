@@ -13,7 +13,7 @@
  *
  * @method bool getIsActive()
  */
-abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Abstract extends Mage_Core_Block_Template
+abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Abstract extends Magento_Core_Block_Template
 {
     /**
      * Alias of tab handle block in layout

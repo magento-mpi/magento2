@@ -29,14 +29,14 @@ class Enterprise_Search_Model_Adapter_PhpExtension extends Enterprise_Search_Mod
      * Initialize connect to Solr Client
      *
      * @param Enterprise_Search_Model_Client_FactoryInterface $clientFactory
-     * @param Mage_Core_Model_Logger $logger
+     * @param Magento_Core_Model_Logger $logger
      * @param Enterprise_Search_Helper_ClientInterface $clientHelper
      * @param array $options
      * @throws Exception
      */
     public function __construct(
         Enterprise_Search_Model_Client_FactoryInterface $clientFactory,
-        Mage_Core_Model_Logger $logger,
+        Magento_Core_Model_Logger $logger,
         Enterprise_Search_Helper_ClientInterface $clientHelper,
         $options = array()
     ) {

@@ -370,7 +370,7 @@ class Mage_Oauth_Model_Server
      *
      * @param string $requestType Request type - one of REQUEST_... class constant
      * @return Mage_Oauth_Model_Server
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _processRequest($requestType)
     {

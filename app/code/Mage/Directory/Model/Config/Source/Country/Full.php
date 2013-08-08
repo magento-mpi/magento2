@@ -10,7 +10,7 @@
 
 
 class Mage_Directory_Model_Config_Source_Country_Full extends Mage_Directory_Model_Config_Source_Country
-    implements Mage_Core_Model_Option_ArrayInterface
+    implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray($isMultiselect=false) {
         return parent::toOptionArray(true);

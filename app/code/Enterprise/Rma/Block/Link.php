@@ -16,7 +16,7 @@
  * @package     Enterprise_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Link extends Mage_Core_Block_Template
+class Enterprise_Rma_Block_Link extends Magento_Core_Block_Template
 {
     /**
      * Adding link to account links block link params if rma

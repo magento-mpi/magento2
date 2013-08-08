@@ -52,7 +52,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      * @param  Magento_Object $payment
      * @param  decimal $amount
      * @return Mage_Paygate_Model_Authorizenet
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function authorize(Magento_Object $payment, $amount)
     {
@@ -65,7 +65,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      * @param Magento_Object $payment
      * @param decimal $amount
      * @return Mage_Authorizenet_Model_Directpost
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function capture(Magento_Object $payment, $amount)
     {
@@ -132,7 +132,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      *
      * @param Magento_Object $payment
      * @return Mage_Authorizenet_Model_Directpost
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function void(Magento_Object $payment)
     {
@@ -196,7 +196,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      * @param Magento_Object $payment
      * @param decimal $amount
      * @return Mage_Authorizenet_Model_Directpost
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function refund(Magento_Object $payment, $amount)
     {
@@ -217,7 +217,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      *
      * @param string $payment Magento_Object object
      * @return Mage_Authorizenet_Model_Directpost
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _refund(Magento_Object $payment, $amount)
     {
@@ -281,7 +281,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
             $storeId = $this->getStore();
         }
         return Mage::app()->getStore($storeId)
-            ->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK).
+            ->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_LINK).
             'authorizenet/directpost_payment/response';
     }
 
@@ -336,7 +336,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     /**
      * Generate request object and fill its fields from Quote or Order object
      *
-     * @param Mage_Core_Model_Abstract $entity Quote or order object.
+     * @param Magento_Core_Model_Abstract $entity Quote or order object.
      * @return Mage_Authorizenet_Model_Directpost_Request
      */
     public function generateRequestFromOrder(Mage_Sales_Model_Order $order)
@@ -367,7 +367,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      * Validate response data. Needed in controllers.
      *
      * @return bool true in case of validation success.
-     * @throws Mage_Core_Exception in case of validation error
+     * @throws Magento_Core_Exception in case of validation error
      */
     public function validateResponse()
     {
@@ -387,7 +387,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      * Operate with order using data from $_POST which came from authorize.net by Relay URL.
      *
      * @param array $responseData data from Authorize.net from $_POST
-     * @throws Mage_Core_Exception in case of validation error or order creation error
+     * @throws Magento_Core_Exception in case of validation error or order creation error
      */
     public function process(array $responseData)
     {
@@ -459,7 +459,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      * Check response code came from authorize.net.
      *
      * @return true in case of Approved response
-     * @throws Mage_Core_Exception in case of Declined or Error response from Authorize.net
+     * @throws Magento_Core_Exception in case of Declined or Error response from Authorize.net
      */
     public function checkResponseCode()
     {
@@ -478,7 +478,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      * Check transaction id came from Authorize.net
      *
      * @return true in case of right transaction id
-     * @throws Mage_Core_Exception in case of bad transaction id.
+     * @throws Magento_Core_Exception in case of bad transaction id.
      */
     public function checkTransId()
     {

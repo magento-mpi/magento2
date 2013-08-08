@@ -11,7 +11,7 @@
 /**
  * Shipping data helper
  */
-class Mage_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Shipping_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Allowed hash keys
@@ -28,7 +28,7 @@ class Mage_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function decodeTrackingHash($hash)
     {
-        $hash = explode(':', Mage::helper('Mage_Core_Helper_Data')->urlDecode($hash));
+        $hash = explode(':', Mage::helper('Magento_Core_Helper_Data')->urlDecode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
             return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
         }
@@ -45,7 +45,7 @@ class Mage_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
-        $helper = Mage::helper('Mage_Core_Helper_Data');
+        $helper = Mage::helper('Magento_Core_Helper_Data');
         $urlPart = "{$key}:{$model->$method()}:{$model->getProtectCode()}";
         $param = array('hash' => $helper->urlEncode($urlPart));
 

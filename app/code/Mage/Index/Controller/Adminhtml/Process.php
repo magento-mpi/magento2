@@ -82,7 +82,7 @@ class Mage_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Controll
                 $this->_getSession()->addSuccess(
                     Mage::helper('Mage_Index_Helper_Data')->__('The index has been saved.')
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
@@ -114,7 +114,7 @@ class Mage_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Controll
                 $this->_getSession()->addSuccess(
                     Mage::helper('Mage_Index_Helper_Data')->__('%s index was rebuilt.', $process->getIndexer()->getName())
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
@@ -171,7 +171,7 @@ class Mage_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Controll
                 $this->_getSession()->addSuccess(
                     Mage::helper('Mage_Index_Helper_Data')->__('Total of %d index(es) have reindexed data.', $counter)
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e, Mage::helper('Mage_Index_Helper_Data')->__('Cannot initialize the indexer process.'));
@@ -205,7 +205,7 @@ class Mage_Index_Controller_Adminhtml_Process extends Magento_Adminhtml_Controll
                 $this->_getSession()->addSuccess(
                     Mage::helper('Mage_Index_Helper_Data')->__('Total of %d index(es) have changed index mode.', $counter)
                 );
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addException($e, Mage::helper('Mage_Index_Helper_Data')->__('Cannot initialize the indexer process.'));

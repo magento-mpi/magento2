@@ -16,7 +16,7 @@
  * @package     Mage_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_CatalogInventory_Model_Resource_Stock_Item extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Define main table and initialize connection
@@ -98,7 +98,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
     /**
      * Use qty correction for qty column update
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param string $table
      * @return array
      */

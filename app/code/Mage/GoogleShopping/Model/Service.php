@@ -87,7 +87,7 @@ class Mage_GoogleShopping_Model_Service extends Magento_Object
 
             if ($this->getConfig()->getIsDebug($storeId)) {
                 $this->_service
-                    ->setLogAdapter(Mage::getModel('Mage_Core_Model_Log_Adapter',
+                    ->setLogAdapter(Mage::getModel('Magento_Core_Model_Log_Adapter',
                     array('fileName' => 'googleshopping.log')), 'log')
                     ->setDebug(true);
             }

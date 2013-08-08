@@ -15,7 +15,7 @@
  * @package     Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Block_Links extends Mage_Core_Block_Template
+class Mage_Checkout_Block_Links extends Magento_Core_Block_Template
 {
     /**
      * Add shopping cart link to parent block
@@ -26,7 +26,7 @@ class Mage_Checkout_Block_Links extends Mage_Core_Block_Template
     {
         /** @var $parentBlock Mage_Page_Block_Template_Links */
         $parentBlock = $this->getParentBlock();
-        if ($parentBlock && Mage::helper('Mage_Core_Helper_Data')->isModuleOutputEnabled('Mage_Checkout')) {
+        if ($parentBlock && Mage::helper('Magento_Core_Helper_Data')->isModuleOutputEnabled('Mage_Checkout')) {
             $count = $this->getSummaryQty() ? $this->getSummaryQty()
                 : $this->helper('Mage_Checkout_Helper_Cart')->getSummaryCount();
             if ($count == 1) {
@@ -67,7 +67,7 @@ class Mage_Checkout_Block_Links extends Mage_Core_Block_Template
 
         /** @var $parentBlock Mage_Page_Block_Template_Links */
         $parentBlock = $this->getParentBlock();
-        if ($parentBlock && Mage::helper('Mage_Core_Helper_Data')->isModuleOutputEnabled('Mage_Checkout')) {
+        if ($parentBlock && Mage::helper('Magento_Core_Helper_Data')->isModuleOutputEnabled('Mage_Checkout')) {
             $text = $this->__('Checkout');
             $parentBlock->addLink($text, 'checkout', $text, true, array('_secure' => true), 60, null,
                 'class="top-link-checkout"'

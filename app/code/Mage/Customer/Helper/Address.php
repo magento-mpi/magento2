@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
+class Mage_Customer_Helper_Address extends Magento_Core_Helper_Abstract
 {
     /**
      * VAT Validation parameters XML paths
@@ -49,15 +49,15 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     /**
      * Block factory
      *
-     * @var Mage_Core_Model_BlockFactory
+     * @var Magento_Core_Model_BlockFactory
      */
     protected $_blockFactory;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_BlockFactory $blockFactory
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_BlockFactory $blockFactory
      */
-    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_BlockFactory $blockFactory)
+    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_BlockFactory $blockFactory)
     {
         parent::__construct($context);
         $this->_blockFactory = $blockFactory;
@@ -99,14 +99,14 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
      * Return customer address config value by key and store
      *
      * @param string $key
-     * @param Mage_Core_Model_Store|int|string $store
+     * @param Magento_Core_Model_Store|int|string $store
      * @return string|null
      */
     public function getConfig($key, $store = null)
     {
-        /** @var $storeManager Mage_Core_Model_StoreManagerInterface */
-        $storeManager = Mage::getObjectManager()->get('Mage_Core_Model_StoreManagerInterface');
-        /** @var $store Mage_Core_Model_Store */
+        /** @var $storeManager Magento_Core_Model_StoreManagerInterface */
+        $storeManager = Mage::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface');
+        /** @var $store Magento_Core_Model_Store */
         $store = $storeManager->getStore($store);
 
         $websiteId = $store->getWebsiteId();
@@ -119,7 +119,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     /**
      * Return Number of Lines in a Street Address for store
      *
-     * @param Mage_Core_Model_Store|int|string $store
+     * @param Magento_Core_Model_Store|int|string $store
      * @return int
      */
     public function getStreetLines($store = null)
@@ -243,7 +243,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     /**
      * Check whether VAT ID validation is enabled
      *
-     * @param Mage_Core_Model_Store|string|int $store
+     * @param Magento_Core_Model_Store|string|int $store
      * @return bool
      */
     public function isVatValidationEnabled($store = null)
@@ -264,7 +264,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     /**
      * Retrieve 'validate on each transaction' value
      *
-     * @param Mage_Core_Model_Store|string|int $store
+     * @param Magento_Core_Model_Store|string|int $store
      * @return bool
      */
     public function getValidateOnEachTransaction($store = null)
@@ -275,7 +275,7 @@ class Mage_Customer_Helper_Address extends Mage_Core_Helper_Abstract
     /**
      * Retrieve customer address type on which tax calculation must be based
      *
-     * @param Mage_Core_Model_Store|string|int|null $store
+     * @param Magento_Core_Model_Store|string|int|null $store
      * @return string
      */
     public function getTaxCalculationAddressType($store = null)

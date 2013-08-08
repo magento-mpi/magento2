@@ -35,7 +35,7 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
     /**
      * App mock clone usage helps to improve performance. It is required because mock will be removed in tear down.
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_appClone;
 
@@ -140,13 +140,13 @@ class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = Mage::getObjectManager();
         /** Prepare arguments for SUT constructor. */
-        /** @var Mage_Core_Model_CacheInterface $cache */
-        $cache = $this->getMock('Mage_Core_Model_CacheInterface');
-        $configMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
+        /** @var Magento_Core_Model_CacheInterface $cache */
+        $cache = $this->getMock('Magento_Core_Model_CacheInterface');
+        $configMock = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()->getMock();
         $configMock->expects($this->any())->method('getAreaFrontName')->will(
             $this->returnValue(self::WEBAPI_AREA_FRONT_NAME)
         );
-        $appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
+        $appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
         $appMock->expects($this->any())->method('getConfig')->will($this->returnValue($configMock));
         $this->_appClone = clone $appMock;
         $objectManager->configure(array(

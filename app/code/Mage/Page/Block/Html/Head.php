@@ -16,7 +16,7 @@
  * @package    Mage_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
+class Mage_Page_Block_Html_Head extends Magento_Core_Block_Template
 {
     /**
      * Block template
@@ -45,12 +45,12 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Page_Asset_MergeService
+     * @var Magento_Core_Model_Page_Asset_MergeService
      */
     private $_assetMergeService;
 
     /**
-     * @var Mage_Core_Model_Page_Asset_MinifyService
+     * @var Magento_Core_Model_Page_Asset_MinifyService
      */
     private $_assetMinifyService;
 
@@ -60,11 +60,11 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     private $_pageAssets;
 
     public function __construct(
-        Mage_Core_Block_Template_Context $context,
+        Magento_Core_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Page $page,
-        Mage_Core_Model_Page_Asset_MergeService $assetMergeService,
-        Mage_Core_Model_Page_Asset_MinifyService $assetMinifyService,
+        Magento_Core_Model_Page $page,
+        Magento_Core_Model_Page_Asset_MergeService $assetMergeService,
+        Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -85,9 +85,9 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function addCss($file, $attributes = '', $ieCondition = null, $flagName = null)
     {
-        $contentType = Mage_Core_Model_View_Publisher::CONTENT_TYPE_CSS;
+        $contentType = Magento_Core_Model_View_Publisher::CONTENT_TYPE_CSS;
         $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
+            'Magento_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
         );
         $this->_pageAssets->add("$contentType/$file", $asset, array(
             'attributes'    => (string)$attributes,
@@ -108,9 +108,9 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     public function addJs($file, $attributes = '', $ieCondition = null, $flagName = null)
     {
-        $contentType = Mage_Core_Model_View_Publisher::CONTENT_TYPE_JS;
+        $contentType = Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS;
         $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
+            'Magento_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
         );
         $this->_pageAssets->add("$contentType/$file", $asset, array(
             'attributes'    => (string)$attributes,
@@ -157,7 +157,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     {
         $attributes = 'rel="alternate" type="application/rss+xml" title="' . $title . '"';
         $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Page_Asset_Remote', array('url' => (string)$href)
+            'Magento_Core_Model_Page_Asset_Remote', array('url' => (string)$href)
         );
         $this->_pageAssets->add("link/$href", $asset, array('attributes' => $attributes));
         return $this;
@@ -173,7 +173,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     public function addLinkRel($rel, $href)
     {
         $asset = $this->_objectManager->create(
-            'Mage_Core_Model_Page_Asset_Remote', array('url' => (string)$href)
+            'Magento_Core_Model_Page_Asset_Remote', array('url' => (string)$href)
         );
         $this->_pageAssets->add("link/$href", $asset, array('attributes' => 'rel="' . $rel . '"'));
         return $this;
@@ -296,10 +296,10 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
             if (!empty($attributes)) {
                 $attributes = ' ' . $attributes;
             }
-            if ($contentType == Mage_Core_Model_View_Publisher::CONTENT_TYPE_JS ) {
+            if ($contentType == Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS ) {
                 $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
             } else {
-                if ($contentType == Mage_Core_Model_View_Publisher::CONTENT_TYPE_CSS) {
+                if ($contentType == Magento_Core_Model_View_Publisher::CONTENT_TYPE_CSS) {
                     $attributes = ' rel="stylesheet" type="text/css"' . ($attributes ?: ' media="all"');
                 }
                 $groupTemplate = '<link' . $attributes . ' href="%s" />' . "\n";
@@ -327,7 +327,7 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
     {
         $result = '';
         try {
-            /** @var $asset Mage_Core_Model_Page_Asset_AssetInterface */
+            /** @var $asset Magento_Core_Model_Page_Asset_AssetInterface */
             foreach ($assets as $asset) {
                 $result .= sprintf($template, $asset->getUrl());
             }
@@ -525,8 +525,8 @@ class Mage_Page_Block_Html_Head extends Mage_Core_Block_Template
      */
     protected function _isFile($filename)
     {
-        if (Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage() && !is_file($filename)) {
-            Mage::helper('Mage_Core_Helper_File_Storage_Database')->saveFileToFilesystem($filename);
+        if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage() && !is_file($filename)) {
+            Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($filename);
         }
         return is_file($filename);
     }

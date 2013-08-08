@@ -15,7 +15,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Template
+class Enterprise_Reward_Block_Customer_Reward_History extends Magento_Core_Block_Template
 {
     /**
      * History records collection
@@ -67,7 +67,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
      */
     public function getCurrencyBalance(Enterprise_Reward_Model_Reward_History $item)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->currency($item->getCurrencyAmount());
+        return Mage::helper('Magento_Core_Helper_Data')->currency($item->getCurrencyAmount());
     }
 
     /**
@@ -100,7 +100,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
      */
     public function getDate(Enterprise_Reward_Model_Reward_History $item)
     {
-        return Mage::helper('Mage_Core_Helper_Data')->formatDate($item->getCreatedAt(), 'short', true);
+        return Mage::helper('Magento_Core_Helper_Data')->formatDate($item->getCreatedAt(), 'short', true);
     }
 
     /**
@@ -113,7 +113,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Mage_Core_Block_Te
     {
         $expiresAt = $item->getExpiresAt();
         if ($expiresAt) {
-            return Mage::helper('Mage_Core_Helper_Data')->formatDate($expiresAt, 'short', true);
+            return Mage::helper('Magento_Core_Helper_Data')->formatDate($expiresAt, 'short', true);
         }
         return '';
     }

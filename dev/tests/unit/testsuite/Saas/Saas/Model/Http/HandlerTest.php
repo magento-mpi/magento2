@@ -10,7 +10,7 @@ class Saas_Saas_Model_Http_HandlerTest extends PHPUnit_Framework_TestCase
 {
     public function testHandle()
     {
-        $config = $this->getMockBuilder('Mage_Core_Model_Config_Primary')->disableOriginalConstructor()->getMock();
+        $config = $this->getMockBuilder('Magento_Core_Model_Config_Primary')->disableOriginalConstructor()->getMock();
         $config->expects($this->any())->method('getParam')
             ->with($this->equalTo('status'))
             ->will($this->returnValue(Saas_Saas_Model_Tenant_Config::STATUS_DISABLED_FRONTEND));
@@ -42,7 +42,7 @@ class Saas_Saas_Model_Http_HandlerTest extends PHPUnit_Framework_TestCase
      */
     public function testHandleNegative($status, $path)
     {
-        $config = $this->getMockBuilder('Mage_Core_Model_Config_Primary')->disableOriginalConstructor()->getMock();
+        $config = $this->getMockBuilder('Magento_Core_Model_Config_Primary')->disableOriginalConstructor()->getMock();
         $config->expects($this->any())->method('getParam')
             ->with($this->equalTo('status'))
             ->will($this->returnValue($status));

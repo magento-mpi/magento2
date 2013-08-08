@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -103,7 +103,7 @@ class Mage_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetPriceScopeDefault()
     {
-        // $this->assertEquals(Mage_Core_Model_Store::PRICE_SCOPE_GLOBAL, $this->_helper->getPriceScope());
+        // $this->assertEquals(Magento_Core_Model_Store::PRICE_SCOPE_GLOBAL, $this->_helper->getPriceScope());
         $this->assertNull($this->_helper->getPriceScope());
     }
 
@@ -112,7 +112,7 @@ class Mage_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPriceScope()
     {
-        $this->assertEquals(Mage_Core_Model_Store::PRICE_SCOPE_WEBSITE, $this->_helper->getPriceScope());
+        $this->assertEquals(Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE, $this->_helper->getPriceScope());
     }
 
     public function testIsPriceGlobalDefault()

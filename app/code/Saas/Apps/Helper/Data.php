@@ -25,28 +25,28 @@ class Saas_Apps_Helper_Data extends Mage_Backend_Helper_Data
     /**
      * Locale model
      *
-     * @var Mage_Core_Model_Locale
+     * @var Magento_Core_Model_Locale
      */
     protected $_locale;
 
     /**
      * Config model
      *
-     * @var Mage_Core_Model_Config_Modules
+     * @var Magento_Core_Model_Config_Modules
      */
     protected $_config;
 
     /**
      * Apps helper constructor
      *
-     * @param Mage_Core_Model_Config $config
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Locale $locale
+     * @param Magento_Core_Model_Config $config
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Locale $locale
      */
     public function __construct(
-        Mage_Core_Model_Config $config,
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Locale $locale
+        Magento_Core_Model_Config $config,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Locale $locale
     ) {
         $this->_locale = $locale;
         parent::__construct($config, $context);
@@ -61,12 +61,12 @@ class Saas_Apps_Helper_Data extends Mage_Backend_Helper_Data
     {
         $localeCode = $this->_locale->getLocaleCode();
         if (!$localeCode) {
-            $localeCode = Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE;
+            $localeCode = Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE;
         }
         $url = (string)$this->_config->getNode(self::XML_PATH_APP_TAB_URL . '/' . $localeCode);
         if (!$url) {
             $url = (string)$this->_config->getNode(
-                self::XML_PATH_APP_TAB_URL . '/' . Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE
+                self::XML_PATH_APP_TAB_URL . '/' . Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE
             );
         }
         return $url;

@@ -24,10 +24,10 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest extend
     {
         parent::setUp();
 
-        $layoutUtility = new Mage_Core_Utility_Layout($this);
+        $layoutUtility = new Magento_Core_Utility_Layout($this);
         $pageTypesFixture = __DIR__ . '/_files/_page_types_with_containers.xml';
         $args = array(
-            'context' => Mage::getSingleton('Mage_Core_Block_Template_Context'),
+            'context' => Mage::getSingleton('Magento_Core_Block_Template_Context'),
             'data' => array(
                 'name'  => 'page_type',
                 'id'    => 'page_types_select',

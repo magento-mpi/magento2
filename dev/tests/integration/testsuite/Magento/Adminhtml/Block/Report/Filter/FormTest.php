@@ -20,8 +20,8 @@ class Magento_Adminhtml_Block_Report_Filter_FormTest extends PHPUnit_Framework_T
      */
     public function testPrepareForm()
     {
-        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
-        $layout = Mage::getObjectManager()->create('Mage_Core_Model_Layout');
+        Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
+        $layout = Mage::getObjectManager()->create('Magento_Core_Model_Layout');
         $block = $layout->addBlock('Magento_Adminhtml_Block_Report_Filter_Form');
         $prepareFormMethod = new ReflectionMethod(
             'Magento_Adminhtml_Block_Report_Filter_Form', '_prepareForm');

@@ -26,8 +26,8 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Files
                     ->getTreeJson($this->_getStorage()->getTreeArray())
             );
         } catch (Exception $e) {
-            $this->_objectManager->get('Mage_Core_Model_Logger')->logException($e);
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode(array()));
+            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array()));
         }
     }
 
@@ -46,7 +46,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Files
             );
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody($this->_objectManager->get('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 }

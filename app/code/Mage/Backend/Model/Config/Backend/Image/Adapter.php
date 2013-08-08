@@ -16,31 +16,31 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Backend_Image_Adapter extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Image_Adapter extends Magento_Core_Model_Config_Data
 {
     /**
-     * @var Mage_Core_Model_Image_AdapterFactory
+     * @var Magento_Core_Model_Image_AdapterFactory
      */
     protected $_imageFactory;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_helper;
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Image_AdapterFactory $imageFactory
-     * @param Mage_Core_Helper_Data $helper
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
+     * @param Magento_Core_Helper_Data $helper
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Image_AdapterFactory $imageFactory,
-        Mage_Core_Helper_Data $helper,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Image_AdapterFactory $imageFactory,
+        Magento_Core_Helper_Data $helper,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -52,7 +52,7 @@ class Mage_Backend_Model_Config_Backend_Image_Adapter extends Mage_Core_Model_Co
     /**
      * Checks if choosen image adapter available
      *
-     * @throws Mage_Core_Exception if some of adapter dipendencies was not loaded
+     * @throws Magento_Core_Exception if some of adapter dipendencies was not loaded
      * @return Mage_Backend_Model_Config_Backend_File
      */
     protected function _beforeSave()
@@ -61,7 +61,7 @@ class Mage_Backend_Model_Config_Backend_Image_Adapter extends Mage_Core_Model_Co
             $this->_imageFactory->create($this->getValue());
         } catch (Exception $e) {
             $message = $this->_helper->__('The specified image adapter cannot be used because of: ' . $e->getMessage());
-            throw new Mage_Core_Exception($message);
+            throw new Magento_Core_Exception($message);
         }
 
         return $this;

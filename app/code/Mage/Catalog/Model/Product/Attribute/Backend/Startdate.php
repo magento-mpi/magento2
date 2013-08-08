@@ -76,7 +76,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Startdate extends Mage_Eav_Mo
         }
 
         if ($maxDate) {
-            $date     = Mage::getModel('Mage_Core_Model_Date');
+            $date     = Mage::getModel('Magento_Core_Model_Date');
             $value    = $date->timestamp($startDate);
             $maxValue = $date->timestamp($maxDate);
 

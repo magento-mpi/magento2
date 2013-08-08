@@ -16,7 +16,7 @@
  * @subpackage  Models
  */
 class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
-    extends Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Collection constructor. Initialize collection's model.
@@ -33,7 +33,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
      * Adds percent, real_percent, priority, item_id columns
      * and adds sorting by item_id, priority and percent
      *
-     * @see Mage_Core_Model_Resource_Db_Collection_Abstract::_initSelect()
+     * @see Magento_Core_Model_Resource_Db_Collection_Abstract::_initSelect()
      */
     protected function _initSelect()
     {
@@ -57,7 +57,7 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
      * Joined table should have entity_id, parent_id (order_id), tax_amount,
      * base_tax_amount and qty columns.
      *
-     * @param string|Mage_Core_Model_Resource_Abstract|Mage_Core_Model_Abstract $table
+     * @param string|Magento_Core_Model_Resource_Abstract|Magento_Core_Model_Abstract $table
      * @param string $targetColumn Foreign key in joined table
      * @return Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection Self
      */
@@ -83,15 +83,15 @@ class Saas_PrintedTemplate_Model_Resource_Tax_Order_Item_Collection
     /**
      * Returns table name of collection, model if get string doesn't touch it.
      *
-     * @param string|Mage_Core_Model_Mysql4_Abstract|Mage_Core_Model_Abstract $table
+     * @param string|Magento_Core_Model_Mysql4_Abstract|Magento_Core_Model_Abstract $table
      * @return string Table name
      */
     protected function _getTableName($table)
     {
-        if ($table instanceof Mage_Core_Model_Resource_Db_Collection_Abstract) {
+        if ($table instanceof Magento_Core_Model_Resource_Db_Collection_Abstract) {
             return $table->getMainTable();
         }
-        if ($table instanceof Mage_Core_Model_Abstract) {
+        if ($table instanceof Magento_Core_Model_Abstract) {
             return $table->getResource()->getMainTable();
         }
 

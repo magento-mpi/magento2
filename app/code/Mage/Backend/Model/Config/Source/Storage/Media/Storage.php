@@ -11,7 +11,7 @@
 /**
  * Generate options for media storage selection
  */
-class Mage_Backend_Model_Config_Source_Storage_Media_Storage implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Backend_Model_Config_Source_Storage_Media_Storage implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Options getter
@@ -22,11 +22,11 @@ class Mage_Backend_Model_Config_Source_Storage_Media_Storage implements Mage_Cor
     {
         return array(
             array(
-                'value' => Mage_Core_Model_File_Storage::STORAGE_MEDIA_FILE_SYSTEM,
+                'value' => Magento_Core_Model_File_Storage::STORAGE_MEDIA_FILE_SYSTEM,
                 'label' => Mage::helper('Mage_Backend_Helper_Data')->__('File System')
             ),
             array(
-                'value' => Mage_Core_Model_File_Storage::STORAGE_MEDIA_DATABASE,
+                'value' => Magento_Core_Model_File_Storage::STORAGE_MEDIA_DATABASE,
                 'label' => Mage::helper('Mage_Backend_Helper_Data')->__('Database')
             )
         );

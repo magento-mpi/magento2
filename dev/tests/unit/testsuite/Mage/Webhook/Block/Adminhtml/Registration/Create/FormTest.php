@@ -23,7 +23,7 @@ class Mage_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magento_
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     private $_dataFormMock;
 
-    /** @var  Mage_Core_Model_Registry */
+    /** @var  Magento_Core_Model_Registry */
     private $_registry;
 
     /** @var  string[] */
@@ -32,8 +32,8 @@ class Mage_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magento_
     public function setUp()
     {
         parent::setUp();
-        $this->_registry = new Mage_Core_Model_Registry();
-        $this->_coreHelperMock = $this->_makeMock('Mage_Core_Helper_Data');
+        $this->_registry = new Magento_Core_Model_Registry();
+        $this->_coreHelperMock = $this->_makeMock('Magento_Core_Helper_Data');
         $this->_formFactoryMock = $this->_makeMock('Magento_Data_Form_Factory');
 
         $this->_dataFormMock = $this->_makeMock('Magento_Data_Form');

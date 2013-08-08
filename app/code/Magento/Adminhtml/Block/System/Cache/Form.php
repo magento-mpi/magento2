@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_System_Cache_Form extends Magento_Adminhtml_Block_
             ),
         ));
 
-        foreach (Mage::helper('Mage_Core_Helper_Data')->getCacheTypes() as $type=>$label) {
+        foreach (Mage::helper('Magento_Core_Helper_Data')->getCacheTypes() as $type=>$label) {
             $fieldset->addField('enable_'.$type, 'checkbox', array(
                 'name'=>'enable['.$type.']',
                 'label'=>Mage::helper('Magento_Adminhtml_Helper_Data')->__($label),

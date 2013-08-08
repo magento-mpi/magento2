@@ -95,7 +95,7 @@ class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
                 Mage::helper('Magento_Adminhtml_Helper_Data')->__('The transaction details have been updated.')
             );
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(

@@ -463,13 +463,13 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
       */
     protected function _generateRequestId()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
+        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
     }
 
      /**
       * If response is failed throw exception
       *
-      * @throws Mage_Core_Exception
+      * @throws Magento_Core_Exception
       */
     protected function _processErrors(Magento_Object $response)
     {

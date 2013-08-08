@@ -16,7 +16,7 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Rule_Model_Resource_Rule_Collection_Abstract
-    extends Mage_Core_Model_Resource_Db_Collection_Abstract
+    extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Store associated with rule entities information map
@@ -84,7 +84,7 @@ abstract class Mage_Rule_Model_Resource_Rule_Collection_Abstract
     /**
      * Limit rules collection by specific websites
      *
-     * @param int|array|Mage_Core_Model_Website $websiteId
+     * @param int|array|Magento_Core_Model_Website $websiteId
      *
      * @return Mage_Rule_Model_Resource_Rule_Collection_Abstract
      */
@@ -93,7 +93,7 @@ abstract class Mage_Rule_Model_Resource_Rule_Collection_Abstract
         $entityInfo = $this->_getAssociatedEntityInfo('website');
         if (!$this->getFlag('is_website_table_joined')) {
             $this->setFlag('is_website_table_joined', true);
-            if ($websiteId instanceof Mage_Core_Model_Website) {
+            if ($websiteId instanceof Magento_Core_Model_Website) {
                 $websiteId = $websiteId->getId();
             }
 
@@ -157,7 +157,7 @@ abstract class Mage_Rule_Model_Resource_Rule_Collection_Abstract
         }
 
         $e = Mage::exception(
-            'Mage_Core',
+            'Magento_Core',
             Mage::helper('Mage_Rule_Helper_Data')->__(
                 'There is no information about associated entity type "%s".', $entityType
             )

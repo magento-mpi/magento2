@@ -9,16 +9,16 @@ class Mage_Backend_Model_Config_Backend_BaseurlTest extends PHPUnit_Framework_Te
 {
     public function testSaveMergedJsCssMustBeCleaned()
     {
-        $eventDispatcher = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
-        $cacheManager = $this->getMock('Mage_Core_Model_CacheInterface');
-        $context = new Mage_Core_Model_Context($eventDispatcher, $cacheManager);
+        $eventDispatcher = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $cacheManager = $this->getMock('Magento_Core_Model_CacheInterface');
+        $context = new Magento_Core_Model_Context($eventDispatcher, $cacheManager);
 
-        $resource = $this->getMock('Mage_Core_Model_Resource_Config_Data', array(), array(), '', false);
+        $resource = $this->getMock('Magento_Core_Model_Resource_Config_Data', array(), array(), '', false);
         $resource->expects($this->any())
             ->method('addCommitCallback')
             ->will($this->returnValue($resource));
         $resourceCollection = $this->getMock('Magento_Data_Collection_Db', array(), array(), '', false);
-        $mergeService = $this->getMock('Mage_Core_Model_Page_Asset_MergeService', array(), array(), '', false);
+        $mergeService = $this->getMock('Magento_Core_Model_Page_Asset_MergeService', array(), array(), '', false);
 
         $model = $this->getMock(
             'Mage_Backend_Model_Config_Backend_Baseurl',
@@ -29,7 +29,7 @@ class Mage_Backend_Model_Config_Backend_BaseurlTest extends PHPUnit_Framework_Te
             ->method('cleanMergedJsCss');
 
         $model->setValue('http://example.com/')
-            ->setPath(Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL);
+            ->setPath(Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL);
         $model->save();
     }
 }

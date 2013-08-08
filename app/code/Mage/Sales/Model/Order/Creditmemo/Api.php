@@ -140,13 +140,13 @@ class Mage_Sales_Model_Order_Creditmemo_Api extends Mage_Sales_Model_Api_Resourc
             $creditmemo->addComment($comment, $notifyCustomer);
         }
         try {
-            Mage::getModel('Mage_Core_Model_Resource_Transaction')
+            Mage::getModel('Magento_Core_Model_Resource_Transaction')
                 ->addObject($creditmemo)
                 ->addObject($order)
                 ->save();
             // send email notification
             $creditmemo->sendEmail($notifyCustomer, ($includeComment ? $comment : ''));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
         return $creditmemo->getIncrementId();
@@ -167,7 +167,7 @@ class Mage_Sales_Model_Order_Creditmemo_Api extends Mage_Sales_Model_Api_Resourc
         try {
             $creditmemo->addComment($comment, $notifyCustomer)->save();
             $creditmemo->sendUpdateEmail($notifyCustomer, ($includeComment ? $comment : ''));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -227,7 +227,7 @@ class Mage_Sales_Model_Order_Creditmemo_Api extends Mage_Sales_Model_Api_Resourc
      * Load CreditMemo by IncrementId
      *
      * @param mixed $incrementId
-     * @return Mage_Core_Model_Abstract|Mage_Sales_Model_Order_Creditmemo
+     * @return Magento_Core_Model_Abstract|Mage_Sales_Model_Order_Creditmemo
      */
     protected function _getCreditmemo($incrementId)
     {

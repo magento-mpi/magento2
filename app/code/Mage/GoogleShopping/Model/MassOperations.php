@@ -56,7 +56,7 @@ class Mage_GoogleShopping_Model_MassOperations
      * @param array $productIds
      * @param int $storeId
      * @throws Zend_Gdata_App_CaptchaRequiredException
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_GoogleShopping_Model_MassOperations
      */
     public function addProducts($productIds, $storeId)
@@ -90,7 +90,7 @@ class Mage_GoogleShopping_Model_MassOperations
                         $message = Mage::helper('Mage_GoogleShopping_Helper_Data')->__("The Google Content item for product '%s' (in '%s' store) already exists.", $product->getName(), Mage::app()->getStore($product->getStoreId())->getName());
                     }
                     $errors[] = $message;
-                } catch (Mage_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     $errors[] = Mage::helper('Mage_GoogleShopping_Helper_Data')->__('The product "%s" cannot be added to Google Content. %s', $product->getName(), $e->getMessage());
                 } catch (Exception $e) {
                     Mage::logException($e);
@@ -131,7 +131,7 @@ class Mage_GoogleShopping_Model_MassOperations
      *
      * @param array|Mage_GoogleShopping_Model_Resource_Item_Collection $items
      * @throws Zend_Gdata_App_CaptchaRequiredException
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_GoogleShopping_Model_MassOperations
      */
     public function synchronizeItems($items)
@@ -173,7 +173,7 @@ class Mage_GoogleShopping_Model_MassOperations
                     $errors[] = Mage::helper('Mage_GoogleShopping_Helper_Data')
                         ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
                     $totalFailed++;
-                } catch (Mage_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     $errors[] = Mage::helper('Mage_GoogleShopping_Helper_Data')->__('The item "%s" cannot be updated at Google Content. %s', $item->getProduct()->getName(), $e->getMessage());
                     $totalFailed++;
                 } catch (Exception $e) {
@@ -260,7 +260,7 @@ class Mage_GoogleShopping_Model_MassOperations
      * Return items collection by IDs
      *
      * @param array|Mage_GoogleShopping_Model_Resource_Item_Collection $items
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return null|Mage_GoogleShopping_Model_Resource_Item_Collection
      */
     protected function _getItemsCollection($items)

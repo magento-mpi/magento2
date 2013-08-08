@@ -40,7 +40,7 @@ class Saas_Launcher_Controller_TesttransactionTest extends Magento_Test_TestCase
         $this->assertEquals($this->_cart->getQuote()->getItemsQty(), 0);
         $this->assertSessionMessages(
             $this->equalTo(array("You need to have at least one Simple or Virtual Product to run test transaction.")),
-            Mage_Core_Model_Message::NOTICE,
+            Magento_Core_Model_Message::NOTICE,
             'Mage_Checkout_Model_Session'
         );
     }

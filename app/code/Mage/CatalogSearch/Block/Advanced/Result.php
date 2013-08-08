@@ -15,7 +15,7 @@
  * @package    Mage_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
+class Mage_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Template
 {
     protected function _prepareLayout()
     {
@@ -84,7 +84,7 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
 
     public function getFormUrl()
     {
-        return Mage::getModel('Mage_Core_Model_Url')
+        return Mage::getModel('Magento_Core_Model_Url')
             ->setQueryParams($this->getRequest()->getQuery())
             ->getUrl('*/*/', array('_escape' => true));
     }

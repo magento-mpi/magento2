@@ -11,8 +11,8 @@
 /**
  * URL rewrites edit form
  *
- * @method Mage_Core_Model_Url_Rewrite getUrlRewrite()
- * @method Magento_Adminhtml_Block_Urlrewrite_Edit_Form setUrlRewrite(Mage_Core_Model_Url_Rewrite $model)
+ * @method Magento_Core_Model_Url_Rewrite getUrlRewrite()
+ * @method Magento_Adminhtml_Block_Urlrewrite_Edit_Form setUrlRewrite(Magento_Core_Model_Url_Rewrite $model)
  *
  * @category   Magento
  * @package    Magento_Adminhtml
@@ -101,8 +101,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
             'legend' => Mage::helper('Magento_Adminhtml_Helper_Data')->__('URL Rewrite Information')
         ));
 
-        /** @var $typesModel Mage_Core_Model_Source_Urlrewrite_Types */
-        $typesModel = Mage::getModel('Mage_Core_Model_Source_Urlrewrite_Types');
+        /** @var $typesModel Magento_Core_Model_Source_Urlrewrite_Types */
+        $typesModel = Mage::getModel('Magento_Core_Model_Source_Urlrewrite_Types');
         $fieldset->addField('is_system', 'select', array(
             'label'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Type'),
             'title'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Type'),
@@ -139,8 +139,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
             'value'    => $this->_formValues['target_path'],
         ));
 
-        /** @var $optionsModel Mage_Core_Model_Source_Urlrewrite_Options */
-        $optionsModel = Mage::getModel('Mage_Core_Model_Source_Urlrewrite_Options');
+        /** @var $optionsModel Magento_Core_Model_Source_Urlrewrite_Options */
+        $optionsModel = Mage::getModel('Magento_Core_Model_Source_Urlrewrite_Options');
         $fieldset->addField('options', 'select', array(
             'label'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Redirect'),
             'title'   => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Redirect'),
@@ -231,12 +231,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
     /**
      * Get URL rewrite model instance
      *
-     * @return Mage_Core_Model_Url_Rewrite
+     * @return Magento_Core_Model_Url_Rewrite
      */
     protected function _getModel()
     {
         if (!$this->hasData('url_rewrite')) {
-            $this->setUrlRewrite(Mage::getModel('Mage_Core_Model_Url_Rewrite'));
+            $this->setUrlRewrite(Mage::getModel('Magento_Core_Model_Url_Rewrite'));
         }
         return $this->getUrlRewrite();
     }
@@ -249,7 +249,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
     protected function _getAllStores()
     {
         if (is_null($this->_allStores)) {
-            $this->_allStores = Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm();
+            $this->_allStores = Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm();
         }
 
         return $this->_allStores;

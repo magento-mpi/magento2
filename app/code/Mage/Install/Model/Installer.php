@@ -24,41 +24,41 @@ class Mage_Install_Model_Installer extends Magento_Object
     /**
      * DB updated model
      *
-     * @var Mage_Core_Model_Db_UpdaterInterface
+     * @var Magento_Core_Model_Db_UpdaterInterface
      */
     protected $_dbUpdater;
 
     /**
      * Application chache model
      *
-     * @var Mage_Core_Model_CacheInterface
+     * @var Magento_Core_Model_CacheInterface
      */
     protected $_cache;
 
     /**
      * Application config model
      *
-     * @var Mage_Core_Model_ConfigInterface
+     * @var Magento_Core_Model_ConfigInterface
      */
     protected $_config;
 
     /**
-     * @var Mage_Core_Model_Cache_Types
+     * @var Magento_Core_Model_Cache_Types
      */
     protected $_cacheTypes;
 
     /**
-     * @param Mage_Core_Model_ConfigInterface $config
-     * @param Mage_Core_Model_Db_UpdaterInterface $dbUpdater
-     * @param Mage_Core_Model_CacheInterface $cache
-     * @param Mage_Core_Model_Cache_Types $cacheTypes
+     * @param Magento_Core_Model_ConfigInterface $config
+     * @param Magento_Core_Model_Db_UpdaterInterface $dbUpdater
+     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Core_Model_Cache_Types $cacheTypes
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_ConfigInterface $config,
-        Mage_Core_Model_Db_UpdaterInterface $dbUpdater,
-        Mage_Core_Model_CacheInterface $cache,
-        Mage_Core_Model_Cache_Types $cacheTypes,
+        Magento_Core_Model_ConfigInterface $config,
+        Magento_Core_Model_Db_UpdaterInterface $dbUpdater,
+        Magento_Core_Model_CacheInterface $cache,
+        Magento_Core_Model_Cache_Types $cacheTypes,
         array $data = array()
     ) {
         $this->_dbUpdater = $dbUpdater;
@@ -168,12 +168,12 @@ class Mage_Install_Model_Installer extends Magento_Object
             ->install();
 
 
-        /** @var $primaryConfig Mage_Core_Model_Config_Primary */
-        $primaryConfig = Mage::getSingleton('Mage_Core_Model_Config_Primary');
+        /** @var $primaryConfig Magento_Core_Model_Config_Primary */
+        $primaryConfig = Mage::getSingleton('Magento_Core_Model_Config_Primary');
         $primaryConfig->reinit();
 
-        /** @var $moduleConfig  Mage_Core_Model_Config_Modules*/
-        $moduleConfig = Mage::getSingleton('Mage_Core_Model_Config_Modules');
+        /** @var $moduleConfig  Magento_Core_Model_Config_Modules*/
+        $moduleConfig = Mage::getSingleton('Magento_Core_Model_Config_Modules');
         $moduleConfig->reinit();
 
         return $this;
@@ -193,10 +193,10 @@ class Mage_Install_Model_Installer extends Magento_Object
          * Saving host information into DB
          */
         $setupModel = Mage::getObjectManager()
-            ->create('Mage_Core_Model_Resource_Setup', array('resourceName' => 'core_setup'));
+            ->create('Magento_Core_Model_Resource_Setup', array('resourceName' => 'core_setup'));
 
         if (!empty($data['use_rewrites'])) {
-            $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_USE_REWRITES, 1);
+            $setupModel->setConfigData(Magento_Core_Model_Store::XML_PATH_USE_REWRITES, 1);
         }
 
         if (!empty($data['enable_charts'])) {
@@ -212,17 +212,17 @@ class Mage_Install_Model_Installer extends Magento_Object
         $unsecureBaseUrl = Mage::getBaseUrl('web');
         if (!empty($data['unsecure_base_url'])) {
             $unsecureBaseUrl = $data['unsecure_base_url'];
-            $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL, $unsecureBaseUrl);
+            $setupModel->setConfigData(Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL, $unsecureBaseUrl);
         }
 
         if (!empty($data['use_secure'])) {
-            $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND, 1);
-            $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL, $data['secure_base_url']);
+            $setupModel->setConfigData(Magento_Core_Model_Store::XML_PATH_SECURE_IN_FRONTEND, 1);
+            $setupModel->setConfigData(Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL, $data['secure_base_url']);
             if (!empty($data['use_secure_admin'])) {
-                $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_IN_ADMINHTML, 1);
+                $setupModel->setConfigData(Magento_Core_Model_Store::XML_PATH_SECURE_IN_ADMINHTML, 1);
             }
         } elseif (!empty($data['unsecure_base_url'])) {
-            $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL, $unsecureBaseUrl);
+            $setupModel->setConfigData(Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL, $unsecureBaseUrl);
         }
 
         /**
@@ -230,10 +230,10 @@ class Mage_Install_Model_Installer extends Magento_Object
          */
         $locale = $this->getDataModel()->getLocaleData();
         if (!empty($locale['locale'])) {
-            $setupModel->setConfigData(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $locale['locale']);
+            $setupModel->setConfigData(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $locale['locale']);
         }
         if (!empty($locale['timezone'])) {
-            $setupModel->setConfigData(Mage_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $locale['timezone']);
+            $setupModel->setConfigData(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $locale['timezone']);
         }
         if (!empty($locale['currency'])) {
             $setupModel->setConfigData(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, $locale['currency']);
@@ -251,10 +251,10 @@ class Mage_Install_Model_Installer extends Magento_Object
     /**
      * Set order number prefix
      *
-     * @param Mage_Core_Model_Resource_Setup $setupModel
+     * @param Magento_Core_Model_Resource_Setup $setupModel
      * @param string $orderIncrementPrefix
      */
-    protected function _setOrderIncrementPrefix(Mage_Core_Model_Resource_Setup $setupModel, $orderIncrementPrefix)
+    protected function _setOrderIncrementPrefix(Magento_Core_Model_Resource_Setup $setupModel, $orderIncrementPrefix)
     {
         $select = $setupModel->getConnection()->select()
             ->from($setupModel->getTable('eav_entity_type'), 'entity_type_id')
@@ -275,7 +275,7 @@ class Mage_Install_Model_Installer extends Magento_Object
     public function createAdministrator($data)
     {
         // Mage_User_Model_User belongs to adminhtml area
-        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_CONFIG);
+        Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
         /** @var $user Mage_User_Model_User */
         $user = Mage::getModel('Mage_User_Model_User');
         $user->loadByUsername($data['username']);
@@ -294,8 +294,8 @@ class Mage_Install_Model_Installer extends Magento_Object
      */
     public function installEncryptionKey($key)
     {
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::helper('Mage_Core_Helper_Data');
+        /** @var $helper Magento_Core_Helper_Data */
+        $helper = Mage::helper('Magento_Core_Helper_Data');
         $helper->validateKey($key);
         Mage::getSingleton('Mage_Install_Model_Installer_Config')->replaceTmpEncryptKey($key);
         $this->_refreshConfig();
@@ -310,8 +310,8 @@ class Mage_Install_Model_Installer extends Magento_Object
      */
     public function getValidEncryptionKey($key = null)
     {
-        /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::helper('Mage_Core_Helper_Data');
+        /** @var $helper Magento_Core_Helper_Data */
+        $helper = Mage::helper('Magento_Core_Helper_Data');
         if (!$key) {
             $key = md5($helper->getRandomString(10));
         }

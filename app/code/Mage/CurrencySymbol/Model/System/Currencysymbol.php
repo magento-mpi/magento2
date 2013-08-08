@@ -43,9 +43,9 @@ class Mage_CurrencySymbol_Model_System_Currencysymbol
      * @var array
      */
     protected $_cacheTypes = array(
-        Mage_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER,
-        Mage_Core_Model_Cache_Type_Block::TYPE_IDENTIFIER,
-        Mage_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER,
+        Magento_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER,
+        Magento_Core_Model_Cache_Type_Block::TYPE_IDENTIFIER,
+        Magento_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER,
     );
 
     /**
@@ -110,8 +110,8 @@ class Mage_CurrencySymbol_Model_System_Currencysymbol
             Mage::getStoreConfig(self::XML_PATH_ALLOWED_CURRENCIES, null)
         );
 
-        /* @var $storeModel Mage_Core_Model_System_Store */
-        $storeModel = Mage::getSingleton('Mage_Core_Model_System_Store');
+        /* @var $storeModel Magento_Core_Model_System_Store */
+        $storeModel = Mage::getSingleton('Magento_Core_Model_System_Store');
         foreach ($storeModel->getWebsiteCollection() as $website) {
             $websiteShow = false;
             foreach ($storeModel->getGroupCollection() as $group) {
@@ -142,7 +142,7 @@ class Mage_CurrencySymbol_Model_System_Currencysymbol
 
         $currentSymbols = $this->_unserializeStoreConfig(self::XML_PATH_CUSTOM_CURRENCY_SYMBOL);
 
-        /** @var $locale Mage_Core_Model_LocaleInterface */
+        /** @var $locale Magento_Core_Model_LocaleInterface */
         $locale = Mage::app()->getLocale();
         foreach ($allowedCurrencies as $code) {
             if (!$symbol = $locale->getTranslation($code, 'currencysymbol')) {

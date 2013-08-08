@@ -26,7 +26,7 @@
  * @package     Mage_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rating_Model_Rating_Option extends Mage_Core_Model_Abstract
+class Mage_Rating_Model_Rating_Option extends Magento_Core_Model_Abstract
 {
     protected function _construct()
     {

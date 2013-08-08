@@ -15,7 +15,7 @@
  * @package    Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Block_Account_Dashboard extends Mage_Core_Block_Template
+class Mage_Customer_Block_Account_Dashboard extends Magento_Core_Block_Template
 {
     protected $_subscription = null;
 

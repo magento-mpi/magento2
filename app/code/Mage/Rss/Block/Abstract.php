@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Rss_Block_Abstract extends Mage_Core_Block_Template
+class Mage_Rss_Block_Abstract extends Magento_Core_Block_Template
 {
     protected function _getStoreId()
     {

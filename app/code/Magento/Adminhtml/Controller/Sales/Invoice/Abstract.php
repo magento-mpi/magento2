@@ -101,7 +101,7 @@ class Magento_Adminhtml_Controller_Sales_Invoice_Abstract extends Magento_Adminh
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
             if ($invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($invoiceId)) {
                 $pdf = Mage::getModel('Mage_Sales_Model_Order_Pdf_Invoice')->getPdf(array($invoice));
-                $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').
+                $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').
                     '.pdf', $pdf->render(), 'application/pdf');
             }
         }
@@ -124,7 +124,7 @@ class Magento_Adminhtml_Controller_Sales_Invoice_Abstract extends Magento_Adminh
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
 
-            return $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('Mage_Core_Model_Date')->date('Y-m-d_H-i-s').
+            return $this->_prepareDownloadResponse('invoice'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').
                 '.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('*/*/');

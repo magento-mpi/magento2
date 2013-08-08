@@ -17,7 +17,7 @@
  */
 
 class Mage_Cms_Block_Widget_Page_Link
-    extends Mage_Core_Block_Html_Link
+    extends Magento_Core_Block_Html_Link
     implements Mage_Widget_Block_Interface
 {
     /**

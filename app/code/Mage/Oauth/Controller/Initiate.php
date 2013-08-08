@@ -15,7 +15,7 @@
  * @package     Mage_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Oauth_Controller_Initiate extends Mage_Core_Controller_Front_Action
+class Mage_Oauth_Controller_Initiate extends Magento_Core_Controller_Front_Action
 {
     /**
      * Dispatch event before action

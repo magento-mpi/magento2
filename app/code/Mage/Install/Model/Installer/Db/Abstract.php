@@ -20,14 +20,14 @@ abstract class Mage_Install_Model_Installer_Db_Abstract
     /**
      * Resource model
      *
-     * @var Mage_Core_Model_Resource
+     * @var Magento_Core_Model_Resource
      */
     protected $_resource;
 
     /**
-     * @param Mage_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Resource $resource
      */
-    public function __construct(Mage_Core_Model_Resource $resource)
+    public function __construct(Magento_Core_Model_Resource $resource)
     {
         $this->_resource = $resource;
     }

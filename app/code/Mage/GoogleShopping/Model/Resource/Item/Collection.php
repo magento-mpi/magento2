@@ -15,7 +15,7 @@
  * @package    Mage_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleShopping_Model_Resource_Item_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     protected function _construct()
     {
@@ -115,7 +115,7 @@ class Mage_GoogleShopping_Model_Resource_Item_Collection extends Mage_Core_Model
                 array('types' => $this->getTable('googleshopping_types')),
                 'main_table.type_id=types.type_id'
             );
-        Mage::getResourceHelper('Mage_Core')->prepareColumnsList($this->getSelect()); // avoid column name collision
+        Mage::getResourceHelper('Magento_Core')->prepareColumnsList($this->getSelect()); // avoid column name collision
 
         return $this;
     }

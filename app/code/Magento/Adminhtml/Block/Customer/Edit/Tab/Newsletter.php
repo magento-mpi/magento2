@@ -61,7 +61,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Magento_Admin
     {
         $subscriber = Mage::registry('subscriber');
         if($subscriber->getChangeStatusAt()) {
-            return $this->formatDate($subscriber->getChangeStatusAt(), Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true);
+            return $this->formatDate($subscriber->getChangeStatusAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true);
         }
 
         return null;

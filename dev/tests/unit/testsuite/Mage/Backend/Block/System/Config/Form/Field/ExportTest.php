@@ -23,7 +23,7 @@ class Mage_Backend_Block_System_Config_Form_Field_ExportTest extends PHPUnit_Fra
 
     protected function setUp()
     {
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper',
+        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper',
             array(), array(), '', false, false
         );
 
@@ -41,11 +41,11 @@ class Mage_Backend_Block_System_Config_Form_Field_ExportTest extends PHPUnit_Fra
         $parentObjectMock = $this->getMock('Mage_Backend_Block_Template',
             array('getLayout'), array(), '', false, false
         );
-        $layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false, false);
+        $layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
 
         $blockMock = $this->getMock('Mage_Backend_Block_Widget_Button', array(), array(), '', false, false);
 
-        $requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false, false);
+        $requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false, false);
         $requestMock->expects($this->once())->method('getParam')->with('website')->will($this->returnValue(1));
 
         $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false, false);

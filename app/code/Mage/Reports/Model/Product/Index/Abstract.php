@@ -16,7 +16,7 @@
  * @package    Mage_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Reports_Model_Product_Index_Abstract extends Mage_Core_Model_Abstract
+abstract class Mage_Reports_Model_Product_Index_Abstract extends Magento_Core_Model_Abstract
 {
     /**
      * Cache key name for Count of product index
@@ -130,7 +130,7 @@ abstract class Mage_Reports_Model_Product_Index_Abstract extends Mage_Core_Model
     /**
      * Retrieve Reports Session instance
      *
-     * @return Mage_Core_Model_Session_Generic
+     * @return Magento_Core_Model_Session_Generic
      */
     protected function _getSession()
     {

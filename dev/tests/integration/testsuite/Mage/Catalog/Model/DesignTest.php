@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Mage_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -35,11 +35,11 @@ class Mage_Catalog_Model_DesignTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Mage_Core_Model_Theme
+     * @return Magento_Core_Model_Theme
      */
     public function getThemeModel()
     {
-        $theme = Mage::getModel('Mage_Core_Model_Theme');
+        $theme = Mage::getModel('Magento_Core_Model_Theme');
         $theme->setData($this->_getThemeData());
         return array(array($theme));
     }

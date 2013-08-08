@@ -52,7 +52,7 @@ class Mage_Sales_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
      * Update attributes for entity
      *
      * @param array $data
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param array $attributes
      * @return Mage_Sales_Model_Api_Resource
      */
@@ -71,7 +71,7 @@ class Mage_Sales_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
     /**
      * Retrieve entity attributes values
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @param array $attributes
      * @return Mage_Sales_Model_Api_Resource
      */

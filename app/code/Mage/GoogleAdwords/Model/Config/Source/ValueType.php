@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Mage_GoogleAdwords_Model_Config_Source_ValueType implements Mage_Core_Model_Option_ArrayInterface
+class Mage_GoogleAdwords_Model_Config_Source_ValueType implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Mage_GoogleAdwords_Helper_Data

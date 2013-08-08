@@ -35,14 +35,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder
     protected $_page;
 
     /**
-     * @var Mage_Core_Model_View_FileSystem
+     * @var Magento_Core_Model_View_FileSystem
      */
     protected $_viewFileSystem;
 
     /**
      * Create font instances
      */
-    public function __construct(Mage_Core_Model_View_FileSystem $viewFileSystem)
+    public function __construct(Magento_Core_Model_View_FileSystem $viewFileSystem)
     {
         $this->_viewFileSystem = $viewFileSystem;
         $this->_fontNormal = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA);

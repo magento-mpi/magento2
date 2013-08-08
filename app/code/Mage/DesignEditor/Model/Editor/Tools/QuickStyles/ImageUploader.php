@@ -31,7 +31,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Mag
     protected $_filesystem;
 
     /**
-     * @var Mage_Core_Model_File_UploaderFactory
+     * @var Magento_Core_Model_File_UploaderFactory
      */
     protected $_uploaderFactory;
 
@@ -46,12 +46,12 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Mag
     /**
      * Generic constructor of change instance
      *
-     * @param Mage_Core_Model_File_UploaderFactory $uploaderFactory
+     * @param Magento_Core_Model_File_UploaderFactory $uploaderFactory
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_File_UploaderFactory $uploaderFactory,
+        Magento_Core_Model_File_UploaderFactory $uploaderFactory,
         Magento_Filesystem $filesystem,
         array $data = array()
     ) {
@@ -91,12 +91,12 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Mag
     /**
      * Get theme
      *
-     * @return Mage_Core_Model_Theme
+     * @return Magento_Core_Model_Theme
      * @throws InvalidArgumentException
      */
     protected function _getTheme()
     {
-        /** @var $theme Mage_Core_Model_Theme */
+        /** @var $theme Magento_Core_Model_Theme */
         $theme = $this->getTheme();
         if (!$theme->getId()) {
             throw new InvalidArgumentException('Theme was not found.');
@@ -113,7 +113,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends Mag
     public function uploadFile($key)
     {
         $result = array();
-        /** @var $uploader Mage_Core_Model_File_Uploader */
+        /** @var $uploader Magento_Core_Model_File_Uploader */
         $uploader = $this->_uploaderFactory->create(array('fileId' => $key));
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->setAllowRenameFiles(true);

@@ -15,7 +15,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Resource_Order_Status extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Sales_Model_Resource_Order_Status extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Status labels table
@@ -71,10 +71,10 @@ class Mage_Sales_Model_Resource_Order_Status extends Mage_Core_Model_Resource_Db
     /**
      * Store labels getter
      *
-     * @param Mage_Core_Model_Abstract $status
+     * @param Magento_Core_Model_Abstract $status
      * @return array
      */
-    public function getStoreLabels(Mage_Core_Model_Abstract $status)
+    public function getStoreLabels(Magento_Core_Model_Abstract $status)
     {
         $select = $this->_getWriteAdapter()->select()
             ->from($this->_labelsTable, array('store_id', 'label'))
@@ -85,10 +85,10 @@ class Mage_Sales_Model_Resource_Order_Status extends Mage_Core_Model_Resource_Db
     /**
      * Save status labels per store
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Sales_Model_Resource_Order_Status
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         if ($object->hasStoreLabels()) {
             $labels = $object->getStoreLabels();
@@ -156,7 +156,7 @@ class Mage_Sales_Model_Resource_Order_Status extends Mage_Core_Model_Resource_Db
             ->where('state = ?', $state);
 
         if ($this->_getWriteAdapter()->fetchOne($select) == 1) {
-            throw new Mage_Core_Exception(
+            throw new Magento_Core_Exception(
                 Mage::helper('Mage_Sales_Helper_Data')->__('The last status can\'t be unassigned from its current state.')
             );
         }

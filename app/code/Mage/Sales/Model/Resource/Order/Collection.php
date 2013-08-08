@@ -135,7 +135,7 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
                     $shippingAliasName . '.postcode'
                 )
             );
-        Mage::getResourceHelper('Mage_Core')->prepareColumnsList($this->getSelect());
+        Mage::getResourceHelper('Magento_Core')->prepareColumnsList($this->getSelect());
         return $this;
     }
 

@@ -113,7 +113,7 @@ class Mage_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
                 $result['success'] = 1;
                 $isError = false;
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Magento_Core_Exception $e) {
                 $message = $e->getMessage();
                 if( !empty($message) ) {
                     $this->_getSession()->addError($message);
@@ -131,13 +131,13 @@ class Mage_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
                 $result['redirect'] = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/sales_order_create/');
             }
 
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
         }
         else {
             $result = array(
                 'error_messages' => $this->__('Please choose a payment method.')
             );
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
         }
     }
 
@@ -190,7 +190,7 @@ class Mage_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
     public function returnQuoteAction()
     {
         $this->_returnQuote();
-        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array('success' => 1)));
+        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array('success' => 1)));
     }
 
     /**

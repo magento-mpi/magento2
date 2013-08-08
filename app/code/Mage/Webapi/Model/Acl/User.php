@@ -17,7 +17,7 @@
  * @method Mage_Webapi_Model_Acl_User setCompanyName() setCompanyName(string $companyName)
  * @method string getCompanyName() getCompanyName()
  */
-class Mage_Webapi_Model_Acl_User extends Mage_Core_Model_Abstract implements Mage_Oauth_Model_ConsumerInterface
+class Mage_Webapi_Model_Acl_User extends Magento_Core_Model_Abstract implements Mage_Oauth_Model_ConsumerInterface
 {
     /**
      * Prefix of model events names.

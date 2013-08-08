@@ -289,7 +289,7 @@ class Enterprise_Cms_Model_Observer
         $sortOrder = array();
         if ($nodesData) {
             try{
-                $nodesData = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($page->getNodesData());
+                $nodesData = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($page->getNodesData());
             } catch (Zend_Json_Exception $e) {
                 $nodesData=null;
             }
@@ -328,7 +328,7 @@ class Enterprise_Cms_Model_Observer
             ->addAccessLevelFilter(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PRIVATE)
             ->addUserIdFilter();
 
-         Mage::getSingleton('Mage_Core_Model_Resource_Iterator')
+         Mage::getSingleton('Magento_Core_Model_Resource_Iterator')
             ->walk($collection->getSelect(), array(array($this, 'removeVersionCallback')), array('version'=> $version));
 
          return $this;
@@ -342,7 +342,7 @@ class Enterprise_Cms_Model_Observer
      */
     public function deleteWebsite(Magento_Event_Observer $observer)
     {
-        /* @var $store Mage_Core_Model_Website */
+        /* @var $store Magento_Core_Model_Website */
         $website = $observer->getEvent()->getWebsite();
         $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
         $nodeModel->deleteByScope(Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE, $website->getId());
@@ -417,7 +417,7 @@ class Enterprise_Cms_Model_Observer
 
         try {
             $version->delete();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             // If we have situation when revision from
             // orphaned private version published we should
             // change its access level to protected so publisher
@@ -513,7 +513,7 @@ class Enterprise_Cms_Model_Observer
         /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
         $node = Mage::registry('current_cms_hierarchy_node');
 
-        /* @var $action Mage_Core_Controller_Varien_Action */
+        /* @var $action Magento_Core_Controller_Varien_Action */
         $action = $observer->getEvent()->getControllerAction();
 
         // collect loaded handles for cms page

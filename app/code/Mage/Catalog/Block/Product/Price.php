@@ -15,7 +15,7 @@
  * @category   Mage
  * @package    Mage_Catalog
  */
-class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Product_Price extends Magento_Core_Block_Template
 {
     protected $_priceDisplayType = null;
     protected $_idSuffix = '';
@@ -147,6 +147,6 @@ class Mage_Catalog_Block_Product_Price extends Mage_Core_Block_Template
     public function getRealPriceJs($product)
     {
         $html = $this->hasRealPriceHtml() ? $this->getRealPriceHtml() : $product->getRealPriceHtml();
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($html);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($html);
     }
 }

@@ -16,7 +16,7 @@
  * @package     Mage_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Index_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Index_Model_Resource_Event extends Magento_Core_Model_Resource_Db_Abstract
 {
     protected function _construct()
     {
@@ -26,10 +26,10 @@ class Mage_Index_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abstra
     /**
      * Check if semilar event exist before start saving data
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Index_Model_Resource_Event
      */
-    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         /**
          * Check if event already exist and merge previous data
@@ -54,10 +54,10 @@ class Mage_Index_Model_Resource_Event extends Mage_Core_Model_Resource_Db_Abstra
     /**
      * Save assigned processes
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      * @return Mage_Index_Model_Resource_Event
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         $processIds = $object->getProcessIds();
         if (is_array($processIds)) {

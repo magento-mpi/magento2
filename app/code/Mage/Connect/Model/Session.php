@@ -16,7 +16,7 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Connect_Model_Session extends Mage_Core_Model_Session_Abstract
+class Mage_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
 {
 
     /**

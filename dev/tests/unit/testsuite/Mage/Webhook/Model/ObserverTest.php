@@ -27,7 +27,7 @@ class Mage_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $this->_webapiEventHandler = $this->_getBasicMock('Mage_Webhook_Model_Webapi_EventHandler');
         $this->_subscriptionSet = $this->_getBasicMock('Mage_Webhook_Model_Resource_Subscription_Collection');
-        $this->_logger = $this->_getBasicMock('Mage_Core_Model_Logger');
+        $this->_logger = $this->_getBasicMock('Magento_Core_Model_Logger');
 
         $this->_observer = new Mage_Webhook_Model_Observer(
             $this->_webapiEventHandler,

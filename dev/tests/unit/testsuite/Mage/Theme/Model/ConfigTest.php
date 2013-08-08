@@ -40,7 +40,7 @@ class Mage_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_layoutCacheMock;
 
     /**
-     * @var Mage_Core_Model_Config_Storage_WriterInterface
+     * @var Magento_Core_Model_Config_Storage_WriterInterface
      */
     protected $_storeConfigWriter;
 
@@ -51,27 +51,27 @@ class Mage_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var $this->_themeMock Mage_Core_Model_Theme */
-        $this->_themeMock = $this->getMock('Mage_Core_Model_Theme', array(), array(), '', false);
+        /** @var $this->_themeMock Magento_Core_Model_Theme */
+        $this->_themeMock = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMockForAbstractClass(
-            'Mage_Core_Model_StoreManagerInterface', array(), '', true, true, true,
+            'Magento_Core_Model_StoreManagerInterface', array(), '', true, true, true,
             array('getStores', 'isSingleStoreMode')
         );
         $this->_configData = $this->getMock(
-            'Mage_Core_Model_Config_Data', array('getCollection', 'addFieldToFilter'), array(), '', false
+            'Magento_Core_Model_Config_Data', array('getCollection', 'addFieldToFilter'), array(), '', false
         );
         $this->_configCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
         $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento_Cache_FrontendInterface');
 
         $this->_storeConfigWriter = $this->getMock(
-            'Mage_Core_Model_Config_Storage_WriterInterface', array('save', 'delete')
+            'Magento_Core_Model_Config_Storage_WriterInterface', array('save', 'delete')
         );
 
         $this->_model = new Mage_Theme_Model_Config(
             $this->_configData,
             $this->_storeConfigWriter,
             $this->_storeManagerMock,
-            $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
             $this->_configCacheMock,
             $this->_layoutCacheMock
         );
@@ -105,12 +105,12 @@ class Mage_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_configData->expects($this->at(1))
             ->method('addFieldToFilter')
-            ->with('scope', Mage_Core_Model_Config::SCOPE_STORES)
+            ->with('scope', Magento_Core_Model_Config::SCOPE_STORES)
             ->will($this->returnValue($this->_configData));
 
         $this->_configData->expects($this->at(2))
             ->method('addFieldToFilter')
-            ->with('path', Mage_Core_Model_View_Design::XML_PATH_THEME_ID)
+            ->with('path', Magento_Core_Model_View_Design::XML_PATH_THEME_ID)
             ->will($this->returnValue(array($configEntity)));
 
         $this->_themeMock->expects($this->any())
@@ -144,12 +144,12 @@ class Mage_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_configData->expects($this->at(1))
             ->method('addFieldToFilter')
-            ->with('scope', Mage_Core_Model_Config::SCOPE_STORES)
+            ->with('scope', Magento_Core_Model_Config::SCOPE_STORES)
             ->will($this->returnValue($this->_configData));
 
         $this->_configData->expects($this->at(2))
             ->method('addFieldToFilter')
-            ->with('path', Mage_Core_Model_View_Design::XML_PATH_THEME_ID)
+            ->with('path', Magento_Core_Model_View_Design::XML_PATH_THEME_ID)
             ->will($this->returnValue(array($configEntity)));
 
         $this->_themeMock->expects($this->any())

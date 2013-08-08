@@ -5,24 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_Data
+class Mage_Backend_Model_Config_Backend_Baseurl extends Magento_Core_Model_Config_Data
 {
     /**
-     * @var Mage_Core_Model_Page_Asset_MergeService
+     * @var Magento_Core_Model_Page_Asset_MergeService
      */
     protected $_mergeService;
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_Page_Asset_MergeService $mergeService
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Page_Asset_MergeService $mergeService
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_Page_Asset_MergeService $mergeService,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_Page_Asset_MergeService $mergeService,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -34,7 +34,7 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
      * Validate a base URL field value
      *
      * @return Mage_Backend_Model_Config_Backend_Baseurl
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _beforeSave()
     {
@@ -43,11 +43,11 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
             if (!$this->_validateUnsecure($value) && !$this->_validateSecure($value)) {
                 $this->_validateFullyQualifiedUrl($value);
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $field = $this->getFieldConfig();
             $label = ($field && is_array($field) ? $field['label'] : 'value');
             $msg = Mage::helper('Mage_Backend_Helper_Data')->__('Invalid %s. %s', $label, $e->getMessage());
-            $error = new Mage_Core_Exception($msg, 0, $e);
+            $error = new Magento_Core_Exception($msg, 0, $e);
             throw $error;
         }
     }
@@ -62,16 +62,16 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
     {
         $placeholders = array('{{unsecure_base_url}}');
         switch ($this->getPath()) {
-            case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL:
+            case Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL:
                 $this->_assertValuesOrUrl(array('{{base_url}}'), $value);
                 break;
-            case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL:
+            case Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL:
                 $this->_assertStartsWithValuesOrUrl($placeholders, $value);
                 break;
-            case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_STATIC_URL:
-            case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_CACHE_URL:
-            case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LIB_URL:
-            case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_MEDIA_URL:
+            case Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_STATIC_URL:
+            case Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_CACHE_URL:
+            case Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_LIB_URL:
+            case Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_MEDIA_URL:
                 $this->_assertStartsWithValuesOrUrlOrEmpty($placeholders, $value);
                 break;
             default:
@@ -90,16 +90,16 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
     {
         $placeholders = array('{{unsecure_base_url}}', '{{secure_base_url}}');
         switch ($this->getPath()) {
-            case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL:
+            case Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL:
                 $this->_assertValuesOrUrl(array('{{base_url}}', '{{unsecure_base_url}}'), $value);
                 break;
-            case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL:
+            case Magento_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL:
                 $this->_assertStartsWithValuesOrUrl($placeholders, $value);
                 break;
-            case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_STATIC_URL:
-            case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_CACHE_URL:
-            case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LIB_URL:
-            case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_MEDIA_URL:
+            case Magento_Core_Model_Store::XML_PATH_SECURE_BASE_STATIC_URL:
+            case Magento_Core_Model_Store::XML_PATH_SECURE_BASE_CACHE_URL:
+            case Magento_Core_Model_Store::XML_PATH_SECURE_BASE_LIB_URL:
+            case Magento_Core_Model_Store::XML_PATH_SECURE_BASE_MEDIA_URL:
                 $this->_assertStartsWithValuesOrUrlOrEmpty($placeholders, $value);
                 break;
             default:
@@ -113,12 +113,12 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
      *
      * @param array $values
      * @param string $value
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     private function _assertValuesOrUrl(array $values, $value)
     {
         if (!in_array($value, $values) && !$this->_isFullyQualifiedUrl($value)) {
-            throw new Mage_Core_Exception(Mage::helper('Mage_Backend_Helper_Data')
+            throw new Magento_Core_Exception(Mage::helper('Mage_Backend_Helper_Data')
                 ->__('Value must be a URL or one of placeholders: %s', implode(',', $values)));
         }
     }
@@ -128,13 +128,13 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
      *
      * @param array $values
      * @param string $value
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     private function _assertStartsWithValuesOrUrl(array $values, $value)
     {
         $quoted = array_map('preg_quote', $values, array_fill(0, count($values), '/'));
         if (!preg_match('/^(' . implode('|', $quoted) . ')(.+\/)?$/', $value) && !$this->_isFullyQualifiedUrl($value)) {
-            throw new Mage_Core_Exception(Mage::helper('Mage_Backend_Helper_Data')
+            throw new Magento_Core_Exception(Mage::helper('Mage_Backend_Helper_Data')
                 ->__('Specify a URL or path that starts with placeholder(s): %s.', implode(', ', $values)));
         }
     }
@@ -144,7 +144,7 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
      *
      * @param array $values
      * @param string $value
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     private function _assertStartsWithValuesOrUrlOrEmpty(array $values, $value)
     {
@@ -153,10 +153,10 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
         }
         try {
             $this->_assertStartsWithValuesOrUrl($values, $value);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $msg = Mage::helper('Mage_Backend_Helper_Data')
                 ->__('%s An empty value is allowed as well.', $e->getMessage());
-            $error = new Mage_Core_Exception($msg, 0, $e);
+            $error = new Magento_Core_Exception($msg, 0, $e);
             throw $error;
         }
     }
@@ -165,12 +165,12 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
      * Default validation of a URL
      *
      * @param string $value
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     private function _validateFullyQualifiedUrl($value)
     {
         if (!$this->_isFullyQualifiedUrl($value)) {
-            throw new Mage_Core_Exception(
+            throw new Magento_Core_Exception(
                 Mage::helper('Mage_Backend_Helper_Data')->__('Specify a fully qualified URL.')
             );
         }
@@ -195,12 +195,12 @@ class Mage_Backend_Model_Config_Backend_Baseurl extends Mage_Core_Model_Config_D
     {
         if ($this->isValueChanged()) {
             switch ($this->getPath()) {
-                case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL:
-                case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_MEDIA_URL:
-                case Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LIB_URL:
-                case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL:
-                case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_MEDIA_URL:
-                case Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LIB_URL:
+                case Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL:
+                case Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_MEDIA_URL:
+                case Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_LIB_URL:
+                case Magento_Core_Model_Store::XML_PATH_SECURE_BASE_URL:
+                case Magento_Core_Model_Store::XML_PATH_SECURE_BASE_MEDIA_URL:
+                case Magento_Core_Model_Store::XML_PATH_SECURE_BASE_LIB_URL:
                     $this->_mergeService->cleanMergedJsCss();
                     break;
             }

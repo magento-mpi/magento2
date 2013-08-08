@@ -63,7 +63,7 @@ class Mage_Persistent_Model_Observer_Session
 
         // Set new cookie
         if ($sessionModel->getId()) {
-            Mage::getSingleton('Mage_Core_Model_Cookie')->set(
+            Mage::getSingleton('Magento_Core_Model_Cookie')->set(
                 Mage_Persistent_Model_Session::COOKIE_NAME,
                 $sessionModel->getKey(),
                 $persistentLifeTime
@@ -113,7 +113,7 @@ class Mage_Persistent_Model_Observer_Session
         /** @var $sessionModel Mage_Persistent_Model_Session */
         $sessionModel = $helper->getSession();
 
-        /** @var $request Mage_Core_Controller_Request_Http */
+        /** @var $request Magento_Core_Controller_Request_Http */
         $request = $observer->getEvent()->getFront()->getRequest();
 
         // Quote Id could be changed only by logged in customer
@@ -139,7 +139,7 @@ class Mage_Persistent_Model_Observer_Session
             return;
         }
 
-        /** @var $controllerAction Mage_Core_Controller_Varien_Action */
+        /** @var $controllerAction Magento_Core_Controller_Varien_Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
         if ($controllerAction) {
             $rememberMeCheckbox = $controllerAction->getRequest()->getPost('persistent_remember_me');
@@ -168,13 +168,13 @@ class Mage_Persistent_Model_Observer_Session
             return;
         }
 
-        /** @var $controllerAction Mage_Core_Controller_Front_Action */
+        /** @var $controllerAction Magento_Core_Controller_Front_Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
 
         if (Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn()
             || $controllerAction->getFullActionName() == 'customer_account_logout'
         ) {
-            Mage::getSingleton('Mage_Core_Model_Cookie')->renew(
+            Mage::getSingleton('Magento_Core_Model_Cookie')->renew(
                 Mage_Persistent_Model_Session::COOKIE_NAME,
                 $helper->getLifeTime()
             );

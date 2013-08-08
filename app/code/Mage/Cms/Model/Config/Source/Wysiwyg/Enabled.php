@@ -15,7 +15,7 @@
  * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Model_Config_Source_Wysiwyg_Enabled implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Cms_Model_Config_Source_Wysiwyg_Enabled implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {

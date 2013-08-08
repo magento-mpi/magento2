@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
+class Mage_Catalog_Block_Product_View_Options extends Magento_Core_Block_Template
 {
     protected $_product;
 
@@ -128,8 +128,8 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
     protected function _getPriceConfiguration($option)
     {
         $data = array();
-        $data['price']      = Mage::helper('Mage_Core_Helper_Data')->currency($option->getPrice(true), false, false);
-        $data['oldPrice']   = Mage::helper('Mage_Core_Helper_Data')->currency($option->getPrice(false), false, false);
+        $data['price']      = Mage::helper('Magento_Core_Helper_Data')->currency($option->getPrice(true), false, false);
+        $data['oldPrice']   = Mage::helper('Magento_Core_Helper_Data')->currency($option->getPrice(false), false, false);
         $data['priceValue'] = $option->getPrice(false);
         $data['type']       = $option->getPriceType();
         $data['excludeTax'] = $price = Mage::helper('Mage_Tax_Helper_Data')->getPrice($option->getProduct(), $data['price'], false);
@@ -163,7 +163,7 @@ class Mage_Catalog_Block_Product_View_Options extends Mage_Core_Block_Template
             $config[$option->getId()] = $priceValue;
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($config);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
     }
 
     /**

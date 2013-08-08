@@ -202,7 +202,7 @@ class Mage_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminhtml
         $chooser = $this->getLayout()
             ->createBlock('Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser')
             ->setUseMassaction(true)
-            ->setId(Mage::helper('Mage_Core_Helper_Data')->uniqHash('categories'))
+            ->setId(Mage::helper('Magento_Core_Helper_Data')->uniqHash('categories'))
             ->setIsAnchorOnly($isAnchorOnly)
             ->setSelectedCategories(explode(',', $selected));
         $this->setBody($chooser->toHtml());
@@ -218,7 +218,7 @@ class Mage_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminhtml
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
             ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser')
-            ->setName(Mage::helper('Mage_Core_Helper_Data')->uniqHash('products_grid_'))
+            ->setName(Mage::helper('Magento_Core_Helper_Data')->uniqHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));

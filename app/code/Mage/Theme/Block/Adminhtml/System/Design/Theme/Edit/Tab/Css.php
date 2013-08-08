@@ -30,7 +30,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     /**
      * Theme custom css file
      *
-     * @var Mage_Core_Model_Theme_File
+     * @var Magento_Core_Model_Theme_File
      */
     protected $_customCssFile;
 
@@ -112,7 +112,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     /**
      * Prepare file items for output on page for download
      *
-     * @param Mage_Core_Model_Theme_File $file
+     * @param Magento_Core_Model_Theme_File $file
      * @return array
      */
     protected function _convertFileData($file)
@@ -275,7 +275,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     {
         return $this->getUrl('*/*/downloadCss', array(
             'theme_id' => $themeId,
-            'file'     => $this->_helperFactory->get('Mage_Core_Helper_Data')->urlEncode($fileId)
+            'file'     => $this->_helperFactory->get('Magento_Core_Helper_Data')->urlEncode($fileId)
         ));
     }
 }

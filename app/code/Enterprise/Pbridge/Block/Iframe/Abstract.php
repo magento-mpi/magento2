@@ -37,7 +37,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
      *
      * @var string
      */
-    protected $_iframeBlockType = 'Mage_Core_Block_Template';
+    protected $_iframeBlockType = 'Magento_Core_Block_Template';
 
     /**
      * Default iframe template
@@ -117,7 +117,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     /**
      * Create and return iframe block
      *
-     * @return Mage_Core_Block_Template
+     * @return Magento_Core_Block_Template
      */
     public function getIframeBlock()
     {
@@ -310,7 +310,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
     /**
      * Return store for current context
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     protected function _getCurrentStore()
     {

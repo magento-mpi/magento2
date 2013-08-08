@@ -13,7 +13,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Controller_Billing_Agreement extends Mage_Core_Controller_Front_Action
+class Mage_Sales_Controller_Billing_Agreement extends Magento_Core_Controller_Front_Action
 {
     /**
      * View billing agreements
@@ -80,7 +80,7 @@ class Mage_Sales_Controller_Billing_Agreement extends Mage_Core_Controller_Front
 
                 $this->_redirectUrl($agreement->initToken());
                 return $this;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
@@ -111,7 +111,7 @@ class Mage_Sales_Controller_Billing_Agreement extends Mage_Core_Controller_Front
                 );
                 $this->_redirect('*/*/view', array('agreement' => $agreement->getId()));
                 return;
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
@@ -142,7 +142,7 @@ class Mage_Sales_Controller_Billing_Agreement extends Mage_Core_Controller_Front
             try {
                 $agreement->cancel();
                 $this->_getSession()->addNotice($this->__('The billing agreement "%s" has been canceled.', $agreement->getReferenceId()));
-            } catch (Mage_Core_Exception $e) {
+            } catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);

@@ -15,7 +15,7 @@
  * @package    Mage_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Captcha_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Used for "name" attribute of captcha's input field
@@ -49,7 +49,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_captcha = array();
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
@@ -59,27 +59,27 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_filesystem;
 
     /**
-     * @var Mage_Core_Model_Dir
+     * @var Magento_Core_Model_Dir
      */
     protected $_dirs = null;
 
     /**
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_app;
 
     /**
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Model_Dir $dirs
-     * @param Mage_Core_Model_App $app
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Dir $dirs
+     * @param Magento_Core_Model_App $app
+     * @param Magento_Core_Model_Config $config
      * @param Magento_Filesystem $filesystem
      */
     public function __construct(
-        Mage_Core_Helper_Context $context,
-        Mage_Core_Model_Dir $dirs,
-        Mage_Core_Model_App $app,
-        Mage_Core_Model_Config $config,
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Dir $dirs,
+        Magento_Core_Model_App $app,
+        Magento_Core_Model_Config $config,
         Magento_Filesystem $filesystem
     ) {
         $this->_dirs = $dirs;
@@ -116,8 +116,8 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      * Returns value of the node with respect to current area (frontend or backend)
      *
      * @param string $id The last part of XML_PATH_$area_CAPTCHA_ constant (case insensitive)
-     * @param Mage_Core_Model_Store $store
-     * @return Mage_Core_Model_Config_Element
+     * @param Magento_Core_Model_Store $store
+     * @return Magento_Core_Model_Config_Element
      */
     public function getConfigNode($id, $store = null)
     {
@@ -139,7 +139,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
         $node = $this->_config->getNode(Mage_Captcha_Helper_Data::XML_PATH_CAPTCHA_FONTS);
         $fonts = array();
         if ($node) {
-            $libDir = $this->_dirs->getDir(Mage_Core_Model_Dir::LIB);
+            $libDir = $this->_dirs->getDir(Magento_Core_Model_Dir::LIB);
             foreach ($node->children() as $fontName => $fontNode) {
                 $fonts[$fontName] = array(
                     'label' => (string)$fontNode->label,
@@ -158,7 +158,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getImgDir($website = null)
     {
-        $mediaDir =  $this->_dirs->getDir(Mage_Core_Model_Dir::MEDIA);
+        $mediaDir =  $this->_dirs->getDir(Magento_Core_Model_Dir::MEDIA);
         $captchaDir = $mediaDir . '/captcha/' . $this->_app->getWebsite($website)->getCode();
         $this->_filesystem->setWorkingDirectory($mediaDir);
         $this->_filesystem->setIsAllowCreateDirectories(true);
@@ -174,7 +174,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getImgUrl($website = null)
     {
-        return $this->_app->getStore()->getBaseUrl(Mage_Core_Model_Dir::MEDIA) . 'captcha'
+        return $this->_app->getStore()->getBaseUrl(Magento_Core_Model_Dir::MEDIA) . 'captcha'
             . '/' . $this->_app->getWebsite($website)->getCode() . '/';
     }
 }

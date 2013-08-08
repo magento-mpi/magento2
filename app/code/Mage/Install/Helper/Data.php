@@ -11,6 +11,6 @@
 /**
  * Install data helper
  */
-class Mage_Install_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Install_Helper_Data extends Magento_Core_Helper_Abstract
 {
 }

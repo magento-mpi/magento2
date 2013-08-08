@@ -24,7 +24,7 @@
  * @package     Mage_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
+class Mage_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
 {
     protected $_ctcs                = null;
     protected $_ptcs                = null;
@@ -58,18 +58,18 @@ class Mage_Tax_Model_Calculation_Rule extends Mage_Core_Model_Abstract
     protected $_taxClass;
 
     /**
-     * @param Mage_Core_Model_Context $context
+     * @param Magento_Core_Model_Context $context
      * @param Mage_Tax_Helper_Data $taxHelper
      * @param Mage_Tax_Model_Class $taxClass
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
+        Magento_Core_Model_Context $context,
         Mage_Tax_Helper_Data $taxHelper,
         Mage_Tax_Model_Class $taxClass,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

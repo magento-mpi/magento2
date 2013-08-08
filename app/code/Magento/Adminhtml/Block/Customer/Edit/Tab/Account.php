@@ -233,7 +233,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
             $form->getElement('website_id')->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "
-                var {$prefix}_websites = " . Mage::helper('Mage_Core_Helper_Data')->jsonEncode($websites) .";
+                var {$prefix}_websites = " . Mage::helper('Magento_Core_Helper_Data')->jsonEncode($websites) .";
                 jQuery.validator.addMethod('validate-website-has-store', function(v, elem){
                         return {$prefix}_websites[elem.value] == true;
                     },
@@ -252,7 +252,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
             $fieldset->addField('sendemail_store_id', 'select', array(
                 'label' => $this->helper('Mage_Customer_Helper_Data')->__('Send From'),
                 'name' => 'sendemail_store_id',
-                'values' => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm()
+                'values' => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm()
             ));
         } else {
             $fieldset->removeField('website_id');

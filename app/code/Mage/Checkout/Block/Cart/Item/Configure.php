@@ -17,7 +17,7 @@
  * @package    Mage_Checkout
  * @module     Checkout
  */
-class Mage_Checkout_Block_Cart_Item_Configure extends Mage_Core_Block_Template
+class Mage_Checkout_Block_Cart_Item_Configure extends Magento_Core_Block_Template
 {
 
     /**

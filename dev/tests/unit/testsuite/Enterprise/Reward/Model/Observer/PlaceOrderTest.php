@@ -46,7 +46,7 @@ class Enterprise_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_
     public function setUp()
     {
         $this->_restrictionMock = $this->getMock('Enterprise_Reward_Model_Observer_PlaceOrder_RestrictionInterface');
-        $this->_storeManagerMock = $this->getMock('Mage_Core_Model_StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
         $this->_modelFactoryMock
             = $this->getMock('Enterprise_Reward_Model_RewardFactory', array('create'), array(), '', false);
         $this->_resourceFactoryMock
@@ -82,7 +82,7 @@ class Enterprise_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_
             ->method('getBaseRewardCurrencyAmount', 'getCustomerId')->will($this->returnValue(1));
         $model = $this->getMock('Enterprise_Reward_Model_Reward', array(), array(), '', false);
         $this->_modelFactoryMock->expects($this->once())->method('create')->will($this->returnValue($model));
-        $store = $this->getMock('Mage_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->once())->method('getWebsiteId');
         $resource = $this->getMock('Enterprise_Reward_Model_Resource_Reward', array(), array(), '', false);

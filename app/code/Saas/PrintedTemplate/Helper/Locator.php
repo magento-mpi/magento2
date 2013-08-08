@@ -15,7 +15,7 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Helpers
  */
-class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
+class Saas_PrintedTemplate_Helper_Locator extends Magento_Core_Helper_Abstract
 {
     /**
      * Config path to name of HTML to PDF renderer class
@@ -28,7 +28,7 @@ class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
      * @param mixed $model
      * @param null|Saas_PrintedTemplate_Model_Template $template
      * @return boolean|Saas_PrintedTemplate_Model_Converter_PdfInterface
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getConverter($model, Saas_PrintedTemplate_Model_Template $template = null)
     {
@@ -58,7 +58,7 @@ class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
      * Get PDF renderer instance using class name from config
      *
      * @return Saas_PrintedTemplate_Model_Converter_PdfAdapter_Interface
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getPdfRenderer()
     {
@@ -81,7 +81,7 @@ class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
      * This aggreagtor can assemble several PDF documents into one big document
      *
      * @return Saas_PrintedTemplate_Model_Converter_PdfAggregator_Interface
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getPdfAggregator()
     {
@@ -104,7 +104,7 @@ class Saas_PrintedTemplate_Helper_Locator extends Mage_Core_Helper_Abstract
      *
      * @param string $type
      * @return mixed
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getMockObjectByType($type)
     {

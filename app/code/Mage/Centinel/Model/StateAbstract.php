@@ -49,7 +49,7 @@ abstract class Mage_Centinel_Model_StateAbstract extends Magento_Object
      * Otherwise it will return value of the attribute specified by $key
      *
      * $index parameter is ignored
-     * @see Mage_Core_Model_Session_Abstract::getData()
+     * @see Magento_Core_Model_Session_Abstract::getData()
      *
      * @param string $key
      * @param string|int $index

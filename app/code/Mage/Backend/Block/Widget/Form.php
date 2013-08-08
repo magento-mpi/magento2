@@ -41,7 +41,7 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
      *
      * You can redefine this method in child classes for changing layout
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
@@ -117,7 +117,7 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
     /**
      * This method is called before rendering HTML
      *
-     * @return Mage_Backend_Block_Widget_Form|Mage_Core_Block_Abstract
+     * @return Mage_Backend_Block_Widget_Form|Magento_Core_Block_Abstract
      */
     protected function _beforeToHtml()
     {

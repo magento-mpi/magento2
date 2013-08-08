@@ -14,7 +14,7 @@ class Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader extends Magento_Acl_Loa
     /**
      * Application config
      *
-     * @var Mage_Core_Model_Config
+     * @var Magento_Core_Model_Config
      */
     protected $_config;
 
@@ -22,13 +22,13 @@ class Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader extends Magento_Acl_Loa
      * @param Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader_FileList $fileList
      * @param Magento_Acl_Loader_Resource_ConfigReader_Xml_ArrayMapper $mapper
      * @param Magento_Config_Dom_Converter_ArrayConverter $converter
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_Config $config
      */
     public function __construct(
         Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader_FileList $fileList,
         Magento_Acl_Loader_Resource_ConfigReader_Xml_ArrayMapper $mapper,
         Magento_Config_Dom_Converter_ArrayConverter $converter,
-        Mage_Core_Model_Config $config
+        Magento_Core_Model_Config $config
     ) {
         if (count($fileList->asArray())) {
             parent::__construct($fileList, $mapper, $converter);

@@ -86,7 +86,7 @@ class Mage_CurrencySymbol_Controller_Adminhtml_System_Currency extends Magento_A
             try {
                 foreach ($data as $currencyCode => $rate) {
                     foreach( $rate as $currencyTo => $value ) {
-                        $value = abs(Mage::getSingleton('Mage_Core_Model_LocaleInterface')->getNumber($value));
+                        $value = abs(Mage::getSingleton('Magento_Core_Model_LocaleInterface')->getNumber($value));
                         $data[$currencyCode][$currencyTo] = $value;
                         if( $value == 0 ) {
                             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addWarning(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Please correct the input data for %s => %s rate', $currencyCode, $currencyTo));

@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Rating_Model_Rating_Option_Vote extends Mage_Core_Model_Abstract
+class Mage_Rating_Model_Rating_Option_Vote extends Magento_Core_Model_Abstract
 {
     protected function _construct()
     {

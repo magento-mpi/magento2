@@ -6,7 +6,7 @@
  * @license {license_link}
  */
 if (!Mage::registry('website')) {
-    $website = Mage::getModel('Mage_Core_Model_Website');
+    $website = Mage::getModel('Magento_Core_Model_Website');
     $website->setData(
         array(
             'code' => 'test_' . uniqid(),
@@ -20,7 +20,7 @@ if (!Mage::registry('website')) {
 
 if (!Mage::registry('store_group')) {
     $defaultCategoryId = 2;
-    $storeGroup = Mage::getModel('Mage_Core_Model_Store_Group');
+    $storeGroup = Mage::getModel('Magento_Core_Model_Store_Group');
     $storeGroup->setData(
         array(
             'website_id' => Mage::registry('website')->getId(),
@@ -33,7 +33,7 @@ if (!Mage::registry('store_group')) {
 }
 
 if (!Mage::registry('store_on_new_website')) {
-    $store = Mage::getModel('Mage_Core_Model_Store');
+    $store = Mage::getModel('Magento_Core_Model_Store');
     $store->setData(
         array(
             'group_id' => Mage::registry('store_group')->getId(),

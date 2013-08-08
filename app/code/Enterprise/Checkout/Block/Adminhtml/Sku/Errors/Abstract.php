@@ -146,7 +146,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
      * Retrieve current store instance
      *
      * @abstract
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     abstract public function getStore();
 

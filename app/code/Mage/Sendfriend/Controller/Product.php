@@ -15,7 +15,7 @@
  * @package     Mage_Sedfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sendfriend_Controller_Product extends Mage_Core_Controller_Front_Action
+class Mage_Sendfriend_Controller_Product extends Magento_Core_Controller_Front_Action
 {
     /**
      * Predispatch: check is enable module
@@ -80,7 +80,7 @@ class Mage_Sendfriend_Controller_Product extends Mage_Core_Controller_Front_Acti
     protected function _initSendToFriendModel()
     {
         $model  = Mage::getModel('Mage_Sendfriend_Model_Sendfriend');
-        $model->setRemoteAddr(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(true));
+        $model->setRemoteAddr(Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(true));
         $model->setCookie(Mage::app()->getCookie());
         $model->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 
@@ -175,7 +175,7 @@ class Mage_Sendfriend_Controller_Product extends Mage_Core_Controller_Front_Acti
                 }
             }
         }
-        catch (Mage_Core_Exception $e) {
+        catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Mage_Catalog_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {

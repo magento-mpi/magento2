@@ -28,7 +28,7 @@ class Mage_Backend_Model_Locale_Manager
     protected $_authSession;
 
     /**
-     * @var Mage_Core_Model_Translate
+     * @var Magento_Core_Model_Translate
      */
     protected $_translator;
 
@@ -37,12 +37,12 @@ class Mage_Backend_Model_Locale_Manager
      *
      * @param Mage_Backend_Model_Session $session
      * @param Mage_Backend_Model_Auth_Session $authSession
-     * @param Mage_Core_Model_Translate $translator
+     * @param Magento_Core_Model_Translate $translator
      */
     public function __construct(
         Mage_Backend_Model_Session $session,
         Mage_Backend_Model_Auth_Session $authSession,
-        Mage_Core_Model_Translate $translator
+        Magento_Core_Model_Translate $translator
     ) {
         $this->_session = $session;
         $this->_authSession = $authSession;
@@ -75,7 +75,7 @@ class Mage_Backend_Model_Locale_Manager
      */
     public function getUserInterfaceLocale()
     {
-        $interfaceLocale = Mage_Core_Model_LocaleInterface::DEFAULT_LOCALE;
+        $interfaceLocale = Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE;
 
         $userData = $this->_authSession->getUser();
         if ($userData && $userData->getInterfaceLocale()) {

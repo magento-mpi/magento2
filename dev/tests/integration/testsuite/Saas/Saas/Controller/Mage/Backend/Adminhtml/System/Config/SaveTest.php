@@ -63,11 +63,11 @@ class Saas_Saas_Controller_Mage_Backend_Adminhtml_System_Config_SaveTest extends
      * Return config data model with the $value, or null if not found.
      *
      * @param string $value
-     * @return Mage_Core_Model_Config_Data|null
+     * @return Magento_Core_Model_Config_Data|null
      */
     protected function _getConfigDataByValue($value)
     {
-        $configData = $this->_objectManager->create('Mage_Core_Model_Config_Data');
+        $configData = $this->_objectManager->create('Magento_Core_Model_Config_Data');
         $configData->load($value, 'value');
         return $configData->getId() ? $configData : null;
     }

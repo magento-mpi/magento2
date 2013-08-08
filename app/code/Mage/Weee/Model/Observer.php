@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
+class Mage_Weee_Model_Observer extends Magento_Core_Model_Abstract
 {
     /**
      * Assign custom renderer for product create/edit form weee attribute element

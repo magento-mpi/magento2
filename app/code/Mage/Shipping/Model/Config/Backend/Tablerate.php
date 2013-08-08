@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Shipping_Model_Config_Backend_Tablerate extends Mage_Core_Model_Config_Data
+class Mage_Shipping_Model_Config_Backend_Tablerate extends Magento_Core_Model_Config_Data
 {
     public function _afterSave()
     {

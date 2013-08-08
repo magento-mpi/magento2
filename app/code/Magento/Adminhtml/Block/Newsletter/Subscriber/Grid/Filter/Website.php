@@ -30,7 +30,7 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website extends 
     public function getCollection()
     {
         if(is_null($this->_websiteCollection)) {
-            $this->_websiteCollection = Mage::getResourceModel('Mage_Core_Model_Resource_Website_Collection')
+            $this->_websiteCollection = Mage::getResourceModel('Magento_Core_Model_Resource_Website_Collection')
                 ->load();
         }
 

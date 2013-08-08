@@ -20,7 +20,7 @@ class Enterprise_Wishlist_Block_Info extends Mage_Wishlist_Block_Abstract
     /**
      * Create message block
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     public function getMessagesBlock()
     {

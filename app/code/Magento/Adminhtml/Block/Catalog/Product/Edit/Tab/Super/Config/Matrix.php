@@ -18,22 +18,22 @@
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     extends Mage_Backend_Block_Template
 {
-    /** @var Mage_Core_Model_App */
+    /** @var Magento_Core_Model_App */
     protected $_application;
 
-    /** @var Mage_Core_Model_LocaleInterface */
+    /** @var Magento_Core_Model_LocaleInterface */
     protected $_locale;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Model_App $application
-     * @param Mage_Core_Model_LocaleInterface $locale
+     * @param Magento_Core_Model_App $application
+     * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Model_App $application,
-        Mage_Core_Model_LocaleInterface $locale,
+        Magento_Core_Model_App $application,
+        Magento_Core_Model_LocaleInterface $locale,
         array $data = array()
     ) {
         parent::__construct($context, $data);

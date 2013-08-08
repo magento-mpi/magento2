@@ -31,7 +31,7 @@
 /**
  * @deprecated since 1.12.0.0
  */
-class Enterprise_Cms_Model_Hierarchy_Lock extends Mage_Core_Model_Abstract
+class Enterprise_Cms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstract
 {
     /**
      * Session model instance
@@ -58,10 +58,10 @@ class Enterprise_Cms_Model_Hierarchy_Lock extends Mage_Core_Model_Abstract
     /**
      * Setter for session instance
      *
-     * @param Mage_Core_Model_Session_Abstract $session
+     * @param Magento_Core_Model_Session_Abstract $session
      * @return Enterprise_Cms_Model_Hierarchy_Lock
      */
-    public function setSession(Mage_Core_Model_Session_Abstract $session)
+    public function setSession(Magento_Core_Model_Session_Abstract $session)
     {
         $this->_session = $session;
         return $this;
@@ -70,7 +70,7 @@ class Enterprise_Cms_Model_Hierarchy_Lock extends Mage_Core_Model_Abstract
     /**
      * Getter for session instance
      *
-     * @return Mage_Core_Model_Session_Abstract
+     * @return Magento_Core_Model_Session_Abstract
      */
     protected function _getSession()
     {

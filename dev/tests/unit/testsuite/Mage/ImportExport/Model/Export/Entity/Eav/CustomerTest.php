@@ -23,7 +23,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
      * @var array
      */
     protected $_websites = array(
-        Mage_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
+        Magento_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
         1                                            => 'website1',
     );
 
@@ -137,7 +137,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == Mage_Core_Model_AppInterface::ADMIN_STORE_ID) {
+            if (!$withDefault && $id == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
                 continue;
             }
             $websiteData = array(
@@ -195,9 +195,9 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
         $this->_model->setWriter($writer);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments('Mage_Core_Model_Abstract');
+        $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
         $arguments['data'] = $this->_customerData;
-        $item = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', $arguments);
+        $item = $this->getMockForAbstractClass('Magento_Core_Model_Abstract', $arguments);
 
         $this->_model->exportItem($item);
     }

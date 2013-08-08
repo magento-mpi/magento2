@@ -120,7 +120,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
+class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
 {
     /**
      * Checkout login method key
@@ -203,7 +203,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     /**
      * Get quote store model object
      *
-     * @return  Mage_Core_Model_Store
+     * @return  Magento_Core_Model_Store
      */
     public function getStore()
     {
@@ -213,10 +213,10 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     /**
      * Declare quote store model
      *
-     * @param   Mage_Core_Model_Store $store
+     * @param   Magento_Core_Model_Store $store
      * @return  Mage_Sales_Model_Quote
      */
-    public function setStore(Mage_Core_Model_Store $store)
+    public function setStore(Magento_Core_Model_Store $store)
     {
         $this->setStoreId($store->getId());
         return $this;
@@ -421,7 +421,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
-        Mage::helper('Mage_Core_Helper_Data')->copyFieldset('customer_account', 'to_quote', $customer, $this);
+        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('customer_account', 'to_quote', $customer, $this);
         return $this;
     }
 
@@ -1476,7 +1476,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
 
         if (is_string($message)) {
-            $message = Mage::getSingleton('Mage_Core_Model_Message')->error($message);
+            $message = Mage::getSingleton('Magento_Core_Model_Message')->error($message);
         }
 
         $messages[$index] = $message;
@@ -1508,8 +1508,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     {
         $errors = array();
         foreach ($this->getMessages() as $message) {
-            /* @var $error Mage_Core_Model_Message_Abstract */
-            if ($message->getType() == Mage_Core_Model_Message::ERROR) {
+            /* @var $error Magento_Core_Model_Message_Abstract */
+            if ($message->getType() == Magento_Core_Model_Message::ERROR) {
                 array_push($errors, $message);
             }
         }
@@ -1651,7 +1651,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         }
 
         $message = $messages[$type];
-        if ($message instanceof Mage_Core_Model_Message_Abstract) {
+        if ($message instanceof Magento_Core_Model_Message_Abstract) {
             $message = $message->getText();
         } elseif (!is_string($message)) {
             return $this;

@@ -56,7 +56,7 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
     /**
      * Test getHistoryFilePath() method in case when file info is not set
      *
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testGetHistoryFilePathException()
     {

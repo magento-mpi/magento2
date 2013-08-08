@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Sales_Model_Order_Status extends Mage_Core_Model_Abstract
+class Mage_Sales_Model_Order_Status extends Magento_Core_Model_Abstract
 {
     protected function _construct()
     {

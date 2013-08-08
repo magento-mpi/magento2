@@ -9,12 +9,12 @@ abstract class Mage_AdminNotification_Model_System_Message_Media_Synchronization
     implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
-     * @var Mage_Core_Model_File_Storage_Flag
+     * @var Magento_Core_Model_File_Storage_Flag
      */
     protected $_syncFlag;
 
     /**
-     * @var Mage_Core_Model_Factory_Helper
+     * @var Magento_Core_Model_Factory_Helper
      */
     protected $_helperFactory;
 
@@ -33,12 +33,12 @@ abstract class Mage_AdminNotification_Model_System_Message_Media_Synchronization
     protected $_isDisplayed = null;
 
     /**
-     * @param Mage_Core_Model_File_Storage $fileStorage
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_File_Storage $fileStorage
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
      */
     public function __construct(
-        Mage_Core_Model_File_Storage $fileStorage,
-        Mage_Core_Model_Factory_Helper $helperFactory
+        Magento_Core_Model_File_Storage $fileStorage,
+        Magento_Core_Model_Factory_Helper $helperFactory
     ) {
         $this->_syncFlag = $fileStorage->getSyncFlag();
         $this->_helperFactory = $helperFactory;
@@ -71,7 +71,7 @@ abstract class Mage_AdminNotification_Model_System_Message_Media_Synchronization
         if (null === $this->_isDisplayed) {
             $output = $this->_shouldBeDisplayed();
             if ($output) {
-                $this->_syncFlag->setState(Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED);
+                $this->_syncFlag->setState(Magento_Core_Model_File_Storage_Flag::STATE_NOTIFIED);
                 $this->_syncFlag->save();
             }
             $this->_isDisplayed = $output;

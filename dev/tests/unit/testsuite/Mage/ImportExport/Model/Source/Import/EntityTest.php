@@ -104,7 +104,7 @@ class Mage_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework
      */
     protected function _mockConfig()
     {
-        $configObject = new Mage_Core_Model_Config_Base(new Magento_Simplexml_Element('<config></config>'));
+        $configObject = new Magento_Core_Model_Config_Base(new Magento_Simplexml_Element('<config></config>'));
         $configObject->setNode(
             'global/importexport/import_entities/' . $this->_testEntity['node'] . '/model_token',
             'Some_Class'

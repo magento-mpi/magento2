@@ -15,12 +15,12 @@
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Model_LinkTracker extends Mage_Core_Model_Abstract
+class Saas_Launcher_Model_LinkTracker extends Magento_Core_Model_Abstract
 {
     /**
      * Url Builder
      *
-     * @var Mage_Core_Model_UrlInterface
+     * @var Magento_Core_Model_UrlInterface
      */
     protected $_urlBuilder;
 
@@ -32,16 +32,16 @@ class Saas_Launcher_Model_LinkTracker extends Mage_Core_Model_Abstract
     protected $_eventPrefix = 'launcher_link_tracker';
 
     /**
-     * @param Mage_Core_Model_Context $context
-     * @param Mage_Core_Model_UrlInterface $urlBuilder
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
-        Mage_Core_Model_UrlInterface $urlBuilder,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Context $context,
+        Magento_Core_Model_UrlInterface $urlBuilder,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

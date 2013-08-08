@@ -113,8 +113,8 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
             if (!empty($data['sitemap_filename']) && !empty($data['sitemap_path'])) {
                 $path = rtrim($data['sitemap_path'], '\\/')
                       . DS . $data['sitemap_filename'];
-                /** @var $validator Mage_Core_Model_File_Validator_AvailablePath */
-                $validator = Mage::getModel('Mage_Core_Model_File_Validator_AvailablePath');
+                /** @var $validator Magento_Core_Model_File_Validator_AvailablePath */
+                $validator = Mage::getModel('Magento_Core_Model_File_Validator_AvailablePath');
                 /** @var $helper Magento_Adminhtml_Helper_Catalog */
                 $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog');
                 $validator->setPaths($helper->getSitemapValidPaths());
@@ -249,7 +249,7 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
                 $this->_getSession()->addSuccess(
                     Mage::helper('Mage_Sitemap_Helper_Data')->__('The sitemap "%s" has been generated.', $sitemap->getSitemapFilename()));
             }
-            catch (Mage_Core_Exception $e) {
+            catch (Magento_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
             catch (Exception $e) {

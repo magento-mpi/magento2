@@ -15,7 +15,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Poll_Controller_Vote extends Mage_Core_Controller_Front_Action
+class Mage_Poll_Controller_Vote extends Magento_Core_Controller_Front_Action
 {
     /**
      * Action list where need check enabled cookie
@@ -43,11 +43,11 @@ class Mage_Poll_Controller_Vote extends Mage_Core_Controller_Front_Action
         if ($poll->getId() && !$poll->getClosed() && !$poll->isVoted()) {
             $vote = Mage::getModel('Mage_Poll_Model_Poll_Vote')
                 ->setPollAnswerId($answerId)
-                ->setIpAddress(Mage::helper('Mage_Core_Helper_Http')->getRemoteAddr(true))
+                ->setIpAddress(Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(true))
                 ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId());
 
             $poll->addVote($vote);
-            Mage::getSingleton('Mage_Core_Model_Session')->setJustVotedPoll($pollId);
+            Mage::getSingleton('Magento_Core_Model_Session')->setJustVotedPoll($pollId);
             $this->_eventManager->dispatch(
                 'poll_vote_add',
                 array(

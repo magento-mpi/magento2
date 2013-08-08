@@ -39,7 +39,7 @@ class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Contr
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $id  = (int) $this->getRequest()->getParam('id');
-        $design    = Mage::getModel('Mage_Core_Model_Design');
+        $design    = Mage::getModel('Magento_Core_Model_Design');
 
         if ($id) {
             $design->load($id);
@@ -60,7 +60,7 @@ class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Contr
         if ($data = $this->getRequest()->getPost()) {
             $id = (int) $this->getRequest()->getParam('id');
 
-            $design = Mage::getModel('Mage_Core_Model_Design');
+            $design = Mage::getModel('Magento_Core_Model_Design');
             if ($id) {
                 $design->load($id);
             }
@@ -88,7 +88,7 @@ class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Contr
     public function deleteAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $design = Mage::getModel('Mage_Core_Model_Design')->load($id);
+            $design = Mage::getModel('Magento_Core_Model_Design')->load($id);
 
             try {
                 $design->delete();

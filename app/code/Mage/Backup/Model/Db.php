@@ -153,7 +153,7 @@ class Mage_Backup_Model_Db
     public function getIgnoreDataTablesList()
     {
         $result = array();
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
 
         foreach ($this->_ignoreDataTablesList as $table) {
             $result[] = $resource->getTableName($table);

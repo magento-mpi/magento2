@@ -18,5 +18,5 @@
  * @package    Mage_Payment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Payment_Model_Info_Exception extends Mage_Core_Exception
+class Mage_Payment_Model_Info_Exception extends Magento_Core_Exception
 {}

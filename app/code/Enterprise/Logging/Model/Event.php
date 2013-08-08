@@ -11,7 +11,7 @@
 /**
  * Logging event model
  */
-class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
+class Enterprise_Logging_Model_Event extends Magento_Core_Model_Abstract
 {
     const RESULT_SUCCESS = 'success';
     const RESULT_FAILURE = 'failure';

@@ -337,7 +337,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
      * TODO: eliminate logic duplication with registerCaptureNotification()
      *
      * @return Mage_Sales_Model_Order_Payment
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function capture($invoice)
     {
@@ -624,7 +624,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                         ->refund($this, $baseAmountToRefund)
                         ->processCreditmemo($creditmemo, $this)
                     ;
-                } catch (Mage_Core_Exception $e) {
+                } catch (Magento_Core_Exception $e) {
                     if (!$captureTxn) {
                         $e->setMessage(' ' . Mage::helper('Mage_Sales_Helper_Data')->__('If the invoice was created offline, try creating an offline credit memo.'), true);
                     }

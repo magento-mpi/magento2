@@ -23,7 +23,7 @@ class Mage_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services extends 
     /**
      * Create import services form select element
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {

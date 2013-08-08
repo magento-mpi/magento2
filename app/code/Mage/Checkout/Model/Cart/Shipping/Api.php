@@ -49,7 +49,7 @@ class Mage_Checkout_Model_Cart_Shipping_Api extends Mage_Checkout_Model_Api_Reso
         try {
             $quote->getShippingAddress()->setShippingMethod($shippingMethod);
             $quote->collectTotals()->save();
-        } catch(Mage_Core_Exception $e) {
+        } catch(Magento_Core_Exception $e) {
             $this->_fault('shipping_method_is_not_set', $e->getMessage());
         }
 
@@ -90,7 +90,7 @@ class Mage_Checkout_Model_Cart_Shipping_Api extends Mage_Checkout_Model_Api_Reso
                     unset($rateItem);
                 }
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_fault('shipping_methods_list_could_not_be_retrived', $e->getMessage());
         }
 

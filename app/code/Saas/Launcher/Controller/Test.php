@@ -15,7 +15,7 @@
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Controller_Test extends Mage_Core_Controller_Varien_Action
+class Saas_Launcher_Controller_Test extends Magento_Core_Controller_Varien_Action
 {
     /**
      * Add product to cart if needed and redirect to 'checkout/cart' page

@@ -223,7 +223,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
                     $customer = $customerService->create($accountData, $addressesData);
                 }
 
-                $this->_objectManager->get('Mage_Core_Model_Registry')->register('current_customer', $customer);
+                $this->_objectManager->get('Magento_Core_Model_Registry')->register('current_customer', $customer);
                 $this->_getSession()->addSuccess($this->_getHelper()->__('You saved the customer.'));
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
@@ -232,8 +232,8 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
                 $this->_addSessionErrorMessages($exception->getMessages());
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
-            } catch (Mage_Core_Exception $exception) {
-                $messages = $exception->getMessages(Mage_Core_Model_Message::ERROR);
+            } catch (Magento_Core_Exception $exception) {
+                $messages = $exception->getMessages(Magento_Core_Model_Message::ERROR);
                 if (!count($messages)) {
                     $messages = $exception->getMessage();
                 }
@@ -280,7 +280,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
             $newPasswordToken = $this->_objectManager->get('Mage_Customer_Helper_Data')
                 ->generateResetPasswordLinkToken();
             $customer->changeResetPasswordLinkToken($newPasswordToken);
-            $resetUrl = $this->_objectManager->create('Mage_Core_Model_Url')
+            $resetUrl = $this->_objectManager->create('Magento_Core_Model_Url')
                 ->getUrl('customer/account/createPassword',
                     array('_query' => array('id' => $customer->getId(), 'token' => $newPasswordToken))
                 );
@@ -288,8 +288,8 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
             $customer->sendPasswordReminderEmail();
             $this->_getSession()
                 ->addSuccess($this->__('Customer will receive an email with a link to reset password.'));
-        } catch (Mage_Core_Exception $exception) {
-            $messages = $exception->getMessages(Mage_Core_Model_Message::ERROR);
+        } catch (Magento_Core_Exception $exception) {
+            $messages = $exception->getMessages(Magento_Core_Model_Message::ERROR);
             if (!count($messages)) {
                 $messages = $exception->getMessage();
             }
@@ -313,8 +313,8 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         $session = $this->_getSession();
 
         $callback = function ($error) use ($session) {
-            if (!($error instanceof Mage_Core_Model_Message_Error)) {
-                $error = new Mage_Core_Model_Message_Error($error);
+            if (!($error instanceof Magento_Core_Model_Message_Error)) {
+                $error = new Magento_Core_Model_Message_Error($error);
             }
             $session->addMessage($error);
         };
@@ -406,7 +406,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
      * Generate password if auto generated password was requested
      *
      * @param array $customerData
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _processCustomerPassword(&$customerData)
     {
@@ -632,9 +632,9 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
 
             $customer->addData($data);
             $errors = $customer->validate();
-        } catch (Mage_Core_Exception $exception) {
-            /* @var $error Mage_Core_Model_Message_Error */
-            foreach ($exception->getMessages(Mage_Core_Model_Message::ERROR) as $error) {
+        } catch (Magento_Core_Exception $exception) {
+            /* @var $error Magento_Core_Model_Message_Error */
+            foreach ($exception->getMessages(Magento_Core_Model_Message::ERROR) as $error) {
                 $errors[] = $error->getCode();
             }
         }
@@ -807,10 +807,10 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('file'));
+            $file   = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = Mage::helper('Mage_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('image'));
+            $file   = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             return $this->norouteAction();
@@ -823,7 +823,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         $filesystem->setWorkingDirectory($path);
         $fileName   = $path . $file;
         if (!$filesystem->isFile($fileName)
-            && !Mage::helper('Mage_Core_Helper_File_Storage')->processStorageFile(str_replace('/', DS, $fileName))
+            && !Mage::helper('Magento_Core_Helper_File_Storage')->processStorageFile(str_replace('/', DS, $fileName))
         ) {
             return $this->norouteAction();
         }

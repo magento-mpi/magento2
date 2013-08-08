@@ -15,7 +15,7 @@
  * @package    Mage_Rss
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rss_Block_Catalog_Review extends Mage_Core_Block_Abstract
+class Mage_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
 {
     /**
      * Render XML response
@@ -46,7 +46,7 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Core_Block_Abstract
 
         Mage::dispatchEvent('rss_catalog_review_collection_select', array('collection' => $collection));
 
-        Mage::getSingleton('Mage_Core_Model_Resource_Iterator')->walk(
+        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
             $collection->getSelect(),
             array(array($this, 'addReviewItemXmlCallback')),
             array('rssObj'=> $rssObj, 'reviewModel'=> $reviewModel));
@@ -65,7 +65,7 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Core_Block_Abstract
         $row = $args['row'];
 
         $store = Mage::app()->getStore($row['store_id']);
-        $urlModel = Mage::getModel('Mage_Core_Model_Url')->setStore($store);
+        $urlModel = Mage::getModel('Magento_Core_Model_Url')->setStore($store);
         $productUrl = $urlModel->getUrl('catalog/product/view', array('id' => $row['entity_id']));
         $reviewUrl = Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
             'adminhtml/catalog_product_review/edit/',

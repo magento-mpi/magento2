@@ -22,14 +22,14 @@ class Mage_User_Model_Acl_Loader_RuleTest extends PHPUnit_Framework_TestCase
     protected $_resourceMock;
 
     /**
-     * @var Mage_Core_Model_Acl_RootResource
+     * @var Magento_Core_Model_Acl_RootResource
      */
     protected $_rootResourceMock;
 
     public function setUp()
     {
-        $this->_resourceMock = $this->getMock('Mage_Core_Model_Resource', array(), array(), '', false, false);
-        $this->_rootResourceMock = new Mage_Core_Model_Acl_RootResource('Magento_Adminhtml::all');
+        $this->_resourceMock = $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false);
+        $this->_rootResourceMock = new Magento_Core_Model_Acl_RootResource('Magento_Adminhtml::all');
         $this->_model = new Mage_User_Model_Acl_Loader_Rule(
             $this->_rootResourceMock,
             $this->_resourceMock

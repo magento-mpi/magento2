@@ -28,7 +28,7 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        Mage::getConfig()->setCurrentAreaCode(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+        Mage::getConfig()->setCurrentAreaCode(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $this->_helper = Mage::helper('Mage_Backend_Helper_Data');
     }
 

@@ -19,7 +19,7 @@ class Mage_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Frame
 
     public function setUp()
     {
-        $urlBuilder = $this->getMock('Mage_Core_Model_Url', array('getUrl'), array(), '', false);
+        $urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getUrl'), array(), '', false);
 
         $context = $this->getMockBuilder('Mage_Backend_Block_Template_Context')
             ->disableOriginalConstructor()
@@ -28,10 +28,10 @@ class Mage_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Frame
             ->method('getUrlBuilder')
             ->will($this->returnValue($urlBuilder));
 
-        $this->_lastMessage = $this->getMockBuilder('Mage_Core_Model_Message_Abstract')
+        $this->_lastMessage = $this->getMockBuilder('Magento_Core_Model_Message_Abstract')
             ->disableOriginalConstructor()
             ->getMock();
-        $messages = $this->getMockBuilder('Mage_Core_Model_Message_Collection')
+        $messages = $this->getMockBuilder('Magento_Core_Model_Message_Collection')
             ->disableOriginalConstructor()
             ->getMock();
         $messages->expects($this->any())

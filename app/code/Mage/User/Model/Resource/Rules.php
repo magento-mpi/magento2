@@ -16,12 +16,12 @@
  * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Root ACL resource
      *
-     * @var Mage_Core_Model_Acl_RootResource
+     * @var Magento_Core_Model_Acl_RootResource
      */
     protected $_rootResource;
 
@@ -33,13 +33,13 @@ class Mage_User_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstrac
     protected $_aclCache;
 
     /**
-     * @param Mage_Core_Model_Resource $resource
-     * @param Mage_Core_Model_Acl_RootResource $rootResource
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Acl_RootResource $rootResource
      * @param Magento_Acl_CacheInterface $aclCache
      */
     public function __construct(
-        Mage_Core_Model_Resource $resource,
-        Mage_Core_Model_Acl_RootResource $rootResource,
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Acl_RootResource $rootResource,
         Magento_Acl_CacheInterface $aclCache
     ) {
         parent::__construct($resource);
@@ -60,7 +60,7 @@ class Mage_User_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstrac
      * Save ACL resources
      *
      * @param Mage_User_Model_Rules $rule
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function saveRel(Mage_User_Model_Rules $rule)
     {
@@ -105,7 +105,7 @@ class Mage_User_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstrac
 
             $adapter->commit();
             $this->_aclCache->clean();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $adapter->rollBack();
             throw $e;
         } catch (Exception $e){

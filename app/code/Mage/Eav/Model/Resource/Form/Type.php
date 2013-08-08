@@ -16,7 +16,7 @@
  * @package     Mage_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Eav_Model_Resource_Form_Type extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize connection and define main table
@@ -39,7 +39,7 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
      * @param string $field field to load by (defaults to model id)
      * @return Mage_Eav_Model_Resource_Form_Type
      */
-    public function load(Mage_Core_Model_Abstract $object, $value, $field = null)
+    public function load(Magento_Core_Model_Abstract $object, $value, $field = null)
     {
         if (is_null($field) && !is_numeric($value)) {
             $field = 'code';
@@ -71,12 +71,12 @@ class Mage_Eav_Model_Resource_Form_Type extends Mage_Core_Model_Resource_Db_Abst
     /**
      * Save entity types after save form type
      *
-     * @see Mage_Core_Model_Resource_Db_Abstract#_afterSave($object)
+     * @see Magento_Core_Model_Resource_Db_Abstract#_afterSave($object)
      *
      * @param Mage_Eav_Model_Form_Type $object
      * @return Mage_Eav_Model_Resource_Form_Type
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         if ($object->hasEntityTypes()) {
             $new = $object->getEntityTypes();

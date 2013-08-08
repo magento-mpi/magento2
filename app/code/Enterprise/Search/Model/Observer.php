@@ -204,11 +204,11 @@ class Enterprise_Search_Model_Observer
         }
 
         $object = $observer->getEvent()->getDataObject();
-        if ($object instanceof Mage_Core_Model_Website
-            || $object instanceof Mage_Core_Model_Store_Group
+        if ($object instanceof Magento_Core_Model_Website
+            || $object instanceof Magento_Core_Model_Store_Group
         ) {
             $storeIds = $object->getStoreIds();
-        } elseif ($object instanceof Mage_Core_Model_Store) {
+        } elseif ($object instanceof Magento_Core_Model_Store) {
             $storeIds = $object->getId();
         } else {
             $storeIds = array();

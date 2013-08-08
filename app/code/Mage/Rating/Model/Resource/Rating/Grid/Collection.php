@@ -20,7 +20,7 @@ class Mage_Rating_Model_Resource_Rating_Grid_Collection extends Mage_Rating_Mode
     /**
      * Add entity filter
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract|Mage_Rating_Model_Resource_Rating_Grid_Collection
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|Mage_Rating_Model_Resource_Rating_Grid_Collection
      */
     public function _initSelect()
     {

@@ -28,27 +28,27 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $objectManager = Mage::getObjectManager();
 
-        /** @var $page Mage_Core_Model_Page */
-        $page = $objectManager->get('Mage_Core_Model_Page');
+        /** @var $page Magento_Core_Model_Page */
+        $page = $objectManager->get('Magento_Core_Model_Page');
 
         /** @var $pageAssets Mage_Page_Model_Asset_GroupedCollection */
         $pageAssets = $page->getAssets();
 
         $fixtureAssets = array(
-            array('name'   => 'test_css', 'type' => Mage_Core_Model_View_Publisher::CONTENT_TYPE_CSS,
+            array('name'   => 'test_css', 'type' => Magento_Core_Model_View_Publisher::CONTENT_TYPE_CSS,
                   'params' => array()),
-            array('name'   => 'test_css_vde', 'type' => Mage_Core_Model_View_Publisher::CONTENT_TYPE_CSS,
+            array('name'   => 'test_css_vde', 'type' => Magento_Core_Model_View_Publisher::CONTENT_TYPE_CSS,
                   'params' => array('flag_name' => 'vde_design_mode')),
-            array('name'   => 'test_js', 'type' => Mage_Core_Model_View_Publisher::CONTENT_TYPE_JS,
+            array('name'   => 'test_js', 'type' => Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS,
                   'params' => array()),
-            array('name'   => 'test_js_vde', 'type' => Mage_Core_Model_View_Publisher::CONTENT_TYPE_JS,
+            array('name'   => 'test_js_vde', 'type' => Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS,
                   'params' => array('flag_name' => 'vde_design_mode')),
         );
 
         foreach ($fixtureAssets as $asset) {
             $pageAssets->add(
                 $asset['name'],
-                $objectManager->create('Mage_Core_Model_Page_Asset_ViewFile', array(
+                $objectManager->create('Magento_Core_Model_Page_Asset_ViewFile', array(
                     'file' => 'some_file',
                     'contentType' => $asset['type'],
                 )),
@@ -56,8 +56,8 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
             );
         }
 
-        /** @var $eventManager Mage_Core_Model_Event_Manager */
-        $eventManager = $objectManager->get('Mage_Core_Model_Event_Manager')->addEventArea($area);
+        /** @var $eventManager Magento_Core_Model_Event_Manager */
+        $eventManager = $objectManager->get('Magento_Core_Model_Event_Manager')->addEventArea($area);
         $eventManager->dispatch('controller_action_layout_generate_blocks_after', array('layout' => $layout));
 
         $actualAssets = array_keys($pageAssets->getAll());

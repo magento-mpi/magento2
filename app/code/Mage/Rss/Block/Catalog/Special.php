@@ -80,7 +80,7 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Catalog_Abstract
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
-        Mage::getSingleton('Mage_Core_Model_Resource_Iterator')->walk(
+        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
             $specials->getSelect(),
             array(array($this, 'addSpecialXmlCallback')),
             array('rssObj'=> $rssObj, 'results'=> &$results)
@@ -110,11 +110,11 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Catalog_Abstract
                     } else {
                         $special = '';
                         if ($result['use_special']) {
-                            $special = '<br />' . Mage::helper('Mage_Catalog_Helper_Data')->__('Special Expires On: %s', $this->formatDate($result['special_to_date'], Mage_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM));
+                            $special = '<br />' . Mage::helper('Mage_Catalog_Helper_Data')->__('Special Expires On: %s', $this->formatDate($result['special_to_date'], Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM));
                         }
                         $html .= sprintf('<p>%s %s%s</p>',
-                            Mage::helper('Mage_Catalog_Helper_Data')->__('Price: %s', Mage::helper('Mage_Core_Helper_Data')->currency($result['price'])),
-                            Mage::helper('Mage_Catalog_Helper_Data')->__('Special Price: %s', Mage::helper('Mage_Core_Helper_Data')->currency($result['final_price'])),
+                            Mage::helper('Mage_Catalog_Helper_Data')->__('Price: %s', Mage::helper('Magento_Core_Helper_Data')->currency($result['price'])),
+                            Mage::helper('Mage_Catalog_Helper_Data')->__('Special Price: %s', Mage::helper('Magento_Core_Helper_Data')->currency($result['final_price'])),
                             $special
                         );
                     }

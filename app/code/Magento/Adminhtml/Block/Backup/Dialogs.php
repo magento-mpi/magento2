@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Backup_Dialogs extends Magento_Adminhtml_Block_Tem
     /**
      * Include backup.js file in page before rendering
      *
-     * @see Mage_Core_Block_Abstract::_prepareLayout()
+     * @see Magento_Core_Block_Abstract::_prepareLayout()
      */
     protected function _prepareLayout()
     {

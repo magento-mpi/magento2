@@ -30,16 +30,16 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
     /**#@-*/
 
     /**
-     * Website manager (currently Mage_Core_Model_App works as website manager)
+     * Website manager (currently Magento_Core_Model_App works as website manager)
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_websiteManager;
 
     /**
-     * Store manager (currently Mage_Core_Model_App works as store manager)
+     * Store manager (currently Magento_Core_Model_App works as store manager)
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_storeManager;
 
@@ -188,7 +188,7 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
      */
     protected function _initStores()
     {
-        /** @var $store Mage_Core_Model_Store */
+        /** @var $store Magento_Core_Model_Store */
         foreach ($this->_storeManager->getStores(true) as $store) {
             $this->_storeIdToCode[$store->getId()] = $store->getCode();
         }
@@ -205,7 +205,7 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
      */
     protected function _initWebsites($withDefault = false)
     {
-        /** @var $website Mage_Core_Model_Website */
+        /** @var $website Magento_Core_Model_Website */
         foreach ($this->_websiteManager->getWebsites($withDefault) as $website) {
             $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
@@ -252,7 +252,7 @@ abstract class Mage_ImportExport_Model_Export_EntityAbstract
     /**
      * Export one item
      *
-     * @param Mage_Core_Model_Abstract $item
+     * @param Magento_Core_Model_Abstract $item
      */
     abstract public function exportItem($item);
 

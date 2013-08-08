@@ -16,7 +16,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Controller_Product_Compare extends Mage_Core_Controller_Front_Action
+class Mage_Catalog_Controller_Product_Compare extends Magento_Core_Controller_Front_Action
 {
     /**
      * Action list where need check enabled cookie
@@ -42,7 +42,7 @@ class Mage_Catalog_Controller_Product_Compare extends Mage_Core_Controller_Front
         $beforeUrl = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED);
         if ($beforeUrl) {
             Mage::getSingleton('Mage_Catalog_Model_Session')
-                ->setBeforeCompareUrl(Mage::helper('Mage_Core_Helper_Data')->urlDecode($beforeUrl));
+                ->setBeforeCompareUrl(Mage::helper('Magento_Core_Helper_Data')->urlDecode($beforeUrl));
         }
 
         if ($items) {
@@ -73,7 +73,7 @@ class Mage_Catalog_Controller_Product_Compare extends Mage_Core_Controller_Front
 
             if ($product->getId()/* && !$product->isSuper()*/) {
                 Mage::getSingleton('Mage_Catalog_Model_Product_Compare_List')->addProduct($product);
-                $productName = Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName());
+                $productName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($product->getName());
                 Mage::getSingleton('Mage_Catalog_Model_Session')->addSuccess(
                     $this->__('You added product %s to the comparison list.', $productName)
                 );
@@ -152,7 +152,7 @@ class Mage_Catalog_Controller_Product_Compare extends Mage_Core_Controller_Front
             $items->clear();
             $session->addSuccess($this->__('You cleared the comparison list.'));
             Mage::helper('Mage_Catalog_Helper_Product_Compare')->calculate();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e) {
             $session->addException($e, $this->__('Something went wrong  clearing the comparison list.'));

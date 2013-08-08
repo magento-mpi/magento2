@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Sales_Controller_Download extends Mage_Core_Controller_Front_Action
+class Mage_Sales_Controller_Download extends Magento_Core_Controller_Front_Action
 {
 
     /**
@@ -57,12 +57,12 @@ class Mage_Sales_Controller_Download extends Mage_Core_Controller_Front_Action
      */
     protected function _processDatabaseFile($filePath)
     {
-        if (!Mage::helper('Mage_Core_Helper_File_Storage_Database')->checkDbUsage()) {
+        if (!Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
             return false;
         }
 
-        $relativePath = Mage::helper('Mage_Core_Helper_File_Storage_Database')->getMediaRelativePath($filePath);
-        $file = Mage::getModel('Mage_Core_Model_File_Storage_Database')->loadByFilename($relativePath);
+        $relativePath = Mage::helper('Magento_Core_Helper_File_Storage_Database')->getMediaRelativePath($filePath);
+        $file = Mage::getModel('Magento_Core_Model_File_Storage_Database')->loadByFilename($relativePath);
 
         if (!$file->getId()) {
             return false;

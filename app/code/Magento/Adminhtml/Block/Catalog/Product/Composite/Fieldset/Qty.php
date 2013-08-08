@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Qty extends Mage_Core_Block_Template
+class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Qty extends Magento_Core_Block_Template
 {
     /**
      * Constructor for our block with options

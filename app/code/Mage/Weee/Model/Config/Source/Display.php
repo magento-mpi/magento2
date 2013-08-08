@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Weee_Model_Config_Source_Display implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Weee_Model_Config_Source_Display implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Retrieve list of available options to display FPT

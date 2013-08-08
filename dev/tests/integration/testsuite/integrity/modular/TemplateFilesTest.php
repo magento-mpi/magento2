@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -27,10 +27,10 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
         // intentionally to make sure the module files will be requested
         $params = array(
             'area'       => $area,
-            'themeModel' => Mage::getModel('Mage_Core_Model_Theme'),
+            'themeModel' => Mage::getModel('Magento_Core_Model_Theme'),
             'module'     => $module
         );
-        $file = Mage::getObjectmanager()->get('Mage_Core_Model_View_FileSystem')->getFilename($template, $params);
+        $file = Mage::getObjectmanager()->get('Magento_Core_Model_View_FileSystem')->getFilename($template, $params);
         $this->assertFileExists($file, "Block class: {$class}");
     }
 
@@ -41,7 +41,7 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
     {
         $blockClass = '';
         try {
-            /** @var $website Mage_Core_Model_Website */
+            /** @var $website Magento_Core_Model_Website */
             Mage::app()->getStore()->setWebsiteId(0);
 
             $templates = array();
@@ -50,7 +50,7 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
                     continue;
                 }
                 $class = new ReflectionClass($blockClass);
-                if ($class->isAbstract() || !$class->isSubclassOf('Mage_Core_Block_Template')) {
+                if ($class->isAbstract() || !$class->isSubclassOf('Magento_Core_Block_Template')) {
                     continue;
                 }
 
@@ -65,8 +65,8 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
                 }
 
                 Mage::app()->loadAreaPart(
-                    Mage_Core_Model_App_Area::AREA_ADMINHTML,
-                    Mage_Core_Model_App_Area::PART_CONFIG
+                    Magento_Core_Model_App_Area::AREA_ADMINHTML,
+                    Magento_Core_Model_App_Area::PART_CONFIG
                 );
                 Mage::getConfig()->setCurrentAreaCode($area);
 

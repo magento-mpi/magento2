@@ -25,7 +25,7 @@ class Mage_GoogleOptimizer_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_ConfigInterface');
+        $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_ConfigInterface');
         $this->_googleAnalyticsHelperMock = $this->getMock('Mage_GoogleAnalytics_Helper_Data', array(), array(), '',
             false);
 

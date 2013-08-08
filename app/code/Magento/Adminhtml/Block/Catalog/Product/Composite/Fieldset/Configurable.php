@@ -38,7 +38,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable ex
     /**
      * Retrieve current store
      *
-     * @return Mage_Core_Model_Store
+     * @return Magento_Core_Model_Store
      */
     public function getCurrentStore()
     {

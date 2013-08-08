@@ -8,19 +8,19 @@
  * @license     {license_link}
  */
 
-class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Api_Helper_Data extends Magento_Core_Helper_Abstract
 {
 
-    /** @var Mage_Core_Controller_Request_Http */
+    /** @var Magento_Core_Controller_Request_Http */
     protected $_request;
 
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Core_Helper_Context $context
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Controller_Request_Http $request
      */
-    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Controller_Request_Http $request)
+    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Controller_Request_Http $request)
     {
         parent::__construct($context);
         $this->_request = $request;

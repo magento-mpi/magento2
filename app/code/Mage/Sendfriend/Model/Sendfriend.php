@@ -22,7 +22,7 @@
  * @package     Mage_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
+class Mage_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
 {
     /**
      * Recipient Names
@@ -91,12 +91,12 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
             Mage::throwException(Mage::helper('Mage_Sendfriend_Helper_Data')->__('You\'ve met your limit of %d sends in an hour.', $this->getMaxSendsToFriend()));
         }
 
-        /* @var $translate Mage_Core_Model_Translate */
-        $translate = Mage::getSingleton('Mage_Core_Model_Translate');
+        /* @var $translate Magento_Core_Model_Translate */
+        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
         $translate->setTranslateInline(false);
 
-        /* @var $mailTemplate Mage_Core_Model_Email_Template */
-        $mailTemplate = Mage::getModel('Mage_Core_Model_Email_Template');
+        /* @var $mailTemplate Magento_Core_Model_Email_Template */
+        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
 
         $message = nl2br(htmlspecialchars($this->getSender()->getMessage()));
         $sender  = array(
@@ -105,7 +105,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
         );
 
         $mailTemplate->setDesignConfig(array(
-            'area'  => Mage_Core_Model_App_Area::AREA_FRONTEND,
+            'area'  => Magento_Core_Model_App_Area::AREA_FRONTEND,
             'store' => Mage::app()->getStore()->getId()
         ));
 
@@ -187,7 +187,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
     /**
      * Set cookie instance
      *
-     * @param Mage_Core_Model_Cookie $product
+     * @param Magento_Core_Model_Cookie $product
      * @return Mage_Sendfriend_Model_Sendfriend
      */
     public function setCookie($cookie)
@@ -198,13 +198,13 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
     /**
      * Retrieve Cookie instance
      *
-     * @throws Mage_Core_Exception
-     * @return Mage_Core_Model_Cookie
+     * @throws Magento_Core_Exception
+     * @return Magento_Core_Model_Cookie
      */
     public function getCookie()
     {
         $cookie = $this->_getData('_cookie');
-        if (!$cookie instanceof Mage_Core_Model_Cookie) {
+        if (!$cookie instanceof Magento_Core_Model_Cookie) {
             Mage::throwException(Mage::helper('Mage_Sendfriend_Helper_Data')->__('Please define a correct Cookie instance.'));
         }
         return $cookie;
@@ -320,7 +320,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
     /**
      * Retrieve Product instance
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Catalog_Model_Product
      */
     public function getProduct()
@@ -350,7 +350,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
     /**
      * Retrieve Sender Information Object
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Magento_Object
      */
     public function getSender()

@@ -11,7 +11,7 @@
 /**
  * Design editor theme change
  */
-class Mage_DesignEditor_Model_Theme_Change extends Mage_Core_Model_Abstract
+class Mage_DesignEditor_Model_Theme_Change extends Magento_Core_Model_Abstract
 {
     /**
      * Theme model initialization

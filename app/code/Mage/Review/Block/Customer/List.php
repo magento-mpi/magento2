@@ -58,7 +58,7 @@ class Mage_Review_Block_Customer_List extends Mage_Customer_Block_Account_Dashbo
     /**
      * Initializes toolbar
      *
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _prepareLayout()
     {
@@ -120,11 +120,11 @@ class Mage_Review_Block_Customer_List extends Mage_Customer_Block_Account_Dashbo
      */
     public function dateFormat($date)
     {
-        return $this->formatDate($date, Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
-     * @return Mage_Core_Block_Abstract
+     * @return Magento_Core_Block_Abstract
      */
     protected function _beforeToHtml()
     {

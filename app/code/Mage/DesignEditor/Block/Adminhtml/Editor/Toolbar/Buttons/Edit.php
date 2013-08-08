@@ -25,7 +25,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
     protected $_changeFactory;
 
     /**
-     * @var Mage_Core_Model_LocaleInterface
+     * @var Magento_Core_Model_LocaleInterface
      */
     protected $_localeModel;
 
@@ -33,14 +33,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
      * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param Mage_DesignEditor_Model_Theme_ChangeFactory $changeFactory
-     * @param Mage_Core_Model_LocaleInterface $localeModel
+     * @param Magento_Core_Model_LocaleInterface $localeModel
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
         Mage_DesignEditor_Model_Theme_ChangeFactory $changeFactory,
-        Mage_Core_Model_LocaleInterface $localeModel,
+        Magento_Core_Model_LocaleInterface $localeModel,
         array $data = array()
     ) {
         $this->_themeContext = $themeContext;
@@ -227,11 +227,11 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
     /**
      * Checks themes for changes by time
      *
-     * @param Mage_Core_Model_Theme $sourceTheme
-     * @param Mage_Core_Model_Theme $targetTheme
+     * @param Magento_Core_Model_Theme $sourceTheme
+     * @param Magento_Core_Model_Theme $targetTheme
      * @return bool
      */
-    protected function _hasThemeChanged(Mage_Core_Model_Theme $sourceTheme, Mage_Core_Model_Theme $targetTheme)
+    protected function _hasThemeChanged(Magento_Core_Model_Theme $sourceTheme, Magento_Core_Model_Theme $targetTheme)
     {
         $sourceChange = $this->_changeFactory->create();
         $sourceChange->loadByThemeId($sourceTheme->getId());

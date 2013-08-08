@@ -64,7 +64,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      */
     public function __construct()
     {
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
 
         parent::__construct(
             $resource->getConnection('catalog_write'),
@@ -250,7 +250,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      */
     protected function _getIsActiveAttributeId()
     {
-        $resource = Mage::getSingleton('Mage_Core_Model_Resource');
+        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
         if (is_null($this->_isActiveAttributeId)) {
             $bind = array(
                 'entity_type_code' => Mage_Catalog_Model_Category::ENTITY,
@@ -280,7 +280,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
         $attributeId = $this->_getIsActiveAttributeId();
 
         $conditionSql = $this->_conn->getCheckSql('c.value_id > 0', 'c.value', 'd.value');
-        $table = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_category_entity_int');
+        $table = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_category_entity_int');
         $bind = array(
             'attribute_id' => $attributeId,
             'store_id'     => $storeId,
@@ -586,7 +586,7 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
                         array($tableDefault => $attribute->getBackend()->getTable()),
                         sprintf('%1$s.entity_id=e.entity_id AND %1$s.attribute_id=%2$d'
                             . ' AND %1$s.entity_type_id=e.entity_type_id AND %1$s.store_id=%3$d',
-                            $tableDefault, $attribute->getId(), Mage_Core_Model_AppInterface::ADMIN_STORE_ID),
+                            $tableDefault, $attribute->getId(), Magento_Core_Model_AppInterface::ADMIN_STORE_ID),
                         array($attributeCode => 'value'))
                     ->joinLeft(
                         array($tableStore => $attribute->getBackend()->getTable()),
@@ -599,8 +599,8 @@ class Mage_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
         }
 
         // count children products qty plus self products qty
-        $categoriesTable         = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_category_entity');
-        $categoriesProductsTable = Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('catalog_category_product');
+        $categoriesTable         = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_category_entity');
+        $categoriesProductsTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_category_product');
 
         $subConcat = $this->_conn->getConcatSql(array('e.path', $this->_conn->quote('/%')));
         $subSelect = $this->_conn->select()

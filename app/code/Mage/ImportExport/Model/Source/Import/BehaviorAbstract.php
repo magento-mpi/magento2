@@ -40,7 +40,7 @@ abstract class Mage_ImportExport_Model_Source_Import_BehaviorAbstract
      * Helper getter
      *
      * @param string $helperName
-     * @return Mage_Core_Helper_Abstract
+     * @return Magento_Core_Helper_Abstract
      */
     protected function _helper($helperName)
     {

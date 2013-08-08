@@ -28,24 +28,24 @@ abstract class Mage_Backend_Model_Config_Structure_ElementAbstract
     /**
      * Helper factory
      *
-     * @var Mage_Core_Model_Factory_Helper
+     * @var Magento_Core_Model_Factory_Helper
      */
     protected $_helperFactory;
 
     /**
      * Application object
      *
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_application;
 
     /**
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Core_Model_App $application
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_App $application
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
-        Mage_Core_Model_App $application
+        Magento_Core_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_App $application
     ) {
         $this->_helperFactory = $helperFactory;
         $this->_application = $application;

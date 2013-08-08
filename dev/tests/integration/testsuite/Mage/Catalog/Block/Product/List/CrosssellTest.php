@@ -18,13 +18,13 @@ class Mage_Catalog_Block_Product_List_CrosssellTest extends PHPUnit_Framework_Te
 {
     public function testAll()
     {
-        Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(2);
         Mage::register('product', $product);
         /** @var $block Mage_Catalog_Block_Product_List_Crosssell */
         $block = Mage::app()->getLayout()->createBlock('Mage_Catalog_Block_Product_List_Crosssell');
-        $block->setLayout(Mage::getModel('Mage_Core_Model_Layout'));
+        $block->setLayout(Mage::getModel('Magento_Core_Model_Layout'));
         $block->setTemplate('Mage_Checkout::cart/crosssell.phtml');
         $block->setItemCount(1);
 

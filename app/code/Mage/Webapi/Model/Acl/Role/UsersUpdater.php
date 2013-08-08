@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Mage_Core_Model_Layout_Argument_UpdaterInterface
+class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
 {
     /**
      * Filter name for users by role.
@@ -28,17 +28,17 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Mage_Core_Model_Layout_
     protected $_roleId;
 
     /**
-     * @var Mage_Core_Controller_Request_Http
+     * @var Magento_Core_Controller_Request_Http
      */
     protected $_inRoleUsersFilter;
 
     /**
      * Constructor.
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @param Mage_Backend_Helper_Data $backendHelper
      */
-    public function __construct(Mage_Core_Controller_Request_Http $request, Mage_Backend_Helper_Data $backendHelper)
+    public function __construct(Magento_Core_Controller_Request_Http $request, Mage_Backend_Helper_Data $backendHelper)
     {
         $this->_roleId = (int)$request->getParam('role_id');
         $this->_inRoleUsersFilter = $this->_parseInRoleUsersFilter($request, $backendHelper);
@@ -47,12 +47,12 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Mage_Core_Model_Layout_
     /**
      * Parse $_inRoleUsersFilter value from request
      *
-     * @param Mage_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Request_Http $request
      * @param Mage_Backend_Helper_Data $backendHelper
      * @return int
      */
     protected function _parseInRoleUsersFilter(
-        Mage_Core_Controller_Request_Http $request,
+        Magento_Core_Controller_Request_Http $request,
         Mage_Backend_Helper_Data $backendHelper
     ) {
         $result = self::IN_ROLE_USERS_ANY;

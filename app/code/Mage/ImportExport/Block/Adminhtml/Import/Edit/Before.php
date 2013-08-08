@@ -20,7 +20,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Before extends Mage_Backend_
     /**
      * Core helper
      *
-     * @var Mage_Core_Helper_Data
+     * @var Magento_Core_Helper_Data
      */
     protected $_coreHelper;
 
@@ -33,13 +33,13 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Before extends Mage_Backend_
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Core_Helper_Data $coreHelper
+     * @param Magento_Core_Helper_Data $coreHelper
      * @param Mage_ImportExport_Model_Import $importModel
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Core_Helper_Data $coreHelper,
+        Magento_Core_Helper_Data $coreHelper,
         Mage_ImportExport_Model_Import $importModel,
         array $data = array()
     ) {

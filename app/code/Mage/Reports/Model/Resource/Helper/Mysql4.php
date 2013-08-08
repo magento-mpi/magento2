@@ -16,7 +16,7 @@
  * @package     Mage_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Mysql4
+class Mage_Reports_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
     implements Mage_Reports_Model_Resource_Helper_Interface
 {
 
@@ -41,7 +41,7 @@ class Mage_Reports_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource
      * @param string $column
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return Mage_Core_Model_Resource_Helper_Mysql4
+     * @return Magento_Core_Model_Resource_Helper_Mysql4
      */
     public function updateReportRatingPos($type, $column, $mainTable, $aggregationTable)
     {

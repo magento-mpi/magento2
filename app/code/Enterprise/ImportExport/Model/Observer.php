@@ -64,7 +64,7 @@ class Enterprise_ImportExport_Model_Observer
         }
 
         try {
-            $logPath = Mage::getBaseDir(Mage_Core_Model_Dir::LOG)
+            $logPath = Mage::getBaseDir(Magento_Core_Model_Dir::LOG)
                 . DS . Enterprise_ImportExport_Model_Scheduled_Operation::LOG_DIRECTORY;
 
             if (!file_exists($logPath) || !is_dir($logPath)) {
@@ -167,8 +167,8 @@ class Enterprise_ImportExport_Model_Observer
             return $this;
         }
 
-        $mailer = Mage::getSingleton('Mage_Core_Model_Email_Template_Mailer');
-        $emailInfo = Mage::getModel('Mage_Core_Model_Email_Info');
+        $mailer = Mage::getSingleton('Magento_Core_Model_Email_Template_Mailer');
+        $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
         $emailInfo->addTo($receiverEmail);
 
         $mailer->addEmailInfo($emailInfo);

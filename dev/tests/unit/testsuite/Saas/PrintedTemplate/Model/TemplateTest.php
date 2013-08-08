@@ -163,7 +163,7 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $viewUrl = $this->getMock('Mage_Core_Model_View_Url', array(), array(), '', false);
+        $viewUrl = $this->getMock('Magento_Core_Model_View_Url', array(), array(), '', false);
 
         $template->expects($this->any())
             ->method('getTemplateFilter')

@@ -371,7 +371,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     public function setEntity($entity)
     {
-        if ($this->isEnabledFlat() && ($entity instanceof Mage_Core_Model_Resource_Db_Abstract)) {
+        if ($this->isEnabledFlat() && ($entity instanceof Magento_Core_Model_Resource_Db_Abstract)) {
             $this->_entity = $entity;
             return $this;
         }
@@ -437,7 +437,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      * Add attribute to entities in collection
      * If $attribute=='*' select all attributes
      *
-     * @param array|string|integer|Mage_Core_Model_Config_Element $attribute
+     * @param array|string|integer|Magento_Core_Model_Config_Element $attribute
      * @param bool|string $joinType
      * @return Mage_Catalog_Model_Resource_Product_Collection
      */
@@ -1074,7 +1074,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             'core_url_rewrite',
             'entity_id=entity_id',
             array('request_path'),
-            '{{table}}.type = ' . Mage_Core_Model_Url_Rewrite::TYPE_PRODUCT,
+            '{{table}}.type = ' . Magento_Core_Model_Url_Rewrite::TYPE_PRODUCT,
             'left'
         );
 
@@ -1586,7 +1586,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             );
         }
         // Avoid column duplication problems
-        Mage::getResourceHelper('Mage_Core')->prepareColumnsList($this->getSelect());
+        Mage::getResourceHelper('Magento_Core')->prepareColumnsList($this->getSelect());
 
         $whereCond = join(' OR ', array(
             $this->getConnection()->quoteInto('cat_index.visibility IN(?)', $filters['visibility']),
@@ -1632,7 +1632,7 @@ class Mage_Catalog_Model_Resource_Product_Collection extends Mage_Catalog_Model_
             return $this;
         }
 
-        $helper     = Mage::getResourceHelper('Mage_Core');
+        $helper     = Mage::getResourceHelper('Magento_Core');
         $connection = $this->getConnection();
         $select     = $this->getSelect();
         $joinCond   = join(' AND ', array(

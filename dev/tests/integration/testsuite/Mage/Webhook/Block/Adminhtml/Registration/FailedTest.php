@@ -20,9 +20,9 @@ class Mage_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Frame
 
         /** @var Mage_Backend_Model_Session $session */
         $session = $objectManager->create('Mage_Backend_Model_Session');
-        $context = $objectManager->create('Mage_Core_Block_Template_Context');
-        $messageCollection = $objectManager->create('Mage_Core_Model_Message_Collection');
-        $message = $objectManager->create('Mage_Core_Model_Message_Notice', array('code' => ''));
+        $context = $objectManager->create('Magento_Core_Block_Template_Context');
+        $messageCollection = $objectManager->create('Magento_Core_Model_Message_Collection');
+        $message = $objectManager->create('Magento_Core_Model_Message_Notice', array('code' => ''));
         $messageCollection->addMessage($message);
         $session->setData('messages', $messageCollection);
 

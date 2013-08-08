@@ -106,7 +106,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Magento_Adminhtm
                 $message = $this->__('Selected entries enabled.');
             }
             $this->_getSession()->addSuccess($message);
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('An error occurred on update revoke status.'));
@@ -145,7 +145,7 @@ class Mage_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Magento_Adminhtm
                 $item->delete();
             }
             $this->_getSession()->addSuccess($this->__('Selected entries has been deleted.'));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError($this->__('An error occurred on delete action.'));

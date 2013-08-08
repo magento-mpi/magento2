@@ -24,14 +24,14 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUnit_F
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper');
-        $this->_coreHelperMock = $this->getMock('Mage_Core_Helper_Data',
+        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper');
+        $this->_coreHelperMock = $this->getMock('Magento_Core_Helper_Data',
             array('__', 'jsonDecode'), array(), '', false, false
         );
         $this->_helperFactoryMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue($this->_coreHelperMock));
-        $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')
+        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')
             ->setMethods(array('isDeveloperMode'))
             ->disableOriginalConstructor()
             ->getMock();

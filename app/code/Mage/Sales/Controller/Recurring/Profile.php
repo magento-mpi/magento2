@@ -11,7 +11,7 @@
 /**
  * Recurring profiles view/management controller
  */
-class Mage_Sales_Controller_Recurring_Profile extends Mage_Core_Controller_Front_Action
+class Mage_Sales_Controller_Recurring_Profile extends Magento_Core_Controller_Front_Action
 {
     /**
      *
@@ -101,7 +101,7 @@ class Mage_Sales_Controller_Recurring_Profile extends Mage_Core_Controller_Front
                     break;
             }
             $this->_session->addSuccess($this->__('The profile state has been updated.'));
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_session->addError($this->__('We couldn\'t update the profile.'));
@@ -129,7 +129,7 @@ class Mage_Sales_Controller_Recurring_Profile extends Mage_Core_Controller_Front
             } else {
                 $this->_session->addNotice($this->__('The profile has no changes.'));
             }
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_session->addError($this->__('We couldn\'t update the profile.'));
@@ -158,7 +158,7 @@ class Mage_Sales_Controller_Recurring_Profile extends Mage_Core_Controller_Front
             }
             $this->renderLayout();
             return;
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_session->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::logException($e);
@@ -170,7 +170,7 @@ class Mage_Sales_Controller_Recurring_Profile extends Mage_Core_Controller_Front
      * Instantiate current profile and put it into registry
      *
      * @return Mage_Sales_Model_Recurring_Profile
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _initProfile()
     {

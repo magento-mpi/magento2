@@ -94,7 +94,7 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
         if ($json) {
             $jsonRoles = Array();
             foreach($uRoles as $urid) $jsonRoles[$urid] = 0;
-            return Mage::helper('Mage_Core_Helper_Data')->jsonEncode((object)$jsonRoles);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((object)$jsonRoles);
         } else {
             return $uRoles;
         }

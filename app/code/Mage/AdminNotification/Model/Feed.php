@@ -16,7 +16,7 @@
  * @package    Mage_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_AdminNotification_Model_Feed extends Mage_Core_Model_Abstract
+class Mage_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
 {
     const XML_USE_HTTPS_PATH    = 'system/adminnotification/use_https';
     const XML_FEED_URL_PATH     = 'system/adminnotification/feed_url';
@@ -127,8 +127,8 @@ class Mage_AdminNotification_Model_Feed extends Mage_Core_Model_Abstract
     public function setLastUpdate()
     {
         Mage::app()->saveCache(time(), 'admin_notifications_lastcheck');
-//        $config = Mage::getModel('Mage_Core_Model_Config');
-//        /* @var $config Mage_Core_Model_Config */
+//        $config = Mage::getModel('Magento_Core_Model_Config');
+//        /* @var $config Magento_Core_Model_Config */
 //        $config->saveConfig(self::XML_LAST_UPDATE_PATH, time());
         return $this;
     }

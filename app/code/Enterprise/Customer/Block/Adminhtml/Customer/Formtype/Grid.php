@@ -66,8 +66,8 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Magento
             'type'      => 'store'
         ));
 
-        /** @var $label Mage_Core_Model_Theme_Label */
-        $label = Mage::getModel('Mage_Core_Model_Theme_Label');
+        /** @var $label Magento_Core_Model_Theme_Label */
+        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
         $design = $label->getLabelsCollection();
         array_unshift($design, array(
             'value' => 'all',

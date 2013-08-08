@@ -205,7 +205,7 @@ class Enterprise_Search_Model_Resource_Engine
             return $this;
         }
 
-        if (is_null($storeIds) || $storeIds == Mage_Core_Model_AppInterface::ADMIN_STORE_ID) {
+        if (is_null($storeIds) || $storeIds == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
             $storeIds = array_keys(Mage::app()->getStores());
         } else {
             $storeIds = (array) $storeIds;

@@ -132,9 +132,9 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     {
         $this->_getResource()->beginTransaction();
         try {
-            $this->setInternalReferenceId(Mage::helper('Mage_Core_Helper_Data')->uniqHash('temporary-'));
+            $this->setInternalReferenceId(Mage::helper('Magento_Core_Helper_Data')->uniqHash('temporary-'));
             $this->save();
-            $this->setInternalReferenceId(Mage::helper('Mage_Core_Helper_Data')->uniqHash($this->getId() . '-'));
+            $this->setInternalReferenceId(Mage::helper('Magento_Core_Helper_Data')->uniqHash($this->getId() . '-'));
             $this->getMethodInstance()->submitRecurringProfile($this, $this->getQuote()->getPayment());
             $this->save();
             $this->_getResource()->commit();
@@ -574,7 +574,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
      * @param string $againstState
      * @param bool $soft
      * @return bool
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _checkWorkflow($againstState, $soft = true)
     {

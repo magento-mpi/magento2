@@ -16,7 +16,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Resource_Quote_Payment_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class Mage_Sales_Model_Resource_Quote_Payment_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Resource initialization
@@ -41,7 +41,7 @@ class Mage_Sales_Model_Resource_Quote_Payment_Collection extends Mage_Core_Model
     /**
      * Unserialize additional_information in each item
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     protected function _afterLoad()
     {

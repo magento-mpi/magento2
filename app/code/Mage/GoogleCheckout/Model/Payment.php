@@ -80,7 +80,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
         }
         */
 
-        if ($payment->getOrder()->getPaymentAuthExpiration() < Mage::getModel('Mage_Core_Model_Date')->gmtTimestamp()) {
+        if ($payment->getOrder()->getPaymentAuthExpiration() < Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp()) {
             try {
                 $this->authorize($payment, $amount);
             } catch (Exception $e) {
@@ -145,7 +145,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
      * Retrieve information from payment configuration
      *
      * @param string $field
-     * @param int|string|null|Mage_Core_Model_Store $storeId
+     * @param int|string|null|Magento_Core_Model_Store $storeId
      *
      * @return  mixed
      */

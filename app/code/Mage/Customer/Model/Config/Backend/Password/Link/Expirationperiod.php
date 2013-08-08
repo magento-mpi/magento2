@@ -17,7 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Model_Config_Backend_Password_Link_Expirationperiod
-    extends Mage_Core_Model_Config_Data
+    extends Magento_Core_Model_Config_Data
 {
     /**
      * Validate expiration period value before saving

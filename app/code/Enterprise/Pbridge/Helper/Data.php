@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Payment Bridge action name to fetch Payment Bridge gateway form
@@ -64,7 +64,7 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check if Payment Bridge Magento Module is enabled in configuration
      *
-     * @param Mage_Core_Model_Store $store
+     * @param Magento_Core_Model_Store $store
      * @return boolean
      */
     public function isEnabled($store = null)
@@ -75,7 +75,7 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check if Payment Bridge supports Payment Profiles
      *
-     * @param Mage_Core_Model_Store $store
+     * @param Magento_Core_Model_Store $store
      * @return boolean
      */
     public function arePaymentProfilesEnables($store = null)
@@ -86,7 +86,7 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check if enough config paramters to use Pbridge module
      *
-     * @param Mage_Core_Model_Store | integer $store
+     * @param Magento_Core_Model_Store | integer $store
      * @return boolean
      */
     public function isAvailable($store = null)
@@ -299,7 +299,7 @@ class Enterprise_Pbridge_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Prepare cart from order
      *
-     * @param Mage_Core_Model_Abstract $order
+     * @param Magento_Core_Model_Abstract $order
      * @return array
      */
     public function prepareCart($order)

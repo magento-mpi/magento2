@@ -132,7 +132,7 @@ class Mage_Catalog_Model_Url
      * Retrieve stores array or store model
      *
      * @param int $storeId
-     * @return Mage_Core_Model_Store|array
+     * @return Magento_Core_Model_Store|array
      */
     public function getStores($storeId = null)
     {
@@ -835,12 +835,12 @@ class Mage_Catalog_Model_Url
      * @param Magento_Object $category
      * @param string $parentPath
      * @return string
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function generatePath($type = 'target', $product = null, $category = null, $parentPath = null)
     {
         if (!$product && !$category) {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Please specify either a category or a product, or both.'));
+            Mage::throwException(Mage::helper('Magento_Core_Helper_Data')->__('Please specify either a category or a product, or both.'));
         }
 
         // generate id_path
@@ -882,7 +882,7 @@ class Mage_Catalog_Model_Url
 
             // for product & category
             if (!$category) {
-                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('A category object is required for determining the product request path.')); // why?
+                Mage::throwException(Mage::helper('Magento_Core_Helper_Data')->__('A category object is required for determining the product request path.')); // why?
             }
 
             if ($product->getUrlKey() == '') {

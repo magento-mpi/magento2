@@ -48,6 +48,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Mage_Backend_
             $output[] = $resultObject->getData();
         }
 
-        return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($output);
+        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($output);
     }
 }

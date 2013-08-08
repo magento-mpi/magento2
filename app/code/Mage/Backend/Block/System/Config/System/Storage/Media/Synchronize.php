@@ -95,10 +95,10 @@ class Mage_Backend_Block_System_Config_System_Storage_Media_Synchronize
      */
     public function getSyncStorageParams()
     {
-        $flag = Mage::getSingleton('Mage_Core_Model_File_Storage')->getSyncFlag();
+        $flag = Mage::getSingleton('Magento_Core_Model_File_Storage')->getSyncFlag();
         $flagData = $flag->getFlagData();
 
-        if ($flag->getState() == Mage_Core_Model_File_Storage_Flag::STATE_NOTIFIED
+        if ($flag->getState() == Magento_Core_Model_File_Storage_Flag::STATE_NOTIFIED
                 && is_array($flagData)
             && isset($flagData['destination_storage_type']) && $flagData['destination_storage_type'] != ''
             && isset($flagData['destination_connection_name'])
@@ -106,7 +106,7 @@ class Mage_Backend_Block_System_Config_System_Storage_Media_Synchronize
             $storageType    = $flagData['destination_storage_type'];
             $connectionName = $flagData['destination_connection_name'];
         } else {
-            $storageType    = Mage_Core_Model_File_Storage::STORAGE_MEDIA_FILE_SYSTEM;
+            $storageType    = Magento_Core_Model_File_Storage::STORAGE_MEDIA_FILE_SYSTEM;
             $connectionName = '';
         }
 

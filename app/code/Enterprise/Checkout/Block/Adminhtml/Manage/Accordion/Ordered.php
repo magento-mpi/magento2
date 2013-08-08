@@ -62,7 +62,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
     /**
      * Prepare customer wishlist product collection
      *
-     * @return Mage_Core_Model_Resource_Db_Collection_Abstract
+     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
      */
     public function getItemsCollection()
     {
@@ -71,7 +71,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
             $storeIds = $this->_getStore()->getWebsite()->getStoreIds();
 
             // Load last order of a customer
-            /* @var $collection Mage_Core_Model_Resource_Db_Collection_Abstract */
+            /* @var $collection Magento_Core_Model_Resource_Db_Collection_Abstract */
             $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Order_Collection')
                 ->addAttributeToFilter('customer_id', $this->_getCustomer()->getId())
                 ->addAttributeToFilter('store_id', array('in' => $storeIds))

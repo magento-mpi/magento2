@@ -27,7 +27,7 @@ class Enterprise_Customer_Helper_CustomerTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_contextMock = $this->getMockBuilder('Mage_Core_Helper_Context')
+        $this->_contextMock = $this->getMockBuilder('Magento_Core_Helper_Context')
             ->disableOriginalConstructor()->getMock();
 
         $this->_dataHelperMock = $this->getMockBuilder('Enterprise_Customer_Helper_Data')
@@ -40,7 +40,7 @@ class Enterprise_Customer_Helper_CustomerTest extends PHPUnit_Framework_TestCase
             $this->getMockBuilder('Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator')
                 ->disableOriginalConstructor()->getMock();
 
-        $abstractHelperMock = $this->getMockBuilder('Mage_Core_Helper_Abstract')
+        $abstractHelperMock = $this->getMockBuilder('Magento_Core_Helper_Abstract')
             ->disableOriginalConstructor()->getMock();
         $abstractHelperMock->expects($this->any())
             ->method('__')
@@ -84,7 +84,7 @@ class Enterprise_Customer_Helper_CustomerTest extends PHPUnit_Framework_TestCase
             $this->_inputValidatorMock
         );
 
-        $this->setExpectedException('Mage_Core_Exception');
+        $this->setExpectedException('Magento_Core_Exception');
         $helper->filterPostData($data);
     }
 

@@ -78,9 +78,9 @@ class Mage_Paypal_Model_Observer
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
             if ($payment && in_array($payment->getMethod(), Mage::helper('Mage_Paypal_Helper_Hss')->getHssMethods())) {
-                /* @var $controller Mage_Core_Controller_Varien_Action */
+                /* @var $controller Magento_Core_Controller_Varien_Action */
                 $controller = $observer->getEvent()->getData('controller_action');
-                $result = Mage::helper('Mage_Core_Helper_Data')->jsonDecode(
+                $result = Mage::helper('Magento_Core_Helper_Data')->jsonDecode(
                     $controller->getResponse()->getBody('default'),
                     Zend_Json::TYPE_ARRAY
                 );
@@ -95,7 +95,7 @@ class Mage_Paypal_Model_Observer
                     $result['redirect'] = false;
                     $result['success'] = false;
                     $controller->getResponse()->clearHeader('Location');
-                    $controller->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
+                    $controller->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
                 }
             }
         }

@@ -14,13 +14,13 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Webapi_Model_Soap_Server */
     protected $_soapServer;
 
-    /** @var Mage_Core_Model_App */
+    /** @var Magento_Core_Model_App */
     protected $_appMock;
 
-    /** @var Mage_Core_Model_Store */
+    /** @var Magento_Core_Model_Store */
     protected $_storeMock;
 
-    /** @var Mage_Core_Model_Config */
+    /** @var Magento_Core_Model_Config */
     protected $_configMock;
 
     /** @var Mage_Webapi_Controller_Request_Soap */
@@ -32,15 +32,18 @@ class Mage_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Init all dependencies for SUT. */
-        $this->_storeMock = $this->getMockBuilder('Mage_Core_Model_Store')->disableOriginalConstructor()->getMock();
-        $this->_configMock = $this->getMockBuilder('Mage_Core_Model_Config')->disableOriginalConstructor()->getMock();
+        $this->_storeMock = $this->getMockBuilder('Magento_Core_Model_Store')->disableOriginalConstructor()->getMock();
+        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_Config')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_configMock->expects($this->any())->method('getAreaFrontName')->will(
             $this->returnValue(self::WEBAPI_AREA_FRONT_NAME)
         );
-        $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')->disableOriginalConstructor()->getMock();
+        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
         $this->_appMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
         $this->_appMock->expects($this->any())->method('getConfig')->will($this->returnValue($this->_configMock));
-        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Soap')->disableOriginalConstructor()
+        $this->_requestMock = $this->getMockBuilder('Mage_Webapi_Controller_Request_Soap')
+            ->disableOriginalConstructor()
             ->getMock();
         $this->_domDocumentFactory = $this->getMockBuilder('Magento_DomDocument_Factory')
             ->disableOriginalConstructor()->getMock();

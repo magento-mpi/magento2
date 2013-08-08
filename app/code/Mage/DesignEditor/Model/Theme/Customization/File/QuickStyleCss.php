@@ -12,7 +12,7 @@
  * Theme customization service class for quick styles
  */
 class Mage_DesignEditor_Model_Theme_Customization_File_QuickStyleCss
-    extends Mage_Core_Model_Theme_Customization_FileAbstract
+    extends Magento_Core_Model_Theme_Customization_FileAbstract
 {
     /**#@+
      * QuickStyles CSS file type customization
@@ -50,7 +50,7 @@ class Mage_DesignEditor_Model_Theme_Customization_File_QuickStyleCss
     /**
      * {@inheritdoc}
      */
-    protected  function _prepareFileName(Mage_Core_Model_Theme_FileInterface $file)
+    protected  function _prepareFileName(Magento_Core_Model_Theme_FileInterface $file)
     {
         $file->setFileName(self::FILE_NAME);
     }
@@ -58,7 +58,7 @@ class Mage_DesignEditor_Model_Theme_Customization_File_QuickStyleCss
     /**
      * {@inheritdoc}
      */
-    protected function _prepareSortOrder(Mage_Core_Model_Theme_FileInterface $file)
+    protected function _prepareSortOrder(Magento_Core_Model_Theme_FileInterface $file)
     {
         $file->setData('sort_order', self::SORT_ORDER);
     }

@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Eav
  */
-class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Eav_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Array of User Defined attribute codes per entity type code
@@ -27,7 +27,7 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Default attribute entity type code
      *
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     protected function _getEntityTypeCode()
     {
@@ -446,14 +446,14 @@ class Enterprise_Eav_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDateFormat()
     {
-        return Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
      * Filter post data
      *
      * @param array $data
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return array
      */
     public function filterPostData($data)

@@ -33,9 +33,9 @@ class Mage_DesignEditor_Model_Theme_ChangeTest extends PHPUnit_Framework_TestCas
      */
     protected function _getChangeValidData()
     {
-        /** @var $theme Mage_Core_Model_Theme */
-        /** @var $themeModel Mage_Core_Model_Theme */
-        $theme = Mage::getObjectManager()->create('Mage_Core_Model_Theme');
+        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $themeModel Magento_Core_Model_Theme */
+        $theme = Mage::getObjectManager()->create('Magento_Core_Model_Theme');
         $themeModel = $theme->getCollection()->getFirstItem();
 
         return array(

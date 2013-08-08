@@ -26,7 +26,7 @@
  * @package     Mage_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
+class Mage_Index_Model_Process extends Magento_Core_Model_Abstract
 {
     const XML_PATH_INDEXER_DATA     = 'global/index/indexer';
     /**
@@ -80,18 +80,18 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     protected $_eventRepository;
 
     /**
-     * @param Mage_Core_Model_Context $context
+     * @param Magento_Core_Model_Context $context
      * @param Mage_Index_Model_Lock_Storage $lockStorage
      * @param Mage_Index_Model_EventRepository $eventRepository
-     * @param Mage_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Core_Model_Context $context,
+        Magento_Core_Model_Context $context,
         Mage_Index_Model_Lock_Storage $lockStorage,
         Mage_Index_Model_EventRepository $eventRepository,
-        Mage_Core_Model_Resource_Abstract $resource = null,
+        Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {

@@ -14,7 +14,7 @@
     <?php echo Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('To add or remove gift cards, <a href="%s">click here</a>.', $_url); ?><br />
 
     <?php if ((float)$this->getAppliedGiftCardAmount()): ?>
-        <?php $amount = Mage::helper('Mage_Core_Helper_Data')->currency($this->getAppliedGiftCardAmount(), true); ?>
+        <?php $amount = Mage::helper('Magento_Core_Helper_Data')->currency($this->getAppliedGiftCardAmount(), true); ?>
         <?php echo Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Gift Card amount applied to order: %s', $amount); ?>
     <?php endif; ?>
 

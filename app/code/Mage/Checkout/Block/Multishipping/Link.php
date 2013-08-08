@@ -15,7 +15,7 @@
  * @package    Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Block_Multishipping_Link extends Mage_Core_Block_Template
+class Mage_Checkout_Block_Multishipping_Link extends Magento_Core_Block_Template
 {
     public function getCheckoutUrl()
     {

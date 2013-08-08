@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_UrlRewriteOptions implements Mage_Core_Model_Option_ArrayInterface
+class Magento_Adminhtml_Model_UrlRewriteOptions implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * Backend Helper

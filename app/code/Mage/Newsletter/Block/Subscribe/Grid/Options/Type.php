@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Newsletter_Block_Subscribe_Grid_Options_Type implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Newsletter_Block_Subscribe_Grid_Options_Type implements Magento_Core_Model_Option_ArrayInterface
 {
     /**
      * @var Mage_Newsletter_Helper_Data

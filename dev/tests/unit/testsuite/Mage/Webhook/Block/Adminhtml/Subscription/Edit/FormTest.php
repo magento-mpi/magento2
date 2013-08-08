@@ -17,7 +17,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento_Te
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     private $_formFactoryMock;
 
-    /** @var  Mage_Core_Model_Registry */
+    /** @var  Magento_Core_Model_Registry */
     private $_registry;
 
     /** @var  PHPUnit_Framework_MockObject_MockObject */
@@ -41,7 +41,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento_Te
     public function testPrepareColumns()
     {
         $this->_formFactoryMock = $this->_makeMock('Magento_Data_Form_Factory');
-        $this->_registry = new Mage_Core_Model_Registry();
+        $this->_registry = new Magento_Core_Model_Registry();
         $this->_formatMock = $this->_makeMock('Mage_Webhook_Model_Source_Format');
         $this->_authenticationMock = $this->_makeMock('Mage_Webhook_Model_Source_Authentication');
         $this->_hookMock = $this->_makeMock('Mage_Webhook_Model_Source_Hook');

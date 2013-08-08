@@ -9,16 +9,16 @@ use Zend\Server\Reflection\ReflectionMethod;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
+class Mage_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /** @var Mage_Webapi_Helper_Config */
     protected $_configHelper;
 
     /**
      * @param Mage_Webapi_Helper_Config $configHelper
-     * @param Mage_Core_Helper_Context $context
+     * @param Magento_Core_Helper_Context $context
      */
-    public function __construct(Mage_Webapi_Helper_Config $configHelper, Mage_Core_Helper_Context $context)
+    public function __construct(Mage_Webapi_Helper_Config $configHelper, Magento_Core_Helper_Context $context)
     {
         parent::__construct($context);
         $this->_configHelper = $configHelper;

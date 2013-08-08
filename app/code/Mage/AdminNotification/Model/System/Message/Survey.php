@@ -9,7 +9,7 @@ class Mage_AdminNotification_Model_System_Message_Survey
     implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
-     * @var Mage_Core_Model_Factory_Helper
+     * @var Magento_Core_Model_Factory_Helper
      */
     protected $_helperFactory;
 
@@ -24,21 +24,21 @@ class Mage_AdminNotification_Model_System_Message_Survey
     protected $_authorization;
 
     /**
-     * @var Mage_Core_Model_UrlInterface
+     * @var Magento_Core_Model_UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @param Mage_Core_Model_Factory_Helper $helperFactory
+     * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Mage_Backend_Model_Auth_Session $authSession
      * @param Magento_AuthorizationInterface $authorization
-     * @param Mage_Core_Model_UrlInterface $urlBuilder
+     * @param Magento_Core_Model_UrlInterface $urlBuilder
      */
     public function __construct(
-        Mage_Core_Model_Factory_Helper $helperFactory,
+        Magento_Core_Model_Factory_Helper $helperFactory,
         Mage_Backend_Model_Auth_Session $authSession,
         Magento_AuthorizationInterface $authorization,
-        Mage_Core_Model_UrlInterface $urlBuilder
+        Magento_Core_Model_UrlInterface $urlBuilder
     ) {
         $this->_helperFactory = $helperFactory;
         $this->_authorization = $authorization;

@@ -21,7 +21,7 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_StateResolverAbstract
     extends Saas_Launcher_Model_Tile_MinimalStateResolver
 {
     /**
-     * @var Mage_Core_Model_App
+     * @var Magento_Core_Model_App
      */
     protected $_app;
 
@@ -35,9 +35,9 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_StateResolverAbstract
     /**
      * Constructor
      *
-     * @param Mage_Core_Model_App $app
+     * @param Magento_Core_Model_App $app
      */
-    public function __construct(Mage_Core_Model_App $app)
+    public function __construct(Magento_Core_Model_App $app)
     {
         $this->_app = $app;
     }

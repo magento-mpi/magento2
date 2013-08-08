@@ -33,7 +33,7 @@
  * @package     Mage_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_ProductAlert_Model_Stock extends Mage_Core_Model_Abstract
+class Mage_ProductAlert_Model_Stock extends Magento_Core_Model_Abstract
 {
     protected function _construct()
     {

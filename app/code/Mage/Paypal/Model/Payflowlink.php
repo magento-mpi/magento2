@@ -208,7 +208,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      * Operate with order using data from $_POST which came from Silent Post Url.
      *
      * @param array $responseData
-     * @throws Mage_Core_Exception in case of validation error or order creation error
+     * @throws Magento_Core_Exception in case of validation error or order creation error
      */
     public function process($responseData)
     {
@@ -298,7 +298,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      * Check response from Payflow gateway.
      *
      * @return Mage_Sales_Model_Order in case of validation passed
-     * @throws Mage_Core_Exception in other cases
+     * @throws Magento_Core_Exception in other cases
      */
     protected function _getOrderFromResponse()
     {
@@ -466,7 +466,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
       */
     protected function _generateSecureTokenId()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->uniqHash();
+        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
     }
 
     /**
@@ -487,7 +487,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
       *
       * @param Magento_Object $response
       * @param Mage_Sales_Model_Order_Payment $payment
-      * @throws Mage_Core_Exception
+      * @throws Magento_Core_Exception
       */
     protected function _processTokenErrors($response, $payment)
     {
@@ -520,7 +520,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      */
     protected function _generateSecureSilentPostHash($payment)
     {
-        $secureHash = md5(Mage::helper('Mage_Core_Helper_Data')->getRandomString(10));
+        $secureHash = md5(Mage::helper('Magento_Core_Helper_Data')->getRandomString(10));
         $payment->setAdditionalInformation($this->_secureSilentPostHashKey, $secureHash);
         return $secureHash;
     }
@@ -555,7 +555,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      *
      * @deprecated since 1.6.2.0
      * @param $token
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function prepareOrderReview($token = null)
     {
@@ -604,7 +604,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
      *
      * @deprecated since 1.6.2.0
      * @return Mage_Sales_Model_Abstract in case of validation passed
-     * @throws Mage_Core_Exception in other cases
+     * @throws Magento_Core_Exception in other cases
      */
     protected function _getDocumentFromResponse()
     {
@@ -632,19 +632,19 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     {
         $request = Mage::app()->getRequest();
         if ($request->getParam('website')) {
-            /** @var $website Mage_Core_Model_Website */
-            $website = Mage::getModel('Mage_Core_Model_Website')->load($request->getParam('website'));
+            /** @var $website Magento_Core_Model_Website */
+            $website = Mage::getModel('Magento_Core_Model_Website')->load($request->getParam('website'));
             $secure = Mage::getStoreConfigFlag(
-                Mage_Core_Model_Url::XML_PATH_SECURE_IN_FRONT,
+                Magento_Core_Model_Url::XML_PATH_SECURE_IN_FRONT,
                 $website->getDefaultStore()
             );
             $path = $secure
-                ? Mage_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL
-                : Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL;
+                ? Magento_Core_Model_Store::XML_PATH_SECURE_BASE_LINK_URL
+                : Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_LINK_URL;
             $websiteUrl = Mage::getStoreConfig($path, $website->getDefaultStore());
         } else {
-            $secure = Mage::getStoreConfigFlag(Mage_Core_Model_Url::XML_PATH_SECURE_IN_FRONT);
-            $websiteUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, $secure);
+            $secure = Mage::getStoreConfigFlag(Magento_Core_Model_Url::XML_PATH_SECURE_IN_FRONT);
+            $websiteUrl = Mage::getBaseUrl(Magento_Core_Model_Store::URL_TYPE_LINK, $secure);
         }
 
         return $websiteUrl . 'paypal/' . $this->getCallbackController() . '/' . $actionName;

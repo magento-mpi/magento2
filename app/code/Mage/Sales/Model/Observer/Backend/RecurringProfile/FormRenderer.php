@@ -8,14 +8,14 @@
 class Mage_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer
 {
     /**
-     * @var Mage_Core_Model_BlockFactory
+     * @var Magento_Core_Model_BlockFactory
      */
     protected $_blockFactory;
 
     /**
-     * @param Mage_Core_Model_BlockFactory $blockFactory
+     * @param Magento_Core_Model_BlockFactory $blockFactory
      */
-    public function __construct(Mage_Core_Model_BlockFactory $blockFactory)
+    public function __construct(Magento_Core_Model_BlockFactory $blockFactory)
     {
         $this->_blockFactory = $blockFactory;
     }

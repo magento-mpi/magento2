@@ -16,7 +16,7 @@
  * @package     Mage_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Log_Model_Resource_Aggregation extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Log_Model_Resource_Aggregation extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource initialization

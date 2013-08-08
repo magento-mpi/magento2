@@ -43,7 +43,7 @@ class Mage_Backend_Model_Menu_Filter_IteratorTest extends PHPUnit_Framework_Test
         $this->_items['item3']->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
         $this->_items['item3']->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
 
-        $loggerMock = $this->getMock('Mage_Core_Model_Logger', array(), array(), '', false);
+        $loggerMock = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
 
         $this->_menuModel = new Mage_Backend_Model_Menu($loggerMock);
         $this->_filterIteratorModel = new Mage_Backend_Model_Menu_Filter_Iterator($this->_menuModel->getIterator());

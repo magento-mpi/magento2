@@ -46,8 +46,8 @@ class Mage_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit_Fr
             ->will($this->returnValue($this->_selectMock));
 
         $subscriptionMock = $this->_makeMock('Mage_Webhook_Model_Subscription');
-        $eventMgrMock = $this->_makeMock('Mage_Core_Model_Event_Manager');
-        $configResourceMock = $this->_makeMock('Mage_Core_Model_Config_Resource');
+        $eventMgrMock = $this->_makeMock('Magento_Core_Model_Event_Manager');
+        $configResourceMock = $this->_makeMock('Magento_Core_Model_Config_Resource');
 
         // Arguments to collection constructor
         $this->_fetchStrategyMock = $this->_makeMock('Magento_Data_Collection_Db_FetchStrategyInterface');
@@ -63,8 +63,8 @@ class Mage_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit_Fr
             array('Mage_Webhook_Model_Subscription', array(), $subscriptionMock)
         );
         $getReturnMap = array(
-            array('Mage_Core_Model_Event_Manager', $eventMgrMock),
-            array('Mage_Core_Model_Config_Resource', $configResourceMock)
+            array('Magento_Core_Model_Event_Manager', $eventMgrMock),
+            array('Magento_Core_Model_Config_Resource', $configResourceMock)
         );
         $mockObjectManager = $this->_setMageObjectManager();
         $mockObjectManager->expects($this->any())

@@ -25,7 +25,7 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
         // Mock backend config model
         $backendConfigModel = $this->getMock('Mage_Backend_Model_Config', array(), array(), '', false);
         // Mock core configuration model
-        $config = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $config = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $this->_saveHandler = $this->getSaveHandlerInstance($config, $backendConfigModel);
     }
 
@@ -35,12 +35,12 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
     }
 
     /**
-     * @param Mage_Core_Model_Config $config
+     * @param Magento_Core_Model_Config $config
      * @param Mage_Backend_Model_Config $backendConfigModel
      * @return Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     abstract public function getSaveHandlerInstance(
-        Mage_Core_Model_Config $config,
+        Magento_Core_Model_Config $config,
         Mage_Backend_Model_Config $backendConfigModel
     );
 
@@ -115,7 +115,7 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_SaveHandler_TestCaseAbstract
 
         // Mock core configuration model
         $config = $this->getMock(
-            'Mage_Core_Model_Config',
+            'Magento_Core_Model_Config',
             array('reinit'),
             array(),
             '',

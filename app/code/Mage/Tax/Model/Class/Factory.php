@@ -41,13 +41,13 @@ class Mage_Tax_Model_Class_Factory
      *
      * @param Mage_Tax_Model_Class $taxClass
      * @return Mage_Tax_Model_Class_Type_Interface
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function create(Mage_Tax_Model_Class $taxClass)
     {
         $taxClassType = $taxClass->getClassType();
         if (!array_key_exists($taxClassType, $this->_types)) {
-            throw new Mage_Core_Exception(sprintf('Invalid type of tax class "%s"', $taxClassType));
+            throw new Magento_Core_Exception(sprintf('Invalid type of tax class "%s"', $taxClassType));
         }
         return $this->_objectManager->create(
             $this->_types[$taxClassType],

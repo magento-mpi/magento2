@@ -15,7 +15,7 @@
  * @package    Mage_Shipping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Import table rates website ID
@@ -165,7 +165,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
      * Upload table rate file and import data from it
      *
      * @param Magento_Object $object
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      * @return Mage_Shipping_Model_Resource_Carrier_Tablerate
      */
     public function uploadAndImport(Magento_Object $object)
@@ -237,7 +237,7 @@ class Mage_Shipping_Model_Resource_Carrier_Tablerate extends Mage_Core_Model_Res
             }
             $this->_saveImportData($importData);
             $io->streamClose();
-        } catch (Mage_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $adapter->rollback();
             $io->streamClose();
             Mage::throwException($e->getMessage());

@@ -30,7 +30,7 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends PHPUni
         $this->_resetRobotsBlock = $objectManagerHelper->getObject(
             'Magento_Adminhtml_Block_Page_System_Config_Robots_Reset',
             array(
-                'application' => $this->getMock('Mage_Core_Model_App', array(), array(), '', false),
+                'application' => $this->getMock('Magento_Core_Model_App', array(), array(), '', false),
                 'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
             )
         );

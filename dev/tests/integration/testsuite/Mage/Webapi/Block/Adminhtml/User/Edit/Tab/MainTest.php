@@ -19,12 +19,12 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Framewo
     protected $_objectManager;
 
     /**
-     * @var Mage_Core_Model_Layout
+     * @var Magento_Core_Model_Layout
      */
     protected $_layout;
 
     /**
-     * @var Mage_Core_Model_BlockFactory
+     * @var Magento_Core_Model_BlockFactory
      */
     protected $_blockFactory;
 
@@ -38,15 +38,15 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_Tab_MainTest extends PHPUnit_Framewo
         parent::setUp();
 
         $this->_objectManager = Mage::getObjectManager();
-        $this->_layout = $this->_objectManager->get('Mage_Core_Model_Layout');
-        $this->_blockFactory = $this->_objectManager->get('Mage_Core_Model_BlockFactory');
+        $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
+        $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
         $this->_block = $this->_blockFactory->createBlock('Mage_Webapi_Block_Adminhtml_User_Edit_Tab_Main');
         $this->_layout->addBlock($this->_block);
     }
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Mage_Core_Model_Layout');
+        $this->_objectManager->removeSharedInstance('Magento_Core_Model_Layout');
         unset($this->_objectManager, $this->_urlBuilder, $this->_layout, $this->_blockFactory, $this->_block);
     }
 

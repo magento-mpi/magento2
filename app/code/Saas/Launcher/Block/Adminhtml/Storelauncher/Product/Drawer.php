@@ -29,7 +29,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
      /**
       * Inline Translate Model
       *
-      * @var Mage_Core_Model_Translate_Inline
+      * @var Magento_Core_Model_Translate_Inline
       */
      protected $_translateInline;
 
@@ -51,7 +51,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
      * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Mage_Catalog_Model_Product $productModel
-     * @param Mage_Core_Model_Translate_Inline $translateInline
+     * @param Magento_Core_Model_Translate_Inline $translateInline
      * @param Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl
      * @param array $data
      */
@@ -59,7 +59,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
         Mage_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
         Mage_Catalog_Model_Product $productModel,
-        Mage_Core_Model_Translate_Inline $translateInline,
+        Magento_Core_Model_Translate_Inline $translateInline,
         Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl,
         array $data = array()
     ) {

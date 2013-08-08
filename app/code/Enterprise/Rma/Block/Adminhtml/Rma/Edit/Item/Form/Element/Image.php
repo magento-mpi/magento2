@@ -150,7 +150,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image extends Ma
             return false;
         }
         return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/rma/viewfile', array(
-            'image'      => Mage::helper('Mage_Core_Helper_Data')->urlEncode($this->getValue()),
+            'image'      => Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getValue()),
         ));
     }
 

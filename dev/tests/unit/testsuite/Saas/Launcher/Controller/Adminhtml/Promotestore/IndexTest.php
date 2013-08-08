@@ -14,20 +14,20 @@ class Saas_Launcher_Controller_Adminhtml_Promotestore_IndexTest
     /**
      * Retrieve mocked page controller instance
      *
-     * @param Mage_Core_Controller_Request_Http $request
-     * @param Mage_Core_Controller_Response_Http $response
+     * @param Magento_Core_Controller_Request_Http $request
+     * @param Magento_Core_Controller_Response_Http $response
      * @param Magento_ObjectManager $objectManager
-     * @param Mage_Core_Controller_Varien_Front $frontController
-     * @param Mage_Core_Model_Layout_Factory $layoutFactory
+     * @param Magento_Core_Controller_Varien_Front $frontController
+     * @param Magento_Core_Model_Layout_Factory $layoutFactory
      * @param string|null $areaCode
      * @return Saas_Launcher_Controller_BasePage
      */
     protected function _getMockedPageControllerInstance(
-        Mage_Core_Controller_Request_Http $request,
-        Mage_Core_Controller_Response_Http $response,
+        Magento_Core_Controller_Request_Http $request,
+        Magento_Core_Controller_Response_Http $response,
         Magento_ObjectManager $objectManager,
-        Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
+        Magento_Core_Controller_Varien_Front $frontController,
+        Magento_Core_Model_Layout_Factory $layoutFactory,
         $areaCode = null
     ) {
         $helper = new Magento_Test_Helper_ObjectManager($this);

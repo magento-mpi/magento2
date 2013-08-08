@@ -46,8 +46,8 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
         $this->_iteratorMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Iterator_Field', array(), array(), '', false
         );
-        $this->_factoryHelperMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
-        $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
+        $this->_factoryHelperMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
+        $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $this->_cloneFactoryMock = $this->getMock(
             'Mage_Backend_Model_Config_Clone_Factory', array(), array(), '', false
         );
@@ -85,7 +85,7 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Core_Exception
      */
     public function testGetCloneModelThrowsExceptionIfNoSourceModelIsSet()
     {
@@ -94,7 +94,7 @@ class Mage_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Fram
 
     public function testGetCloneModelCreatesCloneModel()
     {
-        $cloneModel = $this->getMock('Mage_Core_Model_Config_Data', array(), array(), '', false);
+        $cloneModel = $this->getMock('Magento_Core_Model_Config_Data', array(), array(), '', false);
         $this->_depMapperMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Dependency_Mapper', array(), array(), '', false
         );

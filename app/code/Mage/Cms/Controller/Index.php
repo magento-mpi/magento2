@@ -16,7 +16,7 @@
  * @package    Mage_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Controller_Index extends Mage_Core_Controller_Front_Action
+class Mage_Cms_Controller_Index extends Magento_Core_Controller_Front_Action
 {
     /**
      * Renders CMS Home page

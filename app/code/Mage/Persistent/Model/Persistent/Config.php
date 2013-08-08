@@ -48,7 +48,7 @@ class Mage_Persistent_Model_Persistent_Config
      * Load persistent XML config
      *
      * @return Magento_Simplexml_Element
-     * @throws Mage_Core_Exception
+     * @throws Magento_Core_Exception
      */
     public function getXmlConfig()
     {

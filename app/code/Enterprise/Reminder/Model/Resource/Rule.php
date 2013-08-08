@@ -54,11 +54,11 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
     /**
      * Add website ids to rule data after load
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      *
      * @return Enterprise_Reminder_Model_Resource_Rule
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         $object->setData('website_ids', (array)$this->getWebsiteIds($object->getId()));
 
@@ -70,10 +70,10 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
      * Bind reminder rule to and website(s).
      * Save store templates data.
      *
-     * @param Mage_Core_Model_Abstract $rule
+     * @param Magento_Core_Model_Abstract $rule
      * @return Enterprise_Reminder_Model_Resource_Rule
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $rule)
+    protected function _afterSave(Magento_Core_Model_Abstract $rule)
     {
         if ($rule->hasWebsiteIds()) {
             $websiteIds = $rule->getWebsiteIds();
@@ -325,8 +325,8 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
             'log_sent_at_min' => 'MIN(l.sent_at)'
         ));
 
-        /** @var $helper Mage_Core_Model_Resource_Helper_Mysql4 */
-        $helper = Mage::getResourceHelper('Mage_Core');
+        /** @var $helper Magento_Core_Model_Resource_Helper_Mysql4 */
+        $helper = Mage::getResourceHelper('Magento_Core');
         $findInSetSql = $adapter->prepareSqlCondition('schedule', array(
             'finset' => $helper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))
         ));

@@ -52,11 +52,11 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
     /**
      * Add customer group ids and website ids to rule data after load
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      *
      * @return Mage_CatalogRule_Model_Resource_Rule
      */
-    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
         $object->setData('customer_group_ids', (array)$this->getCustomerGroupIds($object->getId()));
         $object->setData('website_ids', (array)$this->getWebsiteIds($object->getId()));
@@ -68,11 +68,11 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
      * Bind catalog rule to customer group(s) and website(s).
      * Update products which are matched for rule.
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Magento_Core_Model_Abstract $object
      *
      * @return Mage_CatalogRule_Model_Resource_Rule
      */
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
         if ($object->hasWebsiteIds()) {
             $websiteIds = $object->getWebsiteIds();
@@ -309,17 +309,17 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
 
         $select->join(
             array('pp_default'=>$priceTable),
-            sprintf($joinCondition, 'pp_default', Mage_Core_Model_AppInterface::ADMIN_STORE_ID),
+            sprintf($joinCondition, 'pp_default', Magento_Core_Model_AppInterface::ADMIN_STORE_ID),
             array('default_price'=>'pp_default.value')
         );
 
         if ($websiteId !== null) {
             $website  = Mage::app()->getWebsite($websiteId);
             $defaultGroup = $website->getDefaultGroup();
-            if ($defaultGroup instanceof Mage_Core_Model_Store_Group) {
+            if ($defaultGroup instanceof Magento_Core_Model_Store_Group) {
                 $storeId = $defaultGroup->getDefaultStoreId();
             } else {
-                $storeId = Mage_Core_Model_AppInterface::ADMIN_STORE_ID;
+                $storeId = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
             }
 
             $select->joinInner(
@@ -341,10 +341,10 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
             foreach (Mage::app()->getWebsites() as $website) {
                 $websiteId  = $website->getId();
                 $defaultGroup = $website->getDefaultGroup();
-                if ($defaultGroup instanceof Mage_Core_Model_Store_Group) {
+                if ($defaultGroup instanceof Magento_Core_Model_Store_Group) {
                     $storeId = $defaultGroup->getDefaultStoreId();
                 } else {
-                    $storeId = Mage_Core_Model_AppInterface::ADMIN_STORE_ID;
+                    $storeId = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
                 }
 
                 $tableAlias = 'pp' . $websiteId;
@@ -494,7 +494,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
 
             $write->delete($this->getTable('catalogrule_group_website'), array());
 
-            $timestamp = Mage::getModel('Mage_Core_Model_Date')->gmtTimestamp();
+            $timestamp = Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp();
 
             $select = $write->select()
                 ->distinct(true)

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Catalog_Model_Config_Source_Price_Step implements Mage_Core_Model_Option_ArrayInterface
+class Mage_Catalog_Model_Config_Source_Price_Step implements Magento_Core_Model_Option_ArrayInterface
 {
     public function toOptionArray()
     {
