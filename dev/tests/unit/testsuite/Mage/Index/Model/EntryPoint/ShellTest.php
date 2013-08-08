@@ -54,8 +54,6 @@ class Mage_Index_Model_EntryPoint_ShellTest extends PHPUnit_Framework_TestCase
      */
     public function testProcessRequest($shellHasErrors)
     {
-        $dirVerification = $this->getMock('Mage_Core_Model_Dir_Verification', array(), array(), '', false);
-        $dirVerification->expects($this->once())->method('createAndVerifyDirectories');
         $shell = $this->getMock('Mage_Index_Model_Shell', array(), array(), '', false);
         $shell->expects($this->once())
             ->method('hasErrors')
@@ -68,15 +66,6 @@ class Mage_Index_Model_EntryPoint_ShellTest extends PHPUnit_Framework_TestCase
                 ->method('terminate')
                 ->with(1);
         }
-
-        // configure object manager
-        $this->_objectManager->expects($this->any())
-            ->method('get')
-            ->will($this->returnValueMap(
-                array(
-                    array('Mage_Core_Model_Dir_Verification', $dirVerification),
-                )
-            ));
         $this->_objectManager->expects($this->any())
             ->method('create')
             ->will($this->returnValueMap(

@@ -43,6 +43,13 @@ class Magento_Test_Application
     protected $_globalEtcFiles;
 
     /**
+     * Global DI configuration files
+     *
+     * @var array
+     */
+    protected $_globalDiFiles;
+
+    /**
      * Module declaration *.xml configuration files
      *
      * @var array
@@ -85,22 +92,31 @@ class Magento_Test_Application
     protected $_appArea = null;
 
     /**
+     * Primary DI Config
+     *
+     * @var array
+     */
+    protected $_primaryConfig = array();
+
+    /**
      * Constructor
      *
      * @param Magento_Test_Db_DbAbstract $dbInstance
      * @param string $installDir
      * @param Magento_Simplexml_Element $localXml
      * @param array $globalEtcFiles
+     * @param array $globalDiFiles
      * @param array $moduleEtcFiles
      * @param string $appMode
      */
     public function __construct(
         Magento_Test_Db_DbAbstract $dbInstance, $installDir, Magento_Simplexml_Element $localXml,
-        array $globalEtcFiles, array $moduleEtcFiles, $appMode
+        array $globalEtcFiles, array $globalDiFiles, array $moduleEtcFiles, $appMode
     ) {
         $this->_db              = $dbInstance;
         $this->_localXml        = $localXml;
         $this->_globalEtcFiles  = $globalEtcFiles;
+        $this->_globalDiFiles   = $globalDiFiles;
         $this->_moduleEtcFiles  = $moduleEtcFiles;
         $this->_appMode = $appMode;
 
@@ -172,12 +188,15 @@ class Magento_Test_Application
         $config = new Mage_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Mage::getObjectManager()) {
             $objectManager = new Magento_Test_ObjectManager($config, new Magento_Test_ObjectManager_Config());
-            Mage::setObjectManager($objectManager);
+            $primaryLoader = new Mage_Core_Model_ObjectManager_ConfigLoader_Primary($config->getDirectories());
+            $this->_primaryConfig = $primaryLoader->load();
+
         } else {
             $objectManager = Mage::getObjectManager();
             $config->configure($objectManager);
             $objectManager->addSharedInstance($config, 'Mage_Core_Model_Config_Primary');
             $objectManager->addSharedInstance($config->getDirectories(), 'Mage_Core_Model_Dir');
+            $objectManager->loadPrimaryConfig($this->_primaryConfig);
         }
 
         $objectManager->get('Mage_Core_Model_Resource')
@@ -243,6 +262,7 @@ class Magento_Test_Application
         /* Copy configuration files */
         $etcDirsToFilesMap = array(
             $this->_installEtcDir              => $this->_globalEtcFiles,
+            $this->_installEtcDir . '/di'      => $this->_globalDiFiles,
             $this->_installEtcDir . '/modules' => $this->_moduleEtcFiles,
         );
         foreach ($etcDirsToFilesMap as $targetEtcDir => $sourceEtcFiles) {

@@ -50,9 +50,6 @@ class Mage_Index_Model_EntryPoint_IndexerTest extends PHPUnit_Framework_TestCase
 
     public function testProcessRequest()
     {
-        $dirVerification = $this->getMock('Mage_Core_Model_Dir_Verification', array(), array(), '', false);
-        $dirVerification->expects($this->once())->method('createAndVerifyDirectories');
-
         $process = $this->getMock('Mage_Index_Model_Process', array(), array(), '', false);
         $processIndexer = $this->getMockForAbstractClass(
             'Mage_Index_Model_Indexer_Abstract',
@@ -69,14 +66,6 @@ class Mage_Index_Model_EntryPoint_IndexerTest extends PHPUnit_Framework_TestCase
             ->method('getProcessesCollection')
             ->will($this->returnValue(array($process)));
 
-        // configure object manager
-        $this->_objectManager->expects($this->any())
-            ->method('get')
-            ->will($this->returnValueMap(
-                array(
-                    array('Mage_Core_Model_Dir_Verification', $dirVerification),
-                )
-            ));
         $this->_objectManager->expects($this->any())
             ->method('create')
             ->will($this->returnValueMap(

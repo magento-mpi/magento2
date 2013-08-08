@@ -45,17 +45,11 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
                                 </setup>
                             </module_setup>
                         </resources>
-                        <di>
-                            <Mage_Core_Model_Cache>
-                                <parameters><one>two</one></parameters>
-                            </Mage_Core_Model_Cache>
-                        </di>
                     </global>
                 </config>';
 
         $configBase = new Mage_Core_Model_Config_Base($xml);
         $objectManagerMock = $this->getMock('Mage_Core_Model_ObjectManager', array(), array(), '', false);
-        $objectManagerMock->expects($this->once())->method('loadArea')->with('global');
         $appMock = $this->getMock('Mage_Core_Model_AppInterface');
         $configStorageMock = $this->getMock('Mage_Core_Model_Config_StorageInterface');
         $configStorageMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($configBase));

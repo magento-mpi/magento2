@@ -19,9 +19,9 @@ class Enterprise_Queue_Model_Config
     protected $_config;
 
     /**
-     * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Model_Config_Modules $config
      */
-    public function __construct(Mage_Core_Model_Config $config)
+    public function __construct(Mage_Core_Model_Config_Modules $config)
     {
         $this->_config = $config;
     }
@@ -37,6 +37,6 @@ class Enterprise_Queue_Model_Config
         if ($result === false) {
             return array();
         }
-        return $result->asArray();
+        return (array)$result->asArray();
     }
 }
