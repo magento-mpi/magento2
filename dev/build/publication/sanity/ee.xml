@@ -33,7 +33,7 @@
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
-            <path>dev/tools/Magento/Tools/migration/Acl/Generator.php</path>
+            <path>dev/tools/Magento/Tools/Migration/Acl/Generator.php</path>
         </item>
         <item>
             <word>{copyright}</word>
