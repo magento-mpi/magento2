@@ -18,6 +18,7 @@
                 <Magento_Adminhtml />
                 <Magento_Customer />
                 <Magento_Api />
+                <Magento_User />
             </depends>
         </Enterprise_Pci>
     </modules>
