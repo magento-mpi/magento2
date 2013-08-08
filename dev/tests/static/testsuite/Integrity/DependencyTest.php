@@ -252,7 +252,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
             $moduleNode->appendChild($dependsNode);
             self::$_rootResults->appendChild($moduleNode);
         }
-        //self::$_document->appendChild(self::$_rootResults);
+
         $rootNodeList = self::$_document->getElementsByTagName('errors');
         foreach ($rootNodeList as $domElement) {
             self::$_document->replaceChild(self::$_rootResults, $domElement);
@@ -409,7 +409,13 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                     'file' => self::_getRelativeFilename($file),
                     'dependencies' => $undeclaredDependenciesInfo
                 );
-            $this->fail();
+
+            $dependency = array();
+            foreach ($undeclaredDependenciesInfo as $depend) {
+                $dependency[] = $depend['module'];
+                $dependency = array_unique($dependency);
+            }
+            $this->fail('Undeclared module dependencies found: ' . implode(', ', $dependency));
         }
     }
 
