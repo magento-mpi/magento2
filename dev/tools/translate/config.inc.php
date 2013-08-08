@@ -469,8 +469,8 @@ $CONFIG['translates'] = array(
         'app/code/Magento/Pci/',
         'app/design/adminhtml/default/default/layout/enterprise/pci.xml',
     ),
-    'Enterprise_Persistent' => array(
-        'app/code/Enterprise/Persistent/',
+    'Magento_PersistentHistory' => array(
+        'app/code/Magento/PersistentHistory/',
         'app/design/frontend/enterprise/default/template/persistent/'
     ),
     'Magento_PricePermissions' => array(
@@ -653,7 +653,7 @@ $CONFIG['helpers']  = array(
     'magento_fullpagecache'          => 'Magento_FullPageCache',
     'magento_pbridge'            => 'Magento_Pbridge',
     'magento_pci'                => 'Magento_Pci',
-    'enterprise_persistent'         => 'Enterprise_Persistent',
+    'magento_persistenthistory'         => 'Magento_PersistentHistory',
     'magento_pricepermissions'   => 'Magento_PricePermissions',
     'magento_promotionpermissions' => 'Magento_PromotionPermissions',
     'magento_reminder'           => 'Magento_Reminder',

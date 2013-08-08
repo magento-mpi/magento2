@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <customer_account_create>
+        <reference name="persistent.remember.me.tooltip">
+            <action method="setTemplate">
+                <template>Magento_PersistentHistory::remember_me_tooltip.phtml</template>
+            </action>
+        </reference>
+    </customer_account_create>
+</layout>
