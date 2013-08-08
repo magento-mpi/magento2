@@ -17,6 +17,7 @@
             <depends>
                 <Magento_Adminhtml />
                 <Magento_Customer />
+                <Magento_Sales />
             </depends>
         </Enterprise_Customer>
     </modules>
