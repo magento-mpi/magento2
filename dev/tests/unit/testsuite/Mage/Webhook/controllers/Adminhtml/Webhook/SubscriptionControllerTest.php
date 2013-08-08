@@ -26,6 +26,9 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
     protected $_mockApp;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_mockLayoutFilter;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfig;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -33,6 +36,21 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockTranslateModel;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_mockBackendModelSession;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_mockBackendControllerContext;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_mockSubscriptionService;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_mockRegistry;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_mockRequest;
 
     /**
      * Makes sure that Mage has a mock object manager set, and returns that instance.
@@ -46,23 +64,15 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
             ->disableOriginalConstructor()
             ->getMock();
         Mage::setObjectManager($this->_mockObjectManager);
-
     }
 
     /**
-     * Creates the RegistrationController to test.
-     * Parameters are to override default empty mock objects created by test object manager helper.
-     * @param null $request
-     * @param null $subscriptionService
-     * @param null $registry
+     * Creates the SubscriptionController to test.
      * @return object
      */
-    protected function _createSubscriptionController($request = null, $subscriptionService = null, $registry = null)
+    protected function _createSubscriptionController()
     {
-        // Mock Layout factory passed into constructor
-        $layoutFactoryMock = $this->getMockBuilder('Mage_Core_Model_Layout_Factory')
-            ->disableOriginalConstructor()
-            ->getMock();
+        // Mock Layout passed into constructor
         $layoutMock = $this->getMockBuilder('Mage_Core_Model_Layout')
             ->disableOriginalConstructor()
             ->getMock();
@@ -70,7 +80,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
             ->disableOriginalConstructor()
             ->getMock();
         $layoutMock->expects($this->any())->method('getUpdate')->will($this->returnValue($layoutMergeMock));
-        $testElement = new Varien_Simplexml_Element('<test>test</test>');
+        $testElement = new Magento_Simplexml_Element('<test>test</test>');
         $layoutMock->expects($this->any())->method('getNode')->will($this->returnValue($testElement));
 
         // for _setActiveMenu
@@ -86,50 +96,42 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         $layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMock));
         $layoutMock->expects($this->any())->method('getBlock')->will($this->returnValue($blockMock));
 
-
-        $layoutFactoryMock->expects($this->any())->method('createLayout')->will($this->returnValue($layoutMock));
-
-        $constructorParameters = array(
-            'layoutFactory' => $layoutFactoryMock,
-            'objectManager' => $this->_mockObjectManager
+        $contextParameters = array(
+            'layout' => $layoutMock,
+            'objectManager' => $this->_mockObjectManager,
+            'session' => $this->_mockBackendModelSession,
+            'translator' => $this->_mockTranslateModel,
+            'request' => $this->_mockRequest,
         );
 
-        if (isset($request)) {
-            $constructorParameters['request'] = $request;
-        }
-        if (isset($subscriptionService)) {
-            $constructorParameters['subscriptionService'] = $subscriptionService;
-        }
-        if (isset($registry)) {
-            $constructorParameters['registry'] = $registry;
-        }
+        $this->_mockBackendControllerContext = $this->_objectManagerHelper
+            ->getObject('Mage_Backend_Controller_Context',
+                $contextParameters);
+
+        $subControllerParams = array(
+            'context' => $this->_mockBackendControllerContext,
+            'subscriptionService' => $this->_mockSubscriptionService,
+            'registry' => $this->_mockRegistry,
+        );
 
         /** Create SubscriptionController to test */
         $subscriptionController = $this->_objectManagerHelper
             ->getObject('Mage_Webhook_Adminhtml_Webhook_SubscriptionController',
-                $constructorParameters);
-
+                $subControllerParams);
         return $subscriptionController;
     }
 
+    /**
+     * Setup object manager and initialize mocks
+     */
     public function setUp()
     {
         /** @var Magento_Test_Helper_ObjectManager $objectManagerHelper */
         $this->_objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_setMageObjectManager();
 
-        $mockBackendHelperData = $this->getMockBuilder('Mage_Backend_Helper_Data')
-            ->disableOriginalConstructor()
-            ->getMock();
-        Mage::register('_helper/Mage_Backend_Helper_Data', $mockBackendHelperData);
-
         $mockBackendModelSession = $this->getMockBuilder('Mage_Backend_Model_Session')->getMock();
         Mage::register('_singleton/Mage_Backend_Model_Session', $mockBackendModelSession);
-
-        $mockAuth = $this->getMockBuilder('Mage_Core_Model_Authorization')
-            ->disableOriginalConstructor()
-            ->getMock();
-        Mage::register('_singleton/Mage_Core_Model_Authorization', $mockAuth);
 
         // Initialize mocks which are used in several testcases
         $this->_mockApp = $this->getMockBuilder('Mage_Core_Model_App')
@@ -142,11 +144,23 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         $this->_mockEventManager = $this->getMockBuilder('Mage_Core_Model_Event_Manager')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_mockLayoutFilter = $this->getMockBuilder('Mage_Core_Model_Layout_Filter_Acl')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_mockBackendModelSession = $this->getMockBuilder('Mage_Backend_Model_Session')
+            ->getMock();
+
         $this->_mockTranslateModel = $this->getMockBuilder('Mage_Core_Model_Translate')
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->_subscriptionController = $this->_createSubscriptionController();
+        $this->_mockSubscriptionService = $this->getMockBuilder('Mage_Webhook_Service_SubscriptionV1')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_mockRequest = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
+            ->getMock();
+        $this->_mockRegistry = $this->getMockBuilder('Mage_Core_Model_Registry')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**
@@ -157,159 +171,130 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
     protected function _verifyLoadAndRenderLayout() {
         // loadLayout
         $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_App')->will($this->returnValue($this->_mockApp));
+            ->with('Mage_Core_Model_Config')->will($this->returnValue($this->_mockConfig));
         $this->_mockObjectManager->expects($this->at(1))->method('get')
-            ->with('Mage_Core_Model_Event_Manager')->will($this->returnValue($this->_mockEventManager));
+            ->with('Mage_Core_Model_Layout_Filter_Acl')->will($this->returnValue($this->_mockLayoutFilter));
+
         // renderLayout
         $this->_mockObjectManager->expects($this->at(2))->method('get')
-            ->with('Mage_Core_Model_Event_Manager')->will($this->returnValue($this->_mockEventManager));
+            ->with('Mage_Backend_Model_Session')->will($this->returnValue($this->_mockBackendModelSession));
         $this->_mockObjectManager->expects($this->at(3))->method('get')
             ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
     }
 
     public function testIndexAction()
     {
-        // loadLayout
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_App')->will($this->returnValue($this->_mockApp));
-        $this->_mockObjectManager->expects($this->at(1))->method('get')
-            ->with('Mage_Core_Model_Event_Manager')->will($this->returnValue($this->_mockEventManager));
+        $this->_verifyLoadAndRenderLayout();
 
-        // translate title
-        $this->_mockObjectManager->expects($this->at(2))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
-        $this->_mockObjectManager->expects($this->at(3))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
-        $this->_mockObjectManager->expects($this->at(4))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
+        // Verify title
+        $this->_mockTranslateModel->expects($this->at(0))
+            ->method('translate')
+            ->with($this->equalTo(
+                    array( new Mage_Core_Model_Translate_Expr('System'))));
+        $this->_mockTranslateModel->expects($this->at(1))
+            ->method('translate')
+            ->with($this->equalTo(
+                    array( new Mage_Core_Model_Translate_Expr('Web Services'))));
+        $this->_mockTranslateModel->expects($this->at(2))
+            ->method('translate')
+            ->with($this->equalTo(
+                    array( new Mage_Core_Model_Translate_Expr('WebHook Subscriptions'))));
 
         // renderLayout
-        $this->_mockObjectManager->expects($this->at(5))->method('get')
-            ->with('Mage_Core_Model_Event_Manager')->will($this->returnValue($this->_mockEventManager));
-        $this->_mockObjectManager->expects($this->at(6))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
-
+        $this->_subscriptionController = $this->_createSubscriptionController();
         $this->_subscriptionController->indexAction();
-
     }
 
     public function testNewAction()
     {
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
-            ->getMock();
-        $requestMock->expects($this->any())->method('setActionName')
-            ->will( $this->returnValue($requestMock));
+       // verify the request is forwarded to 'edit' action
+        $this->_mockRequest->expects($this->any())->method('setActionName')->with('edit')
+            ->will( $this->returnValue($this->_mockRequest));
 
-        $subscriptionController = $this->_createSubscriptionController($requestMock);
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->newAction();
     }
 
     public function testEditActionHasData()
     {
         // put data in session, the magic function getFormData is called so, must match __call method name
-        $mockSession = Mage::getSingleton('Mage_Backend_Model_Session');
-        $mockSession->expects($this->any())->method('__call')->will($this->returnValue(array('testkey' =>'testvalue')));
+        $this->_mockBackendModelSession = Mage::getSingleton('Mage_Backend_Model_Session');
+        $this->_mockBackendModelSession->expects($this->any())->method('__call')->will($this->returnValue(array('testkey' =>'testvalue')));
 
-        // loadLayout
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_App')->will($this->returnValue($this->_mockApp));
-        $this->_mockObjectManager->expects($this->at(1))->method('get')
-            ->with('Mage_Core_Model_Event_Manager')->will($this->returnValue($this->_mockEventManager));
+        $this->_verifyLoadAndRenderLayout();
 
-        // translate title
-        $this->_mockObjectManager->expects($this->at(2))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
-        $this->_mockObjectManager->expects($this->at(3))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
-        $this->_mockObjectManager->expects($this->at(4))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
+        // verify title is 'Edit Subscription'
+        $expected = new Mage_Core_Model_Translate_Expr('Edit Subscription');
+        $this->_mockTranslateModel->expects($this->at(3))
+            ->method('translate')
+            ->with($this->equalTo(
+                    array( $expected)));
 
-        $this->_mockObjectManager->expects($this->at(5))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
-
-        // renderLayout
-        $this->_mockObjectManager->expects($this->at(6))->method('get')
-            ->with('Mage_Core_Model_Event_Manager')->will($this->returnValue($this->_mockEventManager));
-        $this->_mockObjectManager->expects($this->at(7))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
-
-        $subscriptionController = $this->_createSubscriptionController(null, null);
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->editAction();
     }
 
     public function testEditActionNoDataAdd()
     {
         // Set the registry object to return 'new' so the 'Add Subscription' path is followed
-        $registryMock = $this->getMockBuilder('Mage_Core_Model_Registry')->disableOriginalConstructor()->getMock();
-        $registryMock->expects($this->any())->method('registry')->will($this->returnValue('new'));
+        $this->_mockRegistry->expects($this->any())->method('registry')->will($this->returnValue('new'));
 
-        // loadLayout
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_App')->will($this->returnValue($this->_mockApp));
-        $this->_mockObjectManager->expects($this->at(1))->method('get')
-            ->with('Mage_Core_Model_Event_Manager')->will($this->returnValue($this->_mockEventManager));
+        $this->_verifyLoadAndRenderLayout();
 
-        // translate title
-        $this->_mockObjectManager->expects($this->at(2))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
-        $this->_mockObjectManager->expects($this->at(3))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
-        $this->_mockObjectManager->expects($this->at(4))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
+        // verify title is 'Add Subscription'
+        $expected = new Mage_Core_Model_Translate_Expr('Add Subscription');
+        $this->_mockTranslateModel->expects($this->at(3))
+            ->method('translate')
+            ->with($this->equalTo(
+                    array( $expected)));
 
-        $this->_mockObjectManager->expects($this->at(5))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
-
-        // renderLayout
-        $this->_mockObjectManager->expects($this->at(6))->method('get')
-            ->with('Mage_Core_Model_Event_Manager')->will($this->returnValue($this->_mockEventManager));
-        $this->_mockObjectManager->expects($this->at(7))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
-
-        $subscriptionController = $this->_createSubscriptionController(null, null, $registryMock);
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->editAction();
     }
 
     public function testEditException()
     {
-
+        $exceptionMessage = 'An exception happened';
         // have load layout throw an exception
-        // loadLayout
         $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_App')->will($this->throwException(new Mage_Core_Exception()));
-        $this->_subscriptionController->editAction();
+            ->with('Mage_Core_Model_Config')->will($this->throwException(new Mage_Core_Exception($exceptionMessage)));
 
+        // verify the error
+        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+            ->with($this->equalTo($exceptionMessage));
+
+        $this->_subscriptionController = $this->_createSubscriptionController();
+        $this->_subscriptionController->editAction();
     }
 
     public function testSaveAction()
     {
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
-            ->getMock();
-        $requestMock->expects($this->any())->method('getPost')->will($this->returnValue(array('apikey' => 'abc')));
-        $requestMock->expects($this->any())->method('getParam')->will($this->returnValue('1'));
+        // Use real translate model
+        $this->_mockTranslateModel = null;
 
-        $subscriptionServiceMock = $this->getMockBuilder('Mage_Webhook_Service_SubscriptionV1')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $subscriptionServiceMock->expects($this->any())->method('get')->with(1)->will($this->returnValue(
+        $this->_mockRequest->expects($this->any())->method('getPost')->will($this->returnValue(array('apikey' => 'abc')));
+        $this->_mockRequest->expects($this->any())->method('getParam')->will($this->returnValue('1'));
+
+        $this->_mockSubscriptionService->expects($this->any())->method('get')->with(1)->will($this->returnValue(
                 array( 'name' => 'nameTest',
                        'subscription_id' => '1',
                        'topics' => array('topic1', 'topic2'))
             ));
 
-        // translate success message
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
+        // verify success message
+        $this->_mockBackendModelSession->expects($this->once())->method('addSuccess')
+            ->with($this->equalTo('The subscription \'nameTest\' has been saved.'));
 
-        $subscriptionController = $this->_createSubscriptionController($requestMock, $subscriptionServiceMock);
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->saveAction();
     }
 
     public function testSaveActionNoData()
     {
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
-            ->getMock();
-        $requestMock->expects($this->any())->method('getParam')
+        // Use real translate model
+        $this->_mockTranslateModel = null;
+
+        $this->_mockRequest->expects($this->any())->method('getParam')
             ->will( $this->returnValueMap(
                     array(
                          array('id', null, '1'),
@@ -320,59 +305,56 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                     )
                 ));
 
-        // translates the error
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
+        // verify the error
+        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+            ->with($this->equalTo('The subscription \'\' has not been saved, as no data was provided.'));
 
-        $subscriptionController = $this->_createSubscriptionController($requestMock);
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->saveAction();
     }
 
     public function testSaveActionException()
     {
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
-            ->getMock();
-        $requestMock->expects($this->any())->method('getParam')->will($this->returnValue('1'));
+        $this->_mockRequest->expects($this->any())->method('getParam')->will($this->returnValue('1'));
 
-        $subscriptionServiceMock = $this->getMockBuilder('Mage_Webhook_Service_SubscriptionV1')
-            ->disableOriginalConstructor()
-            ->getMock();
         // Have subscription service throw an exception to test exception path
-        $subscriptionServiceMock->expects($this->any())
+        $exceptionMessage = 'an exception happened';
+        $this->_mockSubscriptionService->expects($this->any())
             ->method('get')
             ->with(1)
-            ->will($this->throwException(new Mage_Core_Exception()));
+            ->will($this->throwException(new Mage_Core_Exception($exceptionMessage)));
 
-        $subscriptionController = $this->_createSubscriptionController($requestMock, $subscriptionServiceMock);
+        // Verify error
+        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+            ->with($this->equalTo($exceptionMessage));
+
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->saveAction();
     }
 
     public function testSaveActionNew()
     {
         // Set the registry object to return 'new' so the 'create' path is followed
-        $registryMock = $this->getMockBuilder('Mage_Core_Model_Registry')->disableOriginalConstructor()->getMock();
-        $registryMock->expects($this->any())->method('registry')->will($this->returnValue('new'));
+        $this->_mockRegistry->expects($this->any())->method('registry')->will($this->returnValue('new'));
 
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
-            ->getMock();
-        $requestMock->expects($this->any())->method('getPost')->will($this->returnValue(array('apikey' => 'abc')));
-        $requestMock->expects($this->any())->method('getParam')->will($this->returnValue('1'));
+        $this->_mockRequest->expects($this->any())->method('getPost')
+            ->will($this->returnValue(array('apikey' => 'abc')));
+        $this->_mockRequest->expects($this->any())->method('getParam')->will($this->returnValue('1'));
 
-        $subscriptionServiceMock = $this->getMockBuilder('Mage_Webhook_Service_SubscriptionV1')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $subscriptionServiceMock->expects($this->any())->method('get')->with(1)->will($this->returnValue(
+        $this->_mockSubscriptionService->expects($this->any())->method('get')->with(1)->will($this->returnValue(
                 array( 'name' => 'nameTest',
                        'subscription_id' => '1',
                        'topics' => array('topic1', 'topic2'))
             ));
 
-        // translate success message
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
+        // Use real translate model
+        $this->_mockTranslateModel = null;
 
-        $subscriptionController = $this->_createSubscriptionController(
-            $requestMock, $subscriptionServiceMock, $registryMock);
+        // verify success message
+        $this->_mockBackendModelSession->expects($this->once())->method('addSuccess')
+            ->with($this->equalTo('The subscription \'nameTest\' has been saved.'));
+
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->saveAction();
     }
 
@@ -382,24 +364,19 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
     public function testSaveActionNoId()
     {
         // Set the registry object to return 'new' so the 'create' path is followed
-        $registryMock = $this->getMockBuilder('Mage_Core_Model_Registry')->disableOriginalConstructor()->getMock();
-        $registryMock->expects($this->any())->method('registry')->will($this->returnValue('old'));
+        $this->_mockRegistry->expects($this->any())->method('registry')->will($this->returnValue('old'));
 
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
-            ->getMock();
-        $requestMock->expects($this->any())->method('getPost')
-            ->will($this->returnValue(array('apikey' => 'abc', 'name' => 'testSubcription')));
+        $this->_mockRequest->expects($this->any())->method('getPost')
+            ->will($this->returnValue(array('apikey' => 'abc', 'name' => 'testSubscription')));
 
-        $subscriptionServiceMock = $this->getMockBuilder('Mage_Webhook_Service_SubscriptionV1')
-            ->disableOriginalConstructor()
-            ->getMock();
+        // Use real translate model
+        $this->_mockTranslateModel = null;
 
-        // translate success message
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
+        // verify success message
+        $this->_mockBackendModelSession->expects($this->once())->method('addSuccess')
+            ->with($this->equalTo('The subscription \'testSubscription\' has been saved.'));
 
-        $subscriptionController = $this->_createSubscriptionController(
-            $requestMock, $subscriptionServiceMock, $registryMock);
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->saveAction();
     }
 
@@ -408,9 +385,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
      */
     public function testDeleteActionAlias()
     {
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
-            ->getMock();
-        $requestMock->expects($this->any())->method('getParam')
+        $this->_mockRequest->expects($this->any())->method('getParam')
             ->will( $this->returnValueMap(
                     array(
                          array('id', null, '1'),
@@ -421,10 +396,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                     )
                 ));
 
-        $subscriptionServiceMock = $this->getMockBuilder('Mage_Webhook_Service_SubscriptionV1')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $subscriptionServiceMock->expects($this->any())->method('get')->with(1)->will($this->returnValue(
+        $this->_mockSubscriptionService->expects($this->any())->method('get')->with(1)->will($this->returnValue(
                 array( 'name' => 'nameTest',
                        'subscription_id' => '1',
                        'topics' => array('topic1', 'topic2'),
@@ -432,20 +404,19 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                 )
             ));
 
-        // translate success message
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
+        // Use real translate model
+        $this->_mockTranslateModel = null;
+        // Verify error message
+        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+            ->with($this->equalTo('The subscription \'nameTest\' can not be removed.'));
 
-        $subscriptionController = $this->_createSubscriptionController($requestMock, $subscriptionServiceMock);
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->deleteAction();
-
     }
 
     public function testDeleteAction()
     {
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
-            ->getMock();
-        $requestMock->expects($this->any())->method('getParam')
+        $this->_mockRequest->expects($this->any())->method('getParam')
             ->will( $this->returnValueMap(
                     array(
                          array('id', null, '1'),
@@ -456,29 +427,26 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                     )
                 ));
 
-        $subscriptionServiceMock = $this->getMockBuilder('Mage_Webhook_Service_SubscriptionV1')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $subscriptionServiceMock->expects($this->any())->method('get')->with(1)->will($this->returnValue(
+        $this->_mockSubscriptionService->expects($this->any())->method('get')->with(1)->will($this->returnValue(
                 array( 'name' => 'nameTest',
                        'subscription_id' => '1',
                        'topics' => array('topic1', 'topic2'))
             ));
 
-        // translate success message
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
+        // Use real translate model
+        $this->_mockTranslateModel = null;
 
-        $subscriptionController = $this->_createSubscriptionController($requestMock, $subscriptionServiceMock);
+        // verify success message
+        $this->_mockBackendModelSession->expects($this->once())->method('addSuccess')
+            ->with($this->equalTo('The subscription \'nameTest\' has been removed.'));
+
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->deleteAction();
-
     }
 
     public function testDeleteActionException ()
     {
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
-            ->getMock();
-        $requestMock->expects($this->any())->method('getParam')
+        $this->_mockRequest->expects($this->any())->method('getParam')
             ->will( $this->returnValueMap(
                     array(
                          array('id', null, '1'),
@@ -489,29 +457,30 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                     )
                 ));
 
-        $subscriptionServiceMock = $this->getMockBuilder('Mage_Webhook_Service_SubscriptionV1')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $subscriptionServiceMock->expects($this->any())->method('get')->with(1)->will($this->returnValue(
+
+        $this->_mockSubscriptionService->expects($this->any())->method('get')->with(1)->will($this->returnValue(
                 array( 'name' => 'nameTest',
                        'subscription_id' => '1',
                        'topics' => array('topic1', 'topic2'))
             ));
 
         // Have subscription service throw an exception to go down exception path
-        $subscriptionServiceMock->expects($this->any())
+        $exceptionMessage = 'Exceptions happen.';
+        $this->_mockSubscriptionService->expects($this->any())
             ->method('delete')
-            ->will($this->throwException(new Mage_Core_Exception()));
+            ->will($this->throwException(new Mage_Core_Exception($exceptionMessage)));
 
-        $subscriptionController = $this->_createSubscriptionController($requestMock, $subscriptionServiceMock);
+        // Verify error
+        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+            ->with($this->equalTo($exceptionMessage));
+
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->deleteAction();
     }
 
     public function testRevokeAction()
     {
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
-            ->getMock();
-        $requestMock->expects($this->any())->method('getParam')
+        $this->_mockRequest->expects($this->any())->method('getParam')
             ->will( $this->returnValueMap(
                     array(
                          array('id', null, '1'),
@@ -522,28 +491,36 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                     )
                 ));
 
-        // translate success message
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
+        $this->_mockSubscriptionService->expects($this->any())->method('revoke')->will($this->returnValue(
+                array( 'name' => 'nameTest',
+                       'subscription_id' => '1',
+                       'topics' => array('topic1', 'topic2'))
+            ));
 
-        $subscriptionController = $this->_createSubscriptionController($requestMock);
+        // Use real translate model
+        $this->_mockTranslateModel = null;
+
+        // verify success message
+        $this->_mockBackendModelSession->expects($this->once())->method('addSuccess')
+            ->with($this->equalTo('The subscription \'nameTest\' has been revoked.'));
+
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->revokeAction();
     }
 
     public function testRevokeActionNoData()
     {
-        // translate error message
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
-
+        // Verify error
+        $this->_mockTranslateModel = null;
+        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+            ->with($this->equalTo('No Subscription ID was provided with the request.'));
+        $this->_subscriptionController = $this->_createSubscriptionController();
         $this->_subscriptionController->revokeAction();
     }
 
     public function testRevokeActionException()
     {
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
-            ->getMock();
-        $requestMock->expects($this->any())->method('getParam')
+        $this->_mockRequest->expects($this->any())->method('getParam')
             ->will( $this->returnValueMap(
                     array(
                          array('id', null, '1'),
@@ -554,24 +531,23 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                     )
                 ));
 
-        $subscriptionServiceMock = $this->getMockBuilder('Mage_Webhook_Service_SubscriptionV1')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         // Have subscription service throw an exception to go down exception path
-        $subscriptionServiceMock->expects($this->any())
+        $exceptionMessage = 'Exceptions happen.';
+        $this->_mockSubscriptionService->expects($this->any())
             ->method('revoke')
-            ->will($this->throwException(new Mage_Core_Exception()));
+            ->will($this->throwException(new Mage_Core_Exception($exceptionMessage)));
 
-        $subscriptionController = $this->_createSubscriptionController($requestMock, $subscriptionServiceMock);
+        // Verify error
+        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+            ->with($this->equalTo($exceptionMessage));
+
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->revokeAction();
     }
 
     public function testActivateAction()
     {
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
-            ->getMock();
-        $requestMock->expects($this->any())->method('getParam')
+        $this->_mockRequest->expects($this->any())->method('getParam')
             ->will( $this->returnValueMap(
                     array(
                          array('id', null, '1'),
@@ -582,27 +558,35 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                     )
                 ));
 
-        // translate success message
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
+        $this->_mockSubscriptionService->expects($this->once())->method('activate')->with(1)->will($this->returnValue(
+                array( 'name' => 'nameTest')
+            ));
 
-        $subscriptionController = $this->_createSubscriptionController($requestMock);
+        // Use real translate model
+        $this->_mockTranslateModel = null;
+
+        // success message
+        $this->_mockBackendModelSession->expects($this->once())->method('addSuccess')
+            ->with($this->equalTo('The subscription \'nameTest\' has been activated.'));
+
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->activateAction();
     }
 
     public function testActivateActionNoData()
     {
-        // translate error message
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
+        // Use real translate model
+        $this->_mockTranslateModel = null;
+
+        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+            ->with($this->equalTo('No Subscription ID was provided with the request.'));
+        $this->_subscriptionController = $this->_createSubscriptionController();
         $this->_subscriptionController->activateAction();
     }
 
     public function testActivateActionException()
     {
-        $requestMock = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
-            ->getMock();
-        $requestMock->expects($this->any())->method('getParam')
+        $this->_mockRequest->expects($this->any())->method('getParam')
             ->will( $this->returnValueMap(
                     array(
                          array('id', null, '1'),
@@ -613,16 +597,17 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                     )
                 ));
 
-        $subscriptionServiceMock = $this->getMockBuilder('Mage_Webhook_Service_SubscriptionV1')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         // Have subscription service throw an exception to go down exception path
-        $subscriptionServiceMock->expects($this->any())
+        $exceptionMessage = 'An exception occurred';
+        $this->_mockSubscriptionService->expects($this->any())
             ->method('activate')
-            ->will($this->throwException(new Mage_Core_Exception()));
+            ->will($this->throwException(new Mage_Core_Exception($exceptionMessage)));
 
-        $subscriptionController = $this->_createSubscriptionController($requestMock, $subscriptionServiceMock);
+        // Verify error
+        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+            ->with($this->equalTo($exceptionMessage));
+
+        $subscriptionController = $this->_createSubscriptionController();
         $subscriptionController->activateAction();
     }
 }
