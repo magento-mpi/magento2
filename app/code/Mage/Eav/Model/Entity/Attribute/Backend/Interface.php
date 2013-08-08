@@ -44,4 +44,12 @@ interface Mage_Eav_Model_Entity_Attribute_Backend_Interface
      * @param int $valueId
      */
     public function setEntityValueId($entity, $valueId);
+
+    /**
+     * Format attribute value in accordance with the backend type
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    public function prepareValueForSave($value);
 }

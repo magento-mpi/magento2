@@ -1498,16 +1498,14 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      */
     protected function _prepareValueForSave($value, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
-        if ($attribute->getBackendType() == 'decimal') {
-            return Mage::app()->getLocale()->getNumber($value);
-        }
-
         $backendTable = $attribute->getBackendTable();
         if (!isset(self::$_attributeBackendTables[$backendTable])) {
             self::$_attributeBackendTables[$backendTable] = $this->_getReadAdapter()->describeTable($backendTable);
         }
         $describe = self::$_attributeBackendTables[$backendTable];
-        return $this->_getReadAdapter()->prepareColumnValue($describe['value'], $value);
+        return $this->_getReadAdapter()->prepareColumnValue(
+            $describe['value'], $attribute->getBackend()->prepareValueForSave($value)
+        );
     }
 
     /**
