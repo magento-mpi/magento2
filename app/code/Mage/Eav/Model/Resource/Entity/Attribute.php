@@ -38,9 +38,8 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      * @param Mage_Core_Model_Resource $resource
      * @param array $arguments
      */
-    public function __construct(Mage_Core_Model_Resource $resource,
-        array $arguments = array()
-    ) {
+    public function __construct(Mage_Core_Model_Resource $resource, array $arguments = array())
+    {
         if (isset($arguments['application']) && $arguments['application'] instanceof Mage_Core_Model_App) {
             $this->_application = $arguments['application'];
             unset($arguments['application']);

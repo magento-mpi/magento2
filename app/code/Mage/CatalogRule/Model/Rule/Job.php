@@ -38,9 +38,8 @@ class Mage_CatalogRule_Model_Rule_Job extends Varien_Object
      *
      * @param Mage_Core_Model_Event_Manager $eventManager
      */
-    public function __construct(
-        Mage_Core_Model_Event_Manager $eventManager
-    ) {
+    public function __construct(Mage_Core_Model_Event_Manager $eventManager)
+    {
         $this->_eventManager = $eventManager;
     }
 

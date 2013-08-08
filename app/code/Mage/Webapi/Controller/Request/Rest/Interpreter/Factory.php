@@ -26,10 +26,8 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Factory
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Model_Config $applicationConfig
      */
-    public function __construct(
-        Magento_ObjectManager $objectManager,
-        Mage_Core_Model_Config $applicationConfig
-    ) {
+    public function __construct(Magento_ObjectManager $objectManager, Mage_Core_Model_Config $applicationConfig)
+    {
         $this->_objectManager = $objectManager;
         $this->_applicationConfig = $applicationConfig;
     }

@@ -21,9 +21,8 @@ class Mage_Directory_Model_Config_Source_Country implements Mage_Core_Model_Opti
     /**
      * @param Mage_Directory_Model_Resource_Country_Collection $countryCollection
      */
-    public function __construct(
-        Mage_Directory_Model_Resource_Country_Collection $countryCollection
-    ) {
+    public function __construct(Mage_Directory_Model_Resource_Country_Collection $countryCollection)
+    {
         $this->_countryCollection = $countryCollection;
     }
 

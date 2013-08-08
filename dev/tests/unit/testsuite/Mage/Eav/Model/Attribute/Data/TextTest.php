@@ -38,7 +38,6 @@ class Mage_Eav_Model_Attribute_Data_TextTest extends PHPUnit_Framework_TestCase
         /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract|PHPUnit_Framework_MockObject_MockObject */
         $attribute = $this->getMock($attributeClass, array('_init'), $arguments);
         $this->_model = new Mage_Eav_Model_Attribute_Data_Text(array(
-            'translationHelper' => $helper,
             'stringHelper' => $helper,
         ));
         $this->_model->setAttribute($attribute);

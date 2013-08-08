@@ -28,9 +28,8 @@ class Mage_Core_Model_Theme_Label
     /**
      * @param Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
      */
-    public function __construct(
-        Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
-    ) {
+    public function __construct(Mage_Core_Model_Resource_Theme_CollectionFactory $collectionFactory)
+    {
         $this->_collectionFactory = $collectionFactory;
     }
 

@@ -23,7 +23,7 @@ class Mage_CatalogRule_Model_Rule_JobTest extends PHPUnit_Framework_TestCase
 
         /** @var $jobModel Mage_CatalogRule_Model_Rule_Job */
         $jobModel = $objectManagerHelper->getObject('Mage_CatalogRule_Model_Rule_Job', array(
-            'eventManager' => $eventManager
+            'eventManager' => $eventManager,
         ));
 
         $jobModel->applyAll();

@@ -11,17 +11,6 @@
 class Mage_Sales_Block_Status_Grid_Column_Unassign extends Mage_Backend_Block_Widget_Grid_Column
 {
     /**
-     * @param Mage_Backend_Block_Template_Context $context
-     * @param array $data
-     */
-    public function __construct(
-        Mage_Backend_Block_Template_Context $context,
-        array $data = array()
-    ) {
-        parent::__construct ($context, $data);
-    }
-
-    /**
      * Add decorated action to column
      *
      * @return array

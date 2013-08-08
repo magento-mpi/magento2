@@ -18,9 +18,8 @@ class Mage_GoogleAdwords_Model_Validator_Factory
     /**
      * @param Magento_Validator_BuilderFactory $validatorBuilderFactory
      */
-    public function __construct(
-        Magento_Validator_BuilderFactory $validatorBuilderFactory
-    ) {
+    public function __construct(Magento_Validator_BuilderFactory $validatorBuilderFactory)
+    {
         $this->_validatorBuilderFactory = $validatorBuilderFactory;
     }
 

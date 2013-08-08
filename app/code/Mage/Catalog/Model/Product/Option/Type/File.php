@@ -42,10 +42,8 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(
-        Magento_Filesystem $filesystem,
-        $data = array()
-    ) {
+    public function __construct(Magento_Filesystem $filesystem, $data = array())
+    {
         $this->_filesystem = $filesystem;
         $this->_data = $data;
     }
