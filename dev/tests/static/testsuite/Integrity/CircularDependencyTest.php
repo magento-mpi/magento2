@@ -75,7 +75,7 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
             array_push($tmp, $dependency);
             if ($keyResult !== false) {
                 $this->_circularDependencies[$dependency] = array_slice($tmp, $keyResult);
-                continue $level - $keyResult - 3;
+                continue $level - $keyResult - 5;
             }
 
             $this->_expandDependencies($dependency, $tmp, $level);

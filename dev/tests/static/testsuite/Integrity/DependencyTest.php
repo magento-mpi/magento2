@@ -13,9 +13,14 @@
 class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Name of report file
+     * Name of errors report file
      */
-    const REPORT_FILE = 'dependencies_report.xml';
+    const ERROR_REPORT_FILE = 'dependencies_error.xml';
+
+    /**
+     * Name of dependencies report file
+     */
+    const DEPENDENCIES_REPORT_FILE = 'dependencies_report.xml';
 
     /**
      * Path to report directory
@@ -32,11 +37,18 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected static $_document;
 
     /**
-     * Root XML element of report
+     * Root XML element of errors report
      *
      * @var DOMElement
      */
-    protected static $_root;
+    protected static $_rootErrors;
+
+    /**
+     * Root XML element of results report
+     *
+     * @var DOMElement
+     */
+    protected static $_rootResults;
 
     /**
      * List of config.xml files by modules
@@ -99,6 +111,13 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     protected static $_modulesDependencyErrors = array();
 
     /**
+     * Modules dependency results
+     *
+     * @var array
+     */
+    protected static $_modulesDependencyResults = array();
+
+    /**
      * Regex pattern for validation file path of theme
      *
      * @var string
@@ -155,6 +174,7 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     public static function tearDownAfterClass()
     {
         self::_processDependencyErrors();
+        self::_processDependencyResults();
     }
 
     /**
@@ -175,8 +195,8 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
     {
         self::$_document = new DOMDocument('1.0', 'UTF-8');
         self::$_document->formatOutput = true;
-        self::$_root = self::$_document->createElement('errors');
-
+        self::$_rootErrors = self::$_document->createElement('errors');
+        self::$_rootResults = self::$_document->createElement('results');
     }
 
 
@@ -197,6 +217,9 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 foreach ($error['dependencies'] as $dependency) {
                     $dependencyNode = self::$_document->createElement('dependency');
                     $dependencyNode->setAttribute('module', $dependency['module']);
+                    self::$_modulesDependencyResults[$moduleName][] = $dependency['module'];
+                    self::$_modulesDependencyResults[$moduleName] =
+                        array_unique(self::$_modulesDependencyResults[$moduleName]);
                     $sourceCdata = self::$_document->createCDATASection($dependency['source']);
                     $dependencyNode->appendChild($sourceCdata);
                     $fileNode->appendChild($dependencyNode);
@@ -204,10 +227,37 @@ class Integrity_DependencyTest extends PHPUnit_Framework_TestCase
                 $moduleNode->appendChild($fileNode);
 
             }
-            self::$_root->appendChild($moduleNode);
+            self::$_rootErrors->appendChild($moduleNode);
         }
-        self::$_document->appendChild(self::$_root);
-        self::$_document->save(self::$_reportDir . DIRECTORY_SEPARATOR . self::REPORT_FILE);
+        self::$_document->appendChild(self::$_rootErrors);
+        self::$_document->save(self::$_reportDir . DIRECTORY_SEPARATOR . self::ERROR_REPORT_FILE);
+    }
+
+    /**
+     *  Process dependency results and build XML report
+     */
+    protected static function _processDependencyResults()
+    {
+        if (empty(self::$_modulesDependencyResults)) {
+            return;
+        }
+        foreach (self::$_modulesDependencyResults as $moduleName => $moduleData) {
+            $moduleNode = self::$_document->createElement('module');
+            $moduleNode->setAttribute('name', $moduleName);
+            $dependsNode = self::$_document->createElement('depends');
+            foreach ($moduleData as $depends) {
+                $dependencyNode = self::$_document->createElement($depends);
+                $dependsNode->appendChild($dependencyNode);
+            }
+            $moduleNode->appendChild($dependsNode);
+            self::$_rootResults->appendChild($moduleNode);
+        }
+        //self::$_document->appendChild(self::$_rootResults);
+        $rootNodeList = self::$_document->getElementsByTagName('errors');
+        foreach ($rootNodeList as $domElement) {
+            self::$_document->replaceChild(self::$_rootResults, $domElement);
+        }
+        self::$_document->save(self::$_reportDir . DIRECTORY_SEPARATOR . self::DEPENDENCIES_REPORT_FILE);
     }
 
     /**
