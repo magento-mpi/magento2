@@ -61,7 +61,7 @@ return array(
     'magento_giftwrapping/attribute' => 'magento_giftwrapping_store_attributes',
     'magento_giftwrapping/website' => 'magento_giftwrapping_website',
     'magento_giftwrapping/wrapping' => 'magento_giftwrapping',
-    'enterprise_importexport/scheduled_operation' => 'enterprise_scheduled_operations',
+    'magento_scheduledimportexport/scheduled_operation' => 'enterprise_scheduled_operations',
     'magento_invitation/invitation' => 'magento_invitation',
     'magento_invitation/invitation_history' => 'magento_invitation_status_history',
     'magento_invitation/invitation_track' => 'magento_invitation_track',

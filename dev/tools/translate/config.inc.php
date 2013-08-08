@@ -433,8 +433,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/giftwrapping.xml',
         'app/design/frontend/enterprise/default/template/giftwrapping/'
     ),
-    'Enterprise_ImportExport' => array(
-        'app/code/Enterprise/ImportExport/',
+    'Magento_ScheduledImportExport' => array(
+        'app/code/Magento/ScheduledImportExport/',
         'app/design/adminhtml/default/default/layout/enterprise/importexport.xml',
         'app/design/adminhtml/default/default/template/enterprise/importexport/',
     ),
@@ -646,7 +646,7 @@ $CONFIG['helpers']  = array(
     'magento_giftcardaccount'    => 'Magento_GiftCardAccount',
     'magento_giftregistry'       => 'Magento_GiftRegistry',
     'magento_giftwrapping'       => 'Magento_GiftWrapping',
-    'enterprise_importexport'       => 'Enterprise_ImportExport',
+    'magento_scheduledimportexport'       => 'Magento_ScheduledImportExport',
     'magento_invitation'         => 'Magento_Invitation',
     'magento_license'            => 'Magento_License',
     'magento_logging'            => 'Magento_Logging',

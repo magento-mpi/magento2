@@ -112,3 +112,6 @@ dev/tests/integration/testsuite/Magento/VersionsCms
 app/code/Magento/CustomerCustomAttributes
 dev/tests/unit/testsuite/Magento/CustomerCustomAttributes
 dev/tests/integration/testsuite/Magento/CustomerCustomAttributes
+app/code/Magento/ScheduledImportExport
+dev/tests/unit/testsuite/Magento/ScheduledImportExport
+dev/tests/integration/testsuite/Magento/ScheduledImportExport

@@ -15,7 +15,7 @@ Magento/GiftCard/Model/Attribute/Backend/Giftcard
 Magento/GiftCardAccount/Block/
 Magento/GiftWrapping/Block
 Magento/GiftWrapping/Model/Total/Quote/Tax
-Enterprise/ImportExport/Model/Import/Entity/Eav/Customer
+Magento/ScheduledImportExport/Model/Import/Entity/Eav/Customer
 Magento/Invitation
 Magento/Logging/Block
 Magento/Pbridge

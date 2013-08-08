@@ -33,7 +33,7 @@ class Magento_Enterprise_Model_Resource_Setup_Migration extends Magento_Core_Mod
                 'magento_giftcardaccount'      => 'Magento_GiftCardAccount',
                 'magento_giftregistry'         => 'Magento_GiftRegistry',
                 'magento_giftwrapping'         => 'Magento_GiftWrapping',
-                'enterprise_importexport'         => 'Enterprise_ImportExport',
+                'magento_scheduledimportexport'         => 'Magento_ScheduledImportExport',
                 'enterprise_pagecache'            => 'Enterprise_PageCache',
                 'magento_pricepermissions'     => 'Magento_PricePermissions',
                 'magento_promotionpermissions' => 'Magento_PromotionPermissions',

@@ -15,7 +15,7 @@ return array(
     array('Magento_GiftCard_Block_Email_Generated'),
     array('Magento_GiftRegistry_Block_Adminhtml_Customer_View'),
     array('Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Grid'),
-    array('Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid'),
+    array('Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Grid'),
     array('Magento_Invitation_Block_Adminhtml_Invitation_Grid'),
     array('Magento_Invitation_Block_Adminhtml_Report_Invitation_Customer_Grid'),
     array('Magento_Invitation_Block_Adminhtml_Report_Invitation_Order_Grid'),
