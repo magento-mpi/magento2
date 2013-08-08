@@ -166,11 +166,12 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
     /**
      * Init Ogone Api instance, detup default values
      *
+     * @var Mage_Ogone_Model_Config $config
      * @return Mage_Ogone_Model_Api
      */
-    public function __construct()
+    public function __construct(Mage_Ogone_Model_Config $config)
     {
-        $this->_config = Mage::getSingleton('Mage_Ogone_Model_Config');
+        $this->_config = $config;
         return $this;
     }
 
@@ -357,7 +358,7 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
      */
     protected function _translate($text)
     {
-        return htmlentities(iconv("UTF-8", "ISO-8859-1", $text));
+        return htmlentities(iconv('UTF-8', 'ISO-8859-1', $text), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
     }
 
     /**
