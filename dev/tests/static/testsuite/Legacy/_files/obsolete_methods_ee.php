@@ -21,7 +21,7 @@ return array(
     array('getModelName', 'Magento_Logging_Model_Event_Changes'),
     array('setModelId', 'Magento_Logging_Model_Event_Changes'),
     array('getModelId', 'Magento_Logging_Model_Event_Changes'),
-    array('_initAction', 'Enterprise_Checkout_Controller_Adminhtml_Checkout'),
+    array('_initAction', 'Magento_AdvancedCheckout_Controller_Adminhtml_Checkout'),
     array('getEventData', 'Magento_Logging_Block_Adminhtml_Container'),
     array('getEventXForwardedIp', 'Magento_Logging_Block_Adminhtml_Container'),
     array('getEventIp', 'Magento_Logging_Block_Adminhtml_Container'),
@@ -66,8 +66,8 @@ return array(
     array('prepareCacheId', 'Enterprise_PageCache_Model_Processor',
         'Enterprise_PageCache_Model_Request_Identifier::prepareCacheId'
     ),
-    array('_getQuote', 'Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon',
-        'Enterprise_Checkout_Block_Adminhtml_Manage_Form_Coupon::getQuote()'
+    array('_getQuote', 'Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon',
+        'Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon::getQuote()'
     ),
     array('_getQuote', 'Magento_GiftCardAccount_Block_Checkout_Cart_Total',
         'Magento_GiftCardAccount_Block_Checkout_Cart_Total::getQuote()'

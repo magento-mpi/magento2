@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Wishlist_Block_Adminhtml_Manage_Accordion_Wishlist
-    extends Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Wishlist
+    extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist
 {
     /**
      * Return items collection

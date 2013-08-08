@@ -18,9 +18,9 @@ $map = array(
         'Magento_CatalogPermissions::catalog_magento_catalogpermissions',
     'admin/system/config/magento_catalogpermissions' =>
         'Magento_CatalogPermissions::magento_catalogpermissions',
-    'admin/sales/enterprise_checkout' => 'Enterprise_Checkout::enterprise_checkout',
-    'admin/sales/enterprise_checkout/update' => 'Enterprise_Checkout::update',
-    'admin/sales/enterprise_checkout/view' => 'Enterprise_Checkout::view',
+    'admin/sales/magento_advancedcheckout' => 'Magento_AdvancedCheckout::magento_advancedcheckout',
+    'admin/sales/magento_advancedcheckout/update' => 'Magento_AdvancedCheckout::update',
+    'admin/sales/magento_advancedcheckout/view' => 'Magento_AdvancedCheckout::view',
     'admin/cms/page/delete_revision' => 'Enterprise_Cms::delete_revision',
     'admin/cms/hierarchy' => 'Enterprise_Cms::hierarchy',
     'admin/cms/page/publish_revision' => 'Enterprise_Cms::publish_revision',
