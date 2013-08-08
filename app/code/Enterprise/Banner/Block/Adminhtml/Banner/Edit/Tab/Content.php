@@ -19,13 +19,6 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
-     * Banner helper
-     *
-     * @var Enterprise_Banner_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * WYSIWYG config object
      *
      * @var Mage_Cms_Model_Wysiwyg_Config
@@ -59,7 +52,6 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
      * @param Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig
      * @param Mage_Core_Model_Registry $registry
      * @param Mage_Core_Model_App $app
-     * @param Enterprise_Banner_Helper_Data $bannerHelper
      * @param array $data
      */
     public function __construct(
@@ -67,10 +59,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         Mage_Cms_Model_Wysiwyg_Config $wysiwygConfig,
         Mage_Core_Model_Registry $registry,
         Mage_Core_Model_App $app,
-        Enterprise_Banner_Helper_Data $bannerHelper,
         array $data = array()
     ) {
-        $this->_helper = $bannerHelper;
         $this->_wysiwygConfigModel = $wysiwygConfig;
         $this->_registryManager = $registry;
         $this->_app = $app;

@@ -17,19 +17,4 @@
  */
 class Enterprise_GiftWrapping_Model_StatusOptions extends Mage_Backend_Model_Config_Source_Statuses_Options
 {
-    /**
-     * Backend Helper
-     *
-     * @var Enterprise_GiftWrapping_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * @param Enterprise_GiftWrapping_Helper_Data $helper
-     */
-    public function __construct(Enterprise_GiftWrapping_Helper_Data $helper)
-    {
-        $this->_helper = $helper;
-    }
-
 }

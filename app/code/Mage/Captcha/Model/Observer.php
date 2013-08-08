@@ -70,7 +70,7 @@ class Mage_Captcha_Model_Observer
     public function checkForgotpassword($observer)
     {
         $formId = 'user_forgotpassword';
-        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
+        $captchaModel = $this->_helper->getCaptcha($formId);
         if ($captchaModel->isRequired()) {
             $controller = $observer->getControllerAction();
             if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
@@ -110,7 +110,7 @@ class Mage_Captcha_Model_Observer
     public function checkUserLogin($observer)
     {
         $formId = 'user_login';
-        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
+        $captchaModel = $this->_helper->getCaptcha($formId);
         $controller = $observer->getControllerAction();
         $loginParams = $controller->getRequest()->getPost('login');
         $login = array_key_exists('username', $loginParams) ? $loginParams['username'] : null;
@@ -138,7 +138,7 @@ class Mage_Captcha_Model_Observer
     public function checkUserCreate($observer)
     {
         $formId = 'user_create';
-        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
+        $captchaModel = $this->_helper->getCaptcha($formId);
         if ($captchaModel->isRequired()) {
             $controller = $observer->getControllerAction();
             if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
@@ -160,7 +160,7 @@ class Mage_Captcha_Model_Observer
     public function checkGuestCheckout($observer)
     {
         $formId = 'guest_checkout';
-        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
+        $captchaModel = $this->_helper->getCaptcha($formId);
         $checkoutMethod = Mage::getSingleton('Mage_Checkout_Model_Type_Onepage')->getQuote()->getCheckoutMethod();
         if ($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_GUEST) {
             if ($captchaModel->isRequired()) {
@@ -184,7 +184,7 @@ class Mage_Captcha_Model_Observer
     public function checkRegisterCheckout($observer)
     {
         $formId = 'register_during_checkout';
-        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
+        $captchaModel = $this->_helper->getCaptcha($formId);
         $checkoutMethod = Mage::getSingleton('Mage_Checkout_Model_Type_Onepage')->getQuote()->getCheckoutMethod();
         if ($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER) {
             if ($captchaModel->isRequired()) {
@@ -208,7 +208,7 @@ class Mage_Captcha_Model_Observer
     public function checkUserLoginBackend($observer)
     {
         $formId = 'backend_login';
-        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
+        $captchaModel = $this->_helper->getCaptcha($formId);
         $login = $observer->getEvent()->getUsername();
         if ($captchaModel->isRequired($login)) {
             if (!$captchaModel->isCorrect($this->_getCaptchaString(Mage::app()->getRequest(), $formId))) {
@@ -241,7 +241,7 @@ class Mage_Captcha_Model_Observer
     public function checkUserForgotPasswordBackend($observer)
     {
         $formId = 'backend_forgotpassword';
-        $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
+        $captchaModel = $this->_helper->getCaptcha($formId);
         $controller = $observer->getControllerAction();
         $email = (string) $observer->getControllerAction()->getRequest()->getParam('email');
         $params = $observer->getControllerAction()->getRequest()->getParams();
@@ -300,9 +300,8 @@ class Mage_Captcha_Model_Observer
     public function deleteExpiredImages()
     {
         foreach (Mage::app()->getWebsites(true) as $website) {
-            $expire = time() - Mage::helper('Mage_Captcha_Helper_Data')
-                ->getConfigNode('timeout', $website->getDefaultStore()) * 60;
-            $imageDirectory = Mage::helper('Mage_Captcha_Helper_Data')->getImgDir($website);
+            $expire = time() - $this->_helper->getConfigNode('timeout', $website->getDefaultStore()) * 60;
+            $imageDirectory = $this->_helper->getImgDir($website);
             foreach ($this->_filesystem->getNestedKeys($imageDirectory) as $filePath) {
                 if ($this->_filesystem->isFile($filePath)
                     && pathinfo($filePath, PATHINFO_EXTENSION) == 'png'

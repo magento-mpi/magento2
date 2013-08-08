@@ -66,7 +66,7 @@ class Varien_Data_Form_Element_Image extends Varien_Data_Form_Element_Abstract
     {
         $html = '';
         if ($this->getValue()) {
-            $label = Mage::helper('Mage_Core_Helper_Data')->__('Delete Image');
+            $label = __('Delete Image');
             $html .= '<span class="delete-image">';
             $html .= '<input type="checkbox"'
                 . ' name="' . parent::getName() . '[delete]" value="1" class="checkbox"'
