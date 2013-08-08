@@ -42,6 +42,7 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
             $config = simplexml_load_file($configFile);
             $nodes = $config->xpath("/config/modules/$moduleName/depends/*") ?: array();
             foreach ($nodes as $node) {
+                /** @var SimpleXMLElement $node */
                 $this->_modulesDependencies[$moduleName][] = $node->getName();
             }
             foreach (array_keys($this->_modulesDependencies) as $module) {
@@ -58,7 +59,7 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
      * @param int $level nesting level
      * @return array
      */
-    protected function _expandDependencies($module, $modulesCheckChain = array(), $level =0)
+    protected function _expandDependencies($module, $modulesCheckChain = array(), $level = 0)
     {
         if (empty($this->_modulesDependencies[$module])) {
             return;
@@ -74,7 +75,7 @@ class Integrity_CircularDependencyTest extends PHPUnit_Framework_TestCase
             array_push($tmp, $dependency);
             if ($keyResult !== false) {
                 $this->_circularDependencies[$dependency] = array_slice($tmp, $keyResult);
-                continue $level-$keyResult-3;
+                continue $level - $keyResult - 3;
             }
 
             $this->_expandDependencies($dependency, $tmp, $level);

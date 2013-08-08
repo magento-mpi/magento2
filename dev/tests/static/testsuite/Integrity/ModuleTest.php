@@ -57,6 +57,7 @@ class Integrity_ModuleTest extends PHPUnit_Framework_TestCase
             $config = simplexml_load_file($configFile);
             $nodes = $config->xpath("/config/modules/$moduleName/depends/*") ?: array();
             foreach ($nodes as $node) {
+                /** @var SimpleXMLElement $node */
                 $this->_modulesDependencies[$moduleName][] = $node->getName();
             }
         }
@@ -103,7 +104,7 @@ class Integrity_ModuleTest extends PHPUnit_Framework_TestCase
         foreach (array_keys($this->_modulesDependencies) as $module) {
             try {
                 $this->_expandDependencies($module);
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $this->_circularDependencyErrors[$e->getCode()] = $e->getMessage();
             }
         }
