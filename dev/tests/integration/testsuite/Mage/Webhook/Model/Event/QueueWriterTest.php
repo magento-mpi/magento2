@@ -13,7 +13,7 @@ class Mage_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_TestCas
 {
     public function testOfferWebhookEvent()
     {
-        // New collection must be createdto avoid interference between QueueReader tests
+        // New collection must be created to avoid interference between QueueReader tests
         $collection =  Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Event_Collection');
         $readerArgs = array('collection' => $collection);
 
@@ -34,16 +34,21 @@ class Mage_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_TestCas
 
     public function testOfferMagentoEvent()
     {
-        // New collection must be createdto avoid interference between QueueReader tests
+        // New collection must be created to avoid interference between QueueReader tests
         $collection =  Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Event_Collection');
         $readerArgs = array('collection' => $collection);
 
         $bodyData = array('magento', 'event', 'body', 'data');
+        $topic = 'some topic';
+        $eventArgs = array(
+            'bodyData' => $bodyData,
+            'topic' => $topic
+        );
+
         /** @var Mage_Webhook_Model_Event_QueueWriter $queueWriter */
         $queueWriter = Mage::getObjectManager()->create('Mage_Webhook_Model_Event_QueueWriter');
         /** @var Mage_Webhook_Model_Event $magentoEvent */
-        $magentoEvent = Mage::getObjectManager()->create('Mage_Webhook_Model_Event')
-            ->setBodyData($bodyData);
+        $magentoEvent = Mage::getObjectManager()->create('Magento_PubSub_Event', $eventArgs);
         $queueWriter->offer($magentoEvent);
         /** @var Mage_Webhook_Model_Event_QueueReader $queueReader */
         $queueReader = Mage::getObjectManager()->create('Mage_Webhook_Model_Event_QueueReader', $readerArgs);

@@ -45,12 +45,10 @@ class Mage_Webhook_Model_Observer
     {
         try {
             $subscriptions = $this->_subscriptionSet->getActivatedSubscriptionsWithoutApiUser();
-            if (count($subscriptions)) {
-                /** @var Mage_Webhook_Model_Subscription $subscription */
-                foreach ($subscriptions as $subscription) {
-                    $subscription->setStatus(Mage_Webhook_Model_Subscription::STATUS_INACTIVE)
-                        ->save();
-                }
+            /** @var Mage_Webhook_Model_Subscription $subscription */
+            foreach ($subscriptions as $subscription) {
+                $subscription->setStatus(Mage_Webhook_Model_Subscription::STATUS_INACTIVE)
+                    ->save();
             }
         } catch (Exception $exception) {
             $this->_logger->logException($exception);
