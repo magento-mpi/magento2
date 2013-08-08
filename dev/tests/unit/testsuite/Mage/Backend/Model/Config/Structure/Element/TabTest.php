@@ -19,11 +19,6 @@ class Mage_Backend_Model_Config_Structure_Element_TabTest extends PHPUnit_Framew
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_factoryHelperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_applicationMock;
 
     /**
@@ -36,11 +31,10 @@ class Mage_Backend_Model_Config_Structure_Element_TabTest extends PHPUnit_Framew
         $this->_iteratorMock = $this->getMock(
             'Mage_Backend_Model_Config_Structure_Element_Iterator_Field', array(), array(), '', false
         );
-        $this->_factoryHelperMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
         $this->_applicationMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
 
         $this->_model = new Mage_Backend_Model_Config_Structure_Element_Tab(
-            $this->_factoryHelperMock, $this->_applicationMock, $this->_iteratorMock
+            $this->_applicationMock, $this->_iteratorMock
         );
     }
 
@@ -48,7 +42,6 @@ class Mage_Backend_Model_Config_Structure_Element_TabTest extends PHPUnit_Framew
     {
         unset($this->_model);
         unset($this->_iteratorMock);
-        unset($this->_factoryHelperMock);
         unset($this->_applicationMock);
     }
 

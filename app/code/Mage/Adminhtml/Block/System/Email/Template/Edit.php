@@ -369,7 +369,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
     protected function _getSystemConfigPathsParts($paths)
     {
         $result = $urlParams = $prefixParts = array();
-        $scopeLabel = $this->helper('Mage_Backend_Helper_Data')->__('GLOBAL');
+        $scopeLabel = __('GLOBAL');
         if ($paths) {
             /** @var $menu Mage_Backend_Model_Menu */
             $menu = $this->_menuConfig->getMenu();

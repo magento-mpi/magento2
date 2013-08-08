@@ -47,15 +47,15 @@ class Mage_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit_Fr
     public function testGetLabelTranslatesLabel()
     {
         $this->assertEquals('', $this->_model->getLabel());
-        $this->_model->setData(array('label' => 'some_label', 'module' => 'Mage_Module'), 'someScope');
-        $this->assertEquals('translatedLabel', $this->_model->getLabel());
+        $this->_model->setData(array('label' => 'some_label'), 'someScope');
+        $this->assertEquals(__('some_label'), $this->_model->getLabel());
     }
 
     public function testGetCommentTranslatesComment()
     {
-        $this->assertEquals('', $this->_model->getLabel());
-        $this->_model->setData(array('label' => 'some_comment', 'module' => 'Mage_Module'), 'someScope');
-        $this->assertEquals('translatedComment', $this->_model->getLabel());
+        $this->assertEquals('', $this->_model->getComment());
+        $this->_model->setData(array('comment' => 'some_comment'), 'someScope');
+        $this->assertEquals(__('some_comment'), $this->_model->getComment());
     }
 
     public function testGetFrontEndModel()

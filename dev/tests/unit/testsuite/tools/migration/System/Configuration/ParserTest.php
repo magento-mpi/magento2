@@ -95,7 +95,7 @@ XMLCOMMENT;
                     'show_in_website' => array('#text' => '1'),
                     'show_in_store' => array('#text' => '1'),
                     'resource' => array('#text' => 'Mage_Some::resource'),
-                    '@attributes' => array('translate' => 'label', 'module' => 'Mage_Some')
+                    '@attributes' => array('translate' => 'label')
                 )
             )
         );
