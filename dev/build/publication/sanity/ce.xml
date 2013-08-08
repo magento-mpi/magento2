@@ -124,15 +124,15 @@
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tools/Magento/Tools/translate/config.inc.php</path>
+            <path>dev/tools/Magento/Tools/Translate/config.inc.php</path>
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tools/Magento/Tools/translate/ModuleTranslations.php</path>
+            <path>dev/tools/Magento/Tools/Translate/ModuleTranslations.php</path>
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tools/Magento/Tools/translate/generate_emailtemplates.php</path>
+            <path>dev/tools/Magento/Tools/Translate/generate_emailtemplates.php</path>
         </item>
         <item>
             <word>enterprise</word>
