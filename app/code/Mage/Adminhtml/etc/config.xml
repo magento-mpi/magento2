@@ -35,15 +35,6 @@
                 </observers>
             </admin_user_authenticate_after>
         </events>
-        <di>
-            <Mage_Adminhtml_Catalog_Product_AttributeController>
-                <parameters>
-                    <attributeLabelCache>
-                        <instance>Mage_Core_Model_Cache_Type_Translate</instance>
-                    </attributeLabelCache>
-                </parameters>
-            </Mage_Adminhtml_Catalog_Product_AttributeController>
-        </di>
     </global>
     <admin>
         <routers>

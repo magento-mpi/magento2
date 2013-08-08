@@ -103,7 +103,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
      *
      * @param $customer
      * @param $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getConditionsSql($customer, $website)
     {

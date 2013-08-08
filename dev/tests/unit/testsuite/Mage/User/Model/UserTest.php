@@ -25,7 +25,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     /** @var Mage_Customer_Model_Resource_Customer_Collection|PHPUnit_Framework_MockObject_MockObject */
     protected $_resourceMock;
 
-    /** @var Varien_Data_Collection_Db|PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Data_Collection_Db|PHPUnit_Framework_MockObject_MockObject */
     protected $_collectionMock;
 
     /**
@@ -45,7 +45,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $this->_collectionMock = $this->getMockBuilder('Varien_Data_Collection_Db')
+        $this->_collectionMock = $this->getMockBuilder('Magento_Data_Collection_Db')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();

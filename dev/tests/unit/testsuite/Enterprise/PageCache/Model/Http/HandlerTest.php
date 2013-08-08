@@ -70,7 +70,7 @@ class Enterprise_PageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Test
         $processorMock = $this->getMock(
             'Enterprise_PageCache_Model_Processor', array(), array(), '', false, false
         );
-        $nodeMock = $this->getMock('Varien_Object', array('asArray'), array(), '', false, false);
+        $nodeMock = $this->getMock('Magento_Object', array('asArray'), array(), '', false, false);
         $nodeMock->expects($this->once())->method('asArray')
             ->will($this->returnValue(array(array('sortOrder' => 10, 'class' => 'processor_class'))));
         $this->_factoryMock->expects($this->once())
@@ -98,7 +98,7 @@ class Enterprise_PageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Test
         $processorMock = $this->getMock(
             'Enterprise_PageCache_Model_Processor', array(), array(), '', false, false
         );
-        $nodeMock = $this->getMock('Varien_Object', array('asArray'), array(), '', false, false);
+        $nodeMock = $this->getMock('Magento_Object', array('asArray'), array(), '', false, false);
         $nodeMock->expects($this->once())->method('asArray')
             ->will($this->returnValue(array(array('sortOrder' => 10, 'class' => 'processor_class'))));
         $this->_factoryMock->expects($this->once())

@@ -286,7 +286,7 @@ class Mage_Checkout_CartController
         }
 
         try {
-            $params = new Varien_Object();
+            $params = new Magento_Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
             $params->setBuyRequest($quoteItem->getBuyRequest());
@@ -327,7 +327,7 @@ class Mage_Checkout_CartController
                 Mage::throwException($this->__("We can't find the quote item."));
             }
 
-            $item = $cart->updateItem($id, new Varien_Object($params));
+            $item = $cart->updateItem($id, new Magento_Object($params));
             if (is_string($item)) {
                 Mage::throwException($item);
             }

@@ -126,7 +126,7 @@ class Mage_Catalog_Model_LayerTest extends PHPUnit_Framework_TestCase
 
         try {
             $model = Mage::getModel('Mage_Catalog_Model_Layer');
-            $model->setCurrentCategory(new Varien_Object());
+            $model->setCurrentCategory(new Magento_Object());
             $this->fail('Assign category of invalid class.');
         } catch (Mage_Core_Exception $e) {
         }

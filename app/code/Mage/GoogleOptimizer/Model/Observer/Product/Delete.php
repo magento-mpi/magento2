@@ -25,7 +25,7 @@ class Mage_GoogleOptimizer_Model_Observer_Product_Delete
     /**
      * Delete Product scripts after deleting product
      *
-     * @param Varien_Object $observer
+     * @param Magento_Object $observer
      * @return Mage_GoogleOptimizer_Model_Observer_Product_Delete
      */
     public function deleteProductGoogleExperimentScript($observer)

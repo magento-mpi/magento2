@@ -45,7 +45,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         Magento_Autoload_IncludePath::addIncludePath($generationDirectory);
 
         $this->_ioObject = new Magento_Code_Generator_Io(
-            new Varien_Io_File(),
+            new Magento_Io_File(),
             new Magento_Autoload_IncludePath(),
             $generationDirectory
         );
@@ -59,7 +59,7 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
         /** @var $dirs Mage_Core_Model_Dir */
         $dirs = Mage::getObjectManager()->get('Mage_Core_Model_Dir');
         $generationDirectory = $dirs->getDir(Mage_Core_Model_Dir::VAR_DIR) . '/generation';
-        Varien_Io_File::rmdirRecursive($generationDirectory);
+        Magento_Io_File::rmdirRecursive($generationDirectory);
 
         set_include_path($this->_includePath);
         unset($this->_generator);

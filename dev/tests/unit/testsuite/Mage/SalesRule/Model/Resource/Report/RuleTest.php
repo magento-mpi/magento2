@@ -30,13 +30,13 @@ class Mage_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework_Te
     public function testGetUniqRulesNamesList()
     {
         $dbAdapterMock = $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false);
-        $select = $this->getMock('Varien_Db_Select', array('from'), array($dbAdapterMock));
+        $select = $this->getMock('Magento_DB_Select', array('from'), array($dbAdapterMock));
         $select->expects($this->once())
             ->method('from')
             ->with(self::TABLE_NAME, $this->isInstanceOf('Zend_Db_Expr'))
             ->will($this->returnValue($select));
 
-        $adapterMock = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array('select', 'fetchAll'), array(), '', false);
+        $adapterMock = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array('select', 'fetchAll'), array(), '', false);
         $adapterMock->expects($this->once())
             ->method('select')
             ->will($this->returnValue($select));
@@ -67,17 +67,17 @@ class Mage_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework_Te
     /**
      * Check structure of sql query
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @return array
      */
-    public function fetchAllCallback(Varien_Db_Select $select)
+    public function fetchAllCallback(Magento_DB_Select $select)
     {
-        $whereParts = $select->getPart(Varien_Db_Select::WHERE);
+        $whereParts = $select->getPart(Magento_DB_Select::WHERE);
         $this->assertCount(2, $whereParts);
         $this->assertContains("rule_name IS NOT NULL", $whereParts[0]);
         $this->assertContains("rule_name <> ''", $whereParts[1]);
 
-        $orderParts = $select->getPart(Varien_Db_Select::ORDER);
+        $orderParts = $select->getPart(Magento_DB_Select::ORDER);
         $this->assertCount(1, $orderParts);
         $expectedOrderParts = array('rule_name', 'ASC');
         $this->assertEquals($expectedOrderParts, $orderParts[0]);

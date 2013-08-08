@@ -14,9 +14,9 @@ if (file_exists($installFile)) {
 
 /** @var $installer Mage_Catalog_Model_Resource_Setup */
 $installer = $this;
-/** @var $connection Varien_Db_Adapter_Pdo_Mysql */
+/** @var $connection Magento_DB_Adapter_Pdo_Mysql */
 $connection = $installer->getConnection();
 $connection->changeTableEngine(
     $installer->getTable('catalog_product_index_price_downlod_tmp'),
-    Varien_Db_Adapter_Pdo_Mysql::ENGINE_MEMORY
+    Magento_DB_Adapter_Pdo_Mysql::ENGINE_MEMORY
 );

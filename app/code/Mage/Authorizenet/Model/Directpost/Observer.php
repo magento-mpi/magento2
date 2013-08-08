@@ -20,10 +20,10 @@ class Mage_Authorizenet_Model_Directpost_Observer
     /**
      * Save order into registry to use it in the overloaded controller.
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Authorizenet_Model_Directpost_Observer
      */
-    public function saveOrderAfterSubmit(Varien_Event_Observer $observer)
+    public function saveOrderAfterSubmit(Magento_Event_Observer $observer)
     {
         /* @var $order Mage_Sales_Model_Order */
         $order = $observer->getEvent()->getData('order');
@@ -35,10 +35,10 @@ class Mage_Authorizenet_Model_Directpost_Observer
     /**
      * Set data for response of frontend saveOrder action
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Authorizenet_Model_Directpost_Observer
      */
-    public function addAdditionalFieldsToResponseFrontend(Varien_Event_Observer $observer)
+    public function addAdditionalFieldsToResponseFrontend(Magento_Event_Observer $observer)
     {
         /* @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('directpost_order');
@@ -78,10 +78,10 @@ class Mage_Authorizenet_Model_Directpost_Observer
      * Update all edit increments for all orders if module is enabled.
      * Needed for correct work of edit orders in Admin area.
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Authorizenet_Model_Directpost_Observer
      */
-    public function updateAllEditIncrements(Varien_Event_Observer $observer)
+    public function updateAllEditIncrements(Magento_Event_Observer $observer)
     {
          /* @var $order Mage_Sales_Model_Order */
         $order = $observer->getEvent()->getData('order');

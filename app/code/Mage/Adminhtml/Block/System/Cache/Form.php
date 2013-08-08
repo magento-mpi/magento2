@@ -25,7 +25,7 @@ class Mage_Adminhtml_Block_System_Cache_Form extends Mage_Adminhtml_Block_Widget
      */
     public function initForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $fieldset = $form->addFieldset('cache_enable', array(
             'legend' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Cache Control')

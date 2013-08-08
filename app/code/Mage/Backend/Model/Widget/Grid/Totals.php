@@ -14,7 +14,7 @@ class Mage_Backend_Model_Widget_Grid_Totals extends Mage_Backend_Model_Widget_Gr
      * Count collection column sum based on column index
      *
      * @param string $index
-     * @param Varien_Data_Collection $collection
+     * @param Magento_Data_Collection $collection
      * @return float|int
      */
     protected function _countSum($index, $collection)
@@ -35,7 +35,7 @@ class Mage_Backend_Model_Widget_Grid_Totals extends Mage_Backend_Model_Widget_Gr
      * Count collection column average based on column index
      *
      * @param string $index
-     * @param Varien_Data_Collection $collection
+     * @param Magento_Data_Collection $collection
      * @return float|int
      */
     protected function _countAverage($index, $collection)

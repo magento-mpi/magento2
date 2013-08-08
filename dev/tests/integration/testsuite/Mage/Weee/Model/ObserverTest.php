@@ -57,12 +57,12 @@ class Mage_Weee_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Varien_Event_Observer
+     * @return Magento_Event_Observer
      */
     protected function _createEventObserverForUpdateConfigurableProductOptions()
     {
-        $response = new Varien_Object(array('additional_options' => array()));
-        $event = new Varien_Event(array('response_object' => $response));
-        return new Varien_Event_Observer(array('event' => $event));
+        $response = new Magento_Object(array('additional_options' => array()));
+        $event = new Magento_Event(array('response_object' => $response));
+        return new Magento_Event_Observer(array('event' => $event));
     }
 }

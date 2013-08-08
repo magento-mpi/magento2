@@ -33,9 +33,9 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Form
      * Remove restricted buttons, if the limitation is reached
      * Buttons are considered as restricted, if they let create new entity
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function removeSavingButtons(Varien_Event_Observer $observer)
+    public function removeSavingButtons(Magento_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getData('block');
         if ($block instanceof Mage_Adminhtml_Block_Catalog_Product_Edit) {

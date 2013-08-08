@@ -40,20 +40,20 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento_Te
 
     public function testPrepareColumns()
     {
-        $this->_formFactoryMock = $this->_makeMock('Varien_Data_Form_Factory');
+        $this->_formFactoryMock = $this->_makeMock('Magento_Data_Form_Factory');
         $this->_registry = new Mage_Core_Model_Registry();
         $this->_formatMock = $this->_makeMock('Mage_Webhook_Model_Source_Format');
         $this->_authenticationMock = $this->_makeMock('Mage_Webhook_Model_Source_Authentication');
         $this->_hookMock = $this->_makeMock('Mage_Webhook_Model_Source_Hook');
 
-        $selectMock = $this->_makeMock('Varien_Db_Select');
-        $collectionMock = $this->_makeMock('Varien_Data_Collection_Db');
+        $selectMock = $this->_makeMock('Magento_DB_Select');
+        $collectionMock = $this->_makeMock('Magento_Data_Collection_Db');
         $this->_setStub($collectionMock, 'getSelect', $selectMock);
 
         // Primary test logic
-        $this->_dataFormMock = $this->_makeMock('Varien_Data_Form');
+        $this->_dataFormMock = $this->_makeMock('Magento_Data_Form');
         $this->_setStub($this->_formFactoryMock, 'create', $this->_dataFormMock);
-        $this->_fieldsetMock = $this->_makeMock('Varien_Data_Form_Element_Fieldset');
+        $this->_fieldsetMock = $this->_makeMock('Magento_Data_Form_Element_Fieldset');
         $this->_setStub($this->_dataFormMock, 'addFieldset', $this->_fieldsetMock);
         $this->_fieldsetMock->expects($this->exactly(6))
             ->method('addField')

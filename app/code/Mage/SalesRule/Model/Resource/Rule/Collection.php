@@ -170,7 +170,7 @@ class Mage_SalesRule_Model_Resource_Rule_Collection extends Mage_Rule_Model_Reso
         $field = $this->_getMappedField('actions_serialized');
         $aCond = $this->_getConditionSql($field, array('like' => $match));
 
-        $this->getSelect()->where(sprintf('(%s OR %s)', $cCond, $aCond), null, Varien_Db_Select::TYPE_CONDITION);
+        $this->getSelect()->where(sprintf('(%s OR %s)', $cCond, $aCond), null, Magento_DB_Select::TYPE_CONDITION);
 
         return $this;
     }

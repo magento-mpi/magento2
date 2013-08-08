@@ -47,7 +47,7 @@ class Mage_Core_Helper_CssTest extends PHPUnit_Framework_TestCase
             return dirname($originalPath) . '/' . $relativeUrl;
         };
 
-        $object = new Varien_Object(array('resolved_path' => array('body.gif' => '/base_dir/pub/dir/body.gif')));
+        $object = new Magento_Object(array('resolved_path' => array('body.gif' => '/base_dir/pub/dir/body.gif')));
         $objectCallback = array($object, 'getResolvedPath');
 
         $source = file_get_contents($fixturePath . 'source.css');

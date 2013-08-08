@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Block_Adminhtml_Product_Renderer extends Varien_Data_Form_Element_Select
+class Enterprise_Rma_Block_Adminhtml_Product_Renderer extends Magento_Data_Form_Element_Select
 {
     /**
      * Retrieve Element HTML fragment

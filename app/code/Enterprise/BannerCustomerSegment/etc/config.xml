@@ -68,15 +68,6 @@
                 </observers>
             </enterprise_banner_resource_banner_content_select_init>
         </events>
-        <di>
-            <Enterprise_BannerCustomerSegment_Model_Observer>
-                <parameters>
-                    <segmentCustomer>
-                        <instance>Enterprise_CustomerSegment_Model_Customer_Proxy</instance>
-                    </segmentCustomer>
-                </parameters>
-            </Enterprise_BannerCustomerSegment_Model_Observer>
-        </di>
     </global>
     <adminhtml>
         <events>

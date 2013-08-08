@@ -74,7 +74,7 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest exte
             ->with('Enterprise_SalesArchive::orders')
             ->will($this->returnValue(false));
 
-        $this->assertFalse($this->_model->getUrl(new Varien_Object()));
+        $this->assertFalse($this->_model->getUrl(new Magento_Object()));
     }
 
     /**
@@ -96,11 +96,11 @@ class Enterprise_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest exte
     {
         return array(
             array(
-                new Varien_Object(),
+                new Magento_Object(),
                 'http://localhost/backend/admin/sales_order/view/order_id/'
             ),
             array(
-                new Varien_Object(
+                new Magento_Object(
                     array(
                         'id' => 1
                     )

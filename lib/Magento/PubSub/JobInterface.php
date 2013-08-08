@@ -15,7 +15,7 @@ interface Magento_PubSub_JobInterface
      * Status codes for job
      */
     const READY_TO_SEND         = 0;
-    const SUCCESS               = 1;
+    const SUCCEEDED             = 1;
     const FAILED                = 2;
     const RETRY                 = 3;
 
@@ -34,11 +34,9 @@ interface Magento_PubSub_JobInterface
     public function getSubscription();
 
     /**
-     * Process response and update Job status accordingly.
-     *
-     * @param Magento_Outbound_Transport_Http_Response $response
+     * Update the Job status to indicate it has completed successfully
      */
-    public function handleResponse($response);
+    public function complete();
 
     /**
      * Handle retry on failure logic and update job status accordingly.

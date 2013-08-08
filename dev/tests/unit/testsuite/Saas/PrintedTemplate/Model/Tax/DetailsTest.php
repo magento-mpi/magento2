@@ -16,7 +16,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * @param boolean $isTaxAfterDiscount
      * @param boolean $isDiscountOnInclTax
      * @param string $shippingTaxClass
-     * @param Varien_Object $rateRequest
+     * @param Magento_Object $rateRequest
      * @param array $rates
      * @param array $expectedTaxInfo
      *
@@ -48,7 +48,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
         return array(
             // case 1
             array(
-                1, 1, 'taxclass', new Varien_Object,
+                1, 1, 'taxclass', new Magento_Object,
                 array(array(
                     'percent' => 0.255,
                     'rates' => array(
@@ -70,7 +70,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
 
             // case 2
             array(
-                0, 0, 'taxclass', new Varien_Object,
+                0, 0, 'taxclass', new Magento_Object,
                 // processes
                 array(
                     array(
@@ -185,7 +185,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
                         )
                     )))
                 ),
-                'taxclass', new Varien_Object,
+                'taxclass', new Magento_Object,
                 array(array(
                     'percent' => 0.255,
                     'rates' => array(array('percent' => 0.1), array('percent' => 0.4), array('percent' => 0.01))
@@ -229,7 +229,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
                         )
                     )))
                 ),
-                'taxclass', new Varien_Object,
+                'taxclass', new Magento_Object,
                 array(
                     array(
                         'percent' => 0.6, 'rates' => array(array('percent' => 0.1), array('percent' => 0.2))
@@ -268,7 +268,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * Prepare tax/calculation singleton mock
      *
      * @param array $rates
-     * @param Varien_Object $rateRequest
+     * @param Magento_Object $rateRequest
      *
      * @return Mage_Tax_Model_Calculation
      */
@@ -295,7 +295,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      *
      * @param integer $parentItemId
      * @param integer $addressId
-     * @param Varien_Object $addressProduct
+     * @param Magento_Object $addressProduct
      * @param array $childrenData
      * @param bool $isChildrenCalculated
      *
@@ -319,7 +319,7 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
             }
         }
 
-        $addressProductItem = new Varien_Object($addressProduct);
+        $addressProductItem = new Magento_Object($addressProduct);
 
         $addressItem = $this->getMockBuilder('Mage_Sales_Model_Quote_Address_Item')
             ->disableOriginalConstructor()

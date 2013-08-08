@@ -41,7 +41,7 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
     /**
      * Initialize Controller Router
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function initControllerRouters($observer)
     {
@@ -70,7 +70,7 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
 
         $identifier = trim($request->getPathInfo(), '/');
 
-        $condition = new Varien_Object(array(
+        $condition = new Magento_Object(array(
             'identifier' => $identifier,
             'continue'   => true
         ));

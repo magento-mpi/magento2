@@ -21,7 +21,7 @@ class Magento_Outbound_Transport_HttpTest extends PHPUnit_Framework_TestCase
         
     public function setUp() 
     {
-        $this->_mockVrnHttpAdptrCrl = $this->getMockBuilder('Varien_Http_Adapter_Curl')
+        $this->_mockVrnHttpAdptrCrl = $this->getMockBuilder('Magento_HTTP_Adapter_Curl')
             ->disableOriginalConstructor()->getMock();
         $this->_mockMessage = $this->getMockBuilder('Magento_Outbound_Message')
             ->disableOriginalConstructor()->getMock();

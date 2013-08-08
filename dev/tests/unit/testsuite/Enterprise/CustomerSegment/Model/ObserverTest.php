@@ -48,15 +48,15 @@ class Enterprise_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_Te
             ->will($this->returnValue($formDependency))
         ;
 
-        $form = new Varien_Data_Form();
-        $model = new Varien_Object();
-        $block = new Varien_Object(array('layout' => $layout));
+        $form = new Magento_Data_Form();
+        $model = new Magento_Object();
+        $block = new Magento_Object(array('layout' => $layout));
 
         $this->_segmentHelper
             ->expects($this->once())->method('addSegmentFieldsToForm')->with($form, $model, $formDependency);
 
-        $this->_model->addFieldsToTargetRuleForm(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('form' => $form, 'model' => $model, 'block' => $block)),
+        $this->_model->addFieldsToTargetRuleForm(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('form' => $form, 'model' => $model, 'block' => $block)),
         )));
     }
 
@@ -67,14 +67,14 @@ class Enterprise_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_Te
         $layout = $this->getMock('Mage_Core_Model_Layout', array('createBlock'), array(), '', false);
         $layout->expects($this->never())->method('createBlock');
 
-        $form = new Varien_Data_Form();
-        $model = new Varien_Object();
-        $block = new Varien_Object(array('layout' => $layout));
+        $form = new Magento_Data_Form();
+        $model = new Magento_Object();
+        $block = new Magento_Object(array('layout' => $layout));
 
         $this->_segmentHelper->expects($this->never())->method('addSegmentFieldsToForm');
 
-        $this->_model->addFieldsToTargetRuleForm(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('form' => $form, 'model' => $model, 'block' => $block)),
+        $this->_model->addFieldsToTargetRuleForm(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('form' => $form, 'model' => $model, 'block' => $block)),
         )));
     }
 }

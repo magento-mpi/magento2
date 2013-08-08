@@ -58,7 +58,7 @@ class Mage_Core_Model_Theme_Image
      *
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Image_Factory $imageFactory
-     * @param Mage_Core_Model_Theme_Image_UploaderProxy $uploader
+     * @param Mage_Core_Model_Theme_Image_Uploader $uploader
      * @param Mage_Core_Model_Theme_Image_Path $themeImagePath
      * @param Mage_Core_Model_Logger $logger
      * @param Mage_Core_Model_Theme $theme
@@ -66,7 +66,7 @@ class Mage_Core_Model_Theme_Image
     public function __construct(
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Image_Factory $imageFactory,
-        Mage_Core_Model_Theme_Image_UploaderProxy $uploader,
+        Mage_Core_Model_Theme_Image_Uploader $uploader,
         Mage_Core_Model_Theme_Image_Path $themeImagePath,
         Mage_Core_Model_Logger $logger,
         Mage_Core_Model_Theme $theme = null
@@ -117,7 +117,7 @@ class Mage_Core_Model_Theme_Image
 
         $isCopied = false;
         try {
-            $destinationFileName = Varien_File_Uploader::getNewFileName($destinationFilePath);
+            $destinationFileName = Magento_File_Uploader::getNewFileName($destinationFilePath);
             $isCopied = $this->_filesystem->copy(
                 $destinationFilePath,
                 $previewDir . DIRECTORY_SEPARATOR . $destinationFileName

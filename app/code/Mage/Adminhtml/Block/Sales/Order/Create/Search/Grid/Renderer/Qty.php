@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty
     /**
      * Returns whether this qty field must be inactive
      *
-     * @param   Varien_Object $row
+     * @param   Magento_Object $row
      * @return  bool
      */
     protected function _isInactive($row)
@@ -32,10 +32,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty
     /**
      * Render product qty field
      *
-     * @param   Varien_Object $row
+     * @param   Magento_Object $row
      * @return  string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         // Prepare values
         $isInactive = $this->_isInactive($row);

@@ -20,9 +20,9 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_Store extends Mage_Adminhtml_B
     /**
      * Prepare store specific fieldset
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      */
-    protected function _prepareStoreFieldset(Varien_Data_Form $form)
+    protected function _prepareStoreFieldset(Magento_Data_Form $form)
     {
         $storeModel = Mage::registry('store_data');
         if ($postData = Mage::registry('store_post_data')) {

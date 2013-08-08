@@ -19,7 +19,7 @@ class Saas_ImportExport_Model_Import_Image_Archive_ExtractorTest extends PHPUnit
     protected $_adapterZipMock;
 
     /**
-     * @var Varien_Data_Collection_FilesystemFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Data_Collection_FilesystemFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_collectionFilesystemFactoryMock;
 
@@ -44,7 +44,7 @@ class Saas_ImportExport_Model_Import_Image_Archive_ExtractorTest extends PHPUnit
             array(), '', false);
         $this->_adapterZipMock = $this->getMock('Saas_ImportExport_Model_Import_Image_Archive_Adapter_Zip',
             array(), array(), '', false);
-        $this->_collectionFilesystemFactoryMock = $this->getMock('Varien_Data_Collection_FilesystemFactory',
+        $this->_collectionFilesystemFactoryMock = $this->getMock('Magento_Data_Collection_FilesystemFactory',
             array('create'), array(), '', false);
         $this->_filesystemMock = $this->getMock('Saas_ImportExport_Model_Import_Image_FileSystem', array(),
             array(), '', false);
@@ -134,7 +134,7 @@ class Saas_ImportExport_Model_Import_Image_Archive_ExtractorTest extends PHPUnit
         $this->_configurationMock->expects($this->once())->method('getWorkingUnZipDir')
             ->will($this->returnValue($workingUnZipDir));
 
-        $collectionMock = $this->getMock('Varien_Data_Collection_Filesystem', array(), array(), '', false);
+        $collectionMock = $this->getMock('Magento_Data_Collection_Filesystem', array(), array(), '', false);
         $collectionMock->expects($this->once())->method('addTargetDir')->with($workingUnZipDir)
             ->will($this->returnSelf());
         $collectionMock->expects($this->once())->method('setCollectDirs')->with(false)->will($this->returnSelf());

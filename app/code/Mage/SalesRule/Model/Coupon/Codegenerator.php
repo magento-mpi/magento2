@@ -9,7 +9,7 @@
  */
 
 
-class Mage_SalesRule_Model_Coupon_Codegenerator extends Varien_Object
+class Mage_SalesRule_Model_Coupon_Codegenerator extends Magento_Object
     implements Mage_SalesRule_Model_Coupon_CodegeneratorInterface
 {
     /**

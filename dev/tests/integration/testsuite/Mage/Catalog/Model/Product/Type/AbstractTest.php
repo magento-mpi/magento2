@@ -26,7 +26,7 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
     public function testGetRelationInfo()
     {
         $info = $this->_model->getRelationInfo();
-        $this->assertInstanceOf('Varien_Object', $info);
+        $this->assertInstanceOf('Magento_Object', $info);
         $this->assertNotSame($info, $this->_model->getRelationInfo());
     }
 
@@ -58,9 +58,9 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testAttributesCompare()
     {
-        $attribute[1] = new Varien_Object(array('group_sort_path' => 1, 'sort_path' => 10));
-        $attribute[2] = new Varien_Object(array('group_sort_path' => 1, 'sort_path' =>  5));
-        $attribute[3] = new Varien_Object(array('group_sort_path' => 2, 'sort_path' => 10));
+        $attribute[1] = new Magento_Object(array('group_sort_path' => 1, 'sort_path' => 10));
+        $attribute[2] = new Magento_Object(array('group_sort_path' => 1, 'sort_path' =>  5));
+        $attribute[3] = new Magento_Object(array('group_sort_path' => 2, 'sort_path' => 10));
         $this->assertEquals( 1, $this->_model->attributesCompare($attribute[1], $attribute[2]));
         $this->assertEquals(-1, $this->_model->attributesCompare($attribute[2], $attribute[1]));
         $this->assertEquals(-1, $this->_model->attributesCompare($attribute[1], $attribute[3]));
@@ -138,11 +138,11 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
         $this->assertEmpty($product->getCustomOption('info_buyRequest'));
 
         $requestData = array('qty' => 5);
-        $result = $this->_model->prepareForCart(new Varien_Object($requestData), $product);
+        $result = $this->_model->prepareForCart(new Magento_Object($requestData), $product);
         $this->assertArrayHasKey(0, $result);
         $this->assertSame($product, $result[0]);
         $buyRequest = $product->getCustomOption('info_buyRequest');
-        $this->assertInstanceOf('Varien_Object', $buyRequest);
+        $this->assertInstanceOf('Magento_Object', $buyRequest);
         $this->assertEquals($product->getId(), $buyRequest->getProductId());
         $this->assertSame($product, $buyRequest->getProduct());
         $this->assertEquals(serialize($requestData), $buyRequest->getValue());
@@ -156,7 +156,8 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
         $product = Mage::getModel('Mage_Catalog_Model_Product');
         $product->load(1); // fixture
         $this->assertEquals(
-            'Please specify the product required option(s).', $this->_model->prepareForCart(new Varien_Object, $product)
+            'Please specify the product required option(s).',
+            $this->_model->prepareForCart(new Magento_Object, $product)
         );
     }
 
@@ -196,7 +197,7 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
         $this->assertEquals(array(), $this->_model->getOrderOptions($product));
 
         $product->load(1); // fixture
-        $product->addCustomOption('info_buyRequest', serialize(new Varien_Object(array('qty' => 2))));
+        $product->addCustomOption('info_buyRequest', serialize(new Magento_Object(array('qty' => 2))));
         foreach ($product->getOptions() as $id => $option) {
             if ('field' == $option->getType()) {
                 $product->addCustomOption('option_ids', $id);
@@ -272,7 +273,7 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testGetWeight()
     {
-        $product = new Varien_Object;
+        $product = new Magento_Object;
         $this->assertEmpty($this->_model->getWeight($product));
         $product->setWeight('value');
         $this->assertEquals('value', $this->_model->getWeight($product));
@@ -282,19 +283,19 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
     {
         $this->markTestIncomplete('Bug MAGE-2814');
 
-        $product = new Varien_Object;
+        $product = new Magento_Object;
         $this->assertFalse($this->_model->hasOptions($product));
 
-        $product = new Varien_Object(array('has_options' => true));
+        $product = new Magento_Object(array('has_options' => true));
         $this->assertTrue($this->_model->hasOptions($product));
 
-        $product = new Varien_Object(array('is_recurring' => 1));
+        $product = new Magento_Object(array('is_recurring' => 1));
         $this->assertTrue($this->_model->hasOptions($product));
     }
 
     public function testHasRequiredOptions()
     {
-        $product = new Varien_Object;
+        $product = new Magento_Object;
         $this->assertFalse($this->_model->hasRequiredOptions($product));
         $product->setRequiredOptions(1);
         $this->assertTrue($this->_model->hasRequiredOptions($product));
@@ -302,7 +303,7 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testGetSetStoreFilter()
     {
-        $product = new Varien_Object;
+        $product = new Magento_Object;
         $this->assertNull($this->_model->getStoreFilter($product));
         $store = new StdClass;
         $this->_model->setStoreFilter($store, $product);
@@ -321,12 +322,12 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testAssignProductToOption()
     {
-        $product = new Varien_Object;
-        $option = new Varien_Object;
+        $product = new Magento_Object;
+        $option = new Magento_Object;
         $this->_model->assignProductToOption($product, $option, $product);
         $this->assertSame($product, $option->getProduct());
 
-        $option = new Varien_Object;
+        $option = new Magento_Object;
         $this->_model->assignProductToOption(null, $option, $product);
         $this->assertSame($product, $option->getProduct());
     }
@@ -377,8 +378,8 @@ class Mage_Catalog_Model_Product_Type_AbstractTest extends PHPUnit_Framework_Tes
 
     public function testCheckProductConfiguration()
     {
-        $product = new Varien_Object;
-        $buyRequest = new Varien_Object(array('qty' => 5));
+        $product = new Magento_Object;
+        $buyRequest = new Magento_Object(array('qty' => 5));
         $this->_model->checkProductConfiguration($product, $buyRequest);
     }
 }

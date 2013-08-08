@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Core_Model_App_Handler implements Magento_Http_HandlerInterface
+class Mage_Core_Model_App_Handler implements Magento_HTTP_HandlerInterface
 {
     /**
      * Application object

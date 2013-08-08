@@ -2,16 +2,14 @@
 /**
  * Magento_PubSub_EventManager
  *
+ * @magentoDbIsolation enabled
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * @magentoDbIsolation enabled
- */
-class Magento_PubSub_Job_QueueHandlerTests extends PHPUnit_Framework_TestCase
+class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_PubSub_Job_QueueHandler
@@ -112,12 +110,12 @@ class Magento_PubSub_Job_QueueHandlerTests extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Varien_Http_Adapter_Curl
+     * @return Magento_HTTP_Adapter_Curl
      */
     protected function _initHttpAdapter()
     {
-        /** @var $httpAdapterMock Varien_Http_Adapter_Curl */
-        $httpAdapterMock = $this->getMock('Varien_Http_Adapter_Curl', array('setConfig', 'write', 'read'));
+        /** @var $httpAdapterMock Magento_HTTP_Adapter_Curl */
+        $httpAdapterMock = $this->getMock('Magento_HTTP_Adapter_Curl', array('setConfig', 'write', 'read'));
         $config = array(
             'verifypeer' => TRUE,
             'verifyhost' => 2,

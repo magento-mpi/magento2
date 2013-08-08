@@ -52,7 +52,7 @@ class Mage_Core_Model_Theme_Label
     {
         if (!$this->_labelsCollection) {
             $themeCollection = $this->_collectionFactory->create();
-            $themeCollection->setOrder('theme_title', Varien_Data_Collection::SORT_ORDER_ASC);
+            $themeCollection->setOrder('theme_title', Magento_Data_Collection::SORT_ORDER_ASC);
             $themeCollection->filterVisibleThemes()->addAreaFilter(Mage_Core_Model_App_Area::AREA_FRONTEND);
             $this->_prepareThemeCompatible($themeCollection);
             $this->_labelsCollection = $themeCollection->toOptionArray();

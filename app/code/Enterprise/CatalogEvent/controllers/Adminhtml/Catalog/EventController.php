@@ -141,7 +141,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
             return;
         }
 
-        $data = new Varien_Object($postData['catalogevent']);
+        $data = new Magento_Object($postData['catalogevent']);
 
         $event->setDisplayState($data->getDisplayState())
             ->setStoreDateStart($data->getDateStart())

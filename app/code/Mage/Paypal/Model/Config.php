@@ -826,7 +826,7 @@ class Mage_Paypal_Model_Config
         if ($countryCode) {
             $countryCode = '_' . $countryCode;
         }
-        return sprintf('Varien_Cart_%s%s', $product, $countryCode);
+        return sprintf('Magento_Cart_%s%s', $product, $countryCode);
     }
 
     /**
@@ -1065,9 +1065,9 @@ class Mage_Paypal_Model_Config
     /**
      * Export page style current settings to specified object
      *
-     * @param Varien_Object $to
+     * @param Magento_Object $to
      */
-    public function exportExpressCheckoutStyleSettings(Varien_Object $to)
+    public function exportExpressCheckoutStyleSettings(Magento_Object $to)
     {
         foreach ($this->_ecStyleConfigMap as $key => $exportKey) {
             if ($this->$key) {

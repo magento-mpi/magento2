@@ -106,13 +106,13 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
      *
      * $params can have all values as $params in Mage_Catalog_Helper_Product - initProduct().
      * Plus following keys:
-     *   - 'buy_request' - Varien_Object holding buyRequest to configure product
+     *   - 'buy_request' - Magento_Object holding buyRequest to configure product
      *   - 'specify_options' - boolean, whether to show 'Specify options' message
      *   - 'configure_mode' - boolean, whether we're in Configure-mode to edit product configuration
      *
      * @param int $productId
      * @param Mage_Core_Controller_Front_Action $controller
-     * @param null|Varien_Object $params
+     * @param null|Magento_Object $params
      *
      * @return Mage_Catalog_Helper_Product_View
      * @throws Mage_Core_Exception
@@ -122,7 +122,7 @@ class Mage_Catalog_Helper_Product_View extends Mage_Core_Helper_Abstract
         // Prepare data
         $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
         if (!$params) {
-            $params = new Varien_Object();
+            $params = new Magento_Object();
         }
 
         // Standard algorithm to prepare and rendern product view page

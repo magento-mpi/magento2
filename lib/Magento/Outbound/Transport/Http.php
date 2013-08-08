@@ -17,14 +17,14 @@ class Magento_Outbound_Transport_Http implements Magento_Outbound_TransportInter
     const HTTP_VERSION = '1.1';
 
     /**
-     * @var Varien_Http_Adapter_Curl
+     * @var Magento_HTTP_Adapter_Curl
      */
     protected $_curl;
 
     /**
-     * @param Varien_Http_Adapter_Curl $curl
+     * @param Magento_HTTP_Adapter_Curl $curl
      */
-    public function __construct(Varien_Http_Adapter_Curl $curl)
+    public function __construct(Magento_HTTP_Adapter_Curl $curl)
     {
         $this->_curl = $curl;
     }
@@ -57,7 +57,7 @@ class Magento_Outbound_Transport_Http implements Magento_Outbound_TransportInter
             $message->getBody()
         );
 
-        return new Magento_Outbound_Transport_Http_Response(Zend_Http_Response::fromString($this->_curl->read()));
+        return new Magento_Outbound_Transport_Http_Response($this->_curl->read());
     }
 
     /**

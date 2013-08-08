@@ -20,18 +20,6 @@
         </Mage_Page>
     </modules>
     <global>
-        <di>
-            <Mage_Core_Model_Page>
-                <parameters>
-                    <assets>
-                        <instance>Mage_Page_Model_Asset_GroupedCollection</instance>
-                    </assets>
-                </parameters>
-            </Mage_Core_Model_Page>
-            <Mage_Page_Model_Asset_GroupedCollection>
-                <shared>0</shared>
-            </Mage_Page_Model_Asset_GroupedCollection>
-        </di>
         <page>
             <layouts>
                 <empty module="Mage_Page" translate="label">

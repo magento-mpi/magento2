@@ -64,11 +64,11 @@ class Mage_Sales_Model_Resource_Order_Collection extends Mage_Sales_Model_Resour
     /**
      * Minimize usual count select
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getSelectCountSql()
     {
-        /* @var $countSelect Varien_Db_Select */
+        /* @var $countSelect Magento_DB_Select */
         $countSelect = parent::getSelectCountSql();
         $countSelect->resetJoinLeft();
         return $countSelect;

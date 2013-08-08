@@ -91,9 +91,9 @@ class Mage_Webhook_Block_Adminhtml_Subscription_GridTest extends Magento_Test_Bl
 
     public function testPrepareColumns()
     {
-        $selectMock = $this->_makeMock('Varien_Db_Select');
+        $selectMock = $this->_makeMock('Magento_DB_Select');
 
-        $collectionMock = $this->_makeMock('Varien_Data_Collection_Db');
+        $collectionMock = $this->_makeMock('Magento_Data_Collection_Db');
         $this->_setStub($collectionMock, 'getSelect', $selectMock);
         $this->_gridMock->setCollection($collectionMock);
         $this->_gridMock->expects($this->exactly(6))

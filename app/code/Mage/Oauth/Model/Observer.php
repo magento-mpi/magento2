@@ -30,9 +30,9 @@ class Mage_Oauth_Model_Observer
     /**
      * Redirect customer to callback page after login
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function afterCustomerLogin(Varien_Event_Observer $observer)
+    public function afterCustomerLogin(Magento_Event_Observer $observer)
     {
         if (null !== $this->_getOauthToken()) {
             $userType = Mage_Oauth_Model_Token::USER_TYPE_CUSTOMER;
@@ -48,9 +48,9 @@ class Mage_Oauth_Model_Observer
     /**
      * Redirect admin to authorize controller after login success
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function afterAdminLogin(Varien_Event_Observer $observer)
+    public function afterAdminLogin(Magento_Event_Observer $observer)
     {
         if (null !== $this->_getOauthToken()) {
             $userType = Mage_Oauth_Model_Token::USER_TYPE_ADMIN;
@@ -66,9 +66,9 @@ class Mage_Oauth_Model_Observer
     /**
      * Redirect admin to authorize controller after login fail
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function afterAdminLoginFailed(Varien_Event_Observer $observer)
+    public function afterAdminLoginFailed(Magento_Event_Observer $observer)
     {
         if (null !== $this->_getOauthToken()) {
             /** @var $session Mage_Backend_Model_Auth_Session */

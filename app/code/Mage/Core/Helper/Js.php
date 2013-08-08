@@ -35,7 +35,7 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
     /**
      * Translate config
      *
-     * @var Varien_Simplexml_Config
+     * @var Magento_Simplexml_Config
      */
     protected $_config = null;
 
@@ -149,16 +149,16 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
     /**
      * Load config from files and try to cache it
      *
-     * @return Varien_Simplexml_Config
+     * @return Magento_Simplexml_Config
      */
     protected function _getXmlConfig()
     {
         if (is_null($this->_config)) {
             $cachedXml = $this->_configCacheType->load(self::JAVASCRIPT_TRANSLATE_CONFIG_KEY);
             if ($cachedXml) {
-                $xmlConfig = new Varien_Simplexml_Config($cachedXml);
+                $xmlConfig = new Magento_Simplexml_Config($cachedXml);
             } else {
-                $xmlConfig = new Varien_Simplexml_Config();
+                $xmlConfig = new Magento_Simplexml_Config();
                 $xmlConfig->loadString('<?xml version="1.0"?><jstranslator></jstranslator>');
                 $this->_configReader->loadModulesConfiguration(self::JAVASCRIPT_TRANSLATE_CONFIG_FILENAME, $xmlConfig);
                 $this->_configCacheType->save($xmlConfig->getXmlString(), self::JAVASCRIPT_TRANSLATE_CONFIG_KEY);

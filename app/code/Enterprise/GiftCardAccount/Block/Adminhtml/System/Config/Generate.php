@@ -17,10 +17,10 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_System_Config_Generate extends 
     /**
      * Get the button and scripts contents
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
         return $this->_toHtml();
@@ -29,7 +29,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_System_Config_Generate extends 
     /**
      * Return code pool usage
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getUsage()
     {

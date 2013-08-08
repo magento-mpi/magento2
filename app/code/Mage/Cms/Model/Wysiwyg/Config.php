@@ -15,7 +15,7 @@
  * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
+class Mage_Cms_Model_Wysiwyg_Config extends Magento_Object
 {
     /**
      * Wysiwyg behaviour
@@ -51,7 +51,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
     }
 
     /**
-     * Return Wysiwyg config as Varien_Object
+     * Return Wysiwyg config as Magento_Object
      *
      * Config options description:
      *
@@ -63,12 +63,12 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
      * files_browser_*:         Files Browser (media, images) settings
      * encode_directives:       Encode template directives with JS or not
      *
-     * @param array|Varien_Object $data Varien_Object constructor params to override default config values
-     * @return Varien_Object
+     * @param array|Magento_Object $data Magento_Object constructor params to override default config values
+     * @return Magento_Object
      */
     public function getConfig($data = array())
     {
-        $config = new Varien_Object();
+        $config = new Magento_Object();
         $viewUrl = $this->_viewUrl;
 
         $config->setData(array(

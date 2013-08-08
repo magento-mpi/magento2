@@ -10,19 +10,14 @@
 <config>
     <modules>
         <Saas_Search>
-             <version>0.0.0.1</version>
-             <active>false</active>
+            <version>0.0.0.1</version>
+            <active>false</active>
         </Saas_Search>
         <depends>
-            <Enterprise_Search/>
+            <Enterprise_Search />
         </depends>
     </modules>
     <global>
-        <di>
-            <preferences>
-                <Enterprise_Search_Helper_ClientInterface>Saas_Search_Helper_Data</Enterprise_Search_Helper_ClientInterface>
-            </preferences>
-        </di>
         <events>
             <pagecache_processor_metadata_before_save>
                 <observers>

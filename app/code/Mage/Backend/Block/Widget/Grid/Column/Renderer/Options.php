@@ -21,10 +21,10 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Options
     /**
      * Render a grid cell as options
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         $options = $this->getColumn()->getOptions();
         $showMissingOptionValues = (bool)$this->getColumn()->getShowMissingOptionValues();

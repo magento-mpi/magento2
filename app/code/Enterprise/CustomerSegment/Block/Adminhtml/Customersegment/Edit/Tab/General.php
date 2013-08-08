@@ -27,7 +27,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
     {
         $model = Mage::registry('current_customer_segment');
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $form->setHtmlIdPrefix('segment_');
 

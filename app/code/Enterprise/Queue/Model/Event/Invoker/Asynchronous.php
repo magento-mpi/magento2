@@ -46,9 +46,9 @@ class Enterprise_Queue_Model_Event_Invoker_Asynchronous implements Mage_Core_Mod
      * Dispatch event
      *
      * @param array $configuration
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function dispatch(array $configuration, Varien_Event_Observer $observer)
+    public function dispatch(array $configuration, Magento_Event_Observer $observer)
     {
         if (isset($configuration['config'][self::CONFIG_PARAMETER_ASYNCHRONOUS])
             && $configuration['config'][self::CONFIG_PARAMETER_ASYNCHRONOUS]
@@ -63,7 +63,7 @@ class Enterprise_Queue_Model_Event_Invoker_Asynchronous implements Mage_Core_Mod
      * Add a task to asynchronous processing
      *
      * @param array $configuration
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     protected function _addTaskToAsynchronousProcessing($configuration, $observer)
     {

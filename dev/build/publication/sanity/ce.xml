@@ -114,7 +114,7 @@
         </item>
         <item>
             <word>enterprise</word>
-            <path>lib/Varien/Db/Helper.php</path>
+            <path>lib/Magento/DB/Helper.php</path>
         </item>
         <item>
             <path>lib/Zend</path>

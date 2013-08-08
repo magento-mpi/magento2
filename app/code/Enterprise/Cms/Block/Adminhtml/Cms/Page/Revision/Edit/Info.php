@@ -125,7 +125,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
             );
         $data = $this->_page->getRevisionCreatedAt();
         try {
-            $data = Mage::app()->getLocale()->date($data, Varien_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
+            $data = Mage::app()->getLocale()->date($data, Magento_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
         } catch (Exception $e) {
             $data = Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
         }

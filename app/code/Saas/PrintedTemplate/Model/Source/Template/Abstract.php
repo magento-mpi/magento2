@@ -15,7 +15,7 @@
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
-abstract class Saas_PrintedTemplate_Model_Source_Template_Abstract extends Varien_Object
+abstract class Saas_PrintedTemplate_Model_Source_Template_Abstract extends Magento_Object
 {
     /**
      * Returns one of Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_* constants value

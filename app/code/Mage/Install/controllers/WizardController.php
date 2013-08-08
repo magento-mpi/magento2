@@ -219,7 +219,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
 
     public function installAction()
     {
-        $pear = Varien_Pear::getInstance();
+        $pear = Magento_Pear::getInstance();
         $params = array('comment'=>Mage::helper('Mage_Install_Helper_Data')->__("Downloading and installing Magento, please wait...") . "\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             if ($state = $this->getRequest()->getParam('state', 'beta')) {
@@ -372,7 +372,7 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
             $this->_getInstaller()->installEncryptionKey($encryptionKey);
             $this->getResponse()->setRedirect($step->getNextUrl());
         } catch (Exception $e){
-            /** @var $session Mage_Install_Model_Session */
+            /** @var $session Mage_Core_Model_Session_Generic */
             $session = Mage::getSingleton('Mage_Install_Model_Session');
             $session->setAdminData($adminData);
             if ($e instanceof Mage_Core_Exception) {

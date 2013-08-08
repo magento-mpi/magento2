@@ -17,7 +17,7 @@ class Mage_Core_Model_Resource_Helper_Mysql4Test extends PHPUnit_Framework_TestC
     protected $_model;
 
     /**
-     * @var Varien_Db_Select
+     * @var Magento_DB_Select
      */
     protected $_select;
 

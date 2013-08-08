@@ -35,7 +35,7 @@ class Saas_PrintedTemplate_Model_Variable_Item_Creditmemo extends Saas_PrintedTe
     protected function _initVariable()
     {
         $value = $this->_value;
-        if (!$value instanceof Varien_Object) {
+        if (!$value instanceof Magento_Object) {
             return $this;
         }
 

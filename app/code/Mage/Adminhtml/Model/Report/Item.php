@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Adminhtml_Model_Report_Item extends Varien_Object
+class Mage_Adminhtml_Model_Report_Item extends Magento_Object
 {
     protected $_isEmpty  = false;
     protected $_children = array();

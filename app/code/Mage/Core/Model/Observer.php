@@ -87,10 +87,10 @@ class Mage_Core_Model_Observer
     /**
      * Theme registration
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Core_Model_Observer
      */
-    public function themeRegistration(Varien_Event_Observer $observer)
+    public function themeRegistration(Magento_Event_Observer $observer)
     {
         $baseDir = $observer->getEvent()->getBaseDir();
         $pathPattern = $observer->getEvent()->getPathPattern();
@@ -105,10 +105,10 @@ class Mage_Core_Model_Observer
     /**
      * Apply customized static files to frontend
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function applyThemeCustomization(Varien_Event_Observer $observer)
+    public function applyThemeCustomization(Magento_Event_Observer $observer)
     {
         /** @var $themeFile Mage_Core_Model_Theme_File */
         foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {
@@ -130,11 +130,11 @@ class Mage_Core_Model_Observer
     /**
      * Rebuild whole config and save to fast storage
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return Mage_Core_Model_Observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function processReinitConfig(Varien_Event_Observer $observer)
+    public function processReinitConfig(Magento_Event_Observer $observer)
     {
         $this->_config->reinit();
         return $this;

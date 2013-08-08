@@ -77,11 +77,11 @@ class Saas_UnitPrice_Model_Entity_Backend_Unitprice_UnitTest extends PHPUnit_Fra
     }
 
     /**
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _prepareVarienObject()
     {
-        $varienObj = new Varien_Object;
+        $varienObj = new Magento_Object;
         $varienObj->setUnitPriceUse(true);
         $varienObj->setUnitPriceUnit(1);
         $varienObj->setUnitPriceBaseUnit(2);

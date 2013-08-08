@@ -24,7 +24,7 @@ class Mage_Customer_Model_Customer_Attribute_Backend_Password extends Mage_Eav_M
      * a) check some rules for password
      * b) transform temporary attribute 'password' into real attribute 'password_hash'
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      */
     public function beforeSave($object)
     {
@@ -50,7 +50,7 @@ class Mage_Customer_Model_Customer_Attribute_Backend_Password extends Mage_Eav_M
     }
 
     /**
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return bool
      */
     public function validate($object)

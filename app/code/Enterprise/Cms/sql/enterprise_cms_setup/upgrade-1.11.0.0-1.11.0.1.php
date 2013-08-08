@@ -17,7 +17,7 @@ $nodeTableName = $installer->getTable('enterprise_cms_hierarchy_node');
 $installer
     ->getConnection()
     ->addColumn($nodeTableName, 'scope', array(
-        'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
         'length'    => '8',
         'comment'   => 'Scope: default|website|store',
         'nullable'  => false,
@@ -26,7 +26,7 @@ $installer
 $installer
     ->getConnection()
     ->addColumn($nodeTableName, 'scope_id', array(
-        'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
+        'type'      => Magento_DB_Ddl_Table::TYPE_INTEGER,
         'comment'   => 'Scope Id',
         'nullable'  => false,
         'default'   => '0',

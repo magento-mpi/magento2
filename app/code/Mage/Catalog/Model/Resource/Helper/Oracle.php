@@ -60,7 +60,7 @@ class Mage_Catalog_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Resource_
         $typeDescribed = strtolower($this->_ddlColumnTypes[$describedInfo['type']]);
         if ($typeIntended != $typeDescribed) {
             // Fix ambiguities - return false only when types do not match
-            if (($typeIntended == 'smallint') && ($typeDescribed == Varien_Db_Ddl_Table::TYPE_INTEGER)) {
+            if (($typeIntended == 'smallint') && ($typeDescribed == Magento_DB_Ddl_Table::TYPE_INTEGER)) {
                 /**
                  * Describe table mistakes and shows that 'smallint' column is really an integer.
                  */
@@ -79,14 +79,14 @@ class Mage_Catalog_Model_Resource_Helper_Oracle extends Mage_Eav_Model_Resource_
         }
 
         // c) Length
-        if (($typeDescribed == Varien_Db_Ddl_Table::TYPE_NUMERIC)
-            || ($typeDescribed == Varien_Db_Ddl_Table::TYPE_TEXT)
-            || ($typeDescribed == Varien_Db_Ddl_Table::TYPE_BLOB)
-            || ($typeDescribed == Varien_Db_Ddl_Table::TYPE_VARBINARY)) {
+        if (($typeDescribed == Magento_DB_Ddl_Table::TYPE_NUMERIC)
+            || ($typeDescribed == Magento_DB_Ddl_Table::TYPE_TEXT)
+            || ($typeDescribed == Magento_DB_Ddl_Table::TYPE_BLOB)
+            || ($typeDescribed == Magento_DB_Ddl_Table::TYPE_VARBINARY)) {
 
             $lengthIntended = (string) $intendedDdl['length'];
             $lengthDescribed = (string) $describedInfo['length'];
-            if ($typeDescribed == Varien_Db_Ddl_Table::TYPE_NUMERIC) {
+            if ($typeDescribed == Magento_DB_Ddl_Table::TYPE_NUMERIC) {
                 if (isset($describedInfo['options']['scale']) && isset($describedInfo['options']['precision'])) {
                     $lengthIntended = explode(',', $lengthIntended);
                     foreach ($lengthIntended as &$param) {

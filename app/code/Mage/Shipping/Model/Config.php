@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Shipping_Model_Config extends Varien_Object
+class Mage_Shipping_Model_Config extends Magento_Object
 {
     /**
      * Shipping origin settings

@@ -34,11 +34,11 @@ class Mage_SalesRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Condit
     /**
      * Validate Product Rule Condition
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      *
      * @return bool
      */
-    public function validate(Varien_Object $object)
+    public function validate(Magento_Object $object)
     {
         /** @var Mage_Catalog_Model_Product $product */
         $product = $object->getProduct();

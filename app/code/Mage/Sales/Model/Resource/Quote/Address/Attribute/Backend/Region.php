@@ -22,7 +22,7 @@ class Mage_Sales_Model_Resource_Quote_Address_Attribute_Backend_Region
     /**
      * Set region to the attribute
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Sales_Model_Resource_Quote_Address_Attribute_Backend_Region
      */
     public function beforeSave($object)

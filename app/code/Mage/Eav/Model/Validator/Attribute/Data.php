@@ -108,7 +108,7 @@ class Mage_Eav_Model_Validator_Attribute_Data extends Magento_Validator_Validato
         $data = array();
         if ($this->_data) {
             $data = $this->_data;
-        } elseif ($entity instanceof Varien_Object) {
+        } elseif ($entity instanceof Magento_Object) {
             $data = $entity->getData();
         }
 

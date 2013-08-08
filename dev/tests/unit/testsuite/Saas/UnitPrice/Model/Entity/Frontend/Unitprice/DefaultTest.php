@@ -17,7 +17,7 @@ class Saas_UnitPrice_Model_Entity_Frontend_Unitprice_DefaultTest
 
     protected function setUp()
     {
-        $attribute = new Varien_Object(
+        $attribute = new Magento_Object(
             array(
                 'attribute_code' => 'friday',
                 'default_value' => self::DEFAULT_VALUE
@@ -67,7 +67,7 @@ class Saas_UnitPrice_Model_Entity_Frontend_Unitprice_DefaultTest
     public function testGetValue($value, $expectedValue)
     {
         // prepare
-        $object = new Varien_Object(array('friday' => $value));
+        $object = new Magento_Object(array('friday' => $value));
 
         // act
         $actualValue = $this->_frontend->getValue($object);

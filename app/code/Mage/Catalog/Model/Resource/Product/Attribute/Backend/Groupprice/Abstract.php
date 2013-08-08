@@ -71,8 +71,8 @@ abstract class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Groupprice_
     /**
      * Load specific db-select data
      *
-     * @param Varien_Db_Select $select
-     * @return Varien_Db_Select
+     * @param Magento_DB_Select $select
+     * @return Magento_DB_Select
      */
     protected function _loadPriceDataSelect($select)
     {
@@ -111,10 +111,10 @@ abstract class Mage_Catalog_Model_Resource_Product_Attribute_Backend_Groupprice_
     /**
      * Save tier price object
      *
-     * @param Varien_Object $priceObject
+     * @param Magento_Object $priceObject
      * @return Mage_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice
      */
-    public function savePriceData(Varien_Object $priceObject)
+    public function savePriceData(Magento_Object $priceObject)
     {
         $adapter = $this->_getWriteAdapter();
         $data    = $this->_prepareDataForTable($priceObject, $this->getMainTable());

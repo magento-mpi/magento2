@@ -36,7 +36,7 @@ abstract class Mage_GoogleOptimizer_Block_Adminhtml_TabAbstract
      * @param Mage_Core_Model_Registry $registry
      * @param Mage_GoogleOptimizer_Helper_Code $codeHelper
      * @param Mage_GoogleOptimizer_Helper_Form $formHelper
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @param array $data
      */
     public function __construct(
@@ -45,7 +45,7 @@ abstract class Mage_GoogleOptimizer_Block_Adminhtml_TabAbstract
         Mage_Core_Model_Registry $registry,
         Mage_GoogleOptimizer_Helper_Code $codeHelper,
         Mage_GoogleOptimizer_Helper_Form $formHelper,
-        Varien_Data_Form $form,
+        Magento_Data_Form $form,
         array $data = array()
     ) {
         parent::__construct($context, $data);

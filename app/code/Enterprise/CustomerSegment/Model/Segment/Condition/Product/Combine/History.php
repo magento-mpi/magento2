@@ -149,7 +149,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
      *
      * @param $customer
      * @param int | Zend_Db_Expr $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {

@@ -11,7 +11,7 @@ downloader
 dev
 errors
 Mysql
-lib/Varien/Db
+lib/Magento/DB
 sql
 data
 Mage/Paypal
@@ -66,14 +66,14 @@ Mage/Tax/Model/Sales/Pdf
 Mage/Usa/Model/Shipping/Carrier
 Mage/Webapi/Model
 Mage/Wishlist/Model
-lib/Mage/Archive
-lib/Mage/Connect/Channel
-lib/Mage/HTTP/Client
+lib/Magento/Archive
+lib/Magento/Connect/Channel
+lib/Magento/HTTP/Client
 lib/Magento/Acl
 lib/PEAR
 lib/phpseclib
 lib/Twig
-lib/Varien/Convert
+lib/Magento/Convert
 Mage/Cron/Model
 Mage/SalesRule/Model/Resource/Report/Rule
 Mage/SalesRule/Model/Quote/Nominal

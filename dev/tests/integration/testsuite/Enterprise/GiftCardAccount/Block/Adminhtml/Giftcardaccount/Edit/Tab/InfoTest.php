@@ -68,7 +68,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_InfoTe
 
         $element = $form->getElement('website_id');
         $this->assertNotNull($element);
-        $this->assertInstanceOf('Varien_Data_Form_Element_Select', $element);
+        $this->assertInstanceOf('Magento_Data_Form_Element_Select', $element);
         $this->assertEquals('website_id', $element->getId());
 
         $note = $form->getElement('balance')->getNote();

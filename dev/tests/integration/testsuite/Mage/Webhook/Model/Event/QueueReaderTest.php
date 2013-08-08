@@ -13,12 +13,15 @@ class Mage_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_TestCas
 {
     public function testPoll()
     {
+        /** @var Mage_Webhook_Model_Event $event */
         $event = Mage::getModel('Mage_Webhook_Model_Event')
             ->setDataChanges(true)
             ->save();
         /** @var Mage_Webhook_Model_Event_QueueReader $queue */
         $queue = Mage::getObjectManager()->create('Mage_Webhook_Model_Event_QueueReader');
         $this->assertEquals($event->getId(), $queue->poll()->getId());
-        $event->delete();
+
+        // Make sure an empty queue returns null
+        $this->assertNull($queue->poll());
     }
 }

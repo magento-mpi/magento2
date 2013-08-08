@@ -232,19 +232,9 @@ class Mage_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnSelf());
 
-        $response = $this->getMockBuilder('Magento_Outbound_Transport_Http_Response')
-            ->disableOriginalConstructor()
-            ->setMethods(array('isSuccessful'))
-            ->getMock();
+        $this->_job->complete();
 
-        $response->expects($this->once())
-            ->method('isSuccessful')
-            ->withAnyParameters()
-            ->will($this->returnValue(true));
-
-        $this->_job->handleResponse($response);
-
-        $this->assertEquals(Magento_PubSub_JobInterface::SUCCESS, $this->_job->getStatus());
+        $this->assertEquals(Magento_PubSub_JobInterface::SUCCEEDED, $this->_job->getStatus());
     }
 
     public function testHandleResponseFailure()
@@ -254,23 +244,13 @@ class Mage_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnSelf());
 
-        $response = $this->getMockBuilder('Magento_Outbound_Transport_Http_Response')
-            ->disableOriginalConstructor()
-            ->setMethods(array('isSuccessful'))
-            ->getMock();
-
-        $response->expects($this->any())
-            ->method('isSuccessful')
-            ->withAnyParameters()
-            ->will($this->returnValue(false));
-
         $count = 0;
         while ($count < 8) {
-            $this->_job->handleResponse($response);
+            $this->_job->handleFailure();
             $this->assertEquals(Magento_PubSub_JobInterface::RETRY, $this->_job->getStatus());
             $count++;
         }
-        $this->_job->handleResponse($response);
+        $this->_job->handleFailure();
         $this->assertEquals(Magento_PubSub_JobInterface::FAILED, $this->_job->getStatus());
     }
 

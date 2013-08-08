@@ -25,7 +25,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Form extends Mage_Adminhtm
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
                 'id' => 'preview_form',
                 'action' => $this->getUrl('*/*/drop', array('_current' => true)),
                 'method' => 'post'

@@ -18,7 +18,7 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
     /**
      * Form Object
      *
-     * @var Varien_Data_Form
+     * @var Magento_Data_Form
      */
     protected $_form;
 
@@ -45,19 +45,19 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
      */
     protected function _prepareLayout()
     {
-        Varien_Data_Form::setElementRenderer(
+        Magento_Data_Form::setElementRenderer(
             $this->getLayout()->createBlock(
                 'Mage_Backend_Block_Widget_Form_Renderer_Element',
                 $this->getNameInLayout() . '_element'
             )
         );
-        Varien_Data_Form::setFieldsetRenderer(
+        Magento_Data_Form::setFieldsetRenderer(
             $this->getLayout()->createBlock(
                 'Mage_Backend_Block_Widget_Form_Renderer_Fieldset',
                 $this->getNameInLayout() . '_fieldset'
             )
         );
-        Varien_Data_Form::setFieldsetElementRenderer(
+        Magento_Data_Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Mage_Backend_Block_Widget_Form_Renderer_Fieldset_Element',
                 $this->getNameInLayout() . '_fieldset_element'
@@ -70,7 +70,7 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
     /**
      * Get form object
      *
-     * @return Varien_Data_Form
+     * @return Magento_Data_Form
      */
     public function getForm()
     {
@@ -93,10 +93,10 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
     /**
      * Set form object
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @return Mage_Backend_Block_Widget_Form
      */
-    public function setForm(Varien_Data_Form $form)
+    public function setForm(Magento_Data_Form $form)
     {
         $this->_form = $form;
         $this->_form->setParent($this);
@@ -141,7 +141,7 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
      * Set Fieldset to Form
      *
      * @param array $attributes attributes that are to be added
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param array $exclude attributes that should be skipped
      */
     protected function _setFieldset($attributes, $fieldset, $exclude=array())
@@ -196,7 +196,7 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
      * Apply configuration specific for different element type
      *
      * @param string $inputType
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @param Mage_Eav_Model_Entity_Attribute $attribute
      */
     protected function _applyTypeSpecificConfig($inputType, $element, Mage_Eav_Model_Entity_Attribute $attribute)
@@ -224,9 +224,9 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
     /**
      * Add new element type
      *
-     * @param Varien_Data_Form_Abstract $baseElement
+     * @param Magento_Data_Form_Abstract $baseElement
      */
-    protected function _addElementTypes(Varien_Data_Form_Abstract $baseElement)
+    protected function _addElementTypes(Magento_Data_Form_Abstract $baseElement)
     {
         $types = $this->_getAdditionalElementTypes();
         foreach ($types as $code => $className) {
@@ -247,7 +247,7 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
     /**
      * Render additional element
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

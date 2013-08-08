@@ -42,13 +42,13 @@ class Mage_Catalog_Model_Resource_Product_Collection_AssociatedProduct
     /**
      * Collection constructor
      *
-     * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Mage_Core_Model_Registry $registryManager
      * @param Mage_Catalog_Model_Product_Type_Configurable $productType
      * @param Mage_Catalog_Helper_Product_Configuration $configurationHelper
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Core_Model_Registry $registryManager,
         Mage_Catalog_Model_Product_Type_Configurable $productType,
         Mage_Catalog_Helper_Product_Configuration $configurationHelper

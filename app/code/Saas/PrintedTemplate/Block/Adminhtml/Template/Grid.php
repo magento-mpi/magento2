@@ -96,7 +96,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid extends Mage_Backend_Bl
     /**
      * Returns url for edit template
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return string
      * @see Mage_Adminhtml_Block_Widget_Grid::getRowUrl()
      */

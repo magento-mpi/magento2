@@ -39,7 +39,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection_Grid extends Mage_Wishlist_Mo
      *
      * @param   string $field
      * @param   string $direction
-     * @return  Varien_Data_Collection_Db
+     * @return  Magento_Data_Collection_Db
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -61,7 +61,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection_Grid extends Mage_Wishlist_Mo
      *
      * @param string|array $field
      * @param null|string|array $condition
-     * @return Varien_Data_Collection_Db
+     * @return Magento_Data_Collection_Db
      */
     public function addFieldToFilter($field, $condition = null)
     {

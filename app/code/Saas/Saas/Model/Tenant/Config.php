@@ -29,7 +29,7 @@ class Saas_Saas_Model_Tenant_Config
     private $_rootDir;
 
     /**
-     * @var Varien_Simplexml_Config
+     * @var Magento_Simplexml_Config
      */
     private $_config;
 
@@ -179,16 +179,16 @@ class Saas_Saas_Model_Tenant_Config
     }
 
     /**
-     * Merges all Varien_Simplexml_Config objects into one
+     * Merges all Magento_Simplexml_Config objects into one
      *
      * @param array $arrayOfConfigs
-     * @return Varien_Simplexml_Config
+     * @return Magento_Simplexml_Config
      */
     private function _mergeConfig(array $arrayOfConfigs)
     {
         $mergedConfig = null;
         foreach ($arrayOfConfigs as $config) {
-            if ($config instanceof Varien_Simplexml_Config) {
+            if ($config instanceof Magento_Simplexml_Config) {
                 if (is_null($mergedConfig)) {
                     $mergedConfig = $config;
                 } else {
@@ -202,12 +202,12 @@ class Saas_Saas_Model_Tenant_Config
     /**
      * Get Config object, containing data from 'local' configuration element
      *
-     * @return Varien_Simplexml_Config
+     * @return Magento_Simplexml_Config
      * @throws LogicException
      */
     private function _getLocalConfig()
     {
-        $config = new Varien_Simplexml_Config();
+        $config = new Magento_Simplexml_Config();
         if (!array_key_exists('local', $this->_configArray)) {
             throw new LogicException('Local Configuration does not exist');
         }
@@ -218,11 +218,11 @@ class Saas_Saas_Model_Tenant_Config
     /**
      * Get configuration with list of enabled/disabled modules
      *
-     * @return Varien_Simplexml_Config
+     * @return Magento_Simplexml_Config
      */
     private function _getModulesConfig()
     {
-        $allModulesConfig = new Varien_Simplexml_Config();
+        $allModulesConfig = new Magento_Simplexml_Config();
 
         if (!empty($this->_configArray['modules'])) {
             /**
@@ -287,7 +287,7 @@ class Saas_Saas_Model_Tenant_Config
      */
     private static function _loadModulesFromString($xmlString)
     {
-        $nodeModulesConfig = new Varien_Simplexml_Config();
+        $nodeModulesConfig = new Magento_Simplexml_Config();
         $nodeModules = array();
 
         $nodeModulesConfig->loadString($xmlString);
@@ -305,11 +305,11 @@ class Saas_Saas_Model_Tenant_Config
      *
      * If no limitation configuration exists, empty configuration object is returned
      *
-     * @return Varien_Simplexml_Config
+     * @return Magento_Simplexml_Config
      */
     protected function _getLimitationsConfig()
     {
-        $config = new Varien_Simplexml_Config();
+        $config = new Magento_Simplexml_Config();
         if (array_key_exists('limitations', $this->_groupConfiguration)) {
             $config->loadString($this->_groupConfiguration['limitations']);
         }

@@ -46,7 +46,7 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
      */
     public function isAllowedCategory($category)
     {
-        $options = new Varien_Object();
+        $options = new Magento_Object();
         $options->setCategory($category);
         $options->setIsAllowed(true);
 

@@ -31,16 +31,17 @@ class Mage_Webhook_Model_Subscription
     extends Mage_Core_Model_Abstract
     implements Magento_PubSub_SubscriptionInterface
 {
+    /** subscription fields */
     const FIELD_ENDPOINT_URL = 'endpoint_url';
     const FIELD_FORMAT = 'format';
     const FIELD_AUTHENTICATION_TYPE = 'authentication_type';
     const FIELD_API_USER_ID = 'api_user_id';
     const FIELD_TIMEOUT_IN_SECS = 'timeout_in_secs';
+
     /**
      * Registration mechanism
      */
     const REGISTRATION_MECHANISM_MANUAL = 'manual';
-
 
     /**
      * @var Mage_Webhook_Model_Endpoint
@@ -58,16 +59,20 @@ class Mage_Webhook_Model_Subscription
      * @param Mage_Webhook_Model_Endpoint $endpoint
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Mage_Webhook_Model_Endpoint $endpoint,
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
+        /** set default status */
+        if (!isset($data['status'])) {
+            $data['status'] = Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE;
+        }
         parent::__construct($context, $resource, $resourceCollection, $data);
 
         $this->_endpoint = $endpoint;
@@ -89,10 +94,6 @@ class Mage_Webhook_Model_Subscription
      */
     protected function _beforeSave()
     {
-        if (!$this->hasStatus()) {
-            $this->setStatus(Magento_PubSub_SubscriptionInterface::STATUS_INACTIVE);
-        }
-
         // TODO: Can this ever be set to anything else, is it being used?
         if (!$this->hasRegistrationMechanism()) {
             $this->setRegistrationMechanism(self::REGISTRATION_MECHANISM_MANUAL);

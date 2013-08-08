@@ -23,8 +23,8 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
      */
     public function assignData($data)
     {
-        if (!($data instanceof Varien_Object)) {
-            $data = new Varien_Object($data);
+        if (!($data instanceof Magento_Object)) {
+            $data = new Magento_Object($data);
         }
         $info = $this->getInfoInstance();
         $info->setCcType($data->getCcType())
@@ -290,12 +290,12 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
     /**
      * Return data for Centinel validation
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getCentinelValidationData()
     {
         $info = $this->getInfoInstance();
-        $params = new Varien_Object();
+        $params = new Magento_Object();
         $params
             ->setPaymentMethodCode($this->getCode())
             ->setCardType($info->getCcType())

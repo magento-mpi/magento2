@@ -16,12 +16,12 @@
  * @package    Mage_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Install_Model_Installer extends Varien_Object
+class Mage_Install_Model_Installer extends Magento_Object
 {
     /**
      * Installer data model used to store data between installation steps
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_dataModel;
 
@@ -85,7 +85,7 @@ class Mage_Install_Model_Installer extends Varien_Object
     /**
      * Get data model
      *
-     * @return Mage_Install_Model_Session
+     * @return Mage_Core_Model_Session_Generic
      */
     public function getDataModel()
     {
@@ -98,10 +98,10 @@ class Mage_Install_Model_Installer extends Varien_Object
     /**
      * Set data model to store data between installation steps
      *
-     * @param Varien_Object $model
+     * @param Magento_Object $model
      * @return Mage_Install_Model_Installer
      */
-    public function setDataModel(Varien_Object $model)
+    public function setDataModel(Magento_Object $model)
     {
         $this->_dataModel = $model;
         return $this;

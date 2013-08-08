@@ -54,9 +54,9 @@ class Translate {
     static private $opts;
 
     /**
-     * Object of Varien_File_Csv_multy
+     * Object of Magento_File_Csv_multy
      *
-     * @var Varien_File_Csv_Multy
+     * @var Magento_File_Csv_Multy
      */
     static private $csv;
 
@@ -92,7 +92,7 @@ class Translate {
     {
         self::$CONFIG = $config;
         Tools_Translate_ModuleTranslations::setConfig($config);
-        self::$csv = new Varien_File_CsvMulty();
+        self::$csv = new Magento_File_CsvMulty();
         try {
             self::$opts = new MultyGetopt(array(
                 'path=s'     => 'Path to root directory',
@@ -572,13 +572,13 @@ class Translate {
      * @return  none
      */
     static public function parseXml($file,&$data_arr,$mod_name=null){
-        $xml = new Varien_Simplexml_Config();
+        $xml = new Magento_Simplexml_Config();
         $xml->loadFile($file,'SimpleXMLElement');
         $arr = $xml->getXpath("//*[@translate]");
         unset($xml);
         if(is_array($arr)){
             foreach ($arr as $val){
-                if(is_a($val,"Varien_Simplexml_Element")){
+                if(is_a($val,"Magento_Simplexml_Element")){
                     $attr = $val->attributes();
                     $transl = $attr['translate'];
                     $transl = explode(' ', (string)$transl);

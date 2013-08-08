@@ -39,7 +39,7 @@ class Mage_Catalog_Model_Category_Attribute_Backend_SortbyTest extends PHPUnit_F
      */
     public function testBeforeSave($data, $expected)
     {
-        $object = new Varien_Object($data);
+        $object = new Magento_Object($data);
         $this->_model->beforeSave($object);
         $this->assertTrue($object->hasData(self::DEFAULT_ATTRIBUTE_CODE));
         $this->assertSame($expected, $object->getData(self::DEFAULT_ATTRIBUTE_CODE));

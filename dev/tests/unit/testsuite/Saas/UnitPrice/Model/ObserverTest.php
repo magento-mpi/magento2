@@ -23,10 +23,10 @@ class Saas_UnitPrice_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testBcpUpdateDefaultsOnConfigurableProduct()
     {
-        $varienObserver = new Varien_Event_Observer();
+        $varienObserver = new Magento_Event_Observer();
         $simpleProduct = $this->createProduct();
         $product = $this->createProduct();
-        $event = new Varien_Event();
+        $event = new Magento_Event();
 
         $event->setData('product', $product);
         $event->setData('simple_product', $simpleProduct);
@@ -49,7 +49,7 @@ class Saas_UnitPrice_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     public function testCatalogProductLoadAfter()
     {
-        $varienObserver = new Varien_Event_Observer();
+        $varienObserver = new Magento_Event_Observer();
         $product = $this->createProduct();
         $varienObserver->setProduct($product);
 

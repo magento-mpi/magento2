@@ -45,8 +45,10 @@ class Mage_Webhook_Model_Observer
     {
         try {
             $subscriptions = $this->_subscriptionSet->getActivatedSubscriptionsWithoutApiUser();
-            if (count($subscriptions)) {
-                $this->_resetActivation($subscriptions);
+            /** @var Mage_Webhook_Model_Subscription $subscription */
+            foreach ($subscriptions as $subscription) {
+                $subscription->setStatus(Mage_Webhook_Model_Subscription::STATUS_INACTIVE)
+                    ->save();
             }
         } catch (Exception $exception) {
             $this->_logger->logException($exception);
@@ -57,9 +59,9 @@ class Mage_Webhook_Model_Observer
     /**
      * Triggered after webapi user change
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function afterWebapiUserChange(Varien_Event_Observer $observer)
+    public function afterWebapiUserChange(Magento_Event_Observer $observer)
     {
         try {
             $model = $observer->getEvent()->getObject();
@@ -73,10 +75,10 @@ class Mage_Webhook_Model_Observer
     /**
      * Triggered after webapi role change
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Webhook_Model_Observer
      */
-    public function afterWebapiRoleChange(Varien_Event_Observer $observer)
+    public function afterWebapiRoleChange(Magento_Event_Observer $observer)
     {
         try {
             $model = $observer->getEvent()->getObject();
@@ -84,20 +86,6 @@ class Mage_Webhook_Model_Observer
             $this->_webapiEventHandler->roleChanged($model);
         } catch (Exception $exception) {
             $this->_logger->logException($exception);
-        }
-    }
-
-    /**
-     * Reset the subscriptions to the INACTIVE status.
-     *
-     * @param $subscriptions
-     */
-    protected function _resetActivation($subscriptions)
-    {
-        /** @var Mage_Webhook_Model_Subscription $subscription */
-        foreach ($subscriptions as $subscription) {
-            $subscription->setStatus(Mage_Webhook_Model_Subscription::STATUS_INACTIVE)
-                ->save();
         }
     }
 }

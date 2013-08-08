@@ -130,7 +130,7 @@ abstract class Mage_Reports_Model_Product_Index_Abstract extends Mage_Core_Model
     /**
      * Retrieve Reports Session instance
      *
-     * @return Mage_Reports_Model_Session
+     * @return Mage_Core_Model_Session_Generic
      */
     protected function _getSession()
     {

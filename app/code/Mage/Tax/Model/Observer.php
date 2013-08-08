@@ -18,9 +18,9 @@ class Mage_Tax_Model_Observer
     /**
      * Put quote address tax information into order
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function salesEventConvertQuoteAddressToOrder(Varien_Event_Observer $observer)
+    public function salesEventConvertQuoteAddressToOrder(Magento_Event_Observer $observer)
     {
         $address = $observer->getEvent()->getAddress();
         $order = $observer->getEvent()->getOrder();
@@ -38,9 +38,9 @@ class Mage_Tax_Model_Observer
     /**
      * Save order tax information
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function salesEventOrderAfterSave(Varien_Event_Observer $observer)
+    public function salesEventOrderAfterSave(Magento_Event_Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
 
@@ -139,7 +139,7 @@ class Mage_Tax_Model_Observer
     /**
      * Add tax percent values to product collection items
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      * @return  Mage_Tax_Model_Observer
      */
     public function addTaxPercentToProductCollection($observer)
@@ -187,10 +187,10 @@ class Mage_Tax_Model_Observer
     /**
      * Reset extra tax amounts on quote addresses before recollecting totals
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Tax_Model_Observer
      */
-    public function quoteCollectTotalsBefore(Varien_Event_Observer $observer)
+    public function quoteCollectTotalsBefore(Magento_Event_Observer $observer)
     {
         /* @var $quote Mage_Sales_Model_Quote */
         $quote = $observer->getEvent()->getQuote();

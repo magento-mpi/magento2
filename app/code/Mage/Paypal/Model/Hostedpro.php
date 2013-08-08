@@ -91,7 +91,7 @@ class Mage_Paypal_Model_Hostedpro extends Mage_Paypal_Model_Direct
      * Instantiate state and set it to state object
      *
      * @param string $paymentAction
-     * @param Varien_Object $stateObject
+     * @param Magento_Object $stateObject
      */
     public function initialize($paymentAction, $stateObject)
     {

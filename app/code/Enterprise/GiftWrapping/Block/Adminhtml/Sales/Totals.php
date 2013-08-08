@@ -28,7 +28,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Sales_Totals extends Mage_Core_Blo
         $source  = $parent->getSource();
         $totals = Mage::helper('Enterprise_GiftWrapping_Helper_Data')->getTotals($source);
         foreach ($totals as $total) {
-            $this->getParentBlock()->addTotalBefore(new Varien_Object($total), 'tax');
+            $this->getParentBlock()->addTotalBefore(new Magento_Object($total), 'tax');
         }
         return $this;
     }

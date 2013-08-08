@@ -38,8 +38,8 @@ class Saas_Saas_Model_DisabledConfiguration_ObserverTest extends PHPUnit_Framewo
         $configDataMock->expects($this->once())
             ->method('getPath')
             ->will($this->returnValue($fieldPath));
-        $event = new Varien_Event(array('config_data' => $configDataMock));
-        $observer = new Varien_Event_Observer(array('event' => $event));
+        $event = new Magento_Event(array('config_data' => $configDataMock));
+        $observer = new Magento_Event_Observer(array('event' => $event));
 
         $model->checkConfigSaveAllowed($observer);
     }
