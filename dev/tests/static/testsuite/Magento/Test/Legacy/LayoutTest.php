@@ -196,7 +196,6 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             'addText',
             'addToParentGroup',
             'append',
-            'initSerializerBlock',
             'removeTab',
             'setActive',
             'setAddressType',

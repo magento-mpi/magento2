@@ -522,6 +522,8 @@ return array(
     array('initCache'),
     array('initControllerRouters', 'Magento_Cms_Controller_Router'),
     array('initLabels', 'Magento_Catalog_Model_Resource_Eav_Attribute'),
+    array('initSerializerBlock', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Ajax_Serializer'),
+    array('initSerializerBlock', 'Magento_Backend_Block_Widget_Grid_Serializer'),
     array('initSpecified', 'Magento_Core_Model_App'),
     array('insertProductPrice', 'Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice'),
     array('isAbsolutePath'),

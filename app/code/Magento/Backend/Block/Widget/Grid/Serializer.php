@@ -17,17 +17,31 @@
  */
 class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Template
 {
+    /**
+     * Preparing global layout
+     *
+     * @return $this
+     */
+    protected function _prepareLayout()
+    {
+        $grid = $this->getGridBlock();
+        if (is_string($grid)) {
+            $grid = $this->getLayout()->getBlock($grid);
+        }
+        if ($grid instanceof Magento_Backend_Block_Widget_Grid) {
+            $this->setGridBlock($grid)
+                ->setSerializeData($grid->{$this->getCallback()}());
+        }
+        return parent::_prepareLayout();
+    }
 
     /**
      * Set serializer template
-     *
-     * @return Magento_Backend_Block_Widget_Grid_Serializer
      */
     public function _construct()
     {
         parent::_construct();
         $this->setTemplate('Magento_Backend::widget/grid/serializer.phtml');
-        return $this;
     }
 
     /**
@@ -61,32 +75,4 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
         }
         return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
     }
-
-
-    /**
-     * Initialize grid block
-     *
-     * Get grid block from layout by specified block name
-     * Get serialize data to manage it (called specified method, that return data to manage)
-     * Also use reload param name for saving grid checked boxes states
-     *
-     *
-     * @param Magento_Backend_Block_Widget_Grid | string $grid grid object or grid block name
-     * @param string $callback block method  to retrieve data to serialize
-     * @param string $hiddenInputName hidden input name where serialized data will be store
-     * @param string $reloadParamName name of request parameter that will be used to save setted data while reload grid
-     */
-    public function initSerializerBlock($grid, $callback, $hiddenInputName, $reloadParamName = 'entityCollection')
-    {
-        if (is_string($grid)) {
-            $grid = $this->getLayout()->getBlock($grid);
-        }
-        if ($grid instanceof Magento_Backend_Block_Widget_Grid) {
-            $this->setGridBlock($grid)
-                 ->setInputElementName($hiddenInputName)
-                 ->setReloadParamName($reloadParamName)
-                 ->setSerializeData($grid->$callback());
-        }
-    }
-
 }
