@@ -13,7 +13,7 @@ class Mage_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_TestCas
 {
     public function testOfferWebhookEvent()
     {
-        // New collection must be createdto avoid interference between QueueReader tests
+        // New collection must be created to avoid interference between QueueReader tests
         $collection =  Mage::getObjectManager()->create('Mage_Webhook_Model_Resource_Event_Collection');
         $readerArgs = array('collection' => $collection);
 
