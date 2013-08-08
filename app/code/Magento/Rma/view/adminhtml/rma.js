@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Enterprise_Cms
+ * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */

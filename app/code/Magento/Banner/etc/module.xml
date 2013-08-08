@@ -13,7 +13,7 @@
             <module name="Magento_Adminhtml" />
             <module name="Magento_CatalogRule" />
             <module name="Magento_SalesRule" />
-            <module name="Enterprise_Cms" />
+            <module name="Magento_VersionsCms" />
         </depends>
     </module>
 </config>

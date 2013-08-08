@@ -1,4 +1,4 @@
-app/code/Enterprise/Cms
+app/code/Magento/Cms
 app/code/Enterprise/Customer
 app/code/Magento/CustomerBalance
 app/code/Magento/GiftCard

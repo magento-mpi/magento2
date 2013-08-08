@@ -233,7 +233,7 @@ class Magento_GiftRegistry_Model_Observer
      * Clean up gift registry items that belongs to the product.
      *
      * @param Magento_Event_Observer $observer
-     * @return Enterprise_Cms_Model_Observer
+     * @return Magento_VersionsCms_Model_Observer
      */
     public function deleteProduct(Magento_Event_Observer $observer)
     {

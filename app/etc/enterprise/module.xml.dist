@@ -14,7 +14,7 @@
     <module name="Magento_CatalogEvent" active="true" />
     <module name="Magento_CatalogPermissions" active="true" />
     <module name="Magento_AdvancedCheckout" active="true" />
-    <module name="Enterprise_Cms" active="true" />
+    <module name="Magento_VersionsCms" active="true" />
     <module name="Enterprise_Customer" active="true" />
     <module name="Magento_CustomerBalance" active="true" />
     <module name="Magento_CustomerSegment" active="true" />

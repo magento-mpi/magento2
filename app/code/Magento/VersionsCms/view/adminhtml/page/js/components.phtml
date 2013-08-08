@@ -1,0 +1,19 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<script type="text/javascript">
+    (function($) {
+        $.mage
+            .extend('form', 'form',
+                '<?php echo $this->getViewFileUrl('Magento_VersionsCms::page/js/form.js') ?>')
+            .extend('validation', 'validation',
+                '<?php echo $this->getViewFileUrl('Magento_VersionsCms::page/js/validation.js') ?>');
+    })(jQuery);
+</script>

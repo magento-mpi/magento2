@@ -275,7 +275,7 @@
                     <magento_log_model_resource_visitor_online_collection>limitOnlineCustomers</magento_log_model_resource_visitor_online_collection>
                     <magento_giftCardAccount_model_resource_giftcardaccount_collection>limitGiftCardAccounts</magento_giftCardAccount_model_resource_giftcardaccount_collection>
                     <magento_catalogEvent_model_resource_event_collection>limitCatalogEvents</magento_catalogEvent_model_resource_event_collection>
-                    <enterprise_cms_model_resource_hierarchy_node_collection>addStoreFilter</enterprise_cms_model_resource_hierarchy_node_collection>
+                    <magento_versionsCms_model_resource_hierarchy_node_collection>addStoreFilter</magento_versionsCms_model_resource_hierarchy_node_collection>
                     <magento_catalog_model_resource_category_collection>limitCatalogCategories</magento_catalog_model_resource_category_collection>
                     <magento_core_model_resource_url_rewrite_collection>limitCoreUrlRewrites</magento_core_model_resource_url_rewrite_collection>
                     <magento_rating_model_resource_rating_collection>limitRatings</magento_rating_model_resource_rating_collection>
@@ -508,8 +508,8 @@
                     <magento_index_block_adminhtml_process_grid>removeProcessListButtons</magento_index_block_adminhtml_process_grid>
                     <magento_index_block_adminhtml_process_edit>removeProcessEditButtons</magento_index_block_adminhtml_process_edit>
                     <magento_giftWrapping_block_adminhtml_giftwrapping_edit>removeGiftWrappingEditButtons</magento_giftWrapping_block_adminhtml_giftwrapping_edit>
-                    <enterprise_cms_block_adminhtml_cms_page_revision_edit>removeRevisionEditButtons</enterprise_cms_block_adminhtml_cms_page_revision_edit>
-                    <enterprise_cms_block_adminhtml_cms_page_preview_buttons>removePreviewPublishButton</enterprise_cms_block_adminhtml_cms_page_preview_buttons>
+                    <magento_versionsCms_block_adminhtml_cms_page_revision_edit>removeRevisionEditButtons</magento_versionsCms_block_adminhtml_cms_page_revision_edit>
+                    <magento_versionsCms_block_adminhtml_cms_page_preview_buttons>removePreviewPublishButton</magento_versionsCms_block_adminhtml_cms_page_preview_buttons>
                     <magento_giftCardAccount_block_adminhtml_giftcardaccount>removeGiftCardAccountAddButton</magento_giftCardAccount_block_adminhtml_giftcardaccount>
                     <magento_giftCardAccount_block_adminhtml_giftcardaccount>removeGiftCardAccountControlButtons</magento_giftCardAccount_block_adminhtml_giftcardaccount>
                     <magento_currencySymbol_block_adminhtml_system_currency>removeManageCurrencyRatesButtons</magento_currencySymbol_block_adminhtml_system_currency>
@@ -521,8 +521,8 @@
                     <magento_catalogPermissions_block_adminhtml_catalog_category_tab_permissions>validateCatalogPermissions</magento_catalogPermissions_block_adminhtml_catalog_category_tab_permissions>
                     <magento_widget_block_adminhtml_widget_instance_edit>removeWidgetInstanceButtons</magento_widget_block_adminhtml_widget_instance_edit>
                     <magento_banner_block_adminhtml_banner_edit>validateBannerPermissions</magento_banner_block_adminhtml_banner_edit>
-                    <enterprise_cms_block_adminhtml_cms_hierarchy_edit>removeCmsHierarchyFormButtons</enterprise_cms_block_adminhtml_cms_hierarchy_edit>
-                    <enterprise_cms_block_adminhtml_cms_page_edit_tab_hierarchy>prepareCmsHierarchyNodes</enterprise_cms_block_adminhtml_cms_page_edit_tab_hierarchy>
+                    <magento_versionsCms_block_adminhtml_cms_hierarchy_edit>removeCmsHierarchyFormButtons</magento_versionsCms_block_adminhtml_cms_hierarchy_edit>
+                    <magento_versionsCms_block_adminhtml_cms_page_edit_tab_hierarchy>prepareCmsHierarchyNodes</magento_versionsCms_block_adminhtml_cms_page_edit_tab_hierarchy>
                     <magento_adminhtml_block_customer_group>removeCustomerGroupAddButton</magento_adminhtml_block_customer_group>
                     <magento_adminhtml_block_customer_group_edit>removeCustomerGroupControlButtons</magento_adminhtml_block_customer_group_edit>
                     <magento_adminhtml_block_sales_transactions_detail>removeSalesTransactionControlButtons</magento_adminhtml_block_sales_transactions_detail>

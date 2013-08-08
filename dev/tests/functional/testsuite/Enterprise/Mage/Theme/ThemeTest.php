@@ -55,7 +55,7 @@ class Enterprise_Magento_Theme_ThemeTest extends Core_Magento_Theme_ThemeTest
         return array(
             array('Enterprise_Banner__widgets.css', 'enterprise_banner_widgets'),
             array('Magento_CatalogEvent__widgets.css', 'enterprise_catalog_event_widgets'),
-            array('Enterprise_Cms__widgets.css', 'enterprise_cms_widgets'),
+            array('Magento_VersionsCms__widgets.css', 'magento_versionscms_widgets'),
             array('Magento_Catalog--widgets.css', 'magento_catalog_widget'),
             array('Magento_Oauth--css-oauth-simple.css', 'magento_oauth_css_oauth_simple'),
             array('jquery_jqzoom_css_jquery.jqzoom.css', 'jquery_jqzoom_css'),

@@ -374,8 +374,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/checkout.xml',
         'app/design/frontend/enterprise/default/template/checkout/'
     ),
-    'Enterprise_Cms' => array(
-        'app/code/Enterprise/Cms/',
+    'Magento_VersionsCms' => array(
+        'app/code/Magento/VersionsCms/',
         'app/design/adminhtml/default/default/layout/enterprise/cms.xml',
         'app/design/adminhtml/default/default/template/enterprise/cms/',
         'app/design/frontend/enterprise/default/layout/cms.xml',
@@ -636,7 +636,7 @@ $CONFIG['helpers']  = array(
     'magento_catalogevent'       => 'Magento_CatalogEvent',
     'magento_catalogpermissions' => 'Magento_CatalogPermissions',
     'magento_advancedcheckout'           => 'Magento_AdvancedCheckout',
-    'enterprise_cms'                => 'Enterprise_Cms',
+    'magento_versionscms'                => 'Magento_VersionsCms',
     'enterprise_customer'           => 'Enterprise_Customer',
     'magento_customerbalance'    => 'Magento_CustomerBalance',
     'magento_customersegment'    => 'Magento_CustomerSegment',

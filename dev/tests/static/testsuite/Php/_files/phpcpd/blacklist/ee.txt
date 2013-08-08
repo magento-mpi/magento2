@@ -1,8 +1,8 @@
 Magento/Banner
 Magento/CatalogEvent/Block/Adminhtml
 Magento/CatalogPermissions/Model/Resource/Permission
-Enterprise/Cms/Block/Adminhtml
-Enterprise/Cms/Model/Resource/Page
+Magento/VersionsCms/Block/Adminhtml
+Magento/VersionsCms/Model/Resource/Page
 Enterprise/Customer
 Magento/CustomerBalance/Block/Adminhtml
 Magento/CustomerBalance/Block/Sales/Order
