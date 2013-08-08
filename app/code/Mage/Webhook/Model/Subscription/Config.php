@@ -67,15 +67,16 @@ class Mage_Webhook_Model_Subscription_Config
             return $this;
         }
 
-        $errors = array();
-
         foreach ($subscriptionConfig as $alias => $subscriptionData) {
             try {
                 $this->_validateConfigData($subscriptionData, $alias);
                 $subscriptions = $this->_subscriptionSet->getSubscriptionsByAlias($alias);
                 if (empty($subscriptions)) {
                     // add new subscription
-                    $this->_addSubscriptionFromConfigData($alias, $subscriptionData);
+                    $subscription = $this->_subscriptionFactory->create()
+                        ->setAlias($alias)
+                        ->setStatus(Mage_Webhook_Model_Subscription::STATUS_INACTIVE);
+                    $this->_updateSubscriptionFromConfigData($subscription, $subscriptionData);
                     continue;
                 } else {
                     // get first subscription from array
@@ -89,14 +90,9 @@ class Mage_Webhook_Model_Subscription_Config
                     $this->_updateSubscriptionFromConfigData($subscription, $subscriptionData);
                 }
             } catch (LogicException $e){
-                $errors[] = $e->getMessage();
+                $this->_logger->logException(new Mage_Webhook_Exception($e->getMessage()));
             }
         }
-
-        if (!empty($errors)) {
-            $this->_logger->logException(new Mage_Webhook_Exception(implode("\n", $errors)));
-        }
-
         return $this;
     }
 
@@ -116,21 +112,6 @@ class Mage_Webhook_Model_Subscription_Config
                 array("Invalid config data for subscription '%s'.", $alias)
             ));
         }
-    }
-
-    /**
-     * Creates a new subscription and configures it
-     *
-     * @param string $alias
-     * @param array $configData
-     * @return Mage_Core_Model_Abstract
-     */
-    protected function _addSubscriptionFromConfigData($alias, array $configData)
-    {
-        $subscription = $this->_subscriptionFactory->create()
-            ->setAlias($alias)
-            ->setStatus(Mage_Webhook_Model_Subscription::STATUS_INACTIVE);
-        return $this->_updateSubscriptionFromConfigData($subscription, $configData);
     }
 
     /**
@@ -166,30 +147,17 @@ class Mage_Webhook_Model_Subscription_Config
      */
     private function _processConfigData($configData)
     {
-        $name = isset($configData['name']) ? $configData['name'] : null;
-        $format = isset($configData['format']) ?
-            $configData['format'] : Magento_Outbound_EndpointInterface::FORMAT_JSON;
-        $version = isset($configData['version']) ? $configData['version'] : null;
-        $endpointUrl = isset($configData['endpoint_url']) ? $configData['endpoint_url'] : null;
-        $topics = isset($configData['topics']) ?
-            $this->_getTopicsFlatList($configData['topics']) : array();
-        $authenticationType = isset($configData['authentication']['type'])
-            ? $configData['authentication']['type']
-            : Magento_Outbound_EndpointInterface::AUTH_TYPE_NONE;
-        $regMechanism = isset($configData['registration_mechanism'])
-            ? $configData['registration_mechanism']
-            : Mage_Webhook_Model_Subscription::REGISTRATION_MECHANISM_MANUAL;
-
-        $configData = array(
-            'name' => $name,
-            'format' => $format,
-            'version' => $version,
-            'endpoint_url' => $endpointUrl,
-            'topics' => $topics,
-            'authentication_type' => $authenticationType,
-            'registration_mechanism' => $regMechanism,
+        $defaultData = array(
+            'name' => null,
+            'format' => Magento_Outbound_EndpointInterface::FORMAT_JSON,
+            'version' => null,
+            'endpoint_url' => null,
+            'topics' => array(),
+            'authentication_type' => Magento_Outbound_EndpointInterface::AUTH_TYPE_NONE,
+            'registration_mechanism' => Mage_Webhook_Model_Subscription::REGISTRATION_MECHANISM_MANUAL,
         );
-        return $configData;
+
+        return array_merge($defaultData, $configData);
     }
 
     /**
@@ -202,8 +170,8 @@ class Mage_Webhook_Model_Subscription_Config
     {
         $flatList = array();
 
-        foreach ($topics as $topicGroup => $topicversions) {
-            $topicNamesKeys = array_keys($topicversions);
+        foreach ($topics as $topicGroup => $topicNames) {
+            $topicNamesKeys = array_keys($topicNames);
             foreach ($topicNamesKeys as $topicName) {
                 $flatList[] = $topicGroup . '/' . $topicName;
             }
