@@ -358,7 +358,11 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
      */
     protected function _translate($text)
     {
-        return htmlentities(iconv('UTF-8', 'ISO-8859-1', $text), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+        $flags = ENT_COMPAT;
+        if (defined('ENT_HTML401')) { // Constant is defined in PHP 5.4 only
+            $flags |= ENT_HTML401;
+        }
+        return htmlentities(iconv('UTF-8', 'ISO-8859-1', $text), $flags, 'ISO-8859-1');
     }
 
     /**
