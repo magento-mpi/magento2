@@ -37,4 +37,3 @@ lib/Varien/Db/Statement/Oracle.php
 lib/Varien/Db/Statement/Pdo/Mssql.php
 lib/Varien/Db/Statement/Sqlsrv.php
 pub/errors/pro
-dev/tests/integration/testsuite/Find/Facebook
