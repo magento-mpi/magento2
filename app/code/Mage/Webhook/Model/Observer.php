@@ -38,8 +38,6 @@ class Mage_Webhook_Model_Observer
     /**
      * Triggered after webapi user deleted. It updates status of the activated subscriptions
      * associated with this webapi user to inactive
-     *
-     * @return Mage_Webhook_Model_Observer
      */
     public function afterWebapiUserDelete()
     {
@@ -53,7 +51,6 @@ class Mage_Webhook_Model_Observer
         } catch (Exception $exception) {
             $this->_logger->logException($exception);
         }
-        return $this;
     }
 
     /**
@@ -76,7 +73,6 @@ class Mage_Webhook_Model_Observer
      * Triggered after webapi role change
      *
      * @param Magento_Event_Observer $observer
-     * @return Mage_Webhook_Model_Observer
      */
     public function afterWebapiRoleChange(Magento_Event_Observer $observer)
     {
