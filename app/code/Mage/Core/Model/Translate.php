@@ -541,8 +541,17 @@ class Mage_Core_Model_Translate
         }
         $code = $module . self::SCOPE_SEPARATOR . $text;
         $translated = $this->_getTranslatedString($text, $code);
-        $translated = $this->_placeholderRender->render($translated, $args);
-        return $translated;
+        $result = $this->_placeholderRender->render($translated, $args);
+
+        if ($this->_translateInline && $this->getTranslateInline()) {
+            if (strpos($result, '{{{') === false
+                || strpos($result, '}}}') === false
+                || strpos($result, '}}{{') === false
+            ) {
+                $result = '{{{' . $result . '}}{{' . $translated . '}}{{' . $text . '}}{{' . $module . '}}}';
+            }
+        }
+        return $result;
     }
 
     /**
