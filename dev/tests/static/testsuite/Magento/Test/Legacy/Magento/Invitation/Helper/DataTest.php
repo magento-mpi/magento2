@@ -10,9 +10,9 @@
  */
 
 /**
- * Tests to find Enterprise Invitation Helper obsolete methods still used
+ * Tests to find Invitation Helper obsolete methods still used
  */
-class Magento_Test_Legacy_Enterprise_Invitation_Helper_DataTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Legacy_Magento_Invitation_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $file
@@ -20,7 +20,7 @@ class Magento_Test_Legacy_Enterprise_Invitation_Helper_DataTest extends PHPUnit_
      */
     public function testObsoleteMethods($file)
     {
-        $configModel = "Mage::getSingleton('Enterprise_Invitation_Model_Config')";
+        $configModel = "Mage::getSingleton('Magento_Invitation_Model_Config')";
         $obsoleteMethods = array(
             'getMaxInvitationsPerSend'   => "{$configModel}->getMaxInvitationsPerSend()",
             'getInvitationRequired'      => "{$configModel}->getInvitationRequired()",
@@ -31,9 +31,9 @@ class Magento_Test_Legacy_Enterprise_Invitation_Helper_DataTest extends PHPUnit_
         $content = file_get_contents($file);
         foreach ($obsoleteMethods as $method => $suggestion) {
             $this->assertNotRegExp(
-                '/Enterprise_Invitation_Helper_Data[^;(]+?' . preg_quote($method, '/') . '\s*\(/i',
+                '/Magento_Invitation_Helper_Data[^;(]+?' . preg_quote($method, '/') . '\s*\(/i',
                 $content,
-                "Method 'Enterprise_Invitation_Helper_Data::$method' is obsolete. Use $suggestion instead"
+                "Method 'Magento_Invitation_Helper_Data::$method' is obsolete. Use $suggestion instead"
             );
         }
     }
@@ -44,7 +44,7 @@ class Magento_Test_Legacy_Enterprise_Invitation_Helper_DataTest extends PHPUnit_
     public function obsoleteMethodsDataProvider()
     {
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(
-            Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/code/Enterprise/Invitation'
+            Utility_Files::init()->getPathToSource() . '/app/code/Magento/Invitation'
         ));
         $regexIterator = new RegexIterator($iterator, '/\.(?:php|phtml)$/');
         $files = array();
@@ -52,11 +52,11 @@ class Magento_Test_Legacy_Enterprise_Invitation_Helper_DataTest extends PHPUnit_
             $file = (string)$fileInfo;
             /* Exclude files that don't need to be validated */
             $content = file_get_contents($file);
-            if (strpos($content, 'Enterprise_Invitation_Helper_Data') === false) {
+            if (strpos($content, 'Magento_Invitation_Helper_Data') === false) {
                 continue;
             }
             $files[] = $file;
         }
-        return Magento_TestFramework_Utility_Files::composeDataSets($files);
+        return Utility_Files::composeDataSets($files);
     }
 }
