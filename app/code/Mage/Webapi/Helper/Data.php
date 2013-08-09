@@ -11,176 +11,77 @@ use Zend\Server\Reflection\ReflectionMethod;
  */
 class Mage_Webapi_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    /** @var Mage_Webapi_Helper_Config */
-    protected $_configHelper;
-
-    /**
-     * @param Mage_Webapi_Helper_Config $configHelper
-     * @param Mage_Core_Helper_Context $context
-     */
-    public function __construct(Mage_Webapi_Helper_Config $configHelper, Mage_Core_Helper_Context $context)
-    {
-        parent::__construct($context);
-        $this->_configHelper = $configHelper;
-    }
-
     /**
      * Web API ACL resources tree root ID.
      */
     const RESOURCES_TREE_ROOT_ID = '__root__';
 
     /**
-     * Reformat request data to be compatible with method specified interface: <br/>
-     * - sort arguments in correct order <br/>
-     * - set default values for omitted arguments
-     * - instantiate objects of necessary classes
+     * Translate service interface name into service name.
+     * Example:
+     * <pre>
+     * - Mage_Customer_Service_CustomerInterfaceV1         => customer          // $preserveVersion == false
+     * - Mage_Customer_Service_Customer_AddressInterfaceV1 => customerAddressV1 // $preserveVersion == true
+     * - Mage_Catalog_Service_ProductInterfaceV2           => catalogProductV2  // $preserveVersion == true
+     * </pre>
      *
-     * @param string|object $classOrObject Service class name
-     * @param string $methodName Service method name
-     * @param array $requestData Data to be passed to method
-     * @param Mage_Webapi_Model_ConfigAbstract $apiConfig
-     * @return array Array of prepared method arguments
-     * @throws Mage_Webapi_Exception
+     * @param string $interfaceName
+     * @param bool $preserveVersion Should version be preserved during interface name conversion into service name
+     * @return string
+     * @throws InvalidArgumentException
      */
-    public function prepareMethodParams(
-        $classOrObject,
-        $methodName,
-        $requestData,
-        Mage_Webapi_Model_ConfigAbstract $apiConfig
-    ) {
-        $methodReflection = self::createMethodReflection($classOrObject, $methodName);
-        $methodData = $apiConfig->getMethodMetadata($methodReflection);
-        $methodArguments = array();
-        if (isset($methodData['interface']['in']['parameters'])
-            && is_array($methodData['interface']['in']['parameters'])
-        ) {
-            foreach ($methodData['interface']['in']['parameters'] as $paramName => $paramData) {
-                if (isset($requestData[$paramName])) {
-                    $methodArguments[$paramName] = $this->_formatParamData(
-                        $requestData[$paramName],
-                        $paramData['type'],
-                        $apiConfig
-                    );
-                } elseif (!$paramData['required']) {
-                    $methodArguments[$paramName] = $paramData['default'];
-                } else {
-                    throw new Mage_Webapi_Exception($this->__('Required parameter "%s" is missing.', $paramName),
-                        Mage_Webapi_Exception::HTTP_BAD_REQUEST);
-                }
-            }
-        }
-        return $methodArguments;
-    }
-
-    /**
-     * Format $data according to specified $dataType recursively.
-     *
-     * Instantiate objects of proper classes and set data to its fields.
-     *
-     * @param mixed $data
-     * @param string $dataType
-     * @param Mage_Webapi_Model_ConfigAbstract $apiConfig
-     * @return mixed
-     * @throws LogicException If specified $dataType is invalid
-     * @throws Mage_Webapi_Exception If required fields do not have values specified in $data
-     */
-    protected function _formatParamData($data, $dataType, Mage_Webapi_Model_ConfigAbstract $apiConfig)
+    public function getServiceName($interfaceName, $preserveVersion = true)
     {
-        if ($this->_configHelper->isTypeSimple($dataType) || is_null($data)) {
-            $formattedData = $data;
-        } elseif ($this->_configHelper->isArrayType($dataType)) {
-            $formattedData = $this->_formatArrayData($data, $dataType, $apiConfig);
-        } else {
-            $formattedData = $this->_formatComplexObjectData($data, $dataType, $apiConfig);
-        }
-        return $formattedData;
+        $serviceNameParts = $this->getServiceNameParts($interfaceName, $preserveVersion);
+        return lcfirst(implode('', $serviceNameParts));
     }
 
     /**
-     * Format data of array type.
+     * Identify the list of service name parts including subservices using class name.
      *
-     * @param array $data
-     * @param string $dataType
-     * @param Mage_Webapi_Model_ConfigAbstract $apiConfig
+     * Examples of input/output pairs: <br/>
+     * - 'Mage_Customer_Service_Customer_AddressInterfaceV1' => array('Customer', 'Address', 'V1') <br/>
+     * - 'Vendor_Customer_Service_Customer_AddressInterfaceV1' => array('VendorCustomer', 'Address', 'V1) <br/>
+     * - 'Mage_Catalog_Service_ProductInterfaceV2' => array('CatalogProduct', 'V2')
+     *
+     * @param string $className
+     * @param bool $preserveVersion Should version be preserved during class name conversion into service name
      * @return array
-     * @throws Mage_Webapi_Exception If passed data is not an array
+     * @throws InvalidArgumentException When class is not valid API service.
      */
-    protected function _formatArrayData($data, $dataType, $apiConfig)
+    public function getServiceNameParts($className, $preserveVersion = false)
     {
-        $itemDataType = $this->_configHelper->getArrayItemType($dataType);
-        $formattedData = array();
-        if (!is_array($data)) {
-            throw new Mage_Webapi_Exception(
-                $this->__('Data corresponding to "%s" type is expected to be an array.', $dataType),
-                Mage_Webapi_Exception::HTTP_BAD_REQUEST
-            );
-        }
-        foreach ($data as $itemData) {
-            $formattedData[] = $this->_formatParamData($itemData, $itemDataType, $apiConfig);
-        }
-        return $formattedData;
-    }
-
-    /**
-     * Format data as object of the specified class.
-     *
-     * @param array|object $data
-     * @param string $dataType
-     * @param Mage_Webapi_Model_ConfigAbstract $apiConfig
-     * @return object Object of required data type
-     * @throws LogicException If specified $dataType is invalid
-     * @throws Mage_Webapi_Exception If required fields does not have values specified in $data
-     */
-    protected function _formatComplexObjectData($data, $dataType, $apiConfig)
-    {
-        $dataTypeMetadata = $apiConfig->getTypeData($dataType);
-        $typeToClassMap = $apiConfig->getTypeToClassMap();
-        if (!isset($typeToClassMap[$dataType])) {
-            throw new LogicException(sprintf('Specified data type "%s" does not match any class.', $dataType));
-        }
-        $complexTypeClass = $typeToClassMap[$dataType];
-        if (is_object($data) && (get_class($data) == $complexTypeClass)) {
-            /** In case of SOAP the object creation is performed by soap server. */
-            return $data;
-        }
-        $complexDataObject = new $complexTypeClass();
-        if (!is_array($data)) {
-            throw new Mage_Webapi_Exception(
-                $this->__('Data corresponding to "%s" type is expected to be an array.', $dataType),
-                Mage_Webapi_Exception::HTTP_BAD_REQUEST
-            );
-        }
-        foreach ($dataTypeMetadata['parameters'] as $fieldName => $fieldMetadata) {
-            if (isset($data[$fieldName])) {
-                $fieldValue = $data[$fieldName];
-            } elseif (($fieldMetadata['required'] == false)) {
-                $fieldValue = $fieldMetadata['default'];
-            } else {
-                throw new Mage_Webapi_Exception($this->__('Value of "%s" attribute is required.', $fieldName),
-                    Mage_Webapi_Exception::HTTP_BAD_REQUEST);
+        if (preg_match(Mage_Webapi_Model_Config::SERVICE_CLASS_PATTERN, $className, $matches)) {
+            $moduleNamespace = $matches[1];
+            $moduleName = $matches[2];
+            $moduleNamespace = ($moduleNamespace == 'Mage') ? '' : $moduleNamespace;
+            $serviceNameParts = explode('_', trim($matches[3], '_'));
+            if ($moduleName == $serviceNameParts[0]) {
+                /** Avoid duplication of words in service name */
+                $moduleName = '';
             }
-            $complexDataObject->$fieldName = $this->_formatParamData(
-                $fieldValue,
-                $fieldMetadata['type'],
-                $apiConfig
-            );
+            $parentServiceName = $moduleNamespace . $moduleName . array_shift($serviceNameParts);
+            array_unshift($serviceNameParts, $parentServiceName);
+            if ($preserveVersion) {
+                $serviceVersion = $matches[4];
+                $serviceNameParts[] = $serviceVersion;
+            }
+            return $serviceNameParts;
         }
-        return $complexDataObject;
+        throw new InvalidArgumentException(sprintf('The service interface name "%s" is invalid.', $className));
     }
 
     /**
-     * Create Zend method reflection object.
+     * Generate SOAP operation name.
      *
-     * @param string|object $classOrObject
-     * @param string $methodName
-     * @return Zend\Server\Reflection\ReflectionMethod
+     * @param string $interfaceName e.g. Mage_Catalog_Service_ProductInterfaceV1
+     * @param string $methodName e.g. create
+     * @return string e.g. catalogProductCreate
      */
-    public static function createMethodReflection($classOrObject, $methodName)
+    public function getSoapOperation($interfaceName, $methodName)
     {
-        $methodReflection = new \ReflectionMethod($classOrObject, $methodName);
-        $classReflection = new \ReflectionClass($classOrObject);
-        $zendClassReflection = new Zend\Server\Reflection\ReflectionClass($classReflection);
-        $zendMethodReflection = new Zend\Server\Reflection\ReflectionMethod($zendClassReflection, $methodReflection);
-        return $zendMethodReflection;
+        $serviceName = $this->getServiceName($interfaceName);
+        $operationName = $serviceName . ucfirst($methodName);
+        return $operationName;
     }
 }

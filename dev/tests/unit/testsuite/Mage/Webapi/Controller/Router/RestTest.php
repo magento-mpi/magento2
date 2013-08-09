@@ -29,7 +29,7 @@ class Mage_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Config')
+        $this->_apiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config')
             ->disableOriginalConstructor()
             ->getMock();
         $interpreterFactory = $this->getMockBuilder('Mage_Webapi_Controller_Request_Rest_Interpreter_Factory')

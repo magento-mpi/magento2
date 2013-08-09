@@ -238,32 +238,4 @@ class Mage_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestCase
         $this->_request->setServiceName($serviceName);
         $this->assertEquals($serviceName, $this->_request->getServiceName());
     }
-
-    public function testGetOperationNameMethodNotExistException()
-    {
-        /** Prepare mocks for SUT constructor. */
-        $this->setExpectedException(
-            'Mage_Webapi_Exception',
-            'Requested method does not exist.',
-            Mage_Webapi_Exception::HTTP_NOT_FOUND
-        );
-        $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
-        $this->_request->expects($this->once())->method('getMethod')->will($this->returnValue('POST'));
-        $this->_request->setServiceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM);
-        /** Initialize SUT. */
-        $this->_request->getOperationName();
-    }
-
-    /**
-     * Prepare SUT for GetOperationName() with create action.
-     */
-    protected function _prepareSutForGetOperationNameWithCreateMethod()
-    {
-        $this->_request->setServiceType(Mage_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION);
-        $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
-        $this->_request->expects($this->once())
-            ->method('getMethod')
-            ->will($this->returnValue('POST'));
-        $this->_request->setServiceName('serviceName');
-    }
 }

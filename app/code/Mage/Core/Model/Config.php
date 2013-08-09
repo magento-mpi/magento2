@@ -192,8 +192,8 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         if (is_object($nodeAreas)) {
             foreach ($nodeAreas->asArray() as $areaCode => $areaInfo) {
                 if (empty($areaCode)
-                    || (!isset($areaInfo['base_controller']) || empty($areaInfo['base_controller']))
-                ) {
+                    /** TODO: Base controller is not required in API */
+                    || (isset($areaInfo['base_controller']) && empty($areaInfo['base_controller']))) {
                     continue;
                 }
                 /**

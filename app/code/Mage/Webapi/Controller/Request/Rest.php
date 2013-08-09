@@ -240,7 +240,7 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
      */
     public function setServiceVersion($serviceVersion)
     {
-        $versionPrefix = Mage_Webapi_Model_ConfigAbstract::VERSION_NUMBER_PREFIX;
+        $versionPrefix = self::VERSION_NUMBER_PREFIX;
         if (preg_match("/^{$versionPrefix}?(\d+)$/i", $serviceVersion, $matches)) {
             $versionNumber = (int)$matches[1];
         } else {
@@ -251,47 +251,5 @@ class Mage_Webapi_Controller_Request_Rest extends Mage_Webapi_Controller_Request
         }
         $this->_serviceVersion = $versionNumber;
         return $this;
-    }
-
-    /**
-     * Identify operation name according to HTTP request parameters.
-     *
-     * @return string
-     * @throws Mage_Webapi_Exception
-     */
-    public function getOperationName()
-    {
-        $restMethodsMap = array(
-            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_CREATE =>
-                Mage_Webapi_Controller_ActionAbstract::METHOD_CREATE,
-            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_GET =>
-                Mage_Webapi_Controller_ActionAbstract::METHOD_LIST,
-            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_UPDATE =>
-                Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
-            self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_DELETE =>
-                Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE,
-            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_GET => Mage_Webapi_Controller_ActionAbstract::METHOD_GET,
-            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_UPDATE => Mage_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
-            self::ACTION_TYPE_ITEM . self::HTTP_METHOD_DELETE => Mage_Webapi_Controller_ActionAbstract::METHOD_DELETE,
-        );
-        $httpMethod = $this->getHttpMethod();
-        $serviceType = $this->getServiceType();
-        if (!isset($restMethodsMap[$serviceType . $httpMethod])) {
-            throw new Mage_Webapi_Exception($this->_helper->__('Requested method does not exist.'),
-                Mage_Webapi_Exception::HTTP_NOT_FOUND);
-        }
-        $methodName = $restMethodsMap[$serviceType . $httpMethod];
-        if ($methodName == self::HTTP_METHOD_CREATE) {
-            /** If request is numeric array, multi create operation must be used. */
-            $params = $this->getBodyParams();
-            if (count($params)) {
-                $keys = array_keys($params);
-                if (is_numeric($keys[0])) {
-                    $methodName = Mage_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE;
-                }
-            }
-        }
-        $operationName = $this->getServiceName() . ucfirst($methodName);
-        return $operationName;
     }
 }

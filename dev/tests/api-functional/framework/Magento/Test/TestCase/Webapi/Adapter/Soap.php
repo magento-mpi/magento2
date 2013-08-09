@@ -19,7 +19,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
     protected $_soapClients = array();
 
     /**
-     * @var Mage_Webapi_Helper_Config
+     * @var Mage_Webapi_Helper_Data
      */
     protected $_soapHelper;
 
@@ -28,7 +28,7 @@ class Magento_Test_TestCase_Webapi_Adapter_Soap implements Magento_Test_TestCase
      */
     public function __construct()
     {
-        $this->_soapHelper = Mage::getObjectManager()->get('Mage_Webapi_Helper_Config');
+        $this->_soapHelper = Mage::getObjectManager()->get('Mage_Webapi_Helper_Data');
     }
 
     /**

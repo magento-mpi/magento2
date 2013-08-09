@@ -15,18 +15,18 @@ class Mage_Webapi_Controller_Router_Rest
     /** @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
-    /** @var Mage_Webapi_Config */
+    /** @var Mage_Webapi_Model_Config */
     protected $_apiConfig;
 
     /**
      * Initialize dependencies.
      *
      * @param Mage_Webapi_Helper_Data $helper
-     * @param Mage_Webapi_Config $apiConfig
+     * @param Mage_Webapi_Model_Config $apiConfig
      */
     public function __construct(
         Mage_Webapi_Helper_Data $helper,
-        Mage_Webapi_Config $apiConfig
+        Mage_Webapi_Model_Config $apiConfig
     ) {
         $this->_helper = $helper;
         $this->_apiConfig = $apiConfig;
@@ -68,7 +68,7 @@ class Mage_Webapi_Controller_Router_Rest
      */
     protected function _matchVersion(Mage_Webapi_Controller_Request_Rest $request)
     {
-        $versionPattern = '/^\/(' . Mage_Webapi_Config::VERSION_NUMBER_PREFIX .'\d+)/';
+        $versionPattern = '/^\/(' . Mage_Webapi_Model_Config::VERSION_NUMBER_PREFIX .'\d+)/';
         preg_match($versionPattern, $request->getPathInfo(), $matches);
         if (isset($matches[1])) {
             $version = $matches[1];

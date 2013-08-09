@@ -27,7 +27,13 @@ class Mage_Webapi_WsdlGenerationTest extends Magento_Test_TestCase_WebapiAbstrac
         $this->assertEquals($itemId, $item['id'], "WSDL for single resource was generated incorrectly.");
     }
 
-    public function testMultiServiceWsdl()
+    /**
+     * @dataProvider providerTestMultiServiceWsdl
+     * @param $entityId
+     * @param $soapOperation
+     * @param $expectedResponse
+     */
+    public function testMultiServiceWsdl($entityId, $soapOperation, $expectedResponse)
     {
         /** @var Magento_Test_TestCase_Webapi_Adapter_Soap $soapAdapter */
         $soapAdapter = $this->_getWebApiAdapter(self::ADAPTER_SOAP);
@@ -40,48 +46,44 @@ class Mage_Webapi_WsdlGenerationTest extends Magento_Test_TestCase_WebapiAbstrac
         );
         $soapClient = $soapAdapter->instantiateSoapClient($wsdlUrl);
 
-
-        /** Perform action on testModule1AllSoapAndRestV1 service */
-        $entityId = 11;
-        $soapOperation = "testModule1AllSoapAndRestV1Item";
         $actualResponse = $soapClient->$soapOperation(array('id' => $entityId));
-        $expectedResponse = (object)array(
-            'id' => $entityId,
-            'name' => 'testProduct1'
-        );
         $this->assertEquals(
             $expectedResponse,
             $actualResponse,
             "Response from '{$soapOperation}' operation is invalid."
         );
+    }
 
 
-        /** Perform action on testModule1AllSoapAndRestV2 service */
-        $entityId = 33;
-        $soapOperation = "testModule1AllSoapAndRestV2Item";
-        $actualResponse = $soapClient->$soapOperation(array('id' => $entityId));
-        $expectedResponse = (object)array(
-            'id' => $entityId,
-            'name' => 'testProduct1',
-            'price' => '1'
-        );
-        $this->assertEquals(
-            $expectedResponse,
-            $actualResponse,
-            "Response from '{$soapOperation}' operation is invalid."
-        );
 
-        /** Perform action on testModule2AllSoapNoRestV1 service */
-        $entityId = 22;
-        $soapOperation = "testModule2AllSoapNoRestV1Item";
-        $actualResponse = $soapClient->$soapOperation(array('id' => $entityId));
-        $expectedResponse = (object)array(
-            'id' => $entityId,
-        );
-        $this->assertEquals(
-            $expectedResponse,
-            $actualResponse,
-            "Response from '{$soapOperation}' operation is invalid."
+    public function providerTestMultiServiceWsdl()
+    {
+
+        return array(
+            array(
+                11,
+                "testModule1AllSoapAndRestV1Item",
+                (object)array(
+                    'id' => 11,
+                    'name' => 'testProduct1'
+                )
+            ),
+            array(
+                22,
+                "testModule1AllSoapAndRestV2Item",
+                (object)array(
+                    'id' => 22,
+                    'name' => 'testProduct1',
+                    'price' => '1'
+                )
+            ),
+            array(
+                33,
+                "testModule2AllSoapNoRestV1Item",
+                (object)array(
+                    'id' => 33,
+                )
+            )
         );
     }
 

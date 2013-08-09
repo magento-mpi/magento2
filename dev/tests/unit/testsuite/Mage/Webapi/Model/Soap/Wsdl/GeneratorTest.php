@@ -12,13 +12,13 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
     /**  @var Mage_Webapi_Model_Soap_Wsdl_Generator */
     protected $_wsdlGenerator;
 
-    /**  @var Mage_Webapi_Config */
+    /**  @var Mage_Webapi_Model_Config */
     protected $_newApiConfigMock;
 
     /**  @var Mage_Webapi_Model_Soap_Wsdl_Factory */
     protected $_wsdlFactory;
 
-    /**  @var Mage_Webapi_Helper_Config */
+    /**  @var Mage_Webapi_Helper_Data */
     protected $_helper;
 
     /** @var Mage_Webapi_Model_Soap_Wsdl */
@@ -26,10 +26,10 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_newApiConfigMock = $this->getMockBuilder('Mage_Webapi_Config')->disableOriginalConstructor()
+        $this->_newApiConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config')->disableOriginalConstructor()
             ->getMock();
-        $this->_apiConfig = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')->disableOriginalConstructor()
-            ->getMock();
+        //$this->_apiConfig = $this->getMockBuilder('Mage_Webapi_Model_Config_Soap')->disableOriginalConstructor()
+            //->getMock();
         $this->_wsdlFactory = $this->getMockBuilder('Mage_Webapi_Model_Soap_Wsdl_Factory')->disableOriginalConstructor()
             ->getMock();
         $this->_helper = $this->getMockBuilder('Mage_Webapi_Helper_Config')->disableOriginalConstructor()->getMock();
@@ -59,7 +59,7 @@ class Mage_Webapi_Model_Soap_Wsdl_GeneratorTest extends PHPUnit_Framework_TestCa
             array(new Magento_ObjectManager_ObjectManager())
         );
         $this->_wsdlFactory->expects($this->any())->method('create')->will($this->returnValue($this->_wsdlMock));
-        $this->_helper = $this->getMock('Mage_Webapi_Helper_Config', array('__'), array(), '', false, false);
+        $this->_helper = $this->getMock('Mage_Webapi_Helper_Data', array('__'), array(), '', false, false);
         $this->_helper->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         $this->_wsdlGenerator = new Mage_Webapi_Model_Soap_Wsdl_Generator(
