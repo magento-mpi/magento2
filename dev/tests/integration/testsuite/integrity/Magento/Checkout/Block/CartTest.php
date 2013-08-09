@@ -45,6 +45,6 @@ class Integrity_Magento_Checkout_Block_CartTest extends PHPUnit_Framework_TestCa
      */
     public function layoutFilesDataProvider()
     {
-        return Utility_Files::init()->getLayoutFiles(array('area' => 'frontend'));
+        return Magento_TestFramework_Utility_Files::init()->getLayoutFiles(array('area' => 'frontend'));
     }
 }

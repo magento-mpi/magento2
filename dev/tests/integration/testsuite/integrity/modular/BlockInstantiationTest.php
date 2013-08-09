@@ -45,7 +45,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
             $enabledModules = $this->_getEnabledModules();
             $skipBlocks = $this->_getBlocksToSkip();
             $templateBlocks = array();
-            $blockMods = Utility_Classes::collectModuleClasses('Block');
+            $blockMods = Magento_TestFramework_Utility_Classes::collectModuleClasses('Block');
             foreach ($blockMods as $blockClass => $module) {
                 if (!isset($enabledModules[$module]) || isset($skipBlocks[$blockClass])) {
                     continue;

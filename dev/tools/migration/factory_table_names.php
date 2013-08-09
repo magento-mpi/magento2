@@ -34,7 +34,7 @@ require realpath(dirname(dirname(dirname(__DIR__)))) . '/dev/tests/static/framew
 $tablesAssociation = getFilesCombinedArray(dirname(__FILE__) . '/factory_table_names', 'replace_*.php');
 $blackList = getFilesCombinedArray(dirname(__FILE__) . '/factory_table_names', 'blacklist_*.php');
 
-$phpFiles = Utility_Files::init()->getPhpFiles(true, false, false, false);
+$phpFiles = Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, false, false, false);
 
 $replacementResult = false;
 if (!$isSearchTables || $isDryRunMode) {
@@ -81,7 +81,7 @@ function replaceTableNames(array $files, array &$tablesAssociation, $outputWithE
     foreach ($files as $filePath) {
         $search = $replace = array();
 
-        $tables = Legacy_TableTest::extractTables($filePath);
+        $tables = Magento_Test_Legacy_TableTest::extractTables($filePath);
         $tables = array_filter(
             $tables,
             function ($table) {
@@ -149,7 +149,7 @@ function searchTableNamesNotInReplacedList(array $files, array &$tablesAssociati
 {
     $search = array();
     foreach ($files as $filePath) {
-        $tables = Legacy_TableTest::extractTables($filePath);
+        $tables = Magento_Test_Legacy_TableTest::extractTables($filePath);
         foreach ($tables as $table) {
             if (in_array($table['name'], $blackList)) {
                 continue;

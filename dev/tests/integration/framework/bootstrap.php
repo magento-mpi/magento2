@@ -37,7 +37,7 @@ $bootstrap->runBootstrap();
 
 Magento_Test_Helper_Bootstrap::setInstance(new Magento_Test_Helper_Bootstrap($bootstrap));
 
-Utility_Files::init(new Utility_Files($magentoBaseDir));
+Magento_TestFramework_Utility_Files::init(new Magento_TestFramework_Utility_Files($magentoBaseDir));
 
 /* Unset declared global variables to release the PHPUnit from maintaining their values between tests */
 unset($bootstrap);

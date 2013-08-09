@@ -47,7 +47,7 @@ class Integrity_Magento_Core_DataService_Model_ServiceCallsConfigTest extends PH
 
     public function xmlDataProvider()
     {
-        $files = Utility_Files::init()->getConfigFiles('service_calls.xml', array());
+        $files = Magento_TestFramework_Utility_Files::init()->getConfigFiles('service_calls.xml', array());
         if (empty($files)) {
             $files = array(
                 array('dummy', true)

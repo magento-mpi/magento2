@@ -45,7 +45,7 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
             Mage::app()->getStore()->setWebsiteId(0);
 
             $templates = array();
-            foreach (Utility_Classes::collectModuleClasses('Block') as $blockClass => $module) {
+            foreach (Magento_TestFramework_Utility_Classes::collectModuleClasses('Block') as $blockClass => $module) {
                 if (!in_array($module, $this->_getEnabledModules())) {
                     continue;
                 }

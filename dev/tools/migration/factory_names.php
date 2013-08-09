@@ -12,9 +12,9 @@
 require realpath(dirname(dirname(dirname(__DIR__)))) . '/dev/tests/static/framework/bootstrap.php';
 
 // PHP code
-foreach (Utility_Files::init()->getPhpFiles(true, true, true, false) as $file) {
+foreach (Magento_TestFramework_Utility_Files::init()->getPhpFiles(true, true, true, false) as $file) {
     $content = file_get_contents($file);
-    $classes = Legacy_ClassesTest::collectPhpCodeClasses($content);
+    $classes = Magento_Test_Legacy_ClassesTest::collectPhpCodeClasses($content);
     $factoryNames = array_filter($classes, 'isFactoryName');
     if (!$factoryNames) {
         continue;
@@ -37,10 +37,10 @@ foreach (Utility_Files::init()->getPhpFiles(true, true, true, false) as $file) {
 }
 
 // layouts
-$layouts = Utility_Files::init()->getLayoutFiles(array(), false);
+$layouts = Magento_TestFramework_Utility_Files::init()->getLayoutFiles(array(), false);
 foreach ($layouts as $file) {
     $xml = simplexml_load_file($file);
-    $classes = Utility_Classes::collectLayoutClasses($xml);
+    $classes = Magento_TestFramework_Utility_Classes::collectLayoutClasses($xml);
     $factoryNames = array_filter($classes, 'isFactoryName');
     if (!$factoryNames) {
         continue;
@@ -55,9 +55,9 @@ foreach ($layouts as $file) {
 }
 
 // modules in configuration and layouts
-$configs = Utility_Files::init()->getConfigFiles('*.xml', array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'), false);
+$configs = Magento_TestFramework_Utility_Files::init()->getConfigFiles('*.xml', array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'), false);
 foreach (array_merge($layouts, $configs) as $file) {
-    $modules = array_unique(Utility_Classes::getXmlAttributeValues(simplexml_load_file($file), '//@module', 'module'));
+    $modules = array_unique(Magento_TestFramework_Utility_Classes::getXmlAttributeValues(simplexml_load_file($file), '//@module', 'module'));
     $factoryNames = array_filter($modules, 'isFactoryName');
     if (!$factoryNames) {
         continue;
