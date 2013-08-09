@@ -15,7 +15,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
+class Mage_Core_Model_Translate
 {
     /**
      * CSV separator

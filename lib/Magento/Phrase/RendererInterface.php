@@ -16,5 +16,5 @@ interface Magento_Phrase_RendererInterface
      * @param array $arguments
      * @return string
      */
-    public function render($text, array $arguments = array());
+    public function render($text, array $arguments);
 }
