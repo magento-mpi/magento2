@@ -9,7 +9,6 @@ Mage/Catalog/Model/Category/Attribute/Source
 Zend
 downloader
 dev
-errors
 Mysql
 lib/Magento/DB
 sql
