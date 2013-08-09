@@ -17,7 +17,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
     protected $_mockObjectManager;
 
     /** @var Mage_Webhook_Adminhtml_Webhook_SubscriptionController */
-    protected $_subscriptionController;
+    protected $_subscriptionContr;
 
     /** @var Magento_Test_Helper_ObjectManager $objectManagerHelper */
     protected $_objectManagerHelper;
@@ -38,13 +38,13 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
     protected $_mockTranslateModel;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_mockBackendModelSession;
+    protected $_mockBackendModSess;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_mockBackendControllerContext;
+    protected $_mockBackendCntCtxt;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
-    protected $_mockSubscriptionService;
+    protected $_mockSubscriptionSvc;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockRegistry;
@@ -99,26 +99,26 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         $contextParameters = array(
             'layout' => $layoutMock,
             'objectManager' => $this->_mockObjectManager,
-            'session' => $this->_mockBackendModelSession,
+            'session' => $this->_mockBackendModSess,
             'translator' => $this->_mockTranslateModel,
             'request' => $this->_mockRequest,
         );
 
-        $this->_mockBackendControllerContext = $this->_objectManagerHelper
+        $this->_mockBackendCntCtxt = $this->_objectManagerHelper
             ->getObject('Mage_Backend_Controller_Context',
                 $contextParameters);
 
         $subControllerParams = array(
-            'context' => $this->_mockBackendControllerContext,
-            'subscriptionService' => $this->_mockSubscriptionService,
+            'context' => $this->_mockBackendCntCtxt,
+            'subscriptionService' => $this->_mockSubscriptionSvc,
             'registry' => $this->_mockRegistry,
         );
 
         /** Create SubscriptionController to test */
-        $subscriptionController = $this->_objectManagerHelper
+        $subscriptionContr = $this->_objectManagerHelper
             ->getObject('Mage_Webhook_Adminhtml_Webhook_SubscriptionController',
                 $subControllerParams);
-        return $subscriptionController;
+        return $subscriptionContr;
     }
 
     /**
@@ -147,13 +147,13 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         $this->_mockLayoutFilter = $this->getMockBuilder('Mage_Core_Model_Layout_Filter_Acl')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockBackendModelSession = $this->getMockBuilder('Mage_Backend_Model_Session')
+        $this->_mockBackendModSess = $this->getMockBuilder('Mage_Backend_Model_Session')
             ->getMock();
 
         $this->_mockTranslateModel = $this->getMockBuilder('Mage_Core_Model_Translate')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockSubscriptionService = $this->getMockBuilder('Mage_Webhook_Service_SubscriptionV1')
+        $this->_mockSubscriptionSvc = $this->getMockBuilder('Mage_Webhook_Service_SubscriptionV1')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockRequest = $this->getMockBuilder('Mage_Core_Controller_Request_Http')
@@ -168,7 +168,8 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
      * Calls that need to be mocked out when
      * Mage_Backend_Controller_ActionAbstract loadLayout() and renderLayout() are called.
      */
-    protected function _verifyLoadAndRenderLayout() {
+    protected function _verifyLoadAndRenderLayout()
+    {
         // loadLayout
         $this->_mockObjectManager->expects($this->at(0))->method('get')
             ->with('Mage_Core_Model_Config')->will($this->returnValue($this->_mockConfig));
@@ -177,7 +178,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
 
         // renderLayout
         $this->_mockObjectManager->expects($this->at(2))->method('get')
-            ->with('Mage_Backend_Model_Session')->will($this->returnValue($this->_mockBackendModelSession));
+            ->with('Mage_Backend_Model_Session')->will($this->returnValue($this->_mockBackendModSess));
         $this->_mockObjectManager->expects($this->at(3))->method('get')
             ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
     }
@@ -201,25 +202,26 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                     array( new Mage_Core_Model_Translate_Expr('WebHook Subscriptions'))));
 
         // renderLayout
-        $this->_subscriptionController = $this->_createSubscriptionController();
-        $this->_subscriptionController->indexAction();
+        $this->_subscriptionContr = $this->_createSubscriptionController();
+        $this->_subscriptionContr->indexAction();
     }
 
     public function testNewAction()
     {
-       // verify the request is forwarded to 'edit' action
+        // verify the request is forwarded to 'edit' action
         $this->_mockRequest->expects($this->any())->method('setActionName')->with('edit')
             ->will( $this->returnValue($this->_mockRequest));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->newAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->newAction();
     }
 
     public function testEditActionHasData()
     {
         // put data in session, the magic function getFormData is called so, must match __call method name
-        $this->_mockBackendModelSession = Mage::getSingleton('Mage_Backend_Model_Session');
-        $this->_mockBackendModelSession->expects($this->any())->method('__call')->will($this->returnValue(array('testkey' =>'testvalue')));
+        $this->_mockBackendModSess = Mage::getSingleton('Mage_Backend_Model_Session');
+        $this->_mockBackendModSess->expects($this->any())
+            ->method('__call')->will($this->returnValue(array('testkey' =>'testvalue')));
 
         $this->_verifyLoadAndRenderLayout();
 
@@ -230,8 +232,8 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
             ->with($this->equalTo(
                     array( $expected)));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->editAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->editAction();
     }
 
     public function testEditActionNoDataAdd()
@@ -248,8 +250,8 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
             ->with($this->equalTo(
                     array( $expected)));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->editAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->editAction();
     }
 
     public function testEditException()
@@ -260,11 +262,11 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
             ->with('Mage_Core_Model_Config')->will($this->throwException(new Mage_Core_Exception($exceptionMessage)));
 
         // verify the error
-        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+        $this->_mockBackendModSess->expects($this->once())->method('addError')
             ->with($this->equalTo($exceptionMessage));
 
-        $this->_subscriptionController = $this->_createSubscriptionController();
-        $this->_subscriptionController->editAction();
+        $this->_subscriptionContr = $this->_createSubscriptionController();
+        $this->_subscriptionContr->editAction();
     }
 
     public function testSaveAction()
@@ -272,21 +274,22 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         // Use real translate model
         $this->_mockTranslateModel = null;
 
-        $this->_mockRequest->expects($this->any())->method('getPost')->will($this->returnValue(array('apikey' => 'abc')));
+        $this->_mockRequest->expects($this->any())
+            ->method('getPost')->will($this->returnValue(array('apikey' => 'abc')));
         $this->_mockRequest->expects($this->any())->method('getParam')->will($this->returnValue('1'));
 
-        $this->_mockSubscriptionService->expects($this->any())->method('get')->with(1)->will($this->returnValue(
+        $this->_mockSubscriptionSvc->expects($this->any())->method('get')->with(1)->will($this->returnValue(
                 array( 'name' => 'nameTest',
                        'subscription_id' => '1',
                        'topics' => array('topic1', 'topic2'))
             ));
 
         // verify success message
-        $this->_mockBackendModelSession->expects($this->once())->method('addSuccess')
+        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
             ->with($this->equalTo('The subscription \'nameTest\' has been saved.'));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->saveAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->saveAction();
     }
 
     public function testSaveActionNoData()
@@ -306,11 +309,11 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                 ));
 
         // verify the error
-        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+        $this->_mockBackendModSess->expects($this->once())->method('addError')
             ->with($this->equalTo('The subscription \'\' has not been saved, as no data was provided.'));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->saveAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->saveAction();
     }
 
     public function testSaveActionException()
@@ -319,17 +322,17 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
 
         // Have subscription service throw an exception to test exception path
         $exceptionMessage = 'an exception happened';
-        $this->_mockSubscriptionService->expects($this->any())
+        $this->_mockSubscriptionSvc->expects($this->any())
             ->method('get')
             ->with(1)
             ->will($this->throwException(new Mage_Core_Exception($exceptionMessage)));
 
         // Verify error
-        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+        $this->_mockBackendModSess->expects($this->once())->method('addError')
             ->with($this->equalTo($exceptionMessage));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->saveAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->saveAction();
     }
 
     public function testSaveActionNew()
@@ -341,7 +344,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
             ->will($this->returnValue(array('apikey' => 'abc')));
         $this->_mockRequest->expects($this->any())->method('getParam')->will($this->returnValue('1'));
 
-        $this->_mockSubscriptionService->expects($this->any())->method('get')->with(1)->will($this->returnValue(
+        $this->_mockSubscriptionSvc->expects($this->any())->method('get')->with(1)->will($this->returnValue(
                 array( 'name' => 'nameTest',
                        'subscription_id' => '1',
                        'topics' => array('topic1', 'topic2'))
@@ -351,11 +354,11 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         $this->_mockTranslateModel = null;
 
         // verify success message
-        $this->_mockBackendModelSession->expects($this->once())->method('addSuccess')
+        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
             ->with($this->equalTo('The subscription \'nameTest\' has been saved.'));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->saveAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->saveAction();
     }
 
     /**
@@ -373,11 +376,11 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         $this->_mockTranslateModel = null;
 
         // verify success message
-        $this->_mockBackendModelSession->expects($this->once())->method('addSuccess')
+        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
             ->with($this->equalTo('The subscription \'testSubscription\' has been saved.'));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->saveAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->saveAction();
     }
 
     /**
@@ -396,7 +399,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                     )
                 ));
 
-        $this->_mockSubscriptionService->expects($this->any())->method('get')->with(1)->will($this->returnValue(
+        $this->_mockSubscriptionSvc->expects($this->any())->method('get')->with(1)->will($this->returnValue(
                 array( 'name' => 'nameTest',
                        'subscription_id' => '1',
                        'topics' => array('topic1', 'topic2'),
@@ -407,11 +410,11 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         // Use real translate model
         $this->_mockTranslateModel = null;
         // Verify error message
-        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+        $this->_mockBackendModSess->expects($this->once())->method('addError')
             ->with($this->equalTo('The subscription \'nameTest\' can not be removed.'));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->deleteAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->deleteAction();
     }
 
     public function testDeleteAction()
@@ -427,7 +430,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                     )
                 ));
 
-        $this->_mockSubscriptionService->expects($this->any())->method('get')->with(1)->will($this->returnValue(
+        $this->_mockSubscriptionSvc->expects($this->any())->method('get')->with(1)->will($this->returnValue(
                 array( 'name' => 'nameTest',
                        'subscription_id' => '1',
                        'topics' => array('topic1', 'topic2'))
@@ -437,11 +440,11 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         $this->_mockTranslateModel = null;
 
         // verify success message
-        $this->_mockBackendModelSession->expects($this->once())->method('addSuccess')
+        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
             ->with($this->equalTo('The subscription \'nameTest\' has been removed.'));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->deleteAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->deleteAction();
     }
 
     public function testDeleteActionException ()
@@ -458,7 +461,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                 ));
 
 
-        $this->_mockSubscriptionService->expects($this->any())->method('get')->with(1)->will($this->returnValue(
+        $this->_mockSubscriptionSvc->expects($this->any())->method('get')->with(1)->will($this->returnValue(
                 array( 'name' => 'nameTest',
                        'subscription_id' => '1',
                        'topics' => array('topic1', 'topic2'))
@@ -466,16 +469,16 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
 
         // Have subscription service throw an exception to go down exception path
         $exceptionMessage = 'Exceptions happen.';
-        $this->_mockSubscriptionService->expects($this->any())
+        $this->_mockSubscriptionSvc->expects($this->any())
             ->method('delete')
             ->will($this->throwException(new Mage_Core_Exception($exceptionMessage)));
 
         // Verify error
-        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+        $this->_mockBackendModSess->expects($this->once())->method('addError')
             ->with($this->equalTo($exceptionMessage));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->deleteAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->deleteAction();
     }
 
     public function testRevokeAction()
@@ -491,7 +494,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                     )
                 ));
 
-        $this->_mockSubscriptionService->expects($this->any())->method('revoke')->will($this->returnValue(
+        $this->_mockSubscriptionSvc->expects($this->any())->method('revoke')->will($this->returnValue(
                 array( 'name' => 'nameTest',
                        'subscription_id' => '1',
                        'topics' => array('topic1', 'topic2'))
@@ -501,21 +504,21 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         $this->_mockTranslateModel = null;
 
         // verify success message
-        $this->_mockBackendModelSession->expects($this->once())->method('addSuccess')
+        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
             ->with($this->equalTo('The subscription \'nameTest\' has been revoked.'));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->revokeAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->revokeAction();
     }
 
     public function testRevokeActionNoData()
     {
         // Verify error
         $this->_mockTranslateModel = null;
-        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+        $this->_mockBackendModSess->expects($this->once())->method('addError')
             ->with($this->equalTo('No Subscription ID was provided with the request.'));
-        $this->_subscriptionController = $this->_createSubscriptionController();
-        $this->_subscriptionController->revokeAction();
+        $this->_subscriptionContr = $this->_createSubscriptionController();
+        $this->_subscriptionContr->revokeAction();
     }
 
     public function testRevokeActionException()
@@ -533,16 +536,16 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
 
         // Have subscription service throw an exception to go down exception path
         $exceptionMessage = 'Exceptions happen.';
-        $this->_mockSubscriptionService->expects($this->any())
+        $this->_mockSubscriptionSvc->expects($this->any())
             ->method('revoke')
             ->will($this->throwException(new Mage_Core_Exception($exceptionMessage)));
 
         // Verify error
-        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+        $this->_mockBackendModSess->expects($this->once())->method('addError')
             ->with($this->equalTo($exceptionMessage));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->revokeAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->revokeAction();
     }
 
     public function testActivateAction()
@@ -558,7 +561,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
                     )
                 ));
 
-        $this->_mockSubscriptionService->expects($this->once())->method('activate')->with(1)->will($this->returnValue(
+        $this->_mockSubscriptionSvc->expects($this->once())->method('activate')->with(1)->will($this->returnValue(
                 array( 'name' => 'nameTest')
             ));
 
@@ -566,11 +569,11 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         $this->_mockTranslateModel = null;
 
         // success message
-        $this->_mockBackendModelSession->expects($this->once())->method('addSuccess')
+        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
             ->with($this->equalTo('The subscription \'nameTest\' has been activated.'));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->activateAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->activateAction();
     }
 
     public function testActivateActionNoData()
@@ -578,10 +581,10 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         // Use real translate model
         $this->_mockTranslateModel = null;
 
-        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+        $this->_mockBackendModSess->expects($this->once())->method('addError')
             ->with($this->equalTo('No Subscription ID was provided with the request.'));
-        $this->_subscriptionController = $this->_createSubscriptionController();
-        $this->_subscriptionController->activateAction();
+        $this->_subscriptionContr = $this->_createSubscriptionController();
+        $this->_subscriptionContr->activateAction();
     }
 
     public function testActivateActionException()
@@ -599,15 +602,15 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
 
         // Have subscription service throw an exception to go down exception path
         $exceptionMessage = 'An exception occurred';
-        $this->_mockSubscriptionService->expects($this->any())
+        $this->_mockSubscriptionSvc->expects($this->any())
             ->method('activate')
             ->will($this->throwException(new Mage_Core_Exception($exceptionMessage)));
 
         // Verify error
-        $this->_mockBackendModelSession->expects($this->once())->method('addError')
+        $this->_mockBackendModSess->expects($this->once())->method('addError')
             ->with($this->equalTo($exceptionMessage));
 
-        $subscriptionController = $this->_createSubscriptionController();
-        $subscriptionController->activateAction();
+        $subscriptionContr = $this->_createSubscriptionController();
+        $subscriptionContr->activateAction();
     }
 }
