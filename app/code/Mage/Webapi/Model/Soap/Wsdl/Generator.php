@@ -21,7 +21,7 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
     protected $_wsdlFactory;
 
     /**
-     * @var Mage_Webapi_Helper_Config
+     * @var Mage_Webapi_Helper_Data
      */
     protected $_helper;
 
@@ -52,7 +52,6 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
         Mage_Webapi_Model_Config $newApiConfig,
         Mage_Webapi_Helper_Data $helper,
         Mage_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
-
     ) {
         $this->_newApiConfig = $newApiConfig;
         $this->_wsdlFactory = $wsdlFactory;
@@ -147,7 +146,6 @@ class Mage_Webapi_Model_Soap_Wsdl_Generator
         $response = array();
         /** TODO: Use object manager to instantiate objects */
         $xpath = new DOMXPath($domDocument);
-        /** @var $elemList DOMNode */
         $typeXPath = "//xsd:complexType[@name='{$this->_getUnprefixedTypeName($typeName, $domDocument)}']";
         $complexTypeNodes = $xpath->query($typeXPath);
         if ($complexTypeNodes) {
