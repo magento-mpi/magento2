@@ -52,7 +52,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
             'Expected attribute codes were not exported'
         );
 
-        $this->assertNotEmpty($data['data'], 'No data was exported');
+        $this->assertNotEmpty($lines['data'], 'No data was exported');
 
         /** @var $customers Mage_Customer_Model_Customer[] */
         $customers = Mage::registry('_fixture/Mage_ImportExport_Customer_Collection');

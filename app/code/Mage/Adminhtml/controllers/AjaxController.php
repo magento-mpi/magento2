@@ -4,36 +4,20 @@
  *
  * @category    Mage
  * @package     Mage_Adminhtml
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-/**
- * Backend ajax controller
- *
- * @category    Mage
- * @package     Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_AjaxController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Ajax action for inline translation
-     *
      */
     public function translateAction()
     {
-        $translation = $this->getRequest()->getPost('translate');
+        $translationParams = (array)$this->getRequest()->getPost('translate');
         $area = $this->getRequest()->getPost('area');
-
-        //filtering
-        /** @var $filter Mage_Core_Model_Input_Filter_MaliciousCode */
-        $filter = Mage::getModel('Mage_Core_Model_Input_Filter_MaliciousCode');
-        foreach ($translation as &$item) {
-            $item['custom'] = $filter->filter($item['custom']);
-        }
-
-        echo Mage::helper('Mage_Core_Helper_Translate')->apply($translation, $area);
-        exit();
+        /** @var Mage_Core_Helper_Translate $translationHelper */
+        $translationHelper = $this->_objectManager->get('Mage_Core_Helper_Translate');
+        $response = $translationHelper->apply($translationParams, $area);
+        $this->getResponse()->setBody($response);
+        $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
     }
 }

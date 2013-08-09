@@ -33,12 +33,7 @@ class Mage_Core_Model_DataService_LayoutTest extends Magento_Test_TestCase_Contr
 
     protected function _loadServiceCallsConfig()
     {
-        /** @var Mage_Core_Model_Dir $dirs */
-        $dirs = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Dir', array(
-                'baseDir' => array(BP),
-                'dirs' => array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'))
-        );
+        $dirs = new Mage_Core_Model_Dir(__DIR__, array(), array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'));
 
         /** @var Mage_Core_Model_Config_Loader_Modules $modulesLoader */
         $modulesLoader = Mage::getObjectManager()->create(

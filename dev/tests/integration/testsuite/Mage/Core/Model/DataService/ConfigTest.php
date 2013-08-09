@@ -16,12 +16,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        /** @var Mage_Core_Model_Dir $dirs */
-        $dirs = Mage::getObjectManager()->create(
-            'Mage_Core_Model_Dir', array(
-                'baseDir' => array(BP),
-                'dirs' => array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'))
-        );
+        $dirs = new Mage_Core_Model_Dir(__DIR__, array(), array(Mage_Core_Model_Dir::MODULES => __DIR__ . '/_files'));
 
         /** @var Mage_Core_Model_Config_Loader_Modules $modulesLoader */
         $modulesLoader = Mage::getObjectManager()->create(
@@ -38,7 +33,7 @@ class Mage_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
          */
         $cache = $this->getMock('Mage_Core_Model_Config_Cache', array('load', 'save', 'clean', 'getSection'),
             array(), '', false);
-        
+
         $cache->expects($this->once())
             ->method('load')
             ->will($this->returnValue(false));

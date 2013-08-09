@@ -153,6 +153,13 @@
             <Magento_Data_Structure>
                 <shared>0</shared>
             </Magento_Data_Structure>
+            <Mage_Core_Model_Translate_InlineParser>
+                <parameters>
+                    <inputFilter>
+                        <instance>Mage_Core_Model_Input_Filter_MaliciousCode</instance>
+                    </inputFilter>
+                </parameters>
+            </Mage_Core_Model_Translate_InlineParser>
             <Varien_Data_Collection_Db_FetchStrategy_Cache>
                 <parameters>
                     <cache>
