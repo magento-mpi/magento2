@@ -373,6 +373,9 @@ class Mage_Webhook_Model_Subscription
         if (!isset($this->_data['topics'])) {
             $this->_getResource()->loadTopics($this);
         }
+        /** if subscription doesn't have topics, $this->_data['topics'] can still be null.
+         *  Therefore it is better to call _getData() to avoid exception
+         */
         return $this->_getData('topics');
     }
 
