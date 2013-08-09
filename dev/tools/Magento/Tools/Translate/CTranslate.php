@@ -240,7 +240,7 @@ class Magento_Tools_Translate_Translate {
                             if(is_file($path_to_item)){
                                 self::_parseFile($path_to_item, self::$parseData, $file);
                             } else {
-                                self::_error("Could not found specific module for file ".$file." in ".self::$CONFIG['paths']['mage']);
+                                self::_error("Could not found specific module for file ".$file." in ".self::$CONFIG['paths']['Magento']);
                             }
                         }
                     }
