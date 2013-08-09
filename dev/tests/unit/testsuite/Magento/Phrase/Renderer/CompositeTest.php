@@ -56,34 +56,6 @@ class Magento_Phrase_Renderer_CompositeTest extends PHPUnit_Framework_TestCase
         ));
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testWrongRendererExceptionWhenCompositeCreating()
-    {
-        $wrongRenderer = $this->getMock('WrongInterface');
-        $this->getExpectedException('InvalidArgumentException', 'Wrong renderer ' . get_class($wrongRenderer));
-
-        $this->_createComposite(array($wrongRenderer));
-    }
-
-    public function testCreatingRenderersWhenUsedAppend()
-    {
-        $this->_rendererFactory->expects($this->once())->method('create')->with('RenderClass')
-            ->will($this->returnValue($this->getMock('Magento_Phrase_RendererInterface')));
-
-        $this->_createComposite()->append('RenderClass');
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMethod Wrong renderer WrongInterface
-     */
-    public function testWrongRendererExceptionWhenUsedAppend()
-    {
-        $this->_createComposite()->append($this->getMock('WrongInterface'));
-    }
-
     public function testRender()
     {
         $text = 'some text';
@@ -103,31 +75,5 @@ class Magento_Phrase_Renderer_CompositeTest extends PHPUnit_Framework_TestCase
             $resultAfterSecond,
             $this->_createComposite(array($rendererFirst, $rendererSecond))->render($text, $arguments)
         );
-    }
-
-    public function testThatExceptionIsNotLoggedIfModeIsNotDeveloper()
-    {
-        $renderer = $this->getMock('Magento_Phrase_RendererInterface');
-        $renderer->expects($this->once())->method('render')
-            ->will($this->throwException(new Exception()));
-
-        $this->_state->expects($this->once())->method('getMode')->will($this->returnValue('some-mode'));
-        $this->_logger->expects($this->never())->method('logException');
-
-        $this->_createComposite(array($renderer))->render('some text');
-    }
-
-    public function testThatExceptionIsLoggedIfModeIsDeveloper()
-    {
-        $exception = new Exception();
-        $renderer = $this->getMock('Magento_Phrase_RendererInterface');
-        $renderer->expects($this->once())->method('render')
-            ->will($this->throwException($exception));
-
-        $this->_state->expects($this->once())->method('getMode')
-            ->will($this->returnValue(Mage_Core_Model_App_State::MODE_DEVELOPER));
-        $this->_logger->expects($this->once())->method('logException')->with($exception);
-
-        $this->_createComposite(array($renderer))->render('some text');
     }
 }

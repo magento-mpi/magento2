@@ -12,16 +12,16 @@ class Magento_Phrase_Renderer_Translate implements Magento_Phrase_RendererInterf
     /**
      * Basic object for translation
      *
-     * @var Magento_Translate_TranslateInterface
+     * @var Mage_Core_Model_Translate
      */
     protected $_translator;
 
     /**
      * Renderer construct
      *
-     * @param Magento_Translate_TranslateInterface $translator
+     * @param Mage_Core_Model_Translate $translator
      */
-    public function __construct(Magento_Translate_TranslateInterface $translator)
+    public function __construct(Mage_Core_Model_Translate $translator)
     {
         $this->_translator = $translator;
     }
@@ -29,7 +29,7 @@ class Magento_Phrase_Renderer_Translate implements Magento_Phrase_RendererInterf
     /**
      * {@inheritdoc}
      */
-    public function render($text, array $arguments = array())
+    public function render($text, array $arguments)
     {
         array_unshift($arguments, $text);
 

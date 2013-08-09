@@ -14,7 +14,7 @@
  * @todo Remove this suppression when jira entry MAGETWO-8296 is completed.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_Core_Model_Translate implements Magento_Translate_TranslateInterface
+class Mage_Core_Model_Translate
 {
     /**
      * CSV separator
