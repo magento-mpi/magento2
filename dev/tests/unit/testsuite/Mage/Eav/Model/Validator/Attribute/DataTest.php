@@ -185,12 +185,12 @@ class Mage_Eav_Model_Validator_Attribute_DataTest extends PHPUnit_Framework_Test
     {
         return array(
             'white_list' => array(
-                function ($validator) {
+                0 => function ($validator) {
                     $validator->setAttributesWhiteList(array('attribute'));
                 }
             ),
             'black_list' => array(
-                function ($validator) {
+                0 => function ($validator) {
                     $validator->setAttributesBlackList(array('attribute2'));
                 }
             )

@@ -1,4 +1,4 @@
-  <?php
+<?php
 /**
  * Mage_Webhook_Model_Formatter_Factory
  *

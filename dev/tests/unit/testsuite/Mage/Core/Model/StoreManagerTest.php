@@ -182,7 +182,7 @@ class Mage_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
             ->method('getStore')
             ->with(10)
             ->will($this->returnCallback(
-                function(){
+                function() {
                     throw new Exception('test');
                 }
             )
@@ -204,7 +204,7 @@ class Mage_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
             ->method('getStore')
             ->with(10)
             ->will($this->returnCallback(
-                function(){
+                function() {
                     throw new Exception('test');
                 }
             )

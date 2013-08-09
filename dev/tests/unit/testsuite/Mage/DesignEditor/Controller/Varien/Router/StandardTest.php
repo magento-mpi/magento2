@@ -171,10 +171,14 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
         $app            = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $callback = function ($name) use ($helper, $backendSession, $stateModel, $configuration) {
             switch ($name) {
-                case 'Mage_DesignEditor_Helper_Data': return $helper;
-                case 'Mage_Backend_Model_Auth_Session': return $backendSession;
-                case 'Mage_DesignEditor_Model_State': return $stateModel;
-                case 'Mage_Core_Model_Config': return $configuration;
+                case 'Mage_DesignEditor_Helper_Data':
+                    return $helper;
+                case 'Mage_Backend_Model_Auth_Session':
+                    return $backendSession;
+                case 'Mage_DesignEditor_Model_State':
+                    return $stateModel;
+                case 'Mage_Core_Model_Config':
+                    return $configuration;
                 default: return null;
             }
         };
