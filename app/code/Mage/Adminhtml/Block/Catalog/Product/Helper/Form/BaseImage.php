@@ -157,16 +157,4 @@ HTML;
     {
         return $this->_fileConfig->getMaxFileSize();
     }
-
-    /**
-     * Dummy function to give translation tool the ability to pick messages
-     * Must be called with Mage_Catalog_Helper_Data $className only
-     *
-     * @param string $className
-     * @return Mage_Catalog_Helper_Data|Mage_Core_Helper_Data
-     */
-    private function helper($className)
-    {
-        return $className === 'Mage_Catalog_Helper_Data' ? $this->_catalogHelperData : $this->_coreHelper;
-    }
 }
