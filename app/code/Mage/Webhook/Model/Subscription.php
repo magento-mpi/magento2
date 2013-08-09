@@ -373,7 +373,7 @@ class Mage_Webhook_Model_Subscription
         if (!isset($this->_data['topics'])) {
             $this->_getResource()->loadTopics($this);
         }
-        return $this->_data['topics'];
+        return $this->_getData('topics');
     }
 
     /**
