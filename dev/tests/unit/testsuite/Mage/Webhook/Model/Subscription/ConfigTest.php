@@ -51,6 +51,15 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
                     </setting_name_on_existing_subscription_without_version>
                 </xml>';
 
+    const AUTHENTICATION_TYPE =
+        '<xml>
+            <setting_authentication_type>
+                <version>0.1</version>
+                <name>Extension Name</name>
+                <authentication_type>HMAC</authentication_type>
+            </setting_authentication_type>
+        </xml>';
+
     /** @var Mage_Webhook_Model_Subscription_Config that is also our unit under test */
     protected $_config;
 
@@ -85,6 +94,125 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             ->method('__')
             ->will($this->returnArgument(0));
         Mage::register('_helper/Mage_Webhook_Helper_Data', $mockHelper);
+    }
+
+
+
+    public function testSettingNameNoSubscription()
+    {
+        $configNode = $this->_createStubConfigElement(self::SETTING_NAME_XML);
+
+        // Set expectations
+        $this->_mockSubscription->expects($this->atLeastOnce())
+            ->method('save');
+        $this->_mockSubscription->expects($this->atLeastOnce())
+            ->method('setName')
+            ->with($this->equalTo('Extension Name'));
+
+        $this->_stubMock($configNode);
+
+        // Run test
+        $this->_config->updateSubscriptionCollection();
+    }
+
+    public function testNameMissing()
+    {
+        $configNode = $this->_createStubConfigElement(self::NAME_MISSING_XML);
+
+        // Set expectations
+        $this->_mockSubscription->expects($this->never())
+            ->method('save');
+        $this->_mockSubscription->expects($this->never())
+            ->method('setName');
+
+        $expectedErrors = array(
+            "Invalid config data for subscription '%s'.",
+            'name_missing'
+        );
+
+        $this->_stubMock($configNode, null, $expectedErrors);
+
+        // Run test
+        $this->_config->updateSubscriptionCollection();
+    }
+
+    public function testSettingNameVersionIncremented()
+    {
+        $existingSubscription = $this->_createMockSubscription();
+        $existingSubscription->expects($this->atLeastOnce())
+            ->method('save');
+        $existingSubscription->expects($this->atLeastOnce())
+            ->method('setName')
+            ->with($this->equalTo('Extension Name'));
+        $existingSubscription->expects($this->any())
+            ->method('getVersion')
+            ->will($this->returnValue('0.0'));
+
+        $configNode = $this->_createStubConfigElement(self::VERSION_INCREMENTED_XML);
+        $subxCollection = $this->_createMockSubscriptionCollection(
+            array(
+                'setting_name_on_existing_subscription_with_version_incremented' => array(&$existingSubscription)
+            ));
+
+        // Set expectations
+        $this->_mockSubscription->expects($this->never())
+            ->method('save');
+        $this->_mockSubscription->expects($this->never())
+            ->method('setName');
+
+        $this->_stubMock($configNode, $subxCollection);
+
+        // Run test
+        $this->_config->updateSubscriptionCollection();
+    }
+
+    public function testSettingNameNoVersion()
+    {
+        // Make sure we never call save or setName on the existing subscription
+        $existingSubscription = $this->_createMockSubscription();
+        $existingSubscription->expects($this->never())
+            ->method('save');
+        $existingSubscription->expects($this->never())
+            ->method('setName');
+
+        $configNode = $this->_createStubConfigElement(self::WITHOUT_VERSION);
+
+        // Set expectations
+        $this->_mockSubscription->expects($this->never())
+            ->method('save');
+        $this->_mockSubscription->expects($this->never())
+            ->method('setName');
+
+        $subxCollection = $this->_createMockSubscriptionCollection(
+            array(
+                'setting_name_on_existing_subscription_without_version' => array(&$existingSubscription)
+            )
+        );
+
+        $this->_stubMock($configNode, $subxCollection);
+
+        // Run test
+        $this->_config->updateSubscriptionCollection();
+    }
+
+    public function testSettingAuthenticationType()
+    {
+        $configNode = $this->_createStubConfigElement(self::AUTHENTICATION_TYPE);
+
+        // Set expectations
+        $this->_mockSubscription->expects($this->atLeastOnce())
+            ->method('save');
+        $this->_mockSubscription->expects($this->atLeastOnce())
+            ->method('setName')
+            ->with($this->equalTo('Extension Name'));
+        $this->_mockSubscription->expects($this->atLeastOnce())
+            ->method('setAuthenticationType')
+            ->with($this->equalTo('HMAC'));
+
+        $this->_stubMock($configNode);
+
+        // Run test
+        $this->_config->updateSubscriptionCollection();
     }
 
     /**
@@ -227,102 +355,5 @@ class Mage_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_TestC
             ->method('getSubscriptionsByAlias')
             ->will($this->returnValue(array()));
         return $mock;
-    }
-
-    public function testSettingNameNoSubscription()
-    {
-        $configNode = $this->_createStubConfigElement(self::SETTING_NAME_XML);
-
-        // Set expectations
-        $this->_mockSubscription->expects($this->atLeastOnce())
-            ->method('save');
-        $this->_mockSubscription->expects($this->atLeastOnce())
-            ->method('setName')
-            ->with($this->equalTo('Extension Name'));
-
-        $this->_stubMock($configNode);
-
-        // Run test
-        $this->_config->updateSubscriptionCollection();
-    }
-
-    public function testNameMissing()
-    {
-        $configNode = $this->_createStubConfigElement(self::NAME_MISSING_XML);
-
-        // Set expectations
-        $this->_mockSubscription->expects($this->never())
-            ->method('save');
-        $this->_mockSubscription->expects($this->never())
-            ->method('setName');
-
-        $expectedErrors = array(
-            "Invalid config data for subscription '%s'.",
-            'name_missing'
-        );
-
-        $this->_stubMock($configNode, null, $expectedErrors);
-
-        // Run test
-        $this->_config->updateSubscriptionCollection();
-    }
-
-    public function testSettingNameVersionIncremented()
-    {
-        $existingSubscription = $this->_createMockSubscription();
-        $existingSubscription->expects($this->atLeastOnce())
-            ->method('save');
-        $existingSubscription->expects($this->atLeastOnce())
-            ->method('setName')
-            ->with($this->equalTo('Extension Name'));
-        $existingSubscription->expects($this->any())
-            ->method('getVersion')
-            ->will($this->returnValue('0.0'));
-
-        $configNode = $this->_createStubConfigElement(self::VERSION_INCREMENTED_XML);
-        $subxCollection = $this->_createMockSubscriptionCollection(
-            array(
-                'setting_name_on_existing_subscription_with_version_incremented' => array(&$existingSubscription)
-            ));
-
-        // Set expectations
-        $this->_mockSubscription->expects($this->never())
-            ->method('save');
-        $this->_mockSubscription->expects($this->never())
-            ->method('setName');
-
-        $this->_stubMock($configNode, $subxCollection);
-
-        // Run test
-        $this->_config->updateSubscriptionCollection();
-    }
-
-    public function testSettingNameNoVersion()
-    {
-        // Make sure we never call save or setName on the existing subscription
-        $existingSubscription = $this->_createMockSubscription();
-        $existingSubscription->expects($this->never())
-            ->method('save');
-        $existingSubscription->expects($this->never())
-            ->method('setName');
-
-        $configNode = $this->_createStubConfigElement(self::WITHOUT_VERSION);
-
-        // Set expectations
-        $this->_mockSubscription->expects($this->never())
-            ->method('save');
-        $this->_mockSubscription->expects($this->never())
-            ->method('setName');
-
-        $subxCollection = $this->_createMockSubscriptionCollection(
-            array(
-                'setting_name_on_existing_subscription_without_version' => array(&$existingSubscription)
-            )
-        );
-
-        $this->_stubMock($configNode, $subxCollection);
-
-        // Run test
-        $this->_config->updateSubscriptionCollection();
     }
 }
