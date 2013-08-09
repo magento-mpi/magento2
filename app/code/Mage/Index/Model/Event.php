@@ -9,8 +9,6 @@
  */
 
 /**
- * Enter description here ...
- *
  * @method Mage_Index_Model_Resource_Event _getResource()
  * @method Mage_Index_Model_Resource_Event getResource()
  * @method Mage_Index_Model_Event setType(string $value)
@@ -67,6 +65,7 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
      * Specify process object
      *
      * @param null|Mage_Index_Model_Process $process
+     * @return $this
      */
     public function setProcess($process)
     {
@@ -77,7 +76,7 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
     /**
      * Get related process object
      *
-     * @return Mage_Index_Model_Process | null
+     * @return Mage_Index_Model_Process|null
      */
     public function getProcess()
     {
@@ -113,10 +112,11 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
     /**
      * Add process id to event object
      *
-     * @param   $processId
+     * @param string|int $processId
+     * @param string $status
      * @return  Mage_Index_Model_Event
      */
-    public function addProcessId($processId, $status=Mage_Index_Model_Process::EVENT_STATUS_NEW)
+    public function addProcessId($processId, $status = Mage_Index_Model_Process::EVENT_STATUS_NEW)
     {
         $this->_processIds[$processId] = $status;
         return $this;
@@ -251,11 +251,11 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
      * Add new values to old data array (overwrite if value with same key exist)
      *
      * @deprecated since 1.6.2.0
-     * @param array | string $data
-     * @param null | mixed $value
+     * @param array|string $key
+     * @param null|mixed $value
      * @return Mage_Index_Model_Event
      */
-    public function addOldData($key, $value=null)
+    public function addOldData($key, $value = null)
     {
         return $this;
     }
@@ -263,11 +263,11 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
     /**
      * Add new values to new data array (overwrite if value with same key exist)
      *
-     * @param array | string $data
-     * @param null | mixed $value
+     * @param array|string $key
+     * @param null|mixed $value
      * @return Mage_Index_Model_Event
      */
-    public function addNewData($key, $value=null)
+    public function addNewData($key, $value = null)
     {
         $newData = $this->getNewData(false);
         if (!is_array($key)) {

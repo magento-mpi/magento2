@@ -34,7 +34,7 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
      *
      * @var bool
      */
-    protected $_schemaUpdatesChecked = false;
+    protected $_isUpdatedSchema = false;
 
     /**
      * Application state model
@@ -69,9 +69,9 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
             return false;
         }
 
-        $ignoreDevelopmentMode = (bool)(string)$this->_config->getNode(self::XML_PATH_IGNORE_DEV_MODE);
+        $ignoreDevMode = (bool)(string)$this->_config->getNode(self::XML_PATH_IGNORE_DEV_MODE);
         if (($this->_appState->getMode() == Mage_Core_Model_App_State::MODE_DEVELOPER)
-            && false == $ignoreDevelopmentMode
+            && false == $ignoreDevMode
         ) {
             return false;
         }
@@ -116,7 +116,7 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
         }
 
         $this->_appState->setUpdateMode(false);
-        $this->_schemaUpdatesChecked = true;
+        $this->_isUpdatedSchema = true;
         Magento_Profiler::stop('apply_db_schema_updates');
     }
 
@@ -125,7 +125,7 @@ class Mage_Core_Model_Db_Updater implements Mage_Core_Model_Db_UpdaterInterface
      */
     public function updateData()
     {
-        if (!$this->_schemaUpdatesChecked) {
+        if (!$this->_isUpdatedSchema) {
             return;
         }
         $resources = $this->_config->getNode('global/resources')->children();

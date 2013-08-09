@@ -127,17 +127,16 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
     {
         $storeId = $this->getStoreId();
         if ($storeId) {
-            $helper = Mage::getResourceHelper('Mage_Eav');
             $adapter        = $this->getConnection();
             $valueExpr      = $adapter->getCheckSql(
                 't_s.value_id IS NULL',
-                $helper->prepareEavAttributeValue('t_d.value', $type),
-                $helper->prepareEavAttributeValue('t_s.value', $type)
+                't_d.value',
+                't_s.value'
             );
 
             $select->columns(array(
-                'default_value' => $helper->prepareEavAttributeValue('t_d.value', $type),
-                'store_value'   => $helper->prepareEavAttributeValue('t_s.value', $type),
+                'default_value' => 't_d.value',
+                'store_value'   => 't_s.value',
                 'value'         => $valueExpr
             ));
         } else {
@@ -160,19 +159,19 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
     protected function _joinAttributeToSelect($method, $attribute, $tableAlias, $condition, $fieldCode, $fieldAlias)
     {
         if (isset($this->_joinAttributes[$fieldCode]['store_id'])) {
-            $store_id = $this->_joinAttributes[$fieldCode]['store_id'];
+            $storeId = $this->_joinAttributes[$fieldCode]['store_id'];
         } else {
-            $store_id = $this->getStoreId();
+            $storeId = $this->getStoreId();
         }
 
         $adapter = $this->getConnection();
 
-        if ($store_id != $this->getDefaultStoreId() && !$attribute->isScopeGlobal()) {
+        if ($storeId != $this->getDefaultStoreId() && !$attribute->isScopeGlobal()) {
             /**
              * Add joining default value for not default store
              * if value for store is null - we use default value
              */
-            $defCondition = '('.implode(') AND (', $condition).')';
+            $defCondition = '(' . implode(') AND (', $condition) . ')';
             $defAlias     = $tableAlias . '_default';
             $defAlias     = $this->getConnection()->getTableName($defAlias);
             $defFieldAlias= str_replace($tableAlias, $defAlias, $fieldAlias);
@@ -195,10 +194,11 @@ class Mage_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Ent
             $this->_joinAttributes[$fieldCode]['condition_alias'] = $fieldAlias;
             $this->_joinAttributes[$fieldCode]['attribute']       = $attribute;
         } else {
-            $store_id = $this->getDefaultStoreId();
+            $storeId = $this->getDefaultStoreId();
         }
         $condition[] = $adapter->quoteInto(
-            $adapter->quoteColumnAs("$tableAlias.store_id", null) . ' = ?', $store_id);
+            $adapter->quoteColumnAs("$tableAlias.store_id", null) . ' = ?', $storeId
+        );
         return parent::_joinAttributeToSelect($method, $attribute, $tableAlias, $condition, $fieldCode, $fieldAlias);
     }
 }

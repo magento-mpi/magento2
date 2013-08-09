@@ -28,7 +28,8 @@ class Enterprise_CustomerBalance_Model_Observer
         $customer = $observer->getCustomer();
         /* @var $request Mage_Core_Controller_Request_Http */
         $request = $observer->getRequest();
-        if ($data = $request->getPost('customerbalance')) {
+        $data = $request->getPost('customerbalance');
+        if ($data) {
             $customer->setCustomerBalanceData($data);
         }
     }
@@ -43,7 +44,8 @@ class Enterprise_CustomerBalance_Model_Observer
         if (!Mage::helper('Enterprise_CustomerBalance_Helper_Data')->isEnabled()) {
             return;
         }
-        if ($data = $observer->getCustomer()->getCustomerBalanceData()) {
+        $data = $observer->getCustomer()->getCustomerBalanceData();
+        if ($data) {
             if (!empty($data['amount_delta'])) {
                 $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                     ->setCustomer($observer->getCustomer())
@@ -51,8 +53,7 @@ class Enterprise_CustomerBalance_Model_Observer
                         isset($data['website_id']) ? $data['website_id'] : $observer->getCustomer()->getWebsiteId()
                     )
                     ->setAmountDelta($data['amount_delta'])
-                    ->setComment($data['comment'])
-                ;
+                    ->setComment($data['comment']);
                 if (isset($data['notify_by_email'])) {
                     if (isset($data['store_id'])) {
                         $balance->setNotifyByEmail(true, $data['store_id']);
@@ -219,6 +220,7 @@ class Enterprise_CustomerBalance_Model_Observer
      * The same as paymentDataImport(), but for admin checkout
      *
      * @param Magento_Event_Observer $observer
+     * @return $this
      */
     public function processOrderCreationData(Magento_Event_Observer $observer)
     {
@@ -259,8 +261,7 @@ class Enterprise_CustomerBalance_Model_Observer
                 if (!$payment->getMethod()) {
                     $payment->setMethod('free');
                 }
-            }
-            else {
+            } else {
                 $quote->setUseCustomerBalance(false);
             }
         }
@@ -272,7 +273,6 @@ class Enterprise_CustomerBalance_Model_Observer
      * The Customerbalance instance must already be in the quote
      *
      * @param Magento_Event_Observer $observer
-     * @return void
      */
     public function togglePaymentMethods($observer)
     {
@@ -395,7 +395,7 @@ class Enterprise_CustomerBalance_Model_Observer
 
             $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
 
-            $balance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
+            Mage::getModel('Enterprise_CustomerBalance_Model_Balance')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
                 ->setAmountDelta($creditmemo->getBsCustomerBalTotalRefunded())
@@ -533,9 +533,10 @@ class Enterprise_CustomerBalance_Model_Observer
     /**
      * Defined in Logging/etc/logging.xml - special handler for setting second action for customerBalance change
      *
-     * @param string action
+     * @param string $action
      */
-    public function predispatchPrepareLogging($action) {
+    public function predispatchPrepareLogging($action)
+    {
         $request = Mage::app()->getRequest();
         $data = $request->getParam('customerbalance');
         if (isset($data['amount_delta']) && $data['amount_delta'] != '') {
@@ -595,7 +596,6 @@ class Enterprise_CustomerBalance_Model_Observer
      * Extend sales amount expression with customer balance refunded value
      *
      * @param Magento_Event_Observer $observer
-     * @return void
      */
     public function extendSalesAmountExpression(Magento_Event_Observer $observer)
     {

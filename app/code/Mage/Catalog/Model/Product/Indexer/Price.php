@@ -8,8 +8,6 @@
  * @license     {license_link}
  */
 /**
- * Enter description here ...
- *
  * @method Mage_Catalog_Model_Resource_Product_Indexer_Price _getResource()
  * @method Mage_Catalog_Model_Resource_Product_Indexer_Price getResource()
  * @method Mage_Catalog_Model_Product_Indexer_Price setEntityId(int $value)
@@ -192,6 +190,9 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
         }
     }
 
+    /**
+     * @param Mage_Index_Model_Event $event
+     */
     protected function _registerCatalogProductMassActionEvent(Mage_Index_Model_Event $event)
     {
         /* @var $actionObject Magento_Object */
@@ -239,16 +240,16 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
                 case Mage_Index_Model_Event::TYPE_DELETE:
                     $this->_registerCatalogProductDeleteEvent($event);
                     break;
-
                 case Mage_Index_Model_Event::TYPE_SAVE:
                     $this->_registerCatalogProductSaveEvent($event);
                     break;
-
                 case Mage_Index_Model_Event::TYPE_MASS_ACTION:
                     $this->_registerCatalogProductMassActionEvent($event);
                     break;
                 case self::EVENT_TYPE_REINDEX_PRICE:
                     $event->addNewData('id', $event->getDataObject()->getId());
+                    break;
+                default:
                     break;
             }
 

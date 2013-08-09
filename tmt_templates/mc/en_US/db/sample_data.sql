@@ -2810,7 +2810,6 @@ INSERT INTO `core_resource` (`code`, `version`, `data_version`) VALUES
 	('sendfriend_setup', '1.6.0.0', '1.6.0.0'),
 	('shipping_setup', '1.6.0.0', '1.6.0.0'),
 	('sitemap_setup', '1.6.0.0', '1.6.0.0'),
-	('social_facebook_setup', '1.6.0.1', '1.6.0.1'),
 	('tag_setup', '1.6.0.0', '1.6.0.0'),
 	('tax_setup', '1.6.0.5', '1.6.0.5'),
 	('usa_setup', '1.6.0.1', '1.6.0.1'),
@@ -2889,8 +2888,6 @@ CREATE TABLE IF NOT EXISTS `core_theme` (
   `theme_version` varchar(255) NOT NULL COMMENT 'Theme Version',
   `theme_title` varchar(255) NOT NULL COMMENT 'Theme Title',
   `preview_image` varchar(255) DEFAULT NULL COMMENT 'Preview Image',
-  `magento_version_from` varchar(255) NOT NULL COMMENT 'Magento Version From',
-  `magento_version_to` varchar(255) NOT NULL COMMENT 'Magento Version To',
   `is_featured` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Theme Featured',
   `area` varchar(255) NOT NULL COMMENT 'Theme Area',
   `type` smallint(6) NOT NULL COMMENT 'Theme type: 0:physical, 1:virtual, 2:staging',
@@ -2899,26 +2896,26 @@ CREATE TABLE IF NOT EXISTS `core_theme` (
 
 # Dumping data for table core_theme: ~26 rows (approximately)
 
-INSERT INTO `core_theme` (`theme_id`, `parent_id`, `theme_path`, `theme_version`, `theme_title`, `preview_image`, `magento_version_from`, `magento_version_to`, `is_featured`, `area`, `type`) VALUES
-  (1, NULL, 'default/backend', '1.0.0.0', 'Magento 2 backend', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
-  (2, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
-  (3, 2, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
-  (4, 2, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'adminhtml', 0),
-  (5, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
-  (6, 5, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
-  (7, 5, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, '2.0.0.0-dev1', '*', 0, 'install', 0),
-  (8, NULL, 'magento2/reference', '1.0.0.0', 'Plushe', 'preview_plushe.jpeg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-  (9, 8, 'magento2/modern2', '1.0.0.0', 'Modern 2', 'preview_modern2.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-  (10, 8, 'magento2/piece-of-cake', '1.0.0.0', 'Piece of Cake', 'preview_piece_of_cake.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-  (11, 8, 'magento2/upstream', '1.0.0.0', 'Upstream', 'preview_upstream.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-  (12, 10, 'magento2/electron', '1.0.0.0', 'Electron', 'preview_electron.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-  (13, 8, 'magento2/hobby', '1.0.0.0', 'Hobby', 'preview_hobby.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-  (14, 8, 'magento2/plushe-dark', '1.0.0.0', 'Plushe Dark', 'preview_plushe_dark.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-  (15, 8, 'magento2/plushe_blue', '1.0.0.0', 'Plushe Blue', 'preview_plushe_blue.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-  (16, 13, 'magento2/recon', '1.0.0.0', 'Recon', 'preview_recon.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-  (17, 9, 'magento2/skater', '1.0.0.0', 'Skater', 'preview_skater.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-  (18, 11, 'magento2/umecha', '1.0.0.0', 'Umecha', 'preview_umecha.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0),
-  (19, 9, 'magento2/zen', '1.0.0.0', 'Zen', 'preview_zen.jpg', '2.0.0.0-dev1', '*', 1, 'frontend', 0);
+INSERT INTO `core_theme` (`theme_id`, `parent_id`, `theme_path`, `theme_version`, `theme_title`, `preview_image`, `is_featured`, `area`, `type`) VALUES
+  (1, NULL, 'default/backend', '1.0.0.0', 'Magento 2 backend', NULL, 0, 'adminhtml', 0),
+  (2, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, 0, 'adminhtml', 0),
+  (3, 2, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, 0, 'adminhtml', 0),
+  (4, 2, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, 0, 'adminhtml', 0),
+  (5, NULL, 'default/basic', '2.0.0.0', 'Magento Basic', NULL, 0, 'install', 0),
+  (6, 5, 'default/enterprise', '2.0.0.0', 'Magento EE', NULL, 0, 'install', 0),
+  (7, 5, 'default/pro', '2.0.0.0', 'Magento Pro', NULL, 0, 'install', 0),
+  (8, NULL, 'magento2/reference', '1.0.0.0', 'Plushe', 'preview_plushe.jpeg', 1, 'frontend', 0),
+  (9, 8, 'magento2/modern2', '1.0.0.0', 'Modern 2', 'preview_modern2.jpg', 1, 'frontend', 0),
+  (10, 8, 'magento2/piece-of-cake', '1.0.0.0', 'Piece of Cake', 'preview_piece_of_cake.jpg', 1, 'frontend', 0),
+  (11, 8, 'magento2/upstream', '1.0.0.0', 'Upstream', 'preview_upstream.jpg', 1, 'frontend', 0),
+  (12, 10, 'magento2/electron', '1.0.0.0', 'Electron', 'preview_electron.jpg', 1, 'frontend', 0),
+  (13, 8, 'magento2/hobby', '1.0.0.0', 'Hobby', 'preview_hobby.jpg', 1, 'frontend', 0),
+  (14, 8, 'magento2/plushe-dark', '1.0.0.0', 'Plushe Dark', 'preview_plushe_dark.jpg', 1, 'frontend', 0),
+  (15, 8, 'magento2/plushe_blue', '1.0.0.0', 'Plushe Blue', 'preview_plushe_blue.jpg', 1, 'frontend', 0),
+  (16, 13, 'magento2/recon', '1.0.0.0', 'Recon', 'preview_recon.jpg', 1, 'frontend', 0),
+  (17, 9, 'magento2/skater', '1.0.0.0', 'Skater', 'preview_skater.jpg', 1, 'frontend', 0),
+  (18, 11, 'magento2/umecha', '1.0.0.0', 'Umecha', 'preview_umecha.jpg', 1, 'frontend', 0),
+  (19, 9, 'magento2/zen', '1.0.0.0', 'Zen', 'preview_zen.jpg', 1, 'frontend', 0);
 
 
 
@@ -10045,21 +10042,6 @@ CREATE TABLE IF NOT EXISTS `sitemap` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='XML Sitemap';
 
 # Dumping data for table sitemap: ~0 rows (approximately)
-
-
-
-
-# Dumping structure for table social_facebook_actions
-CREATE TABLE IF NOT EXISTS `social_facebook_actions` (
-  `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity Id',
-  `facebook_id` varchar(100) NOT NULL COMMENT 'Facebook User Id',
-  `facebook_name` varchar(100) NOT NULL COMMENT 'Facebook User Name',
-  `facebook_action` varchar(100) NOT NULL COMMENT 'User Action',
-  `item_id` int(10) unsigned NOT NULL COMMENT 'Product Id',
-  PRIMARY KEY (`entity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Social Facebook Actions';
-
-# Dumping data for table social_facebook_actions: ~0 rows (approximately)
 
 
 

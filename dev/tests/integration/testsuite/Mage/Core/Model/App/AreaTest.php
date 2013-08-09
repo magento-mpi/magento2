@@ -46,7 +46,7 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
 
     // @codingStandardsIgnoreStart
     /**
-     * @magentoConfigFixture current_store design/theme/ua_regexp a:1:{s:1:"_";a:2:{s:6:"regexp";s:10:"/firefox/i";s:5:"value";s:13:"default/blank";}}
+     * @magentoConfigFixture current_store design/theme/ua_regexp a:1:{s:1:"_";a:2:{s:6:"regexp";s:10:"/firefox/i";s:5:"value";s:13:"magento_blank";}}
      * @magentoAppIsolation enabled
      */
     // @codingStandardsIgnoreEnd
@@ -54,7 +54,7 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     {
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
         $this->_model->detectDesign(new Zend_Controller_Request_Http);
-        $this->assertEquals('default/blank', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $this->assertEquals('magento_blank', Mage::getDesign()->getDesignTheme()->getThemePath());
     }
 
     /**
@@ -64,14 +64,14 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
     public function testDetectDesignDesignChange()
     {
         $this->_model->detectDesign();
-        $this->assertEquals('default/blank', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $this->assertEquals('magento_blank', Mage::getDesign()->getDesignTheme()->getThemePath());
     }
 
     // @codingStandardsIgnoreStart
     /**
      * Test that non-frontend areas are not affected neither by user-agent reg expressions, nor by the "design change"
      *
-     * @magentoConfigFixture current_store design/theme/ua_regexp a:1:{s:1:"_";a:2:{s:6:"regexp";s:10:"/firefox/i";s:5:"value";s:13:"default/blank";}}
+     * @magentoConfigFixture current_store design/theme/ua_regexp a:1:{s:1:"_";a:2:{s:6:"regexp";s:10:"/firefox/i";s:5:"value";s:13:"magento_blank";}}
      * magentoDataFixture Mage/Core/_files/design_change.php
      * @magentoAppIsolation enabled
      */
@@ -81,6 +81,6 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla Firefox';
         $model = Mage::getModel('Mage_Core_Model_App_Area', array('areaCode' => 'install'));
         $model->detectDesign(new Zend_Controller_Request_Http);
-        $this->assertNotEquals('default/blank', Mage::getDesign()->getDesignTheme()->getThemePath());
+        $this->assertNotEquals('magento_blank', Mage::getDesign()->getDesignTheme()->getThemePath());
     }
 }

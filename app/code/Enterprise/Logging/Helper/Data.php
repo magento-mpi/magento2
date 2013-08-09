@@ -33,8 +33,7 @@ class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
         foreach ($array as $item) {
             if (is_array($item)) {
                 $result[] = $this->implodeValues($item);
-            }
-            else {
+            } else {
                 if ((string)$item !== '') {
                     $result[] = $item;
                 }

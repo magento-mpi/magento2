@@ -90,11 +90,6 @@ class Mage_Cms_Model_Resource_Block_Collection extends Mage_Core_Model_Resource_
                 'main_table.block_id = store_table.block_id',
                 array()
             )->group('main_table.block_id');
-
-            /*
-             * Allow analytic functions usage because of one field grouping
-             */
-            $this->_useAnalyticFunction = true;
         }
         return parent::_renderFiltersBefore();
     }

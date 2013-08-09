@@ -11,10 +11,6 @@
 
 /**
  * Installer model
- *
- * @category   Mage
- * @package    Mage_Install
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Install_Model_Installer extends Magento_Object
 {
@@ -89,7 +85,7 @@ class Mage_Install_Model_Installer extends Magento_Object
      */
     public function getDataModel()
     {
-        if (is_null($this->_dataModel)) {
+        if (null === $this->_dataModel) {
             $this->setDataModel(Mage::getSingleton('Mage_Install_Model_Session'));
         }
         return $this->_dataModel;
@@ -144,7 +140,7 @@ class Mage_Install_Model_Installer extends Magento_Object
     /**
      * Retrieve server checking result status
      *
-     * @return unknown
+     * @return bool
      */
     public function getServerCheckStatus()
     {
@@ -225,8 +221,7 @@ class Mage_Install_Model_Installer extends Magento_Object
             if (!empty($data['use_secure_admin'])) {
                 $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_IN_ADMINHTML, 1);
             }
-        }
-        elseif (!empty($data['unsecure_base_url'])) {
+        } elseif (!empty($data['unsecure_base_url'])) {
             $setupModel->setConfigData(Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL, $unsecureBaseUrl);
         }
 
@@ -324,6 +319,9 @@ class Mage_Install_Model_Installer extends Magento_Object
         return $key;
     }
 
+    /**
+     * @return $this
+     */
     public function finish()
     {
         Mage::getSingleton('Mage_Install_Model_Installer_Config')->replaceTmpInstallDate();

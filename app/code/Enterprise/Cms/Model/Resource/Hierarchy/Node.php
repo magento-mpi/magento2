@@ -274,11 +274,8 @@ class Enterprise_Cms_Model_Resource_Hierarchy_Node extends Mage_Core_Model_Resou
             ->group('node_table.node_id')
             ->order(array('level', 'sort_order'));
 
-        $helper = Mage::getResourceHelper('Mage_Core');
-        $query  = $helper->getQueryUsingAnalyticFunction($select);
-
         $nodes      = array();
-        $rowSet     = $this->_getReadAdapter()->fetchAll($query);
+        $rowSet     = $this->_getReadAdapter()->fetchAll($select);
         foreach ($rowSet as $row) {
             $nodes[intval($row['parent_node_id'])][$row[$this->getIdFieldName()]] = $row;
         }

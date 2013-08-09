@@ -66,8 +66,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
      */
     public function getNewChildSelectOptions()
     {
-        return array(array('value' => $this->getType(),
-            'label'=>Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Newsletter Subscription')));
+        return array(array(
+            'value' => $this->getType(),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Newsletter Subscription')
+         ));
     }
 
     /**
@@ -77,11 +79,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
      */
     public function asHtml()
     {
-        $operator = $this->getOperatorElementHtml();
         $element = $this->getValueElementHtml();
         return $this->getTypeElementHtml()
-            .Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer is %s to newsletter.', $element)
-            .$this->getRemoveLinkHtml();
+            . Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Customer is %s to newsletter.', $element)
+            . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -112,25 +113,22 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
      * Get condition query for customer balance
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @param int|Zend_Db_Expr $website
+     * @return Varien_Db_Select
      */
     public function getConditionsSql($customer, $website)
     {
         $table = $this->getResource()->getTable('newsletter_subscriber');
-        $value = (int) $this->getValue();
+        $value = (int)$this->getValue();
 
         $select = $this->getResource()->createSelect()
             ->from(array('main' => $table), array(new Zend_Db_Expr($value)))
             ->where($this->_createCustomerFilter($customer, 'main.customer_id'))
             ->where('main.subscriber_status = ?', Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
-
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
-
+        $select->limit(1);
         $this->_limitByStoreWebsite($select, $website, 'main.store_id');
         if (!$value) {
-            $select = $this->getResource()->getReadConnection()
-                    ->getIfNullSql($select, 1);
+            $select = $this->getResource()->getReadConnection()->getIfNullSql($select, 1);
         }
         return $select;
     }

@@ -249,7 +249,7 @@ class Magento_Test_Bootstrap
     protected function _determineDbVendorName(SimpleXMLElement $dbConfig)
     {
         $dbVendorAlias = (string)$dbConfig->model;
-        $dbVendorMap = array('mysql4' => 'mysql', 'mssql' => 'mssql', 'oracle' => 'oracle');
+        $dbVendorMap = array('mysql4' => 'mysql');
         if (!array_key_exists($dbVendorAlias, $dbVendorMap)) {
             throw new Magento_Exception("Database vendor '$dbVendorAlias' is not supported.");
         }

@@ -53,6 +53,7 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
      * @param mixed $from
      * @param mixed $to
      * @return Mage_Sales_Model_Resource_Report_Shipping
+     * @throws Exception
      */
     protected function _aggregateByOrderCreatedAt($from, $to)
     {
@@ -73,8 +74,8 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
             $periodExpr = $adapter->getDatePartSql(
                 $this->getStoreTZOffsetQuery($sourceTable, 'created_at', $from, $to)
             );
-            $ifnullBaseShippingCanceled = $adapter->getIfNullSql('base_shipping_canceled', 0);
-            $ifnullBaseShippingRefunded = $adapter->getIfNullSql('base_shipping_refunded', 0);
+            $shippingCanceled = $adapter->getIfNullSql('base_shipping_canceled', 0);
+            $shippingRefunded = $adapter->getIfNullSql('base_shipping_refunded', 0);
             $columns = array(
                 'period'                => $periodExpr,
                 'store_id'              => 'store_id',
@@ -82,9 +83,11 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'shipping_description'  => 'shipping_description',
                 'orders_count'          => new Zend_Db_Expr('COUNT(entity_id)'),
                 'total_shipping'        => new Zend_Db_Expr(
-                    "SUM((base_shipping_amount - {$ifnullBaseShippingCanceled}) * base_to_global_rate)"),
+                    "SUM((base_shipping_amount - {$shippingCanceled}) * base_to_global_rate)"
+                ),
                 'total_shipping_actual' => new Zend_Db_Expr(
-                    "SUM((base_shipping_invoiced - {$ifnullBaseShippingRefunded}) * base_to_global_rate)"),
+                    "SUM((base_shipping_invoiced - {$shippingRefunded}) * base_to_global_rate)"
+                ),
             );
 
             $select = $adapter->select();
@@ -99,19 +102,10 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 $select->having($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
-            $select->group(array(
-                $periodExpr,
-                'store_id',
-                'status',
-                'shipping_description'
-            ));
-
+            $select->group(array($periodExpr, 'store_id', 'status', 'shipping_description'));
             $select->having('orders_count > 0');
-
-            $helper        = Mage::getResourceHelper('Mage_Core');
-            $insertQuery   = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
+            $insertQuery = $select->insertFromSelect($table, array_keys($columns));
             $adapter->query($insertQuery);
-
             $select->reset();
 
             $columns = array(
@@ -124,21 +118,14 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'total_shipping_actual' => new Zend_Db_Expr('SUM(total_shipping_actual)'),
             );
 
-            $select
-                ->from($table, $columns)
-                ->where('store_id != ?', 0);
+            $select->from($table, $columns)->where('store_id != ?', 0);
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
-            $select->group(array(
-                'period',
-                'order_status',
-                'shipping_description'
-            ));
-
-            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
+            $select->group(array('period', 'order_status', 'shipping_description'));
+            $insertQuery = $select->insertFromSelect($table, array_keys($columns));
             $adapter->query($insertQuery);
         } catch (Exception $e) {
             $adapter->rollBack();
@@ -155,6 +142,7 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
      * @param mixed $from
      * @param mixed $to
      * @return Mage_Sales_Model_Resource_Report_Shipping
+     * @throws Exception
      */
     protected function _aggregateByShippingCreatedAt($from, $to)
     {
@@ -182,8 +170,8 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                     'source_table.created_at', $from, $to
                 )
             );
-            $ifnullBaseShippingCanceled = $adapter->getIfNullSql('order_table.base_shipping_canceled', 0);
-            $ifnullBaseShippingRefunded = $adapter->getIfNullSql('order_table.base_shipping_refunded', 0);
+            $shippingCanceled = $adapter->getIfNullSql('order_table.base_shipping_canceled', 0);
+            $shippingRefunded = $adapter->getIfNullSql('order_table.base_shipping_refunded', 0);
             $columns = array(
                 'period'                => $periodExpr,
                 'store_id'              => 'order_table.store_id',
@@ -191,21 +179,21 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'shipping_description'  => 'order_table.shipping_description',
                 'orders_count'          => new Zend_Db_Expr('COUNT(order_table.entity_id)'),
                 'total_shipping'        => new Zend_Db_Expr('SUM((order_table.base_shipping_amount - '
-                    . "{$ifnullBaseShippingCanceled}) * order_table.base_to_global_rate)"),
+                    . "{$shippingCanceled}) * order_table.base_to_global_rate)"),
                 'total_shipping_actual' => new Zend_Db_Expr('SUM((order_table.base_shipping_invoiced - '
-                    . "{$ifnullBaseShippingRefunded}) * order_table.base_to_global_rate)"),
+                    . "{$shippingRefunded}) * order_table.base_to_global_rate)"),
             );
 
             $select = $adapter->select();
-            $select->from(array('source_table' => $sourceTable), $columns)
-                ->joinInner(
-                    array('order_table' => $orderTable),
-                    $adapter->quoteInto(
-                        'source_table.order_id = order_table.entity_id AND order_table.state != ?',
-                        Mage_Sales_Model_Order::STATE_CANCELED),
-                    array()
-                )
-                ->useStraightJoin();
+            $select->from(array('source_table' => $sourceTable), $columns)->joinInner(
+                array('order_table' => $orderTable),
+                $adapter->quoteInto(
+                    'source_table.order_id = order_table.entity_id AND order_table.state != ?',
+                    Mage_Sales_Model_Order::STATE_CANCELED
+                ),
+                array()
+            )
+            ->useStraightJoin();
 
             $filterSubSelect = $adapter->select()
                 ->from(array('filter_source_table' => $sourceTable), 'MIN(filter_source_table.entity_id)')
@@ -225,10 +213,8 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'order_table.shipping_description'
             ));
 
-            $helper        = Mage::getResourceHelper('Mage_Core');
-            $insertQuery   = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
+            $insertQuery = $select->insertFromSelect($table, array_keys($columns));
             $adapter->query($insertQuery);
-
             $select->reset();
 
             $columns = array(
@@ -241,20 +227,14 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
                 'total_shipping_actual' => new Zend_Db_Expr('SUM(total_shipping_actual)'),
             );
 
-            $select
-                ->from($table, $columns)
-                ->where('store_id != ?', 0);
+            $select->from($table, $columns)->where('store_id != ?', 0);
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
-            $select->group(array(
-                'period',
-                'order_status',
-                'shipping_description'
-            ));
-            $insertQuery = $helper->getInsertFromSelectUsingAnalytic($select, $table, array_keys($columns));
+            $select->group(array('period', 'order_status', 'shipping_description'));
+            $insertQuery = $select->insertFromSelect($table, array_keys($columns));
             $adapter->query($insertQuery);
         } catch (Exception $e) {
             $adapter->rollBack();

@@ -11,18 +11,12 @@
 
 /**
  * Install index controller
- *
- * @category   Mage
- * @package    Mage_Install
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Install_IndexController extends Mage_Install_Controller_Action
 {
 
     /**
      * Dispatch event before action
-     *
-     * @return void
      */
     public function preDispatch()
     {
@@ -42,5 +36,4 @@ class Mage_Install_IndexController extends Mage_Install_Controller_Action
     {
         $this->_forward('begin', 'wizard', 'install');
     }
-
 }

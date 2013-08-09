@@ -9,9 +9,11 @@
  * @license     {license_link}
  */
 
+Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
+
 /** @var $product Mage_Catalog_Model_Product */
 $product = Mage::getModel('Mage_Catalog_Model_Product');
-$product->setTypeId('simple')
+$product->setTypeId('virtual')
     ->setId(1)
     ->setAttributeSetId(4)
     ->setName('Simple Product')

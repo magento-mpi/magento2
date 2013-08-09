@@ -112,9 +112,6 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testAddComment()
     {
-        if (Magento_Test_Helper_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestSkipped('Legacy API is expected to support MySQL only.');
-        }
         /** Add comment to shipment via API. */
         $commentText = 'Shipment test comment.';
         $isAdded = Magento_Test_Helper_Api::call(
@@ -145,9 +142,6 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testTrackOperations()
     {
-        if (Magento_Test_Helper_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestSkipped('Legacy API is expected to support MySQL only.');
-        }
         /** Prepare data. */
         $carrierCode = 'ups';
         $trackingTitle = 'Tracking title';
@@ -261,9 +255,6 @@ class Mage_Sales_Model_Order_Shipment_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testSendInfo()
     {
-        if (Magento_Test_Helper_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestSkipped('Legacy API is expected to support MySQL only.');
-        }
         $isSent = Magento_Test_Helper_Api::call(
             $this,
             'salesOrderShipmentSendInfo',
