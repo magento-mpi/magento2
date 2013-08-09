@@ -10,10 +10,6 @@
 
 /**
  * Abstract Rule entity data model
- *
- * @category Mage
- * @package Mage_Rule
- * @author Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
 {
@@ -279,10 +275,10 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
         $arr = array();
         foreach ($data as $key => $value) {
             if (($key === 'conditions' || $key === 'actions') && is_array($value)) {
-                foreach ($value as $id=>$data) {
+                foreach ($value as $id => $data) {
                     $path = explode('--', $id);
                     $node =& $arr;
-                    for ($i=0, $l=sizeof($path); $i<$l; $i++) {
+                    for ($i = 0, $l = sizeof($path); $i < $l; $i++) {
                         if (!isset($node[$key][$path[$i]])) {
                             $node[$key][$path[$i]] = array();
                         }
@@ -384,7 +380,7 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
      */
     public function setIsDeleteable($value)
     {
-        $this->_isDeleteable = (bool) $value;
+        $this->_isDeleteable = (bool)$value;
         return $this;
     }
 
@@ -407,7 +403,7 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
      */
     public function setIsReadonly($value)
     {
-        $this->_isReadonly = (bool) $value;
+        $this->_isReadonly = (bool)$value;
         return $this;
     }
 
@@ -435,7 +431,7 @@ abstract class Mage_Rule_Model_Abstract extends Mage_Core_Model_Abstract
      *
      * @return string
      */
-    public function asString($format='')
+    public function asString($format = '')
     {
         return '';
     }

@@ -13,9 +13,7 @@
  *
  * All action handlers may take the $config and $eventModel params, which are configuration node for current action and
  * the event model respectively
- *
  * Action will be logged only if the handler returns non-empty value
- *
  */
 class Enterprise_Logging_Model_Handler_Controllers
 {
@@ -25,11 +23,13 @@ class Enterprise_Logging_Model_Handler_Controllers
      *
      * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
+     * @param Enterprise_Logging_Model_Processor $processorModel
      * @return Enterprise_Logging_Model_Event
      */
     public function postDispatchGeneric($config, $eventModel, $processorModel)
     {
-        if ($collectedIds = $processorModel->getCollectedIds()) {
+        $collectedIds = $processorModel->getCollectedIds();
+        if ($collectedIds) {
             $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->implodeValues($collectedIds));
             return true;
         }
@@ -61,11 +61,11 @@ class Enterprise_Logging_Model_Handler_Controllers
      */
     public function postDispatchConfigView($config, $eventModel)
     {
-        $id = Mage::app()->getRequest()->getParam('section');
-        if (!$id) {
-            $id = 'general';
+        $sectionId = Mage::app()->getRequest()->getParam('section');
+        if (!$sectionId) {
+            $sectionId = 'general';
         }
-        $eventModel->setInfo($id);
+        $eventModel->setInfo($sectionId);
         return true;
     }
 
@@ -88,13 +88,13 @@ class Enterprise_Logging_Model_Handler_Controllers
         /** @var Mage_Backend_Model_Config_Structure $configStructure  */
         $configStructure = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
 
-        $encryptedNodeEntriesPaths = $configStructure->getFieldPathsByAttribute(
+        $encryptedNodePaths = $configStructure->getFieldPathsByAttribute(
             'backend_model',
             'Mage_Backend_Model_Config_Backend_Encrypted'
         );
 
         $skipEncrypted = array();
-        foreach ($encryptedNodeEntriesPaths as $path) {
+        foreach ($encryptedNodePaths as $path) {
             $skipEncrypted[] = basename($path);
         }
 
@@ -116,11 +116,11 @@ class Enterprise_Logging_Model_Handler_Controllers
                 $groupFieldsData = array();
             }
         }
-        $id = $request->getParam('section');
-        if (!$id) {
-            $id = 'general';
+        $sectionId = $request->getParam('section');
+        if (!$sectionId) {
+            $sectionId = 'general';
         }
-        return $eventModel->setInfo($id);
+        return $eventModel->setInfo($sectionId);
     }
 
     /**
@@ -152,7 +152,7 @@ class Enterprise_Logging_Model_Handler_Controllers
      *
      * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @return Enterprise_Logging_Model_Event|bool
      */
     public function postDispatchForgotPassword($config, $eventModel)
     {
@@ -177,14 +177,14 @@ class Enterprise_Logging_Model_Handler_Controllers
      *
      * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @return Enterprise_Logging_Model_Event|bool
      */
     public function postDispatchPollValidation($config, $eventModel)
     {
         $out = json_decode(Mage::app()->getResponse()->getBody());
         if (!empty($out->error)) {
-            $id = Mage::app()->getRequest()->getParam('id');
-            return $eventModel->setIsSuccess(false)->setInfo($id == 0 ? '' : $id);
+            $pollId = Mage::app()->getRequest()->getParam('id');
+            return $eventModel->setIsSuccess(false)->setInfo($pollId == 0 ? '' : $pollId);
         } else {
             $poll = Mage::registry('current_poll_model');
             if ($poll && $poll->getId()) {
@@ -199,13 +199,14 @@ class Enterprise_Logging_Model_Handler_Controllers
      *
      * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @return Enterprise_Logging_Model_Event|bool
      */
-    public function postDispatchCustomerValidate($config, $eventModel) {
+    public function postDispatchCustomerValidate($config, $eventModel)
+    {
         $out = json_decode(Mage::app()->getResponse()->getBody());
         if (!empty($out->error)) {
-            $id = Mage::app()->getRequest()->getParam('id');
-            return $eventModel->setIsSuccess(false)->setInfo($id == 0 ? '' : $id);
+            $customerId = Mage::app()->getRequest()->getParam('id');
+            return $eventModel->setIsSuccess(false)->setInfo($customerId == 0 ? '' : $customerId);
         }
         return false;
     }
@@ -215,7 +216,8 @@ class Enterprise_Logging_Model_Handler_Controllers
      *
      * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @param Enterprise_Logging_Model_Processor $processor
+     * @return Enterprise_Logging_Model_Event|bool
      */
     public function postDispatchReport($config, $eventModel, $processor)
     {
@@ -281,7 +283,9 @@ class Enterprise_Logging_Model_Handler_Controllers
 
         $this->postDispatchGeneric($config, $eventModel, $processorModel);
         if ($request->getParam('auto_apply')) {
-            $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('%s & applied', $eventModel->getInfo()));
+            $eventModel->setInfo(
+                Mage::helper('Enterprise_Logging_Helper_Data')->__('%s & applied', $eventModel->getInfo())
+            );
         }
 
         return $eventModel;
@@ -296,11 +300,11 @@ class Enterprise_Logging_Model_Handler_Controllers
      */
     public function postDispatchNewsletterUnsubscribe($config, $eventModel)
     {
-        $id = Mage::app()->getRequest()->getParam('subscriber');
-        if (is_array($id)) {
-            $id = implode(', ', $id);
+        $subscriberId = Mage::app()->getRequest()->getParam('subscriber');
+        if (is_array($subscriberId)) {
+            $subscriberId = implode(', ', $subscriberId);
         }
-        return $eventModel->setInfo($id);
+        return $eventModel->setInfo($subscriberId);
     }
 
     /**
@@ -308,7 +312,7 @@ class Enterprise_Logging_Model_Handler_Controllers
      *
      * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @return Enterprise_Logging_Model_Event|bool
      */
     public function postDispatchTaxRatesImport($config, $eventModel)
     {
@@ -320,7 +324,9 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Tax Rates Import'));
+        return $eventModel->setIsSuccess($success)->setInfo(
+            Mage::helper('Enterprise_Logging_Helper_Data')->__('Tax Rates Import')
+        );
     }
 
     /**
@@ -328,6 +334,7 @@ class Enterprise_Logging_Model_Handler_Controllers
      *
      * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
+     * @param Enterprise_Logging_Model_Processor $processor
      * @return Enterprise_Logging_Model_Event
      */
     public function postDispatchProductUpdateAttributes($config, $eventModel, $processor)
@@ -373,7 +380,7 @@ class Enterprise_Logging_Model_Handler_Controllers
         return $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Attributes Updated'));
     }
 
-     /**
+    /**
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      *
      * @param Magento_Simplexml_Element $config
@@ -524,6 +531,7 @@ class Enterprise_Logging_Model_Handler_Controllers
      *
      * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
+     * @param Enterprise_Logging_Model_Processor $processor
      * @return Enterprise_Logging_Model_Event
      */
     public function postDispatchSystemCurrencySave($config, $eventModel, $processor)
@@ -553,7 +561,9 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Currency Rates Saved'));
+        return $eventModel->setIsSuccess($success)->setInfo(
+            Mage::helper('Enterprise_Logging_Helper_Data')->__('Currency Rates Saved')
+        );
     }
 
     /**
@@ -561,6 +571,7 @@ class Enterprise_Logging_Model_Handler_Controllers
      *
      * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
+     * @param Enterprise_Logging_Model_Processor $processor
      * @return Enterprise_Logging_Model_Event
      */
     public function postDispatchSaveCacheSettings($config, $eventModel, $processor)
@@ -589,7 +600,7 @@ class Enterprise_Logging_Model_Handler_Controllers
      *
      * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @return Enterprise_Logging_Model_Event|bool
      */
     public function postDispatchTaxRatesExport($config, $eventModel)
     {
@@ -601,7 +612,9 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
-        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Tax Rates Export'));
+        return $eventModel->setIsSuccess($success)->setInfo(
+            Mage::helper('Enterprise_Logging_Helper_Data')->__('Tax Rates Export')
+        );
     }
 
     /**
@@ -645,7 +658,7 @@ class Enterprise_Logging_Model_Handler_Controllers
      * @param Enterprise_Logging_Model_Event $eventModel
      * @param int $classId
      *
-     * @return mixed
+     * @return Enterprise_Logging_Model_Event
      */
     protected function _logTaxClassEvent($classType, $eventModel, $classId)
     {

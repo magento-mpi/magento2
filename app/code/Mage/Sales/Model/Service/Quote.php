@@ -206,13 +206,13 @@ class Mage_Sales_Model_Service_Quote
     public function submitAll()
     {
         // don't allow submitNominalItems() to inactivate quote
-        $shouldInactivateQuoteOld = $this->_shouldInactivateQuote;
+        $inactivateQuoteOld = $this->_shouldInactivateQuote;
         $this->_shouldInactivateQuote = false;
         try {
             $this->submitNominalItems();
-            $this->_shouldInactivateQuote = $shouldInactivateQuoteOld;
+            $this->_shouldInactivateQuote = $inactivateQuoteOld;
         } catch (Exception $e) {
-            $this->_shouldInactivateQuote = $shouldInactivateQuoteOld;
+            $this->_shouldInactivateQuote = $inactivateQuoteOld;
             throw $e;
         }
         // no need to submit the order if there are no normal items remained

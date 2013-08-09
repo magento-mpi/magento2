@@ -28,9 +28,6 @@ class Magento_DB_Adapter_Pdo_MysqlTest extends PHPUnit_Framework_TestCase
      */
     public function testWaitTimeout()
     {
-        if (Magento_Test_Helper_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestSkipped('Test is designed to run on MySQL only.');
-        }
         if (!($this->_getDbAdapter() instanceof Magento_DB_Adapter_Pdo_Mysql)) {
             $this->markTestSkipped('This test is for Magento_DB_Adapter_Pdo_Mysql');
         }

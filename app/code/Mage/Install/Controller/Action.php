@@ -11,6 +11,9 @@
 
 class Mage_Install_Controller_Action extends Mage_Core_Controller_Varien_Action
 {
+    /**
+     * Set current area
+     */
     protected function _construct()
     {
         parent::_construct();

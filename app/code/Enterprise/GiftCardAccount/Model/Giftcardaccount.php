@@ -9,8 +9,6 @@
  */
 
 /**
- * Enter description here ...
- *
  * @method Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount _getResource()
  * @method Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount getResource()
  * @method string getCode()

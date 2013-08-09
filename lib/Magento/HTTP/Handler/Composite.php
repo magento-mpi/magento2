@@ -37,8 +37,8 @@ class Magento_HTTP_Handler_Composite implements Magento_HTTP_HandlerInterface
     /**
      * Sort handlers
      *
-     * @param $handlerA
-     * @param $handlerB
+     * @param array $handlerA
+     * @param array $handlerB
      * @return int
      */
     protected function _cmp($handlerA, $handlerB)

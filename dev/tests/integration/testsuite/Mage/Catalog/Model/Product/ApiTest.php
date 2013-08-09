@@ -106,7 +106,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testMultiUpdate()
     {
-        $this->markTestIncomplete('Unable to test due to https://jira.corp.x.com/browse/MAGETWO-7362');
+        $this->markTestIncomplete('Unable to test due to MAGETWO-7362');
         $productIds = array(10, 11, 12);
 
         $productData = array(
@@ -139,7 +139,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testMultiUpdateNotMatch()
     {
-        $this->markTestIncomplete('Unable to test due to https://jira.corp.x.com/browse/MAGETWO-7362');
+        $this->markTestIncomplete('Unable to test due to MAGETWO-7362');
         $productIds = array(1, 2);
 
         $productData = array(
@@ -161,7 +161,7 @@ class Mage_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testMultiUpdatePartiallyUpdated()
     {
-        $this->markTestIncomplete('Unable to test due to https://jira.corp.x.com/browse/MAGETWO-7362');
+        $this->markTestIncomplete('Unable to test due to MAGETWO-7362');
         $productIds = array(10, 11);
 
         $productData = array(

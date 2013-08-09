@@ -76,7 +76,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Subselection
      * Build query for matching wishlist items
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
+     * @param int|Zend_Db_Expr $website
      * @return Magento_DB_Select
      */
     protected function _prepareConditionsSql($customer, $website)
@@ -95,7 +95,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Subselection
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
-        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
+        $select->limit(1);
 
         return $select;
     }
@@ -117,8 +117,6 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Subselection
      */
     protected function _getSubfilterMap()
     {
-        return array(
-            'product' => 'item.product_id'
-        );
+        return array('product' => 'item.product_id');
     }
 }

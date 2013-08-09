@@ -44,7 +44,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_RevisionTest extends Mage_Bac
         $this->getRequest()->setPost('page_id', $page->getId());
 
         $this->dispatch('backend/admin/cms_page_revision/drop/');
-        $this->assertContains('static/frontend/default/blank', $this->getResponse()->getBody());
+        $this->assertContains('static/frontend/magento_blank', $this->getResponse()->getBody());
         $this->assertContains($page->getContent(), $this->getResponse()->getBody());
     }
 }

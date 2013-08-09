@@ -26,7 +26,6 @@ class Mage_Catalog_Model_Resource_UrlTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLastUsedRewriteRequestIncrement()
     {
-        $this->markTestIncomplete('Bug MAGETWO-724');
         $this->assertEquals(1000, $this->_model->getLastUsedRewriteRequestIncrement('url-key-', '.html', 1));
     }
 }

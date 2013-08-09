@@ -9,8 +9,6 @@
  */
 
 /**
- * Enter description here ...
- *
  * @method Mage_Sales_Model_Resource_Order_Shipment_Item _getResource()
  * @method Mage_Sales_Model_Resource_Order_Shipment_Item getResource()
  * @method int getParentId()
@@ -50,7 +48,7 @@ class Mage_Sales_Model_Order_Shipment_Item extends Mage_Core_Model_Abstract
     /**
      * Initialize resource model
      */
-    function _construct()
+    protected function _construct()
     {
         $this->_init('Mage_Sales_Model_Resource_Order_Shipment_Item');
     }
@@ -97,11 +95,10 @@ class Mage_Sales_Model_Order_Shipment_Item extends Mage_Core_Model_Abstract
      */
     public function getOrderItem()
     {
-        if (is_null($this->_orderItem)) {
+        if (null === $this->_orderItem) {
             if ($this->getShipment()) {
                 $this->_orderItem = $this->getShipment()->getOrder()->getItemById($this->getOrderItemId());
-            }
-            else {
+            } else {
                 $this->_orderItem = Mage::getModel('Mage_Sales_Model_Order_Item')
                     ->load($this->getOrderItemId());
             }
@@ -118,10 +115,9 @@ class Mage_Sales_Model_Order_Shipment_Item extends Mage_Core_Model_Abstract
     public function setQty($qty)
     {
         if ($this->getOrderItem()->getIsQtyDecimal()) {
-            $qty = (float) $qty;
-        }
-        else {
-            $qty = (int) $qty;
+            $qty = (float)$qty;
+        } else {
+            $qty = (int)$qty;
         }
         $qty = $qty > 0 ? $qty : 0;
         /**
@@ -129,10 +125,10 @@ class Mage_Sales_Model_Order_Shipment_Item extends Mage_Core_Model_Abstract
          */
         if ($qty <= $this->getOrderItem()->getQtyToShip() || $this->getOrderItem()->isDummy(true)) {
             $this->setData('qty', $qty);
-        }
-        else {
+        } else {
             Mage::throwException(
-                Mage::helper('Mage_Sales_Helper_Data')->__('We found an invalid qty to ship for item "%s".', $this->getName())
+                Mage::helper('Mage_Sales_Helper_Data')
+                    ->__('We found an invalid qty to ship for item "%s".', $this->getName())
             );
         }
         return $this;
@@ -163,8 +159,6 @@ class Mage_Sales_Model_Order_Shipment_Item extends Mage_Core_Model_Abstract
         if (!$this->getParentId() && $this->getShipment()) {
             $this->setParentId($this->getShipment()->getId());
         }
-
         return $this;
     }
-
 }

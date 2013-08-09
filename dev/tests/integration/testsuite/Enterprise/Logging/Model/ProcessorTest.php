@@ -11,26 +11,11 @@
 
 /**
  * Test Enterprise logging processor
+ *
+ * @magentoAppArea adminhtml
  */
 class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_ControllerAbstract
 {
-    public static function userAndRoleFixture()
-    {
-        Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
-        $user = Mage::getModel('Mage_User_Model_User');
-        $user->setUsername('newuser')
-            ->setFirstname('first_name')
-            ->setLastname('last_name')
-            ->setPassword('password1')
-            ->setEmail('newuser@example.com')
-            ->setRoleId(1)
-            ->save();
-
-        $role = Mage::getModel('Mage_User_Model_Role');
-        $role->setName('newrole')
-            ->save();
-    }
-
     /**
      * Test that configured admin actions are properly logged
      *
@@ -38,15 +23,14 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
      * @param string $action
      * @param array $post
      * @dataProvider adminActionDataProvider
-     * @magentoDataFixture userAndRoleFixture
-     * @magentoAppArea adminhtml
+     * @magentoDataFixture Enterprise/Logging/_files/user_and_role.php
+     * @magentoDbIsolation enabled
      */
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {
-        $this->markTestIncomplete('MAGETWO-6891');
         Mage::app()->loadArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         $collection = Mage::getModel('Enterprise_Logging_Model_Event')->getCollection();
-        $eventCount = count($collection);
+        $eventCountBefore = count($collection);
 
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
 
@@ -59,11 +43,17 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
         );
         $this->dispatch($url);
         $collection = Mage::getModel('Enterprise_Logging_Model_Event')->getCollection();
-        $this->assertEquals($eventCount + 1, count($collection), $action . ' event wasn\'t logged');
+
+        // Number 2 means we have "login" event logged first and then the tested one.
+        $eventCountAfter = $eventCountBefore + 2;
+        $this->assertEquals($eventCountAfter, count($collection), $action . ' event wasn\'t logged');
         $lastEvent = $collection->getLastItem();
         $this->assertEquals($action, $lastEvent['action']);
     }
 
+    /**
+     * @return array
+     */
     public function adminActionDataProvider()
     {
         return array(
@@ -71,10 +61,12 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
             array(
                 'backend/admin/user/save', 'save',
                 array(
-                    'email' => 'newuser@ebay.com',
+                    'firstname' => 'firstname',
+                    'lastname'  => 'lastname',
+                    'email' => 'newuniqueuser@ebay.com',
                     'roles[]' => 1,
-                    'username' => 'newuser',
-                    'password' => 'password'
+                    'username' => 'newuniqueuser',
+                    'password' => 'password123'
                 )
             ),
             array('backend/admin/user/delete/user_id/2', 'delete'),

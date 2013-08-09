@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Core>
-            <version>1.6.0.14</version>
+            <version>1.6.0.15</version>
             <active>true</active>
             <system_requirements>
                 <php>
@@ -137,7 +137,7 @@
     <frontend>
         <design>
             <theme>
-                <full_name>default/demo</full_name>
+                <full_name>magento_demo</full_name>
             </theme>
         </design>
         <routers>
@@ -191,7 +191,7 @@
         </events>
         <design>
             <theme>
-                <full_name>default/backend</full_name>
+                <full_name>magento_backend</full_name>
             </theme>
         </design>
     </adminhtml>
@@ -207,7 +207,7 @@
         </translate>
         <design>
             <theme>
-                <full_name>default/basic</full_name>
+                <full_name>magento_basic</full_name>
             </theme>
         </design>
     </install>

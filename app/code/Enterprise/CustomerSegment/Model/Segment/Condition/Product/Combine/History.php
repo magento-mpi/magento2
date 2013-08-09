@@ -183,9 +183,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
                 $this->_limitByStoreWebsite($select, $website, 'item.store_id');
                 break;
         }
-
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
-
+        $select->limit(1);
         return $select;
     }
 

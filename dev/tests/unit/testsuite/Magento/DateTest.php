@@ -60,11 +60,11 @@ class Magento_DateTest extends PHPUnit_Framework_TestCase
         $date = new Zend_Date();
         return array(
             'null' => array(null, false, ''),
-            'null' => array(null, true, ''),
+            'null including Time' => array(null, true, ''),
             'Bool true' => array(true, false, 'Y-m-d'),
-            'Bool true' => array(true, true, 'Y-m-d H:i:s'),
+            'Bool true including Time' => array(true, true, 'Y-m-d H:i:s'),
             'Bool false' => array(false, false, ''),
-            'Bool false' => array(false, true, ''),
+            'Bool false including Time' => array(false, true, ''),
             'Zend Date' => array($date, false, date('Y-m-d', $date->getTimestamp())),
             'Zend Date including Time' => array($date, true, date('Y-m-d H:i:s', $date->getTimestamp())),
         );

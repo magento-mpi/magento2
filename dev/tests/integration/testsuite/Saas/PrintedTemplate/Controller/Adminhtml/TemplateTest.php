@@ -16,7 +16,6 @@ class Saas_PrintedTemplate_Controller_Adminhtml_TemplateTest extends Mage_Backen
 {
     public function testPrintedTemplateIsInstalled()
     {
-        $this->markTestIncomplete('MAGETWO-7075');
         $this->dispatch('backend/admin/template/index');
 
         $this->assertInstanceOf(

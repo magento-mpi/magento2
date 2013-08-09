@@ -10,8 +10,6 @@
 
 
 /**
- * Enter description here ...
- *
  * @method Mage_GoogleCheckout_Model_Resource_Api_Debug _getResource()
  * @method Mage_GoogleCheckout_Model_Resource_Api_Debug getResource()
  * @method string getDir()

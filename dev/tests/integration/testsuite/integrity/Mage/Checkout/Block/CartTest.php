@@ -21,7 +21,7 @@ class Integrity_Mage_Checkout_Block_CartTest extends PHPUnit_Framework_TestCase
     {
         $params = array();
         if (preg_match('/app\/design\/frontend\/(.+?)\/(.+?)\//', $layoutFile, $matches)) {
-            $params = array('package' => $matches[1], 'theme' => $matches[2]);
+            $params = array('theme' => $matches[1]);
         }
 
         $xml = simplexml_load_file($layoutFile);

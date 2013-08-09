@@ -68,8 +68,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquant
      * Get SQL select for matching shopping cart items count
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
-     * @return Magento_DB_Select
+     * @param int|Zend_Db_Expr $website
+     * @return Varien_Db_Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -77,11 +77,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquant
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)))
-            ->where('quote.is_active=1');
+        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)))->where('quote.is_active=1');
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
-
+        $select->limit(1);
         $select->where("quote.items_count {$operator} ?", $this->getValue());
         if ($customer) {
             // Leave ability to check this condition not only by customer_id but also by quote_id

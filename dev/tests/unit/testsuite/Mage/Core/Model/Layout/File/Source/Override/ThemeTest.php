@@ -42,22 +42,22 @@ class Mage_Core_Model_Layout_File_Source_Override_ThemeTest extends PHPUnit_Fram
     public function testGetFiles()
     {
         $grandparentTheme = $this->getMockForAbstractClass('Mage_Core_Model_ThemeInterface');
-        $grandparentTheme->expects($this->once())->method('getCode')->will($this->returnValue('grand/parent_theme'));
+        $grandparentTheme->expects($this->once())->method('getCode')->will($this->returnValue('grand_parent_theme'));
 
         $parentTheme = $this->getMockForAbstractClass('Mage_Core_Model_ThemeInterface');
-        $parentTheme->expects($this->once())->method('getCode')->will($this->returnValue('parent/theme'));
+        $parentTheme->expects($this->once())->method('getCode')->will($this->returnValue('parent_theme'));
         $parentTheme->expects($this->once())->method('getParentTheme')->will($this->returnValue($grandparentTheme));
 
         $theme = $this->getMockForAbstractClass('Mage_Core_Model_ThemeInterface');
-        $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme/path'));
+        $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme_path'));
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
-        $filePathOne = 'design/area/theme/path/Module_One/layout/override/parent/theme/1.xml';
-        $filePathTwo = 'design/area/theme/path/Module_Two/layout/override/grand/parent_theme/2.xml';
+        $filePathOne = 'design/area/theme_path/Module_One/layout/override/parent_theme/1.xml';
+        $filePathTwo = 'design/area/theme_path/Module_Two/layout/override/grand_parent_theme/2.xml';
         $this->_filesystem
             ->expects($this->once())
             ->method('searchKeys')
-            ->with('design', 'area/theme/path/*_*/layout/override/*/*/*.xml')
+            ->with('design', 'area/theme_path/*_*/layout/override/*/*.xml')
             ->will($this->returnValue(array($filePathOne, $filePathTwo)))
         ;
 
@@ -77,22 +77,22 @@ class Mage_Core_Model_Layout_File_Source_Override_ThemeTest extends PHPUnit_Fram
 
     public function testGetFilesWrongAncestor()
     {
-        $filePath = 'design/area/theme/path/Module_One/layout/override/parent/theme/1.xml';
+        $filePath = 'design/area/theme_path/Module_One/layout/override/parent_theme/1.xml';
         $this->setExpectedException(
             'Mage_Core_Exception',
-            "Trying to override layout file '$filePath' for theme 'parent/theme'"
-                . ", which is not ancestor of theme 'theme/path'"
+            "Trying to override layout file '$filePath' for theme 'parent_theme'"
+                . ", which is not ancestor of theme 'theme_path'"
         );
 
         $theme = $this->getMockForAbstractClass('Mage_Core_Model_ThemeInterface');
-        $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme/path'));
+        $theme->expects($this->once())->method('getFullPath')->will($this->returnValue('area/theme_path'));
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue(null));
-        $theme->expects($this->once())->method('getCode')->will($this->returnValue('theme/path'));
+        $theme->expects($this->once())->method('getCode')->will($this->returnValue('theme_path'));
 
         $this->_filesystem
             ->expects($this->once())
             ->method('searchKeys')
-            ->with('design', 'area/theme/path/*_*/layout/override/*/*/*.xml')
+            ->with('design', 'area/theme_path/*_*/layout/override/*/*.xml')
             ->will($this->returnValue(array($filePath)))
         ;
         $this->_model->getFiles($theme);

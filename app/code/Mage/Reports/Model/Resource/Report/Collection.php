@@ -189,9 +189,9 @@ class Mage_Reports_Model_Resource_Report_Collection extends Magento_Data_Collect
     protected function _getDayInterval(Zend_Date $dateStart)
     {
         $interval = array(
-                'period' => $dateStart->toString($this->_locale->getDateFormat()),
-                'start'  => $dateStart->toString('yyyy-MM-dd HH:mm:ss'),
-                'end'    => $dateStart->toString('yyyy-MM-dd 23:59:59')
+            'period' => $dateStart->toString($this->_locale->getDateFormat()),
+            'start'  => $dateStart->toString('yyyy-MM-dd HH:mm:ss'),
+            'end'    => $dateStart->toString('yyyy-MM-dd 23:59:59')
         );
         return $interval;
     }
@@ -208,14 +208,19 @@ class Mage_Reports_Model_Resource_Report_Collection extends Magento_Data_Collect
     {
         $interval = array();
         $interval['period'] =  $dateStart->toString('MM/yyyy');
-        $interval['start'] = ($firstInterval) ? $dateStart->toString('yyyy-MM-dd 00:00:00')
-            : $dateStart->toString('yyyy-MM-01 00:00:00');
+        if ($firstInterval) {
+            $interval['start'] = $dateStart->toString('yyyy-MM-dd 00:00:00');
+        } else {
+            $interval['start'] = $dateStart->toString('yyyy-MM-01 00:00:00');
+        }
 
         $lastInterval = ($dateStart->compareMonth($dateEnd->getMonth()) == 0);
 
-        $interval['end'] = ($lastInterval) ? $dateStart->setDay($dateEnd->getDay())
-            ->toString('yyyy-MM-dd 23:59:59')
-            : $dateStart->toString('yyyy-MM-'.date('t', $dateStart->getTimestamp()).' 23:59:59');
+        if ($lastInterval) {
+            $interval['end'] = $dateStart->setDay($dateEnd->getDay())->toString('yyyy-MM-dd 23:59:59');
+        } else {
+            $interval['end'] = $dateStart->toString('yyyy-MM-' . date('t', $dateStart->getTimestamp()) . ' 23:59:59');
+        }
 
         $dateStart->addMonth(1);
 
@@ -321,18 +326,6 @@ class Mage_Reports_Model_Resource_Report_Collection extends Magento_Data_Collect
     public function getPageSize()
     {
         return $this->_pageSize;
-    }
-
-    /**
-     * get report full
-     *
-     * @param int $fromDate
-     * @param int $toDate
-     * @return unknown
-     */
-    public function getReportFull($fromDate, $toDate)
-    {
-        return $this->_model->getReportFull($this->timeShift($fromDate), $this->timeShift($toDate));
     }
 
     /**
