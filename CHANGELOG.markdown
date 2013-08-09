@@ -9,6 +9,17 @@
   * Eliminated `json2.js` library since JSON parsing is bundled in all supported browsers
   * `Ajax.Autocompleter` is replaced with jQuery suggest widget for search on backend
   * `jsTree` jQuery plugin is utilized for User Roles, Api Roles, CMS Pages and URL Rewrites management pages on backend
+  * Improved jQuery validation for credit cards
+  * Added support of `$.mage.component` in different frontend themes
+  * Further refactoring of JavaScript to use JQuery library:
+    * The following modules are converted: Centinel, Authorize.net, Payflow Link, Paygate, Checkout
+    * Removing Prototype inclusion in several places
+  * Enhanced menu behavior in backend
+* VDE improvements:
+  * Implemented inline translate tool for VDE
+  * Modified text messages in VDE
+* HTML improvements:
+  * Enhanced accessibility in admin by labeling form fields
 * Bug fixes:
   * Fixed multiple bugs in management of categories, products, product attributes and product templates (attribute sets)
   * Fixed absence of a product for store view created after the product
@@ -16,6 +27,11 @@
   * Fixed incorrectly displayed Tier Price message for Bundle product on backend
   * Fixed absence of configured options, when composite product is edited from wishlist
   * Fixed incorrectly refunded order amount, when both Store Credits and online payment method are used
+  * Fixed bug in VDE with color picker, file uploader
+  * Fixed bug with validation in order management
+  * Fixed bug with adding product with decimal quantity
+  * Fixed bug with incorrect theme saving when wrong file is uploaded
+  * Fixed bug with incorrect price and stock availability information
 
 2.0.0.0-dev44
 =============
