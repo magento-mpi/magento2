@@ -171,7 +171,7 @@ class Magento_Tools_Translate_Combine
         $resultData = array();
 
         $files = $this->_getFilesToProcess(sprintf($this->_localePath, $this->_localeName));
-        $csv = new Varien_File_Csv();
+        $csv = new Magento_File_Csv();
 
         foreach ($files as $alias=>$file){
             $data = $csv->getData($file);
