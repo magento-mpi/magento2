@@ -87,7 +87,7 @@ class Magento_Test_Tools_Migration_System_Configuration_GeneratorTest extends PH
 
         $this->_loggerMock->expects($this->once())->method('add')->with(
             'someFile',
-            Magento_Tools_Migration_System_Configuration_LoggerAbstract:: FILE_KEY_VALID
+            Magento_Tools_Migration_System_Configuration_LoggerAbstract:: FILE_KEY_INVALID
         );
 
         $this->_model->createConfiguration('someFile', include __DIR__ . '/_files/mappedConfiguration.php');
