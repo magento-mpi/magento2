@@ -16,7 +16,6 @@
         <attribute_code>a_test_attr_textarea</attribute_code>
         <scope>store</scope>
         <frontend_input>textarea</frontend_input>
-        <default_value></default_value>
         <is_unique>0</is_unique>
         <is_required>0</is_required>
         <apply_to>simple</apply_to>
