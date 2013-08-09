@@ -34,6 +34,11 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
     );
 
     /**
+     * @var Magento_Filesystem
+     */
+    private $_filesystem;
+
+    /**
      * @var Mage_Catalog_Model_Product_Media_Config
      */
     protected $_mediaConfig;
@@ -44,13 +49,17 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
     protected $_imageFactory;
 
     /**
+     * @param Magento_Filesystem $filesystem
      * @param Mage_Catalog_Model_Product_Media_Config $mediaConfig
      * @param Mage_Core_Model_Image_Factory $imageFactory
      */
     public function __construct(
+        Magento_Filesystem $filesystem,
         Mage_Catalog_Model_Product_Media_Config $mediaConfig,
         Mage_Core_Model_Image_Factory $imageFactory
     ) {
+        $this->_filesystem = $filesystem;
+        $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_mediaConfig = $mediaConfig;
         $this->_storeIdSessionField = 'product_store_id';
         $this->_imageFactory = $imageFactory;
@@ -139,42 +148,29 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
 
         $tmpDirectory = $this->_mediaConfig->getBaseTmpMediaPath() . DS . microtime();
 
-        if (isset($data['file']['name']) && $data['file']['name']) {
-            $fileName  = $data['file']['name'];
-        } else {
-            $fileName  = 'image';
-        }
-        $fileName .= '.' . $this->_mimeTypes[$data['file']['mime']];
+        $fileName = !empty($data['file']['name']) ? $data['file']['name'] : 'image';
+        $fileExtension = $this->_mimeTypes[$data['file']['mime']];
+        $fileName = $tmpDirectory . DS . $fileName . '.' . $fileExtension;
 
-        $ioAdapter = new Varien_Io_File();
         try {
-            // Create temporary directory for api
-            $ioAdapter->checkAndCreateFolder($tmpDirectory);
-            $ioAdapter->open(array('path'=>$tmpDirectory));
             // Write image file
-            $ioAdapter->write($fileName, $fileContent, 0666);
+            $this->_filesystem->write($fileName, $fileContent);
             unset($fileContent);
 
             // try to create Image object - it fails with Exception if image is not supported
             try {
-                $this->_imageFactory->create($tmpDirectory . DS . $fileName);
+                $this->_imageFactory->create($fileName);
             } catch (Exception $e) {
                 // Remove temporary directory
-                $ioAdapter->rmdir($tmpDirectory, true);
-
+                $this->_filesystem->delete($tmpDirectory);
                 throw new Mage_Core_Exception($e->getMessage());
             }
 
             // Adding image to gallery
-            $file = $gallery->getBackend()->addImage(
-                $product,
-                $tmpDirectory . DS . $fileName,
-                null,
-                true
-            );
+            $file = $gallery->getBackend()->addImage($product, $fileName, null, true);
 
             // Remove temporary directory
-            $ioAdapter->rmdir($tmpDirectory, true);
+            $this->_filesystem->delete($tmpDirectory);
 
             $gallery->getBackend()->updateImage($product, $file, $data);
 
@@ -225,13 +221,10 @@ class Mage_Catalog_Model_Product_Attribute_Media_Api extends Mage_Catalog_Model_
 
             unset($data['file']['content']);
 
-            $ioAdapter = new Varien_Io_File();
             try {
                 $fileName = $this->_mediaConfig->getMediaPath($file);
-                $ioAdapter->open(array('path'=>dirname($fileName)));
-                $ioAdapter->write(basename($fileName), $fileContent, 0666);
-
-            } catch(Exception $e) {
+                $this->_filesystem->write($fileName, $fileContent);
+            } catch (Exception $e) {
                 $this->_fault('not_created', Mage::helper('Mage_Catalog_Helper_Data')->__('We can\'t create the image.'));
             }
         }
