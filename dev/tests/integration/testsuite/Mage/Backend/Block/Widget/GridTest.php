@@ -69,7 +69,6 @@ class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
                 'dirs' => new Mage_Core_Model_Dir(__DIR__),
                 'filesystem' => new Magento_Filesystem(new Magento_Filesystem_Adapter_Local),
             )),
-            Mage::getModel('Mage_Backend_Helper_Data'),
             Mage::getModel('Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory'),
             Mage::getModel('Mage_Backend_Model_Widget_Grid_SubTotals'),
             Mage::getModel('Mage_Backend_Model_Widget_Grid_Totals'),
