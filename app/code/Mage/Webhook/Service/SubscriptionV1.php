@@ -261,27 +261,6 @@ class Mage_Webhook_Service_SubscriptionV1 implements Mage_Webhook_Service_Subscr
     }
 
     /**
-     * Returns trues if a given userId is associated with a subscription
-     *
-     * @param int $apiUserId
-     * @param int $subscriptionId
-     * @throws Mage_Webhook_Exception
-     */
-    public function validateOwnership($apiUserId, $subscriptionId)
-    {
-        $subscription = $this->_loadSubscriptionById($subscriptionId);
-        if ($subscription->getApiUserId() != $apiUserId) {
-            throw new Mage_Webhook_Exception(
-                $this->_translator->translate(array(
-                    "User with id %s doesn't have permission to modify subscription %s",
-                    $apiUserId,
-                    $subscriptionId,
-                ))
-            );
-        }
-    }
-
-    /**
      * Validates all the topics for a Subscription are Authorized.
      *
      * If invalid topics exists, an exception will be thrown.
