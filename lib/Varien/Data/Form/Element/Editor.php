@@ -61,15 +61,15 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
             // add Firebug notice translations
             $warn = 'Firebug is known to make the WYSIWYG editor slow unless it is turned off or configured properly.';
             $this->getConfig()->addData(array(
-                'firebug_warning_title'  => $this->translate('Warning'),
-                'firebug_warning_text'   => $this->translate($warn),
-                'firebug_warning_anchor' => $this->translate('Hide'),
+                'firebug_warning_title'  => __('Warning'),
+                'firebug_warning_text'   => __($warn),
+                'firebug_warning_anchor' => __('Hide'),
             ));
 
             $translatedString = array(
-                'Insert Image...' => $this->translate('Insert Image...'),
-                'Insert Media...' => $this->translate('Insert Media...'),
-                'Insert File...'  => $this->translate('Insert File...')
+                'Insert Image...' => __('Insert Image...'),
+                'Insert Media...' => __('Insert Media...'),
+                'Insert File...'  => __('Insert File...')
             );
 
             $jsSetupObject = 'wysiwyg' . $this->getHtmlId();
@@ -160,7 +160,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
     protected function _getToggleButtonHtml($visible = true)
     {
         $html = $this->_getButtonHtml(array(
-            'title'     => $this->translate('Show / Hide Editor'),
+            'title'     => __('Show / Hide Editor'),
             'class'     => 'action-show-hide',
             'style'     => $visible ? '' : 'display:none',
             'id'        => 'toggle'.$this->getHtmlId(),
@@ -181,7 +181,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         // Button to widget insertion window
         if ($this->getConfig('add_widgets')) {
             $buttonsHtml .= $this->_getButtonHtml(array(
-                'title'     => $this->translate('Insert Widget...'),
+                'title'     => __('Insert Widget...'),
                 'onclick'   => "widgetTools.openDialog('" . $this->getConfig('widget_window_url') . "widget_target_id/"
                                . $this->getHtmlId() . "')",
                 'class'     => 'action-add-widget plugin',
@@ -192,7 +192,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         // Button to media images insertion window
         if ($this->getConfig('add_images')) {
             $buttonsHtml .= $this->_getButtonHtml(array(
-                'title'     => $this->translate('Insert Image...'),
+                'title'     => __('Insert Image...'),
                 'onclick'   => "MediabrowserUtility.openDialog('" .
                                $this->getConfig('files_browser_window_url') .
                                "target_element_id/" . $this->getHtmlId() . "/" .
@@ -336,19 +336,6 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
             return $this->_getData('config')->getData($key);
         }
         return $this->_getData('config');
-    }
-
-    /**
-     * Translate string using defined helper
-     *
-     * @param string $string String to be translated
-     * @return string
-     */
-    public function translate($string)
-    {
-        $result = __($string);
-
-        return $result;
     }
 
     /**

@@ -22,7 +22,7 @@ class Mage_Customer_Service_Customer
     /**
      * @var Mage_Customer_Helper_Data
      */
-    protected $_translateHelper = null;
+    protected $_dataHelper = null;
 
     /**
      * @var Mage_Customer_Model_CustomerFactory
@@ -59,7 +59,7 @@ class Mage_Customer_Service_Customer
         Mage_Customer_Model_AddressFactory $addressFactory,
         $isAdminStore = true
     ) {
-        $this->_translateHelper = $helper;
+        $this->_dataHelper = $helper;
         $this->_customerFactory = $customerFactory;
         $this->_addressFactory = $addressFactory;
         $this->_isAdminStore = $isAdminStore;
@@ -317,7 +317,7 @@ class Mage_Customer_Service_Customer
             $storeId = $customer->getSendemailStoreId();
 
             if ($isNewCustomer) {
-                $newResetPasswordLinkToken = $this->_translateHelper->generateResetPasswordLinkToken();
+                $newResetPasswordLinkToken = $this->_dataHelper->generateResetPasswordLinkToken();
                 $customer->changeResetPasswordLinkToken($newResetPasswordLinkToken);
                 $customer->sendNewAccountEmail('registered', '', $storeId);
             } elseif (!$customer->getConfirmation()) {
