@@ -20,18 +20,33 @@
   * Modified text messages in VDE
 * HTML improvements:
   * Enhanced accessibility in admin by labeling form fields
+* `Varien_Image` library refactored:
+  * Created adapters factory instead of class `Varien_Image_Adapter`
+  * Refactored ImageMagick and GD adapters to make them testable
+  * Added feature of generating image from text
 * Bug fixes:
-  * Fixed multiple bugs in management of categories, products, product attributes and product templates (attribute sets)
+  * Fixed multiple bugs in management of categories, products, product attributes, product templates (attribute sets) and taxes
   * Fixed absence of a product for store view created after the product
   * Fixed incorrectly displayed or absent product image on configurable product pages
   * Fixed incorrectly displayed Tier Price message for Bundle product on backend
   * Fixed absence of configured options, when composite product is edited from wishlist
+  * Fixed inability to set product rating from backend
   * Fixed incorrectly refunded order amount, when both Store Credits and online payment method are used
   * Fixed bug in VDE with color picker, file uploader
   * Fixed bug with validation in order management
   * Fixed bug with adding product with decimal quantity
   * Fixed bug with incorrect theme saving when wrong file is uploaded
   * Fixed bug with incorrect price and stock availability information
+  * Fixed absence of "Delete" button on Widget Instance and Edit Custom Variable pages
+  * Fixed inability to change PayPal configuration
+  * Fixed issue with customer address saved in `sales_flat_quote_address` table as `null` or as default address instead of new one during checkout
+  * Fixed hard dependency on GD extension during installation. Now the application can be installed if any of GD or ImageMagick extension is enabled
+  * Fixed handling of creation a customer with already existing e-mail on backend
+  * Fixed exception on customer edit page, when profiler is enabled
+  * Fixed removal of "NOT LOGGED IN" customer group, when attempting to delete nonexistent group
+  * Fixed bugs related to "Add Store Code to Urls" configuration setting: the setting applied to backend and produced exceptions on frontend
+  * Fixed inability to edit Newsletter Template
+  * Fixed inability to save Configuration from "Web" tab
 
 2.0.0.0-dev44
 =============
