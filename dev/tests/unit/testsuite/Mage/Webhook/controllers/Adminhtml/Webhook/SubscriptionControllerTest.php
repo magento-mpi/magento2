@@ -53,75 +53,6 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
     protected $_mockRequest;
 
     /**
-     * Makes sure that Mage has a mock object manager set, and returns that instance.
-     *
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _setMageObjectManager()
-    {
-        Mage::reset();
-        $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-        Mage::setObjectManager($this->_mockObjectManager);
-    }
-
-    /**
-     * Creates the SubscriptionController to test.
-     * @return object
-     */
-    protected function _createSubscriptionController()
-    {
-        // Mock Layout passed into constructor
-        $layoutMock = $this->getMockBuilder('Mage_Core_Model_Layout')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $layoutMergeMock = $this->getMockBuilder('Mage_Core_Model_Layout_Merge')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $layoutMock->expects($this->any())->method('getUpdate')->will($this->returnValue($layoutMergeMock));
-        $testElement = new Magento_Simplexml_Element('<test>test</test>');
-        $layoutMock->expects($this->any())->method('getNode')->will($this->returnValue($testElement));
-
-        // for _setActiveMenu
-        $blockMock = $this->getMockBuilder('Mage_Backend_Block_Menu')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $menuMock = $this->getMockBuilder('Mage_Backend_Model_Menu')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $menuMock->expects($this->any())->method('getParentItems')->will($this->returnValue(array()));
-        $blockMock->expects($this->any())->method('getMenuModel')->will($this->returnValue($menuMock));
-
-        $layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMock));
-        $layoutMock->expects($this->any())->method('getBlock')->will($this->returnValue($blockMock));
-
-        $contextParameters = array(
-            'layout' => $layoutMock,
-            'objectManager' => $this->_mockObjectManager,
-            'session' => $this->_mockBackendModSess,
-            'translator' => $this->_mockTranslateModel,
-            'request' => $this->_mockRequest,
-        );
-
-        $this->_mockBackendCntCtxt = $this->_objectManagerHelper
-            ->getObject('Mage_Backend_Controller_Context',
-                $contextParameters);
-
-        $subControllerParams = array(
-            'context' => $this->_mockBackendCntCtxt,
-            'subscriptionService' => $this->_mockSubscriptionSvc,
-            'registry' => $this->_mockRegistry,
-        );
-
-        /** Create SubscriptionController to test */
-        $subscriptionContr = $this->_objectManagerHelper
-            ->getObject('Mage_Webhook_Adminhtml_Webhook_SubscriptionController',
-                $subControllerParams);
-        return $subscriptionContr;
-    }
-
-    /**
      * Setup object manager and initialize mocks
      */
     public function setUp()
@@ -129,9 +60,6 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         /** @var Magento_Test_Helper_ObjectManager $objectManagerHelper */
         $this->_objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_setMageObjectManager();
-
-        $mockBackendModelSession = $this->getMockBuilder('Mage_Backend_Model_Session')->getMock();
-        Mage::register('_singleton/Mage_Backend_Model_Session', $mockBackendModelSession);
 
         // Initialize mocks which are used in several testcases
         $this->_mockApp = $this->getMockBuilder('Mage_Core_Model_App')
@@ -149,7 +77,6 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
             ->getMock();
         $this->_mockBackendModSess = $this->getMockBuilder('Mage_Backend_Model_Session')
             ->getMock();
-
         $this->_mockTranslateModel = $this->getMockBuilder('Mage_Core_Model_Translate')
             ->disableOriginalConstructor()
             ->getMock();
@@ -161,26 +88,6 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
         $this->_mockRegistry = $this->getMockBuilder('Mage_Core_Model_Registry')
             ->disableOriginalConstructor()
             ->getMock();
-    }
-
-    /**
-     * Common mock 'expect' pattern.
-     * Calls that need to be mocked out when
-     * Mage_Backend_Controller_ActionAbstract loadLayout() and renderLayout() are called.
-     */
-    protected function _verifyLoadAndRenderLayout()
-    {
-        // loadLayout
-        $this->_mockObjectManager->expects($this->at(0))->method('get')
-            ->with('Mage_Core_Model_Config')->will($this->returnValue($this->_mockConfig));
-        $this->_mockObjectManager->expects($this->at(1))->method('get')
-            ->with('Mage_Core_Model_Layout_Filter_Acl')->will($this->returnValue($this->_mockLayoutFilter));
-
-        // renderLayout
-        $this->_mockObjectManager->expects($this->at(2))->method('get')
-            ->with('Mage_Backend_Model_Session')->will($this->returnValue($this->_mockBackendModSess));
-        $this->_mockObjectManager->expects($this->at(3))->method('get')
-            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
     }
 
     public function testIndexAction()
@@ -219,7 +126,6 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
     public function testEditActionHasData()
     {
         // put data in session, the magic function getFormData is called so, must match __call method name
-        $this->_mockBackendModSess = Mage::getSingleton('Mage_Backend_Model_Session');
         $this->_mockBackendModSess->expects($this->any())
             ->method('__call')->will($this->returnValue(array('testkey' =>'testvalue')));
 
@@ -612,5 +518,94 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends PHPUnit_
 
         $subscriptionContr = $this->_createSubscriptionController();
         $subscriptionContr->activateAction();
+    }
+
+    /**
+     * Makes sure that Mage has a mock object manager set, and returns that instance.
+     *
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _setMageObjectManager()
+    {
+        Mage::reset();
+        $this->_mockObjectManager = $this->getMockBuilder('Magento_ObjectManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+        Mage::setObjectManager($this->_mockObjectManager);
+    }
+
+    /**
+     * Creates the SubscriptionController to test.
+     * @return object
+     */
+    protected function _createSubscriptionController()
+    {
+        // Mock Layout passed into constructor
+        $layoutMock = $this->getMockBuilder('Mage_Core_Model_Layout')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $layoutMergeMock = $this->getMockBuilder('Mage_Core_Model_Layout_Merge')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $layoutMock->expects($this->any())->method('getUpdate')->will($this->returnValue($layoutMergeMock));
+        $testElement = new Magento_Simplexml_Element('<test>test</test>');
+        $layoutMock->expects($this->any())->method('getNode')->will($this->returnValue($testElement));
+
+        // for _setActiveMenu
+        $blockMock = $this->getMockBuilder('Mage_Backend_Block_Menu')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $menuMock = $this->getMockBuilder('Mage_Backend_Model_Menu')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $menuMock->expects($this->any())->method('getParentItems')->will($this->returnValue(array()));
+        $blockMock->expects($this->any())->method('getMenuModel')->will($this->returnValue($menuMock));
+
+        $layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMock));
+        $layoutMock->expects($this->any())->method('getBlock')->will($this->returnValue($blockMock));
+
+        $contextParameters = array(
+            'layout' => $layoutMock,
+            'objectManager' => $this->_mockObjectManager,
+            'session' => $this->_mockBackendModSess,
+            'translator' => $this->_mockTranslateModel,
+            'request' => $this->_mockRequest,
+        );
+
+        $this->_mockBackendCntCtxt = $this->_objectManagerHelper
+            ->getObject('Mage_Backend_Controller_Context',
+                $contextParameters);
+
+        $subControllerParams = array(
+            'context' => $this->_mockBackendCntCtxt,
+            'subscriptionService' => $this->_mockSubscriptionSvc,
+            'registry' => $this->_mockRegistry,
+        );
+
+        /** Create SubscriptionController to test */
+        $subscriptionContr = $this->_objectManagerHelper
+            ->getObject('Mage_Webhook_Adminhtml_Webhook_SubscriptionController',
+                $subControllerParams);
+        return $subscriptionContr;
+    }
+
+    /**
+     * Common mock 'expect' pattern.
+     * Calls that need to be mocked out when
+     * Mage_Backend_Controller_ActionAbstract loadLayout() and renderLayout() are called.
+     */
+    protected function _verifyLoadAndRenderLayout()
+    {
+        // loadLayout
+        $this->_mockObjectManager->expects($this->at(0))->method('get')
+            ->with('Mage_Core_Model_Config')->will($this->returnValue($this->_mockConfig));
+        $this->_mockObjectManager->expects($this->at(1))->method('get')
+            ->with('Mage_Core_Model_Layout_Filter_Acl')->will($this->returnValue($this->_mockLayoutFilter));
+
+        // renderLayout
+        $this->_mockObjectManager->expects($this->at(2))->method('get')
+            ->with('Mage_Backend_Model_Session')->will($this->returnValue($this->_mockBackendModSess));
+        $this->_mockObjectManager->expects($this->at(3))->method('get')
+            ->with('Mage_Core_Model_Translate')->will($this->returnValue($this->_mockTranslateModel));
     }
 }
