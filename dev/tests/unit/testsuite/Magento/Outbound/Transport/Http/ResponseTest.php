@@ -40,7 +40,6 @@ class Magento_Outbound_Transport_Http_ResponseTest extends PHPUnit_Framework_Tes
     {
         $uut = new Magento_Outbound_Transport_Http_Response("HTTP/2.0 200 OK\nHdrkey: Hdrval\n\nRaw Body");
         $this->assertSame("Raw Body", $uut->getBody());
-        $this->assertSame("Raw Body", $uut->getRawBody());
     }
     
     public function testGetHeaders()

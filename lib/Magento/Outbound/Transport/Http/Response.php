@@ -72,16 +72,6 @@ class Magento_Outbound_Transport_Http_Response
     }
 
     /**
-     * Gets response body
-     *
-     * @return string
-     */
-    public function getRawBody()
-    {
-        return $this->_response->getRawBody();
-    }
-
-    /**
      * Gets response headers
      *
      * @return array
