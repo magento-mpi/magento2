@@ -23,12 +23,4 @@ class Magento_Phrase_Renderer_PlaceholderTest extends PHPUnit_Framework_TestCase
         $result = 'text param1 param2';
         $this->assertEquals($result, $this->_renderer->render('text %1 %2', array('param1', 'param2')));
     }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testRenderPlaceholderError()
-    {
-        $this->_renderer->render('text %1', array('param1', 'param2'));
-    }
 }
