@@ -12,12 +12,17 @@
   * Improved jQuery validation for credit cards
   * Added support of `$.mage.component` in different frontend themes
   * Further refactoring of JavaScript to use JQuery library:
-    * The following modules are converted: Centinel, Authorize.net, Payflow Link, Paygate, Checkout
+    * Scripts are converted in the following modules and components: Centinel, Authorize.net, Payflow Link, Payflow Pro, Paygate, Paypal Express, Standard checkout, Captcha
     * Removing Prototype inclusion in several places
   * Enhanced menu behavior in backend
 * VDE improvements:
   * Implemented inline translate tool for VDE
-  * Modified text messages in VDE
+    * Added new dedicated button "T" in interface
+    * 3 different modes: Page Text, Variable Text (for script texts), Alternative Text (for attributes)
+    * Independent enabling of inline translation on frontend and in VDE
+  * Modified some text messages in VDE and in themes management
+  * Added ability to upload, browse and delete images and fonts, which can be used in custom CSS
+  * Improved theme's background image handling
 * HTML improvements:
   * Enhanced accessibility in admin by labeling form fields
 * `Varien_Image` library refactored:
@@ -25,14 +30,14 @@
   * Refactored ImageMagick and GD adapters to make them testable
   * Added feature of generating image from text
 * Bug fixes:
-  * Fixed multiple bugs in management of categories, products, product attributes, product templates (attribute sets) and taxes
+  * Fixed multiple bugs in management of categories, products, product attributes, product templates (attribute sets), taxes and tax rules
   * Fixed absence of a product for store view created after the product
   * Fixed incorrectly displayed or absent product image on configurable product pages
   * Fixed incorrectly displayed Tier Price message for Bundle product on backend
   * Fixed absence of configured options, when composite product is edited from wishlist
   * Fixed inability to set product rating from backend
   * Fixed incorrectly refunded order amount, when both Store Credits and online payment method are used
-  * Fixed bug in VDE with color picker, file uploader
+  * Fixed bugs in VDE with color picker, file uploader, themes assigning, Remove and Update buttons for custom CSS
   * Fixed bug with validation in order management
   * Fixed bug with adding product with decimal quantity
   * Fixed bug with incorrect theme saving when wrong file is uploaded
@@ -47,6 +52,15 @@
   * Fixed bugs related to "Add Store Code to Urls" configuration setting: the setting applied to backend and produced exceptions on frontend
   * Fixed inability to edit Newsletter Template
   * Fixed inability to save Configuration from "Web" tab
+  * Fixed incorrect roles assignment for backend users
+  * Fixed incorrect message during checkout via Authorize.Net
+  * Fixed unexpected alert during one-page checkout
+  * Fixed bug with broken RSS link on some pages
+  * Fixed impossibility of deleting non-empty customer groups
+  * Fixed bug with absent tracking number in notification email
+  * Fixed JS bug in bundle products
+  * Fixed bug with missing product configuration in bundle products
+  * Fixed bug with missing wishlist grid on customer configuration page
 
 2.0.0.0-dev44
 =============
