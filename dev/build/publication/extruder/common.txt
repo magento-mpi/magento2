@@ -40,3 +40,5 @@ lib/Varien/Db/Statement/Sqlsrv.php
 pub/errors/pro
 app/code/Mage/Api
 dev/tests/unit/testsuite/Mage/Api
+app/code/Enterprise/Pci
+dev/tests/integration/Enterprise/Pci
