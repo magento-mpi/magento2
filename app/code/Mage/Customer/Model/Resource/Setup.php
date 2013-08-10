@@ -378,7 +378,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'               => 'text',
                         'label'              => 'Street Address',
                         'input'              => 'multiline',
-                        'backend'            => 'Mage_Customer_Model_Resource_Address_Attribute_Backend_Street',
+                        'backend'            => 'Mage_Eav_Model_Entity_Attribute_Backend_Default',
                         'sort_order'         => 70,
                         'multiline_count'    => 2,
                         'validate_rules'     => 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}',

@@ -817,11 +817,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         $request->setDestCountryId($this->getCountryId());
         $request->setDestRegionId($this->getRegionId());
         $request->setDestRegionCode($this->getRegionCode());
-        /**
-         * need to call getStreet with -1
-         * to get data in string instead of array
-         */
-        $request->setDestStreet($this->getStreet(-1));
+        $request->setDestStreet($this->getStreetFull());
         $request->setDestCity($this->getCity());
         $request->setDestPostcode($this->getPostcode());
         $request->setPackageValue($item ? $item->getBaseRowTotal() : $this->getBaseSubtotal());

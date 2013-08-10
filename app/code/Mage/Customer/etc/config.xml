@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Customer>
-            <version>1.6.2.0.3</version>
+            <version>1.6.2.0.4</version>
             <active>true</active>
             <depends>
                 <Mage_Eav/>

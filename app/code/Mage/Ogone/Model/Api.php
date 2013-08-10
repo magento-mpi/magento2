@@ -228,6 +228,7 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
                 return array();
             }
         }
+        /** @var Mage_Sales_Model_Quote_Address $billingAddress */
         $billingAddress = $order->getBillingAddress();
         $formFields = array();
         $formFields['PSPID']    = $this->getConfig()->getPSPID();
@@ -243,7 +244,7 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
         $formFields['ownertown']= $this->_translate($billingAddress->getCity());
         $formFields['COM']      = $this->_translate($this->_getOrderDescription($order));
         $formFields['ownertelno']   = $billingAddress->getTelephone();
-        $formFields['owneraddress'] =  $this->_translate(str_replace("\n", ' ',$billingAddress->getStreet(-1)));
+        $formFields['owneraddress'] =  $this->_translate(implode(' ', $billingAddress->getStreet()));
 
         $paymentAction = $this->_getOgonePaymentOperation();
         if ($paymentAction ) {
