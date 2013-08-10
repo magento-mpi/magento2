@@ -39,3 +39,4 @@ lib/Varien/Db/Statement/Pdo/Mssql.php
 lib/Varien/Db/Statement/Sqlsrv.php
 pub/errors/pro
 app/code/Mage/Api
+dev/tests/unit/testsuite/Mage/Api
