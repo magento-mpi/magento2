@@ -310,7 +310,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     {
         return array(
             'install' => array(
-                'Mage_Install_Controller_Action',
+                'Magento_Install_Controller_Action',
                 'install',
                 'default',
                 'magento_basic',

@@ -1,5 +1,5 @@
 pub/lib/mage
-app/code/Mage/Install
+app/code/Magento/Install
 app/code/Magento/Catalog
 app/code/Mage/Newsletter
 app/code/Mage/Page

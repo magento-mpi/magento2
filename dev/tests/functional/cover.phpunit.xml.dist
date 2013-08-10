@@ -55,7 +55,7 @@
                 <directory>../lib</directory>
                 <directory>../app/code/Mage/Admin/Model/Acl/Assert</directory>
                 <directory>../app/code/Magento/Adminhtml/Block</directory>
-                <directory>../app/code/Mage/Install</directory>
+                <directory>../app/code/Magento/Install</directory>
                 <directory>../app/code/Mage/Reports</directory>
                 <directory>../app/code/Mage/Api/Model/Acl/Assert</directory>
                 <directory>../app/code/Mage/Index</directory>

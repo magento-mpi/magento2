@@ -40,5 +40,5 @@ $configurations = array(
     ),
     Mage::PARAM_MODE => Magento_Core_Model_App_State::MODE_DEVELOPER, // Force upgrades to be executed
 );
-$entryPoint = new Mage_Install_Model_EntryPoint_Upgrade(BP, $configurations);
+$entryPoint = new Magento_Install_Model_EntryPoint_Upgrade(BP, $configurations);
 $entryPoint->processRequest();

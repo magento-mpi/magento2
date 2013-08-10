@@ -46,7 +46,7 @@ Mage/DesignEditor/Model/Url
 Mage/GiftMessage/Block/Adminhtml/Sales/Order
 Mage/ImportExport/Model
 Mage/Index/Model/Process
-Mage/Install/Block/Db
+Magento/Install/Block/Db
 Mage/Payment/Block/Form
 Mage/Payment/Model/Method
 Mage/Payment/Model/Config

@@ -55,7 +55,7 @@ class Integrity_Modular_TemplateFilesTest extends Magento_Test_TestCase_Integrit
                 }
 
                 $area = 'frontend';
-                if ($module == 'Mage_Install') {
+                if ($module == 'Magento_Install') {
                     $area = 'install';
                 } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '_Adminhtml_')
                     || strpos($blockClass, '_Backend_')

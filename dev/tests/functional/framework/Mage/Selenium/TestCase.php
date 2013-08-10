@@ -35,7 +35,7 @@
  * @method Core_Mage_AdminGlobalSearch_Helper                                                          adminGlobalSearchHelper()
  * @method Core_Mage_Grid_Helper                                                                       gridHelper()
  * @method Core_Mage_ImportExport_Helper|Enterprise_Mage_ImportExport_Helper                           importExportHelper()
- * @method Core_Mage_Installation_Helper                                                               installationHelper()
+ * @method Core_Magento_Installation_Helper                                                               installationHelper()
  * @method Core_Mage_LayeredNavigation_Helper                                                          layeredNavigationHelper()
  * @method Core_Mage_Newsletter_Helper                                                                 newsletterHelper()
  * @method Core_Mage_OrderCreditMemo_Helper                                                            orderCreditMemoHelper()

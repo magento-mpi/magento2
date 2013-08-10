@@ -16,7 +16,7 @@
             <active>false</active>
             <depends>
                 <Mage_Cms />
-                <Mage_Install />
+                <Magento_Install />
                 <Magento_Adminhtml />
                 <Mage_AdminNotification />
                 <Mage_Widget />

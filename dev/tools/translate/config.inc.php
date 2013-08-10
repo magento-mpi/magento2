@@ -175,8 +175,8 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/index.xml',
         'app/design/adminhtml/default/default/template/index/',
     ),
-    'Mage_Install' => array(
-        'app/code/Mage/Install/',
+    'Magento_Install' => array(
+        'app/code/Magento/Install/',
         'app/design/install/default/default/layout/',
         'app/design/install/default/default/template/',
     ),
@@ -597,7 +597,7 @@ $CONFIG['helpers']  = array(
     'googleshopping'    => 'Mage_GoogleShopping',
     'ideal'             => 'Mage_Ideal',
     'index'             => 'Mage_Index',
-    'install'           => 'Mage_Install',
+    'install'           => 'Magento_Install',
     'log'               => 'Mage_Log',
     'media'             => 'Mage_Media',
     'newsletter'        => 'Mage_Newsletter',

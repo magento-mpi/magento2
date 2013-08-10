@@ -113,7 +113,7 @@
             <instance type="Magento_Core_Model_Cache_Type_Translate" />
         </param>
     </type>
-    <type name="Mage_Install_Model_Installer">
+    <type name="Magento_Install_Model_Installer">
         <param name="config">
             <instance type="Magento_Core_Model_Config_Proxy" />
         </param>
