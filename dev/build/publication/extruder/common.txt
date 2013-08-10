@@ -23,6 +23,7 @@ dev/tests/integration/framework/Magento/Test/Db/Adapter/{Mssql,Oracle}.php
 dev/tests/integration/framework/tests/unit/testsuite/Magento/Test/Db/{Oracle,Mssql}Test.php
 dev/tests/integration/testsuite/Mage/Catalog/Model/Product/Api/TagCRUDTest.php
 dev/tests/integration/testsuite/Mage/Tag
+dev/tests/integration/testsuite/Mage/Tag
 dev/tests/integration/testsuite/Social/Facebook
 dev/tests/unit/testsuite/Varien/Db/Adapter/Pdo/MssqlTest.php
 dev/tests/static/testsuite/Legacy/_files/words_internal.xml
@@ -37,4 +38,7 @@ lib/Varien/Db/Statement/Oracle.php
 lib/Varien/Db/Statement/Pdo/Mssql.php
 lib/Varien/Db/Statement/Sqlsrv.php
 pub/errors/pro
-dev/tests/integration/testsuite/Find/Facebook
+app/code/Mage/Api
+dev/tests/unit/testsuite/Mage/Api
+app/code/Enterprise/Pci
+dev/tests/integration/testsuite/Enterprise/Pci
