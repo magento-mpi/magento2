@@ -23,22 +23,25 @@
   * Modified some text messages in VDE and in themes management
   * Added ability to upload, browse and delete images and fonts, which can be used in custom CSS
   * Improved theme's background image handling
+  * Modified text messages in VDE
+  * Added alert, when deleting a block
+  * Added quick image uploaders for theme store views
 * HTML improvements:
   * Enhanced accessibility in admin by labeling form fields
 * `Varien_Image` library refactored:
   * Created adapters factory instead of class `Varien_Image_Adapter`
   * Refactored ImageMagick and GD adapters to make them testable
   * Added feature of generating image from text
+* Various improvements:
+  * Added configuration for limits on sending wishlist emails
+  * Refactored default theme fixture in Integration tests in order to divide it into smaller and easier to understand fixtures
 * Bug fixes:
-  * Fixed multiple bugs in management of categories, products, product attributes, product templates (attribute sets), taxes and tax rules
   * Fixed absence of a product for store view created after the product
   * Fixed incorrectly displayed or absent product image on configurable product pages
   * Fixed incorrectly displayed Tier Price message for Bundle product on backend
   * Fixed absence of configured options, when composite product is edited from wishlist
   * Fixed inability to set product rating from backend
   * Fixed incorrectly refunded order amount, when both Store Credits and online payment method are used
-  * Fixed bugs in VDE with color picker, file uploader, themes assigning, Remove and Update buttons for custom CSS
-  * Fixed bug with validation in order management
   * Fixed bug with adding product with decimal quantity
   * Fixed bug with incorrect theme saving when wrong file is uploaded
   * Fixed bug with incorrect price and stock availability information
@@ -61,6 +64,46 @@
   * Fixed JS bug in bundle products
   * Fixed bug with missing product configuration in bundle products
   * Fixed bug with missing wishlist grid on customer configuration page
+  * Added validation for the "Weight" field in Product Create/Modify admin form
+  * Fixed infinite loop in reports, when one of the GET-parameters was not submitted
+  * Fixed integration test that failed at the midnight
+  * Removed full file path information from the title of an uploaded store logo in VDE
+  * Fixed bugs in VDE with color picker, file uploader, themes assigning, Remove and Update buttons for custom CSS
+  * Fixed hint for the Scripts palette in VDE dock
+  * Fixed image placeholder, being displayed instead of Base image, in Product View page
+  * Fixed inability to upload more than one Javascript file in VDE
+  * Fixed bug with improper scaling images in VDE UI
+  * Fixed inability to preview and edit a physical theme in VDE
+  * Fixed inability to delete a block in VDE
+  * Added missing fields to SOAP API
+  * Fixed inability to set default customer address via API
+  * Fixed error message, when saving a customer with wrong email address via API
+  * Fixed Notifications drop list in IE 8
+  * Fixed Javascript errors, when creating product variations in IE 8
+  * Fixed Javascript error, when deleting configurable attribute in IE 8
+  * Fixed inability to choose new category for a product during creation in IE 8
+  * Fixed style of backend button panels in IE 9
+  * Fixed inability to change variation image, while creating configurable product in IE
+  * Restored export for table rates
+  * Fixed weight calculation for DHL
+  * Fixed anchor categories, which didn't show products from child categories
+  * Fixed exception, when applying catalog price rules
+  * Removed empty "Tools" item in System menu
+  * Disabled "State" dropdown for Tax Rates in countries, where there are no states
+  * Fixed inability to save a CMS page
+  * Fixed Javascript calendar in backend Customer grid
+  * Fixed memory usage measurements in localized Windows (GitHub pull requests #243, #237)
+  * Fixed bug with validation in order management
+  * Added lost validations at Sales Order page
+  * Fixed bug with other validation in order management
+  * Fixed taxes on Bundle product page
+  * Fixed "Rating isn't available" message on Edit Review page
+  * Fixed lack of data in New Order emails, when order is composed at backend
+  * Fixed exception message, when importing wrong tax rates file
+  * Fixed editable multiselect control - new value was not shown there, when added
+  * Fixed exception, when saving a configurable product without associated products
+  * Fixed inability to properly save system configuration, when submitting files there
+  * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), taxes and tax rules
 
 2.0.0.0-dev44
 =============
