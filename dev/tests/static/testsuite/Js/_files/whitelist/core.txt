@@ -5,7 +5,7 @@ app/code/Mage/Newsletter
 app/code/Mage/Page
 app/code/Mage/PageCache
 app/code/Mage/Poll
-app/code/Mage/CatalogSearch
+app/code/Magento/CatalogSearch
 app/code/Mage/Checkout
 app/code/Mage/Captcha
 app/code/Mage/Customer
