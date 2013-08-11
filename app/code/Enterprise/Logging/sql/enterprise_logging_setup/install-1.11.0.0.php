@@ -79,8 +79,10 @@ $table = $installer->getConnection()
         ), 'Logged Result Data')
     ->addIndex($installer->getIdxName('enterprise_logging_event_changes', array('event_id')),
         array('event_id'))
-    ->addForeignKey($installer->getFkName('enterprise_logging_event_changes', 'event_id', 'enterprise_logging_event', 'log_id'),
+    ->addForeignKey(
+        $installer->getFkName('enterprise_logging_event_changes', 'event_id', 'enterprise_logging_event', 'log_id'),
         'event_id', $installer->getTable('enterprise_logging_event'), 'log_id',
-        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE)
+        Magento_DB_Ddl_Table::ACTION_CASCADE, Magento_DB_Ddl_Table::ACTION_CASCADE
+    )
     ->setComment('Enterprise Logging Event Changes');
 $installer->getConnection()->createTable($table);

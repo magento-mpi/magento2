@@ -80,7 +80,7 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
 
     /**
      * @magentoDataFixture Mage/Core/Model/Email/_files/themes.php
-     * @magentoConfigFixture adminhtml/design/theme/full_name test/default
+     * @magentoConfigFixture adminhtml/design/theme/full_name test_default
      * @magentoAppIsolation enabled
      * @dataProvider layoutDirectiveDataProvider
      *
@@ -97,7 +97,7 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
         ));
 
         $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
-        $themeId = $collection->getThemeByFullPath('frontend/test/default')->getId();
+        $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
         Mage::app()->getStore()->setConfig(Mage_Core_Model_View_Design::XML_PATH_THEME_ID, $themeId);
 
         $objectManager = Mage::getObjectManager();
@@ -106,7 +106,7 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
         $objectManager->addSharedInstance($layout, 'Mage_Core_Model_Layout');
         $this->assertEquals($area, $layout->getArea());
         $this->assertEquals($area, Mage::app()->getLayout()->getArea());
-        Mage::getDesign()->setDesignTheme('test/default');
+        Mage::getDesign()->setDesignTheme('test_default');
 
         $actualOutput = $this->_model->layoutDirective(array(
             '{{layout ' . $directiveParams . '}}',
@@ -126,22 +126,22 @@ class Mage_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCa
             'area parameter - omitted' => array(
                 'adminhtml',
                 'handle="email_template_test_handle"',
-                'E-mail content for frontend/test/default theme',
+                'E-mail content for frontend/test_default theme',
             ),
             'area parameter - frontend' => array(
                 'adminhtml',
                 'handle="email_template_test_handle" area="frontend"',
-                'E-mail content for frontend/test/default theme',
+                'E-mail content for frontend/test_default theme',
             ),
             'area parameter - backend' => array(
                 'frontend',
                 'handle="email_template_test_handle" area="adminhtml"',
-                'E-mail content for adminhtml/test/default theme',
+                'E-mail content for adminhtml/test_default theme',
             ),
             'custom parameter' => array(
                 'frontend',
                 'handle="email_template_test_handle" template="sample_email_content_custom.phtml"',
-                'Custom E-mail content for frontend/test/default theme',
+                'Custom E-mail content for frontend/test_default theme',
             ),
         );
         return $result;

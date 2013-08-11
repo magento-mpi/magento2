@@ -18,8 +18,6 @@ $theme->setThemePath('test/test')
     ->setThemeVersion('2.0.0.0')
     ->setArea('frontend')
     ->setThemeTitle('Test Theme')
-    ->setMagentoVersionFrom('2.0.0.0')
-    ->setMagentoVersionTo('*')
     ->setType(Mage_Core_Model_Theme::TYPE_VIRTUAL)
     ->save();
 

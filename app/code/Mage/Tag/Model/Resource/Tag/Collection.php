@@ -105,12 +105,7 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
             )
             ->group('main_table.tag_id');
 
-            /*
-             * Allow analytic function usage
-             */
-            $this->_useAnalyticFunction = true;
-
-            if (!is_null($limit)) {
+            if (null !== $limit) {
                 $this->getSelect()->limit($limit);
             }
 
@@ -263,12 +258,6 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
                 $this->getSelect()->where('prelation.store_id IN (?)', $storeId);
             }
 
-            /*
-             * Allow Analytic functions usage
-             */
-
-            $this->_useAnalyticFunction = true;
-
             $this->setFlag('store_filter', true);
         }
 
@@ -342,7 +331,6 @@ class Mage_Tag_Model_Resource_Tag_Collection extends Mage_Core_Model_Resource_Db
     public function addTagGroup()
     {
         $this->getSelect()->group('main_table.tag_id');
-        $this->_useAnalyticFunction = true;
         return $this;
     }
 

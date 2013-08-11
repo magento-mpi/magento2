@@ -130,9 +130,8 @@ class Mage_Core_Model_View_Service
         $area = $params['area'];
         if (!empty($params['themeId'])) {
             $theme = $params['themeId'];
-        } elseif (!empty($params['package']) && isset($params['theme'])) {
-            $themePath = $params['package'] . '/' . $params['theme'];
-            $theme = $themePath;
+        } elseif (isset($params['theme'])) {
+            $theme = $params['theme'];
         } elseif (empty($params['themeModel']) && $area !== $defaults['area']) {
             $theme = $this->_design->getConfigurationDesignTheme($area);
         }

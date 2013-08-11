@@ -14,6 +14,9 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Default
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
+    /**
+     * @var string
+     */
     protected $_inputType = 'select';
 
     /**
@@ -46,7 +49,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
      *
      * @return array
      */
-        public function getNewChildSelectOptions()
+    public function getNewChildSelectOptions()
     {
         return array(
             'value' => $this->getType(),
@@ -102,13 +105,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
         $select = $this->getResource()->createSelect();
         $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer', $this->getValue());
         $select->from(array('default'=>$attribute->getBackendTable()), array(new Zend_Db_Expr(1)));
-
         $select->where('default.attribute_id = ?', $attribute->getId())
             ->where('default.value=customer_address.entity_id')
             ->where($this->_createCustomerFilter($customer, 'default.entity_id'));
-
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
-
+        $select->limit(1);
         return $select;
     }
 }

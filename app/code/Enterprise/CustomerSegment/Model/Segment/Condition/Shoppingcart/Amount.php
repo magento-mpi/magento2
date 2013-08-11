@@ -87,7 +87,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
             if (Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS == $applyTo) {
                 unset($attributeOption['store_credit']);
             } elseif (Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED == $applyTo) {
-                foreach ($attributeOption as $key => $option) {
+                foreach (array_keys($attributeOption) as $key) {
                     if ('store_credit' != $key) {
                         $attributeOption[$key] .= '*';
                     }
@@ -124,10 +124,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)))
-            ->where('quote.is_active=1');
-
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
+        $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)))->where('quote.is_active=1');
+        $select->limit(1);
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $joinAddress = false;
@@ -159,8 +157,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
         }
 
         if ($joinAddress) {
-            $subselect = $this->getResource()->createSelect();
-            $subselect->from(
+            $subSelect = $this->getResource()->createSelect();
+            $subSelect->from(
                 array('address'=>$addressTable),
                 array(
                     'quote_id' => 'quote_id',
@@ -168,8 +166,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
                 )
             );
 
-            $subselect->group('quote_id');
-            $select->joinInner(array('address' => $subselect), 'address.quote_id = quote.entity_id', array());
+            $subSelect->group('quote_id');
+            $select->joinInner(array('address' => $subSelect), 'address.quote_id = quote.entity_id', array());
             $field = "address.{$field}";
         }
 

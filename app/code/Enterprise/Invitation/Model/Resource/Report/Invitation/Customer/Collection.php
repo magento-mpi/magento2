@@ -52,12 +52,6 @@ class Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection
         $this->joinField('group_name', 'customer_group', 'customer_group_code', 'customer_group_id=group_id');
 
         $this->orderByCustomerRegistration();
-
-        /**
-         * Allow analytic columns usage
-         */
-        $this->_useAnalyticFunction = true;
-
         return $this;
     }
 

@@ -14,9 +14,17 @@
  * @link http://us3.php.net/manual/en/security.magicquotes.disabling.php
  */
 if (get_magic_quotes_gpc()) {
-    function mageUndoMagicQuotes($array, $topLevel = true) {
+    /**
+     * Undo magic quotes
+     *
+     * @param array $array
+     * @param bool $topLevel
+     * @return array
+     */
+    function mageUndoMagicQuotes($array, $topLevel = true)
+    {
         $newArray = array();
-        foreach($array as $key => $value) {
+        foreach ($array as $key => $value) {
             if (!$topLevel) {
                 $newKey = stripslashes($key);
                 if ($newKey !== $key) {
@@ -67,10 +75,10 @@ function uc_words($str, $destSep = '_', $srcSep = '_')
 /**
  * Simple sql format date
  *
- * @param string $format
+ * @param bool $dayOnly
  * @return string
  */
-function now($dayOnly=false)
+function now($dayOnly = false)
 {
     return date($dayOnly ? 'Y-m-d' : 'Y-m-d H:i:s');
 }
@@ -89,48 +97,58 @@ function is_empty_date($date)
 /**
  * Custom error handler
  *
- * @param integer $errno
- * @param string $errstr
- * @param string $errfile
- * @param integer $errline
+ * @param integer $errorNo
+ * @param string $errorStr
+ * @param string $errorFile
+ * @param integer $errorLine
  * @return bool
  * @throws Exception
  */
-function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
-    if (strpos($errstr, 'DateTimeZone::__construct') !== false) {
+function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
+{
+    if (strpos($errorStr, 'DateTimeZone::__construct') !== false) {
         // there's no way to distinguish between caught system exceptions and warnings
         return false;
     }
 
-    $errno = $errno & error_reporting();
-    if ($errno == 0) {
+    $errorNo = $errorNo & error_reporting();
+    if ($errorNo == 0) {
         return false;
     }
     if (!defined('E_STRICT')) {
+        /**
+         * Strict error int value
+         */
         define('E_STRICT', 2048);
     }
     if (!defined('E_RECOVERABLE_ERROR')) {
+        /**
+         * Recoverable error int value
+         */
         define('E_RECOVERABLE_ERROR', 4096);
     }
     if (!defined('E_DEPRECATED')) {
+        /**
+         * Deprecated error int value
+         */
         define('E_DEPRECATED', 8192);
     }
 
     // PEAR specific message handling
-    if (stripos($errfile . $errstr, 'pear') !== false) {
+    if (stripos($errorFile . $errorStr, 'pear') !== false) {
          // ignore strict and deprecated notices
-        if (($errno == E_STRICT) || ($errno == E_DEPRECATED)) {
+        if (($errorNo == E_STRICT) || ($errorNo == E_DEPRECATED)) {
             return true;
         }
         // ignore attempts to read system files when open_basedir is set
-        if ($errno == E_WARNING && stripos($errstr, 'open_basedir') !== false) {
+        if ($errorNo == E_WARNING && stripos($errorStr, 'open_basedir') !== false) {
             return true;
         }
     }
 
     $errorMessage = '';
 
-    switch ($errno) {
+    switch ($errorNo) {
         case E_ERROR:
             $errorMessage .= "Error";
             break;
@@ -174,11 +192,11 @@ function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
             $errorMessage .= "Deprecated functionality";
             break;
         default:
-            $errorMessage .= "Unknown error ($errno)";
+            $errorMessage .= "Unknown error ($errorNo)";
             break;
     }
 
-    $errorMessage .= ": {$errstr}  in {$errfile} on line {$errline}";
+    $errorMessage .= ": {$errorStr}  in {$errorFile} on line {$errorLine}";
     if (Mage::getIsDeveloperMode()) {
         throw new Exception($errorMessage);
     } else {
@@ -186,19 +204,34 @@ function mageCoreErrorHandler($errno, $errstr, $errfile, $errline){
     }
 }
 
+/**
+ * Pretty debug backtrace
+ *
+ * @param bool $return
+ * @param bool $html
+ * @param bool $showFirst
+ * @return string
+ */
 function mageDebugBacktrace($return = false, $html = true, $showFirst = false)
 {
-    $d = debug_backtrace();
+    $backTrace = debug_backtrace();
     $out = '';
-    if ($html) $out .= "<pre>";
-    foreach ($d as $i => $r) {
-        if (!$showFirst && $i == 0) {
+    if ($html) {
+        $out .= "<pre>";
+    }
+
+    foreach ($backTrace as $index => $trace) {
+        if (!$showFirst && $index == 0) {
             continue;
         }
         // sometimes there is undefined index 'file'
-        @$out .= "[$i] {$r['file']}:{$r['line']}\n";
+        @$out .= "[$index] {$trace['file']}:{$trace['line']}\n";
     }
-    if ($html) $out .= "</pre>";
+
+    if ($html) {
+        $out .= "</pre>";
+    }
+
     if ($return) {
         return $out;
     } else {
@@ -206,32 +239,18 @@ function mageDebugBacktrace($return = false, $html = true, $showFirst = false)
     }
 }
 
-function mageSendErrorHeader()
+/**
+ * Delete folder recursively
+ *
+ * @param string $path
+ */
+function mageDelTree($path)
 {
-    return;
-    if (!isset($_SERVER['SCRIPT_NAME'])) {
-        return;
-    }
-    $action = Mage::app()->getRequest()->getBasePath()."bugreport.php";
-    echo '<form id="error_report" method="post" style="display:none" action="'.$action.'"><textarea name="error">';
-}
-
-function mageSendErrorFooter()
-{
-    return;
-    if (!isset($_SERVER['SCRIPT_NAME'])) {
-        return;
-    }
-    echo '</textarea></form><script type="text/javascript">document.getElementById("error_report").submit()</script>';
-    exit;
-}
-
-function mageDelTree($path) {
     if (is_dir($path)) {
         $entries = scandir($path);
         foreach ($entries as $entry) {
             if ($entry != '.' && $entry != '..') {
-                mageDelTree($path.DS.$entry);
+                mageDelTree($path . DS . $entry);
             }
         }
         @rmdir($path);
@@ -240,12 +259,20 @@ function mageDelTree($path) {
     }
 }
 
-function mageParseCsv($string, $delimiter = ",", $enclosure = '"', $escape = '\\')
+/**
+ * Parse csv file
+ *
+ * @param string $string
+ * @param string $delimiter
+ * @param string $enclosure
+ * @return array
+ */
+function mageParseCsv($string, $delimiter = ",", $enclosure = '"')
 {
     $elements = explode($delimiter, $string);
     for ($i = 0; $i < count($elements); $i++) {
-        $nquotes = substr_count($elements[$i], $enclosure);
-        if ($nquotes %2 == 1) {
+        $nQuotes = substr_count($elements[$i], $enclosure);
+        if ($nQuotes %2 == 1) {
             for ($j = $i+1; $j < count($elements); $j++) {
                 if (substr_count($elements[$j], $enclosure) > 0) {
                     // Put the quoted string's pieces back together again
@@ -255,17 +282,23 @@ function mageParseCsv($string, $delimiter = ",", $enclosure = '"', $escape = '\\
                 }
             }
         }
-        if ($nquotes > 0) {
+        if ($nQuotes > 0) {
             // Remove first and last quotes, then merge pairs of quotes
-            $qstr =& $elements[$i];
-            $qstr = substr_replace($qstr, '', strpos($qstr, $enclosure), 1);
-            $qstr = substr_replace($qstr, '', strrpos($qstr, $enclosure), 1);
-            $qstr = str_replace($enclosure.$enclosure, $enclosure, $qstr);
+            $qStr =& $elements[$i];
+            $qStr = substr_replace($qStr, '', strpos($qStr, $enclosure), 1);
+            $qStr = substr_replace($qStr, '', strrpos($qStr, $enclosure), 1);
+            $qStr = str_replace($enclosure.$enclosure, $enclosure, $qStr);
         }
     }
     return $elements;
 }
 
+/**
+ * Check is directory writable or not
+ *
+ * @param string $dir
+ * @return bool
+ */
 function is_dir_writeable($dir)
 {
     if (is_dir($dir) && is_writable($dir)) {
@@ -273,11 +306,11 @@ function is_dir_writeable($dir)
             $dir    = ltrim($dir, DIRECTORY_SEPARATOR);
             $file   = $dir . DIRECTORY_SEPARATOR . uniqid(mt_rand()) . '.tmp';
             $exist  = file_exists($file);
-            $fp     = @fopen($file, 'a');
-            if ($fp === false) {
+            $fileResource = @fopen($file, 'a');
+            if ($fileResource === false) {
                 return false;
             }
-            fclose($fp);
+            fclose($fileResource);
             if (!$exist) {
                 unlink($file);
             }

@@ -65,7 +65,7 @@ applications:
     ce: &ce
         fallbackOrderFixture: 'default'
         fallbackOrderHelper: 'Core'
-        design_theme: Default/Magento Demo
+        design_theme: Magento Demo
         ftp: &ftp
             url: 'localhost'
             base_dir: '/'
@@ -98,7 +98,7 @@ applications:
     ee: &ee
         fallbackOrderFixture: 'enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'
-        design_theme: Enterprise/Magento Fixed Design
+        design_theme: Magento Fixed Width
         ftp: *ftp
         areas:
             admin:
@@ -117,7 +117,7 @@ applications:
     saas: &saas
         fallbackOrderFixture: 'saas, enterprise, default'
         fallbackOrderHelper: 'Saas, Enterprise, Core'
-        design_theme: Enterprise/Plushe
+        design_theme: Plushe
         ftp: *ftp
         areas:
             admin:

@@ -10,10 +10,6 @@
 
 /**
  * Abstract resource helper class
- *
- * @category    Mage
- * @package     Mage_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Core_Model_Resource_Helper_Abstract
 {
@@ -41,7 +37,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
     /**
      * Initialize resource helper instance
      *
-     * @param string $module
+     * @param string $modulePrefix
      */
     public function __construct($modulePrefix)
     {
@@ -55,7 +51,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
      */
     protected function _getReadAdapter()
     {
-        if ($this->_readAdapter === null) {
+        if (null === $this->_readAdapter) {
             $this->_readAdapter = $this->_getConnection('read');
         }
 
@@ -69,7 +65,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
      */
     protected function _getWriteAdapter()
     {
-        if ($this->_writeAdapter === null) {
+        if (null === $this->_writeAdapter) {
             $this->_writeAdapter = $this->_getConnection('write');
         }
 
@@ -102,8 +98,8 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
      * $options can contain following flags:
      * - 'allow_symbol_mask' - the '_' symbol will not be escaped
      * - 'allow_string_mask' - the '%' symbol will not be escaped
-     * - 'position' ('any', 'start', 'end') - expression will be formed so that $value will be found at position within string,
-     *     by default when nothing set - string must be fully matched with $value
+     * - 'position' ('any', 'start', 'end') - expression will be formed so that $value will be found at position
+     *      within string, by default when nothing set - string must be fully matched with $value
      *
      * @param string $value
      * @param array $options
@@ -113,18 +109,18 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
     {
         $value = str_replace('\\', '\\\\', $value);
 
-        $from = array();
-        $to = array();
+        $replaceFrom = array();
+        $replaceTo = array();
         if (empty($options['allow_symbol_mask'])) {
-            $from[] = '_';
-            $to[] = '\_';
+            $replaceFrom[] = '_';
+            $replaceTo[] = '\_';
         }
         if (empty($options['allow_string_mask'])) {
-            $from[] = '%';
-            $to[] = '\%';
+            $replaceFrom[] = '%';
+            $replaceTo[] = '\%';
         }
-        if ($from) {
-            $value = str_replace($from, $to, $value);
+        if ($replaceFrom) {
+            $value = str_replace($replaceFrom, $replaceTo, $value);
         }
 
         if (isset($options['position'])) {
@@ -137,6 +133,8 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
                     break;
                 case 'end':
                     $value = '%' . $value;
+                    break;
+                default:
                     break;
             }
         }
@@ -181,6 +179,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
      *
      * @param array $column
      * @return array
+     * @throws Mage_Core_Exception
      */
     public function convertOldColumnDefinition($column)
     {
@@ -284,7 +283,8 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
             default:
                 throw Mage::exception(
                     'Mage_Core',
-                    Mage::helper('Mage_Core_Helper_Data')->__("Unknown old style column type definition: {$definition}.")
+                    Mage::helper('Mage_Core_Helper_Data')
+                        ->__("Unknown old style column type definition: {$definition}.")
                 );
         }
 

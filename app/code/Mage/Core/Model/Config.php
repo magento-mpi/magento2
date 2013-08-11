@@ -45,14 +45,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     protected $_secureUrlCache = array();
 
     /**
-     * Resource model
-     * Used for operations with DB
-     *
-     * @var Mage_Core_Model_Resource_Config
-     */
-    protected $_resourceModel;
-
-    /**
      * Configuration data model
      *
      * @var Mage_Core_Model_Config_Data
@@ -421,7 +413,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      *
      * @param   string $path
      * @param   array  $allowValues
-     * @param   string  $useAsKey
+     * @param   string $useAsKey
      * @return  array
      */
     public function getStoresConfigByPath($path, $allowValues = array(), $useAsKey = 'id')
@@ -432,7 +424,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         foreach ($stores->children() as $code => $store) {
             switch ($useAsKey) {
                 case 'id':
-                    $key = (int) $store->descend('system/store/id');
+                    $key = (int)$store->descend('system/store/id');
                     break;
 
                 case 'code':
@@ -452,7 +444,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
                 continue;
             }
 
-            $pathValue = (string) $store->descend($path);
+            $pathValue = (string)$store->descend($path);
 
             if (empty($allowValues)) {
                 $storeValues[$key] = $pathValue;
@@ -509,9 +501,9 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     }
 
     /**
-     * Get default server variables values
+     * Get website instance base url
      *
-     * @return array
+     * @return string
      */
     public function getDistroBaseUrl()
     {
@@ -621,7 +613,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
      * @param   array $constructArguments
      * @return  object
      */
-    public function getResourceModelInstance($modelClass='', $constructArguments=array())
+    public function getResourceModelInstance($modelClass = '', $constructArguments=array())
     {
         return $this->getModelInstance($modelClass, $constructArguments);
     }

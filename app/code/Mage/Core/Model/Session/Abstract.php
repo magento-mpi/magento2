@@ -76,7 +76,7 @@ class Mage_Core_Model_Session_Abstract extends Magento_Object
      * @param string $sessionName
      * @return Mage_Core_Model_Session_Abstract
      */
-    public function start($sessionName=null)
+    public function start($sessionName = null)
     {
         if (isset($_SESSION) && !$this->getSkipEmptySessionCheck()) {
             return $this;
@@ -194,7 +194,7 @@ class Mage_Core_Model_Session_Abstract extends Magento_Object
      * @param bool $clear
      * @return mixed
      */
-    public function getData($key='', $clear = false)
+    public function getData($key = '', $clear = false)
     {
         $data = parent::getData($key);
         if ($clear && isset($this->_data[$key])) {
@@ -259,8 +259,8 @@ class Mage_Core_Model_Session_Abstract extends Magento_Object
     /**
      * Validate session
      *
-     * @param string $namespace
      * @return Mage_Core_Model_Session_Abstract
+     * @throws Mage_Core_Model_Session_Exception
      */
     public function validate()
     {
@@ -288,18 +288,20 @@ class Mage_Core_Model_Session_Abstract extends Magento_Object
         $validatorData = $this->_getSessionEnvironment();
 
         if (Mage::getStoreConfig(self::XML_PATH_USE_REMOTE_ADDR)
-                && $sessionData[self::VALIDATOR_REMOTE_ADDR_KEY] != $validatorData[self::VALIDATOR_REMOTE_ADDR_KEY]) {
+            && $sessionData[self::VALIDATOR_REMOTE_ADDR_KEY] != $validatorData[self::VALIDATOR_REMOTE_ADDR_KEY]
+        ) {
             return false;
         }
         if (Mage::getStoreConfig(self::XML_PATH_USE_HTTP_VIA)
-                && $sessionData[self::VALIDATOR_HTTP_VIA_KEY] != $validatorData[self::VALIDATOR_HTTP_VIA_KEY]) {
+            && $sessionData[self::VALIDATOR_HTTP_VIA_KEY] != $validatorData[self::VALIDATOR_HTTP_VIA_KEY]
+        ) {
             return false;
         }
 
-        $sessionValidateHttpXForwardedForKey = $sessionData[self::VALIDATOR_HTTP_X_FORVARDED_FOR_KEY];
-        $validatorValidateHttpXForwardedForKey = $validatorData[self::VALIDATOR_HTTP_X_FORVARDED_FOR_KEY];
+        $httpXForwardedKey = $sessionData[self::VALIDATOR_HTTP_X_FORVARDED_FOR_KEY];
+        $validatorXForwarded = $validatorData[self::VALIDATOR_HTTP_X_FORVARDED_FOR_KEY];
         if (Mage::getStoreConfig(self::XML_PATH_USE_X_FORWARDED)
-            && $sessionValidateHttpXForwardedForKey != $validatorValidateHttpXForwardedForKey ) {
+            && $httpXForwardedKey != $validatorXForwarded ) {
             return false;
         }
         if (Mage::getStoreConfig(self::XML_PATH_USE_USER_AGENT)
@@ -401,7 +403,7 @@ class Mage_Core_Model_Session_Abstract extends Magento_Object
      * @param   bool $clear
      * @return  Mage_Core_Model_Message_Collection
      */
-    public function getMessages($clear=false)
+    public function getMessages($clear = false)
     {
         if (!$this->getData('messages')) {
             $this->setMessages(Mage::getModel('Mage_Core_Model_Message_Collection'));
@@ -430,7 +432,7 @@ class Mage_Core_Model_Session_Abstract extends Magento_Object
             $exception->getMessage(),
             "\n",
             $exception->getTraceAsString());
-        $file    = Mage::getStoreConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
+        $file = Mage::getStoreConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
         Mage::log($message, Zend_Log::DEBUG, $file);
 
         $this->addMessage(Mage::getSingleton('Mage_Core_Model_Message')->error($alternativeText));
@@ -570,11 +572,12 @@ class Mage_Core_Model_Session_Abstract extends Magento_Object
      * @param   string|null $id
      * @return  Mage_Core_Model_Session_Abstract
      */
-    public function setSessionId($id=null)
+    public function setSessionId($id = null)
     {
 
-        if (is_null($id)
-            && (Mage::app()->getStore()->isAdmin() || Mage::getStoreConfig(self::XML_PATH_USE_FRONTEND_SID))) {
+        if (null === $id
+            && (Mage::app()->getStore()->isAdmin() || Mage::getStoreConfig(self::XML_PATH_USE_FRONTEND_SID))
+        ) {
             $_queryParam = $this->getSessionIdQueryParam();
             if (isset($_GET[$_queryParam]) && Mage::getSingleton('Mage_Core_Model_Url')->isOwnOriginUrl()) {
                 $id = $_GET[$_queryParam];
@@ -602,10 +605,15 @@ class Mage_Core_Model_Session_Abstract extends Magento_Object
         return self::$_encryptedSessionId;
     }
 
+    /**
+     * Get session id query param
+     *
+     * @return string
+     */
     public function getSessionIdQueryParam()
     {
-        $_sessionName = $this->getSessionName();
-        if ($_sessionName && $queryParam = (string)Mage::getConfig()->getNode($_sessionName . '/session/query_param')) {
+        $sessionName = $this->getSessionName();
+        if ($sessionName && $queryParam = (string)Mage::getConfig()->getNode($sessionName . '/session/query_param')) {
             return $queryParam;
         }
         return self::SESSION_ID_QUERY_PARAM;
@@ -664,7 +672,8 @@ class Mage_Core_Model_Session_Abstract extends Magento_Object
             self::$_urlHostCache[$urlHost] = $sessionId;
         }
 
-        return Mage::app()->getStore()->isAdmin() || $this->isValidForPath($urlPath) ? self::$_urlHostCache[$urlHost]
+        return Mage::app()->getStore()->isAdmin() || $this->isValidForPath($urlPath)
+            ? self::$_urlHostCache[$urlHost]
             : $this->getEncryptedSessionId();
     }
 
@@ -695,7 +704,6 @@ class Mage_Core_Model_Session_Abstract extends Magento_Object
         }
 
         $urlPath = trim($path, '/') . '/';
-
         return strpos($urlPath, $cookiePath) === 0;
     }
 

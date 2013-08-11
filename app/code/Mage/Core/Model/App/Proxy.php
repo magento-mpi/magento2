@@ -37,7 +37,7 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
         if (null === $this->_app) {
             $this->_app = $this->_objectManager->get('Mage_Core_Model_App');
         }
-        
+
         return $this->_app;
     }
 
@@ -169,24 +169,24 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     /**
      * Retrieve application store object
      *
-     * @param null|string|bool|int|Mage_Core_Model_Store $id
+     * @param null|string|bool|int|Mage_Core_Model_Store $storeId
      * @return Mage_Core_Model_Store
      * @throws Mage_Core_Model_Store_Exception
      */
-    public function getStore($id = null)
+    public function getStore($storeId = null)
     {
-        return $this->_getApp()->getStore($id);
+        return $this->_getApp()->getStore($storeId);
     }
 
     /**
      * Retrieve application store object without Store_Exception
      *
-     * @param string|int|Mage_Core_Model_Store $id
+     * @param string|int|Mage_Core_Model_Store $storeId
      * @return Mage_Core_Model_Store
      */
-    public function getSafeStore($id = null)
+    public function getSafeStore($storeId = null)
     {
-        return $this->_getApp()->getSafeStore($id);
+        return $this->_getApp()->getSafeStore($storeId);
     }
 
     /**
@@ -224,13 +224,13 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     /**
      * Retrieve application website object
      *
-     * @param null|bool|int|string|Mage_Core_Model_Website $id
+     * @param null|bool|int|string|Mage_Core_Model_Website $websiteId
      * @return Mage_Core_Model_Website
      * @throws Mage_Core_Exception
      */
-    public function getWebsite($id = null)
+    public function getWebsite($websiteId = null)
     {
-        return $this->_getApp()->getWebsite($id);
+        return $this->_getApp()->getWebsite($websiteId);
     }
 
     /**
@@ -248,13 +248,13 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     /**
      * Retrieve application store group object
      *
-     * @param null|Mage_Core_Model_Store_Group|string $id
+     * @param null|Mage_Core_Model_Store_Group|string $groupId
      * @return Mage_Core_Model_Store_Group
      * @throws Mage_Core_Exception
      */
-    public function getGroup($id = null)
+    public function getGroup($groupId = null)
     {
-        return $this->_getApp()->getGroup($id);
+        return $this->_getApp()->getGroup($groupId);
     }
 
     /**
@@ -341,37 +341,37 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     /**
      * Loading cache data
      *
-     * @param   string $id
+     * @param   string $cacheId
      * @return  mixed
      */
-    public function loadCache($id)
+    public function loadCache($cacheId)
     {
-        return $this->_getApp()->loadCache($id);
+        return $this->_getApp()->loadCache($cacheId);
     }
 
     /**
      * Saving cache data
      *
      * @param mixed $data
-     * @param string $id
+     * @param string $cacheId
      * @param array $tags
      * @param bool $lifeTime
      * @return Mage_Core_Model_AppInterface
      */
-    public function saveCache($data, $id, $tags = array(), $lifeTime = false)
+    public function saveCache($data, $cacheId, $tags = array(), $lifeTime = false)
     {
-        return $this->_getApp()->saveCache($data, $id, $tags, $lifeTime);
+        return $this->_getApp()->saveCache($data, $cacheId, $tags, $lifeTime);
     }
 
     /**
      * Remove cache
      *
-     * @param   string $id
+     * @param   string $cacheId
      * @return  Mage_Core_Model_AppInterface
      */
-    public function removeCache($id)
+    public function removeCache($cacheId)
     {
-        return $this->_getApp()->removeCache($id);
+        return $this->_getApp()->removeCache($cacheId);
     }
 
     /**
@@ -535,11 +535,11 @@ class Mage_Core_Model_App_Proxy implements Mage_Core_Model_AppInterface
     /**
      *  Unset website by id from app cache
      *
-     * @param null|bool|int|string|Mage_Core_Model_Website $id
+     * @param null|bool|int|string|Mage_Core_Model_Website $websiteId
      */
-    public function clearWebsiteCache($id = null)
+    public function clearWebsiteCache($websiteId = null)
     {
-        $this->_getApp()->clearWebsiteCache($id);
+        $this->_getApp()->clearWebsiteCache($websiteId);
     }
 
     /**

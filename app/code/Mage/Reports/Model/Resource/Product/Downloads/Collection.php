@@ -56,11 +56,6 @@ class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Cata
                 $adapter->quoteInto('d.number_of_downloads_used > ?', 0),
             )))
             ->group('d.link_id');
-        /**
-         * Allow to use analytic function
-         */
-        $this->_useAnalyticFunction = true;
-
         return $this;
     }
 

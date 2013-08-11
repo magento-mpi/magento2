@@ -89,12 +89,10 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Couponcode
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');
-        $select->where("{$inversion} ("
-            . "quote.coupon_code IS NOT NULL AND quote.coupon_code <> " . $select->getAdapter()->quote('') . ")");
+        $select->where("{$inversion} (" . "quote.coupon_code IS NOT NULL AND quote.coupon_code <> "
+            . $select->getAdapter()->quote('') . ")");
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
-
-        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
-
+        $select->limit(1);
         return $select;
     }
 }

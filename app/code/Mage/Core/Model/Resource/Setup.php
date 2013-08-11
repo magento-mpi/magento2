@@ -10,10 +10,6 @@
 
 /**
  * Resource Setup Model
- *
- * @category    Mage
- * @package     Mage_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupInterface
 {
@@ -210,10 +206,10 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
         $dataVer= $this->_getResource()->getDataVersion($this->_resourceName);
         $configVer = (string)$this->_moduleConfig->version;
         if ($dataVer !== false) {
-             $status = version_compare($configVer, $dataVer);
-             if ($status == self::VERSION_COMPARE_GREATER) {
-                 $this->_upgradeData($dataVer, $configVer);
-             }
+            $status = version_compare($configVer, $dataVer);
+            if ($status == self::VERSION_COMPARE_GREATER) {
+                $this->_upgradeData($dataVer, $configVer);
+            }
         } elseif ($configVer) {
             $this->_installData($configVer);
         }
@@ -223,7 +219,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
     /**
      * Apply module resource install, upgrade and data scripts
      *
-     * @return Mage_Core_Model_Resource_Setup
+     * @return Mage_Core_Model_Resource_Setup|bool
      */
     public function applyUpdates()
     {
@@ -402,7 +398,6 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
                 if (preg_match($regExp, $file, $matches)) {
                     $files[$matches[1]] = $filesDir . DS . $file;
                 }
-
             }
             $handlerDir->close();
         }
@@ -460,7 +455,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
      * @param string $fromVersion
      * @param string $toVersion
      * @return bool|string
-     * @throws Magento_Exception     
+     * @throws Magento_Exception
      */
     protected function _modifyResourceDb($actionType, $fromVersion, $toVersion)
     {
@@ -490,7 +485,6 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
             try {
                 switch ($fileType) {
                     case 'php':
-                        $conn   = $this->getConnection();
                         $result = include $fileName;
                         break;
                     case 'sql':
@@ -555,7 +549,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
                     $versionInfo = explode('-', $version);
 
                     // In array must be 2 elements: 0 => version from, 1 => version to
-                    if (count($versionInfo)!=2) {
+                    if (count($versionInfo) !== 2) {
                         break;
                     }
                     $infoFrom = $versionInfo[0];
@@ -571,10 +565,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
                 break;
 
             case self::TYPE_DB_ROLLBACK:
-                break;
-
             case self::TYPE_DB_UNINSTALL:
-                break;
             default:
                 break;
         }
@@ -582,67 +573,67 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
     }
 
 
-/******************* UTILITY METHODS *****************/
+    /******************* UTILITY METHODS *****************/
 
     /**
      * Retrieve row or field from table by id or string and parent id
      *
      * @param string $table
      * @param string $idField
-     * @param string|integer $id
+     * @param string|integer $rowId
      * @param string $field
      * @param string $parentField
      * @param string|integer $parentId
      * @return mixed|boolean
      */
-    public function getTableRow($table, $idField, $id, $field = null, $parentField = null, $parentId = 0)
+    public function getTableRow($table, $idField, $rowId, $field = null, $parentField = null, $parentId = 0)
     {
         $table = $this->getTable($table);
-        if (empty($this->_setupCache[$table][$parentId][$id])) {
+        if (empty($this->_setupCache[$table][$parentId][$rowId])) {
             $adapter = $this->getConnection();
-            $bind    = array('id_field' => $id);
+            $bind    = array('id_field' => $rowId);
             $select  = $adapter->select()
                 ->from($table)
                 ->where($adapter->quoteIdentifier($idField) . '= :id_field');
-            if (!is_null($parentField)) {
+            if (null !== $parentField) {
                 $select->where($adapter->quoteIdentifier($parentField) . '= :parent_id');
                 $bind['parent_id'] = $parentId;
             }
-            $this->_setupCache[$table][$parentId][$id] = $adapter->fetchRow($select, $bind);
+            $this->_setupCache[$table][$parentId][$rowId] = $adapter->fetchRow($select, $bind);
         }
 
-        if (is_null($field)) {
-            return $this->_setupCache[$table][$parentId][$id];
+        if (null === $field) {
+            return $this->_setupCache[$table][$parentId][$rowId];
         }
-        return isset($this->_setupCache[$table][$parentId][$id][$field])
-            ? $this->_setupCache[$table][$parentId][$id][$field]
+        return isset($this->_setupCache[$table][$parentId][$rowId][$field])
+            ? $this->_setupCache[$table][$parentId][$rowId][$field]
             : false;
     }
 
 
-     /**
+    /**
      * Delete table row
      *
      * @param string $table
      * @param string $idField
-     * @param string|int $id
+     * @param string|int $rowId
      * @param null|string $parentField
      * @param int|string $parentId
      * @return Mage_Core_Model_Resource_Setup
      */
-    public function deleteTableRow($table, $idField, $id, $parentField = null, $parentId = 0)
+    public function deleteTableRow($table, $idField, $rowId, $parentField = null, $parentId = 0)
     {
         $table = $this->getTable($table);
         $adapter = $this->getConnection();
-        $where = array($adapter->quoteIdentifier($idField) . '=?' => $id);
+        $where = array($adapter->quoteIdentifier($idField) . '=?' => $rowId);
         if (!is_null($parentField)) {
             $where[$adapter->quoteIdentifier($parentField) . '=?'] = $parentId;
         }
 
         $adapter->delete($table, $where);
 
-        if (isset($this->_setupCache[$table][$parentId][$id])) {
-            unset($this->_setupCache[$table][$parentId][$id]);
+        if (isset($this->_setupCache[$table][$parentId][$rowId])) {
+            unset($this->_setupCache[$table][$parentId][$rowId]);
         }
 
         return $this;
@@ -653,14 +644,14 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
      *
      * @param string $table
      * @param string $idField
-     * @param string|integer $id
+     * @param string|integer $rowId
      * @param string|array $field
      * @param mixed|null $value
      * @param string $parentField
      * @param string|integer $parentId
      * @return Mage_Eav_Model_Entity_Setup
      */
-    public function updateTableRow($table, $idField, $id, $field, $value = null, $parentField = null, $parentId = 0)
+    public function updateTableRow($table, $idField, $rowId, $field, $value = null, $parentField = null, $parentId = 0)
     {
         $table = $this->getTable($table);
         if (is_array($field)) {
@@ -670,15 +661,15 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
         }
 
         $adapter = $this->getConnection();
-        $where = array($adapter->quoteIdentifier($idField) . '=?' => $id);
+        $where = array($adapter->quoteIdentifier($idField) . '=?' => $rowId);
         $adapter->update($table, $data, $where);
 
-        if (isset($this->_setupCache[$table][$parentId][$id])) {
+        if (isset($this->_setupCache[$table][$parentId][$rowId])) {
             if (is_array($field)) {
-                $this->_setupCache[$table][$parentId][$id] =
-                    array_merge($this->_setupCache[$table][$parentId][$id], $field);
+                $this->_setupCache[$table][$parentId][$rowId] =
+                    array_merge($this->_setupCache[$table][$parentId][$rowId], $field);
             } else {
-                $this->_setupCache[$table][$parentId][$id][$field] = $value;
+                $this->_setupCache[$table][$parentId][$rowId][$field] = $value;
             }
         }
 
@@ -697,7 +688,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
         return $this->getConnection()->isTableExists($table);
     }
 
-/******************* CONFIG *****************/
+    /******************* CONFIG *****************/
 
     /**
      * Save configuration data
@@ -734,7 +725,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
     public function deleteConfigData($path, $scope = null)
     {
         $where = array('path = ?' => $path);
-        if (!is_null($scope)) {
+        if (null !== $scope) {
             $where['scope = ?'] = $scope;
         }
         $this->getConnection()->delete($this->getTable('core_config_data'), $where);
@@ -799,8 +790,7 @@ class Mage_Core_Model_Resource_Setup implements Mage_Core_Model_Resource_SetupIn
      */
     public function getFkName($priTableName, $priColumnName, $refTableName, $refColumnName)
     {
-        return $this->_resourceModel
-            ->getFkName($priTableName, $priColumnName, $refTableName, $refColumnName);
+        return $this->_resourceModel->getFkName($priTableName, $priColumnName, $refTableName, $refColumnName);
     }
 
     /**

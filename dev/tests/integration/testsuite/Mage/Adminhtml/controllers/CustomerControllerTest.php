@@ -153,10 +153,13 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Backend_Utility_Control
         );
     }
 
+    /**
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/customer_sample.php
+     */
     public function testSaveActionExistingCustomerAndExistingAddressData()
     {
-        $this->markTestIncomplete('Bug MAGETWO-2986');
         $post = array(
+            'customer_id' => '1',
             'account' => array(
                 'middlename' => 'test middlename',
                 'group_id' => 1,
@@ -207,7 +210,7 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Backend_Utility_Control
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The customer has been saved.')), Mage_Core_Model_Message::SUCCESS
+            $this->equalTo(array('You saved the customer.')), Mage_Core_Model_Message::SUCCESS
         );
 
         /**
@@ -217,12 +220,13 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Backend_Utility_Control
         $this->assertInstanceOf('Mage_Customer_Model_Customer', $customer);
 
         /**
+         * Addresses should be removed by Mage_Customer_Model_Resource_Customer::_saveAddresses during _afterSave
          * addressOne - updated
          * addressTwo - removed
          * addressThree - removed
          * _item1 - new address
          */
-        $this->assertCount(4, $customer->getAddressesCollection());
+        $this->assertCount(2, $customer->getAddressesCollection());
 
         /** @var $savedCustomer Mage_Customer_Model_Customer */
         $savedCustomer = Mage::getModel('Mage_Customer_Model_Customer');
@@ -236,9 +240,11 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Backend_Utility_Control
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'index/key/'));
     }
 
+    /**
+     * @magentoDataFixture Mage/Adminhtml/controllers/_files/customer_sample.php
+     */
     public function testSaveActionCoreException()
     {
-        $this->markTestIncomplete('Bug MAGETWO-2986');
         $post = array(
             'account' => array(
                 'middlename' => 'test middlename',
@@ -256,10 +262,10 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Backend_Utility_Control
         * Check that error message is set
         */
         $this->assertSessionMessages(
-            $this->equalTo(array('This customer email already exists')),
+            $this->equalTo(array('Customer with the same email already exists.')),
             Mage_Core_Model_Message::ERROR
         );
         $this->assertEquals($post, Mage::getSingleton('Mage_Backend_Model_Session')->getCustomerData());
-        $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'edit/key/'));
+        $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'new/key/'));
     }
 }

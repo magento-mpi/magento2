@@ -18,8 +18,6 @@
  * @method string getThemeTitle()
  * @method string getThemeVersion()
  * @method string getPreviewImage()
- * @method string getMagentoVersionFrom()
- * @method string getMagentoVersionTo()
  * @method bool getIsFeatured()
  * @method int getThemeId()
  * @method int getType()
@@ -35,8 +33,6 @@
  * @method Mage_Core_Model_Theme setThemeVersion(string $themeVersion)
  * @method Mage_Core_Model_Theme setArea(string $area)
  * @method Mage_Core_Model_Theme setThemeTitle(string $themeTitle)
- * @method Mage_Core_Model_Theme setMagentoVersionFrom(string $versionFrom)
- * @method Mage_Core_Model_Theme setMagentoVersionTo(string $versionTo)
  * @method Mage_Core_Model_Theme setType(int $type)
  * @method Mage_Core_Model_Theme setCode(string $code)
  *
@@ -312,24 +308,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract implements Mage_Cor
     public function getCode()
     {
         return (string)$this->getData('code');
-    }
-
-    /**
-     * Check if the theme is compatible with Magento version
-     *
-     * @return bool
-     */
-    public function isThemeCompatible()
-    {
-        $magentoVersion = Mage::getVersion();
-        if (version_compare($magentoVersion, $this->getMagentoVersionFrom(), '>=')) {
-            if ($this->getMagentoVersionTo() == '*'
-                || version_compare($magentoVersion, $this->getMagentoVersionFrom(), '<=')
-            ) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
