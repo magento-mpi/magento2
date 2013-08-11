@@ -41,7 +41,7 @@ class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * @covers Magento_Test_TestCase_ObjectManager::getBlock
+     * @covers Magento_TestFramework_TestCase_ObjectManager::getBlock
      */
     public function testGetBlock()
     {
@@ -67,7 +67,7 @@ class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Test_TestCase_ObjectManager::getModel
+     * @covers Magento_TestFramework_ObjectManager::getModel
      */
     public function testGetModel()
     {

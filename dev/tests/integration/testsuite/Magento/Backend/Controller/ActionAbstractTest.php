@@ -46,8 +46,8 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
         $this->_auth->logout();
 
         $postLogin = array('login' => array(
-            'username' => Magento_Test_Bootstrap::ADMIN_NAME,
-            'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD
+            'username' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
+            'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD
         ));
 
         $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/system_account/index');
@@ -74,7 +74,7 @@ class Magento_Backend_Controller_ActionAbstractTest extends Magento_Backend_Util
             $noticeInbox->addCritical('Test notice', 'Test description');
         }
 
-        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
 
         /** @var $acl Magento_Acl */
         $acl = Mage::getSingleton('Magento_Acl_Builder')->getAcl();

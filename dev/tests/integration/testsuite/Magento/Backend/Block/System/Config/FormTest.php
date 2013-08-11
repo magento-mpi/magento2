@@ -124,7 +124,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
      */
     public function initFieldsInheritCheckboxDataProvider()
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_BAN_CACHE => true,
         ));
         Mage::getObjectManager()->get('Magento_Core_Model_Config_Scope')

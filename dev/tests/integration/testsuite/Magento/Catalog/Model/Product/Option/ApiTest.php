@@ -29,12 +29,12 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testCustomOptionCRUD()
     {
-        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
+        $customOptions = Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
         $store = (string)self::$_customOptionFixture->store;
 
         $this->_testCreate($store, $customOptions);
         $this->_testRead($store, $customOptions);
-        $optionsToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
+        $optionsToUpdate = Magento_TestFramework_Helper_Api::simpleXmlToArray(
             self::$_customOptionFixture->customOptionsToUpdate
         );
         $this->_testUpdate($optionsToUpdate);
@@ -49,7 +49,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
     protected function _testCreate($store, $customOptions)
     {
         $fixtureProductId = Mage::registry('productData')->getId();
-        $createdOptionBefore = Magento_Test_Helper_Api::call(
+        $createdOptionBefore = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductCustomOptionList',
             array(
@@ -66,7 +66,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
                 $option['additional_fields'] = array($option['additional_fields']);
             }
 
-            $addedOptionResult = Magento_Test_Helper_Api::call(
+            $addedOptionResult = Magento_TestFramework_Helper_Api::call(
                 $this,
                 'catalogProductCustomOptionAdd',
                 array(
@@ -88,7 +88,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
     protected function _testRead($store, $customOptions)
     {
         $fixtureProductId = Mage::registry('productData')->getId();
-        self::$_createdOptionAfter = Magento_Test_Helper_Api::call(
+        self::$_createdOptionAfter = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductCustomOptionList',
             array(
@@ -115,7 +115,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
         $updateCounter = 0;
         foreach (self::$_createdOptionAfter as $option) {
             $option = (array)$option;
-            $optionInfo = Magento_Test_Helper_Api::call(
+            $optionInfo = Magento_TestFramework_Helper_Api::call(
                 $this,
                 'catalogProductCustomOptionInfo',
                 array(
@@ -134,7 +134,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
                     $toUpdateValues['additional_fields'] = array($toUpdateValues['additional_fields']);
                 }
 
-                $updateOptionResult = Magento_Test_Helper_Api::call(
+                $updateOptionResult = Magento_TestFramework_Helper_Api::call(
                     $this,
                     'catalogProductCustomOptionUpdate',
                     array(
@@ -160,7 +160,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
      */
     protected function _testOptionsAfterUpdate($optionId, $toUpdateValues)
     {
-        $optionAfterUpdate = Magento_Test_Helper_Api::call(
+        $optionAfterUpdate = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductCustomOptionInfo',
             array(
@@ -191,9 +191,9 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
     public function testCustomOptionTypes()
     {
         $attributeSetFixture = $this->_loadXmlFixture('CustomOptionTypes.xml');
-        $customOptionsTypes = Magento_Test_Helper_Api::simpleXmlToArray($attributeSetFixture);
+        $customOptionsTypes = Magento_TestFramework_Helper_Api::simpleXmlToArray($attributeSetFixture);
 
-        $optionTypes = Magento_Test_Helper_Api::call($this, 'catalogProductCustomOptionTypes', array());
+        $optionTypes = Magento_TestFramework_Helper_Api::call($this, 'catalogProductCustomOptionTypes', array());
         $this->assertEquals($customOptionsTypes['customOptionTypes']['types'], $optionTypes);
     }
 
@@ -214,7 +214,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
             $option['additional_fields'] = array($option['additional_fields']);
         }
 
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogProductCustomOptionUpdate',
             array(
@@ -230,7 +230,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testCustomOptionAddExceptionProductNotExists()
     {
-        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
+        $customOptions = Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
 
         $option = reset($customOptions);
         if (isset($option['additional_fields'])
@@ -239,7 +239,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
             $option['additional_fields'] = array($option['additional_fields']);
         }
 
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogProductCustomOptionAdd',
             array(
@@ -255,11 +255,11 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
     public function testCustomOptionAddExceptionAdditionalFieldsNotSet()
     {
         $fixtureProductId = Mage::registry('productData')->getId();
-        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
+        $customOptions = Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
 
         $option = $customOptions['field'];
         $option['additional_fields'] = array();
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogProductCustomOptionAdd',
             array('productId' => $fixtureProductId, 'data' => $option),
@@ -273,7 +273,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
     public function testCustomOptionDateTimeAddExceptionStoreNotExist()
     {
         $fixtureProductId = Mage::registry('productData')->getId();
-        $customOptions = Magento_Test_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
+        $customOptions = Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
 
         $option = reset($customOptions);
         if (isset($option['additional_fields'])
@@ -282,7 +282,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
             $option['additional_fields'] = array($option['additional_fields']);
         }
 
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogProductCustomOptionAdd',
             array(
@@ -299,7 +299,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
     public function testCustomOptionListExceptionProductNotExists()
     {
         $store = (string)self::$_customOptionFixture->store;
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogProductCustomOptionList',
             array(
@@ -315,7 +315,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
     public function testCustomOptionListExceptionStoreNotExists()
     {
         $fixtureProductId = Mage::registry('productData')->getId();
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogProductCustomOptionList',
             array(
@@ -330,7 +330,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testCustomOptionUpdateExceptionInvalidType()
     {
-        $optionsToUpdate = Magento_Test_Helper_Api::simpleXmlToArray(
+        $optionsToUpdate = Magento_TestFramework_Helper_Api::simpleXmlToArray(
             self::$_customOptionFixture->customOptionsToUpdate
         );
 
@@ -355,7 +355,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
     {
         // Remove
         foreach (self::$_createdOptionAfter as $option) {
-            $removeOptionResult = Magento_Test_Helper_Api::call(
+            $removeOptionResult = Magento_TestFramework_Helper_Api::call(
                 $this,
                 'catalogProductCustomOptionRemove',
                 // @codingStandardsIgnoreStart
@@ -368,7 +368,7 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
         }
 
         // Delete exception test
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogProductCustomOptionRemove',
             array('optionId' => mt_rand(99999, 999999))

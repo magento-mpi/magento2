@@ -136,7 +136,7 @@
         </item>
         <item>
             <word>enterprise</word>
-            <path>dev/tests/integration/testsuite/integrity/modular/BlockInstantiationTest.php</path>
+            <path>dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/BlockInstantiationTest.php</path>
         </item>
         <item>
             <word>enterprise</word>

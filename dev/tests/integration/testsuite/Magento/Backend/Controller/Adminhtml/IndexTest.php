@@ -14,7 +14,7 @@
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @var Magento_Backend_Model_Auth
@@ -28,7 +28,7 @@ class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_Test_TestCa
     {
         Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
         $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
-        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
     }
 
     /**

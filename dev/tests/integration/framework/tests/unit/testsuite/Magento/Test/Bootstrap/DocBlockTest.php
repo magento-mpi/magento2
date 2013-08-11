@@ -10,24 +10,24 @@
  */
 
 /**
- * Test class for Magento_Test_Bootstrap_DocBlock.
+ * Test class for Magento_TestFramework_Bootstrap_DocBlock.
  */
 class Magento_Test_Bootstrap_DocBlockTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Bootstrap_DocBlock
+     * @var Magento_TestFramework_Bootstrap_DocBlock
      */
     protected $_object;
 
     /**
-     * @var Magento_Test_Application|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_TestFramework_Application|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_application;
 
     protected function setUp()
     {
-        $this->_object = new Magento_Test_Bootstrap_DocBlock(__DIR__);
-        $this->_application = $this->getMock('Magento_Test_Application', array(), array(), '', false);
+        $this->_object = new Magento_TestFramework_Bootstrap_DocBlock(__DIR__);
+        $this->_application = $this->getMock('Magento_TestFramework_Application', array(), array(), '', false);
     }
 
     protected function tearDown()
@@ -54,12 +54,12 @@ class Magento_Test_Bootstrap_DocBlockTest extends PHPUnit_Framework_TestCase
 
     public function testRegisterAnnotations()
     {
-        $this->_expectNoListenerCreation('Magento_Test_Event_PhpUnit', 'Instance of the event manager is required.');
+        $this->_expectNoListenerCreation('Magento_TestFramework_Event_PhpUnit', 'Instance of the event manager is required.');
         $this->_expectNoListenerCreation(
-            'Magento_Test_Event_Magento', 'Instance of the "Magento_Test_EventManager" is expected.'
+            'Magento_TestFramework_Event_Magento', 'Instance of the "Magento_TestFramework_EventManager" is expected.'
         );
         $this->_object->registerAnnotations($this->_application);
-        new Magento_Test_Event_PhpUnit();
-        new Magento_Test_Event_Magento();
+        new Magento_TestFramework_Event_PhpUnit();
+        new Magento_TestFramework_Event_Magento();
     }
 }

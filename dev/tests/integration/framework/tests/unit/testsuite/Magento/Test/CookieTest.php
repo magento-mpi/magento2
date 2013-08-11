@@ -17,13 +17,13 @@ class Magento_Test_CookieTest extends PHPUnit_Framework_TestCase
     const SAMPLE_COOKIE_NAME = 'sample_cookie';
 
     /**
-     * @var Magento_Test_Cookie
+     * @var Magento_TestFramework_Cookie
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Test_Cookie(new Magento_Test_Request(), new Magento_Test_Response());
+        $this->_model = new Magento_TestFramework_Cookie(new Magento_TestFramework_Request(), new Magento_TestFramework_Response());
     }
 
     public function testSet()

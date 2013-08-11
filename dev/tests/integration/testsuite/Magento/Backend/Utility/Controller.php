@@ -14,7 +14,7 @@
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  * @SuppressWarnings(PHPMD.numberOfChildren)
  */
-class Magento_Backend_Utility_Controller extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @var Magento_Backend_Model_Auth_Session
@@ -34,7 +34,7 @@ class Magento_Backend_Utility_Controller extends Magento_Test_TestCase_Controlle
 
         $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
         $this->_session = $this->_auth->getAuthStorage();
-        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
     }
 
     protected function tearDown()

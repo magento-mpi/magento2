@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Controller_IndexTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Core_Controller_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     public function testNotFoundAction()
     {

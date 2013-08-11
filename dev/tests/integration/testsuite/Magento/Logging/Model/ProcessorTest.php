@@ -14,7 +14,7 @@
  *
  * @magentoAppArea adminhtml
  */
-class Magento_Logging_Model_ProcessorTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Logging_Model_ProcessorTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * Test that configured admin actions are properly logged
@@ -35,7 +35,7 @@ class Magento_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Controll
         Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
 
         $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
-        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
 
         $this->getRequest()->setServer(array('REQUEST_METHOD' => 'POST'));
         $this->getRequest()->setPost(

@@ -12,7 +12,7 @@
 class Magento_Webapi_Model_Resource_Acl_RuleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 

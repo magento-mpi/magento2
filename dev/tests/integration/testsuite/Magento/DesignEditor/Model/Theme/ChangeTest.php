@@ -22,7 +22,7 @@ class Magento_DesignEditor_Model_Theme_ChangeTest extends PHPUnit_Framework_Test
         $changeModel = Mage::getObjectManager()->create('Magento_DesignEditor_Model_Theme_Change');
         $changeModel->setData($this->_getChangeValidData());
 
-        $crud = new Magento_Test_Entity($changeModel, array('change_time' => '2012-06-10 20:00:01'));
+        $crud = new Magento_TestFramework_Entity($changeModel, array('change_time' => '2012-06-10 20:00:01'));
         $crud->testCrud();
     }
 

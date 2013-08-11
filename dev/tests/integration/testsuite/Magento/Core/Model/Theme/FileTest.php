@@ -56,7 +56,7 @@ class Magento_Core_Model_Theme_FilesTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->setData($this->_data);
 
-        $crud = new Magento_Test_Entity($this->_model, array('file_path' => 'rename.css'));
+        $crud = new Magento_TestFramework_Entity($this->_model, array('file_path' => 'rename.css'));
         $crud->testCrud();
     }
 }

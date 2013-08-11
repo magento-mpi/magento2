@@ -38,7 +38,7 @@ class Magento_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
     protected static function _refreshConfiguration()
     {
         Mage::app()->cleanCache(array(Magento_Core_Model_Config::CACHE_TAG));
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize();
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize();
     }
 
     protected function setUp()
@@ -94,7 +94,7 @@ class Magento_Core_Model_Config_DataTest extends PHPUnit_Framework_TestCase
                 'value'     => 'test value'
             )
         );
-        $crud = new Magento_Test_Entity($this->_model, array('value' => 'new value'));
+        $crud = new Magento_TestFramework_Entity($this->_model, array('value' => 'new value'));
         $crud->testCrud();
     }
 

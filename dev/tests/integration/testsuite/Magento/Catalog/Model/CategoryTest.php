@@ -19,7 +19,7 @@
 class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected static $_objectManager;
 
@@ -50,6 +50,10 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         self::$_objectManager = Mage::getObjectManager();
+
+        if (Magento_TestFramework_Helper_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
+            self::markTestIncomplete('Bug MAGETWO-8513');
+        }
 
         // get list of not existing tables
         /** @var $application Magento_Core_Model_App */

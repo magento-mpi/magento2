@@ -13,7 +13,7 @@
  * Test class for Magento_Backend_Controller_Adminhtml_Auth
  * @magentoAppArea adminhtml
  */
-class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * @var Magento_Backend_Model_Auth_Session
@@ -40,7 +40,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_Test_TestCas
         Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
 
         $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
-        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
         $this->_session = $this->_auth->getAuthStorage();
     }
 
@@ -93,8 +93,8 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_Test_TestCas
     {
         $this->getRequest()->setPost(array(
             'login' => array(
-                'username' => Magento_Test_Bootstrap::ADMIN_NAME,
-                'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD,
+                'username' => Magento_TestFramework_Bootstrap::ADMIN_NAME,
+                'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD,
             )
         ));
 
@@ -174,7 +174,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_Test_TestCas
                 array(
                     'login' => array(
                         'username' => 'test1',
-                        'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD,
+                        'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD,
                     )
                 ),
             ),
@@ -182,7 +182,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_Test_TestCas
                 array(
                     'login' => array(
                         'username' => 'test2',
-                        'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD,
+                        'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD,
                     )
                 ),
             ),
@@ -190,7 +190,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_Test_TestCas
                 array(
                     'login' => array(
                         'username' => 'test3',
-                        'password' => Magento_Test_Bootstrap::ADMIN_PASSWORD,
+                        'password' => Magento_TestFramework_Bootstrap::ADMIN_PASSWORD,
                     )
                 ),
             ),

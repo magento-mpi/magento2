@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Magento_Test_EventManager.
+ * Test class for Magento_TestFramework_EventManager.
  */
 class Magento_Test_EventManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_EventManager
+     * @var Magento_TestFramework_EventManager
      */
     protected $_eventManager;
 
@@ -33,7 +33,7 @@ class Magento_Test_EventManagerTest extends PHPUnit_Framework_TestCase
     {
         $this->_subscriberOne = $this->getMock('stdClass', array('testEvent'));
         $this->_subscriberTwo = $this->getMock('stdClass', array('testEvent'));
-        $this->_eventManager = new Magento_Test_EventManager(array($this->_subscriberOne, $this->_subscriberTwo));
+        $this->_eventManager = new Magento_TestFramework_EventManager(array($this->_subscriberOne, $this->_subscriberTwo));
     }
 
     /**

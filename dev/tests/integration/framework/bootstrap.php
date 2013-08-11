@@ -25,17 +25,17 @@ Magento_Autoload_IncludePath::addIncludePath(array(
 $invariantSettings = array(
     'TESTS_LOCAL_CONFIG_EXTRA_FILE' => 'etc/integration-tests-config.xml',
 );
-$bootstrap = new Magento_Test_Bootstrap(
-    new Magento_Test_Bootstrap_Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
-    new Magento_Test_Bootstrap_Environment(),
-    new Magento_Test_Bootstrap_DocBlock("$testsBaseDir/testsuite"),
-    new Magento_Test_Bootstrap_Profiler(new Magento_Profiler_Driver_Standard()),
+$bootstrap = new Magento_TestFramework_Bootstrap(
+    new Magento_TestFramework_Bootstrap_Settings($testsBaseDir, $invariantSettings + get_defined_constants()),
+    new Magento_TestFramework_Bootstrap_Environment(),
+    new Magento_TestFramework_Bootstrap_DocBlock("$testsBaseDir/testsuite"),
+    new Magento_TestFramework_Bootstrap_Profiler(new Magento_Profiler_Driver_Standard()),
     new Magento_Shell(),
     $testsTmpDir
 );
 $bootstrap->runBootstrap();
 
-Magento_Test_Helper_Bootstrap::setInstance(new Magento_Test_Helper_Bootstrap($bootstrap));
+Magento_TestFramework_Helper_Bootstrap::setInstance(new Magento_TestFramework_Helper_Bootstrap($bootstrap));
 
 Magento_TestFramework_Utility_Files::init(new Magento_TestFramework_Utility_Files($magentoBaseDir));
 

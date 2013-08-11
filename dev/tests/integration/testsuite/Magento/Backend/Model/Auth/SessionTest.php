@@ -47,7 +47,7 @@ class Magento_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
      */
     public function testIsLoggedIn()
     {
-        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
         $this->assertTrue($this->_model->isLoggedIn());
 
         $this->_model->setUpdatedAt(time() - 101);
@@ -60,7 +60,7 @@ class Magento_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
      */
     public function testIsLoggedInWithIgnoredLifetime()
     {
-        $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
         $this->assertTrue($this->_model->isLoggedIn());
 
         $this->_model->setUpdatedAt(time() - 101);

@@ -21,8 +21,8 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         Mage::getConfig();
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
         $arguments = array(
-            'request'  => new Magento_Test_Request(),
-            'response' => new Magento_Test_Response(),
+            'request'  => new Magento_TestFramework_Request(),
+            'response' => new Magento_TestFramework_Response(),
         );
         $context = Mage::getObjectManager()->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
         $this->_model = $this->getMockForAbstractClass(
@@ -39,12 +39,12 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
 
     public function testGetRequest()
     {
-        $this->assertInstanceOf('Magento_Test_Request', $this->_model->getRequest());
+        $this->assertInstanceOf('Magento_TestFramework_Request', $this->_model->getRequest());
     }
 
     public function testGetResponse()
     {
-        $this->assertInstanceOf('Magento_Test_Response', $this->_model->getResponse());
+        $this->assertInstanceOf('Magento_TestFramework_Response', $this->_model->getResponse());
     }
 
     public function testSetGetFlag()
@@ -229,12 +229,12 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         if (headers_sent()) {
             $this->markTestSkipped('Can\' dispatch - headers already sent');
         }
-        $request = new Magento_Test_Request();
+        $request = new Magento_TestFramework_Request();
         $request->setDispatched();
 
         $arguments = array(
             'request'  => $request,
-            'response' => new Magento_Test_Response(),
+            'response' => new Magento_TestFramework_Response(),
         );
         $context = Mage::getObjectManager()->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
 
@@ -290,7 +290,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         Mage::app()->loadArea($expectedArea);
 
         /** @var $controller Magento_Core_Controller_Varien_Action */
-        $context = Mage::getObjectManager()->create($context, array('response' => new Magento_Test_Response()));
+        $context = Mage::getObjectManager()->create($context, array('response' => new Magento_TestFramework_Response()));
         $controller = Mage::getObjectManager()->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
 

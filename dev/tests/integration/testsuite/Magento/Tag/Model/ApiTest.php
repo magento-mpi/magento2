@@ -21,7 +21,7 @@ class Magento_Tag_Model_ApiTest extends PHPUnit_Framework_TestCase
         $tag = Mage::getModel('Magento_Tag_Model_Tag');
         $tagId = $tag->loadByName($tagName)->getTagId();
         /** Retrieve tag info. */
-        $tagInfo = Magento_Test_Helper_Api::call(
+        $tagInfo = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductTagInfo',
             array($tagId)
@@ -49,7 +49,7 @@ class Magento_Tag_Model_ApiTest extends PHPUnit_Framework_TestCase
         $tagId = Mage::getModel('Magento_Tag_Model_Tag')->loadByName('tag_name')->getTagId();
         $updateData = array('name' => 'new_tag_name', 'status' => Magento_Tag_Model_Tag::STATUS_DISABLED);
         /** Update tag. */
-        $tagUpdateResponse = Magento_Test_Helper_Api::call(
+        $tagUpdateResponse = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductTagUpdate',
             array($tagId, (object)$updateData)

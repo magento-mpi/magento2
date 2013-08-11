@@ -58,7 +58,7 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
         $viewUrl = $objectManager->get('Magento_Core_Model_View_Url');
         $model = new Magento_Cms_Model_Wysiwyg_Images_Storage($filesystem, $imageFactory, $viewUrl);
         $this->assertStringStartsWith(
-            realpath(Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir()),
+            realpath(Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir()),
             $model->getThumbsPath()
         );
     }

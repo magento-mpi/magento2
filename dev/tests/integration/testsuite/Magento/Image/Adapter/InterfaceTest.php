@@ -226,7 +226,7 @@ class Magento_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
 
     public function saveDataProvider()
     {
-        $dir = Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR;
+        $dir = Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR;
         return $this->_prepareData(array(
             array(
                 $this->_getFixture('image_adapters_test.png'),

@@ -69,7 +69,7 @@ class Magento_Test_Db_Adapter_TransactionInterfaceTest extends PHPUnit_Framework
         foreach (glob(realpath(__DIR__ . '/../../../../../../../Magento/Test/Db/Adapter') . '/*.php') as $file) {
             $suffix = basename($file, '.php');
             if (false === strpos($suffix, 'Interface')) {
-                $result[] = array("Magento_Test_Db_Adapter_{$suffix}");
+                $result[] = array("Magento_TestFramework_Db_Adapter_{$suffix}");
             }
         }
         return $result;
@@ -79,12 +79,12 @@ class Magento_Test_Db_Adapter_TransactionInterfaceTest extends PHPUnit_Framework
      * Instantiate specified adapter class and block all methods that would try to execute real queries
      *
      * @param string $class
-     * @return Magento_Test_Db_Adapter_TransactionInterface|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_TestFramework_Db_Adapter_TransactionInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getAdapterMock($class)
     {
         $adapter = $this->getMock($class, array('beginTransaction', 'rollback', 'commit'), array(), '', false);
-        $this->assertInstanceOf('Magento_Test_Db_Adapter_TransactionInterface', $adapter);
+        $this->assertInstanceOf('Magento_TestFramework_Db_Adapter_TransactionInterface', $adapter);
         return $adapter;
     }
 }

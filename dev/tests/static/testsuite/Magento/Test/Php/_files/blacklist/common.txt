@@ -14,8 +14,8 @@ app/code/Magento/User/view
 app/code/Magento/Webapi/view
 app/code/Magento/Webhook/view
 dev/tests/integration/testsuite/Magento/Code/_files
-dev/tests/integration/testsuite/integrity/modular/TemplateFilesTest.php
-dev/tests/integration/testsuite/integrity/theme/TemplateFilesTest.php
+dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/TemplateFilesTest.php
+dev/tests/integration/testsuite/Magento/Test/Integrity/Theme/TemplateFilesTest.php
 dev/tests/integration/testsuite/Magento/Backend/Block/System/Config/FormStub.php
 dev/tests/integration/tmp
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpcs/input

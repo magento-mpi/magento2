@@ -20,7 +20,7 @@ class Magento_Index_Model_Process_FileTest extends PHPUnit_Framework_TestCase
     const FILE_NAME = 'index_test.lock';
 
     /**
-     * @var Magento_Test_ObjectManager
+     * @var Magento_TestFramework_ObjectManager
      */
     protected $_objectManager;
 

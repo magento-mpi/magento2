@@ -28,7 +28,7 @@ class Magento_Tag_Model_TagTest extends PHPUnit_Framework_TestCase
     {
         Mage::app()->setCurrentStore(Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
         $this->_model->setName('test');
-        $crud = new Magento_Test_Entity($this->_model, array('name' => uniqid()));
+        $crud = new Magento_TestFramework_Entity($this->_model, array('name' => uniqid()));
         $crud->testCrud();
     }
 }
