@@ -29,18 +29,16 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorController extends Mage_Ad
      * @param Mage_Backend_Controller_Context $context
      * @param Mage_Theme_Model_Config $themeConfig
      * @param Mage_Theme_Model_Config_Customization $customizationConfig
-     * @param null $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
         Mage_Theme_Model_Config $themeConfig,
-        Mage_Theme_Model_Config_Customization $customizationConfig,
-        $areaCode = null
+        Mage_Theme_Model_Config_Customization $customizationConfig
     ) {
         $this->_themeConfig         = $themeConfig;
         $this->_customizationConfig = $customizationConfig;
 
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
     }
 
     /**

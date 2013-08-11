@@ -16,7 +16,7 @@ class Integrity_Enterprise_EditionTest extends PHPUnit_Framework_TestCase
     {
         $root = Utility_Files::init()->getPathToSource();
 
-        $xmlFile = $root . '/app/etc/modules/XEnterprise_Edition.xml.dist';
+        $xmlFile = $root . '/app/etc/enterprise/modules.xml.dist';
         $xml = simplexml_load_file($xmlFile);
         $xmlModuleNodes = $xml->xpath('/config/modules');
         $this->assertEquals(1, count($xmlModuleNodes));

@@ -19,18 +19,14 @@ class Saas_ImportExport_Adminhtml_ImportController extends Mage_ImportExport_Adm
     protected $_stateHelper;
 
     /**
-     * Constructor
-     *
      * @param Mage_Backend_Controller_Context $context
      * @param Saas_ImportExport_Helper_Import_State $stateHelper
-     * @param string|null $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
-        Saas_ImportExport_Helper_Import_State $stateHelper,
-        $areaCode = null
+        Saas_ImportExport_Helper_Import_State $stateHelper
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
         $this->_stateHelper = $stateHelper;
     }
 

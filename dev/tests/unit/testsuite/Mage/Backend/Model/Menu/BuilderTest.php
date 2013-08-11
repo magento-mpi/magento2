@@ -102,7 +102,7 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $this->_model->getResult();
+        $this->_model->getResult($this->_menuMock);
     }
 
     public function testGetResultSkipsRemovedItems()
@@ -123,7 +123,7 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
         $this->_menuMock->expects($this->never())
             ->method('addChild');
 
-        $this->_model->getResult();
+        $this->_model->getResult($this->_menuMock);
     }
 
     /**
@@ -144,6 +144,6 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
             )
         ));
 
-        $this->_model->getResult();
+        $this->_model->getResult($this->_menuMock);
     }
 }

@@ -45,17 +45,15 @@ class Saas_Launcher_TesttransactionController extends Mage_Core_Controller_Front
      * @param Mage_Catalog_Model_Product $productModel
      * @param Mage_Checkout_Model_Session $checkoutSession
      * @param Saas_Launcher_Helper_Data $launcherHelper
-     * @param string $areaCode
      */
     public function __construct(
         Mage_Core_Controller_Varien_Action_Context $context,
         Mage_Checkout_Model_Cart $cartModel,
         Mage_Catalog_Model_Product $productModel,
         Mage_Checkout_Model_Session $checkoutSession,
-        Saas_Launcher_Helper_Data $launcherHelper,
-        $areaCode = null
+        Saas_Launcher_Helper_Data $launcherHelper
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
 
         $this->_cartModel = $cartModel;
         $this->_productModel = $productModel;

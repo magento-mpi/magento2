@@ -30,24 +30,20 @@ class Saas_ImportExport_Adminhtml_ExportController extends Mage_Adminhtml_Contro
     protected $_coreHelper;
 
     /**
-     * Constructor
-     *
      * @param Mage_Backend_Controller_Context $context
      * @param Saas_ImportExport_Helper_Export_State $stateHelper
      * @param Saas_ImportExport_Helper_Export_File $fileHelper
      * @param Mage_Core_Helper_Data $coreHelper
      * @param Mage_Core_Model_Logger $logger
-     * @param string|null $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
         Saas_ImportExport_Helper_Export_State $stateHelper,
         Saas_ImportExport_Helper_Export_File $fileHelper,
         Mage_Core_Helper_Data $coreHelper,
-        Mage_Core_Model_Logger $logger,
-        $areaCode = null
+        Mage_Core_Model_Logger $logger
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
         $this->_stateHelper = $stateHelper;
         $this->_fileHelper = $fileHelper;
         $this->_coreHelper = $coreHelper;

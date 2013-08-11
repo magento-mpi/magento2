@@ -41,7 +41,6 @@ class Saas_Launcher_Adminhtml_Storelauncher_IndexControllerTest
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
-     * @param string|null $areaCode
      * @param array $invokeArgs
      * @return Saas_Launcher_Controller_BasePage
      */
@@ -51,7 +50,6 @@ class Saas_Launcher_Adminhtml_Storelauncher_IndexControllerTest
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
         Mage_Core_Model_Layout_Factory $layoutFactory,
-        $areaCode = null,
         array $invokeArgs = array()
     ) {
         $this->_responseMock = $response;
@@ -76,8 +74,7 @@ class Saas_Launcher_Adminhtml_Storelauncher_IndexControllerTest
                 $context,
                 $this->_configModelMock,
                 $this->_configWriterMock,
-                $this->_launcherHelperMock,
-                $areaCode,
+                $this->_launcherHelperMock
             )
         );
     }

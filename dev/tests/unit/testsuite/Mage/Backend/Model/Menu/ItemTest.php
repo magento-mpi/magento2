@@ -69,7 +69,7 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $this->_aclMock = $this->getMock('Magento_AuthorizationInterface');
         $this->_appConfigMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_Config');
-        $this->_menuFactoryMock = $this->getMock('Mage_Backend_Model_Menu_Factory', array(), array(), '', false);
+        $this->_menuFactoryMock = $this->getMock('Mage_Backend_Model_MenuFactory', array('create'), array(), '', false);
         $this->_urlModelMock = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
         $this->_validatorMock = $this->getMock('Mage_Backend_Model_Menu_Item_Validator');
@@ -249,7 +249,7 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $menuMock = $this->getMock('Mage_Backend_Model_Menu', array(), array(), '', false);
 
         $this->_menuFactoryMock->expects($this->once())
-            ->method('getMenuInstance')
+            ->method('create')
             ->will($this->returnValue($menuMock));
 
         $this->_model->getChildren();

@@ -21,7 +21,6 @@ class Saas_Launcher_Adminhtml_Promotestore_IndexControllerTest
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_Layout_Factory $layoutFactory
-     * @param string|null $areaCode
      * @return Saas_Launcher_Controller_BasePage
      */
     protected function _getMockedPageControllerInstance(
@@ -29,8 +28,7 @@ class Saas_Launcher_Adminhtml_Promotestore_IndexControllerTest
         Mage_Core_Controller_Response_Http $response,
         Magento_ObjectManager $objectManager,
         Mage_Core_Controller_Varien_Front $frontController,
-        Mage_Core_Model_Layout_Factory $layoutFactory,
-        $areaCode = null
+        Mage_Core_Model_Layout_Factory $layoutFactory
     ) {
         $helper = new Magento_Test_Helper_ObjectManager($this);
         $arguments = array(
@@ -49,7 +47,7 @@ class Saas_Launcher_Adminhtml_Promotestore_IndexControllerTest
                 'renderLayout',
                 '_setActiveMenu',
             ),
-            array($context, $areaCode)
+            array($context)
         );
     }
 }

@@ -7,31 +7,39 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ObjectManager_Config_Reader_Dom extends Magento_Config_XmlAbstract
+class Magento_ObjectManager_Config_Reader_Dom extends Magento_Config_Reader_Filesystem
 {
     /**
-     * @var Magento_ObjectManager_Config_Mapper_Dom
+     * List of paths to identifiable nodes
+     *
+     * @var array
      */
-    protected $_mapper;
+    protected $_idAttributes = array(
+        '/config/preference'         => 'for',
+        '/config/type'               => 'name',
+        '/config/type/param'         => 'name',
+        '/config/type/plugin'        => 'name',
+        '/config/virtualType'        => 'name',
+        '/config/virtualType/param'  => 'name',
+        '/config/virtualType/plugin' => 'name',
+    );
 
     /**
-     * @var bool
-     */
-    protected $_isRuntimeValidated;
-
-    /**
-     * @param array $configFiles
-     * @param Magento_ObjectManager_Config_Mapper_Dom $mapper
-     * @param bool $isRuntimeValidated
+     * @param Magento_Config_FileResolverInterface $fileResolver
+     * @param Magento_ObjectManager_Config_Mapper_Dom $converter
+     * @param Magento_Config_ValidationStateInterface $validationState
+     * @param string $filename
+     * @param string $domDocumentClass
      */
     public function __construct(
-        array $configFiles,
-        Magento_ObjectManager_Config_Mapper_Dom $mapper = null,
-        $isRuntimeValidated = false
+        Magento_Config_FileResolverInterface $fileResolver,
+        Magento_ObjectManager_Config_Mapper_Dom $converter,
+        Magento_Config_ValidationStateInterface $validationState,
+        $filename = 'di.xml',
+        $domDocumentClass = 'Magento_Config_Dom'
     ) {
-        $this->_isRuntimeValidated = $isRuntimeValidated;
-        $this->_mapper = $mapper ?: new Magento_ObjectManager_Config_Mapper_Dom();
-        $this->_merge($configFiles);
+        parent::__construct($fileResolver, $converter, $filename, $this->_idAttributes,
+            $this->getSchemaFile(), '', $validationState->isValidated(), $domDocumentClass);
     }
 
     /**
@@ -42,65 +50,5 @@ class Magento_ObjectManager_Config_Reader_Dom extends Magento_Config_XmlAbstract
     public function getSchemaFile()
     {
         return realpath(__DIR__ . '/../../etc/') . DIRECTORY_SEPARATOR . 'config.xsd';
-    }
-
-    /**
-     * Extract configuration data from the DOM structure
-     *
-     * @param DOMDocument $dom
-     * @return array
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function _extractData(DOMDocument $dom)
-    {
-        return array();
-    }
-
-    /**
-     * Get if xml files must be runtime validated
-     *
-     * @return bool
-     */
-    protected function _isRuntimeValidated()
-    {
-        return $this->_isRuntimeValidated;
-    }
-
-    /**
-     * Get XML-contents, initial for merging
-     *
-     * @return string
-     */
-    protected function _getInitialXml()
-    {
-        return '<?xml version="1.0" encoding="utf-8"?><config />';
-    }
-
-    /**
-     * Get list of paths to identifiable nodes
-     *
-     * @return array
-     */
-    protected function _getIdAttributes()
-    {
-        return array(
-            '/config/preference'         => 'for',
-            '/config/type'               => 'name',
-            '/config/type/param'         => 'name',
-            '/config/type/plugin'        => 'name',
-            '/config/virtualType'        => 'name',
-            '/config/virtualType/param'  => 'name',
-            '/config/virtualType/plugin' => 'name',
-        );
-    }
-
-    /**
-     * Read di configuration
-     *
-     * @return array
-     */
-    public function read()
-    {
-        return $this->_mapper->map($this->_getDomConfigModel()->getDom());
     }
 }

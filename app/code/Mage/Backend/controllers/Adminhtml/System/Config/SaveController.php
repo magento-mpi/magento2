@@ -37,17 +37,15 @@ class Mage_Backend_Adminhtml_System_Config_SaveController extends Mage_Backend_C
      * @param Mage_Backend_Model_Config_Factory $configFactory
      * @param Mage_Backend_Model_Auth_StorageInterface $authSession
      * @param Magento_Cache_FrontendInterface $cache
-     * @param string $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
         Mage_Backend_Model_Config_Structure $configStructure,
         Mage_Backend_Model_Config_Factory $configFactory,
         Mage_Backend_Model_Auth_StorageInterface $authSession,
-        Magento_Cache_FrontendInterface $cache,
-        $areaCode = null
+        Magento_Cache_FrontendInterface $cache
     ) {
-        parent::__construct($context, $configStructure, $authSession, $areaCode);
+        parent::__construct($context, $configStructure, $authSession);
         $this->_configFactory = $configFactory;
         $this->_cache = $cache;
     }

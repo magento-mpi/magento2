@@ -26,14 +26,12 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     /**
      * @param Mage_Backend_Controller_Context $context
      * @param Magento_Cache_FrontendInterface $attributeLabelCache
-     * @param string|null $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
-        Magento_Cache_FrontendInterface $attributeLabelCache,
-        $areaCode = null
+        Magento_Cache_FrontendInterface $attributeLabelCache
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
         $this->_attributeLabelCache = $attributeLabelCache;
     }
 

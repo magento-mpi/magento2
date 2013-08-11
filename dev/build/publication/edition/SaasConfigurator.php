@@ -41,11 +41,13 @@ class SaasConfigurator implements ConfiguratorInterface
         $enablerPath = $this->_basePath
             . DIRECTORY_SEPARATOR . 'app'
             . DIRECTORY_SEPARATOR . 'etc'
-            . DIRECTORY_SEPARATOR . 'modules'
             . DIRECTORY_SEPARATOR;
 
         //enable saas edition modules
-        $this->_filesystem->cp($enablerPath . 'XSaas_Edition.xml.dist', $enablerPath . 'XSaas_Edition.xml');
+        $this->_filesystem->cp(
+            $enablerPath . 'saas' . DIRECTORY_SEPARATOR . 'modules.xml.dist',
+            $enablerPath . 'saas' . DIRECTORY_SEPARATOR . 'modules.xml'
+        );
 
         //set edition constant
         $mageFile = $this->_basePath . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Mage.php';

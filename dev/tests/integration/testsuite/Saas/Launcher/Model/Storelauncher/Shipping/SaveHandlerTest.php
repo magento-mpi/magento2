@@ -29,7 +29,8 @@ class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit
     public function testSave()
     {
         $this->markTestIncomplete('Incorrect usage of magentoDataFixture');
-        Mage::getConfig()->setCurrentAreaCode('adminhtml');
+        Mage::getObjectManager()->get('Mage_Core_Model_Config_Scope')
+            ->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var Saas_Launcher_Model_Storelauncher_Shipping_SaveHandler */
         $shippingSaveHandler = Mage::getModel('Saas_Launcher_Model_Storelauncher_Shipping_SaveHandler');
 

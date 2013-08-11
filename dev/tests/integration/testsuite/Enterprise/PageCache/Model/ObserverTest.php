@@ -52,7 +52,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('context' => $context, 'areaCode' => 'frontend')
+                array('context' => $context)
             )
         )));
 
@@ -85,7 +85,7 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observerData->setEvent(new Magento_Event(array(
             'controller_action' => Mage::getModel(
                 'Mage_Core_Controller_Front_Action',
-                array('context' => $context, 'areaCode' => 'frontend')
+                array('context' => $context)
             )
         )));
         $this->_cookie

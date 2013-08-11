@@ -119,7 +119,7 @@ class Mage_Backend_Model_Menu_Item
     protected $_appConfig;
 
     /**
-     * @var Mage_Backend_Model_Menu_Factory
+     * @var Mage_Backend_Model_MenuFactory
      */
     protected $_menuFactory;
 
@@ -150,7 +150,7 @@ class Mage_Backend_Model_Menu_Item
      * @param Magento_AuthorizationInterface $authorization
      * @param Mage_Core_Model_Config $applicationConfig
      * @param Mage_Core_Model_Store_Config $storeConfig
-     * @param Mage_Backend_Model_Menu_Factory $menuFactory
+     * @param Mage_Backend_Model_MenuFactory $menuFactory
      * @param Mage_Backend_Model_Url $urlModel
      * @param Mage_Core_Helper_Abstract $helper
      * @param array $data
@@ -160,7 +160,7 @@ class Mage_Backend_Model_Menu_Item
         Magento_AuthorizationInterface $authorization,
         Mage_Core_Model_Config $applicationConfig,
         Mage_Core_Model_Store_Config $storeConfig,
-        Mage_Backend_Model_Menu_Factory $menuFactory,
+        Mage_Backend_Model_MenuFactory $menuFactory,
         Mage_Backend_Model_Url $urlModel,
         Mage_Core_Helper_Abstract $helper,
         array $data = array()
@@ -225,8 +225,7 @@ class Mage_Backend_Model_Menu_Item
     public function getChildren()
     {
         if (!$this->_submenu) {
-            $this->_submenu = $this->_menuFactory
-                ->getMenuInstance();
+            $this->_submenu = $this->_menuFactory->create();
         }
         return $this->_submenu;
     }
@@ -490,10 +489,10 @@ class Mage_Backend_Model_Menu_Item
             $this->_acl = Mage::getSingleton('Magento_AuthorizationInterface');
             $this->_appConfig = Mage::getConfig();
             $this->_storeConfig =  Mage::getSingleton('Mage_Core_Model_Store_Config');
-            $this->_menuFactory = Mage::getSingleton('Mage_Backend_Model_Menu_Factory');
+            $this->_menuFactory = Mage::getSingleton('Mage_Backend_Model_MenuFactory');
             $this->_urlModel = Mage::getSingleton('Mage_Backend_Model_Url');
             if ($this->_serializedSubmenu) {
-                $this->_submenu = $this->_menuFactory->getMenuInstance();
+                $this->_submenu = $this->_menuFactory->create();
                 $this->_submenu->unserialize($this->_serializedSubmenu);
             }
         }

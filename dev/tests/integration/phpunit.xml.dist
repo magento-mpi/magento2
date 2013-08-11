@@ -39,11 +39,9 @@
         <!-- Local XML configuration file ('.dist' extension will be added, if the specified file doesn't exist) -->
         <const name="TESTS_LOCAL_CONFIG_FILE" value="etc/local-mysql.xml"/>
         <!-- Semicolon-separated 'glob' patterns, that match global XML configuration files -->
-        <const name="TESTS_GLOBAL_CONFIG_FILES" value="../../../app/etc/*.xml"/>
-        <!-- Semicolon-separated 'glob' patterns, that match global DI XML configuration files -->
-        <const name="TESTS_GLOBAL_DI_FILES" value="../../../app/etc/di/*.xml"/>
+        <const name="TESTS_GLOBAL_CONFIG_DIR" value="../../../app/etc"/>
         <!-- Semicolon-separated 'glob' patterns, that match module declaration XML configuration files -->
-        <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/modules/*.xml;etc/modules/*.xml"/>
+        <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/*/modules.xml;etc/test/modules.xml"/>
         <!-- Whether to cleanup the application before running tests or not -->
         <const name="TESTS_CLEANUP" value="enabled"/>
         <!-- Memory usage and estimated leaks thresholds -->

@@ -27,14 +27,12 @@ class Saas_Launcher_Adminhtml_HubController extends Mage_Backend_Controller_Acti
     /**
      * @param Mage_Backend_Controller_Context $context
      * @param Saas_Launcher_Helper_Data $launcherHelper
-     * @param string $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
-        Saas_Launcher_Helper_Data $launcherHelper,
-        $areaCode = null
+        Saas_Launcher_Helper_Data $launcherHelper
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
         $this->_launcherHelper = $launcherHelper;
     }
 

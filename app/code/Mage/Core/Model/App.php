@@ -122,6 +122,11 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
     protected $_eventManager;
 
     /**
+     * @var Mage_Core_Model_Config_Scope
+     */
+    protected $_configScope;
+
+    /**
      * @param Mage_Core_Model_Config $config
      * @param Mage_Core_Controller_Varien_Front $frontController
      * @param Mage_Core_Model_CacheInterface $cache
@@ -130,6 +135,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      * @param Mage_Core_Model_StoreManagerInterface $storeManager
      * @param Mage_Core_Model_Event_Manager $eventManager
      * @param Mage_Core_Model_App_State $appState
+     * @param Mage_Core_Model_Config_Scope $configScope
      */
     public function __construct(
         Mage_Core_Model_Config $config,
@@ -139,7 +145,8 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
         Mage_Core_Model_Db_UpdaterInterface $dbUpdater,
         Mage_Core_Model_StoreManagerInterface $storeManager,
         Mage_Core_Model_Event_Manager $eventManager,
-        Mage_Core_Model_App_State $appState
+        Mage_Core_Model_App_State $appState,
+        Mage_Core_Model_Config_Scope $configScope
     ) {
         $this->_config = $config;
         $this->_cache = $cache;
@@ -149,6 +156,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
         $this->_frontController = $frontController;
         $this->_appState = $appState;
         $this->_eventManager = $eventManager;
+        $this->_configScope = $configScope;
     }
 
     /**
@@ -241,7 +249,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
                 if (isset($areaInfo['front_controller'])
                     && isset($areaInfo['frontName']) && ($frontName == $areaInfo['frontName'])
                 ) {
-                    $this->getConfig()->setCurrentAreaCode($areaCode);
+                    $this->_configScope->setCurrentScope($areaCode);
                     $frontControllerClass = $areaInfo['front_controller'];
                     break;
                 }
@@ -270,6 +278,7 @@ class Mage_Core_Model_App implements Mage_Core_Model_AppInterface
      */
     public function loadArea($code)
     {
+        $this->_configScope->setCurrentScope($code);
         $this->getArea($code)->load();
         return $this;
     }

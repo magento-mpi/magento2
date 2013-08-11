@@ -237,7 +237,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         }
 
         $etcDir = $this->_dirs->getDir(Mage_Core_Model_Dir::CONFIG);
-        $additionalFiles = glob($etcDir . DS . 'modules' . DS . '*.xml');
+        $additionalFiles = glob($etcDir . DS . '*' . DS . 'modules.xml');
 
         foreach ($additionalFiles as $v) {
             $collectModuleFiles['base'][] = $v;

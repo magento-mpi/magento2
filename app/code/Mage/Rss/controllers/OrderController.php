@@ -18,10 +18,27 @@
 
 class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
 {
+    /**
+     * @var Mage_Core_Model_Config_Scope
+     */
+    protected $_configScope;
+
+    /**
+     * @param Mage_Core_Controller_Varien_Action_Context $context
+     * @param Mage_Core_Model_Config_Scope $configScope
+     */
+    public function __construct(
+        Mage_Core_Controller_Varien_Action_Context $context,
+        Mage_Core_Model_Config_Scope $configScope
+    ) {
+        $this->_configScope = $configScope;
+        parent::__construct($context);
+    }
+
     public function preDispatch()
     {
         if ('new' === $this->getRequest()->getActionName()) {
-            $this->setCurrentArea('adminhtml');
+            $this->_configScope->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
             if (!self::authenticateAndAuthorizeAdmin($this, 'Mage_Sales::sales_order')) {
                 return;
             }

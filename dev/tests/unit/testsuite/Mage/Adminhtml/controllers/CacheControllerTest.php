@@ -56,8 +56,7 @@ class Mage_Adminhtml_CacheControllerTest extends PHPUnit_Framework_TestCase
             $context,
             $cache,
             $cacheTypes,
-            $cacheFrontendPool,
-            null
+            $cacheFrontendPool
         );
 
         // Setup expectations

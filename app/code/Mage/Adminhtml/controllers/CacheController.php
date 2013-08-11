@@ -30,16 +30,14 @@ class Mage_Adminhtml_CacheController extends Mage_Adminhtml_Controller_Action
      * @param Mage_Core_Model_Cache $cache
      * @param Mage_Core_Model_Cache_Types $cacheTypes
      * @param Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
-     * @param string $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
         Mage_Core_Model_Cache $cache,
         Mage_Core_Model_Cache_Types $cacheTypes,
-        Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
-        $areaCode = null
+        Mage_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
         $this->_cache = $cache;
         $this->_cacheTypes = $cacheTypes;
         $this->_cacheFrontendPool = $cacheFrontendPool;

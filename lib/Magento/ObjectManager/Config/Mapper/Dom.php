@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_ObjectManager_Config_Mapper_Dom
+class Magento_ObjectManager_Config_Mapper_Dom implements Magento_Config_ConverterInterface
 {
     /**
      * Convert configuration in DOM format to assoc array that can be used by object manager
      *
-     * @param DOMDocument $config
+     * @param mixed $config
      * @return array
      * @throws Exception
      * @todo this method has high cyclomatic complexity in order to avoid performance issues
@@ -20,7 +20,7 @@ class Magento_ObjectManager_Config_Mapper_Dom
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function map(DOMDocument $config)
+    public function convert($config)
     {
         $output = array();
         /** @var DOMNode $node */

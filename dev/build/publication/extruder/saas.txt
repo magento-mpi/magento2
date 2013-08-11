@@ -3,9 +3,7 @@
 #
 saas
 app/code/Saas
-app/etc/modules/XSaas_Edition.xml.dist
-app/etc/saas.xml
-app/etc/di/saas.xml
+app/etc/saas
 dev/tests/integration/testsuite/Saas
 dev/tests/static/testsuite/Integrity/Saas
 dev/tests/js/testsuite/saas

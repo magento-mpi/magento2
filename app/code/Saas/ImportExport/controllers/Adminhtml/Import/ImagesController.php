@@ -23,15 +23,13 @@ class Saas_ImportExport_Adminhtml_Import_ImagesController extends Mage_Adminhtml
      * @param Mage_Backend_Controller_Context $context
      * @param Saas_ImportExport_Model_Service_Image_Import $importService
      * @param Saas_ImportExport_Helper_Data $helper
-     * @param string $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
         Saas_ImportExport_Model_Service_Image_Import $importService,
-        Saas_ImportExport_Helper_Data $helper,
-        $areaCode = null
+        Saas_ImportExport_Helper_Data $helper
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
 
         $this->_importService = $importService;
         $this->_helper = $helper;

@@ -16,6 +16,11 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_configScopeMock;
+
     public function setUp()
     {
         $xml = '<config>
@@ -55,9 +60,11 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $configStorageMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($configBase));
         $modulesReaderMock = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false);
         $invalidatorMock = $this->getMock('Mage_Core_Model_Config_InvalidatorInterface');
+        $this->_configScopeMock = $this->getMock('Magento_Config_ScopeInterface');
 
         $this->_model = new Mage_Core_Model_Config(
-            $objectManagerMock, $configStorageMock, $appMock, $modulesReaderMock, $invalidatorMock
+            $objectManagerMock, $configStorageMock, $appMock, $modulesReaderMock, $invalidatorMock,
+            $this->_configScopeMock
         );
     }
 
@@ -97,19 +104,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             'global/resources/module_setup/setup/module'));
     }
 
-    public function testSetCurrentAreaCode()
-    {
-        $this->assertInstanceOf('Mage_Core_Model_Config', $this->_model->setCurrentAreaCode('adminhtml'));
-    }
-
-    public function testGetCurrentAreaCode()
-    {
-        $areaCode = 'adminhtml';
-        $this->_model->setCurrentAreaCode($areaCode);
-        $actual = $this->_model->getCurrentAreaCode();
-        $this->assertEquals($areaCode, $actual);
-    }
-
     public function testGetAreas()
     {
         $expected = array(
@@ -125,7 +119,8 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         );
 
         $areaCode = 'adminhtml';
-        $this->_model->setCurrentAreaCode($areaCode);
+        $this->_configScopeMock->expects($this->any())
+            ->method('getCurrentScope')->will($this->returnValue($areaCode));
         $this->assertEquals($expected, $this->_model->getAreas());
     }
 

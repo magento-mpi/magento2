@@ -34,7 +34,7 @@ class Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter
      * @param DOMNode $root
      * @return mixed
      */
-    public function convert(DOMNode $root)
+    public function convert($root)
     {
         $result = parent::convert($root);
 

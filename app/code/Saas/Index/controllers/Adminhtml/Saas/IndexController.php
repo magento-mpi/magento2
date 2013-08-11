@@ -17,14 +17,12 @@ class Saas_Index_Adminhtml_Saas_IndexController extends Mage_Adminhtml_Controlle
     /**
      * @param Mage_Backend_Controller_Context $context
      * @param Saas_Index_Model_FlagFactory $flagFactory
-     * @param string $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
-        Saas_Index_Model_FlagFactory $flagFactory,
-        $areaCode = null
+        Saas_Index_Model_FlagFactory $flagFactory
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
         $this->_flag = $flagFactory->create();
         $this->_flag->loadSelf();
     }

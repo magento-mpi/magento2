@@ -25,9 +25,9 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
     protected $_helper;
 
     /**
-     * @var Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_config;
+    protected $_resourceProvider;
 
     /**
      * Set up before test.
@@ -46,15 +46,14 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
             ->method('createResource')
             ->will($this->returnValue($resource));
 
-        $this->_config = $this->getMock('Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader',
-            array('getAclResources', 'getAclVirtualResources'), array(), '', false);
-        $this->_config->expects($this->once())
+        $this->_resourceProvider = $this->getMock('Mage_Webapi_Model_Acl_Resource_ProviderInterface');
+        $this->_resourceProvider->expects($this->once())
             ->method('getAclResources')
             ->will($this->returnValue(include $fixturePath . 'acl.php'));
 
         $this->_model = $this->_helper->getObject('Mage_Webapi_Model_Authorization_Loader_Resource', array(
             'resourceFactory' => $resourceFactory,
-            'reader' => $this->_config,
+            'resourceProvider' => $this->_resourceProvider,
         ));
 
         $this->_acl = $this->getMock(
@@ -67,9 +66,16 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
      */
     public function testPopulateAcl()
     {
-        $this->_config->expects($this->once())
+        $aclFilePath = __DIR__ . DIRECTORY_SEPARATOR .  '..' . DIRECTORY_SEPARATOR .  '..'
+            . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'acl.xml';
+        $aclDom = new DOMDocument();
+        $aclDom->loadXML(file_get_contents($aclFilePath));
+        $domConverter = new Mage_Webapi_Model_Acl_Resource_Config_Converter_Dom();
+        $aclResourceConfig = $domConverter->convert($aclDom);
+
+        $this->_resourceProvider->expects($this->once())
             ->method('getAclVirtualResources')
-            ->will($this->returnValue($this->getResourceXPath()->query('/config/mapping/*')));
+            ->will($this->returnValue($aclResourceConfig['config']['mapping']));
 
         $this->_acl->expects($this->once())
             ->method('getResources')
@@ -95,9 +101,9 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
      */
     public function testPopulateAclWithInvalidDOM()
     {
-        $this->_config->expects($this->once())
+        $this->_resourceProvider->expects($this->once())
             ->method('getAclVirtualResources')
-            ->will($this->returnValue(array(3)));
+            ->will($this->returnValue(array()));
 
         $this->_acl->expects($this->once())
             ->method('getResources')
@@ -107,18 +113,5 @@ class Mage_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framew
             ->with(null, $this->logicalOr('customer/get', 'customer/list'));
 
         $this->_model->populateAcl($this->_acl);
-    }
-
-    /**
-     * Get Resources DOMXPath from fixture.
-     *
-     * @return DOMXPath
-     */
-    public function getResourceXPath()
-    {
-        $aclResources = new DOMDocument();
-        $aclResources->load(__DIR__ . DIRECTORY_SEPARATOR .  '..' . DIRECTORY_SEPARATOR .  '..'
-            . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'acl.xml');
-        return new DOMXPath($aclResources);
     }
 }

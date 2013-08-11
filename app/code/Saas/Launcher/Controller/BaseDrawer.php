@@ -37,15 +37,13 @@ class Saas_Launcher_Controller_BaseDrawer
 
     /**
      * @param Mage_Backend_Controller_Context $context
-     * @param string $areaCode
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
-        $areaCode = null,
         array $data = array()
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
 
         if (isset($data['drawerBlockName'])) {
             $this->_drawerBlockName = $data['drawerBlockName'];

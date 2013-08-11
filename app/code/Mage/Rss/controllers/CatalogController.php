@@ -20,6 +20,23 @@ require_once __DIR__ . '/OrderController.php';
 class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
 {
     /**
+     * @var Mage_Core_Model_Config_Scope
+     */
+    protected $_configScope;
+
+    /**
+     * @param Mage_Core_Controller_Varien_Action_Context $context
+     * @param Mage_Core_Model_Config_Scope $configScope
+     */
+    public function __construct(
+        Mage_Core_Controller_Varien_Action_Context $context,
+        Mage_Core_Model_Config_Scope $configScope
+    ) {
+        $this->_configScope = $configScope;
+        parent::__construct($context);
+    }
+
+    /**
      * Emulate admin area for certain actions
      */
     public function preDispatch()
@@ -30,7 +47,7 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
          */
         $acl = array('notifystock' => 'Mage_Catalog::products', 'review' => 'Mage_Review::reviews_all');
         if (isset($acl[$action])) {
-            $this->setCurrentArea('adminhtml');
+            $this->_configScope->setCurrentScope(Mage_Core_Model_App_Area::AREA_ADMINHTML);
             if (Mage_Rss_OrderController::authenticateAndAuthorizeAdmin($this, $acl[$action])) {
                 return;
             }
