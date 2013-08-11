@@ -122,12 +122,12 @@ class Mage_Webhook_Adminhtml_Webhook_RegistrationController extends Mage_Backend
 
             if (empty($key) || empty($secret) || empty($email)) {
                 throw new Mage_Webhook_Exception(
-                    $this->__('API Key, API Secret and Contact Email are required fields.')
+                    __('API Key, API Secret and Contact Email are required fields.')
                 );
             }
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $this->_redirectFailed($this->__('Invalid Email address provided'));
+                $this->_redirectFailed(__('Invalid Email address provided'));
                 return;
             }
 
@@ -164,7 +164,7 @@ class Mage_Webhook_Adminhtml_Webhook_RegistrationController extends Mage_Backend
             $subscriptionData = $this->_initSubscription();
 
             $this->_getSession()->addSuccess(
-                $this->__('The subscription \'%s\' has been activated.',
+                __('The subscription \'%1\' has been activated.',
                     $subscriptionData[self::DATA_NAME])
             );
         } catch (Mage_Core_Exception $e) {
@@ -204,7 +204,7 @@ class Mage_Webhook_Adminhtml_Webhook_RegistrationController extends Mage_Backend
     protected function _redirectSucceeded(array $subscriptionData)
     {
         $this->_getSession()->addSuccess(
-            $this->__('The subscription \'%s\' has been activated.', $subscriptionData[self::DATA_NAME])
+            __('The subscription \'%1\' has been activated.', $subscriptionData[self::DATA_NAME])
         );
         $this->_redirect('*/webhook_registration/succeeded',
             array(self::PARAM_SUBSCRIPTION_ID => $subscriptionData[self::DATA_SUBSCRIPTION_ID]));

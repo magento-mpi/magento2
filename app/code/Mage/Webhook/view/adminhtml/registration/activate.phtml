@@ -9,11 +9,11 @@
 <div class="outer">
     <div class="center">
         <div class="section main">
-            <h3><?php echo $this->__('The <em>%s</em> subscription is requesting permissions to the following:', $this->getSubscriptionName()) ?> </h3>
+            <h3><?php echo __('The <em>%s</em> subscription is requesting permissions to the following:', $this->getSubscriptionName()) ?> </h3>
 
 
             <div  class="section hooks">
-                <h4><?php echo $this->__('Events') ?></h4>
+                <h4><?php echo __('Events') ?></h4>
 
                 <ul>
                     <?php foreach ($this->getSubscriptionTopics() as $hook) : ?>
@@ -27,12 +27,12 @@
         <div class="buttons">
             <button id="allowActivateSubscription" onclick="document.location = '<?php echo $this->getAcceptUrl() ?>'; return false;">
                 <span>
-                    <?php echo $this->__('Allow') ?>
+                    <?php echo __('Allow') ?>
                 </span>
             </button>
             <button id="denyActivateSubscription" onclick="window.parent.location.reload(); return false;">
                 <span>
-                    <?php echo $this->__('Deny') ?>
+                    <?php echo __('Deny') ?>
                 </span>
             </button>
         </div>

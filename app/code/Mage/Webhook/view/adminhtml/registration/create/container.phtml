@@ -10,7 +10,7 @@
     <div class="center">
         <div class="section main">
             <h3>
-                <?php echo $this->__('Creating API User for ') ?>
+                <?php echo __('Creating API User for ') ?>
                 <em><?php echo $this->getSubscriptionName() ?></em>
             </h3>
 
@@ -24,12 +24,12 @@
         <div class="buttons">
             <button id='createWebhookSubscriptionApiUser' onclick="jQuery('form').validate();jQuery('.api_form form').submit();">
                 <span>
-                    <?php echo $this->__('Create') ?>
+                    <?php echo __('Create') ?>
                 </span>
             </button>
             <button id='cancelWebhookSubscriptionApiUser' onclick="window.parent.location.reload(); return false;">
                 <span>
-                    <?php echo $this->__('Cancel') ?>
+                    <?php echo __('Cancel') ?>
                 </span>
             </button>
         </div>

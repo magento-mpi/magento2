@@ -80,12 +80,12 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
 
         // start date, order ref ID, schedule description
         if (!$this->getStartDatetime()) {
-            $this->_errors['start_datetime'][] = __('Mage_Payment_Helper_Data')->__('The start date is undefined.');
+            $this->_errors['start_datetime'][] = __('The start date is undefined.');
         } elseif (!Zend_Date::isDate($this->getStartDatetime(), Magento_Date::DATETIME_INTERNAL_FORMAT)) {
-            $this->_errors['start_datetime'][] = __('Mage_Payment_Helper_Data')->__('The start date has an invalid format.');
+            $this->_errors['start_datetime'][] = __('The start date has an invalid format.');
         }
         if (!$this->getScheduleDescription()) {
-            $this->_errors['schedule_description'][] = Mage::helper('Mage_Payment_Helper_Data')->__('The schedule description must be provided.');
+            $this->_errors['schedule_description'][] = __('The schedule description must be provided.');
         }
 
         // period unit and frequency
