@@ -39,7 +39,7 @@
         </resources>
         <cache>
             <types>
-                <config_webservice translate="label,description" module="Mage_Webapi">
+                <config_webservice translate="label,description">
                     <label>Web Services Configuration</label>
                     <description>REST and SOAP configurations, generated WSDL file.</description>
                     <class>Mage_Webapi_Model_Cache_Type</class>
