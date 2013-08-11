@@ -320,11 +320,14 @@ function is_dir_writeable($dir)
     return false;
 }
 
-if (!function_exists('__')) {
-    function __()
-    {
-        $argc = func_get_args();
+/**
+ * Create value-object Magento_Phrase
+ *
+ * @return Magento_Phrase
+ */
+function __()
+{
+    $argc = func_get_args();
 
-        return new Magento_Phrase(array_shift($argc), $argc);
-    }
+    return new Magento_Phrase(array_shift($argc), $argc);
 }

@@ -12,7 +12,7 @@ class Magento_Phrase_Renderer_Placeholder implements Magento_Phrase_RendererInte
     /**
      * {@inheritdoc}
      */
-    public function render($text, array $arguments = array())
+    public function render($text, array $arguments)
     {
         if (preg_match_all('/%(\d+)/', $text, $matches) || $arguments) {
             $placeholdersInPhrase = array_unique($matches[1]);
