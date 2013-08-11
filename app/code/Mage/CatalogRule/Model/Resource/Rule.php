@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogRule
+ * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Catalog rules resource model
  *
  * @category    Mage
- * @package     Mage_CatalogRule
+ * @package     Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abstract
+class Magento_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abstract
 {
     /**
      * Store number of seconds in a day
@@ -54,7 +54,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
      *
      * @param Magento_Core_Model_Abstract $object
      *
-     * @return Mage_CatalogRule_Model_Resource_Rule
+     * @return Magento_CatalogRule_Model_Resource_Rule
      */
     protected function _afterLoad(Magento_Core_Model_Abstract $object)
     {
@@ -70,7 +70,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
      *
      * @param Magento_Core_Model_Abstract $object
      *
-     * @return Mage_CatalogRule_Model_Resource_Rule
+     * @return Magento_CatalogRule_Model_Resource_Rule
      */
     protected function _afterSave(Magento_Core_Model_Abstract $object)
     {
@@ -97,11 +97,11 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
     /**
      * Update products which are matched for rule
      *
-     * @param Mage_CatalogRule_Model_Rule $rule
+     * @param Magento_CatalogRule_Model_Rule $rule
      *
-     * @return Mage_CatalogRule_Model_Resource_Rule
+     * @return Magento_CatalogRule_Model_Resource_Rule
      */
-    public function updateRuleProductData(Mage_CatalogRule_Model_Rule $rule)
+    public function updateRuleProductData(Magento_CatalogRule_Model_Rule $rule)
     {
         $ruleId = $rule->getId();
         $write  = $this->_getWriteAdapter();
@@ -211,7 +211,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
      * @param int|string $toDate
      * @param int|null $productId
      *
-     * @return Mage_CatalogRule_Model_Resource_Rule
+     * @return Magento_CatalogRule_Model_Resource_Rule
      */
     public function removeCatalogPricesForDateRange($fromDate, $toDate, $productId = null)
     {
@@ -250,7 +250,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
      * @param string $date
      * @param int|null $productId
      *
-     * @return Mage_CatalogRule_Model_Resource_Rule
+     * @return Magento_CatalogRule_Model_Resource_Rule
      */
     public function deleteOldData($date, $productId = null)
     {
@@ -300,7 +300,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
         /**
          * Join default price and websites prices to result
          */
-        $priceAttr  = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'price');
+        $priceAttr  = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'price');
         $priceTable = $priceAttr->getBackend()->getTable();
         $attributeId= $priceAttr->getId();
 
@@ -369,7 +369,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
      * @param int|string|null $toDate
      * @param int $productId
      *
-     * @return Mage_CatalogRule_Model_Resource_Rule
+     * @return Magento_CatalogRule_Model_Resource_Rule
      */
     public function applyAllRulesForDateRange($fromDate = null, $toDate = null, $productId = null)
     {
@@ -399,7 +399,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
         }
 
         $product = null;
-        if ($productId instanceof Mage_Catalog_Model_Product) {
+        if ($productId instanceof Magento_Catalog_Model_Product) {
             $product    = $productId;
             $productId  = $productId->getId();
         }
@@ -511,7 +511,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
             throw $e;
         }
 
-        $productCondition = Mage::getModel('Mage_Catalog_Model_Product_Condition')
+        $productCondition = Mage::getModel('Magento_Catalog_Model_Product_Condition')
             ->setTable($this->getTable('catalogrule_affected_product'))
             ->setPkFieldName('product_id');
         Mage::dispatchEvent('catalogrule_after_apply', array(
@@ -544,7 +544,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
             }
         }
 
-        $productPrice = Mage::helper('Mage_CatalogRule_Helper_Data')->calcPriceRule(
+        $productPrice = Mage::helper('Magento_CatalogRule_Helper_Data')->calcPriceRule(
             $ruleData['action_operator'],
             $ruleData['action_amount'],
             $productPrice);
@@ -557,7 +557,7 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
      *
      * @param array $arrData
      *
-     * @return Mage_CatalogRule_Model_Resource_Rule
+     * @return Magento_CatalogRule_Model_Resource_Rule
      */
     protected function _saveRuleProductPrices($arrData)
     {
@@ -683,11 +683,11 @@ class Mage_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abst
     /**
      * Apply catalog rule to product
      *
-     * @param Mage_CatalogRule_Model_Rule $rule
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_CatalogRule_Model_Rule $rule
+     * @param Magento_Catalog_Model_Product $product
      * @param array $websiteIds
      *
-     * @return Mage_CatalogRule_Model_Resource_Rule
+     * @return Magento_CatalogRule_Model_Resource_Rule
      */
     public function applyToProduct($rule, $product, $websiteIds)
     {

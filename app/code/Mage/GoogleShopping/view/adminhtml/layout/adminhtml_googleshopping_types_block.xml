@@ -53,7 +53,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="items_total">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Total Qty Content Items</header>
+                            <header translate="true" module="Magento_Catalog">Total Qty Content Items</header>
                             <index>items_total</index>
                             <width>150px</width>
                             <filter>0</filter>

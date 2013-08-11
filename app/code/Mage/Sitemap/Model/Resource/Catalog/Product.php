@@ -35,7 +35,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_Res
     protected $_attributesCache    = array();
 
     /**
-     * @var Mage_Catalog_Model_Product_Attribute_Backend_Media
+     * @var Magento_Catalog_Model_Product_Attribute_Backend_Media
      */
     protected $_mediaGalleryModel = null;
 
@@ -132,13 +132,13 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_Res
     protected function _getAttribute($attributeCode)
     {
         if (!isset($this->_attributesCache[$attributeCode])) {
-            $attribute = Mage::getSingleton('Mage_Catalog_Model_Product')->getResource()->getAttribute($attributeCode);
+            $attribute = Mage::getSingleton('Magento_Catalog_Model_Product')->getResource()->getAttribute($attributeCode);
 
             $this->_attributesCache[$attributeCode] = array(
                 'entity_type_id' => $attribute->getEntityTypeId(),
                 'attribute_id' => $attribute->getId(),
                 'table' => $attribute->getBackend()->getTable(),
-                'is_global' => $attribute->getIsGlobal() == Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+                'is_global' => $attribute->getIsGlobal() == Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
                 'backend_type' => $attribute->getBackendType()
             );
         }
@@ -182,9 +182,9 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_Res
             ->where('w.website_id = ?', $store->getWebsiteId());
 
         $this->_addFilter($store->getId(), 'visibility',
-            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds(), 'in');
+            Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds(), 'in');
         $this->_addFilter($store->getId(), 'status',
-            Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds(), 'in');
+            Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getVisibleStatusIds(), 'in');
 
         // Join product images required attributes
         $imageIncludePolicy = Mage::helper('Mage_Sitemap_Helper_Data')->getProductImageIncludePolicy($store->getId());
@@ -287,8 +287,8 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_Res
     protected function _getAllProductImages($product, $storeId)
     {
         $product->setStoreId($storeId);
-        /** @var $mediaGallery Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media */
-        $mediaGallery = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media');
+        /** @var $mediaGallery Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media */
+        $mediaGallery = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media');
         $gallery = $mediaGallery->loadGallery($product, $this->_getMediaGalleryModel());
 
         $imagesCollection = array();
@@ -308,7 +308,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_Res
     /**
      * Get media gallery model
      *
-     * @return Mage_Catalog_Model_Product_Attribute_Backend_Media|null
+     * @return Magento_Catalog_Model_Product_Attribute_Backend_Media|null
      */
     protected function _getMediaGalleryModel()
     {
@@ -316,7 +316,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_Res
             /** @var $eavConfig Mage_Eav_Model_Config */
             $eavConfig = Mage::getModel('Mage_Eav_Model_Config');
             /** @var $eavConfig Mage_Eav_Model_Attribute */
-            $mediaGallery = $eavConfig->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'media_gallery');
+            $mediaGallery = $eavConfig->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'media_gallery');
             $this->_mediaGalleryModel = $mediaGallery->getBackend();
         }
         return $this->_mediaGalleryModel;
@@ -325,10 +325,10 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_Res
     /**
      * Get media config
      *
-     * @return Mage_Catalog_Model_Product_Media_Config
+     * @return Magento_Catalog_Model_Product_Media_Config
      */
     protected function _getMediaConfig()
     {
-        return Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
+        return Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
     }
 }

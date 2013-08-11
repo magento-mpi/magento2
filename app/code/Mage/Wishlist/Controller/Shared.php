@@ -98,7 +98,7 @@ class Mage_Wishlist_Controller_Shared extends Mage_Wishlist_Controller_Abstract
             if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
                 $session->addError(Mage::helper('Mage_Wishlist_Helper_Data')->__('This product(s) is out of stock.'));
             } else {
-                Mage::getSingleton('Mage_Catalog_Model_Session')->addNotice($e->getMessage());
+                Mage::getSingleton('Magento_Catalog_Model_Session')->addNotice($e->getMessage());
                 $redirectUrl = $item->getProductUrl();
             }
         } catch (Exception $e) {

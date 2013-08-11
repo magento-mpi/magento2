@@ -15,14 +15,14 @@
 class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Backend_Utility_Controller
 {
     /**
-     * @magentoDataFixture Mage/Catalog/controllers/_files/attribute_system.php
+     * @magentoDataFixture Magento/Catalog/controllers/_files/attribute_system.php
      */
     public function testSaveActionApplyToDataSystemAttribute()
     {
         $postData = $this->_getAttributeData() + array('attribute_id' => '2');
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
-        $model = new Mage_Catalog_Model_Resource_Eav_Attribute(
+        $model = new Magento_Catalog_Model_Resource_Eav_Attribute(
             Mage::getModel('Magento_Core_Model_Context')
         );
         $model->load($postData['attribute_id']);
@@ -30,14 +30,14 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Ba
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/controllers/_files/attribute_user_defined.php
+     * @magentoDataFixture Magento/Catalog/controllers/_files/attribute_user_defined.php
      */
     public function testSaveActionApplyToDataUserDefinedAttribute()
     {
         $postData = $this->_getAttributeData() + array('attribute_id' => '1');
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
-        $model = new Mage_Catalog_Model_Resource_Eav_Attribute(
+        $model = new Magento_Catalog_Model_Resource_Eav_Attribute(
             Mage::getModel('Magento_Core_Model_Context')
         );
         $model->load($postData['attribute_id']);
@@ -45,7 +45,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Ba
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/controllers/_files/attribute_system_with_applyto_data.php
+     * @magentoDataFixture Magento/Catalog/controllers/_files/attribute_system_with_applyto_data.php
      */
     public function testSaveActionApplyToData()
     {
@@ -53,7 +53,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Ba
         unset($postData['apply_to']);
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/admin/catalog_product_attribute/save');
-        $model = new Mage_Catalog_Model_Resource_Eav_Attribute(
+        $model = new Magento_Catalog_Model_Resource_Eav_Attribute(
             Mage::getModel('Magento_Core_Model_Context')
         );
         $model->load($postData['attribute_id']);
@@ -63,7 +63,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Ba
     /**
      * @magentoDataFixture Magento/Core/_files/db_translate_admin_store.php
      * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_enabled.php
-     * @magentoDataFixture Mage/Catalog/controllers/_files/attribute_user_defined.php
+     * @magentoDataFixture Magento/Catalog/controllers/_files/attribute_user_defined.php
      * @magentoAppIsolation enabled
      */
     public function testSaveActionCleanAttributeLabelCache()
@@ -113,7 +113,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Ba
     protected function _getAttributeData()
     {
         return array(
-            'is_global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+            'is_global' => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
             'default_value_text' => '0',
             'default_value_yesno' => '0',
             'default_value_date' => '',

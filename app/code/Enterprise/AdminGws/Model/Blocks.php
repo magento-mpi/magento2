@@ -296,7 +296,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             $setDisabled = true;
         } else {
             $categoryId = $observer->getEvent()->getBlock()->getEvent()->getCategoryId();
-            $path = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category')->getCategoryPathById($categoryId);
+            $path = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category')->getCategoryPathById($categoryId);
             if (!$this->_role->hasExclusiveCategoryAccess($path)) {
                 $setDisabled = true;
             }
@@ -905,7 +905,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     {
         $block = $observer->getEvent()->getBlock();
         $eventCategoryId = $block->getEvent()->getCategoryId();
-        $categoryPath = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')
+        $categoryPath = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category')
             ->getCategoryPathById($eventCategoryId);
         if (!$this->_role->hasExclusiveCategoryAccess($categoryPath)) {
             $block->removeButton('save');

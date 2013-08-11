@@ -83,7 +83,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
         }
 
         if ($products) {
-            $products = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
+            $products = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Url')
                 ->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 if ($item->getProductType() == 'undefined') {
@@ -114,7 +114,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
         /** @var $renderer Mage_Checkout_Block_Cart_Item_Renderer */
         $renderer = $this->getItemRenderer($item->getProductType())->setQtyMode(false);
         if ($item->getProductType() == 'undefined') {
-            $renderer->overrideProductThumbnail($this->helper('Mage_Catalog_Helper_Image')->init($item, 'thumbnail'));
+            $renderer->overrideProductThumbnail($this->helper('Magento_Catalog_Helper_Image')->init($item, 'thumbnail'));
             $renderer->setProductName('');
         }
         $renderer->setDeleteUrl(

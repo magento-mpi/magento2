@@ -140,7 +140,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adminh
      */
     protected function _getAttributeSetsArray($targetCountry)
     {
-        $entityType = Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getEntityType();
+        $entityType = Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getEntityType();
         $collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter($entityType->getId());
 

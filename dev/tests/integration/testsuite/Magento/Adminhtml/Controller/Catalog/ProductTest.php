@@ -15,7 +15,7 @@
 class Magento_Adminhtml_Controller_Catalog_ProductTest extends Mage_Backend_Utility_Controller
 {
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_configurable.php
+     * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
      */
     public function testSaveActionAssociatedProductIds()
     {
@@ -27,7 +27,7 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Mage_Backend_Util
 
         $this->dispatch('backend/admin/catalog_product/save');
 
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = Mage::registry('current_product');
         $this->assertEquals($associatedProductIds, $product->getAssociatedProductIds());
 
@@ -38,11 +38,11 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Mage_Backend_Util
     /**
      * Retrieve configurable attribute instance
      *
-     * @return Mage_Catalog_Model_Entity_Attribute
+     * @return Magento_Catalog_Model_Entity_Attribute
      */
     protected function _getConfigurableAttribute()
     {
-        return Mage::getModel('Mage_Catalog_Model_Entity_Attribute')->loadByCode(
+        return Mage::getModel('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
             Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('catalog_product')->getId(),
             'test_configurable'
         );
@@ -63,7 +63,7 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Mage_Backend_Util
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testSaveActionAndNew()
     {
@@ -76,7 +76,7 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Mage_Backend_Util
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testSaveActionAndDuplicate()
     {
@@ -112,7 +112,7 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Mage_Backend_Util
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testEditAction()
     {

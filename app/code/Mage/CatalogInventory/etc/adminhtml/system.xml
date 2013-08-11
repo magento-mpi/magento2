@@ -4,17 +4,17 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
     <system>
-        <section id="cataloginventory" translate="label" module="Mage_CatalogInventory" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="cataloginventory" translate="label" module="Magento_CatalogInventory" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Inventory</label>
             <tab>catalog</tab>
-            <resource>Mage_CatalogInventory::cataloginventory</resource>
+            <resource>Magento_CatalogInventory::cataloginventory</resource>
             <group id="options" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Stock Options</label>
                 <field id="can_subtract" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
@@ -47,11 +47,11 @@
                 <field id="manage_stock" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Manage Stock</label>
                     <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
-                    <backend_model>Mage_CatalogInventory_Model_Config_Backend_Managestock</backend_model>
+                    <backend_model>Magento_CatalogInventory_Model_Config_Backend_Managestock</backend_model>
                 </field>
                 <field id="backorders" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Backorders</label>
-                    <source_model>Mage_CatalogInventory_Model_Source_Backorders</source_model>
+                    <source_model>Magento_CatalogInventory_Model_Source_Backorders</source_model>
                 </field>
                 <field id="max_sale_qty" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Maximum Qty Allowed in Shopping Cart</label>
@@ -60,12 +60,12 @@
                 <field id="min_qty" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Qty for Item's Status to Become Out of Stock</label>
                     <validate>validate-number</validate>
-                    <backend_model>Mage_CatalogInventory_Model_System_Config_Backend_Minqty</backend_model>
+                    <backend_model>Magento_CatalogInventory_Model_System_Config_Backend_Minqty</backend_model>
                 </field>
                 <field id="min_sale_qty" translate="label" sortOrder="6" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Minimum Qty Allowed in Shopping Cart</label>
-                    <frontend_model>Mage_CatalogInventory_Block_Adminhtml_Form_Field_Minsaleqty</frontend_model>
-                    <backend_model>Mage_CatalogInventory_Model_System_Config_Backend_Minsaleqty</backend_model>
+                    <frontend_model>Magento_CatalogInventory_Block_Adminhtml_Form_Field_Minsaleqty</frontend_model>
+                    <backend_model>Magento_CatalogInventory_Model_System_Config_Backend_Minsaleqty</backend_model>
                 </field>
                 <field id="notify_stock_qty" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Notify for Quantity Below</label>
@@ -82,7 +82,7 @@
                 <field id="qty_increments" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Qty Increments</label>
                     <validate>validate-number validate-greater-than-zero</validate>
-                    <backend_model>Mage_CatalogInventory_Model_System_Config_Backend_Qtyincrements</backend_model>
+                    <backend_model>Magento_CatalogInventory_Model_System_Config_Backend_Qtyincrements</backend_model>
                     <depends>
                         <field id="enable_qty_increments">1</field>
                     </depends>

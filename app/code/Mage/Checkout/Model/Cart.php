@@ -150,7 +150,7 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
     {
         /* @var $orderItem Mage_Sales_Model_Order_Item */
         if (is_null($orderItem->getParentItem())) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($orderItem->getProductId());
             if (!$product->getId()) {
@@ -174,15 +174,15 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
      * Get product object based on requested product information
      *
      * @param   mixed $productInfo
-     * @return  Mage_Catalog_Model_Product
+     * @return  Magento_Catalog_Model_Product
      */
     protected function _getProduct($productInfo)
     {
         $product = null;
-        if ($productInfo instanceof Mage_Catalog_Model_Product) {
+        if ($productInfo instanceof Magento_Catalog_Model_Product) {
             $product = $productInfo;
         } elseif (is_int($productInfo) || is_string($productInfo)) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($productInfo);
         }
@@ -223,7 +223,7 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
     /**
      * Add product to shopping cart (quote)
      *
-     * @param   int|Mage_Catalog_Model_Product $productInfo
+     * @param   int|Magento_Catalog_Model_Product $productInfo
      * @param   mixed $requestInfo
      * @return  Mage_Checkout_Model_Cart
      */
@@ -350,7 +350,7 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
                 continue;
             }
 
-            /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+            /* @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
             $stockItem = $product->getStockItem();
             if (!$stockItem) {
                 continue;

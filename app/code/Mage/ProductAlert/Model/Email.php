@@ -156,10 +156,10 @@ class Mage_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     /**
      * Add product (price change) to collection
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_ProductAlert_Model_Email
      */
-    public function addPriceProduct(Mage_Catalog_Model_Product $product)
+    public function addPriceProduct(Magento_Catalog_Model_Product $product)
     {
         $this->_priceProducts[$product->getId()] = $product;
         return $this;
@@ -168,10 +168,10 @@ class Mage_ProductAlert_Model_Email extends Magento_Core_Model_Abstract
     /**
      * Add product (back in stock) to collection
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_ProductAlert_Model_Email
      */
-    public function addStockProduct(Mage_Catalog_Model_Product $product)
+    public function addStockProduct(Magento_Catalog_Model_Product $product)
     {
         $this->_stockProducts[$product->getId()] = $product;
         return $this;

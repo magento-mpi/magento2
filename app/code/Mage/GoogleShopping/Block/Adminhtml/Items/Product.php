@@ -45,7 +45,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Adminhtm
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
             ->setStore($this->_getStore())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
@@ -86,22 +86,22 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Adminhtm
         ));
 
         $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId())
+            ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
         $this->addColumn('type',
             array(
-                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Type'),
+                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Type'),
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
+                'options' => Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set'),
+                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Attribute Set'),
                 'width' => '100px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',

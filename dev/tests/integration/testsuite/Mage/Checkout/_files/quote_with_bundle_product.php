@@ -11,8 +11,8 @@
 
 require __DIR__ . '/../../Bundle/_files/product.php';
 
-/** @var $product Mage_Catalog_Model_Product */
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+/** @var $product Magento_Catalog_Model_Product */
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load(3);
 
 /** @var $typeInstance Mage_Bundle_Model_Product_Type */

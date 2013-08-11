@@ -18,8 +18,8 @@
                 <Mage_Customer/>
                 <Enterprise_Customer/>
                 <Magento_Adminhtml/>
-                <Mage_Catalog/>
-                <Mage_CatalogRule/>
+                <Magento_Catalog/>
+                <Magento_CatalogRule/>
                 <Mage_Rule/>
                 <Mage_Log/>
             </depends>

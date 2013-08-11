@@ -103,8 +103,8 @@ class Mage_Reports_Model_Resource_Report_Product_Viewed extends Mage_Sales_Model
         $select->from(array('source_table' => $this->getTable('report_event')), $columns)
             ->where('source_table.event_type_id = ?', Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW);
 
-        /** @var Mage_Catalog_Model_Resource_Product $product */
-        $product  = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product');
+        /** @var Magento_Catalog_Model_Resource_Product $product */
+        $product  = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product');
 
         $select->joinInner(
             array('product' => $this->getTable('catalog_product_entity')),

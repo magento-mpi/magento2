@@ -13,18 +13,18 @@
 /**
  * Catalog Rule job model
  *
- * @method Mage_CatalogRule_Model_Rule_Job setSuccess(string $errorMessage)
- * @method Mage_CatalogRule_Model_Rule_Job setError(string $errorMessage)
+ * @method Magento_CatalogRule_Model_Rule_Job setSuccess(string $errorMessage)
+ * @method Magento_CatalogRule_Model_Rule_Job setError(string $errorMessage)
  * @method string getSuccess()
  * @method string getError()
  * @method bool hasSuccess()
  * @method bool hasError()
  *
  * @category  Mage
- * @package   Mage_CatalogRule
+ * @package   Magento_CatalogRule
  * @author    Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogRule_Model_Rule_Job extends Magento_Object
+class Magento_CatalogRule_Model_Rule_Job extends Magento_Object
 {
     /**
      * Instance of event manager model
@@ -57,7 +57,7 @@ class Mage_CatalogRule_Model_Rule_Job extends Magento_Object
     /**
      * Dispatch event "catalogrule_apply_all" and set success or error message depends on result
      *
-     * @return Mage_CatalogRule_Model_Rule_Job
+     * @return Magento_CatalogRule_Model_Rule_Job
      */
     public function applyAll()
     {

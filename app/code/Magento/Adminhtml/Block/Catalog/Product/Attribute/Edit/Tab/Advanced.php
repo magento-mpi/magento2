@@ -145,27 +145,27 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
         $yesnoSource = Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         $scopes = array(
-            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>Mage::helper('Mage_Catalog_Helper_Data')->__('Store View'),
-            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>Mage::helper('Mage_Catalog_Helper_Data')->__('Website'),
-            Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>Mage::helper('Mage_Catalog_Helper_Data')->__('Global'),
+            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>Mage::helper('Magento_Catalog_Helper_Data')->__('Store View'),
+            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>Mage::helper('Magento_Catalog_Helper_Data')->__('Website'),
+            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>Mage::helper('Magento_Catalog_Helper_Data')->__('Global'),
         );
 
         if ($attributeObject->getAttributeCode() == 'status' || $attributeObject->getAttributeCode() == 'tax_class_id') {
-            unset($scopes[Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE]);
+            unset($scopes[Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE]);
         }
 
         $fieldset->addField('is_global', 'select', array(
             'name'  => 'is_global',
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Scope'),
-            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Scope'),
-            'note'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Declare attribute value saving scope'),
+            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Scope'),
+            'title' => Mage::helper('Magento_Catalog_Helper_Data')->__('Scope'),
+            'note'  => Mage::helper('Magento_Catalog_Helper_Data')->__('Declare attribute value saving scope'),
             'values'=> $scopes
         ), 'attribute_code');
 
 
         $fieldset->addField('is_configurable', 'select', array(
             'name' => 'is_configurable',
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Use To Create Configurable Product'),
+            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Use To Create Configurable Product'),
             'values' => $yesnoSource,
         ));
         $this->setForm($form);

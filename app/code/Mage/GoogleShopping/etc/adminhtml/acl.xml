@@ -13,7 +13,7 @@
     <acl>
         <resources>
             <resource id="Magento_Adminhtml::admin">
-                <resource id="Mage_Catalog::catalog">
+                <resource id="Magento_Catalog::catalog">
                     <resource id="Mage_GoogleShopping::googleshopping" module="Mage_GoogleShopping" title="Google Content" sortOrder="20">
                         <resource id="Mage_GoogleShopping::types" title="Attributes" sortOrder="10" />
                         <resource id="Mage_GoogleShopping::items" title="Items" sortOrder="20" />

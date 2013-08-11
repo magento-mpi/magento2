@@ -285,7 +285,7 @@ class Mage_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_TestCa
      */
     protected function _createCreditmemo()
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = Mage::registry('product_virtual');
 
         /** @var $order Mage_Sales_Model_Order */

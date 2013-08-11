@@ -228,7 +228,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
             return;
         }
 
-        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addIdFilter($productsId);
@@ -254,7 +254,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
      */
     public function addProductToSelect()
     {
-        $resource = Mage::getModel('Mage_Catalog_Model_Product')->getResource();
+        $resource = Mage::getModel('Magento_Catalog_Model_Product')->getResource();
 
         // add product attributes to select
         foreach (array('name' => 'value') as $field => $fieldName) {

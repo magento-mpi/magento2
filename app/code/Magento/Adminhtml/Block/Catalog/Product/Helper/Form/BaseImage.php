@@ -30,7 +30,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
     protected $_coreHelper;
 
     /**
-     * @var Mage_Catalog_Helper_Data
+     * @var Magento_Catalog_Helper_Data
      */
     protected $_catalogHelperData;
 
@@ -60,7 +60,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
         $this->_coreHelper = isset($attributes['coreHelper']) ? $attributes['coreHelper']
             : Mage::helper('Magento_Core_Helper_Data');
         $this->_catalogHelperData = isset($attributes['catalogHelperData']) ? $attributes['catalogHelperData']
-            : Mage::helper('Mage_Catalog_Helper_Data');
+            : Mage::helper('Magento_Catalog_Helper_Data');
         $this->_fileConfig = isset($attributes['fileConfig']) ? $attributes['fileConfig'] :
             Mage::getSingleton('Magento_File_Size');
         $this->_maxFileSize = $this->_getFileMaxSize();
@@ -73,7 +73,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
      */
     public function getLabel()
     {
-        return $this->helper('Mage_Catalog_Helper_Data')->__('Images');
+        return $this->helper('Magento_Catalog_Helper_Data')->__('Images');
     }
 
     /**
@@ -82,7 +82,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
      * @param string $message
      */
     private function __($message) {
-        return $this->helper('Mage_Catalog_Helper_Data')->__($message);
+        return $this->helper('Magento_Catalog_Helper_Data')->__($message);
     }
 
     /**
@@ -95,7 +95,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
         $htmlId = $this->_coreHelper->escapeHtml($this->getHtmlId());
         $uploadUrl = $this->_coreHelper->escapeHtml($this->_getUploadUrl());
         $spacerImage = $this->_viewUrl->getViewFileUrl('images/spacer.gif');
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $html = <<<HTML
 <div id="{$htmlId}-container" class="images"
     data-mage-init="{baseImage:{}}"
@@ -125,7 +125,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
     </script>
 </div>
 <span class="action-manage-images" data-activate-tab="image-management">
-    <span>{$this->helper('Mage_Catalog_Helper_Data')->__('Image Management')}</span>
+    <span>{$this->helper('Magento_Catalog_Helper_Data')->__('Image Management')}</span>
 </span>
 <script>
     (function($) {
@@ -164,13 +164,13 @@ HTML;
 
     /**
      * Dummy function to give translation tool the ability to pick messages
-     * Must be called with Mage_Catalog_Helper_Data $className only
+     * Must be called with Magento_Catalog_Helper_Data $className only
      *
      * @param string $className
-     * @return Mage_Catalog_Helper_Data|Magento_Core_Helper_Data
+     * @return Magento_Catalog_Helper_Data|Magento_Core_Helper_Data
      */
     private function helper($className)
     {
-        return $className === 'Mage_Catalog_Helper_Data' ? $this->_catalogHelperData : $this->_coreHelper;
+        return $className === 'Magento_Catalog_Helper_Data' ? $this->_catalogHelperData : $this->_coreHelper;
     }
 }

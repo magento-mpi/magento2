@@ -114,7 +114,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
     /**
      * Retrieve data object related with form
      *
-     * @return Mage_Catalog_Model_Product || Mage_Catalog_Model_Category
+     * @return Magento_Catalog_Model_Product || Magento_Catalog_Model_Category
      */
     public function getDataObject()
     {
@@ -168,6 +168,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
      */
     protected function _getDefaultStoreId()
     {
-        return Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+        return Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
     }
 }

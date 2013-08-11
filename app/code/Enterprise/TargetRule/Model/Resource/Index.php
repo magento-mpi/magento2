@@ -213,11 +213,11 @@ class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resour
     {
         $rule->afterLoad();
 
-        /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
+        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
             ->setStoreId($object->getStoreId())
             ->addPriceData($object->getCustomerGroupId())
-            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
         $actionSelect = $rule->getActionSelect();
         $actionBind   = $rule->getActionSelectBind();

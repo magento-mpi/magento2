@@ -28,7 +28,7 @@ return array(
     array('frontend', 'Magento_Core::calendar.gif'),
     array('frontend', 'Magento_Core::fam_book_open.png'),
     array('frontend', 'Mage_Page::favicon.ico'),
-    array('frontend', 'Mage_Catalog::images/product/placeholder/image.jpg'),
-    array('frontend', 'Mage_Catalog::images/product/placeholder/small_image.jpg'),
+    array('frontend', 'Magento_Catalog::images/product/placeholder/image.jpg'),
+    array('frontend', 'Magento_Catalog::images/product/placeholder/small_image.jpg'),
     array('install',  'Mage_Page::favicon.ico')
 );

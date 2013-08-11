@@ -25,13 +25,13 @@ class Mage_Tag_Block_Customer_Recent extends Magento_Core_Block_Template
         $this->_collection = Mage::getModel('Mage_Tag_Model_Tag')->getEntityCollection()
             ->addStoreFilter(Mage::app()->getStore()->getId())
             ->addCustomerFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
-            ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
+            ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
             ->setDescOrder()
             ->setPageSize(5)
             ->setActiveFilter()
             ->load()
             ->addProductTags()
-            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
     }
 
     public function count()

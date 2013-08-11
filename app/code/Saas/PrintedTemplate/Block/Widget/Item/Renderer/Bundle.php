@@ -71,7 +71,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle
             : $item->getProductOptions();
 
         return $options && isset($options['product_calculations'])
-            && $options['product_calculations'] == Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD;
+            && $options['product_calculations'] == Magento_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD;
     }
 
     /**
@@ -108,7 +108,7 @@ class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Bundle
             : $item->getProductOptions();
 
         $shipmentSeparately = $options && isset($options['shipment_type'])
-            && $options['shipment_type'] == Mage_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY;
+            && $options['shipment_type'] == Magento_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY;
 
         return $item->getParentItem() ? $shipmentSeparately : !$shipmentSeparately;
     }

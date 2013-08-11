@@ -11,8 +11,8 @@
  * active, applied to all products, without time limits, with 10% off for Not Logged In Customers
  */
 
-/** @var $banner Mage_CatalogRule_Model_Rule */
-$catalogRule = Mage::getModel('Mage_CatalogRule_Model_Rule');
+/** @var $banner Magento_CatalogRule_Model_Rule */
+$catalogRule = Mage::getModel('Magento_CatalogRule_Model_Rule');
 
 $catalogRule->setIsActive(1)
     ->setName('Test Catalog Rule')

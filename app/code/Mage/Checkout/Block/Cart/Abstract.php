@@ -165,7 +165,7 @@ abstract class Mage_Checkout_Block_Cart_Abstract extends Magento_Core_Block_Temp
      */
     public function canApplyMsrp()
     {
-        if (!$this->getQuote()->hasCanApplyMsrp() && Mage::helper('Mage_Catalog_Helper_Data')->isMsrpEnabled()) {
+        if (!$this->getQuote()->hasCanApplyMsrp() && Mage::helper('Magento_Catalog_Helper_Data')->isMsrpEnabled()) {
             $this->getQuote()->collectTotals();
         }
         return $this->getQuote()->getCanApplyMsrp();

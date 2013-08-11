@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extend
      */
     public function testGetContinueUrl($productId, $expectedUrl)
     {
-        $product = $this->getMockBuilder('Mage_Catalog_Model_Product')
+        $product = $this->getMockBuilder('Magento_Catalog_Model_Product')
             ->disableOriginalConstructor()
             ->setMethods(array('getId'))
             ->getMock();

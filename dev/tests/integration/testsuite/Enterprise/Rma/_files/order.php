@@ -25,7 +25,7 @@ $payment->setMethod('checkmo');
 /** @var $orderItem Mage_Sales_Model_Order_Item */
 $orderItem = Mage::getModel('Mage_Sales_Model_Order_Item');
 $orderItem->setProductId(1)
-    ->setProductType(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+    ->setProductType(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setName('product name')
     ->setSku('smp00001')
     ->setBasePrice(100)

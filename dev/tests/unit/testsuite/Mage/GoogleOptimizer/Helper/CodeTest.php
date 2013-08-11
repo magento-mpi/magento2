@@ -29,7 +29,7 @@ class Mage_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
 
     public function testLoadingCodeForCategoryEntity()
     {
-        $categoryMock = $this->getMock('Mage_Catalog_Model_Category', array(), array(), '', false);
+        $categoryMock = $this->getMock('Magento_Catalog_Model_Category', array(), array(), '', false);
 
         $categoryId = 1;
         $storeId = 1;
@@ -48,7 +48,7 @@ class Mage_GoogleOptimizer_Helper_CodeTest extends PHPUnit_Framework_TestCase
 
     public function testLoadingCodeForProductEntity()
     {
-        $productMock = $this->getMock('Mage_Catalog_Model_Product', array(), array(), '', false);
+        $productMock = $this->getMock('Magento_Catalog_Model_Product', array(), array(), '', false);
 
         $categoryId = 1;
         $storeId = 1;

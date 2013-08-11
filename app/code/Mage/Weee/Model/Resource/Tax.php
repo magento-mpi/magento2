@@ -86,10 +86,10 @@ class Mage_Weee_Model_Resource_Tax extends Magento_Core_Model_Resource_Db_Abstra
 
         $deleteCondition = '';
         if ($productCondition) {
-            if ($productCondition instanceof Mage_Catalog_Model_Product) {
+            if ($productCondition instanceof Magento_Catalog_Model_Product) {
                 $select->where('product_id = ?', (int)$productCondition->getId());
                 $deleteCondition = $adapter->quoteInto('entity_id=?', (int)$productCondition->getId());
-            } elseif ($productCondition instanceof Mage_Catalog_Model_Product_Condition_Interface) {
+            } elseif ($productCondition instanceof Magento_Catalog_Model_Product_Condition_Interface) {
                 $productCondition = $productCondition->getIdsSelect($adapter)->__toString();
                 $select->where("product_id IN ({$productCondition})");
                 $deleteCondition = "entity_id IN ({$productCondition})";

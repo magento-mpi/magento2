@@ -65,7 +65,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Template
     /**
      * Get item product
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -81,7 +81,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Template
     /**
      * Thumbnail image getter
      *
-     * @return Mage_Catalog_Helper_Image
+     * @return Magento_Catalog_Helper_Image
      */
     protected function _getThumbnail()
     {
@@ -96,7 +96,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Template
                     $product = $children[0]->getProduct();
                 }
             }
-            $thumbnail = $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail');
+            $thumbnail = $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail');
         } else {
             $thumbnail = $this->_productThumbnail;
         }
@@ -106,7 +106,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Template
     /**
      * Get product thumbnail image url
      *
-     * @return Mage_Catalog_Model_Product_Image
+     * @return Magento_Catalog_Model_Product_Image
      */
     public function getProductThumbnailUrl()
     {
@@ -120,13 +120,13 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Template
      */
     public function getThumbnailSize()
     {
-        return $this->getVar('product_thumbnail_image_size', 'Mage_Catalog');
+        return $this->getVar('product_thumbnail_image_size', 'Magento_Catalog');
     }
 
     /**
      * Get product thumbnail image url for sidebar
      *
-     * @return Mage_Catalog_Model_Product_Image
+     * @return Magento_Catalog_Model_Product_Image
      */
     public function getProductThumbnailSidebarUrl()
     {
@@ -140,7 +140,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Template
      */
     public function getThumbnailSidebarSize()
     {
-        return $this->getVar('product_thumbnail_image_sidebar_size', 'Mage_Catalog');
+        return $this->getVar('product_thumbnail_image_sidebar_size', 'Magento_Catalog');
     }
 
     public function overrideProductUrl($productUrl)
@@ -228,8 +228,8 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Template
      */
     public function getProductOptions()
     {
-        /* @var $helper Mage_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('Mage_Catalog_Helper_Product_Configuration');
+        /* @var $helper Magento_Catalog_Helper_Product_Configuration */
+        $helper = Mage::helper('Magento_Catalog_Helper_Product_Configuration');
         return $helper->getCustomOptions($this->getItem());
     }
 
@@ -370,8 +370,8 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Template
      */
     public function getFormatedOptionValue($optionValue)
     {
-        /* @var $helper Mage_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('Mage_Catalog_Helper_Product_Configuration');
+        /* @var $helper Magento_Catalog_Helper_Product_Configuration */
+        $helper = Mage::helper('Magento_Catalog_Helper_Product_Configuration');
         $params = array(
             'max_length' => 55,
             'cut_replacer' => ' <a href="#" class="dots" onclick="return false">...</a>'
@@ -407,7 +407,7 @@ class Mage_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Template
      */
     public function getMsrpHtml($item)
     {
-        return $this->getLayout()->createBlock('Mage_Catalog_Block_Product_Price')
+        return $this->getLayout()->createBlock('Magento_Catalog_Block_Product_Price')
             ->setTemplate('product/price_msrp_item.phtml')
             ->setProduct($item->getProduct())
             ->toHtml();

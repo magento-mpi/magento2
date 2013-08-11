@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Catalog search query resource model
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Resource_Query extends Magento_Core_Model_Resource_Db_Abstract
+class Magento_CatalogSearch_Model_Resource_Query extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Init resource data
@@ -31,7 +31,7 @@ class Mage_CatalogSearch_Model_Resource_Query extends Magento_Core_Model_Resourc
      *
      * @param Magento_Core_Model_Abstract $object
      * @param string $value
-     * @return Mage_CatalogSearch_Model_Resource_Query
+     * @return Magento_CatalogSearch_Model_Resource_Query
      */
     public function loadByQuery(Magento_Core_Model_Abstract $object, $value)
     {
@@ -55,7 +55,7 @@ class Mage_CatalogSearch_Model_Resource_Query extends Magento_Core_Model_Resourc
      *
      * @param Magento_Core_Model_Abstract $object
      * @param string $value
-     * @return Mage_CatalogSearch_Model_Resource_Query
+     * @return Magento_CatalogSearch_Model_Resource_Query
      */
     public function loadByQueryText(Magento_Core_Model_Abstract $object, $value)
     {
@@ -78,7 +78,7 @@ class Mage_CatalogSearch_Model_Resource_Query extends Magento_Core_Model_Resourc
      * @param Magento_Core_Model_Abstract $object
      * @param int|string $value
      * @param null|string $field
-     * @return Mage_CatalogSearch_Model_Resource_Query
+     * @return Magento_CatalogSearch_Model_Resource_Query
      */
     public function load(Magento_Core_Model_Abstract $object, $value, $field = null)
     {
@@ -92,7 +92,7 @@ class Mage_CatalogSearch_Model_Resource_Query extends Magento_Core_Model_Resourc
 
     /**
      * @param Magento_Core_Model_Abstract $object
-     * @return Mage_CatalogSearch_Model_Resource_Query
+     * @return Magento_CatalogSearch_Model_Resource_Query
      */
     public function _beforeSave(Magento_Core_Model_Abstract $object)
     {

@@ -9,7 +9,7 @@
 class Saas_Launcher_Controller_TestTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
+     * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
      */
     public function testTransaction()
     {

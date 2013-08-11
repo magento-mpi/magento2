@@ -47,7 +47,7 @@ class Mage_Sales_Model_Observer_Backend_CatalogProductQuoteTest extends PHPUnit_
      */
     public function testSaveProduct($productId, $productStatus)
     {
-        $productMock = $this->getMock('Mage_Catalog_Model_Product', array('getId', 'getStatus'), array(), '', false);
+        $productMock = $this->getMock('Magento_Catalog_Model_Product', array('getId', 'getStatus'), array(), '', false);
         $this->_eventMock->expects($this->once())->method('getProduct')->will($this->returnValue($productMock));
         $productMock->expects($this->once())->method('getId')->will($this->returnValue($productId));
         $productMock->expects($this->once())->method('getStatus')->will($this->returnValue($productStatus));
@@ -78,7 +78,7 @@ class Mage_Sales_Model_Observer_Backend_CatalogProductQuoteTest extends PHPUnit_
 
     public function testSubtractQtyFromQuotes()
     {
-        $productMock = $this->getMock('Mage_Catalog_Model_Product', array('getId', 'getStatus'), array(), '', false);
+        $productMock = $this->getMock('Magento_Catalog_Model_Product', array('getId', 'getStatus'), array(), '', false);
         $this->_eventMock->expects($this->once())->method('getProduct')->will($this->returnValue($productMock));
         $this->_quoteMock->expects($this->once())->method('substractProductFromQuotes')->with($productMock);
         $this->_model->subtractQtyFromQuotes($this->_observerMock);

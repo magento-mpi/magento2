@@ -408,7 +408,7 @@ class Enterprise_CatalogPermissions_Model_Observer
     /**
      * Apply category related permissions on category
      *
-     * @param Magento_Data_Tree_Node|Mage_Catalog_Model_Category
+     * @param Magento_Data_Tree_Node|Magento_Catalog_Model_Category
      * @return Enterprise_CatalogPermissions_Model_Observer
      */
     protected function _applyPermissionsOnCategory($category)
@@ -426,7 +426,7 @@ class Enterprise_CatalogPermissions_Model_Observer
     /**
      * Apply category related permissions on product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Enterprise_CatalogPermissions_Model_Observer
      */
     protected function _applyPermissionsOnProduct($product)

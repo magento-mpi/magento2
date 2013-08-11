@@ -26,7 +26,7 @@ class Enterprise_Banner_Model_Resource_Catalogrule_Collection extends Magento_Co
      */
     protected function _construct()
     {
-        $this->_init('Magento_Object', 'Mage_CatalogRule_Model_Resource_Rule');
+        $this->_init('Magento_Object', 'Magento_CatalogRule_Model_Resource_Rule');
         $this->setMainTable('enterprise_banner_catalogrule');
     }
 

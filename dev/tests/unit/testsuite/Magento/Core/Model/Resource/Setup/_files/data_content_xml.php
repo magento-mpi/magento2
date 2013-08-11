@@ -28,20 +28,20 @@ return array(
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => '<reference><block type="Mage_Catalog_Block_Product_New" /></reference>',
+                'to'    => '<reference><block type="Magento_Catalog_Block_Product_New" /></reference>',
                 'from'  => array('`field` = ?' => '<reference><block type="catalog/product_new" /></reference>')
             ),
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => '<reference><block type="Mage_CatalogSearch_Block_Result" /></reference>',
+                'to'    => '<reference><block type="Magento_CatalogSearch_Block_Result" /></reference>',
                 'from'  => array('`field` = ?' => '<reference><block type="catalogSearch/result" /></reference>')
             ),
         ),
         'aliases_map' => array(
             Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK => array(
-                'catalog/product_new'  => 'Mage_Catalog_Block_Product_New',
-                'catalogSearch/result' => 'Mage_CatalogSearch_Block_Result',
+                'catalog/product_new'  => 'Magento_Catalog_Block_Product_New',
+                'catalogSearch/result' => 'Magento_CatalogSearch_Block_Result',
             )
         )
     ),

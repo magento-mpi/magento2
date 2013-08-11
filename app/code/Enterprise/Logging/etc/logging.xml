@@ -97,7 +97,7 @@
     <catalog_products translate="label">
         <label>Catalog Products</label>
         <expected_models>
-            <Mage_Catalog_Model_Product/>
+            <Magento_Catalog_Model_Product/>
         </expected_models>
         <actions>
             <adminhtml_catalog_product_edit>
@@ -134,7 +134,7 @@
     <catalog_categories translate="label">
         <label>Catalog Categories</label>
         <expected_models>
-            <Mage_Catalog_Model_Category/>
+            <Magento_Catalog_Model_Category/>
         </expected_models>
         <actions>
             <adminhtml_catalog_category_edit>
@@ -179,7 +179,7 @@
     <catalogsearch translate="label">
         <label>Catalog Search</label>
         <expected_models>
-            <Mage_CatalogSearch_Model_Query/>
+            <Magento_CatalogSearch_Model_Query/>
         </expected_models>
         <actions>
             <adminhtml_catalog_search_edit>
@@ -260,7 +260,7 @@
     <catalog_attributes translate="label">
         <label>Catalog Attributes</label>
         <expected_models>
-            <Mage_Catalog_Model_Resource_Eav_Attribute/>
+            <Magento_Catalog_Model_Resource_Eav_Attribute/>
         </expected_models>
         <actions>
             <adminhtml_catalog_product_attribute_edit>
@@ -779,7 +779,7 @@
     <catalogrule translate="label">
         <label>Catalog Price Rules</label>
         <expected_models>
-            <Mage_CatalogRule_Model_Rule/>
+            <Magento_CatalogRule_Model_Rule/>
         </expected_models>
         <actions>
             <adminhtml_promo_catalog_edit>

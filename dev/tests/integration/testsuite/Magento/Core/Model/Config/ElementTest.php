@@ -31,10 +31,10 @@ class Magento_Core_Model_Config_ElementTest extends PHPUnit_Framework_TestCase
         <empty_text></empty_text>
     </is_test>
     <class_test>
-        <class>Mage_Catalog_Model_Observer</class>
+        <class>Magento_Catalog_Model_Observer</class>
     </class_test>
     <model_test>
-        <model>Mage_Catalog_Model_Observer</model>
+        <model>Magento_Catalog_Model_Observer</model>
     </model_test>
     <no_classname_test>
         <none/>
@@ -61,8 +61,8 @@ XML;
 
     public function testGetClassName()
     {
-        $this->assertEquals('Mage_Catalog_Model_Observer', $this->_model->class_test->getClassName());
-        $this->assertEquals('Mage_Catalog_Model_Observer', $this->_model->model_test->getClassName());
+        $this->assertEquals('Magento_Catalog_Model_Observer', $this->_model->class_test->getClassName());
+        $this->assertEquals('Magento_Catalog_Model_Observer', $this->_model->model_test->getClassName());
         $this->assertFalse($this->_model->no_classname_test->getClassName());
     }
 }

@@ -134,7 +134,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     /**
      * Product model instance
      *
-     * @var Mage_Catalog_Model_Product
+     * @var Magento_Catalog_Model_Product
      */
     protected $_productModel;
 
@@ -205,7 +205,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     /**
      * Product options collection
      *
-     * @var Mage_Catalog_Model_Resource_Product_Option_Collection
+     * @var Magento_Catalog_Model_Resource_Product_Option_Collection
      */
     protected $_optionCollection;
 
@@ -264,8 +264,8 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         if (isset($data['is_price_global'])) {
             $this->_isPriceGlobal = $data['is_price_global'];
         } else {
-            /** @var $catalogHelper Mage_Catalog_Helper_Data */
-            $catalogHelper = Mage::helper('Mage_Catalog_Helper_Data');
+            /** @var $catalogHelper Magento_Catalog_Helper_Data */
+            $catalogHelper = Mage::helper('Magento_Catalog_Helper_Data');
             $this->_isPriceGlobal = $catalogHelper->isPriceGlobal();
         }
 
@@ -391,12 +391,12 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         if (isset($data['product_model'])) {
             $this->_productModel = $data['product_model'];
         } else {
-            $this->_productModel = Mage::getModel('Mage_Catalog_Model_Product');
+            $this->_productModel = Mage::getModel('Magento_Catalog_Model_Product');
         }
         if (isset($data['option_collection'])) {
             $this->_optionCollection = $data['option_collection'];
         } else {
-            $this->_optionCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Option_Collection');
+            $this->_optionCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Option_Collection');
         }
         if (isset($data['product_entity'])) {
             $this->_productEntity = $data['product_entity'];
@@ -431,7 +431,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             $optionTitleTable = $this->_tables['catalog_product_option_title'];
             $productIds = array_values($this->_productsSkuToId);
             foreach ($this->_storeCodeToId as $storeId) {
-                $addCustomOptions = function (Mage_Catalog_Model_Product_Option $customOption)
+                $addCustomOptions = function (Magento_Catalog_Model_Product_Option $customOption)
                     use (&$oldCustomOptions, $storeId)
                 {
                     $productId = $customOption->getProductId();
@@ -448,7 +448,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
                         );
                     }
                 };
-                /** @var $collection Mage_Catalog_Model_Resource_Product_Option_Collection */
+                /** @var $collection Magento_Catalog_Model_Resource_Product_Option_Collection */
                 $this->_optionCollection->reset();
                 $this->_optionCollection->addProductToFilter($productIds);
                 $this->_optionCollection->getSelect()
@@ -1149,7 +1149,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             }
             $this->_rowStoreId = $this->_storeCodeToId[$rowData[self::COLUMN_STORE]];
         } else {
-            $this->_rowStoreId = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+            $this->_rowStoreId = Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
         }
         // Init option type and set param which tell that row is main
         if (!empty($rowData[self::COLUMN_TYPE])) { // get custom option type if its specified
@@ -1264,7 +1264,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             && strlen($rowData[self::COLUMN_PREFIX . 'price']) > 0) {
             $priceData = array(
                 'option_id'  => $optionId,
-                'store_id'   => Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+                'store_id'   => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
                 'price_type' => 'fixed'
             );
 

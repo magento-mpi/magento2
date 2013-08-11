@@ -30,10 +30,10 @@ $_showWebsite= $this->isMultiWebsites();
         <table cellspacing="0" class="data-table" id="group_prices_table">
             <thead>
                 <tr>
-                    <th <?php if (!$_showWebsite): ?>style="display: none;"<?php endif; ?>><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Web Site'); ?></th>
-                    <th class="required"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Customer Group'); ?></th>
-                    <th class="required"><?php echo $this->getPriceColumnHeader(Mage::helper('Mage_Catalog_Helper_Data')->__('Price')); ?></th>
-                    <th class="col-delete"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Action'); ?></th>
+                    <th <?php if (!$_showWebsite): ?>style="display: none;"<?php endif; ?>><?php echo Mage::helper('Magento_Catalog_Helper_Data')->__('Web Site'); ?></th>
+                    <th class="required"><?php echo Mage::helper('Magento_Catalog_Helper_Data')->__('Customer Group'); ?></th>
+                    <th class="required"><?php echo $this->getPriceColumnHeader(Mage::helper('Magento_Catalog_Helper_Data')->__('Price')); ?></th>
+                    <th class="col-delete"><?php echo Mage::helper('Magento_Catalog_Helper_Data')->__('Action'); ?></th>
                 </tr>
             </thead>
             <tbody id="<?php echo $_htmlId; ?>_container"></tbody>
@@ -60,8 +60,8 @@ var groupPriceRowTemplate = '<tr>'
     + '</select></td>'
     + '<td><input class="<?php echo $_htmlClass; ?> required-entry <?php echo $_priceValueValidation; ?>" type="text" name="<?php echo $_htmlName; ?>[{{index}}][price]" value="{{price}}" id="group_price_row_{{index}}_price" /></td>'
     + '<td class="col-delete"><input type="hidden" name="<?php echo $_htmlName; ?>[{{index}}][delete]" class="delete" value="" id="group_price_row_{{index}}_delete" />'
-    + '<button title="<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Group Price'); ?>" type="button" class="action- scalable delete icon-btn delete-product-option" id="group_price_row_{{index}}_delete_button" onclick="return groupPriceControl.deleteItem(event);">'
-    + '<span><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Delete'); ?></span></button></td>'
+    + '<button title="<?php echo Mage::helper('Magento_Catalog_Helper_Data')->__('Delete Group Price'); ?>" type="button" class="action- scalable delete icon-btn delete-product-option" id="group_price_row_{{index}}_delete_button" onclick="return groupPriceControl.deleteItem(event);">'
+    + '<span><?php echo Mage::helper('Magento_Catalog_Helper_Data')->__('Delete'); ?></span></button></td>'
     + '</tr>';
 
 var groupPriceControl = {

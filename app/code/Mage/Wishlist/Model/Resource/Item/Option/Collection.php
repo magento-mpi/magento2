@@ -138,7 +138,7 @@ class Mage_Wishlist_Model_Resource_Item_Option_Collection extends Magento_Core_M
      */
     public function getOptionsByProduct($product)
     {
-        if ($product instanceof Mage_Catalog_Model_Product) {
+        if ($product instanceof Magento_Catalog_Model_Product) {
             $productId = $product->getId();
         } else {
             $productId = $product;

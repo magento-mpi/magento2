@@ -15,7 +15,7 @@ class Saas_UnitPrice_Helper_FakeData extends Saas_UnitPrice_Helper_Data
     /**
      * Delegate method to protected parent method to make unit testing possible
      *
-     * @param  Mage_Catalog_Model_Product $product
+     * @param  Magento_Catalog_Model_Product $product
      * @return UnitPrice_Helper_Data
      */
     public function _loadDefaultUnitPriceValues($product)

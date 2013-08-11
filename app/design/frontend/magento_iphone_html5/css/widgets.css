@@ -101,26 +101,26 @@
 .widget-product-link-inline { display:inline; }
 
 .col-main .widget-product-link { display:block; text-align:right; margin:7px 0; }
-.col-main .widget-product-link a { font-size:12px; background:url(Mage_Catalog::images/i_widget-link.gif) 100% 4px no-repeat; padding-right:15px; color:#333; text-decoration:underline; }
+.col-main .widget-product-link a { font-size:12px; background:url(Magento_Catalog::images/i_widget-link.gif) 100% 4px no-repeat; padding-right:15px; color:#333; text-decoration:underline; }
 .col-main .widget-product-link a:hover { color:#333; text-decoration:none; }
 
 .sidebar .widget-product-link { display:block; margin:10px 0; padding:0 17px/* 0 37px*/; }
-.sidebar .widget-product-link a { font-size:12px; background:url(Mage_Catalog::images/i_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; color:#333; text-decoration:underline; }
+.sidebar .widget-product-link a { font-size:12px; background:url(Magento_Catalog::images/i_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; color:#333; text-decoration:underline; }
 .sidebar .widget-product-link a:hover { color:#333; text-decoration:none; }
 
 /* Widget Category Link */
 .widget-category-link-inline { display:inline; }
 
 .top-container .widget-category-link { border-bottom:0; }
-.top-container .widget-category-link a { border-color:#ca3934; color:#d53c00; background-image:url(../Mage_Catalog/bkg_widget-links2.gif); background-color:#f9d2c1; }
+.top-container .widget-category-link a { border-color:#ca3934; color:#d53c00; background-image:url(../Magento_Catalog/bkg_widget-links2.gif); background-color:#f9d2c1; }
 .top-container .widget-category-link a:hover { color:#fff; }
 
 .col-main .widget-category-link { display:block; text-align:right; margin:7px 0; }
-.col-main .widget-category-link a { font-size:12px; background:url(Mage_Catalog::images/i_widget-link.gif) 100% 4px no-repeat; padding-right:15px; color:#333; text-decoration:underline; }
+.col-main .widget-category-link a { font-size:12px; background:url(Magento_Catalog::images/i_widget-link.gif) 100% 4px no-repeat; padding-right:15px; color:#333; text-decoration:underline; }
 .col-main .widget-category-link a:hover { color:#333; text-decoration:none; }
 
 .sidebar .widget-category-link { display:block; margin:10px 0; padding:0 17px/* 0 37px*/; }
-.sidebar .widget-category-link a { font-size:12px; background:url(Mage_Catalog::images/i_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; color:#333; text-decoration:underline; }
+.sidebar .widget-category-link a { font-size:12px; background:url(Magento_Catalog::images/i_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; color:#333; text-decoration:underline; }
 .sidebar .widget-category-link a:hover { color:#333; text-decoration:none; }
 
 /* Widget CMS Page Link */

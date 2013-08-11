@@ -40,10 +40,10 @@ class Mage_SalesRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Condit
      */
     public function validate(Magento_Object $object)
     {
-        /** @var Mage_Catalog_Model_Product $product */
+        /** @var Magento_Catalog_Model_Product $product */
         $product = $object->getProduct();
-        if (!($product instanceof Mage_Catalog_Model_Product)) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($object->getProductId());
+        if (!($product instanceof Magento_Catalog_Model_Product)) {
+            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($object->getProductId());
         }
 
         $product
@@ -52,7 +52,7 @@ class Mage_SalesRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Condit
             ->setQuoteItemRowTotal($object->getBaseRowTotal());
 
         $valid = parent::validate($product);
-        if (!$valid && $product->getTypeId() == Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
+        if (!$valid && $product->getTypeId() == Magento_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
             $children = $object->getChildren();
             $valid = $children && $this->validate($children[0]);
         }

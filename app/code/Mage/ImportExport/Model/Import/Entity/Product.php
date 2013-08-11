@@ -134,9 +134,9 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      * @var array
      */
     protected $_linkNameToId = array(
-        '_links_related_'   => Mage_Catalog_Model_Product_Link::LINK_TYPE_RELATED,
-        '_links_crosssell_' => Mage_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL,
-        '_links_upsell_'    => Mage_Catalog_Model_Product_Link::LINK_TYPE_UPSELL
+        '_links_related_'   => Magento_Catalog_Model_Product_Link::LINK_TYPE_RELATED,
+        '_links_crosssell_' => Magento_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL,
+        '_links_upsell_'    => Magento_Catalog_Model_Product_Link::LINK_TYPE_UPSELL
     );
 
     /**
@@ -400,8 +400,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initCategories()
     {
-        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection')->addNameToResult();
-        /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
+        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection')->addNameToResult();
+        /* @var $collection Magento_Catalog_Model_Resource_Category_Collection */
         foreach ($collection as $category) {
             $structure = explode('/', $category->getPath());
             $pathSize  = count($structure);
@@ -445,7 +445,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     protected function _initSkus()
     {
         $columns = array('entity_id', 'type_id', 'attribute_set_id', 'sku');
-        foreach (Mage::getModel('Mage_Catalog_Model_Product')->getProductEntitiesInfo($columns) as $info) {
+        foreach (Mage::getModel('Magento_Catalog_Model_Product')->getProductEntitiesInfo($columns) as $info) {
             $typeId = $info['type_id'];
             $sku = $info['sku'];
             $this->_oldSku[$sku] = array(
@@ -685,7 +685,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _saveLinks()
     {
-        $resource       = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Link');
+        $resource       = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Link');
         $mainTable      = $resource->getMainTable();
         $positionAttrId = array();
         $nextLinkId     = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($mainTable);
@@ -889,7 +889,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     {
         /** @var $resource Mage_ImportExport_Model_Import_Proxy_Product_Resource */
         $resource       = Mage::getModel('Mage_ImportExport_Model_Import_Proxy_Product_Resource');
-        $priceIsGlobal  = Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal();
+        $priceIsGlobal  = Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal();
         $productLimit   = null;
         $productsQty    = null;
 
@@ -1278,7 +1278,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
 
                 $valueArr = array(
                     'value_id' => $insertValue['value_id'],
-                    'store_id' => Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+                    'store_id' => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
                     'label'    => $insertValue['label'],
                     'position' => $insertValue['position'],
                     'disabled' => $insertValue['disabled']
@@ -1371,8 +1371,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
             'is_decimal_divided'            => 0
         );
 
-        $entityTable = Mage::getResourceModel('Mage_CatalogInventory_Model_Resource_Stock_Item')->getMainTable();
-        $helper      = Mage::helper('Mage_CatalogInventory_Helper_Data');
+        $entityTable = Mage::getResourceModel('Magento_CatalogInventory_Model_Resource_Stock_Item')->getMainTable();
+        $helper      = Mage::helper('Magento_CatalogInventory_Helper_Data');
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $stockData = array();
@@ -1391,8 +1391,8 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                 $row['product_id'] = $this->_newSku[$rowData[self::COL_SKU]]['entity_id'];
                 $row['stock_id'] = 1;
 
-                /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+                /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+                $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
                 $stockItem->loadByProduct($row['product_id']);
                 $existStockData = $stockItem->getData();
 

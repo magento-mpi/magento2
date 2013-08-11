@@ -21,14 +21,14 @@ class Mage_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
     /**
      * Current product instance (override registry one)
      *
-     * @var null|Mage_Catalog_Model_Product
+     * @var null|Magento_Catalog_Model_Product
      */
     protected $_product = null;
 
     /**
      * Get current product instance
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -41,7 +41,7 @@ class Mage_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
     /**
      * Set current product instance
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_ProductAlert_Helper_Data
      */
     public function setProduct($product)

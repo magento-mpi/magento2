@@ -15,8 +15,8 @@
             <version>1.6.0.0</version>
             <active>true</active>
              <depends>
-                <Mage_Catalog/>
-                <Mage_CatalogInventory/>
+                <Magento_Catalog/>
+                <Magento_CatalogInventory/>
                 <Mage_Sales/>
                 <Mage_SalesRule/>
                 <Mage_Wishlist/>

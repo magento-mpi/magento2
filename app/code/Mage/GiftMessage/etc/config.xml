@@ -15,7 +15,7 @@
             <version>1.6.0.1</version>
             <active>true</active>
             <depends>
-                <Mage_Catalog/>
+                <Magento_Catalog/>
                 <Mage_Sales/>
             </depends>
         </Mage_GiftMessage>

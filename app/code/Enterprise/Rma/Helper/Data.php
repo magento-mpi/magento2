@@ -141,7 +141,7 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
                 if ($item->getParentItemId()) {
                     $this->_orderItems[$orderId]->removeItemByKey($item->getId());
                 }
-                if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+                if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
                     $productOptions = $item->getProductOptions();
                     $item->setName($productOptions['simple_name']);
                 }
@@ -446,7 +446,7 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get whether selected product is returnable
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param int|null $storeId
      * @return bool
      */
@@ -523,7 +523,7 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     public function getAdminProductSku($item)
     {
         $name = $item->getSku();
-        if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+        if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
             $productOptions = $item->getProductOptions();
 
             return $productOptions['simple_sku'];

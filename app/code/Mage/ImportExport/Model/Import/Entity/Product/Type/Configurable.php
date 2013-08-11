@@ -214,7 +214,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Type_Configurable
                     ->getNode('global/catalog/product/type/configurable/allow_product_types')->children() as $type) {
                 $allowProductTypes[] = $type->getName();
             }
-            foreach (Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
+            foreach (Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
                         ->addFieldToFilter('type_id', $allowProductTypes)
                         ->addAttributeToSelect(array_keys($this->_superAttributes)) as $product) {
                 $attrSetName = $attrSetIdToName[$product->getAttributeSetId()];

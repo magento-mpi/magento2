@@ -9,15 +9,15 @@
  * @license     {license_link}
  */
 
-$product = Mage::getModel('Mage_Catalog_Model_Product');
-$product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)
     ->setName('New Product')
     ->setSku('simple')
     ->setPrice(10)
-    ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setWebsiteIds(array(1))
     ->setCateroryIds(array())
     ->setStockData(array('qty' => 100, 'is_in_stock' => 1))

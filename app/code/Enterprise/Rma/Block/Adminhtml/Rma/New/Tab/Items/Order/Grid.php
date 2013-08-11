@@ -89,8 +89,8 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
          */
         $parent = array();
 
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
 
         foreach ($fullItemsCollection as $item) {
             $allowed = true;
@@ -128,14 +128,14 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
                 $this->getCollection()->removeItemByKey($item->getId());
                 continue;
             }
-            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
                 && !isset($parent[$item->getId()]['child'])
             ) {
                 $this->getCollection()->removeItemByKey($item->getId());
                 continue;
             }
 
-            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
                 $productOptions     = $item->getProductOptions();
                 $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));

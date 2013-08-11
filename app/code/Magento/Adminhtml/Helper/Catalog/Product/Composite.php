@@ -94,7 +94,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
                 $currentStoreId = Mage::app()->getStore()->getId();
             }
 
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStoreId($currentStoreId)
                 ->load($configureResult->getProductId());
             if (!$product->getId()) {
@@ -119,7 +119,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Composite extends Magento_Core_He
             // Prepare buy request values
             $buyRequest = $configureResult->getBuyRequest();
             if ($buyRequest) {
-                Mage::helper('Mage_Catalog_Helper_Product')->prepareProductOptions($product, $buyRequest);
+                Mage::helper('Magento_Catalog_Helper_Product')->prepareProductOptions($product, $buyRequest);
             }
 
             $isOk = true;

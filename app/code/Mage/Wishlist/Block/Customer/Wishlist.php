@@ -131,7 +131,7 @@ class Mage_Wishlist_Block_Customer_Wishlist extends Mage_Wishlist_Block_Abstract
         }
 
         $helper = Mage::helper($cfg['helper']);
-        if (!($helper instanceof Mage_Catalog_Helper_Product_Configuration_Interface)) {
+        if (!($helper instanceof Magento_Catalog_Helper_Product_Configuration_Interface)) {
             Mage::throwException($this->__("Helper for wish list options rendering doesn't implement required interface."));
         }
 

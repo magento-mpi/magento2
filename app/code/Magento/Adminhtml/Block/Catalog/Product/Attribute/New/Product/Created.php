@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created exte
     protected function _getGroupAttributes()
     {
         $attributes = array();
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = Mage::registry('product');
         foreach($product->getAttributes($this->getRequest()->getParam('group')) as $attribute) {
             /** @var $attribute Mage_Eav_Model_Entity_Attribute */

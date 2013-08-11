@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,29 +11,29 @@
 /**
  * Catalog advanced search model
  *
- * @method Mage_CatalogSearch_Model_Resource_Advanced getResource()
+ * @method Magento_CatalogSearch_Model_Resource_Advanced getResource()
  * @method int getEntityTypeId()
- * @method Mage_CatalogSearch_Model_Advanced setEntityTypeId(int $value)
+ * @method Magento_CatalogSearch_Model_Advanced setEntityTypeId(int $value)
  * @method int getAttributeSetId()
- * @method Mage_CatalogSearch_Model_Advanced setAttributeSetId(int $value)
+ * @method Magento_CatalogSearch_Model_Advanced setAttributeSetId(int $value)
  * @method string getTypeId()
- * @method Mage_CatalogSearch_Model_Advanced setTypeId(string $value)
+ * @method Magento_CatalogSearch_Model_Advanced setTypeId(string $value)
  * @method string getSku()
- * @method Mage_CatalogSearch_Model_Advanced setSku(string $value)
+ * @method Magento_CatalogSearch_Model_Advanced setSku(string $value)
  * @method int getHasOptions()
- * @method Mage_CatalogSearch_Model_Advanced setHasOptions(int $value)
+ * @method Magento_CatalogSearch_Model_Advanced setHasOptions(int $value)
  * @method int getRequiredOptions()
- * @method Mage_CatalogSearch_Model_Advanced setRequiredOptions(int $value)
+ * @method Magento_CatalogSearch_Model_Advanced setRequiredOptions(int $value)
  * @method string getCreatedAt()
- * @method Mage_CatalogSearch_Model_Advanced setCreatedAt(string $value)
+ * @method Magento_CatalogSearch_Model_Advanced setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Mage_CatalogSearch_Model_Advanced setUpdatedAt(string $value)
+ * @method Magento_CatalogSearch_Model_Advanced setUpdatedAt(string $value)
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
+class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
 {
     /**
      * User friendly search criteria list
@@ -45,19 +45,19 @@ class Mage_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     /**
      * Current search engine
      *
-     * @var object|Mage_CatalogSearch_Model_Resource_Fulltext_Engine
+     * @var object|Magento_CatalogSearch_Model_Resource_Fulltext_Engine
      */
     protected $_engine;
 
     /**
      * Found products collection
      *
-     * @var Mage_CatalogSearch_Model_Resource_Advanced_Collection
+     * @var Magento_CatalogSearch_Model_Resource_Advanced_Collection
      */
     protected $_productCollection;
 
     /**
-     * @var Mage_CatalogSearch_Helper_Data
+     * @var Magento_CatalogSearch_Helper_Data
      */
     protected $_helper;
 
@@ -65,14 +65,14 @@ class Mage_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
      * Initialize dependencies
      *
      * @param Magento_Core_Model_Context $context
-     * @param Mage_CatalogSearch_Helper_Data $helper
+     * @param Magento_CatalogSearch_Helper_Data $helper
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
-        Mage_CatalogSearch_Helper_Data $helper,
+        Magento_CatalogSearch_Helper_Data $helper,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -90,11 +90,11 @@ class Mage_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
      */
     public function getAttributes()
     {
-        /* @var $attributes Mage_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection */
+        /* @var $attributes Magento_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection */
         $attributes = $this->getData('attributes');
         if (is_null($attributes)) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product');
-            $attributes = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
+            $product = Mage::getModel('Magento_Catalog_Model_Product');
+            $attributes = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
                 ->addHasOptionsFilter()
                 ->addDisplayInAdvancedSearchFilter()
                 ->addStoreLabel(Mage::app()->getStore()->getId())
@@ -112,7 +112,7 @@ class Mage_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
      * Add advanced search filters to product collection
      *
      * @param   array $values
-     * @return  Mage_CatalogSearch_Model_Advanced
+     * @return  Magento_CatalogSearch_Model_Advanced
      * @throws Magento_Core_Exception
      */
     public function addFilters($values)
@@ -122,7 +122,7 @@ class Mage_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
         $allConditions  = array();
 
         foreach ($attributes as $attribute) {
-            /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+            /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
             if (!isset($values[$attribute->getAttributeCode()])) {
                 continue;
             }
@@ -183,7 +183,7 @@ class Mage_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
      *
      * @param   Mage_Eav_Model_Entity_Attribute $attribute
      * @param   mixed $value
-     * @return  Mage_CatalogSearch_Model_Advanced
+     * @return  Magento_CatalogSearch_Model_Advanced
      */
     protected function _addSearchCriteria($attribute, $value)
     {
@@ -256,7 +256,7 @@ class Mage_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     /**
      * Retrieve advanced search product collection
      *
-     * @return Mage_CatalogSearch_Model_Resource_Advanced_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Advanced_Collection
      */
     public function getProductCollection()
     {
@@ -275,17 +275,17 @@ class Mage_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     /**
      * Prepare product collection
      *
-     * @param Mage_CatalogSearch_Model_Resource_Advanced_Collection $collection
-     * @return Mage_Catalog_Model_Layer
+     * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $collection
+     * @return Magento_Catalog_Model_Layer
      */
     public function prepareProductCollection($collection)
     {
-        $collection->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
+        $collection->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
             ->setStore(Mage::app()->getStore())
             ->addMinimalPrice()
             ->addTaxPercents()
             ->addStoreFilter()
-            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSearchIds());
+            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSearchIds());
 
         return $this;
     }

@@ -14,8 +14,8 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('Mage_CatalogSearch::catalog_search')
-            ->_addBreadcrumb(Mage::helper('Mage_Catalog_Helper_Data')->__('Search'), Mage::helper('Mage_Catalog_Helper_Data')->__('Search'))
+            ->_setActiveMenu('Magento_CatalogSearch::catalog_search')
+            ->_addBreadcrumb(Mage::helper('Magento_Catalog_Helper_Data')->__('Search'), Mage::helper('Magento_Catalog_Helper_Data')->__('Search'))
         ;
         return $this;
     }
@@ -25,7 +25,7 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
         $this->_title($this->__('Search Terms'));
 
         $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'));
+            ->_addBreadcrumb(Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'));
             $this->renderLayout();
     }
 
@@ -39,12 +39,12 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
         $this->_title($this->__('Search Terms'));
 
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('Mage_CatalogSearch_Model_Query');
+        $model = Mage::getModel('Magento_CatalogSearch_Model_Query');
 
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('This search no longer exists.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Catalog_Helper_Data')->__('This search no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
@@ -68,7 +68,7 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
             ->setData('action', $this->getUrl('*/catalog_search/save'));
 
         $this
-            ->_addBreadcrumb($id ? Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Search') : Mage::helper('Mage_Catalog_Helper_Data')->__('New Search'), $id ? Mage::helper('Mage_Catalog_Helper_Data')->__('Edit Search') : Mage::helper('Mage_Catalog_Helper_Data')->__('New Search'));
+            ->_addBreadcrumb($id ? Mage::helper('Magento_Catalog_Helper_Data')->__('Edit Search') : Mage::helper('Magento_Catalog_Helper_Data')->__('New Search'), $id ? Mage::helper('Magento_Catalog_Helper_Data')->__('Edit Search') : Mage::helper('Magento_Catalog_Helper_Data')->__('New Search'));
 
         $this->renderLayout();
     }
@@ -83,8 +83,8 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
         $data       = $this->getRequest()->getPost();
         $queryId    = $this->getRequest()->getPost('query_id', null);
         if ($this->getRequest()->isPost() && $data) {
-            /* @var $model Mage_CatalogSearch_Model_Query */
-            $model = Mage::getModel('Mage_CatalogSearch_Model_Query');
+            /* @var $model Magento_CatalogSearch_Model_Query */
+            $model = Mage::getModel('Magento_CatalogSearch_Model_Query');
 
             // validate query
             $queryText  = $this->getRequest()->getPost('query_text', false);
@@ -96,7 +96,7 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
                     $model->loadByQueryText($queryText);
                     if ($model->getId() && $model->getId() != $queryId) {
                         Mage::throwException(
-                            Mage::helper('Mage_Catalog_Helper_Data')->__('You already have an identical search term query.')
+                            Mage::helper('Magento_Catalog_Helper_Data')->__('You already have an identical search term query.')
                         );
                     } else if (!$model->getId() && $queryId) {
                         $model->load($queryId);
@@ -114,7 +114,7 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
                 $hasError = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('Mage_Catalog_Helper_Data')->__('Something went wrong while saving the search query.')
+                    Mage::helper('Magento_Catalog_Helper_Data')->__('Something went wrong while saving the search query.')
                 );
                 $hasError = true;
             }
@@ -132,10 +132,10 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = Mage::getModel('Mage_CatalogSearch_Model_Query');
+                $model = Mage::getModel('Magento_CatalogSearch_Model_Query');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('You deleted the search.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Catalog_Helper_Data')->__('You deleted the search.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -145,7 +145,7 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
                 return;
             }
         }
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('We can\'t find a search term to delete.'));
+        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Catalog_Helper_Data')->__('We can\'t find a search term to delete.'));
         $this->_redirect('*/*/');
     }
 
@@ -157,7 +157,7 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
         } else {
             try {
                 foreach ($searchIds as $searchId) {
-                    $model = Mage::getModel('Mage_CatalogSearch_Model_Query')->load($searchId);
+                    $model = Mage::getModel('Magento_CatalogSearch_Model_Query')->load($searchId);
                     $model->delete();
                 }
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
@@ -173,6 +173,6 @@ class Magento_Adminhtml_Controller_Catalog_Search extends Magento_Adminhtml_Cont
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_CatalogSearch::search');
+        return $this->_authorization->isAllowed('Magento_CatalogSearch::search');
     }
 }

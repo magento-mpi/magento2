@@ -30,7 +30,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PHPUnit
     public function testGetGridJsObject()
     {
         $parentName = 'parent';
-        $mockClass = $this->getMockClass('Mage_Catalog_Block_Product_Abstract', array('_prepareLayout'),
+        $mockClass = $this->getMockClass('Magento_Catalog_Block_Product_Abstract', array('_prepareLayout'),
             array(Mage::getModel('Magento_Core_Block_Template_Context'))
         );
         $this->_layout->createBlock($mockClass, $parentName);

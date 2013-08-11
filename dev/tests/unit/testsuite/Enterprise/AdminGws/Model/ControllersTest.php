@@ -163,7 +163,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
         return array(
             array(
                 'promo_catalog',
-                'Mage_CatalogRule_Model_Rule',
+                'Magento_CatalogRule_Model_Rule',
             ),
             array(
                 'promo_quote',
@@ -211,7 +211,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
 
         $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
 
-        $modelMock = $this->getMock('Mage_CatalogRule_Model_Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento_CatalogRule_Model_Rule', array(), array(), '', false);
         $modelMock->expects($this->once())->method('load')->with(1);
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(false));
 
@@ -228,7 +228,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
      */
     public function testValidateRuleEntityActionDenyActionIfRoleHasNoExclusiveAccessToAssignedToRuleEntityWebsites()
     {
-        $modelMock = $this->getMock('Mage_CatalogRule_Model_Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento_CatalogRule_Model_Rule', array(), array(), '', false);
 
         $this->_ctrlRequestMock
             ->expects($this->once())->method('getActionName')->will($this->returnValue('edit'));
@@ -265,7 +265,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
         $this->_ctrlRequestMock
             ->expects($this->once())->method('getControllerName')->will($this->returnValue('promo_catalog'));
 
-        $modelMock = $this->getMock('Mage_CatalogRule_Model_Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento_CatalogRule_Model_Rule', array(), array(), '', false);
         $modelMock->expects($this->once())->method('load')->with(array(1));
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue(array(1, 2)));
@@ -300,7 +300,7 @@ class Enterprise_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCa
 
         $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
 
-        $modelMock = $this->getMock('Mage_CatalogRule_Model_Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento_CatalogRule_Model_Rule', array(), array(), '', false);
         $modelMock->expects($this->once())->method('load')->with(array(1));
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue(array(1, 2)));

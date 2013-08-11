@@ -15,15 +15,15 @@
 class Magento_Adminhtml_Block_Catalog_Product_Edit_TabsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      * @magentoAppIsolation enabled
      */
     public function testPrepareLayout()
     {
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)->setDefaultDesignTheme();
         Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
         Mage::register('product', $product);
 

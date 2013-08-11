@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * Autocomplete queries list
  */
-class Mage_CatalogSearch_Block_Autocomplete extends Magento_Core_Block_Abstract
+class Magento_CatalogSearch_Block_Autocomplete extends Magento_Core_Block_Abstract
 {
     protected $_suggestData = null;
 
@@ -52,8 +52,8 @@ class Mage_CatalogSearch_Block_Autocomplete extends Magento_Core_Block_Abstract
     public function getSuggestData()
     {
         if (!$this->_suggestData) {
-            $collection = $this->helper('Mage_CatalogSearch_Helper_Data')->getSuggestCollection();
-            $query = $this->helper('Mage_CatalogSearch_Helper_Data')->getQueryText();
+            $collection = $this->helper('Magento_CatalogSearch_Helper_Data')->getSuggestCollection();
+            $query = $this->helper('Magento_CatalogSearch_Helper_Data')->getQueryText();
             $counter = 0;
             $data = array();
             foreach ($collection as $item) {

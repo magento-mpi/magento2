@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
+class Magento_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const QUERY_VAR_NAME = 'q';
     const MAX_QUERY_LEN  = 200;
@@ -21,7 +21,7 @@ class Mage_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Query object
      *
-     * @var Mage_CatalogSearch_Model_Query
+     * @var Magento_CatalogSearch_Model_Query
      */
     protected $_query;
 
@@ -49,7 +49,7 @@ class Mage_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Search engine model
      *
-     * @var Mage_CatalogSearch_Model_Resource_Fulltext_Engine
+     * @var Magento_CatalogSearch_Model_Resource_Fulltext_Engine
      */
     protected $_engine;
 
@@ -66,12 +66,12 @@ class Mage_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve query model object
      *
-     * @return Mage_CatalogSearch_Model_Query
+     * @return Magento_CatalogSearch_Model_Query
      */
     public function getQuery()
     {
         if (!$this->_query) {
-            $this->_query = Mage::getModel('Mage_CatalogSearch_Model_Query')
+            $this->_query = Mage::getModel('Magento_CatalogSearch_Model_Query')
                 ->loadByQuery($this->getQueryText());
             if (!$this->_query->getId()) {
                 $this->_query->setQueryText($this->getQueryText());
@@ -132,7 +132,7 @@ class Mage_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve suggest collection for query
      *
-     * @return Mage_CatalogSearch_Model_Resource_Query_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
      */
     public function getSuggestCollection()
     {
@@ -194,7 +194,7 @@ class Mage_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMinQueryLength($store = null)
     {
-        return Mage::getStoreConfig(Mage_CatalogSearch_Model_Query::XML_PATH_MIN_QUERY_LENGTH, $store);
+        return Mage::getStoreConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MIN_QUERY_LENGTH, $store);
     }
 
     /**
@@ -205,7 +205,7 @@ class Mage_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMaxQueryLength($store = null)
     {
-        return Mage::getStoreConfig(Mage_CatalogSearch_Model_Query::XML_PATH_MAX_QUERY_LENGTH, $store);
+        return Mage::getStoreConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MAX_QUERY_LENGTH, $store);
     }
 
     /**
@@ -216,14 +216,14 @@ class Mage_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMaxQueryWords($store = null)
     {
-        return Mage::getStoreConfig(Mage_CatalogSearch_Model_Query::XML_PATH_MAX_QUERY_WORDS, $store);
+        return Mage::getStoreConfig(Magento_CatalogSearch_Model_Query::XML_PATH_MAX_QUERY_WORDS, $store);
     }
 
     /**
      * Add Note message
      *
      * @param string $message
-     * @return Mage_CatalogSearch_Helper_Data
+     * @return Magento_CatalogSearch_Helper_Data
      */
     public function addNoteMessage($message)
     {
@@ -235,7 +235,7 @@ class Mage_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      * Set Note messages
      *
      * @param array $messages
-     * @return Mage_CatalogSearch_Helper_Data
+     * @return Magento_CatalogSearch_Helper_Data
      */
     public function setNoteMessages(array $messages)
     {
@@ -257,7 +257,7 @@ class Mage_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
      * Check query of a warnings
      *
      * @param mixed $store
-     * @return Mage_CatalogSearch_Helper_Data
+     * @return Magento_CatalogSearch_Helper_Data
      */
     public function checkNotes($store = null)
     {
@@ -268,9 +268,9 @@ class Mage_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
         /* @var $stringHelper Magento_Core_Helper_String */
         $stringHelper = Mage::helper('Magento_Core_Helper_String');
 
-        $searchType = Mage::getStoreConfig(Mage_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
-        if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
-            || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
+        $searchType = Mage::getStoreConfig(Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
+        if ($searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
+            || $searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
         ) {
             $wordsFull = $stringHelper->splitWords($this->getQueryText(), true);
             $wordsLike = $stringHelper->splitWords($this->getQueryText(), true, $this->getMaxQueryWords());
@@ -328,7 +328,7 @@ class Mage_CatalogSearch_Helper_Data extends Magento_Core_Helper_Abstract
                 }
             }
             if (!$this->_engine) {
-                $this->_engine = Mage::getResourceSingleton('Mage_CatalogSearch_Model_Resource_Fulltext_Engine');
+                $this->_engine = Mage::getResourceSingleton('Magento_CatalogSearch_Model_Resource_Fulltext_Engine');
             }
         }
 

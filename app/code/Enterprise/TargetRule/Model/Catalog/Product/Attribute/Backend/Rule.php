@@ -21,7 +21,7 @@ class Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule
     /**
      * Before attribute save prepare data
      *
-     * @param Mage_Catalog_Model_Product $object
+     * @param Magento_Catalog_Model_Product $object
      * @return Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule
      */
     public function beforeSave($object)

@@ -31,10 +31,10 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
      * @var array
      */
     protected $_aviableProductTypes = array(
-        Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-        Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
-        Mage_Catalog_Model_Product_Type::TYPE_GROUPED,
-        Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+        Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
+        Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
+        Magento_Catalog_Model_Product_Type::TYPE_GROUPED,
+        Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
     );
 
     /**
@@ -63,14 +63,14 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
      */
     public function getDefaultStoreId()
     {
-        return Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+        return Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
     }
 
     /**
      * Check whether the attribute is Applicable to the object
      *
      * @param Magento_Object $object
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @return boolean
      */
     protected function _isApplicableAttribute($object, $attribute)
@@ -107,7 +107,7 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
      * @param Magento_Object $object
      * @param integer $entityId
      * @param array|null $attributes
-     * @return Mage_Catalog_Model_Resource_Abstract
+     * @return Magento_Catalog_Model_Resource_Abstract
      */
     public function load($object, $entityId, $attributes = array())
     {
@@ -231,8 +231,8 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
          */
         $parent = array();
 
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
 
         foreach ($orderItemsCollection as $item) {
             /* retrieves only bundle and children by $parentId */
@@ -293,14 +293,14 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
                 }
             }
 
-            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
                 && !isset($parent[$item->getId()]['child'])
             ) {
                 $orderItemsCollection->removeItemByKey($item->getId());
                 continue;
             }
 
-            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
                 $productOptions     = $item->getProductOptions();
                 $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));

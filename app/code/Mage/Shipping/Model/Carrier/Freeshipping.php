@@ -72,7 +72,7 @@ class Mage_Shipping_Model_Carrier_Freeshipping
         $items = $request->getAllItems();
         $c = count($items);
         for ($i = 0; $i < $c; $i++) {
-            if ($items[$i]->getProduct() instanceof Mage_Catalog_Model_Product) {
+            if ($items[$i]->getProduct() instanceof Magento_Catalog_Model_Product) {
                 if ($items[$i]->getFreeShipping()) {
                     $freeShipping = true;
                 } else {

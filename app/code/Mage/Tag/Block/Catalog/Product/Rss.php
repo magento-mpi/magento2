@@ -51,10 +51,10 @@ class Mage_Tag_Block_Catalog_Product_Rss extends Mage_Rss_Block_Catalog_Abstract
             ->addTagFilter($tagModel->getId())
             ->addStoreFilter($storeId);
 
-        $_collection->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
+        $_collection->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')
             ->getVisibleInCatalogIds());
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
 
         Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
             $_collection->getSelect(),
@@ -88,7 +88,7 @@ class Mage_Tag_Block_Catalog_Product_Rss extends Mage_Rss_Block_Catalog_Abstract
 
         $product->unsetData()->load($args['row']['entity_id']);
         $description = '<table><tr><td><a href="'.$product->getProductUrl().'">'
-            . '<img src="' . $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
+            . '<img src="' . $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
             . '" border="0" align="left" height="75" width="75"></a></td>'
             . '<td  style="text-decoration:none;">'.$product->getDescription();
 

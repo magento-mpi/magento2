@@ -35,7 +35,7 @@ class Mage_Newsletter_Controller_Manage extends Magento_Core_Controller_Front_Ac
     {
         $this->loadLayout();
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
-        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
 
         if ($block = $this->getLayout()->getBlock('customer_newsletter')) {
             $block->setRefererUrl($this->_getRefererUrl());

@@ -62,7 +62,7 @@
         <global_search>
             <products>
                 <class>Magento_Adminhtml_Model_Search_Catalog</class>
-                <acl>Mage_Catalog::catalog</acl>
+                <acl>Magento_Catalog::catalog</acl>
             </products>
             <customers>
                 <class>Magento_Adminhtml_Model_Search_Customer</class>

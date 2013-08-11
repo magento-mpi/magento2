@@ -35,7 +35,7 @@ class Mage_Rss_Controller_CatalogTest extends Magento_Test_TestCase_ControllerAb
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/products_new.php
+     * @magentoDataFixture Magento/Catalog/_files/products_new.php
      * @magentoConfigFixture current_store rss/catalog/new 1
      */
     public function testNewAction()
@@ -45,7 +45,7 @@ class Mage_Rss_Controller_CatalogTest extends Magento_Test_TestCase_ControllerAb
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_special_price.php
+     * @magentoDataFixture Magento/Catalog/_files/product_special_price.php
      * @magentoConfigFixture current_store rss/catalog/special 1
      */
     public function testSpecialAction()
@@ -104,13 +104,13 @@ class Mage_Rss_Controller_CatalogTest extends Magento_Test_TestCase_ControllerAb
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
+     * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
      * @magentoConfigFixture current_store cataloginventory/item_options/notify_stock_qty 75
      */
     public function testNotifyStockAction()
     {
         // workaround: trigger updating "low stock date", because RSS collection requires it to be not null
-        Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Stock')->updateLowStockDate();
+        Mage::getResourceSingleton('Magento_CatalogInventory_Model_Resource_Stock')->updateLowStockDate();
         $this->_loginAdmin();
         $this->dispatch('rss/catalog/notifystock');
 

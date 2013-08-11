@@ -8,7 +8,7 @@
  */
 -->
 <layout version="0.1.0">
-    <catalogsearch_result_index translate="label" module="Mage_CatalogSearch" type="page" parent="default">
+    <catalogsearch_result_index translate="label" module="Magento_CatalogSearch" type="page" parent="default">
         <label>Quick Search Form</label>
         <reference name="root">
             <action method="setTemplate">
@@ -16,12 +16,12 @@
             </action>
         </reference>
         <reference name="left">
-            <block type="Mage_CatalogSearch_Block_Layer" name="catalogsearch.leftnav" after="currency" template="Mage_Catalog::layer/view.phtml"/>
+            <block type="Magento_CatalogSearch_Block_Layer" name="catalogsearch.leftnav" after="currency" template="Magento_Catalog::layer/view.phtml"/>
         </reference>
         <reference name="content">
-            <block type="Mage_CatalogSearch_Block_Result" name="search.result" template="result.phtml">
-                <block type="Mage_Catalog_Block_Product_List" name="search_result_list" template="product/list.phtml">
-                    <block type="Mage_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+            <block type="Magento_CatalogSearch_Block_Result" name="search.result" template="result.phtml">
+                <block type="Magento_Catalog_Block_Product_List" name="search_result_list" template="product/list.phtml">
+                    <block type="Magento_Catalog_Block_Product_List_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
                         <block type="Mage_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
                     </block>
                     <action method="addColumnCountLayoutDepend">

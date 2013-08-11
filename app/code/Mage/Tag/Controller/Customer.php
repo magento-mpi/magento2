@@ -40,7 +40,7 @@ class Mage_Tag_Controller_Customer extends Magento_Core_Controller_Front_Action
 
         $this->loadLayout();
         $this->_initLayoutMessages('Mage_Tag_Model_Session');
-        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
 
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {

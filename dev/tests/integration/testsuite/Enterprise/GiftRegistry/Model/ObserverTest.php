@@ -17,7 +17,7 @@ class Enterprise_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestC
     protected $_giftRegistry;
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_configurable.php
+     * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
      * @magentoDataFixture Mage/Customer/_files/customer.php
      */
     public function testDeleteProduct()
@@ -38,10 +38,10 @@ class Enterprise_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestC
         $this->_giftRegistry->setMessage('Test');
         $this->_giftRegistry->save();
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1); // fixture
 
-        $model = Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable');
+        $model = Mage::getModel('Magento_Catalog_Model_Product_Type_Configurable');
 
         $attributes = $model->getConfigurableAttributesAsArray($product);
         $attribute = reset($attributes);
@@ -64,7 +64,7 @@ class Enterprise_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestC
             }
         }
 
-        $this->assertInstanceOf('Mage_Catalog_Model_Product', $simple);
+        $this->assertInstanceOf('Magento_Catalog_Model_Product', $simple);
         $simple->delete();
 
         $giftRegistryTwo = Mage::getModel('Enterprise_GiftRegistry_Model_Entity');

@@ -26,7 +26,7 @@ class Mage_Rss_Block_Catalog_Abstract extends Mage_Rss_Block_Abstract
      * @var string
      */
     protected $_priceBlockDefaultTemplate = 'rss/product/price.phtml';
-    protected $_priceBlockDefaultType = 'Mage_Catalog_Block_Product_Price';
+    protected $_priceBlockDefaultType = 'Magento_Catalog_Block_Product_Price';
 
     /**
      * Whether to show "As low as" as a link
@@ -80,7 +80,7 @@ class Mage_Rss_Block_Catalog_Abstract extends Mage_Rss_Block_Abstract
     /**
      * Returns product price html for RSS feed
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param bool $displayMinimalPrice Display "As low as" etc.
      * @param string $idSuffix Suffix for HTML containers
      * @return string
@@ -88,7 +88,7 @@ class Mage_Rss_Block_Catalog_Abstract extends Mage_Rss_Block_Abstract
     public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix='')
     {
         $type_id = $product->getTypeId();
-        if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)) {
+        if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
             $type_id = $this->_mapRenderer;
         }
 

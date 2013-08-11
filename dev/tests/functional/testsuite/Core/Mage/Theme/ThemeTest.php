@@ -373,8 +373,8 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
     public function allThemeCss()
     {
         return array(
-            array('Mage_Catalog--widgets.css', 'mage_catalog_widget'),
-            array('Mage_Catalog__zoom.css', 'mage_catalog_zoom'),
+            array('Magento_Catalog--widgets.css', 'magento_catalog_widget'),
+            array('Magento_Catalog__zoom.css', 'magento_catalog_zoom'),
             array('Mage_Cms__widgets.css', 'mage_cms_widgets'),
             array('Mage_Oauth--css-oauth-simple.css', 'mage_oauth_css_oauth_simple'),
             array('Mage_Page__css_tabs.css', 'mage_page_css_tabs'),

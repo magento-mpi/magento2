@@ -18,7 +18,7 @@
         <reference name="content">
             <block type="Enterprise_GiftRegistry_Block_View" name="enterprise.giftregistry.view" template="view.phtml">
                 <block type="Enterprise_GiftRegistry_Block_Items" name="giftregistry_items" template="view/items.phtml">
-                    <block type="Mage_Catalog_Block_Product_Price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price"/>
+                    <block type="Magento_Catalog_Block_Product_Price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price"/>
                     <action method="addItemRender">
                         <type>default</type>
                         <block>Mage_Checkout_Block_Cart_Item_Renderer</block>

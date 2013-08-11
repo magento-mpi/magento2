@@ -3,14 +3,14 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/** @var $query Mage_CatalogSearch_Model_Query */
-$query = Mage::getModel('Mage_CatalogSearch_Model_Query');
+/** @var $query Magento_CatalogSearch_Model_Query */
+$query = Mage::getModel('Magento_CatalogSearch_Model_Query');
 $query->setStoreId(1);
 $query
     ->setQueryText('query_text')

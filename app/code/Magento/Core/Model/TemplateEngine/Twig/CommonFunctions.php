@@ -40,7 +40,7 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctions
     private $_viewConfig;
 
     /**
-     * @var Mage_Catalog_Helper_Image
+     * @var Magento_Catalog_Helper_Image
      */
     private $_helperImage;
 
@@ -61,7 +61,7 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctions
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_View_Url $viewUrl,
         Magento_Core_Model_View_Config $viewConfig,
-        Mage_Catalog_Helper_Image $helperImage,
+        Magento_Catalog_Helper_Image $helperImage,
         Magento_Core_Model_Logger $logger,
         Magento_Core_Model_LocaleInterface $locale
     ) {
@@ -140,7 +140,7 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctions
     }
 
     /**
-     * From Mage_Catalog_Block_Product_View_Options_Type_Date: Return drop-down html with range of values
+     * From Magento_Catalog_Block_Product_View_Options_Type_Date: Return drop-down html with range of values
      *
      * @param Magento_Core_Block_Html_Select $selectBlock
      * @param string $name Id/name of html select element
@@ -168,7 +168,7 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctions
 
     /**
      * Initializes values in the selection list.
-     * From Mage_Catalog_Block_Product_View_Options_Type_Date: HTML select element
+     * From Magento_Catalog_Block_Product_View_Options_Type_Date: HTML select element
      *
      * @param Magento_Core_Block_Html_Select $selectBlock
      * @param $identifier
@@ -198,7 +198,7 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctions
     }
 
     /**
-     * From Mage_Catalog_Block_Product_View_Options_Type_Date: Add Leading Zeros to number less than 10
+     * From Magento_Catalog_Block_Product_View_Options_Type_Date: Add Leading Zeros to number less than 10
      *
      * @param int|string $value value to pad with zeros
      * @return string

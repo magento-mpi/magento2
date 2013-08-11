@@ -11,8 +11,8 @@
 
 require __DIR__ . '/../../Downloadable/_files/product.php';
 
-/** @var $product Mage_Catalog_Model_Product */
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+/** @var $product Magento_Catalog_Model_Product */
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load(1);
 
 /** @var $linkCollection Mage_Downloadable_Model_Resource_Link_Collection */

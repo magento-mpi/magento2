@@ -15,7 +15,7 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Model_Link_Api extends Mage_Catalog_Model_Api_Resource
+class Mage_Downloadable_Model_Link_Api extends Magento_Catalog_Model_Api_Resource
 {
     /**
      * Return validator instance
@@ -246,7 +246,7 @@ class Mage_Downloadable_Model_Link_Api extends Mage_Catalog_Model_Api_Resource
      * @param  int|string $productId (SKU or ID)
      * @param  int|string $store
      * @param  string $identifierType
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     protected function _getProduct($productId, $store = null, $identifierType = null)
     {

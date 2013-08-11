@@ -48,7 +48,7 @@ special price - getSpecialPrice()
 getFinalPrice() - used in shopping cart calculations
 */
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
 
         $todayStartOfDayDate  = Mage::app()->getLocale()->date()
             ->setTime('00:00:00')
@@ -87,7 +87,7 @@ getFinalPrice() - used in shopping cart calculations
             ->applyFrontendPriceLimitations()
         ;
 
-        $products->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+        $products->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
         /*
         using resource iterator to load the data one by one
@@ -127,7 +127,7 @@ getFinalPrice() - used in shopping cart calculations
         $product->setData($args['row']);
         $description = '<table><tr>'
             . '<td><a href="'.$product->getProductUrl().'"><img src="'
-            . $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
+            . $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
             .'" border="0" align="left" height="75" width="75"></a></td>'.
             '<td  style="text-decoration:none;">'.$product->getDescription();
 

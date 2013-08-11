@@ -16,7 +16,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Model_Resource_Selection_Collection extends Mage_Catalog_Model_Resource_Product_Collection
+class Mage_Bundle_Model_Resource_Selection_Collection extends Magento_Catalog_Model_Resource_Product_Collection
 {
     /**
      * Selection table name

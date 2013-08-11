@@ -159,7 +159,7 @@ class Mage_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Model
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+        $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
             ->setStoreId($this->getStoreId())
             ->addIdFilter($this->_productIds)
             ->addAttributeToSelect(Mage::getSingleton('Mage_Sales_Model_Quote_Config')->getProductAttributes())

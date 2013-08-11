@@ -99,7 +99,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
             $review = Mage::getModel('Mage_Review_Model_Review')->load($reviewId);
             $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
             if (! $review->getId()) {
-                $session->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('The review was removed by another user or does not exist.'));
+                $session->addError(Mage::helper('Magento_Catalog_Helper_Data')->__('The review was removed by another user or does not exist.'));
             } else {
                 try {
                     $review->addData($data)->save();
@@ -127,11 +127,11 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
 
                     $review->aggregate();
 
-                    $session->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('You saved the review.'));
+                    $session->addSuccess(Mage::helper('Magento_Catalog_Helper_Data')->__('You saved the review.'));
                 } catch (Magento_Core_Exception $e) {
                     $session->addError($e->getMessage());
                 } catch (Exception $e){
-                    $session->addException($e, Mage::helper('Mage_Catalog_Helper_Data')->__('Something went wrong while saving this review.'));
+                    $session->addException($e, Mage::helper('Magento_Catalog_Helper_Data')->__('Something went wrong while saving this review.'));
                 }
             }
 
@@ -155,7 +155,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
                 ->aggregate()
                 ->delete();
 
-            $session->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('The review has been deleted.'));
+            $session->addSuccess(Mage::helper('Magento_Catalog_Helper_Data')->__('The review has been deleted.'));
             if( $this->getRequest()->getParam('ret') == 'pending' ) {
                 $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
             } else {
@@ -165,7 +165,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
         } catch (Magento_Core_Exception $e) {
             $session->addError($e->getMessage());
         } catch (Exception $e){
-            $session->addException($e, Mage::helper('Mage_Catalog_Helper_Data')->__('Something went wrong  deleting this review.'));
+            $session->addException($e, Mage::helper('Magento_Catalog_Helper_Data')->__('Something went wrong  deleting this review.'));
         }
 
         $this->_redirect('*/*/edit/',array('id'=>$reviewId));
@@ -276,7 +276,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
         $response = new Magento_Object();
         $id = $this->getRequest()->getParam('id');
         if( intval($id) > 0 ) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->load($id);
 
             $response->setId($id);
@@ -284,7 +284,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
             $response->setError(0);
         } else {
             $response->setError(1);
-            $response->setMessage(Mage::helper('Mage_Catalog_Helper_Data')->__('We can\'t get the product ID.'));
+            $response->setMessage(Mage::helper('Magento_Catalog_Helper_Data')->__('We can\'t get the product ID.'));
         }
         $this->getResponse()->setBody($response->toJSON());
     }
@@ -303,7 +303,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
 
             $review = Mage::getModel('Mage_Review_Model_Review')->setData($data);
 
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->load($productId);
 
             try {
@@ -324,7 +324,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
 
                 $review->aggregate();
 
-                $session->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('You saved the review.'));
+                $session->addSuccess(Mage::helper('Magento_Catalog_Helper_Data')->__('You saved the review.'));
                 if( $this->getRequest()->getParam('ret') == 'pending' ) {
                     $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
                 } else {

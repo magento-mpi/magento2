@@ -119,7 +119,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Hierarchy extends Magento_Adminhtm
             $scopeId = (int)str_replace(Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_STORE, '', $value);
             $scope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_STORE;
         }
-        if (!$scopeId || $scopeId == Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
+        if (!$scopeId || $scopeId == Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
             $scopeId = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT_ID;
             $scope = Enterprise_Cms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT;
         }

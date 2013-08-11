@@ -22,10 +22,10 @@ class Magento_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework
     protected function setUp()
     {
         parent::setUp();
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = $this->getMock('Mage_Catalog_Model_Product', array('getAttributes'), array(), '', false);
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = $this->getMock('Magento_Catalog_Model_Product', array('getAttributes'), array(), '', false);
         $product->expects($this->any())->method('getAttributes')->will($this->returnValue(array()));
-        $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
+        $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE);
         Mage::register('current_product', $product);
         $this->_block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit');
     }

@@ -20,7 +20,7 @@ class Mage_GoogleShopping_Model_Attribute_ProductType extends Mage_GoogleShoppin
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param Magento_Gdata_Gshopping_Entry $entry
      * @return Magento_Gdata_Gshopping_Entry
      */
@@ -33,7 +33,7 @@ class Mage_GoogleShopping_Model_Attribute_ProductType extends Mage_GoogleShoppin
         $value = 'Shop';
 
         if (!empty($productCategories)) {
-            $category = Mage::getModel('Mage_Catalog_Model_Category')->load(
+            $category = Mage::getModel('Magento_Catalog_Model_Category')->load(
                 array_shift($productCategories)
             );
 

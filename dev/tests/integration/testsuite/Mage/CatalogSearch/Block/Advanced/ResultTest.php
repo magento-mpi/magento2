@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_TestCase
+class Magento_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Core_Model_Layout
@@ -17,14 +17,14 @@ class Mage_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_Tes
     protected $_layout;
 
     /**
-     * @var Mage_CatalogSearch_Block_Advanced_Result
+     * @var Magento_CatalogSearch_Block_Advanced_Result
      */
     protected $_block;
 
     protected function setUp()
     {
         $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
-        $this->_block = $this->_layout->createBlock('Mage_CatalogSearch_Block_Advanced_Result', 'block');
+        $this->_block = $this->_layout->createBlock('Magento_CatalogSearch_Block_Advanced_Result', 'block');
     }
 
     /**
@@ -38,13 +38,13 @@ class Mage_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_Tes
             'option3' => 'Label Option 2'
         );
         $category = $this->getMock(
-            'Mage_Catalog_Model_Category', array('getAvailableSortByOptions'), array(), '', false
+            'Magento_Catalog_Model_Category', array('getAvailableSortByOptions'), array(), '', false
         );
         $category->expects($this->atLeastOnce())
             ->method('getAvailableSortByOptions')
             ->will($this->returnValue($sortOptions));
         $category->setId(100500); // Any id - just for layer navigation
-        Mage::getSingleton('Mage_Catalog_Model_Layer')->setCurrentCategory($category);
+        Mage::getSingleton('Magento_Catalog_Model_Layer')->setCurrentCategory($category);
 
         $childBlock = $this->_layout->addBlock('Magento_Core_Block_Text', 'search_result_list', 'block');
 
@@ -73,7 +73,7 @@ class Mage_CatalogSearch_Block_Advanced_ResultTest extends PHPUnit_Framework_Tes
         $this->assertEmpty($childBlock->getCollection());
         $this->_block->setListCollection();
         $this->assertInstanceOf(
-            'Mage_CatalogSearch_Model_Resource_Advanced_Collection',
+            'Magento_CatalogSearch_Model_Resource_Advanced_Collection',
             $childBlock->getCollection()
         );
     }

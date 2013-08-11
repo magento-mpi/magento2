@@ -62,7 +62,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group
     {
         $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Group Price'),
+                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Add Group Price'),
                 'onclick' => 'return groupPriceControl.addItem()',
                 'class' => 'add'
             ));

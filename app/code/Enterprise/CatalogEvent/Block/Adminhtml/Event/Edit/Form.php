@@ -72,7 +72,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Ad
 
         $this->_addElementTypes($fieldset);
 
-        $currentCategory = Mage::getModel('Mage_Catalog_Model_Category')
+        $currentCategory = Mage::getModel('Magento_Catalog_Model_Category')
             ->load($this->getEvent()->getCategoryId());
 
         $fieldset->addField('category_name', 'note',

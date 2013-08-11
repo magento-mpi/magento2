@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Catalog search query collection
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
      * Store for filter
@@ -31,14 +31,14 @@ class Mage_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('Mage_CatalogSearch_Model_Query', 'Mage_CatalogSearch_Model_Resource_Query');
+        $this->_init('Magento_CatalogSearch_Model_Query', 'Magento_CatalogSearch_Model_Resource_Query');
     }
 
     /**
      * Set Store ID for filter
      *
      * @param mixed $store
-     * @return Mage_CatalogSearch_Model_Resource_Query_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
      */
     public function setStoreId($store)
     {
@@ -63,7 +63,7 @@ class Mage_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core_Mo
      * Set search query text to filter
      *
      * @param string $query
-     * @return Mage_CatalogSearch_Model_Resource_Query_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
      */
     public function setQueryFilter($query)
     {
@@ -88,7 +88,7 @@ class Mage_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core_Mo
      * Set Popular Search Query Filter
      *
      * @param int|array $storeIds
-     * @return Mage_CatalogSearch_Model_Resource_Query_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
      */
     public function setPopularQueryFilter($storeIds = null)
     {
@@ -120,7 +120,7 @@ class Mage_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core_Mo
     /**
      * Set Recent Queries Order
      *
-     * @return Mage_CatalogSearch_Model_Resource_Query_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
      */
     public function setRecentQueryFilter()
     {
@@ -132,7 +132,7 @@ class Mage_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core_Mo
      * Filter collection by specified store ids
      *
      * @param array|int $storeIds
-     * @return Mage_CatalogSearch_Model_Resource_Query_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
      */
     public function addStoreFilter($storeIds)
     {

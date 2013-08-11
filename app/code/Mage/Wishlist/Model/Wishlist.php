@@ -175,13 +175,13 @@ class Mage_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
     /**
      * Add catalog product object data to wishlist
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @param   int $qty
      * @param   bool $forciblySetQty
      *
      * @return  Mage_Wishlist_Model_Item
      */
-    protected function _addCatalogProduct(Mage_Catalog_Model_Product $product, $qty = 1, $forciblySetQty = false)
+    protected function _addCatalogProduct(Magento_Catalog_Model_Product $product, $qty = 1, $forciblySetQty = false)
     {
         $item = null;
         foreach ($this->getItemCollection() as $_item) {
@@ -269,7 +269,7 @@ class Mage_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
      * Adds new product to wishlist.
      * Returns new item or string on error.
      *
-     * @param int|Mage_Catalog_Model_Product $product
+     * @param int|Magento_Catalog_Model_Product $product
      * @param mixed $buyRequest
      * @param bool $forciblySetQty
      * @return Mage_Wishlist_Model_Item|string
@@ -281,7 +281,7 @@ class Mage_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
          * a) we have new instance and do not interfere with other products in wishlist
          * b) product has full set of attributes
          */
-        if ($product instanceof Mage_Catalog_Model_Product) {
+        if ($product instanceof Magento_Catalog_Model_Product) {
             $productId = $product->getId();
             // Maybe force some store by wishlist internal properties
             $storeId = $product->hasWishlistStoreId() ? $product->getWishlistStoreId() : $product->getStoreId();
@@ -294,8 +294,8 @@ class Mage_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
             }
         }
 
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')
+        /* @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product')
             ->setStoreId($storeId)
             ->load($productId);
 
@@ -486,7 +486,7 @@ class Mage_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
      * Update wishlist Item and set data from request
      *
      * $params sets how current item configuration must be taken into account and additional options.
-     * It's passed to Mage_Catalog_Helper_Product->addParamsToBuyRequest() to compose resulting buyRequest.
+     * It's passed to Magento_Catalog_Helper_Product->addParamsToBuyRequest() to compose resulting buyRequest.
      *
      * Basically it can hold
      * - 'current_config', Magento_Object or array - current buyRequest that configures product in this item,
@@ -494,14 +494,14 @@ class Mage_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
      * - 'files_prefix': string[a-z0-9_] - prefix that was added at frontend to names of file options (file inputs),
      * so they won't intersect with other submitted options
      *
-     * For more options see Mage_Catalog_Helper_Product->addParamsToBuyRequest()
+     * For more options see Magento_Catalog_Helper_Product->addParamsToBuyRequest()
      *
      * @param int|Mage_Wishlist_Model_Item $itemId
      * @param Magento_Object $buyRequest
      * @param null|array|Magento_Object $params
      * @return Mage_Wishlist_Model_Wishlist
      *
-     * @see Mage_Catalog_Helper_Product::addParamsToBuyRequest()
+     * @see Magento_Catalog_Helper_Product::addParamsToBuyRequest()
      */
     public function updateItem($itemId, $buyRequest, $params = null)
     {
@@ -524,7 +524,7 @@ class Mage_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
                 $params = new Magento_Object($params);
             }
             $params->setCurrentConfig($item->getBuyRequest());
-            $buyRequest = Mage::helper('Mage_Catalog_Helper_Product')->addParamsToBuyRequest($buyRequest, $params);
+            $buyRequest = Mage::helper('Magento_Catalog_Helper_Product')->addParamsToBuyRequest($buyRequest, $params);
 
             $product->setWishlistStoreId($item->getStoreId());
             $items = $this->getItemCollection();

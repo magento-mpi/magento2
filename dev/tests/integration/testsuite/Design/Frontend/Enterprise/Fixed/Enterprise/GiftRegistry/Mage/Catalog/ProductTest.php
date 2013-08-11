@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-class Design_Frontend_Enterprise_Fixed_Enterprise_GiftRegistry_Mage_Catalog_ProductTest
+class Design_Frontend_Enterprise_Fixed_Enterprise_GiftRegistry_Magento_Catalog_ProductTest
     extends Magento_Test_TestCase_ControllerAbstract
 {
     /**

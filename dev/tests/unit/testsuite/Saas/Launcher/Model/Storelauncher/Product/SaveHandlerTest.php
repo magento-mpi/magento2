@@ -43,7 +43,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
         $data0 = array(
             'product' => array(
                 Mage_Eav_Model_Entity::DEFAULT_ENTITY_ID_FIELD => 100500,
-                'status' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,
+                'status' => Magento_Catalog_Model_Product_Status::STATUS_ENABLED,
                 'name' => 'Tile Product',
                 'sku' => 'tile_product',
                 'description' => 'Product created via Product Tile',
@@ -52,7 +52,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
                 'news_to_date' => '',
                 'news_from_date' => '',
                 'url_key' => '',
-                'visibility' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG,
+                'visibility' => Magento_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG,
                 'country_of_manufacture' => 'Albania',
                 'quantity_and_stock_status' => array(
                     'qty' => 1000,
@@ -79,13 +79,13 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
             'use_config_manage_stock' => 0, // manage stock explicitly
             'is_qty_decimal' => 0, // quantity can be represented only by integer value
         );
-        $preparedData0['product']['typeId'] = Mage_Catalog_Model_Product_Type::TYPE_SIMPLE;
+        $preparedData0['product']['typeId'] = Magento_Catalog_Model_Product_Type::TYPE_SIMPLE;
 
         // add virtual product test data
         $data1 = $data0;
         $data1['product']['is_virtual'] = '';
         $preparedData1 = $preparedData0;
-        $preparedData1['product']['typeId'] = Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL;
+        $preparedData1['product']['typeId'] = Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL;
         return array(
             array($data0, $preparedData0),
             array($data1, $preparedData1),
@@ -151,7 +151,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
             ->will($this->returnValue($store));
 
         // mock product instance
-        $product = $this->getMock('Mage_Catalog_Model_Product',
+        $product = $this->getMock('Magento_Catalog_Model_Product',
             array(
                 'save', 'setStoreId', 'setTypeId', 'addData', 'setData', 'setAttributeSetId', 'setWebsiteIds',
                 'validate', 'getDefaultAttributeSetId'
@@ -207,7 +207,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
         $objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $objectManager->expects($this->once())
             ->method('create')
-            ->with('Mage_Catalog_Model_Product', array())
+            ->with('Magento_Catalog_Model_Product', array())
             ->will($this->returnValue($product));
         return new Saas_Launcher_Model_Storelauncher_Product_SaveHandler($app, $objectManager);
     }

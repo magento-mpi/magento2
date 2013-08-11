@@ -4,33 +4,33 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
     <modules>
-        <Mage_CatalogSearch>
+        <Magento_CatalogSearch>
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Catalog />
+                <Magento_Catalog />
             </depends>
-        </Mage_CatalogSearch>
+        </Magento_CatalogSearch>
     </modules>
     <global>
         <resources>
             <catalogsearch_setup>
                 <setup>
-                    <module>Mage_CatalogSearch</module>
+                    <module>Magento_CatalogSearch</module>
                 </setup>
             </catalogsearch_setup>
         </resources>
         <index>
             <indexer>
                 <catalogsearch_fulltext>
-                    <model>Mage_CatalogSearch_Model_Indexer_Fulltext</model>
+                    <model>Magento_CatalogSearch_Model_Indexer_Fulltext</model>
                 </catalogsearch_fulltext>
             </indexer>
         </index>
@@ -40,29 +40,29 @@
             <catalogsearch>
                 <use>standard</use>
                 <args>
-                    <module>Mage_CatalogSearch</module>
+                    <module>Magento_CatalogSearch</module>
                     <frontName>catalogsearch</frontName>
                 </args>
             </catalogsearch>
         </routers>
         <translate>
             <modules>
-                <Mage_CatalogSearch>
+                <Magento_CatalogSearch>
                     <files>
-                        <default>Mage_CatalogSearch.csv</default>
+                        <default>Magento_CatalogSearch.csv</default>
                     </files>
-                </Mage_CatalogSearch>
+                </Magento_CatalogSearch>
             </modules>
         </translate>
     </frontend>
     <adminhtml>
         <translate>
             <modules>
-                <Mage_CatalogSearch>
+                <Magento_CatalogSearch>
                     <files>
-                        <default>Mage_CatalogSearch.csv</default>
+                        <default>Magento_CatalogSearch.csv</default>
                     </files>
-                </Mage_CatalogSearch>
+                </Magento_CatalogSearch>
             </modules>
         </translate>
     </adminhtml>

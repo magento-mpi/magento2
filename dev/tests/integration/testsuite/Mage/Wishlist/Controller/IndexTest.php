@@ -54,7 +54,7 @@ class Mage_Wishlist_Controller_IndexTest extends Magento_Test_TestCase_Controlle
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple_xss.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple_xss.php
      * @magentoDataFixture Mage/Customer/_files/customer.php
      */
     public function testAddActionProductNameXss()

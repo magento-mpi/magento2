@@ -45,7 +45,7 @@ class Enterprise_TargetRule_Model_Rule_Condition_Combine extends Mage_Rule_Model
     /**
      * Collect validated attributes for Product Collection
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $productCollection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $productCollection
      * @return Enterprise_TargetRule_Model_Rule_Condition_Combine
      */
     public function collectValidatedAttributes($productCollection)

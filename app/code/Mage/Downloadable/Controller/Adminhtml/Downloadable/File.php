@@ -71,7 +71,7 @@ class Mage_Downloadable_Controller_Adminhtml_Downloadable_File extends Magento_A
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Catalog::products');
+        return $this->_authorization->isAllowed('Magento_Catalog::products');
     }
 
 }

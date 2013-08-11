@@ -58,7 +58,7 @@ class Enterprise_CatalogEvent_Model_Observer
         }
 
         $categoryCollection = $observer->getEvent()->getCategoryCollection();
-        /** @var $categoryCollection Mage_Catalog_Model_Resource_Category_Collection */
+        /** @var $categoryCollection Magento_Catalog_Model_Resource_Category_Collection */
 
         $categoryIds = array();
 
@@ -113,7 +113,7 @@ class Enterprise_CatalogEvent_Model_Observer
     /**
      * Applies event to product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Enterprise_CatalogEvent_Model_Observer
      */
     protected function _applyEventToProduct($product)
@@ -141,7 +141,7 @@ class Enterprise_CatalogEvent_Model_Observer
         }
 
         $product = $observer->getEvent()->getProduct();
-        /* @var $product Mage_Catalog_Model_Product */
+        /* @var $product Magento_Catalog_Model_Product */
         $quoteItem = $observer->getEvent()->getQuoteItem();
         /* @var $quoteItem Mage_Sales_Model_Quote_Item */
 
@@ -219,12 +219,12 @@ class Enterprise_CatalogEvent_Model_Observer
     /**
      * Get event for product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Enterprise_CatalogEvent_Model_Event
      */
     protected function _getProductEvent($product)
     {
-        if (!$product instanceof Mage_Catalog_Model_Product) {
+        if (!$product instanceof Magento_Catalog_Model_Product) {
             return false;
         }
 
@@ -355,7 +355,7 @@ class Enterprise_CatalogEvent_Model_Observer
     /**
      * Apply event to category
      *
-     * @param Magento_Data_Tree_Node|Mage_Catalog_Model_Category $category
+     * @param Magento_Data_Tree_Node|Magento_Catalog_Model_Category $category
      * @param Magento_Data_Collection $eventCollection
      * @return Enterprise_CatalogEvent_Model_Observer
      */

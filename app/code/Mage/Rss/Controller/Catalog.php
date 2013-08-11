@@ -26,7 +26,7 @@ class Mage_Rss_Controller_Catalog extends Magento_Core_Controller_Front_Action
         /**
          * Format actionName => acrResourceId
          */
-        $acl = array('notifystock' => 'Mage_Catalog::products', 'review' => 'Mage_Review::reviews_all');
+        $acl = array('notifystock' => 'Magento_Catalog::products', 'review' => 'Mage_Review::reviews_all');
         if (isset($acl[$action])) {
             $this->setCurrentArea('adminhtml');
             if (Mage_Rss_Controller_Order::authenticateAndAuthorizeAdmin($this, $acl[$action])) {

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * CatalogInventory Stock Status Indexer Resource Model
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Model_Resource_Product_Indexer_Abstract
+class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Catalog_Model_Resource_Product_Indexer_Abstract
 {
     /**
      * Stock Indexer models per product type
@@ -31,7 +31,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
      *
      * @var string
      */
-    protected $_defaultIndexer   = 'Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default';
+    protected $_defaultIndexer   = 'Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default';
 
     /**
      * Initialize connection and define main table
@@ -46,7 +46,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
      * Process stock item save action
      *
      * @param Mage_Index_Model_Event $event
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock
      */
     public function cataloginventoryStockItemSave(Mage_Index_Model_Event $event)
     {
@@ -65,7 +65,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
      * Refresh stock index for specific product ids
      *
      * @param array $productIds
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock
      */
     public function reindexProducts($productIds)
     {
@@ -112,7 +112,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
      * Processing parent products after child product deleted
      *
      * @param Mage_Index_Model_Event $event
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock
      */
     public function catalogProductDelete(Mage_Index_Model_Event $event)
     {
@@ -147,7 +147,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
      * Process product mass update action
      *
      * @param Mage_Index_Model_Event $event
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock
      */
     public function catalogProductMassAction(Mage_Index_Model_Event $event)
     {
@@ -219,7 +219,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
     /**
      * Rebuild all index data
      *
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock
      */
     public function reindexAll()
     {
@@ -250,7 +250,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
     {
         if (is_null($this->_indexers)) {
             $this->_indexers = array();
-            $types = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getTypesByPriority();
+            $types = Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getTypesByPriority();
             foreach ($types as $typeId => $typeInfo) {
                 if (isset($typeInfo['stock_indexer'])) {
                     $modelName = $typeInfo['stock_indexer'];
@@ -272,13 +272,13 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock extends Mage_Catalog_Mo
      * Retrieve Stock indexer by Product Type
      *
      * @param string $productTypeId
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock_Interface
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock_Interface
      */
     protected function _getIndexer($productTypeId)
     {
         $types = $this->_getTypeIndexers();
         if (!isset($types[$productTypeId])) {
-            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('Unsupported product type "%s".', $productTypeId));
+            Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('Unsupported product type "%s".', $productTypeId));
         }
         return $types[$productTypeId];
     }

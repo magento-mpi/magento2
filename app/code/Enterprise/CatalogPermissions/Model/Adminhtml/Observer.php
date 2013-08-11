@@ -43,7 +43,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     public function checkCategoryPermissions(Magento_Event_Observer $observer)
     {
         $category = $observer->getEvent()->getCategory();
-        /* @var $category Mage_Catalog_Model_Category */
+        /* @var $category Magento_Catalog_Model_Category */
         $helper = Mage::helper('Enterprise_CatalogPermissions_Helper_Data');
         if (!$helper->isAllowedCategory($category) && $category->hasData('permissions')) {
             $category->unsetData('permissions');
@@ -65,7 +65,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         }
 
         $category = $observer->getEvent()->getCategory();
-        /* @var $category Mage_Catalog_Model_Category */
+        /* @var $category Magento_Catalog_Model_Category */
         if ($category->hasData('permissions') && is_array($category->getData('permissions'))
             && $this->_authorization
                 ->isAllowed('Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions')
@@ -119,7 +119,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function reindexCategoryPermissionOnMove(Magento_Event_Observer $observer)
     {
-        $category = Mage::getModel('Mage_Catalog_Model_Category')
+        $category = Mage::getModel('Magento_Catalog_Model_Category')
             ->load($observer->getEvent()->getCategoryId());
         $this->_indexQueue[] = $category->getPath();
         return $this;
@@ -148,7 +148,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
                 Enterprise_CatalogPermissions_Model_Permission_Index::ENTITY_CATEGORY,
                 Enterprise_CatalogPermissions_Model_Permission_Index::EVENT_TYPE_REINDEX_PRODUCTS
             );
-            Mage::app()->cleanCache(array(Mage_Catalog_Model_Category::CACHE_TAG));
+            Mage::app()->cleanCache(array(Magento_Catalog_Model_Category::CACHE_TAG));
         }
 
         if (!empty($this->_indexProductQueue)) {
@@ -178,7 +178,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function cleanCacheOnConfigChange()
     {
-        Mage::app()->cleanCache(array(Mage_Catalog_Model_Category::CACHE_TAG));
+        Mage::app()->cleanCache(array(Magento_Catalog_Model_Category::CACHE_TAG));
         Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
             new Magento_Object(),
             Enterprise_CatalogPermissions_Model_Permission_Index::ENTITY_CONFIG,

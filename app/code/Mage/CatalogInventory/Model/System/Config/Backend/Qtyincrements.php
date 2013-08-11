@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Backend for qty increments
  *
  */
-class Mage_CatalogInventory_Model_System_Config_Backend_Qtyincrements extends Magento_Core_Model_Config_Data
+class Magento_CatalogInventory_Model_System_Config_Backend_Qtyincrements extends Magento_Core_Model_Config_Data
 {
     /**
      * Validate data before save

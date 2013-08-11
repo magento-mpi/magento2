@@ -186,10 +186,10 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Emulate 'compare products' block with persistent data
      *
-     * @param Mage_Catalog_Block_Product_Compare_Sidebar $block
+     * @param Magento_Catalog_Block_Product_Compare_Sidebar $block
      * @return null
      */
-    public function emulateCompareProductsBlock(Mage_Catalog_Block_Product_Compare_Sidebar $block)
+    public function emulateCompareProductsBlock(Magento_Catalog_Block_Product_Compare_Sidebar $block)
     {
         if (!$this->_isCompareProductsPersist()) {
             return;
@@ -203,10 +203,10 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Emulate 'compare products list' block with persistent data
      *
-     * @param Mage_Catalog_Block_Product_Compare_List $block
+     * @param Magento_Catalog_Block_Product_Compare_List $block
      * @return null
      */
-    public function emulateCompareProductsListBlock(Mage_Catalog_Block_Product_Compare_List $block)
+    public function emulateCompareProductsListBlock(Magento_Catalog_Block_Product_Compare_List $block)
     {
         if (!$this->_isCompareProductsPersist()) {
             return;
@@ -336,7 +336,7 @@ class Enterprise_Persistent_Model_Observer
         if (!$this->_isCompareProductsPersist()) {
             return;
         }
-        Mage::getSingleton('Mage_Catalog_Model_Product_Compare_Item')->bindCustomerLogout();
+        Mage::getSingleton('Magento_Catalog_Model_Product_Compare_Item')->bindCustomerLogout();
     }
 
     /**

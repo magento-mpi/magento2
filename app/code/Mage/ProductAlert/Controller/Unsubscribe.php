@@ -38,12 +38,12 @@ class Mage_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controller_F
             $this->_redirect('');
             return;
         }
-        $session    = Mage::getSingleton('Mage_Catalog_Model_Session');
+        $session    = Mage::getSingleton('Magento_Catalog_Model_Session');
 
-        /* @var $session Mage_Catalog_Model_Session */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
+        /* @var $session Magento_Catalog_Model_Session */
+        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
-            /* @var $product Mage_Catalog_Model_Product */
+            /* @var $product Magento_Catalog_Model_Product */
             Mage::getSingleton('Mage_Customer_Model_Session')->addError($this->__('We can\'t find the product.'));
             $this->_redirect('customer/account/');
             return ;
@@ -94,10 +94,10 @@ class Mage_ProductAlert_Controller_Unsubscribe extends Magento_Core_Controller_F
             return;
         }
 
-        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
-        /* @var $session Mage_Catalog_Model_Session */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
-        /* @var $product Mage_Catalog_Model_Product */
+        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
+        /* @var $session Magento_Catalog_Model_Session */
+        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+        /* @var $product Magento_Catalog_Model_Product */
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             Mage::getSingleton('Mage_Customer_Model_Session')->addError($this->__('The product was not found.'));
             $this->_redirect('customer/account/');

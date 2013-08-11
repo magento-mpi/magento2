@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Design extends Magento_Adminh
         $form = new Magento_Data_Form();
         $form->setDataObject($this->getCategory());
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Custom Design')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Magento_Catalog_Helper_Data')->__('Custom Design')));
 
 
         $this->_setFieldset($this->getCategory()->getDesignAttributes(), $fieldset);

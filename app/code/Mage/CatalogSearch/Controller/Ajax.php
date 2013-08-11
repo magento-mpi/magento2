@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Catalog Search Controller
  *
  * @category   Mage
- * @package    Mage_CatalogSearch
+ * @package    Magento_CatalogSearch
  * @module     Catalog
  */
-class Mage_CatalogSearch_Controller_Ajax extends Magento_Core_Controller_Front_Action
+class Magento_CatalogSearch_Controller_Ajax extends Magento_Core_Controller_Front_Action
 {
     public function suggestAction()
     {

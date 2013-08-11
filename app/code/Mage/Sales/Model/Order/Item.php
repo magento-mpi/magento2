@@ -621,7 +621,7 @@ class Mage_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
         }
 
         if (isset($options['product_calculations']) &&
-             $options['product_calculations'] == Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
+             $options['product_calculations'] == Magento_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
                 return true;
         }
         return false;
@@ -656,7 +656,7 @@ class Mage_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
         }
 
         if (isset($options['shipment_type']) &&
-             $options['shipment_type'] == Mage_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
+             $options['shipment_type'] == Magento_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
                 return true;
         }
         return false;
@@ -727,12 +727,12 @@ class Mage_Sales_Model_Order_Item extends Magento_Core_Model_Abstract
     /**
      * Retrieve product
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
         if (!$this->getData('product')) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($this->getProductId());
+            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($this->getProductId());
             $this->setProduct($product);
         }
 

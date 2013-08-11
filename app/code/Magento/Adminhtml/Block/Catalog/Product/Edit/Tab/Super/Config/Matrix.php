@@ -55,17 +55,17 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     /**
      * Get configurable product type
      *
-     * @return Mage_Catalog_Model_Product_Type_Configurable
+     * @return Magento_Catalog_Model_Product_Type_Configurable
      */
     protected function _getProductType()
     {
-        return Mage::getSingleton('Mage_Catalog_Model_Product_Type_Configurable');
+        return Mage::getSingleton('Magento_Catalog_Model_Product_Type_Configurable');
     }
 
     /**
      * Retrieve currently edited product object
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -93,7 +93,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
                     }
                 }
             }
-            /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+            /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
             $variationalAttributes[] = array(
                 'id' => $attribute['attribute_id'],
                 'values' => $options,
@@ -195,7 +195,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
         foreach ($this->_getAssociatedProducts() as $product) {
             $keys = array();
             foreach ($this->getUsedAttributes() as $attribute) {
-                /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
                 $keys[] = $product->getData($attribute->getAttributeCode());
             }
             $productByUsedAttributes[implode('-', $keys)] = $product;
@@ -218,8 +218,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
         }
         $products = array();
         foreach ($ids as $productId) {
-            /** @var $product Mage_Catalog_Model_Product */
-            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
+            /** @var $product Magento_Catalog_Model_Product */
+            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
             if ($product->getId()) {
                 $products[] = $product;
             }
@@ -235,10 +235,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
      */
     public function getAttributeFrontendClass($code)
     {
-        /** @var $config Mage_Catalog_Model_Config */
-        $config = Mage::getSingleton('Mage_Catalog_Model_Config');
-        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attribute = $config->getAttribute(Mage_Catalog_Model_Product::ENTITY, $code);
+        /** @var $config Magento_Catalog_Model_Config */
+        $config = Mage::getSingleton('Magento_Catalog_Model_Config');
+        /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+        $attribute = $config->getAttribute(Magento_Catalog_Model_Product::ENTITY, $code);
         return $attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract
             ? $attribute->getFrontend()->getClass()
             : '';

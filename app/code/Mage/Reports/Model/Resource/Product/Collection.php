@@ -16,7 +16,7 @@
  * @package     Mage_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_Resource_Product_Collection
+class Mage_Reports_Model_Resource_Product_Collection extends Magento_Catalog_Model_Resource_Product_Collection
 {
     const SELECT_COUNT_SQL_TYPE_CART           = 1;
 
@@ -53,7 +53,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
      */
     public function __construct(
         Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
-        Mage_Catalog_Model_Resource_Product $product
+        Magento_Catalog_Model_Resource_Product $product
     ) {
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());
@@ -256,7 +256,7 @@ class Mage_Reports_Model_Resource_Product_Collection extends Mage_Catalog_Model_
     public function addOrderedQty($from = '', $to = '')
     {
         $adapter              = $this->getConnection();
-        $compositeTypeIds     = Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getCompositeTypes();
+        $compositeTypeIds     = Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getCompositeTypes();
         $orderTableAliasName  = $adapter->quoteIdentifier('order');
 
         $orderJoinCondition   = array(

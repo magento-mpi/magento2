@@ -16,7 +16,7 @@
  * @package    Mage_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
+class Mage_Tag_Block_Customer_View extends Magento_Catalog_Block_Product_Abstract
 {
     /**
      * Tagged Product Collection
@@ -135,9 +135,9 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
                 ->addTagFilter($this->getTagId())
                 ->addCustomerFilter(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())
                 ->addStoreFilter(Mage::app()->getStore()->getId())
-                ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
+                ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
                 ->setActiveFilter()
-                ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+                ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
         }
         return $this->_collection;
     }
@@ -145,12 +145,12 @@ class Mage_Tag_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
     /**
      * Product image url getter
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return string
      */
     public function getImageUrl($product)
     {
-        return (string) $this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')
+        return (string) $this->helper('Magento_Catalog_Helper_Image')->init($product, 'small_image')
             ->resize($this->getImageSize());
     }
 

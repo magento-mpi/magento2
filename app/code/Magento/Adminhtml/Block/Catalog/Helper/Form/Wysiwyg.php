@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends Magento_Data_F
             $disabled = ($this->getDisabled() || $this->getReadonly());
             $html .= Mage::app()->getLayout()
                 ->createBlock('Magento_Adminhtml_Block_Widget_Button', '', array('data' => array(
-                    'label'   => Mage::helper('Mage_Catalog_Helper_Data')->__('WYSIWYG Editor'),
+                    'label'   => Mage::helper('Magento_Catalog_Helper_Data')->__('WYSIWYG Editor'),
                     'type'    => 'button',
                     'disabled' => $disabled,
                     'class' => ($disabled) ? 'disabled action-wysiwyg' : 'action-wysiwyg',
@@ -70,7 +70,7 @@ HTML;
      */
     public function getIsWysiwygEnabled()
     {
-        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Cms')) {
+        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Mage_Cms')) {
             return (bool)(Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->isEnabled()
                 && $this->getEntityAttribute()->getIsWysiwygEnabled());
         }

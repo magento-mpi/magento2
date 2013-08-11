@@ -104,7 +104,7 @@ class Enterprise_ImportExport_Controller_Adminhtml_Scheduled_OperationTest exten
      * Test cron action
      *
      * @magentoDataFixture Enterprise/ImportExport/_files/operation.php
-     * @magentoDataFixture Mage/Catalog/_files/products_new.php
+     * @magentoDataFixture Magento/Catalog/_files/products_new.php
      */
     public function testCronAction()
     {

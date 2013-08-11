@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options extends Magento_A
     protected function _prepareLayout()
     {
         $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add New Option'),
+            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Add New Option'),
             'class' => 'add',
             'id'    => 'add_new_defined_option'
         ));
@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options extends Magento_A
         $this->addChild('options_box', 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option');
 
         $this->addChild('import_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Import Options'),
+            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Import Options'),
             'class' => 'add',
             'id'    => 'import_new_defined_option'
         ));

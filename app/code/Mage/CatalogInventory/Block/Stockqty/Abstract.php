@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,17 +13,17 @@
  * Product stock qty abstarct block
  *
  * @category   Mage
- * @package    Mage_CatalogInventory
+ * @package    Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_CatalogInventory_Block_Stockqty_Abstract extends Magento_Core_Block_Template
+abstract class Magento_CatalogInventory_Block_Stockqty_Abstract extends Magento_Core_Block_Template
 {
     const XML_PATH_STOCK_THRESHOLD_QTY = 'cataloginventory/options/stock_threshold_qty';
 
     /**
      * Retrieve current product object
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {

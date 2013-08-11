@@ -34,7 +34,7 @@ class Mage_Tag_Controller_Index extends Magento_Core_Controller_Front_Action
         if (strlen($tagName) && $productId) {
             /** @var $session Magento_Core_Model_Session_Generic */
             $session = Mage::getSingleton('Mage_Tag_Model_Session');
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->load($productId);
             if (!$product->getId()) {
                 $session->addError($this->__('We couldn\'t save the tag(s).'));

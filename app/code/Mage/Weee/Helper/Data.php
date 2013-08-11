@@ -102,7 +102,7 @@ class Mage_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get weee tax amount for product based on shipping and billing addresses, website and tax settings
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @param   null|Mage_Customer_Model_Address_Abstract $shipping
      * @param   null|Mage_Customer_Model_Address_Abstract $billing
      * @param   mixed $website
@@ -121,7 +121,7 @@ class Mage_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Returns diaplay type for price accordingly to current zone
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param array|null                 $compareTo
      * @param string                     $zone
      * @param Magento_Core_Model_Store      $store
@@ -168,7 +168,7 @@ class Mage_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Proxy for Mage_Weee_Model_Tax::getProductWeeeAttributes()
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param null|false|Magento_Object   $shipping
      * @param null|false|Magento_Object   $billing
      * @param Magento_Core_Model_Website    $website
@@ -230,7 +230,7 @@ class Mage_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Returns array of weee attributes allowed for display
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return array
      */
     public function getProductWeeeAttributesForDisplay($product)
@@ -244,7 +244,7 @@ class Mage_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get Product Weee attributes for price renderer
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param null|false|Magento_Object $shipping Shipping Address
      * @param null|false|Magento_Object $billing Billing Address
      * @param null|Magento_Core_Model_Website $website
@@ -269,7 +269,7 @@ class Mage_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Returns amount to display
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return int
      */
     public function getAmountForDisplay($product)
@@ -284,7 +284,7 @@ class Mage_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Returns original amount
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return int
      */
     public function getOriginalAmount($product)
@@ -298,7 +298,7 @@ class Mage_Weee_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Adds HTML containers and formats tier prices accordingly to the currency used
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param array                      $tierPrices
      * @return Mage_Weee_Helper_Data
      */

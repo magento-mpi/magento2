@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty
      */
     protected function _isInactive($row)
     {
-        return $row->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
+        return $row->getTypeId() == Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
     }
 
     /**

@@ -66,9 +66,9 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Tem
                 );
                 $message .= '<br/>';
                 if ($item->getQtyMaxAllowed()) {
-                    $message .= Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The maximum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMaxAllowed()  * 1) . '</span>');
+                    $message .= Mage::helper('Magento_CatalogInventory_Helper_Data')->__('The maximum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMaxAllowed()  * 1) . '</span>');
                 } else if ($item->getQtyMinAllowed()) {
-                    $message .= Mage::helper('Mage_CatalogInventory_Helper_Data')->__('The minimum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMinAllowed()  * 1) . '</span>');
+                    $message .= Mage::helper('Magento_CatalogInventory_Helper_Data')->__('The minimum quantity allowed for purchase is %s.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMinAllowed()  * 1) . '</span>');
                 }
                 return $message;
             default:
@@ -141,7 +141,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Tem
      */
     public function getTierPriceHtml()
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = $this->getItem()->getProduct();
         if (!$product || !$product->getId()) {
             return '';
@@ -151,7 +151,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Tem
         if (!is_array($productTierPrices)) {
             $productAttributes = $product->getAttributes();
             if (!isset($productAttributes['tier_price'])
-                || !($productAttributes['tier_price'] instanceof Mage_Catalog_Model_Resource_Eav_Attribute)
+                || !($productAttributes['tier_price'] instanceof Magento_Catalog_Model_Resource_Eav_Attribute)
             ) {
                 return '';
             }
@@ -161,7 +161,7 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Tem
         Mage::unregister('product');
         Mage::register('product', $product);
         if (!$this->hasProductViewBlock()) {
-            $this->setProductViewBlock($this->getLayout()->createBlock('Mage_Catalog_Block_Product_View'));
+            $this->setProductViewBlock($this->getLayout()->createBlock('Magento_Catalog_Block_Product_View'));
         }
         return $this->getProductViewBlock()->getTierPriceHtml();
     }

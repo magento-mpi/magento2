@@ -38,7 +38,7 @@ $installer->getConnection()->createTable($table);
 /**
  * Add 'disable_googlecheckout' attribute to the 'eav_attribute' table
  */
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'enable_googlecheckout', array(
+$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'enable_googlecheckout', array(
     'group'             => 'Prices',
     'type'              => 'int',
     'backend'           => '',
@@ -47,7 +47,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'enable_googlecheck
     'input'             => 'select',
     'class'             => '',
     'source'            => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
-    'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'visible'           => true,
     'required'          => false,
     'user_defined'      => false,

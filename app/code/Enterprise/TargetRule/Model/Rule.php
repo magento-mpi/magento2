@@ -174,7 +174,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
      */
     public function prepareMatchingProducts($onlyId = false)
     {
-        $productCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
+        $productCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
 
         if (!$onlyId && !is_null($this->_productIds)) {
             $productCollection->addIdFilter($this->_productIds);
@@ -192,7 +192,7 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
                 ),
                 array(
                     'attributes'    => $this->getCollectedAttributes(),
-                    'product'       => Mage::getModel('Mage_Catalog_Model_Product'),
+                    'product'       => Mage::getModel('Magento_Catalog_Model_Product'),
                     'onlyId'        => (bool) $onlyId
                 )
             );

@@ -280,7 +280,7 @@ class Enterprise_PricePermissions_Model_Observer
             if (!$this->_canEditProductStatus) {
                 $statusElement = $form->getElement('simple_product_status');
                 if (!is_null($statusElement)) {
-                    $statusElement->setValue(Mage_Catalog_Model_Product_Status::STATUS_DISABLED);
+                    $statusElement->setValue(Magento_Catalog_Model_Product_Status::STATUS_DISABLED);
                     $statusElement->setReadonly(true, true);
                 }
             }
@@ -357,7 +357,7 @@ class Enterprise_PricePermissions_Model_Observer
             case 'adminhtml_recurring_profile_edit_form' :
                 if (!Mage::registry('product')->isObjectNew()) {
                     if (!$this->_canReadProductPrice) {
-                        $block->setProductEntity(Mage::getModel('Mage_Catalog_Model_Product'));
+                        $block->setProductEntity(Mage::getModel('Magento_Catalog_Model_Product'));
                     }
                 }
                 if (!$this->_canEditProductPrice) {
@@ -393,7 +393,7 @@ class Enterprise_PricePermissions_Model_Observer
      */
     public function catalogProductLoadAfter(Magento_Event_Observer $observer)
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = $observer->getEvent()->getDataObject();
 
         if (!$this->_canEditProductPrice) {
@@ -431,10 +431,10 @@ class Enterprise_PricePermissions_Model_Observer
      */
     public function catalogProductSaveBefore(Magento_Event_Observer $observer)
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = $observer->getEvent()->getDataObject();
         if ($product->isObjectNew() && !$this->_canEditProductStatus) {
-            $product->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED);
+            $product->setStatus(Magento_Catalog_Model_Product_Status::STATUS_DISABLED);
         }
     }
 
@@ -446,7 +446,7 @@ class Enterprise_PricePermissions_Model_Observer
      */
     public function adminhtmlCatalogProductEditPrepareForm(Magento_Event_Observer $observer)
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = Mage::registry('product');
         if ($product->isObjectNew()) {
             $form = $observer->getEvent()->getForm();
@@ -454,7 +454,7 @@ class Enterprise_PricePermissions_Model_Observer
             if (!$this->_canEditProductStatus) {
                 $statusElement = $form->getElement('status');
                 if (!is_null($statusElement)) {
-                    $statusElement->setValue(Mage_Catalog_Model_Product_Status::STATUS_DISABLED);
+                    $statusElement->setValue(Magento_Catalog_Model_Product_Status::STATUS_DISABLED);
                     $statusElement->setReadonly(true, true);
                 }
             }
@@ -471,7 +471,7 @@ class Enterprise_PricePermissions_Model_Observer
      */
     public function catalogProductPrepareSave($observer)
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = $observer->getEvent()->getProduct();
 
         if (!$this->_canEditProductPrice) {
@@ -484,19 +484,19 @@ class Enterprise_PricePermissions_Model_Observer
                 if (is_array($originalOptions)) {
 
                     foreach ($originalOptions as $originalOption) {
-                        /** @var $originalOption Mage_Catalog_Model_Product_Option */
+                        /** @var $originalOption Magento_Catalog_Model_Product_Option */
                         $originalOptionAssoc = array();
                         $originalOptionAssoc['id'] = $originalOption->getOptionId();
                         $originalOptionAssoc['option_id'] = $originalOption->getOptionId();
                         $originalOptionAssoc['type'] = $originalOption->getType();
                         $originalOptionGroup = $originalOption->getGroupByType();
-                        if ($originalOptionGroup != Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                        if ($originalOptionGroup != Magento_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
                             $originalOptionAssoc['price'] = $originalOption->getPrice();
                             $originalOptionAssoc['price_type'] = $originalOption->getPriceType();
                         } else {
                             $originalOptionAssoc['values'] = array();
                             foreach ($originalOption->getValues() as $value) {
-                                /** @var $value Mage_Catalog_Model_Product_Option_Value */
+                                /** @var $value Magento_Catalog_Model_Product_Option_Value */
                                 $originalOptionAssoc['values'][$value->getOptionTypeId()] = array(
                                     'price' => $value->getPrice(),
                                     'price_type' => $value->getPriceType()
@@ -550,7 +550,7 @@ class Enterprise_PricePermissions_Model_Observer
             $product->setRecurringProfile($originalRecurringProfile);
 
             // Handle data received from Associated Products tab of configurable product
-            if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            if ($product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
                 $originalAttributes = $product->getTypeInstance()
                     ->getConfigurableAttributesAsArray($product);
                 // Organize main information about original product attributes in assoc array form
@@ -587,7 +587,7 @@ class Enterprise_PricePermissions_Model_Observer
             }
 
             // Handle seletion data of bundle products
-            if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            if ($product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
                 $bundleSelectionsData = $product->getBundleSelectionsData();
                 if (is_array($bundleSelectionsData)) {
                     // Retrieve original selections data
@@ -663,7 +663,7 @@ class Enterprise_PricePermissions_Model_Observer
 
             if ($product->isObjectNew()) {
                 // For new products set default price
-                if (!($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+                if (!($product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
                     && $product->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC)
                 ) {
                     $product->setPrice((float) $this->_defaultProductPriceString);
@@ -686,9 +686,9 @@ class Enterprise_PricePermissions_Model_Observer
                 $product->unsRecurringProfile();
                 // Add MAP default values
                 $product->setMsrpEnabled(
-                    Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_USE_CONFIG);
+                    Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_USE_CONFIG);
                 $product->setMsrpDisplayActualPriceType(
-                    Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG);
+                    Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG);
             }
         }
     }
@@ -758,7 +758,7 @@ class Enterprise_PricePermissions_Model_Observer
      */
     protected function _hidePriceElements($block)
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = Mage::registry('product');
         $form = $block->getForm();
         $group = $block->getGroup();
@@ -787,7 +787,7 @@ class Enterprise_PricePermissions_Model_Observer
             );
 
             // Leave price element for bundle product active in order to change/view price type when product is created
-            if (Mage::registry('product')->getTypeId() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            if (Mage::registry('product')->getTypeId() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
                 array_push($priceElementIds, 'price');
             }
 
@@ -817,7 +817,7 @@ class Enterprise_PricePermissions_Model_Observer
                     $priceElement = $form->getElement('price');
                     if (!is_null($priceElement)
                         && $this->_canReadProductPrice
-                        && (Mage::registry('product')->getTypeId() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE)
+                        && (Mage::registry('product')->getTypeId() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE)
                     ) {
                         $priceElement->setValue($this->_defaultProductPriceString);
                     }

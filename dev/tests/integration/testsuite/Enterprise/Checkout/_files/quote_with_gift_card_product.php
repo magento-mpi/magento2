@@ -11,8 +11,8 @@
 
 require __DIR__ . '/../../GiftCard/_files/gift_card.php';
 
-/** @var $product Mage_Catalog_Model_Product */
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+/** @var $product Magento_Catalog_Model_Product */
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load(1);
 
 $requestInfo = new Magento_Object(array(

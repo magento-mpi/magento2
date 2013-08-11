@@ -91,7 +91,7 @@ class Mage_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get product price including store convertion rate
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @param   null|string $format
      * @return  float|string
      */
@@ -379,7 +379,7 @@ class Mage_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get product price with all tax settings processing
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @param   float $price inputed product price
      * @param   bool $includingTax return price include tax flag
      * @param   null|Mage_Customer_Model_Address $shippingAddress
@@ -666,7 +666,7 @@ class Mage_Tax_Helper_Data extends Magento_Core_Helper_Abstract
     public function joinTaxClass($select, $storeId, $priceTable = 'main_table')
     {
         $taxClassAttribute = Mage::getModel('Mage_Eav_Model_Entity_Attribute')
-            ->loadByCode(Mage_Catalog_Model_Product::ENTITY, 'tax_class_id');
+            ->loadByCode(Magento_Catalog_Model_Product::ENTITY, 'tax_class_id');
         $joinConditionD = implode(' AND ',array(
             "tax_class_d.entity_id = {$priceTable}.entity_id",
             $select->getAdapter()->quoteInto('tax_class_d.attribute_id = ?', (int)$taxClassAttribute->getId()),

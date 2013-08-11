@@ -224,7 +224,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                         $forward = true; // no adding root categories
                     }
                 } else {
-                    $category = Mage::getModel('Mage_Catalog_Model_Category')->load($controller->getRequest()->getParam('id'));
+                    $category = Mage::getModel('Magento_Catalog_Model_Category')->load($controller->getRequest()->getParam('id'));
                     if (!$category->getId() || !$this->_isCategoryAllowed($category)) {
                         $forward = true; // no viewing wrong categories
                     }
@@ -264,7 +264,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         // instead of generic (we are capped by allowed store groups root categories)
         // check whether attempting to create event for wrong category
         if ('new' === $this->_request->getActionName()) {
-            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($this->_request->getParam('category_id'));
+            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($this->_request->getParam('category_id'));
             if (($this->_request->getParam('category_id') && !$this->_isCategoryAllowed($category)) ||
                 !$this->_role->getIsWebsiteLevel()) {
                 return $this->_forward();
@@ -285,7 +285,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         // avoid viewing disallowed events
         $catalogEvent = Mage::getModel('Enterprise_CatalogEvent_Model_Event')->load($this->_request->getParam('id'));
-        $category     = Mage::getModel('Mage_Catalog_Model_Category')->load($catalogEvent->getCategoryId());
+        $category     = Mage::getModel('Magento_Catalog_Model_Category')->load($catalogEvent->getCategoryId());
         if (!$this->_isCategoryAllowed($category)) {
             return $this->_forward();
         }
@@ -483,7 +483,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     /**
      * Check whether specified category is allowed
      *
-     * @param Mage_Catalog_Model_Category $category
+     * @param Magento_Catalog_Model_Category $category
      * @return bool
      */
     protected function _isCategoryAllowed($category)
@@ -876,7 +876,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         $productNotExclusiveIds = array();
         $productExclusiveIds    = array();
 
-        $resource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product');
+        $resource = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product');
 
         $productsWebsites = $resource->getWebsiteIdsByProductIds($productIds);
 
@@ -920,7 +920,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     protected function _validateCatalogSubCategoryAddPermission($categoryId)
     {
-        $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
+        $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
         if ($category->getId()) {
             /**
              * viewing for parent category allowed and
@@ -1084,7 +1084,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         // Determine entity model class name
         switch ($controllerName) {
             case 'promo_catalog':
-                $entityModelClassName = 'Mage_CatalogRule_Model_Rule';
+                $entityModelClassName = 'Magento_CatalogRule_Model_Rule';
                 break;
             case 'promo_quote':
                 $entityModelClassName = 'Mage_SalesRule_Model_Rule';
@@ -1187,7 +1187,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function promoCatalogIndexAction($controller)
     {
         $controller->setDirtyRulesNoticeMessage(
-            Mage::helper('Mage_CatalogRule_Helper_Data')->__('There are rules that have been changed but were not applied. Only users with exclusive access can apply rules.')
+            Mage::helper('Magento_CatalogRule_Helper_Data')->__('There are rules that have been changed but were not applied. Only users with exclusive access can apply rules.')
         );
         return $this;
     }

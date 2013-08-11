@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_CatalogInventory_Model_Stock_Item_Api_V2 extends Mage_CatalogInventory_Model_Stock_Item_Api
+class Magento_CatalogInventory_Model_Stock_Item_Api_V2 extends Magento_CatalogInventory_Model_Stock_Item_Api
 {
     /**
      * Update product stock data
@@ -19,8 +19,8 @@ class Mage_CatalogInventory_Model_Stock_Item_Api_V2 extends Mage_CatalogInventor
      */
     public function update($productId, $data)
     {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
         $productId = $product->getIdBySku($productId) ?: $productId;
 
         $product->setStoreId($this->_getStoreId())
@@ -30,7 +30,7 @@ class Mage_CatalogInventory_Model_Stock_Item_Api_V2 extends Mage_CatalogInventor
             $this->_fault('not_exists');
         }
 
-        /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
+        /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
         $stockItem = $product->getStockItem();
         $stockData = array_replace($stockItem->getData(), (array)$data);
         $stockItem->setData($stockData);

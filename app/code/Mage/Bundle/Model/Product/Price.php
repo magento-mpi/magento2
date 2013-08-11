@@ -15,7 +15,7 @@
  * @package  Mage_Bundle
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Price
+class Mage_Bundle_Model_Product_Price extends Magento_Catalog_Model_Product_Type_Price
 {
     const PRICE_TYPE_FIXED      = 1;
     const PRICE_TYPE_DYNAMIC    = 0;
@@ -40,7 +40,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Return product base price
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return string
      */
     public function getPrice($product)
@@ -55,7 +55,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Get Total price  for Bundle items
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param null|float $qty
      * @return float
      */
@@ -90,7 +90,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      * Get product final price
      *
      * @param   double                     $qty
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @return  double
      */
     public function getFinalPrice($qty = null, $product)
@@ -114,9 +114,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Returns final price of a child product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param float                      $productQty
-     * @param Mage_Catalog_Model_Product $childProduct
+     * @param Magento_Catalog_Model_Product $childProduct
      * @param float                      $childProductQty
      * @return decimal
      */
@@ -128,7 +128,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Retrieve Price considering tier price
      *
-     * @param  Mage_Catalog_Model_Product $product
+     * @param  Magento_Catalog_Model_Product $product
      * @param  string|null                $which
      * @param  bool|null                  $includeTax
      * @param  bool                       $takeTierPrice
@@ -217,12 +217,12 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             $customOptions = $product->getOptions();
             if ($product->getPriceType() == self::PRICE_TYPE_FIXED && $customOptions) {
                 foreach ($customOptions as $customOption) {
-                    /* @var $customOption Mage_Catalog_Model_Product_Option */
+                    /* @var $customOption Magento_Catalog_Model_Product_Option */
                     $values = $customOption->getValues();
                     if ($values) {
                         $prices = array();
                         foreach ($values as $value) {
-                            /* @var $value Mage_Catalog_Model_Product_Option_Value */
+                            /* @var $value Magento_Catalog_Model_Product_Option_Value */
                             $valuePrice = $value->getPrice(true);
 
                             $prices[] = $valuePrice;
@@ -233,9 +233,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                             }
 
                             $multiTypes = array(
-                                //Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN,
-                                Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX,
-                                Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE
+                                //Magento_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN,
+                                Magento_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX,
+                                Magento_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE
                             );
 
                             if (in_array($customOption->getType(), $multiTypes)) {
@@ -270,7 +270,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Calculate Minimal price of bundle (counting all required options)
      *
-     * @param  Mage_Catalog_Model_Product $product
+     * @param  Magento_Catalog_Model_Product $product
      * @return decimal
      */
     public function getMinimalPrice($product)
@@ -281,7 +281,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Calculate maximal price of bundle
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return decimal
      */
     public function getMaximalPrice($product)
@@ -292,7 +292,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Get Options with attached Selections collection
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Bundle_Model_Resource_Option_Collection
      */
     public function getOptions($product)
@@ -318,8 +318,8 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      * @deprecated after 1.6.2.0
      * @see Mage_Bundle_Model_Product_Price::getSelectionFinalTotalPrice()
      *
-     * @param Mage_Catalog_Model_Product $bundleProduct
-     * @param Mage_Catalog_Model_Product $selectionProduct
+     * @param Magento_Catalog_Model_Product $bundleProduct
+     * @param Magento_Catalog_Model_Product $selectionProduct
      * @param float|null                 $selectionQty
      * @param null|bool                  $multiplyQty      Whether to multiply selection's price by its quantity
      * @return float
@@ -332,8 +332,8 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Calculate selection price for front view (with applied special of bundle)
      *
-     * @param Mage_Catalog_Model_Product $bundleProduct
-     * @param Mage_Catalog_Model_Product $selectionProduct
+     * @param Magento_Catalog_Model_Product $bundleProduct
+     * @param Magento_Catalog_Model_Product $selectionProduct
      * @param decimal                    $qty
      * @return decimal
      */
@@ -346,8 +346,8 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      * Calculate final price of selection
      * with take into account tier price
      *
-     * @param  Mage_Catalog_Model_Product $bundleProduct
-     * @param  Mage_Catalog_Model_Product $selectionProduct
+     * @param  Magento_Catalog_Model_Product $bundleProduct
+     * @param  Magento_Catalog_Model_Product $selectionProduct
      * @param  decimal                    $bundleQty
      * @param  decimal                    $selectionQty
      * @param  bool                       $multiplyQty
@@ -392,7 +392,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Apply group price for bundle product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param float $finalPrice
      * @return float
      */
@@ -412,7 +412,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Get product group price
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return float|null
      */
     public function getGroupPrice($product)
@@ -448,7 +448,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
     /**
      * Apply tier price for bundle
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @param   decimal                    $qty
      * @param   decimal                    $finalPrice
      * @return  decimal
@@ -473,7 +473,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      * Get product tier price by qty
      *
      * @param   decimal                    $qty
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @return  decimal
      */
     public function getTierPrice($qty=null, $product)

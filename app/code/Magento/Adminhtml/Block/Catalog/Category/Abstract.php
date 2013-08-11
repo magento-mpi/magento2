@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
     /**
      * Retrieve current category instance
      *
-     * @return Mage_Catalog_Model_Category
+     * @return Magento_Catalog_Model_Category
      */
     public function getCategory()
     {
@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
         if ($this->getCategory()) {
             return $this->getCategory()->getId();
         }
-        return Mage_Catalog_Model_Category::TREE_ROOT_ID;
+        return Magento_Catalog_Model_Category::TREE_ROOT_ID;
     }
 
     public function getCategoryName()
@@ -45,7 +45,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
         if ($this->getCategory()) {
             return $this->getCategory()->getPath();
         }
-        return Mage_Catalog_Model_Category::TREE_ROOT_ID;
+        return Magento_Catalog_Model_Category::TREE_ROOT_ID;
     }
 
     public function hasStoreRootCategory()
@@ -77,10 +77,10 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
                 $rootId = $store->getRootCategoryId();
             }
             else {
-                $rootId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
+                $rootId = Magento_Catalog_Model_Category::TREE_ROOT_ID;
             }
 
-            $tree = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category_Tree')
+            $tree = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category_Tree')
                 ->load(null, $recursionLevel);
 
             if ($this->getCategory()) {
@@ -91,11 +91,11 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
 
             $root = $tree->getNodeById($rootId);
 
-            if ($root && $rootId != Mage_Catalog_Model_Category::TREE_ROOT_ID) {
+            if ($root && $rootId != Magento_Catalog_Model_Category::TREE_ROOT_ID) {
                 $root->setIsVisible(true);
             }
-            elseif($root && $root->getId() == Mage_Catalog_Model_Category::TREE_ROOT_ID) {
-                $root->setName(Mage::helper('Mage_Catalog_Helper_Data')->__('Root'));
+            elseif($root && $root->getId() == Magento_Catalog_Model_Category::TREE_ROOT_ID) {
+                $root->setName(Mage::helper('Magento_Catalog_Helper_Data')->__('Root'));
             }
 
             Mage::register('root', $root);
@@ -117,15 +117,15 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
     {
         $root = Mage::registry('root');
         if (null === $root) {
-            $categoryTreeResource = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category_Tree');
+            $categoryTreeResource = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category_Tree');
             $ids    = $categoryTreeResource->getExistingCategoryIdsBySpecifiedIds($ids);
             $tree   = $categoryTreeResource->loadByIds($ids);
-            $rootId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
+            $rootId = Magento_Catalog_Model_Category::TREE_ROOT_ID;
             $root   = $tree->getNodeById($rootId);
-            if ($root && $rootId != Mage_Catalog_Model_Category::TREE_ROOT_ID) {
+            if ($root && $rootId != Magento_Catalog_Model_Category::TREE_ROOT_ID) {
                 $root->setIsVisible(true);
-            } else if($root && $root->getId() == Mage_Catalog_Model_Category::TREE_ROOT_ID) {
-                $root->setName(Mage::helper('Mage_Catalog_Helper_Data')->__('Root'));
+            } else if($root && $root->getId() == Magento_Catalog_Model_Category::TREE_ROOT_ID) {
+                $root->setName(Mage::helper('Magento_Catalog_Helper_Data')->__('Root'));
             }
 
             $tree->addCollectionData($this->getCategoryCollection());
@@ -136,7 +136,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
 
     public function getNode($parentNodeCategory, $recursionLevel=2)
     {
-        $tree = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Tree');
+        $tree = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Tree');
 
         $nodeId     = $parentNodeCategory->getId();
         $parentId   = $parentNodeCategory->getParentId();
@@ -144,10 +144,10 @@ class Magento_Adminhtml_Block_Catalog_Category_Abstract extends Magento_Adminhtm
         $node = $tree->loadNode($nodeId);
         $node->loadChildren($recursionLevel);
 
-        if ($node && $nodeId != Mage_Catalog_Model_Category::TREE_ROOT_ID) {
+        if ($node && $nodeId != Magento_Catalog_Model_Category::TREE_ROOT_ID) {
             $node->setIsVisible(true);
-        } elseif($node && $node->getId() == Mage_Catalog_Model_Category::TREE_ROOT_ID) {
-            $node->setName(Mage::helper('Mage_Catalog_Helper_Data')->__('Root'));
+        } elseif($node && $node->getId() == Magento_Catalog_Model_Category::TREE_ROOT_ID) {
+            $node->setName(Mage::helper('Magento_Catalog_Helper_Data')->__('Root'));
         }
 
         $tree->addCollectionData($this->getCategoryCollection());

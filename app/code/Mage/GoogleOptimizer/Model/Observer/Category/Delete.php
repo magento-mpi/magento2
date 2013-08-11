@@ -30,7 +30,7 @@ class Mage_GoogleOptimizer_Model_Observer_Category_Delete
      */
     public function deleteCategoryGoogleExperimentScript($observer)
     {
-        /** @var $category Mage_Catalog_Model_Category */
+        /** @var $category Magento_Catalog_Model_Category */
         $category = $observer->getEvent()->getCategory();
         $this->_modelCode->loadByEntityIdAndType(
             $category->getId(),

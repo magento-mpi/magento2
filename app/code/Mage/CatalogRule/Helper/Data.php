@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogRule
+ * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * CatalogRule data helper
  */
-class Mage_CatalogRule_Helper_Data extends Magento_Core_Helper_Abstract
+class Magento_CatalogRule_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Algorithm for calculating price rule

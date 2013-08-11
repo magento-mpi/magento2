@@ -140,7 +140,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
                 $redirectParams['wishlist_id'] = $wishlistItem->getWishlistId();
             } catch (Magento_Core_Exception $e) {
                 if ($e->getCode() == Enterprise_GiftRegistry_Model_Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
-                    $product = Mage::getModel('Mage_Catalog_Model_Product')->load((int)$wishlistItem->getProductId());
+                    $product = Mage::getModel('Magento_Catalog_Model_Product')->load((int)$wishlistItem->getProductId());
                     $query['options'] = Enterprise_GiftRegistry_Block_Product_View::FLAG;
                     $query['entity'] = $this->getRequest()->getParam('entity');
                     $this->_redirectUrl($product->getUrlModel()->getUrl($product, array('_query' => $query)));

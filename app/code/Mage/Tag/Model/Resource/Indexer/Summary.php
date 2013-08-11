@@ -16,7 +16,7 @@
  * @package     Mage_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resource_Product_Indexer_Abstract
+class Mage_Tag_Model_Resource_Indexer_Summary extends Magento_Catalog_Model_Resource_Product_Indexer_Abstract
 {
     /**
      * Define main table
@@ -182,11 +182,11 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Mage_Catalog_Model_Resourc
                 ))
                 ->where('tr.active = 1');
 
-            $statusCond = $writeAdapter->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+            $statusCond = $writeAdapter->quoteInto('=?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
             $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $statusCond);
 
             $visibilityCond = $writeAdapter
-                ->quoteInto('!=?', Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
+                ->quoteInto('!=?', Magento_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
             $this->_addAttributeToSelect($select, 'visibility', 'e.entity_id', 'cs.store_id', $visibilityCond);
 
             if (!empty($tagIds)) {

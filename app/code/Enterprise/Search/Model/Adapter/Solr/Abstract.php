@@ -404,7 +404,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
     /**
      * Retrieve attribute solr field name
      *
-     * @param   Mage_Catalog_Model_Resource_Eav_Attribute|string $attribute
+     * @param   Magento_Catalog_Model_Resource_Eav_Attribute|string $attribute
      * @param   string $target - default|sort|nav
      *
      * @return  string|bool

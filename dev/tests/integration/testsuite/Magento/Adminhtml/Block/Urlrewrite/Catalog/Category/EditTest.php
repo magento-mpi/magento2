@@ -203,8 +203,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUn
     {
         /** @var $urlRewrite Magento_Core_Model_Url_Rewrite */
         $urlRewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite');
-        /** @var $category Mage_Catalog_Model_Category */
-        $category = Mage::getModel('Mage_Catalog_Model_Category',
+        /** @var $category Magento_Catalog_Model_Category */
+        $category = Mage::getModel('Magento_Catalog_Model_Category',
             array('data' => array('entity_id' => 1, 'name' => 'Test category'))
         );
         /** @var $existingUrlRewrite Magento_Core_Model_Url_Rewrite */

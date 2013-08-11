@@ -10,7 +10,7 @@
 class Mage_GoogleOptimizer_Model_Observer_Product_Save extends Mage_GoogleOptimizer_Model_Observer_SaveAbstract
 {
     /**
-     * @var Mage_Catalog_Model_Product
+     * @var Magento_Catalog_Model_Product
      */
     protected $_product;
 

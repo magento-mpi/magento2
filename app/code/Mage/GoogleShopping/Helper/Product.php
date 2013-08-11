@@ -34,11 +34,11 @@ class Mage_GoogleShopping_Helper_Product extends Magento_Core_Helper_Abstract
     /**
      * Return Product attribute by attribute's ID
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param int $attributeId
-     * @return null|Mage_Catalog_Model_Entity_Attribute Product's attribute
+     * @return null|Magento_Catalog_Model_Entity_Attribute Product's attribute
      */
-    public function getProductAttribute(Mage_Catalog_Model_Product $product, $attributeId)
+    public function getProductAttribute(Magento_Catalog_Model_Product $product, $attributeId)
     {
         if (!isset($this->_productAttributes[$product->getId()])) {
             $attributes = $product->getAttributes();
@@ -56,7 +56,7 @@ class Mage_GoogleShopping_Helper_Product extends Magento_Core_Helper_Abstract
      * Return Product Attribute Store Label
      * Set attribute name like frontend lable for custom attributes (which wasn't defined by Google)
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param int $storeId Store View Id
      * @return string Attribute Store View Label or Attribute code
      */

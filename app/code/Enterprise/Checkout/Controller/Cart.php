@@ -18,7 +18,7 @@
  */
 class Enterprise_Checkout_Controller_Cart
     extends Magento_Core_Controller_Front_Action
-    implements Mage_Catalog_Controller_Product_View_Interface
+    implements Magento_Catalog_Controller_Product_View_Interface
 {
     /**
      * Get checkout session model instance
@@ -184,7 +184,7 @@ class Enterprise_Checkout_Controller_Cart
 
             $params->setBuyRequest($buyRequest);
 
-            Mage::helper('Mage_Catalog_Helper_Product_View')->prepareAndRender($id, $this, $params);
+            Mage::helper('Magento_Catalog_Helper_Product_View')->prepareAndRender($id, $this, $params);
         } catch (Magento_Core_Exception $e) {
             $this->_getCustomerSession()->addError($e->getMessage());
             $this->_redirect('*');
@@ -210,7 +210,7 @@ class Enterprise_Checkout_Controller_Cart
         try {
             $cart = $this->_getCart();
 
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($id);
 

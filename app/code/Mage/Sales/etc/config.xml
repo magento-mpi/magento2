@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Mage_Rule />
-                <Mage_Catalog />
+                <Magento_Catalog />
                 <Mage_Customer />
                 <Mage_Payment />
             </depends>

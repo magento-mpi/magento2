@@ -13,10 +13,10 @@ return; // MAGETWO-7075
 
 Mage::app()->getStore()->setConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, 2);
 
-$stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')
+$stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item')
     ->addQty(10);
 
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId(4)
@@ -27,8 +27,8 @@ $product->setTypeId('simple')
     ->setMetaTitle('meta title')
     ->setMetaKeyword('meta keyword')
     ->setMetaDescription('meta description')
-    ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setStockItem($stockItem)
     ->setTaxClassId(2)
     ->save();

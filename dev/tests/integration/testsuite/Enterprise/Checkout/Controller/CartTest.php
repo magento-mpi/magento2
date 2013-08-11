@@ -45,7 +45,7 @@ class Enterprise_Checkout_Controller_CartTest extends Magento_Test_TestCase_Cont
     /**
      * Test for Enterprise_Checkout_Controller_Cart::configureFailedAction() with simple product
      *
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testConfigureFailedActionWithSimpleProduct()
     {
@@ -108,7 +108,7 @@ class Enterprise_Checkout_Controller_CartTest extends Magento_Test_TestCase_Cont
     /**
      * Test for Enterprise_Checkout_Controller_Cart::configureFailedAction() with configurable product
      *
-     * @magentoDataFixture Mage/Catalog/_files/product_configurable.php
+     * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
      */
     public function testConfigureFailedActionWithConfigurableProduct()
     {

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_CatalogRule_Model_Rule_JobTest extends PHPUnit_Framework_TestCase
+class Magento_CatalogRule_Model_Rule_JobTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test for method applyAll
@@ -21,10 +21,10 @@ class Mage_CatalogRule_Model_Rule_JobTest extends PHPUnit_Framework_TestCase
             ->method('dispatch')
             ->with($this->equalTo('catalogrule_apply_all'));
 
-        $helper = $this->getMock('Mage_CatalogRule_Helper_Data', array(), array(), '', false);
+        $helper = $this->getMock('Magento_CatalogRule_Helper_Data', array(), array(), '', false);
 
-        /** @var $jobModel Mage_CatalogRule_Model_Rule_Job */
-        $jobModel = $objectManagerHelper->getObject('Mage_CatalogRule_Model_Rule_Job', array(
+        /** @var $jobModel Magento_CatalogRule_Model_Rule_Job */
+        $jobModel = $objectManagerHelper->getObject('Magento_CatalogRule_Model_Rule_Job', array(
             'eventManager' => $eventManager,
             'helper' => $helper
         ));

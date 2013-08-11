@@ -60,14 +60,14 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         Mage::app()->getCacheInstance()->allowUse(Magento_Core_Block_Abstract::CACHE_GROUP);
 
-        /** @var $session Mage_Catalog_Model_Session */
-        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
+        /** @var $session Magento_Catalog_Model_Session */
+        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
         $session->setParamsMemorizeDisabled(false);
 
         $this->_observer->processPreDispatch($observerData);
 
         $this->assertFalse(Mage::app()->useCache(Magento_Core_Block_Abstract::CACHE_GROUP));
-        $this->assertTrue(Mage::getSingleton('Mage_Catalog_Model_Session')->getParamsMemorizeDisabled());
+        $this->assertTrue(Mage::getSingleton('Magento_Catalog_Model_Session')->getParamsMemorizeDisabled());
     }
 
     /**
@@ -92,9 +92,9 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('updateCustomerCookies');
 
-        Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
+        Mage::getSingleton('Magento_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
         $this->_observer->processPreDispatch($observerData);
-        $this->assertFalse(Mage::getSingleton('Mage_Catalog_Model_Session')->getParamsMemorizeDisabled());
+        $this->assertFalse(Mage::getSingleton('Magento_Catalog_Model_Session')->getParamsMemorizeDisabled());
     }
 
     public function testSetNoCacheCookie()

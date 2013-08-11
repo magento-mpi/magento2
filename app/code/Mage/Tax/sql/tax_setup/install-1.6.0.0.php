@@ -225,10 +225,10 @@ $installer->getConnection()->createTable($table);
  * Add tax_class_id attribute to the 'eav_attribute' table
  */
 $catalogInstaller = Mage::getResourceModel(
-    'Mage_Catalog_Model_Resource_Setup',
+    'Magento_Catalog_Model_Resource_Setup',
     array('resourceName' => 'catalog_setup')
 );
-$catalogInstaller->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'tax_class_id', array(
+$catalogInstaller->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'tax_class_id', array(
     'group'                      => 'Prices',
     'type'                       => 'int',
     'backend'                    => '',
@@ -237,7 +237,7 @@ $catalogInstaller->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'tax_class_i
     'input'                      => 'select',
     'class'                      => '',
     'source'                     => 'Mage_Tax_Model_Class_Source_Product',
-    'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+    'global'                     => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
     'visible'                    => true,
     'required'                   => true,
     'user_defined'               => false,

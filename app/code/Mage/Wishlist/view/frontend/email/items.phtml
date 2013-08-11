@@ -15,7 +15,7 @@
     <tr>
     <?php $i = 0; foreach ($this->getWishlistItems() as $item): $i++ ?>
         <?php /* @var $item Mage_Wishlist_Model_Item */ ?>
-        <?php /* @var $_product Mage_Catalog_Model_Product */ ?>
+        <?php /* @var $_product Magento_Catalog_Model_Product */ ?>
         <?php $_product = $item->getProduct(); ?>
         <td width="32%">
             <p align="center" style="font-size:12px;"><a href="<?php echo $this->getProductUrl($_product) ?>"><img src="<?php echo $this->getSmallImageUrl($_product); ?>" width="<?php echo $this->getSmallImageSize()?>" height="<?php echo $this->getSmallImageSize()?>" style="border:1px solid #ccc;" alt="" /></a></p>

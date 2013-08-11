@@ -81,7 +81,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Magento_Ad
                 $categoryId = $value[1];
             }
             if ($categoryId) {
-                $label = Mage::getSingleton('Mage_Catalog_Model_Category')->load($categoryId)->getName();
+                $label = Mage::getSingleton('Magento_Catalog_Model_Category')->load($categoryId)->getName();
                 $chooser->setLabel($label);
             }
         }
@@ -142,7 +142,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Magento_Ad
     /**
      * Adds some extra params to categories collection
      *
-     * @return Mage_Catalog_Model_Resource_Category_Collection
+     * @return Magento_Catalog_Model_Resource_Category_Collection
      */
     public function getCategoryCollection()
     {

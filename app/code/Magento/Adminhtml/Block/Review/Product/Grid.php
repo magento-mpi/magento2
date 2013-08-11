@@ -69,8 +69,8 @@ class Magento_Adminhtml_Block_Review_Product_Grid extends Magento_Adminhtml_Bloc
                 'width'     => '90px',
                 'index'     => 'status',
                 'type'      => 'options',
-                'source'    => 'Mage_Catalog_Model_Product_Status',
-                'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray(),
+                'source'    => 'Magento_Catalog_Model_Product_Status',
+                'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray(),
         ));
 
         /**

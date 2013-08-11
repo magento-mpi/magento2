@@ -92,7 +92,7 @@ class Mage_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_Wid
     protected function _prepareCollection()
     {
         $store = $this->_getStore();
-        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('attribute_set_id')
@@ -169,11 +169,11 @@ class Mage_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_Wid
                 'width'     => 100,
                 'index'     => 'type_id',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
+                'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
         $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId())
+            ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -208,7 +208,7 @@ class Mage_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_Wid
                 'width'     => 100,
                 'index'     => 'visibility',
                 'type'      => 'options',
-                'options'   => Mage::getModel('Mage_Catalog_Model_Product_Visibility')->getOptionArray(),
+                'options'   => Mage::getModel('Magento_Catalog_Model_Product_Visibility')->getOptionArray(),
         ));
 
         $this->addColumn('status',
@@ -217,7 +217,7 @@ class Mage_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_Wid
                 'width'     => 70,
                 'index'     => 'status',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray(),
+                'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray(),
         ));
 
         return parent::_prepareColumns();

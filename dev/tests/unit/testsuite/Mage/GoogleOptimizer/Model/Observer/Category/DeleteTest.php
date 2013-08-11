@@ -30,7 +30,7 @@ class Mage_GoogleOptimizer_Model_Observer_Category_DeleteTest extends PHPUnit_Fr
     public function setUp()
     {
         $this->_codeMock = $this->getMock('Mage_GoogleOptimizer_Model_Code', array(), array(), '', false);
-        $this->_category = $this->getMock('Mage_Catalog_Model_Category', array(), array(), '', false);
+        $this->_category = $this->getMock('Magento_Catalog_Model_Category', array(), array(), '', false);
         $event = $this->getMock('Magento_Event', array('getCategory'), array(), '', false);
         $event->expects($this->once())->method('getCategory')->will($this->returnValue($this->_category));
         $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);

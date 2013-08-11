@@ -12,7 +12,7 @@
         <reference name="admin.product.edit.tab.super.config.grid">
             <arguments>
                 <dataSource>
-                    <updater>Mage_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater</updater>
+                    <updater>Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater</updater>
                 </dataSource>
             </arguments>
             <reference name="admin.product.edit.tab.super.config.grid.columnSet">

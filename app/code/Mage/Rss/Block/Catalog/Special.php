@@ -42,7 +42,7 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Catalog_Abstract
         //customer group id
         $customerGroupId = $this->_getCustomerGroupId();
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
 
         $fields = array(
             'final_price',
@@ -94,8 +94,8 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Catalog_Abstract
                     <td><a href="%s"><img src="%s" alt="" border="0" align="left" height="75" width="75" /></a></td>
                     <td style="text-decoration:none;">%s',
                     $product->getProductUrl(),
-                    $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75),
-                    $this->helper('Mage_Catalog_Helper_Output')->productAttribute(
+                    $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75),
+                    $this->helper('Magento_Catalog_Helper_Output')->productAttribute(
                         $product,
                         $product->getDescription(),
                         'description'
@@ -104,17 +104,17 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Catalog_Abstract
 
                 // add price data if needed
                 if ($product->getAllowedPriceInRss()) {
-                    if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)) {
+                    if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
                         $html .= '<br/><a href="' . $product->getProductUrl() . '">'
                             . $this->__('Click for price') . '</a>';
                     } else {
                         $special = '';
                         if ($result['use_special']) {
-                            $special = '<br />' . Mage::helper('Mage_Catalog_Helper_Data')->__('Special Expires On: %s', $this->formatDate($result['special_to_date'], Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM));
+                            $special = '<br />' . Mage::helper('Magento_Catalog_Helper_Data')->__('Special Expires On: %s', $this->formatDate($result['special_to_date'], Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM));
                         }
                         $html .= sprintf('<p>%s %s%s</p>',
-                            Mage::helper('Mage_Catalog_Helper_Data')->__('Price: %s', Mage::helper('Magento_Core_Helper_Data')->currency($result['price'])),
-                            Mage::helper('Mage_Catalog_Helper_Data')->__('Special Price: %s', Mage::helper('Magento_Core_Helper_Data')->currency($result['final_price'])),
+                            Mage::helper('Magento_Catalog_Helper_Data')->__('Price: %s', Mage::helper('Magento_Core_Helper_Data')->currency($result['price'])),
+                            Mage::helper('Magento_Catalog_Helper_Data')->__('Special Price: %s', Mage::helper('Magento_Core_Helper_Data')->currency($result['final_price'])),
                             $special
                         );
                     }

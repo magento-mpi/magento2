@@ -36,13 +36,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select exten
     protected function _prepareLayout()
     {
         $this->addChild('add_select_row_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add New Row'),
+            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Add New Row'),
             'class' => 'add add-select-row',
             'id'    => 'product_option_${option_id}_add_select_row'
         ));
 
         $this->addChild('delete_select_row_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Row'),
+            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Delete Row'),
             'class' => 'delete delete-select-row icon-btn',
             'id'    => 'product_option_${id}_select_${select_id}_delete'
         ));

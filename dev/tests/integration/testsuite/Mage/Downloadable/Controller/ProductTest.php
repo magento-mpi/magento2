@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Mage_Catalog_Controller_Product (downloadable product type)
+ * Test class for Magento_Catalog_Controller_Product (downloadable product type)
  */
 class Mage_Downloadable_Controller_ProductTest extends Magento_Test_TestCase_ControllerAbstract
 {

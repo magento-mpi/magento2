@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Advanced Catalog Search resource model
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_Resource_Db_Abstract
+class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize connection and define catalog product table as main table
@@ -56,9 +56,9 @@ class Mage_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_Reso
     /**
      * Prepare search condition for attribute
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
-     * @param Mage_CatalogSearch_Model_Resource_Advanced_Collection $collection
+     * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $collection
      * @return mixed
      */
     public function prepareCondition($attribute, $value, $collection)
@@ -89,8 +89,8 @@ class Mage_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_Reso
     /**
      * Add filter by attribute rated price
      *
-     * @param Mage_CatalogSearch_Model_Resource_Advanced_Collection $collection
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
      * @param int $rate
      * @return bool
@@ -128,8 +128,8 @@ class Mage_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_Reso
     /**
      * Add filter by indexable attribute
      *
-     * @param Mage_CatalogSearch_Model_Resource_Advanced_Collection $collection
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
      * @return bool
      */

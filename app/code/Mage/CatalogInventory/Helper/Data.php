@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * Catalo
  */
-class Mage_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
+class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
 {
     const XML_PATH_SHOW_OUT_OF_STOCK    = 'cataloginventory/options/show_out_of_stock';
     const XML_PATH_ITEM_AUTO_RETURN     = 'cataloginventory/item_options/auto_return';

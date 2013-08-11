@@ -26,8 +26,8 @@ class Mage_Rss_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function disableFlat()
     {
-        /* @var $flatHelper Mage_Catalog_Helper_Product_Flat */
-        $flatHelper = Mage::helper('Mage_Catalog_Helper_Product_Flat');
+        /* @var $flatHelper Magento_Catalog_Helper_Product_Flat */
+        $flatHelper = Mage::helper('Magento_Catalog_Helper_Product_Flat');
         if ($flatHelper->isAvailable()) {
             /* @var $emulationModel Magento_Core_Model_App_Emulation */
             $emulationModel = Mage::getModel('Magento_Core_Model_App_Emulation');

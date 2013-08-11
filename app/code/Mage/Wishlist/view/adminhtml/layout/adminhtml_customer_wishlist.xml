@@ -22,7 +22,7 @@
                     </params>
                 </grid_url>
                 <product_configuration_helpers>
-                    <default>Mage_Catalog_Helper_Product_Configuration</default>
+                    <default>Magento_Catalog_Helper_Product_Configuration</default>
                 </product_configuration_helpers>
             </arguments>
             <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="customer.wishlist.edit.tab.columnSet">

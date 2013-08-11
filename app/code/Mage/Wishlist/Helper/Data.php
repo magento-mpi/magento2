@@ -182,7 +182,7 @@ class Mage_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve Item Store for URL
      *
-     * @param Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
+     * @param Magento_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
      * @return Magento_Core_Model_Store
      */
     protected function _getUrlStore($item)
@@ -191,7 +191,7 @@ class Mage_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
         $product = null;
         if ($item instanceof Mage_Wishlist_Model_Item) {
             $product = $item->getProduct();
-        } elseif ($item instanceof Mage_Catalog_Model_Product) {
+        } elseif ($item instanceof Magento_Catalog_Model_Product) {
             $product = $item;
         }
         if ($product) {
@@ -208,7 +208,7 @@ class Mage_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve URL for removing item from wishlist
      *
-     * @param Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
+     * @param Magento_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
      * @return string
      */
     public function getRemoveUrl($item)
@@ -221,7 +221,7 @@ class Mage_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve URL for removing item from wishlist
      *
-     * @param Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
+     * @param Magento_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
      * @return string
      */
     public function getConfigureUrl($item)
@@ -234,7 +234,7 @@ class Mage_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve url for adding product to wishlist
      *
-     * @param Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
+     * @param Magento_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
      *
      * @return  string|bool
      */
@@ -258,14 +258,14 @@ class Mage_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve url for updating product in wishlist
      *
-     * @param Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
+     * @param Magento_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
      *
      * @return  string|bool
      */
     public function getUpdateUrl($item)
     {
         $itemId = null;
-        if ($item instanceof Mage_Catalog_Model_Product) {
+        if ($item instanceof Magento_Catalog_Model_Product) {
             $itemId = $item->getWishlistItemId();
         }
         if ($item instanceof Mage_Wishlist_Model_Item) {
@@ -282,7 +282,7 @@ class Mage_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve url for adding product to wishlist with params
      *
-     * @param Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
+     * @param Magento_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
      * @param array $params
      *
      * @return  string|bool
@@ -290,7 +290,7 @@ class Mage_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     public function getAddUrlWithParams($item, array $params = array())
     {
         $productId = null;
-        if ($item instanceof Mage_Catalog_Model_Product) {
+        if ($item instanceof Magento_Catalog_Model_Product) {
             $productId = $item->getEntityId();
         }
         if ($item instanceof Mage_Wishlist_Model_Item) {
@@ -308,7 +308,7 @@ class Mage_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve URL for adding item to shoping cart
      *
-     * @param string|Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
+     * @param string|Magento_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
      * @return  string
      */
     public function getAddToCartUrl($item)
@@ -333,7 +333,7 @@ class Mage_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve URL for adding item to shoping cart from shared wishlist
      *
-     * @param string|Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
+     * @param string|Magento_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
      * @return  string
      */
     public function getSharedAddToCartUrl($item)

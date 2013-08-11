@@ -24,7 +24,7 @@ class Mage_Tax_Model_Class_Type_ProductTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('tax_class_id'), $this->equalTo(1))
             ->will($this->returnSelf());
 
-        $productMock = $this->getMockBuilder('Mage_Catalog_Model_Product')
+        $productMock = $this->getMockBuilder('Magento_Catalog_Model_Product')
             ->setMethods(array('getCollection'))
             ->disableOriginalConstructor()
             ->getMock();

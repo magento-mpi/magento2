@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Product stock qty block for abstract composite product
  *
  * @category   Mage
- * @package    Mage_CatalogInventory
+ * @package    Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_CatalogInventory_Block_Stockqty_Composite extends Mage_CatalogInventory_Block_Stockqty_Default
+abstract class Magento_CatalogInventory_Block_Stockqty_Composite extends Magento_CatalogInventory_Block_Stockqty_Default
 {
     /**
      * Child products cache

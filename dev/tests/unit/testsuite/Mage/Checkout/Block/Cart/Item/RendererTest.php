@@ -24,11 +24,11 @@ class Mage_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_TestC
         $configurable = $objectManagerHelper->getObject('Mage_Checkout_Block_Cart_Item_Renderer_Configurable',
             array('viewConfig' => $configManager));
 
-        $product = $this->getMock('Mage_Catalog_Model_Product', array('isConfigurable'), array(), '', false);
+        $product = $this->getMock('Magento_Catalog_Model_Product', array('isConfigurable'), array(), '', false);
         $product->expects($this->any())->method('isConfigurable')->will($this->returnValue(true));
 
         $childProduct =
-            $this->getMock('Mage_Catalog_Model_Product', array('getThumbnail', 'getDataByKey'), array(), '', false);
+            $this->getMock('Magento_Catalog_Model_Product', array('getThumbnail', 'getDataByKey'), array(), '', false);
         $childProduct->expects($this->any())->method('getThumbnail')->will($this->returnValue('/_/_/__green.gif'));
 
         $arguments = array(
@@ -41,7 +41,7 @@ class Mage_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_TestC
         $item->setData('product', $product);
         $item->addChild($childItem);
 
-        $helperImage = $this->getMock('Mage_Catalog_Helper_Image',
+        $helperImage = $this->getMock('Magento_Catalog_Helper_Image',
             array('init', 'resize', '__toString'), array(), '', false
         );
         $helperImage->expects($this->any())->method('init')->will($this->returnValue($helperImage));

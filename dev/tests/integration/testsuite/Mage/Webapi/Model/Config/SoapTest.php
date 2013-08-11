@@ -401,7 +401,7 @@ class Mage_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
             'LogicException',
             '"Invalid_Deprecation_Controller_Webapi_Policy::getV1" '
                 . 'method has invalid format of Deprecation policy. Accepted formats are createV1, '
-                . 'catalogProduct::createV1 and Mage_Catalog_Webapi_ProductController::createV1.'
+                . 'catalogProduct::createV1 and Magento_Catalog_Webapi_ProductController::createV1.'
         );
         $this->_createResourceConfig(__DIR__ . '/../_files/autodiscovery/invalid_deprecation_policy');
     }

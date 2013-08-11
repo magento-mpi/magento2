@@ -148,7 +148,7 @@ class Mage_Backend_Model_Config_Backend_File extends Magento_Core_Model_Config_D
 
         if (!array_key_exists('upload_dir', $fieldConfig)) {
             Mage::throwException(
-                Mage::helper('Mage_Catalog_Helper_Data')->__('The base directory to upload file is not specified.')
+                Mage::helper('Magento_Catalog_Helper_Data')->__('The base directory to upload file is not specified.')
             );
         }
 

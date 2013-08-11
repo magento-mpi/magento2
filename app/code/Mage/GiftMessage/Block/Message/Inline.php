@@ -260,12 +260,12 @@ class Mage_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Template
     /**
      * Product thumbnail image url getter
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return string
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')
+        return (string)$this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')
             ->resize($this->getThumbnailSize());
     }
 
@@ -276,7 +276,7 @@ class Mage_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Template
      */
     public function getThumbnailSize()
     {
-        return $this->getVar('product_thumbnail_image_size', 'Mage_Catalog');
+        return $this->getVar('product_thumbnail_image_size', 'Magento_Catalog');
     }
 
 }

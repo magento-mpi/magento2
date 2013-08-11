@@ -27,13 +27,13 @@ return array(
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => 'a:1:{s:5:"model";s:45:"Mage_CatalogRule_Model_Rule_Condition_Combine";}',
+                'to'    => 'a:1:{s:5:"model";s:45:"Magento_CatalogRule_Model_Rule_Condition_Combine";}',
                 'from'  => array('`field` = ?' => 'a:1:{s:5:"model";s:34:"catalogrule/rule_condition_combine";}')
             ),
         ),
         'aliases_map' => array(
             Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL => array(
-                'catalogrule/rule_condition_combine' => 'Mage_CatalogRule_Model_Rule_Condition_Combine',
+                'catalogrule/rule_condition_combine' => 'Magento_CatalogRule_Model_Rule_Condition_Combine',
             )
         )
     ),

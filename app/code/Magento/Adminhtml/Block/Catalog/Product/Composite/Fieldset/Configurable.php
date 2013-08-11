@@ -15,12 +15,12 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable extends Mage_Catalog_Block_Product_View_Type_Configurable
+class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable extends Magento_Catalog_Block_Product_View_Type_Configurable
 {
     /**
      * Retrieve product
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {

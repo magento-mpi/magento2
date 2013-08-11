@@ -15,7 +15,7 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Block_Catalog_Product_Samples extends Mage_Catalog_Block_Product_Abstract
+class Mage_Downloadable_Block_Catalog_Product_Samples extends Magento_Catalog_Block_Product_Abstract
 {
 
     /**

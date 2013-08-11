@@ -138,7 +138,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
             'column_css_class'  => 'col-whishlist-qty'
         ));
 
-        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
+        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
             $this->addColumn('product_qty', array(
                 'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Store Quantity'),
                 'index'     => 'product_qty',

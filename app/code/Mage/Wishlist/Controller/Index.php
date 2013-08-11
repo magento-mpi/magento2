@@ -18,7 +18,7 @@
  */
 class Mage_Wishlist_Controller_Index
     extends Mage_Wishlist_Controller_Abstract
-    implements Mage_Catalog_Controller_Product_View_Interface
+    implements Magento_Catalog_Controller_Product_View_Interface
 {
     /**
      * @var Mage_Wishlist_Model_Config
@@ -150,7 +150,7 @@ class Mage_Wishlist_Controller_Index
 
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $this->_initLayoutMessages('Mage_Checkout_Model_Session');
-        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
         $this->_initLayoutMessages('Mage_Wishlist_Model_Session');
 
         $this->renderLayout();
@@ -174,7 +174,7 @@ class Mage_Wishlist_Controller_Index
             return;
         }
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
+        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $session->addError($this->__('We can\'t specify a product.'));
             $this->_redirect('*/');
@@ -264,7 +264,7 @@ class Mage_Wishlist_Controller_Index
                 Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
             }
             $params->setBuyRequest($buyRequest);
-            Mage::helper('Mage_Catalog_Helper_Product_View')->prepareAndRender($item->getProductId(), $this, $params);
+            Mage::helper('Magento_Catalog_Helper_Product_View')->prepareAndRender($item->getProductId(), $this, $params);
         } catch (Magento_Core_Exception $e) {
             Mage::getSingleton('Mage_Customer_Model_Session')->addError($e->getMessage());
             $this->_redirect('*');
@@ -289,7 +289,7 @@ class Mage_Wishlist_Controller_Index
             return;
         }
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
+        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             $session->addError($this->__('We can\'t specify a product.'));
             $this->_redirect('*/');
@@ -494,7 +494,7 @@ class Mage_Wishlist_Controller_Index
                     ->addItemFilter(array($itemId));
             $item->setOptions($options->getOptionsByItem($itemId));
 
-            $buyRequest = Mage::helper('Mage_Catalog_Helper_Product')->addParamsToBuyRequest(
+            $buyRequest = Mage::helper('Magento_Catalog_Helper_Product')->addParamsToBuyRequest(
                 $this->getRequest()->getParams(),
                 array('current_config' => $item->getBuyRequest())
             );
@@ -516,10 +516,10 @@ class Mage_Wishlist_Controller_Index
             if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
                 $session->addError(Mage::helper('Mage_Wishlist_Helper_Data')->__('This product(s) is out of stock.'));
             } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
-                Mage::getSingleton('Mage_Catalog_Model_Session')->addNotice($e->getMessage());
+                Mage::getSingleton('Magento_Catalog_Model_Session')->addNotice($e->getMessage());
                 $redirectUrl = Mage::getUrl('*/*/configure/', array('id' => $item->getId()));
             } else {
-                Mage::getSingleton('Mage_Catalog_Model_Session')->addNotice($e->getMessage());
+                Mage::getSingleton('Magento_Catalog_Model_Session')->addNotice($e->getMessage());
                 $redirectUrl = Mage::getUrl('*/*/configure/', array('id' => $item->getId()));
             }
         } catch (Exception $e) {
@@ -717,13 +717,13 @@ class Mage_Wishlist_Controller_Index
         }
 
         $optionId = null;
-        if (strpos($option->getCode(), Mage_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX) === 0) {
-            $optionId = str_replace(Mage_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX, '', $option->getCode());
+        if (strpos($option->getCode(), Magento_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX) === 0) {
+            $optionId = str_replace(Magento_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX, '', $option->getCode());
             if ((int)$optionId != $optionId) {
                 return $this->_forward('noRoute');
             }
         }
-        $productOption = Mage::getModel('Mage_Catalog_Model_Product_Option')->load($optionId);
+        $productOption = Mage::getModel('Magento_Catalog_Model_Product_Option')->load($optionId);
 
         if (!$productOption
             || !$productOption->getId()

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogRule
+ * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */

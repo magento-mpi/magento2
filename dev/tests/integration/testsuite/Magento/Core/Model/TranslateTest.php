@@ -63,7 +63,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         Mage::getObjectManager()->addSharedInstance($this->_viewFileSystem, 'Magento_Core_Model_View_FileSystem');
 
         Mage::getConfig()->setModuleDir('Magento_Core', 'locale', dirname(__FILE__) . '/_files/Magento/Core/locale');
-        Mage::getConfig()->setModuleDir('Mage_Catalog', 'locale', dirname(__FILE__) . '/_files/Mage/Catalog/locale');
+        Mage::getConfig()->setModuleDir('Magento_Catalog', 'locale', dirname(__FILE__) . '/_files/Magento/Catalog/locale');
 
         $this->_designModel = $this->getMock('Magento_Core_Model_View_Design',
             array('getDesignTheme'),
@@ -203,9 +203,9 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             array(
                 Mage::getModel('Magento_Core_Model_Translate_Expr', array(
                     'text'   => 'Text with different translation on different modules',
-                    'module' => 'Mage_Catalog'
+                    'module' => 'Magento_Catalog'
                 )),
-                'Text translation by Mage_Catalog module'
+                'Text translation by Magento_Catalog module'
             ),
             array(
                 Mage::getModel('Magento_Core_Model_Translate_Expr', array('text' => 'text_with_no_translation')),

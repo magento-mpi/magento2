@@ -34,13 +34,13 @@
                 <name_in_layout>catalog.compare.sidebar</name_in_layout>
                 <class>Enterprise_Persistent_Model_Observer</class>
                 <method>emulateCompareProductsBlock</method>
-                <block_type>Mage_Catalog_Block_Product_Compare_Sidebar</block_type>
+                <block_type>Magento_Catalog_Block_Product_Compare_Sidebar</block_type>
             </compare_products>
             <compare_products_list>
                 <name_in_layout>catalog.compare.list</name_in_layout>
                 <class>Enterprise_Persistent_Model_Observer</class>
                 <method>emulateCompareProductsListBlock</method>
-                <block_type>Mage_Catalog_Block_Product_Compare_List</block_type>
+                <block_type>Magento_Catalog_Block_Product_Compare_List</block_type>
             </compare_products_list>
         </blocks>
         <models />

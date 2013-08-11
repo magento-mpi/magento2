@@ -64,7 +64,7 @@ class Mage_GoogleShopping_Model_Observer
     /**
      * Get items which are available for update/delete when product is saved
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_GoogleShopping_Model_Resource_Item_Collection
      */
     protected function _getItemsCollection($product)

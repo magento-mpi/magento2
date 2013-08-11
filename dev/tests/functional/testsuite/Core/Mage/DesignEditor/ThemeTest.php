@@ -666,7 +666,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
     public function allThemeCss()
     {
         return array(
-            array('Mage_Catalog--widgets.css', 'mage_catalog_download'),
+            array('Magento_Catalog--widgets.css', 'magento_catalog_download'),
 //            array('Mage_Oauth--css_oauth-simple.css', 'mage_oauth_download'),
 //            array('mage_calendar.css', 'calendar_css_download'),
 //            array('css_print.css', 'css_print_download'),

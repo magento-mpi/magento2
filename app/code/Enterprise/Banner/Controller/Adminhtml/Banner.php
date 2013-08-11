@@ -348,13 +348,13 @@ class Enterprise_Banner_Controller_Adminhtml_Banner extends Magento_Adminhtml_Co
     public function catalogRuleBannersGridAction()
     {
         $ruleId = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('Mage_CatalogRule_Model_Rule');
+        $model = Mage::getModel('Magento_CatalogRule_Model_Rule');
 
         if ($ruleId) {
             $model->load($ruleId);
             if (! $model->getRuleId()) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
-                    Mage::helper('Mage_CatalogRule_Helper_Data')->__('This rule no longer exists.')
+                    Mage::helper('Magento_CatalogRule_Helper_Data')->__('This rule no longer exists.')
                 );
                 $this->_redirect('*/*');
                 return;

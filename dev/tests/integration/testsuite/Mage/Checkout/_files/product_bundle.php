@@ -11,9 +11,9 @@
 
 require __DIR__ . '/../../Checkout/_files/simple_product.php';
 
-/** @var $bundleProduct Mage_Catalog_Model_Product */
-$bundleProduct = Mage::getModel('Mage_Catalog_Model_Product');
-$bundleProduct->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE)
+/** @var $bundleProduct Magento_Catalog_Model_Product */
+$bundleProduct = Mage::getModel('Magento_Catalog_Model_Product');
+$bundleProduct->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE)
     ->setId(3)
     ->setAttributeSetId(4)
     ->setWebsiteIds(array(1))
@@ -21,8 +21,8 @@ $bundleProduct->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE)
     ->setSku('bundle-product')
     ->setDescription('Description with <b>html tag</b>')
     ->setShortDescription('Bundle')
-    ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setStockData(array(
     'use_config_manage_stock'   => 0,
     'manage_stock'              => 0,
@@ -61,8 +61,8 @@ $bundleProduct->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE)
     ->setAffectBundleProductSelections(true)
     ->save();
 
-/** @var $product Mage_Catalog_Model_Product */
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+/** @var $product Magento_Catalog_Model_Product */
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load($bundleProduct->getId());
 
 /** @var $typeInstance Mage_Bundle_Model_Product_Type */

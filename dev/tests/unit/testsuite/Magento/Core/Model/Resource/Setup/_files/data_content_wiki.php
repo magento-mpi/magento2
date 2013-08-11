@@ -34,14 +34,14 @@ return array(
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => '<p>{{widget type="Mage_CatalogSearch_Block_Result"}}</p>',
+                'to'    => '<p>{{widget type="Magento_CatalogSearch_Block_Result"}}</p>',
                 'from'  => array('`field` = ?' => '<p>{{widget type="catalogSearch/result"}}</p>')
             ),
         ),
         'aliases_map' => array(
             Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK => array(
                 'productalert/product_view' => 'Mage_ProductAlert_Block_Product_View',
-                'catalogSearch/result'      => 'Mage_CatalogSearch_Block_Result',
+                'catalogSearch/result'      => 'Magento_CatalogSearch_Block_Result',
             )
         )
     ),

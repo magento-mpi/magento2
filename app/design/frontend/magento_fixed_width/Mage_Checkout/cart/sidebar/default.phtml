@@ -9,7 +9,7 @@
  */
 ?>
 <?php $_item = $this->getItem() ?>
-<?php $canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM); ?>
+<?php $canApplyMsrp = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_item->getProduct(), Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM); ?>
 <li class="item">
     <?php if ($this->hasProductUrl()): ?>
         <a href="<?php echo $this->getProductUrl()?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product-image"><img src="<?php echo $this->getProductThumbnailSidebarUrl() ?>" width="<?php echo $this->getThumbnailSidebarSize()?>" height="<?php echo $this->getThumbnailSidebarSize()?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /></a>

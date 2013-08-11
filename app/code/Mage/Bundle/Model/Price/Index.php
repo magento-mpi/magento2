@@ -65,7 +65,7 @@ class Mage_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
     /**
      * Reindex Bundle product Price Index
      *
-     * @param Mage_Catalog_Model_Product|Mage_Catalog_Model_Product_Condition_Interface|array|int $products
+     * @param Magento_Catalog_Model_Product|Magento_Catalog_Model_Product_Condition_Interface|array|int $products
      * @return Mage_Bundle_Model_Price_Index
      */
     public function reindex($products = null)
@@ -77,7 +77,7 @@ class Mage_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
     /**
      * Add bundle price range index to Product collection
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      * @return Mage_Bundle_Model_Price_Index
      */
     public function addPriceIndexToCollection($collection)
@@ -85,8 +85,8 @@ class Mage_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
         $productObjects = array();
         $productIds     = array();
         foreach ($collection->getItems() as $product) {
-            /* @var $product Mage_Catalog_Model_Product */
-            if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            /* @var $product Magento_Catalog_Model_Product */
+            if ($product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
                 $productIds[] = $product->getEntityId();
                 $productObjects[$product->getEntityId()] = $product;
             }
@@ -120,7 +120,7 @@ class Mage_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
     /**
      * Add price index to bundle product after load
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Bundle_Model_Price_Index
      */
     public function addPriceIndexToProduct($product)

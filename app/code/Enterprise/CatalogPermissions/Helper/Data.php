@@ -41,7 +41,7 @@ class Enterprise_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abst
     /**
      * Check category permission is allowed
      *
-     * @param Mage_Catalog_Model_Category $category
+     * @param Magento_Catalog_Model_Category $category
      * @return boolean
      */
     public function isAllowedCategory($category)

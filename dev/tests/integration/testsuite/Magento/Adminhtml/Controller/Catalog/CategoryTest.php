@@ -38,8 +38,8 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Mage_Backend_Uti
             $this->equalTo(array('You saved the category.')), Magento_Core_Model_Message::SUCCESS
         );
 
-        /** @var $category Mage_Catalog_Model_Category */
-        $category = Mage::getModel('Mage_Catalog_Model_Category');
+        /** @var $category Magento_Catalog_Model_Category */
+        $category = Mage::getModel('Magento_Catalog_Model_Category');
         $category->setStoreId($storeId);
         $category->load(2);
 

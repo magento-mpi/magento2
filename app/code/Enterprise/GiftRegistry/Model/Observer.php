@@ -237,7 +237,7 @@ class Enterprise_GiftRegistry_Model_Observer
      */
     public function deleteProduct(Magento_Event_Observer $observer)
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = $observer->getEvent()->getProduct();
 
         if ($product->getParentId()) {

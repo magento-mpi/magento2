@@ -308,9 +308,9 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             $separateSameProducts = false;
         }
 
-        if (!($product instanceof Mage_Catalog_Model_Product)) {
+        if (!($product instanceof Magento_Catalog_Model_Product)) {
             $productId = $product;
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStore($this->getStore())
                 ->setStoreId($this->getStore()->getId())
                 ->load($product);
@@ -362,7 +362,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             Mage::throwException(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Something went wrong reordering this product.'));
         }
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product')
+        $product = Mage::getModel('Magento_Catalog_Model_Product')
             ->setStoreId($this->getStore()->getId())
             ->load($orderItem->getProductId());
 
@@ -703,14 +703,14 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      *  'qty_max_allowed' => int (optional, if 'status'==ADD_ITEM_STATUS_FAILED_QTY_ALLOWED)
      * ]
      *
-     * @param Mage_CatalogInventory_Model_Stock_Item $stockItem
-     * @param Mage_Catalog_Model_Product             $product
+     * @param Magento_CatalogInventory_Model_Stock_Item $stockItem
+     * @param Magento_Catalog_Model_Product             $product
      * @param float                                  $requestedQty
      * @return array|true
      */
     public function getQtyStatus(
-        Mage_CatalogInventory_Model_Stock_Item $stockItem,
-        Mage_Catalog_Model_Product $product,
+        Magento_CatalogInventory_Model_Stock_Item $stockItem,
+        Magento_Catalog_Model_Product $product,
         $requestedQty
     ) {
         $result = $stockItem->checkQuoteItemQty($requestedQty, $requestedQty);
@@ -746,22 +746,22 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Decide whether product has been configured or not
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param array                      $config
      * @return bool
      */
-    protected function _isConfigured(Mage_Catalog_Model_Product $product, $config)
+    protected function _isConfigured(Magento_Catalog_Model_Product $product, $config)
     {
         // If below POST fields were submitted - this is product's options, it has been already configured
         switch ($product->getTypeId()) {
-            case Mage_Catalog_Model_Product_Type::TYPE_SIMPLE:
-            case Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL:
+            case Magento_Catalog_Model_Product_Type::TYPE_SIMPLE:
+            case Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL:
                 return isset($config['options']);
-            case Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
+            case Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE:
                 return isset($config['super_attribute']);
-            case Mage_Catalog_Model_Product_Type::TYPE_BUNDLE:
+            case Magento_Catalog_Model_Product_Type::TYPE_BUNDLE:
                 return isset($config['bundle_option']);
-            case Mage_Catalog_Model_Product_Type::TYPE_GROUPED:
+            case Magento_Catalog_Model_Product_Type::TYPE_GROUPED:
                 return isset($config['super_group']);
             case Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD:
                 return isset($config['giftcard_amount']);
@@ -775,16 +775,16 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      * Load product by specified sku
      *
      * @param string $sku
-     * @return bool|Mage_Catalog_Model_Product
+     * @return bool|Magento_Catalog_Model_Product
      */
     protected function _loadProductBySku($sku)
     {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product')
             ->setStore($this->getCurrentStore())
             ->loadByAttribute('sku', $sku);
         if ($product && $product->getId()) {
-            Mage::getModel('Mage_CatalogInventory_Model_Stock_Item')->assignProduct($product);
+            Mage::getModel('Magento_CatalogInventory_Model_Stock_Item')->assignProduct($product);
         }
 
         return $product;
@@ -794,10 +794,10 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      * Check whether required option is not missed, add values to configuration
      *
      * @param array $skuParts
-     * @param Mage_Catalog_Model_Product_Option $option
+     * @param Magento_Catalog_Model_Product_Option $option
      * @return bool
      */
-    protected function _processProductOption(array &$skuParts, Mage_Catalog_Model_Product_Option $option)
+    protected function _processProductOption(array &$skuParts, Magento_Catalog_Model_Product_Option $option)
     {
         $missedRequired = true;
         $optionValues = $option->getValues();
@@ -833,7 +833,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      *
      * @param string $sku
      * @param array $config
-     * @return bool|Mage_Catalog_Model_Product
+     * @return bool|Magento_Catalog_Model_Product
      */
     protected function _loadProductWithOptionsBySku($sku, $config = array())
     {
@@ -859,8 +859,8 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             $missedRequiredOption = false;
             $this->_successOptions = array();
 
-            /** @var $option Mage_Catalog_Model_Product_Option */
-            $option = Mage::getModel('Mage_Catalog_Model_Product_Option')
+            /** @var $option Magento_Catalog_Model_Product_Option */
+            $option = Mage::getModel('Magento_Catalog_Model_Product_Option')
                 ->setAddRequiredFilter(true)
                 ->setAddRequiredFilterValue(true);
 
@@ -891,14 +891,14 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Check whether specified option could have multiple values
      *
-     * @param Mage_Catalog_Model_Product_Option $option
+     * @param Magento_Catalog_Model_Product_Option $option
      * @return bool
      */
     protected function _isOptionMultiple($option)
     {
         switch ($option->getType()) {
-            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE:
-            case Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
+            case Magento_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE:
+            case Magento_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX:
                 return true;
         }
         return false;
@@ -907,8 +907,8 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Add product option for configuring
      *
-     * @param Mage_Catalog_Model_Product_Option $option
-     * @param Mage_Catalog_Model_Product_Option_Value $value
+     * @param Magento_Catalog_Model_Product_Option $option
+     * @param Magento_Catalog_Model_Product_Option_Value $value
      * @return Enterprise_Checkout_Model_Cart
      */
     protected function _addSuccessOption($option, $value)
@@ -982,7 +982,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             $this->setAffectedItemConfig($sku, $config);
         }
 
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = $this->_loadProductWithOptionsBySku($item['sku'], $config);
 
         if ($product && $product->hasConfiguredOptions()) {
@@ -992,7 +992,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
         if ($product && $product->getId()) {
             $item['id'] = $product->getId();
 
-            $item['is_qty_disabled'] = $product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_GROUPED;
+            $item['is_qty_disabled'] = $product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_GROUPED;
 
             if ($this->_isCheckout() && $product->isDisabled()) {
                 $item['is_configure_disabled'] = true;
@@ -1054,7 +1054,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Check product availability for current website
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool|string
      */
     protected function _validateProductWebsite($product)
@@ -1105,7 +1105,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Check whether specified product is out of stock
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool
      */
     protected function _isProductOutOfStock($product)
@@ -1127,8 +1127,8 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             return true;
         }
 
-        /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-        $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+        /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+        $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
         $stockItem->loadByProduct($product);
         $stockItem->setProduct($product);
         return !$stockItem->getIsInStock();
@@ -1137,7 +1137,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Check whether specified product should be configured
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool
      */
     protected function _shouldBeConfigured($product)

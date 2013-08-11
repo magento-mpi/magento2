@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,32 +12,32 @@
  * Advanced search result
  *
  * @category   Mage
- * @package    Mage_CatalogSearch
+ * @package    Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Template
+class Magento_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Template
 {
     protected function _prepareLayout()
     {
         if ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')) {
             $breadcrumbs->addCrumb('home', array(
-                'label'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Home'),
-                'title'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Go to Home Page'),
+                'label'=>Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Home'),
+                'title'=>Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Go to Home Page'),
                 'link'=>Mage::getBaseUrl()
             ))->addCrumb('search', array(
-                'label'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Catalog Advanced Search'),
+                'label'=>Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Catalog Advanced Search'),
                 'link'=>$this->getUrl('*/*/')
             ))->addCrumb('search_result', array(
-                'label'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Results')
+                'label'=>Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Results')
             ));
         }
         return parent::_prepareLayout();
     }
 
     public function setListOrders() {
-        $category = Mage::getSingleton('Mage_Catalog_Model_Layer')
+        $category = Mage::getSingleton('Magento_Catalog_Model_Layer')
             ->getCurrentCategory();
-        /* @var $category Mage_Catalog_Model_Category */
+        /* @var $category Magento_Catalog_Model_Category */
 
         $availableOrders = $category->getAvailableSortByOptions();
         unset($availableOrders['position']);
@@ -49,8 +49,8 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Templa
     public function setListModes() {
         $this->getChildBlock('search_result_list')
             ->setModes(array(
-                'grid' => Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Grid'),
-                'list' => Mage::helper('Mage_CatalogSearch_Helper_Data')->__('List'))
+                'grid' => Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Grid'),
+                'list' => Mage::helper('Magento_CatalogSearch_Helper_Data')->__('List'))
             );
     }
 
@@ -65,7 +65,7 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Templa
 
     public function getSearchModel()
     {
-        return Mage::getSingleton('Mage_CatalogSearch_Model_Advanced');
+        return Mage::getSingleton('Magento_CatalogSearch_Model_Advanced');
     }
 
     public function getResultCount()

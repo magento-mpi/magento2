@@ -20,7 +20,7 @@
                         </resource>
                     </resource>
                 </resource>
-                <resource id="Mage_Catalog::catalog">
+                <resource id="Magento_Catalog::catalog">
                     <resource id="Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions" module="Enterprise_CatalogPermissions" title="Category Permissions" />
                 </resource>
             </resource>

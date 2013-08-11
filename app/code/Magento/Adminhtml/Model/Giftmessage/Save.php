@@ -236,7 +236,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
         $allowedItems = $this->getAllowQuoteItems();
         $deleteAllowedItems = array();
         foreach ($products as $productId=>$data) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStore($this->_getSession()->getStore())
                 ->load($productId);
             $item = $this->_getQuote()->getItemByProduct($product);

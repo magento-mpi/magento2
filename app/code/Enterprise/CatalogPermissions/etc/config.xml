@@ -16,8 +16,8 @@
             <active>false</active>
             <depends>
                 <Magento_Adminhtml/>
-                <Mage_Catalog/>
-                <Mage_CatalogSearch/>
+                <Magento_Catalog/>
+                <Magento_CatalogSearch/>
                 <Mage_Sales/>
                 <Mage_Checkout/>
                 <Enterprise_WebsiteRestriction/>

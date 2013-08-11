@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-class Mage_CatalogSearch_Controller_Term extends Magento_Core_Controller_Front_Action {
+class Magento_CatalogSearch_Controller_Term extends Magento_Core_Controller_Front_Action {
 
     public function preDispatch(){
         parent::preDispatch();

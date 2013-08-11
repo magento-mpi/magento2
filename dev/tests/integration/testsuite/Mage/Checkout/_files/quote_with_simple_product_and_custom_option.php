@@ -9,21 +9,21 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../Catalog/_files/product_simple.php';
+require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 
-/** @var $product Mage_Catalog_Model_Product */
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+/** @var $product Magento_Catalog_Model_Product */
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load(1);
 
 $options = array();
 
-/** @var $option Mage_Catalog_Model_Product_Option */
+/** @var $option Magento_Catalog_Model_Product_Option */
 foreach ($product->getOptions() as $option) {
     switch ($option->getGroupByType()) {
-        case Mage_Catalog_Model_Product_Option::OPTION_GROUP_DATE:
+        case Magento_Catalog_Model_Product_Option::OPTION_GROUP_DATE:
             $value = Mage::getModel('Magento_Core_Model_Date')->date();
             break;
-        case Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT:
+        case Magento_Catalog_Model_Product_Option::OPTION_GROUP_SELECT:
             $value = key($option->getValues());
             break;
         default:

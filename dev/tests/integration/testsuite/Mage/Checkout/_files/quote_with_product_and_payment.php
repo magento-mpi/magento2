@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../Catalog/_files/products.php';
+require __DIR__ . '/../../../Magento/Catalog/_files/products.php';
 
 /** @var $quote Mage_Sales_Model_Quote */
 $quote = Mage::getModel('Mage_Sales_Model_Quote');

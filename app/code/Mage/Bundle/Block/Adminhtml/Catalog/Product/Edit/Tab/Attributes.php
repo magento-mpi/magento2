@@ -123,11 +123,11 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
                 function changePriceTypeMap() {
                     if ($('price_type').value == " . Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC . ") {
                         $('msrp_enabled').setValue("
-                        . Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_NO
+                        . Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_NO
                         . ");
                         $('msrp_enabled').disable();
                         $('msrp_display_actual_price_type').setValue("
-                        . Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG
+                        . Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG
                         . ");
                         $('msrp_display_actual_price_type').disable();
                         $('msrp').setValue('');
@@ -151,7 +151,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes
     /**
      * Get current product from registry
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {

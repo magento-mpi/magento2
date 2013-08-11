@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * MinSaleQty value manipulation helper
  */
-class Mage_CatalogInventory_Helper_Minsaleqty
+class Magento_CatalogInventory_Helper_Minsaleqty
 {
     /**
      * Retrieve fixed qty value
@@ -139,7 +139,7 @@ class Mage_CatalogInventory_Helper_Minsaleqty
      */
     public function getConfigValue($customerGroupId, $store = null)
     {
-        $value = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MIN_SALE_QTY, $store);
+        $value = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MIN_SALE_QTY, $store);
         $value = $this->_unserializeValue($value);
         if ($this->_isEncodedArrayFieldValue($value)) {
             $value = $this->_decodeArrayFieldValue($value);

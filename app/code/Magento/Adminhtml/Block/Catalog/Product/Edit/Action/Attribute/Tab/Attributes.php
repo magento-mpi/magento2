@@ -42,14 +42,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
 
         $form = new Magento_Data_Form();
         $fieldset = $form->addFieldset('fields', array(
-            'legend' => Mage::helper('Mage_Catalog_Helper_Data')->__('Attributes'),
+            'legend' => Mage::helper('Magento_Catalog_Helper_Data')->__('Attributes'),
         ));
         $attributes = $this->getAttributes();
         /**
          * Initialize product object as form property
          * for using it in elements generation
          */
-        $form->setDataObject(Mage::getModel('Mage_Catalog_Model_Product'));
+        $form->setDataObject(Mage::getModel('Magento_Catalog_Model_Product'));
         $this->_setFieldset($attributes, $fieldset, $this->getFormExcludedFieldList());
         $form->setFieldNameSuffix('attributes');
         $this->setForm($form);
@@ -92,7 +92,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
         // Add name attribute to checkboxes that correspond to multiselect elements
         $nameAttributeHtml = $element->getExtType() === 'multiple' ? 'name="' . $element->getId() . '_checkbox"' : '';
         $elementId = $element->getId();
-        $checkboxLabel = Mage::helper('Mage_Catalog_Helper_Data')->__('Change');
+        $checkboxLabel = Mage::helper('Magento_Catalog_Helper_Data')->__('Change');
         $html = <<<HTML
 <span class="attribute-change-checkbox">
     <label>
@@ -114,12 +114,12 @@ HTML;
 
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Attributes');
+        return Mage::helper('Magento_Catalog_Helper_Data')->__('Attributes');
     }
 
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Attributes');
+        return Mage::helper('Magento_Catalog_Helper_Data')->__('Attributes');
     }
 
     public function canShowTab()

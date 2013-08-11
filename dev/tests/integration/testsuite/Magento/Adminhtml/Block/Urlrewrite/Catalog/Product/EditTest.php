@@ -260,12 +260,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_EditTest extends PHPUni
     {
         /** @var $urlRewrite Magento_Core_Model_Url_Rewrite */
         $urlRewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite');
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product',
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product',
             array('data' => array('entity_id' => 1, 'name' => 'Test product'))
         );
-        /** @var $category Mage_Catalog_Model_Category */
-        $category = Mage::getModel('Mage_Catalog_Model_Category',
+        /** @var $category Magento_Catalog_Model_Category */
+        $category = Mage::getModel('Magento_Catalog_Model_Category',
             array('data' => array('entity_id' => 1, 'name' => 'Test category'))
         );
         /** @var $existingUrlRewrite Magento_Core_Model_Url_Rewrite */

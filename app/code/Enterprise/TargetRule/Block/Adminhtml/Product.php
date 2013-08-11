@@ -49,7 +49,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Bl
     /**
      * Retrieve current edit product instance
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {

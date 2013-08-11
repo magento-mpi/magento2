@@ -53,7 +53,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Magen
             }
 
             // prepare products collection and apply visitors log to it
-            $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+            $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
                 ->setStoreId($this->getQuote()->getStoreId())
                 ->addStoreFilter($this->getQuote()->getStoreId())
                 ->addAttributeToSelect('name')
@@ -82,7 +82,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Magen
     /**
      * Get product Id
      *
-     * @param Mage_Catalog_Model_Product $item
+     * @param Magento_Catalog_Model_Product $item
      * @return int
      */
     public function getIdentifierId($item)

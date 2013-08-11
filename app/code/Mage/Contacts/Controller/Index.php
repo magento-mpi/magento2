@@ -44,7 +44,7 @@ class Mage_Contacts_Controller_Index extends Magento_Core_Controller_Front_Actio
             ->setFormAction( Mage::getUrl('*/*/post') );
 
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
-        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
         $this->renderLayout();
     }
 

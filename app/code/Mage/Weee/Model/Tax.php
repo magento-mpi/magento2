@@ -160,7 +160,7 @@ class Mage_Weee_Model_Tax extends Magento_Core_Model_Abstract
                     }
 
                     $one = new Magento_Object();
-                    $one->setName(Mage::helper('Mage_Catalog_Helper_Data')->__($attribute->getFrontend()->getLabel()))
+                    $one->setName(Mage::helper('Magento_Catalog_Helper_Data')->__($attribute->getFrontend()->getLabel()))
                         ->setAmount($amount)
                         ->setTaxAmount($taxAmount)
                         ->setCode($attribute->getAttributeCode());

@@ -14,7 +14,7 @@
         <resources>
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
-                    <resource id="Mage_CatalogRule::promo">
+                    <resource id="Magento_CatalogRule::promo">
                         <resource id="Mage_SalesRule::quote" module="Mage_SalesRule" sortOrder="30" title="Cart Price Rules" />
                     </resource>
                 </resource>

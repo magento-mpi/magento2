@@ -3,18 +3,18 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogRule
+ * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_CatalogRule_Model_Resource_Rule_Product_Price_Collection
+class Magento_CatalogRule_Model_Resource_Rule_Product_Price_Collection
     extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Mage_CatalogRule_Model_Rule_Product_Price', 'Mage_CatalogRule_Model_Resource_Rule_Product_Price');
+        $this->_init('Magento_CatalogRule_Model_Rule_Product_Price', 'Magento_CatalogRule_Model_Resource_Rule_Product_Price');
     }
 
     /**

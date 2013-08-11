@@ -16,7 +16,7 @@ class Mage_Tax_Model_Class_Type_Product
     implements Mage_Tax_Model_Class_Type_Interface
 {
     /**
-     * @var Mage_Catalog_Model_Product
+     * @var Magento_Catalog_Model_Product
      */
     protected $_modelProduct;
 
@@ -34,13 +34,13 @@ class Mage_Tax_Model_Class_Type_Product
 
     /**
      * @param Mage_Tax_Model_Calculation_Rule $calculationRule
-     * @param Mage_Catalog_Model_Product $modelProduct
+     * @param Magento_Catalog_Model_Product $modelProduct
      * @param Mage_Tax_Helper_Data $helper
      * @param array $data
      */
     public function __construct(
         Mage_Tax_Model_Calculation_Rule $calculationRule,
-        Mage_Catalog_Model_Product $modelProduct,
+        Magento_Catalog_Model_Product $modelProduct,
         Mage_Tax_Helper_Data $helper,
         array $data = array()
     ) {

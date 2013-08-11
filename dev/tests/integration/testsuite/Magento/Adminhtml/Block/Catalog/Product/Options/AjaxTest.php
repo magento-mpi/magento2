@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends PHPUnit_F
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_with_options.php
+     * @magentoDataFixture Magento/Catalog/_files/product_with_options.php
      */
     public function testToHtml()
     {

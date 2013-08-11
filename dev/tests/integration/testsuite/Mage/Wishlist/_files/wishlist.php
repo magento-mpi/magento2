@@ -10,7 +10,7 @@
  */
 
 require __DIR__ . '/../../Customer/_files/customer.php';
-require __DIR__ . '/../../Catalog/_files/product_simple.php';
+require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 
 $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
 $wishlist->loadByCustomer($customer->getId(), true);

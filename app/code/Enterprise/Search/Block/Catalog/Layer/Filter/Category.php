@@ -15,7 +15,7 @@
  * @package     Enterprise_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Catalog_Layer_Filter_Category extends Mage_Catalog_Block_Layer_Filter_Abstract
+class Enterprise_Search_Block_Catalog_Layer_Filter_Category extends Magento_Catalog_Block_Layer_Filter_Abstract
 {
     /**
      * Set model name

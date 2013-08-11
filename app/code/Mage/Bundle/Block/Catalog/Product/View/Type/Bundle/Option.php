@@ -110,7 +110,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
     /**
      * Define if selection is selected
      *
-     * @param  Mage_Catalog_Model_Product $selection
+     * @param  Magento_Catalog_Model_Product $selection
      * @return bool
      */
     public function isSelected($selection)
@@ -150,7 +150,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
     /**
      * Get product model
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -176,7 +176,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
     /**
      * Get price for selection product
      *
-     * @param Mage_Catalog_Model_Product $_selection
+     * @param Magento_Catalog_Model_Product $_selection
      * @return int|float
      */
     public function getSelectionPrice($_selection)
@@ -196,7 +196,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option extends Mage_Bun
     /**
      * Get title price for selection product
      *
-     * @param Mage_Catalog_Model_Product $_selection
+     * @param Magento_Catalog_Model_Product $_selection
      * @param bool $includeContainer
      * @return string
      */

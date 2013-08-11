@@ -33,42 +33,42 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
         $this->addChild('edit_set_form', 'Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset');
 
         $this->addChild('delete_group_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Selected Group'),
+            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Delete Selected Group'),
             'onclick'   => 'editSet.submit();',
             'class'     => 'delete'
         ));
 
         $this->addChild('add_group_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add New'),
+            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Add New'),
             'onclick'   => 'editSet.addGroup();',
             'class'     => 'add'
         ));
 
         $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Back'),
+            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Back'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
             'class'     => 'back'
         ));
 
         $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Reset'),
+            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Reset'),
             'onclick'   => 'window.location.reload()'
         ));
 
         $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Save Attribute Set'),
+            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Save Attribute Set'),
             'onclick'   => 'editSet.save();',
             'class'     => 'save'
         ));
 
         $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Attribute Set'),
-            'onclick'   => 'deleteConfirm(\''. $this->jsQuoteEscape(Mage::helper('Mage_Catalog_Helper_Data')->__('You are about to delete all products in this set. Are you sure you want to delete this attribute set?')) . '\', \'' . $this->getUrl('*/*/delete', array('id' => $setId)) . '\')',
+            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Delete Attribute Set'),
+            'onclick'   => 'deleteConfirm(\''. $this->jsQuoteEscape(Mage::helper('Magento_Catalog_Helper_Data')->__('You are about to delete all products in this set. Are you sure you want to delete this attribute set?')) . '\', \'' . $this->getUrl('*/*/delete', array('id' => $setId)) . '\')',
             'class'     => 'delete'
         ));
 
         $this->addChild('rename_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('New Set Name'),
+            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('New Set Name'),
             'onclick'   => 'editSet.rename()'
         ));
 
@@ -102,7 +102,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
      */
     protected function _getHeader()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__("Edit Attribute Set '%s'", $this->_getAttributeSet()->getAttributeSetName());
+        return Mage::helper('Magento_Catalog_Helper_Data')->__("Edit Attribute Set '%s'", $this->_getAttributeSet()->getAttributeSetName());
     }
 
     /**
@@ -142,10 +142,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
             ->setSortOrder()
             ->load();
 
-        $configurable = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute')
+        $configurable = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute')
             ->getUsedAttributes($setId);
 
-        $unassignableAttributes = Mage::helper('Mage_Catalog_Helper_Product')->getUnassignableAttributes();
+        $unassignableAttributes = Mage::helper('Magento_Catalog_Helper_Product')->getUnassignableAttributes();
 
         /* @var $node Mage_Eav_Model_Entity_Attribute_Group */
         foreach ($groups as $node) {
@@ -156,7 +156,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
             $item['allowDrop']  = true;
             $item['allowDrag']  = true;
 
-            $nodeChildren = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
+            $nodeChildren = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
                 ->setAttributeGroupFilter($node->getId())
                 ->addVisibleFilter()
                 ->load();
@@ -201,7 +201,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
         $items = array();
         $setId = $this->_getSetId();
 
-        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
+        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
             ->setAttributeSetFilter($setId)
             ->load();
 
@@ -211,7 +211,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
             $attributesIds[] = $item->getAttributeId();
         }
 
-        $attributes = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
+        $attributes = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
             ->setAttributesExcludeFilter($attributesIds)
             ->addVisibleFilter()
             ->load();
@@ -234,7 +234,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
 
         if (count($items) == 0) {
             $items[] = array(
-                'text'      => Mage::helper('Mage_Catalog_Helper_Data')->__('Empty'),
+                'text'      => Mage::helper('Magento_Catalog_Helper_Data')->__('Empty'),
                 'id'        => 'empty',
                 'cls'       => 'folder',
                 'allowDrop' => false,

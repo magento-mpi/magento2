@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Search_Model_Resource_Index extends Mage_CatalogSearch_Model_Resource_Fulltext
+class Enterprise_Search_Model_Resource_Index extends Magento_CatalogSearch_Model_Resource_Fulltext
 {
     /**
      * Return array of price data per customer and website by products

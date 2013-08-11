@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
             . $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getContinueUrl())
             . ").addClass('ignore-validate').submit();";
         $this->addChild('continue_button', 'Mage_Backend_Block_Widget_Button', array(
-            'label'   => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variations'),
+            'label'   => Mage::helper('Magento_Catalog_Helper_Data')->__('Generate Variations'),
             'onclick' => $onclick,
             'class'   => 'save',
         ));
@@ -38,7 +38,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
     /**
      * Retrieve currently edited product object
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -54,7 +54,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
     {
         $form = new Magento_Data_Form();
         $fieldset = $form->addFieldset('settings', array(
-            'legend' => Mage::helper('Mage_Catalog_Helper_Data')->__('Select Configurable Attributes')
+            'legend' => Mage::helper('Magento_Catalog_Helper_Data')->__('Select Configurable Attributes')
         ));
 
         $fieldset->addField('configurable-attribute-selector', 'text', array(
@@ -63,13 +63,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
         ));
 
         $product = $this->getProduct();
-        /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
-        $configurableType = Mage::getSingleton('Mage_Catalog_Model_Product_Type_Configurable');
+        /** @var $configurableType Magento_Catalog_Model_Product_Type_Configurable */
+        $configurableType = Mage::getSingleton('Magento_Catalog_Model_Product_Type_Configurable');
         $usedAttributes = $product->isConfigurable()
             ? $configurableType->getUsedProductAttributes($product)
             : array();
         foreach ($usedAttributes as $attribute) {
-            /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+            /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
             if ($configurableType->canUseAttribute($attribute, $product)) {
                 $fieldset->addField('attribute_' . $attribute->getAttributeId(), 'checkbox', array(
                     'label' => $attribute->getFrontendLabel(),

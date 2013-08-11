@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-/** @var $product Mage_Catalog_Model_Product */
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+/** @var $product Magento_Catalog_Model_Product */
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 
-$product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL)
+$product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL)
     ->setId(1)
     ->setAttributeSetId(4)
     ->setName('Simple Product')
@@ -23,7 +23,7 @@ $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL)
     ->setShortDescription('short description')
     ->setOptionsContainer('container1')
     ->setMsrpDisplayActualPriceType(
-        Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_IN_CART
+        Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_IN_CART
     )
     ->setPrice(10)
     ->setWeight(1)
@@ -31,8 +31,8 @@ $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL)
     ->setMetaKeyword('meta keyword')
     ->setMetaDescription('meta description')
 
-    ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setWebsiteIds(array(1))
     ->setCateroryIds(array())
     ->setStockData(

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Search collection
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_Model_Resource_Product_Collection
+class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Catalog_Model_Resource_Product_Collection
 {
     /**
      * Attribute collection
@@ -36,7 +36,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
      * Add search query filter
      *
      * @param string $query
-     * @return Mage_CatalogSearch_Model_Resource_Search_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Search_Collection
      */
     public function addSearchFilter($query)
     {
@@ -54,7 +54,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
     {
         if (!$this->_attributesCollection) {
             $this->_attributesCollection = Mage::getResourceModel(
-                    'Mage_Catalog_Model_Resource_Product_Attribute_Collection'
+                    'Magento_Catalog_Model_Resource_Product_Attribute_Collection'
                 )
                 ->load();
 
@@ -68,7 +68,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
     /**
      * Check attribute is Text and is Searchable
      *
-     * @param Mage_Catalog_Model_Entity_Attribute $attribute
+     * @param Magento_Catalog_Model_Entity_Attribute $attribute
      * @return boolean
      */
     protected function _isAttributeTextAndSearchable($attribute)
@@ -85,7 +85,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
     /**
      * Check attributes has options and searchable
      *
-     * @param Mage_Catalog_Model_Entity_Attribute $attribute
+     * @param Magento_Catalog_Model_Entity_Attribute $attribute
      * @return boolean
      */
     protected function _hasAttributeOptionsAndSearchable($attribute)
@@ -117,7 +117,7 @@ class Mage_CatalogSearch_Model_Resource_Search_Collection extends Mage_Catalog_M
          * Collect tables and attribute ids of attributes with string values
          */
         foreach ($this->_getAttributesCollection() as $attribute) {
-            /** @var Mage_Catalog_Model_Entity_Attribute $attribute */
+            /** @var Magento_Catalog_Model_Entity_Attribute $attribute */
             $attributeCode = $attribute->getAttributeCode();
             if ($this->_isAttributeTextAndSearchable($attribute)) {
                 $table = $attribute->getBackendTable();

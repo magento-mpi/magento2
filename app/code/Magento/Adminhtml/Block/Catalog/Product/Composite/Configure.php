@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magent
     /**
      * Retrieve product object
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magent
             if (Mage::registry('current_product')) {
                 $this->_product = Mage::registry('current_product');
             } else {
-                $this->_product = Mage::getSingleton('Mage_Catalog_Model_Product');
+                $this->_product = Mage::getSingleton('Magento_Catalog_Model_Product');
             }
         }
         return $this->_product;
@@ -41,10 +41,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magent
     /**
      * Set product object
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Magento_Adminhtml_Block_Catalog_Product_Composite_Configure
      */
-    public function setProduct(Mage_Catalog_Model_Product $product = null)
+    public function setProduct(Magento_Catalog_Model_Product $product = null)
     {
         $this->_product = $product;
         return $this;

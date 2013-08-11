@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Search_Model_Fulltext extends Mage_CatalogSearch_Model_Fulltext
+class Saas_Search_Model_Fulltext extends Magento_CatalogSearch_Model_Fulltext
 {
     /**
      * Init resource model

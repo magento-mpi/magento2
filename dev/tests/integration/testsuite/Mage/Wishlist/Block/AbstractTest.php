@@ -26,13 +26,13 @@ class Mage_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Catalog/_files/product_with_image.php
+     * @magentoDataFixture Magento/Catalog/_files/product_with_image.php
      */
     public function testImage()
     {
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         Mage::getDesign()->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->setDefaultDesignTheme();
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1);
 
         $size = $this->_block->getImageSize();

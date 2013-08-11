@@ -36,7 +36,7 @@ class Magento_Adminhtml_Block_Review_Main extends Magento_Adminhtml_Block_Widget
         $productId = $this->getRequest()->getParam('productId', false);
         $productName = null;
         if ($productId) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
+            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
             $productName =  $this->escapeHtml($product->getName());
         }
 

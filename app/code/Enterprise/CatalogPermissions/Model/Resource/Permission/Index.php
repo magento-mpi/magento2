@@ -807,7 +807,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     /**
      * Add index to product count select in product collection
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      * @param int $customerGroupId
      * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
      */
@@ -847,7 +847,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     /**
      * Add index to category collection
      *
-     * @param Mage_Catalog_Model_Resource_Category_Collection|Mage_Catalog_Model_Resource_Category_Flat_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Category_Collection|Magento_Catalog_Model_Resource_Category_Flat_Collection $collection
      * @param int $customerGroupId
      * @param int $websiteId
      * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
@@ -855,7 +855,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     public function addIndexToCategoryCollection($collection, $customerGroupId, $websiteId)
     {
         $adapter = $this->_getReadAdapter();
-        if ($collection instanceof Mage_Catalog_Model_Resource_Category_Flat_Collection) {
+        if ($collection instanceof Magento_Catalog_Model_Resource_Category_Flat_Collection) {
             $tableAlias = 'main_table';
         } else {
             $tableAlias = 'e';
@@ -886,7 +886,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     /**
      * Add index select in product collection
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      * @param int $customerGroupId
      * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
      */
@@ -940,8 +940,8 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
             if (method_exists($collection, 'getLinkModel')) {
                 $linkTypeId = $collection->getLinkModel()->getLinkTypeId();
                 $linkTypeIds = array(
-                    Mage_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL,
-                    Mage_Catalog_Model_Product_Link::LINK_TYPE_UPSELL
+                    Magento_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL,
+                    Magento_Catalog_Model_Product_Link::LINK_TYPE_UPSELL
                 );
 
                 /*
@@ -981,7 +981,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     /**
      * Add permission index to product model
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param int $customerGroupId
      * @return Enterprise_CatalogPermissions_Model_Resource_Permission_Index
      */

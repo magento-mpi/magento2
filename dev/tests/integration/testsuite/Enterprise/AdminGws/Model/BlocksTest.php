@@ -34,7 +34,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
 
     /**
      * @magentoConfigFixture admin_store catalog/enterprise_catalogpermissions/enabled 1
-     * @magentoDataFixture Mage/Catalog/_files/categories.php
+     * @magentoDataFixture Magento/Catalog/_files/categories.php
      * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
      */
     public function testValidateCatalogPermissionsWebsites()
@@ -47,7 +47,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
 
     /**
      * @magentoConfigFixture admin_store catalog/enterprise_catalogpermissions/enabled 1
-     * @magentoDataFixture Mage/Catalog/_files/categories.php
+     * @magentoDataFixture Magento/Catalog/_files/categories.php
      * @magentoDataFixture Enterprise/AdminGws/_files/role_stores_login.php
      */
     public function testValidateCatalogPermissionsStoreGroups()

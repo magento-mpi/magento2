@@ -11,10 +11,10 @@
 /**
  * Block for Catalog Category URL rewrites editing
  *
- * @method Mage_Catalog_Model_Category getCategory()
- * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit setCategory(Mage_Catalog_Model_Category $category)
- * @method Mage_Catalog_Model_Product getProduct()
- * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit setProduct(Mage_Catalog_Model_Product $product)
+ * @method Magento_Catalog_Model_Category getCategory()
+ * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit setCategory(Magento_Catalog_Model_Category $category)
+ * @method Magento_Catalog_Model_Product getProduct()
+ * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit setProduct(Magento_Catalog_Model_Product $product)
  * @method bool getIsCategoryMode()
  *
  * @category   Magento
@@ -66,12 +66,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
     /**
      * Get or create new instance of product
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     private function _getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setProduct(Mage::getModel('Mage_Catalog_Model_Product'));
+            $this->setProduct(Mage::getModel('Magento_Catalog_Model_Product'));
         }
         return $this->getProduct();
     }
@@ -79,12 +79,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Magento_Ad
     /**
      * Get or create new instance of category
      *
-     * @return Mage_Catalog_Model_Category
+     * @return Magento_Catalog_Model_Category
      */
     private function _getCategory()
     {
         if (!$this->hasData('category')) {
-            $this->setCategory(Mage::getModel('Mage_Catalog_Model_Category'));
+            $this->setCategory(Mage::getModel('Magento_Catalog_Model_Category'));
         }
         return $this->getCategory();
     }

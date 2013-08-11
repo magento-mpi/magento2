@@ -14,7 +14,7 @@ class Mage_Wishlist_Controller_IndexTest extends PHPUnit_Framework_TestCase
     public function testControllerImplementsProductViewInterface()
     {
         $this->assertInstanceOf(
-            'Mage_Catalog_Controller_Product_View_Interface',
+            'Magento_Catalog_Controller_Product_View_Interface',
             $this->getMock('Mage_Wishlist_Controller_Index', array(), array(), '', false)
         );
     }

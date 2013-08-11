@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Mage_Bac
     /**
      * Retrieve edited product model instance
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -103,7 +103,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Mage_Bac
     {
         if (!$this->_storeFromHtml) {
             $this->_storeFromHtml = '<select name="copy_to_stores[__store_identifier__]" disabled="disabled">';
-            $this->_storeFromHtml.= '<option value="0">'.Mage::helper('Mage_Catalog_Helper_Data')->__('Default Values').'</option>';
+            $this->_storeFromHtml.= '<option value="0">'.Mage::helper('Magento_Catalog_Helper_Data')->__('Default Values').'</option>';
             foreach ($this->getWebsiteCollection() as $_website) {
                 if (!$this->hasWebsite($_website->getId())) {
                     continue;

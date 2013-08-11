@@ -7,7 +7,7 @@
  */
 
 /**
- * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+ * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  * @magentoDataFixture Enterprise/Banner/_files/banner_catalog_rule.php
  */
 class Enterprise_Banner_Model_Resource_Catalogrule_CollectionTest extends PHPUnit_Framework_TestCase

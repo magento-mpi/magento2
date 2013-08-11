@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_Weee_Model_Attribute_Backend_Weee_Tax extends Mage_Catalog_Model_Product_Attribute_Backend_Price
+class Mage_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Model_Product_Attribute_Backend_Price
 {
     public static function getBackendModelName()
     {
@@ -17,7 +17,7 @@ class Mage_Weee_Model_Attribute_Backend_Weee_Tax extends Mage_Catalog_Model_Prod
     /**
      * Retrieve resource model
      *
-     * @return Mage_Catalog_Model_Resource_Product_Attribute_Backend_Weee
+     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Weee
      */
     protected function _getResource()
     {
@@ -27,7 +27,7 @@ class Mage_Weee_Model_Attribute_Backend_Weee_Tax extends Mage_Catalog_Model_Prod
     /**
      * Validate data
      *
-     * @param   Mage_Catalog_Model_Product $object
+     * @param   Magento_Catalog_Model_Product $object
      * @return  this
      */
     public function validate($object)
@@ -48,7 +48,7 @@ class Mage_Weee_Model_Attribute_Backend_Weee_Tax extends Mage_Catalog_Model_Prod
 
             if (!empty($dup[$key1])) {
                 Mage::throwException(
-                    Mage::helper('Mage_Catalog_Helper_Data')->__('We found a duplicate website, country, and state tax.')
+                    Mage::helper('Magento_Catalog_Helper_Data')->__('We found a duplicate website, country, and state tax.')
                 );
             }
             $dup[$key1] = 1;
@@ -59,8 +59,8 @@ class Mage_Weee_Model_Attribute_Backend_Weee_Tax extends Mage_Catalog_Model_Prod
     /**
      * Assign WEEE taxes to product data
      *
-     * @param   Mage_Catalog_Model_Product $object
-     * @return  Mage_Catalog_Model_Product_Attribute_Backend_Weee
+     * @param   Magento_Catalog_Model_Product $object
+     * @return  Magento_Catalog_Model_Product_Attribute_Backend_Weee
      */
     public function afterLoad($object)
     {

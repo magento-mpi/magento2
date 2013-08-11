@@ -20,8 +20,8 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends Mage_Backe
      */
     public function testAddCommentAction()
     {
-        /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-        $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+        /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+        $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
         $stockItem->loadByProduct(1);
         $this->assertEquals(95, $stockItem->getStockQty());
         $stockItem = null;
@@ -42,8 +42,8 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends Mage_Backe
         $html = $this->getResponse()->getBody();
 
         $this->assertContains($comment, $html);
-        /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-        $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+        /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+        $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
         $stockItem->loadByProduct(1);
         $this->assertEquals(95, $stockItem->getStockQty());
     }

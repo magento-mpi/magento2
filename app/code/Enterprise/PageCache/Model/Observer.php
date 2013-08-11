@@ -162,9 +162,9 @@ class Enterprise_PageCache_Model_Observer
          */
         if ($this->_processor->canProcessRequest($request) && $this->_processor->getRequestProcessor($request)) {
             $this->_cache->banUse(Magento_Core_Block_Abstract::CACHE_GROUP); // disable blocks cache
-            Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
+            Mage::getSingleton('Magento_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
         } else {
-            Mage::getSingleton('Mage_Catalog_Model_Session')->setParamsMemorizeDisabled(false);
+            Mage::getSingleton('Magento_Catalog_Model_Session')->setParamsMemorizeDisabled(false);
         }
         $this->_cookie->updateCustomerCookies();
         return $this;
@@ -371,7 +371,7 @@ class Enterprise_PageCache_Model_Observer
             return $this;
         }
 
-        $listItems = Mage::helper('Mage_Catalog_Helper_Product_Compare')->getItemCollection();
+        $listItems = Mage::helper('Magento_Catalog_Helper_Product_Compare')->getItemCollection();
         $previouseList = $this->_cookie->get(Enterprise_PageCache_Model_Cookie::COOKIE_COMPARE_LIST);
         $previouseList = (empty($previouseList)) ? array() : explode(',', $previouseList);
 
@@ -445,7 +445,7 @@ class Enterprise_PageCache_Model_Observer
             ->setAddedAtOrder()
             ->setPageSize($countLimit)
             ->setCurPage(1)
-            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
 
         $productIds = $collection->load()->getLoadedIds();
         $productIds = implode(',', $productIds);

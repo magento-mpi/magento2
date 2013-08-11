@@ -20,7 +20,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_EditTest extends PHPUnit_Frame
      */
     public function testConstruct()
     {
-        $type = 'Mage_Catalog_Block_Product_Widget_New';
+        $type = 'Magento_Catalog_Block_Product_Widget_New';
         $theme = Mage::getDesign()->setDefaultDesignTheme()->getDesignTheme();
 
         /** @var $widgetInstance Mage_Widget_Model_Widget_Instance */

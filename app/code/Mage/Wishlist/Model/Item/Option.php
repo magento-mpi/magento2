@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Wishlist_Model_Item_Option extends Magento_Core_Model_Abstract
-    implements Mage_Catalog_Model_Product_Configuration_Item_Option_Interface
+    implements Magento_Catalog_Model_Product_Configuration_Item_Option_Interface
 {
     protected $_item;
     protected $_product;
@@ -69,7 +69,7 @@ class Mage_Wishlist_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Set option product
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @return  Mage_Wishlist_Model_Item_Option
      */
     public function setProduct($product)
@@ -82,7 +82,7 @@ class Mage_Wishlist_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Get option product
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {

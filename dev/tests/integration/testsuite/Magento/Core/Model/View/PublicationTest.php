@@ -201,7 +201,7 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
                 'theme.xml'
             ),
             array(
-                array('area' => 'frontend', 'theme' => 'test_default', 'module' => 'Mage_Catalog'),
+                array('area' => 'frontend', 'theme' => 'test_default', 'module' => 'Magento_Catalog'),
                 'layout.xml'
             ),
             array(
@@ -344,9 +344,9 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
                     'area'    => 'adminhtml',
                     'theme'   => 'magento_backend',
                     'locale'  => 'en_US',
-                    'module'  => 'Mage_Catalog',
+                    'module'  => 'Magento_Catalog',
                 ),
-                'adminhtml/magento_backend/en_US/Mage_Catalog/product/product.css',
+                'adminhtml/magento_backend/en_US/Magento_Catalog/product/product.css',
                 array(
                     'url(../../Mage_Backend/images/gallery-image-base-label.png)',
                 ),

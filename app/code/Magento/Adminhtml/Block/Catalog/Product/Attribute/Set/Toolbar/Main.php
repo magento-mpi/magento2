@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends
     protected function _prepareLayout()
     {
         $this->addChild('addButton', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add New Set'),
+            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Add New Set'),
             'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/add') . '\')',
             'class' => 'add',
         ));
@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends
 
     protected function _getHeader()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Product Templates');
+        return Mage::helper('Magento_Catalog_Helper_Data')->__('Product Templates');
     }
 
     protected function _toHtml()

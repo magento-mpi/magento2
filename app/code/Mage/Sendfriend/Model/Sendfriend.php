@@ -48,7 +48,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
     /**
      * Product Instance
      *
-     * @var Mage_Catalog_Model_Product
+     * @var Magento_Catalog_Model_Product
      */
     protected $_product;
 
@@ -124,7 +124,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
                     'message'       => $message,
                     'sender_name'   => $sender['name'],
                     'sender_email'  => $sender['email'],
-                    'product_image' => Mage::helper('Mage_Catalog_Helper_Image')->init($this->getProduct(),
+                    'product_image' => Mage::helper('Magento_Catalog_Helper_Image')->init($this->getProduct(),
                         'small_image')->resize(75),
                 )
             );
@@ -309,7 +309,7 @@ class Mage_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
     /**
      * Set product instance
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Sendfriend_Model_Sendfriend
      */
     public function setProduct($product)
@@ -321,12 +321,12 @@ class Mage_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
      * Retrieve Product instance
      *
      * @throws Magento_Core_Exception
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
         $product = $this->_getData('_product');
-        if (!$product instanceof Mage_Catalog_Model_Product) {
+        if (!$product instanceof Magento_Catalog_Model_Product) {
             Mage::throwException(Mage::helper('Mage_Sendfriend_Helper_Data')->__('Please define a correct Product instance.'));
         }
         return $product;

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * HTML select element block with customer groups options
  *
  * @category   Mage
- * @package    Mage_CatalogInventory
+ * @package    Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup extends Magento_Core_Block_Html_Select
+class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup extends Magento_Core_Block_Html_Select
 {
     /**
      * Customer groups cache

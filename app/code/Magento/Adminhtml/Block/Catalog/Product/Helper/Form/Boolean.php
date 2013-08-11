@@ -22,11 +22,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean extends Magent
         parent::_construct();
         $this->setValues(array(
             array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('No'),
+                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('No'),
                 'value' => 0,
             ),
             array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Yes'),
+                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Yes'),
                 'value' => 1,
             ),
         ));

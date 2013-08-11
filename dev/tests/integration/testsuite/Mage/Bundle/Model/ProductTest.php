@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Catalog
+ * @package     Magento_Catalog
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,24 +11,24 @@
 
 /**
  * As far none class is present as separate bundle product,
- * this test is clone of Mage_Catalog_Model_Product with product type "bundle"
+ * this test is clone of Magento_Catalog_Model_Product with product type "bundle"
  */
 class Mage_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Catalog_Model_Product
+     * @var Magento_Catalog_Model_Product
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Catalog_Model_Product');
-        $this->_model->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE);
+        $this->_model = Mage::getModel('Magento_Catalog_Model_Product');
+        $this->_model->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE);
     }
 
     public function testGetTypeId()
     {
-        $this->assertEquals(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE, $this->_model->getTypeId());
+        $this->assertEquals(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE, $this->_model->getTypeId());
     }
 
     public function testGetSetTypeInstance()
@@ -39,8 +39,8 @@ class Mage_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertSame($typeInstance, $this->_model->getTypeInstance());
 
         // singleton getter
-        $otherProduct = Mage::getModel('Mage_Catalog_Model_Product');
-        $otherProduct->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE);
+        $otherProduct = Mage::getModel('Magento_Catalog_Model_Product');
+        $otherProduct->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE);
         $this->assertSame($typeInstance, $otherProduct->getTypeInstance());
 
         // model setter
@@ -56,12 +56,12 @@ class Mage_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
     public function testCRUD()
     {
         Mage::app()->setCurrentStore(Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
-        $this->_model->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE)
+        $this->_model->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE)
             ->setAttributeSetId(4)
             ->setName('Bundle Product')->setSku(uniqid())->setPrice(10)
             ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
-            ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-            ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+            ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+            ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
         ;
         $crud = new Magento_Test_Entity($this->_model, array('sku' => uniqid()));
         $crud->testCrud();
@@ -69,7 +69,7 @@ class Mage_Bundle_Model_ProductTest extends PHPUnit_Framework_TestCase
 
     public function testGetPriceModel()
     {
-        $this->_model->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_BUNDLE);
+        $this->_model->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE);
         $type = $this->_model->getPriceModel();
         $this->assertInstanceOf('Mage_Bundle_Model_Product_Price', $type);
         $this->assertSame($type, $this->_model->getPriceModel());

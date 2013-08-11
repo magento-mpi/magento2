@@ -3,22 +3,22 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
+class Magento_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_CatalogSearch_Helper_Data
+     * @var Magento_CatalogSearch_Helper_Data
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Mage_CatalogSearch_Helper_Data');
+        $this->_helper = Mage::helper('Magento_CatalogSearch_Helper_Data');
     }
 
     public function testGetResultUrl()
@@ -36,7 +36,7 @@ class Mage_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testCheckNotesResult()
     {
-        $this->assertInstanceOf('Mage_CatalogSearch_Helper_Data', $this->_helper->checkNotes());
+        $this->assertInstanceOf('Magento_CatalogSearch_Helper_Data', $this->_helper->checkNotes());
     }
 
     /**
@@ -45,9 +45,9 @@ class Mage_CatalogSearch_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testCheckNotesEscapesHtmlWhenQueryIsCut()
     {
-        /** @var $mock Mage_CatalogSearch_Helper_Data */
+        /** @var $mock Magento_CatalogSearch_Helper_Data */
         $mock = $this->getMock(
-            'Mage_CatalogSearch_Helper_Data',
+            'Magento_CatalogSearch_Helper_Data',
             array('getQueryText'), array(Mage::getObjectManager()->get('Magento_Core_Helper_Context'))
         );
         $mock->expects($this->any())

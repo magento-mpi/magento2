@@ -23,14 +23,14 @@ class Mage_GoogleShopping_Helper_Price
     /**
      * Tries to return price that looks like price in catalog
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param null|Magento_Core_Model_Store $store Store view
      * @return null|float Price
      */
-    public function getCatalogPrice(Mage_Catalog_Model_Product $product, $store = null, $inclTax = null)
+    public function getCatalogPrice(Magento_Catalog_Model_Product $product, $store = null, $inclTax = null)
     {
         switch ($product->getTypeId()) {
-            case Mage_Catalog_Model_Product_Type::TYPE_GROUPED:
+            case Magento_Catalog_Model_Product_Type::TYPE_GROUPED:
                 // Workaround to avoid loading stock status by admin's website
                 if ($store instanceof Magento_Core_Model_Store) {
                     $oldStore = Mage::app()->getStore();
@@ -56,7 +56,7 @@ class Mage_GoogleShopping_Helper_Price
                 }
                 return $minPrice;
 
-            case Mage_Catalog_Model_Product_Type::TYPE_BUNDLE:
+            case Magento_Catalog_Model_Product_Type::TYPE_BUNDLE:
                 if ($store instanceof Magento_Core_Model_Store) {
                     $oldStore = Mage::app()->getStore();
                     Mage::app()->setCurrentStore($store);
@@ -88,11 +88,11 @@ class Mage_GoogleShopping_Helper_Price
      * @param $product
      * @param $store
      */
-    public function getCatalogRegularPrice(Mage_Catalog_Model_Product $product, $store = null)
+    public function getCatalogRegularPrice(Magento_Catalog_Model_Product $product, $store = null)
     {
          switch ($product->getTypeId()) {
-            case Mage_Catalog_Model_Product_Type::TYPE_GROUPED:
-            case Mage_Catalog_Model_Product_Type::TYPE_BUNDLE:
+            case Magento_Catalog_Model_Product_Type::TYPE_GROUPED:
+            case Magento_Catalog_Model_Product_Type::TYPE_BUNDLE:
             case 'giftcard':
                 return null;
 

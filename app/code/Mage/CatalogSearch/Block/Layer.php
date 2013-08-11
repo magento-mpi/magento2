@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Layered Navigation block for search
  *
  */
-class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
+class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
 {
     /**
      * Internal constructor
@@ -30,17 +30,17 @@ class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
     {
         parent::_initBlocks();
 
-        $this->_attributeFilterBlockName = 'Mage_CatalogSearch_Block_Layer_Filter_Attribute';
+        $this->_attributeFilterBlockName = 'Magento_CatalogSearch_Block_Layer_Filter_Attribute';
     }
 
     /**
      * Get layer object
      *
-     * @return Mage_Catalog_Model_Layer
+     * @return Magento_Catalog_Model_Layer
      */
     public function getLayer()
     {
-        return Mage::getSingleton('Mage_CatalogSearch_Model_Layer');
+        return Mage::getSingleton('Magento_CatalogSearch_Model_Layer');
     }
 
     /**
@@ -50,12 +50,12 @@ class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
      */
     public function canShowBlock()
     {
-        $_isLNAllowedByEngine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine()->isLayeredNavigationAllowed();
+        $_isLNAllowedByEngine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine()->isLayeredNavigationAllowed();
         if (!$_isLNAllowedByEngine) {
             return false;
         }
         $availableResCount = (int) Mage::app()->getStore()
-            ->getConfig(Mage_CatalogSearch_Model_Layer::XML_PATH_DISPLAY_LAYER_COUNT);
+            ->getConfig(Magento_CatalogSearch_Model_Layer::XML_PATH_DISPLAY_LAYER_COUNT);
 
         if (!$availableResCount
             || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())) {

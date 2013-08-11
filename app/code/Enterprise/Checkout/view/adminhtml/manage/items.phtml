@@ -121,7 +121,7 @@
                         <td class="first"><h5 class="title"><?php echo $this->escapeHtml($_item->getName()) ?></h5>
                             <div>
                                 <strong><?php echo $this->helper('Enterprise_Checkout_Helper_Data')->__('SKU') ?>:</strong>
-                                <?php echo implode('<br />', Mage::helper('Mage_Catalog_Helper_Data')->splitSku($this->escapeHtml($_item->getSku()))); ?>
+                                <?php echo implode('<br />', Mage::helper('Magento_Catalog_Helper_Data')->splitSku($this->escapeHtml($_item->getSku()))); ?>
                             </div>
                             <?php if($_item->getMessage(false)): ?>
                             <?php foreach ($_item->getMessage(false) as $message): ?>

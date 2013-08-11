@@ -25,7 +25,7 @@ class Mage_Index_Model_ProcessTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_indexerMatchData = array(
-        'new_data' => array(Mage_Catalog_Model_Indexer_Url::EVENT_MATCH_RESULT_KEY => true)
+        'new_data' => array(Magento_Catalog_Model_Indexer_Url::EVENT_MATCH_RESULT_KEY => true)
     );
 
     /**

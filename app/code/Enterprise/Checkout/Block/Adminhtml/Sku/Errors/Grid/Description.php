@@ -12,7 +12,7 @@
  * Block with description of why item has not been added to ordered items list
  *
  * @method Magento_Object                                                   getItem()
- * @method Mage_Catalog_Model_Product                                      getProduct()
+ * @method Magento_Catalog_Model_Product                                      getProduct()
  * @method Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description setItem()
  * @method Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Grid_Description setProduct()
  *

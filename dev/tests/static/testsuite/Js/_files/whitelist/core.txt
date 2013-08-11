@@ -1,6 +1,6 @@
 pub/lib/mage
 app/code/Mage/Install
-app/code/Mage/Catalog
+app/code/Magento/Catalog
 app/code/Mage/Newsletter
 app/code/Mage/Page
 app/code/Mage/PageCache

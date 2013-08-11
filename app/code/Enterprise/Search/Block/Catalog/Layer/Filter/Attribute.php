@@ -15,7 +15,7 @@
  * @package    Enterprise_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Search_Block_Catalog_Layer_Filter_Attribute extends Mage_Catalog_Block_Layer_Filter_Abstract
+class Enterprise_Search_Block_Catalog_Layer_Filter_Attribute extends Magento_Catalog_Block_Layer_Filter_Abstract
 {
     /**
      * Set model name
@@ -56,7 +56,7 @@ class Enterprise_Search_Block_Catalog_Layer_Filter_Attribute extends Mage_Catalo
     public function getItemsCount()
     {
         $attributeIsFilterable = $this->getAttributeModel()->getIsFilterable();
-        if ($attributeIsFilterable == Mage_Catalog_Model_Layer_Filter_Attribute::OPTIONS_ONLY_WITH_RESULTS) {
+        if ($attributeIsFilterable == Magento_Catalog_Model_Layer_Filter_Attribute::OPTIONS_ONLY_WITH_RESULTS) {
             return parent::getItemsCount();
         }
 

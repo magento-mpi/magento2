@@ -13,7 +13,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Js extends Magento_Adminhtml_
     /**
      * Get currently edited product
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {

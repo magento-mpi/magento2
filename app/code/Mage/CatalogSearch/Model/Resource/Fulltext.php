@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * CatalogSearch Fulltext Index resource model
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Resource_Db_Abstract
+class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Searchable attributes cache
@@ -67,7 +67,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
     protected function _construct()
     {
         $this->_init('catalogsearch_fulltext', 'product_id');
-        $this->_engine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine();
+        $this->_engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
     }
 
     /**
@@ -85,7 +85,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
      *
      * @param  int|null $storeId
      * @param  int|array|null $productIds
-     * @return Mage_CatalogSearch_Model_Resource_Fulltext
+     * @return Magento_CatalogSearch_Model_Resource_Fulltext
      */
     public function rebuildIndex($storeId = null, $productIds = null)
     {
@@ -106,7 +106,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
      *
      * @param int $storeId Store View Id
      * @param int|array $productIds Product Entity Id
-     * @return Mage_CatalogSearch_Model_Resource_Fulltext
+     * @return Magento_CatalogSearch_Model_Resource_Fulltext
      */
     protected function _rebuildStoreIndex($storeId, $productIds = null)
     {
@@ -128,7 +128,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
         // status and visibility filter
         $visibility     = $this->_getSearchableAttribute('visibility');
         $status         = $this->_getSearchableAttribute('status');
-        $statusVals     = Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds();
+        $statusVals     = Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getVisibleStatusIds();
         $allowedVisibility = $this->_engine->getAllowedVisibility();
 
         $lastProductId = 0;
@@ -253,7 +253,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
      *
      * @param null|int $storeId
      * @param null|array $productIds
-     * @return Mage_CatalogSearch_Model_Resource_Fulltext
+     * @return Magento_CatalogSearch_Model_Resource_Fulltext
      */
     public function resetSearchResults($storeId = null, $productIds = null)
     {
@@ -309,7 +309,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
      *
      * @param int $storeId Store View Id
      * @param int $productId Product Entity Id
-     * @return Mage_CatalogSearch_Model_Resource_Fulltext
+     * @return Magento_CatalogSearch_Model_Resource_Fulltext
      */
     public function cleanIndex($storeId = null, $productId = null)
     {
@@ -323,10 +323,10 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
     /**
      * Prepare results for query
      *
-     * @param Mage_CatalogSearch_Model_Fulltext $object
+     * @param Magento_CatalogSearch_Model_Fulltext $object
      * @param string $queryText
-     * @param Mage_CatalogSearch_Model_Query $query
-     * @return Mage_CatalogSearch_Model_Resource_Fulltext
+     * @param Magento_CatalogSearch_Model_Query $query
+     * @return Magento_CatalogSearch_Model_Resource_Fulltext
      */
     public function prepareResult($object, $queryText, $query)
     {
@@ -334,14 +334,14 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
         if (!$query->getIsProcessed()) {
             $searchType = $object->getSearchType($query->getStoreId());
 
-            $preparedTerms = Mage::getResourceHelper('Mage_CatalogSearch')
+            $preparedTerms = Mage::getResourceHelper('Magento_CatalogSearch')
                 ->prepareTerms($queryText, $query->getMaxQueryWords());
 
             $bind = array();
             $like = array();
             $likeCond  = '';
-            if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
-                || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
+            if ($searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
+                || $searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
             ) {
                 $helper = Mage::getResourceHelper('Magento_Core');
                 $words = Mage::helper('Magento_Core_Helper_String')
@@ -365,17 +365,17 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
                     array())
                 ->where($mainTableAlias.'.store_id = ?', (int)$query->getStoreId());
 
-            if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_FULLTEXT
-                || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
+            if ($searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_FULLTEXT
+                || $searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
             ) {
                 $bind[':query'] = implode(' ', $preparedTerms[0]);
-                $where = Mage::getResourceHelper('Mage_CatalogSearch')
+                $where = Mage::getResourceHelper('Magento_CatalogSearch')
                     ->chooseFulltext($this->getMainTable(), $mainTableAlias, $select);
             }
 
-            if ($likeCond != '' && $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
+            if ($likeCond != '' && $searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
                     $where .= ($where ? ' OR ' : '') . $likeCond;
-            } elseif ($likeCond != '' && $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE) {
+            } elseif ($likeCond != '' && $searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE) {
                 $select->columns(array('relevance'  => new Zend_Db_Expr(0)));
                 $where = $likeCond;
             }
@@ -418,7 +418,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
             $this->_searchableAttributes = array();
 
             $productAttributes = Mage::getResourceModel(
-                'Mage_Catalog_Model_Resource_Product_Attribute_Collection'
+                'Magento_Catalog_Model_Resource_Product_Attribute_Collection'
             );
 
             if ($this->_engine && $this->_engine->allowAdvancedIndex()) {
@@ -434,7 +434,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
             ));
 
             $entity = $this->getEavConfig()
-                ->getEntityType(Mage_Catalog_Model_Product::ENTITY)
+                ->getEntityType(Magento_Catalog_Model_Product::ENTITY)
                 ->getEntity();
 
             foreach ($attributes as $attribute) {
@@ -479,7 +479,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
             }
         }
 
-        return $this->getEavConfig()->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attribute);
+        return $this->getEavConfig()->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attribute);
     }
 
     /**
@@ -549,14 +549,14 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
      * Retrieve Product Type Instance
      *
      * @param string $typeId
-     * @return Mage_Catalog_Model_Product_Type_Abstract
+     * @return Magento_Catalog_Model_Product_Type_Abstract
      */
     protected function _getProductTypeInstance($typeId)
     {
         if (!isset($this->_productTypes[$typeId])) {
             $productEmulator = $this->_getProductEmulator($typeId);
 
-            $this->_productTypes[$typeId] = Mage::getSingleton('Mage_Catalog_Model_Product_Type')
+            $this->_productTypes[$typeId] = Mage::getSingleton('Magento_Catalog_Model_Product_Type')
                 ->factory($productEmulator);
         }
         return $this->_productTypes[$typeId];
@@ -674,7 +674,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
             return $this->_engine->prepareEntityIndex($index, $this->_separator);
         }
 
-        return Mage::helper('Mage_CatalogSearch_Helper_Data')->prepareIndexdata($index, $this->_separator);
+        return Mage::helper('Magento_CatalogSearch_Helper_Data')->prepareIndexdata($index, $this->_separator);
     }
 
     /**
@@ -740,7 +740,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
      * @param int $productId
      * @param int $storeId
      * @param string $index
-     * @return Mage_CatalogSearch_Model_Resource_Fulltext
+     * @return Magento_CatalogSearch_Model_Resource_Fulltext
      */
     protected function _saveProductIndex($productId, $storeId, $index)
     {
@@ -756,7 +756,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
      *
      * @param int $storeId
      * @param array $productIndexes
-     * @return Mage_CatalogSearch_Model_Resource_Fulltext
+     * @return Magento_CatalogSearch_Model_Resource_Fulltext
      */
     protected function _saveProductIndexes($storeId, $productIndexes)
     {
@@ -804,7 +804,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Reso
      *
      * @param array $productIds
      * @param array $categoryIds
-     * @return Mage_CatalogSearch_Model_Resource_Fulltext
+     * @return Magento_CatalogSearch_Model_Resource_Fulltext
      */
     public function updateCategoryIndex($productIds, $categoryIds)
     {

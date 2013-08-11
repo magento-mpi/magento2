@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Mage_Backend_
         $products = Mage::registry('import_option_products');
         if (is_array($products)) {
             foreach ($products as $productId) {
-                $product = Mage::getModel('Mage_Catalog_Model_Product')->load((int)$productId);
+                $product = Mage::getModel('Magento_Catalog_Model_Product')->load((int)$productId);
                 if (!$product->getId()) {
                     continue;
                 }

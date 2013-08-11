@@ -115,7 +115,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     /**
      * Product collection
      *
-     * @var Mage_Catalog_Model_Resource_Product_Collection
+     * @var Magento_Catalog_Model_Resource_Product_Collection
      */
     protected $_entityCollection;
 
@@ -136,9 +136,9 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     /**
      * Constructor
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      */
-    public function __construct(Mage_Catalog_Model_Resource_Product_Collection $collection)
+    public function __construct(Magento_Catalog_Model_Resource_Product_Collection $collection)
     {
         parent::__construct();
 
@@ -158,7 +158,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initAttributeSets()
     {
-        $productTypeId = Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId();
+        $productTypeId = Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId();
         foreach (Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($productTypeId) as $attributeSet) {
             $this->_attrSetIdToName[$attributeSet->getId()] = $attributeSet->getAttributeSetName();
@@ -173,8 +173,8 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
      */
     protected function _initCategories()
     {
-        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection')->addNameToResult();
-        /* @var $collection Mage_Catalog_Model_Resource_Category_Collection */
+        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection')->addNameToResult();
+        /* @var $collection Magento_Catalog_Model_Resource_Category_Collection */
         foreach ($collection as $category) {
             $structure = preg_split('#/+#', $category->getPath());
             $pathSize  = count($structure);
@@ -361,7 +361,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             return array();
         }
         $select = $this->_connection->select()
-            ->from(Mage::getResourceModel('Mage_CatalogInventory_Model_Resource_Stock_Item')->getMainTable())
+            ->from(Mage::getResourceModel('Magento_CatalogInventory_Model_Resource_Stock_Item')->getMainTable())
             ->where('product_id IN (?)', $productIds);
 
         $stmt = $this->_connection->query($select);
@@ -430,10 +430,10 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
                 array()
             )
             ->where('cpl.link_type_id IN (?)', array(
-                Mage_Catalog_Model_Product_Link::LINK_TYPE_RELATED,
-                Mage_Catalog_Model_Product_Link::LINK_TYPE_UPSELL,
-                Mage_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL,
-                Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED
+                Magento_Catalog_Model_Product_Link::LINK_TYPE_RELATED,
+                Magento_Catalog_Model_Product_Link::LINK_TYPE_UPSELL,
+                Magento_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL,
+                Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED
             ))
             ->where('cpl.product_id IN (?)', $productIds);
 
@@ -539,7 +539,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     /**
      * Get product collection
      *
-     * @return Mage_Catalog_Model_Resource_Product_Collection
+     * @return Magento_Catalog_Model_Resource_Product_Collection
      */
     protected function _getEntityCollection()
     {
@@ -640,7 +640,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
         try {
             $collection = $this->_getEntityCollection();
             $validAttrCodes = $this->_getExportAttrCodes();
-            $defaultStoreId  = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+            $defaultStoreId  = Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
             $dataRows        = array();
             $rowCategories   = array();
             $rowWebsites     = array();
@@ -726,12 +726,12 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             // prepare links information
             $linksRows = $this->_prepareLinks($productIds);
             $linkIdColPrefix = array(
-                Mage_Catalog_Model_Product_Link::LINK_TYPE_RELATED   => '_links_related_',
-                Mage_Catalog_Model_Product_Link::LINK_TYPE_UPSELL    => '_links_upsell_',
-                Mage_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL => '_links_crosssell_',
-                Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED   => '_associated_'
+                Magento_Catalog_Model_Product_Link::LINK_TYPE_RELATED   => '_links_related_',
+                Magento_Catalog_Model_Product_Link::LINK_TYPE_UPSELL    => '_links_upsell_',
+                Magento_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL => '_links_crosssell_',
+                Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED   => '_associated_'
             );
-            $configurableProductsCollection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
+            $configurableProductsCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
             $configurableProductsCollection->addAttributeToFilter(
                 'entity_id',
                 array(
@@ -740,7 +740,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             )->addAttributeToFilter(
                 'type_id',
                 array(
-                    'eq'    => Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE
+                    'eq'    => Magento_Catalog_Model_Product_Type_Configurable::TYPE_CODE
                 )
             );
             $configurableData = array();
@@ -766,7 +766,7 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
             $customOptionsDataPre = array();
 
             foreach ($this->_storeIdToCode as $storeId => &$storeCode) {
-                $options = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Option_Collection')
+                $options = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Option_Collection')
                     ->reset()
                     ->addTitleToResult($storeId)
                     ->addPriceToResult($storeId)
@@ -1026,11 +1026,11 @@ class Mage_ImportExport_Model_Export_Entity_Product extends Mage_ImportExport_Mo
     /**
      * Entity attributes collection getter.
      *
-     * @return Mage_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
      */
     public function getAttributeCollection()
     {
-        return Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection');
+        return Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection');
     }
 
     /**

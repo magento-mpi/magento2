@@ -28,21 +28,21 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/bundle.xml',
         'app/design/adminhtml/default/default/template/bundle/',
     ),
-    'Mage_Catalog' => array(
-        'app/code/Mage/Catalog/',
+    'Magento_Catalog' => array(
+        'app/code/Magento/Catalog/',
         'app/design/frontend/base/default/template/catalog/',
         'app/design/frontend/base/default/layout/catalog.xml',
         'app/design/frontend/default/modern/template/catalog/',
         'app/design/frontend/default/modern/layout/catalog.xml',
     ),
-    'Mage_CatalogInventory' => array(
-        'app/code/Mage/CatalogInventory/',
+    'Magento_CatalogInventory' => array(
+        'app/code/Magento/CatalogInventory/',
     ),
-    'Mage_CatalogRule' => array(
-        'app/code/Mage/CatalogRule/',
+    'Magento_CatalogRule' => array(
+        'app/code/Magento/CatalogRule/',
     ),
-    'Mage_CatalogSearch' => array(
-        'app/code/Mage/CatalogSearch/',
+    'Magento_CatalogSearch' => array(
+        'app/code/Magento/CatalogSearch/',
         'app/design/frontend/base/default/template/catalogsearch/',
         'app/design/frontend/base/default/layout/catalogsearch.xml',
         'app/design/frontend/default/modern/template/catalogsearch/',
@@ -568,10 +568,10 @@ $CONFIG['helpers']  = array(
     'importexport'      => 'Mage_ImportExport',
     'backup'            => 'Mage_Backup',
     'bundle'            => 'Mage_Bundle',
-    'catalog'           => 'Mage_Catalog',
-    'cataloginventory'  => 'Mage_CatalogInventory',
-    'catalogrule'       => 'Mage_CatalogRule',
-    'catalogsearch'     => 'Mage_CatalogSearch',
+    'catalog'           => 'Magento_Catalog',
+    'cataloginventory'  => 'Magento_CatalogInventory',
+    'catalogrule'       => 'Magento_CatalogRule',
+    'catalogsearch'     => 'Magento_CatalogSearch',
     'centinel'          => 'Mage_Centinel',
     'checkout'          => 'Mage_Checkout',
     'chronopay'         => 'Mage_Chronopay',

@@ -36,9 +36,9 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
         $storeId = $this->_getStoreId();
         $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
         if ($categoryId) {
-            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
+            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
             if ($category && $category->getId()) {
-                $layer = Mage::getSingleton('Mage_Catalog_Model_Layer')->setStore($storeId);
+                $layer = Mage::getSingleton('Magento_Catalog_Model_Layer')->setStore($storeId);
                 //want to load all products no matter anchor or not
                 $category->setIsAnchor(true);
                 $newurl = $category->getUrl();
@@ -59,7 +59,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
                     ->addIdFilter($category->getChildren())
                     ->load()
                 ;
-                $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection();
+                $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection();
 
                 $currentCategory = $layer->setCurrentCategory($category);
                 $layer->prepareProductCollection($productCollection);
@@ -72,7 +72,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
                 $_productCollection = $currentCategory
                     ->getProductCollection()
                     ->addAttributeToSort('updated_at','desc')
-                    ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds())
+                    ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds())
                     ->setCurPage(1)
                     ->setPageSize(50)
                 ;
@@ -108,7 +108,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Catalog_Abstract
 
         $description = '<table><tr>'
                      . '<td><a href="'.$product->getProductUrl().'"><img src="'
-                     . $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
+                     . $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
                      . '" border="0" align="left" height="75" width="75"></a></td>'
                      . '<td  style="text-decoration:none;">' . $product->getDescription();
 

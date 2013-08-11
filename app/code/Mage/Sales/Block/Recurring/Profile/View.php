@@ -122,9 +122,9 @@ class Mage_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Templat
         $this->_shouldRenderInfo = true;
         $key = 'order_item_info';
 
-        foreach (array('name' => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Name'),
-            'sku'  => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
-            'qty'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Quantity'),
+        foreach (array('name' => Mage::helper('Magento_Catalog_Helper_Data')->__('Product Name'),
+            'sku'  => Mage::helper('Magento_Catalog_Helper_Data')->__('SKU'),
+            'qty'  => Mage::helper('Magento_Catalog_Helper_Data')->__('Quantity'),
             ) as $itemKey => $label
         ) {
             $value = $this->_profile->getInfoValue($key, $itemKey);
@@ -143,12 +143,12 @@ class Mage_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Templat
             return;
         }
 
-        $options = Mage::getModel('Mage_Catalog_Model_Product_Option')->getCollection()
+        $options = Mage::getModel('Magento_Catalog_Model_Product_Option')->getCollection()
             ->addIdsToFilter(array_keys($request['options']))
             ->addTitleToResult($this->_profile->getInfoValue($key, 'store_id'))
             ->addValuesToResult();
 
-        $productMock = Mage::getModel('Mage_Catalog_Model_Product');
+        $productMock = Mage::getModel('Magento_Catalog_Model_Product');
         $quoteItemOptionMock = Mage::getModel('Mage_Sales_Model_Quote_Item_Option');
         foreach ($options as $option) {
             $quoteItemOptionMock->setId($option->getId());

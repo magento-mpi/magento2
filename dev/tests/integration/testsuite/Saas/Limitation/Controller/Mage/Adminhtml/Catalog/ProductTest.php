@@ -13,7 +13,7 @@ class Saas_Limitation_Magento_Adminhtml_Controller_Catalog_ProductTest extends M
 {
     /**
      * @magentoConfigFixture limitations/catalog_product 1
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testIndexActionRestricted()
     {
@@ -33,7 +33,7 @@ class Saas_Limitation_Magento_Adminhtml_Controller_Catalog_ProductTest extends M
     /**
      * @magentoConfigFixture limitations/catalog_product 1
      * @magentoConfigFixture limitations/catalog_category 1
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testEditActionRestricted()
     {
@@ -59,7 +59,7 @@ class Saas_Limitation_Magento_Adminhtml_Controller_Catalog_ProductTest extends M
 
     /**
      * @magentoConfigFixture limitations/catalog_product 2
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testEditActionAllowedNewProduct()
     {
@@ -78,9 +78,9 @@ class Saas_Limitation_Magento_Adminhtml_Controller_Catalog_ProductTest extends M
      */
     public function testNewActionAllowedNewProduct()
     {
-        /** @var $installer Mage_Catalog_Model_Resource_Setup */
+        /** @var $installer Magento_Catalog_Model_Resource_Setup */
         $installer = Mage::getResourceModel(
-            'Mage_Catalog_Model_Resource_Setup',
+            'Magento_Catalog_Model_Resource_Setup',
             array('resourceName' => 'catalog_setup')
         );
         $attributeSetId = $installer->getDefaultAttributeSetId('catalog_product');
@@ -112,7 +112,7 @@ class Saas_Limitation_Magento_Adminhtml_Controller_Catalog_ProductTest extends M
 
     /**
      * @magentoConfigFixture limitations/catalog_product 2
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      * @dataProvider validateActionOnVariationsLimitReachedDataProvider
      */
     public function testValidateActionOnVariationsLimitReached($productId, $expectedMessage)
@@ -149,7 +149,7 @@ class Saas_Limitation_Magento_Adminhtml_Controller_Catalog_ProductTest extends M
 
     /**
      * @magentoConfigFixture limitations/catalog_product 1
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testSaveActionAndDuplicateLimitationReached()
     {
@@ -166,7 +166,7 @@ class Saas_Limitation_Magento_Adminhtml_Controller_Catalog_ProductTest extends M
 
     /**
      * @magentoConfigFixture limitations/catalog_product 1
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testSaveActionAndNewLimitationReached()
     {
@@ -183,7 +183,7 @@ class Saas_Limitation_Magento_Adminhtml_Controller_Catalog_ProductTest extends M
 
     /**
      * @magentoConfigFixture limitations/catalog_category 2
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testEditActionAllowedNewCategory()
     {

@@ -15,7 +15,7 @@
  * @package  Saas_UnitPrice
  */
 class Saas_UnitPrice_Block_Catalog_Product_View_Type_Simple
-    extends Mage_Catalog_Block_Product_View_Abstract
+    extends Magento_Catalog_Block_Product_View_Abstract
 {
     /**
      * @return string
@@ -33,7 +33,7 @@ class Saas_UnitPrice_Block_Catalog_Product_View_Type_Simple
     /**
      * Returns product base price block html
      *
-     * @param Mage_Catalog_Model_Product $product Current product
+     * @param Magento_Catalog_Model_Product $product Current product
      *
      * @return string HTML code
      */

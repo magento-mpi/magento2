@@ -165,7 +165,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
 
             } catch (Exception $e) {
                 $this->_getSession()->addError(
-                    Mage::helper('Mage_CatalogRule_Helper_Data')->__('An error occurred while saving the rule data. Please review the log and try again.'));
+                    Mage::helper('Magento_CatalogRule_Helper_Data')->__('An error occurred while saving the rule data. Please review the log and try again.'));
                 Mage::logException($e);
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
@@ -190,7 +190,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 $this->_getSession()->addError(
-                    Mage::helper('Mage_CatalogRule_Helper_Data')->__('An error occurred while deleting the rule. Please review the log and try again.'));
+                    Mage::helper('Magento_CatalogRule_Helper_Data')->__('An error occurred while deleting the rule. Please review the log and try again.'));
                 Mage::logException($e);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;

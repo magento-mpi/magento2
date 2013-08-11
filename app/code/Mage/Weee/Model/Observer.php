@@ -91,7 +91,7 @@ class Mage_Weee_Model_Observer extends Magento_Core_Model_Abstract
                 '_front_fieldset',
             ),
             'disabled_types' => array(
-                Mage_Catalog_Model_Product_Type::TYPE_GROUPED,
+                Magento_Catalog_Model_Product_Type::TYPE_GROUPED,
             )
         );
 
@@ -115,8 +115,8 @@ class Mage_Weee_Model_Observer extends Magento_Core_Model_Abstract
             $object->setBackendModel($backendModel);
             if (!$object->getApplyTo()) {
                 $applyTo = array();
-                foreach (Mage_Catalog_Model_Product_Type::getOptions() as $option) {
-                    if ($option['value'] == Mage_Catalog_Model_Product_Type::TYPE_GROUPED) {
+                foreach (Magento_Catalog_Model_Product_Type::getOptions() as $option) {
+                    if ($option['value'] == Magento_Catalog_Model_Product_Type::TYPE_GROUPED) {
                         continue;
                     }
                     $applyTo[] = $option['value'];

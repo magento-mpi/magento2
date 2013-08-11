@@ -53,7 +53,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
     /**
      * Get Product
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -61,7 +61,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
             if ($product = Mage::registry('product')) {
                 $this->_productInstance = $product;
             } else {
-                $this->_productInstance = Mage::getSingleton('Mage_Catalog_Model_Product');
+                $this->_productInstance = Mage::getSingleton('Magento_Catalog_Model_Product');
             }
         }
 
@@ -134,7 +134,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
                 'class' => 'select select-product-option-type required-option-select',
             ))
             ->setName($this->getFieldName() . '[${id}][type]')
-            ->setOptions(Mage::getSingleton('Mage_Catalog_Model_Config_Source_Product_Options_Type')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Magento_Catalog_Model_Config_Source_Product_Options_Type')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -194,7 +194,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
             $values = array();
             $scope = (int)Mage::app()->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
             foreach ($optionsArr as $option) {
-                /* @var $option Mage_Catalog_Model_Product_Option */
+                /* @var $option Magento_Catalog_Model_Product_Option */
 
                 $this->setItemCount($option->getOptionId());
 
@@ -215,11 +215,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
                     $value['scopeTitleDisabled'] = is_null($option->getStoreTitle()) ? 'disabled' : null;
                 }
 
-                if ($option->getGroupByType() == Mage_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                if ($option->getGroupByType() == Magento_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
                     $i = 0;
                     $itemCount = 0;
                     foreach ($option->getValues() as $_value) {
-                        /* @var $_value Mage_Catalog_Model_Product_Option_Value */
+                        /* @var $_value Magento_Catalog_Model_Product_Option_Value */
                         $value['optionValues'][$i] = array(
                             'item_count' => max($itemCount, $_value->getOptionTypeId()),
                             'option_id' => $_value->getOptionId(),
@@ -299,7 +299,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
             . '<input value="1" type="checkbox" class="use-default-control"'
             . 'name="' . $this->getFieldName() . '[' . $id . ']' . $selectNameHtml . '[scope][' . $name . ']"'
             . 'id="' . $this->getFieldId() . '_' . $id . '_' . $selectIdHtml . $name . '_use_default"' . $checkedHtml
-            .' /><span class="use-default-label">' . Mage::helper('Mage_Catalog_Helper_Data')->__('Use Default')
+            .' /><span class="use-default-label">' . Mage::helper('Magento_Catalog_Helper_Data')->__('Use Default')
             . '</span></label></div>';
 
         return $useDefault;

@@ -57,11 +57,11 @@ abstract class Enterprise_TargetRule_Model_Resource_Index_Abstract extends Magen
     /**
      * Retrieve Product Resource instance
      *
-     * @return Mage_Catalog_Model_Resource_Product
+     * @return Magento_Catalog_Model_Resource_Product
      */
     public function getProductResource()
     {
-        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product');
+        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product');
     }
 
     public function loadProductIdsBySegmentId($object, $segmentId)

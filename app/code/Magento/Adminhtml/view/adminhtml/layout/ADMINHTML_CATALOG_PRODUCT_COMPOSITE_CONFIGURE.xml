@@ -13,22 +13,22 @@
             <block name="product.composite.fieldset.options" type="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options" template="catalog/product/composite/fieldset/options.phtml">
                 <action method="addOptionRenderer">
                     <type>text</type>
-                    <block>Mage_Catalog_Block_Product_View_Options_Type_Text</block>
+                    <block>Magento_Catalog_Block_Product_View_Options_Type_Text</block>
                     <template>Magento_Adminhtml::catalog/product/composite/fieldset/options/type/text.phtml</template>
                 </action>
                 <action method="addOptionRenderer">
                     <type>file</type>
-                    <block>Mage_Catalog_Block_Product_View_Options_Type_File</block>
+                    <block>Magento_Catalog_Block_Product_View_Options_Type_File</block>
                     <template>Magento_Adminhtml::catalog/product/composite/fieldset/options/type/file.phtml</template>
                 </action>
                 <action method="addOptionRenderer">
                     <type>select</type>
-                    <block>Mage_Catalog_Block_Product_View_Options_Type_Select</block>
+                    <block>Magento_Catalog_Block_Product_View_Options_Type_Select</block>
                     <template>Magento_Adminhtml::catalog/product/composite/fieldset/options/type/select.phtml</template>
                 </action>
                 <action method="addOptionRenderer">
                     <type>date</type>
-                    <block>Mage_Catalog_Block_Product_View_Options_Type_Date</block>
+                    <block>Magento_Catalog_Block_Product_View_Options_Type_Date</block>
                     <template>Magento_Adminhtml::catalog/product/composite/fieldset/options/type/date.phtml</template>
                 </action>
                 <block type="Magento_Core_Block_Template" name="product.composite.fieldset.options.js" as="options_js" template="Magento_Adminhtml::catalog/product/composite/fieldset/options/js.phtml"/>

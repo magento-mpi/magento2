@@ -15,11 +15,11 @@
             <thead>
             <tr>
                 <?php if ($this->getCanReadPrice() !== false) : ?>
-                <th class="type-price"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price') ?></th>
-                <th class="type-type"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Price Type') ?></th>
+                <th class="type-price"><?php echo Mage::helper('Magento_Catalog_Helper_Data')->__('Price') ?></th>
+                <th class="type-type"><?php echo Mage::helper('Magento_Catalog_Helper_Data')->__('Price Type') ?></th>
                 <?php endif; ?>
-                <th class="type-sku"><?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('SKU') ?></th>
-                <th class="type-last last"><?php echo Mage::helper('Mage_Catalog_Helper_Data')
+                <th class="type-sku"><?php echo Mage::helper('Magento_Catalog_Helper_Data')->__('SKU') ?></th>
+                <th class="type-last last"><?php echo Mage::helper('Magento_Catalog_Helper_Data')
                     ->__('Max Characters') ?></th>
             </tr>
             </thead>

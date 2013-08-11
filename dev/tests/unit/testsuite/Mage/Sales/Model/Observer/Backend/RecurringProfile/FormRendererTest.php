@@ -53,7 +53,7 @@ class Mage_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest extend
         $this->_observerMock->expects($this->any())->method('getEvent')->will($this->returnValue($event));
         $profileElement = $this->getMock('Magento_Data_Form_Element_Abstract', array(), array(), '', false);
         $event->expects($this->once())->method('getProductElement')->will($this->returnValue($profileElement));
-        $product = $this->getMock('Mage_Catalog_Model_Product', array(), array(), '', false);
+        $product = $this->getMock('Magento_Catalog_Model_Product', array(), array(), '', false);
         $event->expects($this->once())->method('getProduct')->will($this->returnValue($product));
         $this->_blockFactoryMock->expects($this->any())->method('createBlock')->will($this->returnValueMap($map));
         $blockMock->expects($this->any())->method('setNameInLayout');

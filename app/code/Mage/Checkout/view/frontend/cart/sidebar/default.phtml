@@ -11,7 +11,7 @@
 <?php
     $_item = $this->getItem();
     $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
-    $canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
+    $canApplyMsrp = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_item->getProduct(), Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
 ?>
 <li class="item">
     <?php if ($this->hasProductUrl()): ?>

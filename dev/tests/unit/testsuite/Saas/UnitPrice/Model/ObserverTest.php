@@ -18,7 +18,7 @@ class Saas_UnitPrice_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected function createProduct()
     {
         $helper = new Magento_Test_Helper_ObjectManager($this);
-        return $helper->getObject('Mage_Catalog_Model_Product');
+        return $helper->getObject('Magento_Catalog_Model_Product');
     }
 
     public function testBcpUpdateDefaultsOnConfigurableProduct()

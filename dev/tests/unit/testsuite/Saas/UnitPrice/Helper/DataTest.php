@@ -17,7 +17,7 @@ class Community_UnitPrice_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetUnitPriceLabel(array $data, $expected)
     {
-        $product = $this->getMockBuilder('Mage_Catalog_Model_Product')
+        $product = $this->getMockBuilder('Magento_Catalog_Model_Product')
             ->setMethods(array('addCustomOption'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -195,7 +195,7 @@ class Community_UnitPrice_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testLoadDefaultUnitPriceValues(array $data, array $expected)
     {
-        $product = $this->getMockBuilder('Mage_Catalog_Model_Product')
+        $product = $this->getMockBuilder('Magento_Catalog_Model_Product')
             ->setMethods(array('addCustomOption'))
             ->disableOriginalConstructor()
             ->getMock();

@@ -92,6 +92,6 @@ dev/tests/integration/testsuite/Magento/Adminhtml/Model/Sales/Order/CreateTest.p
 # MAGETWO-10546, Saas_Saas_Exception: Modification is not permitted in Mage_Backend_Model_ConfigTest::testSaveWithSingleStoreModeEnabled
 dev/tests/integration/testsuite/Mage/Backend/Model/ConfigTest.php
 # MAGETWO-10544, test requires Mage_Downloadable module
-dev/tests/integration/testsuite/Mage/Catalog/Model/Product/TypeTest.php
+dev/tests/integration/testsuite/Magento/Catalog/Model/Product/TypeTest.php
 # MAGETWO-10543, test requires Mage_Downloadable module
 dev/tests/integration/testsuite/Mage/Checkout/Controller/CartTest.php

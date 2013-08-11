@@ -25,12 +25,12 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
         $this->_setTypeId();
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Catalog::catalog_attributes_sets');
+        $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
 
-        $this->_addBreadcrumb(Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'));
+        $this->_addBreadcrumb(Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'));
         $this->_addBreadcrumb(
-            Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Attribute Sets'),
-            Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Attribute Sets'));
+            Mage::helper('Magento_Catalog_Helper_Data')->__('Manage Attribute Sets'),
+            Mage::helper('Magento_Catalog_Helper_Data')->__('Manage Attribute Sets'));
 
         $this->renderLayout();
     }
@@ -53,13 +53,13 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
         Mage::register('current_attribute_set', $attributeSet);
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Catalog::catalog_attributes_sets');
+        $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-        $this->_addBreadcrumb(Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'));
+        $this->_addBreadcrumb(Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'), Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'));
         $this->_addBreadcrumb(
-            Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Product Sets'),
-            Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Product Sets'));
+            Mage::helper('Magento_Catalog_Helper_Data')->__('Manage Product Sets'),
+            Mage::helper('Magento_Catalog_Helper_Data')->__('Manage Product Sets'));
 
         $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main'));
 
@@ -105,7 +105,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
                     $model->load($attributeSetId);
                 }
                 if (!$model->getId()) {
-                    Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('This attribute set no longer exists.'));
+                    Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('This attribute set no longer exists.'));
                 }
                 $data = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('data'));
 
@@ -121,13 +121,13 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
                 $model->initFromSkeleton($this->getRequest()->getParam('skeleton_set'));
             }
             $model->save();
-            $this->_getSession()->addSuccess(Mage::helper('Mage_Catalog_Helper_Data')->__('You saved the attribute set.'));
+            $this->_getSession()->addSuccess(Mage::helper('Magento_Catalog_Helper_Data')->__('You saved the attribute set.'));
         } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $hasError = true;
         } catch (Exception $e) {
             $this->_getSession()->addException($e,
-                Mage::helper('Mage_Catalog_Helper_Data')->__('An error occurred while saving the attribute set.'));
+                Mage::helper('Magento_Catalog_Helper_Data')->__('An error occurred while saving the attribute set.'));
             $hasError = true;
         }
 
@@ -170,7 +170,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
         $this->_setTypeId();
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Catalog::catalog_attributes_sets');
+        $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
 
 
         $this->_addContent(
@@ -203,12 +203,12 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
     protected function _setTypeId()
     {
         Mage::register('entityType',
-            Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId());
+            Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId());
     }
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Catalog::sets');
+        return $this->_authorization->isAllowed('Magento_Catalog::sets');
     }
 
     /**

@@ -207,7 +207,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_EavAbstract
             $index = in_array($attribute->getAttributeCode(), $indexAttributes) ? 'value' : 'label';
 
             // only default (admin) store values used
-            $attribute->setStoreId(Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+            $attribute->setStoreId(Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
 
             try {
                 foreach ($attribute->getSource()->getAllOptions(false) as $option) {

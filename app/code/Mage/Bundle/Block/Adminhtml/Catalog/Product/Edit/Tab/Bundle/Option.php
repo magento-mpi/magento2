@@ -74,7 +74,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
     /**
      * Retrieve Product object
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -122,7 +122,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
         ));
 
         $this->addChild('option_delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete Option'),
+            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Delete Option'),
             'class' => 'action-delete',
             'on_click' => 'bOption.remove(event)'
         ));

@@ -37,7 +37,7 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
 
         $this->getLayout()->getBlock('head')->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('My Returns'));
 
@@ -196,7 +196,7 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
         Mage::register('current_order', $order);
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
         $this->getLayout()
             ->getBlock('head')
             ->setTitle(Mage::helper('Enterprise_Rma_Helper_Data')->__('Return #%s', Mage::registry('current_rma')->getIncrementId()));
@@ -230,7 +230,7 @@ class Enterprise_Rma_Controller_Return extends Magento_Core_Controller_Front_Act
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
 
         if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('sales/order/history');

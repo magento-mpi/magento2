@@ -21,14 +21,14 @@ class Magento_Adminhtml_Controller_Promo extends Magento_Adminhtml_Controller_Ac
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_CatalogRule::promo');
+        $this->_setActiveMenu('Magento_CatalogRule::promo');
         $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Promotions'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Promo'));
         $this->renderLayout();
     }
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_CatalogRule::promo');
+        return $this->_authorization->isAllowed('Magento_CatalogRule::promo');
     }
 
 }

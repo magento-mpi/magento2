@@ -223,13 +223,13 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
         $invalidFormatMessage = sprintf(
             'The "%s" method has invalid format of Deprecation policy. '
                 . 'Accepted formats are createV1, catalogProduct::createV1 '
-                . 'and Mage_Catalog_Webapi_ProductController::createV1.',
+                . 'and Magento_Catalog_Webapi_ProductController::createV1.',
             $methodReflection->getDeclaringClass()->getName() . '::' . $methodReflection->getName()
         );
         /** Add information about what method should be used instead of deprecated/removed one. */
         /**
          * Description is expected in one of the following formats:
-         * - Mage_Catalog_Webapi_ProductController::createV1
+         * - Magento_Catalog_Webapi_ProductController::createV1
          * - catalogProduct::createV1
          * - createV1
          */
@@ -237,7 +237,7 @@ abstract class Mage_Webapi_Model_Config_Reader_ClassReflectorAbstract
         switch (count($useMethodParts)) {
             case 2:
                 try {
-                    /** Support of: Mage_Catalog_Webapi_ProductController::createV1 */
+                    /** Support of: Magento_Catalog_Webapi_ProductController::createV1 */
                     $resourceName = $this->_helper->translateResourceName($useMethodParts[0]);
                 } catch (InvalidArgumentException $e) {
                     /** Support of: catalogProduct::createV1 */

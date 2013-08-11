@@ -72,7 +72,7 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Group
             'disabled'  => $groupModel->isReadOnly(),
         ));
 
-        $categories = Mage::getModel('Mage_Catalog_Model_Config_Source_Category')->toOptionArray();
+        $categories = Mage::getModel('Magento_Catalog_Model_Config_Source_Category')->toOptionArray();
 
         $fieldset->addField('group_root_category_id', 'select', array(
             'name'      => 'group[root_category_id]',

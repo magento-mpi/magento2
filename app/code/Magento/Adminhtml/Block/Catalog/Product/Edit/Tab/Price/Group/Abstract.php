@@ -44,7 +44,7 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
     /**
      * Retrieve current product instance
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -128,7 +128,7 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
     public function getCustomerGroups($groupId = null)
     {
         if ($this->_customerGroups === null) {
-            if (!Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Customer')) {
+            if (!Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Mage_Customer')) {
                 return array();
             }
             $collection = Mage::getModel('Mage_Customer_Model_Group')->getCollection();
@@ -190,7 +190,7 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
 
         $this->_websites = array(
             0 => array(
-                'name' => Mage::helper('Mage_Catalog_Helper_Data')->__('All Websites'),
+                'name' => Mage::helper('Magento_Catalog_Helper_Data')->__('All Websites'),
                 'currency' => Mage::app()->getBaseCurrencyCode()
             )
         );
@@ -287,7 +287,7 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
     /**
      * Retrieve Group Price entity attribute
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     * @return Magento_Catalog_Model_Resource_Eav_Attribute
      */
     public function getAttribute()
     {

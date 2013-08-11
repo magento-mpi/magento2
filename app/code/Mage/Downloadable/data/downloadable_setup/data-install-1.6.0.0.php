@@ -22,10 +22,10 @@ $fieldList = array(
 
 // make these attributes applicable to downloadable products
 foreach ($fieldList as $field) {
-    $applyTo = explode(',', $installer->getAttribute(Mage_Catalog_Model_Product::ENTITY, $field, 'apply_to'));
+    $applyTo = explode(',', $installer->getAttribute(Magento_Catalog_Model_Product::ENTITY, $field, 'apply_to'));
     if (!in_array('downloadable', $applyTo)) {
         $applyTo[] = 'downloadable';
-        $installer->updateAttribute(Mage_Catalog_Model_Product::ENTITY, $field, 'apply_to', implode(',', $applyTo));
+        $installer->updateAttribute(Magento_Catalog_Model_Product::ENTITY, $field, 'apply_to', implode(',', $applyTo));
     }
 }
  

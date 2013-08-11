@@ -59,7 +59,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid extends Magento_Ad
                 'width' => 50,
                 'index' => 'status',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray(),
+                'options' => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray(),
         ));
         return $this;
     }
@@ -77,7 +77,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid extends Magento_Ad
     /**
      * Return row url for js event handlers
      *
-     * @param Mage_Catalog_Model_Product|Magento_Object
+     * @param Magento_Catalog_Model_Product|Magento_Object
      * @return string
      */
     public function getRowUrl($row)

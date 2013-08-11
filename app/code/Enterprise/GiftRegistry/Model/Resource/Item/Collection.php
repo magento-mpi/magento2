@@ -130,7 +130,7 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Collection extends Magento_Cor
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+        $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
             ->setStoreId(Mage::app()->getStore()->getId())
             ->addIdFilter($this->_productIds)
             ->addAttributeToSelect(Mage::getSingleton('Mage_Sales_Model_Quote_Config')->getProductAttributes())

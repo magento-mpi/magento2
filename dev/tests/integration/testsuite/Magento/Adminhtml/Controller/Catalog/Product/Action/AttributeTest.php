@@ -17,7 +17,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_AttributeTest extends 
     /**
      * @covers Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute::saveAction
      *
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testSaveActionRedirectsSuccessfully()
     {

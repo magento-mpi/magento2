@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * CatalogInventory Stock Indexer Interface
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_CatalogInventory_Model_Resource_Indexer_Stock_Interface
+interface Magento_CatalogInventory_Model_Resource_Indexer_Stock_Interface
 {
     /**
      * Reindex all stock status data

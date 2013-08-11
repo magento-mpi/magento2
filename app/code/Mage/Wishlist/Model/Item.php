@@ -30,7 +30,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Wishlist_Model_Item extends Magento_Core_Model_Abstract
-    implements Mage_Catalog_Model_Product_Configuration_Item_Interface
+    implements Magento_Catalog_Model_Product_Configuration_Item_Interface
 {
     const EXCEPTION_CODE_NOT_SALABLE            = 901;
     const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS   = 902;
@@ -282,7 +282,7 @@ class Mage_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      * Retrieve item product instance
      *
      * @throws Magento_Core_Exception
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -292,7 +292,7 @@ class Mage_Wishlist_Model_Item extends Magento_Core_Model_Abstract
                 Mage::throwException(Mage::helper('Mage_Wishlist_Helper_Data')->__('Cannot specify product.'));
             }
 
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStoreId($this->getStoreId())
                 ->load($this->getProductId());
 
@@ -324,7 +324,7 @@ class Mage_Wishlist_Model_Item extends Magento_Core_Model_Abstract
 
         $storeId = $this->getStoreId();
 
-        if ($product->getStatus() != Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
+        if ($product->getStatus() != Magento_Catalog_Model_Product_Status::STATUS_ENABLED) {
             return false;
         }
 
@@ -332,7 +332,7 @@ class Mage_Wishlist_Model_Item extends Magento_Core_Model_Abstract
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Url')
+            $urlData = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Url')
                 ->getRewriteByProductStore(array($product->getId() => $storeId));
             if (!isset($urlData[$product->getId()])) {
                 return false;
@@ -453,7 +453,7 @@ class Mage_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Check product representation in item
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @param   Magento_Object $buyRequest
      * @return  bool
      */
@@ -490,7 +490,7 @@ class Mage_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Check product representation in item
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @return  bool
      */
     public function representProduct($product)
@@ -639,7 +639,7 @@ class Mage_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     public function canHaveQty()
     {
         $product = $this->getProduct();
-        return $product->getTypeId() != Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
+        return $product->getTypeId() != Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
     }
 
     /**
@@ -660,7 +660,7 @@ class Mage_Wishlist_Model_Item extends Magento_Core_Model_Abstract
 
     /**
      * Returns special download params (if needed) for custom option with type = 'file'.
-     * Needed to implement Mage_Catalog_Model_Product_Configuration_Item_Interface.
+     * Needed to implement Magento_Catalog_Model_Product_Configuration_Item_Interface.
      *
      * We have to customize only controller url, so return it.
      *

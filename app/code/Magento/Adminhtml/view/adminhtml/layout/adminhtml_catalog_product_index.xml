@@ -11,7 +11,7 @@
     <adminhtml_catalog_product_index>
         <reference name="menu">
             <action method="setActive">
-                <itemId>Mage_Catalog::catalog_products</itemId>
+                <itemId>Magento_Catalog::catalog_products</itemId>
             </action>
         </reference>
         <reference name="page-title">

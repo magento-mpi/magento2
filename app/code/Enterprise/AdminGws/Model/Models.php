@@ -211,7 +211,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Catalog product initialize after loading
      *
-     * @param Mage_Catalog_Model_Product $model
+     * @param Magento_Catalog_Model_Product $model
      * @return void
      */
     public function catalogProductLoadAfter($model)
@@ -232,7 +232,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
 
             $attributes = $model->getAttributes();
             foreach ($attributes as $attribute) {
-                /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
                 if ($attribute->isScopeGlobal() ||
                     ($attribute->isScopeWebsite() && count($this->_role->getWebsiteIds())==0) ||
                     !in_array($model->getStore()->getId(), $this->_role->getStoreIds())) {
@@ -286,7 +286,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Catalog product validate before saving
      *
-     * @param Mage_Catalog_Model_Product $model
+     * @param Magento_Catalog_Model_Product $model
      */
     public function catalogProductSaveBefore($model)
     {
@@ -351,7 +351,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             return;
         }
 
-        /* @var $product Mage_Catalog_Model_Product */
+        /* @var $product Magento_Catalog_Model_Product */
         $product = $observer->getEvent()->getProduct();
         $this->_forceAssignToWebsite($product->getWebsiteIds());
     }
@@ -359,7 +359,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Catalog product validate before delete
      *
-     * @param Mage_Catalog_Model_Product $model
+     * @param Magento_Catalog_Model_Product $model
      */
     public function catalogProductDeleteBefore($model)
     {
@@ -404,7 +404,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Catalog category validate before delete
      *
-     * @param Mage_Catalog_Model_Product $model
+     * @param Magento_Catalog_Model_Product $model
      * @return void
      */
     public function catalogCategoryDeleteBefore($model)
@@ -604,7 +604,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Catalog category initialize after loading
      *
-     * @param Mage_Catalog_Model_Category $model
+     * @param Magento_Catalog_Model_Category $model
      * @return void
      */
     public function catalogCategoryLoadAfter($model)
@@ -619,7 +619,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $hasWebsites = count($this->_role->getWebsiteIds()) > 0;
             $hasStoreAccess = $this->_role->hasStoreAccess($model->getResource()->getStoreId());
             foreach ($attributes as $attribute) {
-                /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
                 if ($attribute->isScopeGlobal() ||
                     ($attribute->isScopeWebsite() && !$hasWebsites) ||
                     !$hasStoreAccess) {
@@ -639,7 +639,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Validate catalog category save
      *
-     * @param Mage_Catalog_Model_Category $model
+     * @param Magento_Catalog_Model_Category $model
      */
     public function catalogCategorySaveBefore($model)
     {
@@ -683,7 +683,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogEventSaveBefore($model)
     {
-        $category = Mage::getModel('Mage_Catalog_Model_Category')->load($model->getCategoryId());
+        $category = Mage::getModel('Magento_Catalog_Model_Category')->load($model->getCategoryId());
         if (!$category->getId()) {
             $this->_throwSave();
         }
@@ -720,7 +720,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function catalogEventDeleteBefore($model)
     {
         // delete only in exclusive mode
-        $category = Mage::getModel('Mage_Catalog_Model_Category')->load($model->getCategoryId());
+        $category = Mage::getModel('Magento_Catalog_Model_Category')->load($model->getCategoryId());
         if (!$category->getId()) {
             $this->_throwDelete();
         }
@@ -736,7 +736,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogEventLoadAfter($model)
     {
-        $category = Mage::getModel('Mage_Catalog_Model_Category')->load($model->getCategoryId());
+        $category = Mage::getModel('Magento_Catalog_Model_Category')->load($model->getCategoryId());
         if (!$this->_role->hasExclusiveCategoryAccess($category->getPath())) {
             $model->setIsReadonly(true);
             $model->setIsDeleteable(false);

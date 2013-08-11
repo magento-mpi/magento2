@@ -29,7 +29,7 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends PHPUnit_Framework_Tes
             'frontend_input' => 'select',
             'frontend_label' => 'Status',
             'frontend_class' => null,
-            'source_model' => 'Mage_Catalog_Model_Product_Status',
+            'source_model' => 'Magento_Catalog_Model_Product_Status',
             'is_required' => 1,
             'is_user_defined' => 0,
             'is_unique' => 0,

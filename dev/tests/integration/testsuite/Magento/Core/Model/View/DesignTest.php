@@ -151,10 +151,10 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
     public function getFilenameDataProvider()
     {
         return array(
-            array('theme_file.txt', array('module' => 'Mage_Catalog')),
-            array('Mage_Catalog::theme_file.txt', array()),
-            array('Mage_Catalog::theme_file_with_2_dots..txt', array()),
-            array('Mage_Catalog::theme_file.txt', array('module' => 'Overriden_Module')),
+            array('theme_file.txt', array('module' => 'Magento_Catalog')),
+            array('Magento_Catalog::theme_file.txt', array()),
+            array('Magento_Catalog::theme_file_with_2_dots..txt', array()),
+            array('Magento_Catalog::theme_file.txt', array('module' => 'Overriden_Module')),
         );
     }
 
@@ -290,13 +290,13 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 Magento_Core_Model_App_State::MODE_DEFAULT,
-                'Mage_Catalog::widgets.css',
-                'http://localhost/pub/static/frontend/test_default/en_US/Mage_Catalog/widgets.css'
+                'Magento_Catalog::widgets.css',
+                'http://localhost/pub/static/frontend/test_default/en_US/Magento_Catalog/widgets.css'
             ),
             array(
                 Magento_Core_Model_App_State::MODE_DEVELOPER,
-                'Mage_Catalog::widgets.css',
-                'http://localhost/pub/static/frontend/test_default/en_US/Mage_Catalog/widgets.css'
+                'Magento_Catalog::widgets.css',
+                'http://localhost/pub/static/frontend/test_default/en_US/Magento_Catalog/widgets.css'
             ),
         );
     }

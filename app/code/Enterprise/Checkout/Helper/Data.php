@@ -231,7 +231,7 @@ class Enterprise_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
                 ->addMinimalPrice()
                 ->addFinalPrice()
                 ->addTaxPercents()
-                ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
+                ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
                 ->addUrlRewrite();
             $itemsToLoad = array();
 
@@ -254,7 +254,7 @@ class Enterprise_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
                     $item['item']['product_type'] = 'undefined';
                     // Create empty quote item. Otherwise it won't be correctly treated inside failed.phtml
                     $collectionItem = Mage::getModel('Mage_Sales_Model_Quote_Item')
-                        ->setProduct(Mage::getModel('Mage_Catalog_Model_Product'))
+                        ->setProduct(Mage::getModel('Magento_Catalog_Model_Product'))
                         ->addData($item['item']);
                     $quoteItemsCollection[] = $collectionItem;
                 }
@@ -266,7 +266,7 @@ class Enterprise_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
                 $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
                 $emptyQuoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item');
 
-                /** @var $itemProduct Mage_Catalog_Model_Product */
+                /** @var $itemProduct Magento_Catalog_Model_Product */
                 foreach ($collection->getItems() as $product) {
                     $itemsCount = count($itemsToLoad[$product->getId()]);
                     foreach ($itemsToLoad[$product->getId()] as $index => $itemToLoad) {
@@ -284,7 +284,7 @@ class Enterprise_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
                             ->setRedirectUrl($itemProduct->getUrlModel()->getUrl($itemProduct));
 
                         $itemProduct->setCustomOptions($itemProduct->getOptionsByCode());
-                        if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($itemProduct)) {
+                        if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($itemProduct)) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
                                 Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
@@ -296,8 +296,8 @@ class Enterprise_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
                             $quoteItem->setCanApplyMsrp(false);
                         }
 
-                        /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                        $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+                        /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+                        $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
                         $stockItem->assignProduct($itemProduct);
                         $quoteItem->setStockItem($stockItem);
 

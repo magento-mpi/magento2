@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * HTML select element block
  *
  * @category   Mage
- * @package    Mage_CatalogInventory
+ * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_Data_Form_Element_Select
+class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_Data_Form_Element_Select
 {
     const QUANTITY_FIELD_HTML_ID = 'qty';
 
@@ -120,7 +120,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_Dat
     /**
      * Disable fields depending on product type
      *
-     * @return Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock
+     * @return Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock
      */
     protected function _disableFields()
     {

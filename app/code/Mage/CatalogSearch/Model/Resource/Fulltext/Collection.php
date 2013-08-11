@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,30 +13,30 @@
  * Fulltext Collection
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Resource_Fulltext_Collection extends Mage_Catalog_Model_Resource_Product_Collection
+class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_Catalog_Model_Resource_Product_Collection
 {
     /**
      * Retrieve query model object
      *
-     * @return Mage_CatalogSearch_Model_Query
+     * @return Magento_CatalogSearch_Model_Query
      */
     protected function _getQuery()
     {
-        return Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery();
+        return Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery();
     }
 
     /**
      * Add search query filter
      *
      * @param string $query
-     * @return Mage_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
      */
     public function addSearchFilter($query)
     {
-        Mage::getSingleton('Mage_CatalogSearch_Model_Fulltext')->prepareResult();
+        Mage::getSingleton('Magento_CatalogSearch_Model_Fulltext')->prepareResult();
 
         $this->getSelect()->joinInner(
             array('search_result' => $this->getTable('catalogsearch_result')),
@@ -55,7 +55,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Collection extends Mage_Catalog
      *
      * @param string $attribute
      * @param string $dir
-     * @return Mage_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
      */
     public function setOrder($attribute, $dir = 'desc')
     {
@@ -70,7 +70,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext_Collection extends Mage_Catalog
     /**
      * Stub method for campatibility with other search engines
      *
-     * @return Mage_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
      */
     public function setGeneralDefaultQuery()
     {

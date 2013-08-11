@@ -16,7 +16,7 @@ class Mage_ProductAlert_Block_Product_View extends Magento_Core_Block_Template
     /**
      * Current product instance
      *
-     * @var null|Mage_Catalog_Model_Product
+     * @var null|Magento_Catalog_Model_Product
      */
     protected $_product = null;
 

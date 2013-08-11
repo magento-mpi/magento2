@@ -39,7 +39,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Magento_Ad
     /**
      * Retirve currently edited product model
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -90,7 +90,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Magento_Ad
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_Catalog_Model_Product_Link')->useUpSellLinks()
+        $collection = Mage::getModel('Magento_Catalog_Model_Product_Link')->useUpSellLinks()
             ->getProductCollection()
             ->setProduct($this->getProduct())
             ->addAttributeToSelect('*');
@@ -127,35 +127,35 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Magento_Ad
         }
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('ID'),
             'sortable'  => true,
             'index'     => 'entity_id',
             'header_css_class'  => 'col-id',
             'column_css_class'  => 'col-id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Name'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Name'),
             'index'     => 'name',
             'header_css_class'  => 'col-name',
             'column_css_class'  => 'col-name'
         ));
 
         $this->addColumn('type', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Type'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Type'),
             'index'     => 'type_id',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
+            'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getOptionArray(),
             'header_css_class'  => 'col-type',
             'column_css_class'  => 'col-type'
         ));
 
         $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId())
+            ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
         $this->addColumn('set_name', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Attribute Set'),
             'index'     => 'attribute_set_id',
             'type'      => 'options',
             'options'   => $sets,
@@ -164,32 +164,32 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Magento_Ad
         ));
 
         $this->addColumn('status', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Status'),
             'index'     => 'status',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray(),
+            'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));
 
         $this->addColumn('visibility', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Visibility'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Visibility'),
             'index'     => 'visibility',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getOptionArray(),
+            'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getOptionArray(),
             'header_css_class'  => 'col-visibility',
             'column_css_class'  => 'col-visibility'
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('SKU'),
             'index'     => 'sku',
             'header_css_class'  => 'col-sku',
             'column_css_class'  => 'col-sku'
         ));
 
         $this->addColumn('price', array(
-            'header'        => Mage::helper('Mage_Catalog_Helper_Data')->__('Price'),
+            'header'        => Mage::helper('Magento_Catalog_Helper_Data')->__('Price'),
             'type'          => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'index'         => 'price',
@@ -198,7 +198,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Magento_Ad
         ));
 
         $this->addColumn('position', array(
-            'header'            => Mage::helper('Mage_Catalog_Helper_Data')->__('Position'),
+            'header'            => Mage::helper('Magento_Catalog_Helper_Data')->__('Position'),
             'name'              => 'position',
             'type'              => 'number',
             'validate_class'    => 'validate-number',

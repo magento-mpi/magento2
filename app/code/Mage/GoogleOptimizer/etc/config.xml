@@ -14,7 +14,7 @@
             <active>true</active>
             <depends>
                 <Mage_GoogleAnalytics/>
-                <Mage_Catalog/>
+                <Magento_Catalog/>
                 <Mage_Cms/>
             </depends>
         </Mage_GoogleOptimizer>

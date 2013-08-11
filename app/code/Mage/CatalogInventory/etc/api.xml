@@ -10,17 +10,17 @@
 <config>
     <api>
         <resources>
-            <cataloginventory_stock_item translate="title" module="Mage_CatalogInventory">
-                <model>Mage_CatalogInventory_Model_Stock_Item_Api</model>
+            <cataloginventory_stock_item translate="title" module="Magento_CatalogInventory">
+                <model>Magento_CatalogInventory_Model_Stock_Item_Api</model>
                 <title>Inventory API</title>
                 <acl>cataloginventory</acl>
                 <methods>
-                    <list translate="title" module="Mage_CatalogInventory">
+                    <list translate="title" module="Magento_CatalogInventory">
                         <title>Retrieve stock data by product ids</title>
                         <method>items</method>
                         <acl>cataloginventory/info</acl>
                     </list>
-                    <update translate="title" module="Mage_CatalogInventory">
+                    <update translate="title" module="Magento_CatalogInventory">
                         <title>Update product stock data</title>
                         <acl>cataloginventory/update</acl>
                     </update>
@@ -29,7 +29,7 @@
                         <acl>cataloginventory/update</acl>
                     </multiUpdate>
                 </methods>
-                <faults module="Mage_CatalogInventory">
+                <faults module="Magento_CatalogInventory">
                     <not_exists>
                         <code>101</code>
                         <message>Product does not exist.</message>
@@ -55,13 +55,13 @@
         </v2>
         <acl>
             <resources>
-                <cataloginventory translate="title" module="Mage_CatalogInventory">
+                <cataloginventory translate="title" module="Magento_CatalogInventory">
                     <title>Catalog Inventory</title>
                     <sort_order>4</sort_order>
-                    <update translate="title" module="Mage_CatalogInventory">
+                    <update translate="title" module="Magento_CatalogInventory">
                         <title>Update</title>
                     </update>
-                    <info translate="title" module="Mage_CatalogInventory">
+                    <info translate="title" module="Magento_CatalogInventory">
                         <title>Retrieve stock data</title>
                     </info>
                 </cataloginventory>

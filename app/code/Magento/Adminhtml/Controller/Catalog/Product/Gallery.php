@@ -27,7 +27,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Gallery extends Magento_Admin
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save(
-                Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath()
+                Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath()
             );
 
             $this->_eventManager->dispatch('catalog_product_gallery_upload_image_after', array(
@@ -38,7 +38,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Gallery extends Magento_Admin
             unset($result['tmp_name']);
             unset($result['path']);
 
-            $result['url'] = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')
+            $result['url'] = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')
                 ->getTmpMediaUrl($result['file']);
             $result['file'] = $result['file'] . '.tmp';
 
@@ -54,6 +54,6 @@ class Magento_Adminhtml_Controller_Catalog_Product_Gallery extends Magento_Admin
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Catalog::products');
+        return $this->_authorization->isAllowed('Magento_Catalog::products');
     }
 } // Class Magento_Adminhtml_Controller_Catalog_Product_Gallery End

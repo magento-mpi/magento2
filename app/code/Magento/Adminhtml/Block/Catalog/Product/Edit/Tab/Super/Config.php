@@ -69,11 +69,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     /**
      * Get configurable product type
      *
-     * @return Mage_Catalog_Model_Product_Type_Configurable
+     * @return Magento_Catalog_Model_Product_Type_Configurable
      */
     protected function _getProductType()
     {
-        return Mage::getModel('Mage_Catalog_Model_Product_Type_Configurable');
+        return Mage::getModel('Magento_Catalog_Model_Product_Type_Configurable');
     }
 
     /**
@@ -84,7 +84,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     public function isAttributesPricesReadonly()
     {
         return $this->getProduct()->getAttributesConfigurationReadonly() ||
-            (Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal() && $this->isReadonly());
+            (Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal() && $this->isReadonly());
     }
 
     /**
@@ -95,7 +95,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     protected function _prepareLayout()
     {
         $this->addChild('create_empty', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Create Empty'),
+            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Create Empty'),
             'class' => 'add',
             'onclick' => 'superProduct.createEmptyProduct()'
         ));
@@ -109,7 +109,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
 //            );
 //
 //            $this->addChild('create_from_configurable', 'Magento_Adminhtml_Block_Widget_Button', array(
-//                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Copy From Configurable'),
+//                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Copy From Configurable'),
 //                'class' => 'add',
 //                'onclick' => 'superProduct.createNewProduct()'
 //            ));
@@ -119,7 +119,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
             'generate',
             'Mage_Backend_Block_Widget_Button',
             array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Generate Variations'),
+                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Generate Variations'),
                 'class' => 'generate',
                 'data_attribute' => array(
                     'mage-init' => array(
@@ -139,7 +139,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
             'add_attribute',
             'Mage_Backend_Block_Widget_Button',
             array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Create New Variation Set'),
+                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Create New Variation Set'),
                 'class' => 'new-variation-set',
                 'data_attribute' => array(
                     'mage-init' => array(
@@ -168,7 +168,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
             'add_option',
             'Mage_Backend_Block_Widget_Button',
             array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Option'),
+                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Add Option'),
                 'class' => 'action- scalable add',
                 'data_attribute' => array(
                     'mage-init' => array(
@@ -185,7 +185,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     /**
      * Retrieve currently edited product object
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -255,7 +255,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
     /**
      * Retrieve configurable settings
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return array
      */
     public function getConfigurableSettings($product) {
@@ -304,7 +304,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
             '*/*/new',
             array(
                 'set'      => $this->getProduct()->getAttributeSetId(),
-                'type'     => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+                'type'     => Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
                 'required' => $this->_getRequiredAttributesIds(),
                 'popup'    => 1
             )
@@ -322,7 +322,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
             '*/*/new',
             array(
                 'set'      => $this->getProduct()->getAttributeSetId(),
-                'type'     => Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
+                'type'     => Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
                 'required' => $this->_getRequiredAttributesIds(),
                 'popup'    => 1,
                 'product'  => $this->getProduct()->getId()
@@ -354,7 +354,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Associated Products');
+        return Mage::helper('Magento_Catalog_Helper_Data')->__('Associated Products');
     }
 
     /**
@@ -364,7 +364,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Associated Products');
+        return Mage::helper('Magento_Catalog_Helper_Data')->__('Associated Products');
     }
 
     /**
@@ -394,7 +394,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
      */
     public function getShowUseDefaultPrice()
     {
-        return !Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal()
+        return !Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal()
             && $this->getProduct()->getStoreId();
     }
 

@@ -152,7 +152,7 @@
   * Added ability to generate proxy and factory classes on-the-fly for use with DI implementations. Generators can be managed in DI configuration
   * Implemented tools (shell scripts) that allow generating skeletons of factory and proxy classes for use with DI implementations
   * Added ability to set preferences to object manager and specify them through configuration
-* Refactored the following modules to utilize `Magento_Filesystem` library instead of using built-in PHP core functions directly: `Mage_Adminhtml`, `Mage_Backend`, `Mage_Backup`, `Mage_Captcha`, `Mage_Catalog`, `Mage_Cms`, `Mage_Connect`, `Mage_Core`, `Mage_Install`
+* Refactored the following modules to utilize `Magento_Filesystem` library instead of using built-in PHP core functions directly: `Mage_Adminhtml`, `Mage_Backend`, `Mage_Backup`, `Mage_Captcha`, `Magento_Catalog`, `Mage_Cms`, `Mage_Connect`, `Mage_Core`, `Mage_Install`
 * Bug fixes:
   * Fixed bug with incorrect order processing in `Mage_Authorizenet_Model_Directpost`
   * Fixed bug with unnecessary "loading" image on Category field during product editing in backend
@@ -277,7 +277,7 @@
   * Refactored implementation of associated products in backend (admin) to make them configurable through grid layout, rather than hard-coded.
   * Enhanced product variation matrix for configurable products
   * Changed "Apply To" feature in product attributes management due to changes in product creation process
-* Fixed XSS vulnerabilities in `Mage_Wishlist_IndexController`, `Mage_Adminhtml_Block_Review_Edit_Form`, `Mage_Catalog_Product_CompareController`
+* Fixed XSS vulnerabilities in `Mage_Wishlist_IndexController`, `Mage_Adminhtml_Block_Review_Edit_Form`, `Magento_Catalog_Product_CompareController`
 * Bug fixes
   * Fixed error on `Catalog -> Google Content -> Manage Items page`
   * Fixed bug with "Update Attributes" mass action for products on backend caused by setting incorrect inheritance of `Mage_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute`

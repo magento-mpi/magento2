@@ -222,7 +222,7 @@ class Mage_Shipping_Model_Shipping
         $maxWeight  = (float) $carrier->getConfigData('max_package_weight');
 
         foreach ($allItems as $item) {
-            if ($item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
                 && $item->getProduct()->getShipmentType()
             ) {
                 continue;
@@ -243,7 +243,7 @@ class Mage_Shipping_Model_Shipping
             }
 
             $itemWeight = $item->getWeight();
-            if ($item->getIsQtyDecimal() && $item->getProductType() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            if ($item->getIsQtyDecimal() && $item->getProductType() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
                 $stockItem = $item->getProduct()->getStockItem();
                 if ($stockItem->getIsDecimalDivided()) {
                    if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
@@ -274,7 +274,7 @@ class Mage_Shipping_Model_Shipping
             }
 
             if ($changeQty && !$item->getParentItem() && $item->getIsQtyDecimal()
-                && $item->getProductType() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+                && $item->getProductType() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
             ) {
                 $qty = 1;
             }

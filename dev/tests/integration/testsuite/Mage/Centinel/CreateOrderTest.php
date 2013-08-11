@@ -16,7 +16,7 @@ class Mage_Centinel_CreateOrderTest extends Mage_Backend_Utility_Controller
 {
     /**
      * @magentoConfigFixture admin_store payment/ccsave/centinel 1
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testIndexAction()
     {

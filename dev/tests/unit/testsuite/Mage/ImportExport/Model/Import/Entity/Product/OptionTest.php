@@ -497,13 +497,13 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
     }
 
     /**
-     * Get new object mock for Mage_Catalog_Model_Product_Option
+     * Get new object mock for Magento_Catalog_Model_Product_Option
      *
-     * @return Mage_Catalog_Model_Product_Option|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_Catalog_Model_Product_Option|PHPUnit_Framework_MockObject_MockObject
      */
     public function getNewOptionMock()
     {
-        return $this->getMock('Mage_Catalog_Model_Product_Option', null, array(), '', false);
+        return $this->getMock('Magento_Catalog_Model_Product_Option', null, array(), '', false);
     }
 
     /**

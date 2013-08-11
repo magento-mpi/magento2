@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../Catalog/_files/products.php';
+require __DIR__ . '/../../../Magento/Catalog/_files/products.php';
 
-/** @var $product Mage_Catalog_Model_Product */
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+/** @var $product Magento_Catalog_Model_Product */
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load(1);
 
 $requestInfo = new Magento_Object(array(

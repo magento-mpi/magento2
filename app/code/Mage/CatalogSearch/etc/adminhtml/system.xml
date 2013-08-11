@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,12 +13,12 @@
     <system>
         <section id="catalog">
             <group id="seo">
-                <field id="search_terms" translate="label" module="Mage_CatalogSearch" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="search_terms" translate="label" module="Magento_CatalogSearch" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Popular Search Terms</label>
                     <source_model>Mage_Backend_Model_Config_Source_Enabledisable</source_model>
                 </field>
             </group>
-            <group id="search" translate="label" module="Mage_CatalogSearch" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="search" translate="label" module="Magento_CatalogSearch" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Catalog Search</label>
                 <field id="min_query_length" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Minimal Query Length</label>
@@ -35,8 +35,8 @@
                 </field>
                 <field id="search_type" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Search Type</label>
-                    <backend_model>Mage_CatalogSearch_Model_Config_Backend_Search_Type</backend_model>
-                    <source_model>Mage_CatalogSearch_Model_Config_Source_Search_Type</source_model>
+                    <backend_model>Magento_CatalogSearch_Model_Config_Backend_Search_Type</backend_model>
+                    <source_model>Magento_CatalogSearch_Model_Config_Source_Search_Type</source_model>
                 </field>
                 <field id="use_layered_navigation_count" translate="label comment" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Apply Layered Navigation if Search Results are Less Than</label>

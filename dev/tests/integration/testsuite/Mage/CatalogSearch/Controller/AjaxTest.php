@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_CatalogSearch_Controller_AjaxTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_CatalogSearch_Controller_AjaxTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * @magentoDataFixture Mage/CatalogSearch/_files/query.php
+     * @magentoDataFixture Magento/CatalogSearch/_files/query.php
      */
     public function testSuggestAction()
     {

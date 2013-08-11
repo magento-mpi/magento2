@@ -42,8 +42,8 @@ class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento
     {
         $this->loadLayout()
             ->_addBreadcrumb(
-                Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'),
-                Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog')
+                Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'),
+                Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog')
             )
             ->_addBreadcrumb(
                 Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events'),

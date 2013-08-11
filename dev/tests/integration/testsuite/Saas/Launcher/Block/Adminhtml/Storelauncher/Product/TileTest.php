@@ -30,7 +30,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_TileTest extends PHPUn
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      * @magentoConfigFixture limitations/catalog_product 1
      */
     public function testIsAddProductRestrictedLimitReached()

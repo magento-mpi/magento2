@@ -14,8 +14,8 @@
         <resources>
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
-                    <resource id="Mage_CatalogRule::promo">
-                        <resource id="Mage_CatalogRule::promo_catalog">
+                    <resource id="Magento_CatalogRule::promo">
+                        <resource id="Magento_CatalogRule::promo_catalog">
                             <resource id="Enterprise_PromotionPermissions::edit" module="Enterprise_PromotionPermissions" title="Edit Catalog Price Rules" />
                         </resource>
                         <resource id="Mage_SalesRule::quote">

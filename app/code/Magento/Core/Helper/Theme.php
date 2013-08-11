@@ -77,7 +77,7 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
      *
      * Returned array has a structure
      * array(
-     *   'Mage_Catalog::widgets.css' => 'http://mage2.com/pub/static/frontend/_theme15/en_US/Mage_Cms/widgets.css'
+     *   'Magento_Catalog::widgets.css' => 'http://mage2.com/pub/static/frontend/_theme15/en_US/Mage_Cms/widgets.css'
      * )
      *
      * @param Magento_Core_Model_Theme $theme

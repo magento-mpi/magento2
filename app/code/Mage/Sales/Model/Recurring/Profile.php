@@ -702,7 +702,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
         $taxAmount = $itemInfo->getTaxAmount() ? $itemInfo->getTaxAmount() : 0;
         $item = Mage::getModel('Mage_Sales_Model_Order_Item')
             ->setStoreId($this->getStoreId())
-            ->setProductType(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL)
+            ->setProductType(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL)
             ->setIsVirtual(1)
             ->setSku('initial_fee')
             ->setName(Mage::helper('Mage_Sales_Helper_Data')->__('Recurring Profile Initial Fee'))

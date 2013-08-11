@@ -126,7 +126,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model_Re
         }
 
         if (!isset($this->_attributesCache[$attributeCode])) {
-            $attribute = Mage::getSingleton('Mage_Catalog_Model_Category')->getResource()->getAttribute($attributeCode);
+            $attribute = Mage::getSingleton('Magento_Catalog_Model_Category')->getResource()->getAttribute($attributeCode);
 
             $this->_attributesCache[$attributeCode] = array(
                 'entity_type_id'    => $attribute->getEntityTypeId(),

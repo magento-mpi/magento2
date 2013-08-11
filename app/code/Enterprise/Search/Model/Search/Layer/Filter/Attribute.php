@@ -20,7 +20,7 @@ class Enterprise_Search_Model_Search_Layer_Filter_Attribute extends Enterprise_S
     /**
      * Check whether specified attribute can be used in LN
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute  $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute  $attribute
      * @return bool
      */
     protected function _getIsFilterableAttribute($attribute)

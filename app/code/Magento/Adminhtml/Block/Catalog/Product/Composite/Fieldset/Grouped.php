@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Mage_Catalog_Block_Product_View_Type_Grouped
+class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends Magento_Catalog_Block_Product_View_Type_Grouped
 {
     /**
      * Redefine default price block
@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends
     /**
      * Retrieve product
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -75,7 +75,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends
     /**
      * Set preconfigured values to grouped associated products
      *
-     * @return Mage_Catalog_Block_Product_View_Type_Grouped
+     * @return Magento_Catalog_Block_Product_View_Type_Grouped
      */
     public function setPreconfiguredValue() {
         $configValues = $this->getProduct()->getPreconfiguredValues()->getSuperGroup();
@@ -93,7 +93,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends
     /**
      * Check whether the price can be shown for the specified product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool
      */
     public function getCanShowProductPrice($product)

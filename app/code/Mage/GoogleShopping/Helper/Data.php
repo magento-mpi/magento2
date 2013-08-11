@@ -62,7 +62,7 @@ class Mage_GoogleShopping_Helper_Data extends Magento_Core_Helper_Abstract
      * Parse Exception Response Body
      *
      * @param string $message Exception message to parse
-     * @param null|Mage_Catalog_Model_Product $product
+     * @param null|Magento_Catalog_Model_Product $product
      * @return string
      */
     public function parseGdataExceptionMessage($message, $product = null)

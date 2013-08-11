@@ -16,7 +16,7 @@
  * @package     Mage_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Mage_Catalog_Model_Resource_Product_Collection
+class Mage_Reports_Model_Resource_Product_Downloads_Collection extends Magento_Catalog_Model_Resource_Product_Collection
 {
     /**
      * Identifier field name

@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftRegistry_Controller_Mage_Catalog_ProductTest extends Magento_Test_TestCase_ControllerAbstract
+class Enterprise_GiftRegistry_Controller_Magento_Catalog_ProductTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testViewAction()
     {

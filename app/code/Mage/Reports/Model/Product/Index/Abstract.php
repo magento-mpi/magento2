@@ -147,7 +147,7 @@ abstract class Mage_Reports_Model_Product_Index_Abstract extends Magento_Core_Mo
         $collection = $this->getCollection()
             ->setCustomerId($this->getCustomerId())
             ->addIndexFilter()
-            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
 
         $count = $collection->getSize();
         $this->_getSession()->setData($this->_countCacheKey, $count);

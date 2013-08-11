@@ -64,8 +64,8 @@ class Mage_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'custom image'  => array(
-                'Mage_Catalog_Block_Product_Widget_New',
-                'Mage_Catalog/images/product_widget_new.gif'
+                'Magento_Catalog_Block_Product_Widget_New',
+                'Magento_Catalog/images/product_widget_new.gif'
             ),
             'default image' => array(
                 'non_existing_widget_type',
@@ -88,12 +88,12 @@ class Mage_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
             )
         ));
         $actualFile = $this->testGetPlaceholderImageUrl(
-            'Mage_Catalog_Block_Product_Widget_New',
-            'Mage_Catalog/images/product_widget_new.gif'
+            'Magento_Catalog_Block_Product_Widget_New',
+            'Magento_Catalog/images/product_widget_new.gif'
         );
 
         $expectedFile = dirname(__DIR__)
-            . '/_files/design/adminhtml/magento_basic/Mage_Catalog/images/product_widget_new.gif';
+            . '/_files/design/adminhtml/magento_basic/Magento_Catalog/images/product_widget_new.gif';
         $this->assertFileEquals($expectedFile, $actualFile);
     }
 }

@@ -31,7 +31,7 @@ class Magento_Adminhtml_Model_Search_Catalog extends Magento_Object
             return $this;
         }
 
-        $collection = Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery()->getSearchCollection()
+        $collection = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery()->getSearchCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('description')
             ->addSearchFilter($this->getQuery())

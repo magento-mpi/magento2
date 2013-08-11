@@ -30,7 +30,7 @@ class Mage_GoogleOptimizer_Model_Observer_Product_Delete
      */
     public function deleteProductGoogleExperimentScript($observer)
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = $observer->getEvent()->getProduct();
         $this->_modelCode->loadByEntityIdAndType(
             $product->getId(),

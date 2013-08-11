@@ -23,7 +23,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Sales_Model_Quote_Item_Abstract extends Magento_Core_Model_Abstract
-    implements Mage_Catalog_Model_Product_Configuration_Item_Interface
+    implements Magento_Catalog_Model_Product_Configuration_Item_Interface
 {
     protected $_parentItem  = null;
     protected $_children    = array();
@@ -53,13 +53,13 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Magento_Core_Model_A
     /**
      * Retrieve product model object associated with item
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
         $product = $this->_getData('product');
         if (($product === null) && $this->getProductId()) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStoreId($this->getQuote()->getStoreId())
                 ->load($this->getProductId());
             $this->setProduct($product);
@@ -77,7 +77,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Magento_Core_Model_A
 
     /**
      * Returns special download params (if needed) for custom option with type = 'file'
-     * Needed to implement Mage_Catalog_Model_Product_Configuration_Item_Interface.
+     * Needed to implement Magento_Catalog_Model_Product_Configuration_Item_Interface.
      * Return null, as quote item needs no additional configuration.
      *
      * @return null|Magento_Object
@@ -564,7 +564,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Magento_Core_Model_A
             $calculate = $this->getProduct()->getPriceType();
         }
 
-        if ((null !== $calculate) && (int)$calculate === Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
+        if ((null !== $calculate) && (int)$calculate === Magento_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
             return true;
         }
         return false;
@@ -585,7 +585,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Magento_Core_Model_A
         }
 
         if ((null !== $shipmentType) &&
-            (int)$shipmentType === Mage_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
+            (int)$shipmentType === Magento_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
             return true;
         }
         return false;

@@ -54,7 +54,7 @@ class Mage_Bundle_Model_Selection extends Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        if (!Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal() && $this->getWebsiteId()) {
+        if (!Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal() && $this->getWebsiteId()) {
             $this->getResource()->saveSelectionPrice($this);
 
             if (!$this->getDefaultPriceScope()) {

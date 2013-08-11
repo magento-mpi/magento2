@@ -133,9 +133,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_Adminh
                         }
                     }
                 }
-            } elseif ($website['value'] == Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
+            } elseif ($website['value'] == Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
                 $website['value'] = Enterprise_Cms_Helper_Hierarchy::SCOPE_PREFIX_STORE
-                                    . Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+                                    . Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
                 $options[] = array(
                     'label' => $website['label'],
                     'value' => $website['value'],

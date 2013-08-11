@@ -20,7 +20,7 @@ class Mage_GoogleShopping_Model_Attribute_Price extends Mage_GoogleShopping_Mode
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param Magento_Gdata_Gshopping_Entry $entry
      * @return Magento_Gdata_Gshopping_Entry
      */
@@ -52,7 +52,7 @@ class Mage_GoogleShopping_Model_Attribute_Price extends Mage_GoogleShopping_Mode
         } else if ($isSalePriceAllowed) {
             $finalPrice = Mage::helper('Mage_GoogleShopping_Helper_Price')->getCatalogPrice($product, $store, $inclTax);
         }
-        if ($product->getTypeId() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+        if ($product->getTypeId() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
             $finalPrice = $taxHelp->getPrice($product, $finalPrice, $inclTax, null, null, null, $product->getStoreId());
         }
 
@@ -67,7 +67,7 @@ class Mage_GoogleShopping_Model_Attribute_Price extends Mage_GoogleShopping_Mode
             $inclTax = ($priceDisplayType != Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX);
             $price = Mage::helper('Mage_GoogleShopping_Helper_Price')->getCatalogPrice($product, $store, $inclTax);
         }
-        if ($product->getTypeId() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+        if ($product->getTypeId() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
             $price = $taxHelp->getPrice($product, $price, $inclTax, null, null, null, $product->getStoreId());
         }
 

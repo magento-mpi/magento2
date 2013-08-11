@@ -56,15 +56,15 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
 
             $productCollection = parent::getItemsCollection();
             if ($productIds) {
-                $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
-                $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+                $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+                $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
                     ->setStoreId($this->_getStore()->getId())
                     ->addStoreFilter($this->_getStore()->getId())
                     ->addAttributeToSelect($attributes)
                     ->addIdFilter($productIds)
-                    ->addAttributeToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+                    ->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
 
-                Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')
+                Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
                     ->addIsInStockFilterToCollection($productCollection);
                 $productCollection = Mage::helper('Magento_Adminhtml_Helper_Sales')
                     ->applySalableProductTypesFilter($productCollection);

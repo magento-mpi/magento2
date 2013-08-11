@@ -30,7 +30,7 @@ class Mage_GoogleShopping_Model_Attribute_Default extends Mage_GoogleShopping_Mo
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param Magento_Gdata_Gshopping_Entry $entry
      * @return Magento_Gdata_Gshopping_Entry
      */
@@ -53,7 +53,7 @@ class Mage_GoogleShopping_Model_Attribute_Default extends Mage_GoogleShopping_Mo
     /**
      * Get current attribute value for specified product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return null|string
      */
     public function getProductAttributeValue($product)
@@ -85,7 +85,7 @@ class Mage_GoogleShopping_Model_Attribute_Default extends Mage_GoogleShopping_Mo
     /**
      * Return Google Content Attribute Type By Product Attribute
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @return string Google Content Attribute Type
      */
     public function getGcontentAttributeType($attribute)

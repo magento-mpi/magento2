@@ -15,7 +15,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abstract
+class Mage_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Type_Abstract
 {
     /**
      * Product is composite
@@ -118,7 +118,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Return product sku based on sku_type attribute
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return string
      */
     public function getSku($product)
@@ -148,7 +148,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Return product weight based on weight_type attribute
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return decimal
      */
     public function getWeight($product)
@@ -178,7 +178,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Check is virtual product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool
      */
     public function isVirtual($product)
@@ -203,7 +203,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Before save type related data
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      */
     public function beforeSave($product)
     {
@@ -216,7 +216,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
         if ($product->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC) {
             $product->setData(
-                'msrp_enabled', Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_NO
+                'msrp_enabled', Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_NO
             );
             $product->unsetData('msrp');
             $product->unsetData('msrp_display_actual_price_type');
@@ -249,7 +249,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Save type related data
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Bundle_Model_Product_Type
      */
     public function save($product)
@@ -326,7 +326,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Retrieve bundle options items
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return array
      */
     public function getOptions($product)
@@ -337,7 +337,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Retrieve bundle options ids
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return array
      */
     public function getOptionsIds($product)
@@ -348,7 +348,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Retrieve bundle option collection
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Bundle_Model_Resource_Option_Collection
      */
     public function getOptionsCollection($product)
@@ -373,7 +373,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Retrive bundle selections collection based on used options
      *
      * @param array $optionIds
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Bundle_Model_Resource_Selection_Collection
      */
     public function getSelectionsCollection($optionIds, $product)
@@ -383,7 +383,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         if (!$product->hasData($key)) {
             $storeId = $product->getStoreId();
             $selectionsCollection = Mage::getResourceModel('Mage_Bundle_Model_Resource_Selection_Collection')
-                ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
+                ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
                 ->addAttributeToSelect('tax_class_id') //used for calculation item taxes in Bundle with Dynamic Price
                 ->setFlag('require_stock_items', true)
                 ->setFlag('product_children', true)
@@ -393,7 +393,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 ->addFilterByRequiredOptions()
                 ->setOptionIdsFilter($optionIds);
 
-            if (!Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal() && $storeId) {
+            if (!Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal() && $storeId) {
                 $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
                 $selectionsCollection->joinPrices($websiteId);
             }
@@ -412,7 +412,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * @param   array           $options
      * @param   Magento_Object   $option
      * @param   mixed           $value
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @return  Mage_Bundle_Model_Product_Type
      */
     public function updateQtyOption($options, Magento_Object $option, $value, $product)
@@ -445,7 +445,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Prepare Quote Item Quantity
      *
      * @param mixed $qty
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return int
      */
     public function prepareQuoteItemQty($qty, $product)
@@ -456,7 +456,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Checking if we can sale this bundle
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool
      */
     public function isSalable($product)
@@ -502,7 +502,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Perform standard preparation process and then prepare of bundle selections options.
      *
      * @param Magento_Object $buyRequest
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param string $processMode
      * @return array|string
      */
@@ -517,7 +517,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         $selections = array();
         $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
 
-        $skipSaleableCheck = Mage::helper('Mage_Catalog_Helper_Product')->getSkipSaleableCheck();
+        $skipSaleableCheck = Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck();
         $_appendAllSelections = (bool)$product->getSkipCheckRequiredOption() || $skipSaleableCheck;
 
         $options = $buyRequest->getBundleOption();
@@ -699,7 +699,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Retrieve bundle selections collection based on ids
      *
      * @param array $selectionIds
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Bundle_Model_Resource_Selection_Collection
      */
     public function getSelectionsByIds($selectionIds, $product)
@@ -720,7 +720,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 ->addFilterByRequiredOptions()
                 ->setSelectionIdsFilter($selectionIds);
 
-                if (!Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal() && $storeId) {
+                if (!Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal() && $storeId) {
                     $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
                     $usedSelections->joinPrices($websiteId);
                 }
@@ -734,7 +734,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Retrieve bundle options collection based on ids
      *
      * @param array $optionIds
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Bundle_Model_Resource_Option_Collection
      */
     public function getOptionsByIds($optionIds, $product)
@@ -760,7 +760,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Prepare additional options/information for order item which will be
      * created from this product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return array
      */
     public function getOrderOptions($product)
@@ -823,8 +823,8 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Sort selections method for usort function
      * Sort selections by option position, selection position and selection id
      *
-     * @param  Mage_Catalog_Model_Product $a
-     * @param  Mage_Catalog_Model_Product $b
+     * @param  Magento_Catalog_Model_Product $a
+     * @param  Magento_Catalog_Model_Product $b
      * @return int
      */
     public function shakeSelections($a, $b)
@@ -851,7 +851,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Return true if product has options
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool
      */
     public function hasOptions($product)
@@ -870,7 +870,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Allow for updates of chidren qty's
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return boolean true
      */
     public function getForceChildItemQtyChanges($product)
@@ -882,7 +882,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Retrieve additional searchable data from type instance
      * Using based on product id and store_id data
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return array
      */
     public function getSearchableData($product)
@@ -901,7 +901,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Check if product can be bought
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Bundle_Model_Product_Type
      * @throws Magento_Core_Exception
      */
@@ -920,7 +920,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             Mage::throwException($this->getSpecifyOptionMessage());
         }
 
-        $skipSaleableCheck = Mage::helper('Mage_Catalog_Helper_Product')->getSkipSaleableCheck();
+        $skipSaleableCheck = Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck();
         foreach ($selectionIds as $selectionId) {
             /* @var $selection Mage_Bundle_Model_Selection */
             $selection = $productSelections->getItemById($selectionId);
@@ -948,7 +948,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Retrieve products divided into groups required to purchase
      * At least one product in each group has to be purchased
      *
-     * @param  Mage_Catalog_Model_Product $product
+     * @param  Magento_Catalog_Model_Product $product
      * @return array
      */
     public function getProductsToPurchaseByReqGroups($product)
@@ -976,7 +976,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Prepare selected options for bundle product
      *
-     * @param  Mage_Catalog_Model_Product $product
+     * @param  Magento_Catalog_Model_Product $product
      * @param  Magento_Object $buyRequest
      * @return array
      */
@@ -999,12 +999,12 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Check if product can be configured
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool
      */
     public function canConfigure($product)
     {
-        return $product instanceof Mage_Catalog_Model_Product
+        return $product instanceof Magento_Catalog_Model_Product
             && $product->isAvailable()
             && parent::canConfigure($product);
     }
@@ -1012,7 +1012,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Check if Minimum Advertise Price is enabled at least in one option
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param int $visibility
      * @return bool|null
      */
@@ -1024,7 +1024,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
          */
         /*
         $collection = $this->getUsedProductCollection($product);
-        $helper = Mage::helper('Mage_Catalog_Helper_Data');
+        $helper = Mage::helper('Magento_Catalog_Helper_Data');
 
         $result = null;
         $parentVisibility = $product->getMsrpDisplayActualPriceType();
@@ -1061,9 +1061,9 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Delete data specific for Bundle product type
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      */
-    public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
+    public function deleteTypeSpecificData(Magento_Catalog_Model_Product $product)
     {
     }
 }

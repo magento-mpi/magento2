@@ -153,13 +153,13 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model_Re
 
         $this->_productIds = array_merge($this->_productIds, array_keys($productIds));
         $attributes = Mage::getSingleton('Mage_Wishlist_Model_Config')->getProductAttributes();
-        $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection();
+        $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection();
         foreach ($storeIds as $id) {
             $productCollection->addStoreFilter($id);
         }
 
         if ($this->_productVisible) {
-            $productCollection->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+            $productCollection->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
         }
 
         $productCollection->addPriceData()
@@ -177,7 +177,7 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model_Re
             'product_collection' => $productCollection
         ));
 
-        $checkInStock = $this->_productInStock && !Mage::helper('Mage_CatalogInventory_Helper_Data')->isShowOutOfStock();
+        $checkInStock = $this->_productInStock && !Mage::helper('Magento_CatalogInventory_Helper_Data')->isShowOutOfStock();
 
         foreach ($this as $item) {
             $product = $productCollection->getItemById($item->getProductId());
@@ -372,9 +372,9 @@ class Mage_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model_Re
     protected function _joinProductNameTable()
     {
         if (!$this->_isProductNameJoined) {
-            $entityTypeId = Mage::getResourceModel('Mage_Catalog_Model_Resource_Config')
+            $entityTypeId = Mage::getResourceModel('Magento_Catalog_Model_Resource_Config')
                 ->getEntityTypeId();
-            $attribute = Mage::getModel('Mage_Catalog_Model_Entity_Attribute')
+            $attribute = Mage::getModel('Magento_Catalog_Model_Entity_Attribute')
                 ->loadByCode($entityTypeId, 'name');
 
             $storeId = Mage::app()->getStore()->getId();

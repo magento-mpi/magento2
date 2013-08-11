@@ -13,7 +13,7 @@
             <block type="Mage_Backend_Block_Widget_Grid" name="admin.product.edit.tab.super.config.grid" as="grid">
                 <arguments>
                     <id>configurable_associated_products_grid</id>
-                    <dataSource type="object">Mage_Catalog_Model_Resource_Product_Collection_AssociatedProduct</dataSource>
+                    <dataSource type="object">Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct</dataSource>
                     <use_ajax>true</use_ajax>
                     <default_sort>entity_id</default_sort>
                     <default_dir>DESC</default_dir>
@@ -25,7 +25,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSet" as="grid.columnSet" name="admin.product.edit.tab.super.config.grid.columnSet">
+                <block type="Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSet" as="grid.columnSet" name="admin.product.edit.tab.super.config.grid.columnSet">
                     <arguments>
                         <id>super_product_links</id>
                     </arguments>
@@ -38,7 +38,7 @@
                             <id>entity_id</id>
                             <filter>0</filter>
                             <sortable>1</sortable>
-                            <renderer>Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Renderer_Id</renderer>
+                            <renderer>Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Renderer_Id</renderer>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">

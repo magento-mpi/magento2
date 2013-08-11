@@ -41,7 +41,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
      * @var array
      */
     protected $_matchedEntities = array(
-        Mage_Catalog_Model_Product::ENTITY => array(
+        Magento_Catalog_Model_Product::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE,
             Mage_Index_Model_Event::TYPE_DELETE,
             Mage_Index_Model_Event::TYPE_MASS_ACTION,
@@ -104,7 +104,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
      */
     protected function _registerEvent(Mage_Index_Model_Event $event)
     {
-        if ($event->getEntity() == Mage_Catalog_Model_Product::ENTITY) {
+        if ($event->getEntity() == Magento_Catalog_Model_Product::ENTITY) {
             $this->_registerCatalogProduct($event);
         } elseif ($event->getEntity() == Mage_Tag_Model_Tag::ENTITY) {
             $this->_registerTag($event);
@@ -120,7 +120,7 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
      */
     protected function _registerCatalogProductSaveEvent(Mage_Index_Model_Event $event)
     {
-        /* @var $product Mage_Catalog_Model_Product */
+        /* @var $product Magento_Catalog_Model_Product */
         $product = $event->getDataObject();
         $reindexTag = $product->getForceReindexRequired();
 

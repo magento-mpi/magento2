@@ -64,7 +64,7 @@ class Magento_Adminhtml_Controller_Promo_Widget extends Magento_Adminhtml_Contro
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_CatalogRule::promo_catalog');
+        return $this->_authorization->isAllowed('Magento_CatalogRule::promo_catalog');
     }
 
     /**
@@ -88,14 +88,14 @@ class Magento_Adminhtml_Controller_Promo_Widget extends Magento_Adminhtml_Contro
     /**
      * Initialize category object in registry
      *
-     * @return Mage_Catalog_Model_Category
+     * @return Magento_Catalog_Model_Category
      */
     protected function _initCategory()
     {
         $categoryId = (int) $this->getRequest()->getParam('id',false);
         $storeId    = (int) $this->getRequest()->getParam('store');
 
-        $category   = Mage::getModel('Mage_Catalog_Model_Category');
+        $category   = Mage::getModel('Magento_Catalog_Model_Category');
         $category->setStoreId($storeId);
 
         if ($categoryId) {

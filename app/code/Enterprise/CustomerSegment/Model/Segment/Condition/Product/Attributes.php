@@ -104,7 +104,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
     /**
      * Get product attribute object
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     * @return Magento_Catalog_Model_Resource_Eav_Attribute
      */
     public function getAttributeObject()
     {

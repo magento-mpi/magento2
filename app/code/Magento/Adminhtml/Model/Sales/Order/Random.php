@@ -64,12 +64,12 @@ class Magento_Adminhtml_Model_Sales_Order_Random
     protected function _getProducts()
     {
         if (!$this->_productCollection) {
-            $this->_productCollection= Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
+            $this->_productCollection= Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
             //$this->_productCollection->getEntity()->setStore($this->_getStore());
             $this->_productCollection->addAttributeToSelect('name')
                 ->addAttributeToSelect('sku')
-                ->addAttributeToFilter('type_id', Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
-                ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSearchIds())
+                ->addAttributeToFilter('type_id', Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+                ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSearchIds())
                 ->load();
         }
         return $this->_productCollection->getItems();

@@ -35,7 +35,7 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Store</header>
+                            <header translate="true" module="Magento_Catalog">Store</header>
                             <width>100px</width>
                             <type>store</type>
                             <store_view>1</store_view>
@@ -45,14 +45,14 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="package">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Design</header>
+                            <header translate="true" module="Magento_Catalog">Design</header>
                             <width>150px</width>
                             <index>design</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="date_from">
                         <arguments>
-                            <header translate="true" module="Mage_CatalogRule">Date From</header>
+                            <header translate="true" module="Magento_CatalogRule">Date From</header>
                             <align>left</align>
                             <width>100px</width>
                             <type>date</type>
@@ -61,7 +61,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="date_to">
                         <arguments>
-                            <header translate="true" module="Mage_CatalogRule">Date To</header>
+                            <header translate="true" module="Magento_CatalogRule">Date To</header>
                             <align>left</align>
                             <width>100px</width>
                             <type>date</type>

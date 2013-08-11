@@ -15,13 +15,13 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Price
+class Mage_Downloadable_Model_Product_Price extends Magento_Catalog_Model_Product_Type_Price
 {
     /**
      * Retrieve product final price
      *
      * @param integer $qty
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return float
      */
     public function getFinalPrice($qty=null, $product)

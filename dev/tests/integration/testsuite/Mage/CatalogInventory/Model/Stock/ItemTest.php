@@ -3,22 +3,22 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_CatalogInventory_Model_Stock_ItemTest extends PHPUnit_Framework_TestCase
+class Magento_CatalogInventory_Model_Stock_ItemTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_CatalogInventory_Model_Stock_Item
+     * @var Magento_CatalogInventory_Model_Stock_Item
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+        $this->_model = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
     }
 
     /**
@@ -26,16 +26,16 @@ class Mage_CatalogInventory_Model_Stock_ItemTest extends PHPUnit_Framework_TestC
      */
     public static function simpleProductFixture()
     {
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->setTypeId('simple')
             ->setId(1)
             ->setAttributeSetId(4)
             ->setName('Simple Product')
             ->setSku('simple')
             ->setPrice(10)
-            ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-            ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+            ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+            ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
             ->save();
     }
 
@@ -46,8 +46,8 @@ class Mage_CatalogInventory_Model_Stock_ItemTest extends PHPUnit_Framework_TestC
     {
         $this->_model
             ->setProductId(1)
-            ->setTypeId(Mage_Catalog_Model_Product_Type::DEFAULT_TYPE)
-            ->setStockId(Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID)
+            ->setTypeId(Magento_Catalog_Model_Product_Type::DEFAULT_TYPE)
+            ->setStockId(Magento_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID)
             ->setQty(null);
         $this->_model->save();
 
@@ -71,8 +71,8 @@ class Mage_CatalogInventory_Model_Stock_ItemTest extends PHPUnit_Framework_TestC
     {
         $this->_model
             ->setProductId(1)
-            ->setTypeId(Mage_Catalog_Model_Product_Type::DEFAULT_TYPE)
-            ->setStockId(Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID)
+            ->setTypeId(Magento_Catalog_Model_Product_Type::DEFAULT_TYPE)
+            ->setStockId(Magento_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID)
             ->setQty(1);
         $this->_model->save();
         $this->assertEquals(0, $this->_model->getStockStatusChangedAuto());

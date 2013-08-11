@@ -12,7 +12,7 @@
 $installer = $this;
 
 $installer->updateAttribute(
-    Mage_Catalog_Model_Product::ENTITY,
+    Magento_Catalog_Model_Product::ENTITY,
     'enable_googlecheckout',
     'frontend_label',
     'Is Product Available for Purchase with Google Checkout'

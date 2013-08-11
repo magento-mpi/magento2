@@ -140,7 +140,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
                 )
             )
         );
-        foreach (Mage_Catalog_Model_Product_Type::getTypes() as $typeId => $type) {
+        foreach (Magento_Catalog_Model_Product_Type::getTypes() as $typeId => $type) {
             $productsOptions[] = array(
                'value' => $typeId.'_products',
                'label' => $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape($type['label'])
@@ -202,7 +202,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
             'is_anchor_only' => '',
             'product_type_id' => ''
         );
-        foreach (Mage_Catalog_Model_Product_Type::getTypes() as $typeId => $type) {
+        foreach (Magento_Catalog_Model_Product_Type::getTypes() as $typeId => $type) {
             $container[$typeId] = array(
                 'label' => 'Products',
                 'code' => 'products',

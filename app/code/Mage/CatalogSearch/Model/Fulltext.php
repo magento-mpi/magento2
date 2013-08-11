@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,20 +11,20 @@
 /**
  * Catalog advanced search model
  *
- * @method Mage_CatalogSearch_Model_Resource_Fulltext _getResource()
- * @method Mage_CatalogSearch_Model_Resource_Fulltext getResource()
+ * @method Magento_CatalogSearch_Model_Resource_Fulltext _getResource()
+ * @method Magento_CatalogSearch_Model_Resource_Fulltext getResource()
  * @method int getProductId()
- * @method Mage_CatalogSearch_Model_Fulltext setProductId(int $value)
+ * @method Magento_CatalogSearch_Model_Fulltext setProductId(int $value)
  * @method int getStoreId()
- * @method Mage_CatalogSearch_Model_Fulltext setStoreId(int $value)
+ * @method Magento_CatalogSearch_Model_Fulltext setStoreId(int $value)
  * @method string getDataIndex()
- * @method Mage_CatalogSearch_Model_Fulltext setDataIndex(string $value)
+ * @method Magento_CatalogSearch_Model_Fulltext setDataIndex(string $value)
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
+class Magento_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
 {
     const SEARCH_TYPE_LIKE              = 1;
     const SEARCH_TYPE_FULLTEXT          = 2;
@@ -33,7 +33,7 @@ class Mage_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Mage_CatalogSearch_Model_Resource_Fulltext');
+        $this->_init('Magento_CatalogSearch_Model_Resource_Fulltext');
     }
 
     /**
@@ -48,7 +48,7 @@ class Mage_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
      * @param int|null $storeId Store View Id
      * @param int|array|null $productIds Product Entity Id
      *
-     * @return Mage_CatalogSearch_Model_Fulltext
+     * @return Magento_CatalogSearch_Model_Fulltext
      */
     public function rebuildIndex($storeId = null, $productIds = null)
     {
@@ -75,7 +75,7 @@ class Mage_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
      *
      * @param int $storeId Store View Id
      * @param int $productId Product Entity Id
-     * @return Mage_CatalogSearch_Model_Fulltext
+     * @return Magento_CatalogSearch_Model_Fulltext
      */
     public function cleanIndex($storeId = null, $productId = null)
     {
@@ -86,7 +86,7 @@ class Mage_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
     /**
      * Reset search results cache
      *
-     * @return Mage_CatalogSearch_Model_Fulltext
+     * @return Magento_CatalogSearch_Model_Fulltext
      */
     public function resetSearchResults()
     {
@@ -97,15 +97,15 @@ class Mage_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
     /**
      * Prepare results for query
      *
-     * @param Mage_CatalogSearch_Model_Query $query
-     * @return Mage_CatalogSearch_Model_Fulltext
+     * @param Magento_CatalogSearch_Model_Query $query
+     * @return Magento_CatalogSearch_Model_Fulltext
      */
     public function prepareResult($query = null)
     {
-        if (!$query instanceof Mage_CatalogSearch_Model_Query) {
-            $query = Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery();
+        if (!$query instanceof Magento_CatalogSearch_Model_Query) {
+            $query = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery();
         }
-        $queryText = Mage::helper('Mage_CatalogSearch_Helper_Data')->getQueryText();
+        $queryText = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQueryText();
         if ($query->getSynonymFor()) {
             $queryText = $query->getSynonymFor();
         }
@@ -136,7 +136,7 @@ class Mage_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
      * @deprecated after 1.6.1.0
      *
      * @param bool $value
-     * @return Mage_CatalogSearch_Model_Fulltext
+     * @return Magento_CatalogSearch_Model_Fulltext
      */
     public function setAllowTableChanges($value = true)
     {
@@ -152,7 +152,7 @@ class Mage_CatalogSearch_Model_Fulltext extends Magento_Core_Model_Abstract
      * @param array $productIds
      * @param array $categoryIds
      *
-     * @return Mage_CatalogSearch_Model_Fulltext
+     * @return Magento_CatalogSearch_Model_Fulltext
      */
     public function updateCategoryIndex($productIds, $categoryIds)
     {

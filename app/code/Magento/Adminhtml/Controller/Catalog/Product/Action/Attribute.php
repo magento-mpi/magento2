@@ -22,7 +22,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
     protected function _construct()
     {
         // Define module dependent translate
-        $this->setUsedModuleName('Mage_Catalog');
+        $this->setUsedModuleName('Magento_Catalog');
     }
 
     public function editAction()
@@ -51,7 +51,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
         $websiteAddData     = $this->getRequest()->getParam('add_website_ids', array());
 
         /* Prepare inventory data item options (use config settings) */
-        foreach (Mage::helper('Mage_CatalogInventory_Helper_Data')->getConfigItemOptions() as $option) {
+        foreach (Mage::helper('Magento_CatalogInventory_Helper_Data')->getConfigItemOptions() as $option) {
             if (isset($inventoryData[$option]) && !isset($inventoryData['use_config_' . $option])) {
                 $inventoryData['use_config_' . $option] = 0;
             }
@@ -64,7 +64,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
 
                 foreach ($attributesData as $attributeCode => $value) {
                     $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
-                        ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
+                        ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);
                         continue;
@@ -96,11 +96,11 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
                     }
                 }
 
-                Mage::getSingleton('Mage_Catalog_Model_Product_Action')
+                Mage::getSingleton('Magento_Catalog_Model_Product_Action')
                     ->updateAttributes($this->_getHelper()->getProductIds(), $attributesData, $storeId);
             }
             if ($inventoryData) {
-                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
+                $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
                 $stockItem->setProcessIndexEvents(false);
                 $stockItemSaved = false;
 
@@ -124,15 +124,15 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
 
                 if ($stockItemSaved) {
                     Mage::getSingleton('Mage_Index_Model_Indexer')->indexEvents(
-                        Mage_CatalogInventory_Model_Stock_Item::ENTITY,
+                        Magento_CatalogInventory_Model_Stock_Item::ENTITY,
                         Mage_Index_Model_Event::TYPE_SAVE
                     );
                 }
             }
 
             if ($websiteAddData || $websiteRemoveData) {
-                /* @var $actionModel Mage_Catalog_Model_Product_Action */
-                $actionModel = Mage::getSingleton('Mage_Catalog_Model_Product_Action');
+                /* @var $actionModel Magento_Catalog_Model_Product_Action */
+                $actionModel = Mage::getSingleton('Magento_Catalog_Model_Product_Action');
                 $productIds  = $this->_getHelper()->getProductIds();
 
                 if ($websiteRemoveData) {
@@ -176,7 +176,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
         $productIds = $this->_getHelper()->getProductIds();
         if (!is_array($productIds)) {
             $error = $this->__('Please select products for attributes update.');
-        } else if (!Mage::getModel('Mage_Catalog_Model_Product')->isProductsHasSku($productIds)) {
+        } else if (!Mage::getModel('Magento_Catalog_Model_Product')->isProductsHasSku($productIds)) {
             $error = $this->__('Please make sure to define SKU values for all processed products.');
         }
 
@@ -200,7 +200,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Catalog::update_attributes');
+        return $this->_authorization->isAllowed('Magento_Catalog::update_attributes');
     }
 
     /**

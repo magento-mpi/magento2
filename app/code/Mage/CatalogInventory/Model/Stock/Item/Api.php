@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Catalog inventory api
  *
  * @category   Mage
- * @package    Mage_CatalogInventory
+ * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Stock_Item_Api extends Mage_Catalog_Model_Api_Resource
+class Magento_CatalogInventory_Model_Stock_Item_Api extends Magento_Catalog_Model_Api_Resource
 {
     public function __construct()
     {
@@ -28,7 +28,7 @@ class Mage_CatalogInventory_Model_Stock_Item_Api extends Mage_Catalog_Model_Api_
             $productIds = array($productIds);
         }
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
 
         foreach ($productIds as &$productId) {
             if ($newId = $product->getIdBySku($productId)) {
@@ -36,7 +36,7 @@ class Mage_CatalogInventory_Model_Stock_Item_Api extends Mage_Catalog_Model_Api_
             }
         }
 
-        $collection = Mage::getModel('Mage_Catalog_Model_Product')
+        $collection = Mage::getModel('Magento_Catalog_Model_Product')
             ->getCollection()
             ->setFlag('require_stock_items', true)
             ->addFieldToFilter('entity_id', array('in'=>$productIds));
@@ -56,4 +56,4 @@ class Mage_CatalogInventory_Model_Stock_Item_Api extends Mage_Catalog_Model_Api_
 
         return $result;
     }
-} // Class Mage_CatalogInventory_Model_Stock_Item_Api End
+} // Class Magento_CatalogInventory_Model_Stock_Item_Api End

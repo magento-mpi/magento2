@@ -189,7 +189,7 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
     /**
      * Subtract product from all quotes quantities
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Sales_Model_Resource_Quote
      */
     public function substractProductFromQuotes($product)

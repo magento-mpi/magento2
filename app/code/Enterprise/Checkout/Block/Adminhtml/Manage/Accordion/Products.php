@@ -49,8 +49,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
-            $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+            $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
+            $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
                 ->setStore($this->_getStore())
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToSelect('sku')
@@ -59,9 +59,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products
                     array_keys(
                         Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
                     )
-                )->addAttributeToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+                )->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
                 ->addStoreFilter($this->_getStore());
-            Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')->addIsInStockFilterToCollection($collection);
+            Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')->addIsInStockFilterToCollection($collection);
             $this->setData('items_collection', $collection);
         }
         return $this->getData('items_collection');

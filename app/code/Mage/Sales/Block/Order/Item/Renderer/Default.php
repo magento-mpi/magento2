@@ -106,7 +106,7 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Magento_Core_Block_Te
             $_default = array('value' => $optionValue);
             if (isset($optionInfo['option_type'])) {
                 try {
-                    $group = Mage::getModel('Mage_Catalog_Model_Product_Option')->groupFactory($optionInfo['option_type']);
+                    $group = Mage::getModel('Magento_Catalog_Model_Product_Option')->groupFactory($optionInfo['option_type']);
                     return array('value' => $group->getCustomizedView($optionInfo));
                 } catch (Exception $e) {
                     return $_default;
@@ -144,7 +144,7 @@ class Mage_Sales_Block_Order_Item_Renderer_Default extends Magento_Core_Block_Te
      */
     public function getSku()
     {
-        /*if ($this->getOrderItem()->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+        /*if ($this->getOrderItem()->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
             return $this->getOrderItem()->getProductOptionByCode('simple_sku');
         }*/
         return $this->getItem()->getSku();

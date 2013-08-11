@@ -87,7 +87,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Entity_VariationsTest exten
     public function testRestrictCreationActive(
         $threshold, $isObjectNew, array $variations, $expectedQty, $expectedExceptionMsg
     ) {
-        $this->setExpectedException('Mage_Catalog_Exception', $expectedExceptionMsg);
+        $this->setExpectedException('Magento_Catalog_Exception', $expectedExceptionMsg);
         $this->_invokeRestrictCreation($threshold, true, $isObjectNew, $variations, $expectedQty);
     }
 

@@ -16,12 +16,12 @@
  * @package     Mage_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Resource_Review_Product_Collection extends Mage_Catalog_Model_Resource_Product_Collection
+class Mage_Reports_Model_Resource_Review_Product_Collection extends Magento_Catalog_Model_Resource_Product_Collection
 {
     /**
      * Init Select
      *
-     * @return Mage_Catalog_Model_Resource_Product_Collection
+     * @return Magento_Catalog_Model_Resource_Product_Collection
      */
     protected function _initSelect()
     {

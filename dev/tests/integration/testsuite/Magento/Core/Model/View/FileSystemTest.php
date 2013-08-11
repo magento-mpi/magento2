@@ -33,8 +33,8 @@ class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
 
     public function testGetFilename()
     {
-        $expected = '%s/frontend/test_default/Mage_Catalog/theme_template.phtml';
-        $actual = $this->_model->getFilename('Mage_Catalog::theme_template.phtml', array());
+        $expected = '%s/frontend/test_default/Magento_Catalog/theme_template.phtml';
+        $actual = $this->_model->getFilename('Magento_Catalog::theme_template.phtml', array());
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 

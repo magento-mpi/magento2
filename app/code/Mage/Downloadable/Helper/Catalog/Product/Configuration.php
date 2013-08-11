@@ -16,15 +16,15 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Downloadable_Helper_Catalog_Product_Configuration extends Magento_Core_Helper_Abstract
-    implements Mage_Catalog_Helper_Product_Configuration_Interface
+    implements Magento_Catalog_Helper_Product_Configuration_Interface
 {
     /**
      * Retrieves item links options
      *
-     * @param Mage_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
      * @return array
      */
-    public function getLinks(Mage_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getLinks(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
     {
         $product = $item->getProduct();
         $itemLinks = array();
@@ -44,7 +44,7 @@ class Mage_Downloadable_Helper_Catalog_Product_Configuration extends Magento_Cor
     /**
      * Retrieves product links section title
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return string
      */
     public function getLinksTitle($product)
@@ -59,12 +59,12 @@ class Mage_Downloadable_Helper_Catalog_Product_Configuration extends Magento_Cor
     /**
      * Retrieves product options
      *
-     * @param Mage_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
      * @return array
      */
-    public function getOptions(Mage_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
     {
-        $options = Mage::helper('Mage_Catalog_Helper_Product_Configuration')->getOptions($item);
+        $options = Mage::helper('Magento_Catalog_Helper_Product_Configuration')->getOptions($item);
 
         $links = $this->getLinks($item);
         if ($links) {

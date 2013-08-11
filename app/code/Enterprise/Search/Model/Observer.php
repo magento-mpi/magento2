@@ -35,7 +35,7 @@ class Enterprise_Search_Model_Observer
 
         $fieldset->addField('search_weight', 'select', array(
             'name'        => 'search_weight',
-            'label'       => Mage::helper('Mage_Catalog_Helper_Data')->__('Search Weight'),
+            'label'       => Mage::helper('Magento_Catalog_Helper_Data')->__('Search Weight'),
             'values'      => Mage::getModel('Enterprise_Search_Model_Source_Weight')->getOptions(),
         ), 'is_searchable');
         /**
@@ -100,7 +100,7 @@ class Enterprise_Search_Model_Observer
             return;
         }
 
-        $engine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine();
+        $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
         if (!$engine->holdCommit()) {
             return;
         }
@@ -127,7 +127,7 @@ class Enterprise_Search_Model_Observer
             return;
         }
 
-        $engine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine();
+        $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
         if (!$engine->allowCommit()) {
             return;
         }
@@ -215,7 +215,7 @@ class Enterprise_Search_Model_Observer
         }
 
         if (!empty($storeIds)) {
-            $engine = Mage::helper('Mage_CatalogSearch_Helper_Data')->getEngine();
+            $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
             $engine->cleanIndex($storeIds);
         }
     }

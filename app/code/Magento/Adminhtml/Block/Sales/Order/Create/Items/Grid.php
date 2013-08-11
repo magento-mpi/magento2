@@ -39,14 +39,14 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
             // To dispatch inventory event sales_quote_item_qty_set_after, set item qty
             $item->setQty($item->getQty());
             $stockItem = $item->getProduct()->getStockItem();
-            if ($stockItem instanceof Mage_CatalogInventory_Model_Stock_Item) {
+            if ($stockItem instanceof Magento_CatalogInventory_Model_Stock_Item) {
                 // This check has been performed properly in Inventory observer, so it has no sense
                 /*
                 $check = $stockItem->checkQuoteItemQty($item->getQty(), $item->getQty(), $item->getQty());
                 $item->setMessage($check->getMessage());
                 $item->setHasError($check->getHasError());
                 */
-                if ($item->getProduct()->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED) {
+                if ($item->getProduct()->getStatus() == Magento_Catalog_Model_Product_Status::STATUS_DISABLED) {
                     $item->setMessage(Mage::helper('Magento_Adminhtml_Helper_Data')->__('This product is disabled.'));
                     $item->setHasError(true);
                 }
@@ -212,7 +212,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
         $html = '';
         $prices = $item->getProduct()->getTierPrice();
         if ($prices) {
-            $info = $item->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+            $info = $item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
                 ? $this->_getBundleTierPriceInfo($prices)
                 : $this->_getTierPriceInfo($prices);
             $html = implode('<br/>', $info);

@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adm
         }
 
         $collection = Mage::getResourceModel('Mage_Sales_Model_Resource_Report_Bestsellers_Collection')
-            ->setModel('Mage_Catalog_Model_Product')
+            ->setModel('Magento_Catalog_Model_Product')
             ->addStoreFilter($storeId)
         ;
 
@@ -87,7 +87,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adm
      * Returns row url to show in admin dashboard
      * $row is bestseller row wrapped in Product model
      *
-     * @param Mage_Catalog_Model_Product $row
+     * @param Magento_Catalog_Model_Product $row
      *
      * @return string
      */

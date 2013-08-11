@@ -23,12 +23,12 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     const CMS_PAGE_MODE = 'cms_page';
 
     /**
-     * @var Mage_Catalog_Model_Product
+     * @var Magento_Catalog_Model_Product
      */
     private $_product;
 
     /**
-     * @var Mage_Catalog_Model_Category
+     * @var Magento_Catalog_Model_Category
      */
     private $_category;
 
@@ -50,7 +50,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
         $this->_title($this->__('URL Redirects'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Catalog::catalog_urlrewrite');
+        $this->_setActiveMenu('Magento_Catalog::catalog_urlrewrite');
         $this->renderLayout();
     }
 
@@ -63,7 +63,7 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
             ->_title($this->__('[New/Edit] URL Redirect'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Catalog::catalog_urlrewrite');
+        $this->_setActiveMenu('Magento_Catalog::catalog_urlrewrite');
 
         $mode = $this->_getMode();
 
@@ -250,16 +250,16 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
         $category = $this->_getInitializedCategory($model);
 
         if ($product || $category) {
-            /** @var $catalogUrlModel Mage_Catalog_Model_Url */
-            $catalogUrlModel = Mage::getSingleton('Mage_Catalog_Model_Url');
+            /** @var $catalogUrlModel Magento_Catalog_Model_Url */
+            $catalogUrlModel = Mage::getSingleton('Magento_Catalog_Model_Url');
             $idPath = $catalogUrlModel->generatePath('id', $product, $category);
             $model->setIdPath($idPath);
 
             // if redirect specified try to find friendly URL
             $generateTarget = true;
             if (Mage::helper('Magento_Core_Helper_Url_Rewrite')->hasRedirectOptions($model)) {
-                /** @var $rewriteResource Mage_Catalog_Model_Resource_Url */
-                $rewriteResource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Url');
+                /** @var $rewriteResource Magento_Catalog_Model_Resource_Url */
+                $rewriteResource = Mage::getResourceModel('Magento_Catalog_Model_Resource_Url');
                 /** @var $rewrite Magento_Core_Model_Url_Rewrite */
                 $rewrite = $rewriteResource->getRewriteByIdPath($idPath, $model->getStoreId());
                 if (!$rewrite) {
@@ -285,11 +285,11 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
      * Get product instance applicable for generatePath
      *
      * @param Magento_Core_Model_Url_Rewrite $model
-     * @return Mage_Catalog_Model_Product|null
+     * @return Magento_Catalog_Model_Product|null
      */
     private function _getInitializedProduct($model)
     {
-        /** @var $product Mage_Catalog_Model_Product */
+        /** @var $product Magento_Catalog_Model_Product */
         $product = $this->_getProduct();
         if ($product->getId()) {
             $model->setProductId($product->getId());
@@ -304,11 +304,11 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
      * Get category instance applicable for generatePath
      *
      * @param Magento_Core_Model_Url_Rewrite $model
-     * @return Mage_Catalog_Model_Category|null
+     * @return Magento_Catalog_Model_Category|null
      */
     private function _getInitializedCategory($model)
     {
-        /** @var $category Mage_Catalog_Model_Category */
+        /** @var $category Magento_Catalog_Model_Category */
         $category = $this->_getCategory();
         if ($category->getId()) {
             $model->setCategoryId($category->getId());
@@ -339,8 +339,8 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
         // if redirect specified try to find friendly URL
         $generateTarget = true;
         if (Mage::helper('Magento_Core_Helper_Url_Rewrite')->hasRedirectOptions($model)) {
-            /** @var $rewriteResource Mage_Catalog_Model_Resource_Url */
-            $rewriteResource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Url');
+            /** @var $rewriteResource Magento_Catalog_Model_Resource_Url */
+            $rewriteResource = Mage::getResourceModel('Magento_Catalog_Model_Resource_Url');
             /** @var $rewrite Magento_Core_Model_Url_Rewrite */
             $rewrite = $rewriteResource->getRewriteByIdPath($idPath, $model->getStoreId());
             if (!$rewrite) {
@@ -410,18 +410,18 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Catalog::urlrewrite');
+        return $this->_authorization->isAllowed('Magento_Catalog::urlrewrite');
     }
 
     /**
      * Get Category from request
      *
-     * @return Mage_Catalog_Model_Category
+     * @return Magento_Catalog_Model_Category
      */
     private function _getCategory()
     {
         if (!$this->_category) {
-            $this->_category = Mage::getModel('Mage_Catalog_Model_Category');
+            $this->_category = Mage::getModel('Magento_Catalog_Model_Category');
             $categoryId = (int) $this->getRequest()->getParam('category', 0);
 
             if (!$categoryId && $this->_getUrlRewrite()->getId()) {
@@ -438,12 +438,12 @@ class Magento_Adminhtml_Controller_Urlrewrite extends Magento_Adminhtml_Controll
     /**
      * Get Product from request
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     private function _getProduct()
     {
         if (!$this->_product) {
-            $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
+            $this->_product = Mage::getModel('Magento_Catalog_Model_Product');
             $productId = (int) $this->getRequest()->getParam('product', 0);
 
             if (!$productId && $this->_getUrlRewrite()->getId()) {

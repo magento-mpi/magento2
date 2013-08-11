@@ -56,7 +56,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Magento
 
             $productCollection = null;
             if ($productIds) {
-                $productCollection = Mage::getModel('Mage_Catalog_Model_Product')
+                $productCollection = Mage::getModel('Magento_Catalog_Model_Product')
                     ->getCollection()
                     ->setStoreId($this->getQuote()->getStoreId())
                     ->addStoreFilter($this->getQuote()->getStoreId())

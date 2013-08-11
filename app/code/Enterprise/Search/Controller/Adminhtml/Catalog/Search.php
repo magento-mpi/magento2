@@ -23,12 +23,12 @@ class Enterprise_Search_Controller_Adminhtml_Catalog_Search extends Magento_Admi
     public function relatedGridAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('Mage_CatalogSearch_Model_Query');
+        $model = Mage::getModel('Magento_CatalogSearch_Model_Query');
 
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Catalog_Helper_Data')->__('This search no longer exists.'));
+                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Catalog_Helper_Data')->__('This search no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }

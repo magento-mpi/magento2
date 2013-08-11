@@ -72,11 +72,11 @@ class Mage_GoogleOptimizer_Helper_Code
     protected function _getTypeString()
     {
         $type = '';
-        if ($this->_entity instanceof Mage_Catalog_Model_Category) {
+        if ($this->_entity instanceof Magento_Catalog_Model_Category) {
             $type = Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY;
         }
 
-        if ($this->_entity instanceof Mage_Catalog_Model_Product) {
+        if ($this->_entity instanceof Magento_Catalog_Model_Product) {
             $type = Mage_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT;
         }
 

@@ -108,7 +108,7 @@ class Mage_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
             if (!$this->isCached('address_item_' . $entity->getProductId())) {
                 $this->setCached(
                     'address_item_' . $entity->getProductId(),
-                    Mage::getModel('Mage_Catalog_Model_Product')
+                    Mage::getModel('Magento_Catalog_Model_Product')
                         ->setStoreId($storeId)
                         ->load($entity->getProductId())
                         ->getGiftMessageAvailable()

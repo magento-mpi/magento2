@@ -106,13 +106,13 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
                 )
                 ->where('source_table.state != ?', Mage_Sales_Model_Order::STATE_CANCELED);
 
-            /** @var Mage_Catalog_Model_Resource_Product $product */
-            $product  = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product');
+            /** @var Magento_Catalog_Model_Resource_Product $product */
+            $product  = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product');
 
             $productTypes = array(
-                Mage_Catalog_Model_Product_Type::TYPE_GROUPED,
-                Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
-                Mage_Catalog_Model_Product_Type::TYPE_BUNDLE,
+                Magento_Catalog_Model_Product_Type::TYPE_GROUPED,
+                Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
+                Magento_Catalog_Model_Product_Type::TYPE_BUNDLE,
             );
 
             $joinExpr = array(

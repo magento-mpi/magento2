@@ -30,7 +30,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magent
     {
         $result = array();
         if ($parentId) {
-            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($parentId);
+            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($parentId);
             if (!empty($category)) {
                 $tree = $this->_getNodesArray($this->getNode($category, $recursionLevel));
                 if (!empty($tree) && !empty($tree['children'])) {
@@ -50,13 +50,13 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magent
     /**
      * Get categories collection
      *
-     * @return Mage_Catalog_Model_Resource_Category_Collection
+     * @return Magento_Catalog_Model_Resource_Category_Collection
      */
     public function getCategoryCollection()
     {
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('Mage_Catalog_Model_Category')->getCollection()
+            $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection()
                 ->addAttributeToSelect(array('name', 'is_active'))
                 ->setLoadProductCount(true)
             ;

@@ -96,27 +96,27 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
             array(
                 array(array('price' => 100, 'price_qty' => 1)),
                 $bundleMessage,
-                Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+                Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
             ),
             array(
                 array(array('price' => 100, 'price_qty' => 1), array('price' => 200, 'price_qty' => 2)),
                 $bundleMessages,
-                Mage_Catalog_Model_Product_Type::TYPE_BUNDLE
+                Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
             ),
             array(
                 array(array('price' => 50, 'price_qty' => 2)),
                 $defaultMessage,
-                Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+                Magento_Catalog_Model_Product_Type::TYPE_SIMPLE
             ),
             array(
                 array(array('price' => 50, 'price_qty' => 2), array('price' => 150, 'price_qty' => 3)),
                 $defaultMessages,
-                Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+                Magento_Catalog_Model_Product_Type::TYPE_SIMPLE
             ),
             array(
                 0,
                 '',
-                Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+                Magento_Catalog_Model_Product_Type::TYPE_SIMPLE
             ),
         );
     }
@@ -128,7 +128,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
      */
     protected function _prepareItem($tierPrices, $productType)
     {
-        $product = $this->getMockBuilder('Mage_Catalog_Model_Product')
+        $product = $this->getMockBuilder('Magento_Catalog_Model_Product')
             ->disableOriginalConstructor()
             ->setMethods(array('getTierPrice'))
             ->getMock();

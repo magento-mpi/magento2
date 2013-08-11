@@ -85,7 +85,7 @@ abstract class Mage_GoogleOptimizer_Block_Adminhtml_TabAbstract
     /**
      * Get Entity model
      *
-     * @return Mage_Catalog_Model_Abstract
+     * @return Magento_Catalog_Model_Abstract
      */
     protected abstract function _getEntity();
 

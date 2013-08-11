@@ -156,7 +156,7 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg_Images extends Magento_Adminhtml_
         $filename = $helper->idDecode($filename);
         $asIs = $this->getRequest()->getParam('as_is');
 
-        Mage::helper('Mage_Catalog_Helper_Data')->setStoreId($storeId);
+        Mage::helper('Magento_Catalog_Helper_Data')->setStoreId($storeId);
         $helper->setStoreId($storeId);
 
         $image = $helper->getImageHtmlDeclaration($filename, $asIs);

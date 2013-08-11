@@ -24,7 +24,7 @@ class Mage_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framework
         foreach ($items as $item) {
             foreach ($item as $key => $value) {
                 if ($value['type'] == 'file') {
-                    $filePath = dirname(__FILE__) . '/../../../../Catalog/Model/Product/Api/_files/_data/files/'
+                    $filePath = dirname(__FILE__) . '/../../../../../Magento/Catalog/Model/Product/Api/_files/_data/files/'
                               . $value['file']['filename'];
                     $value['file'] = array(
                         'name' => str_replace('/', '_', $value['file']['filename']),
@@ -33,7 +33,7 @@ class Mage_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framework
                     );
                 }
                 if ($key == 'link' && $value['sample']['type'] == 'file') {
-                    $filePath = dirname(__FILE__) . '/../../../../Catalog/Model/Product/Api/_files/_data/files/'
+                    $filePath = dirname(__FILE__) . '/../../../../../Magento/Catalog/Model/Product/Api/_files/_data/files/'
                               . $value['sample']['file']['filename'];
                     $value['sample']['file'] = array(
                         'name' => str_replace('/', '_', $value['sample']['file']['filename']),
@@ -62,7 +62,7 @@ class Mage_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framework
      */
     public function testDownloadableLinkItems()
     {
-        /** @var Mage_Catalog_Model_Product $product */
+        /** @var Magento_Catalog_Model_Product $product */
         $product = Mage::registry('downloadable');
         $productId = $product->getId();
 
@@ -93,7 +93,7 @@ class Mage_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framework
      */
     public function testDownloadableLinkRemove()
     {
-        /** @var Mage_Catalog_Model_Product $product */
+        /** @var Magento_Catalog_Model_Product $product */
         $product = Mage::registry('downloadable');
         /** @var Mage_Downloadable_Model_Product_Type $downloadable */
         $downloadable = $product->getTypeInstance();

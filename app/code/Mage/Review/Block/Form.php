@@ -56,7 +56,7 @@ class Mage_Review_Block_Form extends Magento_Core_Block_Template
 
     public function getProductInfo()
     {
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
         return $product->load($this->getRequest()->getParam('id'));
     }
 

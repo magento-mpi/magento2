@@ -586,9 +586,9 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
      * Get model class instance.
      *
      * Example:
-     * $config->getModelInstance('Mage_Catalog_Model_Resource_Product')
+     * $config->getModelInstance('Magento_Catalog_Model_Resource_Product')
      *
-     * Will instantiate Mage_Catalog_Model_Resource_Product
+     * Will instantiate Magento_Catalog_Model_Resource_Product
      *
      * @param string $modelClass
      * @param array|object $constructArguments

@@ -37,13 +37,13 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
         $rssObj->_addHeader($data);
 
         $globalNotifyStockQty = (float) Mage::getStoreConfig(
-            Mage_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY);
+            Magento_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY);
         Mage::helper('Mage_Rss_Helper_Data')->disableFlat();
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
-        /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
+        /* @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
         $collection = $product->getCollection();
-        Mage::getResourceModel('Mage_CatalogInventory_Model_Resource_Stock')->addLowStockFilter($collection, array(
+        Mage::getResourceModel('Magento_CatalogInventory_Model_Resource_Stock')->addLowStockFilter($collection, array(
             'qty',
             'notify_stock_qty',
             'low_stock_date',
@@ -52,7 +52,7 @@ class Mage_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
         $collection
             ->addAttributeToSelect('name', true)
             ->addAttributeToFilter('status',
-                array('in' => Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds())
+                array('in' => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getVisibleStatusIds())
             )
             ->setOrder('low_stock_date');
         Mage::dispatchEvent('rss_catalog_notify_stock_collection_select', array('collection' => $collection));

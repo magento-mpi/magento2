@@ -8,9 +8,9 @@
 
 Mage::app()->loadAreaPart('adminhtml', Magento_Core_Model_App_Area::PART_CONFIG);
 
-require __DIR__ . '/../../../Mage/Catalog/_files/product_simple.php';
-require __DIR__ . '/../../../Mage/Catalog/_files/product_simple_duplicated.php';
-require __DIR__ . '/../../../Mage/Catalog/_files/product_virtual.php';
+require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
+require __DIR__ . '/../../../Magento/Catalog/_files/product_simple_duplicated.php';
+require __DIR__ . '/../../../Magento/Catalog/_files/product_virtual.php';
 
 // imitate product views
 /** @var Mage_Reports_Model_Event_Observer $reportObserver */

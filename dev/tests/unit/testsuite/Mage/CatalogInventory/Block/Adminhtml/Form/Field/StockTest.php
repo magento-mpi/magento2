@@ -3,18 +3,18 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Catalog
+ * @package     Magento_Catalog
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPUnit_Framework_TestCase
+class Magento_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPUnit_Framework_TestCase
 {
     const ATTRIBUTE_NAME = 'quantity_and_stock_status';
 
     /**
-     * @var Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock
+     * @var Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPUnit
         $this->_qty = $this->getMock('Magento_Data_Form_Element_Text',
             array('getElementHtml', 'setForm', 'setValue', 'setName')
         );
-        $this->_model = $this->getMock('Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock',
+        $this->_model = $this->getMock('Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock',
             array('getElementHtml'), array(array('qty' => $this->_qty, 'name' => self::ATTRIBUTE_NAME)));
     }
 

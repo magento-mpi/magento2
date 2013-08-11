@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
     protected $_attributeTabBlock = 'Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes';
 
     /** @var string */
-    protected $_template = 'Mage_Catalog::product/edit/tabs.phtml';
+    protected $_template = 'Magento_Catalog::product/edit/tabs.phtml';
 
     protected function _construct()
     {
@@ -66,7 +66,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
 
                 if ($attributes) {
                     $tabData = array(
-                        'label'   => Mage::helper('Mage_Catalog_Helper_Data')->__($group->getAttributeGroupName()),
+                        'label'   => Mage::helper('Magento_Catalog_Helper_Data')->__($group->getAttributeGroupName()),
                         'content' => $this->_translateHtml(
                             $tabAttributesBlock->setGroup($group)
                                 ->setGroupAttributes($attributes)
@@ -91,7 +91,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
             /* Don't display website tab for single mode */
             if (!Mage::app()->isSingleStoreMode()) {
                 $this->addTab('websites', array(
-                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Websites'),
+                    'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Websites'),
                     'content'   => $this->_translateHtml($this->getLayout()
                         ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites')->toHtml()),
                     'group_code' => self::BASIC_TAB_GROUP_CODE,
@@ -103,9 +103,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
                 unset($advancedGroups['advanced-pricing']);
             }
 
-            if (Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
+            if (Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
                 $this->addTab('advanced-inventory', array(
-                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Advanced Inventory'),
+                    'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Advanced Inventory'),
                     'content'   => $this->_translateHtml($this->getLayout()
                         ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory')->toHtml()),
                     'group_code' => self::ADVANCED_TAB_GROUP_CODE,
@@ -119,7 +119,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
              */
             if (!$product->isGrouped()) {
                 $this->addTab('customer_options', array(
-                    'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Custom Options'),
+                    'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Custom Options'),
                     'url'   => $this->getUrl('*/*/options', array('_current' => true)),
                     'class' => 'ajax',
                     'group_code' => self::ADVANCED_TAB_GROUP_CODE,
@@ -127,21 +127,21 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
             }
 
             $this->addTab('related', array(
-                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Related Products'),
+                'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Related Products'),
                 'url'       => $this->getUrl('*/*/related', array('_current' => true)),
                 'class'     => 'ajax',
                 'group_code' => self::ADVANCED_TAB_GROUP_CODE,
             ));
 
             $this->addTab('upsell', array(
-                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Up-sells'),
+                'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Up-sells'),
                 'url'       => $this->getUrl('*/*/upsell', array('_current' => true)),
                 'class'     => 'ajax',
                 'group_code' => self::ADVANCED_TAB_GROUP_CODE,
             ));
 
             $this->addTab('crosssell', array(
-                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Cross-sells'),
+                'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Cross-sells'),
                 'url'       => $this->getUrl('*/*/crosssell', array('_current' => true)),
                 'class'     => 'ajax',
                 'group_code' => self::ADVANCED_TAB_GROUP_CODE,
@@ -156,7 +156,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
             $alertStockAllow = Mage::getStoreConfig('catalog/productalert/allow_stock');
             if (($alertPriceAllow || $alertStockAllow) && !$product->isGrouped()) {
                 $this->addTab('product-alerts', array(
-                    'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Alerts'),
+                    'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Product Alerts'),
                     'content'   => $this->_translateHtml($this->getLayout()
                         ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts', 'admin.alerts.products')
                         ->toHtml()
@@ -166,10 +166,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
             }
 
             if ($this->getRequest()->getParam('id')) {
-                if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Review')) {
+                if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Mage_Review')) {
                     if ($this->_authorization->isAllowed('Mage_Review::reviews_all')){
                         $this->addTab('product-reviews', array(
-                            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Reviews'),
+                            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Product Reviews'),
                             'url'   => $this->getUrl('*/*/reviews', array('_current' => true)),
                             'class' => 'ajax',
                             'group_code' => self::ADVANCED_TAB_GROUP_CODE,
@@ -204,11 +204,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
     /**
      * Retrieve product object from object if not from registry
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
-        if (!($this->getData('product') instanceof Mage_Catalog_Model_Product)) {
+        if (!($this->getData('product') instanceof Magento_Catalog_Model_Product)) {
             $this->setData('product', Mage::registry('product'));
         }
         return $this->getData('product');

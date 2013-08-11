@@ -8,9 +8,9 @@
  * @license     {license_link}
  */
 
-/** @var $this Mage_Catalog_Model_Resource_Setup */
+/** @var $this Magento_Catalog_Model_Resource_Setup */
 
-$entityTypeId = $this->getEntityTypeId(Mage_Catalog_Model_Product::ENTITY);
+$entityTypeId = $this->getEntityTypeId(Magento_Catalog_Model_Product::ENTITY);
 $attributeSetId = $this->getAttributeSetId($entityTypeId, 'Default');
 
 $groupName = 'Recurring Profile';

@@ -12,7 +12,7 @@
 /**
  * Tests for obsolete methods in Product Type instances
  */
-class Legacy_Mage_Downloadable_Model_Product_TypeTest extends Legacy_Mage_Catalog_Model_Product_AbstractTypeTest
+class Legacy_Mage_Downloadable_Model_Product_TypeTest extends Legacy_Magento_Catalog_Model_Product_AbstractTypeTest
 {
     /**
      * @var array

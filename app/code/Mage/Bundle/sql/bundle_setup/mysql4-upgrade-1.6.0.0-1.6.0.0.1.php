@@ -13,7 +13,7 @@ if (file_exists($installFile)) {
     include $installFile;
 }
 
-/** @var $installer Mage_Catalog_Model_Resource_Setup */
+/** @var $installer Magento_Catalog_Model_Resource_Setup */
 $installer = $this;
 /** @var $connection Magento_DB_Adapter_Pdo_Mysql */
 $connection = $installer->getConnection();

@@ -37,7 +37,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Backen
 
     /**
      *
-     * @var Mage_Catalog_Model_Product
+     * @var Magento_Catalog_Model_Product
      */
     protected $_product = null;
 
@@ -55,9 +55,9 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Backen
     /**
      * Setter for current product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      */
-    public function setProductEntity(Mage_Catalog_Model_Product $product)
+    public function setProductEntity(Magento_Catalog_Model_Product $product)
     {
         $this->_product = $product;
         return $this;

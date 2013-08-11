@@ -34,7 +34,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
     /**
      * object of just added product to cart
      *
-     * @var Mage_Catalog_Model_Product
+     * @var Magento_Catalog_Model_Product
      */
     protected $_lastAddedProduct;
 
@@ -73,14 +73,14 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
     /**
      * Retrieve just added to cart product object
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getLastAddedProduct()
     {
         if (is_null($this->_lastAddedProduct)) {
             $productId = $this->getLastAddedProductId();
             if ($productId) {
-                $this->_lastAddedProduct = Mage::getModel('Mage_Catalog_Model_Product')
+                $this->_lastAddedProduct = Mage::getModel('Magento_Catalog_Model_Product')
                     ->load($productId);
             } else {
                 $this->_lastAddedProduct = false;
@@ -141,7 +141,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
             if ($productTypeOpt instanceof Mage_Sales_Model_Quote_Item_Option
-                && $productTypeOpt->getValue() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE
+                && $productTypeOpt->getValue() == Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE
                 && $productTypeOpt->getProductId()
             ) {
                 $productIds[] = $productTypeOpt->getProductId();
@@ -198,21 +198,21 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
      * Get link collection for cross-sell
      *
      * @throws Magento_Core_Exception
-     * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection|null
+     * @return Magento_Catalog_Model_Resource_Product_Link_Product_Collection|null
      */
     protected function _getTargetLinkCollection()
     {
-        /* @var $collection Mage_Catalog_Model_Resource_Product_Link_Product_Collection */
-        $collection = Mage::getModel('Mage_Catalog_Model_Product_Link')
+        /* @var $collection Magento_Catalog_Model_Resource_Product_Link_Product_Collection */
+        $collection = Mage::getModel('Magento_Catalog_Model_Product_Link')
             ->useCrossSellLinks()
             ->getProductCollection()
             ->setStoreId(Mage::app()->getStore()->getId())
             ->setGroupBy();
         $this->_addProductAttributesAndPrices($collection);
 
-        $collection->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+        $collection->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
 
-        Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')
+        Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
             ->addIsInStockFilterToCollection($collection);
 
         return $collection;
@@ -239,7 +239,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
     /**
      * Retrieve Product Ids from Cross-sell rules based products index by product object
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param int $limit
      * @param array $excludeProductIds
      * @return array
@@ -258,20 +258,20 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
      * Retrieve Product Collection by Product Ids
      *
      * @param array $productIds
-     * @return Mage_Catalog_Model_Resource_Product_Collection
+     * @return Magento_Catalog_Model_Resource_Product_Collection
      */
     protected function _getProductCollectionByIds($productIds)
     {
-        /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');
+        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
         $collection->addFieldToFilter('entity_id', array('in' => $productIds));
         $this->_addProductAttributesAndPrices($collection);
 
         $collection->setVisibility(
-            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds()
+            Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds()
         );
 
-        Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Status')
+        Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
             ->addIsInStockFilterToCollection($collection);
 
         return $collection;
@@ -280,7 +280,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
     /**
      * Retrieve Product Ids from Cross-sell rules based products index by products in shopping cart
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param int $limit
      * @param array $excludeProductIds
      * @return array

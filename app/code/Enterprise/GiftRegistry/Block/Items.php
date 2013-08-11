@@ -46,7 +46,7 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
                     ->setOptions($item->getOptions());
 
                 $product->setCustomOptions($item->getOptionsByCode());
-                if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)) {
+                if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
                         Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(

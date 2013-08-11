@@ -11,7 +11,7 @@
 <?php
 $_item = $this->getItem();
 $isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
-$canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->getProduct(), Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
+$canApplyMsrp = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_item->getProduct(), Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM);
 ?>
 <tr>
     <td><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product-image"><?php endif;?><img src="<?php echo $this->getProductThumbnailUrl() ?>" width="<?php echo $this->getThumbnailSize()?>" height="<?php echo $this->getThumbnailSize()?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" /><?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
@@ -73,7 +73,7 @@ $canApplyMsrp = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_item->g
                 <?php $_product = $_item->getProduct(); ?>
                 <script type="text/javascript">
                     (function ($) {
-                        head.js("<?php echo $this->getViewFileUrl('Mage_Catalog::js/msrp.js') ?>", function () {
+                        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>", function () {
                             $('#<?php echo $helpLinkId ?>').addToCart({
                                 popupId: "#<?php echo $helpLinkId ?>",
                                 productName: '<?php echo $_product->getName() ?>',

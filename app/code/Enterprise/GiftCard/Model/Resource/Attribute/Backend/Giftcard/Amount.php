@@ -30,7 +30,7 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
     /**
      * Load product data by product and attribute_id
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param Mage_Eav_Model_Entity_Attribute $attribute
      * @return array
      */
@@ -62,7 +62,7 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
     /**
      * Delete product data
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param Mage_Eav_Model_Entity_Attribute $attribute
      * @return Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount
      */
@@ -86,7 +86,7 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
     /**
      * Insert product data
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param array $data
      * @return Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount
      */

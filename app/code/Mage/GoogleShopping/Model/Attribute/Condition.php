@@ -29,7 +29,7 @@ class Mage_GoogleShopping_Model_Attribute_Condition extends Mage_GoogleShopping_
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param Magento_Gdata_Gshopping_Entry $entry
      * @return Magento_Gdata_Gshopping_Entry
      */

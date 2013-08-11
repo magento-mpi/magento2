@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Mage_Customer />
-                <Mage_Catalog />
+                <Magento_Catalog />
             </depends>
         </Mage_Wishlist>
     </modules>

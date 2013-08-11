@@ -16,7 +16,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Model_Resource_Indexer_Stock extends Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
+class Mage_Bundle_Model_Resource_Indexer_Stock extends Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
 {
     /**
      * Reindex temporary (price result data) for defined product(s)
@@ -143,7 +143,7 @@ class Mage_Bundle_Model_Resource_Indexer_Stock extends Mage_CatalogInventory_Mod
             ->group(array('e.entity_id', 'cw.website_id', 'cis.stock_id'));
 
         // add limitation of status
-        $condition = $adapter->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+        $condition = $adapter->quoteInto('=?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $condition);
 
         if ($this->_isManageStock()) {

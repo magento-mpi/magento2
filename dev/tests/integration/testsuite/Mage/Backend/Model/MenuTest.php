@@ -64,6 +64,6 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $menu->remove('Mage_Backend::catalog_attribute');
 
         // Move menu item
-        $menu->move('Mage_Catalog::catalog_products', 'Mage_Backend::system2');
+        $menu->move('Magento_Catalog::catalog_products', 'Mage_Backend::system2');
     }
 }

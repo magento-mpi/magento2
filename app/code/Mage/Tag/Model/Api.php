@@ -15,7 +15,7 @@
  * @package    Mage_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Model_Api extends Mage_Catalog_Model_Api_Resource
+class Mage_Tag_Model_Api extends Magento_Catalog_Model_Api_Resource
 {
     /**
      * Retrieve list of tags for specified product
@@ -30,8 +30,8 @@ class Mage_Tag_Model_Api extends Mage_Catalog_Model_Api_Resource
         // fields list to return
         $fieldsForResult = array('tag_id', 'name');
 
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
         }
@@ -91,8 +91,8 @@ class Mage_Tag_Model_Api extends Mage_Catalog_Model_Api_Resource
     public function add($data)
     {
         $data = $this->_prepareDataForAdd($data);
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($data['product_id']);
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($data['product_id']);
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
         }

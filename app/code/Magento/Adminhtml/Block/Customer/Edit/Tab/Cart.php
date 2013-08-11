@@ -65,32 +65,32 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('ID'),
             'index'     => 'product_id',
             'width'     => '100px',
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Product'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Product'),
             'index'     => 'name',
             'renderer'  => 'Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('SKU'),
             'index'     => 'sku',
             'width'     => '100px',
         ));
 
         $this->addColumn('qty', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Quantity'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Quantity'),
             'index'     => 'qty',
             'type'      => 'number',
             'width'     => '60px',
         ));
 
         $this->addColumn('price', array(
-            'header'        => Mage::helper('Mage_Catalog_Helper_Data')->__('Price'),
+            'header'        => Mage::helper('Magento_Catalog_Helper_Data')->__('Price'),
             'index'         => 'price',
             'type'          => 'currency',
             'currency_code' => (string) Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),

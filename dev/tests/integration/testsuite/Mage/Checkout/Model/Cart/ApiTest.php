@@ -13,7 +13,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
     /**
      * Test for product add to shopping cart.
      *
-     * @magentoDataFixture Mage/Catalog/_files/product_simple_duplicated.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple_duplicated.php
      * @magentoDataFixture Mage/Checkout/_files/quote.php
      */
     public function testProductAddToCart()
@@ -67,7 +67,7 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
     /**
      * Test for product with custom options add to shopping cart.
      *
-     * @magentoDataFixture Mage/Catalog/_files/product_with_options.php
+     * @magentoDataFixture Magento/Catalog/_files/product_with_options.php
      * @magentoDataFixture Mage/Checkout/_files/quote.php
      */
     public function testProductWithCustomOptionsAddToCart()
@@ -76,16 +76,16 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         $customOptionId = null;
         $customOptionTitle = 'test_option_code_1';
         $customOptionValue = 'option_value';
-        /** @var Mage_Catalog_Model_Product $product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        /** @var Magento_Catalog_Model_Product $product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1);
         /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
         $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');
         $quote = $quoteCollection->getFirstItem();
 
         // Find ID of created custom option for future use
-        /** @var $productOption Mage_Catalog_Model_Product_Option */
-        $productOption = Mage::getModel('Mage_Catalog_Model_Product_Option');
+        /** @var $productOption Magento_Catalog_Model_Product_Option */
+        $productOption = Mage::getModel('Magento_Catalog_Model_Product_Option');
 
         foreach ($productOption->getProductOptionCollection($product) as $option) {
             if ($option['default_title'] == $customOptionTitle) {
@@ -138,8 +138,8 @@ class Mage_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testCartProductList()
     {
-        /** @var Mage_Catalog_Model_Product $product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        /** @var Magento_Catalog_Model_Product $product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1);
         /** @var Mage_Sales_Model_Resource_Quote_Collection $quoteCollection */
         $quoteCollection = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection');

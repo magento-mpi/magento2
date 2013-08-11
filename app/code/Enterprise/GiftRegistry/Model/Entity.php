@@ -772,7 +772,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
      * Retrieve item product instance
      *
      * @param int $productId
-     * @return Mage_Catalog_Model_Product|mixed
+     * @return Magento_Catalog_Model_Product|mixed
      */
     public function getProduct($productId)
     {
@@ -782,7 +782,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
                 Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('We cannot specify the product.'));
             }
 
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->load($productId);
 
             $this->setData('product', $product);
@@ -925,8 +925,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Magento_Core_Model_Abstract
             $model = Mage::getSingleton('Enterprise_GiftRegistry_Model_Item')->load($id);
             if ($model->getId() && $model->getEntityId() == $this->getId()) {
                 if (!isset($item['delete'])) {
-                    /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-                    $stockItem = Mage::getSingleton('Mage_CatalogInventory_Model_Stock_Item');
+                    /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+                    $stockItem = Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Item');
                     $stockItem->loadByProduct($model->getProductId());
                     // not Magento_Core_Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {

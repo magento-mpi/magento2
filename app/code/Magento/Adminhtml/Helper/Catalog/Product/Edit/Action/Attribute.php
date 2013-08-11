@@ -21,7 +21,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
     /**
      * Selected products for mass-update
      *
-     * @var Mage_Catalog_Model_Entity_Product_Collection
+     * @var Magento_Catalog_Model_Entity_Product_Collection
      */
     protected $_products;
 
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
      * Return product collection with selected product filter
      * Product collection didn't load
      *
-     * @return Mage_Catalog_Model_Resource_Product_Collection
+     * @return Magento_Catalog_Model_Resource_Product_Collection
      */
     public function getProducts()
     {
@@ -54,7 +54,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
                 $productsIds = array(0);
             }
 
-            $this->_products = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
+            $this->_products = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
                 ->setStoreId($this->getSelectedStoreId())
                 ->addIdFilter($productsIds);
         }
@@ -107,7 +107,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
     {
         if (is_null($this->_attributes)) {
             $this->_attributes  = Mage::getSingleton('Mage_Eav_Model_Config')
-                ->getEntityType(Mage_Catalog_Model_Product::ENTITY)
+                ->getEntityType(Magento_Catalog_Model_Product::ENTITY)
                 ->getAttributeCollection()
                 ->addIsNotUniqueFilter()
                 ->setInAllAttributeSetsFilter($this->getProductsSetIds());
@@ -119,7 +119,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
             // check product type apply to limitation and remove attributes that impossible to change in mass-update
             $productTypeIds  = $this->getProducts()->getProductTypeIds();
             foreach ($this->_attributes as $attribute) {
-                /* @var $attribute Mage_Catalog_Model_Entity_Attribute */
+                /* @var $attribute Magento_Catalog_Model_Entity_Attribute */
                 foreach ($productTypeIds as $productTypeId) {
                     $applyTo = $attribute->getApplyTo();
                     if (count($applyTo) > 0 && !in_array($productTypeId, $applyTo)) {

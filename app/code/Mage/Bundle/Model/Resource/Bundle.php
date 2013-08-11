@@ -110,7 +110,7 @@ class Mage_Bundle_Model_Resource_Bundle extends Magento_Core_Model_Resource_Db_A
      */
     public function saveProductRelations($parentId, $childIds)
     {
-        Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Relation')
+        Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Relation')
             ->processRelations($parentId, $childIds);
 
         return $this;

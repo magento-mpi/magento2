@@ -44,12 +44,12 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Combine extends Mage_Rule_Mode
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive($conditions, array(
             array('value' => 'Mage_SalesRule_Model_Rule_Condition_Product_Combine',
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Conditions Combination')
+                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Conditions Combination')
             ),
-            array('label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Cart Item Attribute'),
+            array('label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Cart Item Attribute'),
                 'value' => $iAttributes
             ),
-            array('label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Attribute'),
+            array('label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Product Attribute'),
                 'value' => $pAttributes
             ),
         ));

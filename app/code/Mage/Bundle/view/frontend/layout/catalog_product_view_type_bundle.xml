@@ -27,7 +27,7 @@
                 </action>
                 <block type="Mage_Bundle_Block_Catalog_Product_Price" name="bundle.prices" as="bundle_prices" template="catalog/product/view/price.phtml">
                     <action method="setMAPTemplate">
-                        <tmpl>Mage_Catalog::product/price_msrp_item.phtml</tmpl>
+                        <tmpl>Magento_Catalog::product/price_msrp_item.phtml</tmpl>
                     </action>
                 </block>
             </block>
@@ -55,7 +55,7 @@
         <reference name="product.info.options.wrapper.bottom">
             <remove name="product.tierprices"/>
             <block type="Mage_Bundle_Block_Catalog_Product_View" name="bundle.tierprices" as="tierprices" before="-" template="Mage_Bundle::catalog/product/view/tierprices.phtml"/>
-            <block type="Mage_CatalogInventory_Block_Qtyincrements" name="product.info.qtyincrements" before="-" template="qtyincrements.phtml"/>
+            <block type="Magento_CatalogInventory_Block_Qtyincrements" name="product.info.qtyincrements" before="-" template="qtyincrements.phtml"/>
         </reference>
         <reference name="product.clone_prices">
             <action method="addPriceBlockType">

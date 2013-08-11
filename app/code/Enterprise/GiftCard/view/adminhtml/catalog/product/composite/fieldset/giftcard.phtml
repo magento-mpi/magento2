@@ -12,7 +12,7 @@
 <?php $_product = $this->getProduct(); ?>
 <?php $_id = $_product->getId(); ?>
 <?php $_storeId = $_product->getStoreId(); ?>
-<?php $_skipSaleableCheck = Mage::helper('Mage_Catalog_Helper_Product')->getSkipSaleableCheck(); ?>
+<?php $_skipSaleableCheck = Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck(); ?>
 <script>
 //<![CDATA[
 productConfigure.giftcardConfig = {};
@@ -21,7 +21,7 @@ productConfigure.giftcardConfig = {};
 <div id="catalog_product_composite_configure_fields_downloadable" class="giftcard-form <?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
 
 <?php if (!$_product->isAvailable() && !$_skipSaleableCheck): ?>
-    <p class="availability out-of-stock"><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Availability:') ?> <span><?php echo $this->helper('Mage_Catalog_Helper_Data')->__('Out of stock') ?></span></p>
+    <p class="availability out-of-stock"><?php echo $this->helper('Magento_Catalog_Helper_Data')->__('Availability:') ?> <span><?php echo $this->helper('Magento_Catalog_Helper_Data')->__('Out of stock') ?></span></p>
 <?php endif; ?>
 
     <div class="product-options">

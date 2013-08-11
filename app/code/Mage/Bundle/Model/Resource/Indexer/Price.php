@@ -16,7 +16,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resource_Product_Indexer_Price_Default
+class Mage_Bundle_Model_Resource_Indexer_Price extends Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
 {
     /**
      * Reindex temporary (price result data) for all products
@@ -166,7 +166,7 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
             ->where('e.type_id=?', $this->getTypeId());
 
         // add enable products limitation
-        $statusCond = $write->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+        $statusCond = $write->quoteInto('=?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $statusCond, true);
         if (Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Mage_Tax')) {
             $taxClassId = $this->_addAttributeToSelect($select, 'tax_class_id', 'e.entity_id', 'cs.store_id');
@@ -565,7 +565,7 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
     /**
      * Prepare percentage tier price for bundle products
      *
-     * @see Mage_Catalog_Model_Resource_Product_Indexer_Price::_prepareTierPriceIndex
+     * @see Magento_Catalog_Model_Resource_Product_Indexer_Price::_prepareTierPriceIndex
      *
      * @param int|array $entityIds
      * @return Mage_Bundle_Model_Resource_Indexer_Price
@@ -624,7 +624,7 @@ class Mage_Bundle_Model_Resource_Indexer_Price extends Mage_Catalog_Model_Resour
     /**
      * Prepare percentage group price for bundle products
      *
-     * @see Mage_Catalog_Model_Resource_Product_Indexer_Price::_prepareGroupPriceIndex
+     * @see Magento_Catalog_Model_Resource_Product_Indexer_Price::_prepareGroupPriceIndex
      *
      * @param int|array $entityIds
      * @return Mage_Bundle_Model_Resource_Indexer_Price

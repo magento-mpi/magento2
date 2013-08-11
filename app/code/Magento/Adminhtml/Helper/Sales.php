@@ -79,7 +79,7 @@ class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
         $productTypes = Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray();
         $productTypes = array_keys($productTypes);
         foreach($collection->getItems() as $key => $item) {
-            if ($item instanceof Mage_Catalog_Model_Product) {
+            if ($item instanceof Magento_Catalog_Model_Product) {
                 $type = $item->getTypeId();
             } else if ($item instanceof Mage_Sales_Model_Order_Item) {
                 $type = $item->getProductType();

@@ -45,7 +45,7 @@ class Mage_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_Fram
     public function setUp()
     {
         $this->_helperMock = $this->getMock('Mage_GoogleOptimizer_Helper_Data', array(), array(), '', false);
-        $this->_categoryMock = $this->getMock('Mage_Catalog_Model_Category', array(), array(), '', false);
+        $this->_categoryMock = $this->getMock('Magento_Catalog_Model_Category', array(), array(), '', false);
         $this->_storeId = 0;
         $this->_categoryMock->expects($this->atLeastOnce())->method('getStoreId')
             ->will($this->returnValue($this->_storeId));

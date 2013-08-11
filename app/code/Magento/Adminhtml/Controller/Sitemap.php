@@ -28,8 +28,8 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
         $this->loadLayout()
             ->_setActiveMenu('Mage_Sitemap::catalog_sitemap')
             ->_addBreadcrumb(
-                Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'),
-                Mage::helper('Mage_Catalog_Helper_Data')->__('Catalog'))
+                Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'),
+                Mage::helper('Magento_Catalog_Helper_Data')->__('Catalog'))
             ->_addBreadcrumb(
                 Mage::helper('Mage_Sitemap_Helper_Data')->__('XML Sitemap'),
                 Mage::helper('Mage_Sitemap_Helper_Data')->__('XML Sitemap'))

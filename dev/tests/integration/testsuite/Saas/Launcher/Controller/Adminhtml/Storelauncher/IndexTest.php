@@ -12,7 +12,7 @@
 class Saas_Launcher_Controller_Adminhtml_Storelauncher_IndexTest extends Mage_Backend_Utility_Controller
 {
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      * @magentoConfigFixture limitations/catalog_product 1
      */
     public function testIndexAction()

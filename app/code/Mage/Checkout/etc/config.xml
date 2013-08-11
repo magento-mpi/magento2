@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Mage_Sales />
-                <Mage_CatalogInventory />
+                <Magento_CatalogInventory />
             </depends>
         </Mage_Checkout>
     </modules>

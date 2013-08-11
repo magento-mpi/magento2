@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogRule
+ * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +14,8 @@
         <resources>
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
-                    <resource id="Mage_CatalogRule::promo" module="Mage_CatalogRule" title="Promotions" sortOrder="10">
-                        <resource id="Mage_CatalogRule::promo_catalog" module="Mage_CatalogRule" title="Catalog Price Rules" sortOrder="10" />
+                    <resource id="Magento_CatalogRule::promo" module="Magento_CatalogRule" title="Promotions" sortOrder="10">
+                        <resource id="Magento_CatalogRule::promo_catalog" module="Magento_CatalogRule" title="Catalog Price Rules" sortOrder="10" />
                     </resource>
                 </resource>
             </resource>

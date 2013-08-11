@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogRule
+ * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Catalog Rule Product Aggregated Price per date Resource Model
  *
  * @category    Mage
- * @package     Mage_CatalogRule
+ * @package     Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogRule_Model_Resource_Rule_Product_Price extends Magento_Core_Model_Resource_Db_Abstract
+class Magento_CatalogRule_Model_Resource_Rule_Product_Price extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize connection and define main table
@@ -37,7 +37,7 @@ class Mage_CatalogRule_Model_Resource_Rule_Product_Price extends Magento_Core_Mo
      * @param string $websiteId
      * @param array $updateFields       the array of fields for compare with rule price and update
      * @param string $websiteDate
-     * @return Mage_CatalogRule_Model_Resource_Rule_Product_Price
+     * @return Magento_CatalogRule_Model_Resource_Rule_Product_Price
      */
     public function applyPriceRuleToIndexTable(Magento_DB_Select $select, $indexTable, $entityId, $customerGroupId,
         $websiteId, $updateFields, $websiteDate)

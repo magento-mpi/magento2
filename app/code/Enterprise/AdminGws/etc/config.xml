@@ -152,14 +152,14 @@
                     </enterprise_admingws>
                 </observers>
             </catalog_category_tree_move_before>
-            <enterprise_catalog_permissions_is_allowed_category>
+            <magento_catalog_permissions_is_allowed_category>
                 <observers>
                     <enterprise_admingws>
                         <class>Enterprise_AdminGws_Model_Models</class>
                         <method>catalogCategoryIsCatalogPermissionsAllowed</method>
                     </enterprise_admingws>
                 </observers>
-            </enterprise_catalog_permissions_is_allowed_category>
+            </magento_catalog_permissions_is_allowed_category>
             <adminhtml_block_html_before>
                 <observers>
                     <enterprise_admingws>
@@ -278,7 +278,7 @@
                     <mage_cms_model_resource_block_collection>addStoreFilter</mage_cms_model_resource_block_collection>
                     <mage_poll_model_resource_poll_collection>addStoreFilterNoAdmin</mage_poll_model_resource_poll_collection>
                     <mage_sales_model_resource_order_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_collection>
-                    <mage_catalog_model_resource_product_collection>limitProducts</mage_catalog_model_resource_product_collection>
+                    <magento_catalog_model_resource_product_collection>limitProducts</magento_catalog_model_resource_product_collection>
                     <mage_customer_model_resource_customer_collection>limitCustomers</mage_customer_model_resource_customer_collection>
                     <mage_review_model_resource_review_collection>limitReviews</mage_review_model_resource_review_collection>
                     <mage_catalogSearch_model_resource_query_collection>addStoreFilter</mage_catalogSearch_model_resource_query_collection>
@@ -287,7 +287,7 @@
                     <enterprise_giftCardAccount_model_resource_giftcardaccount_collection>limitGiftCardAccounts</enterprise_giftCardAccount_model_resource_giftcardaccount_collection>
                     <enterprise_catalogEvent_model_resource_event_collection>limitCatalogEvents</enterprise_catalogEvent_model_resource_event_collection>
                     <enterprise_cms_model_resource_hierarchy_node_collection>addStoreFilter</enterprise_cms_model_resource_hierarchy_node_collection>
-                    <mage_catalog_model_resource_category_collection>limitCatalogCategories</mage_catalog_model_resource_category_collection>
+                    <magento_catalog_model_resource_category_collection>limitCatalogCategories</magento_catalog_model_resource_category_collection>
                     <magento_core_model_resource_url_rewrite_collection>limitCoreUrlRewrites</magento_core_model_resource_url_rewrite_collection>
                     <mage_rating_model_resource_rating_collection>limitRatings</mage_rating_model_resource_rating_collection>
                     <mage_googleShopping_model_resource_item_collection>addStoreFilter</mage_googleShopping_model_resource_item_collection>
@@ -315,7 +315,7 @@
                     <enterprise_giftRegistry_model_resource_entity_collection>limitGiftRegistryEntityWebsites</enterprise_giftRegistry_model_resource_entity_collection>
                     <mage_review_model_resource_review_product_collection>limitProductReviews</mage_review_model_resource_review_product_collection>
                     <enterprise_rma_model_resource_rma_grid_collection>addStoreAttributeToFilter</enterprise_rma_model_resource_rma_grid_collection>
-                    <mage_catalogRule_model_resource_rule_collection>limitRuleEntityCollection</mage_catalogRule_model_resource_rule_collection>
+                    <magento_catalogRule_model_resource_rule_collection>limitRuleEntityCollection</magento_catalogRule_model_resource_rule_collection>
                     <mage_salesRule_model_resource_rule_collection>limitRuleEntityCollection</mage_salesRule_model_resource_rule_collection>
                     <enterprise_reminder_model_resource_rule_collection>limitRuleEntityCollection</enterprise_reminder_model_resource_rule_collection>
                     <enterprise_customerSegment_model_resource_segment_collection>limitRuleEntityCollection</enterprise_customerSegment_model_resource_segment_collection>
@@ -331,15 +331,15 @@
                     <mage_sales_model_order_creditmemo>salesOrderEntitySaveBefore</mage_sales_model_order_creditmemo>
                     <mage_sales_model_order_payment_transaction>salesOrderTransactionSaveBefore</mage_sales_model_order_payment_transaction>
                     <mage_newsletter_model_queue>newsletterQueueSaveBefore</mage_newsletter_model_queue>
-                    <mage_catalog_model_product>catalogProductSaveBefore</mage_catalog_model_product>
-                    <mage_catalog_model_category>catalogCategorySaveBefore</mage_catalog_model_category>
+                    <magento_catalog_model_product>catalogProductSaveBefore</magento_catalog_model_product>
+                    <magento_catalog_model_category>catalogCategorySaveBefore</magento_catalog_model_category>
                     <mage_customer_model_customer>customerSaveBefore</mage_customer_model_customer>
                     <mage_customer_model_attribute>customerAttributeSaveBefore</mage_customer_model_attribute>
                     <enterprise_catalogEvent_model_event>catalogEventSaveBefore</enterprise_catalogEvent_model_event>
                     <magento_core_model_website>coreWebsiteSaveBefore</magento_core_model_website>
                     <magento_core_model_store_group>coreStoreGroupSaveBefore</magento_core_model_store_group>
                     <magento_core_model_store>coreStoreGroupSaveBefore</magento_core_model_store>
-                    <mage_catalog_model_entity_attribute>catalogEntityAttributeSaveBefore</mage_catalog_model_entity_attribute>
+                    <magento_catalog_model_entity_attribute>catalogEntityAttributeSaveBefore</magento_catalog_model_entity_attribute>
                     <mage_eav_model_entity_attribute_set>eavEntityAttributeSetSaveBefore</mage_eav_model_entity_attribute_set>
                     <mage_eav_model_entity_attribute_group>eavEntityAttributeGroupSaveBefore</mage_eav_model_entity_attribute_group>
                     <mage_eav_model_entity_attribute_option>eavEntityAttributeOptionSaveBefore</mage_eav_model_entity_attribute_option>
@@ -357,15 +357,15 @@
                     <mage_cms_model_block>cmsBlockDeleteBefore</mage_cms_model_block>
                     <mage_poll_model_poll>pollDeleteBefore</mage_poll_model_poll>
                     <mage_rule_model_abstract>ruleDeleteBefore</mage_rule_model_abstract>
-                    <mage_catalog_model_product>catalogProductDeleteBefore</mage_catalog_model_product>
-                    <mage_catalog_model_category>catalogCategoryDeleteBefore</mage_catalog_model_category>
+                    <magento_catalog_model_product>catalogProductDeleteBefore</magento_catalog_model_product>
+                    <magento_catalog_model_category>catalogCategoryDeleteBefore</magento_catalog_model_category>
                     <mage_customer_model_customer>customerDeleteBefore</mage_customer_model_customer>
                     <mage_customer_model_attribute>customerAttributeDeleteBefore</mage_customer_model_attribute>
                     <enterprise_catalogEvent_model_event>catalogEventDeleteBefore</enterprise_catalogEvent_model_event>
                     <magento_core_model_website>coreWebsiteDeleteBefore</magento_core_model_website>
                     <magento_core_model_store_group>coreStoreGroupDeleteBefore</magento_core_model_store_group>
                     <magento_core_model_store>coreStoreGroupDeleteBefore</magento_core_model_store>
-                    <mage_catalog_model_entity_attribute>catalogEntityAttributeDeleteBefore</mage_catalog_model_entity_attribute>
+                    <magento_catalog_model_entity_attribute>catalogEntityAttributeDeleteBefore</magento_catalog_model_entity_attribute>
                     <mage_eav_model_entity_attribute_set>eavEntityAttributeSetDeleteBefore</mage_eav_model_entity_attribute_set>
                     <mage_eav_model_entity_attribute_group>eavEntityAttributeGroupDeleteBefore</mage_eav_model_entity_attribute_group>
                     <mage_eav_model_entity_attribute_option>eavEntityAttributeOptionDeleteBefore</mage_eav_model_entity_attribute_option>
@@ -377,9 +377,9 @@
                     <enterprise_reward_model_reward_rate>rewardRateDeleteBefore</enterprise_reward_model_reward_rate>
                 </model_delete_before>
                 <model_load_after>
-                    <mage_catalog_model_product>catalogProductLoadAfter</mage_catalog_model_product>
+                    <magento_catalog_model_product>catalogProductLoadAfter</magento_catalog_model_product>
                     <enterprise_catalogEvent_model_event>catalogEventLoadAfter</enterprise_catalogEvent_model_event>
-                    <mage_catalog_model_category>catalogCategoryLoadAfter</mage_catalog_model_category>
+                    <magento_catalog_model_category>catalogCategoryLoadAfter</magento_catalog_model_category>
                     <mage_customer_model_customer>customerLoadAfter</mage_customer_model_customer>
                     <mage_sales_model_order>salesOrderLoadAfter</mage_sales_model_order>
                     <mage_sales_model_order_payment_transaction>salesOrderTransactionLoadAfter</mage_sales_model_order_payment_transaction>

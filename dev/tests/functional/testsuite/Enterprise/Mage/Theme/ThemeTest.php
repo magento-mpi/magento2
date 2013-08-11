@@ -56,7 +56,7 @@ class Enterprise_Mage_Theme_ThemeTest extends Core_Mage_Theme_ThemeTest
             array('Enterprise_Banner__widgets.css', 'enterprise_banner_widgets'),
             array('Enterprise_CatalogEvent__widgets.css', 'enterprise_catalog_event_widgets'),
             array('Enterprise_Cms__widgets.css', 'enterprise_cms_widgets'),
-            array('Mage_Catalog--widgets.css', 'mage_catalog_widget'),
+            array('Magento_Catalog--widgets.css', 'magento_catalog_widget'),
             array('Mage_Oauth--css-oauth-simple.css', 'mage_oauth_css_oauth_simple'),
             array('jquery_jqzoom_css_jquery.jqzoom.css', 'jquery_jqzoom_css'),
             array('mage-calendar.css', 'mage_calendar'),

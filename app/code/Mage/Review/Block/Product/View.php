@@ -15,7 +15,7 @@
  * @package    Mage_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Block_Product_View extends Mage_Catalog_Block_Product_View
+class Mage_Review_Block_Product_View extends Magento_Catalog_Block_Product_View
 {
     protected $_reviewsCollection;
 
@@ -35,12 +35,12 @@ class Mage_Review_Block_Product_View extends Mage_Catalog_Block_Product_View
      * Replace review summary html with more detailed review summary
      * Reviews collection count will be jerked here
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param string $templateType
      * @param bool $displayIfNoReviews
      * @return string
      */
-    public function getReviewsSummaryHtml(Mage_Catalog_Model_Product $product, $templateType = false, $displayIfNoReviews = false)
+    public function getReviewsSummaryHtml(Magento_Catalog_Model_Product $product, $templateType = false, $displayIfNoReviews = false)
     {
         return
             $this->getLayout()->createBlock('Mage_Rating_Block_Entity_Detailed')

@@ -12,7 +12,7 @@ require 'customer.php';
 $customer = Mage::registry('customer');
 //Set up virtual product fixture
 require 'product_virtual.php';
-/** @var $product Mage_Catalog_Model_Product */
+/** @var $product Magento_Catalog_Model_Product */
 $product = Mage::registry('product_virtual');
 
 //Create quote

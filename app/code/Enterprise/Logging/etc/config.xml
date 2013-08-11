@@ -17,7 +17,7 @@
             <depends>
                 <Magento_Adminhtml/>
                 <Mage_Sales/>
-                <Mage_Catalog/>
+                <Magento_Catalog/>
             </depends>
         </Enterprise_Logging>
     </modules>

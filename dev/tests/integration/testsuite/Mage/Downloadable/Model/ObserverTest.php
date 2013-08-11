@@ -19,7 +19,7 @@ class Mage_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testDuplicateProductDownloadableProductWithFilesSuccessfullyDuplicated()
     {
-        $currentProduct = Mage::getModel('Mage_Catalog_Model_Product');
+        $currentProduct = Mage::getModel('Magento_Catalog_Model_Product');
         $currentProduct->load(1); // fixture for initial product
         $currentLinks = $currentProduct->getTypeInstance($currentProduct)->getLinks($currentProduct);
         $currentSamples = $currentProduct->getTypeInstance($currentProduct)->getSamples($currentProduct);

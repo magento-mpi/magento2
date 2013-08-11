@@ -46,7 +46,7 @@
             <div class="product-title"><?php echo $this->escapeHtml($_item->getName()) ?></div>
             <div>
                 <strong><?php echo $this->helper('Mage_Sales_Helper_Data')->__('SKU') ?>:</strong>
-                <?php echo implode('<br />', Mage::helper('Mage_Catalog_Helper_Data')->splitSku($this->escapeHtml($_item->getSku()))); ?>
+                <?php echo implode('<br />', Mage::helper('Magento_Catalog_Helper_Data')->splitSku($this->escapeHtml($_item->getSku()))); ?>
             </div>
         </td>
         <?php else: ?>

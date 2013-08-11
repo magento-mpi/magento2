@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +15,7 @@
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::marketing">
                     <resource id="Magento_Adminhtml::marketing_seo">
-                        <resource id="Mage_CatalogSearch::search" module="Mage_CatalogSearch" title="Search Terms" sortOrder="10" />
+                        <resource id="Magento_CatalogSearch::search" module="Magento_CatalogSearch" title="Search Terms" sortOrder="10" />
                     </resource>
                 </resource>
             </resource>

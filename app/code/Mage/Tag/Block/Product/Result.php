@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Tag_Block_Product_Result extends Mage_Catalog_Block_Product_Abstract
+class Mage_Tag_Block_Product_Result extends Magento_Catalog_Block_Product_Abstract
 {
     protected $_productCollection;
 
@@ -65,14 +65,14 @@ class Mage_Tag_Block_Product_Result extends Mage_Catalog_Block_Product_Abstract
         if(is_null($this->_productCollection)) {
             $tagModel = Mage::getModel('Mage_Tag_Model_Tag');
             $this->_productCollection = $tagModel->getEntityCollection()
-                ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
+                ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
                 ->addTagFilter($this->getTag()->getId())
                 ->addStoreFilter(Mage::app()->getStore()->getId())
                 ->addMinimalPrice()
                 ->addUrlRewrite()
                 ->setActiveFilter();
             $this->_productCollection->setVisibility(
-                Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds()
+                Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds()
             );
         }
 

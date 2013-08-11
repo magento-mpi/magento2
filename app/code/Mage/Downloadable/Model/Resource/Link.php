@@ -108,7 +108,7 @@ class Mage_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resource_
                 } else {
                     $_isNew = false;
                 }
-                if ($linkObject->getWebsiteId() == 0 && $_isNew && !Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal()) {
+                if ($linkObject->getWebsiteId() == 0 && $_isNew && !Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal()) {
                     $websiteIds = $linkObject->getProductWebsiteIds();
                     foreach ($websiteIds as $websiteId) {
                         $baseCurrency = Mage::app()->getBaseCurrencyCode();

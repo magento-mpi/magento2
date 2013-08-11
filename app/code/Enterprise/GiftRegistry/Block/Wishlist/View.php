@@ -67,7 +67,7 @@ class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Cu
     /**
      * Check if wishlist item can be added to gift registry
      *
-     * @param Mage_Catalog_Model_Product $item
+     * @param Magento_Catalog_Model_Product $item
      * @return bool
      */
     public function checkProductType($item)

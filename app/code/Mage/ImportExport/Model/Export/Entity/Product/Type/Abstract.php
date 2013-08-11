@@ -71,10 +71,10 @@ abstract class Mage_ImportExport_Model_Export_Entity_Product_Type_Abstract
     /**
      * Add additional data to attribute.
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @return boolean
      */
-    public function overrideAttribute(Mage_Catalog_Model_Resource_Eav_Attribute $attribute)
+    public function overrideAttribute(Magento_Catalog_Model_Resource_Eav_Attribute $attribute)
     {
         if (!empty($this->_attributeOverrides[$attribute->getAttributeCode()])) {
             $data = $this->_attributeOverrides[$attribute->getAttributeCode()];

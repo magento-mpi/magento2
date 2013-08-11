@@ -15,14 +15,14 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Virtual
+class Mage_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Product_Type_Virtual
 {
     const TYPE_DOWNLOADABLE = 'downloadable';
 
     /**
      * Get downloadable product links
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return array
      */
     public function getLinks($product)
@@ -47,7 +47,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     /**
      * Check if product has links
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return boolean
      */
     public function hasLinks($product)
@@ -61,7 +61,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     /**
      * Check if product has options
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return boolean
      */
     public function hasOptions($product)
@@ -74,7 +74,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     /**
      * Check if product has required options
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool
      */
     public function hasRequiredOptions($product)
@@ -88,7 +88,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     /**
      * Check if product cannot be purchased with no links selected
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return boolean
      */
     public function getLinkSelectionRequired($product)
@@ -99,7 +99,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     /**
      * Get downloadable product samples
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Downloadable_Model_Resource_Sample_Collection
      */
     public function getSamples($product)
@@ -117,7 +117,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     /**
      * Check if product has samples
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return boolean
      */
     public function hasSamples($product)
@@ -128,7 +128,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     /**
      * Save Product downloadable information (links and samples)
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Downloadable_Model_Product_Type
      */
     public function save($product)
@@ -256,7 +256,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * Perform standard preparation process and then prepare options for downloadable links.
      *
      * @param Magento_Object $buyRequest
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param string $processMode
      * @return array|string
      */
@@ -303,7 +303,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     /**
      * Check if product can be bought
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Bundle_Model_Product_Type
      * @throws Magento_Core_Exception
      */
@@ -335,7 +335,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * Prepare additional options/information for order item which will be
      * created from this product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return array
      */
     public function getOrderOptions($product)
@@ -362,7 +362,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * Setting flag if dowenloadable product can be or not in complex product
      * based on link can be purchased separately or not
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      */
     public function beforeSave($product)
     {
@@ -394,7 +394,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      * Retrieve additional searchable data from type instance
      * Using based on product id and store_id data
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return array
      */
     public function getSearchableData($product)
@@ -419,7 +419,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     /**
      * Check is product available for sale
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool
      */
     public function isSalable($product)
@@ -430,7 +430,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     /**
      * Prepare selected options for downloadable product
      *
-     * @param  Mage_Catalog_Model_Product $product
+     * @param  Magento_Catalog_Model_Product $product
      * @param  Magento_Object $buyRequest
      * @return array
      */
@@ -447,7 +447,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     /**
      * Check if downloadable product has links and they can be purchased separately
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return bool
      */
     public function canConfigure($product)
@@ -468,9 +468,9 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     /**
      * Delete data specific for Downloadable product type
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      */
-    public function deleteTypeSpecificData(Mage_Catalog_Model_Product $product)
+    public function deleteTypeSpecificData(Magento_Catalog_Model_Product $product)
     {
         if ($product->getOrigData('type_id') === Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
             $downloadableData = $product->getDownloadableData();

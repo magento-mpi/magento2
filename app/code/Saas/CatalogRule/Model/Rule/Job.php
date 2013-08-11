@@ -17,14 +17,14 @@
  * @package   Saas_CatalogRule
  * @author    Magento Core Team <core@magentocommerce.com>
  */
-class Saas_CatalogRule_Model_Rule_Job extends Mage_CatalogRule_Model_Rule_Job
+class Saas_CatalogRule_Model_Rule_Job extends Magento_CatalogRule_Model_Rule_Job
 {
     /**
      * Apply all price rules, invalidate related cache and refresh price index
      *
      * Override parent for changing success message
      *
-     * @return Mage_CatalogRule_Model_Rule_Job
+     * @return Magento_CatalogRule_Model_Rule_Job
      */
     public function applyAll()
     {

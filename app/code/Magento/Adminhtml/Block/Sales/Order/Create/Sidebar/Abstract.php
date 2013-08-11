@@ -128,7 +128,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Magent
              * Filtering items by allowed product type
              */
             foreach($items as $key => $item) {
-                if ($item instanceof Mage_Catalog_Model_Product) {
+                if ($item instanceof Magento_Catalog_Model_Product) {
                     $type = $item->getTypeId();
                 } else if ($item instanceof Mage_Sales_Model_Order_Item) {
                     $type = $item->getProductType();
@@ -139,7 +139,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Magent
                     // Maybe some item, that can give us product via getProduct()
                     if (($item instanceof Magento_Object) || method_exists($item, 'getProduct')) {
                         $product = $item->getProduct();
-                        if ($product && ($product instanceof Mage_Catalog_Model_Product)) {
+                        if ($product && ($product instanceof Magento_Catalog_Model_Product)) {
                             $type = $product->getTypeId();
                         }
                     }

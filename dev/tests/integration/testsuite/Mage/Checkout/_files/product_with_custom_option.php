@@ -10,11 +10,11 @@
  */
 
 require __DIR__ . '/../../Checkout/_files/simple_product.php';
-/** @var $product Mage_Catalog_Model_Product */
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+/** @var $product Magento_Catalog_Model_Product */
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load(1);
 
-/** @var $product Mage_Catalog_Model_Product */
+/** @var $product Magento_Catalog_Model_Product */
 $product->setCanSaveCustomOptions(true)
     ->setProductOptions(
         array(
@@ -36,8 +36,8 @@ $product->setCanSaveCustomOptions(true)
     ->setHasOptions(true)
     ->save();
 
-/** @var $product Mage_Catalog_Model_Product */
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+/** @var $product Magento_Catalog_Model_Product */
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load(1);
 $optionId = key($product->getOptions());
 

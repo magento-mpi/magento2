@@ -26,7 +26,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Qua
      */
     public function _getValue(Magento_Object $row)
     {
-        if ($row->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+        if ($row->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
             return '';
         }
         $quantity = parent::_getValue($row);

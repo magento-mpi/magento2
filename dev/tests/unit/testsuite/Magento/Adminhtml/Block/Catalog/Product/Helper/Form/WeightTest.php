@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Catalog
+ * @package     Magento_Catalog
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     {
         $this->_virtual = new Magento_Object();
 
-        $helper = $this->getMock('Mage_Catalog_Helper_Product', array('getTypeSwitcherControlLabel'),
+        $helper = $this->getMock('Magento_Catalog_Helper_Product', array('getTypeSwitcherControlLabel'),
             array(), '', false, false
         );
         $helper->expects($this->any())->method('getTypeSwitcherControlLabel')

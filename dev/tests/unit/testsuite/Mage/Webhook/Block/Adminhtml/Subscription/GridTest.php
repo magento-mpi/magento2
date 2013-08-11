@@ -70,7 +70,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_GridTest extends Magento_Test_Bl
         $url = 'uniform resource locater';
         $this->_setStub($this->_urlMock, 'getUrl', $url, $this->once())
             ->with('*/*/edit', array('id' => 'row_id'));
-        $row = $this->_makeMock('Mage_Catalog_Model_Product');
+        $row = $this->_makeMock('Magento_Catalog_Model_Product');
         $this->_setStub($row, 'getId', 'row_id', $this->once());
 
         $this->assertEquals($url, $this->_gridMock->getRowUrl($row));

@@ -168,7 +168,7 @@ class Mage_Sales_Model_Observer
         $quote = $observer->getEvent()->getQuote();
 
         $canApplyMsrp = false;
-        if (Mage::helper('Mage_Catalog_Helper_Data')->isMsrpEnabled()) {
+        if (Mage::helper('Magento_Catalog_Helper_Data')->isMsrpEnabled()) {
             foreach ($quote->getAllAddresses() as $adddress) {
                 if ($adddress->getCanApplyMsrp()) {
                     $canApplyMsrp = true;

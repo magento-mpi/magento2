@@ -133,12 +133,12 @@ class Mage_Sales_Model_Resource_Quote_Item_Option_Collection extends Magento_Cor
     /**
      * Get all option for item
      *
-     * @param int | Mage_Catalog_Model_Product $product
+     * @param int | Magento_Catalog_Model_Product $product
      * @return array
      */
     public function getOptionsByProduct($product)
     {
-        if ($product instanceof Mage_Catalog_Model_Product) {
+        if ($product instanceof Magento_Catalog_Model_Product) {
             $productId = $product->getId();
         } else {
             $productId = $product;

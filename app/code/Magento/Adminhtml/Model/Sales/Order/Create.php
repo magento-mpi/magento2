@@ -42,7 +42,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Catalog Compare List instance
      *
-     * @var Mage_Catalog_Model_Product_Compare_List
+     * @var Magento_Catalog_Model_Product_Compare_List
      */
     protected $_compareList;
 
@@ -379,7 +379,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
             return $this;
         }
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product')
+        $product = Mage::getModel('Magento_Catalog_Model_Product')
             ->setStoreId($this->getSession()->getStoreId())
             ->load($orderItem->getProductId());
 
@@ -467,7 +467,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Retrieve customer compare list model object
      *
-     * @return Mage_Catalog_Model_Product_Compare_List
+     * @return Magento_Catalog_Model_Product_Compare_List
      */
     public function getCustomerCompareList()
     {
@@ -476,7 +476,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
 
         if ($this->getSession()->getCustomer()->getId()) {
-            $this->_compareList = Mage::getModel('Mage_Catalog_Model_Product_Compare_List');
+            $this->_compareList = Mage::getModel('Magento_Catalog_Model_Product_Compare_List');
         } else {
             $this->_compareList = false;
         }
@@ -512,7 +512,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                     $info->setOptions($this->_prepareOptionsForRequest($item))
                         ->setQty($qty);
 
-                    $product = Mage::getModel('Mage_Catalog_Model_Product')
+                    $product = Mage::getModel('Magento_Catalog_Model_Product')
                         ->setStoreId($this->getQuote()->getStoreId())
                         ->load($item->getProduct()->getId());
 
@@ -530,7 +530,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                     $cart = $this->getCustomerCart();
                     if ($cart && is_null($item->getOptionByCode('additional_options'))) {
                         //options and info buy request
-                        $product = Mage::getModel('Mage_Catalog_Model_Product')
+                        $product = Mage::getModel('Magento_Catalog_Model_Product')
                             ->setStoreId($this->getQuote()->getStoreId())
                             ->load($item->getProduct()->getId());
 
@@ -681,7 +681,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 }
                 break;
             case 'compared':
-                $item = Mage::getModel('Mage_Catalog_Model_Product_Compare_Item')
+                $item = Mage::getModel('Magento_Catalog_Model_Product_Compare_Item')
                     ->load($itemId)
                     ->delete();
                 break;
@@ -707,7 +707,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * $product can be either product id or product model
      * $config can be either buyRequest config, or just qty
      *
-     * @param   int|Mage_Catalog_Model_Product $product
+     * @param   int|Magento_Catalog_Model_Product $product
      * @param   float|array|Magento_Object $config
      * @return  Magento_Adminhtml_Model_Sales_Order_Create
      */
@@ -718,9 +718,9 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
         $config = new Magento_Object($config);
 
-        if (!($product instanceof Mage_Catalog_Model_Product)) {
+        if (!($product instanceof Magento_Catalog_Model_Product)) {
             $productId = $product;
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStore($this->getSession()->getStore())
                 ->setStoreId($this->getSession()->getStoreId())
                 ->load($product);
@@ -742,14 +742,14 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         $item = $this->getQuote()->addProductAdvanced(
             $product,
             $config,
-            Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL
+            Magento_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL
         );
         if (is_string($item)) {
-            if ($product->getTypeId() != Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE) {
+            if ($product->getTypeId() != Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE) {
                 $item = $this->getQuote()->addProductAdvanced(
                     $product,
                     $config,
-                    Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_LITE
+                    Magento_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_LITE
                 );
             }
             if (is_string($item)) {
@@ -853,7 +853,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      */
     protected function _parseOptions(Mage_Sales_Model_Quote_Item $item, $additionalOptions)
     {
-        $productOptions = Mage::getSingleton('Mage_Catalog_Model_Product_Option_Type_Default')
+        $productOptions = Mage::getSingleton('Magento_Catalog_Model_Product_Option_Type_Default')
             ->setProduct($item->getProduct())
             ->getProductOptions();
 
@@ -882,7 +882,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                     $optionId = $productOptions[$label]['option_id'];
                     $option = $item->getProduct()->getOptionById($optionId);
 
-                    $group = Mage::getSingleton('Mage_Catalog_Model_Product_Option')->groupFactory($option->getType())
+                    $group = Mage::getSingleton('Magento_Catalog_Model_Product_Option')->groupFactory($option->getType())
                         ->setOption($option)
                         ->setProduct($item->getProduct());
 
@@ -975,7 +975,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 $option = $item->getProduct()->getOptionById($optionId);
                 $optionValue = $item->getOptionByCode('option_'.$optionId)->getValue();
 
-                $group = Mage::getSingleton('Mage_Catalog_Model_Product_Option')->groupFactory($option->getType())
+                $group = Mage::getSingleton('Magento_Catalog_Model_Product_Option')->groupFactory($option->getType())
                     ->setOption($option)
                     ->setQuoteItem($item);
 

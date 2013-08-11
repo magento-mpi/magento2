@@ -26,7 +26,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
         $this->setUsedModuleName('Mage_Sales');
 
         // During order creation in the backend admin has ability to add any products to order
-        Mage::helper('Mage_Catalog_Helper_Product')->setSkipSaleableCheck(true);
+        Mage::helper('Magento_Catalog_Helper_Product')->setSkipSaleableCheck(true);
     }
 
     /**
@@ -294,8 +294,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
      */
     protected function _processFiles($items)
     {
-        /* @var $productHelper Mage_Catalog_Helper_Product */
-        $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
+        /* @var $productHelper Magento_Catalog_Helper_Product */
+        $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
         foreach ($items as $id => $item) {
             $buyRequest = new Magento_Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');

@@ -26,6 +26,6 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Wishlist_Qty
      */
     protected function _isInactive($row)
     {
-        return $row->getProduct()->getTypeId() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
+        return $row->getProduct()->getTypeId() == Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
     }
 }

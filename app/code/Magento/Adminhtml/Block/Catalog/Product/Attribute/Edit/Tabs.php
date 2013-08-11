@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs extends Magent
         parent::_construct();
         $this->setId('product_attribute_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Information'));
+        $this->setTitle(Mage::helper('Magento_Catalog_Helper_Data')->__('Attribute Information'));
     }
 
     protected function _beforeToHtml()
@@ -31,8 +31,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs extends Magent
         $this->addTab(
             'main',
             array(
-                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Properties'),
-                'title'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Properties'),
+                'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Properties'),
+                'title'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Properties'),
                 'content'   => $this->getChildHtml('main'),
                 'active'    => true
             )
@@ -40,16 +40,16 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs extends Magent
         $this->addTab(
             'labels',
             array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Labels'),
-                'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Manage Labels'),
+                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Manage Labels'),
+                'title' => Mage::helper('Magento_Catalog_Helper_Data')->__('Manage Labels'),
                 'content' => $this->getChildHtml('labels'),
             )
         );
         $this->addTab(
             'front',
             array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Frontend Properties'),
-                'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Frontend Properties'),
+                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Frontend Properties'),
+                'title' => Mage::helper('Magento_Catalog_Helper_Data')->__('Frontend Properties'),
                 'content' => $this->getChildHtml('front'),
             )
         );

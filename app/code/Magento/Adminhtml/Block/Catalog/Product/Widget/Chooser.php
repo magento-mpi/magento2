@@ -60,11 +60,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
             $categoryId = isset($value[2]) ? $value[2] : false;
             $label = '';
             if ($categoryId) {
-                $label = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Category')
+                $label = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category')
                     ->getAttributeRawValue($categoryId, 'name', Mage::app()->getStore()) . '/';
             }
             if ($productId) {
-                $label .= Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product')
+                $label .= Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product')
                     ->getAttributeRawValue($productId, 'name', Mage::app()->getStore());
             }
             $chooser->setLabel($label);
@@ -165,13 +165,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
      */
     protected function _prepareCollection()
     {
-        /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
+        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
             ->setStoreId(0)
             ->addAttributeToSelect('name');
 
         if ($categoryId = $this->getCategoryId()) {
-            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
+            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
             if ($category->getId()) {
                 // $collection->addCategoryFilter($category);
                 $productIds = $category->getProductsPosition();
@@ -213,21 +213,21 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
         }
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('ID'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('ID'),
             'sortable'  => true,
             'index'     => 'entity_id',
             'header_css_class'  => 'col-id',
             'column_css_class'  => 'col-id'
         ));
         $this->addColumn('chooser_sku', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('SKU'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('SKU'),
             'name'      => 'chooser_sku',
             'index'     => 'sku',
             'header_css_class'  => 'col-sku',
             'column_css_class'  => 'col-sku'
         ));
         $this->addColumn('chooser_name', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Product'),
+            'header'    => Mage::helper('Magento_Catalog_Helper_Data')->__('Product'),
             'name'      => 'chooser_name',
             'index'     => 'name',
             'header_css_class'  => 'col-product',

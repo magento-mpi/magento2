@@ -28,7 +28,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Container extends Mage_Backend_Bl
     protected function _prepareLayout()
     {
         $this->addButton('back_button', array(
-            'label'   => $this->_helperFactory->get('Mage_Catalog_Helper_Data')->__('Back'),
+            'label'   => $this->_helperFactory->get('Magento_Catalog_Helper_Data')->__('Back'),
             'onclick' => 'setLocation(\'' . $this->getUrl('*/*') . '\')',
             'class'   => 'back'
         ));

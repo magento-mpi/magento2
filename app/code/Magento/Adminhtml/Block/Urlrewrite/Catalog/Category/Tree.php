@@ -38,14 +38,14 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_A
     {
         $productId = Mage::app()->getRequest()->getParam('product');
         if ($productId) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')->setId($productId);
+            $product = Mage::getModel('Magento_Catalog_Model_Product')->setId($productId);
             $this->_allowedCategoryIds = $product->getCategoryIds();
             unset($product);
         }
 
         $result = array();
         if ($parentId) {
-            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($parentId);
+            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($parentId);
             if (!empty($category)) {
                 $tree = $this->_getNodesArray($this->getNode($category, $recursionLevel));
                 if (!empty($tree) && !empty($tree['children'])) {
@@ -68,13 +68,13 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_A
     /**
      * Get categories collection
      *
-     * @return Mage_Catalog_Model_Resource_Category_Collection
+     * @return Magento_Catalog_Model_Resource_Category_Collection
      */
     public function getCategoryCollection()
     {
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('Mage_Catalog_Model_Category')->getCollection()
+            $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection()
                 ->addAttributeToSelect(array('name', 'is_active'))
                 ->setLoadProductCount(true);
             $this->setData('category_collection', $collection);

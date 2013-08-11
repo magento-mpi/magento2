@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Mage_SalesRule::promo_quote" title="Cart Price Rules" module="Mage_SalesRule" parent="Mage_CatalogRule::promo" sortOrder="30" action="adminhtml/promo_quote/" dependsOnModule="Mage_Sales" resource="Mage_SalesRule::quote"/>
+        <add id="Mage_SalesRule::promo_quote" title="Cart Price Rules" module="Mage_SalesRule" parent="Magento_CatalogRule::promo" sortOrder="30" action="adminhtml/promo_quote/" dependsOnModule="Mage_Sales" resource="Mage_SalesRule::quote"/>
     </menu>
 </config>

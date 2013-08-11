@@ -48,7 +48,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     </th>
                     <?php
                     foreach ($usedProductAttributes as $attribute) {
-                        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                        /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
                         echo '<th class="col-' . preg_replace('#[^a-z0-9]+#', '-', strtolower($attribute->getStoreLabel())) . '">', $attribute->getStoreLabel(), '</th>', PHP_EOL;
                     }
                     ?>
@@ -65,7 +65,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                 $attributeStoreLabels = array();
                 $price = $productPrice;
                 foreach ($usedProductAttributes as $attribute) {
-                    /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                    /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
 
                     $attributeValues[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['value'];
                     $attributeLabels[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['label'];
@@ -98,7 +98,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                    value="<?php echo $image?>" type="hidden"/>
                         </div>
                         <?php if ($image): ?>
-                            <img src="<?php echo $this->helper('Mage_Catalog_Helper_Product')->getImageUrl($product)?>"
+                            <img src="<?php echo $this->helper('Magento_Catalog_Helper_Product')->getImageUrl($product)?>"
                                  class="variation" data-role="image"/>
                         <?php endif; ?>
                     </td>
@@ -121,7 +121,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     <td class="col-weight" data-column="weight"><?php echo $product->getWeight()?></td>
                     <?php
                     foreach ($usedProductAttributes as $attribute) {
-                        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                        /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
                         echo '<td class="col-' . preg_replace('#[^a-z0-9]+#', '-', strtolower($attribute->getStoreLabel())) . '">',
                             $this->escapeHtml($variation[$attribute->getId()]['label']), '</td>', PHP_EOL;
                     }
@@ -213,7 +213,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     </td>
                     <?php
                     foreach ($usedProductAttributes as $attribute) {
-                        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                        /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
                         echo '<td class="col-'
                             . preg_replace('#[^a-z0-9]+#', '-', strtolower($attribute->getStoreLabel())) . '">',
                             $this->escapeHtml($variation[$attribute->getId()]['label']),

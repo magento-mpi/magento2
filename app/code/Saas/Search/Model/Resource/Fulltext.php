@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Search_Model_Resource_Fulltext extends Mage_CatalogSearch_Model_Resource_Fulltext
+class Saas_Search_Model_Resource_Fulltext extends Magento_CatalogSearch_Model_Resource_Fulltext
 {
     /**
      * Product Attribute Collection
      *
-     * @var Mage_Catalog_Model_Resource_Product_Attribute_Collection
+     * @var Magento_Catalog_Model_Resource_Product_Attribute_Collection
      */
     protected $_productAttributes;
 
@@ -21,8 +21,8 @@ class Saas_Search_Model_Resource_Fulltext extends Mage_CatalogSearch_Model_Resou
      */
     public function __construct(
         Magento_Core_Model_Resource $resource,
-        Mage_CatalogSearch_Model_Resource_Fulltext_Engine $engine,
-        Mage_Catalog_Model_Resource_Product_Attribute_Collection $productAttributes
+        Magento_CatalogSearch_Model_Resource_Fulltext_Engine $engine,
+        Magento_Catalog_Model_Resource_Product_Attribute_Collection $productAttributes
     ) {
         parent::__construct($resource);
         $this->_engine = $engine;
@@ -47,7 +47,7 @@ class Saas_Search_Model_Resource_Fulltext extends Mage_CatalogSearch_Model_Resou
             }
             $attributes = $this->_productAttributes->getItems();
             $entity = $this->getEavConfig()
-                ->getEntityType(Mage_Catalog_Model_Product::ENTITY)
+                ->getEntityType(Magento_Catalog_Model_Product::ENTITY)
                 ->getEntity();
 
             foreach ($attributes as $attribute) {

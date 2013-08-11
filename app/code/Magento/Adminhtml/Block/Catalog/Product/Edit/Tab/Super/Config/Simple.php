@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
     /**
      * Link to currently editing product
      *
-     * @var Mage_Catalog_Model_Product
+     * @var Magento_Catalog_Model_Product
      */
     protected $_product = null;
 
@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
         $form->setDataObject($this->getProduct());
 
         $fieldset = $form->addFieldset('simple_product', array(
-            'legend' => Mage::helper('Mage_Catalog_Helper_Data')->__('Quick simple product creation')
+            'legend' => Mage::helper('Magento_Catalog_Helper_Data')->__('Quick simple product creation')
         ));
         $this->_addElementTypes($fieldset);
         $attributesConfig = array(
@@ -43,8 +43,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
 
         $availableTypes = array('text', 'select', 'multiselect', 'textarea', 'price', 'weight');
 
-        $attributes = Mage::getModel('Mage_Catalog_Model_Product')
-            ->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+        $attributes = Mage::getModel('Magento_Catalog_Model_Product')
+            ->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
             ->setAttributeSetId($this->getProduct()->getAttributeSetId())
             ->getAttributes();
 
@@ -53,7 +53,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
             if (($attribute->getIsRequired()
                 && $attribute->getApplyTo()
                 // If not applied to configurable
-                && !in_array(Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $attribute->getApplyTo())
+                && !in_array(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $attribute->getApplyTo())
                 // If not used in configurable
                 && !in_array($attribute->getId(),
                     $this->getProduct()->getTypeInstance()->getUsedProductAttributeIds($this->getProduct()))
@@ -85,7 +85,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
                          . 'name="simple_product[' . $attributeCode . '_autogenerate]" value="1" '
                          . 'onclick="toggleValueElements(this, this.parentNode)" checked="checked" /> '
                          . '<label for="simple_product_' . $attributeCode . '_autogenerate" >'
-                         . Mage::helper('Mage_Catalog_Helper_Data')->__('Autogenerate')
+                         . Mage::helper('Magento_Catalog_Helper_Data')->__('Autogenerate')
                          . '</label>'
                     );
                 }
@@ -122,7 +122,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
 
         /* Inventory Data */
         $fieldset->addField('simple_product_inventory_qty', 'text', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Qty'),
+            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Qty'),
             'name'  => 'stock_data[qty]',
             'class' => 'validate-number',
             'required' => true,
@@ -130,11 +130,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
         ));
 
         $fieldset->addField('simple_product_inventory_is_in_stock', 'select', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Stock Availability'),
+            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Stock Availability'),
             'name'  => 'stock_data[is_in_stock]',
             'values' => array(
-                array('value'=>1, 'label'=> Mage::helper('Mage_Catalog_Helper_Data')->__('In Stock')),
-                array('value'=>0, 'label'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Out of Stock'))
+                array('value'=>1, 'label'=> Mage::helper('Magento_Catalog_Helper_Data')->__('In Stock')),
+                array('value'=>0, 'label'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Out of Stock'))
             ),
             'value' => 1
         ));
@@ -161,7 +161,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
     /**
      * Retrieve currently edited product object
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {

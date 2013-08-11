@@ -211,10 +211,10 @@ class Mage_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstract
      * Import product recurring profile information
      * Returns false if it cannot be imported
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_Payment_Model_Recurring_Profile|false
      */
-    public function importProduct(Mage_Catalog_Model_Product $product)
+    public function importProduct(Magento_Catalog_Model_Product $product)
     {
         if ($product->isRecurring() && is_array($product->getRecurringProfile())) {
             // import recurring profile data

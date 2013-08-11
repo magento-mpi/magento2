@@ -57,7 +57,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
                 ->setForm( $this->getForm() )
                 ->setLabel(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Position of Watermark for %s', $attribute['title']))
                 ->setRenderer($renderer)
-                ->setValues(Mage::getSingleton('Mage_Catalog_Model_Config_Source_Watermark_Position')->toOptionArray());
+                ->setValues(Mage::getSingleton('Magento_Catalog_Model_Config_Source_Watermark_Position')->toOptionArray());
             $html.= $field->toHtml();
         }
 

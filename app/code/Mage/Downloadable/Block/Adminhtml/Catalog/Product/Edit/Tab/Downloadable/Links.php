@@ -28,7 +28,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     /**
      * Purchased Separately Attribute cache
      *
-     * @var Mage_Catalog_Model_Resource_Eav_Attribute
+     * @var Magento_Catalog_Model_Resource_Eav_Attribute
      */
     protected $_purchasedSeparatelyAttribute = null;
 
@@ -49,7 +49,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     /**
      * Get product that is being edited
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -59,7 +59,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     /**
      * Retrieve Purchased Separately Attribute object
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     * @return Magento_Catalog_Model_Resource_Eav_Attribute
      */
     public function getPurchasedSeparatelyAttribute()
     {
@@ -67,7 +67,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
             $_attributeCode = 'links_purchased_separately';
 
             $this->_purchasedSeparatelyAttribute = Mage::getModel('Mage_Eav_Model_Entity_Attribute')
-                ->loadByCode(Mage_Catalog_Model_Product::ENTITY, $_attributeCode);
+                ->loadByCode(Magento_Catalog_Model_Product::ENTITY, $_attributeCode);
         }
 
         return $this->_purchasedSeparatelyAttribute;

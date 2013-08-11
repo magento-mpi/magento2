@@ -950,7 +950,7 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * @param null|string $processMode
      * @return Mage_Sales_Model_Quote_Item|string
      */
-    public function addProductAdvanced(Mage_Catalog_Model_Product $product, $request = null, $processMode = null)
+    public function addProductAdvanced(Magento_Catalog_Model_Product $product, $request = null, $processMode = null)
     {
         if ($request === null) {
             $request = 1;
@@ -1035,23 +1035,23 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * @param null|float|Magento_Object $request
      * @return Mage_Sales_Model_Quote_Item|string
      */
-    public function addProduct(Mage_Catalog_Model_Product $product, $request = null)
+    public function addProduct(Magento_Catalog_Model_Product $product, $request = null)
     {
         return $this->addProductAdvanced(
             $product,
             $request,
-            Mage_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL
+            Magento_Catalog_Model_Product_Type_Abstract::PROCESS_MODE_FULL
         );
     }
 
     /**
      * Adding catalog product object data to quote
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param int $qty
      * @return Mage_Sales_Model_Quote_Item
      */
-    protected function _addCatalogProduct(Mage_Catalog_Model_Product $product, $qty = 1)
+    protected function _addCatalogProduct(Magento_Catalog_Model_Product $product, $qty = 1)
     {
         $newItem = false;
         $item = $this->getItemByProduct($product);
@@ -1087,7 +1087,7 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * Updates quote item with new configuration
      *
      * $params sets how current item configuration must be taken into account and additional options.
-     * It's passed to Mage_Catalog_Helper_Product->addParamsToBuyRequest() to compose resulting buyRequest.
+     * It's passed to Magento_Catalog_Helper_Product->addParamsToBuyRequest() to compose resulting buyRequest.
      *
      * Basically it can hold
      * - 'current_config', Magento_Object or array - current buyRequest that configures product in this item,
@@ -1095,14 +1095,14 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * - 'files_prefix': string[a-z0-9_] - prefix that was added at frontend to names of file options (file inputs),
      *   so they won't intersect with other submitted options
      *
-     * For more options see Mage_Catalog_Helper_Product->addParamsToBuyRequest()
+     * For more options see Magento_Catalog_Helper_Product->addParamsToBuyRequest()
      *
      * @param int $itemId
      * @param Magento_Object $buyRequest
      * @param null|array|Magento_Object $params
      * @return Mage_Sales_Model_Quote_Item
      *
-     * @see Mage_Catalog_Helper_Product::addParamsToBuyRequest()
+     * @see Magento_Catalog_Helper_Product::addParamsToBuyRequest()
      */
     public function updateItem($itemId, $buyRequest, $params = null)
     {
@@ -1116,7 +1116,7 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
 
         //We need to create new clear product instance with same $productId
         //to set new option values from $buyRequest
-        $product = Mage::getModel('Mage_Catalog_Model_Product')
+        $product = Mage::getModel('Magento_Catalog_Model_Product')
             ->setStoreId($this->getStore()->getId())
             ->load($productId);
 
@@ -1126,7 +1126,7 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
             $params = new Magento_Object($params);
         }
         $params->setCurrentConfig($item->getBuyRequest());
-        $buyRequest = Mage::helper('Mage_Catalog_Helper_Product')->addParamsToBuyRequest($buyRequest, $params);
+        $buyRequest = Mage::helper('Magento_Catalog_Helper_Product')->addParamsToBuyRequest($buyRequest, $params);
 
         $buyRequest->setResetCount(true);
         $resultItem = $this->addProduct($product, $buyRequest);
@@ -1166,7 +1166,7 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Retrieve quote item by product id
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @return  Mage_Sales_Model_Quote_Item|bool
      */
     public function getItemByProduct($product)

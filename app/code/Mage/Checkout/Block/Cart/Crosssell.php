@@ -15,7 +15,7 @@
  * @package    Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abstract
+class Mage_Checkout_Block_Cart_Crosssell extends Magento_Catalog_Block_Product_Abstract
 {
     /**
      * Items quantity will be capped to this value
@@ -114,7 +114,7 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
             if ($productTypeOpt instanceof Mage_Sales_Model_Quote_Item_Option
-                && $productTypeOpt->getValue() == Mage_Catalog_Model_Product_Type_Grouped::TYPE_CODE
+                && $productTypeOpt->getValue() == Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE
                 && $productTypeOpt->getProductId()
             ) {
                 $productIds[] = $productTypeOpt->getProductId();
@@ -147,19 +147,19 @@ class Mage_Checkout_Block_Cart_Crosssell extends Mage_Catalog_Block_Product_Abst
     /**
      * Get crosssell products collection
      *
-     * @return Mage_Catalog_Model_Resource_Product_Link_Product_Collection
+     * @return Magento_Catalog_Model_Resource_Product_Link_Product_Collection
      */
     protected function _getCollection()
     {
-        $collection = Mage::getModel('Mage_Catalog_Model_Product_Link')->useCrossSellLinks()
+        $collection = Mage::getModel('Magento_Catalog_Model_Product_Link')->useCrossSellLinks()
             ->getProductCollection()
             ->setStoreId(Mage::app()->getStore()->getId())
             ->addStoreFilter()
             ->setPageSize($this->_maxItemCount)
-            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
         $this->_addProductAttributesAndPrices($collection);
 
-        Mage::getSingleton('Mage_CatalogInventory_Model_Stock')->addInStockFilterToCollection($collection);
+        Mage::getSingleton('Magento_CatalogInventory_Model_Stock')->addInStockFilterToCollection($collection);
 
         return $collection;
     }

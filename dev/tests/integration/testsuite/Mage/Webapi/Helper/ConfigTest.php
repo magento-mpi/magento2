@@ -94,7 +94,7 @@ class Mage_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('Mage_Customer_Model_Webapi_CustomerData', 'CustomerData'),
-            array('Mage_Catalog_Model_Webapi_ProductData', 'CatalogProductData'),
+            array('Magento_Catalog_Model_Webapi_ProductData', 'CatalogProductData'),
             array('Vendor_Customer_Model_Webapi_Customer_AddressData', 'VendorCustomerAddressData'),
             array('Producer_Module_Model_Webapi_ProducerData', 'ProducerModuleProducerData'),
             array('Producer_Module_Model_Webapi_ProducerModuleData', 'ProducerModuleProducerModuleData'),

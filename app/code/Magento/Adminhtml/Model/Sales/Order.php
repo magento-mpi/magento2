@@ -47,7 +47,7 @@ class Magento_Adminhtml_Model_Sales_Order
             $productIds[] = $item->getProductId();
         }
 
-        $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+        $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
             ->addIdFilter($productIds)
             ->load();
 

@@ -25,7 +25,7 @@ class Saas_Launcher_Controller_Test extends Magento_Core_Controller_Varien_Actio
     public function transactionAction()
     {
         $cart = $this->_objectManager->create('Mage_Checkout_Model_Cart');
-        $productModel = $this->_objectManager->create('Mage_Catalog_Model_Product');
+        $productModel = $this->_objectManager->create('Magento_Catalog_Model_Product');
         if (!$cart->getQuote()->getItemsCount()) {
             $products = $productModel->getResourceCollection();
             if ($products->count()) {

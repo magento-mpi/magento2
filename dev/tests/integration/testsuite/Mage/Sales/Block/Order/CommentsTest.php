@@ -59,7 +59,7 @@ class Mage_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCommentsWrongEntityException()
     {
-        $entity = Mage::getModel('Mage_Catalog_Model_Product');
+        $entity = Mage::getModel('Magento_Catalog_Model_Product');
         $this->_block->setEntity($entity);
         $this->_block->getComments();
     }

@@ -110,7 +110,7 @@ class Enterprise_PromotionPermissions_Model_Observer
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
-            // Handle blocks related to Mage_CatalogRule module
+            // Handle blocks related to Magento_CatalogRule module
             case 'promo_catalog' :
                 if (!$this->_canEditCatalogRules) {
                     $block->removeButton('add');

@@ -770,7 +770,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
              *
              */
             /*
-            $productsCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+            $productsCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
                 ->setStoreId($this->getStoreId())
                 ->addIdFilter($products)
                 ->addAttributeToSelect('status')
@@ -784,7 +784,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             */
 
             foreach ($products as $productId) {
-                $product = Mage::getModel('Mage_Catalog_Model_Product')
+                $product = Mage::getModel('Magento_Catalog_Model_Product')
                     ->setStoreId($this->getStoreId())
                     ->load($productId);
                 if (!$product->getId() || (!$ignoreSalable && !$product->isSalable())) {
@@ -1473,10 +1473,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $products[] = $item->getProductId();
         }
 
-        $productsCollection = Mage::getModel('Mage_Catalog_Model_Product')
+        $productsCollection = Mage::getModel('Magento_Catalog_Model_Product')
             ->getCollection()
             ->addIdFilter($products)
-            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds())
+            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds())
             /* Price data is added to consider item stock status using price index */
             ->addPriceData()
             ->setPageSize($limit)

@@ -8,10 +8,10 @@
  */
 -->
 <layout version="0.1.0">
-    <catalogsearch_term_popular translate="label" module="Mage_CatalogSearch" type="page" parent="default">
+    <catalogsearch_term_popular translate="label" module="Magento_CatalogSearch" type="page" parent="default">
         <label>Popular Search Terms</label>
         <reference name="head">
-            <action method="setTitle" translate="title" module="Mage_CatalogSearch">
+            <action method="setTitle" translate="title" module="Magento_CatalogSearch">
                 <title>Search Terms</title>
             </action>
         </reference>
@@ -21,7 +21,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Mage_CatalogSearch_Block_Term" name="seo.searchterm" template="term.phtml"/>
+            <block type="Magento_CatalogSearch_Block_Term" name="seo.searchterm" template="term.phtml"/>
         </reference>
     </catalogsearch_term_popular>
 </layout>

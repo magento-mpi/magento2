@@ -23,7 +23,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreateTest extends Mage_Backend_U
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testLoadBlockActionData()
     {
@@ -62,7 +62,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreateTest extends Mage_Backend_U
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testLoadBlockActionItems()
     {
@@ -75,7 +75,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreateTest extends Mage_Backend_U
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_simple.php
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
     public function testIndexAction()
     {

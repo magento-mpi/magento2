@@ -50,7 +50,7 @@ class Mage_Review_Controller_Product extends Magento_Core_Controller_Front_Actio
     /**
      * Initialize and check product
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     protected function _initProduct()
     {
@@ -64,7 +64,7 @@ class Mage_Review_Controller_Product extends Magento_Core_Controller_Front_Actio
         }
 
         if ($categoryId) {
-            $category = Mage::getModel('Mage_Catalog_Model_Category')->load($categoryId);
+            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
             Mage::register('current_category', $category);
         }
 
@@ -87,7 +87,7 @@ class Mage_Review_Controller_Product extends Magento_Core_Controller_Front_Actio
      * Return false if product was not loaded or has incorrect status.
      *
      * @param int $productId
-     * @return bool|Mage_Catalog_Model_Product
+     * @return bool|Magento_Catalog_Model_Product
      */
     protected function _loadProduct($productId)
     {
@@ -95,10 +95,10 @@ class Mage_Review_Controller_Product extends Magento_Core_Controller_Front_Actio
             return false;
         }
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product')
+        $product = Mage::getModel('Magento_Catalog_Model_Product')
             ->setStoreId(Mage::app()->getStore()->getId())
             ->load($productId);
-        /* @var $product Mage_Catalog_Model_Product */
+        /* @var $product Magento_Catalog_Model_Product */
         if (!$product->getId() || !$product->isVisibleInCatalog() || !$product->isVisibleInSiteVisibility()) {
             return false;
         }
@@ -211,7 +211,7 @@ class Mage_Review_Controller_Product extends Magento_Core_Controller_Front_Actio
         if ($product = $this->_initProduct()) {
             Mage::register('productId', $product->getId());
 
-            $design = Mage::getSingleton('Mage_Catalog_Model_Design');
+            $design = Mage::getSingleton('Magento_Catalog_Model_Design');
             $settings = $design->getDesignSettings($product);
             if ($settings->getCustomDesign()) {
                 $design->applyCustomDesign($settings->getCustomDesign());
@@ -254,7 +254,7 @@ class Mage_Review_Controller_Product extends Magento_Core_Controller_Front_Actio
 
         $this->loadLayout();
         $this->_initLayoutMessages('Mage_Review_Model_Session');
-        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
         $this->renderLayout();
     }
 

@@ -28,7 +28,7 @@ class Mage_Sales_Model_Observer_Backend_CatalogProductQuote
      */
     protected function _recollectQuotes($productId, $status)
     {
-        if ($status != Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
+        if ($status != Magento_Catalog_Model_Product_Status::STATUS_ENABLED) {
             $this->_quote->markQuotesRecollect($productId);
         }
     }

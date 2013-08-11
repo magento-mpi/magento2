@@ -31,7 +31,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit
         $source->expects($this->any())
             ->method('getAllOptions')
             ->will($this->returnValue($options));
-        $attribute = $this->getMock('Mage_Catalog_Model_Resource_Eav_Attribute', array(), array(), '', false, false);
+        $attribute = $this->getMock('Magento_Catalog_Model_Resource_Eav_Attribute', array(), array(), '', false, false);
         $attribute->expects($this->any())
             ->method('getSource')
             ->will($this->returnValue($source));

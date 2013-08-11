@@ -210,7 +210,7 @@ class Mage_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testSave($attributeCode, $attributeSetId, $productData, $productOrigData)
     {
-        $object = $this->getMock('Mage_Catalog_Model_Product', array('getOrigData'), array(), '', false);
+        $object = $this->getMock('Magento_Catalog_Model_Product', array('getOrigData'), array(), '', false);
         $object->setEntityTypeId(1);
         $object->setData($productData);
         $object->expects($this->any())

@@ -90,9 +90,9 @@ abstract class Mage_ProductAlert_Block_Email_Abstract extends Magento_Core_Block
     /**
      * Add product to collection
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      */
-    public function addProduct(Mage_Catalog_Model_Product $product)
+    public function addProduct(Magento_Catalog_Model_Product $product)
     {
         $this->_products[$product->getId()] = $product;
     }

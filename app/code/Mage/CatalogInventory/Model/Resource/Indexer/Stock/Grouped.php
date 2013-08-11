@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,17 +13,17 @@
  * CatalogInventory Grouped Products Stock Status Indexer Resource Model
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Grouped
-    extends Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
+class Magento_CatalogInventory_Model_Resource_Indexer_Stock_Grouped
+    extends Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
 {
     /**
      * Reindex stock data for defined configurable product ids
      *
      * @param int|array $entityIds
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock_Grouped
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock_Grouped
      */
     public function reindexEntity($entityIds)
     {
@@ -57,7 +57,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Grouped
                 array())
             ->joinLeft(
                 array('l' => $this->getTable('catalog_product_link')),
-                'e.entity_id = l.product_id AND l.link_type_id=' . Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED,
+                'e.entity_id = l.product_id AND l.link_type_id=' . Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED,
                 array())
             ->joinLeft(
                 array('le' => $this->getTable('catalog_product_entity')),
@@ -74,7 +74,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Grouped
 
         // add limitation of status
         $psExpr = $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id');
-        $psCond = $adapter->quoteInto($psExpr . '=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+        $psCond = $adapter->quoteInto($psExpr . '=?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
 
         if ($this->_isManageStock()) {
             $statusExpr = $adapter->getCheckSql('cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 0',

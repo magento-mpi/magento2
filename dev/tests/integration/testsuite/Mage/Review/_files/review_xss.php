@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../Catalog/_files/product_simple_xss.php';
+require __DIR__ . '/../../../Magento/Catalog/_files/product_simple_xss.php';
 
 $review = Mage::getModel('Mage_Review_Model_Review');
 $review->setEntityId($review->getEntityIdByCode(Mage_Review_Model_Review::ENTITY_PRODUCT_CODE))

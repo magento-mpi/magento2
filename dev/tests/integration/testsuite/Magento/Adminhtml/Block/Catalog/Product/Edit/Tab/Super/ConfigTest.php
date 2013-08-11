@@ -19,7 +19,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends 
      */
     public function testGetSelectedAttributesForSimpleProductType()
     {
-        Mage::register('current_product', Mage::getModel('Mage_Catalog_Model_Product'));
+        Mage::register('current_product', Mage::getModel('Magento_Catalog_Model_Product'));
         /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config */
         $block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config');
         $this->assertEquals(array(), $block->getSelectedAttributes());
@@ -27,13 +27,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_ConfigTest extends 
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Catalog/_files/product_configurable.php
+     * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
      */
     public function testGetSelectedAttributesForConfigurableProductType()
     {
-        Mage::register('current_product', Mage::getModel('Mage_Catalog_Model_Product')->load(1));
+        Mage::register('current_product', Mage::getModel('Magento_Catalog_Model_Product')->load(1));
         Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text', 'head');
-        $usedAttribute = Mage::getSingleton('Mage_Catalog_Model_Entity_Attribute')->loadByCode(
+        $usedAttribute = Mage::getSingleton('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
             Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('catalog_product')->getId(),
             'test_configurable'
         );

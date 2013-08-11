@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,32 +11,32 @@
 /**
  * Catalog search query model
  *
- * @method Mage_CatalogSearch_Model_Resource_Query _getResource()
- * @method Mage_CatalogSearch_Model_Resource_Query getResource()
+ * @method Magento_CatalogSearch_Model_Resource_Query _getResource()
+ * @method Magento_CatalogSearch_Model_Resource_Query getResource()
  * @method string getQueryText()
- * @method Mage_CatalogSearch_Model_Query setQueryText(string $value)
+ * @method Magento_CatalogSearch_Model_Query setQueryText(string $value)
  * @method int getNumResults()
- * @method Mage_CatalogSearch_Model_Query setNumResults(int $value)
+ * @method Magento_CatalogSearch_Model_Query setNumResults(int $value)
  * @method int getPopularity()
- * @method Mage_CatalogSearch_Model_Query setPopularity(int $value)
+ * @method Magento_CatalogSearch_Model_Query setPopularity(int $value)
  * @method string getRedirect()
- * @method Mage_CatalogSearch_Model_Query setRedirect(string $value)
+ * @method Magento_CatalogSearch_Model_Query setRedirect(string $value)
  * @method string getSynonymFor()
- * @method Mage_CatalogSearch_Model_Query setSynonymFor(string $value)
+ * @method Magento_CatalogSearch_Model_Query setSynonymFor(string $value)
  * @method int getDisplayInTerms()
- * @method Mage_CatalogSearch_Model_Query setDisplayInTerms(int $value)
+ * @method Magento_CatalogSearch_Model_Query setDisplayInTerms(int $value)
  * @method int getIsActive()
- * @method Mage_CatalogSearch_Model_Query setIsActive(int $value)
+ * @method Magento_CatalogSearch_Model_Query setIsActive(int $value)
  * @method int getIsProcessed()
- * @method Mage_CatalogSearch_Model_Query setIsProcessed(int $value)
+ * @method Magento_CatalogSearch_Model_Query setIsProcessed(int $value)
  * @method string getUpdatedAt()
- * @method Mage_CatalogSearch_Model_Query setUpdatedAt(string $value)
+ * @method Magento_CatalogSearch_Model_Query setUpdatedAt(string $value)
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
+class Magento_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
 {
     /**
      * Event prefix
@@ -63,17 +63,17 @@ class Mage_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Mage_CatalogSearch_Model_Resource_Query');
+        $this->_init('Magento_CatalogSearch_Model_Resource_Query');
     }
 
     /**
      * Retrieve search collection
      *
-     * @return Mage_CatalogSearch_Model_Resource_Search_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Search_Collection
      */
     public function getSearchCollection()
     {
-        return Mage::getResourceModel('Mage_CatalogSearch_Model_Resource_Search_Collection');
+        return Mage::getResourceModel('Magento_CatalogSearch_Model_Resource_Search_Collection');
     }
 
     /**
@@ -104,13 +104,13 @@ class Mage_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
     /**
      * Retrieve collection of suggest queries
      *
-     * @return Mage_CatalogSearch_Model_Resource_Query_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
      */
     public function getSuggestCollection()
     {
         $collection = $this->getData('suggest_collection');
         if (is_null($collection)) {
-            $collection = Mage::getResourceModel('Mage_CatalogSearch_Model_Resource_Query_Collection')
+            $collection = Mage::getResourceModel('Magento_CatalogSearch_Model_Resource_Query_Collection')
                 ->setStoreId($this->getStoreId())
                 ->setQueryFilter($this->getQueryText());
             $this->setData('suggest_collection', $collection);
@@ -122,7 +122,7 @@ class Mage_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
      * Load Query object by query string
      *
      * @param string $text
-     * @return Mage_CatalogSearch_Model_Query
+     * @return Magento_CatalogSearch_Model_Query
      */
     public function loadByQuery($text)
     {
@@ -136,7 +136,7 @@ class Mage_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
      * Load Query object only by query text (skip 'synonym For')
      *
      * @param string $text
-     * @return Mage_CatalogSearch_Model_Query
+     * @return Magento_CatalogSearch_Model_Query
      */
     public function loadByQueryText($text)
     {
@@ -150,7 +150,7 @@ class Mage_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
      * Set Store Id
      *
      * @param int $storeId
-     * @return Mage_CatalogSearch_Model_Query
+     * @return Magento_CatalogSearch_Model_Query
      */
     public function setStoreId($storeId)
     {
@@ -173,7 +173,7 @@ class Mage_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
     /**
      * Prepare save query for result
      *
-     * @return Mage_CatalogSearch_Model_Query
+     * @return Magento_CatalogSearch_Model_Query
      */
     public function prepare()
     {

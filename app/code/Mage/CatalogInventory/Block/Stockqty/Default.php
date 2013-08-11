@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Product stock qty default block
  *
  * @category   Mage
- * @package    Mage_CatalogInventory
+ * @package    Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Block_Stockqty_Default extends Mage_CatalogInventory_Block_Stockqty_Abstract
+class Magento_CatalogInventory_Block_Stockqty_Default extends Magento_CatalogInventory_Block_Stockqty_Abstract
 {
     /**
      * Render block HTML

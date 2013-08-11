@@ -64,7 +64,7 @@ class Mage_Checkout_Model_Resource_Cart extends Magento_Core_Model_Resource_Db_A
     /**
      * Make collection not to load products that are in specified quote
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      * @param int $quoteId
      * @return Mage_Checkout_Model_Resource_Cart
      */

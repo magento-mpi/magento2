@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
     /**
      * Retrieve data object related with form
      *
-     * @return Mage_Catalog_Model_Product || Mage_Catalog_Model_Category
+     * @return Magento_Catalog_Model_Product || Magento_Catalog_Model_Category
      */
     public function getDataObject()
     {
@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
     /**
      * Retireve associated with element attribute object
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     * @return Magento_Catalog_Model_Resource_Eav_Attribute
      */
     public function getAttribute()
     {
@@ -165,6 +165,6 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
      */
     protected function _getDefaultStoreId()
     {
-        return Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+        return Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
     }
 }

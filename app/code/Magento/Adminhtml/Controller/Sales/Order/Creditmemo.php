@@ -134,7 +134,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Creditmemo extends Magento_Adminh
                     $creditmemoItem->setBackToStock(true);
                 } elseif (empty($savedData)) {
                     $creditmemoItem->setBackToStock(
-                        $this->_objectManager->get('Mage_CatalogInventory_Helper_Data')->isAutoReturnEnabled()
+                        $this->_objectManager->get('Magento_CatalogInventory_Helper_Data')->isAutoReturnEnabled()
                     );
                 } else {
                     $creditmemoItem->setBackToStock(false);

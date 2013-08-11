@@ -55,7 +55,7 @@ class Magento_Core_Model_TemplateEngine_Twig_CommonFunctionsTest extends PHPUnit
         $this->_viewConfig = $this->getMockBuilder('Magento_Core_Model_View_Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_helperImageMock = $this->getMockBuilder('Mage_Catalog_Helper_Image')
+        $this->_helperImageMock = $this->getMockBuilder('Magento_Catalog_Helper_Image')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_loggerMock = $this->getMockBuilder('Magento_Core_Model_Logger')

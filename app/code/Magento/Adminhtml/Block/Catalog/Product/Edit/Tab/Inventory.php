@@ -19,8 +19,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
 
     public function getBackordersOption()
     {
-        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
-            return Mage::getSingleton('Mage_CatalogInventory_Model_Source_Backorders')->toOptionArray();
+        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
+            return Mage::getSingleton('Magento_CatalogInventory_Model_Source_Backorders')->toOptionArray();
         }
 
         return array();
@@ -33,8 +33,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
      */
     public function getStockOption()
     {
-        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
-            return Mage::getSingleton('Mage_CatalogInventory_Model_Source_Stock')->toOptionArray();
+        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
+            return Mage::getSingleton('Magento_CatalogInventory_Model_Source_Stock')->toOptionArray();
         }
 
         return array();
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
     /**
      * Return current product instance
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
@@ -53,7 +53,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
     /**
      * Retrieve Catalog Inventory  Stock Item Model
      *
-     * @return Mage_CatalogInventory_Model_Stock_Item
+     * @return Magento_CatalogInventory_Model_Stock_Item
      */
     public function getStockItem()
     {
@@ -71,7 +71,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
             return $this->getStockItem()->getDataUsingMethod($field);
         }
 
-        return Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+        return Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
     }
 
     public function getConfigFieldValue($field)
@@ -82,12 +82,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
             }
         }
 
-        return Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+        return Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
     }
 
     public function getDefaultConfigValue($field)
     {
-        return Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+        return Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
     }
 
     /**

@@ -129,7 +129,7 @@ class Mage_Review_Model_Review extends Magento_Core_Model_Abstract
     /**
      * Append review summary to product collection
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      * @return Mage_Review_Model_Review
      */
     public function appendSummary($collection)

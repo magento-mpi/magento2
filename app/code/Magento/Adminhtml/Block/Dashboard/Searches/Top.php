@@ -28,10 +28,10 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Top extends Magento_Adminhtml_B
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Mage_CatalogSearch')) {
+        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_CatalogSearch')) {
             return parent::_prepareCollection();
         }
-        $this->_collection = Mage::getModel('Mage_CatalogSearch_Model_Query')
+        $this->_collection = Mage::getModel('Magento_CatalogSearch_Model_Query')
             ->getResourceCollection();
 
         if ($this->getRequest()->getParam('store')) {

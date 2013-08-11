@@ -121,7 +121,7 @@ class Enterprise_Cms_Block_Widget_Node
     {
         $dataKeys = array(
             $key . '_' . $this->_getStoreId(),
-            $key . '_' . Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+            $key . '_' . Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
             $key,
         );
         foreach($dataKeys as $value) {

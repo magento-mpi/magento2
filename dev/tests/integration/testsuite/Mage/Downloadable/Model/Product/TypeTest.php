@@ -29,7 +29,7 @@ class Mage_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_TestCas
      */
     public function testDeleteTypeSpecificData()
     {
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1);
         Mage::app()->setCurrentStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
         $product->setOrigData();
@@ -48,7 +48,7 @@ class Mage_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_TestCas
 
         $product->setDownloadableData($downloadableData);
         $this->_model->deleteTypeSpecificData($product);
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1);
 
         $links = $this->_model->getLinks($product);

@@ -60,8 +60,8 @@ class Mage_Downloadable_Model_Observer
         $request = $observer->getEvent()->getRequest();
         $product = $observer->getEvent()->getProduct();
         $downloadable = $request->getPost('downloadable');
-        $isTransitionalType = $product->getTypeId() === Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
-            || $product->getTypeId() === Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL
+        $isTransitionalType = $product->getTypeId() === Magento_Catalog_Model_Product_Type::TYPE_SIMPLE
+            || $product->getTypeId() === Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL
             || $product->getTypeId() === Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE;
 
         if ($isTransitionalType) {
@@ -69,10 +69,10 @@ class Mage_Downloadable_Model_Observer
                 if ($downloadable) {
                     $product->setTypeId(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE);
                 } else {
-                    $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL);
+                    $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL);
                 }
             } else {
-                $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
+                $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE);
             }
         }
         return $this;
@@ -101,7 +101,7 @@ class Mage_Downloadable_Model_Observer
             return $this;
         }
         if (!$product) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStoreId($orderItem->getOrder()->getStoreId())
                 ->load($orderItem->getProductId());
         }

@@ -33,7 +33,7 @@ $customerBalance->setCustomerId($customer->getId())
 Enterprise_CustomerBalance_Model_Quote_ApiTest::$customer = $customer;
 
 //Create new simple product to add it to shopping cart
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->setTypeId('simple')
     ->setStoreId(1)
     ->setWebsiteId(1)
@@ -45,8 +45,8 @@ $product->setTypeId('simple')
     ->setMetaTitle('meta title')
     ->setMetaKeyword('meta keyword')
     ->setMetaDescription('meta description')
-    ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setWeight(12)
     ->setStockData(
         array(

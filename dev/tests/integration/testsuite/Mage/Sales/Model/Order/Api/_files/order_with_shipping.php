@@ -20,7 +20,7 @@ $customerAddress->save();*/
 
 //Set up simple product fixture
 require 'product_simple.php';
-/** @var $product Mage_Catalog_Model_Product */
+/** @var $product Magento_Catalog_Model_Product */
 $product = Mage::registry('product_simple');
 
 

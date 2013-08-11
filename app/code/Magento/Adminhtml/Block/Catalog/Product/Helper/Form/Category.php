@@ -55,11 +55,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
 
     /**
      * Get categories collection
-     * @return Mage_Catalog_Model_Resource_Category_Collection
+     * @return Magento_Catalog_Model_Resource_Category_Collection
      */
     protected function _getCategoriesCollection()
     {
-        return Mage::getResourceModel('Mage_Catalog_Model_Resource_Category_Collection');
+        return Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection');
     }
 
     /**
@@ -72,9 +72,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
         /** @var $coreHelper Magento_Core_Helper_Data */
         $coreHelper = Mage::helper('Magento_Core_Helper_Data');
         $htmlId = $this->getHtmlId();
-        $suggestPlaceholder = Mage::helper('Mage_Catalog_Helper_Data')->__('start typing to search category');
+        $suggestPlaceholder = Mage::helper('Magento_Catalog_Helper_Data')->__('start typing to search category');
         $selectorOptions = $coreHelper->jsonEncode($this->_getSelectorOptions());
-        $newCategoryCaption = Mage::helper('Mage_Catalog_Helper_Data')->__('New Category');
+        $newCategoryCaption = Mage::helper('Magento_Catalog_Helper_Data')->__('New Category');
 
         $button = $this->_layout
             ->createBlock('Mage_Backend_Block_Widget_Button')

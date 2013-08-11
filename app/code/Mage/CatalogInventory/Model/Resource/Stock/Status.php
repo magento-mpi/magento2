@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * CatalogInventory Stock Status per website Resource Model
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_Model_Resource_Db_Abstract
+class Magento_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Resource model initialization
@@ -30,15 +30,15 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_Mod
     /**
      * Save Product Status per website
      *
-     * @param Mage_CatalogInventory_Model_Stock_Status $object
+     * @param Magento_CatalogInventory_Model_Stock_Status $object
      * @param int $productId
      * @param int $status
      * @param float $qty
      * @param int $stockId
      * @param int|null $websiteId
-     * @return Mage_CatalogInventory_Model_Resource_Stock_Status
+     * @return Magento_CatalogInventory_Model_Resource_Stock_Status
      */
-    public function saveProductStatus(Mage_CatalogInventory_Model_Stock_Status $object, $productId, $status, $qty = 0,
+    public function saveProductStatus(Magento_CatalogInventory_Model_Stock_Status $object, $productId, $status, $qty = 0,
         $stockId = 1, $websiteId = null)
     {
         $websites = array_keys($object->getWebsites($websiteId));
@@ -187,7 +187,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_Mod
      *
      * @param Magento_DB_Select $select
      * @param Magento_Core_Model_Website $website
-     * @return Mage_CatalogInventory_Model_Resource_Stock_Status
+     * @return Magento_CatalogInventory_Model_Resource_Stock_Status
      */
     public function addStockStatusToSelect(Magento_DB_Select $select, Magento_Core_Model_Website $website)
     {
@@ -207,7 +207,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_Mod
      * @param Magento_DB_Select $select
      * @param string|Zend_Db_Expr $entityField
      * @param string|Zend_Db_Expr $websiteField
-     * @return Mage_CatalogInventory_Model_Resource_Stock_Status
+     * @return Magento_CatalogInventory_Model_Resource_Stock_Status
      */
     public function prepareCatalogProductIndexSelect(Magento_DB_Select $select, $entityField, $websiteField)
     {
@@ -216,7 +216,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_Mod
             "ciss.product_id = {$entityField} AND ciss.website_id = {$websiteField}",
             array()
         );
-        $select->where('ciss.stock_status = ?', Mage_CatalogInventory_Model_Stock_Status::STATUS_IN_STOCK);
+        $select->where('ciss.stock_status = ?', Magento_CatalogInventory_Model_Stock_Status::STATUS_IN_STOCK);
 
         return $this;
     }
@@ -224,8 +224,8 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_Mod
     /**
      * Add only is in stock products filter to product collection
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
-     * @return Mage_CatalogInventory_Model_Resource_Stock_Status
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
+     * @return Magento_CatalogInventory_Model_Resource_Stock_Status
      */
     public function addIsInStockFilterToCollection($collection)
     {
@@ -237,7 +237,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_Mod
 
         $joinCondition .= $this->_getReadAdapter()->quoteInto(
             ' AND stock_status_index.stock_id = ?',
-            Mage_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID
+            Magento_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID
         );
 
         $collection->getSelect()
@@ -246,7 +246,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_Mod
                 $joinCondition,
                 array()
             )
-            ->where('stock_status_index.stock_status=?', Mage_CatalogInventory_Model_Stock_Status::STATUS_IN_STOCK);
+            ->where('stock_status_index.stock_status=?', Magento_CatalogInventory_Model_Stock_Status::STATUS_IN_STOCK);
 
         return $this;
     }

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Product qty increments block
  *
  * @category   Mage
- * @package    Mage_CatalogInventory
+ * @package    Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Block_Qtyincrements extends Magento_Core_Block_Template
+class Magento_CatalogInventory_Block_Qtyincrements extends Magento_Core_Block_Template
 {
     /**
      * Qty Increments cache
@@ -28,7 +28,7 @@ class Mage_CatalogInventory_Block_Qtyincrements extends Magento_Core_Block_Templ
     /**
      * Retrieve current product object
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {

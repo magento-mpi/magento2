@@ -21,7 +21,7 @@ class Mage_Wishlist_Block_Item_Configure extends Magento_Core_Block_Template
     /**
      * Returns product being edited
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     protected function getProduct()
     {
@@ -31,7 +31,7 @@ class Mage_Wishlist_Block_Item_Configure extends Magento_Core_Block_Template
     /**
      * Returns wishlist item being configured
      *
-     * @return Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item
+     * @return Magento_Catalog_Model_Product|Mage_Wishlist_Model_Item
      */
     protected function getWishlistItem()
     {

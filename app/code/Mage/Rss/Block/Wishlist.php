@@ -114,7 +114,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
 
             /** @var $wishlistItem Mage_Wishlist_Model_Item*/
             foreach ($this->getWishlistItems() as $wishlistItem) {
-                /* @var $product Mage_Catalog_Model_Product */
+                /* @var $product Magento_Catalog_Model_Product */
                 $product = $wishlistItem->getProduct();
                 $productUrl = $this->getProductUrl($product);
                 $product->setAllowedInRss(true);
@@ -129,10 +129,10 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
                 }
 
                 $description = '<table><tr><td><a href="' . $productUrl . '"><img src="'
-                    . $this->helper('Mage_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
+                    . $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
                     . '" border="0" align="left" height="75" width="75"></a></td>'
                     . '<td style="text-decoration:none;">'
-                    . $this->helper('Mage_Catalog_Helper_Output')
+                    . $this->helper('Magento_Catalog_Helper_Output')
                         ->productAttribute($product, $product->getShortDescription(), 'short_description')
                     . '<p>';
 
@@ -142,7 +142,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
                 $description .= '</p>';
                 if ($this->hasDescription($product)) {
                     $description .= '<p>' . Mage::helper('Mage_Wishlist_Helper_Data')->__('Comment:')
-                        . ' ' . $this->helper('Mage_Catalog_Helper_Output')
+                        . ' ' . $this->helper('Magento_Catalog_Helper_Output')
                             ->productAttribute($product, $product->getDescription(), 'description')
                         . '<p>';
                 }
@@ -150,7 +150,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
                 $description .= '</td></tr></table>';
 
                 $rssObj->_addEntry(array(
-                    'title'         => $this->helper('Mage_Catalog_Helper_Output')
+                    'title'         => $this->helper('Magento_Catalog_Helper_Output')
                         ->productAttribute($product, $product->getName(), 'name'),
                     'link'          => $productUrl,
                     'description'   => $description,
@@ -172,7 +172,7 @@ class Mage_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
     /**
      * Retrieve Product View URL
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param array $additional
      * @return string
      */

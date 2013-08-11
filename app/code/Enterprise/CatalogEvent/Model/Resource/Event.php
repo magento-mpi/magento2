@@ -75,10 +75,10 @@ class Enterprise_CatalogEvent_Model_Resource_Event extends Magento_Core_Model_Re
         $rootCategoryId = Mage::app()->getStore($storeId)->getRootCategoryId();
 
         /* @var $select Magento_DB_Select */
-        $select = Mage::getModel('Mage_Catalog_Model_Category')->getCollection()
+        $select = Mage::getModel('Magento_Catalog_Model_Category')->getCollection()
             ->setStoreId(Mage::app()->getStore($storeId)->getId())
             ->addIsActiveFilter()
-            ->addPathsFilter(Mage_Catalog_Model_Category::TREE_ROOT_ID . '/' . $rootCategoryId)
+            ->addPathsFilter(Magento_Catalog_Model_Category::TREE_ROOT_ID . '/' . $rootCategoryId)
             ->getSelect();
 
         $parts = $select->getPart(Zend_Db_Select::FROM);

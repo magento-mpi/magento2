@@ -38,7 +38,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Array extends Mage_Eav_Model_Entit
     /**
      * Implode data for validation
      *
-     * @param Mage_Catalog_Model_Product $object
+     * @param Magento_Catalog_Model_Product $object
      * @return bool
      */
     public function validate($object)

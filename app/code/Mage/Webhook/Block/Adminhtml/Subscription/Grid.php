@@ -122,7 +122,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid extends Mage_Backend_Block_
     /**
      * Return row url for js event handlers
      *
-     * @param Mage_Catalog_Model_Product|Magento_Object $row
+     * @param Magento_Catalog_Model_Product|Magento_Object $row
      * @return string Row url for js event handlers
      */
     public function getRowUrl($row)

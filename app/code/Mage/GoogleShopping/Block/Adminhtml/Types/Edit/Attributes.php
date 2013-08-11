@@ -149,7 +149,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
         $result = array();
 
         foreach ($attributes as $attribute) {
-            /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+            /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
             $result[$attribute->getAttributeId()] = $escapeJsQuotes
                 ? $this->jsQuoteEscape($attribute->getFrontendLabel())
                 : $attribute->getFrontendLabel();

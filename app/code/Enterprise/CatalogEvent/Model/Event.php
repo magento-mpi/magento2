@@ -82,7 +82,7 @@ class Enterprise_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
     {
         $tags = parent::getCacheIdTags();
         if ($this->getCategoryId()) {
-            $tags[] = Mage_Catalog_Model_Category::CACHE_TAG . '_' . $this->getCategoryId();
+            $tags[] = Magento_Catalog_Model_Category::CACHE_TAG . '_' . $this->getCategoryId();
         }
         return $tags;
     }

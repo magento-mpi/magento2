@@ -10,7 +10,7 @@
 class Mage_GoogleOptimizer_Model_Observer_Category_Save extends Mage_GoogleOptimizer_Model_Observer_SaveAbstract
 {
     /**
-     * @var Mage_Catalog_Model_Category
+     * @var Magento_Catalog_Model_Category
      */
     protected $_category;
 

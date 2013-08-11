@@ -9,4 +9,4 @@
  * @license     {license_link}
  */
 
-require 'Mage/Catalog/_files/product_image_rollback.php';
+require 'Magento/Catalog/_files/product_image_rollback.php';

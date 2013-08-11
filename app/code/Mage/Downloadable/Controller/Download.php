@@ -146,7 +146,7 @@ class Mage_Downloadable_Controller_Download extends Magento_Core_Controller_Fron
         if (!Mage::helper('Mage_Downloadable_Helper_Data')->getIsShareable($linkPurchasedItem)) {
             $customerId = $this->_getCustomerSession()->getCustomerId();
             if (!$customerId) {
-                $product = Mage::getModel('Mage_Catalog_Model_Product')->load($linkPurchasedItem->getProductId());
+                $product = Mage::getModel('Magento_Catalog_Model_Product')->load($linkPurchasedItem->getProductId());
                 if ($product->getId()) {
                     $notice = Mage::helper('Mage_Downloadable_Helper_Data')->__('Please log in to download your product or purchase <a href="%s">%s</a>.', $product->getProductUrl(), $product->getName());
                 } else {

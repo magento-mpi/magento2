@@ -151,7 +151,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
         $isBug = false;
         foreach ($classes as $class) {
             try {
-                if ('Mage_Catalog_Model_Resource_Convert' == $class) {
+                if ('Magento_Catalog_Model_Resource_Convert' == $class) {
                     $isBug = true;
                     continue;
                 }

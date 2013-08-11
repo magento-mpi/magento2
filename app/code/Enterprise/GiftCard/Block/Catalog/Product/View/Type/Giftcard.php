@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Mage_Catalog_Block_Product_View_Abstract
+class Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_Catalog_Block_Product_View_Abstract
 {
     public function getAmountSettingsJson($product)
     {

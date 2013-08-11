@@ -13,7 +13,7 @@
         <reference name="head">
             <action method="removeItem">
                 <type>css</type>
-                <name>Mage_Catalog::zoom.css</name>
+                <name>Magento_Catalog::zoom.css</name>
             </action>
             <action method="addJs">
                 <file>jquery/jqzoom/js/jquery.jqzoom-core-pack.js</file>

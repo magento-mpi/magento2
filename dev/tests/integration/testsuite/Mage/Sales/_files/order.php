@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../Catalog/_files/product_simple.php';
-/** @var Mage_Catalog_Model_Product $product */
+require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
+/** @var Magento_Catalog_Model_Product $product */
 
 $addressData = include(__DIR__ . '/address_data.php');
 $billingAddress = Mage::getModel('Mage_Sales_Model_Order_Address', array('data' => $addressData));

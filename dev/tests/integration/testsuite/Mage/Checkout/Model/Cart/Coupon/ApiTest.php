@@ -11,7 +11,7 @@
  */
 class Mage_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Mage_Catalog_Model_Product */
+    /** @var Magento_Catalog_Model_Product */
     protected $_product;
     /** @var Mage_Sales_Model_Quote */
     protected $_quote;
@@ -23,7 +23,7 @@ class Mage_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestCase
      */
     protected function _init()
     {
-        $this->_product = Mage::getModel('Mage_Catalog_Model_Product')->load(1);
+        $this->_product = Mage::getModel('Magento_Catalog_Model_Product')->load(1);
         $this->_quote = Mage::getModel('Mage_Sales_Model_Resource_Quote_Collection')->getFirstItem();
         $this->_salesRule = Mage::getModel('Mage_SalesRule_Model_Rule')->load('Test Coupon', 'name');
     }

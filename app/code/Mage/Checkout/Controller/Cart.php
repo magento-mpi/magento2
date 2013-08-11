@@ -13,7 +13,7 @@
  */
 class Mage_Checkout_Controller_Cart
     extends Magento_Core_Controller_Front_Action
-    implements Mage_Catalog_Controller_Product_View_Interface
+    implements Magento_Catalog_Controller_Product_View_Interface
 {
     /**
      * Action list where need check enabled cookie
@@ -98,13 +98,13 @@ class Mage_Checkout_Controller_Cart
     /**
      * Initialize product instance from request data
      *
-     * @return Mage_Catalog_Model_Product || false
+     * @return Magento_Catalog_Model_Product || false
      */
     protected function _initProduct()
     {
         $productId = (int) $this->getRequest()->getParam('product');
         if ($productId) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($productId);
             if ($product->getId()) {
@@ -157,7 +157,7 @@ class Mage_Checkout_Controller_Cart
         $this
             ->loadLayout()
             ->_initLayoutMessages('Mage_Checkout_Model_Session')
-            ->_initLayoutMessages('Mage_Catalog_Model_Session')
+            ->_initLayoutMessages('Magento_Catalog_Model_Session')
             ->getLayout()->getBlock('head')->setTitle($this->__('Shopping Cart'));
         $this->renderLayout();
         Magento_Profiler::stop(__METHOD__ . 'cart_display');
@@ -291,7 +291,7 @@ class Mage_Checkout_Controller_Cart
             $params->setConfigureMode(true);
             $params->setBuyRequest($quoteItem->getBuyRequest());
 
-            Mage::helper('Mage_Catalog_Helper_Product_View')->prepareAndRender(
+            Mage::helper('Magento_Catalog_Helper_Product_View')->prepareAndRender(
                 $quoteItem->getProduct()->getId(), $this, $params
             );
         } catch (Exception $e) {

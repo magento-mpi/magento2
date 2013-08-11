@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid
     /**
      * Return empty row url for disabling JS click events
      *
-     * @param Mage_Catalog_Model_Product|Magento_Object
+     * @param Magento_Catalog_Model_Product|Magento_Object
      * @return string|null
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -52,7 +52,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid
         $this->setMassactionIdField('entity_id');
         $this->getMassactionBlock()
             ->setFormFieldName('product')
-            ->addItem('import', array('label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Import')));
+            ->addItem('import', array('label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Import')));
 
         return $this;
     }

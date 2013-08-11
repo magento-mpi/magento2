@@ -11,10 +11,10 @@
 /**
  * Edit form for Catalog product and category URL rewrites
  *
- * @method Mage_Catalog_Model_Product getProduct()
- * @method Mage_Catalog_Model_Category getCategory()
- * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form setProduct(Mage_Catalog_Model_Product $product)
- * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form setCategory(Mage_Catalog_Model_Category $category)
+ * @method Magento_Catalog_Model_Product getProduct()
+ * @method Magento_Catalog_Model_Category getCategory()
+ * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form setProduct(Magento_Catalog_Model_Product $product)
+ * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form setCategory(Magento_Catalog_Model_Category $category)
  *
  * @category   Magento
  * @package    Magento_Adminhtml
@@ -60,8 +60,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Magento_Admin
             }
 
             if ($product || $category) {
-                /** @var $catalogUrlModel Mage_Catalog_Model_Url */
-                $catalogUrlModel = Mage::getSingleton('Mage_Catalog_Model_Url');
+                /** @var $catalogUrlModel Magento_Catalog_Model_Url */
+                $catalogUrlModel = Mage::getSingleton('Magento_Catalog_Model_Url');
                 $idPath->setValue($catalogUrlModel->generatePath('id', $product, $category));
 
                 $sessionData = $this->_getSessionData();
@@ -129,12 +129,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Magento_Admin
     /**
      * Get product model instance
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     protected function _getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setProduct(Mage::getModel('Mage_Catalog_Model_Product'));
+            $this->setProduct(Mage::getModel('Magento_Catalog_Model_Product'));
         }
         return $this->getProduct();
     }
@@ -142,12 +142,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Magento_Admin
     /**
      * Get category model instance
      *
-     * @return Mage_Catalog_Model_Category
+     * @return Magento_Catalog_Model_Category
      */
     protected function _getCategory()
     {
         if (!$this->hasData('category')) {
-            $this->setCategory(Mage::getModel('Mage_Catalog_Model_Category'));
+            $this->setCategory(Mage::getModel('Magento_Catalog_Model_Category'));
         }
         return $this->getCategory();
     }

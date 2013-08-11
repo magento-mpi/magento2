@@ -220,7 +220,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid
                 'sortable'  => false
         ));
 
-        $this->addRssList('rss/catalog/review', Mage::helper('Mage_Catalog_Helper_Data')->__('Pending Reviews RSS'));
+        $this->addRssList('rss/catalog/review', Mage::helper('Magento_Catalog_Helper_Data')->__('Pending Reviews RSS'));
 
         return parent::_prepareColumns();
     }

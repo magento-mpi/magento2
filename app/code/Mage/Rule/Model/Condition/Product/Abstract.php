@@ -63,17 +63,17 @@ abstract class Mage_Rule_Model_Condition_Product_Abstract extends Mage_Rule_Mode
     /**
      * Retrieve attribute object
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     * @return Magento_Catalog_Model_Resource_Eav_Attribute
      */
     public function getAttributeObject()
     {
         try {
             $obj = Mage::getSingleton('Mage_Eav_Model_Config')
-                ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $this->getAttribute());
+                ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $this->getAttribute());
         }
         catch (Exception $e) {
             $obj = new Magento_Object();
-            $obj->setEntity(Mage::getResourceSingleton('Mage_Catalog_Model_Product'))
+            $obj->setEntity(Mage::getResourceSingleton('Magento_Catalog_Model_Product'))
                 ->setFrontendInput('text');
         }
         return $obj;
@@ -86,24 +86,24 @@ abstract class Mage_Rule_Model_Condition_Product_Abstract extends Mage_Rule_Mode
      */
     protected function _addSpecialAttributes(array &$attributes)
     {
-        $attributes['attribute_set_id'] = Mage::helper('Mage_CatalogRule_Helper_Data')->__('Attribute Set');
-        $attributes['category_ids'] = Mage::helper('Mage_CatalogRule_Helper_Data')->__('Category');
+        $attributes['attribute_set_id'] = Mage::helper('Magento_CatalogRule_Helper_Data')->__('Attribute Set');
+        $attributes['category_ids'] = Mage::helper('Magento_CatalogRule_Helper_Data')->__('Category');
     }
 
     /**
      * Load attribute options
      *
-     * @return Mage_CatalogRule_Model_Rule_Condition_Product
+     * @return Magento_CatalogRule_Model_Rule_Condition_Product
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product')
+        $productAttributes = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product')
             ->loadAllAttributes()
             ->getAttributesByCode();
 
         $attributes = array();
         foreach ($productAttributes as $attribute) {
-            /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+            /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
             if (!$attribute->isAllowedForRuleCondition()
                 || !$attribute->getDataUsingMethod($this->_isUsedForRuleProperty)
             ) {
@@ -126,7 +126,7 @@ abstract class Mage_Rule_Model_Condition_Product_Abstract extends Mage_Rule_Mode
      *  'value_select_options' - normal select array: array(array('value' => $value, 'label' => $label), ...)
      *  'value_option' - hashed array: array($value => $label, ...),
      *
-     * @return Mage_CatalogRule_Model_Rule_Condition_Product
+     * @return Magento_CatalogRule_Model_Rule_Condition_Product
      */
     protected function _prepareValueOptions()
     {
@@ -141,7 +141,7 @@ abstract class Mage_Rule_Model_Condition_Product_Abstract extends Mage_Rule_Mode
         $selectOptions = null;
         if ($this->getAttribute() === 'attribute_set_id') {
             $entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')
-                ->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getId();
+                ->getEntityType(Magento_Catalog_Model_Product::ENTITY)->getId();
             $selectOptions = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($entityTypeId)
                 ->load()
@@ -241,8 +241,8 @@ abstract class Mage_Rule_Model_Condition_Product_Abstract extends Mage_Rule_Mode
     /**
      * Collect validated attributes
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $productCollection
-     * @return Mage_CatalogRule_Model_Rule_Condition_Product
+     * @param Magento_Catalog_Model_Resource_Product_Collection $productCollection
+     * @return Magento_CatalogRule_Model_Rule_Condition_Product
      */
     public function collectValidatedAttributes($productCollection)
     {
@@ -396,7 +396,7 @@ abstract class Mage_Rule_Model_Condition_Product_Abstract extends Mage_Rule_Mode
      * Load array
      *
      * @param array $arr
-     * @return Mage_CatalogRule_Model_Rule_Condition_Product
+     * @return Magento_CatalogRule_Model_Rule_Condition_Product
      */
     public function loadArray($arr)
     {

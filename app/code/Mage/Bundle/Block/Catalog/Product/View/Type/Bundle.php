@@ -16,7 +16,7 @@
  * @package     Mage_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Block_Product_View_Abstract
+class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Catalog_Block_Product_View_Abstract
 {
     protected $_optionRenderers = array();
     protected $_options         = null;
@@ -43,7 +43,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
             );
 
             $this->_options = $optionCollection->appendSelections($selectionCollection, false,
-                Mage::helper('Mage_Catalog_Helper_Product')->getSkipSaleableCheck()
+                Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck()
             );
         }
 
@@ -73,8 +73,8 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
         $currentProduct = $this->getProduct();
         /* @var $coreHelper Magento_Core_Helper_Data */
         $coreHelper   = Mage::helper('Magento_Core_Helper_Data');
-        /* @var $catalogHelper Mage_Catalog_Helper_Data */
-        $catalogHelper = Mage::helper('Mage_Catalog_Helper_Data');
+        /* @var $catalogHelper Magento_Catalog_Helper_Data */
+        $catalogHelper = Mage::helper('Magento_Catalog_Helper_Data');
         /* @var $taxHelper Mage_Tax_Helper_Data */
         $taxHelper = Mage::helper('Mage_Tax_Helper_Data');
         /* @var $bundlePriceModel Mage_Bundle_Model_Product_Price */
@@ -103,7 +103,7 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Mage_Catalog_Bl
             $selectionCount = count($_option->getSelections());
 
             foreach ($_option->getSelections() as $_selection) {
-                /* @var $_selection Mage_Catalog_Model_Product */
+                /* @var $_selection Magento_Catalog_Model_Product */
                 $selectionId = $_selection->getSelectionId();
                 $_qty = !($_selection->getSelectionQty() * 1) ? '1' : $_selection->getSelectionQty() * 1;
                 // recalculate currency

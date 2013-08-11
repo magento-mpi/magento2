@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Mage_Catalog_Model_Resource_Setup */
+/** @var $installer Magento_Catalog_Model_Resource_Setup */
 $installer = $this;
 $connection = $installer->getConnection();
 
@@ -61,8 +61,8 @@ foreach ($optionsPriceIndexerTables as $table) {
     ));
 }
 
-$applyTo = explode(',', $installer->getAttribute(Mage_Catalog_Model_Product::ENTITY, 'group_price', 'apply_to'));
+$applyTo = explode(',', $installer->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'group_price', 'apply_to'));
 if (!in_array('bundle', $applyTo)) {
     $applyTo[] = 'bundle';
-    $installer->updateAttribute(Mage_Catalog_Model_Product::ENTITY, 'group_price', 'apply_to', implode(',', $applyTo));
+    $installer->updateAttribute(Magento_Catalog_Model_Product::ENTITY, 'group_price', 'apply_to', implode(',', $applyTo));
 }

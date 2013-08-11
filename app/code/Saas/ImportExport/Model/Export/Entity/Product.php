@@ -14,9 +14,9 @@ class Saas_ImportExport_Model_Export_Entity_Product  extends Mage_ImportExport_M
      * Product entity export constructor
      *
      * @link https://jira.corp.x.com/browse/MAGETWO-9687
-     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      */
-    public function __construct(Mage_Catalog_Model_Resource_Product_Collection $collection)
+    public function __construct(Magento_Catalog_Model_Resource_Product_Collection $collection)
     {
         $this->_indexValueAttributes = array_merge($this->_indexValueAttributes, array(
             'unit_price_unit',

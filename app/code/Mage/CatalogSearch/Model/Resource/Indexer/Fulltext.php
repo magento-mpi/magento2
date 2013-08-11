@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * CatalogSearch fulltext indexer resource model
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Resource_Indexer_Fulltext extends Magento_Core_Model_Resource_Db_Abstract
+class Magento_CatalogSearch_Model_Resource_Indexer_Fulltext extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
      * Initialize connection and define catalog product table as main table

@@ -72,7 +72,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit products collection
      *
-     * @param Mage_Catalog_Model_Resource_Product_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
      */
     public function limitProducts($collection)
     {
@@ -201,7 +201,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit catalog categories collection
      *
-     * @param Mage_Catalog_Model_Resource_Category_Collection $collection
+     * @param Magento_Catalog_Model_Resource_Category_Collection $collection
      */
     public function limitCatalogCategories($collection)
     {

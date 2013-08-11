@@ -255,7 +255,7 @@ class Enterprise_Search_Helper_Data extends Magento_Core_Helper_Abstract
      * @deprecated since 1.12.0.0
      *
      * @param Enterprise_Search_Model_Resource_Collection $collection
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      * @param string|array $value
      * @return array
      */
@@ -413,7 +413,7 @@ class Enterprise_Search_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @deprecated after 1.11.2.0
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
      *
      * @return string
      */

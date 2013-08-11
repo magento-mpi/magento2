@@ -13,7 +13,7 @@
             <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.report.search.grid" as="grid">
                 <arguments>
                     <id>searchReportGrid</id>
-                    <dataSource type="object">Mage_CatalogSearch_Model_Resource_Query_Collection</dataSource>
+                    <dataSource type="object">Magento_CatalogSearch_Model_Resource_Query_Collection</dataSource>
                     <default_sort>query_id</default_sort>
                     <default_dir>DESC</default_dir>
                 </arguments>
@@ -60,7 +60,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
-                            <header translate="true" module="Mage_Catalog">Store</header>
+                            <header translate="true" module="Magento_Catalog">Store</header>
                             <index>store_id</index>
                             <type>store</type>
                             <store_view>1</store_view>

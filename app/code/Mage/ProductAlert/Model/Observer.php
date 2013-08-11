@@ -129,7 +129,7 @@ class Mage_ProductAlert_Model_Observer
                         $customer = $previousCustomer;
                     }
 
-                    $product = Mage::getModel('Mage_Catalog_Model_Product')
+                    $product = Mage::getModel('Magento_Catalog_Model_Product')
                         ->setStoreId($website->getDefaultStore()->getId())
                         ->load($alert->getProductId());
                     if (!$product) {
@@ -219,10 +219,10 @@ class Mage_ProductAlert_Model_Observer
                         $customer = $previousCustomer;
                     }
 
-                    $product = Mage::getModel('Mage_Catalog_Model_Product')
+                    $product = Mage::getModel('Magento_Catalog_Model_Product')
                         ->setStoreId($website->getDefaultStore()->getId())
                         ->load($alert->getProductId());
-                    /* @var $product Mage_Catalog_Model_Product */
+                    /* @var $product Magento_Catalog_Model_Product */
                     if (!$product) {
                         continue;
                     }

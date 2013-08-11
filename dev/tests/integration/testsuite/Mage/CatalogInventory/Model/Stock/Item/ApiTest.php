@@ -6,9 +6,9 @@
  *
  * @copyright {copyright}
  * @license {license_link}
- * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
+ * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
  */
-class Mage_CatalogInventory_Model_Stock_Item_ApiTest extends PHPUnit_Framework_TestCase
+class Magento_CatalogInventory_Model_Stock_Item_ApiTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test list method.
@@ -49,8 +49,8 @@ class Mage_CatalogInventory_Model_Stock_Item_ApiTest extends PHPUnit_Framework_T
         );
 
         $this->assertTrue($result, 'Failed updating stock item.');
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load(10);
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product')->load(10);
 
         $this->assertEquals(
             $newQty,
@@ -79,8 +79,8 @@ class Mage_CatalogInventory_Model_Stock_Item_ApiTest extends PHPUnit_Framework_T
         );
 
         $this->assertTrue($result, 'Failed updating stock items.');
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        /** @var $product Magento_Catalog_Model_Product */
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
 
         foreach ($productIds as $index => $productId) {
             $qty = $product->load($productId)->getStockItem()->getQty();

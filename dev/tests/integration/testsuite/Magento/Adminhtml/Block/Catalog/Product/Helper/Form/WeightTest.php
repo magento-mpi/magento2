@@ -17,7 +17,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
      */
     public function testIsVirtualChecked($type)
     {
-        $currentProduct = Mage::getModel('Mage_Catalog_Model_Product');
+        $currentProduct = Mage::getModel('Magento_Catalog_Model_Product');
         $currentProduct->setTypeInstance(Mage::getObjectManager()->create($type));
 
         $block = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight();
@@ -36,7 +36,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     public static function virtualTypesDataProvider()
     {
         return array(
-            array('Mage_Catalog_Model_Product_Type_Virtual'),
+            array('Magento_Catalog_Model_Product_Type_Virtual'),
             array('Mage_Downloadable_Model_Product_Type'),
         );
     }
@@ -47,7 +47,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
      */
     public function testIsVirtualUnchecked($type)
     {
-        $currentProduct = Mage::getModel('Mage_Catalog_Model_Product');
+        $currentProduct = Mage::getModel('Magento_Catalog_Model_Product');
         $currentProduct->setTypeInstance(Mage::getObjectManager()->create($type));
 
         $block = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight();
@@ -66,7 +66,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     public static function physicalTypesDataProvider()
     {
         return array(
-            array('Mage_Catalog_Model_Product_Type_Simple'),
+            array('Magento_Catalog_Model_Product_Type_Simple'),
             array('Mage_Bundle_Model_Product_Type'),
         );
     }

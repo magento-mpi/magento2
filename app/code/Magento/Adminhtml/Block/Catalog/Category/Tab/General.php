@@ -41,12 +41,12 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_General extends Magento_Admin
         $form->setHtmlIdPrefix('_general');
         $form->setDataObject($this->getCategory());
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Magento_Catalog_Helper_Data')->__('General Information')));
 
         if (!$this->getCategory()->getId()) {
 //            $fieldset->addField('path', 'select', array(
 //                'name'  => 'path',
-//                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Parent Category'),
+//                'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Parent Category'),
 //                'value' => base64_decode($this->getRequest()->getParam('parent')),
 //                'values'=> $this->_getParentCategoryOptions(),
 //                //'required' => true,
@@ -56,7 +56,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_General extends Magento_Admin
 //            );
             $parentId = $this->getRequest()->getParam('parent');
             if (!$parentId) {
-                $parentId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
+                $parentId = Magento_Catalog_Model_Category::TREE_ROOT_ID;
             }
             $fieldset->addField('path', 'hidden', array(
                 'name'  => 'path',

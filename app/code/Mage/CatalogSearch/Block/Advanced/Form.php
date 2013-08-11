@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,21 +12,21 @@
  * Advanced search form
  *
  * @category   Mage
- * @package    Mage_CatalogSearch
+ * @package    Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Template
+class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Template
 {
     public function _prepareLayout()
     {
         // add Home breadcrumb
         if ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')) {
             $breadcrumbs->addCrumb('home', array(
-                'label'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Home'),
-                'title'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Go to Home Page'),
+                'label'=>Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Home'),
+                'title'=>Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Go to Home Page'),
                 'link'=>Mage::getBaseUrl()
             ))->addCrumb('search', array(
-                'label'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Catalog Advanced Search')
+                'label'=>Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Catalog Advanced Search')
             ));
         }
         return parent::_prepareLayout();
@@ -192,7 +192,7 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Template
             $name.= '[]';
         }
         else {
-            array_unshift($options, array('value'=>'', 'label'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('All')));
+            array_unshift($options, array('value'=>'', 'label'=>Mage::helper('Magento_CatalogSearch_Helper_Data')->__('All')));
         }
 
         return $this->_getSelectBlock()
@@ -215,9 +215,9 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Template
     public function getAttributeYesNoElement($attribute)
     {
         $options = array(
-            array('value' => '',  'label' => Mage::helper('Mage_CatalogSearch_Helper_Data')->__('All')),
-            array('value' => '1', 'label' => Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Yes')),
-            array('value' => '0', 'label' => Mage::helper('Mage_CatalogSearch_Helper_Data')->__('No'))
+            array('value' => '',  'label' => Mage::helper('Magento_CatalogSearch_Helper_Data')->__('All')),
+            array('value' => '1', 'label' => Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Yes')),
+            array('value' => '0', 'label' => Mage::helper('Magento_CatalogSearch_Helper_Data')->__('No'))
         );
 
         $name = $attribute->getAttributeCode();
@@ -254,11 +254,11 @@ class Mage_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Template
     /**
      * Retrieve advanced search model object
      *
-     * @return Mage_CatalogSearch_Model_Advanced
+     * @return Magento_CatalogSearch_Model_Advanced
      */
     public function getModel()
     {
-        return Mage::getSingleton('Mage_CatalogSearch_Model_Advanced');
+        return Mage::getSingleton('Magento_CatalogSearch_Model_Advanced');
     }
 
     /**

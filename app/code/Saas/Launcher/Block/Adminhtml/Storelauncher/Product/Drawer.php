@@ -22,7 +22,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
      /**
       * Product Model
       *
-      * @var Mage_Catalog_Model_Product
+      * @var Magento_Catalog_Model_Product
       */
      protected $_productModel;
 
@@ -50,7 +50,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
     /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
-     * @param Mage_Catalog_Model_Product $productModel
+     * @param Magento_Catalog_Model_Product $productModel
      * @param Magento_Core_Model_Translate_Inline $translateInline
      * @param Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl
      * @param array $data
@@ -58,7 +58,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
-        Mage_Catalog_Model_Product $productModel,
+        Magento_Catalog_Model_Product $productModel,
         Magento_Core_Model_Translate_Inline $translateInline,
         Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl,
         array $data = array()
@@ -68,7 +68,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
         $this->_translateInline = $translateInline;
         $this->_attrSetGroupColl = $attrSetGroupColl;
 
-        $this->_initProduct(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE);
+        $this->_initProduct(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE);
     }
 
     /**
@@ -127,7 +127,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
      * Initialize product
      *
      * @param string $typeId
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      * @TODO This function should be placed in ProductFactory Model or Product Model
      */
     protected function _initProduct($typeId)

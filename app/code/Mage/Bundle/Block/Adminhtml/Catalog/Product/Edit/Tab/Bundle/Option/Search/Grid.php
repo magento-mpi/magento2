@@ -62,7 +62,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()
+        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
             ->setOrder('id')
             ->setStore($this->getStore())
             ->addAttributeToSelect('name')

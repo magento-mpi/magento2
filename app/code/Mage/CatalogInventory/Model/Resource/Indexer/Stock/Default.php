@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,12 +13,12 @@
  * CatalogInventory Default Stock Status Indexer Resource Model
  *
  * @category    Mage
- * @package     Mage_CatalogInventory
+ * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
-    extends Mage_Catalog_Model_Resource_Product_Indexer_Abstract
-    implements Mage_CatalogInventory_Model_Resource_Indexer_Stock_Interface
+class Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
+    extends Magento_Catalog_Model_Resource_Product_Indexer_Abstract
+    implements Magento_CatalogInventory_Model_Resource_Indexer_Stock_Interface
 {
     /**
      * Current Product Type Id
@@ -46,7 +46,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
     /**
      * Reindex all stock status data for default logic product type
      *
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
      */
     public function reindexAll()
     {
@@ -66,7 +66,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
      * Reindex stock data for defined product ids
      *
      * @param int|array $entityIds
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
      */
     public function reindexEntity($entityIds)
     {
@@ -78,7 +78,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
      * Set active Product Type Id
      *
      * @param string $typeId
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
      */
     public function setTypeId($typeId)
     {
@@ -96,7 +96,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
     public function getTypeId()
     {
         if (is_null($this->_typeId)) {
-            Mage::throwException(Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Undefined product type'));
+            Mage::throwException(Mage::helper('Magento_CatalogInventory_Helper_Data')->__('Undefined product type'));
         }
         return $this->_typeId;
     }
@@ -105,7 +105,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
      * Set Product Type Composite flag
      *
      * @param bool $flag
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
      */
     public function setIsComposite($flag)
     {
@@ -130,7 +130,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
      */
     protected function _isManageStock()
     {
-        return Mage::getStoreConfigFlag(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
+        return Mage::getStoreConfigFlag(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
     }
 
     /**
@@ -162,7 +162,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
             ->where('e.type_id = ?', $this->getTypeId());
 
         // add limitation of status
-        $condition = $adapter->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+        $condition = $adapter->quoteInto('=?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $condition);
 
         if ($this->_isManageStock()) {
@@ -186,7 +186,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
      * Prepare stock status data in temporary index table
      *
      * @param int|array $entityIds  the product limitation
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
      */
     protected function _prepareIndexTable($entityIds = null)
     {
@@ -202,7 +202,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
      * Update Stock status index by product ids
      *
      * @param array|int $entityIds
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
      */
     protected function _updateIndex($entityIds)
     {
@@ -235,7 +235,7 @@ class Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
      * Update stock status index table (INSERT ... ON DUPLICATE KEY UPDATE ...)
      *
      * @param array $data
-     * @return Mage_CatalogInventory_Model_Resource_Indexer_Stock_Default
+     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
      */
     protected function _updateIndexTable($data)
     {

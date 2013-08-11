@@ -48,7 +48,7 @@ abstract class Mage_Sales_Controller_Abstract extends Magento_Core_Controller_Fr
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
 
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {

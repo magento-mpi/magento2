@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-$product = Mage::getModel('Mage_Catalog_Model_Product');
+$product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->setTypeId('virtual')
     ->setAttributeSetId(4)
     ->setStoreId(0)
@@ -16,8 +16,8 @@ $product->setTypeId('virtual')
     ->setMetaTitle('meta title')
     ->setMetaKeyword('meta keyword')
     ->setMetaDescription('meta description')
-    ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
+    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setStockData(
     array(
         'use_config_manage_stock' => 1,

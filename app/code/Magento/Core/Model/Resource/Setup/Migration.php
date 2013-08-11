@@ -735,10 +735,10 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
     {
         return array(
             'adminnotification' => 'Mage_AdminNotification',
-            'catalogindex'      => 'Mage_CatalogIndex',
-            'cataloginventory'  => 'Mage_CatalogInventory',
-            'catalogrule'       => 'Mage_CatalogRule',
-            'catalogsearch'     => 'Mage_CatalogSearch',
+            'catalogindex'      => 'Magento_CatalogIndex',
+            'cataloginventory'  => 'Magento_CatalogInventory',
+            'catalogrule'       => 'Magento_CatalogRule',
+            'catalogsearch'     => 'Magento_CatalogSearch',
             'currencysymbol'    => 'Mage_CurrencySymbol',
             'giftmessage'       => 'Mage_GiftMessage',
             'googleanalytics'   => 'Mage_GoogleAnalytics',

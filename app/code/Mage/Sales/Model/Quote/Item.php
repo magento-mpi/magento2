@@ -369,7 +369,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     /**
      * Setup product for quote item
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @return  Mage_Sales_Model_Quote_Item
      */
     public function setProduct($product)
@@ -410,7 +410,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     /**
      * Check product representation in item
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @return  bool
      */
     public function representProduct($product)

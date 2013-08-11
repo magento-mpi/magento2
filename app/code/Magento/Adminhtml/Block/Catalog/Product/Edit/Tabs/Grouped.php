@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs_Grouped extends Magento_
         parent::_prepareLayout();
 
         $this->addTab('super', array(
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Associated Products'),
+            'label'     => Mage::helper('Magento_Catalog_Helper_Data')->__('Associated Products'),
             'url'       => $this->getUrl('*/*/superGroup', array('_current'=>true)),
             'class'     => 'ajax',
         ));

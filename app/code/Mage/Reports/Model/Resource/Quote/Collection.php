@@ -78,7 +78,7 @@ class Mage_Reports_Model_Resource_Quote_Collection extends Mage_Sales_Model_Reso
      */
     public function prepareForProductsInCarts()
     {
-        $productEntity          = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Collection');
+        $productEntity          = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Collection');
         $productAttrName        = $productEntity->getAttribute('name');
         $productAttrNameId      = (int) $productAttrName->getAttributeId();
         $productAttrNameTable   = $productAttrName->getBackend()->getTable();

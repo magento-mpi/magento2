@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
-class Saas_UnitPrice_Block_Catalog_Product_Price extends Mage_Catalog_Block_Product_Price
+class Saas_UnitPrice_Block_Catalog_Product_Price extends Magento_Catalog_Block_Product_Price
 {
     protected function _toHtml()
     {
         $html  = parent::_toHtml();
-        $block = Mage::getBlockSingleton('Mage_Catalog_Block_Product_Price');
+        $block = Mage::getBlockSingleton('Magento_Catalog_Block_Product_Price');
         $block->setProduct($this->getProduct());
         $block->setTemplate('Saas_UnitPrice::unitprice.phtml');
         $html .= $block->toHtml();

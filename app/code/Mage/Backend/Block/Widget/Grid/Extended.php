@@ -616,7 +616,7 @@ class Mage_Backend_Block_Widget_Grid_Extended
     /**
      * Return row url for js event handlers
      *
-     * @param Mage_Catalog_Model_Product|Magento_Object
+     * @param Magento_Catalog_Model_Product|Magento_Object
      * @return string
      */
     public function getRowUrl($item)

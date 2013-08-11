@@ -51,7 +51,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Controller_RedirectTest ext
     }
 
     /**
-     * @expectedException Mage_Catalog_Exception
+     * @expectedException Magento_Catalog_Exception
      * @expectedExceptionMessage Fixture Message Text
      */
     public function testRestrictNewEntityCreationActive()

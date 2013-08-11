@@ -220,7 +220,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
         $formElement = $this->getMock('Magento_Data_Form_Element_Text',
             array('setValue', 'setReadOnly'), array(), '', false);
         $formElement->expects($this->once())->method('setValue')
-            ->with(Mage_Catalog_Model_Product_Status::STATUS_DISABLED);
+            ->with(Magento_Catalog_Model_Product_Status::STATUS_DISABLED);
         $formElement->expects($this->once())->method('setReadOnly')
             ->with(true, true);
         $form = $this->getMock('Magento_Data_Form',

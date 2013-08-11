@@ -12,7 +12,7 @@
         <update handle="launcher_index"/>
         <reference name="head">
             <action method="addCss">
-                <file>Mage_Catalog::product/product.css</file>
+                <file>Magento_Catalog::product/product.css</file>
             </action>
             <action method="addCss">
                 <file>Saas_Launcher::page/launcher.css</file>

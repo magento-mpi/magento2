@@ -38,7 +38,7 @@ class Mage_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_Act
 
     public function priceAction()
     {
-        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
+        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
         $backUrl    = $this->getRequest()->getParam(Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
@@ -46,9 +46,9 @@ class Mage_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_Act
             return ;
         }
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
+        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
         if (!$product->getId()) {
-            /* @var $product Mage_Catalog_Model_Product */
+            /* @var $product Magento_Catalog_Model_Product */
             $session->addError($this->__('There are not enough parameters.'));
             if ($this->_isUrlInternal($backUrl)) {
                 $this->_redirectUrl($backUrl);
@@ -75,8 +75,8 @@ class Mage_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_Act
 
     public function stockAction()
     {
-        $session = Mage::getSingleton('Mage_Catalog_Model_Session');
-        /* @var $session Mage_Catalog_Model_Session */
+        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
+        /* @var $session Magento_Catalog_Model_Session */
         $backUrl    = $this->getRequest()->getParam(Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
@@ -84,8 +84,8 @@ class Mage_ProductAlert_Controller_Add extends Magento_Core_Controller_Front_Act
             return ;
         }
 
-        if (!$product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId)) {
-            /* @var $product Mage_Catalog_Model_Product */
+        if (!$product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId)) {
+            /* @var $product Magento_Catalog_Model_Product */
             $session->addError($this->__('There are not enough parameters.'));
             $this->_redirectUrl($backUrl);
             return ;

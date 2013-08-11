@@ -21,8 +21,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
     /**
      * Returns helper for product type
      *
-     * @param Mage_Catalog_Model_Product $product
-     * @return Mage_Catalog_Helper_Product_Configuration_Interface
+     * @param Magento_Catalog_Model_Product $product
+     * @return Magento_Catalog_Helper_Product_Configuration_Interface
      */
     protected function _getProductHelper($product)
     {
@@ -46,11 +46,11 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
         } else if (isset($productHelpers['default'])) {
             $helperName = $productHelpers['default'];
         } else {
-            $helperName = 'Mage_Catalog_Helper_Product_Configuration';
+            $helperName = 'Magento_Catalog_Helper_Product_Configuration';
         }
 
         $helper = Mage::helper($helperName);
-        if (!($helper instanceof Mage_Catalog_Helper_Product_Configuration_Interface)) {
+        if (!($helper instanceof Magento_Catalog_Helper_Product_Configuration_Interface)) {
             Mage::throwException($this->__("Helper for options rendering doesn't implement required interface."));
         }
 
@@ -60,7 +60,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
     /*
      * Returns product associated with this block
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return string
      */
     public function getProduct()
@@ -92,13 +92,13 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
         $params = array(
             'max_length' => 55
         );
-        return Mage::helper('Mage_Catalog_Helper_Product_Configuration')->getFormattedOptionValue($option, $params);
+        return Mage::helper('Magento_Catalog_Helper_Product_Configuration')->getFormattedOptionValue($option, $params);
     }
 
     /*
      * Renders item product name and its configuration
      *
-     * @param Mage_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
      * @return string
      */
     public function render(Magento_Object $item)
@@ -112,11 +112,11 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
     /**
      * Render product item with options
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param array $options
      * @return string
      */
-    protected function _renderItemOptions(Mage_Catalog_Model_Product $product, array $options)
+    protected function _renderItemOptions(Magento_Catalog_Model_Product $product, array $options)
     {
         $html = '<div class="bundle-product-options">'
             . '<strong>' . $this->escapeHtml($product->getName()) . '</strong>'

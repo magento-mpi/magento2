@@ -13,7 +13,7 @@ class Mage_GoogleOptimizer_Block_Adminhtml_Catalog_Product_Edit_Tab_Googleoptimi
     /**
      * Get Product entity
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      * @throws RuntimeException
      */
     protected function _getEntity()

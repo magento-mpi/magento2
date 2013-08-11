@@ -18,7 +18,7 @@ if ($tableName) {
     /** @var Magento_DB_Adapter_Interface $connection */
     $connection = $installer->getConnection();
     $remove = array(
-        'Mage_Catalog::catalog_attributes',
+        'Magento_Catalog::catalog_attributes',
         'Mage_Cms::cms',
         'Mage_Newsletter::admin_newsletter',
         'Mage_Review::pending',

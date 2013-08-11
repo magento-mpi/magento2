@@ -27,7 +27,7 @@ class Saas_UnitPrice_Helper_Data extends Magento_Core_Helper_Abstract
      *  {{reference_unit}}        => the reference unit, full format
      *  {{reference_unit_short}}=> the reference unit, short format
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * "STRING" = the string is used as a format template
      *
      * @return string
@@ -82,7 +82,7 @@ class Saas_UnitPrice_Helper_Data extends Magento_Core_Helper_Abstract
      * Set the configuration default values on the product model.
      * Used when products already existed when the extension was installed.
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      *
      * @return UnitPrice_Helper_Data
      */

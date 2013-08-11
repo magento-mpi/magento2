@@ -109,7 +109,7 @@ class Mage_Sales_Controller_Download extends Magento_Core_Controller_Front_Actio
                 return;
             }
             // Check if the product exists
-            $product = Mage::getModel('Mage_Catalog_Model_Product')->load($request['product']);
+            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($request['product']);
             if (!$product || !$product->getId()) {
                 $this->_forward('noRoute');
                 return;
@@ -141,16 +141,16 @@ class Mage_Sales_Controller_Download extends Magento_Core_Controller_Front_Actio
         }
 
         $optionId = null;
-        if (strpos($option->getCode(), Mage_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX) === 0) {
-            $optionId = str_replace(Mage_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX, '', $option->getCode());
+        if (strpos($option->getCode(), Magento_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX) === 0) {
+            $optionId = str_replace(Magento_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX, '', $option->getCode());
             if ((int)$optionId != $optionId) {
                 $optionId = null;
             }
         }
         $productOption = null;
         if ($optionId) {
-            /** @var $productOption Mage_Catalog_Model_Product_Option */
-            $productOption = Mage::getModel('Mage_Catalog_Model_Product_Option')->load($optionId);
+            /** @var $productOption Magento_Catalog_Model_Product_Option */
+            $productOption = Mage::getModel('Magento_Catalog_Model_Product_Option')->load($optionId);
         }
         if (!$productOption || !$productOption->getId()
             || $productOption->getProductId() != $option->getProductId() || $productOption->getType() != 'file'

@@ -66,10 +66,10 @@ class Mage_GoogleShopping_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Return Product attribute values array
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return array Product attribute values
      */
-    protected function _getAttributesMapByProduct(Mage_Catalog_Model_Product $product)
+    protected function _getAttributesMapByProduct(Magento_Catalog_Model_Product $product)
     {
         $result = array();
         $group = Mage::getSingleton('Mage_GoogleShopping_Model_Config')->getAttributeGroupsFlat();

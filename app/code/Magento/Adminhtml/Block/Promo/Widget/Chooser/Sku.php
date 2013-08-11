@@ -74,7 +74,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Adminhtml
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection')
+        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
             ->setStoreId(0)
             ->addAttributeToSelect('name', 'type_id', 'attribute_set_id');
 
@@ -109,21 +109,21 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Adminhtml
 
         $this->addColumn('type',
             array(
-                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Type'),
+                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Type'),
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('Mage_Catalog_Model_Product_Type')->getOptionArray(),
+                'options' => Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
         $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('Mage_Catalog_Model_Product')->getResource()->getTypeId())
+            ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set'),
+                'header'=> Mage::helper('Magento_Catalog_Helper_Data')->__('Attribute Set'),
                 'width' => '100px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',

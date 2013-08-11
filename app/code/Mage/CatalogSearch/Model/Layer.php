@@ -3,26 +3,26 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
+class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
 {
     const XML_PATH_DISPLAY_LAYER_COUNT = 'catalog/search/use_layered_navigation_count';
 
     /**
      * Get current layer product collection
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Resource_Product_Collection
+     * @return Magento_Catalog_Model_Resource_Eav_Resource_Product_Collection
      */
     public function getProductCollection()
     {
         if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         } else {
-            $collection = Mage::getResourceModel('Mage_CatalogSearch_Model_Resource_Fulltext_Collection');
+            $collection = Mage::getResourceModel('Magento_CatalogSearch_Model_Resource_Fulltext_Collection');
             $this->prepareProductCollection($collection);
             $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
         }
@@ -32,21 +32,21 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
     /**
      * Prepare product collection
      *
-     * @param Mage_Catalog_Model_Resource_Eav_Resource_Product_Collection $collection
-     * @return Mage_Catalog_Model_Layer
+     * @param Magento_Catalog_Model_Resource_Eav_Resource_Product_Collection $collection
+     * @return Magento_Catalog_Model_Layer
      */
     public function prepareProductCollection($collection)
     {
         $collection
-            ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
-            ->addSearchFilter(Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery()->getQueryText())
+            ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
+            ->addSearchFilter(Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery()->getQueryText())
             ->setStore(Mage::app()->getStore())
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
             ->addStoreFilter()
             ->addUrlRewrite()
-            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSearchIds());
+            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSearchIds());
 
         return $this;
     }
@@ -59,7 +59,7 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
     public function getStateKey()
     {
         if ($this->_stateKey === null) {
-            $this->_stateKey = 'Q_' . Mage::helper('Mage_CatalogSearch_Helper_Data')->getQuery()->getId()
+            $this->_stateKey = 'Q_' . Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery()->getId()
                 . '_'. parent::getStateKey();
         }
         return $this->_stateKey;
@@ -74,15 +74,15 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
     public function getStateTags(array $additionalTags = array())
     {
         $additionalTags = parent::getStateTags($additionalTags);
-        $additionalTags[] = Mage_CatalogSearch_Model_Query::CACHE_TAG;
+        $additionalTags[] = Magento_CatalogSearch_Model_Query::CACHE_TAG;
         return $additionalTags;
     }
 
     /**
      * Add filters to attribute collection
      *
-     * @param   Mage_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection $collection
-     * @return  Mage_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection
+     * @param   Magento_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection $collection
+     * @return  Magento_Catalog_Model_Resource_Eav_Resource_Product_Attribute_Collection
      */
     protected function _prepareAttributeCollection($collection)
     {
@@ -100,7 +100,7 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
     protected function _prepareAttribute($attribute)
     {
         $attribute = parent::_prepareAttribute($attribute);
-        $attribute->setIsFilterable(Mage_Catalog_Model_Layer_Filter_Attribute::OPTIONS_ONLY_WITH_RESULTS);
+        $attribute->setIsFilterable(Magento_Catalog_Model_Layer_Filter_Attribute::OPTIONS_ONLY_WITH_RESULTS);
         return $attribute;
     }
 }

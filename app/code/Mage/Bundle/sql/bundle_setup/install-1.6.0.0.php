@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/** @var $installer Mage_Catalog_Model_Resource_Setup */
+/** @var $installer Magento_Catalog_Model_Resource_Setup */
 
 $installer->startSetup();
 
@@ -516,7 +516,7 @@ $installer->getConnection()->createTable($table);
 /**
  * Add attributes to the eav/attribute 
  */
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'price_type', array(
+$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'price_type', array(
         'type'              => 'int',
         'backend'           => '',
         'frontend'          => '',
@@ -524,7 +524,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'price_type', array
         'input'             => '',
         'class'             => '',
         'source'            => '',
-        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
         'visible'           => false,
         'required'          => true,
         'user_defined'      => false,
@@ -539,7 +539,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'price_type', array
         'is_configurable'   => false
     ));
 
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'sku_type', array(
+$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'sku_type', array(
         'type'              => 'int',
         'backend'           => '',
         'frontend'          => '',
@@ -547,7 +547,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'sku_type', array(
         'input'             => '',
         'class'             => '',
         'source'            => '',
-        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
         'visible'           => false,
         'required'          => true,
         'user_defined'      => false,
@@ -561,7 +561,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'sku_type', array(
         'is_configurable'   => false
     ));
 
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'weight_type', array(
+$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'weight_type', array(
         'type'              => 'int',
         'backend'           => '',
         'frontend'          => '',
@@ -569,7 +569,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'weight_type', arra
         'input'             => '',
         'class'             => '',
         'source'            => '',
-        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
         'visible'           => false,
         'required'          => true,
         'user_defined'      => false,
@@ -584,7 +584,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'weight_type', arra
         'is_configurable'   => false
     ));
 
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'price_view', array(
+$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'price_view', array(
         'group'             => 'Prices',
         'type'              => 'int',
         'backend'           => '',
@@ -593,7 +593,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'price_view', array
         'input'             => 'select',
         'class'             => '',
         'source'            => 'Mage_Bundle_Model_Product_Attribute_Source_Price_View',
-        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
         'visible'           => true,
         'required'          => true,
         'user_defined'      => false,
@@ -608,7 +608,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'price_view', array
         'is_configurable'   => false
     ));
 
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'shipment_type', array(
+$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'shipment_type', array(
         'type'              => 'int',
         'backend'           => '',
         'frontend'          => '',
@@ -616,7 +616,7 @@ $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY, 'shipment_type', ar
         'input'             => '',
         'class'             => '',
         'source'            => '',
-        'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+        'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
         'visible'           => false,
         'required'          => true,
         'user_defined'      => false,

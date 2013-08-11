@@ -18,15 +18,15 @@
 class Saas_Launcher_Model_Storelauncher_Product_StateResolver extends Saas_Launcher_Model_Tile_MinimalStateResolver
 {
     /**
-     * @var Mage_Catalog_Model_Resource_Product_Collection
+     * @var Magento_Catalog_Model_Resource_Product_Collection
      */
     protected $_productCollection;
 
     /**
-     * @param Mage_Catalog_Model_Resource_Product_Collection $productCollection
+     * @param Magento_Catalog_Model_Resource_Product_Collection $productCollection
      */
     public function __construct(
-        Mage_Catalog_Model_Resource_Product_Collection $productCollection
+        Magento_Catalog_Model_Resource_Product_Collection $productCollection
     ) {
         // for now this collection is used only once so no cloning is needed before use
         $this->_productCollection = $productCollection;

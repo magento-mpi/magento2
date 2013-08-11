@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,16 +13,16 @@
  * Collection Advanced
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Model_Resource_Advanced_Collection extends Mage_Catalog_Model_Resource_Product_Collection
+class Magento_CatalogSearch_Model_Resource_Advanced_Collection extends Magento_Catalog_Model_Resource_Product_Collection
 {
     /**
      * Add not indexable fields to search
      *
      * @param array $fields
-     * @return Mage_CatalogSearch_Model_Resource_Advanced_Collection
+     * @return Magento_CatalogSearch_Model_Resource_Advanced_Collection
      */
     public function addFieldsToFilter($fields)
     {
@@ -75,7 +75,7 @@ class Mage_CatalogSearch_Model_Resource_Advanced_Collection extends Mage_Catalog
                             $conditionData[] = array ('like' => $conditionValue['like']);
                         }
                         elseif (isset($conditionValue['from']) && isset($conditionValue['to'])) {
-                            $invalidDateMessage = Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Please specify correct data.');
+                            $invalidDateMessage = Mage::helper('Magento_CatalogSearch_Helper_Data')->__('Please specify correct data.');
                             if ($conditionValue['from']) {
                                 if (!Zend_Date::isDate($conditionValue['from'])) {
                                     Mage::throwException($invalidDateMessage);

@@ -21,7 +21,7 @@ class Enterprise_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_T
     /**
      * Product fixture
      *
-     * @var Mage_Catalog_Model_Product
+     * @var Magento_Catalog_Model_Product
      */
     public static $product = null;
 

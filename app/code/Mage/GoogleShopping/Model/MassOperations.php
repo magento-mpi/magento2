@@ -69,7 +69,7 @@ class Mage_GoogleShopping_Model_MassOperations
                     break;
                 }
                 try {
-                    $product = Mage::getModel('Mage_Catalog_Model_Product')
+                    $product = Mage::getModel('Magento_Catalog_Model_Product')
                         ->setStoreId($storeId)
                         ->load($productId);
 

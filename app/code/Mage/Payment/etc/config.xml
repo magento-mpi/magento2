@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Magento_Core/>
-                <Mage_Catalog/>
+                <Magento_Catalog/>
             </depends>
         </Mage_Payment>
     </modules>

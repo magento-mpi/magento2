@@ -18,7 +18,7 @@
 class Enterprise_Search_Model_Resource_Recommendations extends Magento_Core_Model_Resource_Db_Abstract
 {
     /**
-     * @var Mage_CatalogSearch_Model_Query
+     * @var Magento_CatalogSearch_Model_Query
      */
     protected $_searchQueryModel;
 
@@ -204,7 +204,7 @@ class Enterprise_Search_Model_Resource_Recommendations extends Magento_Core_Mode
     protected function _getSearchQueryModel()
     {
         if (!$this->_searchQueryModel) {
-            $this->_searchQueryModel = Mage::getModel('Mage_CatalogSearch_Model_Query');
+            $this->_searchQueryModel = Mage::getModel('Magento_CatalogSearch_Model_Query');
         }
         return $this->_searchQueryModel;
     }

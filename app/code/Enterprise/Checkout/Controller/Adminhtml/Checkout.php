@@ -819,8 +819,8 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
                 Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE,
                 Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE,
             );
-            /* @var $productHelper Mage_Catalog_Helper_Product */
-            $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
+            /* @var $productHelper Magento_Catalog_Helper_Product */
+            $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
             $listTypes = array_filter(explode(',', $listTypes));
             if (in_array(Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract::LIST_TYPE, $listTypes)) {
                 // If results came from SKU error grid - clean them (submitted results are going to be re-checked)
@@ -919,8 +919,8 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
      */
     protected function _processFiles($items)
     {
-        /* @var $productHelper Mage_Catalog_Helper_Product */
-        $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
+        /* @var $productHelper Magento_Catalog_Helper_Product */
+        $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
         foreach ($items as $id => $item) {
             $buyRequest = new Magento_Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');

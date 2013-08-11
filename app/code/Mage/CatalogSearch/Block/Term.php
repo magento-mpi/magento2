@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_CatalogSearch
+ * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Catalogsearch term block
  *
  * @category   Mage
- * @package    Mage_CatalogSearch
+ * @package    Magento_CatalogSearch
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_CatalogSearch_Block_Term extends Magento_Core_Block_Template
+class Magento_CatalogSearch_Block_Term extends Magento_Core_Block_Template
 {
     protected $_terms;
     protected $_minPopularity;
@@ -24,13 +24,13 @@ class Mage_CatalogSearch_Block_Term extends Magento_Core_Block_Template
     /**
      * Load terms and try to sort it by names
      *
-     * @return Mage_CatalogSearch_Block_Term
+     * @return Magento_CatalogSearch_Block_Term
      */
     protected function _loadTerms()
     {
         if (empty($this->_terms)) {
             $this->_terms = array();
-            $terms = Mage::getResourceModel('Mage_CatalogSearch_Model_Resource_Query_Collection')
+            $terms = Mage::getResourceModel('Magento_CatalogSearch_Model_Resource_Query_Collection')
                 ->setPopularQueryFilter(Mage::app()->getStore()->getId())
                 ->setPageSize(100)
                 ->load()

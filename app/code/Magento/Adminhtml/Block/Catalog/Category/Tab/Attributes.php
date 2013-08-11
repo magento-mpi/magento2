@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ad
     /**
      * Retrieve Category object
      *
-     * @return Mage_Catalog_Model_Category
+     * @return Magento_Catalog_Model_Category
      */
     public function getCategory()
     {
@@ -62,7 +62,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ad
         $form->setDataObject($this->getCategory());
 
         $fieldset = $form->addFieldset('fieldset_group_' . $group->getId(), array(
-            'legend'    => Mage::helper('Mage_Catalog_Helper_Data')->__($group->getAttributeGroupName()),
+            'legend'    => Mage::helper('Magento_Catalog_Helper_Data')->__($group->getAttributeGroupName()),
             'class'     => 'fieldset-wide',
         ));
 

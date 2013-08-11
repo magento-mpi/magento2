@@ -16,7 +16,7 @@
  * @package    Mage_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Product_Abstract
+abstract class Mage_Reports_Block_Product_Abstract extends Magento_Catalog_Block_Product_Abstract
 {
     /**
      * Product Index model name
@@ -98,7 +98,7 @@ abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Pr
     public function getItemsCollection()
     {
         if (is_null($this->_collection)) {
-            $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
+            $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
 
             $this->_collection = $this->_getModel()
                 ->getCollection()
@@ -123,7 +123,7 @@ abstract class Mage_Reports_Block_Product_Abstract extends Mage_Catalog_Block_Pr
                 $this->_collection->addFilterByIds($ids);
             }
             $this->_collection->setAddedAtOrder()
-                ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+                ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
         }
 
         return $this->_collection;

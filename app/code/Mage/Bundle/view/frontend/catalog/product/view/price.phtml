@@ -19,8 +19,8 @@ if ($_product->getPriceType() == 1) {
         $_weeeTaxAttributes = Mage::helper('Mage_Weee_Helper_Data')->getProductWeeeAttributesForDisplay($_product);
     }
 }
-$isMAPTypeOnGesture = Mage::helper('Mage_Catalog_Helper_Data')->isShowPriceOnGesture($_product);
-$canApplyMAP  = Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($_product);
+$isMAPTypeOnGesture = Mage::helper('Magento_Catalog_Helper_Data')->isShowPriceOnGesture($_product);
+$canApplyMAP  = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_product);
 ?>
 <?php if ($_product->getCanShowPrice() !== false):?>
 <div class="price-box">

@@ -52,13 +52,13 @@ class Mage_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resource
      * Retrieve attribute object
      *
      * @param string $attributeCode
-     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     * @return Magento_Catalog_Model_Resource_Eav_Attribute
      */
     protected function _getAttribute($attributeCode)
     {
         if (!isset($this->_attributes[$attributeCode])) {
-            $this->_attributes[$attributeCode] = Mage::getSingleton('Mage_Catalog_Model_Config')
-                ->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
+            $this->_attributes[$attributeCode] = Mage::getSingleton('Magento_Catalog_Model_Config')
+                ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeCode);
         }
         return $this->_attributes[$attributeCode];
     }
@@ -95,7 +95,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resource
     /**
      * Retrieve product ids array by product condition
      *
-     * @param Mage_Catalog_Model_Product|Mage_Catalog_Model_Product_Condition_Interface|array|int $product
+     * @param Magento_Catalog_Model_Product|Magento_Catalog_Model_Product_Condition_Interface|array|int $product
      * @param int $lastEntityId
      * @param int $limit
      * @return array
@@ -108,10 +108,10 @@ class Mage_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resource
                 array('e' => $this->getTable('catalog_product_entity')),
                 array('entity_id')
             )
-            ->where('e.type_id=?', Mage_Catalog_Model_Product_Type::TYPE_BUNDLE);
-        if ($product instanceof Mage_Catalog_Model_Product) {
+            ->where('e.type_id=?', Magento_Catalog_Model_Product_Type::TYPE_BUNDLE);
+        if ($product instanceof Magento_Catalog_Model_Product) {
             $select->where('e.entity_id=?', $product->getId());
-        } elseif ($product instanceof Mage_Catalog_Model_Product_Condition_Interface) {
+        } elseif ($product instanceof Magento_Catalog_Model_Product_Condition_Interface) {
             $value = new Zend_Db_Expr($product->getIdsSelect($this->_getReadAdapter()));
             $select->where('e.entity_id IN(?)', $value);
         } elseif (is_numeric($product) || is_array($product)) {
@@ -145,7 +145,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resource
     /**
      * Reindex Bundle product Price Index
      *
-     * @param Mage_Catalog_Model_Product|Mage_Catalog_Model_Product_Condition_Interface|array|int $products
+     * @param Magento_Catalog_Model_Product|Magento_Catalog_Model_Product_Condition_Interface|array|int $products
      * @return Mage_Bundle_Model_Resource_Price_Index
      */
     public function reindex($products = null)
@@ -471,7 +471,7 @@ class Mage_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resource
         $storeTimeStamp = Mage::app()->getLocale()->storeTimeStamp($store);
         $finalPrice     = $this->_calculateSpecialPrice($priceData['price'], $priceData, $website);
 
-        $rulePrice = Mage::getResourceModel('Mage_CatalogRule_Model_Resource_Rule')
+        $rulePrice = Mage::getResourceModel('Magento_CatalogRule_Model_Resource_Rule')
             ->getRulePrice($storeTimeStamp, $website->getId(), $customerGroup->getId(), $productId);
 
         if ($rulePrice !== null && $rulePrice !== false) {
@@ -649,9 +649,9 @@ class Mage_Bundle_Model_Resource_Price_Index extends Magento_Core_Model_Resource
                 $minPrice += min($optionPrices);
             }
             $multiTypes = array(
-                Mage_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN,
-                Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX,
-                Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE
+                Magento_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN,
+                Magento_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX,
+                Magento_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE
             );
             if ($optionPrices) {
                 if (in_array($option['type'], $multiTypes)) {

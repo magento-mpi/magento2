@@ -29,14 +29,14 @@ class Mage_Downloadable_Model_Resource_Link_Collection extends Magento_Core_Mode
     /**
      * Method for product filter
      *
-     * @param Mage_Catalog_Model_Product|array|integer|null $product
+     * @param Magento_Catalog_Model_Product|array|integer|null $product
      * @return Mage_Downloadable_Model_Resource_Link_Collection
      */
     public function addProductToFilter($product)
     {
         if (empty($product)) {
             $this->addFieldToFilter('product_id', '');
-        } elseif ($product instanceof Mage_Catalog_Model_Product) {
+        } elseif ($product instanceof Magento_Catalog_Model_Product) {
             $this->addFieldToFilter('product_id', $product->getId());
         } else {
             $this->addFieldToFilter('product_id', array('in' => $product));

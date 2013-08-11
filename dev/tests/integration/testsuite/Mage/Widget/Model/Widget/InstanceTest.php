@@ -41,7 +41,7 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetWidgetConfig()
     {
-        $config = $this->_model->setType('Mage_Catalog_Block_Product_Widget_New')->getWidgetConfig();
+        $config = $this->_model->setType('Magento_Catalog_Block_Product_Widget_New')->getWidgetConfig();
         $this->assertInstanceOf('Magento_Simplexml_Element', $config);
         /** @var Magento_Simplexml_Element $config */
         $element = $config->xpath('/widgets/new_products/parameters/template/values/list');
@@ -55,7 +55,7 @@ class Mage_Widget_Model_Widget_InstanceTest extends PHPUnit_Framework_TestCase
      */
     public function testGetWidgetSupportedContainers()
     {
-        $this->_model->setType('Mage_Catalog_Block_Product_Widget_New');
+        $this->_model->setType('Magento_Catalog_Block_Product_Widget_New');
         $containers = $this->_model->getWidgetSupportedContainers();
         $this->assertInternalType('array', $containers);
         $this->assertContains('left', $containers);

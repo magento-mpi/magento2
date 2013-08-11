@@ -129,7 +129,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
      */
     protected function _addProductInfo()
     {
-        if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_CatalogInventory')) {
+        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
             $this->getSelect()->joinLeft(
                 array('item_stock' => $this->getTable('cataloginventory_stock_item')),
                 'main_table.product_id = item_stock.product_id',

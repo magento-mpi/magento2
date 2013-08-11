@@ -23,7 +23,7 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Wishlist_Block_Abstract
     /**
      * Retrieve Product View URL
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param array $additional
      * @return string
      */
@@ -36,7 +36,7 @@ class Mage_Wishlist_Block_Share_Email_Items extends Mage_Wishlist_Block_Abstract
     /**
      * Retrieve URL for add product to shopping cart
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param array $additional
      * @return string
      */

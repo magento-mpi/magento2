@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Mage_Rule />
-                <Mage_Catalog />
+                <Magento_Catalog />
                 <Mage_Sales />
             </depends>
         </Mage_SalesRule>

@@ -80,6 +80,6 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_TreeTest extends PHPUn
     public function testGetCategoryCollection()
     {
         $collection = $this->_treeBlock->getCategoryCollection();
-        $this->assertInstanceOf('Mage_Catalog_Model_Resource_Category_Collection', $collection);
+        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Category_Collection', $collection);
     }
 }

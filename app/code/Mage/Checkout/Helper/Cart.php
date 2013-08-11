@@ -35,7 +35,7 @@ class Mage_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     /**
      * Retrieve url for add product to cart
      *
-     * @param   Mage_Catalog_Model_Product $product
+     * @param   Magento_Catalog_Model_Product $product
      * @return  string
      */
     public function getAddUrl($product, $additional = array())

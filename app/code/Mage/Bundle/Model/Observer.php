@@ -61,7 +61,7 @@ class Mage_Bundle_Model_Observer
      */
     public function appendUpsellProducts($observer)
     {
-        /* @var $product Mage_Catalog_Model_Product */
+        /* @var $product Magento_Catalog_Model_Product */
         $product = $observer->getEvent()->getProduct();
 
         /**
@@ -71,7 +71,7 @@ class Mage_Bundle_Model_Observer
             return $this;
         }
 
-        /* @var $collection Mage_Catalog_Model_Resource_Product_Link_Product_Collection */
+        /* @var $collection Magento_Catalog_Model_Resource_Product_Link_Product_Collection */
         $collection = $observer->getEvent()->getCollection();
         $limit      = $observer->getEvent()->getLimit();
         if (is_array($limit)) {
@@ -99,14 +99,14 @@ class Mage_Bundle_Model_Observer
             return $this;
         }
 
-        /* @var $bundleCollection Mage_Catalog_Model_Resource_Product_Collection */
+        /* @var $bundleCollection Magento_Catalog_Model_Resource_Product_Collection */
         $bundleCollection = $product->getCollection()
-            ->addAttributeToSelect(Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes())
+            ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
             ->addStoreFilter()
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
-            ->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
 
         if (!is_null($limit)) {
             $bundleCollection->setPageSize($limit);
@@ -159,7 +159,7 @@ class Mage_Bundle_Model_Observer
     public function loadProductOptions($observer)
     {
         $collection = $observer->getEvent()->getCollection();
-        /* @var $collection Mage_Catalog_Model_Resource_Product_Collection */
+        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
         $collection->addPriceData();
 
         return $this;
@@ -175,7 +175,7 @@ class Mage_Bundle_Model_Observer
     {
         $product = $observer->getEvent()->getCurrentProduct();
 
-        if ($product->getTypeId() != Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+        if ($product->getTypeId() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
             //do nothing if not bundle
             return $this;
         }
@@ -231,7 +231,7 @@ class Mage_Bundle_Model_Observer
     public function setAttributeTabBlock($observer)
     {
         $product = $observer->getEvent()->getProduct();
-        if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+        if ($product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
             Mage::helper('Magento_Adminhtml_Helper_Catalog')
                 ->setAttributeTabBlock('Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes');
         }

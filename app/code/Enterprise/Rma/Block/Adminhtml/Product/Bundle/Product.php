@@ -21,7 +21,7 @@ class Enterprise_Rma_Block_Adminhtml_Product_Bundle_Product
     {
         $rendered       =  parent::render($row);
         $link           = '';
-        if ($row->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+        if ($row->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
             $link = sprintf(
                 '<a href="javascript:void(0)" class="product_to_add" id="productId_%s">%s</a>',
                 $row->getId(),

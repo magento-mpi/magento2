@@ -16,14 +16,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
 {
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Mage/Catalog/_files/product_configurable.php
+     * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
      */
     public function testGetVariations()
     {
-        Mage::register('current_product', Mage::getModel('Mage_Catalog_Model_Product')->load(1));
+        Mage::register('current_product', Mage::getModel('Magento_Catalog_Model_Product')->load(1));
         Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text', 'head');
-        /** @var $usedAttribute Mage_Catalog_Model_Entity_Attribute */
-        $usedAttribute = Mage::getSingleton('Mage_Catalog_Model_Entity_Attribute')->loadByCode(
+        /** @var $usedAttribute Magento_Catalog_Model_Entity_Attribute */
+        $usedAttribute = Mage::getSingleton('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
             Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('catalog_product')->getId(),
             'test_configurable'
         );

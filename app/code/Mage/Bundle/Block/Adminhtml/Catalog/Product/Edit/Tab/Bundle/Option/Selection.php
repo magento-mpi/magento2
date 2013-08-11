@@ -57,7 +57,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
     protected function _prepareLayout()
     {
         $this->addChild('selection_delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Delete'),
+            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Delete'),
             'class' => 'delete icon-btn',
             'on_click' => 'bSelection.remove(event)'
         ));
@@ -129,7 +129,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selecti
      */
     public function isUsedWebsitePrice()
     {
-        return !Mage::helper('Mage_Catalog_Helper_Data')->isPriceGlobal() && Mage::registry('product')->getStoreId();
+        return !Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal() && Mage::registry('product')->getStoreId();
     }
 
     /**

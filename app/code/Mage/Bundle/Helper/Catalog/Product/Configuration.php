@@ -16,12 +16,12 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_Helper_Abstract
-    implements Mage_Catalog_Helper_Product_Configuration_Interface
+    implements Magento_Catalog_Helper_Product_Configuration_Interface
 {
     /**
      * Get selection quantity
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param int $selectionId
      *
      * @return decimal
@@ -38,12 +38,12 @@ class Mage_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_Help
     /**
      * Obtain final price of selection in a bundle product
      *
-     * @param Mage_Catalog_Model_Product_Configuration_Item_Interface $item
-     * @param Mage_Catalog_Model_Product $selectionProduct
+     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param Magento_Catalog_Model_Product $selectionProduct
      *
      * @return decimal
      */
-    public function getSelectionFinalPrice(Mage_Catalog_Model_Product_Configuration_Item_Interface $item,
+    public function getSelectionFinalPrice(Magento_Catalog_Model_Product_Configuration_Item_Interface $item,
         $selectionProduct)
     {
         $selectionProduct->unsetData('final_price');
@@ -65,7 +65,7 @@ class Mage_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_Help
      *
      * @return array
      */
-    public function getBundleOptions(Mage_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getBundleOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
     {
         $options = array();
         $product = $item->getProduct();
@@ -129,14 +129,14 @@ class Mage_Bundle_Helper_Catalog_Product_Configuration extends Magento_Core_Help
     /**
      * Retrieves product options list
      *
-     * @param Mage_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
      * @return array
      */
-    public function getOptions(Mage_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
     {
         return array_merge(
             $this->getBundleOptions($item),
-            Mage::helper('Mage_Catalog_Helper_Product_Configuration')->getCustomOptions($item)
+            Mage::helper('Magento_Catalog_Helper_Product_Configuration')->getCustomOptions($item)
         );
     }
 }

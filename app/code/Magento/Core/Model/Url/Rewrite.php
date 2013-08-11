@@ -63,7 +63,7 @@ class Magento_Core_Model_Url_Rewrite extends Magento_Core_Model_Abstract
     protected function _afterSave()
     {
         if ($this->hasCategoryId()) {
-            $this->_cacheTag = array(Mage_Catalog_Model_Category::CACHE_TAG, Magento_Core_Model_Store_Group::CACHE_TAG);
+            $this->_cacheTag = array(Magento_Catalog_Model_Category::CACHE_TAG, Magento_Core_Model_Store_Group::CACHE_TAG);
         }
 
         parent::_afterSave();

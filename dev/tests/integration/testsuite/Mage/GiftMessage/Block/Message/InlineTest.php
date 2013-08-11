@@ -22,12 +22,12 @@ class Mage_GiftMessage_Block_Message_InlineTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_with_image.php
+     * @magentoDataFixture Magento/Catalog/_files/product_with_image.php
      */
     public function testThumbnail()
     {
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(1);
 
         $size = $this->_block->getThumbnailSize();

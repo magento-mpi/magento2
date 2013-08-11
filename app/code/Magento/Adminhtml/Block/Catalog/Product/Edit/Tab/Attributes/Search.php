@@ -22,7 +22,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search extends
      */
     protected function _construct()
     {
-        $this->setTemplate('Mage_Catalog::product/edit/attribute/search.phtml');
+        $this->setTemplate('Magento_Catalog::product/edit/attribute/search.phtml');
         parent::_construct();
     }
 
@@ -46,21 +46,21 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search extends
      *
      * @param string $labelPart
      * @param int $templateId
-     * @return Mage_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
      */
     public function getSuggestedAttributes($labelPart, $templateId = null)
     {
         $escapedLabelPart = Mage::getResourceHelper('Magento_Core')
             ->addLikeEscape($labelPart, array('position' => 'any'));
-        /** @var $collection Mage_Catalog_Model_Resource_Product_Attribute_Collection */
-        $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Attribute_Collection')
+        /** @var $collection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
+        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
             ->addFieldToFilter('frontend_label', array('like' => $escapedLabelPart));
 
         $collection->setExcludeSetFilter($templateId ?: $this->getRequest()->getParam('template_id'))->setPageSize(20);
 
         $result = array();
         foreach ($collection->getItems() as $attribute) {
-            /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+            /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
             $result[] = array(
                 'id'      => $attribute->getId(),
                 'label'   => $attribute->getFrontendLabel(),

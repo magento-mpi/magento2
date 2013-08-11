@@ -12,7 +12,7 @@
 class Mage_Sales_Model_QuoteTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Mage/Catalog/_files/product_virtual.php
+     * @magentoDataFixture Magento/Catalog/_files/product_virtual.php
      * @magentoDataFixture Mage/Sales/_files/quote.php
      */
     public function testCollectTotalsWithVirtual()
@@ -20,7 +20,7 @@ class Mage_Sales_Model_QuoteTest extends PHPUnit_Framework_TestCase
         $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $quote->load('test01', 'reserved_order_id');
 
-        $product = Mage::getModel('Mage_Catalog_Model_Product');
+        $product = Mage::getModel('Magento_Catalog_Model_Product');
         $product->load(21);
         $quote->addProduct($product);
         $quote->collectTotals();

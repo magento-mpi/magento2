@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
     {
         $addButtonProps = array(
             'id' => 'add_new_product',
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Product'),
+            'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Add Product'),
             'class' => 'btn-add',
             'button_class' => 'btn-round',
             'class_name' => 'Mage_Backend_Block_Widget_Button_Split',
@@ -52,11 +52,11 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
     {
         $splitButtonOptions = array();
 
-        foreach (Mage::getModel('Mage_Catalog_Model_Product_Type')->getOptionArray() as $key => $label) {
+        foreach (Mage::getModel('Magento_Catalog_Model_Product_Type')->getOptionArray() as $key => $label) {
             $splitButtonOptions[$key] = array(
                 'label'     => $label,
                 'onclick'   => "setLocation('" . $this->_getProductCreateUrl($key) . "')",
-                'default'   => Mage_Catalog_Model_Product_Type::DEFAULT_TYPE == $key
+                'default'   => Magento_Catalog_Model_Product_Type::DEFAULT_TYPE == $key
             );
         }
 
@@ -72,7 +72,7 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
     protected function _getProductCreateUrl($type)
     {
         return $this->getUrl('*/*/new', array(
-            'set'   => Mage::getModel('Mage_Catalog_Model_Product')->getDefaultAttributeSetId(),
+            'set'   => Mage::getModel('Magento_Catalog_Model_Product')->getDefaultAttributeSetId(),
             'type'  => $type
         ));
     }

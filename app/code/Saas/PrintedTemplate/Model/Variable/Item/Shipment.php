@@ -54,7 +54,7 @@ class Saas_PrintedTemplate_Model_Variable_Item_Shipment extends Saas_PrintedTemp
                 $children[$item->getOrderItemId()] = $this->_getVariableModel(array('value' => $item));
             } else if (!$parentItem && $item->getOrderItem()->getId() == $parentItemId) {
                 $children[$item->getOrderItemId()] = $this->_getVariableModel(array('value' => $item));
-                if ($item->getOrderItem()->getProductType() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+                if ($item->getOrderItem()->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
                     foreach ($item->getOrderItem()->getChildrenItems() as $orderItem) {
                         $orderItem->setOrderItem($orderItem);
                         $children[$orderItem->getId()] =

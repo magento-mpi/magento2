@@ -23,7 +23,7 @@ class Saas_Launcher_Controller_Testtransaction extends Magento_Core_Controller_F
     protected $_cartModel;
 
     /**
-     * @var Mage_Catalog_Model_Product
+     * @var Magento_Catalog_Model_Product
      */
     protected $_productModel;
 
@@ -42,7 +42,7 @@ class Saas_Launcher_Controller_Testtransaction extends Magento_Core_Controller_F
      *
      * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Mage_Checkout_Model_Cart $cartModel
-     * @param Mage_Catalog_Model_Product $productModel
+     * @param Magento_Catalog_Model_Product $productModel
      * @param Mage_Checkout_Model_Session $checkoutSession
      * @param Saas_Launcher_Helper_Data $launcherHelper
      * @param string $areaCode
@@ -50,7 +50,7 @@ class Saas_Launcher_Controller_Testtransaction extends Magento_Core_Controller_F
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
         Mage_Checkout_Model_Cart $cartModel,
-        Mage_Catalog_Model_Product $productModel,
+        Magento_Catalog_Model_Product $productModel,
         Mage_Checkout_Model_Session $checkoutSession,
         Saas_Launcher_Helper_Data $launcherHelper,
         $areaCode = null
@@ -72,10 +72,10 @@ class Saas_Launcher_Controller_Testtransaction extends Magento_Core_Controller_F
     {
         if (!$this->_cartModel->getQuote()->getItemsCount()) {
             $products = $this->_productModel->getResourceCollection()
-                ->addFieldToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
+                ->addFieldToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
                 ->addFieldToFilter('type_id', array(
-                    Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL,
-                    Mage_Catalog_Model_Product_Type::TYPE_SIMPLE
+                    Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL,
+                    Magento_Catalog_Model_Product_Type::TYPE_SIMPLE
                 ));
             if ($products->count()) {
                 $productId = $products->addAttributeToSort('entity_id', 'ASC')->getFirstItem()->getId();

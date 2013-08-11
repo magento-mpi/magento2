@@ -65,7 +65,7 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
 
     /**
      * @magentoDataFixture Enterprise/ImportExport/_files/operation.php
-     * @magentoDataFixture Mage/Catalog/_files/products_new.php
+     * @magentoDataFixture Magento/Catalog/_files/products_new.php
      */
     public function testRunAction()
     {

@@ -16,7 +16,7 @@
  * @package     Mage_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Model_Resource_Product_Collection extends Mage_Catalog_Model_Resource_Product_Collection
+class Mage_Tag_Model_Resource_Product_Collection extends Magento_Catalog_Model_Resource_Product_Collection
 {
     /**
      * Customer Id Filter

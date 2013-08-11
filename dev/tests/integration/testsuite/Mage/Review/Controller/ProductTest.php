@@ -12,7 +12,7 @@
 class Mage_Review_Controller_ProductTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * @magentoDataFixture Mage/Catalog/_files/products.php
+     * @magentoDataFixture Magento/Catalog/_files/products.php
      * @dataProvider listActionDesignDataProvider
      */
     public function testListActionDesign($productId, $expectedDesign)

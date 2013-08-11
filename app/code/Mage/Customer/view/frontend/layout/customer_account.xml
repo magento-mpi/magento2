@@ -37,7 +37,7 @@
                 </action>
             </block>
             <move element="cart_sidebar" destination="left" before="catalog.compare.sidebar"/>
-            <block type="Mage_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
+            <block type="Magento_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
             <remove name="tags_popular"/>
         </reference>
     </customer_account>

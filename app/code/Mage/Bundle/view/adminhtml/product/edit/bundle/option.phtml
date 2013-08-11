@@ -272,7 +272,7 @@ bOption = new Bundle.Option(optionTemplate);
         echo 'optionIndex = bOption.add(', $_option->toJson(), ');', PHP_EOL;
         if ($_option->getSelections()) {
             foreach ($_option->getSelections() as $_selection) {
-                /** @var $_selection Mage_Catalog_Model_Product */
+                /** @var $_selection Magento_Catalog_Model_Product */
                 $_selection->setName($this->escapeHtml($_selection->getName()));
                 echo 'bSelection.addRow(optionIndex,', $_selection->toJson(), ');', PHP_EOL;
             }

@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Qty extends Mag
     /**
      * Retrieve product
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {

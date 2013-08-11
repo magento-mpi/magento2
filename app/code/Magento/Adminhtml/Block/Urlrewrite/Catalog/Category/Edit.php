@@ -11,8 +11,8 @@
 /**
  * Block for Catalog Category URL rewrites
  *
- * @method Mage_Catalog_Model_Category getCategory()
- * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit setCategory(Mage_Catalog_Model_Category $category)
+ * @method Magento_Catalog_Model_Category getCategory()
+ * @method Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit setCategory(Magento_Catalog_Model_Category $category)
  *
  * @category   Magento
  * @package    Magento_Adminhtml
@@ -47,12 +47,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit extends Magento_A
     /**
      * Get or create new instance of category
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     private function _getCategory()
     {
         if (!$this->hasData('category')) {
-            $this->setCategory(Mage::getModel('Mage_Catalog_Model_Category'));
+            $this->setCategory(Mage::getModel('Magento_Catalog_Model_Category'));
         }
         return $this->getCategory();
     }

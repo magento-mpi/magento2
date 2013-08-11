@@ -76,10 +76,10 @@ class Mage_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Save item to Google Content
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_GoogleShopping_Model_Item
      */
-    public function insertItem(Mage_Catalog_Model_Product $product)
+    public function insertItem(Magento_Catalog_Model_Product $product)
     {
         $this->setProduct($product);
         $this->getServiceItem()
@@ -117,7 +117,7 @@ class Mage_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Load Item Model by Product
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return Mage_GoogleShopping_Model_Item
      */
     public function loadByProduct($product)
@@ -155,12 +155,12 @@ class Mage_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Product Getter. Load product if not exist.
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
         if (is_null($this->getData('product')) && !is_null($this->getProductId())) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStoreId($this->getStoreId())
                 ->load($this->getProductId());
             $this->setData('product', $product);
@@ -172,10 +172,10 @@ class Mage_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Product Setter.
      *
-     * @param Mage_Catalog_Model_Product
+     * @param Magento_Catalog_Model_Product
      * @return Mage_GoogleShopping_Model_Item
      */
-    public function setProduct(Mage_Catalog_Model_Product $product)
+    public function setProduct(Magento_Catalog_Model_Product $product)
     {
         $this->setData('product', $product);
         $this->setProductId($product->getId());

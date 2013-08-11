@@ -109,7 +109,7 @@ class Mage_Customer_Controller_Account extends Magento_Core_Controller_Front_Act
     {
         $this->loadLayout();
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
-        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
         $this->getLayout()->getBlock('head')->setTitle($this->__('My Account'));
         $this->renderLayout();
     }
@@ -126,7 +126,7 @@ class Mage_Customer_Controller_Account extends Magento_Core_Controller_Front_Act
         $this->getResponse()->setHeader('Login-Required', 'true');
         $this->loadLayout();
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
-        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
         $this->renderLayout();
     }
 
@@ -775,7 +775,7 @@ class Mage_Customer_Controller_Account extends Magento_Core_Controller_Front_Act
     {
         $this->loadLayout();
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
-        $this->_initLayoutMessages('Mage_Catalog_Model_Session');
+        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
 
         $block = $this->getLayout()->getBlock('customer_edit');
         if ($block) {

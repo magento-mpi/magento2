@@ -24,7 +24,7 @@
         <add id="Magento_Adminhtml::system_store" title="All Stores" module="Magento_Core" sortOrder="10" parent="Magento_Adminhtml::stores_settings" action="adminhtml/system_store/" resource="Magento_Adminhtml::store"/>
         <add id="Magento_Adminhtml::system_config" title="Configuration" module="Magento_Adminhtml" sortOrder="20" parent="Magento_Adminhtml::stores_settings" action="adminhtml/system_config" resource="Magento_Adminhtml::config"/>
 
-        <add id="Mage_Catalog::inventory" title="Inventory" module="Mage_Catalog" sortOrder="10" parent="Mage_Catalog::catalog" dependsOnModule="Mage_Catalog" resource="Mage_Catalog::catalog"/>
+        <add id="Magento_Catalog::inventory" title="Inventory" module="Magento_Catalog" sortOrder="10" parent="Magento_Catalog::catalog" dependsOnModule="Magento_Catalog" resource="Magento_Catalog::catalog"/>
 
         <add id="Magento_Adminhtml::marketing" title="Marketing" module="Magento_Adminhtml" sortOrder="40" resource="Magento_Adminhtml::marketing"/>
         <add id="Magento_Adminhtml::marketing_communications" title="Communications" module="Magento_Adminhtml" sortOrder="30" parent="Magento_Adminhtml::marketing"  resource="Magento_Adminhtml::marketing_communications"/>

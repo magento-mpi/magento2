@@ -71,7 +71,7 @@ abstract class Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sal
                 $options = $parentItem->getProductOptions();
                 if ($options) {
                     if (isset($options['shipment_type'])
-                        && $options['shipment_type'] == Mage_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
+                        && $options['shipment_type'] == Magento_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
                         return true;
                     } else {
                         return false;
@@ -81,7 +81,7 @@ abstract class Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sal
                 $options = $item->getProductOptions();
                 if ($options) {
                     if (isset($options['shipment_type'])
-                        && $options['shipment_type'] == Mage_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
+                        && $options['shipment_type'] == Magento_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
                         return false;
                     } else {
                         return true;
@@ -93,7 +93,7 @@ abstract class Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sal
         $options = $this->getOrderItem()->getProductOptions();
         if ($options) {
             if (isset($options['shipment_type'])
-                && $options['shipment_type'] == Mage_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
+                && $options['shipment_type'] == Magento_Catalog_Model_Product_Type_Abstract::SHIPMENT_SEPARATELY) {
                 return true;
             }
         }
@@ -118,7 +118,7 @@ abstract class Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sal
                 $options = $parentItem->getProductOptions();
                 if ($options) {
                     if (isset($options['product_calculations']) &&
-                        $options['product_calculations'] == Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD
+                        $options['product_calculations'] == Magento_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD
                     ) {
                         return true;
                     } else {
@@ -129,7 +129,7 @@ abstract class Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sal
                 $options = $item->getProductOptions();
                 if ($options) {
                     if (isset($options['product_calculations']) &&
-                        $options['product_calculations'] == Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD
+                        $options['product_calculations'] == Magento_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD
                     ) {
                         return false;
                     } else {
@@ -142,7 +142,7 @@ abstract class Mage_Bundle_Model_Sales_Order_Pdf_Items_Abstract extends Mage_Sal
         $options = $this->getOrderItem()->getProductOptions();
         if ($options) {
             if (isset($options['product_calculations'])
-                && $options['product_calculations'] == Mage_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
+                && $options['product_calculations'] == Magento_Catalog_Model_Product_Type_Abstract::CALCULATE_CHILD) {
                 return true;
             }
         }

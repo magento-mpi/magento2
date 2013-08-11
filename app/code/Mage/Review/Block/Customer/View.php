@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Review_Block_Customer_View extends Mage_Catalog_Block_Product_Abstract
+class Mage_Review_Block_Customer_View extends Magento_Catalog_Block_Product_Abstract
 {
 
     protected $_template = 'customer/view.phtml';
@@ -32,7 +32,7 @@ class Mage_Review_Block_Customer_View extends Mage_Catalog_Block_Product_Abstrac
     public function getProductData()
     {
         if( $this->getReviewId() && !$this->getProductCacheData() ) {
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
+            $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($this->getReviewData()->getEntityPkValue());
             $this->setProductCacheData($product);

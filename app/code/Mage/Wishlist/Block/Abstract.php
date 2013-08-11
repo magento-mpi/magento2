@@ -16,7 +16,7 @@
  * @package    Mage_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_Abstract
+abstract class Mage_Wishlist_Block_Abstract extends Magento_Catalog_Block_Product_Abstract
 {
     /**
      * Wishlist Product Items Collection
@@ -139,7 +139,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Retrieve URL for Removing item from wishlist
      *
-     * @param Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
+     * @param Magento_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
      *
      * @return string
      */
@@ -151,7 +151,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Retrieve Add Item to shopping cart URL
      *
-     * @param string|Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
+     * @param string|Magento_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
      * @return string
      */
     public function getItemAddToCartUrl($item)
@@ -162,7 +162,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Retrieve Add Item to shopping cart URL from shared wishlist
      *
-     * @param string|Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
+     * @param string|Magento_Catalog_Model_Product|Mage_Wishlist_Model_Item $item
      * @return string
      */
     public function getSharedItemAddToCartUrl($item)
@@ -173,7 +173,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Retrieve URL for adding Product to wishlist
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return string
      */
     public function getAddToWishlistUrl($product)
@@ -184,13 +184,13 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
      /**
      * Returns item configure url in wishlist
      *
-     * @param Mage_Catalog_Model_Product|Mage_Wishlist_Model_Item $product
+     * @param Magento_Catalog_Model_Product|Mage_Wishlist_Model_Item $product
      *
      * @return string
      */
     public function getItemConfigureUrl($product)
     {
-        if ($product instanceof Mage_Catalog_Model_Product) {
+        if ($product instanceof Magento_Catalog_Model_Product) {
             $id = $product->getWishlistItemId();
         } else {
             $id = $product->getId();
@@ -204,7 +204,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Retrieve Escaped Description for Wishlist Item
      *
-     * @param Mage_Catalog_Model_Product $item
+     * @param Magento_Catalog_Model_Product $item
      * @return string
      */
     public function getEscapedDescription($item)
@@ -218,7 +218,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Check Wishlist item has description
      *
-     * @param Mage_Catalog_Model_Product $item
+     * @param Magento_Catalog_Model_Product $item
      * @return bool
      */
     public function hasDescription($item)
@@ -266,7 +266,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Retrieve Qty from item
      *
-     * @param Mage_Wishlist_Model_Item|Mage_Catalog_Model_Product $item
+     * @param Mage_Wishlist_Model_Item|Magento_Catalog_Model_Product $item
      * @return float
      */
     public function getQty($item)
@@ -332,7 +332,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
      * Overwrites parent price html return to be ready to show configured, partially configured and
      * non-configured products
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @param bool $displayMinimalPrice
      * @param string $idSuffix
      *
@@ -341,7 +341,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix = '')
     {
         $type_id = $product->getTypeId();
-        if (Mage::helper('Mage_Catalog_Helper_Data')->canApplyMsrp($product)) {
+        if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
             $realPriceHtml = $this->_preparePriceRenderer($type_id)
                 ->setProduct($product)
                 ->setDisplayMinimalPrice($displayMinimalPrice)
@@ -363,13 +363,13 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Retrieve URL to item Product
      *
-     * @param  Mage_Wishlist_Model_Item|Mage_Catalog_Model_Product $item
+     * @param  Mage_Wishlist_Model_Item|Magento_Catalog_Model_Product $item
      * @param  array $additional
      * @return string
      */
     public function getProductUrl($item, $additional = array())
     {
-        if ($item instanceof Mage_Catalog_Model_Product) {
+        if ($item instanceof Magento_Catalog_Model_Product) {
             $product = $item;
         } else {
             $product = $item->getProduct();
@@ -378,7 +378,7 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
         if (is_object($buyRequest)) {
             $config = $buyRequest->getSuperProductConfig();
             if ($config && !empty($config['product_id'])) {
-                $product = Mage::getModel('Mage_Catalog_Model_Product')
+                $product = Mage::getModel('Magento_Catalog_Model_Product')
                     ->setStoreId(Mage::app()->getStore()->getStoreId())
                     ->load($config['product_id']);
             }
@@ -389,12 +389,12 @@ abstract class Mage_Wishlist_Block_Abstract extends Mage_Catalog_Block_Product_A
     /**
      * Product image url getter
      *
-     * @param Mage_Catalog_Model_Product $product
+     * @param Magento_Catalog_Model_Product $product
      * @return string
      */
     public function getImageUrl($product)
     {
-        return (string)$this->helper('Mage_Catalog_Helper_Image')->init($product, 'small_image')
+        return (string)$this->helper('Magento_Catalog_Helper_Image')->init($product, 'small_image')
             ->resize($this->getImageSize());
     }
 
