@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding="utf-8" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<config>
+    <global>
+        <di>
+            <Magento_Core_Model_Cache>
+                <parameters>
+                    <storeManager>
+                        <instance>customStoreManagerProxy</instance>
+                    </storeManager>
+                </parameters>
+            </Magento_Core_Model_Cache>
+            <Magento_Core_Controller_Varien_Action_Context>
+                <plugins>
+                    <first><instance>Magento_Core_Model_Action_Plugin</instance></first>
+                    <second><instance>Custom_PageCache_Model_Action_Plugin</instance></second>
+                </plugins>
+                <parameters>
+                    <layoutFactory>
+                        <instance>customLayoutFactory</instance>
+                    </layoutFactory>
+                </parameters>
+            </Magento_Core_Controller_Varien_Action_Context>
+            <customStoreManagerProxy>
+                <type>Magento_Core_Model_StoreManager_Proxy</type>
+            </customStoreManagerProxy>
+            <customLayoutFactory>
+                <type>Magento_Core_Model_Layout_Factory</type>
+            </customLayoutFactory>
+        </di>
+    </global>
+</config>

@@ -37,7 +37,7 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest exten
             'Magento_Core_Controller_Request_Http', array('getParam', 'getPost'), array(), '', false
         );
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = array(
             'request' => $this->_request,
             'objectManager' => $this->_objectManagerMock,

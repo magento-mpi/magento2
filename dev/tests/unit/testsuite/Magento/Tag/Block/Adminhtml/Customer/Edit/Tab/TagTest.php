@@ -40,7 +40,7 @@ class Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends PHPUnit_Fram
         $arguments = array(
             'authorization' => $authorization,
         );
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag',
             $arguments);
     }
@@ -82,7 +82,7 @@ class Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_TagTest extends PHPUnit_Fram
             'authorization' => $authorization,
             'helperFactory' => $helperFactoryMock,
         );
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag',
             $arguments);
         if ($customer) {

@@ -24,7 +24,7 @@ return array(
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpcs',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpmd/input',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpmd_ruleset.xsd',
-    'dev/tests/unit/testsuite/tools/view/Generator/_files/ThemeDeployment/run/source',
+    'dev/tests/unit/testsuite/Magento/Test/Tools/View/Generator/_files/ThemeDeployment/run/source',
     'downloader/js/prototype.js',
     'lib/Apache',
     'lib/PEAR',

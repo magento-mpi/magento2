@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding="utf-8" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<config>
+    <global>
+        <di>
+            <preferences>
+                <Magento_Core_Model_AppInterface>Magento_Core_Model_App_Proxy</Magento_Core_Model_AppInterface>
+                <!--<Magento_Core_Model_Config_InvalidatorInterface>Magento_Core_Model_Config_Invalidator_Proxy</Magento_Core_Model_Config_InvalidatorInterface>-->
+                <Magento_Core_Model_CacheInterface>Magento_Core_Model_Cache_Proxy</Magento_Core_Model_CacheInterface>
+            </preferences>
+            <custom_cache_instance>
+                <type>Magento_Core_Model_Cache</type>
+                <plugins>
+                    <tag><instance>Magento_Core_Model_Cache_TagPlugin</instance></tag>
+                </plugins>
+            </custom_cache_instance>
+        </di>
+    </global>
+</config>

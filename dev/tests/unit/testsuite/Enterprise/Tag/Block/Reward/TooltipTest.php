@@ -16,7 +16,7 @@ class Enterprise_Tag_Block_Reward_TooltipTest extends PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $helperMock = $this->getMock('Enterprise_Tag_Helper_Data', array('addActionClassToRewardModel'), array(), '',
             false

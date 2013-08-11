@@ -40,7 +40,7 @@ class Magento_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_TagTestCaseAbstract e
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $authorization = $this->getMock('Magento_AuthorizationInterface');
         $authorization->expects($this->any())

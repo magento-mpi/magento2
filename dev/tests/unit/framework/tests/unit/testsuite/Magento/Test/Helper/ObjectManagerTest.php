@@ -45,7 +45,7 @@ class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBlock()
     {
-        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $template Magento_Core_Block_Template */
         $template = $objectManager->getObject('Magento_Core_Block_Template');
         $this->assertInstanceOf('Magento_Core_Block_Template', $template);
@@ -71,7 +71,7 @@ class Magento_Test_TestCase_ObjectManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetModel()
     {
-        $objectManager = new Magento_Test_Helper_ObjectManager($this);
+        $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model Magento_Core_Model_Config_Data */
         $model = $objectManager->getObject('Magento_Core_Model_Config_Data');
         $this->assertInstanceOf('Magento_Core_Model_Config_Data', $model);

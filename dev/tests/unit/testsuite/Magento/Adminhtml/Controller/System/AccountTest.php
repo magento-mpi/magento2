@@ -119,7 +119,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
 
         $args = array('context' => $contextMock);
 
-        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_controller = $testHelper->getObject('Magento_Adminhtml_Controller_System_Account', $args);
     }
 

@@ -14,7 +14,7 @@ class Magento_Webapi_Model_Acl_Role_InRoleUserUpdaterTest extends PHPUnit_Framew
         $roleId = 5;
         $expectedValues = array(7, 8, 9);
 
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $request = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
             ->disableOriginalConstructor()
