@@ -12,13 +12,13 @@
     <ul class="form-list checkmo-list" id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none;">
         <?php if ($this->getMethod()->getPayableTo()): ?>
         <li>
-            <label><?php echo $this->__('Make Check payable to:') ?></label>
+            <label><?php echo __('Make Check payable to:') ?></label>
             <?php echo $this->escapeHtml($this->getMethod()->getPayableTo()) ?>
         </li>
         <?php endif; ?>
         <?php if ($this->getMethod()->getMailingAddress()): ?>
         <li>
-            <label><?php echo Mage::helper('Mage_Payment_Helper_Data')->__('Send Check to:') ?></label>
+            <label><?php echo __('Send Check to:') ?></label>
             <address class="checkmo-mailing-address">
                 <?php echo nl2br($this->escapeHtml($this->getMethod()->getMailingAddress())) ?>
             </address>

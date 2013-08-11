@@ -54,12 +54,9 @@ class Mage_AdminNotification_Model_System_Message_Media_Synchronization_SuccessT
 
     public function testGetText()
     {
-        $messageText = 'One or more media files failed to be synchronized';
+        $messageText = 'Synchronization of media storages has been completed';
 
-        $dataHelperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
-        $this->_helperFactoryMock->expects($this->once())->method('get')->will($this->returnValue($dataHelperMock));
-        $dataHelperMock->expects($this->atLeastOnce())->method('__')->will($this->returnValue($messageText));
-        $this->assertContains($messageText, $this->_model->getText());
+        $this->assertContains($messageText, (string)$this->_model->getText());
     }
 
 

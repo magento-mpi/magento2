@@ -27,14 +27,14 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
     protected function _prepareLayout()
     {
         $this->addChild('delete_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'  => Mage::helper('Mage_Customer_Helper_Data')->__('Delete Address'),
+            'label'  => __('Delete Address'),
             'name'   => 'delete_address',
             'element_name' => 'delete_address',
             'disabled' => $this->isReadonly(),
             'class'  => 'delete' . ($this->isReadonly() ? ' disabled' : '')
         ));
         $this->addChild('add_address_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'  => Mage::helper('Mage_Customer_Helper_Data')->__('Add New Address'),
+            'label'  => __('Add New Address'),
             'id'     => 'add_address_button',
             'name'   => 'add_address_button',
             'element_name' => 'add_address_button',
@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
             'onclick'=> 'customerAddresses.addNewAddress()'
         ));
         $this->addChild('cancel_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'  => Mage::helper('Mage_Customer_Helper_Data')->__('Cancel'),
+            'label'  => __('Cancel'),
             'id'     => 'cancel_add_address'.$this->getTemplatePrefix(),
             'name'   => 'cancel_address',
             'element_name' => 'cancel_address',
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
 
         $form = new Magento_Data_Form();
         $fieldset = $form->addFieldset('address_fieldset', array(
-            'legend'    => Mage::helper('Mage_Customer_Helper_Data')->__("Edit Customer's Address"))
+            'legend'    => __("Edit Customer's Address"))
         );
 
         $addressModel = Mage::getModel('Mage_Customer_Model_Address');
@@ -100,7 +100,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         }
         foreach ($attributes as $attribute) {
             /* @var $attribute Mage_Eav_Model_Entity_Attribute */
-            $attribute->setFrontendLabel(Mage::helper('Mage_Customer_Helper_Data')->__($attribute->getFrontend()->getLabel()));
+            $attribute->setFrontendLabel(__($attribute->getFrontend()->getLabel()));
             $attribute->unsIsVisible();
         }
         $this->_setFieldset($attributes, $fieldset);

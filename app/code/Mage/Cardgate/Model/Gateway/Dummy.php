@@ -28,5 +28,4 @@ class Mage_Cardgate_Model_Gateway_Dummy extends Mage_Cardgate_Model_Gateway_Cred
     {
         return false;
     }
-
 }

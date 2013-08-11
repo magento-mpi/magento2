@@ -125,21 +125,10 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected function helper(array $urls = array())
     {
-        $helper = $this->getMock('Mage_Core_Helper_Abstract', array('__', 'getUrl'), array(), '', false);
-        $helper->expects($this->any())
-            ->method('__')
-            ->will(
-                $this->returnCallback(
-                    function ($msg)
-                    {
-                        return "$msg-tr";
-                    }
-                )
-            );
+        $helper = $this->getMock('Mage_Core_Helper_Abstract', array('getUrl'), array(), '', false);
         $helper->expects($this->any())
             ->method('getUrl')
             ->will($this->returnValueMap($urls));
-
 
         return $helper;
     }
@@ -188,12 +177,9 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function itemMock($title)
     {
         $item = $this->getMockBuilder('Mage_Backend_Model_Menu_Item')
-            ->setMethods(array('getModuleHelper', 'getTitle'))
+            ->setMethods(array('getTitle'))
             ->disableOriginalConstructor()
             ->getMock();
-        $item->expects($this->any())
-            ->method('getModuleHelper')
-            ->will($this->returnValue($this->helper()));
         $item->expects($this->any())
             ->method('getTitle')
             ->will($this->returnValue($title));

@@ -21,8 +21,8 @@ class Mage_GoogleShopping_Block_Adminhtml_Types extends Mage_Backend_Block_Widge
     {
         $this->_blockGroup = 'Mage_GoogleShopping';
         $this->_controller = 'adminhtml_types';
-        $this->_addButtonLabel = Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Add Attribute Mapping');
-        $this->_headerText = Mage::helper('Mage_GoogleShopping_Helper_Data')->__('Manage Attribute Mapping');
+        $this->_addButtonLabel = __('Add Attribute Mapping');
+        $this->_headerText = __('Manage Attribute Mapping');
         parent::_construct();
     }
 }

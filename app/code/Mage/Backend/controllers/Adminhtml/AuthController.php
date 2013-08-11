@@ -41,7 +41,7 @@ class Mage_Backend_Adminhtml_AuthController extends Mage_Backend_Controller_Acti
     {
         $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
         $auth->logout();
-        $auth->getAuthStorage()->addSuccess(Mage::helper('Mage_Backend_Helper_Data')->__('You have logged out.'));
+        $auth->getAuthStorage()->addSuccess(__('You have logged out.'));
         $this->getResponse()->setRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
     }
 

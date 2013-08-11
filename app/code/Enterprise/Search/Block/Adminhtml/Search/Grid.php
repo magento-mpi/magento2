@@ -94,19 +94,19 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
         ));
 
         $this->addColumn('query_id', array(
-            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'width'     => '50px',
             'index'     => 'query_id',
         ));
 
         $this->addColumn('search_query', array(
-            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Search Query'),
+            'header'    => __('Search Query'),
             'index'     => 'query_text',
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('Enterprise_Search_Helper_Data')->__('Store'),
+                'header'        => __('Store'),
                 'index'         => 'store_id',
                 'type'          => 'store',
                 'store_view'    => true,
@@ -115,52 +115,52 @@ class Enterprise_Search_Block_Adminhtml_Search_Grid extends Mage_Adminhtml_Block
         }
 
         $this->addColumn('num_results', array(
-            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Results'),
+            'header'    => __('Results'),
             'index'     => 'num_results',
             'type'      => 'number'
         ));
 
         $this->addColumn('popularity', array(
-            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Uses'),
+            'header'    => __('Uses'),
             'index'     => 'popularity',
             'type'      => 'number'
         ));
 
         $this->addColumn('synonym_for', array(
-            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Synonym'),
+            'header'    => __('Synonym'),
             'align'     => 'left',
             'index'     => 'synonym_for',
             'width'     => '160px'
         ));
 
         $this->addColumn('redirect', array(
-            'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Redirect URL'),
+            'header'    => __('Redirect URL'),
             'align'     => 'left',
             'index'     => 'redirect',
             'width'     => '200px'
         ));
 
         $this->addColumn('display_in_terms', array(
-            'header'=>Mage::helper('Enterprise_Search_Helper_Data')->__('Suggested Term'),
+            'header'=>__('Suggested Term'),
             'sortable'=>true,
             'index'=>'display_in_terms',
             'type' => 'options',
             'width' => '100px',
             'options' => array(
-                '1' => Mage::helper('Enterprise_Search_Helper_Data')->__('Yes'),
-                '0' => Mage::helper('Enterprise_Search_Helper_Data')->__('No'),
+                '1' => __('Yes'),
+                '0' => __('No'),
             ),
             'align' => 'left',
         ));
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('Enterprise_Search_Helper_Data')->__('Action'),
+                'header'    => __('Action'),
                 'width'     => '100px',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(array(
-                    'caption'   => Mage::helper('Enterprise_Search_Helper_Data')->__('Edit'),
+                    'caption'   => __('Edit'),
                     'url'       => array(
                         'base'=>'*/*/edit'
                     ),

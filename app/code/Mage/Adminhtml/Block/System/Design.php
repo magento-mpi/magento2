@@ -16,7 +16,7 @@ class Mage_Adminhtml_Block_System_Design extends Mage_Adminhtml_Block_Template
         $this->setTemplate('system/design/index.phtml');
 
         $this->addChild('add_new_button', 'Mage_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Design Change'),
+            'label'     => __('Add Design Change'),
             'onclick'   => "setLocation('".$this->getUrl('*/*/new')."')",
             'class'   => 'add'
         ));

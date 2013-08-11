@@ -57,8 +57,8 @@ class Mage_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstract
         if (!$this->_messageTemplates) {
             $this->_messageTemplates = array(
                 self::PROTECTED_ATTR_HELPER_IN_TAG_ACTION_VAR =>
-                    Mage::helper('Mage_Adminhtml_Helper_Data')->__('Helper attributes should not be used in custom layout updates.'),
-                self::XML_INVALID => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Please correct the XML data and try again.'),
+                    __('Helper attributes should not be used in custom layout updates.'),
+                self::XML_INVALID => __('Please correct the XML data and try again.'),
             );
         }
         return $this;
@@ -90,7 +90,7 @@ class Mage_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstract
             }
         } elseif (!($value instanceof Magento_Simplexml_Element)) {
             throw new Exception(
-                Mage::helper('Mage_Adminhtml_Helper_Data')->__('XML object is not instance of "Magento_Simplexml_Element".'));
+                __('XML object is not instance of "Varien_Simplexml_Element".'));
         }
 
         $this->_setValue($value);

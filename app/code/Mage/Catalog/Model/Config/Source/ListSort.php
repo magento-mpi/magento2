@@ -27,12 +27,12 @@ class Mage_Catalog_Model_Config_Source_ListSort implements Mage_Core_Model_Optio
     {
         $options = array();
         $options[] = array(
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Position'),
+            'label' => __('Position'),
             'value' => 'position'
         );
         foreach ($this->_getCatalogConfig()->getAttributesUsedForSortBy() as $attribute) {
             $options[] = array(
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__($attribute['frontend_label']),
+                'label' => __($attribute['frontend_label']),
                 'value' => $attribute['attribute_code']
             );
         }

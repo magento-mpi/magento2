@@ -45,17 +45,4 @@ class Mage_Core_Controller_Front_Action extends Mage_Core_Controller_Varien_Acti
         }
         return $this;
     }
-
-    /**
-     * Translate a phrase
-     *
-     * @return string
-     */
-    public function __()
-    {
-        $args = func_get_args();
-        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->_getRealModuleName());
-        array_unshift($args, $expr);
-        return $this->_objectManager->get('Mage_Core_Model_Translate')->translate($args);
-    }
 }

@@ -56,7 +56,7 @@ class Enterprise_Checkout_SkuController extends Mage_Core_Controller_Front_Actio
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(Mage::helper('Enterprise_Checkout_Helper_Data')->__('Order by SKU'));
+            $headBlock->setTitle(__('Order by SKU'));
         }
         $this->renderLayout();
     }

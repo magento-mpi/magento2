@@ -27,7 +27,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_CatalogRule_Helper_Data')->__('Conditions');
+        return __('Conditions');
     }
 
     /**
@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_CatalogRule_Helper_Data')->__('Conditions');
+        return __('Conditions');
     }
 
     /**
@@ -74,35 +74,35 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions
             ->setNewChildUrl($this->getUrl('*/promo_catalog/newConditionHtml/form/rule_conditions_fieldset'));
 
         $fieldset = $form->addFieldset('conditions_fieldset', array(
-            'legend'=>Mage::helper('Mage_CatalogRule_Helper_Data')->__('Conditions (leave blank for all products)'))
+            'legend'=>__('Conditions (leave blank for all products)'))
         )->setRenderer($renderer);
 
         $fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
-            'label' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Conditions'),
-            'title' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Conditions'),
+            'label' => __('Conditions'),
+            'title' => __('Conditions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Conditions'));
 /*
-        $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>Mage::helper('Mage_CatalogRule_Helper_Data')->__('Actions')));
+        $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>__('Actions')));
 
         $fieldset->addField('actions', 'text', array(
             'name' => 'actions',
-            'label' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Actions'),
-            'title' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Actions'),
+            'label' => __('Actions'),
+            'title' => __('Actions'),
             'required' => true,
         ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Actions'));
 
-        $fieldset = $form->addFieldset('options_fieldset', array('legend'=>Mage::helper('Mage_CatalogRule_Helper_Data')->__('Options')));
+        $fieldset = $form->addFieldset('options_fieldset', array('legend'=>__('Options')));
 
         $fieldset->addField('stop_rules_processing', 'select', array(
-            'label'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Stop Further Rules Processing'),
-            'title'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Stop Further Rules Processing'),
+            'label'     => __('Stop Further Rules Processing'),
+            'title'     => __('Stop Further Rules Processing'),
             'name'      => 'stop_rules_processing',
             'required' => true,
             'options'    => array(
-                '1' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Yes'),
-                '0' => Mage::helper('Mage_CatalogRule_Helper_Data')->__('No'),
+                '1' => __('Yes'),
+                '0' => __('No'),
             ),
         ));
 */

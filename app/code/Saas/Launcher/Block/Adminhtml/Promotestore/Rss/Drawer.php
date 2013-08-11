@@ -26,6 +26,6 @@ class Saas_Launcher_Block_Adminhtml_Promotestore_Rss_Drawer extends Saas_Launche
      */
     public function getTileHeader()
     {
-        return $this->helper('Saas_Launcher_Helper_Data')->__('RSS');
+        return __('RSS');
     }
 }

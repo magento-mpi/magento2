@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <enterprise_banner type="Enterprise_Banner_Block_Widget_Banner" translate="name description" module="Enterprise_Banner">
+    <enterprise_banner type="Enterprise_Banner_Block_Widget_Banner" translate="name description">
         <name>Banner Rotator</name>
         <description>Displays Specified or Promotion Banners</description>
         <placeholder_image>Enterprise_Banner::widget_banner.gif</placeholder_image>

@@ -28,7 +28,7 @@ class Saas_UnitPrice_Model_Entity_Backend_Unitprice_Unit
             } catch (Exception $e) {
                 Mage::throwException(
                     $e->getMessage() . "<br/>\n"
-                        . $this->getUnitPriceHelper()->__('The product settings were not saved')
+                        . __('The product settings were not saved')
                 );
             }
         }

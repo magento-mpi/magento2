@@ -10,7 +10,7 @@
 ?>
 <?php /* @var $this Mage_Backend_Block_Template */ ?>
 <div class="field field-store-switcher">
-    <label class="label" for="store_switcher"><?php echo $this->__('Current Configuration Scope:') ?></label>
+    <label class="label" for="store_switcher"><?php echo __('Current Configuration Scope:') ?></label>
     <div class="control">
         <select id="store_switcher" class="system-config-store-switcher" onchange="location.href=this.options[this.selectedIndex].getAttribute('url')">
         <?php foreach ($this->getStoreSelectOptions() as $_value => $_option): ?>
@@ -30,6 +30,6 @@
     </div>
     <?php echo $this->getHintHtml() ?>
     <?php if ($this->getAuthorization()->isAllowed('Mage_Adminhtml::store')): ?>
-        <div><a href="<?php echo $this->getUrl('*/system_store') ?>"><?php echo $this->__('Stores') ?></a></div>
+        <div><a href="<?php echo $this->getUrl('*/system_store') ?>"><?php echo __('Stores') ?></a></div>
     <?php endif; ?>
 </div>

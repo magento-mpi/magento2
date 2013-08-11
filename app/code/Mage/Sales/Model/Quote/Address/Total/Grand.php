@@ -40,7 +40,7 @@ class Mage_Sales_Model_Quote_Address_Total_Grand extends Mage_Sales_Model_Quote_
     {
         $address->addTotal(array(
             'code'  => $this->getCode(),
-            'title' => Mage::helper('Mage_Sales_Helper_Data')->__('Grand Total'),
+            'title' => __('Grand Total'),
             'value' => $address->getGrandTotal(),
             'area'  => 'footer',
         ));

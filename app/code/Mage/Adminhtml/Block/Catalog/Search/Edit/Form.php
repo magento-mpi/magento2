@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
     {
         parent::_construct();
         $this->setId('catalog_search_form');
-        $this->setTitle(Mage::helper('Mage_Catalog_Helper_Data')->__('Search Information'));
+        $this->setTitle(__('Search Information'));
     }
 
     /**
@@ -45,16 +45,16 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
             'method' => 'post'
         ));
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('General Information')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('General Information')));
 
         $yesno = array(
             array(
                 'value' => 0,
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('No')
+                'label' => __('No')
             ),
             array(
                 'value' => 1,
-                'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Yes')
+                'label' => __('Yes')
             ));
 
         if ($model->getId()) {
@@ -65,16 +65,16 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
 
         $fieldset->addField('query_text', 'text', array(
             'name'      => 'query_text',
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Search Query'),
-            'title'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Search Query'),
+            'label'     => __('Search Query'),
+            'title'     => __('Search Query'),
             'required'  => true,
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
                 'name'      => 'store_id',
-                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Store'),
-                'title'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Store'),
+                'label'     => __('Store'),
+                'title'     => __('Store'),
                 'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreValuesForForm(true, false),
                 'required'  => true,
             ));
@@ -91,39 +91,39 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
         if ($model->getId()) {
             $fieldset->addField('num_results', 'text', array(
                 'name'     => 'num_results',
-                'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Number of results'),
-                'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Number of results (For the last time placed)'),
-                'note'     => Mage::helper('Mage_Catalog_Helper_Data')->__('For the last time placed.'),
+                'label'    => __('Number of results'),
+                'title'    => __('Number of results (For the last time placed)'),
+                'note'     => __('For the last time placed.'),
                 'required' => true,
             ));
 
             $fieldset->addField('popularity', 'text', array(
                 'name'     => 'popularity',
-                'label'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Number of Uses'),
-                'title'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Number of Uses'),
+                'label'    => __('Number of Uses'),
+                'title'    => __('Number of Uses'),
                 'required' => true,
             ));
         }
 
         $fieldset->addField('synonym_for', 'text', array(
             'name'  => 'synonym_for',
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Synonym For'),
-            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Synonym For'),
-            'note'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Will make search for the query above return results for this search'),
+            'label' => __('Synonym For'),
+            'title' => __('Synonym For'),
+            'note'  => __('Will make search for the query above return results for this search'),
         ));
 
         $fieldset->addField('redirect', 'text', array(
             'name'  => 'redirect',
-            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Redirect URL'),
-            'title' => Mage::helper('Mage_Catalog_Helper_Data')->__('Redirect URL'),
+            'label' => __('Redirect URL'),
+            'title' => __('Redirect URL'),
             'class' => 'validate-url',
-            'note'  => Mage::helper('Mage_Catalog_Helper_Data')->__('ex. http://domain.com'),
+            'note'  => __('ex. http://domain.com'),
         ));
 
         $fieldset->addField('display_in_terms', 'select', array(
             'name'   => 'display_in_terms',
-            'label'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Display in Suggested Terms'),
-            'title'  => Mage::helper('Mage_Catalog_Helper_Data')->__('Display in Suggested Terms'),
+            'label'  => __('Display in Suggested Terms'),
+            'title'  => __('Display in Suggested Terms'),
             'values' => $yesno,
         ));
 

@@ -388,7 +388,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Magento_Object
      */
     public function formatYesNo($value)
     {
-        return $this->_getHelper()->__($value ? 'Yes' : 'No');
+        return __($value ? 'Yes' : 'No');
     }
 
     /**
@@ -434,7 +434,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Magento_Object
     public function formatCompoundId(Saas_PrintedTemplate_Model_Tax_CompoundId $value)
     {
         return join(
-            $this->_getHelper()->__(' then '),
+            __(' then '),
             array_map(array($this, '_formatAfterPart'), $value->toArray())
         );
     }
@@ -448,7 +448,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Magento_Object
     protected function _formatAfterPart($value)
     {
         return is_array($value)
-            ? join($this->_getHelper()->__(' and '), array_map(array($this, 'formatPercent'), $value))
+            ? join(__(' and '), array_map(array($this, 'formatPercent'), $value))
             : $this->formatPercent($value);
     }
 

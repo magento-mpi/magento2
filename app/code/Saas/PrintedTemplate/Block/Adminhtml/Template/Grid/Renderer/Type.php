@@ -32,6 +32,6 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid_Renderer_Type extends
             $str = $types[$row->getEntityType()];
         }
 
-        return $this->__($str);
+        return __($str);
     }
 }

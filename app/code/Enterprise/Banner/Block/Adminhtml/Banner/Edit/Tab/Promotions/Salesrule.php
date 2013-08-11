@@ -88,20 +88,20 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
             'index'     => 'rule_id'
         ));
         $this->addColumn('salesrule_rule_id', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'rule_id',
         ));
 
         $this->addColumn('salesrule_name', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Rule'),
+            'header'    => __('Rule'),
             'align'     =>'left',
             'index'     => 'name',
         ));
 
         $this->addColumn('salesrule_from_date', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Start on'),
+            'header'    => __('Start on'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -109,7 +109,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
         ));
 
         $this->addColumn('salesrule_to_date', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('End on'),
+            'header'    => __('End on'),
             'align'     => 'left',
             'width'     => '120px',
             'type'      => 'date',
@@ -118,7 +118,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
         ));
 
         $this->addColumn('salesrule_is_active', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Status'),
+            'header'    => __('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',

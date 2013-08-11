@@ -43,13 +43,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Tile extends Saas_Lau
     protected function _getPaymentMethods()
     {
         return array(
-            'paypal_express' => $this->__('PayPal Express Checkout'),
-            'paypal_standard' => $this->__('PayPal Standard'),
-            'payflow_advanced' => $this->__('PayPal Payments Advanced'),
-            'paypal_direct' => $this->__('PayPal Payments Pro'),
-            'payflow_link' => $this->__('PayPal Payflow Link'),
-            'verisign' => $this->__('PayPal Payflow Pro'),
-            'authorizenet' => $this->__('Authorize.net'),
+            'paypal_express' => __('PayPal Express Checkout'),
+            'paypal_standard' => __('PayPal Standard'),
+            'payflow_advanced' => __('PayPal Payments Advanced'),
+            'paypal_direct' => __('PayPal Payments Pro'),
+            'payflow_link' => __('PayPal Payflow Link'),
+            'verisign' => __('PayPal Payflow Pro'),
+            'authorizenet' => __('Authorize.net'),
         );
     }
 }

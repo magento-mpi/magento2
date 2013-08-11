@@ -46,7 +46,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
         } else {
             $version = $this->_page->getVersionId();
         }
-        return $version ? $version : Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
+        return $version ? $version : __('N/A');
     }
 
     /**
@@ -57,7 +57,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     public function getVersionNumber()
     {
         return $this->_page->getVersionNumber() ? $this->_page->getVersionNumber()
-            : Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
+            : __('N/A');
     }
 
     /**
@@ -68,7 +68,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     public function getVersionLabel()
     {
         return $this->_page->getLabel() ? $this->_page->getLabel()
-            : Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
+            : __('N/A');
     }
 
     /**
@@ -79,7 +79,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     public function getRevisionId()
     {
         return $this->_page->getRevisionId() ? $this->_page->getRevisionId()
-            : Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
+            : __('N/A');
     }
 
     /**
@@ -110,7 +110,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
         if ($user->getId()) {
             return $user->getUsername();
         }
-        return Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
+        return __('N/A');
     }
 
     /**
@@ -127,7 +127,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
         try {
             $data = Mage::app()->getLocale()->date($data, Magento_Date::DATETIME_INTERNAL_FORMAT)->toString($format);
         } catch (Exception $e) {
-            $data = Mage::helper('Enterprise_Cms_Helper_Data')->__('N/A');
+            $data = __('N/A');
         }
         return  $data;
     }

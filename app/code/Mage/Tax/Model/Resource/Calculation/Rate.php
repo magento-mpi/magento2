@@ -35,7 +35,7 @@ class Mage_Tax_Model_Resource_Calculation_Rate extends Mage_Core_Model_Resource_
     {
         $this->_uniqueFields = array(array(
             'field' => array('code'),
-            'title' => Mage::helper('Mage_Tax_Helper_Data')->__('Code'),
+            'title' => __('Code'),
         ));
         return $this;
     }

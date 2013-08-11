@@ -63,7 +63,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Lau
      */
     public function getTileHeader()
     {
-        return $this->helper('Saas_Launcher_Helper_Data')->__('Store Design');
+        return __('Store Design');
     }
 
     /**

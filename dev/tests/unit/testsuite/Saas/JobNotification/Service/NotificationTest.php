@@ -19,15 +19,6 @@ class Saas_JobNotification_Service_NotificationTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $helper = $this->getMock('Saas_JobNotification_Helper_Data', array(), array(), '', false);
-        $helper->expects($this->any())
-            ->method('__')
-            ->will($this->returnCallback(
-                function ($arg) {
-                    return $arg;
-                }
-            ));
-
         $this->_notificationFactory = $this->getMock(
             'Saas_JobNotification_Model_NotificationFactory',
             array('create'),
@@ -35,7 +26,7 @@ class Saas_JobNotification_Service_NotificationTest extends PHPUnit_Framework_Te
             '',
             false
         );
-        $this->_service = new Saas_JobNotification_Service_Notification($this->_notificationFactory, $helper);
+        $this->_service = new Saas_JobNotification_Service_Notification($this->_notificationFactory);
     }
 
     /**

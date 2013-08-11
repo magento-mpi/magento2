@@ -20,7 +20,7 @@ class Saas_ImportExport_Model_Export_System_Message_Finished
      */
     public function getText()
     {
-        return $this->_stateHelper->__('The Export task has been finished.');
+        return __('The Export task has been finished.');
     }
 
     /**

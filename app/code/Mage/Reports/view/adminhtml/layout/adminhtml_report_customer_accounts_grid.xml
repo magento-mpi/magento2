@@ -35,7 +35,7 @@
             </arguments>
             <block type="Mage_Backend_Block_Widget_Grid_Column" as="accounts">
                 <arguments>
-                    <header translate="true" module="Mage_Reports">New Accounts</header>
+                    <header translate="true">New Accounts</header>
                     <index>accounts</index>
                     <total>sum</total>
                     <type>number</type>

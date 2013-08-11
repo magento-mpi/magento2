@@ -31,23 +31,23 @@
                                 <id>getId</id>
                             </extraParamsTemplate>
                         </rowUrl>
-                        <empty_text translate="true" module="Mage_Adminhtml">No Templates Found</empty_text>
+                        <empty_text translate="true">No Templates Found</empty_text>
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="template_id">
                         <arguments>
-                            <header translate="true" module="Mage_Adminhtml">ID</header>
+                            <header translate="true">ID</header>
                             <index>template_id</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
-                            <header translate="true" module="Mage_Adminhtml">Template</header>
+                            <header translate="true">Template</header>
                             <index>template_code</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="added_at">
                         <arguments>
-                            <header translate="true" module="Mage_Adminhtml">Added</header>
+                            <header translate="true">Added</header>
                             <index>added_at</index>
                             <gmtoffset>1</gmtoffset>
                             <type>datetime</type>
@@ -55,7 +55,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="modified_at">
                         <arguments>
-                            <header translate="true" module="Mage_Adminhtml">Updated</header>
+                            <header translate="true">Updated</header>
                             <index>modified_at</index>
                             <gmtoffset>1</gmtoffset>
                             <type>datetime</type>
@@ -63,13 +63,13 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="subject">
                         <arguments>
-                            <header translate="true" module="Mage_Adminhtml">Subject</header>
+                            <header translate="true">Subject</header>
                             <index>template_subject</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="type">
                         <arguments>
-                            <header translate="true" module="Mage_Adminhtml">Template Type</header>
+                            <header translate="true">Template Type</header>
                             <index>template_type</index>
                             <filter>Mage_Adminhtml_Block_System_Email_Template_Grid_Filter_Type</filter>
                             <renderer>Mage_Adminhtml_Block_System_Email_Template_Grid_Renderer_Type</renderer>
@@ -77,7 +77,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
-                            <header translate="true" module="Mage_Adminhtml">Action</header>
+                            <header translate="true">Action</header>
                             <index>template_id</index>
                             <sortable>0</sortable>
                             <filter>0</filter>

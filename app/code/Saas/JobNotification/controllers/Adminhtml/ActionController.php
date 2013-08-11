@@ -15,17 +15,14 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
     /**
      * @param Mage_Backend_Controller_Context $context
      * @param Saas_JobNotification_Service_Notification $service
-     * @param Saas_JobNotification_Helper_Data $helper
      * @param null $areaCode
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
         Saas_JobNotification_Service_Notification $service,
-        Saas_JobNotification_Helper_Data $helper,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);
-        $this->_helper = $helper;
         $this->_service = $service;
     }
 
@@ -48,15 +45,15 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
             $notificationId = $this->getRequest()->getParam('id');
             try {
                 $this->_service->update($notificationId, array('is_read' => 1));
-                $this->_session->addSuccess($this->_helper->__('The notification has been marked as read'));
+                $this->_session->addSuccess(__('The notification has been marked as read'));
             } catch (InvalidArgumentException $exception) {
-                $this->_session->addError($this->_helper->__('Unable to proceed. Please, try again'));
+                $this->_session->addError(__('Unable to proceed. Please, try again'));
             } catch (Saas_JobNotification_Service_Exception $exception) {
                 $this->_session->addError($exception->getMessage());
             } catch (Exception $exception) {
                 $this->_session->addException(
                     $exception,
-                    $this->_helper->__('An error occurred while marking notification as read')
+                    __('An error occurred while marking notification as read')
                 );
             }
         }
@@ -73,16 +70,16 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
             try {
                 $this->_service->massUpdate($notificationIds, array('is_read' => 1));
                 $this->_session->addSuccess(
-                    $this->_helper->__('Total of %d record(s) have been marked as read', count($notificationIds))
+                    __('Total of %1 record(s) have been marked as read', count($notificationIds))
                 );
             } catch (InvalidArgumentException $exception) {
-                $this->_session->addError($this->_helper->__('Please select notifications'));
+                $this->_session->addError(__('Please select notifications'));
             } catch (Saas_JobNotification_Service_Exception $exception) {
                 $this->_session->addError($exception->getMessage());
             } catch (Exception $exception) {
                 $this->_session->addException(
                     $exception,
-                    $this->_helper->__('An error occurred while marking the notifications as read')
+                    __('An error occurred while marking the notifications as read')
                 );
             }
         }
@@ -98,15 +95,15 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
             $notificationId = $this->getRequest()->getParam('id');
             try {
                 $this->_service->update($notificationId, array('is_remove' => 1));
-                $this->_session->addSuccess($this->_helper->__('The notification has been removed'));
+                $this->_session->addSuccess(__('The notification has been removed'));
             } catch (InvalidArgumentException $exception) {
-                $this->_session->addError($this->_helper->__('Unable to proceed. Please, try again'));
+                $this->_session->addError(__('Unable to proceed. Please, try again'));
             } catch (Saas_JobNotification_Service_Exception $exception) {
                 $this->_session->addError($exception->getMessage());
             } catch (Exception $exception) {
                 $this->_session->addException(
                     $exception,
-                    $this->_helper->__('An error occurred while removing the notification')
+                    __('An error occurred while removing the notification')
                 );
             }
         }
@@ -123,16 +120,16 @@ class Saas_JobNotification_Adminhtml_ActionController extends Mage_Backend_Contr
             try {
                 $this->_service->massUpdate($notificationIds, array('is_remove' => 1));
                 $this->_session->addSuccess(
-                    $this->_helper->__('Total of %d record(s) have been removed', count($notificationIds))
+                    __('Total of %1 record(s) have been removed', count($notificationIds))
                 );
             } catch (InvalidArgumentException $exception) {
-                $this->_session->addError($this->_helper->__('Please select notifications'));
+                $this->_session->addError(__('Please select notifications'));
             } catch (Saas_JobNotification_Service_Exception $exception) {
                 $this->_session->addError($exception->getMessage());
             } catch (Exception $exception) {
                 $this->_session->addException(
                     $exception,
-                    $this->_helper->__('An error occurred while removing notifications')
+                    __('An error occurred while removing notifications')
                 );
             }
         }

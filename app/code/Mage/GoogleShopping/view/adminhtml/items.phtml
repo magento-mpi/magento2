@@ -13,13 +13,13 @@
 
 <?php echo $this->getStoreSwitcherHtml() ?>
 <div class="grid-title">
-    <span class="title"><?php echo $this->__('Google Content Items') ?></span>
+    <span class="title"><?php echo __('Google Content Items') ?></span>
 </div>
 <?php echo $this->getChildHtml('item') ?>
 
 <div class="grid-title">
     <div class="page-actions"><?php echo $this->getAddButtonHtml() ?></div>
-    <span class="title"><?php echo $this->__('Available Products') ?></span>
+    <span class="title"><?php echo __('Available Products') ?></span>
 </div>
 <?php echo $this->getChildHtml('product') ?>
 
@@ -27,6 +27,6 @@
 //<![CDATA[
 Mage.GoogleShopping.isProcessRunning = <?php echo $this->isProcessRunning() ? 'true' : 'false'; ?>;
 Mage.GoogleShopping.statusUrl = '<?php echo $this->getStatusUrl(); ?>';
-Mage.GoogleShopping.runningMessage = '<?php echo $this->__('Google Shopping synchronization process is running');?>';
+Mage.GoogleShopping.runningMessage = '<?php echo __('Google Shopping synchronization process is running');?>';
 //]]>
 </script>

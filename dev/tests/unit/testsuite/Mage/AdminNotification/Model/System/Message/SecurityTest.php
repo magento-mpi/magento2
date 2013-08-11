@@ -92,12 +92,7 @@ class Mage_AdminNotification_Model_System_Message_SecurityTest extends PHPUnit_F
     public function testGetText()
     {
         $messageStart = 'Your web server is configured incorrectly.';
-        $dataHelperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
-        $dataHelperMock->expects($this->atLeastOnce())->method('__')
-            ->with($this->stringStartsWith($messageStart))
-            ->will($this->returnValue($messageStart . $messageStart));
-        $this->_helperFactoryMock->expects($this->atLeastOnce())->method('get')
-            ->will($this->returnValue($dataHelperMock));
-        $this->assertStringStartsWith($messageStart, $this->_messageModel->getText());
+
+        $this->assertStringStartsWith($messageStart, (string)$this->_messageModel->getText());
     }
 }

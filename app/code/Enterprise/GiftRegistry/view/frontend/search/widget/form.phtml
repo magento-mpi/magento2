@@ -13,13 +13,13 @@
 <div class="widget">
     <div class="block block-gr-search">
         <div class="block-title">
-            <strong><span><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Search') ?></span></strong>
+            <strong><span><?php echo __('Gift Registry Search') ?></span></strong>
         </div>
         <div class="block-content">
             <?php if ($this->useSearchFormSelect()) : ?>
             <ul class="form-alt">
                 <li>
-                    <label for="search_by" class="required"><strong><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Search By'); ?></strong> <em>*</em></label>
+                    <label for="search_by" class="required"><strong><?php echo __('Search By'); ?></strong> <em>*</em></label>
                     <div class="input-box">
                         <?php echo $this->getSearchFormSelect() ?>
                     </div>
@@ -32,26 +32,26 @@
                 <ul class="form-alt">
                     <li>
                         <?php echo $this->getBlockHtml('formkey')?>
-                        <label for="quick-search-firstname" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('First Name') ?> <em>*</em></label>
+                        <label for="quick-search-firstname" class="required"><?php echo __('First Name') ?> <em>*</em></label>
                         <div class="input-box">
                             <input type="text" class="input-text" data-validate="{required:true, minlength:2}" id="quick-search-firstname" name="params[firstname]" />
                         </div>
                     </li>
                     <li>
-                        <label for="quick-search-lastname" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Last Name') ?> <em>*</em></label>
+                        <label for="quick-search-lastname" class="required"><?php echo __('Last Name') ?> <em>*</em></label>
                         <div class="input-box">
                             <input type="text" class="input-text" data-validate="{required:true, minlength:2}" id="quick-search-lastname" name="params[lastname]" />
                         </div>
                     </li>
                     <li>
-                        <label class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Type') ?></label>
+                        <label class="required"><?php echo __('Type') ?></label>
                         <div class="input-box"><?php echo $this->getTypeSelectHtml() ?></div>
                     </li>
                 </ul>
                 <div class="actions">
                     <input type="hidden" name="params[search]" value="type" />
-                    <p class="note"><em>*</em> <?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please enter at least two letters.') ?></p>
-                    <button type="submit" title="<?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Search') ?></span></span></button>
+                    <p class="note"><em>*</em> <?php echo __('Please enter at least two letters.') ?></p>
+                    <button type="submit" title="<?php echo __('Go') ?>" class="button"><span><span><?php echo __('Search') ?></span></span></button>
                 </div>
             </form>
             <?php endif; ?>
@@ -61,7 +61,7 @@
                 <ul class="form-alt">
                     <li>
                         <?php echo $this->getBlockHtml('formkey')?>
-                        <label for="quick-search-email" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Recipient Email') ?> <em>*</em></label>
+                        <label for="quick-search-email" class="required"><?php echo __('Recipient Email') ?> <em>*</em></label>
                         <div class="input-box">
                             <input type="text" class="input-text" data-validate="{required:true, minlength:2,'validate-email':true}" id="quick-search-email" name="params[email]" />
                         </div>
@@ -69,7 +69,7 @@
                 </ul>
                 <div class="actions">
                     <input type="hidden" name="params[search]" value="email" />
-                    <button type="submit" title="<?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Search') ?></span></span></button>
+                    <button type="submit" title="<?php echo __('Go') ?>" class="button"><span><span><?php echo __('Search') ?></span></span></button>
                 </div>
             </form>
             <?php endif; ?>
@@ -79,7 +79,7 @@
                 <ul class="form-alt">
                     <li>
                         <?php echo $this->getBlockHtml('formkey')?>
-                        <label for="quick-search-id" class="required"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry ID') ?> <em>*</em></label>
+                        <label for="quick-search-id" class="required"><?php echo __('Gift Registry ID') ?> <em>*</em></label>
                         <div class="input-box">
                             <input type="text" class="input-text" data-validate="{required:true}" id="quick-search-id" name="params[id]" />
                         </div>
@@ -87,7 +87,7 @@
                 </ul>
                 <div class="actions">
                     <input type="hidden" name="params[search]" value="id" />
-                    <button type="submit" title="<?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Go') ?>" class="button"><span><span><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Search') ?></span></span></button>
+                    <button type="submit" title="<?php echo __('Go') ?>" class="button"><span><span><?php echo __('Search') ?></span></span></button>
                 </div>
             </form>
             <?php endif; ?>

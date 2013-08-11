@@ -21,14 +21,14 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
     {
         if ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')) {
             $breadcrumbs->addCrumb('home', array(
-                'label'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Home'),
-                'title'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Go to Home Page'),
+                'label'=>__('Home'),
+                'title'=>__('Go to Home Page'),
                 'link'=>Mage::getBaseUrl()
             ))->addCrumb('search', array(
-                'label'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Catalog Advanced Search'),
+                'label'=>__('Catalog Advanced Search'),
                 'link'=>$this->getUrl('*/*/')
             ))->addCrumb('search_result', array(
-                'label'=>Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Results')
+                'label'=>__('Results')
             ));
         }
         return parent::_prepareLayout();
@@ -49,8 +49,8 @@ class Mage_CatalogSearch_Block_Advanced_Result extends Mage_Core_Block_Template
     public function setListModes() {
         $this->getChildBlock('search_result_list')
             ->setModes(array(
-                'grid' => Mage::helper('Mage_CatalogSearch_Helper_Data')->__('Grid'),
-                'list' => Mage::helper('Mage_CatalogSearch_Helper_Data')->__('List'))
+                'grid' => __('Grid'),
+                'list' => __('List'))
             );
     }
 

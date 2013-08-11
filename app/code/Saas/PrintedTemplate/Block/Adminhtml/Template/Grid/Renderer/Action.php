@@ -31,13 +31,13 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid_Renderer_Action extends
         $actions[] = array(
             'url'     =>  $this->getUrl('*/*/previewHtml', array('id' => $row->getId())),
             'popup'   =>  true,
-            'caption' => $this->__('Preview HTML')
+            'caption' => __('Preview HTML')
         );
 
         $actions[] = array(
             'url'     =>  $this->getUrl('*/*/previewPdf', array('id' => $row->getId())),
             'popup'   =>  true,
-            'caption' => $this->__('Preview PDF')
+            'caption' => __('Preview PDF')
         );
 
         return $this->_actionsToHtml($actions, $row);

@@ -22,7 +22,7 @@ $elementName = $this->getElement()->getName() . '[images]';
         <div class="image image-placeholder">
             <?php echo $this->getUploaderHtml(); ?>
             <img class="spacer" src="<?php echo $this->getViewFileUrl('images/spacer.gif')?>"/>
-            <p class="image-placeholder-text"><?php echo $this->__('Click here or drag and drop to add images'); ?></p>
+            <p class="image-placeholder-text"><?php echo __('Click here or drag and drop to add images'); ?></p>
         </div>
     <?php } ?>
     <?php foreach ($this->getImageTypes() as $typeData) { ?>
@@ -52,16 +52,16 @@ $elementName = $this->getElement()->getName() . '[images]';
             <img class="spacer" src="<?php echo $this->getViewFileUrl('images/spacer.gif')?>"/>
             <img class="product-image" src="${url}" alt="${label}"/>
             <div class="actions" >
-                <button type="button" class="action-delete" data-role="delete-button" title="<?php echo $this->__('Delete image') ?>">
-                    <span> <?php echo $this->__('Delete image') ?></span >
+                <button type="button" class="action-delete" data-role="delete-button" title="<?php echo __('Delete image') ?>">
+                    <span> <?php echo __('Delete image') ?></span >
                 </button>
-                <button type="button" class="action-make-base" data-role="make-base-button" title="<?php echo $this->__('Make Base') ?>">
-                    <span><?php echo $this->__('Make Base') ?></span >
+                <button type="button" class="action-make-base" data-role="make-base-button" title="<?php echo __('Make Base') ?>">
+                    <span><?php echo __('Make Base') ?></span >
                 </button >
                 <div class="draggable-handle" ></div >
             </div >
             <div class="image-label"></div>
-            <div class="image-fade"><span><?php echo $this->__('Hidden') ?></span></div>
+            <div class="image-fade"><span><?php echo __('Hidden') ?></span></div>
         </div>
     </script>
     <script class="dialog-template" type="text/x-jquery-tmpl"  data-title="Image Options">
@@ -73,14 +73,14 @@ $elementName = $this->getElement()->getName() . '[images]';
                 <strong class="image-name">${label}</strong>
 
                 <button type="button" class="action-remove"
-                        title="<?php echo $this->__('Remove Image'); ?>">
-                    <span><?php echo $this->__('Remove Image'); ?></span>
+                        title="<?php echo __('Remove Image'); ?>">
+                    <span><?php echo __('Remove Image'); ?></span>
                 </button>
 
                 <fieldset class="fieldset fieldset-image-panel">
                     <div class="field field-image-description">
                         <label class="label" for="image-description">
-                            <span><?php echo $this->__('Alt Text')?></span>
+                            <span><?php echo __('Alt Text')?></span>
                         </label>
                         <div class="control">
                             <textarea id="image-description"
@@ -91,7 +91,7 @@ $elementName = $this->getElement()->getName() . '[images]';
 
                     <div class="field field-image-role">
                         <label class="label">
-                            <span><?php echo $this->__('Role')?></span>
+                            <span><?php echo __('Role')?></span>
                         </label>
                         <div class="control">
                             <ul class="multiselect-alt">
@@ -118,14 +118,14 @@ $elementName = $this->getElement()->getName() . '[images]';
                                    value="1"
                                    name="<?php echo $elementName ?>[${file_id}][disabled]"
                             {{if disabled == 1 }}checked="checked"{{/if}} />
-                            <span><?php echo $this->__('Hide from Product Page')?></span>
+                            <span><?php echo __('Hide from Product Page')?></span>
                         </label>
                     </div>
                 </fieldset>
             </div>
 
-            <button type="button" class="action-close" data-role="close-panel" title="<?php echo $this->__('Close panel'); ?>">
-                <span><?php echo $this->__('Close panel'); ?></span>
+            <button type="button" class="action-close" data-role="close-panel" title="<?php echo __('Close panel'); ?>">
+                <span><?php echo __('Close panel'); ?></span>
             </button>
             <div class="image-pointer"></div>
         </div>

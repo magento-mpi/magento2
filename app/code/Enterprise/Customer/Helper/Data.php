@@ -24,7 +24,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
      */
     public function getAttributeFormOptions()
     {
-        Mage::throwException(Mage::helper('Enterprise_Customer_Helper_Data')->__('Use helper with defined EAV entity.'));
+        Mage::throwException(__('Use helper with defined EAV entity.'));
     }
 
     /**
@@ -34,7 +34,7 @@ class Enterprise_Customer_Helper_Data extends Enterprise_Eav_Helper_Data
      */
     protected function _getEntityTypeCode()
     {
-        Mage::throwException(Mage::helper('Enterprise_Customer_Helper_Data')->__('Use helper with defined EAV entity.'));
+        Mage::throwException(__('Use helper with defined EAV entity.'));
     }
 
     /**

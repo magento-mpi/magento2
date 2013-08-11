@@ -13,7 +13,7 @@
 
 <?php if ((float) $_source->getCustomerBalanceAmount()): ?>
     <tr>
-        <td class="label"><?php echo Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Store Credit') ?></td>
+        <td class="label"><?php echo __('Store Credit') ?></td>
         <td>
             <?php echo $this->displayPrices(-$_source->getBaseCustomerBalanceAmount(), -$_source->getCustomerBalanceAmount()); ?>
         </td>

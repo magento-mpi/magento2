@@ -17,14 +17,14 @@ $theme = $this->getTheme();
         <article class="theme-data">
             <h4 class="theme-title" title="<?php echo $theme->getThemeTitle() ?>"><?php echo $theme->getThemeTitle() ?></h4>
             <!-- TODO: placeholder for theme description -->
-            <p><?php echo $this->__('Our responsive theme designed by Magento pros to be best in breed for Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis'); ?></p>
+            <p><?php echo __('Our responsive theme designed by Magento pros to be best in breed for Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis'); ?></p>
             <div class="actions">
-                <a class="action-theme-preview" target="_blank" href="<?php echo $this->getPreviewUrl($theme->getId())?>"><?php echo $this->__('Preview Theme'); ?></a>
+                <a class="action-theme-preview" target="_blank" href="<?php echo $this->getPreviewUrl($theme->getId())?>"><?php echo __('Preview Theme'); ?></a>
                 <button type="button"
                         class="action-theme-assign primary"
                         data-theme-id="<?php echo $this->getTheme()->getId() ?>"
                         data-theme-img-src="<?php echo $theme->getThemeImage()->getPreviewImageUrl() ?>">
-                    <span><?php echo $this->__('Choose Theme'); ?></span>
+                    <span><?php echo __('Choose Theme'); ?></span>
                 </button>
             </div>
         </article>

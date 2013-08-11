@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
     protected function _prepareColumns()
     {
         $this->addColumn('customer_name', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Customer'),
+            'header'    => __('Customer'),
             'index'     => 'customer_name',
             'sortable'  => false,
             'header_css_class'  => 'col-name',
@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('email', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Email'),
+            'header'    => __('Email'),
             'index'     => 'email',
             'sortable'  => false,
             'header_css_class'  => 'col-email',
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('items_count', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Products'),
+            'header'    => __('Products'),
             'index'     => 'items_count',
             'sortable'  => false,
             'type'      => 'number',
@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('items_qty', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Quantity'),
+            'header'    => __('Quantity'),
             'index'     => 'items_qty',
             'sortable'  => false,
             'type'      => 'number',
@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('subtotal', array(
-            'header'        => Mage::helper('Mage_Reports_Helper_Data')->__('Subtotal'),
+            'header'        => __('Subtotal'),
             'type'          => 'currency',
             'currency_code' => $currencyCode,
             'index'         => 'subtotal',
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('coupon_code', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Applied Coupon'),
+            'header'    => __('Applied Coupon'),
             'index'     => 'coupon_code',
             'sortable'  => false,
             'header_css_class'  => 'col-coupon',
@@ -127,7 +127,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('created_at', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Created'),
+            'header'    => __('Created'),
             'type'      => 'datetime',
             'index'     => 'created_at',
             'filter_index'=> 'main_table.created_at',
@@ -137,7 +137,7 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('updated_at', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Updated'),
+            'header'    => __('Updated'),
             'type'      => 'datetime',
             'index'     => 'updated_at',
             'filter_index'=> 'main_table.updated_at',
@@ -147,15 +147,15 @@ class Mage_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Mage_Adminhtml
         ));
 
         $this->addColumn('remote_ip', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('IP Address'),
+            'header'    => __('IP Address'),
             'index'     => 'remote_ip',
             'sortable'  => false,
             'header_css_class'  => 'col-ip',
             'column_css_class'  => 'col-ip'
         ));
 
-        $this->addExportType('*/*/exportAbandonedCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportAbandonedExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportAbandonedCsv', __('CSV'));
+        $this->addExportType('*/*/exportAbandonedExcel', __('Excel XML'));
 
         return parent::_prepareColumns();
     }

@@ -15,22 +15,12 @@ class Saas_JobNotification_Service_Notification
     protected $_factory;
 
     /**
-     * Job Notification helper
-     *
-     * @var Saas_JobNotification_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @param Saas_JobNotification_Model_NotificationFactory $factory
-     * @param Saas_JobNotification_Helper_Data $helper
      */
     public function __construct(
-        Saas_JobNotification_Model_NotificationFactory $factory,
-        Saas_JobNotification_Helper_Data $helper
+        Saas_JobNotification_Model_NotificationFactory $factory
     ) {
         $this->_factory = $factory;
-        $this->_helper = $helper;
     }
 
     /**
@@ -47,7 +37,7 @@ class Saas_JobNotification_Service_Notification
         $model->load($notificationId);
 
         if (false == $model->getId()) {
-            throw new InvalidArgumentException($this->_helper->__('Invalid notification id'));
+            throw new InvalidArgumentException(__('Invalid notification id'));
         }
 
         try {
@@ -68,7 +58,7 @@ class Saas_JobNotification_Service_Notification
     public function massUpdate($notificationIds, array $data = array())
     {
         if (false == is_array($notificationIds) || empty($notificationIds)) {
-            throw new InvalidArgumentException($this->_helper->__('Invalid notification ids list'));
+            throw new InvalidArgumentException(__('Invalid notification ids list'));
         }
 
         foreach ($notificationIds as $notificationId) {

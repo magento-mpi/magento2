@@ -30,7 +30,7 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid_Filter_Type extends
         $result[] = array('value' => null, 'label' => null);
         $types = Mage::getSingleton('Saas_PrintedTemplate_Model_Source_Type')->getAllOptions();
         foreach ($types as $code => $label) {
-            $result[] = array('value' => $code, 'label' => $this->__($label));
+            $result[] = array('value' => $code, 'label' => __($label));
         }
 
         return $result;

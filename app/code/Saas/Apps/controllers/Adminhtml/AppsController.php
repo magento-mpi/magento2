@@ -18,13 +18,6 @@
 class Saas_Apps_Adminhtml_AppsController extends Mage_Backend_Controller_ActionAbstract
 {
     /**
-     * Apps helper
-     *
-     * @var Saas_Apps_Helper_Data
-     */
-    protected $_appsHelper;
-
-    /**
      * Apps model
      *
      * @var Saas_Apps_Model_Adminhtml_App
@@ -34,16 +27,13 @@ class Saas_Apps_Adminhtml_AppsController extends Mage_Backend_Controller_ActionA
     /**
      * Apps backend controller constructor
      *
-     * @param Saas_Apps_Helper_Data $helper
      * @param Mage_Backend_Controller_Context $context
      * @param Saas_Apps_Model_Adminhtml_App $appsModel
      */
     public function __construct(
         Mage_Backend_Controller_Context $context,
-        Saas_Apps_Helper_Data $helper,
         Saas_Apps_Model_Adminhtml_App $appsModel
     ) {
-        $this->_appsHelper = $helper;
         $this->_appsModel = $appsModel;
         parent::__construct($context, Mage_Backend_Helper_Data::BACKEND_AREA_CODE);
     }
@@ -56,7 +46,7 @@ class Saas_Apps_Adminhtml_AppsController extends Mage_Backend_Controller_ActionA
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_title($this->_appsHelper->__('Add - ons'));
+        $this->_title(__('Add - ons'));
         $this->_setActiveMenu('Saas_Apps::apps');
         $this->renderLayout();
     }

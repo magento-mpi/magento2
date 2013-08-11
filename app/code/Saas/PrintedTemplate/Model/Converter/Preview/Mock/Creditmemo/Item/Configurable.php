@@ -82,7 +82,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Creditmemo_Item_Configur
             'description' => NULL,
             'weee_tax_applied' => 'a:0:{}',
             'sku' => 'nine_4',
-            'name' => $this->_helper->__('Nine West Women\'s Lucero Pump'),
+            'name' => __('Nine West Women\'s Lucero Pump'),
             'hidden_tax_amount' => '0.0000',
             'base_hidden_tax_amount' => '0.0000',
         );
@@ -126,7 +126,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Creditmemo_Item_Configur
             'description' => NULL,
             'weee_tax_applied' => 'a:0:{}',
             'sku' => 'nine_4',
-            'name' => $this->_helper->__('Nine West Women\'s Lucero Pump'),
+            'name' => __('Nine West Women\'s Lucero Pump'),
             'hidden_tax_amount' => NULL,
             'base_hidden_tax_amount' => NULL,
         );

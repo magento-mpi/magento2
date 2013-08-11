@@ -350,17 +350,6 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
-     * Retrieve module helper object linked to item.
-     * Should be used to translate item labels
-     *
-     * @return Mage_Core_Helper_Abstract
-     */
-    public function getModuleHelper()
-    {
-        return $this->_moduleHelper;
-    }
-
-    /**
      * Set Item module
      *
      * @param Mage_Core_Helper_Abstract $helper

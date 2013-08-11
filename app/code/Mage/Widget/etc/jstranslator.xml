@@ -11,7 +11,7 @@
 -->
 <jstranslator>
     <!-- widget.js -->
-    <widget-ui-insert translate="message" module="Mage_Widget">
+    <widget-ui-insert translate="message">
         <message>Insert Widget...</message>
     </widget-ui-insert>
     <!-- end widget.js -->

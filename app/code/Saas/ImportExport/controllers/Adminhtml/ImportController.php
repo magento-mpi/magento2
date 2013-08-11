@@ -47,7 +47,7 @@ class Saas_ImportExport_Adminhtml_ImportController extends Mage_ImportExport_Adm
         ) {
             if ($this->getRequest()->isPost()) {
                 $this->_getImportFrameBlock()->addError(
-                    $this->__('Import process has already queued by another session. Please wait until it finishes.')
+                    __('Import process has already queued by another session. Please wait until it finishes.')
                 );
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 $this->renderLayout();
@@ -64,13 +64,13 @@ class Saas_ImportExport_Adminhtml_ImportController extends Mage_ImportExport_Adm
     public function busyAction()
     {
         $this->_initAction()
-            ->_title($this->__('System Busy'));
+            ->_title(__('System Busy'));
         /** @var Saas_ImportExport_Block_Adminhtml_Import_Busy $block */
         $block = $this->getLayout()->getBlock('busy');
         if (!$block) {
             throw new RuntimeException('Busy block is not found.');
         }
-        $block->setStatusMessage($this->__('Import process has already queued. Please wait until it finishes.'));
+        $block->setStatusMessage(__('Import process has already queued. Please wait until it finishes.'));
         $this->renderLayout();
     }
 
@@ -83,11 +83,11 @@ class Saas_ImportExport_Adminhtml_ImportController extends Mage_ImportExport_Adm
             try {
                 $this->_stateHelper->saveTaskAsQueued();
                 $this->_eventManager->dispatch($this->_getEventName());
-                $this->_getImportFrameBlock()->addSuccess($this->__('Import task has been added to queue.'));
+                $this->_getImportFrameBlock()->addSuccess(__('Import task has been added to queue.'));
             } catch (Exception $e) {
                 $this->_stateHelper->saveTaskAsNotified();
                 $this->_getImportFrameBlock()->addError(
-                    $this->__('Import task has not been added to queue. Please try again later'));
+                    __('Import task has not been added to queue. Please try again later'));
             }
             $this->renderLayout();
         } else {
@@ -109,7 +109,7 @@ class Saas_ImportExport_Adminhtml_ImportController extends Mage_ImportExport_Adm
             throw new RuntimeException('Result block is not found.');
         }
         $resultBlock->addAction('remove', array('upload_button', 'edit_form'))
-            ->addAction('innerHTML', 'import_validation_container_header', $this->__('Status'))
+            ->addAction('innerHTML', 'import_validation_container_header', __('Status'))
             ->addAction('hide', array('edit_form', 'upload_button', 'messages'));
         return $resultBlock;
     }

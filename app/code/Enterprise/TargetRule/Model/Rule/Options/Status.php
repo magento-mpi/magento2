@@ -17,22 +17,6 @@
  */
 class Enterprise_TargetRule_Model_Rule_Options_Status implements Mage_Core_Model_Option_ArrayInterface
 {
-
-    /**
-     * Target Rule Helper data
-     *
-     * @var Enterprise_TargetRule_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * @param Enterprise_TargetRule_Helper_Data
-     */
-    public function __construct(Enterprise_TargetRule_Helper_Data $targetRuleHelper)
-    {
-        $this->_helper = $targetRuleHelper;
-    }
-
     /**
      * Return statuses array
      *
@@ -41,8 +25,8 @@ class Enterprise_TargetRule_Model_Rule_Options_Status implements Mage_Core_Model
     public function toOptionArray()
     {
         return array(
-            1 => $this->_helper->__('Active'),
-            0 => $this->_helper->__('Inactive'),
+            1 => __('Active'),
+            0 => __('Inactive'),
         );
     }
 }

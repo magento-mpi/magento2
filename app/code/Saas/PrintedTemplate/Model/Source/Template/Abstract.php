@@ -64,9 +64,8 @@ abstract class Saas_PrintedTemplate_Model_Source_Template_Abstract extends Magen
         );
 
         $defaultTemplateName = ($templateLabelNode)
-            ? $this->_getHelper()->
-                __('%s (Default Template from Locale)', $this->_getHelper()->__((string)$templateLabelNode))
-            : $this->_getHelper()->__('Default Template from Locale');
+            ? __('%1 (Default Template from Locale)', __((string)$templateLabelNode))
+            : __('Default Template from Locale');
 
         return array('value' => $nodeName, 'label' => $defaultTemplateName);
     }

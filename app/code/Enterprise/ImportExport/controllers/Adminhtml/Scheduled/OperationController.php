@@ -18,17 +18,6 @@
 class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Custom constructor.
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        // Define module dependent translate
-        $this->setUsedModuleName('Enterprise_ImportExport');
-    }
-
-    /**
      * Initialize layout.
      *
      * @return Enterprise_ImportExport_Adminhtml_Scheduled_OperationController
@@ -36,7 +25,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
     protected function _initAction()
     {
         try {
-            $this->_title($this->__('Scheduled Imports/Exports'))
+            $this->_title(__('Scheduled Imports/Exports'))
                 ->loadLayout()
                 ->_setActiveMenu('Enterprise_ImportExport::system_convert_enterprise_scheduled_operation');
         } catch (Mage_Core_Exception $e) {
@@ -121,7 +110,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                 || !is_array($data['start_time'])
             ) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                    ->addError($this->__("We couldn't save the scheduled operation."));
+                    ->addError(__("We couldn't save the scheduled operation."));
                 $this->_redirect('*/*/*', array('_current' => true));
 
                 return;
@@ -146,7 +135,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
             } catch (Exception $e) {
                 Mage::logException($e);
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                    $this->__("We couldn't save the scheduled operation.")
+                    __("We couldn't save the scheduled operation.")
                 );
             }
         }
@@ -175,7 +164,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
             } catch (Exception $e) {
                 Mage::logException($e);
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
-                    $this->__('Something sent wrong deleting the scheduled operation.')
+                    __('Something sent wrong deleting the scheduled operation.')
                 );
             }
         }
@@ -213,13 +202,13 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                     $operation->delete();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    $this->__('We deleted a total of %s record(s).', count($operations))
+                    __('We deleted a total of %1 record(s).', count($operations))
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('We cannot delete all items.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('We cannot delete all items.'));
             }
         }
         $this->_redirect('*/scheduled_operation/index');
@@ -250,14 +239,14 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                         ->save();
                 }
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    $this->__('A total of %s record(s) have been updated.', count($operations))
+                    __('A total of %1 record(s) have been updated.', count($operations))
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')
-                    ->addError($this->__('We cannot change status for all items.'));
+                    ->addError(__('We cannot change status for all items.'));
             }
         }
         $this->_redirect('*/scheduled_operation/index');
@@ -293,7 +282,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                 $this->_getSession()->addError($e->getMessage());
             }
         } else {
-            $this->_getSession()->addError($this->__('No valid data sent'));
+            $this->_getSession()->addError(__('No valid data sent'));
         }
         $this->_redirect('*/*/index');
     }
@@ -340,12 +329,12 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
         if ($result) {
             $this->_getSession()
                 ->addSuccess(
-                    Mage::helper('Enterprise_ImportExport_Helper_Data')->__('The operation ran.')
+                    __('The operation ran.')
                 );
         } else {
             $this->_getSession()
                 ->addError(
-                    Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to run operation')
+                    __('Unable to run operation')
                 );
         }
 
@@ -364,11 +353,11 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
         if ($result) {
             $this->_getSession()
                 ->addSuccess(
-                    Mage::helper('Enterprise_ImportExport_Helper_Data')->__('We deleted the history files.')
+                    __('We deleted the history files.')
                 );
         } else {
             $this->_getSession()
-                ->addError(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Something went wrong deleting the history files.'));
+                ->addError(__('Something went wrong deleting the history files.'));
         }
         $this->_redirect('*/system_config/edit', array('section' => $this->getRequest()->getParam('section')));
     }

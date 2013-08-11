@@ -49,6 +49,6 @@ class Enterprise_Reward_Model_Action_Review extends Enterprise_Reward_Model_Acti
      */
     public function getHistoryMessage($args = array())
     {
-        return Mage::helper('Enterprise_Reward_Helper_Data')->__('For submitting a product review');
+        return __('For submitting a product review');
     }
 }

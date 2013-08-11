@@ -99,7 +99,7 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
     public function getSystemConfigPathsParts($paths)
     {
         $result = $urlParams = $prefixParts = array();
-        $scopeLabel = $this->_getBackendHelper()->__('GLOBAL');
+        $scopeLabel = __('GLOBAL');
         if ($paths) {
             /**
              * @todo check functionality of getting Mage_Backend_Model_Menu_Config object
@@ -109,11 +109,11 @@ class Saas_PrintedTemplate_Helper_Data extends Mage_Core_Helper_Abstract
             $item = $menu->get('Mage_Adminhtml::system');
             // create prefix path parts
             $prefixParts[] = array(
-                'title' => $item->getModuleHelper()->__($item->getTitle()),
+                'title' => __($item->getTitle()),
             );
             $item = $menu->get('Mage_Adminhtml::system_config');
             $prefixParts[] = array(
-                'title' => $item->getModuleHelper()->__($item->getTitle()),
+                'title' => __($item->getTitle()),
                 'url' => $this->_getBackendHelper()->getUrl('adminhtml/system_config/'),
             );
 

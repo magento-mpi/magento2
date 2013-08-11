@@ -26,6 +26,6 @@ class Saas_Launcher_Block_Adminhtml_Promotestore_Googleanalytics_Drawer extends 
      */
     public function getTileHeader()
     {
-        return $this->helper('Saas_Launcher_Helper_Data')->__('Google Analytics');
+        return __('Google Analytics');
     }
 }

@@ -9,12 +9,12 @@
  */
 ?>
 <div class="box-right">    
-    <h4><?php echo $this->__('Gift Cards'); ?></h4>
+    <h4><?php echo __('Gift Cards'); ?></h4>
     <fieldset>
         <div class="content">
-            <p><input id="giftcardaccount_add_input" type="text" class="input-text" style="width:200px" />&nbsp;<button onclick="applyGiftCard()" type="button" value="" class="scalable"><span><?php echo $this->__('Add Gift Card'); ?></span></button></p>
+            <p><input id="giftcardaccount_add_input" type="text" class="input-text" style="width:200px" />&nbsp;<button onclick="applyGiftCard()" type="button" value="" class="scalable"><span><?php echo __('Add Gift Card'); ?></span></button></p>
             <?php foreach ($this->getGiftCards() as $_card): ?>
-                <p><strong><?php echo $_card; ?></strong> [<a href="#" onclick="removeGiftCard('<?php echo $_card; ?>'); return false;" title="<?php echo $this->__('Remove'); ?>"><?php echo $this->__('Remove'); ?></a>]</p>
+                <p><strong><?php echo $_card; ?></strong> [<a href="#" onclick="removeGiftCard('<?php echo $_card; ?>'); return false;" title="<?php echo __('Remove'); ?>"><?php echo __('Remove'); ?></a>]</p>
             <?php endforeach; ?>
         </div>
     </fieldset>

@@ -52,9 +52,7 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_Co
         Mage_Catalog_Model_Product_Type_Configurable $productType,
         array $data = array()
     ) {
-        parent::__construct($context, $context->getHelperFactory()->get('Mage_Backend_Helper_Data'),
-            $generatorFactory, $subtotals, $totals, $data
-        );
+        parent::__construct($context, $generatorFactory, $subtotals, $totals, $data);
 
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;

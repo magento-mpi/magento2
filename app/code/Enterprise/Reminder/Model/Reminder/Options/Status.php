@@ -17,22 +17,6 @@
  */
 class Enterprise_Reminder_Model_Reminder_Options_Status implements Mage_Core_Model_Option_ArrayInterface
 {
-
-    /**
-     * Reminder Helper data
-     *
-     * @var Enterprise_Reminder_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * @param Enterprise_Reminder_Helper_Data
-    */
-    public function __construct(Enterprise_Reminder_Helper_Data $reminderHelper)
-    {
-        $this->_helper = $reminderHelper;
-    }
-
     /**
      * Return statuses array
      *
@@ -41,8 +25,8 @@ class Enterprise_Reminder_Model_Reminder_Options_Status implements Mage_Core_Mod
     public function toOptionArray()
     {
         return array(
-            1 => $this->_helper->__('Active'),
-            0 => $this->_helper->__('Inactive'),
+            1 => __('Active'),
+            0 => __('Inactive'),
         );
     }
 }

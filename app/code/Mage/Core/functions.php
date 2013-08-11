@@ -319,3 +319,12 @@ function is_dir_writeable($dir)
     }
     return false;
 }
+
+if (!function_exists('__')) {
+    function __()
+    {
+        $argc = func_get_args();
+
+        return new Magento_Phrase(array_shift($argc), $argc);
+    }
+}

@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Report_Product_Lowstock extends Mage_Adminhtml_Block_
     protected function _construct()
     {
         $this->_controller = 'report_product_lowstock';
-        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Low stock');
+        $this->_headerText = __('Low stock');
         parent::_construct();
         $this->_removeButton('add');
     }

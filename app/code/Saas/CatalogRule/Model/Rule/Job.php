@@ -30,7 +30,7 @@ class Saas_CatalogRule_Model_Rule_Job extends Mage_CatalogRule_Model_Rule_Job
     {
         $parent = parent::applyAll();
         if ($parent->hasSuccess()) {
-            $this->setSuccess($this->_helper->__('Task has been put into the queue.'));
+            $this->setSuccess(__('Task has been put into the queue.'));
         }
         return $this;
     }

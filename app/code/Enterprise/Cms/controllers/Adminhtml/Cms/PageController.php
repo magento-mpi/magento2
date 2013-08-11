@@ -45,8 +45,8 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
 
         //load layout, set active menu and breadcrumbs
         $this->_setActiveMenu('Enterprise_Cms::cms_enterprise_page_page')
-            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'));
+            ->_addBreadcrumb(__('CMS'), __('CMS'))
+            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
 
         $this->_isLayoutLoaded = true;
 
@@ -62,7 +62,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
      */
     protected function _initPage()
     {
-        $this->_title($this->__('Pages'));
+        $this->_title(__('Pages'));
 
         $pageId = (int) $this->getRequest()->getParam('page_id');
         $page = Mage::getModel('Mage_Cms_Model_Page');
@@ -96,13 +96,13 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
             $page->setUnderVersionControl((int)Mage::getSingleton('Enterprise_Cms_Model_Config')->getDefaultVersioningStatus());
         }
 
-        $this->_title($page->getId() ? $page->getTitle() : $this->__('New Page'));
+        $this->_title($page->getId() ? $page->getTitle() : __('New Page'));
 
         $this->_initAction()
-            ->_addBreadcrumb($page->getId() ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
-                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'),
-                $page->getId() ? Mage::helper('Mage_Cms_Helper_Data')->__('Edit Page')
-                    : Mage::helper('Mage_Cms_Helper_Data')->__('New Page'));
+            ->_addBreadcrumb($page->getId() ? __('Edit Page')
+                    : __('New Page'),
+                $page->getId() ? __('Edit Page')
+                    : __('New Page'));
 
         $this->renderLayout();
     }
@@ -130,7 +130,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
     {
         $ids = $this->getRequest()->getParam('version');
         if (!is_array($ids)) {
-            $this->_getSession()->addError($this->__('Please select version(s).'));
+            $this->_getSession()->addError(__('Please select version(s).'));
         }
         else {
             try {
@@ -146,13 +146,13 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
                     }
                 }
                 $this->_getSession()->addSuccess(
-                    $this->__('A total of %d record(s) have been deleted.', count($ids))
+                    __('A total of %1 record(s) have been deleted.', count($ids))
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                $this->_getSession()->addError(Mage::helper('Enterprise_Cms_Helper_Data')->__('Something went wrong while deleting these versions.'));
+                $this->_getSession()->addError(__('Something went wrong while deleting these versions.'));
             }
         }
         $this->_redirect('*/*/edit', array('_current' => true, 'tab' => 'versions'));

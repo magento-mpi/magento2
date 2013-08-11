@@ -101,12 +101,12 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
 
         $html = '<div class="range" id="' . $htmlId . '_range"><div class="range-line date">'
             . '<input type="text" name="' . $this->_getHtmlName() . '[from]" id="' . $htmlId . '_from"'
-                . ' value="' . $this->getEscapedValue('from') . '" class="input-text no-changes" placeholder="' . $this->__('From') . '" '
+                . ' value="' . $this->getEscapedValue('from') . '" class="input-text no-changes" placeholder="' . __('From') . '" '
                 . $this->getUiId('filter', $this->_getHtmlName(), 'from') . '/>'
             . '</div>';
         $html .= '<div class="range-line date">'
             . '<input type="text" name="' . $this->_getHtmlName() . '[to]" id="' . $htmlId . '_to"'
-                . ' value="' . $this->getEscapedValue('to') . '" class="input-text no-changes" placeholder="' . $this->__('To') . '" '
+                . ' value="' . $this->getEscapedValue('to') . '" class="input-text no-changes" placeholder="' . __('To') . '" '
                 . $this->getUiId('filter', $this->_getHtmlName(), 'to') . '/>'
             . '</div></div>';
         $html .= '<input type="hidden" name="' . $this->_getHtmlName() . '[locale]"'
@@ -118,7 +118,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
                         timeFormat: "' . $timeFormat . '",
                         showsTime: ' . ($this->getColumn()->getFilterTime() ? 'true' : 'false') . ',
                         buttonImage: "' . $this->getViewFileUrl('images/grid-cal.gif') . '",
-                        buttonText: "' . $this->escapeHtml($this->__('Date selector')) . '",
+                        buttonText: "' . $this->escapeHtml(__('Date selector')) . '",
                         from: {
                             id: "' . $htmlId . '_from"
                         },

@@ -278,7 +278,7 @@ class Enterprise_Logging_Model_Processor
             }
             $loggingEvent->setAction($config->action);
             $loggingEvent->setEventCode($config->getParent()->getParent()->getName());
-            $loggingEvent->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->__('Access denied'));
+            $loggingEvent->setInfo(__('Access denied'));
             $loggingEvent->setIsSuccess(0);
             $loggingEvent->save();
             return;

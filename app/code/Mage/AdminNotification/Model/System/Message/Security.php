@@ -141,7 +141,7 @@ class Mage_AdminNotification_Model_System_Message_Security
      */
     public function getText()
     {
-        return $this->_helperFactory->get('Mage_AdminNotification_Helper_Data')->__('Your web server is configured incorrectly. As a result, configuration files with sensitive information are accessible from the outside. Please contact your hosting provider.');
+        return __('Your web server is configured incorrectly. As a result, configuration files with sensitive information are accessible from the outside. Please contact your hosting provider.');
     }
 
     /**

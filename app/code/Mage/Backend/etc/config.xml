@@ -34,7 +34,7 @@
         </areas>
         <cache>
             <types>
-                <config translate="description" module="Mage_Backend">
+                <config translate="description">
                     <description>System(config.xml, local.xml) and modules configuration files(config.xml, menu.xml).</description>
                 </config>
             </types>
@@ -63,4 +63,4 @@
             </translate_initialization_before>
         </events>
     </adminhtml>
-</config>
+</config>

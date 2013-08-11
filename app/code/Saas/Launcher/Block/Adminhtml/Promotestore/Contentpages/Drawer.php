@@ -26,6 +26,6 @@ class Saas_Launcher_Block_Adminhtml_Promotestore_Contentpages_Drawer extends Saa
      */
     public function getTileHeader()
     {
-        return $this->helper('Saas_Launcher_Helper_Data')->__('Recommended Content Pages');
+        return __('Recommended Content Pages');
     }
 }

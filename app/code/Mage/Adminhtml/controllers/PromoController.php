@@ -22,7 +22,7 @@ class Mage_Adminhtml_PromoController extends Mage_Adminhtml_Controller_Action
     {
         $this->loadLayout();
         $this->_setActiveMenu('Mage_CatalogRule::promo');
-        $this->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Promotions'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Promo'));
+        $this->_addBreadcrumb(__('Promotions'), __('Promo'));
         $this->renderLayout();
     }
 

@@ -13,16 +13,16 @@
 <?php /*
     <li>
         <div class="input-box">
-            <label for="<?php echo $_code ?>_cc_owner" class="required"><em>*</em><?php echo $this->__('Name on Card') ?></label>
-            <input type="text" title="<?php echo $this->__('Name on Card') ?>" class="input-text required-entry" id="<?php echo $_code ?>_cc_owner" name="payment[cc_owner]" value="<?php echo $this->escapeHtml($this->getInfoData('cc_owner')) ?>" />
+            <label for="<?php echo $_code ?>_cc_owner" class="required"><em>*</em><?php echo __('Name on Card') ?></label>
+            <input type="text" title="<?php echo __('Name on Card') ?>" class="input-text required-entry" id="<?php echo $_code ?>_cc_owner" name="payment[cc_owner]" value="<?php echo $this->escapeHtml($this->getInfoData('cc_owner')) ?>" />
         </div>
     </li>
 */ ?>
     <li>
-        <label for="<?php echo $_code ?>_cc_type" class="required"><em>*</em><?php echo $this->__('Credit Card Type') ?></label>
+        <label for="<?php echo $_code ?>_cc_type" class="required"><em>*</em><?php echo __('Credit Card Type') ?></label>
         <div class="input-box">
             <select id="<?php echo $_code ?>_cc_type" name="payment[cc_type]" data-validate='{required:true, "validate-cc-type-select":"#<?php echo $_code ?>_cc_number"}'>
-                <option value=""><?php echo $this->__('--Please Select--')?></option>
+                <option value=""><?php echo __('--Please Select--')?></option>
             <?php $_ccType = $this->getInfoData('cc_type') ?>
             <?php foreach ($this->getCcAvailableTypes() as $_typeCode => $_typeName): ?>
                 <option value="<?php echo $_typeCode ?>"<?php if($_typeCode==$_ccType): ?> selected="selected"<?php endif ?>><?php echo $_typeName ?></option>
@@ -31,13 +31,13 @@
         </div>
     </li>
     <li>
-        <label for="<?php echo $_code ?>_cc_number" class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
+        <label for="<?php echo $_code ?>_cc_number" class="required"><em>*</em><?php echo __('Credit Card Number') ?></label>
         <div class="input-box">
-            <input type="text" id="<?php echo $_code ?>_cc_number" name="payment[cc_number]" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text" value="" data-validate='{required:true, "validate-cc-number":"#<?php echo $_code ?>_cc_type", "validate-cc-type":"#<?php echo $_code ?>_cc_type"}'/>
+            <input type="text" id="<?php echo $_code ?>_cc_number" name="payment[cc_number]" title="<?php echo __('Credit Card Number') ?>" class="input-text" value="" data-validate='{required:true, "validate-cc-number":"#<?php echo $_code ?>_cc_type", "validate-cc-type":"#<?php echo $_code ?>_cc_type"}'/>
         </div>
     </li>
     <li id="<?php echo $_code ?>_cc_type_exp_div">
-        <label for="<?php echo $_code ?>_expiration" class="required"><em>*</em><?php echo $this->__('Expiration Date') ?></label>
+        <label for="<?php echo $_code ?>_expiration" class="required"><em>*</em><?php echo __('Expiration Date') ?></label>
         <div class="input-box">
             <div class="v-fix">
                 <select id="<?php echo $_code ?>_expiration" name="payment[cc_exp_month]" class="month" data-validate='{required:true, "validate-cc-exp":"#<?php echo $_code ?>_expiration_yr"}'>
@@ -60,15 +60,15 @@
     <?php echo $this->getChildHtml() ?>
     <?php if($this->hasVerification()): ?>
     <li id="<?php echo $_code ?>_cc_type_cvv_div">
-        <label for="<?php echo $_code ?>_cc_cid" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
+        <label for="<?php echo $_code ?>_cc_cid" class="required"><em>*</em><?php echo __('Card Verification Number') ?></label>
         <div class="input-box">
             <div class="v-fix">
-                <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv" id="<?php echo $_code ?>_cc_cid" name="payment[cc_cid]" value="" data-validate='{required:true, "validate-cc-cvn":"#<?php echo $_code ?>_cc_type"}' />
+                <input type="text" title="<?php echo __('Card Verification Number') ?>" class="input-text cvv" id="<?php echo $_code ?>_cc_cid" name="payment[cc_cid]" value="" data-validate='{required:true, "validate-cc-cvn":"#<?php echo $_code ?>_cc_type"}' />
             </div>
-            <a href="#" class="cvv-what-is-this" data-mage-init='{toggleAdvanced: {toggleContainers: "#<?php echo $_code ?>_cc_type_cvv_div .tool-tip"}}'><?php echo $this->__('What is this?') ?></a>
+            <a href="#" class="cvv-what-is-this" data-mage-init='{toggleAdvanced: {toggleContainers: "#<?php echo $_code ?>_cc_type_cvv_div .tool-tip"}}'><?php echo __('What is this?') ?></a>
             <div class="tool-tip hidden">
-                <div class="btn-close"><a data-mage-init='{toggleAdvanced: {toggleContainers: "#<?php echo $_code ?>_cc_type_cvv_div .tool-tip"}}' href="#" title="<?php echo $this->__('Close') ?>"><img src="<?php echo $this->getViewFileUrl('images/btn_window_close.gif') ?>" alt="<?php echo $this->__('Close') ?>" title="<?php echo $this->__('Close') ?>" /></a></div>
-                <div class="tool-tip-content"><img src="<?php echo $this->getViewFileUrl('Mage_Checkout::cvv.gif') ?>" alt="<?php echo $this->__('Card Verification Number Visual Reference') ?>" title="<?php echo $this->__('Card Verification Number Visual Reference') ?>" /></div>
+                <div class="btn-close"><a data-mage-init='{toggleAdvanced: {toggleContainers: "#<?php echo $_code ?>_cc_type_cvv_div .tool-tip"}}' href="#" title="<?php echo __('Close') ?>"><img src="<?php echo $this->getViewFileUrl('images/btn_window_close.gif') ?>" alt="<?php echo __('Close') ?>" title="<?php echo __('Close') ?>" /></a></div>
+                <div class="tool-tip-content"><img src="<?php echo $this->getViewFileUrl('Mage_Checkout::cvv.gif') ?>" alt="<?php echo __('Card Verification Number Visual Reference') ?>" title="<?php echo __('Card Verification Number Visual Reference') ?>" /></div>
             </div>
         </div>
     </li>
@@ -77,16 +77,16 @@
     <?php if ($this->hasSsCardType()): ?>
     <li id="<?php echo $_code ?>_cc_type_ss_div">
         <ul class="inner-form">
-            <li class="form-alt"><label for="<?php echo $_code ?>_cc_issue" class="required"><em>*</em><?php echo $this->__('Switch/Solo/Maestro Only') ?></label></li>
+            <li class="form-alt"><label for="<?php echo $_code ?>_cc_issue" class="required"><em>*</em><?php echo __('Switch/Solo/Maestro Only') ?></label></li>
             <li>
-                <label for="<?php echo $_code ?>_cc_issue"><?php echo $this->__('Issue Number') ?>:</label>
+                <label for="<?php echo $_code ?>_cc_issue"><?php echo __('Issue Number') ?>:</label>
                 <span class="input-box">
-                    <input type="text" title="<?php echo $this->__('Issue Number') ?>" class="input-text cvv" id="<?php echo $_code ?>_cc_issue" name="payment[cc_ss_issue]" value="" data-validate='{"validate-cc-ukss":true}'/>
+                    <input type="text" title="<?php echo __('Issue Number') ?>" class="input-text cvv" id="<?php echo $_code ?>_cc_issue" name="payment[cc_ss_issue]" value="" data-validate='{"validate-cc-ukss":true}'/>
                 </span>
             </li>
 
             <li>
-                <label for="<?php echo $_code ?>_start_month"><?php echo $this->__('Start Date') ?>:</label>
+                <label for="<?php echo $_code ?>_start_month"><?php echo __('Start Date') ?>:</label>
                 <div class="input-box">
                     <div class="v-fix">
                         <select id="<?php echo $_code ?>_start_month" name="payment[cc_ss_start_month]" class="month" data-validate='{"validate-cc-ukss":true}'>

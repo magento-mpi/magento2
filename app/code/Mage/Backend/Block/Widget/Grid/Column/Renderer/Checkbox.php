@@ -106,7 +106,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox
         $html .= 'name="' . $this->getColumn()->getFieldName() . '" ';
         $html .= 'onclick="' . $this->getColumn()->getGrid()->getJsObjectName() . '.checkCheckboxes(this)" ';
         $html .= 'class="checkbox"' . $checked . $disabled . ' ';
-        $html .= 'title="'.Mage::helper('Mage_Backend_Helper_Data')->__('Select All') . '"/>';
+        $html .= 'title="'.__('Select All') . '"/>';
         return $html;
     }
 }

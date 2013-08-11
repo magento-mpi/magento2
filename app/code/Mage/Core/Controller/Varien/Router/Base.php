@@ -477,7 +477,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
 
             if (!class_exists($controllerClassName, false)) {
                 throw Mage::exception('Mage_Core',
-                    Mage::helper('Mage_Core_Helper_Data')->__('Controller file was loaded but class does not exist')
+                    __('Controller file was loaded but class does not exist')
                 );
             }
         }

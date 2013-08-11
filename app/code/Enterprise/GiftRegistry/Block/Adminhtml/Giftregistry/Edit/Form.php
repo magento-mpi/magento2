@@ -22,7 +22,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form extends Mag
     {
         parent::_construct();
         $this->setId('enterprise_giftregistry_form');
-        $this->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry'));
+        $this->setTitle(__('Gift Registry'));
     }
 
     /**

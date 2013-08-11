@@ -26,11 +26,6 @@ class Mage_Core_Model_Theme_Domain_Physical
     protected $_themeFactory;
 
     /**
-     * @var Mage_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Mage_Core_Model_Theme_CopyService
      */
     protected $_themeCopyService;
@@ -43,20 +38,17 @@ class Mage_Core_Model_Theme_Domain_Physical
     /**
      * @param Mage_Core_Model_Theme $theme
      * @param Mage_Core_Model_ThemeFactory $themeFactory
-     * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Theme_CopyService $themeCopyService
      * @param Mage_Core_Model_Resource_Theme_Collection $themeCollection
      */
     public function __construct(
         Mage_Core_Model_Theme $theme,
         Mage_Core_Model_ThemeFactory $themeFactory,
-        Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Theme_CopyService $themeCopyService,
         Mage_Core_Model_Resource_Theme_Collection $themeCollection
     ) {
         $this->_theme = $theme;
         $this->_themeFactory = $themeFactory;
-        $this->_helper = $helper;
         $this->_themeCopyService = $themeCopyService;
         $this->_themeCollection = $themeCollection;
     }
@@ -102,7 +94,7 @@ class Mage_Core_Model_Theme_Domain_Physical
         $title = sprintf(
             "%s - %s #%s",
             $theme->getThemeTitle(),
-            $this->_helper->__('Copy'),
+            __('Copy'),
             ($themeCopyCount + 1)
         );
         return $title;

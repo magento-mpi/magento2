@@ -25,15 +25,6 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     protected $_publicActions = array('view', 'index');
 
     /**
-     * Additional initialization
-     *
-     */
-    protected function _construct()
-    {
-        $this->setUsedModuleName('Mage_Sales');
-    }
-
-    /**
      * Init layout, menu and breadcrumb
      *
      * @return Mage_Adminhtml_Sales_OrderController
@@ -42,8 +33,8 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     {
         $this->loadLayout()
             ->_setActiveMenu('Mage_Sales::sales_order')
-            ->_addBreadcrumb($this->__('Sales'), $this->__('Sales'))
-            ->_addBreadcrumb($this->__('Orders'), $this->__('Orders'));
+            ->_addBreadcrumb(__('Sales'), __('Sales'))
+            ->_addBreadcrumb(__('Orders'), __('Orders'));
         return $this;
     }
 
@@ -58,7 +49,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         $order = Mage::getModel('Mage_Sales_Model_Order')->load($id);
 
         if (!$order->getId()) {
-            $this->_getSession()->addError($this->__('This order no longer exists.'));
+            $this->_getSession()->addError(__('This order no longer exists.'));
             $this->_redirect('*/*/');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
@@ -73,7 +64,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
      */
     public function indexAction()
     {
-        $this->_title($this->__('Orders'));
+        $this->_title(__('Orders'));
 
         $this->_initAction()
             ->renderLayout();
@@ -93,7 +84,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
      */
     public function viewAction()
     {
-        $this->_title($this->__('Orders'));
+        $this->_title(__('Orders'));
 
         if ($order = $this->_initOrder()) {
             $this->_initAction();
@@ -119,11 +110,11 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                     $historyItem->setIsCustomerNotified(1);
                     $historyItem->save();
                 }
-                $this->_getSession()->addSuccess($this->__('You sent the order email.'));
+                $this->_getSession()->addSuccess(__('You sent the order email.'));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError($this->__('We couldn\'t send the email order.'));
+                $this->_getSession()->addError(__('We couldn\'t send the email order.'));
                 Mage::logException($e);
             }
         }
@@ -141,12 +132,12 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 $order->cancel()
                     ->save();
                 $this->_getSession()->addSuccess(
-                    $this->__('You canceled the order.')
+                    __('You canceled the order.')
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError($this->__('You have not canceled the item.'));
+                $this->_getSession()->addError(__('You have not canceled the item.'));
                 Mage::logException($e);
             }
             $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
@@ -164,12 +155,12 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 $order->hold()
                     ->save();
                 $this->_getSession()->addSuccess(
-                    $this->__('You put the order on hold.')
+                    __('You put the order on hold.')
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError($this->__('You have not put the order on hold.'));
+                $this->_getSession()->addError(__('You have not put the order on hold.'));
             }
             $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
         }
@@ -186,12 +177,12 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 $order->unhold()
                     ->save();
                 $this->_getSession()->addSuccess(
-                    $this->__('You released the order from holding status.')
+                    __('You released the order from holding status.')
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError($this->__('The order was not on hold.'));
+                $this->_getSession()->addError(__('The order was not on hold.'));
             }
             $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
         }
@@ -213,16 +204,16 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             switch ($action) {
                 case 'accept':
                     $order->getPayment()->accept();
-                    $message = $this->__('The payment has been accepted.');
+                    $message = __('The payment has been accepted.');
                     break;
                 case 'deny':
                     $order->getPayment()->deny();
-                    $message = $this->__('The payment has been denied.');
+                    $message = __('The payment has been denied.');
                     break;
                 case 'update':
                     $order->getPayment()
                         ->registerPaymentReviewAction(Mage_Sales_Model_Order_Payment::REVIEW_ACTION_UPDATE, true);
-                    $message = $this->__('The payment update has been made.');
+                    $message = __('The payment update has been made.');
                     break;
                 default:
                     throw new Exception(sprintf('Action "%s" is not supported.', $action));
@@ -232,7 +223,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('We couldn\'t update the payment.'));
+            $this->_getSession()->addError(__('We couldn\'t update the payment.'));
             Mage::logException($e);
         }
         $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
@@ -249,7 +240,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 $response = false;
                 $data = $this->getRequest()->getPost('history');
                 if (empty($data['comment']) && ($data['status'] == $order->getDataByKey('status'))) {
-                    Mage::throwException($this->__('Comment text cannot be empty.'));
+                    Mage::throwException(__('Comment text cannot be empty.'));
                 }
 
                 $notify = isset($data['is_customer_notified']) ? $data['is_customer_notified'] : false;
@@ -275,7 +266,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             } catch (Exception $e) {
                 $response = array(
                     'error'     => true,
-                    'message'   => $this->__('We cannot add order history.')
+                    'message'   => __('We cannot add order history.')
                 );
             }
             if (is_array($response)) {
@@ -351,13 +342,13 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         }
         if ($countNonCancelOrder) {
             if ($countCancelOrder) {
-                $this->_getSession()->addError($this->__('%s order(s) cannot be canceled.', $countNonCancelOrder));
+                $this->_getSession()->addError(__('%1 order(s) cannot be canceled.', $countNonCancelOrder));
             } else {
-                $this->_getSession()->addError($this->__('You cannot cancel the order(s).'));
+                $this->_getSession()->addError(__('You cannot cancel the order(s).'));
             }
         }
         if ($countCancelOrder) {
-            $this->_getSession()->addSuccess($this->__('We canceled %s order(s).', $countCancelOrder));
+            $this->_getSession()->addSuccess(__('We canceled %1 order(s).', $countCancelOrder));
         }
         $this->_redirect('*/*/');
     }
@@ -383,13 +374,13 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
 
         if ($countNonHoldOrder) {
             if ($countHoldOrder) {
-                $this->_getSession()->addError($this->__('%s order(s) were not put on hold.', $countNonHoldOrder));
+                $this->_getSession()->addError(__('%1 order(s) were not put on hold.', $countNonHoldOrder));
             } else {
-                $this->_getSession()->addError($this->__('No order(s) were put on hold.'));
+                $this->_getSession()->addError(__('No order(s) were put on hold.'));
             }
         }
         if ($countHoldOrder) {
-            $this->_getSession()->addSuccess($this->__('You have put %s order(s) on hold.', $countHoldOrder));
+            $this->_getSession()->addSuccess(__('You have put %1 order(s) on hold.', $countHoldOrder));
         }
 
         $this->_redirect('*/*/');
@@ -417,15 +408,15 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         if ($countNonUnHoldOrder) {
             if ($countUnHoldOrder) {
                 $this->_getSession()->addError(
-                    $this->__('%s order(s) were not released from on hold status.', $countNonUnHoldOrder)
+                    __('%1 order(s) were not released from on hold status.', $countNonUnHoldOrder)
                 );
             } else {
-                $this->_getSession()->addError($this->__('No order(s) were released from on hold status.'));
+                $this->_getSession()->addError(__('No order(s) were released from on hold status.'));
             }
         }
         if ($countUnHoldOrder) {
             $this->_getSession()->addSuccess(
-                $this->__('%s order(s) have been released from on hold status.', $countUnHoldOrder)
+                __('%1 order(s) have been released from on hold status.', $countUnHoldOrder)
             );
         }
         $this->_redirect('*/*/');
@@ -478,7 +469,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 );
             } else {
                 $this->_getSession()->addError(
-                    $this->__('There are no printable documents related to selected orders.')
+                    __('There are no printable documents related to selected orders.')
                 );
                 $this->_redirect('*/*/');
             }
@@ -516,7 +507,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 );
             } else {
                 $this->_getSession()->addError(
-                    $this->__('There are no printable documents related to selected orders.')
+                    __('There are no printable documents related to selected orders.')
                 );
                 $this->_redirect('*/*/');
             }
@@ -554,7 +545,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 );
             } else {
                 $this->_getSession()->addError(
-                    $this->__('There are no printable documents related to selected orders.')
+                    __('There are no printable documents related to selected orders.')
                 );
                 $this->_redirect('*/*/');
             }
@@ -618,7 +609,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 );
             } else {
                 $this->_getSession()->addError(
-                    $this->__('There are no printable documents related to selected orders.')
+                    __('There are no printable documents related to selected orders.')
                 );
                 $this->_redirect('*/*/');
             }
@@ -639,11 +630,11 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
                 new Magento_Object() // workaround for backwards compatibility
             );
             $order->save();
-            $this->_getSession()->addSuccess($this->__('The payment has been voided.'));
+            $this->_getSession()->addSuccess(__('The payment has been voided.'));
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('We couldn\'t void the payment.'));
+            $this->_getSession()->addError(__('We couldn\'t void the payment.'));
             Mage::logException($e);
         }
         $this->_redirect('*/*/view', array('order_id' => $order->getId()));
@@ -763,7 +754,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             try {
                 $address->implodeStreetAddress()
                     ->save();
-                $this->_getSession()->addSuccess($this->__('You updated the order address.'));
+                $this->_getSession()->addSuccess(__('You updated the order address.'));
                 $this->_redirect('*/*/view', array('order_id' => $address->getParentId()));
                 return;
             } catch (Mage_Core_Exception $e) {
@@ -771,7 +762,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
             } catch (Exception $e) {
                 $this->_getSession()->addException(
                     $e,
-                    $this->__('Something went wrong updating the order address.')
+                    __('Something went wrong updating the order address.')
                 );
             }
             $this->_redirect('*/*/address', array('address_id' => $address->getId()));

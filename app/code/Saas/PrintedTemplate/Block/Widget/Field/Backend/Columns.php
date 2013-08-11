@@ -33,25 +33,25 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
     {
         $this->setTemplate('Saas_PrintedTemplate::widget/items_grid/array.phtml')
             ->setIsAddAfter(false)
-            ->setAddButtonLabel($this->__('Add Column'));
+            ->setAddButtonLabel(__('Add Column'));
 
         $this->addColumn('option', array(
-            'label' => $this->__('Option'),
+            'label' => __('Option'),
             'style' => 'width:220px',
             'class' => 'select required-entry'
         ));
         $this->addColumn('title', array(
-            'label' => $this->__('Title'),
+            'label' => __('Title'),
             'style' => 'width:290px',
             'class' => 'input-text required-entry'
         ));
         $this->addColumn('width', array(
-            'label' => $this->__('Width, px'),
+            'label' => __('Width, px'),
             'style' => 'width:35px',
             'class' => 'validate-greater-than-zero validate-digits input-text required-entry'
         ));
         $this->addColumn('sort_order', array(
-            'label' => $this->__('Sort Order'),
+            'label' => __('Sort Order'),
             'style' => 'width:35px',
             'class' => 'validate-greater-than-zero validate-digits input-text'
         ));
@@ -79,7 +79,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
     public function renderCellTemplate($columnName)
     {
         if (empty($this->_columns[$columnName])) {
-            throw new Exception($this->__('Wrong column name specified.'));
+            throw new Exception(__('Wrong column name specified.'));
         }
         $column     = $this->_columns[$columnName];
         $inputName  = $this->getElement()->getName() . '[#{_id}][' . $columnName . ']';
@@ -118,7 +118,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
 
         $options = Mage::getSingleton('Saas_PrintedTemplate_Model_Config')->getItemPropertiesArray($type);
         foreach ($options as $name => $params) {
-            $html .= '<option value="' . $name . '">' . $this->__($params['label']) . '</option>';
+            $html .= '<option value="' . $name . '">' . __($params['label']) . '</option>';
         }
         $html .= '</select>';
 

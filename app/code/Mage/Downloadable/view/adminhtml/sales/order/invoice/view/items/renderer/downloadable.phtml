@@ -16,7 +16,7 @@
     <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
         <span class="price-excl-tax">
                     <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
-              <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax'); ?>:</span>
+              <span class="label"><?php echo __('Excl. Tax'); ?>:</span>
           <?php endif; ?>
           <?php echo $this->displayPriceAttribute('price') ?>
         </span>
@@ -24,7 +24,7 @@
     <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
         <span class="price-incl-tax">
           <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
-              <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax'); ?>:</span>
+              <span class="label"><?php echo __('Incl. Tax'); ?>:</span>
           <?php endif; ?>
           <?php if ($_item->getWeeeTaxAppliedAmount() && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 0, 'sales')): // including ?>
               <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($_item)+$_item->getWeeeTaxAppliedAmount()); ?>
@@ -44,7 +44,7 @@
                   <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($tax['amount'],true,true); ?></small></span><br />
               <?php endforeach; ?>
               <span class="nobr">
-              <?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total'); ?>:
+              <?php echo __('Total'); ?>:
               <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($_item)+$_item->getWeeeTaxAppliedAmount()); ?>
               </span>
           <?php else: // excl. ?>
@@ -58,7 +58,7 @@
     <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
         <span class="price-excl-tax">
                     <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
-              <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax'); ?>:</span>
+              <span class="label"><?php echo __('Excl. Tax'); ?>:</span>
           <?php endif; ?>
           <?php echo $this->displayPriceAttribute('row_total') ?>
         </span>
@@ -66,7 +66,7 @@
     <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
         <span class="price-incl-tax">
           <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
-              <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax'); ?>:</span>
+              <span class="label"><?php echo __('Incl. Tax'); ?>:</span>
           <?php endif; ?>
 
           <?php if ($_item->getWeeeTaxAppliedRowAmount() && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_item, 0, 'sales')): // including ?>
@@ -87,7 +87,7 @@
                   <span class="nobr"><small><?php echo $tax['title']; ?>: <?php echo Mage::helper('Mage_Core_Helper_Data')->currency($tax['row_amount'],true,true); ?></small></span><br />
               <?php endforeach; ?>
               <span class="nobr">
-              <?php echo Mage::helper('Mage_Weee_Helper_Data')->__('Total'); ?>:
+              <?php echo __('Total'); ?>:
               <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($this->helper('Mage_Checkout_Helper_Data')->getSubtotalInclTax($_item)+$_item->getWeeeTaxAppliedRowAmount()); ?>
               </span>
           <?php else: // excl. ?>

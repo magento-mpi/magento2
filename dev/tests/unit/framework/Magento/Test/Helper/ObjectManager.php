@@ -110,13 +110,7 @@ class Magento_Test_Helper_ObjectManager
             ->setMethods(array('translate'))
             ->getMock();
         $translateCallback = function ($arguments) {
-            $result = '';
-            if (is_array($arguments) && current($arguments) instanceof Mage_Core_Model_Translate_Expr) {
-                /** @var Mage_Core_Model_Translate_Expr $expression */
-                $expression = array_shift($arguments);
-                $result = vsprintf($expression->getText(), $arguments);
-            }
-            return $result;
+            return is_array($arguments) ? vsprintf(array_shift($arguments), $arguments) : '';
         };
         $translator->expects($this->_testObject->any())
             ->method('translate')

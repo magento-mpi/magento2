@@ -74,13 +74,13 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Mage_Adminhtml_B
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('ID'),
+            'header'    => __('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Product'),
+            'header'    => __('Product'),
             'index'     => 'name',
             'column_css_class'=> 'name'
         ));
@@ -92,7 +92,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Mage_Adminhtml_B
 
         $this->addColumn('type',
             array(
-                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Type'),
+                'header'=> __('Type'),
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
@@ -101,7 +101,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Mage_Adminhtml_B
 
         $this->addColumn('set_name',
             array(
-                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set'),
+                'header'=> __('Attribute Set'),
                 'width' => '100px',
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
@@ -109,13 +109,13 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Mage_Adminhtml_B
         ));
 
         $this->addColumn('sku', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('SKU'),
+            'header'    => __('SKU'),
             'width'     => '80px',
             'index'     => 'sku',
             'column_css_class'=> 'sku'
         ));
         $this->addColumn('price', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Price'),
+            'header'    => __('Price'),
             'align'     => 'center',
             'type'      => 'currency',
             'currency_code' => $this->_getStore()->getDefaultCurrencyCode(),
@@ -137,7 +137,7 @@ class Mage_GoogleShopping_Block_Adminhtml_Items_Product extends Mage_Adminhtml_B
         $this->getMassactionBlock()->setFormFieldName('product');
 
         $this->getMassactionBlock()->addItem('add', array(
-             'label'    => $this->__('Add to Google Content'),
+             'label'    => __('Add to Google Content'),
              'url'      => $this->getUrl('*/*/massAdd', array('_current'=>true)),
         ));
         return $this;

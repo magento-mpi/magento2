@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Form extends Mage_Adminhtml_Block_
     {
         parent::_construct();
         $this->setId('promo_catalog_form');
-        $this->setTitle(Mage::helper('Mage_CatalogRule_Helper_Data')->__('Rule Information'));
+        $this->setTitle(__('Rule Information'));
     }
 
     protected function _prepareForm()

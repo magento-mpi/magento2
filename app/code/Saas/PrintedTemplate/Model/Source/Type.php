@@ -25,9 +25,9 @@ class Saas_PrintedTemplate_Model_Source_Type
     public function getAllOptions()
     {
         return array(
-            Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_INVOICE    => $this->_getHelper()->__('Invoice'),
-            Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_CREDITMEMO => $this->_getHelper()->__('Credit Memo'),
-            Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_SHIPMENT   => $this->_getHelper()->__('Shipment'),
+            Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_INVOICE    => __('Invoice'),
+            Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_CREDITMEMO => __('Credit Memo'),
+            Saas_PrintedTemplate_Model_Template::ENTITY_TYPE_SHIPMENT   => __('Shipment'),
         );
     }
 

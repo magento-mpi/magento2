@@ -33,27 +33,16 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     protected $_application;
 
     /**
-     * Helper instance
-     *
-     * @var Mage_Eav_Helper_Data
-     */
-    protected $_helperInstance;
-
-    /**
      * Class constructor
      *
+     * @param Mage_Core_Model_Resource $resource
      * @param array $arguments
      */
-    public function __construct(Mage_Core_Model_Resource $resource,
-        array $arguments = array()
-    ) {
+    public function __construct(Mage_Core_Model_Resource $resource, array $arguments = array())
+    {
         if (isset($arguments['application']) && $arguments['application'] instanceof Mage_Core_Model_App) {
             $this->_application = $arguments['application'];
             unset($arguments['application']);
-        }
-        if (isset($arguments['helper']) && $arguments['helper'] instanceof Mage_Core_Helper_Abstract) {
-            $this->_helperInstance = $arguments['helper'];
-            unset($arguments['helper']);
         }
         parent::__construct($resource);
     }
@@ -65,17 +54,6 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     protected function _construct()
     {
         $this->_init('eav_attribute', 'attribute_id');
-    }
-
-    /**
-     * Retrieve helper instance
-     *
-     * @param string $helperName
-     * @return Mage_Core_Helper_Abstract|Mage_Eav_Helper_Data
-     */
-    protected function _helper($helperName)
-    {
-        return $this->_helperInstance instanceof $helperName ? $this->_helperInstance : Mage::helper($helperName);
     }
 
     /**
@@ -97,7 +75,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     {
         $this->_uniqueFields = array(array(
             'field' => array('attribute_code', 'entity_type_id'),
-            'title' => $this->_helper('Mage_Eav_Helper_Data')->__('Attribute with the same code')
+            'title' => __('Attribute with the same code')
         ));
         return $this;
     }
@@ -204,7 +182,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
         $frontendLabel = $object->getFrontendLabel();
         if (is_array($frontendLabel)) {
             if (!isset($frontendLabel[0]) || is_null($frontendLabel[0]) || $frontendLabel[0] == '') {
-                Mage::throwException($this->_helper('Mage_Eav_Helper_Data')->__('Frontend label is not defined'));
+                Mage::throwException(__('Frontend label is not defined'));
             }
             $object->setFrontendLabel($frontendLabel[0])
                    ->setStoreLabels($frontendLabel);
@@ -389,7 +367,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
     protected function _checkDefaultOptionValue($values)
     {
         if (!isset($values[0])) {
-            Mage::throwException($this->_helper('Mage_Eav_Helper_Data')->__('Default option value is not defined'));
+            Mage::throwException(__('Default option value is not defined'));
         }
     }
 

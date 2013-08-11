@@ -22,8 +22,8 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
      */
     public function indexAction()
     {
-        $this->_getSession()->addNotice($this->__('Please make sure that popups are allowed.'));
-        $this->_title($this->__('Printed Templates'));
+        $this->_getSession()->addNotice(__('Please make sure that popups are allowed.'));
+        $this->_title(__('Printed Templates'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
@@ -32,7 +32,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
 
         $this->loadLayout();
         $this->_setActiveMenu('Saas_PrintedTemplate::template');
-        $this->_addBreadcrumb($this->__('Printed Templates'), $this->__('Printed Templates'));
+        $this->_addBreadcrumb(__('Printed Templates'), __('Printed Templates'));
 
         $this->_addContent(
             $this->getLayout()->createBlock('Saas_PrintedTemplate_Block_Adminhtml_Template', 'template')
@@ -56,25 +56,25 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
      */
     public function editAction()
     {
-        $this->_getSession()->addNotice($this->__('Please make sure that popups are allowed.'));
+        $this->_getSession()->addNotice(__('Please make sure that popups are allowed.'));
         $this->loadLayout(array('default', 'editor'));
         $idFieldName = 'id';
         $template = $this->_initTemplate($idFieldName);
         if (!$template->getId() && $this->getRequest()->getParam($idFieldName)) {
-            $this->_getSession()->addError($this->__('This Printed template no longer exists.'));
+            $this->_getSession()->addError(__('This Printed template no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
         $this->_setActiveMenu('Saas_PrintedTemplate::template');
-        $this->_addBreadcrumb($this->__('Printed Templates'), $this->__('Printed Templates'), $this->getUrl('*/*'));
+        $this->_addBreadcrumb(__('Printed Templates'), __('Printed Templates'), $this->getUrl('*/*'));
 
         if ($this->getRequest()->getParam('id')) {
-            $this->_addBreadcrumb($this->__('Edit Template'), $this->__('Edit Printed Template'));
+            $this->_addBreadcrumb(__('Edit Template'), __('Edit Printed Template'));
         } else {
-            $this->_addBreadcrumb($this->__('New Template'), $this->__('New Printed Template'));
+            $this->_addBreadcrumb(__('New Template'), __('New Printed Template'));
         }
 
-        $this->_title($template->getId() ? $template->getName() : $this->__('New Template'));
+        $this->_title($template->getId() ? $template->getName() : __('New Template'));
 
         $this->_addContent(
             $this->getLayout()->createBlock(
@@ -93,7 +93,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
      */
     protected function _initTemplate($idFieldName = 'template_id')
     {
-        $this->_title($this->__('Printed Templates'));
+        $this->_title(__('Printed Templates'));
 
         $fieldId = (int)$this->getRequest()->getParam($idFieldName);
         $model = Mage::getModel('Saas_PrintedTemplate_Model_Template');
@@ -127,7 +127,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
             try {
                 $template->validate();
             } catch (Exception $e) {
-                $this->getResponse()->setBody($this->__($e->getMessage()));
+                $this->getResponse()->setBody(__($e->getMessage()));
                 return;
             }
         }
@@ -152,7 +152,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
             try {
                 $template->validate();
             } catch (Exception $e) {
-                $this->getResponse()->setBody($this->__($e->getMessage()));
+                $this->getResponse()->setBody(__($e->getMessage()));
                 return;
             }
         }
@@ -181,7 +181,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
     {
         $template = $this->_initTemplate('id');
         if (!$template->getId()) {
-            $this->_getSession()->addError($this->__('Unable to find a Printed Template to delete.'));
+            $this->_getSession()->addError(__('Unable to find a Printed Template to delete.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -194,7 +194,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
             return;
         } catch (Exception $e) {
             $this->_getSession()->addError(
-                $this->__(
+                __(
                     'An error occurred while deleting printed template data. Please review log and try again.'
                 )
             );
@@ -203,7 +203,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
             return;
         }
 
-        $this->_getSession()->addSuccess($this->__('The printed template has been deleted.'));
+        $this->_getSession()->addSuccess(__('The printed template has been deleted.'));
         $this->_redirect('*/*/');
     }
 
@@ -218,7 +218,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
 
         $template = $this->_initTemplate('id');
         if (!$template->getId() && $templateId) {
-            $this->_getSession()->addError($this->__('This Printed template no longer exists.'));
+            $this->_getSession()->addError(__('This Printed template no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -231,7 +231,7 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
 
             $this->_getSession()
                 ->setFormData(false)
-                ->addSuccess($this->__('The Printed template has been saved.'));
+                ->addSuccess(__('The Printed template has been saved.'));
 
             if ($continueEdit) {
                 $this->_redirect('*/*/edit', array('id' => $template->getId()));
@@ -331,9 +331,9 @@ class Saas_PrintedTemplate_Adminhtml_TemplateController extends Mage_Adminhtml_C
     {
         $this->loadLayout()
             ->_setActiveMenu('Saas_PrintedTemplate::template')
-            ->_addBreadcrumb($this->__('Printed Templates'), $this->__('Printed Templates'), $this->getUrl('*/*'))
-            ->_addBreadcrumb($this->__('New Template'), $this->__('New Printed Template'))
-            ->_title($this->__('New Template'))
+            ->_addBreadcrumb(__('Printed Templates'), __('Printed Templates'), $this->getUrl('*/*'))
+            ->_addBreadcrumb(__('New Template'), __('New Printed Template'))
+            ->_title(__('New Template'))
             ->_addContent(
                 $this->getLayout()->createBlock(
                     'Saas_PrintedTemplate_Block_Adminhtml_Template_New', 'template_edit'

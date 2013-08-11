@@ -18,29 +18,14 @@
 class Mage_User_Model_Statuses implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
-     * User Helper
-     *
-     * @var Mage_User_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * @param Mage_User_Helper_Data $userHelper
-     */
-    public function __construct(Mage_User_Helper_Data $userHelper)
-    {
-        $this->_helper = $userHelper;
-    }
-
-    /**
      * Return statuses array
      * @return array
      */
     public function toOptionArray()
     {
         return array(
-            '1' => $this->_helper->__('Active'),
-            '0' => $this->_helper->__('Inactive'),
+            '1' => __('Active'),
+            '0' => __('Inactive'),
         );
     }
 }

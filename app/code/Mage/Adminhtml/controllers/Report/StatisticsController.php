@@ -27,8 +27,8 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Reports'), Mage::helper('Mage_Reports_Helper_Data')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Statistics'), Mage::helper('Mage_Reports_Helper_Data')->__('Statistics'));
+            ->_addBreadcrumb(__('Reports'), __('Reports'))
+            ->_addBreadcrumb(__('Statistics'), __('Statistics'));
         return $this;
     }
 
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
     {
         $codes = $this->getRequest()->getParam('code');
         if (!$codes) {
-            throw new Exception(Mage::helper('Mage_Adminhtml_Helper_Data')->__('No report code is specified.'));
+            throw new Exception(__('No report code is specified.'));
         }
 
         if(!is_array($codes) && strpos($codes, ',') === false) {
@@ -108,11 +108,11 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
             foreach ($collectionsNames as $collectionName) {
                 Mage::getResourceModel($collectionName)->aggregate($date);
             }
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Recent statistics have been updated.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(__('Recent statistics have been updated.'));
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('We can\'t refresh recent statistics.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('We can\'t refresh recent statistics.'));
             Mage::logException($e);
         }
 
@@ -136,11 +136,11 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
             foreach ($collectionsNames as $collectionName) {
                 Mage::getResourceModel($collectionName)->aggregate();
             }
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(Mage::helper('Mage_Adminhtml_Helper_Data')->__('We updated lifetime statistics.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(__('We updated lifetime statistics.'));
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Adminhtml_Helper_Data')->__('We can\'t refresh lifetime statistics.'));
+            Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('We can\'t refresh lifetime statistics.'));
             Mage::logException($e);
         }
 
@@ -155,11 +155,11 @@ class Mage_Adminhtml_Report_StatisticsController extends Mage_Adminhtml_Controll
 
     public function indexAction()
     {
-        $this->_title($this->__('Refresh Statistics'));
+        $this->_title(__('Refresh Statistics'));
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Reports::report_statistics_refresh')
-            ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Refresh Statistics'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Refresh Statistics'))
+            ->_addBreadcrumb(__('Refresh Statistics'), __('Refresh Statistics'))
             ->renderLayout();
     }
 

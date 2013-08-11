@@ -72,9 +72,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magento_
         /** @var $coreHelper Mage_Core_Helper_Data */
         $coreHelper = Mage::helper('Mage_Core_Helper_Data');
         $htmlId = $this->getHtmlId();
-        $suggestPlaceholder = Mage::helper('Mage_Catalog_Helper_Data')->__('start typing to search category');
+        $suggestPlaceholder = __('start typing to search category');
         $selectorOptions = $coreHelper->jsonEncode($this->_getSelectorOptions());
-        $newCategoryCaption = Mage::helper('Mage_Catalog_Helper_Data')->__('New Category');
+        $newCategoryCaption = __('New Category');
 
         $button = $this->_layout
             ->createBlock('Mage_Backend_Block_Widget_Button')

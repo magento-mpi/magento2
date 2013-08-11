@@ -87,7 +87,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Creditmemo_Item_BundleFi
             'description' => NULL,
             'weee_tax_applied' => 'a:0:{}',
             'sku' => '23',
-            'name' => $this->_helper->__('Bundle product fixed price'),
+            'name' => __('Bundle product fixed price'),
             'hidden_tax_amount' => '0.0000',
             'base_hidden_tax_amount' => '0.0000',
         );
@@ -135,7 +135,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Creditmemo_Item_BundleFi
                     . 's:20:"base_amount_incl_tax";s:7:"55.0000";s:15:"amount_incl_tax";d:110;'
                     . 's:19:"row_amount_incl_tax";d:110;s:24:"base_row_amount_incl_tax";d:55;}}',
                 'sku' => '234222',
-                'name' => $this->_helper->__('Electronics product'),
+                'name' => __('Electronics product'),
                 'hidden_tax_amount' => NULL,
                 'base_hidden_tax_amount' => NULL,
             ),
@@ -170,7 +170,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Creditmemo_Item_BundleFi
                 'description' => NULL,
                 'weee_tax_applied' => 'a:0:{}',
                 'sku' => '2gbdimm',
-                'name' => $this->_helper->__('Crucial 2GB PC4200 DDR2 533MHz Memory'),
+                'name' => __('Crucial 2GB PC4200 DDR2 533MHz Memory'),
                 'hidden_tax_amount' => NULL,
                 'base_hidden_tax_amount' => NULL,
             ),

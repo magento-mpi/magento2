@@ -11,16 +11,16 @@
 /** @var $this Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Tile */
 ?>
 <article class="tile-store-settings tile-product <?php echo $this->getTileStateStyle(); ?>" id="tile-<?php echo $this->getTileCode()?>" tabindex="0">
-    <h2><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Products') ?></h2>
+    <h2><?php echo __('Products') ?></h2>
     <div class="tile-teaser">
         <p>
-            <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Add a product or upload your catalog.') ?>
+            <?php echo __('Add a product or upload your catalog.') ?>
         </p>
         <div class="actions">
             <button type="button" class="action-open-drawer" data-drawer="open-drawer-<?php echo $this->getTileCode()?>"
                 data-save-url="<?php echo $this->getUrl('*/storelauncher_product_drawer/save') ?>"
                 data-load-url="<?php echo $this->getUrl('*/storelauncher_product_drawer/load') ?>">
-                <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Open Products') ?></span>
+                <span><?php echo __('Open Products') ?></span>
             </button>
         </div>
     </div>
@@ -29,7 +29,7 @@
         <?php if ($this->getTileState() == Saas_Launcher_Model_Tile::STATE_COMPLETE) : ?>
         <ul class="checklist">
             <li class="completed">
-                <?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('You have %s product(s)', $this->getProductCount()); ?>
+                <?php echo __('You have %1 product(s)', $this->getProductCount()); ?>
             </li>
         </ul>
         <div class="actions">
@@ -38,15 +38,15 @@
                     data-drawer="open-drawer-<?php echo $this->getTileCode(); ?>"
                     data-save-url="<?php echo $this->getUrl('*/storelauncher_product_drawer/save'); ?>"
                     data-load-url="<?php echo $this->getUrl('*/storelauncher_product_drawer/load'); ?>">
-                <span><?php echo Mage::helper('Saas_Launcher_Helper_Data')->__('Add Products'); ?></span>
+                <span><?php echo __('Add Products'); ?></span>
             </button>
         </div>
         <footer class="tile-more-info">
-            <p class="tile-more-info-label"><?php echo $this->escapeHtml($this->__('Add or manage all your products:')); ?></p>
+            <p class="tile-more-info-label"><?php echo $this->escapeHtml(__('Add or manage all your products:')); ?></p>
             <p class="tile-more-info-breadcrumbs">
-                <span><?php echo $this->escapeHtml($this->__('Products')); ?></span>
-                <span><?php echo $this->escapeHtml($this->__('Inventory')); ?></span>
-                <a href="<?php echo $this->getUrl('adminhtml/catalog_product/index'); ?>"><?php echo $this->__('Catalog'); ?></a>.
+                <span><?php echo $this->escapeHtml(__('Products')); ?></span>
+                <span><?php echo $this->escapeHtml(__('Inventory')); ?></span>
+                <a href="<?php echo $this->getUrl('adminhtml/catalog_product/index'); ?>"><?php echo __('Catalog'); ?></a>.
             </p>
         </footer>
         <?php endif; ?>

@@ -25,7 +25,7 @@ class Enterprise_GiftRegistry_Block_Search_Form extends Mage_Core_Block_Template
      */
     public function getFormHeader()
     {
-        return Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Search');
+        return __('Gift Registry Search');
     }
 
     /**

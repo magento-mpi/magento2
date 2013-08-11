@@ -595,7 +595,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                     }
 
                     if (!isset($_result[0])) {
-                        return Mage::helper('Mage_Checkout_Helper_Data')->__('Cannot add the item to shopping cart');
+                        return __('Cannot add the item to shopping cart');
                     }
 
                     /**
@@ -664,7 +664,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
      */
     public function getSpecifyOptionMessage()
     {
-        return Mage::helper('Mage_Catalog_Helper_Data')->__('Please specify the product\'s option(s).');
+        return __('Please specify the product\'s option(s).');
     }
 
     /**

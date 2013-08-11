@@ -13,8 +13,8 @@ class Mage_Catalog_Model_Config_Source_TimeFormat implements Mage_Core_Model_Opt
     public function toOptionArray()
     {
         return array(
-            array('value' => '12h', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('12h AM/PM')),
-            array('value' => '24h', 'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('24h')),
+            array('value' => '12h', 'label' => __('12h AM/PM')),
+            array('value' => '24h', 'label' => __('24h')),
         );
     }
 }

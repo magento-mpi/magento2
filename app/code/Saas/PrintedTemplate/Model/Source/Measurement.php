@@ -36,7 +36,7 @@ class Saas_PrintedTemplate_Model_Source_Measurement
         $measurement = $this->_getConfigModel()->getConfigSectionArray('measurements');
 
         foreach ($measurement as $key => $item) {
-            $options[strtoupper($key)] = $this->_getHelper()->__($item['label']);
+            $options[strtoupper($key)] = __($item['label']);
         }
 
         return $options;

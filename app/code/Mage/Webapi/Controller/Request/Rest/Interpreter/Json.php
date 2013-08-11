@@ -10,9 +10,6 @@
 class Mage_Webapi_Controller_Request_Rest_Interpreter_Json implements
     Mage_Webapi_Controller_Request_Rest_InterpreterInterface
 {
-    /** @var Mage_Webapi_Helper_Data */
-    protected $_helper;
-
     /** @var Mage_Core_Model_Factory_Helper */
     protected $_helperFactory;
 
@@ -26,7 +23,6 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Json implements
     public function __construct(Mage_Core_Model_Factory_Helper $helperFactory, Mage_Core_Model_App $app)
     {
         $this->_helperFactory = $helperFactory;
-        $this->_helper = $this->_helperFactory->get('Mage_Webapi_Helper_Data');
         $this->_app = $app;
     }
 
@@ -52,7 +48,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Json implements
             $decodedBody = $jsonHelper->jsonDecode($encodedBody);
         } catch (Zend_Json_Exception $e) {
             if (!$this->_app->isDeveloperMode()) {
-                throw new Mage_Webapi_Exception($this->_helper->__('Decoding error.'),
+                throw new Mage_Webapi_Exception(__('Decoding error.'),
                     Mage_Webapi_Exception::HTTP_BAD_REQUEST);
             } else {
                 throw new Mage_Webapi_Exception(

@@ -18,7 +18,7 @@
 ?>
 <div class="account-login  login-only">
     <div class="page-title">
-        <h1><?php echo $this->__('Log In') ?></h1>
+        <h1><?php echo __('Log In') ?></h1>
     </div>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <?php if (!$this->getHasException()) : ?>
@@ -26,27 +26,27 @@
             <div class="fieldset">
                 <div class="col2-set">
                     <div class="col-1 registered-users">
-                        <h2 class="legend"><?php echo $this->__('Log in as a customer') ?></h2>
-                        <p class="description"><?php echo $this->__('Log in to use <strong>%s</strong>', $this->getConsumer()->getName()) ?></p>
+                        <h2 class="legend"><?php echo __('Log in as a customer') ?></h2>
+                        <p class="description"><?php echo __('Log in to use <strong>%1</strong>', $this->getConsumer()->getName()) ?></p>
                         <ul class="form-list">
                             <li>
-                                <label for="email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                                <label for="email" class="required"><em>*</em><?php echo __('Email Address') ?></label>
                                 <div class="input-box">
-                                    <input name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" id="email" type="text" class="input-text required-entry validate-email" title="<?php echo $this->__('Email Address') ?>" />
+                                    <input name="login[username]" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" id="email" type="text" class="input-text required-entry validate-email" title="<?php echo __('Email Address') ?>" />
                                 </div>
                             </li>
                             <li>
-                                <label for="pass" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
+                                <label for="pass" class="required"><em>*</em><?php echo __('Password') ?></label>
                                 <div class="input-box">
-                                    <input name="login[password]" type="password" class="input-text required-entry validate-password" id="pass" title="<?php echo $this->__('Password') ?>" />
+                                    <input name="login[password]" type="password" class="input-text required-entry validate-password" id="pass" title="<?php echo __('Password') ?>" />
                                 </div>
                             </li>
                         </ul>
                         <div class="buttons-set form-buttons btn-only">
-                            <button type="button" class="button" onclick="rejectToken(); return false;"><span><span><?php echo $this->__('Reject') ?></span></span></button>
-                            <button type="submit" class="button" name="send" id="send2"><span><span><?php echo $this->__('Login') ?></span></span></button>
+                            <button type="button" class="button" onclick="rejectToken(); return false;"><span><span><?php echo __('Reject') ?></span></span></button>
+                            <button type="submit" class="button" name="send" id="send2"><span><span><?php echo __('Login') ?></span></span></button>
                         </div>
-                        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+                        <p class="required"><?php echo __('* Required Fields') ?></p>
                     </div>
                 </div>
             </div>

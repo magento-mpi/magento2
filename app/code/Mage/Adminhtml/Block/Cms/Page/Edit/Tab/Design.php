@@ -43,14 +43,14 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
         $model = Mage::registry('cms_page');
 
         $layoutFieldset = $form->addFieldset('layout_fieldset', array(
-            'legend' => Mage::helper('Mage_Cms_Helper_Data')->__('Page Layout'),
+            'legend' => __('Page Layout'),
             'class'  => 'fieldset-wide',
             'disabled'  => $isElementDisabled
         ));
 
         $layoutFieldset->addField('root_template', 'select', array(
             'name'     => 'root_template',
-            'label'    => Mage::helper('Mage_Cms_Helper_Data')->__('Layout'),
+            'label'    => __('Layout'),
             'required' => true,
             'values'   => Mage::getSingleton('Mage_Page_Model_Source_Layout')->toOptionArray(),
             'disabled' => $isElementDisabled
@@ -61,13 +61,13 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
 
         $layoutFieldset->addField('layout_update_xml', 'textarea', array(
             'name'      => 'layout_update_xml',
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Layout Update XML'),
+            'label'     => __('Layout Update XML'),
             'style'     => 'height:24em;',
             'disabled'  => $isElementDisabled
         ));
 
         $designFieldset = $form->addFieldset('design_fieldset', array(
-            'legend' => Mage::helper('Mage_Cms_Helper_Data')->__('Custom Design'),
+            'legend' => __('Custom Design'),
             'class'  => 'fieldset-wide',
             'disabled'  => $isElementDisabled
         ));
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
 
         $designFieldset->addField('custom_theme_from', 'date', array(
             'name'      => 'custom_theme_from',
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Custom Design From'),
+            'label'     => __('Custom Design From'),
             'image'     => $this->getViewFileUrl('images/grid-cal.gif'),
             'date_format' => $dateFormat,
             'disabled'  => $isElementDisabled,
@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
 
         $designFieldset->addField('custom_theme_to', 'date', array(
             'name'      => 'custom_theme_to',
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Custom Design To'),
+            'label'     => __('Custom Design To'),
             'image'     => $this->getViewFileUrl('images/grid-cal.gif'),
             'date_format' => $dateFormat,
             'disabled'  => $isElementDisabled,
@@ -94,24 +94,24 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
 
         /** @var $label Mage_Core_Model_Theme_Label */
         $label = Mage::getModel('Mage_Core_Model_Theme_Label');
-        $options = $label->getLabelsCollection(Mage::helper('Mage_Cms_Helper_Data')->__('-- Please Select --'));
+        $options = $label->getLabelsCollection(__('-- Please Select --'));
         $designFieldset->addField('custom_theme', 'select', array(
             'name'      => 'custom_theme',
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Custom Theme'),
+            'label'     => __('Custom Theme'),
             'values'    => $options,
             'disabled'  => $isElementDisabled
         ));
 
         $designFieldset->addField('custom_root_template', 'select', array(
             'name'      => 'custom_root_template',
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Custom Layout'),
+            'label'     => __('Custom Layout'),
             'values'    => Mage::getSingleton('Mage_Page_Model_Source_Layout')->toOptionArray(true),
             'disabled'  => $isElementDisabled
         ));
 
         $designFieldset->addField('custom_layout_update_xml', 'textarea', array(
             'name'      => 'custom_layout_update_xml',
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Custom Layout Update XML'),
+            'label'     => __('Custom Layout Update XML'),
             'style'     => 'height:24em;',
             'disabled'  => $isElementDisabled
         ));
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
      */
     public function getTabLabel()
     {
-        return Mage::helper('Mage_Cms_Helper_Data')->__('Design');
+        return __('Design');
     }
 
     /**
@@ -142,7 +142,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
      */
     public function getTabTitle()
     {
-        return Mage::helper('Mage_Cms_Helper_Data')->__('Design');
+        return __('Design');
     }
 
     /**

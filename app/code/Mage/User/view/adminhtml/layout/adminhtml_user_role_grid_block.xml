@@ -37,7 +37,7 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="role_id">
                         <arguments>
-                            <header translate="true" module="Mage_User">ID</header>
+                            <header translate="true">ID</header>
                             <width>50px</width>
                             <align>right</align>
                             <index>role_id</index>
@@ -45,7 +45,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="role_name">
                         <arguments>
-                            <header translate="true" module="Mage_User">Role</header>
+                            <header translate="true">Role</header>
                             <type>text</type>
                             <escape>1</escape>
                             <index>role_name</index>

@@ -74,7 +74,7 @@ class Mage_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
             $amount = $this->getAmountPrefix() . $amount;
         }
 
-        $title = $this->_taxHelper->__($this->getTitle());
+        $title = __($this->getTitle());
         if ($this->getTitleSourceField()) {
             $label = $title . ' (' . $this->getTitleDescription() . '):';
         } else {
@@ -112,7 +112,7 @@ class Mage_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
             foreach ($taxClassAmount as &$tax) {
                 $percent          = $tax['percent'] ? ' (' . $tax['percent']. '%)' : '';
                 $tax['amount']    = $this->getAmountPrefix() . $this->getOrder()->formatPriceTxt($tax['tax_amount']);
-                $tax['label']     = $this->_taxHelper->__($tax['title']) . $percent . ':';
+                $tax['label']     = __($tax['title']) . $percent . ':';
                 $tax['font_size'] = $fontSize;
             }
         } else {
@@ -133,7 +133,7 @@ class Mage_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
 
                         $tax_info[] = array(
                             'amount'    => $this->getAmountPrefix() . $this->getOrder()->formatPriceTxt($_amount),
-                            'label'     => $this->_taxHelper->__($rate['title']) . $percent . ':',
+                            'label'     => __($rate['title']) . $percent . ':',
                             'font_size' => $fontSize
                         );
                     }

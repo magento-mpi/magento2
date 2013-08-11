@@ -29,17 +29,17 @@ class Mage_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
         if (!$this->_authorization->isAllowed('Mage_Adminhtml::global_search')) {
             $items[] = array(
                 'id' => 'error',
-                'type' => $this->__('Error'),
-                'name' => $this->__('Access Denied'),
-                'description' => $this->__('You need more permissions to do this.')
+                'type' => __('Error'),
+                'name' => __('Access Denied'),
+                'description' => __('You need more permissions to do this.')
             );
         } else {
             if (empty($searchModules)) {
                 $items[] = array(
                     'id' => 'error',
-                    'type' => $this->__('Error'),
-                    'name' => $this->__('No search modules were registered'),
-                    'description' => $this->__('Please make sure that all global admin search modules are installed and activated.')
+                    'type' => __('Error'),
+                    'name' => __('No search modules were registered'),
+                    'description' => __('Please make sure that all global admin search modules are installed and activated.')
                 );
             } else {
                 $start = $this->getRequest()->getParam('start', 1);

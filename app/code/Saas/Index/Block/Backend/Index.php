@@ -41,7 +41,7 @@ class Saas_Index_Block_Backend_Index extends Mage_Backend_Block_Widget_Container
     protected function _construct()
     {
         $this->_addButton('refresh_index', array(
-            'label'    => $this->__('Refresh Index'),
+            'label'    => __('Refresh Index'),
             'class'    => 'refresh',
             'onclick'  => 'return goIndex.refreshIndex()',
             'disabled' => $this->isTaskAdded() ? 'disabled' : '',

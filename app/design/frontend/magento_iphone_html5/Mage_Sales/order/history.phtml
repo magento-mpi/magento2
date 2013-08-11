@@ -10,7 +10,7 @@
 ?>
 <?php $_orders = $this->getOrders(); ?>
 <div class="page-title">
-    <h1><?php echo $this->__('My Orders') ?></h1>
+    <h1><?php echo __('My Orders') ?></h1>
 </div>
 <div class="recent-orders">
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
@@ -20,10 +20,10 @@
     <table class="data-table" id="my-orders-table">
         <thead>
             <tr>
-                <th><?php echo $this->__('Order #') ?></th>
-                <th><?php echo $this->__('Date') ?></th>
-                <th><span class="nobr"><?php echo $this->__('Total') ?></span></th>
-                <th><span class="nobr"><?php echo $this->__('Status') ?></span></th>
+                <th><?php echo __('Order #') ?></th>
+                <th><?php echo __('Date') ?></th>
+                <th><span class="nobr"><?php echo __('Total') ?></span></th>
+                <th><span class="nobr"><?php echo __('Status') ?></span></th>
             </tr>
         </thead>
         <tbody>
@@ -39,6 +39,6 @@
         </tbody>
     </table>
     <?php else: ?>
-        <p><?php echo $this->__('You have placed no orders.'); ?></p>
+        <p><?php echo __('You have placed no orders.'); ?></p>
     <?php endif ?>
 </div>

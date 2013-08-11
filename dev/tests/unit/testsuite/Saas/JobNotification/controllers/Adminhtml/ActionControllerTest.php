@@ -32,11 +32,6 @@ class Saas_JobNotification_Adminhtml_ActionControllerTest extends PHPUnit_Framew
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_serviceMock;
 
     /**
@@ -50,7 +45,6 @@ class Saas_JobNotification_Adminhtml_ActionControllerTest extends PHPUnit_Framew
         $this->_authorizationMock = $this->getMock('Magento_AuthorizationInterface');
         $this->_responseMock = $this->getMock('Mage_Core_Controller_Response_Http', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);
-        $this->_helperMock = $this->getMock('Saas_JobNotification_Helper_Data', array(), array(), '', false);
         $this->_serviceMock = $this->getMock('Saas_JobNotification_Service_Notification', array(), array(), '', false);
         $this->_sessionMock = $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false);
 
@@ -58,17 +52,11 @@ class Saas_JobNotification_Adminhtml_ActionControllerTest extends PHPUnit_Framew
             'authorization' => $this->_authorizationMock,
             'response' => $this->_responseMock,
             'request' => $this->_requestMock,
-            'helper' => $this->_helperMock,
             'service' => $this->_serviceMock,
             'session' => $this->_sessionMock,
         );
 
         $this->_responseMock->expects($this->once())->method('setRedirect')->with('*/view/index');
-        $this->_helperMock->expects($this->once())
-            ->method('getUrl')
-            ->with('*/view/index')
-            ->will($this->returnArgument(0));
-        $this->_helperMock->expects($this->any())->method('__')->will($this->returnArgument(0));
 
         $this->_controller = $helper->getObject('Saas_JobNotification_Adminhtml_ActionController', $arguments);
     }

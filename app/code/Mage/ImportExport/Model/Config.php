@@ -32,7 +32,7 @@ class Mage_ImportExport_Model_Config
         foreach (Mage::getConfig()->getNode($configKey)->asCanonicalArray() as $entityType => $entityParams) {
             if (empty($entityParams['model_token'])) {
                 Mage::throwException(
-                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Please provide a correct model token tag.')
+                    __('Please provide a correct model token tag.')
                 );
             }
             $entities[$entityType] = array(
@@ -57,7 +57,7 @@ class Mage_ImportExport_Model_Config
 
         if ($withEmpty) {
             $options[] = array(
-                'label' => Mage::helper('Mage_ImportExport_Helper_Data')->__('-- Please Select --'),
+                'label' => __('-- Please Select --'),
                 'value' => ''
             );
         }
@@ -79,7 +79,7 @@ class Mage_ImportExport_Model_Config
     {
         $options = array();
         if ($withEmpty) {
-            $options[0] = Mage::helper('Mage_ImportExport_Helper_Data')->__('-- Please Select --');
+            $options[0] = __('-- Please Select --');
         }
         foreach (self::getModels($configKey) as $type => $params) {
             $options[$type] = $params['label'];

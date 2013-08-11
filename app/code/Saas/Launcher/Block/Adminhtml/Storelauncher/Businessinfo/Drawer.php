@@ -71,20 +71,20 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
         $helper = $this->helper('Saas_Launcher_Helper_Data');
 
         $storeInfo = $form->addFieldset('store_info', array(
-            'legend' => $helper->__('Store Info'),
+            'legend' => __('Store Info'),
             'class' => 'fieldset-store-info'
         ));
 
         $storeInfo->addField('store_name', 'text', array(
             'name' => 'groups[general][store_information][fields][name][value]',
-            'label' => $helper->__('Store Name'),
+            'label' => __('Store Name'),
             'required' => false,
             'value' => $addressData['name']
         ));
 
         $storeInfo->addField('store_email', 'text', array(
             'name' => 'groups[trans_email][ident_general][fields][email][value]',
-            'label' => $helper->__('Store Contact Email'),
+            'label' => __('Store Contact Email'),
             'required' => true,
             'class' => 'validate-email',
             'value' => $addressData['email']
@@ -92,134 +92,134 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
 
         $storeInfo->addField('store_phone', 'text', array(
             'name' => 'groups[general][store_information][fields][phone][value]',
-            'label' => $helper->__('Store Phone Number'),
+            'label' => __('Store Phone Number'),
             'required' => false,
             'value' => $addressData['phone']
         ));
 
-        $storeInfo->setAdvancedLabel($helper->__('Add Store Email Addresses'));
+        $storeInfo->setAdvancedLabel(__('Add Store Email Addresses'));
 
         $generalContact = $storeInfo->addFieldset('general_contact',
-            array('legend' => $helper->__('General Contact')), false, true);
+            array('legend' => __('General Contact')), false, true);
 
         $generalContact->addField('sender_name_general', 'text', array(
             'name' => 'groups[trans_email][ident_general][fields][name][value]',
-            'label' => $helper->__('Sender Name'),
+            'label' => __('Sender Name'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('trans_email/ident_general/name')
         ));
 
         $generalContact->addField('sender_email_general', 'text', array(
             'name' => 'groups[trans_email][ident_general][fields][email][value]',
-            'label' => $helper->__('Sender Email'),
+            'label' => __('Sender Email'),
             'required' => true,
             'class' => 'validate-email',
             'disabled' => 'disabled',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_general/email'),
-            'note' => $helper->__('Uses Store Contact Email as your General Contact Email.'),
+            'note' => __('Uses Store Contact Email as your General Contact Email.'),
         ));
 
         $salesRepresentative = $storeInfo->addFieldset('sales_representative',
-            array('legend' => $helper->__('Sales Representative')), false, true);
+            array('legend' => __('Sales Representative')), false, true);
 
         $salesRepresentative->addField('sender_name_representative', 'text', array(
             'name' => 'groups[trans_email][ident_sales][fields][name][value]',
-            'label' => $helper->__('Sender Name'),
+            'label' => __('Sender Name'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('trans_email/ident_sales/name')
         ));
 
         $salesRepresentative->addField('sender_email_representative', 'text', array(
             'name' => 'groups[trans_email][ident_sales][fields][email][value]',
-            'label' => $helper->__('Sender Email'),
+            'label' => __('Sender Email'),
             'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_sales/email')
         ));
 
         $customerSupport = $storeInfo->addFieldset('customer_support',
-            array('legend' => $helper->__('Customer Support')), false, true);
+            array('legend' => __('Customer Support')), false, true);
 
         $customerSupport->addField('sender_name_support', 'text', array(
             'name' => 'groups[trans_email][ident_support][fields][name][value]',
-            'label' => $helper->__('Sender Name'),
+            'label' => __('Sender Name'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('trans_email/ident_support/name')
         ));
 
         $customerSupport->addField('sender_email_support', 'text', array(
             'name' => 'groups[trans_email][ident_support][fields][email][value]',
-            'label' => $helper->__('Sender Email'),
+            'label' => __('Sender Email'),
             'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_support/email')
         ));
 
         $customEmail1 = $storeInfo->addFieldset('custom_email1',
-            array('legend' => $helper->__('Custom Email 1')), false, true);
+            array('legend' => __('Custom Email 1')), false, true);
 
         $customEmail1->addField('sender_name_custom1', 'text', array(
             'name' => 'groups[trans_email][ident_custom1][fields][name][value]',
-            'label' => $helper->__('Sender Name'),
+            'label' => __('Sender Name'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom1/name')
         ));
 
         $customEmail1->addField('sender_email_custom1', 'text', array(
             'name' => 'groups[trans_email][ident_custom1][fields][email][value]',
-            'label' => $helper->__('Sender Email'),
+            'label' => __('Sender Email'),
             'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom1/email')
         ));
 
         $customEmail2 = $storeInfo->addFieldset('custom_email2',
-            array('legend' => $helper->__('Custom Email 2')), false, true);
+            array('legend' => __('Custom Email 2')), false, true);
 
         $customEmail2->addField('sender_name_custom2', 'text', array(
             'name' => 'groups[trans_email][ident_custom2][fields][name][value]',
-            'label' => $helper->__('Sender Name'),
+            'label' => __('Sender Name'),
             'required' => false,
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom2/name')
         ));
 
         $customEmail2->addField('sender_email_custom2', 'text', array(
             'name' => 'groups[trans_email][ident_custom2][fields][email][value]',
-            'label' => $helper->__('Sender Email'),
+            'label' => __('Sender Email'),
             'required' => true,
             'class' => 'validate-email',
             'value' => $this->_storeConfig->getConfig('trans_email/ident_custom2/email')
         ));
 
         $businessAddress = $form->addFieldset('business_address', array(
-            'legend' => $helper->__('Store Business Address'),
+            'legend' => __('Store Business Address'),
             'class' => 'fieldset-business-address'
         ), false, false);
 
         $businessAddress->addField('street_line1', 'text', array(
             'name' => 'street_line1',
-            'label' => $helper->__('Street Address Line 1'),
+            'label' => __('Street Address Line 1'),
             'required' => false,
             'value' => $addressData['street_line1']
         ));
 
         $businessAddress->addField('street_line2', 'text', array(
             'name' => 'street_line2',
-            'label' => $helper->__('Street Address Line 2'),
+            'label' => __('Street Address Line 2'),
             'required' => false,
             'value' => $addressData['street_line2']
         ));
 
         $businessAddress->addField('city', 'text', array(
             'name' => 'city',
-            'label' => $helper->__('City'),
+            'label' => __('City'),
             'required' => false,
             'value' => $addressData['city']
         ));
 
         $businessAddress->addField('postcode', 'text', array(
             'name' => 'postcode',
-            'label' => $helper->__('ZIP/Postal Code'),
+            'label' => __('ZIP/Postal Code'),
             'required' => false,
             'value' => $addressData['postcode']
         ));
@@ -231,7 +231,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
             if (!empty($regions)) {
                 $businessAddress->addField('region_id', 'select', array(
                     'name' => 'region_id',
-                    'label' => $helper->__('State/Region'),
+                    'label' => __('State/Region'),
                     'values' => $regions,
                     'value' => $addressData['region_id'],
                 ));
@@ -241,7 +241,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
         if ($isRegionFieldText) {
             $businessAddress->addField('region_id', 'text', array(
                 'name' => 'region_id',
-                'label' => $helper->__('State/Region'),
+                'label' => __('State/Region'),
                 'value' => $addressData['region_id']
             ));
         }
@@ -249,7 +249,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
         $countries = $this->_countryModel->toOptionArray(false, 'US');
         $businessAddress->addField('country_id', 'select', array(
             'name' => 'groups[general][store_information][fields][country_id][value]',
-            'label' => $helper->__('Country'),
+            'label' => __('Country'),
             'required' => true,
             'values' => $countries,
             'class' => 'countries',
@@ -261,7 +261,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
 
         $businessAddress->addField('use_for_shipping', 'checkbox', array(
             'name' => 'use_for_shipping',
-            'label' => $helper->__('Use this as my store shipping address'),
+            'label' => __('Use this as my store shipping address'),
             'required' => false,
             'value' => 0,
             'checked' => $addressData['use_for_shipping']
@@ -329,6 +329,6 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
      */
     public function getTileHeader()
     {
-        return $this->helper('Saas_Launcher_Helper_Data')->__('Store Info');
+        return __('Store Info');
     }
 }

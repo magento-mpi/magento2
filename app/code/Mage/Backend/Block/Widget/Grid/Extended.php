@@ -165,7 +165,7 @@ class Mage_Backend_Block_Widget_Grid_Extended
     protected function _construct()
     {
         parent::_construct();
-        $this->_emptyText = Mage::helper('Mage_Backend_Helper_Data')->__('We couldn\'t find any records.');
+        $this->_emptyText = __('We couldn\'t find any records.');
         $this->_exportPath = Mage::getBaseDir('var') . DS . 'export';
     }
 
@@ -179,7 +179,7 @@ class Mage_Backend_Block_Widget_Grid_Extended
         $this->setChild('export_button',
             $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
                 ->setData(array(
-                'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Export'),
+                'label'     => __('Export'),
                 'onclick'   => $this->getJsObjectName().'.doExport()',
                 'class'   => 'task'
             ))
@@ -187,14 +187,14 @@ class Mage_Backend_Block_Widget_Grid_Extended
         $this->setChild('reset_filter_button',
             $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
                 ->setData(array(
-                'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Reset Filter'),
+                'label'     => __('Reset Filter'),
                 'onclick'   => $this->getJsObjectName().'.resetFilter()',
             ))
         );
         $this->setChild('search_button',
             $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
                 ->setData(array(
-                'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Search'),
+                'label'     => __('Search'),
                 'onclick'   => $this->getJsObjectName().'.doFilter()',
                 'class'   => 'task'
             ))
@@ -264,7 +264,7 @@ class Mage_Backend_Block_Widget_Grid_Extended
             );
             $this->getColumnSet()->getChildBlock($columnId)->setGrid($this);
         } else {
-            throw new Exception(Mage::helper('Mage_Backend_Helper_Data')->__('Please correct the column format and try again.'));
+            throw new Exception(__('Please correct the column format and try again.'));
         }
 
         $this->_lastColumnId = $columnId;

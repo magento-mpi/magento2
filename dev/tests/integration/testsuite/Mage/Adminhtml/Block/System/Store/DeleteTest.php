@@ -26,9 +26,9 @@ class Mage_Adminhtml_Block_System_Store_DeleteTest extends PHPUnit_Framework_Tes
         $form->setDataObject($dataObject);
 
         $expectedValue = 'header_text_test';
-        $this->assertNotContains($expectedValue, $block->getHeaderText());
+        $this->assertNotContains($expectedValue, (string)$block->getHeaderText());
 
         $dataObject->setName($expectedValue);
-        $this->assertContains($expectedValue, $block->getHeaderText());
+        $this->assertContains($expectedValue, (string)$block->getHeaderText());
     }
 }

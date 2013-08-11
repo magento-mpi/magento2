@@ -36,11 +36,6 @@ class Mage_Core_Model_Resource_File_Storage_File
     protected $_dbHelper;
 
     /**
-     * @var Mage_Core_Helper_Data
-     */
-    protected $_helper;
-
-    /**
      * @var Mage_Core_Model_Logger
      */
     protected $_logger;
@@ -48,17 +43,14 @@ class Mage_Core_Model_Resource_File_Storage_File
     /**
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Helper_File_Storage_Database $dbHelper
-     * @param Mage_Core_Helper_Data $helper
      * @param Mage_Core_Model_Logger $log
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Mage_Core_Helper_File_Storage_Database $dbHelper,
-        Mage_Core_Helper_Data $helper,
         Mage_Core_Model_Logger $log
     ) {
         $this->_dbHelper = $dbHelper;
-        $this->_helper = $helper;
         $this->_logger = $log;
 
         $this->_filesystem = $filesystem;
@@ -157,7 +149,7 @@ class Mage_Core_Model_Resource_File_Storage_File
             $this->_filesystem->ensureDirectoryExists($path);
         } catch (Exception $e) {
             $this->_logger->log($e->getMessage());
-            Mage::throwException($this->_helper->__('Unable to create directory: %s', $path));
+            Mage::throwException(__('Unable to create directory: %1', $path));
         }
 
         return true;
@@ -184,7 +176,7 @@ class Mage_Core_Model_Resource_File_Storage_File
             }
         } catch (Magento_Filesystem_Exception $e) {
             $this->_logger->log($e->getMessage());
-            Mage::throwException($this->_helper->__('Unable to save file: %s', $filePath));
+            Mage::throwException(__('Unable to save file: %1', $filePath));
         }
 
         return false;

@@ -78,28 +78,28 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
         $fieldset = $form->addFieldset('origin_address_fieldset', array());
         $fieldset->addField('street_line1', 'text', array(
             'name' => 'street_line1',
-            'label' => $helper->__('Street Address 1'),
+            'label' => __('Street Address 1'),
             'required' => false,
             'value' => $addressData['street_line1']
         ));
 
         $fieldset->addField('street_line2', 'text', array(
             'name' => 'street_line2',
-            'label' => $helper->__('Street Address 2'),
+            'label' => __('Street Address 2'),
             'required' => false,
             'value' => $addressData['street_line2']
         ));
 
         $fieldset->addField('city', 'text', array(
             'name' => 'city',
-            'label' => $helper->__('City'),
+            'label' => __('City'),
             'required' => false,
             'value' => $addressData['city']
         ));
 
         $fieldset->addField('postcode', 'text', array(
             'name' => 'postcode',
-            'label' => $helper->__('ZIP/Postal Code'),
+            'label' => __('ZIP/Postal Code'),
             'required' => false,
             'value' => $addressData['postcode']
         ));
@@ -111,7 +111,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
             if (!empty($regions)) {
                 $fieldset->addField('region_id', 'select', array(
                    'name' => 'region_id',
-                   'label' => $helper->__('State/Region'),
+                   'label' => __('State/Region'),
                    'values' => $regions,
                    'value' => $addressData['region_id'],
                 ));
@@ -122,7 +122,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
         if ($isRegionFieldText) {
             $fieldset->addField('region_id', 'text', array(
                  'name' => 'region_id',
-                 'label' => $helper->__('State/Region'),
+                 'label' => __('State/Region'),
                  'value' => $addressData['region_id']
             ));
         }
@@ -130,7 +130,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
         $countries = $this->_countryConfigModel->toOptionArray(false, 'US');
         $fieldset->addField('country_id', 'select', array(
             'name' => 'country_id',
-            'label' => $helper->__('Country'),
+            'label' => __('Country'),
             'required' => true,
             'values' => $countries,
             'class' => 'countries',

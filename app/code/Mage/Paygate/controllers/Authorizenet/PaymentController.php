@@ -37,7 +37,7 @@ class Mage_Paygate_Authorizenet_PaymentController extends Mage_Core_Controller_F
             $result['error_message'] = $e->getMessage();
         } catch (Exception $e) {
             Mage::logException($e);
-            $result['error_message'] = $this->__('There was an error canceling transactions. Please contact us or try again later.');
+            $result['error_message'] = __('There was an error canceling transactions. Please contact us or try again later.');
         }
 
         Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->getPayment()->save();

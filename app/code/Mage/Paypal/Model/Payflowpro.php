@@ -474,7 +474,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     protected function _processErrors(Magento_Object $response)
     {
         if ($response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
-            throw new Mage_Paypal_Exception(Mage::helper('Mage_Paypal_Helper_Data')->__('You cannot void a verification transaction.'));
+            throw new Mage_Paypal_Exception(__('You cannot void a verification transaction.'));
         } elseif ($response->getResultCode() != self::RESPONSE_CODE_APPROVED
             && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER) {
             Mage::throwException($response->getRespmsg());

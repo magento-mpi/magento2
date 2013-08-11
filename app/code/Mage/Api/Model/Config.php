@@ -233,16 +233,11 @@ class Mage_Api_Model_Config extends Magento_Simplexml_Config
         }
         /* @var $faultsNode Magento_Simplexml_Element */
 
-        $translateModule = 'Mage_Api';
-        if (isset($faultsNode['module'])) {
-           $translateModule = (string) $faultsNode['module'];
-        }
-
         $faults = array();
         foreach ($faultsNode->children() as $faultName => $fault) {
             $faults[$faultName] = array(
                 'code'    => (string) $fault->code,
-                'message' => Mage::helper($translateModule)->__((string)$fault->message)
+                'message' => __((string)$fault->message)
             );
         }
 

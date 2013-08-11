@@ -15,7 +15,7 @@
         <tab id="Test">
             <label>Test</label>
         </tab>
-        <section id="test_section" translate="label" module="Mage_Core" showInDefault="1" showInWebsite="1" showInStore="1" type="text" sortOrder="0">
+        <section id="test_section" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" type="text" sortOrder="0">
             <label>Test Section</label>
             <tab>Test</tab>
 
