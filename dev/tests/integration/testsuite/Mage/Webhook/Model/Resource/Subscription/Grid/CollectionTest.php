@@ -73,7 +73,8 @@ class Mage_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PHPUn
     public function testGetSubscriptions()
     {
         $gridCollection = Mage::getObjectManager()
-            ->create('Mage_Webhook_Model_Resource_Subscription_Grid_Collection', array('subscriptionConfig' => $this->_config));
+            ->create('Mage_Webhook_Model_Resource_Subscription_Grid_Collection',
+                array('subscriptionConfig' => $this->_config));
 
         $subscriptions   = $gridCollection->getItems();
         $this->assertEquals(5, count($subscriptions));
@@ -105,7 +106,8 @@ class Mage_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PHPUn
          *
          * @var PHPUnit_Framework_MockObject_MockObject $cache
          */
-        $cache = $this->getMock('Mage_Core_Model_Config_Cache', array('load', 'save', 'clean', 'getSection'),
+        $cache = $this->getMock('Mage_Core_Model_Config_Cache',
+            array('load', 'save', 'clean', 'getSection'),
             array(), '', false);
 
         $cache->expects($this->any())
@@ -205,7 +207,10 @@ class Mage_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PHPUn
             ->setEndpointUrl('http://localhost/unique_endpoint')
             ->setFormat('json')
             ->setName('Third Subscription')
-            ->setTopics(array(self::TOPIC_LISTENERS_ONE, self::TOPIC_LISTENERS_TWO, self::TOPIC_LISTENERS_THREE))
+            ->setTopics(array(
+                self::TOPIC_LISTENERS_ONE,
+                self::TOPIC_LISTENERS_TWO,
+                self::TOPIC_LISTENERS_THREE))
             ->setStatus(Mage_Webhook_Model_Subscription::STATUS_ACTIVE)
             ->setApiUserId(self::$_apiUserId)
             ->save();
