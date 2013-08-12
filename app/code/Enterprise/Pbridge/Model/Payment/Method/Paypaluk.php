@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Model_Direct
+class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Model_Direct
 {
     /**
      * Form block type for the frontend
@@ -147,7 +147,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
     public function isAvailable($quote = null)
     {
         return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
-            && $this->_pro->getConfig()->isMethodAvailable(Mage_Paypal_Model_Config::METHOD_WPP_PE_DIRECT);
+            && $this->_pro->getConfig()->isMethodAvailable(Magento_Paypal_Model_Config::METHOD_WPP_PE_DIRECT);
     }
 
     /**
@@ -187,7 +187,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      * Authorize payment
      *
      * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Paypal_Model_Direct
+     * @return Magento_Paypal_Model_Direct
      */
     public function authorize(Magento_Object $payment, $amount)
     {
@@ -202,7 +202,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      * Capture payment
      *
      * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Paypal_Model_Direct
+     * @return Magento_Paypal_Model_Direct
      */
     public function capture(Magento_Object $payment, $amount)
     {
@@ -216,7 +216,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      * Refund capture
      *
      * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Paypal_Model_Direct
+     * @return Magento_Paypal_Model_Direct
      */
     public function refund(Magento_Object $payment, $amount)
     {
@@ -228,7 +228,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypaluk extends Mage_PaypalUk_Mod
      * Void payment
      *
      * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Paypal_Model_Direct
+     * @return Magento_Paypal_Model_Direct
      */
     public function void(Magento_Object $payment)
     {

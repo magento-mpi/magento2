@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_PaypalUk
+ * @package     Magento_PaypalUk
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +11,14 @@
 /**
  * Paypal expess checkout shortcut link
  */
-class Mage_PaypalUk_Block_Express_Shortcut extends Mage_Paypal_Block_Express_Shortcut
+class Magento_PaypalUk_Block_Express_Shortcut extends Magento_Paypal_Block_Express_Shortcut
 {
     /**
      * Payment method code
      *
      * @var string
      */
-    protected $_paymentMethodCode = Mage_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS;
+    protected $_paymentMethodCode = Magento_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS;
 
     /**
      * Start express action
@@ -32,5 +32,5 @@ class Mage_PaypalUk_Block_Express_Shortcut extends Mage_Paypal_Block_Express_Sho
      *
      * @var string
      */
-    protected $_checkoutType = 'Mage_PaypalUk_Model_Express_Checkout';
+    protected $_checkoutType = 'Magento_PaypalUk_Model_Express_Checkout';
 }

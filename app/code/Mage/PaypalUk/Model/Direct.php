@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_PaypalUk
+ * @package     Magento_PaypalUk
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,16 +11,16 @@
 /**
  * PayPalUk Direct Module
  */
-class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
+class Magento_PaypalUk_Model_Direct extends Magento_Paypal_Model_Direct
 {
-    protected $_code  = Mage_Paypal_Model_Config::METHOD_WPP_PE_DIRECT;
+    protected $_code  = Magento_Paypal_Model_Config::METHOD_WPP_PE_DIRECT;
 
     /**
      * Website Payments Pro instance type
      *
      * @var string
      */
-    protected $_proType = 'Mage_PaypalUk_Model_Pro';
+    protected $_proType = 'Magento_PaypalUk_Model_Pro';
 
     /**
      * Return available CC types for gateway based on merchant country
@@ -52,16 +52,16 @@ class Mage_PaypalUk_Model_Direct extends Mage_Paypal_Model_Direct
     /**
      * Import direct payment results to payment
      *
-     * @param Mage_Paypal_Model_Api_Nvp
+     * @param Magento_Paypal_Model_Api_Nvp
      * @param Mage_Sales_Model_Order_Payment
      */
     protected function _importResultToPayment($api, $payment)
     {
         $payment->setTransactionId($api->getPaypalTransactionId())->setIsTransactionClosed(0)
             ->setIsTransactionPending($api->getIsPaymentPending())
-            ->setTransactionAdditionalInfo(Mage_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId())
+            ->setTransactionAdditionalInfo(Magento_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId())
             ;
-        $payment->setPreparedMessage(Mage::helper('Mage_PaypalUk_Helper_Data')->__('Payflow PNREF: #%s.', $api->getTransactionId()));
+        $payment->setPreparedMessage(Mage::helper('Magento_PaypalUk_Helper_Data')->__('Payflow PNREF: #%s.', $api->getTransactionId()));
         $this->_pro->importPaymentInfo($api, $payment);
     }
 

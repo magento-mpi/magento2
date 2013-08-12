@@ -321,7 +321,7 @@ class Mage_Persistent_Model_Observer
             );
             $controllerAction->redirectLogin();
             if ($controllerAction instanceof Magento_GoogleCheckout_Controller_Redirect
-                || $controllerAction instanceof Mage_Paypal_Controller_Express_Abstract
+                || $controllerAction instanceof Magento_Paypal_Controller_Express_Abstract
             ) {
                 Mage::getSingleton('Magento_Customer_Model_Session')
                     ->setBeforeAuthUrl(Mage::getUrl('persistent/index/expressCheckout'));

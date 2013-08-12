@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <paypal_express_review_details>
         <block type="Mage_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-            <block type="Mage_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" template="express/review/details.phtml">
+            <block type="Magento_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" template="express/review/details.phtml">
                 <action method="addItemRender">
                     <type>default</type>
                     <block>Magento_Checkout_Block_Cart_Item_Renderer</block>

@@ -200,7 +200,7 @@
  * @method Core_Mage_OrderInvoice_Helper                                                               orderInvoiceHelper()
  * @method Core_Mage_OrderShipment_Helper                                                              orderShipmentHelper()
  * @method Core_Mage_Order_Helper|Enterprise_Mage_Order_Helper                                         orderHelper()
- * @method Core_Mage_Paypal_Helper                                                                     paypalHelper()
+ * @method Core_Magento_Paypal_Helper                                                                     paypalHelper()
  * @method Core_Mage_PriceRules_Helper|Enterprise_Mage_PriceRules_Helper                               priceRulesHelper()
  * @method Core_Mage_ProductAttribute_Helper|Saas_Mage_ProductAttribute_Helper                         productAttributeHelper()
  * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper|Saas_Mage_Product_Helper            productHelper()

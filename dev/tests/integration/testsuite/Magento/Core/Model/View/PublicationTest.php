@@ -355,21 +355,21 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
                 ),
             ),
             'adminhtml' => array(
-                'Mage_Paypal::styles.css',
+                'Magento_Paypal::styles.css',
                 array(
                     'area'    => 'adminhtml',
                     'theme'   => 'vendor_test',
                     'locale'  => 'en_US',
                     'module'  => false,
                 ),
-                'adminhtml/vendor_test/en_US/Mage_Paypal/styles.css',
+                'adminhtml/vendor_test/en_US/Magento_Paypal/styles.css',
                 array(
                     'url(images/paypal-logo.png)',
                     'url(images/pp-allinone.png)',
                 ),
                 array(
-                    'adminhtml/vendor_test/en_US/Mage_Paypal/images/paypal-logo.png',
-                    'adminhtml/vendor_test/en_US/Mage_Paypal/images/pp-allinone.png',
+                    'adminhtml/vendor_test/en_US/Magento_Paypal/images/paypal-logo.png',
+                    'adminhtml/vendor_test/en_US/Magento_Paypal/images/pp-allinone.png',
                 ),
             ),
         );

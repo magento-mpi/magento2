@@ -8,7 +8,7 @@
  */
 -->
 <layout version="0.1.0">
-    <paypaluk_express_review translate="label" module="Mage_PaypalUk" type="page" parent="default">
+    <paypaluk_express_review translate="label" module="Magento_PaypalUk" type="page" parent="default">
         <label>PayPal Express Order Review Form</label>
         <reference name="root">
             <action method="setTemplate">
@@ -16,11 +16,11 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Mage_Paypal_Block_Express_Review" name="paypal.express.review" template="Mage_PaypalUk::express/review.phtml">
+            <block type="Magento_Paypal_Block_Express_Review" name="paypal.express.review" template="Magento_PaypalUk::express/review.phtml">
                 <action method="setPaypalActionPrefix">
                     <prefix>paypaluk</prefix>
                 </action>
-                <block type="Mage_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="express/review/details.phtml">
+                <block type="Magento_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="express/review/details.phtml">
                     <action method="addItemRender">
                         <type>default</type>
                         <block>Magento_Checkout_Block_Cart_Item_Renderer</block>

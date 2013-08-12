@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Mage_Paypal_Model_Payflowpro
+class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Model_Payflowpro
 {
     /**
      * Form block type for the frontend
@@ -125,7 +125,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro extends Mage_Paypal_Mo
     public function isAvailable($quote = null)
     {
         $storeId = Mage::app()->getStore($this->getStore())->getId();
-        $config = Mage::getModel('Mage_Paypal_Model_Config')->setStoreId($storeId);
+        $config = Mage::getModel('Magento_Paypal_Model_Config')->setStoreId($storeId);
 
         return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
             && $config->isMethodAvailable($this->getOriginalCode());

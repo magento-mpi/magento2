@@ -52,7 +52,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
             'Magento_Adminhtml_Block_Sales_Order',
             'Mage_Oauth_Block_Adminhtml_Oauth_Consumer',
             'Mage_Oauth_Block_Adminhtml_Oauth_Consumer_Grid',
-            'Mage_Paypal_Block_Adminhtml_Settlement_Report',
+            'Magento_Paypal_Block_Adminhtml_Settlement_Report',
             'Mage_Sales_Block_Adminhtml_Billing_Agreement_View',
             'Mage_User_Block_Role_Tab_Edit',
             'Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource',

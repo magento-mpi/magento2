@@ -4,29 +4,29 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_PaypalUk
+ * @package     Magento_PaypalUk
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
     <modules>
-        <Mage_PaypalUk>
+        <Magento_PaypalUk>
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
                 <Magento_Paygate />
                 <Magento_Checkout />
                 <Mage_Sales />
-                <Mage_Paypal />
+                <Magento_Paypal />
             </depends>
-        </Mage_PaypalUk>
+        </Magento_PaypalUk>
     </modules>
     <global>
         <resources>
             <paypaluk_setup>
                 <setup>
-                    <module>Mage_PaypalUk</module>
+                    <module>Magento_PaypalUk</module>
                 </setup>
             </paypaluk_setup>
         </resources>
@@ -39,39 +39,39 @@
             <paypaluk>
                 <use>standard</use>
                 <args>
-                    <module>Mage_PaypalUk</module>
+                    <module>Magento_PaypalUk</module>
                     <frontName>paypaluk</frontName>
                 </args>
             </paypaluk>
         </routers>
         <translate>
             <modules>
-                <Mage_PaypalUk>
+                <Magento_PaypalUk>
                     <files>
-                        <default>Mage_PaypalUk.csv</default>
+                        <default>Magento_PaypalUk.csv</default>
                     </files>
-                </Mage_PaypalUk>
+                </Magento_PaypalUk>
             </modules>
         </translate>
     </frontend>
     <adminhtml>
         <translate>
             <modules>
-                <Mage_PaypalUk>
+                <Magento_PaypalUk>
                     <files>
-                        <default>Mage_PaypalUk.csv</default>
+                        <default>Magento_PaypalUk.csv</default>
                     </files>
-                </Mage_PaypalUk>
+                </Magento_PaypalUk>
             </modules>
         </translate>
     </adminhtml>
     <default>
         <payment>
             <paypaluk_express>
-                <model>Mage_PaypalUk_Model_Express</model>
+                <model>Magento_PaypalUk_Model_Express</model>
             </paypaluk_express>
             <paypaluk_direct>
-                <model>Mage_PaypalUk_Model_Direct</model>
+                <model>Magento_PaypalUk_Model_Direct</model>
             </paypaluk_direct>
         </payment>
     </default>

@@ -45,7 +45,7 @@ class Mage_Sales_Model_Observer_Backend_BillingAgreementTest extends PHPUnit_Fra
     {
         $event = $this->getMock('Magento_Event', array('getMethodInstance', 'getResult'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
-        $methodInstance = $this->getMock('Mage_Paypal_Model_Method_Agreement', array(), array(), '', false);
+        $methodInstance = $this->getMock('Magento_Paypal_Model_Method_Agreement', array(), array(), '', false);
         $event->expects($this->once())->method('getMethodInstance')->will($this->returnValue($methodInstance));
         $this->_authorizationMock->expects(
             $this->once())->method('isAllowed')->with('Mage_Sales::use')->will($this->returnValue(false)

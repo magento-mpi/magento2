@@ -1672,13 +1672,13 @@
             <adminhtml_paypal_reports_details>
                 <action>view</action>
                 <expected_models>
-                    <Mage_Paypal_Model_Report_Settlement_Row/>
+                    <Magento_Paypal_Model_Report_Settlement_Row/>
                 </expected_models>
             </adminhtml_paypal_reports_details>
             <adminhtml_paypal_reports_fetch>
                 <action>fetch</action>
                 <expected_models>
-                    <Mage_Paypal_Model_Report_Settlement/>
+                    <Magento_Paypal_Model_Report_Settlement/>
                 </expected_models>
             </adminhtml_paypal_reports_fetch>
         </actions>

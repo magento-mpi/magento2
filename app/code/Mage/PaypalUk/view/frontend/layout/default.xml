@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <default>
         <reference name="cart_sidebar.extra_actions">
-            <block type="Mage_PaypalUk_Block_Express_Shortcut" name="paypaluk.partner.cart_sidebar.shortcut" template="Mage_Paypal::express/shortcut.phtml"/>
+            <block type="Magento_PaypalUk_Block_Express_Shortcut" name="paypaluk.partner.cart_sidebar.shortcut" template="Magento_Paypal::express/shortcut.phtml"/>
         </reference>
     </default>
 </layout>

@@ -20,7 +20,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups_Source_Type
     {
         return array(
             array('value' => 'UPS', 'label' => Mage::helper('Magento_Usa_Helper_Data')->__('United Parcel Service')),
-            #array('value' => Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_ORDER, 'label' => Mage::helper('Magento_Usa_Helper_Data')->__('Order')),
+            #array('value' => Magento_Paypal_Model_Api_Abstract::PAYMENT_TYPE_ORDER, 'label' => Mage::helper('Magento_Usa_Helper_Data')->__('Order')),
             array('value' => 'UPS_XML', 'label' => Mage::helper('Magento_Usa_Helper_Data')->__('United Parcel Service XML')),
         );
     }

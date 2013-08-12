@@ -15,7 +15,7 @@ app/code/Magento/Wishlist
 app/code/Mage/Bundle
 app/code/Magento/Adminhtml
 app/code/Magento/Payment
-app/code/Mage/Paypal
+app/code/Magento/Paypal
 app/code/Magento/GiftMessage
 app/code/Mage/Sales
 app/code/Magento/Authorizenet

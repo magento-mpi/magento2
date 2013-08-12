@@ -10,14 +10,14 @@
 <layout version="0.1.0">
     <checkout_cart_index>
         <reference name="checkout.cart.top_methods">
-            <block type="Mage_PaypalUk_Block_Express_Shortcut" name="checkout.cart.methods.paypaluk_express.top" before="-" template="Mage_Paypal::express/shortcut.phtml">
+            <block type="Magento_PaypalUk_Block_Express_Shortcut" name="checkout.cart.methods.paypaluk_express.top" before="-" template="Magento_Paypal::express/shortcut.phtml">
                 <action method="setIsQuoteAllowed">
                     <value>1</value>
                 </action>
             </block>
         </reference>
         <reference name="checkout.cart.methods">
-            <block type="Mage_PaypalUk_Block_Express_Shortcut" name="checkout.cart.methods.paypaluk_express.bottom" before="-" template="Mage_Paypal::express/shortcut.phtml">
+            <block type="Magento_PaypalUk_Block_Express_Shortcut" name="checkout.cart.methods.paypaluk_express.bottom" before="-" template="Magento_Paypal::express/shortcut.phtml">
                 <action method="setIsQuoteAllowed">
                     <value>1</value>
                 </action>

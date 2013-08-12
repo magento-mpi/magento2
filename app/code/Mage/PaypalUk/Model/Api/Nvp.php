@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_PaypalUk
+ * @package     Magento_PaypalUk
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * NVP API wrappers model
  */
-class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
+class Magento_PaypalUk_Model_Api_Nvp extends Magento_Paypal_Model_Api_Nvp
 {
     /**#@+
      * Transaction types declaration
@@ -289,14 +289,14 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
      * @var array
      */
     protected $_lineItemTotalExportMap = array(
-        Mage_Paypal_Model_Cart::TOTAL_TAX       => 'TAXAMT',
-        Mage_Paypal_Model_Cart::TOTAL_SHIPPING  => 'FREIGHTAMT',
+        Magento_Paypal_Model_Cart::TOTAL_TAX       => 'TAXAMT',
+        Magento_Paypal_Model_Cart::TOTAL_SHIPPING  => 'FREIGHTAMT',
     );
 
     protected $_lineItemsExportRequestTotalsFormat = array(
         'amount' => 'PAYMENTREQUEST_%d_ITEMAMT',
-        Mage_Paypal_Model_Cart::TOTAL_TAX      => 'TAXAMT',
-        Mage_Paypal_Model_Cart::TOTAL_SHIPPING => 'FREIGHTAMT',
+        Magento_Paypal_Model_Cart::TOTAL_TAX      => 'TAXAMT',
+        Magento_Paypal_Model_Cart::TOTAL_SHIPPING => 'FREIGHTAMT',
     );
 
     protected $_lineItemExportItemsFormat = array(
@@ -382,7 +382,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
      */
     public function getTender()
     {
-        if ($this->_config->getMethodCode() == Mage_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS) {
+        if ($this->_config->getMethodCode() == Magento_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS) {
             return self::TENDER_PAYPAL;
         }
         return self::TENDER_CC;
@@ -426,11 +426,11 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
     protected function _getPaypalUkActionName($methodName)
     {
         switch($methodName) {
-            case Mage_Paypal_Model_Api_Nvp::SET_EXPRESS_CHECKOUT:
+            case Magento_Paypal_Model_Api_Nvp::SET_EXPRESS_CHECKOUT:
                 return self::EXPRESS_SET;
-            case Mage_Paypal_Model_Api_Nvp::GET_EXPRESS_CHECKOUT_DETAILS:
+            case Magento_Paypal_Model_Api_Nvp::GET_EXPRESS_CHECKOUT_DETAILS:
                 return self::EXPRESS_GET;
-            case Mage_Paypal_Model_Api_Nvp::DO_EXPRESS_CHECKOUT_PAYMENT:
+            case Magento_Paypal_Model_Api_Nvp::DO_EXPRESS_CHECKOUT_PAYMENT:
                 return self::EXPRESS_DO_PAYMENT;
         }
         return null;
@@ -445,18 +445,18 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
     protected function _mapPaypalMethodName($methodName)
     {
         switch($methodName) {
-            case Mage_Paypal_Model_Api_Nvp::DO_EXPRESS_CHECKOUT_PAYMENT:
-            case Mage_Paypal_Model_Api_Nvp::GET_EXPRESS_CHECKOUT_DETAILS:
-            case Mage_Paypal_Model_Api_Nvp::SET_EXPRESS_CHECKOUT:
-            case Mage_Paypal_Model_Api_Nvp::DO_DIRECT_PAYMENT:
-                return ($this->_config->payment_action == Mage_Paypal_Model_Config::PAYMENT_ACTION_AUTH)
+            case Magento_Paypal_Model_Api_Nvp::DO_EXPRESS_CHECKOUT_PAYMENT:
+            case Magento_Paypal_Model_Api_Nvp::GET_EXPRESS_CHECKOUT_DETAILS:
+            case Magento_Paypal_Model_Api_Nvp::SET_EXPRESS_CHECKOUT:
+            case Magento_Paypal_Model_Api_Nvp::DO_DIRECT_PAYMENT:
+                return ($this->_config->payment_action == Magento_Paypal_Model_Config::PAYMENT_ACTION_AUTH)
                     ? self::TRXTYPE_AUTH_ONLY
                     : self::TRXTYPE_SALE;
-            case Mage_Paypal_Model_Api_Nvp::DO_CAPTURE:
+            case Magento_Paypal_Model_Api_Nvp::DO_CAPTURE:
                 return self::TRXTYPE_DELAYED_CAPTURE;
-            case Mage_Paypal_Model_Api_Nvp::DO_VOID:
+            case Magento_Paypal_Model_Api_Nvp::DO_VOID:
                 return self::TRXTYPE_DELAYED_VOID;
-            case Mage_Paypal_Model_Api_Nvp::REFUND_TRANSACTION:
+            case Magento_Paypal_Model_Api_Nvp::REFUND_TRANSACTION:
                 return self::TRXTYPE_CREDIT;
         }
     }
@@ -492,7 +492,7 @@ class Mage_PaypalUk_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp
             $e = new Exception(sprintf('PayPal gateway errors: %s.', $message));
             Mage::logException($e);
             Mage::throwException(
-                Mage::helper('Mage_Paypal_Helper_Data')->__('PayPal gateway rejected the request. %s', $message)
+                Mage::helper('Magento_Paypal_Helper_Data')->__('PayPal gateway rejected the request. %s', $message)
             );
         }
     }

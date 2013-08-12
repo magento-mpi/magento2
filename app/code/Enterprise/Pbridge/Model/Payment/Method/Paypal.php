@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_Direct
+class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_Direct
 {
     /**
      * Form block type for the frontend
@@ -137,7 +137,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_D
     public function isAvailable($quote = null)
     {
         return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
-            && $this->_pro->getConfig()->isMethodAvailable(Mage_Paypal_Model_Config::METHOD_WPP_DIRECT);
+            && $this->_pro->getConfig()->isMethodAvailable(Magento_Paypal_Model_Config::METHOD_WPP_DIRECT);
     }
 
     /**

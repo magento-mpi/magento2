@@ -14,7 +14,7 @@ Mysql
 lib/Magento/DB
 sql
 data
-Mage/Paypal
+Magento/Paypal
 Magento/Paygate
 Magento/Downloadable
 Magento/Core/Model/Resource/Helper

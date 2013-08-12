@@ -228,7 +228,7 @@ class Mage_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billing_A
      * Retrieve available customer Billing Agreements
      *
      * @param int $customer
-     * @return Mage_Paypal_Controller_Express_Abstract
+     * @return Magento_Paypal_Controller_Express_Abstract
      */
     public function getAvailableCustomerBillingAgreements($customerId)
     {

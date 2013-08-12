@@ -150,7 +150,7 @@ class Enterprise_GiftWrapping_Model_Observer
      */
     public function addPaypalGiftWrappingItem(Magento_Event_Observer $observer)
     {
-        /** @var Mage_Paypal_Model_Cart $paypalCart */
+        /** @var Magento_Paypal_Model_Cart $paypalCart */
         $paypalCart = $observer->getEvent()->getPaypalCart();
         $totalWrapping = 0;
         $totalCard = 0;

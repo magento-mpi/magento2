@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $this Mage_Paypal_Block_Express_Review */
+/** @var $this Magento_Paypal_Block_Express_Review */
 ?>
 <div class="page-title">
     <h1><?php echo $this->__('Review Order') ?></h1>
@@ -119,7 +119,7 @@
         "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
         "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
         "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-        "<?php echo $this->getViewFileUrl('Mage_Paypal::order-review.js') ?>",
+        "<?php echo $this->getViewFileUrl('Magento_Paypal::order-review.js') ?>",
         function() {
             jQuery('#order-review-form').validation().orderReview({
                 shippingSubmitFormSelector: '#shipping-method-form',

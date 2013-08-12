@@ -232,13 +232,13 @@ $CONFIG['translates'] = array(
         'app/code/Magento/Payment/',
         'app/design/frontend/base/default/template/payment/'
     ),
-    'Mage_Paypal' => array(
-        'app/code/Mage/Paypal/',
+    'Magento_Paypal' => array(
+        'app/code/Magento/Paypal/',
         'app/design/frontend/base/default/template/paypal/',
         'app/design/frontend/base/default/layout/paypal.xml',
     ),
-    'Mage_PaypalUk' => array(
-        'app/code/Mage/Paypal/',
+    'Magento_PaypalUk' => array(
+        'app/code/Magento/Paypal/',
         'app/design/frontend/base/default/layout/paypaluk.xml',
     ),
     'Mage_Persistent' => array(
@@ -608,8 +608,8 @@ $CONFIG['helpers']  = array(
     'paybox'            => 'Mage_Paybox',
     'paygate'           => 'Magento_Paygate',
     'payment'           => 'Magento_Payment',
-    'paypal'            => 'Mage_Paypal',
-    'paypaluk'          => 'Mage_PaypalUk',
+    'paypal'            => 'Magento_Paypal',
+    'paypaluk'          => 'Magento_PaypalUk',
     'persistent'        => 'Mage_Persistent',
     'poll'              => 'Magento_Poll',
     'productalert'      => 'Magento_ProductAlert',
