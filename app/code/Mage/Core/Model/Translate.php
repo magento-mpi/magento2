@@ -308,16 +308,15 @@ class Mage_Core_Model_Translate
      *
      * @param string $moduleName
      * @param array $files
-     * @param boolean $forceReload
      * @return Mage_Core_Model_Translate
      */
-    protected function _loadModuleTranslation($moduleName, $files, $forceReload = false)
+    protected function _loadModuleTranslation($moduleName, $files)
     {
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($files as $file) {
             foreach ($requiredLocaleList as $locale) {
                 $moduleFilePath = $this->_getModuleFilePath($moduleName, $file, $locale);
-                $this->_addData($this->_getFileData($moduleFilePath), $moduleName, $forceReload);
+                $this->_addData($this->_getFileData($moduleFilePath));
             }
         }
         return $this;
