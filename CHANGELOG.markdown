@@ -33,28 +33,33 @@
 * Various improvements:
   * Added configuration for limits on sending wishlist emails
   * Refactored default theme fixture in integration tests in order to divide it into smaller and easier to understand fixtures
+  * Removed Currency Symbol module files from Adminhtml module to the module itself
 * Bug fixes:
   * Fixed absence of a product for store view created after the product
   * Fixed incorrectly displayed or absent product image on configurable product pages
   * Fixed incorrectly displayed Tier Price message for Bundle product on backend
   * Fixed absence of configured options, when composite product is edited from wishlist
   * Fixed inability to set product rating from backend
-  * Fixed incorrectly refunded order amount, when both Store Credits and online payment method are used
   * Fixed bug with adding product with decimal quantity
   * Fixed bug with incorrect theme saving when wrong file is uploaded
   * Fixed bug with incorrect price and stock availability information
   * Fixed absence of "Delete" button on Widget Instance and Edit Custom Variable pages
   * Fixed inability to change PayPal configuration
+  * Fixed inventory return after cancelling order, paid with PayPal Website Payment Standard method
+  * Fixed removal of all the items from shopping cart, when cancelling payment by PayPal Website Payment Standard method
   * Fixed issue with customer address saved in `sales_flat_quote_address` table as `null` or as default address instead of new one during checkout
   * Fixed hard dependency on GD extension during installation. Now the application can be installed if any of GD or ImageMagick extension is enabled
   * Fixed handling of creation a customer with already existing e-mail on backend
   * Fixed exception on customer edit page, when profiler is enabled
   * Fixed removal of "NOT LOGGED IN" customer group, when attempting to delete nonexistent group
+  * Fixed absence of a welcome email for a new customer that is created in backend
+  * Added validation for customer DOB
   * Fixed bugs related to "Add Store Code to Urls" configuration setting: the setting applied to backend and produced exceptions on frontend
   * Fixed inability to edit Newsletter Template
   * Fixed inability to save Configuration from "Web" tab
   * Fixed incorrect roles assignment for backend users
   * Fixed incorrect message during checkout via Authorize.Net
+  * Fixed inability to create order in backend with Authorize.Net as payment method
   * Fixed unexpected alert during one-page checkout
   * Fixed bug with broken RSS link on some pages
   * Fixed inability to delete non-empty customer groups
@@ -94,7 +99,14 @@
   * Fixed exception, when saving a configurable product without associated products
   * Fixed inability to properly save system configuration, when submitting files there
   * Fixed performance issue with excessive generation of category menu on "Add to Cart" page
-  * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), taxes and tax rules
+  * Fixed wrong currency for a created order
+  * Fixed calculation for amount of items, remaining in an order, after shipping and invoicing
+  * Fixed wrong price for multiple bundle products, ordered in backend
+  * Fixed issues with changing order statuses in backend
+  * Implemented proper distinguishing of ordered items that have been shipped with Free Shipping method
+  * Fixed issue with a State field being required in countries, where it is not mandatory
+  * Fixed inability to upload a file via File custom option, when ordering a product at frontend
+  * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
 
 2.0.0.0-dev44
 =============
