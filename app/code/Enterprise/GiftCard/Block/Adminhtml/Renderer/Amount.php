@@ -79,7 +79,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
                 $website = Mage::app()->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'      => $website->getName(),
-                    'currency'  => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                    'currency'  => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
                 );
             } else {
                 foreach (Mage::app()->getWebsites() as $website) {
@@ -88,7 +88,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
                     }
                     $websites[$website->getId()] = array(
                         'name'      => $website->getName(),
-                        'currency'  => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                        'currency'  => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
                     );
                 }
             }

@@ -100,7 +100,7 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipp
     public function isZipCodeRequired($countryId = null)
     {
         if ($countryId != null) {
-            return !Mage::helper('Mage_Directory_Helper_Data')->isZipCodeOptional($countryId);
+            return !Mage::helper('Magento_Directory_Helper_Data')->isZipCodeOptional($countryId);
         }
         return true;
     }

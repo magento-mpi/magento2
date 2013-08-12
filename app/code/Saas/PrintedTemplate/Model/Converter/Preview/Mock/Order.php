@@ -277,7 +277,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Order extends Magento_Sa
             'global_currency_code' => 'USD',
             'hold_before_state' => NULL,
             'hold_before_status' => NULL,
-            'order_currency_code' => $this->_getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'order_currency_code' => $this->_getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'original_increment_id' => NULL,
             'relation_child_id' => NULL,
             'relation_child_real_id' => NULL,

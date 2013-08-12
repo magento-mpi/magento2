@@ -47,7 +47,7 @@ abstract class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_Abstra
             foreach (Mage::app()->getWebsites() as $website) {
                 /* @var $website Magento_Core_Model_Website */
                 if ($website->getBaseCurrencyCode() != $baseCurrency) {
-                    $rate = Mage::getModel('Mage_Directory_Model_Currency')
+                    $rate = Mage::getModel('Magento_Directory_Model_Currency')
                         ->load($baseCurrency)
                         ->getRate($website->getBaseCurrencyCode());
                     if (!$rate) {

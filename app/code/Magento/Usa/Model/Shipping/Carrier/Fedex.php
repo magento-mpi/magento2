@@ -232,7 +232,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
                 $request->getStoreId()
             );
         }
-        $r->setOrigCountry(Mage::getModel('Mage_Directory_Model_Country')->load($origCountry)->getIso2Code());
+        $r->setOrigCountry(Mage::getModel('Magento_Directory_Model_Country')->load($origCountry)->getIso2Code());
 
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
@@ -248,7 +248,7 @@ class Magento_Usa_Model_Shipping_Carrier_Fedex
         } else {
             $destCountry = self::USA_COUNTRY_ID;
         }
-        $r->setDestCountry(Mage::getModel('Mage_Directory_Model_Country')->load($destCountry)->getIso2Code());
+        $r->setDestCountry(Mage::getModel('Magento_Directory_Model_Country')->load($destCountry)->getIso2Code());
 
         if ($request->getDestPostcode()) {
             $r->setDestPostal($request->getDestPostcode());

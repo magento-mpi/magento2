@@ -40,7 +40,7 @@ class Magento_Adminhtml_Model_Customer_Renderer_Region implements Magento_Data_F
         $regionCollection = false;
         if ($countryId) {
             if (!isset(self::$_regionCollections[$countryId])) {
-                self::$_regionCollections[$countryId] = Mage::getModel('Mage_Directory_Model_Country')
+                self::$_regionCollections[$countryId] = Mage::getModel('Magento_Directory_Model_Country')
                     ->setId($countryId)
                     ->getLoadedRegionCollection()
                     ->toOptionArray();
@@ -78,7 +78,7 @@ class Magento_Adminhtml_Model_Customer_Renderer_Region implements Magento_Data_F
                 $selected = ($regionId==$region['value']) ? ' selected="selected"' : '';
                 $regionVal = (0 == $region['value']) ? '' : (int)$region['value'];
                 $html.= '<option value="' . $regionVal . '"' . $selected . '>'
-                    . Mage::helper('Magento_Adminhtml_Helper_Data')->escapeHtml(Mage::helper('Mage_Directory_Helper_Data')->__($region['label']))
+                    . Mage::helper('Magento_Adminhtml_Helper_Data')->escapeHtml(Mage::helper('Magento_Directory_Helper_Data')->__($region['label']))
                     . '</option>';
             }
             $html.= '</select>' . "\n";

@@ -106,7 +106,7 @@
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="1910" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Ship to Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
                 <field id="showmethod" translate="label" type="select" sortOrder="1940" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -259,7 +259,7 @@
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Ship to Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
                 <field id="debug" translate="label" type="select" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -393,7 +393,7 @@
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="910" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Ship to Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
                 <field id="showmethod" translate="label" type="select" sortOrder="920" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -525,7 +525,7 @@
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Ship to Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
                 <field id="debug" translate="label" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="0">
@@ -665,7 +665,7 @@
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="1910" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Ship to Specific Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
                 <field id="showmethod" translate="label" type="select" sortOrder="1940" showInDefault="1" showInWebsite="1" showInStore="0">

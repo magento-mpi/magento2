@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
         $rateObject = new Magento_Object(Mage::getSingleton('Magento_Tax_Model_Calculation_Rate')->getData());
         $form = new Magento_Data_Form();
 
-        $countries = Mage::getModel('Mage_Directory_Model_Config_Source_Country')->toOptionArray(false, 'US');
+        $countries = Mage::getModel('Magento_Directory_Model_Config_Source_Country')->toOptionArray(false, 'US');
         unset($countries[0]);
 
         if (!$rateObject->hasTaxCountryId()) {
@@ -48,7 +48,7 @@ class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget
             $rateObject->setTaxRegionId(Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_DEFAULT_REGION));
         }
 
-        $regionCollection = Mage::getModel('Mage_Directory_Model_Region')
+        $regionCollection = Mage::getModel('Magento_Directory_Model_Region')
             ->getCollection()
             ->addCountryFilter($rateObject->getTaxCountryId());
 

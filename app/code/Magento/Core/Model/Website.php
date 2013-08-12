@@ -489,20 +489,20 @@ class Magento_Core_Model_Website extends Magento_Core_Model_Abstract
         ) {
             return Mage::app()->getBaseCurrencyCode();
         } else {
-            return $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
+            return $this->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
         }
     }
 
     /**
      * Retrieve website base currency
      *
-     * @return Mage_Directory_Model_Currency
+     * @return Magento_Directory_Model_Currency
      */
     public function getBaseCurrency()
     {
         $currency = $this->getData('base_currency');
         if (is_null($currency)) {
-            $currency = Mage::getModel('Mage_Directory_Model_Currency')->load($this->getBaseCurrencyCode());
+            $currency = Mage::getModel('Magento_Directory_Model_Currency')->load($this->getBaseCurrencyCode());
             $this->setData('base_currency', $currency);
         }
         return $currency;

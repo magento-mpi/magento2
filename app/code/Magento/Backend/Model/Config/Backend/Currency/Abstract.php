@@ -54,7 +54,7 @@ abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Ma
     {
         if (!$value = $this->getData('groups/options/fields/base/value')) {
             $value = Mage::getConfig()->getNode(
-                Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
+                Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE,
                 $this->getScope(),
                 $this->getScopeId()
             );
@@ -71,7 +71,7 @@ abstract class Magento_Backend_Model_Config_Backend_Currency_Abstract extends Ma
     {
         if (!$value = $this->getData('groups/options/fields/default/value')) {
             $value = Mage::getConfig()->getNode(
-                Mage_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT,
+                Magento_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT,
                 $this->getScope(),
                 $this->getScopeId()
             );

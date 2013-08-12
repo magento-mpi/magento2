@@ -131,9 +131,9 @@
                     regionListId: '#shipping\\:region_id',
                     regionInputId: '#shipping\\:region',
                     postcodeId: '#shipping\\:postcode',
-                    regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>,
+                    regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson() ?>,
                     defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>",
-                    countriesWithOptionalZip: <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>,
+                    countriesWithOptionalZip: <?php echo $this->helper('Magento_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>,
                     clearError: function() {
                         var selectorArr = ['#shipping\\:region_id', '#shipping\\:region', '#shipping\\:postcode'];
                         for (var i = 0; i < selectorArr.length; i++) {

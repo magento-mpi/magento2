@@ -330,7 +330,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $requestObject->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
 
         if (is_numeric($request->getOrigState())) {
-            $requestObject->setOrigState(Mage::getModel('Mage_Directory_Model_Region')->load($request->getOrigState())->getCode());
+            $requestObject->setOrigState(Mage::getModel('Magento_Directory_Model_Region')->load($request->getOrigState())->getCode());
         } else {
             $requestObject->setOrigState($request->getOrigState());
         }
@@ -968,8 +968,8 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             $dhlProductDescription  = $this->getDhlProductTitle($dhlProduct);
 
             if ($currencyCode != $baseCurrencyCode) {
-                /* @var $currency Mage_Directory_Model_Currency */
-                $currency = Mage::getModel('Mage_Directory_Model_Currency');
+                /* @var $currency Magento_Directory_Model_Currency */
+                $currency = Mage::getModel('Magento_Directory_Model_Currency');
                 $rates = $currency->getCurrencyRates($currencyCode, array($baseCurrencyCode));
                 if (!empty($rates) && isset($rates[$baseCurrencyCode])) {
                     // Convert to store display currency using store exchange rate

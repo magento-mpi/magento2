@@ -61,11 +61,11 @@ class Magento_Checkout_Block_Onepage_Billing extends Magento_Checkout_Block_Onep
     /**
      * Return country collection
      *
-     * @return Mage_Directory_Model_Resource_Country_Collection
+     * @return Magento_Directory_Model_Resource_Country_Collection
      */
     public function getCountries()
     {
-        return Mage::getResourceModel('Mage_Directory_Model_Resource_Country_Collection')->loadByStore();
+        return Mage::getResourceModel('Magento_Directory_Model_Resource_Country_Collection')->loadByStore();
     }
 
     /**

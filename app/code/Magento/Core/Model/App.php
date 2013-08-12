@@ -355,7 +355,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      */
     public function getBaseCurrencyCode()
     {
-        return (string)$this->_config->getNode('default/' . Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
+        return (string)$this->_config->getNode('default/' . Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
     }
 
     /**

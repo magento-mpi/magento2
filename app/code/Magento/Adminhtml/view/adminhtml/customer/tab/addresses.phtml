@@ -144,8 +144,8 @@ addressesModel.prototype = {
 
         this.loader = new varienLoader(true);
         this.regionsUrl = '<?php echo $this->getRegionsUrl() ?>';
-        this.requiredStateForCountries = <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithStatesRequired(true) ?>;
-        this.showAllRegions = <?php echo (string)$this->helper('Mage_Directory_Helper_Data')->getShowNonRequiredState() ? 1 : 0; ?>;
+        this.requiredStateForCountries = <?php echo $this->helper('Magento_Directory_Helper_Data')->getCountriesWithStatesRequired(true) ?>;
+        this.showAllRegions = <?php echo (string)$this->helper('Magento_Directory_Helper_Data')->getShowNonRequiredState() ? 1 : 0; ?>;
 
         this.reloadItemList(1);
 

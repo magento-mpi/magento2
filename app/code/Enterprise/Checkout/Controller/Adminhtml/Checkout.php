@@ -103,7 +103,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
         if ($quote->getId()) {
             $quoteCurrencyCode = $quote->getData('quote_currency_code');
             if ($quoteCurrencyCode != Mage::app()->getStore($storeId)->getCurrentCurrencyCode()) {
-                $quoteCurrency = Mage::getModel('Mage_Directory_Model_Currency')->load($quoteCurrencyCode);
+                $quoteCurrency = Mage::getModel('Magento_Directory_Model_Currency')->load($quoteCurrencyCode);
                 $quote->setForcedCurrency($quoteCurrency);
                 Mage::app()->getStore($storeId)->setCurrentCurrencyCode($quoteCurrency->getCode());
             }

@@ -42,7 +42,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Countryofmanufacture
         if ($cache = $this->_configCacheType->load($cacheKey)) {
             $options = unserialize($cache);
         } else {
-            $collection = Mage::getModel('Mage_Directory_Model_Country')->getResourceCollection()
+            $collection = Mage::getModel('Magento_Directory_Model_Country')->getResourceCollection()
                 ->loadByStore();
             $options = $collection->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);

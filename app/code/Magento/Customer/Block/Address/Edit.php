@@ -15,7 +15,7 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Block_Address_Edit extends Mage_Directory_Block_Data
+class Magento_Customer_Block_Address_Edit extends Magento_Directory_Block_Data
 {
     protected $_address;
     protected $_countryCollection;

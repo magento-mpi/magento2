@@ -1185,7 +1185,7 @@ class Magento_Paypal_Model_Api_Nvp extends Magento_Paypal_Model_Api_Abstract
         }
         // attempt to fetch region_id from directory
         if ($address->getCountryId() && $address->getRegion()) {
-            $regions = Mage::getModel('Mage_Directory_Model_Country')->loadByCode($address->getCountryId())->getRegionCollection()
+            $regions = Mage::getModel('Magento_Directory_Model_Country')->loadByCode($address->getCountryId())->getRegionCollection()
                 ->addRegionCodeOrNameFilter($address->getRegion())
                 ->setPageSize(1);
             foreach ($regions as $region) {

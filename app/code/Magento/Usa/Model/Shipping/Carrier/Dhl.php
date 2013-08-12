@@ -353,7 +353,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
 
 
         if (is_numeric($request->getOrigState())) {
-            $r->setOrigState(Mage::getModel('Mage_Directory_Model_Region')->load($request->getOrigState())->getCode());
+            $r->setOrigState(Mage::getModel('Magento_Directory_Model_Region')->load($request->getOrigState())->getCode());
         } else {
             $r->setOrigState($request->getOrigState());
         }

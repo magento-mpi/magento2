@@ -38,7 +38,7 @@
             <action method="addJs">
                 <file>Magento_Adminhtml::sales/order/giftoptions_tooltip.js</file>
             </action>
-            <block type="Magento_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Mage_Directory::js/optional_zip_countries.phtml"/>
+            <block type="Magento_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Magento_Directory::js/optional_zip_countries.phtml"/>
             <action method="addCss">
                 <file>Magento_Core::prototype/magento.css</file>
             </action>

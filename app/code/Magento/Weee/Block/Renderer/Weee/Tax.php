@@ -106,7 +106,7 @@ class Magento_Weee_Block_Renderer_Weee_Tax extends Magento_Adminhtml_Block_Widge
     public function getCountries()
     {
         if (is_null($this->_countries)) {
-            $this->_countries = Mage::getModel('Mage_Directory_Model_Config_Source_Country')->toOptionArray();
+            $this->_countries = Mage::getModel('Magento_Directory_Model_Config_Source_Country')->toOptionArray();
         }
 
         return $this->_countries;
@@ -128,7 +128,7 @@ class Magento_Weee_Block_Renderer_Weee_Tax extends Magento_Adminhtml_Block_Widge
                 $website = Mage::app()->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'     => $website->getName(),
-                    'currency' => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                    'currency' => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
                 );
             } else {
                 foreach (Mage::app()->getWebsites() as $website) {
@@ -137,7 +137,7 @@ class Magento_Weee_Block_Renderer_Weee_Tax extends Magento_Adminhtml_Block_Widge
                     }
                     $websites[$website->getId()] = array(
                         'name'     => $website->getName(),
-                        'currency' => $website->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                        'currency' => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
                     );
                 }
             }

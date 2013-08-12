@@ -136,7 +136,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     public function testGetBaseCurrency()
     {
         $currency = $this->_model->getBaseCurrency();
-        $this->assertInstanceOf('Mage_Directory_Model_Currency', $currency);
+        $this->assertInstanceOf('Magento_Directory_Model_Currency', $currency);
         $this->assertEquals('USD', $currency->getCode());
     }
 

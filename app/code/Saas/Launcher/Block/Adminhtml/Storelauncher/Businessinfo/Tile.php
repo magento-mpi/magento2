@@ -20,27 +20,27 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Tile extends Saas
     /**
      * Region Model
      *
-     * @var Mage_Directory_Model_Region
+     * @var Magento_Directory_Model_Region
      */
     protected $_regionModel;
 
     /**
      * Country Model
      *
-     * @var Mage_Directory_Model_Country
+     * @var Magento_Directory_Model_Country
      */
     protected $_countryModel;
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Mage_Directory_Model_Country $countryModel
-     * @param Mage_Directory_Model_Region $regionModel
+     * @param Magento_Directory_Model_Country $countryModel
+     * @param Magento_Directory_Model_Region $regionModel
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Mage_Directory_Model_Country $countryModel,
-        Mage_Directory_Model_Region $regionModel,
+        Magento_Directory_Model_Country $countryModel,
+        Magento_Directory_Model_Region $regionModel,
         array $data = array()
     ) {
         parent::__construct($context, $data);

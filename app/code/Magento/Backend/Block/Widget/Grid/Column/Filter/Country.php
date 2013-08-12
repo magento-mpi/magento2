@@ -17,7 +17,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Country extends Magento_Ba
 {
     protected function _getOptions()
     {
-        $options = Mage::getResourceModel('Mage_Directory_Model_Resource_Country_Collection')
+        $options = Mage::getResourceModel('Magento_Directory_Model_Resource_Country_Collection')
             ->load()
             ->toOptionArray(false);
         array_unshift($options,

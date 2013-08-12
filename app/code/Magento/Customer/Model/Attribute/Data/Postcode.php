@@ -29,7 +29,7 @@ class Magento_Customer_Model_Attribute_Data_Postcode extends Magento_Eav_Model_A
     public function validateValue($value)
     {
         $countryId      = $this->getExtractedData('country_id');
-        $optionalZip    = Mage::helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip();
+        $optionalZip    = Mage::helper('Magento_Directory_Helper_Data')->getCountriesWithOptionalZip();
         if (!in_array($countryId, $optionalZip)) {
             return parent::validateValue($value);
         }

@@ -106,7 +106,7 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Magento_Payment_
                 $result['street2'] = $street2;
             }
             //Region code lookup
-            $region = Mage::getModel('Mage_Directory_Model_Region')->load($address->getData('region_id'));
+            $region = Mage::getModel('Magento_Directory_Model_Region')->load($address->getData('region_id'));
             if ($region && $region->getId()) {
                 $result['region'] = $region->getCode();
             }

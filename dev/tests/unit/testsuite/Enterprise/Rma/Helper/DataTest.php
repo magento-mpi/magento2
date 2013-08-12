@@ -55,11 +55,11 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
      * Create country factory mock
      *
      * @param array $mockConfig
-     * @return Mage_Directory_Model_Country|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_Directory_Model_Country|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getCountryFactoryMock(array $mockConfig)
     {
-        $countryMock = $this->getMock('Mage_Directory_Model_Country', array(), array(), '', false);
+        $countryMock = $this->getMock('Magento_Directory_Model_Country', array(), array(), '', false);
         $countryMock->expects($this->any())
             ->method('loadByCode')
             ->will($this->returnValue($countryMock));
@@ -67,7 +67,7 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->method('getName')
             ->will($this->returnValue($mockConfig['country_name']));
         $countryFactoryMock = $this->getMock(
-            'Mage_Directory_Model_CountryFactory', array('create'), array(), '', false
+            'Magento_Directory_Model_CountryFactory', array('create'), array(), '', false
         );
         $countryFactoryMock->expects($this->any())->method('create')->will($this->returnValue($countryMock));
 
@@ -78,12 +78,12 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
      * Create region factory mock
      *
      * @param array $mockConfig
-     * @return Mage_Directory_Model_Region|PHPUnit_Framework_MockObject_MockObject
+     * @return Magento_Directory_Model_Region|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getRegionFactoryMock(array $mockConfig)
     {
         $regionMock = $this->getMock(
-            'Mage_Directory_Model_Region',
+            'Magento_Directory_Model_Region',
             array('load', 'getCode', 'getName'),
             array(),
             '',
@@ -98,7 +98,7 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
         $regionMock->expects($this->any())
             ->method('getName')
             ->will($this->returnValue($mockConfig['region_name']));
-        $regionFactoryMock = $this->getMock('Mage_Directory_Model_RegionFactory', array(), array(), '', false);
+        $regionFactoryMock = $this->getMock('Magento_Directory_Model_RegionFactory', array(), array(), '', false);
         $regionFactoryMock->expects($this->any())->method('create')->will($this->returnValue($regionMock));
 
         return $regionFactoryMock;

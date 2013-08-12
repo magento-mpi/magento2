@@ -130,9 +130,9 @@
                     regionListId: '#<?php echo $prefix ?>\\:region_id',
                     regionInputId: '#<?php echo $prefix ?>\\:region',
                     postcodeId: '#<?php echo $prefix ?>\\:postcode',
-                    regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>,
+                    regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson() ?>,
                     defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>",
-                    countriesWithOptionalZip: <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
+                    countriesWithOptionalZip: <?php echo $this->helper('Magento_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
                 });
             });
     })(jQuery);

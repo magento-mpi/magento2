@@ -28,7 +28,7 @@ class Magento_Sales_Model_Resource_Quote_Address_Attribute_Backend_Region
     public function beforeSave($object)
     {
         if (is_numeric($object->getRegion())) {
-            $region = Mage::getModel('Mage_Directory_Model_Region')->load((int)$object->getRegion());
+            $region = Mage::getModel('Magento_Directory_Model_Region')->load((int)$object->getRegion());
             if ($region) {
                 $object->setRegionId($region->getId());
                 $object->setRegion($region->getCode());

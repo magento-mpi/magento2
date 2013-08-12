@@ -235,7 +235,7 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
                 $this->setData('region_id', $region);
                 $this->unsRegion();
             } else {
-                $regionModel = Mage::getModel('Mage_Directory_Model_Region')
+                $regionModel = Mage::getModel('Magento_Directory_Model_Region')
                     ->loadByCode($this->getRegionCode(), $this->getCountryId());
                 $this->setData('region_id', $regionModel->getId());
             }
@@ -246,7 +246,7 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
     public function getCountry()
     {
         /*if ($this->getData('country_id') && !$this->getData('country')) {
-            $this->setData('country', Mage::getModel('Mage_Directory_Model_Country')
+            $this->setData('country', Mage::getModel('Magento_Directory_Model_Country')
                 ->load($this->getData('country_id'))->getIso2Code());
         }
         return $this->getData('country');*/
@@ -257,12 +257,12 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
     /**
      * Retrive country model
      *
-     * @return Mage_Directory_Model_Country
+     * @return Magento_Directory_Model_Country
      */
     public function getCountryModel()
     {
         if(!isset(self::$_countryModels[$this->getCountryId()])) {
-            self::$_countryModels[$this->getCountryId()] = Mage::getModel('Mage_Directory_Model_Country')
+            self::$_countryModels[$this->getCountryId()] = Mage::getModel('Magento_Directory_Model_Country')
                 ->load($this->getCountryId());
         }
 
@@ -272,7 +272,7 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
     /**
      * Retrive country model
      *
-     * @return Mage_Directory_Model_Country
+     * @return Magento_Directory_Model_Country
      */
     public function getRegionModel($region=null)
     {
@@ -281,7 +281,7 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
         }
 
         if(!isset(self::$_regionModels[$region])) {
-            self::$_regionModels[$region] = Mage::getModel('Mage_Directory_Model_Region')->load($region);
+            self::$_regionModels[$region] = Mage::getModel('Magento_Directory_Model_Region')->load($region);
         }
 
         return self::$_regionModels[$region];
@@ -343,7 +343,7 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
             $errors[] = Mage::helper('Magento_Customer_Helper_Data')->__('Please enter the telephone number.');
         }
 
-        $_havingOptionalZip = Mage::helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip();
+        $_havingOptionalZip = Mage::helper('Magento_Directory_Helper_Data')->getCountriesWithOptionalZip();
         if (!in_array($this->getCountryId(), $_havingOptionalZip)
             && !Zend_Validate::is($this->getPostcode(), 'NotEmpty')
         ) {
@@ -356,7 +356,7 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
 
         if ($this->getCountryModel()->getRegionCollection()->getSize()
                && !Zend_Validate::is($this->getRegionId(), 'NotEmpty')
-               && Mage::helper('Mage_Directory_Helper_Data')->isRegionRequired($this->getCountryId())
+               && Mage::helper('Magento_Directory_Helper_Data')->isRegionRequired($this->getCountryId())
         ) {
             $errors[] = Mage::helper('Magento_Customer_Helper_Data')->__('Please enter the state/province.');
         }

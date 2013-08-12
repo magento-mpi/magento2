@@ -25,7 +25,7 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Matrix extends
         $newRates = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getRates();
         Mage::getSingleton('Magento_Adminhtml_Model_Session')->unsetData('rates');
 
-        $currencyModel = Mage::getModel('Mage_Directory_Model_Currency');
+        $currencyModel = Mage::getModel('Magento_Directory_Model_Currency');
         $currencies = $currencyModel->getConfigAllowCurrencies();
         $defaultCurrencies = $currencyModel->getConfigBaseCurrencies();
         $oldCurrencies = $this->_prepareRates($currencyModel->getCurrencyRates($defaultCurrencies, $currencies));

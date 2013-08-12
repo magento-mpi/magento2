@@ -194,7 +194,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
             );
         }
 
-        $rowRequest->setOrigCountry(Mage::getModel('Mage_Directory_Model_Country')->load($origCountry)->getIso2Code());
+        $rowRequest->setOrigCountry(Mage::getModel('Magento_Directory_Model_Country')->load($origCountry)->getIso2Code());
 
         if ($request->getOrigRegionCode()) {
             $origRegionCode = $request->getOrigRegionCode();
@@ -205,7 +205,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
             );
         }
         if (is_numeric($origRegionCode)) {
-            $origRegionCode = Mage::getModel('Mage_Directory_Model_Region')->load($origRegionCode)->getCode();
+            $origRegionCode = Mage::getModel('Magento_Directory_Model_Region')->load($origRegionCode)->getCode();
         }
         $rowRequest->setOrigRegionCode($origRegionCode);
 
@@ -246,7 +246,7 @@ class Magento_Usa_Model_Shipping_Carrier_Ups
             $destCountry = self::GUAM_COUNTRY_ID;
         }
 
-        $rowRequest->setDestCountry(Mage::getModel('Mage_Directory_Model_Country')->load($destCountry)->getIso2Code());
+        $rowRequest->setDestCountry(Mage::getModel('Magento_Directory_Model_Country')->load($destCountry)->getIso2Code());
 
         $rowRequest->setDestRegionCode($request->getDestRegionCode());
 
@@ -968,7 +968,7 @@ XMLRequest;
     protected function _getBaseCurrencyRate($code)
     {
         if (!$this->_baseCurrencyRate) {
-            $this->_baseCurrencyRate = Mage::getModel('Mage_Directory_Model_Currency')
+            $this->_baseCurrencyRate = Mage::getModel('Magento_Directory_Model_Currency')
                 ->load($code)
                 ->getAnyRate($this->_request->getBaseCurrency()->getCode());
         }
@@ -1001,7 +1001,7 @@ XMLRequest;
                     && $this->getConfigData('shipper_number')
                     && !empty($negotiatedArr);
 
-                $allowedCurrencies = Mage::getModel('Mage_Directory_Model_Currency')->getConfigAllowCurrencies();
+                $allowedCurrencies = Mage::getModel('Magento_Directory_Model_Currency')->getConfigAllowCurrencies();
 
                 foreach ($arr as $shipElement) {
                     $code = (string)$shipElement->Service->Code;
@@ -1020,7 +1020,7 @@ XMLRequest;
                             if (in_array($responseCurrencyCode, $allowedCurrencies)) {
                                 $cost = (float)$cost * $this->_getBaseCurrencyRate($responseCurrencyCode);
                             } else {
-                                $errorTitle = Mage::helper('Mage_Directory_Helper_Data')->__(
+                                $errorTitle = Mage::helper('Magento_Directory_Helper_Data')->__(
                                     'We can\'t convert a rate from "%s-%s".',
                                     $responseCurrencyCode,
                                     $this->_request->getPackageCurrency()->getCode()

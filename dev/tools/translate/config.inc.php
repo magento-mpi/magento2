@@ -113,8 +113,8 @@ $CONFIG['translates'] = array(
         'app/code/Mage/Cybersource/',
         'app/design/frontend/base/default/template/cybersource/',
     ),
-    'Mage_Directory' => array(
-        'app/code/Mage/Directory/',
+    'Magento_Directory' => array(
+        'app/code/Magento/Directory/',
         'app/design/frontend/base/default/template/directory/',
         'app/design/frontend/base/default/layout/directory.xml'
     ),
@@ -584,7 +584,7 @@ $CONFIG['helpers']  = array(
     'customer'          => 'Magento_Customer',
     'cybermut'          => 'Mage_Cybermut',
     'cybersource'       => 'Mage_Cybersource',
-    'directory'         => 'Mage_Directory',
+    'directory'         => 'Magento_Directory',
     'downloadable'      => 'Magento_Downloadable',
     'eav'               => 'Magento_Eav',
     'eway'              => 'Mage_Eway',

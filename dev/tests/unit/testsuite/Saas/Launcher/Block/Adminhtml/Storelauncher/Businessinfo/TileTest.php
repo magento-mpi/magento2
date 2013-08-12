@@ -108,7 +108,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
-        $countryModel = $this->getMock('Mage_Directory_Model_Country',
+        $countryModel = $this->getMock('Magento_Directory_Model_Country',
             array('loadByCode', 'getName'), array(), '', false
         );
 
@@ -121,11 +121,11 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
             ->method('getName')
             ->will($this->returnValue('United States'));
 
-        $regionModel = $this->getMock('Mage_Directory_Model_Region',
+        $regionModel = $this->getMock('Magento_Directory_Model_Region',
             array('load', 'getName', 'getCollection'), array(), '', false
         );
 
-        $collectionMock = $this->getMock('Mage_Directory_Model_Resource_Region',
+        $collectionMock = $this->getMock('Magento_Directory_Model_Resource_Region',
             array('addCountryFilter', 'toOptionArray'), array(), '', false
         );
 
@@ -180,8 +180,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_TileTest extends 
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
-        $countryModel = $this->getMock('Mage_Directory_Model_Country', array(), array(), '', false);
-        $regionModel = $this->getMock('Mage_Directory_Model_Region', array(), array(), '', false);
+        $countryModel = $this->getMock('Magento_Directory_Model_Country', array(), array(), '', false);
+        $regionModel = $this->getMock('Magento_Directory_Model_Region', array(), array(), '', false);
 
         $arguments = array(
             'storeConfig' => $this->_config,

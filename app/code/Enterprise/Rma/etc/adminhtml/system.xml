@@ -65,7 +65,7 @@
                 <field id="country_id" translate="label" module="Enterprise_Rma" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Country</label>
                     <frontend_class>countries</frontend_class>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                     <depends>
                         <field id="use_store_address">0</field>
                     </depends>

@@ -121,7 +121,7 @@ class Magento_Catalog_Model_Resource_Product_Option extends Magento_Core_Model_R
                     foreach ($storeIds as $storeId) {
                         if ($object->getPriceType() == 'fixed') {
                             $storeCurrency = Mage::app()->getStore($storeId)->getBaseCurrencyCode();
-                            $rate = Mage::getModel('Mage_Directory_Model_Currency')->load($baseCurrency)->getRate($storeCurrency);
+                            $rate = Mage::getModel('Magento_Directory_Model_Currency')->load($baseCurrency)->getRate($storeCurrency);
                             if (!$rate) {
                                 $rate=1;
                             }

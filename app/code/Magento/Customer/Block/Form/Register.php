@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Block_Form_Register extends Mage_Directory_Block_Data
+class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
 {
     /**
      * Address instance with data

@@ -107,12 +107,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = Mage::getModel('Mage_Directory_Model_Config_Source_Country')
+                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Country')
                         ->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = Mage::getModel('Mage_Directory_Model_Config_Source_Allregion')
+                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Allregion')
                         ->toOptionArray();
                     break;
 

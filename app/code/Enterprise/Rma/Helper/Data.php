@@ -21,7 +21,7 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Variable to contain country model
      *
-     * @var Mage_Directory_Model_Country
+     * @var Magento_Directory_Model_Country
      */
     protected $_countryModel = null;
 
@@ -56,14 +56,14 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Country factory
      *
-     * @var Mage_Directory_Model_CountryFactory
+     * @var Magento_Directory_Model_CountryFactory
      */
     protected $_countryFactory;
 
     /**
      * Region factory
      *
-     * @var Mage_Directory_Model_RegionFactory
+     * @var Magento_Directory_Model_RegionFactory
      */
     protected $_regionFactory;
 
@@ -71,15 +71,15 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Mage_Directory_Model_CountryFactory $countryFactory
-     * @param Mage_Directory_Model_RegionFactory $regionFactory
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
+     * @param Magento_Directory_Model_RegionFactory $regionFactory
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Magento_Core_Model_App $app,
         Magento_Core_Model_Store_Config $storeConfig,
-        Mage_Directory_Model_CountryFactory $countryFactory,
-        Mage_Directory_Model_RegionFactory $regionFactory
+        Magento_Directory_Model_CountryFactory $countryFactory,
+        Magento_Directory_Model_RegionFactory $regionFactory
     ) {
         $this->_app = $app;
         $this->_storeConfig = $storeConfig;
@@ -295,12 +295,12 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get Country model
      *
-     * @return Mage_Directory_Model_Country
+     * @return Magento_Directory_Model_Country
      */
     protected function _getCountryModel()
     {
         if (is_null($this->_countryModel)) {
-            $this->_countryModel = Mage::getModel('Mage_Directory_Model_Country');
+            $this->_countryModel = Mage::getModel('Magento_Directory_Model_Country');
         }
         return $this->_countryModel;
     }

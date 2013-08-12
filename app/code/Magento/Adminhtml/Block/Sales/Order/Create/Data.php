@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Data extends Magento_Adminhtml_
         $dirtyCodes = $this->getStore()->getAvailableCurrencyCodes();
         $codes = array();
         if (is_array($dirtyCodes) && count($dirtyCodes)) {
-            $rates = Mage::getModel('Mage_Directory_Model_Currency')->getCurrencyRates(
+            $rates = Mage::getModel('Magento_Directory_Model_Currency')->getCurrencyRates(
                 Mage::app()->getStore()->getBaseCurrency(),
                 $dirtyCodes
             );

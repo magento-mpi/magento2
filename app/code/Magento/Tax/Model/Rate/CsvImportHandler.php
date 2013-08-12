@@ -36,14 +36,14 @@ class Magento_Tax_Model_Rate_CsvImportHandler
      *
      * The instance is used to retrieve regions based on country code
      *
-     * @var Mage_Directory_Model_Resource_Region_Collection
+     * @var Magento_Directory_Model_Resource_Region_Collection
      */
     protected $_regionCollection;
 
     /**
      * Country factory
      *
-     * @var Mage_Directory_Model_CountryFactory
+     * @var Magento_Directory_Model_CountryFactory
      */
     protected $_countryFactory;
 
@@ -57,15 +57,15 @@ class Magento_Tax_Model_Rate_CsvImportHandler
     /**
      * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param Magento_Core_Model_Resource_Store_Collection $storeCollection
-     * @param Mage_Directory_Model_Resource_Region_Collection $regionCollection
-     * @param Mage_Directory_Model_CountryFactory $countryFactory
+     * @param Magento_Directory_Model_Resource_Region_Collection $regionCollection
+     * @param Magento_Directory_Model_CountryFactory $countryFactory
      * @param Magento_Tax_Model_Calculation_RateFactory $taxRateFactory
      */
     public function __construct(
         Magento_Core_Model_Factory_Helper $helperFactory,
         Magento_Core_Model_Resource_Store_Collection $storeCollection,
-        Mage_Directory_Model_Resource_Region_Collection $regionCollection,
-        Mage_Directory_Model_CountryFactory $countryFactory,
+        Magento_Directory_Model_Resource_Region_Collection $regionCollection,
+        Magento_Directory_Model_CountryFactory $countryFactory,
         Magento_Tax_Model_Calculation_RateFactory $taxRateFactory
     ) {
         $this->_helperFactory = $helperFactory;

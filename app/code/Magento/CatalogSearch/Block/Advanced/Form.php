@@ -98,7 +98,7 @@ class Magento_CatalogSearch_Block_Advanced_Form extends Magento_Core_Block_Templ
             $currencies = array();
             $codes = Mage::app()->getStore()->getAvailableCurrencyCodes(true);
             if (is_array($codes) && count($codes)) {
-                $rates = Mage::getModel('Mage_Directory_Model_Currency')->getCurrencyRates(
+                $rates = Mage::getModel('Magento_Directory_Model_Currency')->getCurrencyRates(
                     Mage::app()->getStore()->getBaseCurrency(),
                     $codes
                 );

@@ -100,7 +100,7 @@ class Magento_Tax_Model_Calculation_Rate extends Magento_Core_Model_Abstract
         parent::_beforeSave();
         $country = $this->getTaxCountryId();
         $region = $this->getTaxRegionId();
-        $regionModel = Mage::getModel('Mage_Directory_Model_Region');
+        $regionModel = Mage::getModel('Magento_Directory_Model_Region');
         $regionModel->load($region);
         if ($regionModel->getCountryId() != $country) {
             $this->setTaxRegionId('*');

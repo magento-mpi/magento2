@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Admin
     /**
      * Currency model
      *
-     * @var Mage_Directory_Model_Currency
+     * @var Magento_Directory_Model_Currency
      */
     protected $_currency;
 
@@ -43,8 +43,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Admin
 
     public function _beforeToHtml()
     {
-        $this->_currency = Mage::getModel('Mage_Directory_Model_Currency')
-            ->load(Mage::getStoreConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE))
+        $this->_currency = Mage::getModel('Magento_Directory_Model_Currency')
+            ->load(Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE))
         ;
 
         $this->_collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Sale_Collection')

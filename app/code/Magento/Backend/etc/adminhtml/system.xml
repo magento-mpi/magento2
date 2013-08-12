@@ -258,16 +258,16 @@
                 <label>Country Options</label>
                 <field id="allow" translate="label" type="multiselect" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Allow Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
                 <field id="default" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Default Country</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                 </field>
                 <field id="eu_countries" translate="label" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>European Union Countries</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                 </field>
             </group>
             <group id="locale" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -301,7 +301,7 @@
                 </field>
                 <field id="country_id" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Country</label>
-                    <source_model>Mage_Directory_Model_Config_Source_Country</source_model>
+                    <source_model>Magento_Directory_Model_Config_Source_Country</source_model>
                     <frontend_class>countries</frontend_class>
                     <can_be_empty>1</can_be_empty>
                 </field>

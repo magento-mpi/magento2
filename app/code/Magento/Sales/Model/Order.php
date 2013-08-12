@@ -1719,12 +1719,12 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
     /**
      * Get currency model instance. Will be used currency with which order placed
      *
-     * @return Mage_Directory_Model_Currency
+     * @return Magento_Directory_Model_Currency
      */
     public function getOrderCurrency()
     {
         if (is_null($this->_orderCurrency)) {
-            $this->_orderCurrency = Mage::getModel('Mage_Directory_Model_Currency');
+            $this->_orderCurrency = Mage::getModel('Magento_Directory_Model_Currency');
             $this->_orderCurrency->load($this->getOrderCurrencyCode());
         }
         return $this->_orderCurrency;
@@ -1761,12 +1761,12 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
     /**
      * Retrieve order website currency for working with base prices
      *
-     * @return Mage_Directory_Model_Currency
+     * @return Magento_Directory_Model_Currency
      */
     public function getBaseCurrency()
     {
         if (is_null($this->_baseCurrency)) {
-            $this->_baseCurrency = Mage::getModel('Mage_Directory_Model_Currency')->load($this->getBaseCurrencyCode());
+            $this->_baseCurrency = Mage::getModel('Magento_Directory_Model_Currency')->load($this->getBaseCurrencyCode());
         }
         return $this->_baseCurrency;
     }

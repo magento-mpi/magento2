@@ -63,7 +63,7 @@ class Magento_Adminhtml_Block_Dashboard_Bar extends Magento_Adminhtml_Block_Dash
     /**
      * Setting currency model
      *
-     * @param Mage_Directory_Model_Currency $currency
+     * @param Magento_Directory_Model_Currency $currency
      */
     public function setCurrency($currency)
     {
@@ -73,7 +73,7 @@ class Magento_Adminhtml_Block_Dashboard_Bar extends Magento_Adminhtml_Block_Dash
     /**
      * Retrieve currency model if not set then return currency model for current store
      *
-     * @return Mage_Directory_Model_Currency
+     * @return Magento_Directory_Model_Currency
      */
     public function getCurrency()
     {

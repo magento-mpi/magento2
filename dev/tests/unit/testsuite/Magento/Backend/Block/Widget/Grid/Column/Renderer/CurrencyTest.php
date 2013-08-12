@@ -46,7 +46,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_CurrencyTest extends PHP
         $this->_appMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $this->_localeMock = $this->getMock('Magento_Core_Model_LocaleInterface');
         $this->_curLocatorMock = $this->getMock(
-            'Mage_Directory_Model_Currency_DefaultLocator', array(), array(), '', false
+            'Magento_Directory_Model_Currency_DefaultLocator', array(), array(), '', false
         );
         $this->_columnMock = $this->getMock(
             'Magento_Backend_Block_Widget_Grid_Column', array('getIndex'), array(), '', false
@@ -81,7 +81,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_CurrencyTest extends PHP
 
     public function testRenderWithDefaultCurrency()
     {
-        $currencyMock = $this->getMock('Mage_Directory_Model_Currency', array(), array(), '', false);
+        $currencyMock = $this->getMock('Magento_Directory_Model_Currency', array(), array(), '', false);
         $currencyMock->expects($this->once())->method('getRate')->with('defaultCurrency')
             ->will($this->returnValue(1.5));
 

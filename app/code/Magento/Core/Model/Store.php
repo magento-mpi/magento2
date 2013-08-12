@@ -137,7 +137,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     /**
      * Price filter
      *
-     * @var Mage_Directory_Model_Currency_Filter
+     * @var Magento_Directory_Model_Currency_Filter
      */
     protected $_priceFilter;
 
@@ -808,20 +808,20 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
         if ($configValue == Magento_Core_Model_Store::PRICE_SCOPE_GLOBAL) {
             return Mage::app()->getBaseCurrencyCode();
         } else {
-            return $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
+            return $this->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE);
         }
     }
 
     /**
      * Retrieve store base currency
      *
-     * @return Mage_Directory_Model_Currency
+     * @return Magento_Directory_Model_Currency
      */
     public function getBaseCurrency()
     {
         $currency = $this->getData('base_currency');
         if (is_null($currency)) {
-            $currency = Mage::getModel('Mage_Directory_Model_Currency')->load($this->getBaseCurrencyCode());
+            $currency = Mage::getModel('Magento_Directory_Model_Currency')->load($this->getBaseCurrencyCode());
             $this->setData('base_currency', $currency);
         }
         return $currency;
@@ -834,20 +834,20 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
      */
     public function getDefaultCurrencyCode()
     {
-        $result = $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT);
+        $result = $this->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_DEFAULT);
         return $result;
     }
 
     /**
      * Retrieve store default currency
      *
-     * @return Mage_Directory_Model_Currency
+     * @return Magento_Directory_Model_Currency
      */
     public function getDefaultCurrency()
     {
         $currency = $this->getData('default_currency');
         if (is_null($currency)) {
-            $currency = Mage::getModel('Mage_Directory_Model_Currency')->load($this->getDefaultCurrencyCode());
+            $currency = Mage::getModel('Magento_Directory_Model_Currency')->load($this->getDefaultCurrencyCode());
             $this->setData('default_currency', $currency);
         }
         return $currency;
@@ -911,7 +911,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     {
         $codes = $this->getData('available_currency_codes');
         if (is_null($codes)) {
-            $codes = explode(',', $this->getConfig(Mage_Directory_Model_Currency::XML_PATH_CURRENCY_ALLOW));
+            $codes = explode(',', $this->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_ALLOW));
             // add base currency, if it is not in allowed currencies
             $baseCurrencyCode = $this->getBaseCurrencyCode();
             if (!in_array($baseCurrencyCode, $codes)) {
@@ -938,14 +938,14 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     /**
      * Retrieve store current currency
      *
-     * @return Mage_Directory_Model_Currency
+     * @return Magento_Directory_Model_Currency
      */
     public function getCurrentCurrency()
     {
         $currency = $this->getData('current_currency');
 
         if (is_null($currency)) {
-            $currency     = Mage::getModel('Mage_Directory_Model_Currency')->load($this->getCurrentCurrencyCode());
+            $currency     = Mage::getModel('Magento_Directory_Model_Currency')->load($this->getCurrentCurrencyCode());
             $baseCurrency = $this->getBaseCurrency();
 
             if (! $baseCurrency->getRate($currency)) {

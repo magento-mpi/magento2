@@ -173,7 +173,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
             $addressId = $googleAddress['id'];
             $regionCode = $googleAddress['region']['VALUE'];
             $countryCode = $googleAddress['country-code']['VALUE'];
-            $regionModel = Mage::getModel('Mage_Directory_Model_Region')->loadByCode($regionCode, $countryCode);
+            $regionModel = Mage::getModel('Magento_Directory_Model_Region')->loadByCode($regionCode, $countryCode);
             $regionId = $regionModel->getId();
 
             $address->setCountryId($countryCode)
@@ -531,7 +531,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
                 $qAddress->setLastname($nameArr[1]);
             }
         }
-        $region = Mage::getModel('Mage_Directory_Model_Region')->loadByCode(
+        $region = Mage::getModel('Magento_Directory_Model_Region')->loadByCode(
             $gAddress->getData('region/VALUE'),
             $gAddress->getData('country-code/VALUE')
         );

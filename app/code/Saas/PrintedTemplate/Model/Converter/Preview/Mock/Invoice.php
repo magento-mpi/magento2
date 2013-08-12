@@ -114,7 +114,7 @@ class Saas_PrintedTemplate_Model_Converter_Preview_Mock_Invoice extends Magento_
             'store_currency_code' => 'USD',
             'transaction_id' => NULL,
             'order_currency_code' => (string) Mage::getStoreConfig(
-                Mage_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
             'base_currency_code' => 'USD',
             'global_currency_code' => 'USD',
             'increment_id' => '100000008',

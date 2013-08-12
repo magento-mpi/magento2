@@ -13,7 +13,7 @@
             <block type="Magento_Adminhtml_Block_Customer_Edit" name="customer_edit"/>
         </reference>
         <reference name="head">
-            <block type="Magento_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Mage_Directory::js/optional_zip_countries.phtml"/>
+            <block type="Magento_Adminhtml_Block_Template" name="optional_zip_countries" as="optional_zip_countries" template="Magento_Directory::js/optional_zip_countries.phtml"/>
             <action method="addJs">
                 <file>Magento_Adminhtml::catalog/product/composite/configure.js</file>
             </action>

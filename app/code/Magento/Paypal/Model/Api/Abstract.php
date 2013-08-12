@@ -488,7 +488,7 @@ abstract class Magento_Paypal_Model_Api_Abstract extends Magento_Object
     protected function _lookupRegionCodeFromAddress(Magento_Object $address)
     {
         if ($regionId = $address->getData('region_id')) {
-            $region = Mage::getModel('Mage_Directory_Model_Region')->load($regionId);
+            $region = Mage::getModel('Magento_Directory_Model_Region')->load($regionId);
             if ($region->getId()) {
                 return $region->getCode();
             }

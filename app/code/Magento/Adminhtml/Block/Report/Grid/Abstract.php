@@ -250,7 +250,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
     /**
      * Get currency rate (base to given currency)
      *
-     * @param string|Mage_Directory_Model_Currency $currencyCode
+     * @param string|Magento_Directory_Model_Currency $currencyCode
      * @return double
      */
     public function getRate($toCurrency)

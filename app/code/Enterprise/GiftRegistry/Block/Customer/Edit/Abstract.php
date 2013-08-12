@@ -14,7 +14,7 @@
  * @category   Enterprise
  * @package    Enterprise_GiftRegistry
  */
-abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage_Directory_Block_Data
+abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Magento_Directory_Block_Data
 {
 
     /**

@@ -29,7 +29,7 @@ class Magento_Tax_Block_Adminhtml_Frontend_Region_Updater
                }
                </script>';
 
-        $html .= sprintf($js, $this->helper('Mage_Directory_Helper_Data')->getRegionJson());
+        $html .= sprintf($js, $this->helper('Magento_Directory_Helper_Data')->getRegionJson());
         return $html;
     }
 }

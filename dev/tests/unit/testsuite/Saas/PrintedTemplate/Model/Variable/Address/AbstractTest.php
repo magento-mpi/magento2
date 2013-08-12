@@ -28,7 +28,7 @@ class Saas_PrintedTemplate_Model_Variable_Address_AbstractTest extends PHPUnit_F
             $country->setData($field, $value);
         }
 
-        $countryModel = $this->getMockBuilder('Mage_Directory_Model_Country')
+        $countryModel = $this->getMockBuilder('Magento_Directory_Model_Country')
             ->disableOriginalConstructor()
             ->setMethods(array('load'))
             ->getMock();

@@ -36,7 +36,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_DrawerTest extend
             ->method('getConfig')
             ->will($this->returnCallback(array($this, 'configCallback')));
 
-        $regionModel = $this->getMock('Mage_Directory_Model_Region', array(), array(), '', false);
+        $regionModel = $this->getMock('Magento_Directory_Model_Region', array(), array(), '', false);
 
         $arguments = array(
             'storeConfig' => $config,

@@ -208,7 +208,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
         $this->_entityTable = isset($data['entity_table']) ? $data['entity_table']
             : Mage::getModel('Magento_Customer_Model_Address')->getResource()->getEntityTable();
         $this->_regionCollection = isset($data['region_collection']) ? $data['region_collection']
-            : Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection');
+            : Mage::getResourceModel('Magento_Directory_Model_Resource_Region_Collection');
 
         $this->addMessageTemplate(self::ERROR_ADDRESS_ID_IS_EMPTY,
             $this->_helper('Magento_ImportExport_Helper_Data')->__('Customer address id column is not specified')
@@ -305,7 +305,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
      */
     protected function _initCountryRegions()
     {
-        /** @var $region Mage_Directory_Model_Region */
+        /** @var $region Magento_Directory_Model_Region */
         foreach ($this->_regionCollection as $region) {
             $countryNormalized = strtolower($region->getCountryId());
             $regionCode = strtolower($region->getCode());

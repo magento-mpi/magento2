@@ -26,7 +26,7 @@ class Magento_Customer_Model_Resource_Address_Attribute_Source_Country extends M
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('Mage_Directory_Model_Resource_Country_Collection')
+            $this->_options = Mage::getResourceModel('Magento_Directory_Model_Resource_Country_Collection')
                 ->loadByStore($this->getAttribute()->getStoreId())->toOptionArray();
         }
         return $this->_options;

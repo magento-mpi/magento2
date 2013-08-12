@@ -224,9 +224,9 @@
                             regionInputId: '#region',
                             postcodeId: '#zip',
                             form: dataForm,
-                            regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>,
+                            regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson() ?>,
                             defaultRegion: "<?php echo $this->getFormData()->getRegionId() ?>",
-                            countriesWithOptionalZip: <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
+                            countriesWithOptionalZip: <?php echo $this->helper('Magento_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
                         });
                     <?php endif; ?>
                 });

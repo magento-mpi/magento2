@@ -22,29 +22,29 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Businessinfo_Drawer extends Sa
     /**
      * Countries
      *
-     * @var Mage_Directory_Model_Config_Source_Country
+     * @var Magento_Directory_Model_Config_Source_Country
      */
     protected $_countryModel;
 
     /**
      * Regions
      *
-     * @var Mage_Directory_Model_Region
+     * @var Magento_Directory_Model_Region
      */
     protected $_regionModel;
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
-     * @param Mage_Directory_Model_Config_Source_Country $countryModel
-     * @param Mage_Directory_Model_Region $regionModel
+     * @param Magento_Directory_Model_Config_Source_Country $countryModel
+     * @param Magento_Directory_Model_Region $regionModel
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
-        Mage_Directory_Model_Config_Source_Country $countryModel,
-        Mage_Directory_Model_Region $regionModel,
+        Magento_Directory_Model_Config_Source_Country $countryModel,
+        Magento_Directory_Model_Region $regionModel,
         array $data = array()
     ) {
         parent::__construct($context, $linkTracker, $data);

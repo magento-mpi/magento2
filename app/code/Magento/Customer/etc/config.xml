@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Magento_Eav />
-                <Mage_Directory />
+                <Magento_Directory />
             </depends>
         </Magento_Customer>
     </modules>

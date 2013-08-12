@@ -427,10 +427,10 @@ class Magento_Shipping_Model_Shipping
         }
         $shipperRegionCode = Mage::getStoreConfig(self::XML_PATH_STORE_REGION_ID, $shipmentStoreId);
         if (is_numeric($shipperRegionCode)) {
-            $shipperRegionCode = Mage::getModel('Mage_Directory_Model_Region')->load($shipperRegionCode)->getCode();
+            $shipperRegionCode = Mage::getModel('Magento_Directory_Model_Region')->load($shipperRegionCode)->getCode();
         }
 
-        $recipientRegionCode = Mage::getModel('Mage_Directory_Model_Region')->load($address->getRegionId())->getCode();
+        $recipientRegionCode = Mage::getModel('Magento_Directory_Model_Region')->load($address->getRegionId())->getCode();
 
         $originStreet1 = Mage::getStoreConfig(self::XML_PATH_STORE_ADDRESS1, $shipmentStoreId);
         $originStreet2 = Mage::getStoreConfig(self::XML_PATH_STORE_ADDRESS2, $shipmentStoreId);

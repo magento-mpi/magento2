@@ -21,36 +21,36 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
     /**
      * Country Source Model
      *
-     * @var Mage_Directory_Model_Config_Source_Country
+     * @var Magento_Directory_Model_Config_Source_Country
      */
     protected $_countryConfigModel;
 
     /**
      * Country Model
      *
-     * @var Mage_Directory_Model_Country
+     * @var Magento_Directory_Model_Country
      */
     protected $_countryModel;
 
     /**
      * Regions
      *
-     * @var Mage_Directory_Model_Region
+     * @var Magento_Directory_Model_Region
      */
     protected $_regionModel;
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Mage_Directory_Model_Config_Source_Country $countryConfigModel
-     * @param Mage_Directory_Model_Country $countryModel
-     * @param Mage_Directory_Model_Region $regionModel
+     * @param Magento_Directory_Model_Config_Source_Country $countryConfigModel
+     * @param Magento_Directory_Model_Country $countryModel
+     * @param Magento_Directory_Model_Region $regionModel
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Mage_Directory_Model_Config_Source_Country $countryConfigModel,
-        Mage_Directory_Model_Country $countryModel,
-        Mage_Directory_Model_Region $regionModel,
+        Magento_Directory_Model_Config_Source_Country $countryConfigModel,
+        Magento_Directory_Model_Country $countryModel,
+        Magento_Directory_Model_Region $regionModel,
         array $data = array()
     ) {
         parent::__construct($context, $data);

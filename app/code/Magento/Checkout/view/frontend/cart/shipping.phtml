@@ -18,7 +18,7 @@
                 <li>
                     <label for="country" class="required"><em>*</em><?php echo $this->__('Country') ?></label>
                     <div class="input-box">
-                        <?php echo Mage::getBlockSingleton('Mage_Directory_Block_Data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?>
+                        <?php echo Mage::getBlockSingleton('Magento_Directory_Block_Data')->getCountryHtmlSelect($this->getEstimateCountryId()) ?>
                     </div>
                 </li>
             <?php //if($this->getStateActive()): ?>
@@ -66,9 +66,9 @@
                             regionInputId: '#region',
                             postcodeId: '#postcode',
                             form: $('#shipping-zip-form').validation(),
-                            regionJson: <?php echo $this->helper('Mage_Directory_Helper_Data')->getRegionJson() ?>,
+                            regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson() ?>,
                             defaultRegion: "<?php echo $this->getEstimateRegionId() ?>",
-                            countriesWithOptionalZip: <?php echo $this->helper('Mage_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
+                            countriesWithOptionalZip: <?php echo $this->helper('Magento_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
                         });
                     });
             })(jQuery);

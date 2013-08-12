@@ -40,12 +40,12 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Temp
      * Load country collection
      *
      * @param null|string $country
-     * @return Mage_Directory_Model_Resource_Country_Collection
+     * @return Magento_Directory_Model_Resource_Country_Collection
      */
     protected function _getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = Mage::getSingleton('Mage_Directory_Model_Country')->getResourceCollection()
+            $this->_countryCollection = Mage::getSingleton('Magento_Directory_Model_Country')->getResourceCollection()
                 ->loadByStore();
         }
         return $this->_countryCollection;
@@ -55,12 +55,12 @@ class Enterprise_GiftRegistry_Block_Form_Element extends Magento_Core_Block_Temp
      * Load region collection by specified country code
      *
      * @param null|string $country
-     * @return Mage_Directory_Model_Resource_Region_Collection
+     * @return Magento_Directory_Model_Resource_Region_Collection
      */
     protected function _getRegionCollection($country = null)
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = Mage::getModel('Mage_Directory_Model_Region')->getResourceCollection()
+            $this->_regionCollection = Mage::getModel('Magento_Directory_Model_Region')->getResourceCollection()
                 ->addCountryFilter($country)
                 ->load();
         }

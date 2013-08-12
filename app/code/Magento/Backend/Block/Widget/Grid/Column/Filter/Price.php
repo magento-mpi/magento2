@@ -25,25 +25,25 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Price extends Magento_Back
     protected $_currencyList = null;
 
     /**
-     * @var Mage_Directory_Model_Currency
+     * @var Magento_Directory_Model_Currency
      */
     protected $_currencyModel = null;
 
     /**
-     * @var Mage_Directory_Model_Currency_DefaultLocator
+     * @var Magento_Directory_Model_Currency_DefaultLocator
      */
     protected $_currencyLocator = null;
 
     /**
      * @param Magento_Backend_Block_Context $context
-     * @param Mage_Directory_Model_Currency $currencyModel
-     * @param Mage_Directory_Model_Currency_DefaultLocator $currencyLocator
+     * @param Magento_Directory_Model_Currency $currencyModel
+     * @param Magento_Directory_Model_Currency_DefaultLocator $currencyLocator
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Context $context,
-        Mage_Directory_Model_Currency $currencyModel,
-        Mage_Directory_Model_Currency_DefaultLocator $currencyLocator,
+        Magento_Directory_Model_Currency $currencyModel,
+        Magento_Directory_Model_Currency_DefaultLocator $currencyLocator,
         array $data = array()
     ) {
         parent::__construct($context, $data);

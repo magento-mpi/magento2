@@ -47,7 +47,7 @@ class Enterprise_GiftRegistry_Block_View extends Enterprise_GiftRegistry_Block_C
     public function getCountryName($countryCode)
     {
         if ($countryCode) {
-            $country = Mage::getModel('Mage_Directory_Model_Country')->loadByCode($countryCode);
+            $country = Mage::getModel('Magento_Directory_Model_Country')->loadByCode($countryCode);
             return $country->getName();
         }
         return '';
