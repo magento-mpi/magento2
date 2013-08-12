@@ -107,7 +107,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends 
 
         $customization->expects($this->once())
             ->method('getFilesByType')
-            ->with(Mage_Theme_Model_Theme_Customization_File_CustomCss::TYPE)
+            ->with(Magento_Theme_Model_Theme_Customization_File_CustomCss::TYPE)
             ->will($this->returnValue(array($cssFile)));
 
         $cssFile->expects($this->once())

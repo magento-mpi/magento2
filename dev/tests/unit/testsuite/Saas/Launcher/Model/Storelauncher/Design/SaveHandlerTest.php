@@ -43,7 +43,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
     /**
      * Theme Config model
      *
-     * @var Mage_Theme_Model_Config|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Theme_Model_Config|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeConfig;
 
@@ -127,7 +127,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
         $themeMock->expects($this->any())->method('getId')->will($this->returnValue(20));
         $themeMock->expects($this->any())->method('isVirtual')->will($this->returnValue(true));
 
-        $this->_themeConfig = $this->getMockBuilder('Mage_Theme_Model_Config')
+        $this->_themeConfig = $this->getMockBuilder('Magento_Theme_Model_Config')
             ->disableOriginalConstructor()
             ->setMethods(array('assignToStore'))
             ->getMock();

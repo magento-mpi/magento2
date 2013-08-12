@@ -10,6 +10,6 @@
 <config>
     <menu>
         <remove id="Magento_Adminhtml::system_design_schedule"/>
-        <remove id="Mage_Theme::system_design_theme"/>
+        <remove id="Magento_Theme::system_design_theme"/>
     </menu>
 </config>

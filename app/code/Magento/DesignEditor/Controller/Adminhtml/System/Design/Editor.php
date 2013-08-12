@@ -16,25 +16,25 @@
 class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Magento_Adminhtml_Controller_Action
 {
     /**
-     * @var Mage_Theme_Model_Config
+     * @var Magento_Theme_Model_Config
      */
     protected $_themeConfig;
 
     /**
-     * @var Mage_Theme_Model_Config_Customization
+     * @var Magento_Theme_Model_Config_Customization
      */
     protected $_customizationConfig;
 
     /**
      * @param Magento_Backend_Controller_Context $context
-     * @param Mage_Theme_Model_Config $themeConfig
-     * @param Mage_Theme_Model_Config_Customization $customizationConfig
+     * @param Magento_Theme_Model_Config $themeConfig
+     * @param Magento_Theme_Model_Config_Customization $customizationConfig
      * @param null $areaCode
      */
     public function __construct(
         Magento_Backend_Controller_Context $context,
-        Mage_Theme_Model_Config $themeConfig,
-        Mage_Theme_Model_Config_Customization $customizationConfig,
+        Magento_Theme_Model_Config $themeConfig,
+        Magento_Theme_Model_Config_Customization $customizationConfig,
         $areaCode = null
     ) {
         $this->_themeConfig         = $themeConfig;

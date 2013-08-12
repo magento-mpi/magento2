@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento_Theme_Model_Config">
+        <param name="configCache">
+            <instance type="Magento_Core_Model_Cache_Type_Config" />
+        </param>
+        <param name="layoutCache">
+            <instance type="Magento_Core_Model_Cache_Type_Layout" />
+        </param>
+    </type>
+</config>

@@ -33,13 +33,13 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
      */
     public function uploadAction()
     {
-        /** @var $cssService Mage_Theme_Model_Theme_Customization_File_CustomCss */
-        $cssService = $this->_objectManager->get('Mage_Theme_Model_Theme_Customization_File_CustomCss');
-        /** @var $singleFile Mage_Theme_Model_Theme_SingleFile */
-        $singleFile = $this->_objectManager->create('Mage_Theme_Model_Theme_SingleFile',
+        /** @var $cssService Magento_Theme_Model_Theme_Customization_File_CustomCss */
+        $cssService = $this->_objectManager->get('Magento_Theme_Model_Theme_Customization_File_CustomCss');
+        /** @var $singleFile Magento_Theme_Model_Theme_SingleFile */
+        $singleFile = $this->_objectManager->create('Magento_Theme_Model_Theme_SingleFile',
             array('fileService' => $cssService));
-        /** @var $serviceModel Mage_Theme_Model_Uploader_Service */
-        $serviceModel = $this->_objectManager->get('Mage_Theme_Model_Uploader_Service');
+        /** @var $serviceModel Magento_Theme_Model_Uploader_Service */
+        $serviceModel = $this->_objectManager->get('Magento_Theme_Model_Uploader_Service');
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
@@ -68,10 +68,10 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
     public function saveCssContentAction()
     {
         $customCssContent = (string)$this->getRequest()->getParam('custom_css_content', '');
-        /** @var $cssService Mage_Theme_Model_Theme_Customization_File_CustomCss */
-        $cssService = $this->_objectManager->get('Mage_Theme_Model_Theme_Customization_File_CustomCss');
-        /** @var $singleFile Mage_Theme_Model_Theme_SingleFile */
-        $singleFile = $this->_objectManager->create('Mage_Theme_Model_Theme_SingleFile',
+        /** @var $cssService Magento_Theme_Model_Theme_Customization_File_CustomCss */
+        $cssService = $this->_objectManager->get('Magento_Theme_Model_Theme_Customization_File_CustomCss');
+        /** @var $singleFile Magento_Theme_Model_Theme_SingleFile */
+        $singleFile = $this->_objectManager->create('Magento_Theme_Model_Theme_SingleFile',
             array('fileService' => $cssService));
         try {
             $themeContext = $this->_initContext();
@@ -114,8 +114,8 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
      */
     public function uploadJsAction()
     {
-        /** @var $serviceModel Mage_Theme_Model_Uploader_Service */
-        $serviceModel = $this->_objectManager->get('Mage_Theme_Model_Uploader_Service');
+        /** @var $serviceModel Magento_Theme_Model_Uploader_Service */
+        $serviceModel = $this->_objectManager->get('Magento_Theme_Model_Uploader_Service');
         /** @var $jsService Magento_Core_Model_Theme_Customization_File_Js */
         $jsService = $this->_objectManager->create('Magento_Core_Model_Theme_Customization_File_Js');
         try {
@@ -304,8 +304,8 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
                 );
             }
 
-            /** @var $customizationConfig Mage_Theme_Model_Config_Customization */
-            $customizationConfig = $this->_objectManager->get('Mage_Theme_Model_Config_Customization');
+            /** @var $customizationConfig Magento_Theme_Model_Config_Customization */
+            $customizationConfig = $this->_objectManager->get('Magento_Theme_Model_Config_Customization');
             $store = $this->_objectManager->get('Magento_Core_Model_Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
@@ -349,8 +349,8 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools exten
                 );
             }
 
-            /** @var $customizationConfig Mage_Theme_Model_Config_Customization */
-            $customizationConfig = $this->_objectManager->get('Mage_Theme_Model_Config_Customization');
+            /** @var $customizationConfig Magento_Theme_Model_Config_Customization */
+            $customizationConfig = $this->_objectManager->get('Magento_Theme_Model_Config_Customization');
             $store = $this->_objectManager->get('Magento_Core_Model_Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {

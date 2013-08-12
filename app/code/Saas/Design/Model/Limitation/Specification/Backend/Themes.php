@@ -19,7 +19,7 @@ class Saas_Design_Model_Limitation_Specification_Backend_Themes
     public function isSatisfiedBy(Magento_Core_Controller_Request_Http $request)
     {
         return $request->getControllerName() != 'system_design_theme'
-            || $request->getControllerModule() != 'Mage_Theme_Adminhtml'
+            || $request->getControllerModule() != 'Magento_Theme_Adminhtml'
             || !in_array($request->getActionName(), array('index', 'new', 'grid', 'edit'));
     }
 }

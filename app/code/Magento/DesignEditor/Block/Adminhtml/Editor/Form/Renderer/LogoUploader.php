@@ -101,7 +101,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
      */
     public function getStoresList()
     {
-        $stores = Mage::getObjectManager()->get('Mage_Theme_Model_Config_Customization')->getStoresByThemes();
+        $stores = Mage::getObjectManager()->get('Magento_Theme_Model_Config_Customization')->getStoresByThemes();
         return isset($stores[$this->_themeContext->getEditableTheme()->getId()])
             ? $stores[$this->_themeContext->getEditableTheme()->getId()]
             : null;

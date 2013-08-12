@@ -32,7 +32,7 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
         $themeCopyService = $this->getMock('Magento_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
         $themeCopyService->expects($this->never())->method('copy');
 
-        $customizationConfig = $this->getMock('Mage_Theme_Model_Config_Customization', array(), array(), '', false);
+        $customizationConfig = $this->getMock('Magento_Theme_Model_Config_Customization', array(), array(), '', false);
 
         $object = new Magento_Core_Model_Theme_Domain_Virtual(
             $theme, $themeFactory, $themeCopyService, $customizationConfig
@@ -81,7 +81,7 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
         $themeCopyService = $this->getMock('Magento_Core_Model_Theme_CopyService', array('copy'), array(), '', false);
         $themeCopyService->expects($this->once())->method('copy')->with($theme, $themeStaging);
 
-        $customizationConfig = $this->getMock('Mage_Theme_Model_Config_Customization', array(), array(), '', false);
+        $customizationConfig = $this->getMock('Magento_Theme_Model_Config_Customization', array(), array(), '', false);
 
         $object = new Magento_Core_Model_Theme_Domain_Virtual(
             $theme, $themeFactory, $themeCopyService, $customizationConfig
@@ -99,7 +99,7 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
     public function testIsAssigned()
     {
         $customizationConfig = $this->getMock(
-            'Mage_Theme_Model_Config_Customization', array('isThemeAssignedToStore'), array(), '', false
+            'Magento_Theme_Model_Config_Customization', array('isThemeAssignedToStore'), array(), '', false
         );
         $themeMock = $this->getMock('Magento_Core_Model_Theme', array('getCollection', 'getId'), array(), '', false,
             false);

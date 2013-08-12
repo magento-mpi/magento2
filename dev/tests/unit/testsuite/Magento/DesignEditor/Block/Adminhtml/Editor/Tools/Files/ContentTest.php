@@ -16,7 +16,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_ContentTest extend
     protected $_urlBuilder;
 
     /**
-     * @var Mage_Theme_Helper_Storage|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Theme_Helper_Storage|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperStorage;
 
@@ -32,7 +32,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_ContentTest extend
 
     public function setUp()
     {
-        $this->_helperStorage = $this->getMock('Mage_Theme_Helper_Storage', array(), array(), '', false);
+        $this->_helperStorage = $this->getMock('Magento_Theme_Helper_Storage', array(), array(), '', false);
         $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
         $this->_request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
 
@@ -50,7 +50,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_ContentTest extend
 
         $this->_filesContent->expects($this->any())
             ->method('helper')
-            ->with('Mage_Theme_Helper_Storage')
+            ->with('Magento_Theme_Helper_Storage')
             ->will($this->returnValue($this->_helperStorage));
     }
 
@@ -122,9 +122,9 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_ContentTest extend
     {
         return array(
             'requestParams' => array(
-                Mage_Theme_Helper_Storage::PARAM_THEME_ID     => 1,
-                Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE,
-                Mage_Theme_Helper_Storage::PARAM_NODE         => 'root'
+                Magento_Theme_Helper_Storage::PARAM_THEME_ID     => 1,
+                Magento_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE,
+                Magento_Theme_Helper_Storage::PARAM_NODE         => 'root'
             )
         );
     }
@@ -148,9 +148,9 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_ContentTest extend
         $expectedRequest = 'some_request';
 
         $requestParams = array(
-            Mage_Theme_Helper_Storage::PARAM_THEME_ID     => 1,
-            Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Mage_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE,
-            Mage_Theme_Helper_Storage::PARAM_NODE         => 'root'
+            Magento_Theme_Helper_Storage::PARAM_THEME_ID     => 1,
+            Magento_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE,
+            Magento_Theme_Helper_Storage::PARAM_NODE         => 'root'
         );
 
         $this->_urlBuilder->expects($this->once())

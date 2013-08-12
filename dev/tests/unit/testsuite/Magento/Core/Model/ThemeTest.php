@@ -26,7 +26,7 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $customizationConfig = $this->getMock('Mage_Theme_Model_Config_Customization', array(), array(), '', false);
+        $customizationConfig = $this->getMock('Magento_Theme_Model_Config_Customization', array(), array(), '', false);
         $customizationFactory = $this->getMock('Magento_Core_Model_Theme_CustomizationFactory',
             array('create'), array(), '', false);
         $resourceCollection = $this->getMock(

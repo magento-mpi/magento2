@@ -13,7 +13,7 @@
  */
 
 class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Files
-    extends Mage_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files
+    extends Magento_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files
 {
     /**
      * Tree json action
@@ -42,7 +42,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Files
             $this->renderLayout();
 
             $this->_getSession()->setStoragePath(
-                $this->_objectManager->get('Mage_Theme_Helper_Storage')->getCurrentPath()
+                $this->_objectManager->get('Magento_Theme_Helper_Storage')->getCurrentPath()
             );
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());

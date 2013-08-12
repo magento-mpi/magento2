@@ -40,7 +40,7 @@ class Magento_Core_Model_Theme_Domain_Virtual
     /**
      * Theme customization config
      *
-     * @var Mage_Theme_Model_Config_Customization
+     * @var Magento_Theme_Model_Config_Customization
      */
     protected $_customizationConfig;
 
@@ -48,13 +48,13 @@ class Magento_Core_Model_Theme_Domain_Virtual
      * @param Magento_Core_Model_Theme $theme
      * @param Magento_Core_Model_ThemeFactory $themeFactory
      * @param Magento_Core_Model_Theme_CopyService $themeCopyService
-     * @param Mage_Theme_Model_Config_Customization $customizationConfig
+     * @param Magento_Theme_Model_Config_Customization $customizationConfig
      */
     public function __construct(
         Magento_Core_Model_Theme $theme,
         Magento_Core_Model_ThemeFactory $themeFactory,
         Magento_Core_Model_Theme_CopyService $themeCopyService,
-        Mage_Theme_Model_Config_Customization $customizationConfig
+        Magento_Theme_Model_Config_Customization $customizationConfig
     ) {
         $this->_theme = $theme;
         $this->_themeFactory = $themeFactory;

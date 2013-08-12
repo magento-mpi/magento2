@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Theme
+ * @package     Magento_Theme
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -16,7 +16,7 @@
      * @subpackage  tests
      * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
      */
-class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
+class Core_Magento_Theme_ThemeTest extends Mage_Selenium_TestCase
 {
     /**
      * Preconditions:

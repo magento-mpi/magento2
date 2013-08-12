@@ -24,7 +24,7 @@ class Magento_Core_Model_Theme_Observer
     protected $_updateCollection;
 
     /**
-     * @var Mage_Theme_Model_Config_Customization
+     * @var Magento_Theme_Model_Config_Customization
      */
     protected $_themeConfig;
 
@@ -41,14 +41,14 @@ class Magento_Core_Model_Theme_Observer
     /**
      * @param Magento_Core_Model_Theme_ImageFactory $themeImageFactory
      * @param Magento_Core_Model_Resource_Layout_Update_Collection $updateCollection
-     * @param Mage_Theme_Model_Config_Customization $themeConfig
+     * @param Magento_Theme_Model_Config_Customization $themeConfig
      * @param Magento_Core_Model_Event_Manager $eventDispatcher
      * @param Magento_Core_Helper_Data $helper
      */
     public function __construct(
         Magento_Core_Model_Theme_ImageFactory $themeImageFactory,
         Magento_Core_Model_Resource_Layout_Update_Collection $updateCollection,
-        Mage_Theme_Model_Config_Customization $themeConfig,
+        Magento_Theme_Model_Config_Customization $themeConfig,
         Magento_Core_Model_Event_Manager $eventDispatcher,
         Magento_Core_Helper_Data $helper
     ) {

@@ -25,20 +25,20 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage
     protected $_websiteCollection;
 
     /**
-     * @var Mage_Theme_Model_Config_Customization
+     * @var Magento_Theme_Model_Config_Customization
      */
     protected $_customizationConfig;
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Resource_Website_Collection $websiteCollection
-     * @param Mage_Theme_Model_Config $themeConfig
+     * @param Magento_Theme_Model_Config $themeConfig
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Resource_Website_Collection $websiteCollection,
-        Mage_Theme_Model_Config_Customization $customizationConfig,
+        Magento_Theme_Model_Config_Customization $customizationConfig,
         array $data = array()
     ) {
         $this->_websiteCollection = $websiteCollection;

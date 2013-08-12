@@ -14,7 +14,7 @@
 class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_Backend_Block_Widget_Form
 {
     /**
-     * @var Mage_Theme_Model_Config_Customization
+     * @var Magento_Theme_Model_Config_Customization
      */
     protected $_customizationConfig;
 
@@ -25,13 +25,13 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_
 
     /**
      * @param Magento_Backend_Block_Template_Context $context
-     * @param Mage_Theme_Model_Config_Customization $customizationConfig
+     * @param Magento_Theme_Model_Config_Customization $customizationConfig
      * @param Magento_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
-        Mage_Theme_Model_Config_Customization $customizationConfig,
+        Magento_Theme_Model_Config_Customization $customizationConfig,
         Magento_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {

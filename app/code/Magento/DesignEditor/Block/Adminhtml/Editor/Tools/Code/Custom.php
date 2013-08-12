@@ -41,7 +41,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage
     /**
      * Create a form element with necessary controls
      *
-     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
+     * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _prepareForm()
     {
@@ -108,8 +108,8 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage
     {
         return $this->getUrl('*/system_design_editor_files/index', array(
             'target_element_id'                           => $targetElementId,
-            Mage_Theme_Helper_Storage::PARAM_THEME_ID     => $this->_themeContext->getEditableTheme()->getId(),
-            Mage_Theme_Helper_Storage::PARAM_CONTENT_TYPE => $contentType
+            Magento_Theme_Helper_Storage::PARAM_THEME_ID     => $this->_themeContext->getEditableTheme()->getId(),
+            Magento_Theme_Helper_Storage::PARAM_CONTENT_TYPE => $contentType
         ));
     }
 
@@ -122,7 +122,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage
     protected function _getCustomCss($theme)
     {
         $files = $theme->getCustomization()->getFilesByType(
-            Mage_Theme_Model_Theme_Customization_File_CustomCss::TYPE
+            Magento_Theme_Model_Theme_Customization_File_CustomCss::TYPE
         );
         return reset($files);
     }

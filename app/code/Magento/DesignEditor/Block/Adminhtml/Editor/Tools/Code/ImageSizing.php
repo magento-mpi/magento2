@@ -62,7 +62,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends
     /**
      * Create a form element with necessary controls
      *
-     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
+     * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _prepareForm()
     {

@@ -92,8 +92,8 @@ class Magento_DesignEditor_Model_Observer
             $cssService = $this->_objectManager->create(
                 'Magento_DesignEditor_Model_Theme_Customization_File_QuickStyleCss'
             );
-            /** @var $singleFile Mage_Theme_Model_Theme_SingleFile */
-            $singleFile = $this->_objectManager->create('Mage_Theme_Model_Theme_SingleFile',
+            /** @var $singleFile Magento_Theme_Model_Theme_SingleFile */
+            $singleFile = $this->_objectManager->create('Magento_Theme_Model_Theme_SingleFile',
                 array('fileService' => $cssService));
             $singleFile->update($theme, $content);
         }

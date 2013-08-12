@@ -215,7 +215,7 @@
  * @method Core_Magento_Tax_Helper                                                                        taxHelper()
  * @method Core_Magento_Tax_TaxRule_Helper                                                                taxRuleHelper()
  * @method Core_Mage_TermsAndConditions_Helper                                                         termsAndConditionsHelper()
- * @method Core_Mage_Theme_Helper                                                                      themeHelper()
+ * @method Core_Magento_Theme_Helper                                                                      themeHelper()
  * @method Core_Mage_TransactionalEmails_Helper                                                        transactionalEmailsHelper()
  * @method Core_Mage_Vde_Helper                                                                        vdeHelper()
  * @method Core_Magento_Wishlist_Helper|Enterprise_Magento_Wishlist_Helper                                   wishlistHelper()

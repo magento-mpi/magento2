@@ -40,7 +40,7 @@
                 <file>Magento_DesignEditor::js/custom-css.js</file>
             </action>
             <action method="addJs">
-                <file>Mage_Theme::js/custom-js-list.js</file>
+                <file>Magento_Theme::js/custom-js-list.js</file>
             </action>
             <action method="addJs">
                 <file>Magento_DesignEditor::js/dialog.js</file>
