@@ -85,13 +85,12 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         $endpointA = $this->getMockBuilder('Magento_Outbound_EndpointInterface')
             ->disableOriginalConstructor()
             ->getMock();
+        $endpointB = clone $endpointA;
+
         $this->_subscriptionMockA->expects($this->any())
             ->method('getEndpoint')
             ->will($this->returnValue($endpointA));
 
-        $endpointB = $this->getMockBuilder('Magento_Outbound_EndpointInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->_subscriptionMockB->expects($this->any())
             ->method('getEndpoint')
             ->will($this->returnValue($endpointB));
@@ -105,12 +104,12 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         $responseA = $this->getMockBuilder('Magento_Outbound_Transport_Http_Response')
             ->disableOriginalConstructor()
             ->getMock();
+        $responseB = clone $responseA;
+
         $responseA->expects($this->once())
             ->method('isSuccessful')
             ->will($this->returnValue(true));
-        $responseB = $this->getMockBuilder('Magento_Outbound_Transport_Http_Response')
-            ->disableOriginalConstructor()
-            ->getMock();
+
         $responseB->expects($this->once())
             ->method('isSuccessful')
             ->will($this->returnValue(false));
@@ -119,7 +118,6 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
             array($this->_messageMockA, $responseA),
             array($this->_messageMockB, $responseB),
         );
-
 
         // Message factory create
         $this->_msgFactoryMock->expects($this->exactly(2))
@@ -135,10 +133,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         $jobMockA = $this->getMockBuilder('Mage_Webhook_Model_Job')
             ->disableOriginalConstructor()
             ->getMock();
-
-        $jobMockB = $this->getMockBuilder('Mage_Webhook_Model_Job')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $jobMockB = clone $jobMockA;
 
         $jobMockA->expects($this->once())
             ->method('complete');
