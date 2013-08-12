@@ -96,11 +96,11 @@ app/code/Magento/Log/Model/Shell.php
 app/code/Magento/Log/Model/Shell
 app/code/Mage/Page/Helper/Robots.php
 app/code/Mage/Page/Model/Asset
-app/code/Mage/Reports/Block/Adminhtml/Customer
-app/code/Mage/Reports/Block/Adminhtml/Product
-app/code/Mage/Reports/Model/Resource/Accounts
-app/code/Mage/Reports/Model/Resource/Customer
-app/code/Mage/Reports/Model/Resource/Report/Collection.php
+app/code/Magento/Reports/Block/Adminhtml/Customer
+app/code/Magento/Reports/Block/Adminhtml/Product
+app/code/Magento/Reports/Model/Resource/Accounts
+app/code/Magento/Reports/Model/Resource/Customer
+app/code/Magento/Reports/Model/Resource/Report/Collection.php
 app/code/Mage/Tag/Block/Adminhtml/Customer/Edit/Tab/Tag.php
 app/code/Mage/Tag/Block/Catalog/Product/Rss/Link.php
 app/code/Mage/Theme

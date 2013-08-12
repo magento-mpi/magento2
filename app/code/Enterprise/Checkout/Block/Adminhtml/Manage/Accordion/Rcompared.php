@@ -67,9 +67,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->addAttributeToSelect($attributes);
-            Mage::getResourceSingleton('Mage_Reports_Model_Resource_Event')->applyLogToCollection(
+            Mage::getResourceSingleton('Magento_Reports_Model_Resource_Event')->applyLogToCollection(
                 $productCollection,
-                Mage_Reports_Model_Event::EVENT_PRODUCT_COMPARE,
+                Magento_Reports_Model_Event::EVENT_PRODUCT_COMPARE,
                 $this->_getCustomer()->getId(),
                 0,
                 $skipProducts

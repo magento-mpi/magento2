@@ -20,8 +20,8 @@
                         <resource id="Mage_Newsletter::subscriber" title="Newsletter Subscribers" module="Mage_Newsletter" sortOrder="40"/>
                     </resource>
                 </resource>
-                <resource id="Mage_Reports::report">
-                    <resource id="Mage_Reports::report_marketing">
+                <resource id="Magento_Reports::report">
+                    <resource id="Magento_Reports::report_marketing">
                         <resource id="Mage_Newsletter::problem" title="Newsletter Problem Reports" module="Mage_Newsletter" sortOrder="40"/>
                     </resource>
                 </resource>

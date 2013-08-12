@@ -24,12 +24,12 @@ class Magento_Adminhtml_Block_Report_Sales_Tax extends Magento_Adminhtml_Block_W
     protected function _construct()
     {
         $this->_controller = 'report_sales_tax';
-        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Order Taxes Report Grouped by Tax Rate');
+        $this->_headerText = Mage::helper('Magento_Reports_Helper_Data')->__('Order Taxes Report Grouped by Tax Rate');
         parent::_construct();
 
         $this->_removeButton('add');
         $this->addButton('filter_form_submit', array(
-            'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('Show Report'),
+            'label'     => Mage::helper('Magento_Reports_Helper_Data')->__('Show Report'),
             'onclick'   => 'filterFormSubmit()',
             'class'     => 'primary'
         ));

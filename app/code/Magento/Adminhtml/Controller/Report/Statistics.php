@@ -27,8 +27,8 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Reports'), Mage::helper('Mage_Reports_Helper_Data')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Statistics'), Mage::helper('Mage_Reports_Helper_Data')->__('Statistics'));
+            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Reports'), Mage::helper('Magento_Reports_Helper_Data')->__('Reports'))
+            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Statistics'), Mage::helper('Magento_Reports_Helper_Data')->__('Statistics'));
         return $this;
     }
 
@@ -85,7 +85,7 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
             'refunded'    => 'Mage_Sales_Model_Resource_Report_Refunded',
             'coupons'     => 'Mage_SalesRule_Model_Resource_Report_Rule',
             'bestsellers' => 'Mage_Sales_Model_Resource_Report_Bestsellers',
-            'viewed'      => 'Mage_Reports_Model_Resource_Report_Product_Viewed',
+            'viewed'      => 'Magento_Reports_Model_Resource_Report_Product_Viewed',
         );
         $out = array();
         foreach ($codes as $code) {
@@ -158,14 +158,14 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
         $this->_title($this->__('Refresh Statistics'));
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_statistics_refresh')
+            ->_setActiveMenu('Magento_Reports::report_statistics_refresh')
             ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Refresh Statistics'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Refresh Statistics'))
             ->renderLayout();
     }
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Reports::statistics');
+        return $this->_authorization->isAllowed('Magento_Reports::statistics');
     }
 
     /**

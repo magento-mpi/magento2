@@ -12,13 +12,13 @@
 <config>
     <placeholders>
         <last_viewed_products>
-            <block>Mage_Reports_Block_Product_Viewed</block>
+            <block>Magento_Reports_Block_Product_Viewed</block>
             <placeholder>VIEWED_PRODUCTS</placeholder>
             <container>Enterprise_PageCache_Model_Container_Viewedproducts</container>
             <cache_lifetime>86400</cache_lifetime>
         </last_viewed_products>
         <last_viewed_products_widget>
-            <block>Mage_Reports_Block_Product_Widget_Viewed</block>
+            <block>Magento_Reports_Block_Product_Widget_Viewed</block>
             <placeholder>VIEWED_PRODUCTS_WIDGET</placeholder>
             <container>Enterprise_PageCache_Model_Container_Viewedproducts</container>
             <cache_lifetime>86400</cache_lifetime>
@@ -64,7 +64,7 @@
             <cache_lifetime>86400</cache_lifetime>
         </global_messages>
         <recently_compared_sidebar>
-            <block>Mage_Reports_Block_Product_Compared</block>
+            <block>Magento_Reports_Block_Product_Compared</block>
             <placeholder>RECENTLYCOMPARED_SIDEBAR</placeholder>
             <container>Enterprise_PageCache_Model_Container_Sidebar_Recentlycompared</container>
             <cache_lifetime>86400</cache_lifetime>

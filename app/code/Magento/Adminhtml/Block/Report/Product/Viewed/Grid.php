@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Report_Product_Viewed_Grid extends Magento_Adminht
      *
      * @var string
      */
-    protected $_resourceCollectionName  = 'Mage_Reports_Model_Resource_Report_Product_Viewed_Collection';
+    protected $_resourceCollectionName  = 'Magento_Reports_Model_Resource_Report_Product_Viewed_Collection';
 
     /**
      * Init grid parameters
@@ -105,7 +105,7 @@ class Magento_Adminhtml_Block_Report_Product_Viewed_Grid extends Magento_Adminht
     /**
      * Don't use orders in collection
      *
-     * @param Mage_Reports_Model_Resource_Report_Collection_Abstract $collection
+     * @param Magento_Reports_Model_Resource_Report_Collection_Abstract $collection
      * @param Magento_Object $filterData
      * @return Magento_Adminhtml_Block_Report_Grid_Abstract
      */

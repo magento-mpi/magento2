@@ -18,7 +18,7 @@
                         <resource id="Enterprise_Invitation::enterprise_invitation" module="Enterprise_Invitation" title="Invitations" sortOrder="20" />
                     </resource>
                 </resource>
-                <resource id="Mage_Reports::report">
+                <resource id="Magento_Reports::report">
                     <resource id="Enterprise_Invitation::report_enterprise_invitation" module="Enterprise_Invitation" title="Private Sales" sortOrder="70">
                         <resource id="Enterprise_Invitation::general" module="Enterprise_Invitation" title="Invitations" sortOrder="10" />
                         <resource id="Enterprise_Invitation::enterprise_invitation_customer" module="Enterprise_Invitation" title="Invited Customers" sortOrder="20" />

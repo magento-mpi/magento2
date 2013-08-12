@@ -45,10 +45,10 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rviewed
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $collection = Mage::getModel('Mage_Reports_Model_Event')
+            $collection = Mage::getModel('Magento_Reports_Model_Event')
                 ->getCollection()
                 ->addStoreFilter($this->_getStore()->getWebsite()->getStoreIds())
-                ->addRecentlyFiler(Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->_getCustomer()->getId(), 0);
+                ->addRecentlyFiler(Magento_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->_getCustomer()->getId(), 0);
             $productIds = array();
             foreach ($collection as $event) {
                 $productIds[] = $event->getObjectId();

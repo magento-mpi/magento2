@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Product extends Magento_Adminhtml_
     protected function _construct()
     {
         $this->_controller = 'report_shopcart_product';
-        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Products in carts');
+        $this->_headerText = Mage::helper('Magento_Reports_Helper_Data')->__('Products in carts');
         parent::_construct();
         $this->_removeButton('add');
     }

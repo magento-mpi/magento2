@@ -21,7 +21,7 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
             list($area, $themeId, $module, $file, $xml) = $template;
 
             if ($area === 'frontend' && in_array($module . '::' . $file, array(
-                'Mage_Reports::Magento_Catalog::product/list/items.phtml',
+                'Magento_Reports::Magento_Catalog::product/list/items.phtml',
                 'Mage_Review::redirect.phtml',
                 'Mage_Page::blank.phtml',
             ))) {

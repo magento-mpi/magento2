@@ -17,7 +17,7 @@
             <depends>
                 <Magento_Adminhtml/>
                 <Mage_Customer/>
-                <Mage_Reports/>
+                <Magento_Reports/>
                 <Enterprise_WebsiteRestriction/>
             </depends>
         </Enterprise_Invitation>

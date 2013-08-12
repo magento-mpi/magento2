@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Report_Product_Grid extends Magento_Adminhtml_Bloc
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Product_Collection');
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Product_Collection');
         $collection->getEntity()->setStore(0);
 
         $this->setCollection($collection);
@@ -39,26 +39,26 @@ class Magento_Adminhtml_Block_Report_Product_Grid extends Magento_Adminhtml_Bloc
 
     protected function _afterLoadCollection()
     {
-        $totalObj = new Mage_Reports_Model_Totals();
+        $totalObj = new Magento_Reports_Model_Totals();
         $this->setTotals($totalObj->countTotals($this));
     }
 
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('ID'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('ID'),
             'width'     =>'50px',
             'index'     =>'entity_id',
             'total'     =>'Total'
         ));
 
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Name'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Name'),
             'index'     =>'name'
         ));
 
         $this->addColumn('viewed', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Viewed'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Viewed'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'viewed',
@@ -66,7 +66,7 @@ class Magento_Adminhtml_Block_Report_Product_Grid extends Magento_Adminhtml_Bloc
         ));
 
         $this->addColumn('added', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Added'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Added'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'added',
@@ -74,7 +74,7 @@ class Magento_Adminhtml_Block_Report_Product_Grid extends Magento_Adminhtml_Bloc
         ));
 
         $this->addColumn('purchased', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Purchased'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Purchased'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'purchased',
@@ -82,7 +82,7 @@ class Magento_Adminhtml_Block_Report_Product_Grid extends Magento_Adminhtml_Bloc
         ));
 
         $this->addColumn('fulfilled', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Fulfilled'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Fulfilled'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'fulfilled',
@@ -90,7 +90,7 @@ class Magento_Adminhtml_Block_Report_Product_Grid extends Magento_Adminhtml_Bloc
         ));
 
         $this->addColumn('revenue', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Revenue'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Revenue'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'revenue',
@@ -99,8 +99,8 @@ class Magento_Adminhtml_Block_Report_Product_Grid extends Magento_Adminhtml_Bloc
 
         $this->setCountTotals(true);
 
-        $this->addExportType('*/*/exportProductsCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportProductsExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportProductsCsv', Mage::helper('Magento_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportProductsExcel', Mage::helper('Magento_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

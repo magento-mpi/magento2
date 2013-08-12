@@ -36,7 +36,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Viewed extends Magento_Admi
         } else {
             $storeId = (int)$this->getParam('store');
         }
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Product_Collection')
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Product_Collection')
             ->addAttributeToSelect('*')
             ->addViewsCount()
             ->setStoreId($storeId)
@@ -50,13 +50,13 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Viewed extends Magento_Admi
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Product'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Product'),
             'sortable'  => false,
             'index'     =>'name'
         ));
 
         $this->addColumn('price', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Price'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Price'),
             'width'     =>'120px',
             'type'      =>'currency',
             'currency_code' => (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
@@ -65,7 +65,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Viewed extends Magento_Admi
         ));
 
         $this->addColumn('views', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Views'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Views'),
             'width'     =>'120px',
             'align'     =>'right',
             'sortable'  => false,

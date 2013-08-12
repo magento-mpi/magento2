@@ -176,7 +176,7 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
 
         $timezoneLocal = Mage::app()->getStore()->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
 
-        list ($dateStart, $dateEnd) = Mage::getResourceModel('Mage_Reports_Model_Resource_Order_Collection')
+        list ($dateStart, $dateEnd) = Mage::getResourceModel('Magento_Reports_Model_Resource_Order_Collection')
             ->getDateRange($this->getDataHelper()->getParam('period'), '', '', true);
 
         $dateStart->setTimezone($timezoneLocal);

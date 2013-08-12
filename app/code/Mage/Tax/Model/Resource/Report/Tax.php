@@ -16,7 +16,7 @@
  * @package     Mage_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Report_Abstract
+class Mage_Tax_Model_Resource_Report_Tax extends Magento_Reports_Model_Resource_Report_Abstract
 {
     /**
      * Resource initialization
@@ -37,7 +37,7 @@ class Mage_Tax_Model_Resource_Report_Tax extends Mage_Reports_Model_Resource_Rep
     {
         Mage::getResourceModel('Mage_Tax_Model_Resource_Report_Tax_Createdat')->aggregate($from, $to);
         Mage::getResourceModel('Mage_Tax_Model_Resource_Report_Tax_Updatedat')->aggregate($from, $to);
-        $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);
+        $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_TAX_FLAG_CODE);
 
         return $this;
     }

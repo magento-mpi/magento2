@@ -51,9 +51,9 @@ Mage/Payment/Block/Form
 Mage/Payment/Model/Method
 Mage/Payment/Model/Config
 Mage/ProductAlert/Model
-Mage/Reports/Block/Product/Widget
-Mage/Reports/Model/Resource/Helper
-Mage/Reports/Model/Resource
+Magento/Reports/Block/Product/Widget
+Magento/Reports/Model/Resource/Helper
+Magento/Reports/Model/Resource
 Mage/Review/Block
 Mage/Rss/Block/Catalog
 Mage/Rule

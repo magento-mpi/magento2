@@ -22,11 +22,11 @@
                         <exportTypes>
                             <csv>
                                 <urlPath>*/*/exportSearchCsv</urlPath>
-                                <label translate="true" module="Mage_Reports">CSV</label>
+                                <label translate="true" module="Magento_Reports">CSV</label>
                             </csv>
                             <excel>
                                 <urlPath>*/*/exportSearchExcel</urlPath>
-                                <label translate="true" module="Mage_Reports">Excel XML</label>
+                                <label translate="true" module="Magento_Reports">Excel XML</label>
                             </excel>
                         </exportTypes>
                     </arguments>
@@ -42,7 +42,7 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="query_id">
                         <arguments>
-                            <header translate="true" module="Mage_Reports">ID</header>
+                            <header translate="true" module="Magento_Reports">ID</header>
                             <filter>0</filter>
                             <index>query_id</index>
                             <type>number</type>
@@ -52,7 +52,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="query_text">
                         <arguments>
-                            <header translate="true" module="Mage_Reports">Search Query</header>
+                            <header translate="true" module="Magento_Reports">Search Query</header>
                             <index>query_text</index>
                             <column_css_class>col-query</column_css_class>
                             <header_css_class>col-query</header_css_class>
@@ -71,7 +71,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="num_results">
                         <arguments>
-                            <header translate="true" module="Mage_Reports">Results</header>
+                            <header translate="true" module="Magento_Reports">Results</header>
                             <type>number</type>
                             <index>num_results</index>
                             <column_css_class>col-results</column_css_class>
@@ -80,7 +80,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="popularity">
                         <arguments>
-                            <header translate="true" module="Mage_Reports">Hits</header>
+                            <header translate="true" module="Magento_Reports">Hits</header>
                             <type>number</type>
                             <index>popularity</index>
                             <column_css_class>col-hits</column_css_class>

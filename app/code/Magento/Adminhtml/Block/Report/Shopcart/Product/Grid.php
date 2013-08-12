@@ -26,10 +26,10 @@ class Magento_Adminhtml_Block_Report_Shopcart_Product_Grid extends Magento_Admin
 
     protected function _prepareCollection()
     {
-        /** @var $collection Mage_Reports_Model_Resource_Quote_Collection */
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Quote_Collection');
+        /** @var $collection Magento_Reports_Model_Resource_Quote_Collection */
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Quote_Collection');
         $collection->prepareForProductsInCarts()
-            ->setSelectCountSqlType(Mage_Reports_Model_Resource_Quote_Collection::SELECT_COUNT_SQL_TYPE_CART);
+            ->setSelectCountSqlType(Magento_Reports_Model_Resource_Quote_Collection::SELECT_COUNT_SQL_TYPE_CART);
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Product_Grid extends Magento_Admin
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('ID'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('ID'),
             'align'     =>'right',
             'index'     =>'entity_id',
             'header_css_class'  => 'col-id',
@@ -45,7 +45,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Product_Grid extends Magento_Admin
         ));
 
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Product'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Product'),
             'index'     =>'name',
             'header_css_class'  => 'col-product',
             'column_css_class'  => 'col-product'
@@ -54,7 +54,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Product_Grid extends Magento_Admin
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('price', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Price'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Price'),
             'type'      =>'currency',
             'currency_code' => $currencyCode,
             'index'     =>'price',
@@ -65,7 +65,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Product_Grid extends Magento_Admin
         ));
 
         $this->addColumn('carts', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Carts'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Carts'),
             'align'     =>'right',
             'index'     =>'carts',
             'header_css_class'  => 'col-carts',
@@ -73,7 +73,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Product_Grid extends Magento_Admin
         ));
 
         $this->addColumn('orders', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Orders'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Orders'),
             'align'     =>'right',
             'index'     =>'orders',
             'header_css_class'  => 'col-qty',
@@ -82,8 +82,8 @@ class Magento_Adminhtml_Block_Report_Shopcart_Product_Grid extends Magento_Admin
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportProductCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportProductExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportProductCsv', Mage::helper('Magento_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportProductExcel', Mage::helper('Magento_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

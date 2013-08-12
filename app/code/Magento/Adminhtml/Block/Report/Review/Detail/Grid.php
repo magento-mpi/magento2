@@ -34,7 +34,7 @@ class Magento_Adminhtml_Block_Report_Review_Detail_Grid extends Magento_Adminhtm
 
         //$collection->getEntity()->setStore(0);
 
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Review_Collection')
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Review_Collection')
             ->addProductFilter((int)$this->getRequest()->getParam('id'));
 
         $this->setCollection($collection);
@@ -48,24 +48,24 @@ class Magento_Adminhtml_Block_Report_Review_Detail_Grid extends Magento_Adminhtm
     {
 
         $this->addColumn('nickname', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Customer'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Customer'),
             'width'     =>'100px',
             'index'     =>'nickname'
         ));
 
         $this->addColumn('title', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Title'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Title'),
             'width'     =>'150px',
             'index'     =>'title'
         ));
 
         $this->addColumn('detail', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Detail'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Detail'),
             'index'     =>'detail'
         ));
 
         $this->addColumn('created_at', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Created'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Created'),
             'index'     =>'created_at',
             'width'     =>'200px',
             'type'      =>'datetime'
@@ -73,8 +73,8 @@ class Magento_Adminhtml_Block_Report_Review_Detail_Grid extends Magento_Adminhtm
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportProductDetailCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportProductDetailExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportProductDetailCsv', Mage::helper('Magento_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportProductDetailExcel', Mage::helper('Magento_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

@@ -674,7 +674,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
 //            array('css_styles.css', 'css_style_download'),
 //            array('Mage_Cms--widgets.css', 'mage_cms_download'),
 //            array('Mage_Page__css_tabs.css', 'mage_page_download'),
-//            array('Mage_Reports__widgets.css', 'mage_reports_download'),
+//            array('Magento_Reports__widgets.css', 'magento_reports_download'),
 //            array('Mage_Widget__widgets.css', 'mage_widget_download')
         );
     }

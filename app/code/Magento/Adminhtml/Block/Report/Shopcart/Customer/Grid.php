@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Magento_Admi
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Customer_Collection')
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Customer_Collection')
           ->addAttributeToSelect('firstname')
           ->addAttributeToSelect('lastname');
 
@@ -43,24 +43,24 @@ class Magento_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Magento_Admi
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('ID'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('ID'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('First Name'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('First Name'),
             'index'     =>'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Last Name'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Last Name'),
             'index'     =>'lastname'
         ));
 
         $this->addColumn('items', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Items in Cart'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Items in Cart'),
             'width'     =>'70px',
             'sortable'  =>false,
             'align'     =>'right',
@@ -70,7 +70,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Magento_Admi
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn('total', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Total'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Total'),
             'width'     =>'70px',
             'sortable'  =>false,
             'type'      =>'currency',
@@ -83,8 +83,8 @@ class Magento_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Magento_Admi
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('Magento_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('Magento_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

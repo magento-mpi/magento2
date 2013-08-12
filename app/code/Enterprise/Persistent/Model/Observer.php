@@ -137,10 +137,10 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Emulate 'viewed products' block with persistent data
      *
-     * @param Mage_Reports_Block_Product_Viewed $block
+     * @param Magento_Reports_Block_Product_Viewed $block
      * @return null
      */
-    public function emulateViewedProductsBlock(Mage_Reports_Block_Product_Viewed $block)
+    public function emulateViewedProductsBlock(Magento_Reports_Block_Product_Viewed $block)
     {
         if (!Mage::helper('Enterprise_Persistent_Helper_Data')->isViewedProductsPersist()) {
             return;
@@ -168,10 +168,10 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Emulate 'compared products' block with persistent data
      *
-     * @param Mage_Reports_Block_Product_Compared $block
+     * @param Magento_Reports_Block_Product_Compared $block
      * @return null
      */
-    public function emulateComparedProductsBlock(Mage_Reports_Block_Product_Compared $block)
+    public function emulateComparedProductsBlock(Magento_Reports_Block_Product_Compared $block)
     {
         if (!$this->_isComparedProductsPersist()) {
             return;
@@ -348,7 +348,7 @@ class Enterprise_Persistent_Model_Observer
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        Mage::getModel('Mage_Reports_Model_Product_Index_Compared')
+        Mage::getModel('Magento_Reports_Model_Product_Index_Compared')
             ->purgeVisitorByCustomer()
             ->calculate();
     }
@@ -362,7 +362,7 @@ class Enterprise_Persistent_Model_Observer
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        Mage::getModel('Mage_Reports_Model_Product_Index_Viewed')
+        Mage::getModel('Magento_Reports_Model_Product_Index_Viewed')
             ->purgeVisitorByCustomer()
             ->calculate();
     }

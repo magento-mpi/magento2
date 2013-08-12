@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Report_Product extends Magento_Adminhtml_Block_Wid
     protected function _construct()
     {
         $this->_controller = 'report_product';
-        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Products Report');
+        $this->_headerText = Mage::helper('Magento_Reports_Helper_Data')->__('Products Report');
         parent::_construct();
         $this->_removeButton('add');
     }

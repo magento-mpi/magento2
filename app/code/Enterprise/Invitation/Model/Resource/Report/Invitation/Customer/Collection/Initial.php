@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Reports
+ * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,12 +13,12 @@
  * Report Reviews collection
  *
  * @category    Mage
- * @package     Mage_Reports
+ * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 class Enterprise_Invitation_Model_Resource_Report_Invitation_Customer_Collection_Initial
-        extends Mage_Reports_Model_Resource_Report_Collection
+        extends Magento_Reports_Model_Resource_Report_Collection
 {
     /**
      *  Report sub-collection class name

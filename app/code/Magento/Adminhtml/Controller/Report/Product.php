@@ -27,8 +27,8 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     {
         parent::_initAction();
         $this->_addBreadcrumb(
-            Mage::helper('Mage_Reports_Helper_Data')->__('Products'),
-            Mage::helper('Mage_Reports_Helper_Data')->__('Products')
+            Mage::helper('Magento_Reports_Helper_Data')->__('Products'),
+            Mage::helper('Magento_Reports_Helper_Data')->__('Products')
         );
         return $this;
     }
@@ -41,10 +41,10 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     {
         $this->_title($this->__('Ordered Products Report'));
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_products_sold')
+            ->_setActiveMenu('Magento_Reports::report_products_sold')
             ->_addBreadcrumb(
-                Mage::helper('Mage_Reports_Helper_Data')->__('Products Ordered'),
-                Mage::helper('Mage_Reports_Helper_Data')->__('Products Ordered')
+                Mage::helper('Magento_Reports_Helper_Data')->__('Products Ordered'),
+                Mage::helper('Magento_Reports_Helper_Data')->__('Products Ordered')
             )
             ->renderLayout();
     }
@@ -83,10 +83,10 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     {
         $this->_title($this->__('Product Views Report'));
 
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE, 'viewed');
+        $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE, 'viewed');
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_products_viewed')
+            ->_setActiveMenu('Magento_Reports::report_products_viewed')
             ->_addBreadcrumb(
                 Mage::helper('Magento_Adminhtml_Helper_Data')->__('Products Most Viewed Report'),
                 Mage::helper('Magento_Adminhtml_Helper_Data')->__('Products Most Viewed Report')
@@ -136,10 +136,10 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
         $this->_title($this->__('Low Stock Report'));
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_products_lowstock')
+            ->_setActiveMenu('Magento_Reports::report_products_lowstock')
             ->_addBreadcrumb(
-                Mage::helper('Mage_Reports_Helper_Data')->__('Low Stock'),
-                Mage::helper('Mage_Reports_Helper_Data')->__('Low Stock')
+                Mage::helper('Magento_Reports_Helper_Data')->__('Low Stock'),
+                Mage::helper('Magento_Reports_Helper_Data')->__('Low Stock')
             )
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Product_Lowstock'))
             ->renderLayout();
@@ -184,8 +184,8 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
         $this->_initAction()
             ->_setActiveMenu('Mage_Downloadable::report_products_downloads')
             ->_addBreadcrumb(
-                Mage::helper('Mage_Reports_Helper_Data')->__('Downloads'),
-                Mage::helper('Mage_Reports_Helper_Data')->__('Downloads')
+                Mage::helper('Magento_Reports_Helper_Data')->__('Downloads'),
+                Mage::helper('Magento_Reports_Helper_Data')->__('Downloads')
             )
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Product_Downloads'))
             ->renderLayout();
@@ -228,16 +228,16 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     {
         switch ($this->getRequest()->getActionName()) {
             case 'viewed':
-                return $this->_authorization->isAllowed('Mage_Reports::viewed');
+                return $this->_authorization->isAllowed('Magento_Reports::viewed');
                 break;
             case 'sold':
-                return $this->_authorization->isAllowed('Mage_Reports::sold');
+                return $this->_authorization->isAllowed('Magento_Reports::sold');
                 break;
             case 'lowstock':
-                return $this->_authorization->isAllowed('Mage_Reports::lowstock');
+                return $this->_authorization->isAllowed('Magento_Reports::lowstock');
                 break;
             default:
-                return $this->_authorization->isAllowed('Mage_Reports::report_products');
+                return $this->_authorization->isAllowed('Magento_Reports::report_products');
                 break;
         }
     }

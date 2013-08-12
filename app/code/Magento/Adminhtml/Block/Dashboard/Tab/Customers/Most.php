@@ -27,8 +27,8 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Most extends Magento_Admin
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Order_Collection');
-        /* @var $collection Mage_Reports_Model_Resource_Order_Collection */
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Order_Collection');
+        /* @var $collection Magento_Reports_Model_Resource_Order_Collection */
         $collection
             ->groupByCustomer()
             ->addOrdersCount()

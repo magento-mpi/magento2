@@ -16,7 +16,7 @@
  * @package     Mage_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resource_Report_Abstract
+class Mage_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model_Resource_Report_Abstract
 {
     /**
      * Resource Report Rule constructor
@@ -38,7 +38,7 @@ class Mage_SalesRule_Model_Resource_Report_Rule extends Mage_Reports_Model_Resou
     {
         Mage::getResourceModel('Mage_SalesRule_Model_Resource_Report_Rule_Createdat')->aggregate($from, $to);
         Mage::getResourceModel('Mage_SalesRule_Model_Resource_Report_Rule_Updatedat')->aggregate($from, $to);
-        $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE);
+        $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE);
 
         return $this;
     }

@@ -46,7 +46,7 @@ abstract class Magento_Adminhtml_Controller_Report_Abstract extends Magento_Admi
     public function _initAction()
     {
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Reports'), Mage::helper('Mage_Reports_Helper_Data')->__('Reports'));
+            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Reports'), Mage::helper('Magento_Reports_Helper_Data')->__('Reports'));
         return $this;
     }
 
@@ -92,7 +92,7 @@ abstract class Magento_Adminhtml_Controller_Report_Abstract extends Magento_Admi
      */
     protected function _showLastExecutionTime($flagCode, $refreshCode)
     {
-        $flag = Mage::getModel('Mage_Reports_Model_Flag')->setReportFlagCode($flagCode)->loadSelf();
+        $flag = Mage::getModel('Magento_Reports_Model_Flag')->setReportFlagCode($flagCode)->loadSelf();
         $updatedAt = ($flag->hasData())
             ? Mage::app()->getLocale()->storeDate(
                 0, new Zend_Date($flag->getLastUpdate(), Magento_Date::DATETIME_INTERNAL_FORMAT), true

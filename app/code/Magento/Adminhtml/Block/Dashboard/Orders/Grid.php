@@ -26,10 +26,10 @@ class Magento_Adminhtml_Block_Dashboard_Orders_Grid extends Magento_Adminhtml_Bl
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Mage_Reports')) {
+        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Reports')) {
             return $this;
         }
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Order_Collection')
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Order_Collection')
             ->addItemCountExpr()
             ->joinCustomerName('customer')
             ->orderByCreatedAt();

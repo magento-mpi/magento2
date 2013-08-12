@@ -21,12 +21,12 @@ class Magento_Adminhtml_Controller_Report_Review extends Magento_Adminhtml_Contr
     {
         $this->loadLayout()
             ->_addBreadcrumb(
-                Mage::helper('Mage_Reports_Helper_Data')->__('Reports'),
-                Mage::helper('Mage_Reports_Helper_Data')->__('Reports')
+                Mage::helper('Magento_Reports_Helper_Data')->__('Reports'),
+                Mage::helper('Magento_Reports_Helper_Data')->__('Reports')
             )
             ->_addBreadcrumb(
-                Mage::helper('Mage_Reports_Helper_Data')->__('Review'),
-                Mage::helper('Mage_Reports_Helper_Data')->__('Reviews')
+                Mage::helper('Magento_Reports_Helper_Data')->__('Review'),
+                Mage::helper('Magento_Reports_Helper_Data')->__('Reviews')
             );
         return $this;
     }
@@ -38,8 +38,8 @@ class Magento_Adminhtml_Controller_Report_Review extends Magento_Adminhtml_Contr
         $this->_initAction()
             ->_setActiveMenu('Mage_Review::report_review_customer')
             ->_addBreadcrumb(
-                Mage::helper('Mage_Reports_Helper_Data')->__('Customers Report'),
-                Mage::helper('Mage_Reports_Helper_Data')->__('Customers Report')
+                Mage::helper('Magento_Reports_Helper_Data')->__('Customers Report'),
+                Mage::helper('Magento_Reports_Helper_Data')->__('Customers Report')
             );
          $this->renderLayout();
     }
@@ -74,8 +74,8 @@ class Magento_Adminhtml_Controller_Report_Review extends Magento_Adminhtml_Contr
         $this->_initAction()
             ->_setActiveMenu('Mage_Review::report_review_product')
             ->_addBreadcrumb(
-            Mage::helper('Mage_Reports_Helper_Data')->__('Products Report'),
-            Mage::helper('Mage_Reports_Helper_Data')->__('Products Report')
+            Mage::helper('Magento_Reports_Helper_Data')->__('Products Report'),
+            Mage::helper('Magento_Reports_Helper_Data')->__('Products Report')
         );
             $this->renderLayout();
     }
@@ -108,8 +108,8 @@ class Magento_Adminhtml_Controller_Report_Review extends Magento_Adminhtml_Contr
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Review::report_review')
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Products Report'), Mage::helper('Mage_Reports_Helper_Data')->__('Products Report'))
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Product Reviews'), Mage::helper('Mage_Reports_Helper_Data')->__('Product Reviews'))
+            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Products Report'), Mage::helper('Magento_Reports_Helper_Data')->__('Products Report'))
+            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Product Reviews'), Mage::helper('Magento_Reports_Helper_Data')->__('Product Reviews'))
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Review_Detail'))
             ->renderLayout();
     }
@@ -142,13 +142,13 @@ class Magento_Adminhtml_Controller_Report_Review extends Magento_Adminhtml_Contr
     {
         switch ($this->getRequest()->getActionName()) {
             case 'customer':
-                return $this->_authorization->isAllowed('Mage_Reports::review_customer');
+                return $this->_authorization->isAllowed('Magento_Reports::review_customer');
                 break;
             case 'product':
-                return $this->_authorization->isAllowed('Mage_Reports::review_product');
+                return $this->_authorization->isAllowed('Magento_Reports::review_product');
                 break;
             default:
-                return $this->_authorization->isAllowed('Mage_Reports::review');
+                return $this->_authorization->isAllowed('Magento_Reports::review');
                 break;
         }
     }

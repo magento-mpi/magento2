@@ -26,8 +26,8 @@ class Enterprise_Invitation_Controller_Adminhtml_Report_Invitation extends Magen
     {
         $this->loadLayout()
             ->_addBreadcrumb(
-                Mage::helper('Mage_Reports_Helper_Data')->__('Reports'),
-                Mage::helper('Mage_Reports_Helper_Data')->__('Reports')
+                Mage::helper('Magento_Reports_Helper_Data')->__('Reports'),
+                Mage::helper('Magento_Reports_Helper_Data')->__('Reports')
             )
             ->_addBreadcrumb(
                 Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitations'),

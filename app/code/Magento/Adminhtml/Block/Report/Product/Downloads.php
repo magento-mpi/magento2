@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Report_Product_Downloads extends Magento_Adminhtml
     protected function _construct()
     {
         $this->_controller = 'report_product_downloads';
-        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Downloads');
+        $this->_headerText = Mage::helper('Magento_Reports_Helper_Data')->__('Downloads');
         parent::_construct();
         $this->_removeButton('add');
     }
@@ -32,7 +32,7 @@ class Magento_Adminhtml_Block_Report_Product_Downloads extends Magento_Adminhtml
             $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher')
                 ->setUseConfirm(false)
                 ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
-                ->setTemplate('Mage_Reports::store/switcher.phtml')
+                ->setTemplate('Magento_Reports::store/switcher.phtml')
         );
         return parent::_prepareLayout();
     }

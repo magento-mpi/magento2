@@ -43,7 +43,7 @@ class Mage_Sales_Model_Resource_Report_Shipping extends Mage_Sales_Model_Resourc
         $this->_checkDates($from, $to);
         $this->_aggregateByOrderCreatedAt($from, $to);
         $this->_aggregateByShippingCreatedAt($from, $to);
-        $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE);
+        $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE);
         return $this;
     }
 

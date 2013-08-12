@@ -23,12 +23,12 @@ class Magento_Adminhtml_Block_Dashboard_Sales extends Magento_Adminhtml_Block_Da
 
     protected function _prepareLayout()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Mage_Reports')) {
+        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Reports')) {
             return $this;
         }
         $isFilter = $this->getRequest()->getParam('store') || $this->getRequest()->getParam('website') || $this->getRequest()->getParam('group');
 
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Order_Collection')
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Order_Collection')
             ->calculateSales($isFilter);
 
         if ($this->getRequest()->getParam('store')) {

@@ -27,12 +27,12 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
 
         $this->loadLayout()
             ->_addBreadcrumb(
-                Mage::helper('Mage_Reports_Helper_Data')->__('Reports'),
-                Mage::helper('Mage_Reports_Helper_Data')->__('Reports')
+                Mage::helper('Magento_Reports_Helper_Data')->__('Reports'),
+                Mage::helper('Magento_Reports_Helper_Data')->__('Reports')
             )
             ->_addBreadcrumb(
-                Mage::helper('Mage_Reports_Helper_Data')->__('Customers'),
-                Mage::helper('Mage_Reports_Helper_Data')->__('Customers')
+                Mage::helper('Magento_Reports_Helper_Data')->__('Customers'),
+                Mage::helper('Magento_Reports_Helper_Data')->__('Customers')
             );
         return $this;
     }
@@ -42,7 +42,7 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
         $this->_title($this->__('New Accounts Report'));
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_customers_accounts')
+            ->_setActiveMenu('Magento_Reports::report_customers_accounts')
             ->_addBreadcrumb(
                 Mage::helper('Magento_Adminhtml_Helper_Data')->__('New Accounts'),
                 Mage::helper('Magento_Adminhtml_Helper_Data')->__('New Accounts')
@@ -79,9 +79,9 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
         $this->_title($this->__('Order Count Report'));
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_customers_orders')
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Number of Orders'),
-                Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Number of Orders'))
+            ->_setActiveMenu('Magento_Reports::report_customers_orders')
+            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Customers by Number of Orders'),
+                Mage::helper('Magento_Reports_Helper_Data')->__('Customers by Number of Orders'))
             ->renderLayout();
     }
 
@@ -114,9 +114,9 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
         $this->_title($this->__('Order Total Report'));
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_customers_totals')
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Orders Total'),
-                Mage::helper('Mage_Reports_Helper_Data')->__('Customers by Orders Total'))
+            ->_setActiveMenu('Magento_Reports::report_customers_totals')
+            ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Customers by Orders Total'),
+                Mage::helper('Magento_Reports_Helper_Data')->__('Customers by Orders Total'))
             ->renderLayout();
     }
 
@@ -148,16 +148,16 @@ class Magento_Adminhtml_Controller_Report_Customer extends Magento_Adminhtml_Con
     {
         switch ($this->getRequest()->getActionName()) {
             case 'accounts':
-                return $this->_authorization->isAllowed('Mage_Reports::accounts');
+                return $this->_authorization->isAllowed('Magento_Reports::accounts');
                 break;
             case 'orders':
-                return $this->_authorization->isAllowed('Mage_Reports::customers_orders');
+                return $this->_authorization->isAllowed('Magento_Reports::customers_orders');
                 break;
             case 'totals':
-                return $this->_authorization->isAllowed('Mage_Reports::totals');
+                return $this->_authorization->isAllowed('Magento_Reports::totals');
                 break;
             default:
-                return $this->_authorization->isAllowed('Mage_Reports::customers');
+                return $this->_authorization->isAllowed('Magento_Reports::customers');
                 break;
         }
     }

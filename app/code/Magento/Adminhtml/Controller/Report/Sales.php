@@ -25,7 +25,7 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
     public function _initAction()
     {
         parent::_initAction();
-        $this->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Sales'), Mage::helper('Mage_Reports_Helper_Data')->__('Sales'));
+        $this->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Sales'), Mage::helper('Magento_Reports_Helper_Data')->__('Sales'));
         return $this;
     }
 
@@ -33,10 +33,10 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
     {
         $this->_title($this->__('Sales Report'));
 
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE, 'sales');
+        $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE, 'sales');
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_salesroot_sales')
+            ->_setActiveMenu('Magento_Reports::report_salesroot_sales')
             ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Sales Report'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Sales Report'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_sales.grid');
@@ -54,10 +54,10 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
     {
         $this->_title($this->__('Best Sellers Report'));
 
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_BESTSELLERS_FLAG_CODE, 'bestsellers');
+        $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_BESTSELLERS_FLAG_CODE, 'bestsellers');
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_products_bestsellers')
+            ->_setActiveMenu('Magento_Reports::report_products_bestsellers')
             ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Products Bestsellers Report'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Products Bestsellers Report'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_bestsellers.grid');
@@ -139,10 +139,10 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
     {
         $this->_title($this->__('Tax Report'));
 
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_TAX_FLAG_CODE, 'tax');
+        $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_TAX_FLAG_CODE, 'tax');
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_salesroot_tax')
+            ->_setActiveMenu('Magento_Reports::report_salesroot_tax')
             ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Tax'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Tax'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_tax.grid');
@@ -182,10 +182,10 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
     {
         $this->_title($this->__('Shipping Report'));
 
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE, 'shipping');
+        $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_SHIPPING_FLAG_CODE, 'shipping');
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_salesroot_shipping')
+            ->_setActiveMenu('Magento_Reports::report_salesroot_shipping')
             ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Shipping'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Shipping'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_shipping.grid');
@@ -225,10 +225,10 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
     {
         $this->_title($this->__('Invoice Report'));
 
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_INVOICE_FLAG_CODE, 'invoiced');
+        $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_INVOICE_FLAG_CODE, 'invoiced');
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_salesroot_invoiced')
+            ->_setActiveMenu('Magento_Reports::report_salesroot_invoiced')
             ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Total Invoiced'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Total Invoiced'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_invoiced.grid');
@@ -268,10 +268,10 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
     {
         $this->_title($this->__('Refunds Report'));
 
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE, 'refunded');
+        $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE, 'refunded');
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_salesroot_refunded')
+            ->_setActiveMenu('Magento_Reports::report_salesroot_refunded')
             ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Total Refunded'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Total Refunded'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_refunded.grid');
@@ -311,10 +311,10 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
     {
         $this->_title($this->__('Coupons Report'));
 
-        $this->_showLastExecutionTime(Mage_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE, 'coupons');
+        $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE, 'coupons');
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_salesroot_coupons')
+            ->_setActiveMenu('Magento_Reports::report_salesroot_coupons')
             ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Coupons'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Coupons'));
 
         $gridBlock = $this->getLayout()->getBlock('report_sales_coupons.grid');
@@ -359,31 +359,31 @@ class Magento_Adminhtml_Controller_Report_Sales extends Magento_Adminhtml_Contro
     {
         switch ($this->getRequest()->getActionName()) {
             case 'sales':
-                return $this->_authorization->isAllowed('Mage_Reports::salesroot_sales');
+                return $this->_authorization->isAllowed('Magento_Reports::salesroot_sales');
                 break;
             case 'tax':
-                return $this->_authorization->isAllowed('Mage_Reports::tax');
+                return $this->_authorization->isAllowed('Magento_Reports::tax');
                 break;
             case 'shipping':
-                return $this->_authorization->isAllowed('Mage_Reports::shipping');
+                return $this->_authorization->isAllowed('Magento_Reports::shipping');
                 break;
             case 'invoiced':
-                return $this->_authorization->isAllowed('Mage_Reports::invoiced');
+                return $this->_authorization->isAllowed('Magento_Reports::invoiced');
                 break;
             case 'refunded':
-                return $this->_authorization->isAllowed('Mage_Reports::refunded');
+                return $this->_authorization->isAllowed('Magento_Reports::refunded');
                 break;
             case 'coupons':
-                return $this->_authorization->isAllowed('Mage_Reports::coupons');
+                return $this->_authorization->isAllowed('Magento_Reports::coupons');
                 break;
             case 'shipping':
-                return $this->_authorization->isAllowed('Mage_Reports::shipping');
+                return $this->_authorization->isAllowed('Magento_Reports::shipping');
                 break;
             case 'bestsellers':
-                return $this->_authorization->isAllowed('Mage_Reports::bestsellers');
+                return $this->_authorization->isAllowed('Magento_Reports::bestsellers');
                 break;
             default:
-                return $this->_authorization->isAllowed('Mage_Reports::salesroot');
+                return $this->_authorization->isAllowed('Magento_Reports::salesroot');
                 break;
         }
     }

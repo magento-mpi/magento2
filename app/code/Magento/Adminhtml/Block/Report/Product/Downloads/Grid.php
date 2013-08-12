@@ -38,7 +38,7 @@ class Magento_Adminhtml_Block_Report_Product_Downloads_Grid extends Magento_Admi
             $storeId = '';
         }
 
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Product_Downloads_Collection')
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Product_Downloads_Collection')
             ->addAttributeToSelect('*')
             ->setStoreId($storeId)
             ->addAttributeToFilter('type_id', array(Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE))
@@ -55,28 +55,28 @@ class Magento_Adminhtml_Block_Report_Product_Downloads_Grid extends Magento_Admi
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Product'),
+            'header'    => Mage::helper('Magento_Reports_Helper_Data')->__('Product'),
             'index'     => 'name',
             'header_css_class'  => 'col-product',
             'column_css_class'  => 'col-product'
         ));
 
         $this->addColumn('link_title', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Link'),
+            'header'    => Mage::helper('Magento_Reports_Helper_Data')->__('Link'),
             'index'     => 'link_title',
             'header_css_class'  => 'col-link',
             'column_css_class'  => 'col-link'
         ));
 
         $this->addColumn('sku', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('SKU'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('SKU'),
             'index'     =>'sku',
             'header_css_class'  => 'col-sku',
             'column_css_class'  => 'col-sku'
         ));
 
         $this->addColumn('purchases', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Purchases'),
+            'header'    => Mage::helper('Magento_Reports_Helper_Data')->__('Purchases'),
             'width'     => '215px',
             'align'     => 'right',
             'filter'    => false,
@@ -88,7 +88,7 @@ class Magento_Adminhtml_Block_Report_Product_Downloads_Grid extends Magento_Admi
         ));
 
         $this->addColumn('downloads', array(
-            'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Downloads'),
+            'header'    => Mage::helper('Magento_Reports_Helper_Data')->__('Downloads'),
             'width'     => '215px',
             'align'     => 'right',
             'filter'    => false,
@@ -98,8 +98,8 @@ class Magento_Adminhtml_Block_Report_Product_Downloads_Grid extends Magento_Admi
             'column_css_class'  => 'col-qty'
         ));
 
-        $this->addExportType('*/*/exportDownloadsCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportDownloadsExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportDownloadsCsv', Mage::helper('Magento_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportDownloadsExcel', Mage::helper('Magento_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

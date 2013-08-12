@@ -215,7 +215,7 @@ class Mage_Sales_Model_Resource_Report_Bestsellers extends Mage_Sales_Model_Reso
             $this->_updateRatingPos(self::AGGREGATION_DAILY);
             $this->_updateRatingPos(self::AGGREGATION_MONTHLY);
             $this->_updateRatingPos(self::AGGREGATION_YEARLY);
-            $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_BESTSELLERS_FLAG_CODE);
+            $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_BESTSELLERS_FLAG_CODE);
         } catch (Exception $e) {
             throw $e;
         }

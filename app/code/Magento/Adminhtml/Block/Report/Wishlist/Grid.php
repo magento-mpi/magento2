@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Report_Wishlist_Grid extends Magento_Adminhtml_Blo
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Wishlist_Product_Collection')
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Wishlist_Product_Collection')
             ->addAttributeToSelect('entity_id')
             ->addAttributeToSelect('name')
             ->addWishlistCount();
@@ -44,25 +44,25 @@ class Magento_Adminhtml_Block_Report_Wishlist_Grid extends Magento_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('ID'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('ID'),
             'width'     =>'50px',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Name'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Name'),
             'index'     =>'name'
         ));
 
         $this->addColumn('wishlists', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Wish Lists'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Wish Lists'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'wishlists'
         ));
 
         $this->addColumn('bought_from_wishlists', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Wishlist Purchase'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Wishlist Purchase'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
@@ -70,7 +70,7 @@ class Magento_Adminhtml_Block_Report_Wishlist_Grid extends Magento_Adminhtml_Blo
         ));
 
         $this->addColumn('w_vs_order', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Wish List vs. Regular Order'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Wish List vs. Regular Order'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
@@ -78,15 +78,15 @@ class Magento_Adminhtml_Block_Report_Wishlist_Grid extends Magento_Adminhtml_Blo
         ));
 
         $this->addColumn('num_deleted', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Times Deleted'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Times Deleted'),
             'width'     =>'50px',
             'align'     =>'right',
             'sortable'  =>false,
             'index'     =>'num_deleted'
         ));
 
-        $this->addExportType('*/*/exportWishlistCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportWishlistExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportWishlistCsv', Mage::helper('Magento_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportWishlistExcel', Mage::helper('Magento_Reports_Helper_Data')->__('Excel XML'));
 
         $this->setFilterVisibility(false);
 

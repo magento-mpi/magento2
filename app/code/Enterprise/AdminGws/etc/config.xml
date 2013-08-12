@@ -269,8 +269,8 @@
                 </acl_deny>
                 <collection_load_before>
                     <mage_sales_model_resource_report_bestsellers_collection>limitBestsellersCollection</mage_sales_model_resource_report_bestsellers_collection>
-                    <mage_reports_model_resource_product_collection>limitProductReports</mage_reports_model_resource_product_collection>
-                    <mage_reports_model_resource_report_product_viewed_collection>limitMostViewedCollection</mage_reports_model_resource_report_product_viewed_collection>
+                    <magento_reports_model_resource_product_collection>limitProductReports</magento_reports_model_resource_product_collection>
+                    <magento_reports_model_resource_report_product_viewed_collection>limitMostViewedCollection</magento_reports_model_resource_report_product_viewed_collection>
                     <magento_core_model_resource_store_collection>limitStores</magento_core_model_resource_store_collection>
                     <magento_core_model_resource_website_collection>limitWebsites</magento_core_model_resource_website_collection>
                     <magento_core_model_resource_store_group_collection>limitStoreGroups</magento_core_model_resource_store_group_collection>
@@ -303,7 +303,7 @@
                     <mage_user_model_resource_role_collection>limitAdminPermissionRoles</mage_user_model_resource_role_collection>
                     <mage_user_model_resource_user_collection>limitAdminPermissionUsers</mage_user_model_resource_user_collection>
                     <mage_user_model_resource_role_user_collection>limitAdminPermissionUsers</mage_user_model_resource_role_user_collection>
-                    <mage_reports_model_resource_quote_collection>addStoreFilter</mage_reports_model_resource_quote_collection>
+                    <magento_reports_model_resource_quote_collection>addStoreFilter</magento_reports_model_resource_quote_collection>
                     <mage_widget_model_resource_widget_instance_collection>addStoreFilter</mage_widget_model_resource_widget_instance_collection>
                     <mage_sales_model_resource_order_payment_transaction_collection>addStoreFilter</mage_sales_model_resource_order_payment_transaction_collection>
                     <enterprise_banner_model_resource_banner_collection>addStoreFilter</enterprise_banner_model_resource_banner_collection>

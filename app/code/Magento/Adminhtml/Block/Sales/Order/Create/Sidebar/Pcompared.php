@@ -59,8 +59,8 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Magen
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image');
-            Mage::getResourceSingleton('Mage_Reports_Model_Resource_Event')->applyLogToCollection(
-                $productCollection, Mage_Reports_Model_Event::EVENT_PRODUCT_COMPARE, $this->getCustomerId(), 0, $skipProducts
+            Mage::getResourceSingleton('Magento_Reports_Model_Resource_Event')->applyLogToCollection(
+                $productCollection, Magento_Reports_Model_Event::EVENT_PRODUCT_COMPARE, $this->getCustomerId(), 0, $skipProducts
             );
 
             $productCollection->load();

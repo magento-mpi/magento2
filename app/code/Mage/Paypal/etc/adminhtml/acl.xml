@@ -20,8 +20,8 @@
                         </resource>
                     </resource>
                 </resource>
-                <resource id="Mage_Reports::report">
-                    <resource id="Mage_Reports::salesroot">
+                <resource id="Magento_Reports::report">
+                    <resource id="Magento_Reports::salesroot">
                         <resource id="Mage_Paypal::paypal_settlement_reports" title="PayPal Settlement" module="Mage_Paypal" sortOrder="70">
                             <resource id="Mage_Paypal::paypal_settlement_reports_view" module="Mage_Paypal" title="View" sortOrder="10" />
                             <resource id="Mage_Paypal::fetch" title="Fetch" module="Mage_Paypal" sortOrder="20" />

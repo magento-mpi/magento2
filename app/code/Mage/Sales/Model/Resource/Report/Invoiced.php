@@ -44,7 +44,7 @@ class Mage_Sales_Model_Resource_Report_Invoiced extends Mage_Sales_Model_Resourc
         $this->_aggregateByOrderCreatedAt($from, $to);
         $this->_aggregateByInvoiceCreatedAt($from, $to);
 
-        $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_INVOICE_FLAG_CODE);
+        $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_INVOICE_FLAG_CODE);
         return $this;
     }
 

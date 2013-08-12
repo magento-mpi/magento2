@@ -163,7 +163,7 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
     /**
      * Add price rule filter
      *
-     * @param Mage_Reports_Model_Resource_Report_Collection_Abstract $collection
+     * @param Magento_Reports_Model_Resource_Report_Collection_Abstract $collection
      * @param Magento_Object $filterData
      * @return Magento_Adminhtml_Block_Report_Grid_Abstract
      */

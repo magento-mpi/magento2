@@ -22,14 +22,14 @@ class Magento_Adminhtml_Block_Dashboard_Totals extends Magento_Adminhtml_Block_D
 
     protected function _prepareLayout()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Mage_Reports')) {
+        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Reports')) {
             return $this;
         }
         $isFilter = $this->getRequest()->getParam('store') || $this->getRequest()->getParam('website') || $this->getRequest()->getParam('group');
         $period = $this->getRequest()->getParam('period', '24h');
 
-        /* @var $collection Mage_Reports_Model_Resource_Order_Collection */
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Order_Collection')
+        /* @var $collection Magento_Reports_Model_Resource_Order_Collection */
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Order_Collection')
             ->addCreateAtPeriodFilter($period)
             ->calculateTotals($isFilter);
 

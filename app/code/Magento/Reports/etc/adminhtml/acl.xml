@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Reports
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Reports::report" module="Magento_Reports" title="Reports" sortOrder="70">
+                    <resource id="Magento_Reports::report_marketing" title="Marketing" module="Magento_Reports" sortOrder="10">
+                        <resource id="Magento_Reports::shopcart" module="Magento_Reports" title="Shopping Cart" sortOrder="10">
+                            <resource id="Magento_Reports::product" title="Products in Cart" module="Magento_Reports" sortOrder="10" />
+                            <resource id="Magento_Reports::abandoned" title="Abandoned Cart" module="Magento_Reports" sortOrder="20" />
+                        </resource>
+                        <resource id="Magento_Reports::report_search" title="Search Terms" module="Magento_Reports" sortOrder="30" />
+                    </resource>
+                    <resource id="Magento_Reports::review" title="Reviews" module="Magento_Reports" sortOrder="20">
+                        <resource id="Magento_Reports::review_customer" title="By Customers" module="Magento_Reports" sortOrder="10" />
+                        <resource id="Magento_Reports::review_product" title="By Products" module="Magento_Reports" sortOrder="20" />
+                    </resource>
+                    <resource id="Magento_Reports::salesroot" title="Sales" module="Magento_Reports" sortOrder="40">
+                        <resource id="Magento_Reports::salesroot_sales" title="Orders" module="Magento_Reports" sortOrder="10" />
+                        <resource id="Magento_Reports::tax" title="Tax" module="Magento_Reports" sortOrder="20" />
+                        <resource id="Magento_Reports::invoiced" title="Invoiced" module="Magento_Reports" sortOrder="30" />
+                        <resource id="Magento_Reports::shipping" title="Shipping" module="Magento_Reports" sortOrder="40" />
+                        <resource id="Magento_Reports::refunded" title="Refunds" module="Magento_Reports" sortOrder="50" />
+                        <resource id="Magento_Reports::coupons" title="Coupons" module="Magento_Reports" sortOrder="50" />
+                    </resource>
+                    <resource id="Magento_Reports::customers" title="Customers" module="Magento_Reports" sortOrder="50">
+                        <resource id="Magento_Reports::totals" title="Order Total" module="Magento_Reports" sortOrder="10" />
+                        <resource id="Magento_Reports::customers_orders" title="Order Count" module="Magento_Reports" sortOrder="20" />
+                        <resource id="Magento_Reports::accounts" title="New" module="Magento_Reports" sortOrder="30" />
+                    </resource>
+                    <resource id="Magento_Reports::report_products" title="Products" module="Magento_Reports" sortOrder="60">
+                        <resource id="Magento_Reports::viewed" title="Views" module="Magento_Reports" sortOrder="10" />
+                        <resource id="Magento_Reports::bestsellers" title="Bestsellers" module="Magento_Reports" sortOrder="20" />
+                        <resource id="Magento_Reports::lowstock" title="Low Stock" module="Magento_Reports" sortOrder="30" />
+                        <resource id="Magento_Reports::sold" title="Ordered" module="Magento_Reports" sortOrder="40" />
+                        <resource id="Magento_Reports::downloads" title="Downloads" module="Magento_Reports" sortOrder="50" />
+                    </resource>
+                    <resource id="Magento_Reports::statistics" title="Statistics" module="Magento_Reports" sortOrder="80">
+                        <resource id="Magento_Reports::statistics_refresh" title="Refresh statistics" module="Magento_Reports" sortOrder="10"/>
+                    </resource>
+                </resource>
+                <resource id="Magento_Adminhtml::stores">
+                    <resource id="Magento_Adminhtml::stores_settings">
+                        <resource id="Magento_Adminhtml::config">
+                            <resource id="Magento_Reports::reports" module="Magento_Reports" title="Reports" sortOrder="70" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

@@ -32,7 +32,7 @@ class Magento_Adminhtml_Controller_Report extends Magento_Adminhtml_Controller_A
         $this->_eventManager->dispatch('on_view_report', array('report' => 'search'));
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Reports::report_search')
+            ->_setActiveMenu('Magento_Reports::report_search')
             ->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')
             ->__('Search Terms'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Search Terms'))
             ->renderLayout();
@@ -62,10 +62,10 @@ class Magento_Adminhtml_Controller_Report extends Magento_Adminhtml_Controller_A
     {
         switch ($this->getRequest()->getActionName()) {
             case 'search':
-                return $this->_authorization->isAllowed('Mage_Reports::report_search');
+                return $this->_authorization->isAllowed('Magento_Reports::report_search');
                 break;
             default:
-                return $this->_authorization->isAllowed('Mage_Reports::report');
+                return $this->_authorization->isAllowed('Magento_Reports::report');
                 break;
         }
     }

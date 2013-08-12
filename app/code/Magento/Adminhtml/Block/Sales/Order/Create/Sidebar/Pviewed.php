@@ -45,10 +45,10 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Magento
                 $stores[] = $store->getId();
             }
 
-            $collection = Mage::getModel('Mage_Reports_Model_Event')
+            $collection = Mage::getModel('Magento_Reports_Model_Event')
                 ->getCollection()
                 ->addStoreFilter($stores)
-                ->addRecentlyFiler(Mage_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->getCustomerId(), 0);
+                ->addRecentlyFiler(Magento_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->getCustomerId(), 0);
             $productIds = array();
             foreach ($collection as $event) {
                 $productIds[] = $event->getObjectId();

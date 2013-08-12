@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Magento_Adm
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Customer_Collection')
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Customer_Collection')
             ->addCustomerName();
 
         $storeFilter = 0;

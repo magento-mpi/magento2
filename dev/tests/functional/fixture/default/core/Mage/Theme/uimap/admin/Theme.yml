@@ -115,7 +115,7 @@ edit_theme:
                                         css_style: //div[@id='theme_css_view_']/a[contains(text(), 'css/styles.css')]
                                         mage_cms_widgets: //*[@id='theme_css_view_Framework files']/a[contains(text(), 'Mage_Cms::widgets.css')]
                                         mage_page_css_tabs: //*[@id='theme_css_view_Framework files']/a[contains(text(), 'Mage_Page::css/tabs.css')]
-                                        mage_reports_widgets: //*[@id='theme_css_view_Framework files']/a[contains(text(), 'Mage_Reports::widgets.css')]
+                                        magento_reports_widgets: //*[@id='theme_css_view_Framework files']/a[contains(text(), 'Magento_Reports::widgets.css')]
                                         mage_widget_widgets: //*[@id='theme_css_view_Framework files']/a[contains(text(), 'Mage_Widget::widgets.css')]
                                         framework_files: //*[@id='theme_css_view_Framework files']//a
                                         library_files: //*[@id='theme_css_view_Library files']//a

@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Report_Review_Product extends Magento_Adminhtml_Bl
     protected function _construct()
     {
         $this->_controller = 'report_review_product';
-        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Products Reviews');
+        $this->_headerText = Mage::helper('Magento_Reports_Helper_Data')->__('Products Reviews');
         parent::_construct();
         $this->_removeButton('add');
     }

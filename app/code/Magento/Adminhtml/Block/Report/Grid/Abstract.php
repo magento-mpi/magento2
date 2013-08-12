@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
         if (isset($this->_columnGroupBy)) {
             $this->isColumnGrouped($this->_columnGroupBy, true);
         }
-        $this->setEmptyCellLabel(Mage::helper('Mage_Reports_Helper_Data')->__('We couldn\'t find records for this period.'));
+        $this->setEmptyCellLabel(Mage::helper('Magento_Reports_Helper_Data')->__('We couldn\'t find records for this period.'));
     }
 
     public function getResourceCollectionName()
@@ -36,7 +36,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
     public function getCollection()
     {
         if (is_null($this->_collection)) {
-            $this->setCollection(Mage::getModel('Mage_Reports_Model_Grouped_Collection'));
+            $this->setCollection(Mage::getModel('Magento_Reports_Model_Grouped_Collection'));
         }
         return $this->_collection;
     }
@@ -154,7 +154,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
         }
 
         if ($filterData->getData('show_empty_rows', false)) {
-            Mage::helper('Mage_Reports_Helper_Data')->prepareIntervalsCollection(
+            Mage::helper('Magento_Reports_Helper_Data')->prepareIntervalsCollection(
                 $this->getCollection(),
                 $filterData->getData('from', null),
                 $filterData->getData('to', null),
@@ -261,7 +261,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
     /**
      * Add order status filter
      *
-     * @param Mage_Reports_Model_Resource_Report_Collection_Abstract $collection
+     * @param Magento_Reports_Model_Resource_Report_Collection_Abstract $collection
      * @param Magento_Object $filterData
      * @return Magento_Adminhtml_Block_Report_Grid_Abstract
      */
@@ -275,7 +275,7 @@ class Magento_Adminhtml_Block_Report_Grid_Abstract extends Magento_Adminhtml_Blo
      * Adds custom filter to resource collection
      * Can be overridden in child classes if custom filter needed
      *
-     * @param Mage_Reports_Model_Resource_Report_Collection_Abstract $collection
+     * @param Magento_Reports_Model_Resource_Report_Collection_Abstract $collection
      * @param Magento_Object $filterData
      * @return Magento_Adminhtml_Block_Report_Grid_Abstract
      */

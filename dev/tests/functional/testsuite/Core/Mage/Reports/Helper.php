@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Reports_Helper extends Mage_Selenium_AbstractHelper
+class Core_Magento_Reports_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Searches the specified data in the report.

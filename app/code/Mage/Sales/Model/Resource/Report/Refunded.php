@@ -43,7 +43,7 @@ class Mage_Sales_Model_Resource_Report_Refunded extends Mage_Sales_Model_Resourc
         $this->_aggregateByOrderCreatedAt($from, $to);
         $this->_aggregateByRefundCreatedAt($from, $to);
 
-        $this->_setFlagData(Mage_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE);
+        $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_REFUNDED_FLAG_CODE);
         return $this;
     }
 

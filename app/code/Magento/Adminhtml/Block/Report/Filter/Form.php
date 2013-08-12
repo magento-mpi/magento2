@@ -106,7 +106,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block
         );
         $htmlIdPrefix = 'sales_report_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Mage_Reports_Helper_Data')->__('Filter')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('Magento_Reports_Helper_Data')->__('Filter')));
 
         $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
 
@@ -117,26 +117,26 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block
         $fieldset->addField('report_type', 'select', array(
             'name'      => 'report_type',
             'options'   => $this->_reportTypeOptions,
-            'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('Match Period To'),
+            'label'     => Mage::helper('Magento_Reports_Helper_Data')->__('Match Period To'),
         ));
 
         $fieldset->addField('period_type', 'select', array(
             'name' => 'period_type',
             'options' => array(
-                'day'   => Mage::helper('Mage_Reports_Helper_Data')->__('Day'),
-                'month' => Mage::helper('Mage_Reports_Helper_Data')->__('Month'),
-                'year'  => Mage::helper('Mage_Reports_Helper_Data')->__('Year')
+                'day'   => Mage::helper('Magento_Reports_Helper_Data')->__('Day'),
+                'month' => Mage::helper('Magento_Reports_Helper_Data')->__('Month'),
+                'year'  => Mage::helper('Magento_Reports_Helper_Data')->__('Year')
             ),
-            'label' => Mage::helper('Mage_Reports_Helper_Data')->__('Period'),
-            'title' => Mage::helper('Mage_Reports_Helper_Data')->__('Period')
+            'label' => Mage::helper('Magento_Reports_Helper_Data')->__('Period'),
+            'title' => Mage::helper('Magento_Reports_Helper_Data')->__('Period')
         ));
 
         $fieldset->addField('from', 'date', array(
             'name'      => 'from',
             'date_format' => $dateFormat,
             'image'     => $this->getViewFileUrl('images/grid-cal.gif'),
-            'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('From'),
-            'title'     => Mage::helper('Mage_Reports_Helper_Data')->__('From'),
+            'label'     => Mage::helper('Magento_Reports_Helper_Data')->__('From'),
+            'title'     => Mage::helper('Magento_Reports_Helper_Data')->__('From'),
             'required'  => true
         ));
 
@@ -144,19 +144,19 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block
             'name'      => 'to',
             'date_format' => $dateFormat,
             'image'     => $this->getViewFileUrl('images/grid-cal.gif'),
-            'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('To'),
-            'title'     => Mage::helper('Mage_Reports_Helper_Data')->__('To'),
+            'label'     => Mage::helper('Magento_Reports_Helper_Data')->__('To'),
+            'title'     => Mage::helper('Magento_Reports_Helper_Data')->__('To'),
             'required'  => true
         ));
 
         $fieldset->addField('show_empty_rows', 'select', array(
             'name'      => 'show_empty_rows',
             'options'   => array(
-                '1' => Mage::helper('Mage_Reports_Helper_Data')->__('Yes'),
-                '0' => Mage::helper('Mage_Reports_Helper_Data')->__('No')
+                '1' => Mage::helper('Magento_Reports_Helper_Data')->__('Yes'),
+                '0' => Mage::helper('Magento_Reports_Helper_Data')->__('No')
             ),
-            'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('Empty Rows'),
-            'title'     => Mage::helper('Mage_Reports_Helper_Data')->__('Empty Rows')
+            'label'     => Mage::helper('Magento_Reports_Helper_Data')->__('Empty Rows'),
+            'title'     => Mage::helper('Magento_Reports_Helper_Data')->__('Empty Rows')
         ));
 
         $form->setUseContainer(true);

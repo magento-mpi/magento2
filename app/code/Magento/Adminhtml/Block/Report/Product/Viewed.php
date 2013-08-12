@@ -23,12 +23,12 @@ class Magento_Adminhtml_Block_Report_Product_Viewed extends Magento_Adminhtml_Bl
     protected function _construct()
     {
         $this->_controller = 'report_product_viewed';
-        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Most Viewed');
+        $this->_headerText = Mage::helper('Magento_Reports_Helper_Data')->__('Most Viewed');
         parent::_construct();
 
         $this->_removeButton('add');
         $this->addButton('filter_form_submit', array(
-            'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('Show Report'),
+            'label'     => Mage::helper('Magento_Reports_Helper_Data')->__('Show Report'),
             'onclick'   => 'filterFormSubmit()',
             'class'     => 'primary'
         ));

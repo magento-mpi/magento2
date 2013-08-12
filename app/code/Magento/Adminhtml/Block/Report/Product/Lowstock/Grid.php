@@ -40,8 +40,8 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock_Grid extends Magento_Admin
             $storeId = '';
         }
 
-        /** @var $collection Mage_Reports_Model_Resource_Product_Lowstock_Collection  */
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Product_Lowstock_Collection')
+        /** @var $collection Magento_Reports_Model_Resource_Product_Lowstock_Collection  */
+        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Product_Lowstock_Collection')
             ->addAttributeToSelect('*')
             ->setStoreId($storeId)
             ->filterByIsQtyProductTypes()
@@ -61,7 +61,7 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock_Grid extends Magento_Admin
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Product'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Product'),
             'sortable'  =>false,
             'index'     =>'name',
             'header_css_class'  => 'col-product',
@@ -69,7 +69,7 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock_Grid extends Magento_Admin
         ));
 
         $this->addColumn('sku', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('SKU'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('SKU'),
             'sortable'  =>false,
             'index'     =>'sku',
             'header_css_class'  => 'col-sku',
@@ -77,7 +77,7 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock_Grid extends Magento_Admin
         ));
 
         $this->addColumn('qty', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Stock Quantity'),
+            'header'    =>Mage::helper('Magento_Reports_Helper_Data')->__('Stock Quantity'),
             'sortable'  =>false,
             'filter'    =>'Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Range',
             'index'     =>'qty',
@@ -86,8 +86,8 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock_Grid extends Magento_Admin
             'column_css_class'  => 'col-qty'
         ));
 
-        $this->addExportType('*/*/exportLowstockCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportLowstockExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportLowstockCsv', Mage::helper('Magento_Reports_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportLowstockExcel', Mage::helper('Magento_Reports_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

@@ -352,7 +352,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit product reports
      *
-     * @param  Mage_Reports_Model_Resource_Product_Collection $collection
+     * @param  Magento_Reports_Model_Resource_Product_Collection $collection
      */
     public function limitProductReports($collection)
     {
@@ -382,7 +382,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit most viewed collection
      *
-     * @param Mage_Reports_Model_Resource_Report_Product_Viewed_Collection $collection
+     * @param Magento_Reports_Model_Resource_Report_Product_Viewed_Collection $collection
      */
     public function limitMostViewedCollection($collection)
     {

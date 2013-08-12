@@ -263,19 +263,19 @@ class Mage_Tag_Controller_Adminhtml_Report_Tag extends Magento_Adminhtml_Control
     {
         switch ($this->getRequest()->getActionName()) {
             case 'customer':
-                return $this->_authorization->isAllowed('Mage_Reports::tags_customer');
+                return $this->_authorization->isAllowed('Magento_Reports::tags_customer');
                 break;
             case 'product':
-                return $this->_authorization->isAllowed('Mage_Reports::tags_product');
+                return $this->_authorization->isAllowed('Magento_Reports::tags_product');
                 break;
             case 'productAll':
-                return $this->_authorization->isAllowed('Mage_Reports::tags_product');
+                return $this->_authorization->isAllowed('Magento_Reports::tags_product');
                 break;
             case 'popular':
-                return $this->_authorization->isAllowed('Mage_Reports::popular');
+                return $this->_authorization->isAllowed('Magento_Reports::popular');
                 break;
             default:
-                return $this->_authorization->isAllowed('Mage_Reports::tags');
+                return $this->_authorization->isAllowed('Magento_Reports::tags');
                 break;
         }
     }
