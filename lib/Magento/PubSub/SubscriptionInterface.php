@@ -61,4 +61,11 @@ interface Magento_PubSub_SubscriptionInterface extends Magento_Outbound_Endpoint
      * @return Magento_PubSub_SubscriptionInterface The revoked subscription
      */
     public function revoke();
+
+    /**
+     * Return endpoint with the subscription
+     *
+     * @return Magento_PubSub_EventInterface
+     */
+    public function getEndpoint();
 }
