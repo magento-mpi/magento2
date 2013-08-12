@@ -575,7 +575,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         if (null !== $compositeModuleName) {
             $module = $compositeModuleName;
         } elseif (false === strpos($module, '_')) {
-            $module = "Mage_{$module}";
+            $module = "Magento_{$module}";
         }
         return array($module, $name);
     }

@@ -27,7 +27,7 @@ return array(
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => 'a:1:{s:5:"model";s:45:"Magento_CatalogRule_Model_Rule_Condition_Combine";}',
+                'to'    => 'a:1:{s:5:"model";s:48:"Magento_CatalogRule_Model_Rule_Condition_Combine";}',
                 'from'  => array('`field` = ?' => 'a:1:{s:5:"model";s:34:"catalogrule/rule_condition_combine";}')
             ),
         ),
