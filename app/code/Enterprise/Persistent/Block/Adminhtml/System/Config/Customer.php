@@ -17,8 +17,8 @@ class Enterprise_Persistent_Block_Adminhtml_System_Config_Customer extends Magen
     public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $elementId = $element->getHtmlId();
-        $optionShoppingCartId = str_replace('/', '_', Mage_Persistent_Helper_Data::XML_PATH_PERSIST_SHOPPING_CART);
-        $optionEnabled = str_replace('/', '_', Mage_Persistent_Helper_Data::XML_PATH_ENABLED);
+        $optionShoppingCartId = str_replace('/', '_', Magento_Persistent_Helper_Data::XML_PATH_PERSIST_SHOPPING_CART);
+        $optionEnabled = str_replace('/', '_', Magento_Persistent_Helper_Data::XML_PATH_ENABLED);
 
         $addInheritCheckbox = false;
         if ($element->getCanUseWebsiteValue()) {

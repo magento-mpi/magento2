@@ -241,7 +241,7 @@ $CONFIG['translates'] = array(
         'app/code/Magento/Paypal/',
         'app/design/frontend/base/default/layout/paypaluk.xml',
     ),
-    'Mage_Persistent' => array(
+    'Magento_Persistent' => array(
         'app/code/Mage/Persistent/',
         'app/design/frontend/base/default/layout/persistent.xml',
         'app/design/frontend/base/default/template/persistent/'
@@ -610,7 +610,7 @@ $CONFIG['helpers']  = array(
     'payment'           => 'Magento_Payment',
     'paypal'            => 'Magento_Paypal',
     'paypaluk'          => 'Magento_PaypalUk',
-    'persistent'        => 'Mage_Persistent',
+    'persistent'        => 'Magento_Persistent',
     'poll'              => 'Magento_Poll',
     'productalert'      => 'Magento_ProductAlert',
     'protx'             => 'Mage_Protx',

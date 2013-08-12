@@ -15,7 +15,7 @@
             <version>1.0.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Persistent/>
+                <Magento_Persistent/>
             </depends>
         </Enterprise_Persistent>
     </modules>

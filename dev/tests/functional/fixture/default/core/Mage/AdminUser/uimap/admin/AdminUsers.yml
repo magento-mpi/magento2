@@ -314,7 +314,7 @@ new_admin_role:
                                         stores-settings-configuration-paypal_section: //*[@data-id='Magento_Paypal::paypal']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-customers_section: //*[@data-id='Magento_Customer::config_customer']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-tax_section: //*[@data-id='Magento_Tax::config_tax']//*[@class='jstree-checkbox']
-                                        stores-settings-configuration-persistent_shopping_cart: //*[@data-id='Mage_Persistent::persistent']//*[@class='jstree-checkbox']
+                                        stores-settings-configuration-persistent_shopping_cart: //*[@data-id='Magento_Persistent::persistent']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-sales_section: //*[@data-id='Magento_Sales::config_sales']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-sales_emails_section: //*[@data-id='Magento_Sales::sales_email']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-pdf_print_outs: //*[@data-id='Magento_Sales::sales_pdf']//*[@class='jstree-checkbox']
