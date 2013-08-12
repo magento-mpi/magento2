@@ -15,7 +15,7 @@
  * @package    Mage_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Model_Type_Multishipping_State extends Varien_Object
+class Mage_Checkout_Model_Type_Multishipping_State extends Magento_Object
 {
     const STEP_SELECT_ADDRESSES = 'multishipping_addresses';
     const STEP_SHIPPING         = 'multishipping_shipping';
