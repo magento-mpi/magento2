@@ -82,8 +82,8 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/connect/',
         'app/design/adminhtml/default/default/layout/connect.xml',
     ),
-    'Mage_Contacts' => array(
-        'app/code/Mage/Contacts/',
+    'Magento_Contacts' => array(
+        'app/code/Magento/Contacts/',
         'app/design/frontend/base/default/template/contacts/',
         'app/design/frontend/base/default/layout/contacts.xml',
         'app/design/frontend/default/modern/layout/contacts.xml',
@@ -578,7 +578,7 @@ $CONFIG['helpers']  = array(
     'cms'               => 'Magento_Cms',
     'compiler'          => 'Mage_Compiler',
     'connect'           => 'Mage_Connect',
-    'contacts'          => 'Mage_Contacts',
+    'contacts'          => 'Magento_Contacts',
     'core'              => 'Magento_Core',
     'cron'              => 'Mage_Cron',
     'customer'          => 'Mage_Customer',
