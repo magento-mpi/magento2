@@ -313,9 +313,9 @@ class Magento_Sitemap_Model_Resource_Catalog_Product extends Magento_Core_Model_
     protected function _getMediaGalleryModel()
     {
         if (is_null($this->_mediaGalleryModel)) {
-            /** @var $eavConfig Mage_Eav_Model_Config */
-            $eavConfig = Mage::getModel('Mage_Eav_Model_Config');
-            /** @var $eavConfig Mage_Eav_Model_Attribute */
+            /** @var $eavConfig Magento_Eav_Model_Config */
+            $eavConfig = Mage::getModel('Magento_Eav_Model_Config');
+            /** @var $eavConfig Magento_Eav_Model_Attribute */
             $mediaGallery = $eavConfig->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'media_gallery');
             $this->_mediaGalleryModel = $mediaGallery->getBackend();
         }

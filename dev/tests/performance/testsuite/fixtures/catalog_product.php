@@ -12,7 +12,7 @@
 // Extract product set id
 $productResource = Mage::getModel('Magento_Catalog_Model_Product');
 $entityType = $productResource->getResource()->getEntityType();
-$sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+$sets = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
     ->setEntityTypeFilter($entityType->getId())
     ->load();
 

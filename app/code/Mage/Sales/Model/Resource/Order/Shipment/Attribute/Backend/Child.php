@@ -17,13 +17,13 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Resource_Order_Shipment_Attribute_Backend_Child
-    extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
      * Performed before data is saved
      *
      * @param Varieb_Object $object
-     * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function beforeSave($object)
     {

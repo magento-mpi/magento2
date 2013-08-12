@@ -366,7 +366,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Set entity to use for attributes
      *
-     * @param Mage_Eav_Model_Entity_Abstract $entity
+     * @param Magento_Eav_Model_Entity_Abstract $entity
      * @return Magento_Catalog_Model_Resource_Product_Collection
      */
     public function setEntity($entity)
@@ -980,7 +980,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Adding product count to categories collection
      *
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $categoryCollection
+     * @param Magento_Eav_Model_Entity_Collection_Abstract $categoryCollection
      * @return Magento_Catalog_Model_Resource_Product_Collection
      */
     public function addCountToCategories($categoryCollection)
@@ -1262,7 +1262,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Add attribute to filter
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract|string $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract|string $attribute
      * @param array $condition
      * @param string $joinType
      * @return Magento_Catalog_Model_Resource_Product_Collection
@@ -1270,7 +1270,7 @@ class Magento_Catalog_Model_Resource_Product_Collection extends Magento_Catalog_
     public function addAttributeToFilter($attribute, $condition = null, $joinType = 'inner')
     {
         if ($this->isEnabledFlat()) {
-            if ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
+            if ($attribute instanceof Magento_Eav_Model_Entity_Attribute_Abstract) {
                 $attribute = $attribute->getAttributeCode();
             }
 

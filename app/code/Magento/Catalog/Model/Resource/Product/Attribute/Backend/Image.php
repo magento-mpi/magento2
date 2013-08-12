@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Image
-    extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
      * After save

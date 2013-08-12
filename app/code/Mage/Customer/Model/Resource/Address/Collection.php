@@ -16,7 +16,7 @@
  * @package     Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Resource_Address_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
+class Mage_Customer_Model_Resource_Address_Collection extends Magento_Eav_Model_Entity_Collection_Abstract
 {
     /**
      * Resource initialization

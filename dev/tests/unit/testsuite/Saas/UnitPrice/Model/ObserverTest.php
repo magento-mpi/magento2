@@ -53,13 +53,13 @@ class Saas_UnitPrice_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $product = $this->createProduct();
         $varienObserver->setProduct($product);
 
-        $frontend = $this->getMock('Mage_Eav_Model_Entity_Attribute_Frontend_Default');
+        $frontend = $this->getMock('Magento_Eav_Model_Entity_Attribute_Frontend_Default');
         $frontend->expects($this->any())
             ->method('getValue')
             ->with($product)
             ->will($this->returnValue('1'));
 
-        $attribute = $this->getMockBuilder('Mage_Eav_Model_Entity_Attribute')
+        $attribute = $this->getMockBuilder('Magento_Eav_Model_Entity_Attribute')
             ->setMethods(array('getFrontend', 'loadByCode'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -83,8 +83,8 @@ class Saas_UnitPrice_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $attributes = array();
 
         foreach ($this->_unitPriceAttributes as $key => $attributeCode) {
-            $attributes[$key] = $this->getMockBuilder('Mage_Eav_Model_Entity_Attribute')
-                ->setMockClassName('Mage_Eav_Model_Entity_Attribute' . $attributeCode)
+            $attributes[$key] = $this->getMockBuilder('Magento_Eav_Model_Entity_Attribute')
+                ->setMockClassName('Magento_Eav_Model_Entity_Attribute' . $attributeCode)
                 ->setMethods(array('getFrontend', 'loadByCode'))
                 ->disableOriginalConstructor()
                 ->getMock();

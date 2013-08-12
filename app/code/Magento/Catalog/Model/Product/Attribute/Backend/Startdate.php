@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Mage_Eav_Model_Entity_Attribute_Backend_Datetime
+class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Magento_Eav_Model_Entity_Attribute_Backend_Datetime
 {
    /**
     * Get attribute value for save.
@@ -63,7 +63,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Mage_Eav
     * In case invalid data throws exception.
     *
     * @param Magento_Object $object
-    * @throws Mage_Eav_Model_Entity_Attribute_Exception
+    * @throws Magento_Eav_Model_Entity_Attribute_Exception
     * @return bool
     */
     public function validate($object)
@@ -82,7 +82,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Startdate extends Mage_Eav
 
             if ($value > $maxValue) {
                 $message = Mage::helper('Magento_Catalog_Helper_Data')->__('The From Date value should be less than or equal to the To Date value.');
-                $eavExc  = new Mage_Eav_Model_Entity_Attribute_Exception($message);
+                $eavExc  = new Magento_Eav_Model_Entity_Attribute_Exception($message);
                 $eavExc->setAttributeCode($attr->getName());
                 throw $eavExc;
             }

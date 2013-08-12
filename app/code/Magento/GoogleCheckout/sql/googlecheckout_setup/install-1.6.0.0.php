@@ -46,7 +46,7 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'enable_googlech
     'label'             => 'Is Product Available for Purchase with Google Checkout',
     'input'             => 'select',
     'class'             => '',
-    'source'            => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
+    'source'            => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
     'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'visible'           => true,
     'required'          => false,

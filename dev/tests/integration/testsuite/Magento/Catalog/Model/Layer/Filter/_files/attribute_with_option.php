@@ -35,8 +35,8 @@ $attribute->save();
 $installer->addAttributeToGroup('catalog_product', 'Default', 'General', $attribute->getId());
 
 /* Create simple products per each option */
-/** @var $options Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection */
-$options = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection');
+/** @var $options Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection */
+$options = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection');
 $options->setAttributeFilter($attribute->getId());
 
 foreach ($options as $option) {

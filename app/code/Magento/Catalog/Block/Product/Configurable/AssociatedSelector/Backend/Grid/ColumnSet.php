@@ -103,10 +103,10 @@ class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid
     /**
      * Get option as hash
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Source_Abstract $sourceModel
+     * @param Magento_Eav_Model_Entity_Attribute_Source_Abstract $sourceModel
      * @return array
      */
-    private function getOptions(Mage_Eav_Model_Entity_Attribute_Source_Abstract $sourceModel)
+    private function getOptions(Magento_Eav_Model_Entity_Attribute_Source_Abstract $sourceModel)
     {
         $result = array();
         foreach ($sourceModel->getAllOptions() as $option) {

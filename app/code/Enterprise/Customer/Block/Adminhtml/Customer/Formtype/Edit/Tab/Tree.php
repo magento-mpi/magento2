@@ -22,7 +22,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
     /**
      * Retrieve current form type instance
      *
-     * @return Mage_Eav_Model_Form_Type
+     * @return Magento_Eav_Model_Form_Type
      */
     protected function _getFormType()
     {
@@ -104,14 +104,14 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
     {
         $nodes = array();
 
-        $fieldsetCollection = Mage::getModel('Mage_Eav_Model_Form_Fieldset')->getCollection()
+        $fieldsetCollection = Mage::getModel('Magento_Eav_Model_Form_Fieldset')->getCollection()
             ->addTypeFilter($this->_getFormType())
             ->setSortOrder();
-        $elementCollection = Mage::getModel('Mage_Eav_Model_Form_Element')->getCollection()
+        $elementCollection = Mage::getModel('Magento_Eav_Model_Form_Element')->getCollection()
             ->addTypeFilter($this->_getFormType())
             ->setSortOrder();
         foreach ($fieldsetCollection as $fieldset) {
-            /* @var $fieldset Mage_Eav_Model_Form_Fieldset */
+            /* @var $fieldset Magento_Eav_Model_Form_Fieldset */
             $node = array(
                 'node_id'   => $fieldset->getId(),
                 'parent'    => null,
@@ -128,7 +128,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_Tree
         }
 
         foreach ($elementCollection as $element) {
-            /* @var $element Mage_Eav_Model_Form_Element */
+            /* @var $element Magento_Eav_Model_Form_Element */
             $nodes[] = array(
                 'node_id'   => 'a_' . $element->getId(),
                 'parent'    => $element->getFieldsetId(),

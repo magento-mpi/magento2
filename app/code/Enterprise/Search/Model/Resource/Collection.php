@@ -496,7 +496,7 @@ class Enterprise_Search_Model_Resource_Collection
     /**
      * Adding product count to categories collection
      *
-     * @param   Mage_Eav_Model_Entity_Collection_Abstract $categoryCollection
+     * @param   Magento_Eav_Model_Entity_Collection_Abstract $categoryCollection
      * @return  Enterprise_Search_Model_Resource_Collection
      */
     public function addCountToCategories($categoryCollection)

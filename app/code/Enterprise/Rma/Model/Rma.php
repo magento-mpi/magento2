@@ -65,7 +65,7 @@ class Enterprise_Rma_Model_Rma extends Magento_Core_Model_Abstract
         parent::_beforeSave();
 
         if (!$this->getIncrementId()) {
-            $incrementId = Mage::getSingleton('Mage_Eav_Model_Config')
+            $incrementId = Mage::getSingleton('Magento_Eav_Model_Config')
                 ->getEntityType('rma_item')
                 ->fetchNewIncrementId($this->getStoreId());
             $this->setIncrementId($incrementId);

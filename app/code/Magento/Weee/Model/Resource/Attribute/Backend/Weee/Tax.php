@@ -31,7 +31,7 @@ class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Cor
      * Load product data
      *
      * @param Magento_Catalog_Model_Product $product
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @return array
      */
     public function loadProductData($product, $attribute)
@@ -60,7 +60,7 @@ class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Cor
      * Delete product data
      *
      * @param Magento_Catalog_Model_Product $product
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @return Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax
      */
     public function deleteProductData($product, $attribute)

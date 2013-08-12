@@ -16,7 +16,7 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Frontend_Image extends Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
+class Magento_Catalog_Model_Product_Attribute_Frontend_Image extends Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
 {
     /**
      * Returns url to product image

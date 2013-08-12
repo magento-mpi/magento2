@@ -19,6 +19,6 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options
-    extends Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract
+    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract
 {
 }

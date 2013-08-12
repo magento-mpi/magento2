@@ -32,7 +32,7 @@ class Mage_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
                 'frontend_label' => 'Date',
             )
         );
-        $attributes = array(Mage::getObjectManager()->create('Mage_Eav_Model_Entity_Attribute', $arguments));
+        $attributes = array(Mage::getObjectManager()->create('Magento_Eav_Model_Entity_Attribute', $arguments));
         $method = new ReflectionMethod('Mage_Backend_Block_Widget_Form', '_setFieldset');
         $method->setAccessible(true);
         $method->invoke($formBlock, $attributes, $fieldSet);

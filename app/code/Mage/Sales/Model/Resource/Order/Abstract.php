@@ -313,7 +313,7 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
      */
     public function saveAttribute(Magento_Core_Model_Abstract $object, $attribute)
     {
-        if ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
+        if ($attribute instanceof Magento_Eav_Model_Entity_Attribute_Abstract) {
             $attribute = $attribute->getAttributeCode();
         }
 
@@ -357,8 +357,8 @@ abstract class Mage_Sales_Model_Resource_Order_Abstract extends Mage_Sales_Model
     protected function _beforeSave(Magento_Core_Model_Abstract $object)
     {
         if ($this->_useIncrementId && !$object->getIncrementId()) {
-            /* @var $entityType Mage_Eav_Model_Entity_Type */
-            $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode($this->_entityTypeForIncrementId);
+            /* @var $entityType Magento_Eav_Model_Entity_Type */
+            $entityType = Mage::getModel('Magento_Eav_Model_Entity_Type')->loadByCode($this->_entityTypeForIncrementId);
             $object->setIncrementId($entityType->fetchNewIncrementId($object->getStoreId()));
         }
         parent::_beforeSave($object);

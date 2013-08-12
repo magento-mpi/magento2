@@ -31,7 +31,7 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
      * Load product data by product and attribute_id
      *
      * @param Magento_Catalog_Model_Product $product
-     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @param Magento_Eav_Model_Entity_Attribute $attribute
      * @return array
      */
     public function loadProductData($product, $attribute)
@@ -63,7 +63,7 @@ class Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount exten
      * Delete product data
      *
      * @param Magento_Catalog_Model_Product $product
-     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @param Magento_Eav_Model_Entity_Attribute $attribute
      * @return Enterprise_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount
      */
     public function deleteProductData($product, $attribute)

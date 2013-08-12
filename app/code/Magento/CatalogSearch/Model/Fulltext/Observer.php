@@ -72,9 +72,9 @@ class Magento_CatalogSearch_Model_Fulltext_Observer
     public function eavAttributeChange(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
-        /* @var $attribute Mage_Eav_Model_Entity_Attribute */
-        $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType(Magento_Catalog_Model_Product::ENTITY);
-        /* @var $entityType Mage_Eav_Model_Entity_Type */
+        /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+        $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType(Magento_Catalog_Model_Product::ENTITY);
+        /* @var $entityType Magento_Eav_Model_Entity_Type */
 
         if ($attribute->getEntityTypeId() != $entityType->getId()) {
             return $this;

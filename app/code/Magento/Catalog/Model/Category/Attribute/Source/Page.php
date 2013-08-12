@@ -15,7 +15,7 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Category_Attribute_Source_Page extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+class Magento_Catalog_Model_Category_Attribute_Source_Page extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     public function getAllOptions()
     {

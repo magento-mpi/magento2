@@ -15,14 +15,14 @@
  * @package    Saas_UnitPrice
  */
 class Saas_UnitPrice_Model_Entity_Backend_Unitprice_Amount
-    extends Mage_Eav_Model_Entity_Attribute_Backend_Default
+    extends Magento_Eav_Model_Entity_Attribute_Backend_Default
 {
 
     /**
      * Before save method
      *
      * @param Magento_Object $object
-     * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function beforeSave($object)
     {

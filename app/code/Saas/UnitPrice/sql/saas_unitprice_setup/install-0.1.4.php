@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $this Mage_Eav_Model_Entity_Setup */
+/* @var $this Magento_Eav_Model_Entity_Setup */
 $this->startSetup();
 
 $types = Mage::helper('Saas_UnitPrice_Helper_Data')->isUnitPriceProInstalledAndActive()
@@ -20,7 +20,7 @@ $this->addAttribute('catalog_product', 'unit_price_use', array(
     'type'       => 'int',
     'label'      => "Allow displaying the unit product's price",
     'input'      => 'select',
-    'source'     => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
+    'source'     => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
     'global'     => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
     'required'   => false,
     'visible'    => true,
@@ -113,7 +113,7 @@ foreach ($attributeUpdates as $column => $attributes) {
 }
 
 // An ugly hack, but setting the attribute_model per attribute
-// isn't supported in Mage_Eav_Model_Entity_Setup::addAttribute()
+// isn't supported in Magento_Eav_Model_Entity_Setup::addAttribute()
 $attributeCodeToModel = array(
     'unit_price_amount'      => 'Saas_UnitPrice_Model_Entity_Resource_Eav_Attribute_Product_Amount',
     'unit_price_unit'        => 'Saas_UnitPrice_Model_Entity_Resource_Eav_Attribute_Product_Unit',

@@ -51,7 +51,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
 
         foreach ($attributes as $alias => $attributeCode) {
             $attribute = $customer->getAttribute($attributeCode);
-            /* @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+            /* @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
 
             if ($attribute->getBackendType() == 'static') {
                 $tableAlias = 'customer_' . $attribute->getAttributeCode();
@@ -113,7 +113,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
      *
      * @param string $field
      * @param null|string|array $condition
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return Magento_Eav_Model_Entity_Collection_Abstract
      */
     public function addFieldToFilter($field, $condition = null)
     {

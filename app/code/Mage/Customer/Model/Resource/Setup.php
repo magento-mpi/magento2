@@ -16,7 +16,7 @@
  * @package     Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
+class Mage_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
 {
     /**
      * Prepare customer attribute values to save in additional table
@@ -127,7 +127,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                 'entity_model'                   => 'Mage_Customer_Model_Resource_Customer',
                 'attribute_model'                => 'Mage_Customer_Model_Attribute',
                 'table'                          => 'customer_entity',
-                'increment_model'                => 'Mage_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
                 'additional_attribute_table'     => 'customer_eav_attribute',
                 'entity_attribute_collection'    => 'Mage_Customer_Model_Resource_Attribute_Collection',
                 'attributes'                     => array(
@@ -229,8 +229,8 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'               => 'datetime',
                         'label'              => 'Date Of Birth',
                         'input'              => 'date',
-                        'frontend'           => 'Mage_Eav_Model_Entity_Attribute_Frontend_Datetime',
-                        'backend'            => 'Mage_Eav_Model_Entity_Attribute_Backend_Datetime',
+                        'frontend'           => 'Magento_Eav_Model_Entity_Attribute_Frontend_Datetime',
+                        'backend'            => 'Magento_Eav_Model_Entity_Attribute_Backend_Datetime',
                         'required'           => false,
                         'sort_order'         => 90,
                         'visible'            => false,
@@ -299,7 +299,7 @@ class Mage_Customer_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'type'               => 'int',
                         'label'              => 'Gender',
                         'input'              => 'select',
-                        'source'             => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
+                        'source'             => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
                         'required'           => false,
                         'sort_order'         => 110,
                         'visible'            => false,

@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Catalog_Model_Product_Attribute_Source_Countryofmanufacture
-    extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
      * @var Magento_Core_Model_Cache_Type_Config

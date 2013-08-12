@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
-    extends Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
@@ -62,12 +62,12 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
         // add limitation to attribute code
         // customer attribute code can have prefix "customer_" and its length must be max length minus prefix length
         $element      = $form->getElement('attribute_code');
-        $oldClassName = sprintf('maximum-length-%d', Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH);
-        $newClassName = sprintf('maximum-length-%d', Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9);
+        $oldClassName = sprintf('maximum-length-%d', Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH);
+        $newClassName = sprintf('maximum-length-%d', Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9);
         $class        = str_replace($oldClassName, $newClassName, $element->getClass());
         $element->setClass($class);
         $element->setNote(
-            Mage::helper('Mage_Eav_Helper_Data')->__('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %s symbols', Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9)
+            Mage::helper('Magento_Eav_Helper_Data')->__('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %s symbols', Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9)
         );
 
         $fieldset->addField('multiline_count', 'text', array(
@@ -241,7 +241,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
     /**
      * Initialize form fileds values
      *
-     * @return Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+     * @return Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
      */
     protected function _initFormValues()
     {

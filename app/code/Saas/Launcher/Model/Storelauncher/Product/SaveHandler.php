@@ -92,7 +92,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandler implements Saas_Laun
             throw new Saas_Launcher_Exception('Product data is invalid.');
         }
         // prevent ID overriding
-        unset($data['product'][Mage_Eav_Model_Entity::DEFAULT_ENTITY_ID_FIELD]);
+        unset($data['product'][Magento_Eav_Model_Entity::DEFAULT_ENTITY_ID_FIELD]);
         // prepare product stock data
         $data['product']['stock_data'] = $this->_prepareProductStockData($data);
         // only simple or virtual product can be created via Product Tile

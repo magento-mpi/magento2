@@ -54,7 +54,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_Attribute
+class Magento_Catalog_Model_Resource_Eav_Attribute extends Magento_Eav_Model_Entity_Attribute
 {
     const SCOPE_STORE                           = 0;
     const SCOPE_GLOBAL                          = 1;
@@ -129,7 +129,7 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity
         /**
          * Fix saving attribute in admin
          */
-        Mage::getSingleton('Mage_Eav_Model_Config')->clear();
+        Mage::getSingleton('Magento_Eav_Model_Config')->clear();
         Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
             $this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE
         );
@@ -241,7 +241,7 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity
     /**
      * Retrieve source model
      *
-     * @return Mage_Eav_Model_Entity_Attribute_Source_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Source_Abstract
      */
     public function getSourceModel()
     {
@@ -282,7 +282,7 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity
      */
     public function _getDefaultSourceModel()
     {
-        return 'Mage_Eav_Model_Entity_Attribute_Source_Table';
+        return 'Magento_Eav_Model_Entity_Attribute_Source_Table';
     }
 
     /**

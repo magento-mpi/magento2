@@ -126,7 +126,7 @@ class Mage_Customer_Helper_Address extends Magento_Core_Helper_Abstract
     {
         $websiteId = Mage::app()->getStore($store)->getWebsiteId();
         if (!isset($this->_streetLines[$websiteId])) {
-            $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', 'street');
+            $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', 'street');
             $lines = (int)$attribute->getMultilineCount();
             if ($lines <= 0) {
                 $lines = 2;
@@ -163,8 +163,8 @@ class Mage_Customer_Helper_Address extends Magento_Core_Helper_Abstract
     {
         if (is_null($this->_attributes)) {
             $this->_attributes = array();
-            /* @var $config Mage_Eav_Model_Config */
-            $config = Mage::getSingleton('Mage_Eav_Model_Config');
+            /* @var $config Magento_Eav_Model_Config */
+            $config = Mage::getSingleton('Magento_Eav_Model_Config');
             foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {
                 $this->_attributes[$attributeCode] = $config->getAttribute('customer_address', $attributeCode);
             }
@@ -182,7 +182,7 @@ class Mage_Customer_Helper_Address extends Magento_Core_Helper_Abstract
     {
         /** @var $attribute Mage_Customer_Model_Attribute */
         $attribute = isset($this->_attributes[$attributeCode]) ? $this->_attributes[$attributeCode]
-            : Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', $attributeCode);
+            : Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', $attributeCode);
         $class = $attribute ? $attribute->getFrontend()->getClass() : '';
 
         if (in_array($attributeCode, array('firstname', 'middlename', 'lastname', 'prefix', 'suffix', 'taxvat'))) {
@@ -191,7 +191,7 @@ class Mage_Customer_Helper_Address extends Magento_Core_Helper_Abstract
             }
 
             /** @var $customerAttribute Mage_Customer_Model_Attribute */
-            $customerAttribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer', $attributeCode);
+            $customerAttribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer', $attributeCode);
             $class .= $customerAttribute && $customerAttribute->getIsVisible()
                 ? $customerAttribute->getFrontend()->getClass() : '';
             $class = implode(' ', array_unique(array_filter(explode(' ', $class))));

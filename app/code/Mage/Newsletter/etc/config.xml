@@ -17,7 +17,7 @@
             <depends>
                 <Magento_Core />
                 <Mage_Customer />
-                <Mage_Eav />
+                <Magento_Eav />
                 <Mage_Widget />
             </depends>
         </Mage_Newsletter>

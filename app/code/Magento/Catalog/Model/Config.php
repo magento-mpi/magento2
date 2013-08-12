@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Catalog_Model_Config extends Mage_Eav_Model_Config
+class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
 {
     const XML_PATH_LIST_DEFAULT_SORT_BY     = 'catalog/frontend/default_sort_by';
     const XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES = 'global/catalog/product/type/grouped/allow_product_types';
@@ -87,7 +87,7 @@ class Magento_Catalog_Model_Config extends Mage_Eav_Model_Config
             return $this;
         }
 
-        $attributeSetCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+        $attributeSetCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->load();
 
         $this->_attributeSetsById = array();
@@ -134,7 +134,7 @@ class Magento_Catalog_Model_Config extends Mage_Eav_Model_Config
             return $this;
         }
 
-        $attributeSetCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection')
+        $attributeSetCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection')
             ->load();
 
         $this->_attributeGroupsById = array();
@@ -277,11 +277,11 @@ class Magento_Catalog_Model_Config extends Mage_Eav_Model_Config
             $attributesData = $this->_getResource()
                 ->setStoreId($this->getStoreId())
                 ->getAttributesUsedInListing();
-            Mage::getSingleton('Mage_Eav_Model_Config')
+            Mage::getSingleton('Magento_Eav_Model_Config')
                 ->importAttributesData($entityType, $attributesData);
             foreach ($attributesData as $attributeData) {
                 $attributeCode = $attributeData['attribute_code'];
-                $this->_usedInProductListing[$attributeCode] = Mage::getSingleton('Mage_Eav_Model_Config')
+                $this->_usedInProductListing[$attributeCode] = Mage::getSingleton('Magento_Eav_Model_Config')
                     ->getAttribute($entityType, $attributeCode);
             }
         }
@@ -299,11 +299,11 @@ class Magento_Catalog_Model_Config extends Mage_Eav_Model_Config
             $entityType     = Magento_Catalog_Model_Product::ENTITY;
             $attributesData = $this->_getResource()
                 ->getAttributesUsedForSortBy();
-            Mage::getSingleton('Mage_Eav_Model_Config')
+            Mage::getSingleton('Magento_Eav_Model_Config')
                 ->importAttributesData($entityType, $attributesData);
             foreach ($attributesData as $attributeData) {
                 $attributeCode = $attributeData['attribute_code'];
-                $this->_usedForSortBy[$attributeCode] = Mage::getSingleton('Mage_Eav_Model_Config')
+                $this->_usedForSortBy[$attributeCode] = Mage::getSingleton('Magento_Eav_Model_Config')
                     ->getAttribute($entityType, $attributeCode);
             }
         }
@@ -322,7 +322,7 @@ class Magento_Catalog_Model_Config extends Mage_Eav_Model_Config
             'position'  => Mage::helper('Magento_Catalog_Helper_Data')->__('Position')
         );
         foreach ($this->getAttributesUsedForSortBy() as $attribute) {
-            /* @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+            /* @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
             $options[$attribute->getAttributeCode()] = $attribute->getStoreLabel();
         }
 

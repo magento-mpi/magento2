@@ -16,7 +16,7 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
      * Maximum SKU string length
@@ -85,7 +85,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Mage_Eav_Model
     /**
      * Return increment needed for SKU uniqueness
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param Magento_Catalog_Model_Product $object
      * @return int
      */

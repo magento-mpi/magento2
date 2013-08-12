@@ -13,7 +13,7 @@
             <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.catalog.product.set.grid" as="grid">
                 <arguments>
                     <id>setGrid</id>
-                    <dataSource type="object">Mage_Eav_Model_Resource_Entity_Attribute_Grid_Collection</dataSource>
+                    <dataSource type="object">Magento_Eav_Model_Resource_Entity_Attribute_Grid_Collection</dataSource>
                     <default_sort>set_name</default_sort>
                     <default_dir>ASC</default_dir>
                     <save_parameters_in_session>1</save_parameters_in_session>

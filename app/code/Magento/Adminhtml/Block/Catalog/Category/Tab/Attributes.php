@@ -97,7 +97,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ad
         $this->_setFieldset($attributes, $fieldset);
 
         foreach ($attributes as $attribute) {
-            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
             if ($attribute->getAttributeCode() == 'url_key') {
                 if ($this->getCategory()->getLevel() == 1) {
                     $fieldset->removeField('url_key');

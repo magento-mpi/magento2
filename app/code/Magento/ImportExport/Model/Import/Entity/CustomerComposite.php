@@ -203,7 +203,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
      */
     protected function _initCustomerAttributes()
     {
-        /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+        /** @var $attribute Magento_Eav_Model_Entity_Attribute */
         foreach ($this->_customerEntity->getAttributeCollection() as $attribute) {
             $this->_customerAttributes[] = $attribute->getAttributeCode();
         }
@@ -218,7 +218,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerComposite
      */
     protected function _initAddressAttributes()
     {
-        /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+        /** @var $attribute Magento_Eav_Model_Entity_Attribute */
         foreach ($this->_addressEntity->getAttributeCollection() as $attribute) {
             $this->_addressAttributes[] = $attribute->getAttributeCode();
         }

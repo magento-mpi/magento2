@@ -112,14 +112,14 @@ class Mage_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /** @var Magento_Core_Model_StoreManager */
     protected $_storeManager;
 
-    /** @var Mage_Eav_Model_Config */
+    /** @var Magento_Eav_Model_Config */
     protected $_config;
 
     /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Mage_Eav_Model_Config $config
+     * @param Magento_Eav_Model_Config $config
      * @param Magento_Core_Model_Resource_Abstract|null $resource
      * @param Magento_Data_Collection_Db|null $resourceCollection
      * @param array $data
@@ -128,7 +128,7 @@ class Mage_Customer_Model_Customer extends Magento_Core_Model_Abstract
         Magento_Core_Model_Context $context,
         Magento_Core_Model_Sender $sender,
         Magento_Core_Model_StoreManager $storeManager,
-        Mage_Eav_Model_Config $config,
+        Magento_Eav_Model_Config $config,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -1026,7 +1026,7 @@ class Mage_Customer_Model_Customer extends Magento_Core_Model_Abstract
     /**
      * Return Entity Type instance
      *
-     * @return Mage_Eav_Model_Entity_Type
+     * @return Magento_Eav_Model_Entity_Type
      */
     public function getEntityType()
     {

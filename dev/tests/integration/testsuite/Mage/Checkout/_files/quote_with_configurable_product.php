@@ -16,8 +16,8 @@ require __DIR__ . '/../../../Magento/Catalog/_files/product_configurable.php';
 $product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load(1);
 /* Create simple products per each option */
-/** @var $options Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection */
-$options = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection');
+/** @var $options Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection */
+$options = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection');
 $option = $options->setAttributeFilter($attribute->getId())->getFirstItem();
 
 $requestInfo = new Magento_Object(array(

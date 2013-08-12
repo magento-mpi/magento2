@@ -261,7 +261,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
     /**
      * Retrieve shipping carriers for specified order
      *
-     * @param Mage_Eav_Model_Entity_Abstract $object
+     * @param Magento_Eav_Model_Entity_Abstract $object
      * @return array
      */
     protected function _getCarriers($object)

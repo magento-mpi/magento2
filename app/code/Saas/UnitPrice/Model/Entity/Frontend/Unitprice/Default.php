@@ -15,7 +15,7 @@
  * @package    Saas_UnitPrice
  */
 class Saas_UnitPrice_Model_Entity_Frontend_Unitprice_Default
-    extends Mage_Eav_Model_Entity_Attribute_Frontend_Default
+    extends Magento_Eav_Model_Entity_Attribute_Frontend_Default
 {
 
     /**

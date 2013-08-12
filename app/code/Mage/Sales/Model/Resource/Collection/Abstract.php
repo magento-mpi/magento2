@@ -19,9 +19,9 @@
 abstract class Mage_Sales_Model_Resource_Collection_Abstract extends Magento_Core_Model_Resource_Db_Collection_Abstract
 {
     /**
-     * Check if $attribute is Mage_Eav_Model_Entity_Attribute and convert to string field name
+     * Check if $attribute is Magento_Eav_Model_Entity_Attribute and convert to string field name
      *
-     * @param string|Mage_Eav_Model_Entity_Attribute $attribute
+     * @param string|Magento_Eav_Model_Entity_Attribute $attribute
      * @return string
      */
     protected function _attributeToField($attribute)
@@ -29,7 +29,7 @@ abstract class Mage_Sales_Model_Resource_Collection_Abstract extends Magento_Cor
         $field = false;
         if (is_string($attribute)) {
             $field = $attribute;
-        } elseif ($attribute instanceof Mage_Eav_Model_Entity_Attribute) {
+        } elseif ($attribute instanceof Magento_Eav_Model_Entity_Attribute) {
             $field = $attribute->getAttributeCode();
         }
         if (!$field) {
@@ -55,7 +55,7 @@ abstract class Mage_Sales_Model_Resource_Collection_Abstract extends Magento_Cor
      * Specify collection select filter by attribute value
      * Backward compatibility with EAV collection
      *
-     * @param string|Mage_Eav_Model_Entity_Attribute $attribute
+     * @param string|Magento_Eav_Model_Entity_Attribute $attribute
      * @param array|integer|string|null $condition
      * @return Mage_Sales_Model_Resource_Collection_Abstract
      */
@@ -100,7 +100,7 @@ abstract class Mage_Sales_Model_Resource_Collection_Abstract extends Magento_Cor
      *
      * @param int $limit
      * @param int $offset
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return Magento_Eav_Model_Entity_Collection_Abstract
      */
     protected function _getAllIdsSelect($limit = null, $offset = null)
     {

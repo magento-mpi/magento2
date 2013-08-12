@@ -231,7 +231,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Add store_id attribute to filter of EAV-collection
      *
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
+     * @param Magento_Eav_Model_Entity_Collection_Abstract $collection
      */
     public function addStoreAttributeToFilter($collection)
     {

@@ -16,7 +16,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Attribute_Source_Mode extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+class Magento_Catalog_Model_Resource_Category_Attribute_Source_Mode extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
      * Returns all mode options

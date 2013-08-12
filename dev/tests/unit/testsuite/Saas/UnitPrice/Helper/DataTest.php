@@ -215,7 +215,7 @@ class Community_UnitPrice_Helper_DataTest extends PHPUnit_Framework_TestCase
         $attributes = array();
         $frontend = array();
         foreach ($defaultData as $attributeCode => $value) {
-            $frontend[$attributeCode] = $this->getMockBuilder('Mage_Eav_Model_Entity_Attribute_Frontend_Abstract')
+            $frontend[$attributeCode] = $this->getMockBuilder('Magento_Eav_Model_Entity_Attribute_Frontend_Abstract')
                 ->setMethods(array('getValue'))
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -224,7 +224,7 @@ class Community_UnitPrice_Helper_DataTest extends PHPUnit_Framework_TestCase
                 ->with($this->equalTo($product))
                 ->will($this->returnValue($value));
 
-            $attributes[$attributeCode] = $this->getMockBuilder('Mage_Eav_Model_Entity_Attribute')
+            $attributes[$attributeCode] = $this->getMockBuilder('Magento_Eav_Model_Entity_Attribute')
                 ->setMethods(array('loadByCode', 'getFrontend'))
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -239,7 +239,7 @@ class Community_UnitPrice_Helper_DataTest extends PHPUnit_Framework_TestCase
 
         $helper->expects($this->any())
             ->method('getModel')
-            ->with($this->equalTo('Mage_Eav_Model_Entity_Attribute'))
+            ->with($this->equalTo('Magento_Eav_Model_Entity_Attribute'))
             ->will(call_user_func_array(array($this, 'onConsecutiveCalls'), $attributes));
 
         $helper->_loadDefaultUnitPriceValues($product);

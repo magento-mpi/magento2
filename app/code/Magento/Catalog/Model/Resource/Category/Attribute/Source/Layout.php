@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Catalog_Model_Resource_Category_Attribute_Source_Layout
-    extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
      * Return cms layout update options

@@ -34,7 +34,7 @@ class Mage_Customer_Model_Api_Resource extends Magento_Api_Model_Resource_Abstra
     /**
      * Check is attribute allowed
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param array $attributes
      * @return boolean
      */
@@ -53,7 +53,7 @@ class Mage_Customer_Model_Api_Resource extends Magento_Api_Model_Resource_Abstra
     /**
      * Return list of allowed attributes
      *
-     * @param Mage_Eav_Model_Entity_Abstract $entity
+     * @param Magento_Eav_Model_Entity_Abstract $entity
      * @param array $filter
      * @return array
      */

@@ -50,7 +50,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
         $method = new ReflectionMethod($this->_model, '_addAttributesToCollection');
         $method->setAccessible(true);
         $stubCollection = $this->getMock(
-            'Mage_Eav_Model_Entity_Collection_Abstract', array('addAttributeToSelect'), array(), '', false
+            'Magento_Eav_Model_Entity_Collection_Abstract', array('addAttributeToSelect'), array(), '', false
         );
         $stubCollection->expects($this->once())->method('addAttributeToSelect')->with($this->_expectedAttributes);
         $method->invoke($this->_model, $stubCollection);
@@ -67,8 +67,8 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
         $testAttributeCode = 'lastname';
         $testAttributeValue = 'value';
         $testAttributeOptions = array('value' => 'option');
-        /** @var $testAttribute Mage_Eav_Model_Entity_Attribute */
-        $testAttribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract', array(), '', false);
+        /** @var $testAttribute Magento_Eav_Model_Entity_Attribute */
+        $testAttribute = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Attribute_Abstract', array(), '', false);
         $testAttribute->setAttributeCode($testAttributeCode);
 
         $this->_model->expects($this->any())

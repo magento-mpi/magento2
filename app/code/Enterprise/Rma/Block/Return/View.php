@@ -227,7 +227,7 @@ class Enterprise_Rma_Block_Return_View extends Enterprise_Rma_Block_Form
             $billingAddress = Mage::registry('current_order')->getBillingAddress();
 
             $name = '';
-            $config = Mage::getSingleton('Mage_Eav_Model_Config');
+            $config = Mage::getSingleton('Magento_Eav_Model_Config');
             if ($config->getAttribute('customer', 'prefix')->getIsVisible() && $billingAddress->getPrefix()) {
                 $name .= $billingAddress->getPrefix() . ' ';
             }

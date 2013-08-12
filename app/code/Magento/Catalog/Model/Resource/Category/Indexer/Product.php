@@ -709,7 +709,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      */
     protected function _getAnchorAttributeInfo()
     {
-        $isAnchorAttribute = Mage::getSingleton('Mage_Eav_Model_Config')
+        $isAnchorAttribute = Mage::getSingleton('Magento_Eav_Model_Config')
             ->getAttribute(Magento_Catalog_Model_Category::ENTITY, 'is_anchor');
         $info = array(
             'id'    => $isAnchorAttribute->getId() ,
@@ -725,7 +725,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      */
     protected function _getVisibilityAttributeInfo()
     {
-        $visibilityAttribute = Mage::getSingleton('Mage_Eav_Model_Config')
+        $visibilityAttribute = Mage::getSingleton('Magento_Eav_Model_Config')
             ->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'visibility');
         $info = array(
             'id'    => $visibilityAttribute->getId() ,
@@ -741,7 +741,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      */
     protected function _getStatusAttributeInfo()
     {
-        $statusAttribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'status');
+        $statusAttribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'status');
         $info = array(
             'id'    => $statusAttribute->getId() ,
             'table' => $statusAttribute->getBackend()->getTable()
@@ -943,8 +943,8 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      */
     protected function _prepareEnabledProductsVisibility($websiteId, $storeId)
     {
-        $statusAttribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'status');
-        $visibilityAttribute = Mage::getSingleton('Mage_Eav_Model_Config')
+        $statusAttribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'status');
+        $visibilityAttribute = Mage::getSingleton('Magento_Eav_Model_Config')
             ->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'visibility');
         $statusAttributeId = $statusAttribute->getId();
         $visibilityAttributeId = $visibilityAttribute->getId();
@@ -1042,7 +1042,7 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_In
      */
     protected function _prepareAnchorCategories($storeId, $rootPath)
     {
-        $isAnchorAttribute = Mage::getSingleton('Mage_Eav_Model_Config')
+        $isAnchorAttribute = Mage::getSingleton('Magento_Eav_Model_Config')
             ->getAttribute(Magento_Catalog_Model_Category::ENTITY, 'is_anchor');
         $anchorAttributeId = $isAnchorAttribute->getId();
         $anchorTable = $isAnchorAttribute->getBackend()->getTable();

@@ -180,11 +180,11 @@ class Magento_ImportExport_Model_Export extends Magento_ImportExport_Model_Abstr
      * Determine filter type for specified attribute.
      *
      * @static
-     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @param Magento_Eav_Model_Entity_Attribute $attribute
      * @throws Exception
      * @return string
      */
-    public static function getAttributeFilterType(Mage_Eav_Model_Entity_Attribute $attribute)
+    public static function getAttributeFilterType(Magento_Eav_Model_Entity_Attribute $attribute)
     {
         if ($attribute->usesSource() || $attribute->getFilterOptions()) {
             return self::FILTER_TYPE_SELECT;

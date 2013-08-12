@@ -124,8 +124,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/downloadable.xml',
         'app/design/adminhtml/default/default/template/downloadable/',
     ),
-    'Mage_Eav' => array(
-        'app/code/Mage/Eav/',
+    'Magento_Eav' => array(
+        'app/code/Magento/Eav/',
     ),
     'Mage_Eway' => array(
         'app/code/Mage/Eway/',
@@ -586,7 +586,7 @@ $CONFIG['helpers']  = array(
     'cybersource'       => 'Mage_Cybersource',
     'directory'         => 'Mage_Directory',
     'downloadable'      => 'Magento_Downloadable',
-    'eav'               => 'Mage_Eav',
+    'eav'               => 'Magento_Eav',
     'eway'              => 'Mage_Eway',
     'flo2cash'          => 'Mage_Flo2Cash',
     'giftmessage'       => 'Mage_GiftMessage',

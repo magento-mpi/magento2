@@ -49,7 +49,7 @@ class Magento_Catalog_Model_Resource_Product_Status extends Magento_Core_Model_R
      * Retrieve product attribute
      *
      * @param unknown_type $attribute
-     * @return Mage_Eav_Model_Entity_Attribute_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Abstract
      */
     protected function _getProductAttribute($attribute)
     {

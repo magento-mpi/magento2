@@ -51,7 +51,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
     /**
      * Check "Use default" checkbox display availability
      *
-     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @param Magento_Eav_Model_Entity_Attribute $attribute
      * @return bool
      */
     public function canDisplayUseDefault($attribute)
@@ -66,7 +66,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
     /**
      * Check default value usage fact
      *
-     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @param Magento_Eav_Model_Entity_Attribute $attribute
      * @return bool
      */
     public function usedDefault($attribute)
@@ -91,7 +91,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
      *
      * GLOBAL | WEBSITE | STORE
      *
-     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @param Magento_Eav_Model_Entity_Attribute $attribute
      * @return string
      */
     public function getScopeLabel($attribute)
@@ -125,7 +125,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
      * Retrieve attribute field name
      *
      *
-     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @param Magento_Eav_Model_Entity_Attribute $attribute
      * @return string
      */
     public function getAttributeFieldName($attribute)
@@ -140,7 +140,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends Magent
     /**
      * Check readonly attribute
      *
-     * @param Mage_Eav_Model_Entity_Attribute|string $attribute
+     * @param Magento_Eav_Model_Entity_Attribute|string $attribute
      * @return boolean
      */
     public function getAttributeReadonly($attribute)

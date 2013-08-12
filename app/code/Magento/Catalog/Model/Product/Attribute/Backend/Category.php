@@ -15,13 +15,13 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Category extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Magento_Catalog_Model_Product_Attribute_Backend_Category extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
      * Set category ids to product data
      *
      * @param Magento_Catalog_Model_Product $object
-     * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function afterLoad($object)
     {

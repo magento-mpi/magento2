@@ -184,7 +184,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
      */
     public function __construct()
     {
-        $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType($this->getEntityTypeCode());
+        $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType($this->getEntityTypeCode());
         $this->_entityTypeId    = $entityType->getEntityTypeId();
         $this->_dataSourceModel = Magento_ImportExport_Model_Import::getDataSourceModel();
         $this->_connection      = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
@@ -332,11 +332,11 @@ abstract class Magento_ImportExport_Model_Import_Entity_Abstract
     /**
      * Returns attributes all values in label-value or value-value pairs form. Labels are lower-cased.
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param array $indexValAttrs OPTIONAL Additional attributes' codes with index values.
      * @return array
      */
-    public function getAttributeOptions(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $indexValAttrs = array())
+    public function getAttributeOptions(Magento_Eav_Model_Entity_Attribute_Abstract $attribute, $indexValAttrs = array())
     {
         $options = array();
 

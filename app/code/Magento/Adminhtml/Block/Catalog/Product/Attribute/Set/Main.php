@@ -135,8 +135,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
         $items = array();
         $setId = $this->_getSetId();
 
-        /* @var $groups Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection */
-        $groups = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Group')
+        /* @var $groups Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection */
+        $groups = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Group')
             ->getResourceCollection()
             ->setAttributeSetFilter($setId)
             ->setSortOrder()
@@ -147,7 +147,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
 
         $unassignableAttributes = Mage::helper('Magento_Catalog_Helper_Product')->getUnassignableAttributes();
 
-        /* @var $node Mage_Eav_Model_Entity_Attribute_Group */
+        /* @var $node Magento_Eav_Model_Entity_Attribute_Group */
         foreach ($groups as $node) {
             $item = array();
             $item['text']       = $node->getAttributeGroupName();
@@ -164,7 +164,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
             if ($nodeChildren->getSize() > 0) {
                 $item['children'] = array();
                 foreach ($nodeChildren->getItems() as $child) {
-                    /* @var $child Mage_Eav_Model_Entity_Attribute */
+                    /* @var $child Magento_Eav_Model_Entity_Attribute */
 
                     $isUnassignable = !in_array($child->getAttributeCode(), $unassignableAttributes);
 
@@ -206,7 +206,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
             ->load();
 
         $attributesIds = array('0');
-        /* @var $item Mage_Eav_Model_Entity_Attribute */
+        /* @var $item Magento_Eav_Model_Entity_Attribute */
         foreach ($collection->getItems() as $item) {
             $attributesIds[] = $item->getAttributeId();
         }
@@ -321,7 +321,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
     /**
      * Retrieve current Attribute Set object
      *
-     * @return Mage_Eav_Model_Entity_Attribute_Set
+     * @return Magento_Eav_Model_Entity_Attribute_Set
      */
     protected function _getAttributeSet()
     {
@@ -347,7 +347,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
     {
         $isDefault = $this->getData('is_current_set_default');
         if (is_null($isDefault)) {
-            $defaultSetId = Mage::getModel('Mage_Eav_Model_Entity_Type')
+            $defaultSetId = Mage::getModel('Magento_Eav_Model_Entity_Type')
                 ->load(Mage::registry('entityType'))
                 ->getDefaultAttributeSetId();
             $isDefault = $this->_getSetId() == $defaultSetId;

@@ -37,7 +37,7 @@ class Enterprise_Customer_Helper_CustomerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(array()));
 
         $this->_inputValidatorMock =
-            $this->getMockBuilder('Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator')
+            $this->getMockBuilder('Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator')
                 ->disableOriginalConstructor()->getMock();
 
         $abstractHelperMock = $this->getMockBuilder('Magento_Core_Helper_Abstract')

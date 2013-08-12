@@ -237,7 +237,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
         if ($this->_entityAttributes === null) {
             $this->_entityAttributes = array();
             foreach ($this->filterAttributeCollection($this->getAttributeCollection()) as $attribute) {
-                /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+                /** @var $attribute Magento_Eav_Model_Entity_Attribute */
                 $this->_entityAttributes[] = $attribute->getAttributeCode();
             }
         }

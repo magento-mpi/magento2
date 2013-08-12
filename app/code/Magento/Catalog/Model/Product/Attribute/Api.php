@@ -39,7 +39,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
         $this->_ignoredAttributeCodes[] = 'type_id';
         $this->_ignoredAttributeTypes[] = 'gallery';
         $this->_ignoredAttributeTypes[] = 'media_image';
-        $this->_entityTypeId = Mage::getModel('Mage_Eav_Model_Entity')->setType('catalog_product')->getTypeId();
+        $this->_entityTypeId = Mage::getModel('Magento_Eav_Model_Entity')->setType('catalog_product')->getTypeId();
     }
 
     /**

@@ -21,7 +21,7 @@
             <saas_unitprice_setup>
                 <setup>
                     <module>Saas_UnitPrice</module>
-                    <class>Mage_Eav_Model_Entity_Setup</class>
+                    <class>Magento_Eav_Model_Entity_Setup</class>
                 </setup>
                 <connection>
                     <use>default_setup</use>

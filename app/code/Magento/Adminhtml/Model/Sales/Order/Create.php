@@ -1044,7 +1044,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     {
         $addressForm    = $this->_getCustomerAddressForm()
             ->setEntity($address)
-            ->setEntityType(Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer_address'))
+            ->setEntityType(Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer_address'))
             ->setIsAjaxRequest(!$this->getIsValidate());
 
         // prepare request

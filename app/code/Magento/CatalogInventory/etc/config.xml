@@ -24,7 +24,7 @@
             <cataloginventory_setup>
                 <setup>
                     <module>Magento_CatalogInventory</module>
-                    <class>Mage_Eav_Model_Entity_Setup</class>
+                    <class>Magento_Eav_Model_Entity_Setup</class>
                 </setup>
             </cataloginventory_setup>
         </resources>

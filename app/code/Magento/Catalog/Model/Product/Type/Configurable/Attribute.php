@@ -21,8 +21,8 @@
  * @method int getPosition()
  * @method Magento_Catalog_Model_Product_Type_Configurable_Attribute setPosition(int $value)
  *
- * @method Magento_Catalog_Model_Product_Type_Configurable_Attribute setProductAttribute(Mage_Eav_Model_Entity_Attribute_Abstract $value)
- * @method Mage_Eav_Model_Entity_Attribute_Abstract getProductAttribute()
+ * @method Magento_Catalog_Model_Product_Type_Configurable_Attribute setProductAttribute(Magento_Eav_Model_Entity_Attribute_Abstract $value)
+ * @method Magento_Eav_Model_Entity_Attribute_Abstract getProductAttribute()
  *
  * @category    Magento
  * @package     Magento_Catalog
@@ -89,7 +89,7 @@ class Magento_Catalog_Model_Product_Type_Configurable_Attribute extends Magento_
      * Load counfigurable attribute by product and product's attribute
      *
      * @param Magento_Catalog_Model_Product $product
-     * @param Mage_Eav_Model_Attribute  $attribute
+     * @param Magento_Eav_Model_Attribute  $attribute
      */
     public function loadByProductAndAttribute($product, $attribute)
     {

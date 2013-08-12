@@ -306,7 +306,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
      */
     public function filterAttributeCollection(Magento_Data_Collection $collection)
     {
-        /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+        /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
         foreach ($collection as $attribute) {
             if (in_array($attribute->getAttributeCode(), $this->_disabledAttributes)) {
                 $collection->removeItemByKey($attribute->getId());

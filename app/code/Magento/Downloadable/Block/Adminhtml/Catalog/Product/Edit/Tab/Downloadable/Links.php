@@ -66,7 +66,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         if (is_null($this->_purchasedSeparatelyAttribute)) {
             $_attributeCode = 'links_purchased_separately';
 
-            $this->_purchasedSeparatelyAttribute = Mage::getModel('Mage_Eav_Model_Entity_Attribute')
+            $this->_purchasedSeparatelyAttribute = Mage::getModel('Magento_Eav_Model_Entity_Attribute')
                 ->loadByCode(Magento_Catalog_Model_Product::ENTITY, $_attributeCode);
         }
 

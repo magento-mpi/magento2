@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
-/** @var Mage_Eav_Model_Entity_Type $entityType */
-$entityType = Mage::getModel('Mage_Eav_Model_Entity_Type');
+/** @var Magento_Eav_Model_Entity_Type $entityType */
+$entityType = Mage::getModel('Magento_Eav_Model_Entity_Type');
 $entityType->loadByCode('catalog_product');
 $defaultSetId = $entityType->getDefaultAttributeSetId();
-/** @var Mage_Eav_Model_Entity_Attribute_Set $defaultSet */
-$defaultSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set');
+/** @var Magento_Eav_Model_Entity_Attribute_Set $defaultSet */
+$defaultSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set');
 $defaultSet->load($defaultSetId);
 $defaultGroupId = $defaultSet->getDefaultGroupId();
 $optionData = array(

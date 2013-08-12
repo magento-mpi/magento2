@@ -186,10 +186,10 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
     /**
      * Get attribute type for upcoming validation.
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract|Mage_Eav_Model_Entity_Attribute $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract|Magento_Eav_Model_Entity_Attribute $attribute
      * @return string
      */
-    public static function getAttributeType(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
+    public static function getAttributeType(Magento_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         if ($attribute->usesSource()) {
             return $attribute->getFrontendInput() == 'multiselect' ? 'multiselect' : 'select';

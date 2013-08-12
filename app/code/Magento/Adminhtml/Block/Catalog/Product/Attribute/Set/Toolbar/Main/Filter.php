@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main_Filter 
     {
         $form = new Magento_Data_Form();
 
-        $collection = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
+        $collection = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
             ->getResourceCollection()
             ->load()
             ->toOptionArray();

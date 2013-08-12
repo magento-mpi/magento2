@@ -120,13 +120,13 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Adminhtm
      * Initialize attribute set
      *
      * @param Mage_Customer_Model_Form $customerFor
-     * @return Mage_Eav_Model_Entity_Attribute[]
+     * @return Magento_Eav_Model_Entity_Attribute[]
      */
     protected function _initCustomerAttributes(Mage_Customer_Model_Form $customerForm)
     {
         $attributes = $customerForm->getAttributes();
         foreach ($attributes as $attribute) {
-            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
             $attributeLabel = Mage::helper('Mage_Customer_Helper_Data')->__($attribute->getFrontend()->getLabel());
             $attribute->setFrontendLabel($attributeLabel);
             $attribute->unsIsVisible();

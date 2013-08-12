@@ -243,7 +243,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collect
             if ($usedProducts) {
                 foreach ($this->_items as $item) {
                     $productAttribute = $item->getProductAttribute();
-                    if (!($productAttribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract)) {
+                    if (!($productAttribute instanceof Magento_Eav_Model_Entity_Attribute_Abstract)) {
                         continue;
                     }
                     $itemId = $item->getId();

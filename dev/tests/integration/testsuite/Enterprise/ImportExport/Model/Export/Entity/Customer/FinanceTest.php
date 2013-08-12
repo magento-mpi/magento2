@@ -42,7 +42,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends P
         $correctHeader = $customerFinance->getPermanentAttributes();
         $attributeCollection = $customerFinance->getAttributeCollection();
         foreach ($customerFinance->filterAttributeCollection($attributeCollection) as $attribute) {
-            /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+            /** @var $attribute Magento_Eav_Model_Entity_Attribute */
             $correctHeader[] = $attribute->getAttributeCode();
         }
 

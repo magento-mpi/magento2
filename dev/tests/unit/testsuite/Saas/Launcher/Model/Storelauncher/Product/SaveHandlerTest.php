@@ -42,7 +42,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
     {
         $data0 = array(
             'product' => array(
-                Mage_Eav_Model_Entity::DEFAULT_ENTITY_ID_FIELD => 100500,
+                Magento_Eav_Model_Entity::DEFAULT_ENTITY_ID_FIELD => 100500,
                 'status' => Magento_Catalog_Model_Product_Status::STATUS_ENABLED,
                 'name' => 'Tile Product',
                 'sku' => 'tile_product',
@@ -70,7 +70,7 @@ class Saas_Launcher_Model_Storelauncher_Product_SaveHandlerTest extends PHPUnit_
             )
         );
         $preparedData0 = $data0;
-        unset($preparedData0['product'][Mage_Eav_Model_Entity::DEFAULT_ENTITY_ID_FIELD]);
+        unset($preparedData0['product'][Magento_Eav_Model_Entity::DEFAULT_ENTITY_ID_FIELD]);
         // override stock data by values from 'quantity_and_stock_status' attribute
         $preparedData0['product']['stock_data'] = array(
             'qty' => 1000,

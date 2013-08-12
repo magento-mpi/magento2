@@ -283,7 +283,7 @@
     <catalog_attributesets translate="label">
         <label>Catalog Product Templates</label>
         <expected_models>
-            <Mage_Eav_Model_Entity_Attribute_Set/>
+            <Magento_Eav_Model_Entity_Attribute_Set/>
         </expected_models>
         <actions>
             <adminhtml_catalog_product_set_edit>

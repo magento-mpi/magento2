@@ -16,7 +16,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_Entity_Attribute
+class Magento_Catalog_Model_Resource_Attribute extends Magento_Eav_Model_Resource_Entity_Attribute
 {
     /**
      * Perform actions before object save
@@ -91,11 +91,11 @@ class Magento_Catalog_Model_Resource_Attribute extends Mage_Eav_Model_Resource_E
         $result = $this->_getReadAdapter()->fetchRow($select);
 
         if ($result) {
-            $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
+            $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
                 ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $result['attribute_id']);
 
             if ($this->isUsedBySuperProducts($attribute, $result['attribute_set_id'])) {
-                Mage::throwException(Mage::helper('Mage_Eav_Helper_Data')->__("Attribute '%s' used in configurable products", $attribute->getAttributeCode()));
+                Mage::throwException(Mage::helper('Magento_Eav_Helper_Data')->__("Attribute '%s' used in configurable products", $attribute->getAttributeCode()));
             }
             $backendTable = $attribute->getBackend()->getTable();
             if ($backendTable) {

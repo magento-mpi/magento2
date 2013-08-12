@@ -556,7 +556,7 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
      * Retrieve attribute by code
      *
      * @param string $attributeCode
-     * @return Mage_Eav_Model_Entity_Attribute_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Abstract
      */
     private function _getAttribute($attributeCode)
     {
@@ -894,7 +894,7 @@ class Magento_Catalog_Model_Category extends Magento_Catalog_Model_Abstract
     /**
      * Validate attribute values
      *
-     * @throws Mage_Eav_Model_Entity_Attribute_Exception
+     * @throws Magento_Eav_Model_Entity_Attribute_Exception
      * @return bool|array
      */
     public function validate()

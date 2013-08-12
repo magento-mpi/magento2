@@ -19,14 +19,14 @@ class Magento_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Fram
         require __DIR__ . '/../_files/attribute_set_with_configurable.php';
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
-        /** @var Mage_Eav_Model_Entity_Attribute_Set $attributeSet */
+        /** @var Magento_Eav_Model_Entity_Attribute_Set $attributeSet */
         $attributeSet = Mage::registry('attribute_set_with_configurable');
         /** @var Magento_Catalog_Model_Resource_Eav_Attribute $attributeOne */
         $attributeOne = Mage::registry('eav_configurable_attribute_1');
         /** @var Magento_Catalog_Model_Resource_Eav_Attribute $attributeTwo */
         $attributeTwo = Mage::registry('eav_configurable_attribute_2');
         $productData['attribute_set_id'] = $attributeSet->getId();
-        /** @var Mage_Eav_Model_Entity_Attribute_Source_Table $attributeOneSource */
+        /** @var Magento_Eav_Model_Entity_Attribute_Source_Table $attributeOneSource */
         $attributeOneSource = $attributeOne->getSource();
         $attributeOnePrices = array();
         foreach ($attributeOneSource->getAllOptions(false) as $option) {

@@ -163,7 +163,7 @@ class Enterprise_Search_Model_Observer
                 continue;
             }
 
-            $optionCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+            $optionCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setAttributeFilter($attribute->getAttributeId())
                 ->setPositionOrder(Magento_DB_Select::SQL_ASC, true)
                 ->load();

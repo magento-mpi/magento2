@@ -103,7 +103,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
         if (isset($data['entity_type_id'])) {
             $this->_entityTypeId = $data['entity_type_id'];
         } else {
-            $this->_entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')
+            $this->_entityTypeId = Mage::getSingleton('Magento_Eav_Model_Config')
                 ->getEntityType($this->getEntityTypeCode())
                 ->getEntityTypeId();
         }
@@ -161,7 +161,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
      */
     protected function _initAttributes()
     {
-        /** @var $attribute Mage_Eav_Model_Attribute */
+        /** @var $attribute Magento_Eav_Model_Attribute */
         foreach ($this->_attributeCollection as $attribute) {
             $this->_attributes[$attribute->getAttributeCode()] = array(
                 'id'          => $attribute->getId(),
@@ -190,11 +190,11 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
     /**
      * Returns attributes all values in label-value or value-value pairs form. Labels are lower-cased
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param array $indexAttributes OPTIONAL Additional attribute codes with index values.
      * @return array
      */
-    public function getAttributeOptions(Mage_Eav_Model_Entity_Attribute_Abstract $attribute,
+    public function getAttributeOptions(Magento_Eav_Model_Entity_Attribute_Abstract $attribute,
         array $indexAttributes = array()
     ) {
         $options = array();

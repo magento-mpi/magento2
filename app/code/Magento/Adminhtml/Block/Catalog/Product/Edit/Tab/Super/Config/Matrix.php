@@ -239,7 +239,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
         $config = Mage::getSingleton('Magento_Catalog_Model_Config');
         /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
         $attribute = $config->getAttribute(Magento_Catalog_Model_Product::ENTITY, $code);
-        return $attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract
+        return $attribute instanceof Magento_Eav_Model_Entity_Attribute_Abstract
             ? $attribute->getFrontend()->getClass()
             : '';
     }

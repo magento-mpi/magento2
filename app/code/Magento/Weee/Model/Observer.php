@@ -109,7 +109,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
     public function assignBackendModelToAttribute(Magento_Event_Observer $observer)
     {
         $backendModel = Magento_Weee_Model_Attribute_Backend_Weee_Tax::getBackendModelName();
-        /** @var $object Mage_Eav_Model_Entity_Attribute_Abstract */
+        /** @var $object Magento_Eav_Model_Entity_Attribute_Abstract */
         $object = $observer->getEvent()->getAttribute();
         if ($object->getFrontendInput() == 'weee') {
             $object->setBackendModel($backendModel);

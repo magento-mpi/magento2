@@ -64,7 +64,7 @@ class Mage_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_M
     /**
      * List of shopping cart items
      *
-     * @return Mage_Eav_Model_Entity_Collection_Abstract|array
+     * @return Magento_Eav_Model_Entity_Collection_Abstract|array
      */
     public function getItems()
     {

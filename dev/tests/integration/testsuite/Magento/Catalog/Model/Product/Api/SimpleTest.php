@@ -324,14 +324,14 @@ class Magento_Catalog_Model_Product_Api_SimpleTest extends Magento_Catalog_Model
         );
 
         // find not product (category) attribute set identifier to try other error message
-        /** @var $entity Mage_Eav_Model_Entity_Type */
-        $entity = Mage::getModel('Mage_Eav_Model_Entity_Type');
+        /** @var $entity Magento_Eav_Model_Entity_Type */
+        $entity = Mage::getModel('Magento_Eav_Model_Entity_Type');
         $entityTypeId = $entity->loadByCode('catalog_category')->getId();
 
-        /** @var $attrSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attrSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set');
+        /** @var $attrSet Magento_Eav_Model_Entity_Attribute_Set */
+        $attrSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set');
 
-        /** @var $attrSetCollection Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection */
+        /** @var $attrSetCollection Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection */
         $attrSetCollection = $attrSet->getCollection();
         $categoryAtrrSets = $attrSetCollection->setEntityTypeFilter($entityTypeId)->toOptionHash();
         $categoryAttrSetId = key($categoryAtrrSets);

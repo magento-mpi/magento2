@@ -11,7 +11,7 @@
 /**
  * Source model for eav attribute custom_design
  */
-class Magento_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+class Magento_Core_Model_Design_Source_Design extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
      * @var Magento_Core_Helper_Data

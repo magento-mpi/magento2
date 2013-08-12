@@ -122,7 +122,7 @@ class Saas_UnitPrice_Model_Config_Source_Unitprice_UnitTest extends PHPUnit_Fram
     public function testShouldExtendAbstractSource()
     {
         $this->assertInstanceOf(
-            'Mage_Eav_Model_Entity_Attribute_Source_Abstract',
+            'Magento_Eav_Model_Entity_Attribute_Source_Abstract',
             new Saas_UnitPrice_Model_Config_Source_Unitprice_Unit
         );
     }

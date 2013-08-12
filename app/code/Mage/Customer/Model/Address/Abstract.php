@@ -59,7 +59,7 @@ class Mage_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstract
     public function getName()
     {
         $name = '';
-        $config = Mage::getSingleton('Mage_Eav_Model_Config');
+        $config = Mage::getSingleton('Magento_Eav_Model_Config');
         if ($config->getAttribute('customer_address', 'prefix')->getIsVisible() && $this->getPrefix()) {
             $name .= $this->getPrefix() . ' ';
         }

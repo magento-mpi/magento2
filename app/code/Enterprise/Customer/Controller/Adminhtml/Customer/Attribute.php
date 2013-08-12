@@ -17,19 +17,19 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
     /**
      * Customer Address Entity Type instance
      *
-     * @var Mage_Eav_Model_Entity_Type
+     * @var Magento_Eav_Model_Entity_Type
      */
     protected $_entityType;
 
     /**
      * Return Customer Address Entity Type instance
      *
-     * @return Mage_Eav_Model_Entity_Type
+     * @return Magento_Eav_Model_Entity_Type
      */
     protected function _getEntityType()
     {
         if (is_null($this->_entityType)) {
-            $this->_entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer');
+            $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer');
         }
         return $this->_entityType;
     }
@@ -225,7 +225,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Attribute
 
                 // add set and group info
                 $data['attribute_set_id']   = $this->_getEntityType()->getDefaultAttributeSetId();
-                $data['attribute_group_id'] = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
+                $data['attribute_group_id'] = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
                     ->getDefaultGroupId($data['attribute_set_id']);
             }
 

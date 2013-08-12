@@ -17,7 +17,7 @@
  * @package     Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Attribute_Data_Postcode extends Mage_Eav_Model_Attribute_Data_Text
+class Mage_Customer_Model_Attribute_Data_Postcode extends Magento_Eav_Model_Attribute_Data_Text
 {
     /**
      * Validate postal/zip code

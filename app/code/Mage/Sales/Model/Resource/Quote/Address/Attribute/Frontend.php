@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Resource_Quote_Address_Attribute_Frontend
-    extends Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
+    extends Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
 {
     /**
      * Fetch totals

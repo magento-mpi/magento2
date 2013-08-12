@@ -54,7 +54,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     public function testGetEntityTypeId()
     {
         $entityCode = 'customer';
-        $entityId = Mage::getSingleton('Mage_Eav_Model_Config')
+        $entityId = Mage::getSingleton('Magento_Eav_Model_Config')
             ->getEntityType($entityCode)
             ->getEntityTypeId();
 

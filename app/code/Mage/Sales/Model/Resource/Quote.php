@@ -133,7 +133,7 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
     public function getReservedOrderId($quote)
     {
         $storeId = (int)$quote->getStoreId();
-        return Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType(Mage_Sales_Model_Order::ENTITY)
+        return Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType(Mage_Sales_Model_Order::ENTITY)
             ->fetchNewIncrementId($storeId);
     }
 

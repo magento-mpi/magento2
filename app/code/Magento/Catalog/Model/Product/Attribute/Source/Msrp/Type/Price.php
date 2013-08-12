@@ -59,7 +59,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
             $column['type']     = $attributeType;
             $column['is_null']  = true;
         } else {
-            $column['type']     = Mage::getResourceHelper('Mage_Eav')->getDdlTypeByColumnType($attributeType);
+            $column['type']     = Mage::getResourceHelper('Magento_Eav')->getDdlTypeByColumnType($attributeType);
             $column['nullable'] = true;
         }
 
@@ -74,7 +74,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute')
+        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

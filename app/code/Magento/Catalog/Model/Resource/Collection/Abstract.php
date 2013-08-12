@@ -17,7 +17,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_Entity_Collection_Abstract
+class Magento_Catalog_Model_Resource_Collection_Abstract extends Magento_Eav_Model_Entity_Collection_Abstract
 {
     /**
      * Current scope (store Id)
@@ -81,7 +81,7 @@ class Magento_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_
      *
      * @param string $table
      * @param array|int $attributeIds
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return Magento_Eav_Model_Entity_Collection_Abstract
      */
     protected function _getLoadAttributesSelect($table, $attributeIds = array())
     {
@@ -154,7 +154,7 @@ class Magento_Catalog_Model_Resource_Collection_Abstract extends Mage_Eav_Model_
      * @param array $condition
      * @param string $fieldCode
      * @param string $fieldAlias
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return Magento_Eav_Model_Entity_Collection_Abstract
      */
     protected function _joinAttributeToSelect($method, $attribute, $tableAlias, $condition, $fieldCode, $fieldAlias)
     {

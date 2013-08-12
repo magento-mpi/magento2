@@ -572,7 +572,7 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
         }
         $resource = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category');
         foreach ($attributes as $attributeCode) {
-            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
             $attribute = $resource->getAttribute($attributeCode);
             // join non-static attribute table
             if (!$attribute->getBackend()->isStatic()) {

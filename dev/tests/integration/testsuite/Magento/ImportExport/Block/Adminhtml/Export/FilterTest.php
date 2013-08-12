@@ -34,7 +34,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_FilterTest
                 'frontend_label' => 'Date',
             )
         );
-        $attribute = Mage::getObjectManager()->create('Mage_Eav_Model_Entity_Attribute', $arguments);
+        $attribute = Mage::getObjectManager()->create('Magento_Eav_Model_Entity_Attribute', $arguments);
         $html = $method->invoke($block, $attribute, null);
         $this->assertNotEmpty($html);
 

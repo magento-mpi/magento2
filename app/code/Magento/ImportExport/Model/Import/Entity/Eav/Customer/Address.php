@@ -251,8 +251,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
     {
         if (!$this->_regionParameters) {
             $this->_regionParameters = array();
-            /** @var $regionConfig Mage_Eav_Model_Config */
-            $regionConfig = Mage::getSingleton('Mage_Eav_Model_Config');
+            /** @var $regionConfig Magento_Eav_Model_Config */
+            $regionConfig = Mage::getSingleton('Magento_Eav_Model_Config');
             /** @var $regionIdAttribute Mage_Customer_Model_Attribute */
             $regionIdAttribute = $regionConfig->getAttribute($this->getEntityTypeCode(), 'region_id');
             $this->_regionParameters['table']        = $regionIdAttribute->getBackend()->getTable();
@@ -437,7 +437,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
         $defaults = array();
         foreach (self::getDefaultAddressAttributeMapping() as $columnName => $attributeCode) {
             if (!empty($rowData[$columnName])) {
-                /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+                /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
                 $attribute = $this->_getCustomerEntity()->getAttribute($attributeCode);
                 $defaults[$attribute->getBackend()->getTable()][$customerId][$attribute->getId()] = $addressId;
             }

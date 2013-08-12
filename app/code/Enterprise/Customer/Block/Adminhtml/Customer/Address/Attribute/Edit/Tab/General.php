@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
-    extends Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
@@ -231,7 +231,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
     /**
      * Initialize form fileds values
      *
-     * @return Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+     * @return Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
      */
     protected function _initFormValues()
     {

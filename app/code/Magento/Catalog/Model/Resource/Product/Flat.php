@@ -143,13 +143,13 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
      * Check whether the attribute is a real field in entity table
      * Rewrited for EAV Collection
      *
-     * @param integer|string|Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param integer|string|Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @return bool
      */
     public function isAttributeStatic($attribute)
     {
         $attributeCode = null;
-        if ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Interface) {
+        if ($attribute instanceof Magento_Eav_Model_Entity_Attribute_Interface) {
             $attributeCode = $attribute->getAttributeCode();
         } elseif (is_string($attribute)) {
             $attributeCode = $attribute;
@@ -184,7 +184,7 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
      * Special for non static flat table
      *
      * @param mixed $attribute
-     * @return Mage_Eav_Model_Entity_Attribute_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Abstract
      */
     public function getAttribute($attribute)
     {

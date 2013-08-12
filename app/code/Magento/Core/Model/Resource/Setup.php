@@ -649,7 +649,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * @param mixed|null $value
      * @param string $parentField
      * @param string|integer $parentId
-     * @return Mage_Eav_Model_Entity_Setup
+     * @return Magento_Eav_Model_Entity_Setup
      */
     public function updateTableRow($table, $idField, $rowId, $field, $value = null, $parentField = null, $parentId = 0)
     {

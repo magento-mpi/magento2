@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Options
-    extends Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract
+    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**

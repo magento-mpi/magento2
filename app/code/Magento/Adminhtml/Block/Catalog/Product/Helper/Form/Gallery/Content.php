@@ -100,7 +100,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
     {
         $values = array();
         foreach ($this->getMediaAttributes() as $attribute) {
-            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
             $values[$attribute->getAttributeCode()] = $this->getElement()->getDataObject()->getData(
                 $attribute->getAttributeCode()
             );
@@ -117,7 +117,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
     {
         $imageTypes = array();
         foreach ($this->getMediaAttributes() as $attribute) {
-            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
             $imageTypes[$attribute->getAttributeCode()] = array(
                 'code' => $attribute->getAttributeCode(),
                 'value' => $this->getElement()->getDataObject()->getData($attribute->getAttributeCode()),

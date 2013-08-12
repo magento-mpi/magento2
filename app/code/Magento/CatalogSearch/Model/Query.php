@@ -79,7 +79,7 @@ class Magento_CatalogSearch_Model_Query extends Magento_Core_Model_Abstract
     /**
      * Retrieve collection of search results
      *
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return Magento_Eav_Model_Entity_Collection_Abstract
      */
     public function getResultCollection()
     {

@@ -65,7 +65,7 @@ abstract class Magento_ImportExport_Model_Export_Entity_EavAbstract
         if (isset($data['entity_type_id'])) {
             $this->_entityTypeId = $data['entity_type_id'];
         } else {
-            $this->_entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')
+            $this->_entityTypeId = Mage::getSingleton('Magento_Eav_Model_Config')
                 ->getEntityType($this->getEntityTypeCode())
                 ->getEntityTypeId();
         }
@@ -89,7 +89,7 @@ abstract class Magento_ImportExport_Model_Export_Entity_EavAbstract
             }
             $attributeCodes = array();
 
-            /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+            /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
             foreach ($this->filterAttributeCollection($this->getAttributeCollection()) as $attribute) {
                 if (!isset($skippedAttributes[$attribute->getAttributeId()])
                     || in_array($attribute->getAttributeCode(), $this->_permanentAttributes)) {
@@ -108,7 +108,7 @@ abstract class Magento_ImportExport_Model_Export_Entity_EavAbstract
      */
     protected function _initAttributeValues()
     {
-        /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+        /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
         foreach ($this->getAttributeCollection() as $attribute) {
             $this->_attributeValues[$attribute->getAttributeCode()] = $this->getAttributeOptions($attribute);
         }
@@ -118,10 +118,10 @@ abstract class Magento_ImportExport_Model_Export_Entity_EavAbstract
     /**
      * Apply filter to collection and add not skipped attributes to select
      *
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @param Magento_Eav_Model_Entity_Collection_Abstract $collection
+     * @return Magento_Eav_Model_Entity_Collection_Abstract
      */
-    protected function _prepareEntityCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
+    protected function _prepareEntityCollection(Magento_Eav_Model_Entity_Collection_Abstract $collection)
     {
         $this->filterEntityCollection($collection);
         $this->_addAttributesToCollection($collection);
@@ -131,10 +131,10 @@ abstract class Magento_ImportExport_Model_Export_Entity_EavAbstract
     /**
      * Apply filter to collection
      *
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @param Magento_Eav_Model_Entity_Collection_Abstract $collection
+     * @return Magento_Eav_Model_Entity_Collection_Abstract
      */
-    public function filterEntityCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
+    public function filterEntityCollection(Magento_Eav_Model_Entity_Collection_Abstract $collection)
     {
         if (!isset($this->_parameters[Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP])
             || !is_array($this->_parameters[Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP])) {
@@ -143,7 +143,7 @@ abstract class Magento_ImportExport_Model_Export_Entity_EavAbstract
             $exportFilter = $this->_parameters[Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP];
         }
 
-        /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+        /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
         foreach ($this->filterAttributeCollection($this->getAttributeCollection()) as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
 
@@ -196,10 +196,10 @@ abstract class Magento_ImportExport_Model_Export_Entity_EavAbstract
     /**
      * Add not skipped attributes to select
      *
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @param Magento_Eav_Model_Entity_Collection_Abstract $collection
+     * @return Magento_Eav_Model_Entity_Collection_Abstract
      */
-    protected function _addAttributesToCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
+    protected function _addAttributesToCollection(Magento_Eav_Model_Entity_Collection_Abstract $collection)
     {
         $attributeCodes = $this->_getExportAttributeCodes();
         $collection->addAttributeToSelect($attributeCodes);
@@ -209,10 +209,10 @@ abstract class Magento_ImportExport_Model_Export_Entity_EavAbstract
     /**
      * Returns attributes all values in label-value or value-value pairs form. Labels are lower-cased
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @return array
      */
-    public function getAttributeOptions(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
+    public function getAttributeOptions(Magento_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         $options = array();
 

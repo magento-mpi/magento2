@@ -75,7 +75,7 @@ class Magento_Catalog_Model_Resource_Config extends Magento_Core_Model_Resource_
     public function getEntityTypeId()
     {
         if ($this->_entityTypeId === null) {
-            $this->_entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType(Magento_Catalog_Model_Product::ENTITY)->getId();
+            $this->_entityTypeId = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType(Magento_Catalog_Model_Product::ENTITY)->getId();
         }
         return $this->_entityTypeId;
     }

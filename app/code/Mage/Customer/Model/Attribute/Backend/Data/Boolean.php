@@ -17,7 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Customer_Model_Attribute_Backend_Data_Boolean
-    extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
      * Prepare data before attribute save

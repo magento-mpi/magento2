@@ -149,7 +149,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Magento_Ad
             'column_css_class'  => 'col-type'
         ));
 
-        $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+        $sets = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();

@@ -59,7 +59,7 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
      * Retrieve Product Attribute by code
      *
      * @param string $attributeCode
-     * @return Mage_Eav_Model_Entity_Attribute_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Abstract
      */
     public function getProductAttribute($attributeCode)
     {
@@ -216,7 +216,7 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
     /**
      * Retrieve Select For Flat Attribute update
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param int $store
      * @return Magento_DB_Select|null
      */
@@ -229,7 +229,7 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
      * Set attribute instance
      *
      * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @return Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
      */
     public function setAttribute($attribute)
     {
@@ -250,9 +250,9 @@ class Magento_Catalog_Model_Product_Status extends Magento_Core_Model_Abstract
     /**
      * Add Value Sort To Collection Select
      *
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
+     * @param Magento_Eav_Model_Entity_Collection_Abstract $collection
      * @param string $dir direction
-     * @return Mage_Eav_Model_Entity_Attribute_Source_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Source_Abstract
      */
     public function addValueSortToCollection($collection, $dir = 'asc')
     {

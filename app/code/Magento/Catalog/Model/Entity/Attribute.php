@@ -54,7 +54,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute
+class Magento_Catalog_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attribute
 {
     protected $_eventPrefix = 'catalog_entity_attribute';
     protected $_eventObject = 'attribute';
@@ -68,7 +68,7 @@ class Magento_Catalog_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attri
     protected function _beforeSave()
     {
         if ($this->_getResource()->isUsedBySuperProducts($this)) {
-            throw Mage::exception('Mage_Eav', Mage::helper('Mage_Eav_Helper_Data')->__('This attribute is used in configurable products'));
+            throw Mage::exception('Magento_Eav', Mage::helper('Magento_Eav_Helper_Data')->__('This attribute is used in configurable products'));
         }
         $this->setData('modulePrefix', self::MODULE_NAME);
         return parent::_beforeSave();
@@ -84,7 +84,7 @@ class Magento_Catalog_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attri
         /**
          * Fix saving attribute in admin
          */
-        Mage::getSingleton('Mage_Eav_Model_Config')->clear();
+        Mage::getSingleton('Magento_Eav_Model_Config')->clear();
         return parent::_afterSave();
     }
 }

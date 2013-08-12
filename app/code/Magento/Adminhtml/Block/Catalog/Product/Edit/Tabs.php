@@ -42,7 +42,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
         }
 
         if ($setId) {
-            $groupCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection')
+            $groupCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection')
                 ->setAttributeSetFilter($setId)
                 ->setSortOrder()
                 ->load();
@@ -52,7 +52,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
             );
             $advancedGroups = array();
             foreach ($groupCollection as $group) {
-                /** @var $group Mage_Eav_Model_Entity_Attribute_Group*/
+                /** @var $group Magento_Eav_Model_Entity_Attribute_Group*/
                 $attributes = $product->getAttributes($group->getId(), true);
 
                 foreach ($attributes as $key => $attribute) {

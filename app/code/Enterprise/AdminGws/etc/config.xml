@@ -340,9 +340,9 @@
                     <magento_core_model_store_group>coreStoreGroupSaveBefore</magento_core_model_store_group>
                     <magento_core_model_store>coreStoreGroupSaveBefore</magento_core_model_store>
                     <magento_catalog_model_entity_attribute>catalogEntityAttributeSaveBefore</magento_catalog_model_entity_attribute>
-                    <mage_eav_model_entity_attribute_set>eavEntityAttributeSetSaveBefore</mage_eav_model_entity_attribute_set>
-                    <mage_eav_model_entity_attribute_group>eavEntityAttributeGroupSaveBefore</mage_eav_model_entity_attribute_group>
-                    <mage_eav_model_entity_attribute_option>eavEntityAttributeOptionSaveBefore</mage_eav_model_entity_attribute_option>
+                    <magento_eav_model_entity_attribute_set>eavEntityAttributeSetSaveBefore</magento_eav_model_entity_attribute_set>
+                    <magento_eav_model_entity_attribute_group>eavEntityAttributeGroupSaveBefore</magento_eav_model_entity_attribute_group>
+                    <magento_eav_model_entity_attribute_option>eavEntityAttributeOptionSaveBefore</magento_eav_model_entity_attribute_option>
                     <mage_widget_model_widget_instance>widgetInstanceSaveBefore</mage_widget_model_widget_instance>
                     <enterprise_banner_model_banner>bannerSaveBefore</enterprise_banner_model_banner>
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountSaveBefore</enterprise_giftCardAccount_model_giftcardaccount>
@@ -366,9 +366,9 @@
                     <magento_core_model_store_group>coreStoreGroupDeleteBefore</magento_core_model_store_group>
                     <magento_core_model_store>coreStoreGroupDeleteBefore</magento_core_model_store>
                     <magento_catalog_model_entity_attribute>catalogEntityAttributeDeleteBefore</magento_catalog_model_entity_attribute>
-                    <mage_eav_model_entity_attribute_set>eavEntityAttributeSetDeleteBefore</mage_eav_model_entity_attribute_set>
-                    <mage_eav_model_entity_attribute_group>eavEntityAttributeGroupDeleteBefore</mage_eav_model_entity_attribute_group>
-                    <mage_eav_model_entity_attribute_option>eavEntityAttributeOptionDeleteBefore</mage_eav_model_entity_attribute_option>
+                    <magento_eav_model_entity_attribute_set>eavEntityAttributeSetDeleteBefore</magento_eav_model_entity_attribute_set>
+                    <magento_eav_model_entity_attribute_group>eavEntityAttributeGroupDeleteBefore</magento_eav_model_entity_attribute_group>
+                    <magento_eav_model_entity_attribute_option>eavEntityAttributeOptionDeleteBefore</magento_eav_model_entity_attribute_option>
                     <mage_widget_model_widget_instance>widgetInstanceDeleteBefore</mage_widget_model_widget_instance>
                     <enterprise_banner_model_banner>bannerDeleteBefore</enterprise_banner_model_banner>
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountDeleteBefore</enterprise_giftCardAccount_model_giftcardaccount>

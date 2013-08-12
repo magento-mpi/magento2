@@ -36,7 +36,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Magento
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_Eav_Model_Form_Type')
+        $collection = Mage::getModel('Magento_Eav_Model_Form_Type')
             ->getCollection();
 
         $this->setCollection($collection);

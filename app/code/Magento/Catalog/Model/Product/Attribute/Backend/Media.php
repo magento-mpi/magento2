@@ -15,7 +15,7 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     protected $_renamedImages = array();
 
@@ -77,7 +77,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Mod
      * Load attribute data after product loaded
      *
      * @param Magento_Catalog_Model_Product $object
-     * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function afterLoad($object)
     {
@@ -130,7 +130,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Mod
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
                 Mage::throwException(
-                    Mage::helper('Mage_Eav_Helper_Data')->__('The value of attribute "%s" must be unique.', $label)
+                    Mage::helper('Magento_Eav_Helper_Data')->__('The value of attribute "%s" must be unique.', $label)
                 );
             }
         }

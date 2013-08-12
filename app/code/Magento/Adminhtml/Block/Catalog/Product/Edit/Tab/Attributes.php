@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Magent
      */
     protected function _prepareForm()
     {
-        /** @var $group Mage_Eav_Model_Entity_Attribute_Group */
+        /** @var $group Magento_Eav_Model_Entity_Attribute_Group */
         $group = $this->getGroup();
         if ($group) {
             $form = new Magento_Data_Form();

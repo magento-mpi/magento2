@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
         Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text', 'head');
         /** @var $usedAttribute Magento_Catalog_Model_Entity_Attribute */
         $usedAttribute = Mage::getSingleton('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
-            Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('catalog_product')->getId(),
+            Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('catalog_product')->getId(),
             'test_configurable'
         );
         $attributeOptions = $usedAttribute->getSource()->getAllOptions(false);

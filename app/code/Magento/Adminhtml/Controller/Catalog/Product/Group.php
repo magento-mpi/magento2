@@ -12,7 +12,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Group extends Magento_Adminht
 {
     public function saveAction()
     {
-        $model = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Group');
+        $model = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Group');
 
         $model->setAttributeGroupName($this->getRequest()->getParam('attribute_group_name'))
               ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'));

@@ -73,7 +73,7 @@ Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceNa
         'label'         => 'Allow Gift Message',
         'input'         => 'select',
         'class'         => '',
-        'source'        => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
+        'source'        => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
         'global'        => true,
         'visible'       => true,
         'required'      => false,

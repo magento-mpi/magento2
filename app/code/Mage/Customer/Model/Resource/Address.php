@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstract
+class Mage_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_Abstract
 {
     /**
      * @var Magento_Core_Model_Validator_Factory

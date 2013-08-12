@@ -36,7 +36,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
      /**
       * Entity Attribute Set Group Collection
       *
-      * @var Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection
+      * @var Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection
       */
      protected $_attrSetGroupColl;
 
@@ -52,7 +52,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Magento_Catalog_Model_Product $productModel
      * @param Magento_Core_Model_Translate_Inline $translateInline
-     * @param Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl
      * @param array $data
      */
     public function __construct(
@@ -60,7 +60,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
         Saas_Launcher_Model_LinkTracker $linkTracker,
         Magento_Catalog_Model_Product $productModel,
         Magento_Core_Model_Translate_Inline $translateInline,
-        Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl,
+        Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection $attrSetGroupColl,
         array $data = array()
     ) {
         parent::__construct($context, $linkTracker, $data);
@@ -93,8 +93,8 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
         $this->_attrSetGroupColl
             ->setAttributeSetFilter($this->_defaultAttrSetId)
             ->addFieldToFilter('attribute_group_code', array('in' => array(
-                Mage_Eav_Model_Resource_Entity_Attribute_Group::TAB_GENERAL_CODE,
-                Mage_Eav_Model_Resource_Entity_Attribute_Group::TAB_IMAGE_MANAGEMENT_CODE
+                Magento_Eav_Model_Resource_Entity_Attribute_Group::TAB_GENERAL_CODE,
+                Magento_Eav_Model_Resource_Entity_Attribute_Group::TAB_IMAGE_MANAGEMENT_CODE
             )))
             ->setSortOrder()
             ->load();

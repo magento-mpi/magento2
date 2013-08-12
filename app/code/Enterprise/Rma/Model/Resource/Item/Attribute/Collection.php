@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Resource_Item_Attribute_Collection extends Mage_Eav_Model_Resource_Attribute_Collection
+class Enterprise_Rma_Model_Resource_Item_Attribute_Collection extends Magento_Eav_Model_Resource_Attribute_Collection
 {
     /**
      * Default attribute entity type code

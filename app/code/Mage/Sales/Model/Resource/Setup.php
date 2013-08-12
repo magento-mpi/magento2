@@ -16,7 +16,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
+class Mage_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
 {
     /**
      * List of entities converted from EAV to flat data structure
@@ -182,28 +182,28 @@ class Mage_Sales_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
             'order'                       => array(
                 'entity_model'                   => 'Mage_Sales_Model_Resource_Order',
                 'table'                          => 'sales_flat_order',
-                'increment_model'                => 'Mage_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             ),
             'invoice'                       => array(
                 'entity_model'                   => 'Mage_Sales_Model_Resource_Order_Invoice',
                 'table'                          => 'sales_flat_invoice',
-                'increment_model'                => 'Mage_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             ),
             'creditmemo'                       => array(
                 'entity_model'                   => 'Mage_Sales_Model_Resource_Order_Creditmemo',
                 'table'                          => 'sales_flat_creditmemo',
-                'increment_model'                => 'Mage_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             ),
             'shipment'                       => array(
                 'entity_model'                   => 'Mage_Sales_Model_Resource_Order_Shipment',
                 'table'                          => 'sales_flat_shipment',
-                'increment_model'                => 'Mage_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             )

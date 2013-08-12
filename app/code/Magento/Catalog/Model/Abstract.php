@@ -200,7 +200,7 @@ abstract class Magento_Catalog_Model_Abstract extends Magento_Core_Model_Abstrac
     /**
      * Load entity by attribute
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Interface|integer|string|array $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Interface|integer|string|array $attribute
      * @param null|string|array $value
      * @param string $additionalAttributes
      * @return bool|Magento_Catalog_Model_Abstract

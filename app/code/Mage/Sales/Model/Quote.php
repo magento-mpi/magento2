@@ -147,21 +147,21 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Quote addresses collection
      *
-     * @var Mage_Eav_Model_Entity_Collection_Abstract
+     * @var Magento_Eav_Model_Entity_Collection_Abstract
      */
     protected $_addresses = null;
 
     /**
      * Quote items collection
      *
-     * @var Mage_Eav_Model_Entity_Collection_Abstract
+     * @var Magento_Eav_Model_Entity_Collection_Abstract
      */
     protected $_items = null;
 
     /**
      * Quote payments
      *
-     * @var Mage_Eav_Model_Entity_Collection_Abstract
+     * @var Magento_Eav_Model_Entity_Collection_Abstract
      */
     protected $_payments = null;
 
@@ -481,7 +481,7 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
     /**
      * Retrieve quote address collection
      *
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return Magento_Eav_Model_Entity_Collection_Abstract
      */
     public function getAddressesCollection()
     {
@@ -729,7 +729,7 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
      * Retrieve quote items collection
      *
      * @param bool $useCache
-     * @return  Mage_Eav_Model_Entity_Collection_Abstract
+     * @return  Magento_Eav_Model_Entity_Collection_Abstract
      */
     public function getItemsCollection($useCache = true)
     {
@@ -1239,7 +1239,7 @@ class Mage_Sales_Model_Quote extends Magento_Core_Model_Abstract
 
     /*********************** PAYMENTS ***************************/
     /**
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return Magento_Eav_Model_Entity_Collection_Abstract
      */
     public function getPaymentsCollection()
     {

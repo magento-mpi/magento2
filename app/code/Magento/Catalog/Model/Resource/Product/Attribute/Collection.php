@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Catalog_Model_Resource_Product_Attribute_Collection
-    extends Mage_Eav_Model_Resource_Entity_Attribute_Collection
+    extends Magento_Eav_Model_Resource_Entity_Attribute_Collection
 {
     /**
      * Resource model initialization
@@ -25,7 +25,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Eav_Attribute', 'Mage_Eav_Model_Resource_Entity_Attribute');
+        $this->_init('Magento_Catalog_Model_Resource_Eav_Attribute', 'Magento_Eav_Model_Resource_Entity_Attribute');
     }
 
     /**
@@ -35,7 +35,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
      */
     protected function _initSelect()
     {
-        $entityTypeId = (int)Mage::getModel('Mage_Eav_Model_Entity')->setType(Magento_Catalog_Model_Product::ENTITY)
+        $entityTypeId = (int)Mage::getModel('Magento_Eav_Model_Entity')->setType(Magento_Catalog_Model_Product::ENTITY)
             ->getTypeId();
         $columns = $this->getConnection()->describeTable($this->getResource()->getMainTable());
         unset($columns['attribute_id']);

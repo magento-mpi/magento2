@@ -45,7 +45,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
 
         $validateClass = sprintf(
             'validate-code validate-length maximum-length-%d',
-            Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH
+            Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH
         );
         $fieldset->addField(
             'attribute_code',
@@ -56,7 +56,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
                 'title' => $this->__('Attribute Code'),
                 'note' => $this->__(
                     'For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %s symbols',
-                    Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH
+                    Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH
                 ),
                 'class' => $validateClass,
             )
@@ -129,7 +129,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
                 'name' => 'frontend_class',
                 'label' => $this->__('Input Validation for Store Owner'),
                 'title' => $this->__('Input Validation for Store Owner'),
-                'values' => Mage::helper('Mage_Eav_Helper_Data')->getFrontendClasses(
+                'values' => Mage::helper('Magento_Eav_Helper_Data')->getFrontendClasses(
                     $attributeObject->getEntityType()->getEntityTypeCode()
                 )
             )
@@ -186,7 +186,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
     /**
      * Retrieve attribute object from registry
      *
-     * @return Mage_Eav_Model_Entity_Attribute_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Abstract
      */
     private function getAttributeObject()
     {

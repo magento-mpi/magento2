@@ -116,7 +116,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Adminhtml
                 'options' => Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
-        $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+        $sets = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();

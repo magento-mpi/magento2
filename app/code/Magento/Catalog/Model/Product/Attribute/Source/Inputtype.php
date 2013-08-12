@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Eav
+ * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,9 +12,9 @@
  * Product attribute source input types
  *
  * @category   Mage
- * @package    Mage_Eav
+ * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
- */class Magento_Catalog_Model_Product_Attribute_Source_Inputtype extends Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype
+ */class Magento_Catalog_Model_Product_Attribute_Source_Inputtype extends Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype
 {
     /**
      * Get product input types as option array

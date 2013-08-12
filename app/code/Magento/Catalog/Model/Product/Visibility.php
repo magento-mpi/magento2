@@ -171,7 +171,7 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceSingleton('Mage_Eav_Model_Resource_Entity_Attribute')
+        return Mage::getResourceSingleton('Magento_Eav_Model_Resource_Entity_Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 
@@ -179,7 +179,7 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
      * Set attribute instance
      *
      * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
-     * @return Mage_Eav_Model_Entity_Attribute_Frontend_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
      */
     public function setAttribute($attribute)
     {
@@ -200,9 +200,9 @@ class Magento_Catalog_Model_Product_Visibility extends Magento_Object
     /**
      * Add Value Sort To Collection Select
      *
-     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
+     * @param Magento_Eav_Model_Entity_Collection_Abstract $collection
      * @param string $dir direction
-     * @return Mage_Eav_Model_Entity_Attribute_Source_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Source_Abstract
      */
     public function addValueSortToCollection($collection, $dir = 'asc')
     {

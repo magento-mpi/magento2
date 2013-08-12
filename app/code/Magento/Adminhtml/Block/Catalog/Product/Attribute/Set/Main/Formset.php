@@ -23,7 +23,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends
      */
     protected function _prepareForm()
     {
-        $data = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
+        $data = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
             ->load($this->getRequest()->getParam('id'));
 
         $form = new Magento_Data_Form();
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends
                 'value' => '1'
             ));
 
-            $sets = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
+            $sets = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
                 ->getResourceCollection()
                 ->setEntityTypeFilter(Mage::registry('entityType'))
                 ->load()

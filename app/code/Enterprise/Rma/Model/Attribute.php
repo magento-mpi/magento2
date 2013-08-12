@@ -15,7 +15,7 @@
  * @package    Enterprise_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Rma_Model_Attribute extends Mage_Eav_Model_Entity_Attribute
+class Enterprise_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
 {
     /**
      * Name of the module
@@ -84,7 +84,7 @@ class Enterprise_Rma_Model_Attribute extends Mage_Eav_Model_Entity_Attribute
      */
     protected function _afterSave()
     {
-        Mage::getSingleton('Mage_Eav_Model_Config')->clear();
+        Mage::getSingleton('Magento_Eav_Model_Config')->clear();
         return parent::_afterSave();
     }
 

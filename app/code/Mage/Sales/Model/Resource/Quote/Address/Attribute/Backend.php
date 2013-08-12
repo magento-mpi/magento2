@@ -16,7 +16,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Resource_Quote_Address_Attribute_Backend extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Mage_Sales_Model_Resource_Quote_Address_Attribute_Backend extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
      * Collect totals

@@ -27,7 +27,7 @@ class Enterprise_Customer_Helper_Customer extends Enterprise_Eav_Helper_Data
     /**
      * Input validator
      *
-     * @var Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $_inputValidator
+     * @var Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $_inputValidator
      */
     protected $_inputValidator;
 
@@ -36,12 +36,12 @@ class Enterprise_Customer_Helper_Customer extends Enterprise_Eav_Helper_Data
      *
      * @param Magento_Core_Helper_Context $context
      * @param Enterprise_Customer_Helper_Data $dataHelper
-     * @param Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $inputValidator
+     * @param Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $inputValidator
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
         Enterprise_Customer_Helper_Data $dataHelper,
-        Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $inputValidator
+        Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $inputValidator
     ) {
         parent::__construct($context);
         $this->_dataHelper = $dataHelper;

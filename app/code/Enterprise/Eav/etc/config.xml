@@ -15,7 +15,7 @@
             <version>1.11.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Eav />
+                <Magento_Eav />
                 <Magento_Adminhtml />
             </depends>
         </Enterprise_Eav>

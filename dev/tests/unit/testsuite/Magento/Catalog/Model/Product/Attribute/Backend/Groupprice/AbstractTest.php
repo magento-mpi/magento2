@@ -52,7 +52,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Groupprice_AbstractTest ex
         $attributeId = 42;
 
         $attribute = $this->getMock(
-            'Mage_Eav_Model_Entity_Attribute_Abstract',
+            'Magento_Eav_Model_Entity_Attribute_Abstract',
             array('getBackendTable', 'isStatic', 'getAttributeId', 'getName'),
             array(),
             '',

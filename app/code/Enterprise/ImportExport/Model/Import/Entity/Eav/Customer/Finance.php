@@ -145,7 +145,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
      */
     protected function _initAttributes()
     {
-        /** @var $attribute Mage_Eav_Model_Attribute */
+        /** @var $attribute Magento_Eav_Model_Attribute */
         foreach ($this->_attributeCollection as $attribute) {
             $this->_attributes[$attribute->getAttributeCode()] = array(
                 'id'          => $attribute->getId(),

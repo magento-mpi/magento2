@@ -612,7 +612,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
      */
     protected function _removeNotApplicableAttributes($product)
     {
-        $eavConfig  = Mage::getSingleton('Mage_Eav_Model_Config');
+        $eavConfig  = Mage::getSingleton('Magento_Eav_Model_Config');
         $entityType = $product->getResource()->getEntityType();
         foreach ($eavConfig->getEntityAttributeCodes($entityType, $product) as $attributeCode) {
             $attribute = $eavConfig->getAttribute($entityType, $attributeCode);

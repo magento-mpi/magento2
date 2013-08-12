@@ -28,14 +28,14 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
     /**
      * Product Collection
      *
-     * @var Mage_Eav_Model_Entity_Collection_Abstract
+     * @var Magento_Eav_Model_Entity_Collection_Abstract
      */
     protected $_productCollection;
 
     /**
      * Retrieve loaded category collection
      *
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return Magento_Eav_Model_Entity_Collection_Abstract
      */
     protected function _getProductCollection()
     {
@@ -96,7 +96,7 @@ class Magento_Catalog_Block_Product_List extends Magento_Catalog_Block_Product_A
     /**
      * Retrieve loaded category collection
      *
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return Magento_Eav_Model_Entity_Collection_Abstract
      */
     public function getLoadedProductCollection()
     {

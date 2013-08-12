@@ -1998,7 +1998,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         }
 
         if (!$this->getIncrementId()) {
-            $incrementId = Mage::getSingleton('Mage_Eav_Model_Config')
+            $incrementId = Mage::getSingleton('Magento_Eav_Model_Config')
                 ->getEntityType('order')
                 ->fetchNewIncrementId($this->getStoreId());
             $this->setIncrementId($incrementId);

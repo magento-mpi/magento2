@@ -16,7 +16,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_Entity_Abstract
+abstract class Magento_Catalog_Model_Resource_Abstract extends Magento_Eav_Model_Entity_Abstract
 {
     /**
      * Store firstly set attributes to filter selected attributes when used specific store_id
@@ -62,14 +62,14 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_En
     /**
      * Check whether attribute instance (attribute, backend, frontend or source) has method and applicable
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract|Mage_Eav_Model_Entity_Attribute_Backend_Abstract|Mage_Eav_Model_Entity_Attribute_Frontend_Abstract|Mage_Eav_Model_Entity_Attribute_Source_Abstract $instance
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract|Magento_Eav_Model_Entity_Attribute_Backend_Abstract|Magento_Eav_Model_Entity_Attribute_Frontend_Abstract|Magento_Eav_Model_Entity_Attribute_Source_Abstract $instance
      * @param string $method
      * @param array $args array of arguments
      * @return boolean
      */
     protected function _isCallableAttributeInstance($instance, $method, $args)
     {
-        if ($instance instanceof Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+        if ($instance instanceof Magento_Eav_Model_Entity_Attribute_Backend_Abstract
             && ($method == 'beforeSave' || $method = 'afterSave')
         ) {
             $attributeCode = $instance->getAttribute()->getAttributeCode();
@@ -181,7 +181,7 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_En
      * Insert or Update attribute data
      *
      * @param Magento_Catalog_Model_Abstract $object
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param mixed $value
      * @return Magento_Catalog_Model_Resource_Abstract
      */
@@ -243,7 +243,7 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_En
      * Insert entity attribute value
      *
      * @param Magento_Object $object
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param mixed $value
      * @return Magento_Catalog_Model_Resource_Abstract
      */
@@ -284,7 +284,7 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_En
      * Update entity attribute value
      *
      * @param Magento_Object $object
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param mixed $valueId
      * @param mixed $value
      * @return Magento_Catalog_Model_Resource_Abstract
@@ -434,11 +434,11 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_En
     /**
      * Check is attribute value empty
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param mixed $value
      * @return bool
      */
-    protected function _isAttributeValueEmpty(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $value)
+    protected function _isAttributeValueEmpty(Magento_Eav_Model_Entity_Attribute_Abstract $attribute, $value)
     {
         return $value === false;
     }
@@ -448,13 +448,13 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_En
      * Checks also attribute's store scope:
      * We should insert on duplicate key update values if we unchecked 'STORE VIEW' checkbox in store view.
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param mixed $value New value of the attribute.
      * @param array $origData
      * @return bool
      */
     protected function _canUpdateAttribute(
-        Mage_Eav_Model_Entity_Attribute_Abstract $attribute,
+        Magento_Eav_Model_Entity_Attribute_Abstract $attribute,
         $value,
         array &$origData
     ) {
@@ -475,10 +475,10 @@ abstract class Magento_Catalog_Model_Resource_Abstract extends Mage_Eav_Model_En
      * Prepare value for save
      *
      * @param mixed $value
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @return mixed
      */
-    protected function _prepareValueForSave($value, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
+    protected function _prepareValueForSave($value, Magento_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         $type = $attribute->getBackendType();
         if (($type == 'int' || $type == 'decimal' || $type == 'datetime') && $value === '') {

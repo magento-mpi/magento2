@@ -59,7 +59,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
     {
         $this->_model = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Backend_Media');
         $this->_model->setAttribute(
-            Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', 'media_gallery')
+            Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_product', 'media_gallery')
         );
     }
 

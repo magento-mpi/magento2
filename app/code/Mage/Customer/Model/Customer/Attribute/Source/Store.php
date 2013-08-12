@@ -15,7 +15,7 @@
  * @package    Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Customer_Attribute_Source_Store extends Mage_Eav_Model_Entity_Attribute_Source_Table
+class Mage_Customer_Model_Customer_Attribute_Source_Store extends Magento_Eav_Model_Entity_Attribute_Source_Table
 {
     public function getAllOptions()
     {

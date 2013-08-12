@@ -42,7 +42,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
     public function preDispatch()
     {
         parent::preDispatch();
-        $this->_entityTypeId = Mage::getModel('Mage_Eav_Model_Entity')->setType(Magento_Catalog_Model_Product::ENTITY)
+        $this->_entityTypeId = Mage::getModel('Magento_Eav_Model_Entity')->setType(Magento_Catalog_Model_Product::ENTITY)
             ->getTypeId();
     }
 
@@ -164,8 +164,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
         }
         if ($this->getRequest()->has('new_attribute_set_name')) {
             $setName = $this->getRequest()->getParam('new_attribute_set_name');
-            /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-            $attributeSet = $this->_objectManager->create('Mage_Eav_Model_Entity_Attribute_Set');
+            /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
+            $attributeSet = $this->_objectManager->create('Magento_Eav_Model_Entity_Attribute_Set');
             $attributeSet->setEntityTypeId($this->_entityTypeId)->load($setName, 'attribute_set_name');
             if ($attributeSet->getId()) {
                 $setName = $this->_objectManager->get('Magento_Core_Helper_Data')->escapeHtml($setName);
@@ -210,8 +210,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
 
             $isNewAttributeSet = false;
             if (!empty($data['new_attribute_set_name'])) {
-                /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-                $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set');
+                /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
+                $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set');
                 $name = Mage::helper('Magento_Adminhtml_Helper_Data')->stripTags($data['new_attribute_set_name']);
                 $name = trim($name);
                 $attributeSet->setEntityTypeId($this->_entityTypeId)
@@ -263,8 +263,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
 
             //validate frontend_input
             if (isset($data['frontend_input'])) {
-                /** @var $validatorInput Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator */
-                $validatorInput = Mage::getModel('Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator');
+                /** @var $validatorInput Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator */
+                $validatorInput = Mage::getModel('Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator');
                 if (!$validatorInput->isValid($data['frontend_input'])) {
                     foreach ($validatorInput->getMessages() as $message) {
                         $session->addError($message);
@@ -335,7 +335,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
                 $attributeSetId = $isNewAttributeSet ? $attributeSet->getId() : $this->getRequest()->getParam('set');
                 $groupCollection = $isNewAttributeSet
                     ? $attributeSet->getGroups()
-                    : Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection')
+                    : Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection')
                         ->setAttributeSetFilter($attributeSetId)
                         ->load();
                 foreach ($groupCollection as $group) {

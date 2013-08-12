@@ -201,7 +201,7 @@ abstract class Magento_Catalog_Model_Layer_Filter_Abstract extends Magento_Objec
     /**
      * Set attribute model to filter
      *
-     * @param   Mage_Eav_Model_Entity_Attribute $attribute
+     * @param   Magento_Eav_Model_Entity_Attribute $attribute
      * @return  Magento_Catalog_Model_Layer_Filter_Abstract
      */
     public function setAttributeModel($attribute)

@@ -25,10 +25,10 @@ class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
     /** @var Magento_Core_Model_StoreManager|PHPUnit_Framework_MockObject_MockObject */
     protected $_storeManager;
 
-    /** @var Mage_Eav_Model_Config|PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Eav_Model_Config|PHPUnit_Framework_MockObject_MockObject */
     protected $_config;
 
-    /** @var Mage_Eav_Model_Attribute|PHPUnit_Framework_MockObject_MockObject */
+    /** @var Magento_Eav_Model_Attribute|PHPUnit_Framework_MockObject_MockObject */
     protected $_attribute;
 
     /** @var Magento_Core_Model_Context|PHPUnit_Framework_MockObject_MockObject */
@@ -57,11 +57,11 @@ class Mage_Customer_Model_CustomerTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('getWebsite'))
             ->getMock();
-        $this->_config = $this->getMockBuilder('Mage_Eav_Model_Config')
+        $this->_config = $this->getMockBuilder('Magento_Eav_Model_Config')
             ->disableOriginalConstructor()
             ->setMethods(array('getAttribute'))
             ->getMock();
-        $this->_attribute = $this->getMockBuilder('Mage_Eav_Model_Attribute')
+        $this->_attribute = $this->getMockBuilder('Magento_Eav_Model_Attribute')
             ->disableOriginalConstructor()
             ->setMethods(array('getIsVisible'))
             ->getMock();

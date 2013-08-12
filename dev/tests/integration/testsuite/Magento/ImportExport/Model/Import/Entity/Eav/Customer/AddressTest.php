@@ -303,7 +303,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         $defaults = array();
         foreach (Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::getDefaultAddressAttributeMapping()
             as $attributeCode) {
-            /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+            /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
             $attribute = $addressCustomer->getAttribute($attributeCode);
             $attributeTable = $attribute->getBackend()->getTable();
             $attributeId = $attribute->getId();

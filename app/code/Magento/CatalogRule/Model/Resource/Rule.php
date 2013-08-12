@@ -300,7 +300,7 @@ class Magento_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
         /**
          * Join default price and websites prices to result
          */
-        $priceAttr  = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'price');
+        $priceAttr  = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'price');
         $priceTable = $priceAttr->getBackend()->getTable();
         $attributeId= $priceAttr->getId();
 

@@ -96,7 +96,7 @@ class Magento_Reports_Model_Resource_Entity_Summary_Collection_Abstract extends 
     /**
      * Return collection for summaries
      *
-     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     * @return Magento_Eav_Model_Entity_Collection_Abstract
      */
     public function getCollection()
     {

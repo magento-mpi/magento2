@@ -17,6 +17,6 @@
  * @package     Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Attribute_Data extends Mage_Eav_Model_Attribute_Data
+class Mage_Customer_Model_Attribute_Data extends Magento_Eav_Model_Attribute_Data
 {
 }

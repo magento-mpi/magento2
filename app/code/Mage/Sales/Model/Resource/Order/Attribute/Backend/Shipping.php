@@ -17,7 +17,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Resource_Order_Attribute_Backend_Shipping
-    extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
      * Perform operation before save

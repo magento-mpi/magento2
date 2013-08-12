@@ -506,7 +506,7 @@ class Magento_Catalog_Model_Product_Api extends Magento_Catalog_Model_Api_Resour
      */
     protected function _checkProductAttributeSet($attributeSetId)
     {
-        $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')->load($attributeSetId);
+        $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')->load($attributeSetId);
         if (is_null($attributeSet->getId())) {
             $this->_fault('product_attribute_set_not_exists');
         }

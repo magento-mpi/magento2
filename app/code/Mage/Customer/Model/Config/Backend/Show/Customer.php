@@ -35,7 +35,7 @@ class Mage_Customer_Model_Config_Backend_Show_Customer extends Magento_Core_Mode
     protected function _getAttributeObjects()
     {
         return array(
-            Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer', $this->_getAttributeCode())
+            Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer', $this->_getAttributeCode())
         );
     }
 

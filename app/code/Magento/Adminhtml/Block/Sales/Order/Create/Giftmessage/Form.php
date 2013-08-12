@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Entity for editing of gift message
      *
-     * @var Mage_Eav_Model_Entity_Abstract
+     * @var Magento_Eav_Model_Entity_Abstract
      */
     protected $_entity;
 

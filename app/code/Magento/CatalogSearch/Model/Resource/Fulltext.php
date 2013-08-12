@@ -399,11 +399,11 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     /**
      * Retrieve EAV Config Singleton
      *
-     * @return Mage_Eav_Model_Config
+     * @return Magento_Eav_Model_Config
      */
     public function getEavConfig()
     {
-        return Mage::getSingleton('Mage_Eav_Model_Config');
+        return Mage::getSingleton('Magento_Eav_Model_Config');
     }
 
     /**
@@ -462,7 +462,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      * Retrieve searchable attribute by Id or code
      *
      * @param int|string $attribute
-     * @return Mage_Eav_Model_Entity_Attribute
+     * @return Magento_Eav_Model_Entity_Attribute
      */
     protected function _getSearchableAttribute($attribute)
     {

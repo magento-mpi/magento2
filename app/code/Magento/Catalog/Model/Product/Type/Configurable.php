@@ -933,10 +933,10 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
     {
         $attributes = $this->getUsedProductAttributes($product);
         $attributeSetId = $product->getNewVariationsAttributeSetId();
-        /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')->load($attributeSetId);
+        /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
+        $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')->load($attributeSetId);
         $attributeSet->addSetInfo(
-            Mage::getModel('Mage_Eav_Model_Entity')->setType(Magento_Catalog_Model_Product::ENTITY)->getTypeId(),
+            Mage::getModel('Magento_Eav_Model_Entity')->setType(Magento_Catalog_Model_Product::ENTITY)->getTypeId(),
             $attributes
         );
         foreach ($attributes as $attribute) {

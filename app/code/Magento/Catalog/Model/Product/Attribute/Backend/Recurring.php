@@ -12,7 +12,7 @@
  * Backend for recurring profile parameter
  */
 class Magento_Catalog_Model_Product_Attribute_Backend_Recurring
-extends Mage_Eav_Model_Entity_Attribute_Backend_Serialized
+extends Magento_Eav_Model_Entity_Attribute_Backend_Serialized
 {
     /**
      * Serialize or remove before saving

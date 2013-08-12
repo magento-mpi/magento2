@@ -61,7 +61,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup exten
     {
         return ( intval($this->getRequest()->getParam('id')) > 0 )
                     ? intval($this->getRequest()->getParam('id'))
-                    : Mage::getModel('Mage_Eav_Model_Entity_Type')
+                    : Mage::getModel('Magento_Eav_Model_Entity_Type')
                         ->load(Mage::registry('entityType'))
                         ->getDefaultAttributeSetId();
     }

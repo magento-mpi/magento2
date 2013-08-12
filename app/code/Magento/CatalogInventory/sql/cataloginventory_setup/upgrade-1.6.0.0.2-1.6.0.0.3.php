@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this Mage_Eav_Model_Entity_Setup */
+/** @var $this Magento_Eav_Model_Entity_Setup */
 
 $this->getConnection()
     ->changeColumn(

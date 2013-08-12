@@ -176,7 +176,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
     public function getAttributeSetName()
     {
         if ($setId = $this->getProduct()->getAttributeSetId()) {
-            $set = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
+            $set = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
                 ->load($setId);
             return $set->getAttributeSetName();
         }

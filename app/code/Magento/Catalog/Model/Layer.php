@@ -186,7 +186,7 @@ class Magento_Catalog_Model_Layer extends Magento_Object
      */
     public function getFilterableAttributes()
     {
-//        $entity = Mage::getSingleton('Mage_Eav_Model_Config')
+//        $entity = Mage::getSingleton('Magento_Eav_Model_Config')
 //            ->getEntityType('catalog_product');
 
         $setIds = $this->_getSetIds();
@@ -209,8 +209,8 @@ class Magento_Catalog_Model_Layer extends Magento_Object
     /**
      * Prepare attribute for use in layered navigation
      *
-     * @param   Mage_Eav_Model_Entity_Attribute $attribute
-     * @return  Mage_Eav_Model_Entity_Attribute
+     * @param   Magento_Eav_Model_Entity_Attribute $attribute
+     * @return  Magento_Eav_Model_Entity_Attribute
      */
     protected function _prepareAttribute($attribute)
     {

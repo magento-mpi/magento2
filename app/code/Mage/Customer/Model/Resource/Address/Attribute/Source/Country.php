@@ -16,7 +16,7 @@
  * @package     Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Resource_Address_Attribute_Source_Country extends Mage_Eav_Model_Entity_Attribute_Source_Table
+class Mage_Customer_Model_Resource_Address_Attribute_Source_Country extends Magento_Eav_Model_Entity_Attribute_Source_Table
 {
     /**
      * Retreive all options

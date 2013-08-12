@@ -40,7 +40,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
         $this->_title($this->__('Product Templates'));
 
         $this->_setTypeId();
-        $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
+        $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
             ->load($this->getRequest()->getParam('id'));
 
         if (!$attributeSet->getId()) {
@@ -88,8 +88,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
         $attributeSetId = $this->getRequest()->getParam('id', false);
         $isNewSet       = $this->getRequest()->getParam('gotoEdit', false) == '1';
 
-        /* @var $model Mage_Eav_Model_Entity_Attribute_Set */
-        $model  = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
+        /* @var $model Magento_Eav_Model_Entity_Attribute_Set */
+        $model  = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
             ->setEntityTypeId($entityTypeId);
 
         /** @var $helper Magento_Adminhtml_Helper_Data */
@@ -184,7 +184,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
     {
         $setId = $this->getRequest()->getParam('id');
         try {
-            Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')
+            Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
                 ->setId($setId)
                 ->delete();
 

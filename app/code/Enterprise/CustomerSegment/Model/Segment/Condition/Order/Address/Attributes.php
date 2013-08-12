@@ -74,8 +74,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         if (is_null($this->_attributes)) {
             $this->_attributes  = array();
 
-            /* @var $config Mage_Eav_Model_Config */
-            $config     = Mage::getSingleton('Mage_Eav_Model_Config');
+            /* @var $config Magento_Eav_Model_Config */
+            $config     = Mage::getSingleton('Magento_Eav_Model_Config');
             $attributes = array();
 
             foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {

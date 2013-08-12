@@ -67,7 +67,7 @@ class Saas_UnitPrice_Model_Entity_Backend_Unitprice_UnitTest extends PHPUnit_Fra
     }
 
     /**
-     * @expectedException Mage_Eav_Exception
+     * @expectedException Magento_Eav_Exception
      */
     public function testValidateShouldThrowExceptionIfAttributeUniqueButValueNotUnique()
     {
@@ -113,7 +113,7 @@ class Saas_UnitPrice_Model_Entity_Backend_Unitprice_UnitTest extends PHPUnit_Fra
             ->method('getUnitPriceInstance')
             ->will($this->returnValue($unitPriceModel));
 
-        $entityAttrAbstract = $this->getMockBuilder('Mage_Eav_Model_Entity_Attribute_Abstract')
+        $entityAttrAbstract = $this->getMockBuilder('Magento_Eav_Model_Entity_Attribute_Abstract')
             ->setMethods(array('getAttributeCode', 'getIsRequired', 'isValueEmpty', 'getIsUnique','getEntity'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -134,14 +134,14 @@ class Saas_UnitPrice_Model_Entity_Backend_Unitprice_UnitTest extends PHPUnit_Fra
             ->method('isValueEmpty')
             ->will($this->returnValue($empty));
 
-        $eavEntity = $this->getMockBuilder('Mage_Eav_Model_Entity_Abstract')
+        $eavEntity = $this->getMockBuilder('Magento_Eav_Model_Entity_Abstract')
             ->setMethods(array('checkAttributeUniqueValue'))
             ->getMock();
 
         $eavEntity->expects($this->any())
             ->method('checkAttributeUniqueValue')
             ->with($this->equalTo($entityAttrAbstract), $this->anything())
-            ->will($this->throwException(new Mage_Eav_Exception));
+            ->will($this->throwException(new Magento_Eav_Exception));
 
         $entityAttrAbstract->expects($this->any())
             ->method('getEntity')

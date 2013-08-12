@@ -15,7 +15,7 @@
  * @package    Saas_UnitPrice
  */
 class Saas_UnitPrice_Model_Entity_Source_Unitprice_Unit
-    extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     protected $_unitPriceDefaultKey = '';
 

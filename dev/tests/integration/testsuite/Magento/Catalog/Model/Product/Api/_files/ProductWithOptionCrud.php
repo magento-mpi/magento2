@@ -24,9 +24,9 @@ $installer->addAttribute(
 $installer->addAttributeToSet('catalog_product', 4, 'Default', $data['create_text_installer']['code']);
 $installer->addAttributeToSet('catalog_product', 4, 'Default', $data['create_select_installer']['code']);
 
-$attribute = Mage::getModel('Mage_Eav_Model_Entity_Attribute');
+$attribute = Mage::getModel('Magento_Eav_Model_Entity_Attribute');
 $attribute->loadByCode('catalog_product', $data['create_select_installer']['code']);
-$collection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+$collection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection')
     ->setAttributeFilter($attribute->getId())
     ->load();
 $options = $collection->toOptionArray();

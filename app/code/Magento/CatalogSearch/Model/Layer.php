@@ -94,8 +94,8 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     /**
      * Prepare attribute for use in layered navigation
      *
-     * @param   Mage_Eav_Model_Entity_Attribute $attribute
-     * @return  Mage_Eav_Model_Entity_Attribute
+     * @param   Magento_Eav_Model_Entity_Attribute $attribute
+     * @return  Magento_Eav_Model_Entity_Attribute
      */
     protected function _prepareAttribute($attribute)
     {

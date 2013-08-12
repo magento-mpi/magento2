@@ -148,7 +148,7 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
     {
         $this->_addElementTypes($fieldset);
         foreach ($attributes as $attribute) {
-            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
             if (!$this->_isAttributeVisible($attribute)) {
                 continue;
             }
@@ -185,10 +185,10 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
     /**
      * Check whether attribute is visible
      *
-     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @param Magento_Eav_Model_Entity_Attribute $attribute
      * @return bool
      */
-    protected function _isAttributeVisible(Mage_Eav_Model_Entity_Attribute $attribute)
+    protected function _isAttributeVisible(Magento_Eav_Model_Entity_Attribute $attribute)
     {
         return !(!$attribute || ($attribute->hasIsVisible() && !$attribute->getIsVisible()));
     }
@@ -197,9 +197,9 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
      *
      * @param string $inputType
      * @param Magento_Data_Form_Element_Abstract $element
-     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @param Magento_Eav_Model_Entity_Attribute $attribute
      */
-    protected function _applyTypeSpecificConfig($inputType, $element, Mage_Eav_Model_Entity_Attribute $attribute)
+    protected function _applyTypeSpecificConfig($inputType, $element, Magento_Eav_Model_Entity_Attribute $attribute)
     {
         switch ($inputType) {
             case 'select':

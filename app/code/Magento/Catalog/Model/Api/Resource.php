@@ -40,7 +40,7 @@ class Magento_Catalog_Model_Api_Resource extends Magento_Api_Model_Resource_Abst
     /**
      * Check is attribute allowed
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param array $attributes
      * @return boolean
      */

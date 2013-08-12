@@ -17,13 +17,13 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Sales_Model_Resource_Order_Creditmemo_Attribute_Backend_Child
-    extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
      * Method is invoked before save
      *
      * @param Magento_Object $object
-     * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function beforeSave($object)
     {

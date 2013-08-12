@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created exte
         /** @var $product Magento_Catalog_Model_Product */
         $product = Mage::registry('product');
         foreach($product->getAttributes($this->getRequest()->getParam('group')) as $attribute) {
-            /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+            /** @var $attribute Magento_Eav_Model_Entity_Attribute */
             if ($attribute->getId() == $this->getRequest()->getParam('attribute')) {
                 $attributes[] = $attribute;
             }
@@ -58,9 +58,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created exte
     {
         $result = array();
         if ($this->getRequest()->getParam('product_tab') == 'variations') {
-            /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+            /** @var $attribute Magento_Eav_Model_Entity_Attribute */
             $attribute =
-                Mage::getModel('Mage_Eav_Model_Entity_Attribute')->load($this->getRequest()->getParam('attribute'));
+                Mage::getModel('Magento_Eav_Model_Entity_Attribute')->load($this->getRequest()->getParam('attribute'));
             $result = array(
                 'tab' => $this->getRequest()->getParam('product_tab'),
                 'attribute' => array(
@@ -73,8 +73,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created exte
         }
         $newAttributeSetId = $this->getRequest()->getParam('new_attribute_set_id');
         if ($newAttributeSetId) {
-            /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-            $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set')->load($newAttributeSetId);
+            /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
+            $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')->load($newAttributeSetId);
             $result['set'] = array(
                 'id' => $attributeSet->getId(),
                 'label' => $attributeSet->getAttributeSetName(),

@@ -140,7 +140,7 @@ class Magento_Catalog_Model_Category_Api_V2 extends Magento_Catalog_Model_Catego
             $category->save();
         } catch (Magento_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
-        } catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
+        } catch (Magento_Eav_Model_Entity_Attribute_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 

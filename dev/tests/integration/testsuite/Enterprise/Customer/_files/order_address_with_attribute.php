@@ -18,11 +18,11 @@
 $connection = Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('write');
 $connection->commitTransparentTransaction();
 
-$entityType = Mage::getModel('Mage_Eav_Model_Config')->getEntityType('customer_address');
-/** @var $entityType Mage_Eav_Model_Entity_Type */
+$entityType = Mage::getModel('Magento_Eav_Model_Config')->getEntityType('customer_address');
+/** @var $entityType Magento_Eav_Model_Entity_Type */
 
-$attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set');
-/** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
+$attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set');
+/** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
 
 $attribute = Mage::getModel('Mage_Customer_Model_Attribute',
     array(

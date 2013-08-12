@@ -181,7 +181,7 @@ class Magento_CatalogSearch_Model_Advanced extends Magento_Core_Model_Abstract
     /**
      * Add data about search criteria to object state
      *
-     * @param   Mage_Eav_Model_Entity_Attribute $attribute
+     * @param   Magento_Eav_Model_Entity_Attribute $attribute
      * @param   mixed $value
      * @return  Magento_CatalogSearch_Model_Advanced
      */

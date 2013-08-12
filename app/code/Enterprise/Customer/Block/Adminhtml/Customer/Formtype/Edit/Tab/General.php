@@ -37,7 +37,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
      */
     protected function _prepareForm()
     {
-        /* @var $model Mage_Eav_Model_Form_Type */
+        /* @var $model Magento_Eav_Model_Form_Type */
         $model      = Mage::registry('current_form_type');
 
         $form       = new Magento_Data_Form();

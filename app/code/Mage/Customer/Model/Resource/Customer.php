@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstract
+class Mage_Customer_Model_Resource_Customer extends Magento_Eav_Model_Entity_Abstract
 {
     /**
      * @var Magento_Core_Model_Validator_Factory
@@ -121,7 +121,7 @@ class Mage_Customer_Model_Resource_Customer extends Mage_Eav_Model_Entity_Abstra
      * Save customer addresses and set default addresses in attributes backend
      *
      * @param Magento_Object $customer
-     * @return Mage_Eav_Model_Entity_Abstract
+     * @return Magento_Eav_Model_Entity_Abstract
      */
     protected function _afterSave(Magento_Object $customer)
     {

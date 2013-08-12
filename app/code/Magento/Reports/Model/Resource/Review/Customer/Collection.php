@@ -41,9 +41,9 @@ class Magento_Reports_Model_Resource_Review_Customer_Collection extends Mage_Rev
         $adapter            = $this->getConnection();
         /** @var $customer Mage_Customer_Model_Resource_Customer */
         $customer           = Mage::getResourceSingleton('Mage_Customer_Model_Resource_Customer');
-        /** @var $firstnameAttr Mage_Eav_Model_Entity_Attribute */
+        /** @var $firstnameAttr Magento_Eav_Model_Entity_Attribute */
         $firstnameAttr      = $customer->getAttribute('firstname');
-        /** @var $lastnameAttr Mage_Eav_Model_Entity_Attribute */
+        /** @var $lastnameAttr Magento_Eav_Model_Entity_Attribute */
         $lastnameAttr       = $customer->getAttribute('lastname');
 
         $firstnameCondition = array('table_customer_firstname.entity_id = detail.customer_id');

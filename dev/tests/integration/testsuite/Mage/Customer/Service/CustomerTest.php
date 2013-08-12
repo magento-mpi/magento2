@@ -159,7 +159,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123',
                 'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
-            ), 'Mage_Eav_Model_Entity_Attribute_Exception', 'The password must have at least 6 characters.')
+            ), 'Magento_Eav_Model_Entity_Attribute_Exception', 'The password must have at least 6 characters.')
         );
     }
 
@@ -362,7 +362,7 @@ class Mage_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         return array(
             'Invalid password' => array(array(
                 'password' => '111'
-            ), 'Mage_Eav_Model_Entity_Attribute_Exception'),
+            ), 'Magento_Eav_Model_Entity_Attribute_Exception'),
             'Invalid name' => array(array(
                 'firstname' => null
             ), 'Magento_Validator_Exception'),

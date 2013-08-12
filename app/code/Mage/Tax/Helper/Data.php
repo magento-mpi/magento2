@@ -665,7 +665,7 @@ class Mage_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function joinTaxClass($select, $storeId, $priceTable = 'main_table')
     {
-        $taxClassAttribute = Mage::getModel('Mage_Eav_Model_Entity_Attribute')
+        $taxClassAttribute = Mage::getModel('Magento_Eav_Model_Entity_Attribute')
             ->loadByCode(Magento_Catalog_Model_Product::ENTITY, 'tax_class_id');
         $joinConditionD = implode(' AND ',array(
             "tax_class_d.entity_id = {$priceTable}.entity_id",

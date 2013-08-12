@@ -87,7 +87,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'Mage_Eav_Model_Entity_Attribute_Source_Table',
+                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
                 'backend_type'      => 'int',
                 'default_value'     => false,
             ),
@@ -173,7 +173,7 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
         }
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
-            $optionCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+            $optionCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setStoreFilter($storeId, $useDefaultValue);
 
             $optionCollection

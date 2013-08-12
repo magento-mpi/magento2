@@ -416,7 +416,7 @@ abstract class Enterprise_Search_Model_Adapter_Solr_Abstract extends Enterprise_
                 return $this->getPriceFieldName();
             }
 
-            $eavConfig  = Mage::getSingleton('Mage_Eav_Model_Config');
+            $eavConfig  = Mage::getSingleton('Magento_Eav_Model_Config');
             $entityType = $eavConfig->getEntityType('catalog_product');
             $attribute  = $eavConfig->getAttribute($entityType, $attribute);
         }

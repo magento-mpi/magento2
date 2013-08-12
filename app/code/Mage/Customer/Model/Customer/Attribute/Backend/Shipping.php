@@ -15,7 +15,7 @@
  * @package    Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Customer_Attribute_Backend_Shipping extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Mage_Customer_Model_Customer_Attribute_Backend_Shipping extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     public function beforeSave($object)
     {

@@ -17,7 +17,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Catalog_Model_Category_Attribute_Source_Sortby
-    extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
      * Retrieve Catalog Config Singleton

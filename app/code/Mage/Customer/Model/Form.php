@@ -16,7 +16,7 @@
  * @package     Mage_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Customer_Model_Form extends Mage_Eav_Model_Form
+class Mage_Customer_Model_Form extends Magento_Eav_Model_Form
 {
     /**
      * Current module pathname

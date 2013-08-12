@@ -1138,7 +1138,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * Special for non static flat table
      *
      * @param mixed $attribute
-     * @return Mage_Eav_Model_Entity_Attribute_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Abstract
      */
     public function getAttribute($attribute)
     {

@@ -21,7 +21,7 @@
         /**
          * Helper collection
          *
-         * @var Magento_Core_Model_Mysql_Collection_Abstract|Mage_Eav_Model_Entity_Collection_Abstract|array
+         * @var Magento_Core_Model_Mysql_Collection_Abstract|Magento_Eav_Model_Entity_Collection_Abstract|array
          */
         protected  $_collection;
 

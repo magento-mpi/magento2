@@ -159,7 +159,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     protected function _initAttributeSets()
     {
         $productTypeId = Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId();
-        foreach (Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+        foreach (Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
                 ->setEntityTypeFilter($productTypeId) as $attributeSet) {
             $this->_attrSetIdToName[$attributeSet->getId()] = $attributeSet->getAttributeSetName();
         }
@@ -995,10 +995,10 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     /**
      * Clean up already loaded attribute collection.
      *
-     * @param Mage_Eav_Model_Resource_Entity_Attribute_Collection $collection
-     * @return Mage_Eav_Model_Resource_Entity_Attribute_Collection
+     * @param Magento_Eav_Model_Resource_Entity_Attribute_Collection $collection
+     * @return Magento_Eav_Model_Resource_Entity_Attribute_Collection
      */
-    public function filterAttributeCollection(Mage_Eav_Model_Resource_Entity_Attribute_Collection $collection)
+    public function filterAttributeCollection(Magento_Eav_Model_Resource_Entity_Attribute_Collection $collection)
     {
         $validTypes = array_keys($this->_productTypeModels);
 

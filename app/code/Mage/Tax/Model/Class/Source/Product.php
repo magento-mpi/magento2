@@ -9,7 +9,7 @@
  */
 
 
-class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+class Mage_Tax_Model_Class_Source_Product extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
      * Get all options
@@ -92,7 +92,7 @@ class Mage_Tax_Model_Class_Source_Product extends Mage_Eav_Model_Entity_Attribut
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option')
+        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option')
             ->getFlatUpdateSelect($this->getAttribute(), $store, false);
     }
 }

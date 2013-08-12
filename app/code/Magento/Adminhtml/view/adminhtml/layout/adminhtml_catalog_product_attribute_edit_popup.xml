@@ -16,9 +16,9 @@
             </arguments>
             <container name="form" label="Form">
                 <block type="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main" as="main"/>
-                <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced-options"/>
+                <block type="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced-options"/>
                 <block type="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced" as="options"/>
-                <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels"/>
+                <block type="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels"/>
                 <block type="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front" as="front-options"/>
             </container>
         </reference>

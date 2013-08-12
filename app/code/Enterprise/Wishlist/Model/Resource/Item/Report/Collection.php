@@ -89,9 +89,9 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
     /**
      * Join customer attribute
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      */
-    protected function _joinCustomerAttibute(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
+    protected function _joinCustomerAttibute(Magento_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         $adapter = $this->getSelect()->getAdapter();
         $tableName = $adapter->getTableName('at_' . $attribute->getName());

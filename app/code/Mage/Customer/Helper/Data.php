@@ -611,7 +611,7 @@ class Mage_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      * @param Magento_Core_Model_Abstract $entity entity model for the form
      * @param array $additionalAttributes The list of attribute codes to skip filtration for
      * @param string $scope scope of the request
-     * @param Mage_Eav_Model_Form|null $eavForm EAV form model to use for extraction
+     * @param Magento_Eav_Model_Form|null $eavForm EAV form model to use for extraction
      * @return array Filtered customer data
      */
     public function extractCustomerData(Zend_Controller_Request_Http $request, $formCode, $entity,
@@ -620,7 +620,7 @@ class Mage_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         if (is_null($eavForm)) {
             $eavForm = Mage::getModel('Mage_Customer_Model_Form');
         }
-        /** @var Mage_Eav_Model_Form $eavForm */
+        /** @var Magento_Eav_Model_Form $eavForm */
         $eavForm->setEntity($entity)
             ->setFormCode($formCode)
             ->ignoreInvisible(false);

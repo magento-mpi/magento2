@@ -172,7 +172,7 @@ class Mage_Tag_Block_Adminhtml_Assigned_Grid extends Magento_Adminhtml_Block_Wid
                 'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getOptionArray(),
         ));
 
-        $sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+        $sets = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
             ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();

@@ -14,7 +14,7 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Mage_Backend_Block_Widget_Form
 {
     /**
-     * @var Mage_Eav_Model_Config
+     * @var Magento_Eav_Model_Config
      */
     protected $_eavConfig;
 
@@ -30,14 +30,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Eav_Model_Config $eavConfig
+     * @param Magento_Eav_Model_Config $eavConfig
      * @param Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
-        Mage_Eav_Model_Config $eavConfig,
+        Magento_Eav_Model_Config $eavConfig,
         Mage_DesignEditor_Model_Editor_Tools_Controls_Factory $controlFactory,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()

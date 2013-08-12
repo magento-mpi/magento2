@@ -16,7 +16,7 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
      * @var Magento_CatalogInventory_Model_Stock_Item
@@ -34,7 +34,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Mage_Eav_Mod
      * Set inventory data to custom attribute
      *
      * @param Magento_Object $object
-     * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+     * @return Magento_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function afterLoad($object)
     {
@@ -53,7 +53,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Stock extends Mage_Eav_Mod
      * Prepare inventory data from custom attribute
      *
      * @param Magento_Catalog_Model_Product $object
-     * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract|void
+     * @return Magento_Eav_Model_Entity_Attribute_Backend_Abstract|void
      */
     public function beforeSave($object)
     {

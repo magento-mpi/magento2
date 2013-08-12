@@ -497,7 +497,7 @@ class Magento_Catalog_Model_Resource_Category extends Magento_Catalog_Model_Reso
      * Return entities where attribute value is
      *
      * @param array|int $entityIdsFilter
-     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @param Magento_Eav_Model_Entity_Attribute $attribute
      * @param mixed $expectedValue
      * @return array
      */

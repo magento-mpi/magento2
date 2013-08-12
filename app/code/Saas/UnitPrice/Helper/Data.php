@@ -92,7 +92,7 @@ class Saas_UnitPrice_Helper_Data extends Magento_Core_Helper_Abstract
 
         foreach ($array as $attributeCode) {
             if (!$product->getDataUsingMethod($attributeCode)) {
-                $attribute = $this->getModel('Mage_Eav_Model_Entity_Attribute')
+                $attribute = $this->getModel('Magento_Eav_Model_Entity_Attribute')
                     ->loadByCode('catalog_product', $attributeCode);
                 $product->setDataUsingMethod($attributeCode, $attribute->getFrontend()->getValue($product));
             }

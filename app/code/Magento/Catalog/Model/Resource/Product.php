@@ -525,7 +525,7 @@ class Magento_Catalog_Model_Resource_Product extends Magento_Catalog_Model_Resou
      */
     public function getDefaultAttributeSourceModel()
     {
-        return 'Mage_Eav_Model_Entity_Attribute_Source_Table';
+        return 'Magento_Eav_Model_Entity_Attribute_Source_Table';
     }
 
     /**

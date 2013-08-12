@@ -14,7 +14,7 @@
  * @category   Saas
  * @package    Saas_UnitPrice
  */
-class Saas_UnitPrice_Model_Config_Source_Unitprice_Unit extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+class Saas_UnitPrice_Model_Config_Source_Unitprice_Unit extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     protected $_options;
 
@@ -38,7 +38,7 @@ class Saas_UnitPrice_Model_Config_Source_Unitprice_Unit extends Mage_Eav_Model_E
     /**
      * Returns options
      *
-     * @see Mage_Eav_Model_Entity_Attribute_Source_Interface::getAllOptions()
+     * @see Magento_Eav_Model_Entity_Attribute_Source_Interface::getAllOptions()
      */
     public function getAllOptions()
     {

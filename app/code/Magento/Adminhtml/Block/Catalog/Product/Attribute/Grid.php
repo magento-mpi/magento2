@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Mage_Eav_Block_Adminhtml_Attribute_Grid_Abstract
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract
 {
     /**
      * Prepare product attributes grid collection object

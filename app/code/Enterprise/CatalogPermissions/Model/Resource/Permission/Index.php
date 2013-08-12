@@ -241,8 +241,8 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_Index extends Mage
     {
         $readAdapter = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
-        /* @var $isActive Mage_Eav_Model_Entity_Attribute */
-        $isActive = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_category', 'is_active');
+        /* @var $isActive Magento_Eav_Model_Entity_Attribute */
+        $isActive = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_category', 'is_active');
 
         $selectCategory = $readAdapter->select()
             ->from(

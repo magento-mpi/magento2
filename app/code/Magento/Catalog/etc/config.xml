@@ -15,7 +15,7 @@
             <version>1.6.0.0.23</version>
             <active>true</active>
             <depends>
-                <Mage_Eav />
+                <Magento_Eav />
                 <Magento_Cms />
                 <Magento_Index />
                 <Mage_Customer />

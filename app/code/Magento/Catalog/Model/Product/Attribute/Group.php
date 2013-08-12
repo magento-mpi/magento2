@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Attribute_Group extends Mage_Eav_Model_Entity_Attribute_Group
+class Magento_Catalog_Model_Product_Attribute_Group extends Magento_Eav_Model_Entity_Attribute_Group
 {
 
     /**

@@ -189,13 +189,13 @@ class Enterprise_Customer_Model_Observer
             /**
              * Check for maximum attribute_code length
              */
-            $attributeCodeMaxLength = Mage_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9;
+            $attributeCodeMaxLength = Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9;
             $validate = Zend_Validate::is($attribute->getAttributeCode(), 'StringLength', array(
                 'max' => $attributeCodeMaxLength
             ));
             if (!$validate) {
-                throw Mage::exception('Mage_Eav',
-                    Mage::helper('Mage_Eav_Helper_Data')->__('Maximum length of attribute code must be less than %s symbols', $attributeCodeMaxLength)
+                throw Mage::exception('Magento_Eav',
+                    Mage::helper('Magento_Eav_Helper_Data')->__('Maximum length of attribute code must be less than %s symbols', $attributeCodeMaxLength)
                 );
             }
         }

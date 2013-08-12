@@ -112,7 +112,7 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Magento_Index_Model_Inde
     protected function _attributeIsIndexable($attribute)
     {
         if (!$attribute instanceof Magento_Catalog_Model_Resource_Eav_Attribute) {
-            $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
+            $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
                 ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attribute);
         }
 

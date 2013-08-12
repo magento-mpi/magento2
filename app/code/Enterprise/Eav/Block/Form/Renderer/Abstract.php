@@ -21,7 +21,7 @@ abstract class Enterprise_Eav_Block_Form_Renderer_Abstract extends Magento_Core_
     /**
      * Attribute instance
      *
-     * @var Mage_Eav_Model_Attribute
+     * @var Magento_Eav_Model_Attribute
      */
     protected $_attribute;
 
@@ -49,10 +49,10 @@ abstract class Enterprise_Eav_Block_Form_Renderer_Abstract extends Magento_Core_
     /**
      * Set attribute instance
      *
-     * @param Mage_Eav_Model_Attribute $attribute
+     * @param Magento_Eav_Model_Attribute $attribute
      * @return Enterprise_Eav_Block_Form_Renderer_Abstract
      */
-    public function setAttributeObject(Mage_Eav_Model_Attribute $attribute)
+    public function setAttributeObject(Magento_Eav_Model_Attribute $attribute)
     {
         $this->_attribute = $attribute;
         return $this;
@@ -61,7 +61,7 @@ abstract class Enterprise_Eav_Block_Form_Renderer_Abstract extends Magento_Core_
     /**
      * Return Attribute instance
      *
-     * @return Mage_Eav_Model_Attribute
+     * @return Magento_Eav_Model_Attribute
      */
     public function getAttributeObject()
     {

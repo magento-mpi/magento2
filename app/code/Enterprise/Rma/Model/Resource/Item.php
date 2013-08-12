@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
+class Enterprise_Rma_Model_Resource_Item extends Magento_Eav_Model_Entity_Abstract
 {
     /**
      * Store firstly set attributes to filter selected attributes when used specific store_id
@@ -82,14 +82,14 @@ class Enterprise_Rma_Model_Resource_Item extends Mage_Eav_Model_Entity_Abstract
     /**
      * Check whether attribute instance (attribute, backend, frontend or source) has method and applicable
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract|Mage_Eav_Model_Entity_Attribute_Backend_Abstract|Mage_Eav_Model_Entity_Attribute_Frontend_Abstract|Mage_Eav_Model_Entity_Attribute_Source_Abstract $instance
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract|Magento_Eav_Model_Entity_Attribute_Backend_Abstract|Magento_Eav_Model_Entity_Attribute_Frontend_Abstract|Magento_Eav_Model_Entity_Attribute_Source_Abstract $instance
      * @param string $method
      * @param array $args array of arguments
      * @return boolean
      */
     protected function _isCallableAttributeInstance($instance, $method, $args)
     {
-        if ($instance instanceof Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+        if ($instance instanceof Magento_Eav_Model_Entity_Attribute_Backend_Abstract
             && ($method == 'beforeSave' || $method = 'afterSave')
         ) {
             $attributeCode = $instance->getAttribute()->getAttributeCode();

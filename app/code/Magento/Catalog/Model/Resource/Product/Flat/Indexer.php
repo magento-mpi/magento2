@@ -154,7 +154,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             }
 
             $bind = array(
-                'backend_type'      => Mage_Eav_Model_Entity_Attribute_Abstract::TYPE_STATIC,
+                'backend_type'      => Magento_Eav_Model_Entity_Attribute_Abstract::TYPE_STATIC,
                 'entity_type_id'    => $this->getEntityTypeId()
             );
 
@@ -178,7 +178,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
 
             $select->where(implode(' OR ', $whereCondition));
             $attributesData = $adapter->fetchAll($select, $bind);
-            Mage::getSingleton('Mage_Eav_Model_Config')
+            Mage::getSingleton('Magento_Eav_Model_Config')
                 ->importAttributesData($this->getEntityType(), $attributesData);
 
             foreach ($attributesData as $data) {
@@ -224,12 +224,12 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
         if ($this->_attributes === null) {
             $this->_attributes = array();
             $attributeCodes    = $this->getAttributeCodes();
-            $entity = Mage::getSingleton('Mage_Eav_Model_Config')
+            $entity = Mage::getSingleton('Magento_Eav_Model_Config')
                 ->getEntityType($this->getEntityType())
                 ->getEntity();
 
             foreach ($attributeCodes as $attributeCode) {
-                $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
+                $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
                     ->getAttribute($this->getEntityType(), $attributeCode)
                     ->setEntity($entity);
                 try {
@@ -252,7 +252,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
      *
      * @param string $attributeCode
      * @throws Magento_Core_Exception
-     * @return Mage_Eav_Model_Entity_Attribute
+     * @return Magento_Eav_Model_Entity_Attribute
      */
     public function getAttribute($attributeCode)
     {
@@ -263,7 +263,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             if (!$attribute->getId()) {
                 Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('Invalid attribute %s', $attributeCode));
             }
-            $entity = Mage::getSingleton('Mage_Eav_Model_Config')
+            $entity = Mage::getSingleton('Magento_Eav_Model_Config')
                 ->getEntityType($this->getEntityType())
                 ->getEntity();
             $attribute->setEntity($entity);
@@ -405,7 +405,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             }
 
             foreach ($this->getAttributes() as $attribute) {
-                /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+                /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
                 $columns = $attribute
                     ->setFlatAddFilterableAttributes($this->getFlatHelper()->isAddFilterableAttributes())
                     ->setFlatAddChildData($this->getFlatHelper()->isAddChildData())
@@ -465,7 +465,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             );
 
             foreach ($this->getAttributes() as $attribute) {
-                /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+                /** @var $attribute Magento_Eav_Model_Entity_Attribute */
                 $indexes = $attribute
                     ->setFlatAddFilterableAttributes($this->getFlatHelper()->isAddFilterableAttributes())
                     ->setFlatAddChildData($this->getFlatHelper()->isAddChildData())
@@ -744,7 +744,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
         }
         $adapter   = $this->_getWriteAdapter();
         $websiteId = (int)Mage::app()->getStore($storeId)->getWebsite()->getId();
-        /* @var $status Mage_Eav_Model_Entity_Attribute */
+        /* @var $status Magento_Eav_Model_Entity_Attribute */
         $status    = $this->getAttribute('status');
 
         $fieldList  = array('entity_id', 'type_id', 'attribute_set_id');
@@ -786,7 +786,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
             ->where('t1.store_id = ?', Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
             ->where("{$fieldExpr} = ?", Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
         foreach ($this->getAttributes() as $attributeCode => $attribute) {
-            /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+            /** @var $attribute Magento_Eav_Model_Entity_Attribute */
             if ($attribute->getBackend()->getType() == 'static') {
                 if (!isset($columns[$attributeCode])) {
                     continue;
@@ -855,7 +855,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
     /**
      * Update attribute flat data
      *
-     * @param Mage_Eav_Model_Entity_Attribute $attribute
+     * @param Magento_Eav_Model_Entity_Attribute $attribute
      * @param int $storeId
      * @param int|array $productIds update only product(s)
      * @return Magento_Catalog_Model_Resource_Product_Flat_Indexer
@@ -928,7 +928,7 @@ class Magento_Catalog_Model_Resource_Product_Flat_Indexer extends Magento_Index_
         }
 
         foreach ($this->getAttributes() as $attribute) {
-            /* @var $attribute Mage_Eav_Model_Entity_Attribute */
+            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
             if ($attribute->getBackend()->getType() != 'static') {
                 $this->updateAttribute($attribute, $storeId, $productIds);
             }

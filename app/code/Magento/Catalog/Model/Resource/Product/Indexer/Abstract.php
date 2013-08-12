@@ -26,7 +26,7 @@ abstract class Magento_Catalog_Model_Resource_Product_Indexer_Abstract extends M
      */
     protected function _getAttribute($attributeCode)
     {
-        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeCode);
+        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeCode);
     }
 
     /**

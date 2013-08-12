@@ -46,11 +46,11 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Magento
     /**
      * Initialize and return current form type instance
      *
-     * @return Mage_Eav_Model_Form_Type
+     * @return Magento_Eav_Model_Form_Type
      */
     protected function _initFormType()
     {
-        $model  = Mage::getModel('Mage_Eav_Model_Form_Type');
+        $model  = Mage::getModel('Magento_Eav_Model_Form_Type');
         $typeId = $this->getRequest()->getParam('type_id');
         if (is_numeric($typeId)) {
             $model->load($typeId);
@@ -86,7 +86,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Magento
         if ($skeleton->getId()) {
             try {
                 $hasError = false;
-                $formType = Mage::getModel('Mage_Eav_Model_Form_Type');
+                $formType = Mage::getModel('Magento_Eav_Model_Form_Type');
                 $formType->addData(array(
                     'code'          => $skeleton->getCode(),
                     'label'         => $this->getRequest()->getPost('label'),
@@ -133,15 +133,15 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Magento
     /**
      * Save Form Type Tree data
      *
-     * @param Mage_Eav_Model_Form_Type $formType
+     * @param Magento_Eav_Model_Form_Type $formType
      * @param array $data
      */
     protected function _saveTreeData($formType, array $data)
     {
-        $fieldsetCollection = Mage::getModel('Mage_Eav_Model_Form_Fieldset')->getCollection()
+        $fieldsetCollection = Mage::getModel('Magento_Eav_Model_Form_Fieldset')->getCollection()
             ->addTypeFilter($formType)
             ->setSortOrder();
-        $elementCollection = Mage::getModel('Mage_Eav_Model_Form_Element')->getCollection()
+        $elementCollection = Mage::getModel('Magento_Eav_Model_Form_Element')->getCollection()
             ->addTypeFilter($formType)
             ->setSortOrder();
 
@@ -163,7 +163,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Magento
         }
 
         foreach ($fieldsetCollection as $fieldset) {
-            /* @var $fieldset Mage_Eav_Model_Form_Fieldset */
+            /* @var $fieldset Magento_Eav_Model_Form_Fieldset */
             if (!isset($fsUpdate[$fieldset->getId()])) {
                 // collect deleted fieldsets
                 $fsDelete[$fieldset->getId()] = $fieldset;
@@ -180,7 +180,7 @@ class Enterprise_Customer_Controller_Adminhtml_Customer_Formtype extends Magento
         // insert new fieldsets
         $fsMap = array();
         foreach ($fsInsert as $fsData) {
-            $fieldset = Mage::getModel('Mage_Eav_Model_Form_Fieldset');
+            $fieldset = Mage::getModel('Magento_Eav_Model_Form_Fieldset');
             $fieldset->setTypeId($formType->getId())
                 ->setCode($fsData['code'])
                 ->setLabels($fsData['labels'])

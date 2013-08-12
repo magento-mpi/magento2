@@ -87,7 +87,7 @@ class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
     /**
      * Check if attribute allowed
      *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param array $attributes
      * @return boolean
      */

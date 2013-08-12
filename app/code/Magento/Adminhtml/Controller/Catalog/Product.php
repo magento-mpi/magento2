@@ -603,7 +603,7 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
 //                }
 //            }
         }
-        catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
+        catch (Magento_Eav_Model_Entity_Attribute_Exception $e) {
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());
             $response->setMessage($e->getMessage());
@@ -1120,16 +1120,16 @@ class Magento_Adminhtml_Controller_Catalog_Product extends Magento_Adminhtml_Con
     {
         $request = $this->getRequest();
         try {
-            /** @var Mage_Eav_Model_Entity_Attribute $attribute */
-            $attribute = $this->_objectManager->create('Mage_Eav_Model_Entity_Attribute')
+            /** @var Magento_Eav_Model_Entity_Attribute $attribute */
+            $attribute = $this->_objectManager->create('Magento_Eav_Model_Entity_Attribute')
                 ->load($request->getParam('attribute_id'));
 
-            $attributeSet = $this->_objectManager->create('Mage_Eav_Model_Entity_Attribute_Set')
+            $attributeSet = $this->_objectManager->create('Magento_Eav_Model_Entity_Attribute_Set')
                 ->load($request->getParam('template_id'));
 
-            /** @var Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection $attributeGroupCollection */
+            /** @var Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection $attributeGroupCollection */
             $attributeGroupCollection = $this->_objectManager
-                ->get('Mage_Eav_Model_Resource_Entity_Attribute_Group_Collection');
+                ->get('Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection');
             $attributeGroupCollection->setAttributeSetFilter($attributeSet->getId());
             $attributeGroupCollection->addFilter('attribute_group_code', $request->getParam('group'));
             $attributeGroupCollection->setPageSize(1);

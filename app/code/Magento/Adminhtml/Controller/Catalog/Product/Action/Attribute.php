@@ -63,7 +63,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
+                    $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
                         ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);
@@ -220,7 +220,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
                 $storeId    = $this->_getHelper()->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
-                    $attribute = Mage::getSingleton('Mage_Eav_Model_Config')
+                    $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
                         ->getAttribute('catalog_product', $attributeCode);
                     if (!$attribute->getAttributeId()) {
                         unset($attributesData[$attributeCode]);
@@ -230,7 +230,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute extends Mage
                     $attribute->getBackend()->validate($data);
                 }
             }
-        } catch (Mage_Eav_Model_Entity_Attribute_Exception $e) {
+        } catch (Magento_Eav_Model_Entity_Attribute_Exception $e) {
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());
             $response->setMessage($e->getMessage());

@@ -27,7 +27,7 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit
             );
         }
 
-        $source = $this->getMock('Mage_Eav_Model_Entity_Attribute_Source_Config', array(), array(), '', false, false);
+        $source = $this->getMock('Magento_Eav_Model_Entity_Attribute_Source_Config', array(), array(), '', false, false);
         $source->expects($this->any())
             ->method('getAllOptions')
             ->will($this->returnValue($options));

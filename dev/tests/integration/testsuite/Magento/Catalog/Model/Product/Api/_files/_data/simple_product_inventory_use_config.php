@@ -6,8 +6,8 @@
  * @license {license_link}
  */
 
-/** @var $entityType Mage_Eav_Model_Entity_Type */
-$entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
+/** @var $entityType Magento_Eav_Model_Entity_Type */
+$entityType = Mage::getModel('Magento_Eav_Model_Entity_Type')->loadByCode('catalog_product');
 $taxClasses = Mage::getResourceModel('Mage_Tax_Model_Resource_Class_Collection')->toArray();
 $taxClass = reset($taxClasses['items']);
 

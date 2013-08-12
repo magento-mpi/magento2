@@ -97,11 +97,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     /**
      * Get order status attribute object
      *
-     * @return Mage_Eav_Model_Entity_Attribute
+     * @return Magento_Eav_Model_Entity_Attribute
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('order', 'status');
+        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('order', 'status');
     }
 
     /**

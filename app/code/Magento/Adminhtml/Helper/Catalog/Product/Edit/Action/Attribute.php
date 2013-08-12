@@ -28,7 +28,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
     /**
      * Array of same attributes for selected products
      *
-     * @var Mage_Eav_Model_Resource_Entity_Attribute_Collection
+     * @var Magento_Eav_Model_Resource_Entity_Attribute_Collection
      */
     protected $_attributes;
 
@@ -101,12 +101,12 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
     /**
      * Return collection of same attributes for selected products without unique
      *
-     * @return Mage_Eav_Model_Resource_Entity_Attribute_Collection
+     * @return Magento_Eav_Model_Resource_Entity_Attribute_Collection
      */
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes  = Mage::getSingleton('Mage_Eav_Model_Config')
+            $this->_attributes  = Mage::getSingleton('Magento_Eav_Model_Config')
                 ->getEntityType(Magento_Catalog_Model_Product::ENTITY)
                 ->getAttributeCollection()
                 ->addIsNotUniqueFilter()

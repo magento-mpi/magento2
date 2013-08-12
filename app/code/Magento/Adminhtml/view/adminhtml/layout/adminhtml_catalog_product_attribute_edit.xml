@@ -13,10 +13,10 @@
             <block type="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tabs" name="attribute_edit_tabs">
                 <container label="Main" name="main">
                     <block type="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main" as="base"/>
-                    <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced"/>
+                    <block type="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Options" as="advanced"/>
                     <block type="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced" as="options"/>
                 </container>
-                <block type="Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels"/>
+                <block type="Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels" as="labels"/>
                 <block type="Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front" as="front"/>
             </block>
         </reference>

@@ -235,7 +235,7 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'gift_wrapping_a
     'frontend'      => '',
     'label'         => 'Allow Gift Wrapping',
     'input'         => 'select',
-    'source'        => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean',
+    'source'        => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
     'global'        => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
     'visible'       => true,
     'required'      => false,

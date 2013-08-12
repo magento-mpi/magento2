@@ -50,8 +50,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
      */
     protected $_attributeOverrides = array(
         'created_at'                  => array('backend_type' => 'datetime'),
-        'reward_update_notification'  => array('source_model' => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean'),
-        'reward_warning_notification' => array('source_model' => 'Mage_Eav_Model_Entity_Attribute_Source_Boolean')
+        'reward_update_notification'  => array('source_model' => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean'),
+        'reward_warning_notification' => array('source_model' => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean')
     );
 
     /**

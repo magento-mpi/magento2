@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
-    extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
+    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
 {
     /**
      * Enable MAP
@@ -94,7 +94,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute')
+        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }
