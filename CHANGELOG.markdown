@@ -23,9 +23,7 @@
   * Modified some text messages in VDE and in themes management
   * Added ability to upload, browse and delete images and fonts, which can be used in custom CSS
   * Improved theme's background image handling
-  * Modified text messages in VDE
   * Added alert, when deleting a block
-  * Added quick image uploaders for theme store views
 * HTML improvements:
   * Enhanced accessibility in admin by labeling form fields
 * `Varien_Image` library refactored:
@@ -34,7 +32,7 @@
   * Added feature of generating image from text
 * Various improvements:
   * Added configuration for limits on sending wishlist emails
-  * Refactored default theme fixture in Integration tests in order to divide it into smaller and easier to understand fixtures
+  * Refactored default theme fixture in integration tests in order to divide it into smaller and easier to understand fixtures
 * Bug fixes:
   * Fixed absence of a product for store view created after the product
   * Fixed incorrectly displayed or absent product image on configurable product pages
@@ -78,24 +76,16 @@
   * Added missing fields to SOAP API
   * Fixed inability to set default customer address via API
   * Fixed error message, when saving a customer with wrong email address via API
-  * Fixed Notifications drop list in IE 8
-  * Fixed Javascript errors, when creating product variations in IE 8
-  * Fixed Javascript error, when deleting configurable attribute in IE 8
-  * Fixed inability to choose new category for a product during creation in IE 8
-  * Fixed style of backend button panels in IE 9
-  * Fixed inability to change variation image, while creating configurable product in IE
+  * Fixed multiple frontend bugs in IE 8 and 9
   * Restored export for table rates
   * Fixed weight calculation for DHL
   * Fixed anchor categories, which didn't show products from child categories
   * Fixed exception, when applying catalog price rules
-  * Removed empty "Tools" item in System menu
   * Disabled "State" dropdown for Tax Rates in countries, where there are no states
   * Fixed inability to save a CMS page
   * Fixed Javascript calendar in backend Customer grid
   * Fixed memory usage measurements in localized Windows (GitHub pull requests #243, #237)
-  * Fixed bug with validation in order management
-  * Added lost validations at Sales Order page
-  * Fixed bug with other validation in order management
+  * Fixed issues with fields validation at order management page
   * Fixed taxes on Bundle product page
   * Fixed "Rating isn't available" message on Edit Review page
   * Fixed lack of data in New Order emails, when order is composed at backend
