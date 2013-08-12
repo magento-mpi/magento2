@@ -452,7 +452,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             return false;
         }
         $shipment->setPackages($this->getRequest()->getParam('packages'));
-        $response = Mage::getModel('Mage_Shipping_Model_Shipping')->requestToShipment($shipment);
+        $response = Mage::getModel('Magento_Shipping_Model_Shipping')->requestToShipment($shipment);
         if ($response->hasErrors()) {
             Mage::throwException($response->getErrors());
         }

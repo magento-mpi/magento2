@@ -204,7 +204,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
                 $address->setCollectShippingRates(true)
                     ->collectShippingRates();
                 foreach ($address->getAllShippingRates() as $rate) {
-                    if ($rate instanceof Mage_Shipping_Model_Rate_Result_Error) {
+                    if ($rate instanceof Magento_Shipping_Model_Rate_Result_Error) {
                         continue;
                     }
                     $methodName = sprintf('%s - %s', $rate->getCarrierTitle(), $rate->getMethodTitle());
@@ -561,8 +561,8 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
     {
         $cacheKey = ($storeId === null) ? 'nofilter' : $storeId;
         if (!isset($this->_cachedShippingInfo[$cacheKey])) {
-            /* @var $shipping Mage_Shipping_Model_Shipping */
-            $shipping = Mage::getModel('Mage_Shipping_Model_Shipping');
+            /* @var $shipping Magento_Shipping_Model_Shipping */
+            $shipping = Mage::getModel('Magento_Shipping_Model_Shipping');
             $carriers = Mage::getStoreConfig('carriers', $storeId);
             $infos = array();
 

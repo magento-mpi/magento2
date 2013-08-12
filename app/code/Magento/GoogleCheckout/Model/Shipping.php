@@ -15,17 +15,17 @@
  * @category   Mage
  * @package    Magento_GoogleCheckout
  */
-class Magento_GoogleCheckout_Model_Shipping extends Mage_Shipping_Model_Carrier_Abstract
+class Magento_GoogleCheckout_Model_Shipping extends Magento_Shipping_Model_Carrier_Abstract
 {
     protected $_code = 'googlecheckout';
 
     /**
      * Collects rates for user request
      *
-     * @param Mage_Shipping_Model_Rate_Request $data
-     * @return Mage_Shipping_Model_Rate_Result
+     * @param Magento_Shipping_Model_Rate_Request $data
+     * @return Magento_Shipping_Model_Rate_Result
      */
-    public function collectRates(Mage_Shipping_Model_Rate_Request $request)
+    public function collectRates(Magento_Shipping_Model_Rate_Request $request)
     {
         // dummy placeholder
         return $this;

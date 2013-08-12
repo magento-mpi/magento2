@@ -1177,7 +1177,7 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
     /**
      * Return model of shipping carrier
      *
-     * @return bool|float|Mage_Shipping_Model_Carrier_Abstract
+     * @return bool|float|Magento_Shipping_Model_Carrier_Abstract
      */
     public function getShippingCarrier()
     {

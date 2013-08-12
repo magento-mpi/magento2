@@ -25,8 +25,8 @@ class Magento_Usa_Model_Shipping_Carrier_Abstract_Source_Requesttype
     public function toOptionArray()
     {
         return array(
-            array('value' => 0, 'label' => Mage::helper('Mage_Shipping_Helper_Data')->__('Divide to equal weight (one request)')),
-            array('value' => 1, 'label' => Mage::helper('Mage_Shipping_Helper_Data')->__('Use origin weight (few requests)')),
+            array('value' => 0, 'label' => Mage::helper('Magento_Shipping_Helper_Data')->__('Divide to equal weight (one request)')),
+            array('value' => 1, 'label' => Mage::helper('Magento_Shipping_Helper_Data')->__('Use origin weight (few requests)')),
         );
     }
 }

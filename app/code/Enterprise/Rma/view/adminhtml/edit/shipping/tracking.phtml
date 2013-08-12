@@ -22,7 +22,7 @@
         <tr>
             <td class="col-carrier">
                 <select name="carrier" onchange="selectCarrier(this)">
-                    <option value="custom"><?php echo $this->helper('Mage_Shipping_Helper_Data')->__('Custom Value')?></option>
+                    <option value="custom"><?php echo $this->helper('Magento_Shipping_Helper_Data')->__('Custom Value')?></option>
                     <?php foreach ($this->getCarriers() as $_code=>$_name): ?>
                     <option value="<?php echo $_code ?>"><?php echo $this->escapeHtml($_name) ?></option>
                     <?php endforeach; ?>

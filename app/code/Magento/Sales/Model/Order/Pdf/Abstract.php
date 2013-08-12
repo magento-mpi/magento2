@@ -455,7 +455,7 @@ abstract class Magento_Sales_Model_Order_Pdf_Abstract extends Magento_Object
 
                     $CarrierCode = $track->getCarrierCode();
                     if ($CarrierCode != 'custom') {
-                        $carrier = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($CarrierCode);
+                        $carrier = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($CarrierCode);
                         $carrierTitle = $carrier->getConfigData('title');
                     } else {
                         $carrierTitle = Mage::helper('Magento_Sales_Helper_Data')->__('Custom Value');

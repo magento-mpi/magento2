@@ -132,7 +132,7 @@
                 </field>
                 <field id="sallowspecific_1" translate="label" type="select" sortOrder="24" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Rate 1 Ship To Applicable Countries</label>
-                    <source_model>Mage_Shipping_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Shipping_Model_Config_Source_Allspecificcountries</source_model>
                     <frontend_model>Magento_GoogleCheckout_Block_Adminhtml_Shipping_Applicable_Countries</frontend_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
@@ -149,7 +149,7 @@
                 </field>
                 <field id="sallowspecific_2" translate="label" type="select" sortOrder="34" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Rate 2 Ship To Applicable Countries</label>
-                    <source_model>Mage_Shipping_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Shipping_Model_Config_Source_Allspecificcountries</source_model>
                     <frontend_model>Magento_GoogleCheckout_Block_Adminhtml_Shipping_Applicable_Countries</frontend_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
@@ -166,7 +166,7 @@
                 </field>
                 <field id="sallowspecific_3" translate="label" type="select" sortOrder="44" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Rate 3 Ship To Applicable Countries</label>
-                    <source_model>Mage_Shipping_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Shipping_Model_Config_Source_Allspecificcountries</source_model>
                     <frontend_model>Magento_GoogleCheckout_Block_Adminhtml_Shipping_Applicable_Countries</frontend_model>
                     <can_be_empty>1</can_be_empty>
                 </field>

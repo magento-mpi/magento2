@@ -28,7 +28,7 @@ class Enterprise_Rma_Model_Shipping_Info extends Magento_Object
      * Generating tracking info
      *
      * @param string $hash
-     * @return Mage_Shipping_Model_Info
+     * @return Magento_Shipping_Model_Info
      */
     public function loadByHash($hash)
     {
@@ -51,7 +51,7 @@ class Enterprise_Rma_Model_Shipping_Info extends Magento_Object
      * Generating tracking info
      *
      * @param string $hash
-     * @return Mage_Shipping_Model_Info
+     * @return Magento_Shipping_Model_Info
      */
     public function loadPackage($hash)
     {

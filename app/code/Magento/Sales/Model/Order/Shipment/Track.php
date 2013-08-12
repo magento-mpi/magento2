@@ -128,7 +128,7 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
      */
     public function getNumberDetail()
     {
-        $carrierInstance = Mage::getSingleton('Mage_Shipping_Model_Config')
+        $carrierInstance = Mage::getSingleton('Magento_Shipping_Model_Config')
             ->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();

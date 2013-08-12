@@ -124,7 +124,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking exte
      */
     public function getCarrierTitle($code)
     {
-        $carrier = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($code);
+        $carrier = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($code);
         return $carrier ? $carrier->getConfigData('title') : Mage::helper('Magento_Sales_Helper_Data')->__('Custom Value');
     }
 }

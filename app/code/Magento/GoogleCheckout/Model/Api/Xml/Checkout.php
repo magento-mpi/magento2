@@ -386,10 +386,10 @@ EOT;
             return '';
         }
 
-        $country  = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $storeId);
-        $region   = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $storeId);
-        $postcode = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $storeId);
-        $city     = Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_CITY, $storeId);
+        $country  = Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $storeId);
+        $region   = Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $storeId);
+        $postcode = Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $storeId);
+        $city     = Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_CITY, $storeId);
 
         $defPrice = (float)Mage::getStoreConfig(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_PRICE,
@@ -625,7 +625,7 @@ EOT;
         $xml           = '';
         $methods       = unserialize($methods);
         $taxHelper     = Mage::helper('Mage_Tax_Helper_Data');
-        $shippingModel = Mage::getModel('Mage_Shipping_Model_Shipping');
+        $shippingModel = Mage::getModel('Magento_Shipping_Model_Shipping');
 
         foreach ($methods['method'] as $i => $method) {
             if (!$i || !$method) {

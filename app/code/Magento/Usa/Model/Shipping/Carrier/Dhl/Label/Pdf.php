@@ -27,7 +27,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf
     /**
      * Shipment Request
      *
-     * @var Mage_Shipping_Model_Shipment_Request
+     * @var Magento_Shipping_Model_Shipment_Request
      */
     protected $_request;
 

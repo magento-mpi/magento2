@@ -817,8 +817,8 @@ class Enterprise_Rma_Model_Rma extends Magento_Core_Model_Abstract
             $this->getStoreId()
         );
 
-        /** @var $request Mage_Shipping_Model_Rate_Request */
-        $request = Mage::getModel('Mage_Shipping_Model_Rate_Request');
+        /** @var $request Magento_Shipping_Model_Rate_Request */
+        $request = Mage::getModel('Magento_Shipping_Model_Rate_Request');
         $request->setAllItems($items);
         $request->setDestCountryId($shippingDestinationInfo->getCountryId());
         $request->setDestRegionId($shippingDestinationInfo->getRegionId());
@@ -876,8 +876,8 @@ class Enterprise_Rma_Model_Rma extends Magento_Core_Model_Abstract
 
         $request->setIsReturn(true);
 
-        /** @var $result Mage_Shipping_Model_Shipping */
-        $result = Mage::getModel('Mage_Shipping_Model_Shipping')
+        /** @var $result Magento_Shipping_Model_Shipping */
+        $result = Mage::getModel('Magento_Shipping_Model_Shipping')
             ->setCarrierAvailabilityConfigField('active_rma')
             ->collectRates($request)
             ->getResult();

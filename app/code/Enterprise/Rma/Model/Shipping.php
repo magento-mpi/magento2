@@ -113,8 +113,8 @@ class Enterprise_Rma_Model_Shipping extends Magento_Core_Model_Abstract
             );
         }
 
-        /** @var $request Mage_Shipping_Model_Shipment_Request */
-        $request = Mage::getModel('Mage_Shipping_Model_Shipment_Return');
+        /** @var $request Magento_Shipping_Model_Shipment_Request */
+        $request = Mage::getModel('Magento_Shipping_Model_Shipment_Return');
         $request->setOrderShipment($this);
 
         $request->setShipperContactPersonName($order->getCustomerName());
@@ -170,7 +170,7 @@ class Enterprise_Rma_Model_Shipping extends Magento_Core_Model_Abstract
      */
     public function getNumberDetail()
     {
-        $carrierInstance = Mage::getSingleton('Mage_Shipping_Model_Config')->getCarrierInstance($this->getCarrierCode());
+        $carrierInstance = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
             $custom['title']  = $this->getCarierTitle();

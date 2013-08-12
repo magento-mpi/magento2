@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping_Model_Carrier_Abstract
+abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Magento_Shipping_Model_Carrier_Abstract
 {
 
     const USA_COUNTRY_ID = 'US';
@@ -58,7 +58,7 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping
 
         $result = $this->getTracking($tracking);
 
-        if($result instanceof Mage_Shipping_Model_Tracking_Result){
+        if($result instanceof Magento_Shipping_Model_Tracking_Result){
             if ($trackings = $result->getAllTrackings()) {
                 return $trackings[0];
             }
@@ -120,10 +120,10 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping
      * bundle itself, otherwise we may not get a rate at all (e.g. when total weight of a bundle exceeds max weight
      * despite each item by itself is not)
      *
-     * @param Mage_Shipping_Model_Rate_Request $request
+     * @param Magento_Shipping_Model_Rate_Request $request
      * @return array
      */
-    public function getAllItems(Mage_Shipping_Model_Rate_Request $request)
+    public function getAllItems(Magento_Shipping_Model_Rate_Request $request)
     {
         $items = array();
         if ($request->getAllItems()) {
@@ -152,10 +152,10 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping
     /**
      * Processing additional validation to check if carrier applicable.
      *
-     * @param Mage_Shipping_Model_Rate_Request $request
-     * @return Mage_Shipping_Model_Carrier_Abstract|Mage_Shipping_Model_Rate_Result_Error|boolean
+     * @param Magento_Shipping_Model_Rate_Request $request
+     * @return Magento_Shipping_Model_Carrier_Abstract|Magento_Shipping_Model_Rate_Result_Error|boolean
      */
-    public function proccessAdditionalValidation(Mage_Shipping_Model_Rate_Request $request)
+    public function proccessAdditionalValidation(Magento_Shipping_Model_Rate_Request $request)
     {
         //Skip by item validation if there is no items in request
         if(!count($this->getAllItems($request))) {
@@ -165,7 +165,7 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping
         $maxAllowedWeight   = (float) $this->getConfigData('max_package_weight');
         $errorMsg           = '';
         $configErrorMsg     = $this->getConfigData('specificerrmsg');
-        $defaultErrorMsg    = Mage::helper('Mage_Shipping_Helper_Data')->__('The shipping module is not available.');
+        $defaultErrorMsg    = Mage::helper('Magento_Shipping_Helper_Data')->__('The shipping module is not available.');
         $showMethod         = $this->getConfigData('showmethod');
 
         foreach ($this->getAllItems($request) as $item) {
@@ -192,11 +192,11 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping
         }
 
         if (!$errorMsg && !$request->getDestPostcode() && $this->isZipCodeRequired($request->getDestCountryId())) {
-            $errorMsg = Mage::helper('Mage_Shipping_Helper_Data')->__('This shipping method is not available. Please specify the zip code.');
+            $errorMsg = Mage::helper('Magento_Shipping_Helper_Data')->__('This shipping method is not available. Please specify the zip code.');
         }
 
         if ($errorMsg && $showMethod) {
-            $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
+            $error = Mage::getModel('Magento_Shipping_Model_Rate_Result_Error');
             $error->setCarrier($this->_code);
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($errorMsg);
@@ -288,10 +288,10 @@ abstract class Magento_Usa_Model_Shipping_Carrier_Abstract extends Mage_Shipping
     /**
      * Do request to shipment
      *
-     * @param Mage_Shipping_Model_Shipment_Request $request
+     * @param Magento_Shipping_Model_Shipment_Request $request
      * @return array
      */
-    public function requestToShipment(Mage_Shipping_Model_Shipment_Request $request)
+    public function requestToShipment(Magento_Shipping_Model_Shipment_Request $request)
     {
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {

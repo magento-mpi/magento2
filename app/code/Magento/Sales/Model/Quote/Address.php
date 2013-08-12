@@ -816,8 +816,8 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
      */
     public function requestShippingRates(Magento_Sales_Model_Quote_Item_Abstract $item = null)
     {
-        /** @var $request Mage_Shipping_Model_Rate_Request */
-        $request = Mage::getModel('Mage_Shipping_Model_Rate_Request');
+        /** @var $request Magento_Shipping_Model_Rate_Request */
+        $request = Mage::getModel('Magento_Shipping_Model_Rate_Request');
         $request->setAllItems($item ? array($item) : $this->getAllItems());
         $request->setDestCountryId($this->getCountryId());
         $request->setDestRegionId($this->getRegionId());
@@ -865,7 +865,7 @@ class Magento_Sales_Model_Quote_Address extends Magento_Customer_Model_Address_A
 
         $request->setBaseSubtotalInclTax($this->getBaseSubtotalInclTax());
 
-        $result = Mage::getModel('Mage_Shipping_Model_Shipping')->collectRates($request)->getResult();
+        $result = Mage::getModel('Magento_Shipping_Model_Shipping')->collectRates($request)->getResult();
 
         $found = false;
         if ($result) {

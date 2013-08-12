@@ -19,7 +19,7 @@
  */
 class Magento_Usa_Model_Shipping_Carrier_Usps
     extends Magento_Usa_Model_Shipping_Carrier_Abstract
-    implements Mage_Shipping_Model_Carrier_Interface
+    implements Magento_Shipping_Model_Carrier_Interface
 {
     /**
      * USPS containers
@@ -73,7 +73,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Rate request data
      *
-     * @var Mage_Shipping_Model_Rate_Request|null
+     * @var Magento_Shipping_Model_Rate_Request|null
      */
     protected $_request = null;
 
@@ -87,7 +87,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Rate result data
      *
-     * @var Mage_Shipping_Model_Rate_Result|null
+     * @var Magento_Shipping_Model_Rate_Result|null
      */
     protected $_result = null;
 
@@ -125,10 +125,10 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Collect and get rates
      *
-     * @param Mage_Shipping_Model_Rate_Request $request
-     * @return Mage_Shipping_Model_Rate_Result|bool|null
+     * @param Magento_Shipping_Model_Rate_Request $request
+     * @return Magento_Shipping_Model_Rate_Result|bool|null
      */
-    public function collectRates(Mage_Shipping_Model_Rate_Request $request)
+    public function collectRates(Magento_Shipping_Model_Rate_Request $request)
     {
         if (!$this->getConfigFlag($this->_activeFlag)) {
             return false;
@@ -146,10 +146,10 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Prepare and set request to this instance
      *
-     * @param Mage_Shipping_Model_Rate_Request $request
+     * @param Magento_Shipping_Model_Rate_Request $request
      * @return Magento_Usa_Model_Shipping_Carrier_Usps
      */
-    public function setRequest(Mage_Shipping_Model_Rate_Request $request)
+    public function setRequest(Magento_Shipping_Model_Rate_Request $request)
     {
         $this->_request = $request;
 
@@ -221,7 +221,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
             $r->setOrigPostal(Mage::getStoreConfig(
-                Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
+                Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
         }
@@ -230,7 +230,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
             $r->setOrigCountryId($request->getOrigCountryId());
         } else {
             $r->setOrigCountryId(Mage::getStoreConfig(
-                Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+                Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             ));
         }
@@ -281,7 +281,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Get quotes
      *
-     * @return Mage_Shipping_Model_Rate_Result
+     * @return Magento_Shipping_Model_Rate_Result
      */
     protected function _getQuotes()
     {
@@ -308,7 +308,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      * Build RateV3 request, send it to USPS gateway and retrieve quotes in XML format
      *
      * @link http://www.usps.com/webtools/htm/Rate-Calculators-v2-3.htm
-     * @return Mage_Shipping_Model_Rate_Result
+     * @return Magento_Shipping_Model_Rate_Result
      */
     protected function _getXmlQuotes()
     {
@@ -430,7 +430,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      *
      * @link http://www.usps.com/webtools/htm/Rate-Calculators-v2-3.htm
      * @param string $response
-     * @return Mage_Shipping_Model_Rate_Result
+     * @return Magento_Shipping_Model_Rate_Result
      */
     protected function _parseXmlResponse($response)
     {
@@ -510,16 +510,16 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
             }
         }
 
-        $result = Mage::getModel('Mage_Shipping_Model_Rate_Result');
+        $result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
         if (empty($priceArr)) {
-            $error = Mage::getModel('Mage_Shipping_Model_Rate_Result_Error');
+            $error = Mage::getModel('Magento_Shipping_Model_Rate_Result_Error');
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('Mage_Shipping_Model_Rate_Result_Method');
+                $rate = Mage::getModel('Magento_Shipping_Model_Rate_Result_Method');
                 $rate->setCarrier('usps');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -886,19 +886,19 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         }
 
         if (!$this->_result) {
-            $this->_result = Mage::getModel('Mage_Shipping_Model_Tracking_Result');
+            $this->_result = Mage::getModel('Magento_Shipping_Model_Tracking_Result');
         }
         $defaults = $this->getDefaults();
 
         if ($resultArr) {
-             $tracking = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Status');
+             $tracking = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Status');
              $tracking->setCarrier('usps');
              $tracking->setCarrierTitle($this->getConfigData('title'));
              $tracking->setTracking($trackingvalue);
              $tracking->setTrackSummary($resultArr['tracksummary']);
              $this->_result->append($tracking);
          } else {
-            $error = Mage::getModel('Mage_Shipping_Model_Tracking_Result_Error');
+            $error = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Error');
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($trackingvalue);
@@ -915,7 +915,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     public function getResponse()
     {
         $statuses = '';
-        if ($this->_result instanceof Mage_Shipping_Model_Tracking_Result) {
+        if ($this->_result instanceof Magento_Shipping_Model_Tracking_Result) {
             if ($trackings = $this->_result->getAllTrackings()) {
                 foreach ($trackings as $tracking) {
                     if($data = $tracking->getAllData()) {

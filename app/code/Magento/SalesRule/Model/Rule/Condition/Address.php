@@ -73,7 +73,7 @@ class Magento_SalesRule_Model_Rule_Condition_Address extends Magento_Rule_Model_
                     break;
 
                 case 'shipping_method':
-                    $options = Mage::getModel('Mage_Shipping_Model_Config_Source_Allmethods')
+                    $options = Mage::getModel('Magento_Shipping_Model_Config_Source_Allmethods')
                         ->toOptionArray();
                     break;
 

@@ -98,8 +98,8 @@ class Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid extends Magento_Ad
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection */
-        $collection = Mage::getResourceModel('Mage_Shipping_Model_Resource_Carrier_Tablerate_Collection');
+        /** @var $collection Magento_Shipping_Model_Resource_Carrier_Tablerate_Collection */
+        $collection = Mage::getResourceModel('Magento_Shipping_Model_Resource_Carrier_Tablerate_Collection');
         $collection->setConditionFilter($this->getConditionName())
             ->setWebsiteFilter($this->getWebsiteId());
 
@@ -133,7 +133,7 @@ class Magento_Adminhtml_Block_Shipping_Carrier_Tablerate_Grid extends Magento_Ad
             'default'   => '*',
         ));
 
-        $label = Mage::getSingleton('Mage_Shipping_Model_Carrier_Tablerate')
+        $label = Mage::getSingleton('Magento_Shipping_Model_Carrier_Tablerate')
             ->getCode('condition_name_short', $this->getConditionName());
         $this->addColumn('condition_value', array(
             'header'    => $label,

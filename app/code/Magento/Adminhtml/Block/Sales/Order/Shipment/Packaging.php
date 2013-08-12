@@ -99,7 +99,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
         $storeId = $this->getShipment()->getStoreId();
         $address = $order->getShippingAddress();
         $carrier = $order->getShippingCarrier();
-        $countryShipper = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryShipper = Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
             $params = new Magento_Object(array(
                 'method' => $order->getShippingMethod(true)->getMethod(),
@@ -223,7 +223,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
         $order = $this->getShipment()->getOrder();
         $address = $order->getShippingAddress();
         $shipperAddressCountryCode = Mage::getStoreConfig(
-            Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+            Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
             $storeId
         );
         $recipientAddressCountryCode = $address->getCountryId();
@@ -292,7 +292,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging extends Magento_Adm
         $storeId = $this->getShipment()->getStoreId();
         $address = $order->getShippingAddress();
         $carrier = $order->getShippingCarrier();
-        $countryShipper = Mage::getStoreConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryShipper = Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
             $params = new Magento_Object(array(
                 'method' => $order->getShippingMethod(true)->getMethod(),

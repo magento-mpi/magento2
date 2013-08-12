@@ -225,9 +225,9 @@ class Mage_Tax_Model_Calculation extends Magento_Core_Model_Abstract
     public function getRateOriginRequest($store = null)
     {
         $request = new Magento_Object();
-        $request->setCountryId(Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $store))
-            ->setRegionId(Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $store))
-            ->setPostcode(Mage::getStoreConfig(Mage_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $store))
+        $request->setCountryId(Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $store))
+            ->setRegionId(Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $store))
+            ->setPostcode(Mage::getStoreConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $store))
             ->setCustomerClassId($this->getDefaultCustomerTaxClass($store))
             ->setStore($store);
         return $request;

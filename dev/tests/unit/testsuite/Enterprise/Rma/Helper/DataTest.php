@@ -110,12 +110,12 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
             array(
                 true,
                 array(
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_CITY, 1, 'Kabul'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, 1, 'AF'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, 1, '912232'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID, 1, 'Kabul'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, 1, 'Test Street 2'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1, 1, 'Test Street 1'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_CITY, 1, 'Kabul'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, 1, 'AF'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, 1, '912232'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID, 1, 'Kabul'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, 1, 'Test Street 2'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1, 1, 'Test Street 1'),
                 ),
                 array(
                     'store_id' => 1,
@@ -169,12 +169,12 @@ class Enterprise_Rma_Helper_DataTest extends PHPUnit_Framework_TestCase
             array(
                 true,
                 array(
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_CITY, 1, 'Kabul'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, 1, null),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, 1, '912232'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID, 1, 'Kabul'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, 1, 'Test Street 2'),
-                    array(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1, 1, 'Test Street 1'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_CITY, 1, 'Kabul'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, 1, null),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, 1, '912232'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID, 1, 'Kabul'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, 1, 'Test Street 2'),
+                    array(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1, 1, 'Test Street 1'),
                 ),
                 array(
                     'store_id' => 1,

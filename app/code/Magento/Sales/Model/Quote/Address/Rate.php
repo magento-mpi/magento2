@@ -39,7 +39,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Quote_Address_Rate extends Mage_Shipping_Model_Rate_Abstract
+class Magento_Sales_Model_Quote_Address_Rate extends Magento_Shipping_Model_Rate_Abstract
 {
     /**
      * @var Magento_Sales_Model_Quote_Address
@@ -82,17 +82,17 @@ class Magento_Sales_Model_Quote_Address_Rate extends Mage_Shipping_Model_Rate_Ab
     }
 
     /**
-     * @param Mage_Shipping_Model_Rate_Result_Abstract $rate
+     * @param Magento_Shipping_Model_Rate_Result_Abstract $rate
      * @return $this
      */
-    public function importShippingRate(Mage_Shipping_Model_Rate_Result_Abstract $rate)
+    public function importShippingRate(Magento_Shipping_Model_Rate_Result_Abstract $rate)
     {
-        if ($rate instanceof Mage_Shipping_Model_Rate_Result_Error) {
+        if ($rate instanceof Magento_Shipping_Model_Rate_Result_Error) {
             $this->setCode($rate->getCarrier() . '_error')
                 ->setCarrier($rate->getCarrier())
                 ->setCarrierTitle($rate->getCarrierTitle())
                 ->setErrorMessage($rate->getErrorMessage());
-        } elseif ($rate instanceof Mage_Shipping_Model_Rate_Result_Method) {
+        } elseif ($rate instanceof Magento_Shipping_Model_Rate_Result_Method) {
             $this->setCode($rate->getCarrier() . '_' . $rate->getMethod())
                 ->setCarrier($rate->getCarrier())
                 ->setCarrierTitle($rate->getCarrierTitle())

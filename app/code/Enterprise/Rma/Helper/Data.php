@@ -251,17 +251,17 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
         if ($this->_storeConfig->getConfigFlag(Enterprise_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $store)) {
             $data = array(
                 'city' => $this->_storeConfig
-                    ->getConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_CITY, $store),
+                    ->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_CITY, $store),
                 'countryId' => $this->_storeConfig
-                    ->getConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $store),
+                    ->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $store),
                 'postcode' => $this->_storeConfig
-                    ->getConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, $store),
+                    ->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP, $store),
                 'region_id' => $this->_storeConfig
-                    ->getConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID, $store),
+                    ->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID, $store),
                 'street2' => $this->_storeConfig
-                    ->getConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, $store),
+                    ->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, $store),
                 'street1' => $this->_storeConfig
-                    ->getConfig(Mage_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1, $store),
+                    ->getConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1, $store),
             );
         } else {
             $data = array(

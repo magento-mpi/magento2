@@ -37,7 +37,7 @@
             </div>
             <div class="shipping-description-wrapper">
                 <?php  if ($_order->getTracksCollection()->count()) : ?>
-                <p><a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('Mage_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_order) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track Order') ?>"><?php echo $this->__('Track Order') ?></a></p>
+                <p><a href="#" id="linkId" onclick="popWin('<?php echo $this->helper('Magento_Shipping_Helper_Data')->getTrackingPopupUrlBySalesModel($_order) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')" title="<?php echo $this->__('Track Order') ?>"><?php echo $this->__('Track Order') ?></a></p>
                 <?php endif; ?>
                 <?php if ($_order->getShippingDescription()): ?>
                     <strong><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></strong>

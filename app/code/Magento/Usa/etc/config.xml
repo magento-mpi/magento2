@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Magento_Sales/>
-                <Mage_Shipping/>
+                <Magento_Shipping/>
             </depends>
         </Magento_Usa>
     </modules>
