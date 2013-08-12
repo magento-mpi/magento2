@@ -20,9 +20,6 @@ class Mage_CatalogSearch_ResultControllerTest extends Magento_Test_TestCase_Cont
         $this->getRequest()->setParam('q', 'query_text');
         $this->dispatch('catalogsearch/result');
 
-        $fixtureTranslate = __('Fixture string');
-        $this->assertSame('Fixture translation', (string)$fixtureTranslate);
-
         $responseBody = $this->getResponse()->getBody();
 
         $this->assertNotContains('Search:', $responseBody);
