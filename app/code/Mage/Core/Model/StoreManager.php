@@ -117,7 +117,7 @@ class Mage_Core_Model_StoreManager implements Mage_Core_Model_StoreManagerInterf
             }
 
             Mage::throwException(
-                __('Requested invalid store "%s"', $storeId)
+                __('Requested invalid store "%1"', $storeId)
             );
         }
     }

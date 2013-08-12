@@ -68,7 +68,7 @@ class Mage_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPUnit
             'google-experiment-form'
         )->will($this->returnValue($block));
 
-        $event = $this->getMock('Varien_Event', array('getTabs'), array(), '', false);
+        $event = $this->getMock('Magento_Event', array('getTabs'), array(), '', false);
         $event->expects($this->once())->method('getTabs')->will($this->returnValue($this->_tabsMock));
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 

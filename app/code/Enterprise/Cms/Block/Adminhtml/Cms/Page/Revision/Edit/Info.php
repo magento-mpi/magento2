@@ -40,7 +40,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
      */
     public function getVersion()
     {
-        $version = '';
         if ($this->_page->getLabel()) {
             $version = $this->_page->getLabel();
         } else {
