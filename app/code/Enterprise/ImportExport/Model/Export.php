@@ -21,7 +21,7 @@
  * @method Enterprise_ImportExport_Model_Export setEntity() setEntity(string $value)
  * @method Enterprise_ImportExport_Model_Export setOperationType() setOperationType(string $value)
  */
-class Enterprise_ImportExport_Model_Export extends Mage_ImportExport_Model_Export
+class Enterprise_ImportExport_Model_Export extends Magento_ImportExport_Model_Export
     implements Enterprise_ImportExport_Model_Scheduled_Operation_Interface
 {
     /**

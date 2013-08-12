@@ -151,7 +151,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest exten
      */
     public function testExportItem()
     {
-        $writer = $this->getMockForAbstractClass('Mage_ImportExport_Model_Export_Adapter_Abstract',
+        $writer = $this->getMockForAbstractClass('Magento_ImportExport_Model_Export_Adapter_Abstract',
             array(), '', false, false, true, array('writeRow')
         );
 

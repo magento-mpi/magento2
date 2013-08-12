@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Controller_Adminhtml_Import extends Mage_ImportExport_Controller_Adminhtml_Import
+class Saas_ImportExport_Controller_Adminhtml_Import extends Magento_ImportExport_Controller_Adminhtml_Import
 {
     /**
      * Import state helper
@@ -96,7 +96,7 @@ class Saas_ImportExport_Controller_Adminhtml_Import extends Mage_ImportExport_Co
     /**
      * Get import frame block
      *
-     * @return Mage_ImportExport_Block_Adminhtml_Import_Frame_Result|bool
+     * @return Magento_ImportExport_Block_Adminhtml_Import_Frame_Result|bool
      * @throws RuntimeException
      */
     protected function _getImportFrameBlock()

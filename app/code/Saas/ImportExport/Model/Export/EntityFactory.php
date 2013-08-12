@@ -29,7 +29,7 @@ class Saas_ImportExport_Model_Export_EntityFactory
      */
     public function create($modelName, $params)
     {
-        $models = Mage_ImportExport_Model_Config::getModels(Mage_ImportExport_Model_Export::CONFIG_KEY_ENTITIES);
+        $models = Magento_ImportExport_Model_Config::getModels(Magento_ImportExport_Model_Export::CONFIG_KEY_ENTITIES);
 
         if (isset($models[$modelName]['model'])) {
             $entity = $this->_objectManager->create($models[$modelName]['model']);

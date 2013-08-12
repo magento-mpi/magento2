@@ -34,7 +34,7 @@ $pattern = array(
     'stock_id' => Magento_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID,
 );
 $generator = new Magento_ImportExport_Fixture_Generator($pattern, 100000);
-$import = new Mage_ImportExport_Model_Import(array('entity' => 'catalog_product', 'behavior' => 'append'));
+$import = new Magento_ImportExport_Model_Import(array('entity' => 'catalog_product', 'behavior' => 'append'));
 // it is not obvious, but the validateSource() will actually save import queue data to DB
 $import->validateSource($generator);
 // this converts import queue into actual entities

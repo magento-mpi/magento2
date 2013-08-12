@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Block_Adminhtml_Import_Edit extends Mage_ImportExport_Block_Adminhtml_Import_Edit
+class Saas_ImportExport_Block_Adminhtml_Import_Edit extends Magento_ImportExport_Block_Adminhtml_Import_Edit
 {
     /**
      * Internal constructor

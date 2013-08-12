@@ -12,7 +12,7 @@ class Saas_Queue_Model_Observer_Import extends Saas_Queue_Model_ObserverAbstract
     /**
      * Instance of Import model
      *
-     * @var Mage_ImportExport_Model_Import
+     * @var Magento_ImportExport_Model_Import
      */
     protected $_importModel;
 
@@ -31,12 +31,12 @@ class Saas_Queue_Model_Observer_Import extends Saas_Queue_Model_ObserverAbstract
     protected $_stateHelper;
 
     /**
-     * @param Mage_ImportExport_Model_Import $import
+     * @param Magento_ImportExport_Model_Import $import
      * @param Saas_ImportExport_Helper_Import_State $stateHelper
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
     public function __construct(
-        Mage_ImportExport_Model_Import $import,
+        Magento_ImportExport_Model_Import $import,
         Saas_ImportExport_Helper_Import_State $stateHelper,
         Magento_Core_Model_Event_Manager $eventManager
     ) {

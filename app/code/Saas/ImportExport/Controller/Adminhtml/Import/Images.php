@@ -55,7 +55,7 @@ class Saas_ImportExport_Controller_Adminhtml_Import_Images extends Magento_Admin
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_ImportExport::export');
+        return $this->_authorization->isAllowed('Magento_ImportExport::export');
     }
 
     /**
@@ -67,7 +67,7 @@ class Saas_ImportExport_Controller_Adminhtml_Import_Images extends Magento_Admin
     {
         if ($this->getRequest()->isPost()) {
             $this->loadLayout(false);
-            /** @var $resultBlock Mage_ImportExport_Block_Adminhtml_Import_Frame_Result */
+            /** @var $resultBlock Magento_ImportExport_Block_Adminhtml_Import_Frame_Result */
             $resultBlock = $this->getLayout()->getBlock('import.frame.result');
 
             if (empty($_FILES)) {

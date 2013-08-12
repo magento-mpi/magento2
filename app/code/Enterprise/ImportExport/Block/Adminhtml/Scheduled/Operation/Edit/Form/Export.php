@@ -43,8 +43,8 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
         /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
         $operation = Mage::registry('current_operation');
 
-        /** @var $fileFormatModel Mage_ImportExport_Model_Source_Export_Format */
-        $fileFormatModel = Mage::getModel('Mage_ImportExport_Model_Source_Export_Format');
+        /** @var $fileFormatModel Magento_ImportExport_Model_Source_Export_Format */
+        $fileFormatModel = Mage::getModel('Magento_ImportExport_Model_Source_Export_Format');
 
         $fieldset = $form->getElement('operation_settings');
         $fieldset->addField('file_format', 'select', array(

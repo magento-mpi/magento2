@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 class Saas_ImportExport_Model_Source_Import_Behavior_Image
-    extends Mage_ImportExport_Model_Source_Import_BehaviorAbstract
+    extends Magento_ImportExport_Model_Source_Import_BehaviorAbstract
 {
     /**
      * Behaviour code
@@ -39,7 +39,7 @@ class Saas_ImportExport_Model_Source_Import_Behavior_Image
     public function toArray()
     {
         return array(
-            Mage_ImportExport_Model_Import::BEHAVIOR_APPEND => $this->_helper->__('Add/Update Images'),
+            Magento_ImportExport_Model_Import::BEHAVIOR_APPEND => $this->_helper->__('Add/Update Images'),
         );
     }
 

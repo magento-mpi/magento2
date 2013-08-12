@@ -20,7 +20,7 @@ class Enterprise_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveRewardPoints($pointsDelta, $expectedBalance)
     {
-        $customer = Mage::registry('_fixture/Mage_ImportExport_Customer');
+        $customer = Mage::registry('_fixture/Magento_ImportExport_Customer');
 
         $this->_saveRewardPoints($customer, $pointsDelta);
 

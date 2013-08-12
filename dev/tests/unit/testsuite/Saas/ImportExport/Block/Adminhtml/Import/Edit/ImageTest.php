@@ -41,7 +41,7 @@ class Saas_ImportExport_Block_Adminhtml_Import_Edit_ImageTest extends PHPUnit_Fr
         $this->_configurationMock = $this->getMock('Saas_ImportExport_Helper_Import_Image_Configuration', array(),
             array(), '', false);
         $this->_coreHelperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
-        $this->_importModelMock = $this->getMock('Mage_ImportExport_Model_Import', array(), array(), '', false);
+        $this->_importModelMock = $this->getMock('Magento_ImportExport_Model_Import', array(), array(), '', false);
 
         $objectManager = new Magento_Test_Helper_ObjectManager($this);
         $this->_block = $objectManager->getObject('Saas_ImportExport_Block_Adminhtml_Import_Edit_Image', array(

@@ -30,7 +30,7 @@ class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends P
     public function testExport()
     {
         $customerFinance = Mage::getModel('Enterprise_ImportExport_Model_Export_Entity_Customer_Finance');
-        $customerFinance->setWriter(Mage::getModel('Mage_ImportExport_Model_Export_Adapter_Csv'));
+        $customerFinance->setWriter(Mage::getModel('Magento_ImportExport_Model_Export_Adapter_Csv'));
         $customerFinance->setParameters(array());
         $csvExportString = $customerFinance->export();
 

@@ -66,10 +66,10 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';
         $expectedFinanceData = $this->_csvToArray(file_get_contents($pathToCsvFile));
 
-        $source = new Mage_ImportExport_Model_Import_Source_Csv($pathToCsvFile);
+        $source = new Magento_ImportExport_Model_Import_Source_Csv($pathToCsvFile);
         $model = Mage::getModel('Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance');
         $model->setParameters(
-            array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE)
+            array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE)
         );
         $model->setSource($source);
         $model->validateData();
@@ -128,10 +128,10 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
      */
     public function testImportDataDelete()
     {
-        $source = new Mage_ImportExport_Model_Import_Source_Csv(__DIR__ . '/../_files/customer_finance_delete.csv');
+        $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/../_files/customer_finance_delete.csv');
         $model = Mage::getModel('Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance');
         $model->setParameters(
-            array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE)
+            array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_DELETE)
         );
         $model->setSource($source);
         $model->validateData();

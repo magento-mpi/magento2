@@ -72,7 +72,7 @@ class Saas_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml_Co
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_ImportExport::export');
+        return $this->_authorization->isAllowed('Magento_ImportExport::export');
     }
 
     /**
@@ -100,7 +100,7 @@ class Saas_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml_Co
      */
     public function exportAction()
     {
-        if ($this->getRequest()->getPost(Mage_ImportExport_Model_Export::FILTER_ELEMENT_GROUP)) {
+        if ($this->getRequest()->getPost(Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP)) {
             try {
                 $this->_stateHelper->saveTaskAsQueued();
                 $this->_eventManager->dispatch($this->_getEventName(), array(

@@ -29,7 +29,7 @@ class Saas_ImportExport_Model_Export_StorageFactory
      */
     public function create($modelName, $destination)
     {
-        $models = Mage_ImportExport_Model_Config::getModels(Mage_ImportExport_Model_Export::CONFIG_KEY_FORMATS);
+        $models = Magento_ImportExport_Model_Config::getModels(Magento_ImportExport_Model_Export::CONFIG_KEY_FORMATS);
 
         if (isset($models[$modelName]['model'])) {
             $storage = $this->_objectManager->create($models[$modelName]['model'],

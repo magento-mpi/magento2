@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Model_Export_Entity_Eav_Customer extends Mage_ImportExport_Model_Export_Entity_Eav_Customer
+class Saas_ImportExport_Model_Export_Entity_Eav_Customer extends Magento_ImportExport_Model_Export_Entity_Eav_Customer
     implements Saas_ImportExport_Model_Export_EntityInterface
 {
     /**

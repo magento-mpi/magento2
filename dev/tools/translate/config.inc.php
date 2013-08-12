@@ -549,8 +549,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/template/oauth/',
         'app/design/frontend/enterprise/default/layout/oauth.xml',
     ),
-    'Mage_ImportExport' => array(
-        'app/code/Mage/Mage_ImportExport/',
+    'Magento_ImportExport' => array(
+        'app/code/Mage/Magento_ImportExport/',
         'app/design/adminhtml/default/default/template/importexport',
         'app/design/adminhtml/default/default/layout/importexport.xml',
     ),
@@ -565,7 +565,7 @@ $CONFIG['helpers']  = array(
     'api'               => 'Mage_Api',
     'webapi'              => 'Mage_Webapi',
     'oauth'             => 'Mage_Oauth',
-    'importexport'      => 'Mage_ImportExport',
+    'importexport'      => 'Magento_ImportExport',
     'backup'            => 'Mage_Backup',
     'bundle'            => 'Mage_Bundle',
     'catalog'           => 'Magento_Catalog',

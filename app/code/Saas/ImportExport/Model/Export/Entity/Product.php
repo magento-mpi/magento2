@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Model_Export_Entity_Product  extends Mage_ImportExport_Model_Export_Entity_Product
+class Saas_ImportExport_Model_Export_Entity_Product  extends Magento_ImportExport_Model_Export_Entity_Product
     implements Saas_ImportExport_Model_Export_EntityInterface
 {
     /**

@@ -85,7 +85,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
      * Write row data to source file
      *
      * @param array $rowData
-     * @return Mage_ImportExport_Model_Export_Adapter_Abstract
+     * @return Magento_ImportExport_Model_Export_Adapter_Abstract
      */
     abstract public function writeRow(array $rowData);
 
@@ -162,7 +162,7 @@ abstract class Saas_ImportExport_Model_Export_Adapter_AdapterAbstract
     /**
      * Method called as last step of object instance creation. Can be overridden in child classes
      *
-     * @return Mage_ImportExport_Model_Export_Adapter_Abstract
+     * @return Magento_ImportExport_Model_Export_Adapter_Abstract
      */
     protected function _init()
     {
