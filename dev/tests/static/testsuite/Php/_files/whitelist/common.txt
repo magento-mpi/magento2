@@ -30,8 +30,8 @@ app/code/Magento/Catalog/Model/Resource/Product/Collection
 app/code/Magento/Catalog/Model/Product/Type.php
 app/code/Magento/Catalog/Model/Observer/Reindex.php
 app/code/Magento/CatalogInventory/Block/Adminhtml/Form/Field/Stock.php
-app/code/Mage/Centinel/Model/State/Jcb.php
-app/code/Mage/Cms/Controller/Router.php
+app/code/Magento/Centinel/Model/State/Jcb.php
+app/code/Magento/Cms/Controller/Router.php
 app/code/Magento/Core/Block/Abstract.php
 app/code/Magento/Core/Controller/Varien/ActionAbstract.php
 app/code/Magento/Core/Controller/Varien/Action/Factory.php

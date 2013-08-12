@@ -268,17 +268,17 @@ class Mage_Payment_Model_Method_Cc extends Mage_Payment_Model_Method_Abstract
      */
     public function getIsCentinelValidationEnabled()
     {
-        return false !== Mage::getConfig()->getNode('modules/Mage_Centinel') && 1 == $this->getConfigData('centinel');
+        return false !== Mage::getConfig()->getNode('modules/Magento_Centinel') && 1 == $this->getConfigData('centinel');
     }
 
     /**
      * Instantiate centinel validator model
      *
-     * @return Mage_Centinel_Model_Service
+     * @return Magento_Centinel_Model_Service
      */
     public function getCentinelValidator()
     {
-        $validator = Mage::getSingleton('Mage_Centinel_Model_Service');
+        $validator = Mage::getSingleton('Magento_Centinel_Model_Service');
         $validator
             ->setIsModeStrict($this->getConfigData('centinel_is_mode_strict'))
             ->setCustomApiEndpointUrl($this->getConfigData('centinel_api_url'))

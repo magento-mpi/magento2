@@ -48,8 +48,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/modern/template/catalogsearch/',
         'app/design/frontend/default/modern/layout/catalogsearch.xml',
     ),
-    'Mage_Centinel' => array(
-        'app/code/Mage/Centinel/',
+    'Magento_Centinel' => array(
+        'app/code/Magento/Centinel/',
         'app/design/frontend/base/default/template/centinel/',
         'app/design/frontend/base/default/layout/centinel.xml',
         'app/design/adminhtml/default/default/layout/centinel.xml',
@@ -572,7 +572,7 @@ $CONFIG['helpers']  = array(
     'cataloginventory'  => 'Magento_CatalogInventory',
     'catalogrule'       => 'Magento_CatalogRule',
     'catalogsearch'     => 'Magento_CatalogSearch',
-    'centinel'          => 'Mage_Centinel',
+    'centinel'          => 'Magento_Centinel',
     'checkout'          => 'Mage_Checkout',
     'chronopay'         => 'Mage_Chronopay',
     'cms'               => 'Mage_Cms',

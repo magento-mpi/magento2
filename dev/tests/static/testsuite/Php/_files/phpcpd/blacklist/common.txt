@@ -25,8 +25,8 @@ Magento/CatalogInventory/Model/Resource/Indexer/Stock
 Mage/Sales/Model/Order
 Magento/CatalogInventory/Model/Source
 Magento/CatalogSearch/Model/Resource/Helper
-Mage/Centinel/Controller
-Mage/Centinel/Model/State
+Magento/Centinel/Controller
+Magento/Centinel/Model/State
 Mage/Checkout/Block/Multishipping/Payment
 Mage/Checkout/Model/Type
 Mage/Connect/Block/Adminhtml/Extension/Custom/Edit/Tab

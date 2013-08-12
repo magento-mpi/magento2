@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_centinel_index_authenticationcomplete>
+        <block type="Magento_Centinel_Block_Authentication_Complete" name="root" output="1" template="authentication/complete.phtml"/>
+    </adminhtml_centinel_index_authenticationcomplete>
+</layout>

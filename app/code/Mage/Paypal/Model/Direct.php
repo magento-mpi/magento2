@@ -251,7 +251,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     /**
      * Set fallback API URL if not defined in configuration
      *
-     * @return Mage_Centinel_Model_Service
+     * @return Magento_Centinel_Model_Service
      */
     public function getCentinelValidator()
     {
