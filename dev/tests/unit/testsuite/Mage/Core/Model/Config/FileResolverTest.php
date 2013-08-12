@@ -24,9 +24,9 @@ class Mage_Core_Model_Config_FileResolverTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($appConfigDir));
 
         $moduleReader = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(),
-            array('getModuleConfigurationFiles'), '', false);
+            array('getConfigurationFiles'), '', false);
         $moduleReader->expects($this->any())
-            ->method('getModuleConfigurationFiles')
+            ->method('getConfigurationFiles')
             ->will($this->returnValueMap(
                 array(
                     array(

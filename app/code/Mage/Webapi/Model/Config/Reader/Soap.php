@@ -20,13 +20,18 @@ class Mage_Webapi_Model_Config_Reader_Soap extends Mage_Webapi_Model_Config_Read
      * @param Mage_Webapi_Model_Config_Reader_Soap_ClassReflector $classReflector
      * @param Mage_Core_Model_Config $appConfig
      * @param Mage_Core_Model_CacheInterface $cache
+     * @param Mage_Core_Model_ModuleListInterface $moduleList
      */
     public function __construct(
         Mage_Webapi_Model_Config_Reader_Soap_ClassReflector $classReflector,
         Mage_Core_Model_Config $appConfig,
-        Mage_Core_Model_CacheInterface $cache
+        Mage_Core_Model_CacheInterface $cache,
+        Mage_Core_Model_ModuleListInterface $moduleList
     ) {
-        parent::__construct($classReflector, $appConfig, $cache);
+        $this->_classReflector = $classReflector;
+        $this->_applicationConfig = $appConfig;
+        $this->_cache = $cache;
+        $this->_moduleList = $moduleList;
     }
 
     /**

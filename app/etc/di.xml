@@ -23,6 +23,7 @@
     <preference for="Magento_Config_FileResolverInterface" type="Mage_Core_Model_Config_FileResolver" />
     <preference for="Magento_Config_CacheInterface" type="Mage_Core_Model_Cache_Type_Config" />
     <preference for="Magento_Config_ValidationStateInterface" type="Mage_Core_Model_Config_ValidationState" />
+    <preference for="Mage_Core_Model_ModuleListInterface" type="Mage_Core_Model_ModuleList" />
     <type name="Mage_Core_Model_App_State">
         <param name="mode">
             <value type="argument">Mage::PARAM_MODE</value>
@@ -36,7 +37,7 @@
             <value type="argument">Mage::PARAM_CUSTOM_LOCAL_CONFIG</value>
         </param>
     </type>
-    <type name="Mage_Core_Model_Config_Loader_Modules">
+    <type name="Mage_Core_Model_Module_Declaration_Reader_Filesystem">
         <param name="allowedModules">
             <value type="argument">Mage::PARAM_ALLOWED_MODULES</value>
         </param>

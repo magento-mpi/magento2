@@ -47,13 +47,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('http://example.com/', $this->_createModel()->getDistroBaseUrl());
     }
 
-    public function testGetModuleConfig()
-    {
-        $model = $this->_createModel();
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getModuleConfig());
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getModuleConfig('Mage_Core'));
-    }
-
     public function testGetModuleDir()
     {
         $model = $this->_createModel();

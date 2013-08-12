@@ -10,18 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Tag>
-            <version>1.6.0.0</version>
-            <active>false</active>
-            <depends>
-                <Mage_Catalog />
-                <Mage_Customer />
-                <Mage_Rss />
-                <Mage_Reports />
-            </depends>
-        </Mage_Tag>
-    </modules>
     <global>
         <resources>
             <tag_setup>

@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_Wishlist>
-            <version>1.12.0.0</version>
-            <active>false</active>
-            <depends>
-                <Mage_Wishlist />
-            </depends>
-        </Enterprise_Wishlist>
-    </modules>
     <global>
         <resources>
             <enterprise_wishlist_setup>

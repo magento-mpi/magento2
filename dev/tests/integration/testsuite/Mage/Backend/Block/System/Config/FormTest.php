@@ -132,7 +132,7 @@ class Mage_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCa
         Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage_Core_Model_App_Area::PART_CONFIG);
 
         $configMock = $this->getMock('Mage_Core_Model_Config_Modules_Reader', array(), array(), '', false, false);
-        $configMock->expects($this->any())->method('getModuleConfigurationFiles')
+        $configMock->expects($this->any())->method('getConfigurationFiles')
             ->will($this->returnValue(array(__DIR__ . '/_files/test_section_config.xml')));
         $configMock->expects($this->any())->method('getModuleDir')
             ->will($this->returnValue(BP . '/app/code/Mage/Backend/etc'));

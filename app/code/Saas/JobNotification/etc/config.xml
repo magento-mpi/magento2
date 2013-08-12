@@ -8,15 +8,6 @@
  */
 -->
 <config>
-    <modules>
-        <Saas_JobNotification>
-            <version>2.0.0.0</version>
-            <active>false</active>
-            <depends>
-                <Mage_Core />
-            </depends>
-        </Saas_JobNotification>
-    </modules>
     <global>
         <resources>
             <saas_jobnotification_setup>
@@ -72,4 +63,4 @@
             </jobnotification>
         </routers>
     </admin>
-</config>
+</config>

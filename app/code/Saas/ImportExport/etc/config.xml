@@ -8,16 +8,6 @@
  */
 -->
 <config>
-    <modules>
-        <Saas_ImportExport>
-            <version>2.0.0.0</version>
-            <active>false</active>
-            <depends>
-                <Mage_ImportExport />
-                <Enterprise_PageCache />
-            </depends>
-        </Saas_ImportExport>
-    </modules>
     <global>
         <importexport module="Saas_ImportExport">
             <export_entities>

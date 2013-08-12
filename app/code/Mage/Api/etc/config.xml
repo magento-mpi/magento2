@@ -10,19 +10,10 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Api>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Core />
-            </depends>
-        </Mage_Api>
-    </modules>
     <global>
         <ignoredModules>
             <entities>
-                <api/>
+                <api />
             </entities>
         </ignoredModules>
         <cache>
@@ -43,7 +34,7 @@
         </resources>
         <request>
             <direct_front_name>
-                <api/>
+                <api />
             </direct_front_name>
         </request>
     </global>

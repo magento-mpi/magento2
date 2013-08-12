@@ -8,15 +8,6 @@
  */
 -->
 <config>
-    <modules>
-        <Saas_Search>
-            <version>0.0.0.1</version>
-            <active>false</active>
-        </Saas_Search>
-        <depends>
-            <Enterprise_Search />
-        </depends>
-    </modules>
     <global>
         <events>
             <pagecache_processor_metadata_before_save>

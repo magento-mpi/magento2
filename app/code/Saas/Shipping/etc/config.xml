@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Saas_Shipping>
-            <version>0.0.0.1</version>
-            <active>false</active>
-            <depends>
-                <Mage_Shipping/>
-            </depends>
-        </Saas_Shipping>
-    </modules>
     <default>
         <shipping>
             <option>

@@ -27,11 +27,11 @@ class Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Framework_TestCase
         $fileList = glob($modulesDir . '/*/*/etc/adminhtml/system.xml');
 
         $configMock = $this->getMock(
-            'Mage_Core_Model_Config_Modules_Reader', array('getModuleConfigurationFiles', 'getModuleDir'),
+            'Mage_Core_Model_Config_Modules_Reader', array('getConfigurationFiles', 'getModuleDir'),
             array(), '', false
         );
         $configMock->expects($this->any())
-            ->method('getModuleConfigurationFiles')
+            ->method('getConfigurationFiles')
             ->will($this->returnValue($fileList))
         ;
         $configMock->expects($this->any())

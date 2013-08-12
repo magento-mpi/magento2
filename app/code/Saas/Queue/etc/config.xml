@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Saas_Queue>
-            <version>2.0.0.0</version>
-            <active>false</active>
-            <depends>
-                <Enterprise_Queue />
-            </depends>
-        </Saas_Queue>
-    </modules>
     <global>
         <queue>
             <adapter>
@@ -57,17 +48,17 @@
                 </observers>
             </application_process_refresh_catalog>
             <!--<application_process_reinit_config>-->
-                <!--<observers>-->
-                    <!--<reinit_config_observer>-->
-                        <!--<asynchronous>true</asynchronous>-->
-                        <!--<priority>10</priority>-->
-                        <!--<class>Saas_Queue_Model_Observer_Config</class>-->
-                        <!--<method>processReinitConfig</method>-->
-                        <!--<params>-->
-                            <!--<task_name>regenerate_config</task_name>-->
-                        <!--</params>-->
-                    <!--</reinit_config_observer>-->
-                <!--</observers>-->
+            <!--<observers>-->
+            <!--<reinit_config_observer>-->
+            <!--<asynchronous>true</asynchronous>-->
+            <!--<priority>10</priority>-->
+            <!--<class>Saas_Queue_Model_Observer_Config</class>-->
+            <!--<method>processReinitConfig</method>-->
+            <!--<params>-->
+            <!--<task_name>regenerate_config</task_name>-->
+            <!--</params>-->
+            <!--</reinit_config_observer>-->
+            <!--</observers>-->
             <!--</application_process_reinit_config>-->
         </events>
     </global>

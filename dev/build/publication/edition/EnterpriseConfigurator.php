@@ -45,8 +45,8 @@ class EnterpriseConfigurator implements ConfiguratorInterface
 
         //enable enterprise edition modules
         $this->_filesystem->cp(
-            $enablerPath . 'enterprise' . DIRECTORY_SEPARATOR . 'modules.xml.dist',
-            $enablerPath . 'enterprise' . DIRECTORY_SEPARATOR . 'modules.xml'
+            $enablerPath . 'enterprise' . DIRECTORY_SEPARATOR . 'module.xml.dist',
+            $enablerPath . 'enterprise' . DIRECTORY_SEPARATOR . 'module.xml'
         );
 
         //set edition constant

@@ -10,12 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Saas_PrintedTemplate>
-            <version>0.1.0</version>
-            <active>false</active>
-        </Saas_PrintedTemplate>
-    </modules>
     <global>
         <resources>
             <saas_printedtemplate_setup>
@@ -451,7 +445,7 @@
                 <invoice translate="label">
                     <label>Invoice</label>
                     <template_type>
-                        <invoice/>
+                        <invoice />
                     </template_type>
                     <fields>
                         <created_at translate="label">
@@ -559,7 +553,7 @@
                 <creditmemo translate="label">
                     <label>Credit Memo</label>
                     <template_type>
-                        <creditmemo/>
+                        <creditmemo />
                     </template_type>
                     <fields>
                         <adjustment translate="label">
@@ -659,7 +653,7 @@
                 <shipment>
                     <label>Shipment</label>
                     <template_type>
-                        <shipment/>
+                        <shipment />
                     </template_type>
                     <fields>
                         <increment_id translate="label">
@@ -683,7 +677,7 @@
                     </fields>
                 </shipment>
                 <item_invoice>
-                    <template_type/>
+                    <template_type />
                     <fields>
                         <position translate="label">
                             <label>Position</label>
@@ -760,9 +754,8 @@
                         </row_total_incl_discount_and_tax>
                     </fields>
                 </item_invoice>
-
                 <item_creditmemo>
-                    <template_type/>
+                    <template_type />
                     <fields>
                         <position translate="label">
                             <label>Position</label>
@@ -820,7 +813,7 @@
                     </fields>
                 </item_creditmemo>
                 <item_shipment>
-                    <template_type/>
+                    <template_type />
                     <fields>
                         <position translate="label">
                             <label>Position</label>
@@ -846,7 +839,7 @@
                     </fields>
                 </item_shipment>
                 <tax>
-                    <template_type/>
+                    <template_type />
                     <fields>
                         <compound_id>
                             <type>compound_id</type>
@@ -1028,7 +1021,6 @@
                     <dynamic_header_footer_enabled>1</dynamic_header_footer_enabled>
                 </wkhtmltopdf>
             </saas_printedtemplate>
-
             <general>
                 <enable_printed_templates>0</enable_printed_templates>
             </general>

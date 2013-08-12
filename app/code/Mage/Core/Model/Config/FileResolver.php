@@ -47,10 +47,10 @@ class Mage_Core_Model_Config_FileResolver implements Magento_Config_FileResolver
                 $fileList = glob($filePattern, GLOB_BRACE);
                 break;
             case 'global':
-                $fileList = $this->_moduleReader->getModuleConfigurationFiles($filename);
+                $fileList = $this->_moduleReader->getConfigurationFiles($filename);
                 break;
             default:
-                $fileList = $this->_moduleReader->getModuleConfigurationFiles($scope . DIRECTORY_SEPARATOR . $filename);
+                $fileList = $this->_moduleReader->getConfigurationFiles($scope . DIRECTORY_SEPARATOR . $filename);
                 break;
         }
         return $fileList;

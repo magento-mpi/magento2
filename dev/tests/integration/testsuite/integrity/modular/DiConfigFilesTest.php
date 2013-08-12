@@ -38,12 +38,12 @@ class Integrity_Modular_DiConfigFilesTest extends PHPUnit_Framework_TestCase
         //init module global configs
         /** @var $modulesReader Mage_Core_Model_Config_Modules_Reader */
         $modulesReader = Mage::getObjectManager()->get('Mage_Core_Model_Config_Modules_Reader');
-        self::$_moduleGlobalFiles = $modulesReader->getModuleConfigurationFiles('di.xml');
+        self::$_moduleGlobalFiles = $modulesReader->getConfigurationFiles('di.xml');
 
         //init module area configs
         $areas = array('adminhtml', 'frontend');
         foreach ($areas as $area) {
-            $moduleAreaFiles = $modulesReader->getModuleConfigurationFiles($area . DS . 'di.xml');
+            $moduleAreaFiles = $modulesReader->getConfigurationFiles($area . DS . 'di.xml');
             self::$_moduleAreaFiles[$area] = $moduleAreaFiles;
         }
     }

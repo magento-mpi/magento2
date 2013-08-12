@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Eav>
-            <version>1.6.0.2</version>
-            <active>true</active>
-            <depends>
-                <Mage_Core/>
-            </depends>
-        </Mage_Eav>
-    </modules>
     <global>
         <resources>
             <eav_setup>
@@ -37,10 +28,8 @@
                 </eav>
             </types>
         </cache>
-        <eav_frontendclasses>
-        </eav_frontendclasses>
-        <eav_attributes>
-        </eav_attributes>
+        <eav_frontendclasses />
+        <eav_attributes />
     </global>
     <adminhtml>
         <translate>

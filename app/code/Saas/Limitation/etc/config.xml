@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Saas_Limitation>
-            <version>1.0.0.0</version>
-            <active>false</active>
-            <depends>
-                <Mage_Core />
-            </depends>
-        </Saas_Limitation>
-    </modules>
     <global>
         <events>
             <website_save_before>

@@ -10,21 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Enterprise_CustomerSegment>
-            <version>1.11.0.0.4</version>
-            <active>false</active>
-            <depends>
-                <Mage_Customer/>
-                <Enterprise_Customer/>
-                <Mage_Adminhtml/>
-                <Mage_Catalog/>
-                <Mage_CatalogRule/>
-                <Mage_Rule/>
-                <Mage_Log/>
-            </depends>
-        </Enterprise_CustomerSegment>
-    </modules>
     <global>
         <resources>
             <enterprise_customersegment_setup>

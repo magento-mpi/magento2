@@ -17,6 +17,21 @@
 class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
+     * @var Mage_Core_Model_ModuleListInterface
+     */
+    protected $_moduleList;
+
+    /**
+     * @param Mage_Core_Helper_Context $context
+     * @param Mage_Core_Model_ModuleListInterface $moduleList
+     */
+    public function __construct(Mage_Core_Helper_Context $context, Mage_Core_Model_ModuleListInterface $moduleList)
+    {
+        parent::__construct($context);
+        $this->_moduleList = $moduleList;
+    }
+
+    /**
      * Return the unitprice lable for the given product. If no unitprice is set return ''
      * Possible template "variables":
      *  {{unitprice}}            => the unitprice value
@@ -192,10 +207,6 @@ class Saas_UnitPrice_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isUnitPriceProInstalledAndActive()
     {
-        $modulesConfig = Mage::getSingleton('Mage_Core_Model_Config_Modules');
-        if ($node = $modulesConfig->getNode('modules/UnitPricePro')) {
-            return strval($node->active) == 'true';
-        }
-        return false;
+        return !!$this->_moduleList->getModule('UnitPricePro');
     }
 }

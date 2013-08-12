@@ -10,16 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Review>
-            <version>1.6.0.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Catalog />
-                <Mage_Core />
-            </depends>
-        </Mage_Review>
-    </modules>
     <global>
         <resources>
             <review_setup>

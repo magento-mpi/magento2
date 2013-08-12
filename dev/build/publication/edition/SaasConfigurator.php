@@ -45,8 +45,8 @@ class SaasConfigurator implements ConfiguratorInterface
 
         //enable saas edition modules
         $this->_filesystem->cp(
-            $enablerPath . 'saas' . DIRECTORY_SEPARATOR . 'modules.xml.dist',
-            $enablerPath . 'saas' . DIRECTORY_SEPARATOR . 'modules.xml'
+            $enablerPath . 'saas' . DIRECTORY_SEPARATOR . 'module.xml.dist',
+            $enablerPath . 'saas' . DIRECTORY_SEPARATOR . 'module.xml'
         );
 
         //set edition constant

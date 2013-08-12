@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -341,6 +341,7 @@ class Magento_ObjectManager_Config_Config implements Magento_ObjectManager_Confi
      * Extend configuration
      *
      * @param array $configuration
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function extend(array $configuration)
     {

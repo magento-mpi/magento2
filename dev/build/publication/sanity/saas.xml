@@ -64,11 +64,11 @@
         </item>
         <item>
             <word>Enterprise_ImportExport</word>
-            <path>app/etc/saas/modules.xml</path>
+            <path>app/etc/saas/module.xml</path>
         </item>
         <item>
             <word>Enterprise_ImportExport</word>
-            <path>app/etc/saas/modules.xml.dist</path>
+            <path>app/etc/saas/module.xml.dist</path>
         </item>
         <item>
             <path>dev/build</path>

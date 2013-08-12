@@ -8,16 +8,6 @@
  */
 -->
 <config>
-    <modules>
-        <Saas_Backend>
-            <version>2.0.0.0</version>
-            <active>false</active>
-            <depends>
-                <Mage_AdminNotification />
-                <Saas_Saas />
-            </depends>
-        </Saas_Backend>
-    </modules>
     <global>
         <events>
             <adminhtml_controller_action_predispatch_start>

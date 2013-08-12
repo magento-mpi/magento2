@@ -11,17 +11,10 @@
  */
 class Mage_Core_Model_ModuleManager
 {
-    /**#@+
+    /**
      * XPath in the configuration where module statuses are stored
      */
-    const XML_PATH_MODULE_STATUS        = 'modules/%s/active';
     const XML_PATH_MODULE_OUTPUT_STATUS = 'advanced/modules_disable_output/%s';
-    /**#@-*/
-
-    /**
-     * @var Mage_Core_Model_ConfigInterface
-     */
-    private $_config;
 
     /**
      * @var Mage_Core_Model_Store_ConfigInterface
@@ -29,22 +22,27 @@ class Mage_Core_Model_ModuleManager
     private $_storeConfig;
 
     /**
+     * @var Mage_Core_Model_ModuleListInterface
+     */
+    private $_moduleList;
+
+    /**
      * @var array
      */
     private $_outputConfigPaths;
 
     /**
-     * @param Mage_Core_Model_ConfigInterface $config
      * @param Mage_Core_Model_Store_ConfigInterface $storeConfig
-     * @param array $outputConfigPaths Format: array('<Module_Name>' => '<store_config_path>', ...)
+     * @param Mage_Core_Model_ModuleListInterface $moduleList
+     * @param array $outputConfigPaths
      */
     public function __construct(
-        Mage_Core_Model_ConfigInterface $config,
         Mage_Core_Model_Store_ConfigInterface $storeConfig,
+        Mage_Core_Model_ModuleListInterface $moduleList,
         array $outputConfigPaths = array()
     ) {
-        $this->_config = $config;
         $this->_storeConfig = $storeConfig;
+        $this->_moduleList = $moduleList;
         $this->_outputConfigPaths = $outputConfigPaths;
     }
 
@@ -56,8 +54,7 @@ class Mage_Core_Model_ModuleManager
      */
     public function isEnabled($moduleName)
     {
-        $moduleStatus = $this->_config->getNode(sprintf(self::XML_PATH_MODULE_STATUS, $moduleName));
-        return ($moduleStatus && in_array((string)$moduleStatus, array('true', '1')));
+        return !!$this->_moduleList->getModule($moduleName);
     }
 
     /**

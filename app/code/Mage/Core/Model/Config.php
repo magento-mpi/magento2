@@ -153,10 +153,16 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     protected $_configScope;
 
     /**
+     * @var Mage_Core_Model_ModuleListInterface
+     */
+    protected $_moduleList;
+
+    /**
      * @param Mage_Core_Model_ObjectManager $objectManager
      * @param Mage_Core_Model_Config_StorageInterface $storage
      * @param Mage_Core_Model_AppInterface $app
      * @param Mage_Core_Model_Config_Modules_Reader $moduleReader
+     * @param Mage_Core_Model_ModuleListInterface $moduleList
      * @param Mage_Core_Model_Config_InvalidatorInterface $invalidator
      * @param Magento_Config_ScopeInterface $configScope
      */
@@ -165,6 +171,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         Mage_Core_Model_Config_StorageInterface $storage,
         Mage_Core_Model_AppInterface $app,
         Mage_Core_Model_Config_Modules_Reader $moduleReader,
+        Mage_Core_Model_ModuleListInterface $moduleList,
         Mage_Core_Model_Config_InvalidatorInterface $invalidator,
         Magento_Config_ScopeInterface $configScope
     ) {
@@ -174,6 +181,7 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
         $this->_storage = $storage;
         $this->_config = $this->_storage->getConfiguration();
         $this->_moduleReader = $moduleReader;
+        $this->_moduleList = $moduleList;
         $this->_invalidator = $invalidator;
         $this->_configScope = $configScope;
         Magento_Profiler::stop('config_load');
@@ -350,22 +358,6 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     }
 
     /**
-     * Get module config node
-     *
-     * @param string $moduleName
-     * @return Magento_Simplexml_Element
-     */
-    public function getModuleConfig($moduleName = '')
-    {
-        $modules = $this->getNode('modules');
-        if ('' === $moduleName) {
-            return $modules;
-        } else {
-            return $modules->$moduleName;
-        }
-    }
-
-    /**
      * Get module directory by directory type
      *
      * @param   string $type
@@ -523,13 +515,10 @@ class Mage_Core_Model_Config implements Mage_Core_Model_ConfigInterface
     {
         if (null === $this->_moduleNamespaces) {
             $this->_moduleNamespaces = array();
-            /** @var $moduleConfig Magento_Simplexml_Element */
-            foreach ($this->getXpath('modules/*') as $moduleConfig) {
-                if ((string)$moduleConfig->active == 'true') {
-                    $moduleName = $moduleConfig->getName();
-                    $module = strtolower($moduleName);
-                    $this->_moduleNamespaces[substr($module, 0, strpos($module, '_'))][$module] = $moduleName;
-                }
+            foreach ($this->_moduleList->getModules() as $module) {
+                $moduleName = $module['name'];
+                $module = strtolower($moduleName);
+                $this->_moduleNamespaces[substr($module, 0, strpos($module, '_'))][$module] = $moduleName;
             }
         }
 

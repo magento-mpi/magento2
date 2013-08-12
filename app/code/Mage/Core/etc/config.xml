@@ -10,30 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Core>
-            <version>1.6.0.15</version>
-            <active>true</active>
-            <system_requirements>
-                <php>
-                    <extensions>
-                        <spl />
-                        <dom />
-                        <simplexml />
-                        <mcrypt />
-                        <hash />
-                        <curl />
-                        <iconv />
-                        <ctype />
-                        <any>
-                            <gd />
-                            <imagick min_version="3.0.0" />
-                        </any>
-                    </extensions>
-                </php>
-            </system_requirements>
-        </Mage_Core>
-    </modules>
     <global>
         <helpers>
             <core>

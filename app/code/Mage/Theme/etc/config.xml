@@ -10,12 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Theme>
-            <version>1.6.0.0</version>
-            <active>true</active>
-        </Mage_Theme>
-    </modules>
     <global>
         <theme>
             <css>

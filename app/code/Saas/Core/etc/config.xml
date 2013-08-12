@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Saas_Core>
-            <version>2.0.0.0</version>
-            <active>false</active>
-        </Saas_Core>
-        <depends>
-            <Mage_Core/>
-        </depends>
-    </modules>
     <default>
         <web>
             <session>

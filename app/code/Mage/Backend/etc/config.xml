@@ -10,15 +10,6 @@
  */
 -->
 <config>
-    <modules>
-        <Mage_Backend>
-            <version>2.0.0.0</version>
-            <active>true</active>
-            <depends>
-                <Mage_Directory />
-            </depends>
-        </Mage_Backend>
-    </modules>
     <global>
         <areas>
             <adminhtml>
