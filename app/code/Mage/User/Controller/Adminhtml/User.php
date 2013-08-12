@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_User_Controller_Adminhtml_User extends Mage_Backend_Controller_ActionAbstract
+class Mage_User_Controller_Adminhtml_User extends Magento_Backend_Controller_ActionAbstract
 {
 
     protected function _initAction()
@@ -91,11 +91,11 @@ class Mage_User_Controller_Adminhtml_User extends Mage_Backend_Controller_Action
             $model->setRoleId($uRoles[0]);
         }
 
-        $currentUser = $this->_objectManager->get('Mage_Backend_Model_Auth_Session')->getUser();
+        $currentUser = $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->getUser();
         if ($userId == $currentUser->getId()
             && $this->_objectManager->get('Magento_Core_Model_Locale_Validator')->isValid($data['interface_locale'])
         ) {
-            $this->_objectManager->get('Mage_Backend_Model_Locale_Manager')
+            $this->_objectManager->get('Magento_Backend_Model_Locale_Manager')
                 ->switchBackendInterfaceLocale($data['interface_locale']);
         }
 
@@ -130,7 +130,7 @@ class Mage_User_Controller_Adminhtml_User extends Mage_Backend_Controller_Action
 
     public function deleteAction()
     {
-        $currentUser = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
+        $currentUser = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
 
         if ($userId = $this->getRequest()->getParam('user_id')) {
             if ( $currentUser->getId() == $userId ) {

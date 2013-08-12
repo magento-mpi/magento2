@@ -122,10 +122,10 @@ class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
     /**
      * Get session
      *
-     * @return Mage_Backend_Model_Session
+     * @return Magento_Backend_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Session');
+        return Mage::getSingleton('Magento_Backend_Model_Session');
     }
 }

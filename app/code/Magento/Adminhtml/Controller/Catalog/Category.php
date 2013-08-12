@@ -48,7 +48,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
 
         $activeTabId = (string)$this->getRequest()->getParam('active_tab_id');
         if ($activeTabId) {
-            $this->_objectManager->get('Mage_Backend_Model_Auth_Session')->setActiveTabId($activeTabId);
+            $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->setActiveTabId($activeTabId);
         }
         $this->_objectManager->get('Magento_Core_Model_Registry')->register('category', $category);
         $this->_objectManager->get('Magento_Core_Model_Registry')->register('current_category', $category);
@@ -68,7 +68,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
      */
     public function addAction()
     {
-        $this->_objectManager->get('Mage_Backend_Model_Auth_Session')->unsActiveTabId();
+        $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->unsActiveTabId();
         $this->_forward('edit');
     }
 
@@ -82,7 +82,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
 
         $storeId = (int)$this->getRequest()->getParam('store');
         $parentId = (int)$this->getRequest()->getParam('parent');
-        $prevStoreId = $this->_objectManager->get('Mage_Backend_Model_Auth_Session')
+        $prevStoreId = $this->_objectManager->get('Magento_Backend_Model_Auth_Session')
             ->getLastViewedStore(true);
 
         if (!empty($prevStoreId) && !$this->getRequest()->getQuery('isAjax')) {
@@ -91,7 +91,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
         }
 
         $categoryId = (int)$this->getRequest()->getParam('id');
-        $_prevCategoryId = $this->_objectManager->get('Mage_Backend_Model_Auth_Session')
+        $_prevCategoryId = $this->_objectManager->get('Magento_Backend_Model_Auth_Session')
             ->getLastEditedCategory(true);
 
         if ($_prevCategoryId
@@ -135,7 +135,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
             $breadcrumbsPath = $category->getPath();
             if (empty($breadcrumbsPath)) {
                 // but if no category, and it is deleted - prepare breadcrumbs from path, saved in session
-                $breadcrumbsPath = $this->_objectManager->get('Mage_Backend_Model_Auth_Session')->getDeletedPath(true);
+                $breadcrumbsPath = $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->getDeletedPath(true);
                 if (!empty($breadcrumbsPath)) {
                     $breadcrumbsPath = explode('/', $breadcrumbsPath);
                     // no need to get parent breadcrumbs if deleting category level 1
@@ -148,9 +148,9 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
                 }
             }
 
-            $this->_objectManager->get('Mage_Backend_Model_Auth_Session')
+            $this->_objectManager->get('Magento_Backend_Model_Auth_Session')
                 ->setLastViewedStore($this->getRequest()->getParam('store'));
-            $this->_objectManager->get('Mage_Backend_Model_Auth_Session')
+            $this->_objectManager->get('Magento_Backend_Model_Auth_Session')
                 ->setLastEditedCategory($category->getId());
             $this->loadLayout();
 
@@ -219,9 +219,9 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
     public function categoriesJsonAction()
     {
         if ($this->getRequest()->getParam('expand_all')) {
-            $this->_objectManager->get('Mage_Backend_Model_Auth_Session')->setIsTreeWasExpanded(true);
+            $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->setIsTreeWasExpanded(true);
         } else {
-            $this->_objectManager->get('Mage_Backend_Model_Auth_Session')->setIsTreeWasExpanded(false);
+            $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->setIsTreeWasExpanded(false);
         }
         $categoryId = (int)$this->getRequest()->getPost('id');
         if ($categoryId) {
@@ -423,7 +423,7 @@ class Magento_Adminhtml_Controller_Catalog_Category extends Magento_Adminhtml_Co
                     'catalog_controller_category_delete', array('category' => $category)
                 );
 
-                $this->_objectManager->get('Mage_Backend_Model_Auth_Session')->setDeletedPath($category->getPath());
+                $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->setDeletedPath($category->getPath());
 
                 $category->delete();
                 $this->_getSession()->addSuccess($this->__('You deleted the category.'));

@@ -16,7 +16,7 @@
                 <label>Scheduled Backup Settings</label>
                 <field id="enabled" translate="label" module="Mage_Backup" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Scheduled Backup</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="type" translate="label" module="Mage_Backup" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Backup Type</label>
@@ -45,7 +45,7 @@
                     <depends>
                         <field id="enabled">1</field>
                     </depends>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
             </group>
         </section>

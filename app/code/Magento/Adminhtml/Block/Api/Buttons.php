@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Api_Buttons extends Magento_Adminhtml_Block_Templa
             'onclick'   => 'window.location.reload()'
         ));
 
-        $this->addChild('saveButton', 'Mage_Backend_Block_Widget_Button', array(
+        $this->addChild('saveButton', 'Magento_Backend_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_User_Helper_Data')->__('Save Role'),
             'class' => 'save',
             'data_attribute'  => array(

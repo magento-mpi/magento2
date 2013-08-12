@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Centinel_CreateOrderTest extends Mage_Backend_Utility_Controller
+class Magento_Centinel_CreateOrderTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoConfigFixture admin_store payment/ccsave/centinel 1

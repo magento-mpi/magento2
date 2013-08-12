@@ -67,10 +67,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
         }
 
         if (!$this->getProduct()->isReadonly()) {
-            $this->addChild('save-split-button', 'Mage_Backend_Block_Widget_Button_Split', array(
+            $this->addChild('save-split-button', 'Magento_Backend_Block_Widget_Button_Split', array(
                 'id' => 'save-split-button',
                 'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Save'),
-                'class_name' => 'Mage_Backend_Block_Widget_Button_Split',
+                'class_name' => 'Magento_Backend_Block_Widget_Button_Split',
                 'button_class' => 'widget-button-save',
                 'options' => $this->_getSaveSplitButtonOptions()
             ));

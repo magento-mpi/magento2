@@ -30,13 +30,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Tile extends Saas_Launc
     protected $_themeFactory;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Helper_Data $launcherHelper
      * @param Magento_Core_Model_ThemeFactory $themeFactory
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Saas_Launcher_Helper_Data $launcherHelper,
         Magento_Core_Model_ThemeFactory $themeFactory,
         array $data = array()

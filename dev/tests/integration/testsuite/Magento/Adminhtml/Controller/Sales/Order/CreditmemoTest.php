@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoConfigFixture current_store cataloginventory/item_options/auto_return 1

@@ -17,7 +17,7 @@
             <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs" name="webapi.role.edit.tabs">
                 <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main" name="webapi.role.edit.tab.main"/>
                 <block type="Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource" name="webapi.role.edit.tab.resource" template="Mage_Webapi::rolesedit.phtml"/>
-                <block type="Mage_Backend_Block_Widget_Grid_Container" name="webapi.role.edit.tab.users.grid.container"/>
+                <block type="Magento_Backend_Block_Widget_Grid_Container" name="webapi.role.edit.tab.users.grid.container"/>
             </block>
         </reference>
         <reference name="head">

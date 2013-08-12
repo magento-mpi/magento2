@@ -36,9 +36,9 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Magento_Core_Model_Layo
      * Constructor.
      *
      * @param Magento_Core_Controller_Request_Http $request
-     * @param Mage_Backend_Helper_Data $backendHelper
+     * @param Magento_Backend_Helper_Data $backendHelper
      */
-    public function __construct(Magento_Core_Controller_Request_Http $request, Mage_Backend_Helper_Data $backendHelper)
+    public function __construct(Magento_Core_Controller_Request_Http $request, Magento_Backend_Helper_Data $backendHelper)
     {
         $this->_roleId = (int)$request->getParam('role_id');
         $this->_inRoleUsersFilter = $this->_parseInRoleUsersFilter($request, $backendHelper);
@@ -48,12 +48,12 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdater implements Magento_Core_Model_Layo
      * Parse $_inRoleUsersFilter value from request
      *
      * @param Magento_Core_Controller_Request_Http $request
-     * @param Mage_Backend_Helper_Data $backendHelper
+     * @param Magento_Backend_Helper_Data $backendHelper
      * @return int
      */
     protected function _parseInRoleUsersFilter(
         Magento_Core_Controller_Request_Http $request,
-        Mage_Backend_Helper_Data $backendHelper
+        Magento_Backend_Helper_Data $backendHelper
     ) {
         $result = self::IN_ROLE_USERS_ANY;
         $filter = $backendHelper->prepareFilterString($request->getParam('filter', ''));

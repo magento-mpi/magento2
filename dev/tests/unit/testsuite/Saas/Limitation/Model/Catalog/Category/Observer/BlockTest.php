@@ -52,12 +52,12 @@ class Saas_Limitation_Model_Catalog_Category_Observer_BlockTest extends PHPUnit_
     /**
      * Retrieve newly created button instance with mocked dependencies
      *
-     * @return Mage_Backend_Block_Widget_Button
+     * @return Magento_Backend_Block_Widget_Button
      */
     protected function _createButton()
     {
-        return new Mage_Backend_Block_Widget_Button(
-            $this->getMock('Mage_Backend_Block_Template_Context', array(), array(), '', false)
+        return new Magento_Backend_Block_Widget_Button(
+            $this->getMock('Magento_Backend_Block_Template_Context', array(), array(), '', false)
         );
     }
 

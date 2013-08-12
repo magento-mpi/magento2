@@ -12,7 +12,7 @@
  * Enterprise Persistent System Config Option Customer Segmentation admin frontend model
  *
  */
-class Enterprise_Persistent_Block_Adminhtml_System_Config_Customer extends Mage_Backend_Block_System_Config_Form_Field
+class Enterprise_Persistent_Block_Adminhtml_System_Config_Customer extends Magento_Backend_Block_System_Config_Form_Field
 {
     public function render(Magento_Data_Form_Element_Abstract $element)
     {

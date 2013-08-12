@@ -31,8 +31,8 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_TabsTest extends PHPUnit_Framework_T
 
     protected function setUp()
     {
-        /** @var Mage_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject $urlBuilder */
-        $urlBuilder = $this->getMockBuilder('Mage_Backend_Model_Url')
+        /** @var Magento_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject $urlBuilder */
+        $urlBuilder = $this->getMockBuilder('Magento_Backend_Model_Url')
             ->disableOriginalConstructor()
             ->getMock();
 

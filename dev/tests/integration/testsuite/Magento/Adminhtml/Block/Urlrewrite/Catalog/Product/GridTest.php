@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_GridTest extends PHPUni
         $gridBlock->toHtml();
 
         foreach (array('entity_id', 'name', 'sku', 'status') as $key) {
-            $this->assertInstanceOf('Mage_Backend_Block_Widget_Grid_Column', $gridBlock->getColumn($key),
+            $this->assertInstanceOf('Magento_Backend_Block_Widget_Grid_Column', $gridBlock->getColumn($key),
                 'Column with key "' . $key . '" is invalid');
         }
 

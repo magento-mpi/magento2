@@ -44,7 +44,7 @@ class Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest ext
         );
         $map = array(
             array('Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form', array(), $blockMock),
-            array('Mage_Backend_Block_Widget_Form_Element_Dependence', array(), $blockMock)
+            array('Magento_Backend_Block_Widget_Form_Element_Dependence', array(), $blockMock)
 
         );
         $event = $this->getMock(

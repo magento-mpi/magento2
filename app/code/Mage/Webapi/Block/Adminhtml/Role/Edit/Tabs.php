@@ -10,7 +10,7 @@
  * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs setApiRole() setApiRole(Mage_Webapi_Model_Acl_Role $role)
  * @method Mage_Webapi_Model_Acl_Role getApiRole() getApiRole()
  */
-class Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Mage_Backend_Block_Widget_Tabs
+class Mage_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Magento_Backend_Block_Widget_Tabs
 {
     /**
      * Internal Constructor.

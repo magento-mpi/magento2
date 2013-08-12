@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_User_Block_Role extends Mage_Backend_Block_Widget_Grid_Container
+class Mage_User_Block_Role extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * @var string
@@ -52,7 +52,7 @@ class Mage_User_Block_Role extends Mage_Backend_Block_Widget_Grid_Container
                     ->setSaveParametersInSession(true)
             );
         }
-        return Mage_Backend_Block_Widget_Container::_prepareLayout();
+        return Magento_Backend_Block_Widget_Container::_prepareLayout();
     }
 
     /**

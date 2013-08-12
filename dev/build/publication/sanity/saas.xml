@@ -45,7 +45,7 @@
             <word>TargetRule</word>
             <word>GiftWrapping</word>
             <word>CustomerSegment</word>
-            <path>app/design/adminhtml/mage_backend/css/debug.css</path>
+            <path>app/design/adminhtml/magento_backend/css/debug.css</path>
         </item>
         <item>
             <!-- MUST be refactored -->
@@ -101,7 +101,7 @@
             <!-- Must be refactored to be modular -->
             <word>GiftWrapping</word>
             <word>CustomerSegment</word>
-            <path>app/design/adminhtml/mage_backend/css/pages.css</path>
+            <path>app/design/adminhtml/magento_backend/css/pages.css</path>
         </item>
 
         <item>

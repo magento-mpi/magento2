@@ -80,7 +80,7 @@ class Mage_Page_Block_Html_Header extends Magento_Core_Block_Template
      */
     protected function _getLogoUrl()
     {
-        $folderName = Mage_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
+        $folderName = Magento_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
         $storeLogoPath = $this->_storeConfig->getConfig('design/header/logo_src');
         $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => Magento_Core_Model_Store::URL_TYPE_MEDIA))
             . $folderName . '/' . $storeLogoPath;

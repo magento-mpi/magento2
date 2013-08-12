@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Blocks
  */
-class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default extends Mage_Backend_Block_Template
+class Saas_PrintedTemplate_Block_Widget_Item_Renderer_Default extends Magento_Backend_Block_Template
 {
     /**
      * Template for renderer class

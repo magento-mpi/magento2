@@ -173,7 +173,7 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
         $callback = function ($name) use ($helper, $backendSession, $stateModel, $configuration) {
             switch ($name) {
                 case 'Mage_DesignEditor_Helper_Data': return $helper;
-                case 'Mage_Backend_Model_Auth_Session': return $backendSession;
+                case 'Magento_Backend_Model_Auth_Session': return $backendSession;
                 case 'Mage_DesignEditor_Model_State': return $stateModel;
                 case 'Magento_Core_Model_Config': return $configuration;
                 default: return null;
@@ -227,7 +227,7 @@ class Mage_DesignEditor_Controller_Varien_Router_StandardTest extends PHPUnit_Fr
      */
     protected function _getBackendSessionMock($isVde, $isLoggedIn)
     {
-        $backendSession = $this->getMock('Mage_Backend_Model_Auth_Session', array('isLoggedIn'), array(), '', false);
+        $backendSession = $this->getMock('Magento_Backend_Model_Auth_Session', array('isLoggedIn'), array(), '', false);
         $backendSession->expects($isVde ? $this->once() : $this->never())
             ->method('isLoggedIn')
             ->will($this->returnValue($isLoggedIn));

@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_catalog_product_set_block>
         <reference name="adminhtml.catalog.product.set.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.catalog.product.set.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.catalog.product.set.grid" as="grid">
                 <arguments>
                     <id>setGrid</id>
                     <dataSource type="object">Magento_Eav_Model_Resource_Entity_Attribute_Grid_Collection</dataSource>
@@ -18,7 +18,7 @@
                     <default_dir>ASC</default_dir>
                     <save_parameters_in_session>1</save_parameters_in_session>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.catalog.product.set.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <id>setGrid</id>
                         <rowUrl>
@@ -28,7 +28,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="set_name">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="set_name">
                         <arguments>
                             <header translate="true" module="Magento_Catalog">Set</header>
                             <align>left</align>

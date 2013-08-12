@@ -14,7 +14,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Location
-    extends Mage_Backend_Block_System_Config_Form_Fieldset
+    extends Magento_Backend_Block_System_Config_Form_Fieldset
 {
     /**
      * Render fieldset html

@@ -84,7 +84,7 @@
         </reference>
         <reference name="content">
             <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Container" name="design_editor" template="Mage_DesignEditor::editor/container.phtml">
-                <block type="Mage_Backend_Block_Template" name="design_editor_toolbar" template="Mage_DesignEditor::editor/toolbar.phtml">
+                <block type="Magento_Backend_Block_Template" name="design_editor_toolbar" template="Mage_DesignEditor::editor/toolbar.phtml">
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons" name="design_editor_toolbar_buttons" template="Mage_DesignEditor::editor/toolbar/buttons.phtml">
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit" name="design_editor_toolbar_buttons_edit" template="Mage_DesignEditor::editor/toolbar/buttons/edit.phtml"/>
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save" name="design_editor_toolbar_buttons_save"/>
@@ -92,9 +92,9 @@
                 </block>
                 <block type="Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Mage_DesignEditor::theme/selector/storeview.phtml"/>
                 <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools" name="design_editor_tools" template="Mage_DesignEditor::editor/tools.phtml">
-                    <block type="Mage_Backend_Block_Template" name="design_editor_tools_tab_handle" as="tab_handle" template="Mage_DesignEditor::editor/tools/tabs/super-handle.phtml"/>
+                    <block type="Magento_Backend_Block_Template" name="design_editor_tools_tab_handle" as="tab_handle" template="Mage_DesignEditor::editor/tools/tabs/super-handle.phtml"/>
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles" name="design_editor_tools_quick-styles" template="Mage_DesignEditor::editor/tools/tabs.phtml">
-                        <block type="Mage_Backend_Block_Template" name="design_editor_tools_quick-styles_tab_handle" as="tab_handle" template="Mage_DesignEditor::editor/tools/tabs/handle.phtml"/>
+                        <block type="Magento_Backend_Block_Template" name="design_editor_tools_quick-styles_tab_handle" as="tab_handle" template="Mage_DesignEditor::editor/tools/tabs/handle.phtml"/>
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body" name="design_editor_tools_quick-styles_tab_body" as="tab_body" template="Mage_DesignEditor::editor/tools/tabs/body.phtml"/>
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Header" name="design_editor_tools_quick-styles_header" template="Mage_DesignEditor::editor/tools/quick-styles/form.phtml"/>
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Backgrounds" name="design_editor_tools_quick-styles_backgrounds" template="Mage_DesignEditor::editor/tools/quick-styles/form.phtml"/>
@@ -105,7 +105,7 @@
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Block" name="design_editor_tools_block" template="Mage_DesignEditor::editor/tools/block.phtml"/>
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Settings" name="design_editor_tools_settings" template="Mage_DesignEditor::editor/tools/settings.phtml"/>
                     <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code" name="design_editor_tools_code" template="Mage_DesignEditor::editor/tools/tabs.phtml">
-                        <block type="Mage_Backend_Block_Template" name="design_editor_tools_code_tab_handle" as="tab_handle" template="Mage_DesignEditor::editor/tools/tabs/handle.phtml"/>
+                        <block type="Magento_Backend_Block_Template" name="design_editor_tools_code_tab_handle" as="tab_handle" template="Mage_DesignEditor::editor/tools/tabs/handle.phtml"/>
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body" name="design_editor_tools_code_tab_body" as="tab_body" template="Mage_DesignEditor::editor/tools/tabs/body.phtml"/>
                         <!-- Tab with CSS list -->
                         <block type="Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css" name="design_editor_tools_code_css" template="Mage_DesignEditor::editor/tools/code/css.phtml">
@@ -119,7 +119,7 @@
                     </block>
                 </block>
             </block>
-            <block type="Mage_Backend_Block_Template" name="theme.dialog" template="Mage_DesignEditor::dialog.phtml"/>
+            <block type="Magento_Backend_Block_Template" name="theme.dialog" template="Mage_DesignEditor::dialog.phtml"/>
         </reference>
     </adminhtml_system_design_editor_launch>
 </layout>

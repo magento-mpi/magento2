@@ -207,7 +207,7 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $contactName = new Magento_Object();
         if (Mage::getStoreConfigFlag(Enterprise_Rma_Model_Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
-            $admin = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
+            $admin = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
             $contactName->setFirstName($admin->getFirstname());
             $contactName->setLastName($admin->getLastname());
             $contactName->setName($admin->getName());

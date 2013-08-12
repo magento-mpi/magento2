@@ -73,7 +73,7 @@ class Magento_Adminhtml_Block_System_Variable_Edit extends Magento_Adminhtml_Blo
         $formHtml = parent::getFormHtml();
         if (!Mage::app()->isSingleStoreMode() && $this->getVariable()->getId()) {
             $storeSwitcher = $this->getLayout()
-                ->createBlock('Mage_Backend_Block_Store_Switcher')->toHtml();
+                ->createBlock('Magento_Backend_Block_Store_Switcher')->toHtml();
             $formHtml = $storeSwitcher.$formHtml;
         }
         return $formHtml;

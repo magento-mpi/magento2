@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Enterprise_Cms_Controller_Adminhtml_Cms_Page_RevisionTest extends Mage_Backend_Utility_Controller
+class Enterprise_Cms_Controller_Adminhtml_Cms_Page_RevisionTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoDataFixture Magento/Cms/_files/pages.php

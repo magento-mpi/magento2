@@ -23,7 +23,7 @@ class Saas_ImportExport_Block_Adminhtml_Export_ResultTest extends PHPUnit_Framew
 
         $this->_stateHelperMock = $this->getMock('Saas_ImportExport_Helper_Export_State', array(), array(), '', false);
         $this->_block = $objectManager->getObject('Saas_ImportExport_Block_Adminhtml_Export_Result', array(
-            'context' => $this->getMock('Mage_Backend_Block_Template_Context', array(), array(), '', false),
+            'context' => $this->getMock('Magento_Backend_Block_Template_Context', array(), array(), '', false),
             'stateHelper' => $this->_stateHelperMock,
             'fileHelper' => $this->getMock('Saas_ImportExport_Helper_Export_File', array(), array(), '', false),
         ));

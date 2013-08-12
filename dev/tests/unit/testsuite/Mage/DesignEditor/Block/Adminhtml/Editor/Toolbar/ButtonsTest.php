@@ -19,7 +19,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
     protected $_block;
 
     /**
-     * @var Mage_Backend_Model_Url
+     * @var Magento_Backend_Model_Url
      */
     protected $_urlBuilder;
 
@@ -27,7 +27,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PHPUn
     {
         $helper = new Magento_Test_Helper_ObjectManager($this);
 
-        $this->_urlBuilder = $this->getMock('Mage_Backend_Model_Url', array('getUrl'), array(), '', false);
+        $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array('getUrl'), array(), '', false);
 
         $arguments = array(
             'urlBuilder' => $this->_urlBuilder

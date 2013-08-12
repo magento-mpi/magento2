@@ -27,11 +27,11 @@ class Magento_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Fra
         $registryMock = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false, false);
         $layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
         $helperMock = $this->getMock('Magento_Adminhtml_Helper_Data', array(), array(), '', false, false);
-        $menuConfigMock = $this->getMock('Mage_Backend_Model_Menu_Config', array(), array(), '', false, false);
-        $menuMock = $this->getMock('Mage_Backend_Model_Menu', array(), array(), '', false, false);
-        $menuItemMock = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false, false);
-        $urlBuilder = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false, false);
-        $this->_configStructureMock = $this->getMock('Mage_Backend_Model_Config_Structure',
+        $menuConfigMock = $this->getMock('Magento_Backend_Model_Menu_Config', array(), array(), '', false, false);
+        $menuMock = $this->getMock('Magento_Backend_Model_Menu', array(), array(), '', false, false);
+        $menuItemMock = $this->getMock('Magento_Backend_Model_Menu_Item', array(), array(), '', false, false);
+        $urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false, false);
+        $this->_configStructureMock = $this->getMock('Magento_Backend_Model_Config_Structure',
             array(), array(), '', false, false
         );
 
@@ -86,19 +86,19 @@ class Magento_Adminhtml_Block_System_Email_Template_EditTest extends PHPUnit_Fra
 
     public function testGetUsedCurrentlyForPaths()
     {
-        $sectionMock = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Section',
+        $sectionMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Section',
             array(), array(), '', false, false
         );
-        $groupMock1 = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Group',
+        $groupMock1 = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group',
             array(), array(), '', false, false
         );
-        $groupMock2 = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Group',
+        $groupMock2 = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group',
             array(), array(), '', false, false
         );
-        $groupMock3 = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Group',
+        $groupMock3 = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group',
             array(), array(), '', false, false
         );
-        $filedMock = $this->getMock('Mage_Backend_Model_Config_Structure_Element_Field',
+        $filedMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Field',
             array(), array(), '', false, false
         );
         $map = array(

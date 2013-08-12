@@ -48,7 +48,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
      protected $_defaultAttrSetId;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Magento_Catalog_Model_Product $productModel
      * @param Magento_Core_Model_Translate_Inline $translateInline
@@ -56,7 +56,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Product_Drawer extends Saas_La
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
         Magento_Catalog_Model_Product $productModel,
         Magento_Core_Model_Translate_Inline $translateInline,

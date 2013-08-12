@@ -130,7 +130,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
         $store = Mage::app()->getStore($store);
         $fileName = $store->getConfig(self::XML_PATH_DESIGN_EMAIL_LOGO);
         if ($fileName) {
-            $uploadDir = Mage_Backend_Model_Config_Backend_Email_Logo::UPLOAD_DIR;
+            $uploadDir = Magento_Backend_Model_Config_Backend_Email_Logo::UPLOAD_DIR;
             $fullFileName = Mage::getBaseDir('media') . DS . $uploadDir . DS . $fileName;
             if ($this->_filesystem->isFile($fullFileName)) {
                 return Mage::getBaseUrl('media') . $uploadDir . '/' . $fileName;

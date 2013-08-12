@@ -121,7 +121,7 @@ class Enterprise_CustomerSegment_Model_Observer
             'name'      => 'is_used_for_customer_segment',
             'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Use in Customer Segment'),
             'title'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Use in Customer Segment'),
-            'values'    => Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray(),
+            'values'    => Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray(),
         ));
     }
 
@@ -144,8 +144,8 @@ class Enterprise_CustomerSegment_Model_Observer
         /** @var Magento_Core_Block_Abstract $block */
         $block = $observer->getEvent()->getBlock();
 
-        /** @var Mage_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies */
-        $fieldDependencies = $block->getLayout()->createBlock('Mage_Backend_Block_Widget_Form_Element_Dependence');
+        /** @var Magento_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies */
+        $fieldDependencies = $block->getLayout()->createBlock('Magento_Backend_Block_Widget_Form_Element_Dependence');
         $block->setChild('form_after', $fieldDependencies);
 
         $this->_segmentHelper->addSegmentFieldsToForm($form, $model, $fieldDependencies);

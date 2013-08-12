@@ -9,7 +9,7 @@
  */
 
 class Magento_Log_Model_Resource_Visitor_Online_Grid_Row_UrlGenerator
-    extends Mage_Backend_Model_Widget_Grid_Row_UrlGenerator
+    extends Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
 {
     /**
      * @var Magento_AuthorizationInterface

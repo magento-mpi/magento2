@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Catalog_Product_Action_AttributeTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_Catalog_Product_Action_AttributeTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @covers Magento_Adminhtml_Controller_Catalog_Product_Action_Attribute::saveAction

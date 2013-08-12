@@ -131,7 +131,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
             'values'    => array('' => Mage::helper('Enterprise_Rma_Helper_Data')->__('None')),
         ));
 
-        $yesnoSource = Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(
             'legend'    => Mage::helper('Enterprise_Rma_Helper_Data')->__('Frontend Properties')

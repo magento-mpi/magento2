@@ -52,7 +52,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
         /* @var $version Enterprise_Cms_Model_Page_Version */
 
         if ($versionId) {
-            $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
+            $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
             $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
             $version->loadWithRestrictions($accessLevel, $userId, $versionId);
         }
@@ -183,7 +183,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
         }
         else {
             try {
-                $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
+                $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
                 $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
                 foreach ($ids as $id) {
@@ -267,7 +267,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Version extends Enterprise_Cm
 
             // only if user not specified we set current user as owner
             if (!$version->getUserId()) {
-                $version->setUserId(Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId());
+                $version->setUserId(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId());
             }
 
             if (isset($data['revision_id'])) {

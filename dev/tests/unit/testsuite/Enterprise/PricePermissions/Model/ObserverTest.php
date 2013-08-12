@@ -51,7 +51,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
      */
     public function testAdminhtmlBlockHtmlBeforeProductGridMassaction($blockName)
     {
-        $massaction = $this->getMock('Mage_Backend_Block_Widget_Grid_Massaction',
+        $massaction = $this->getMock('Magento_Backend_Block_Widget_Grid_Massaction',
             array('removeItem'), array(), '', false);
         $massaction->expects($this->once())->method('removeItem')->with($this->equalTo('status'));
 
@@ -158,7 +158,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     {
         $this->_setGetNameInLayoutExpects('admin.product.options');
 
-        $childBlock = $this->getMock('Mage_Backend_Block_Template',
+        $childBlock = $this->getMock('Magento_Backend_Block_Template',
             array('setCanEditPrice', 'setCanReadPrice'), array(), '', false);
         $childBlock->expects($this->once())->method('setCanEditPrice')->with($this->equalTo(false));
         $childBlock->expects($this->once())->method('setCanReadPrice')->with($this->equalTo(false));
@@ -190,7 +190,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
 
     public function testAdminhtmlBlockHtmlBeforeBundleOpt()
     {
-        $childBlock = $this->getMock('Mage_Backend_Block_Template',
+        $childBlock = $this->getMock('Magento_Backend_Block_Template',
             array('setCanEditPrice', 'setCanReadPrice'), array(), '', false);
         $this->_setGetNameInLayoutExpects('adminhtml.catalog.product.edit.tab.bundle.option');
         $childBlock->expects($this->once())->method('setCanReadPrice')
@@ -236,7 +236,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
 
     public function testAdminhtmlBlockHtmlBeforeCustomerCart()
     {
-        $parentBlock = $this->getMock('Mage_Backend_Block_Template',
+        $parentBlock = $this->getMock('Magento_Backend_Block_Template',
             array('getNameInLayout'), array(), '', false);
         $parentBlock->expects($this->once())->method('getNameInLayout')
             ->will($this->returnValue('admin.customer.carts'));

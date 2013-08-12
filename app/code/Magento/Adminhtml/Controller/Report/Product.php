@@ -57,7 +57,7 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     {
         $this->loadLayout();
         $fileName   = 'products_ordered.csv';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -70,7 +70,7 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     {
         $this->loadLayout();
         $fileName   = 'products_ordered.xml';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }

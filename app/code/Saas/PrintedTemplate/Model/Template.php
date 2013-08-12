@@ -556,7 +556,7 @@ class Saas_PrintedTemplate_Model_Template extends Magento_Core_Model_Template
             return array();
         }
 
-        $config = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+        $config = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
         $paths = $config->getFieldPathsByAttribute(
             'source_model',
             sprintf('Saas_PrintedTemplate_Model_Source_Template_%s', ucfirst($this->getEntityType()))

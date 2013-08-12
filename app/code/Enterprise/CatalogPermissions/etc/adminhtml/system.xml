@@ -16,7 +16,7 @@
                 <label>Category Permissions</label>
                 <field id="enabled" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                     <comment>
                         <![CDATA[<strong style="color:red">Warning!</strong> By default this feature restricts all categories.]]>
                     </comment>

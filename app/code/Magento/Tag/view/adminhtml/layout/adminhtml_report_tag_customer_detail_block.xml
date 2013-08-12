@@ -10,12 +10,12 @@
 <layout version="0.1.0">
     <adminhtml_report_tag_customer_detail_block>
         <reference name="report.tag.customer.detail.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.report.tag.customer.detail.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.report.tag.customer.detail.grid" as="grid">
                 <arguments>
                     <id>customers_grid</id>
                     <dataSource type="object">Magento_Tag_Model_Resource_Reports_Customer_Detail_Collection</dataSource>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_Export" name="adminhtml.report.tag.customer.detail.grid.export" as="grid.export">
+                <block type="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.report.tag.customer.detail.grid.export" as="grid.export">
                     <arguments>
                         <exportTypes>
                             <csv>
@@ -29,23 +29,23 @@
                         </exportTypes>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.tag.customer.detail.grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.tag.customer.detail.grid.columnSet">
                     <arguments>
                         <filter_visibility>0</filter_visibility>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
                             <header translate="true" module="Magento_Tag">Product</header>
                             <index>original_name</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="tag_name">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="tag_name">
                         <arguments>
                             <header translate="true" module="Magento_Tag">Tag</header>
                             <index>tag_name</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="visible">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="visible">
                         <arguments>
                             <header translate="true" module="Magento_Tag">Visibility</header>
                             <sortable>0</sortable>
@@ -54,7 +54,7 @@
                             <store_view>1</store_view>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="added_in">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="added_in">
                         <arguments>
                             <header translate="true" module="Magento_Tag">Submit Locale</header>
                             <index>store_id</index>
@@ -62,7 +62,7 @@
                             <store_view>1</store_view>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="created_at">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="created_at">
                         <arguments>
                             <header translate="true" module="Magento_Tag">Submit Date</header>
                             <index>created_at</index>

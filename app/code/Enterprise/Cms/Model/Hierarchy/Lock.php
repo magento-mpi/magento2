@@ -36,7 +36,7 @@ class Enterprise_Cms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstract
     /**
      * Session model instance
      *
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Magento_Backend_Model_Auth_Session
      */
     protected $_session;
 
@@ -75,7 +75,7 @@ class Enterprise_Cms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstract
     protected function _getSession()
     {
         if ($this->_session === null) {
-            return Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+            return Mage::getSingleton('Magento_Backend_Model_Auth_Session');
         }
         return $this->_session;
     }

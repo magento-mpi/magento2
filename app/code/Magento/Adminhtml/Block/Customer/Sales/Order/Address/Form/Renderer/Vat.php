@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
             $vatElementId = $this->_element->getHtmlId();
 
             $countryElementId = $form->getElement('country_id')->getHtmlId();
-            $validateUrl = Mage::getSingleton('Mage_Backend_Model_Url')
+            $validateUrl = Mage::getSingleton('Magento_Backend_Model_Url')
                 ->getUrl('*/customer_system_config_validatevat/validateAdvanced');
 
             $groupSuggestionMessage = Mage::helper('Magento_Customer_Helper_Data')->__('The customer is currently assigned to Customer Group %s.')

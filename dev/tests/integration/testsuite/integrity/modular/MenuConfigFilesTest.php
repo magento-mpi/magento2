@@ -18,13 +18,13 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
     protected $_fileList = array();
 
     /**
-     * @var Mage_Backend_Model_Menu_Config_Menu
+     * @var Magento_Backend_Model_Menu_Config_Menu
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Mage_Backend_Model_Menu_Config_Menu',
+        $this->_model = Mage::getModel('Magento_Backend_Model_Menu_Config_Menu',
             array(
                 'configFiles' => $this->_getConfigurationFileList(),
             )

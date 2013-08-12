@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Catalog_ProductTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
@@ -31,7 +31,7 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Mage_Backend_Util
         $product = Mage::registry('current_product');
         $this->assertEquals($associatedProductIds, $product->getAssociatedProductIds());
 
-        /** @see Mage_Backend_Utility_Controller::assertPostConditions() */
+        /** @see Magento_Backend_Utility_Controller::assertPostConditions() */
         $this->markTestIncomplete('Suppressing admin error messages validation until the bug MAGETWO-7044 is fixed.');
     }
 

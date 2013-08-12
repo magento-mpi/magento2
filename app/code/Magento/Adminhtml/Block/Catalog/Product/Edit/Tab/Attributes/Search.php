@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search extends Mage_Backend_Block_Widget
+class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search extends Magento_Backend_Block_Widget
 {
     /**
      * Define block template

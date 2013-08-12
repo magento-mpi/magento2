@@ -12,9 +12,9 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
- * @deprecated Moved to module Mage_Backend
+ * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Theme extends Mage_Backend_Block_Widget_Grid_Column_Filter_Theme
+class Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Theme extends Magento_Backend_Block_Widget_Grid_Column_Filter_Theme
 {
 
 }

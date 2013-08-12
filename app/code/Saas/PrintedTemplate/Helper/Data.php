@@ -24,27 +24,27 @@ class Saas_PrintedTemplate_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected function _getBackendHelper()
     {
-        return Mage::helper('Mage_Backend_Helper_Data');
+        return Mage::helper('Magento_Backend_Helper_Data');
     }
 
     /**
      * Returns menu config model
      *
-     * @return Mage_Backend_Model_Menu_Config
+     * @return Magento_Backend_Model_Menu_Config
      */
     protected function _getMenuConfig()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Menu_Config');
+        return Mage::getSingleton('Magento_Backend_Model_Menu_Config');
     }
 
     /**
      * Returns config structure model
      *
-     * @return Mage_Backend_Model_Config_Structure
+     * @return Magento_Backend_Model_Config_Structure
      */
     protected function _getConfigStructure()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+        return Mage::getSingleton('Magento_Backend_Model_Config_Structure');
     }
 
     /**
@@ -102,9 +102,9 @@ class Saas_PrintedTemplate_Helper_Data extends Magento_Core_Helper_Abstract
         $scopeLabel = $this->_getBackendHelper()->__('GLOBAL');
         if ($paths) {
             /**
-             * @todo check functionality of getting Mage_Backend_Model_Menu_Config object
+             * @todo check functionality of getting Magento_Backend_Model_Menu_Config object
              */
-            /** @var $menu Mage_Backend_Model_Menu */
+            /** @var $menu Magento_Backend_Model_Menu */
             $menu = $this->_getMenuConfig()->getMenu();
             $item = $menu->get('Magento_Adminhtml::system');
             // create prefix path parts
@@ -145,7 +145,7 @@ class Saas_PrintedTemplate_Helper_Data extends Magento_Core_Helper_Abstract
                     }
                 }
                 /**
-                 * @todo check functionality of getting Mage_Backend_Model_Config_Structure object
+                 * @todo check functionality of getting Magento_Backend_Model_Config_Structure object
                  */
                 $pathParts[] = array(
                     'title' => $this->_getConfigStructure()->getElement($sectionName)->getLabel(),

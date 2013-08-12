@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-class Magento_AdminNotification_Controller_Adminhtml_System_Message extends Mage_Backend_Controller_ActionAbstract
+class Magento_AdminNotification_Controller_Adminhtml_System_Message extends Magento_Backend_Controller_ActionAbstract
 {
     public function listAction()
     {

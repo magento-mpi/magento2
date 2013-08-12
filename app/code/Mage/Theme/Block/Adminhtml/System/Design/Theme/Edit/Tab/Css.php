@@ -35,13 +35,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     protected $_customCssFile;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_ObjectManager $objectManager
      * @param Mage_Theme_Model_Uploader_Service $uploaderService
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
         Mage_Theme_Model_Uploader_Service $uploaderService,
         array $data = array()
@@ -69,8 +69,8 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
 
         $formData['custom_css_content'] = $this->_customCssFile ? $this->_customCssFile->getContent() : null;
 
-        /** @var $session Mage_Backend_Model_Session */
-        $session = $this->_objectManager->get('Mage_Backend_Model_Session');
+        /** @var $session Magento_Backend_Model_Session */
+        $session = $this->_objectManager->get('Magento_Backend_Model_Session');
         $cssFileContent = $session->getThemeCustomCssData();
         if ($cssFileContent) {
             $formData['custom_css_content'] = $cssFileContent;
@@ -164,7 +164,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         }
         $themeFieldset->addField('css_download_button', 'button', $downloadButtonConfig);
 
-        /** @var $imageButton Mage_Backend_Block_Widget_Button */
+        /** @var $imageButton Magento_Backend_Block_Widget_Button */
         $imageButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
             'id'        => 'css_images_manager',
@@ -188,7 +188,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'text'  => $imageButton->toHtml()
         ));
 
-        /** @var $fontButton Mage_Backend_Block_Widget_Button */
+        /** @var $fontButton Magento_Backend_Block_Widget_Button */
         $fontButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
             ->setData(array(
             'id'        => 'css_fonts_manager',

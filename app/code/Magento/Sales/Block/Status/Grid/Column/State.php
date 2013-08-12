@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Block_Status_Grid_Column_State extends Mage_Backend_Block_Widget_Grid_Column
+class Magento_Sales_Block_Status_Grid_Column_State extends Magento_Backend_Block_Widget_Grid_Column
 {
     /**
      * @var Magento_Sales_Model_Order_Config
@@ -16,12 +16,12 @@ class Magento_Sales_Block_Status_Grid_Column_State extends Mage_Backend_Block_Wi
     protected $_config;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Sales_Model_Order_Config $config
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Sales_Model_Order_Config $config,
         array $data = array()
     ) {

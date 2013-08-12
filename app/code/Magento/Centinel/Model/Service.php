@@ -104,7 +104,7 @@ class Magento_Centinel_Model_Service extends Magento_Object
             'isIframe' => true
         );
         if (Mage::app()->getStore()->isAdmin()) {
-            return Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/centinel_index/' . $suffix, $params);
+            return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/centinel_index/' . $suffix, $params);
         } else {
             return Mage::getUrl('centinel/index/' . $suffix, $params);
         }

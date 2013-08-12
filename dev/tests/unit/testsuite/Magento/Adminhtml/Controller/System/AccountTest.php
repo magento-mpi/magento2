@@ -23,13 +23,13 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject|Magento_ObjectManager_ObjectManager */
     protected $_objectManagerMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Backend_Model_Session */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Backend_Model_Session */
     protected $_sessionMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Backend_Helper_Data */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Backend_Helper_Data */
     protected $_helperMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Backend_Model_Auth_Session */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Backend_Model_Auth_Session */
     protected $_authSessionMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject|Mage_User_Model_User */
@@ -38,7 +38,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Locale_Validator */
     protected $_validatorMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Backend_Model_Locale_Manager */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Backend_Model_Locale_Manager */
     protected $_managerMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Translate */
@@ -62,16 +62,16 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_helperMock = $this->getMockBuilder('Mage_Backend_Helper_Data')
+        $this->_helperMock = $this->getMockBuilder('Magento_Backend_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('getUrl'))
             ->getMock();
-        $this->_sessionMock = $this->getMockBuilder('Mage_Backend_Model_Session')
+        $this->_sessionMock = $this->getMockBuilder('Magento_Backend_Model_Session')
             ->disableOriginalConstructor()
             ->setMethods(array('addSuccess'))
             ->getMock();
 
-        $this->_authSessionMock = $this->getMockBuilder('Mage_Backend_Model_Auth_Session')
+        $this->_authSessionMock = $this->getMockBuilder('Magento_Backend_Model_Auth_Session')
             ->disableOriginalConstructor()
             ->setMethods(array('getUser'))
             ->getMock();
@@ -86,7 +86,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('isValid'))
             ->getMock();
 
-        $this->_managerMock = $this->getMockBuilder('Mage_Backend_Model_Locale_Manager')
+        $this->_managerMock = $this->getMockBuilder('Magento_Backend_Model_Locale_Manager')
             ->disableOriginalConstructor()
             ->setMethods(array('switchBackendInterfaceLocale'))
             ->getMock();
@@ -100,7 +100,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
             'getHelper', 'getSession', 'getAuthorization', 'getTranslator', 'getObjectManager', 'getFrontController',
             'getLayoutFactory', 'getEventManager', 'getRequest', 'getResponse'
         );
-        $contextMock = $this->getMockBuilder('Mage_Backend_Controller_Context')
+        $contextMock = $this->getMockBuilder('Magento_Backend_Controller_Context')
             ->disableOriginalConstructor()
             ->setMethods($contextArgs)
             ->getMock();
@@ -151,7 +151,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
 
         $this->_objectManagerMock->expects($this->at(0))
             ->method('get')
-            ->with($this->equalTo('Mage_Backend_Model_Auth_Session'))
+            ->with($this->equalTo('Magento_Backend_Model_Auth_Session'))
             ->will($this->returnValue($this->_authSessionMock));
         $this->_objectManagerMock->expects($this->at(1))
             ->method('create')
@@ -163,7 +163,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_validatorMock));
         $this->_objectManagerMock->expects($this->at(3))
             ->method('get')
-            ->with($this->equalTo('Mage_Backend_Model_Locale_Manager'))
+            ->with($this->equalTo('Magento_Backend_Model_Locale_Manager'))
             ->will($this->returnValue($this->_managerMock));
 
         $this->_userMock->setUserId($userId);

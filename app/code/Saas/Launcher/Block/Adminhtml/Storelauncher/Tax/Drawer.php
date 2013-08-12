@@ -27,13 +27,13 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer extends Saas_Launch
     protected $_taxRuleCollection;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Magento_Tax_Model_Resource_Calculation_Rule_Collection $taxRuleCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
         Magento_Tax_Model_Resource_Calculation_Rule_Collection $taxRuleCollection,
         array $data = array()

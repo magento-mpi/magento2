@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Blocks
  */
-class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Mage_Backend_Block_Widget_Form
+class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit_Form extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Prepare layout.

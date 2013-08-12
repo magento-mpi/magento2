@@ -28,7 +28,7 @@ class Mage_Webhook_Block_Adminhtml_Registration_ActivateTest extends PHPUnit_Fra
     {
         $this->_urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getUrl'), array(), '', false);
         /** @var Magento_Core_Block_Template_Context $context */
-        $context = $this->getMock('Mage_Backend_Block_Template_Context', array('getUrlBuilder'), array(), '', false);
+        $context = $this->getMock('Magento_Backend_Block_Template_Context', array('getUrlBuilder'), array(), '', false);
         $context->expects($this->once())
             ->method('getUrlBuilder')
             ->will($this->returnValue($this->_urlBuilder));

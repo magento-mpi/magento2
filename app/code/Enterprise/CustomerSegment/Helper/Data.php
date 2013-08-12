@@ -91,12 +91,12 @@ class Enterprise_CustomerSegment_Helper_Data extends Magento_Core_Helper_Abstrac
      *
      * @param Magento_Data_Form $form
      * @param Magento_Object $formData
-     * @param Mage_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies
+     * @param Magento_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies
      */
     public function addSegmentFieldsToForm(
         Magento_Data_Form $form,
         Magento_Object $formData,
-        Mage_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies
+        Magento_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies
     ) {
         if (!$this->isEnabled()) {
             return;

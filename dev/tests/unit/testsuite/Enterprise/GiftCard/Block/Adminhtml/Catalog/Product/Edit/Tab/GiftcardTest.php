@@ -22,12 +22,12 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_GiftcardTest 
         $methods = array('getHelperFactory', 'getRequest', 'getLayout', 'getEventManager', 'getUrlBuilder',
             'getTranslator', 'getCache', 'getDesignPackage', 'getSession', 'getStoreConfig', 'getFrontController',
             'getDirs', 'getLogger', 'getFilesystem');
-        $contextMock = $this->getMockBuilder('Mage_Backend_Block_Template_Context')
+        $contextMock = $this->getMockBuilder('Magento_Backend_Block_Template_Context')
             ->disableOriginalConstructor()
             ->setMethods($methods)
             ->getMock();
 
-        $helperMock = $this->getMockBuilder('Mage_Backend_Helper_Data')
+        $helperMock = $this->getMockBuilder('Magento_Backend_Helper_Data')
             ->setMethods(array('__'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -38,7 +38,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_GiftcardTest 
         $helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array('get'));
         $helperFactoryMock->expects($this->any())
             ->method('get')
-            ->with($this->equalTo('Mage_Backend_Helper_Data'))
+            ->with($this->equalTo('Magento_Backend_Helper_Data'))
             ->will($this->returnValue($helperMock));
 
         $contextMock->expects($this->any())

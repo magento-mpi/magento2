@@ -102,7 +102,7 @@
     left: 0;
     width: 33px;
     height: 33px;
-    background: url(Mage_Backend::images/gallery-image-base-label.png) no-repeat;
+    background: url(Magento_Backend::images/gallery-image-base-label.png) no-repeat;
     content: '';
     z-index: 2;
 }
@@ -203,7 +203,7 @@
     bottom: 5px;
     top: auto;
     margin: auto;
-    background: url(Mage_Backend::images/draggable-handle-bg.gif) no-repeat;
+    background: url(Magento_Backend::images/draggable-handle-bg.gif) no-repeat;
     z-index: 2;
 }
 
@@ -322,7 +322,7 @@
     margin-left: -14px;
     width: 28px;
     height: 15px;
-    background: url(Mage_Backend::images/gallery-image-panel-corner.png) no-repeat;
+    background: url(Magento_Backend::images/gallery-image-panel-corner.png) no-repeat;
 }
 
 .eq-ie8 .image-pointer {

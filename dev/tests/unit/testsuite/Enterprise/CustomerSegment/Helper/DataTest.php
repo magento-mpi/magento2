@@ -76,7 +76,7 @@ class Enterprise_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestC
         $form = new Magento_Data_Form(array('html_id_prefix' => 'pfx_'));
         $data = new Magento_Object($fixtureFormData);
         $dependencies = $this->getMock(
-            'Mage_Backend_Block_Widget_Form_Element_Dependence',
+            'Magento_Backend_Block_Widget_Form_Element_Dependence',
             array('addFieldMap', 'addFieldDependence'),
             array(), '', false
         );
@@ -151,7 +151,7 @@ class Enterprise_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestC
         $form = new Magento_Data_Form(array('html_id_prefix' => 'pfx_'));
         $data = new Magento_Object();
         $dependencies = $this->getMock(
-            'Mage_Backend_Block_Widget_Form_Element_Dependence',
+            'Magento_Backend_Block_Widget_Form_Element_Dependence',
             array('addFieldMap', 'addFieldDependence'),
             array(), '', false
         );

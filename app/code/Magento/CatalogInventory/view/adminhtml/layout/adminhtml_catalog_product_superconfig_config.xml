@@ -16,7 +16,7 @@
                 </dataSource>
             </arguments>
             <reference name="admin.product.edit.tab.super.config.grid.columnSet">
-                <block type="Mage_Backend_Block_Widget_Grid_Column" as="inventory_in_stock" after="admin.product.edit.tab.super.config.grid.sku">
+                <block type="Magento_Backend_Block_Widget_Grid_Column" as="inventory_in_stock" after="admin.product.edit.tab.super.config.grid.sku">
                     <arguments>
                         <header translate="true" module="Magento_Core">Stock Availability</header>
                         <type>text</type>
@@ -27,7 +27,7 @@
                         <renderer>Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Inventory</renderer>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_Column" as="qty" after="admin.product.edit.tab.super.config.grid.sku">
+                <block type="Magento_Backend_Block_Widget_Grid_Column" as="qty" after="admin.product.edit.tab.super.config.grid.sku">
                     <arguments>
                         <header translate="true" module="Magento_Core">Qty</header>
                         <type>text</type>

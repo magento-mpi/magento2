@@ -54,6 +54,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
      */
     public function getHomeLink()
     {
-        return $this->helper('Mage_Backend_Helper_Data')->getHomePageUrl();
+        return $this->helper('Magento_Backend_Helper_Data')->getHomePageUrl();
     }
 }

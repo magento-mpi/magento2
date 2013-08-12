@@ -14,7 +14,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Customer_Edit_Renderer_Region
-    extends Mage_Backend_Block_Abstract
+    extends Magento_Backend_Block_Abstract
     implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**

@@ -28,7 +28,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
 
         $block = $this->getMockForAbstractClass(
             'Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract',
-            array(Mage::getSingleton('Mage_Backend_Block_Template_Context'))
+            array(Mage::getSingleton('Magento_Backend_Block_Template_Context'))
         )
         ->setLayout(Mage::getObjectManager()->create('Magento_Core_Model_Layout'));
 

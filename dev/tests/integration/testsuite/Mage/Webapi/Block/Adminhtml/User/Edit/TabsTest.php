@@ -97,12 +97,12 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_T
     }
 
     /**
-     * Get protected _tabs property of Mage_Backend_Block_Widget_Tabs block.
+     * Get protected _tabs property of Magento_Backend_Block_Widget_Tabs block.
      *
-     * @param Mage_Backend_Block_Widget_Tabs $tabs
+     * @param Magento_Backend_Block_Widget_Tabs $tabs
      * @return array
      */
-    protected function _getProtectedTabsValue(Mage_Backend_Block_Widget_Tabs $tabs)
+    protected function _getProtectedTabsValue(Magento_Backend_Block_Widget_Tabs $tabs)
     {
         $result = null;
         try {

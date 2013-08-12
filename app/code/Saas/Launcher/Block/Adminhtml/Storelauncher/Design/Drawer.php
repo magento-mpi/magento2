@@ -35,7 +35,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Lau
     protected $_objectManager;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param Magento_Core_Model_ThemeFactory $themeFactory
      * @param Magento_ObjectManager $objectManager
@@ -43,7 +43,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Lau
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
         Magento_Core_Model_ThemeFactory $themeFactory,
         Magento_ObjectManager $objectManager,
@@ -125,7 +125,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer extends Saas_Lau
      */
     public function getLogoUrl()
     {
-        $folderName = Mage_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
+        $folderName = Magento_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
         $storeLogoPath = $this->getConfigValue(Saas_Launcher_Model_Storelauncher_Design_SaveHandler::XML_PATH_LOGO,
             $this->_getCurrentStoreId());
         $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => Magento_Core_Model_Store::URL_TYPE_MEDIA))

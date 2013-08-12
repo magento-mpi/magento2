@@ -24,7 +24,7 @@ class Enterprise_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_F
     public function testPrepareLayout($blockType, $blockName, $tabsType, $tabsName)
     {
         $layout = Mage::getModel('Magento_Core_Model_Layout');
-        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Magento_Backend_Helper_Data")->getAreaCode());
         $layout->addBlock($blockType, $blockName);
         $tabs = $layout->addBlock($tabsType, $tabsName);
         $tab = $layout->addBlock(

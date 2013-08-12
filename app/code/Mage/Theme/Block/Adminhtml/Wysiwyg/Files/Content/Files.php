@@ -14,7 +14,7 @@
  * @method Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files setStorage(Mage_Theme_Model_Wysiwyg_Storage $storage)
  * @method Mage_Theme_Model_Wysiwyg_Storage getStorage
  */
-class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files extends Mage_Backend_Block_Template
+class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files extends Magento_Backend_Block_Template
 {
     /**
      * Files list

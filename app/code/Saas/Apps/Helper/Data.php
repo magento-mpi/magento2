@@ -15,7 +15,7 @@
  * @package    Saas_Apps
  * @author     Magento Saas Team <core@magentocommerce.com>
  */
-class Saas_Apps_Helper_Data extends Mage_Backend_Helper_Data
+class Saas_Apps_Helper_Data extends Magento_Backend_Helper_Data
 {
     /**
      * XML path to apps urls

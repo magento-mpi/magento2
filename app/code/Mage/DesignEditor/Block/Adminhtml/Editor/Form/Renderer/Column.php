@@ -12,6 +12,6 @@
  * Column renderer
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column
-    extends Mage_Backend_Block_Widget_Form_Renderer_Fieldset
+    extends Magento_Backend_Block_Widget_Form_Renderer_Fieldset
 {
 }

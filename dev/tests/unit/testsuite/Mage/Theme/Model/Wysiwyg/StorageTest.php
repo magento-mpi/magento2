@@ -117,7 +117,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         /** Prepare session */
 
-        $session = $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false);
+        $session = $this->getMock('Magento_Backend_Model_Session', array(), array(), '', false);
 
         $this->_helperStorage->expects($this->any())
             ->method('getSession')
@@ -441,7 +441,7 @@ class Mage_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
         $thumbnailDir = $this->_storageRoot . Magento_Filesystem::DIRECTORY_SEPARATOR
             . Mage_Theme_Model_Wysiwyg_Storage::THUMBNAIL_DIRECTORY;
 
-        $session = $this->getMock('Mage_Backend_Model_Session', array('getStoragePath'), array(), '', false);
+        $session = $this->getMock('Magento_Backend_Model_Session', array('getStoragePath'), array(), '', false);
         $session->expects($this->atLeastOnce())
             ->method('getStoragePath')
             ->will($this->returnValue($storagePath));

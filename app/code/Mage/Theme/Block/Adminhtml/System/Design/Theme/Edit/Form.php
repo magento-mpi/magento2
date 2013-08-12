@@ -11,12 +11,12 @@
 /**
  * Theme Edit Form
  */
-class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form extends Mage_Backend_Block_Widget_Form
+class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Initialize theme form
      *
-     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form|Mage_Backend_Block_Widget_Form
+     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form|Magento_Backend_Block_Widget_Form
      */
     protected function _prepareForm()
     {

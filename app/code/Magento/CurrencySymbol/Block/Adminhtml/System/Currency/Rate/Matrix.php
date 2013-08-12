@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Matrix extends Mage_Backend_Block_Template
+class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Matrix extends Magento_Backend_Block_Template
 {
 
     protected $_template = 'system/currency/rate/matrix.phtml';

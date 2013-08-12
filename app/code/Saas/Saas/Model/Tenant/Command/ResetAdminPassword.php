@@ -15,17 +15,17 @@ class Saas_Saas_Model_Tenant_Command_ResetAdminPassword
     protected $_userModel = null;
 
     /**
-     * @var Mage_Backend_Helper_Data
+     * @var Magento_Backend_Helper_Data
      */
     protected $_backendHelper = null;
 
     /**
      * @param Mage_User_Model_User $userModel
-     * @param Mage_Backend_Helper_Data $helper
+     * @param Magento_Backend_Helper_Data $helper
      */
     public function __construct(
         Mage_User_Model_User $userModel,
-        Mage_Backend_Helper_Data $helper
+        Magento_Backend_Helper_Data $helper
     ) {
         $this->_userModel = $userModel;
         $this->_backendHelper = $helper;

@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
             'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Add Product'),
             'class' => 'btn-add',
             'button_class' => 'btn-round',
-            'class_name' => 'Mage_Backend_Block_Widget_Button_Split',
+            'class_name' => 'Magento_Backend_Block_Widget_Button_Split',
             'options' => $this->_getAddProductButtonOptions(),
         );
         $this->_addButton('add_new', $addButtonProps);

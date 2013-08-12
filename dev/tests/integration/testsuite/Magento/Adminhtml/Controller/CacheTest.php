@@ -9,7 +9,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_CacheTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_CacheTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/application_cache.php

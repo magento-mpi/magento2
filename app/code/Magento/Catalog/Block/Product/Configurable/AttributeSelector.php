@@ -15,7 +15,7 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_Configurable_AttributeSelector extends Mage_Backend_Block_Template
+class Magento_Catalog_Block_Product_Configurable_AttributeSelector extends Magento_Backend_Block_Template
 {
     /**
      * Retrieve list of attributes with admin store label containing $labelPart

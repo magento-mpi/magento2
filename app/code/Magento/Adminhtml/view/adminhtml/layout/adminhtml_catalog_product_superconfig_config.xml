@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_catalog_product_superconfig_config>
         <reference name="admin.product.edit.tab.super.config.grid.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="admin.product.edit.tab.super.config.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="admin.product.edit.tab.super.config.grid" as="grid">
                 <arguments>
                     <id>configurable_associated_products_grid</id>
                     <dataSource type="object">Magento_Catalog_Model_Resource_Product_Collection_AssociatedProduct</dataSource>
@@ -29,7 +29,7 @@
                     <arguments>
                         <id>super_product_links</id>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="entity_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="entity_id">
                         <arguments>
                             <header translate="true" module="Magento_Core">ID</header>
                             <width>60px</width>
@@ -41,7 +41,7 @@
                             <renderer>Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Renderer_Id</renderer>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="name">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="name">
                         <arguments>
                             <header translate="true" module="Magento_Core">Name</header>
                             <type>text</type>
@@ -52,7 +52,7 @@
                             <sortable>1</sortable>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="price">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="price">
                         <arguments>
                             <header translate="true" module="Magento_Core">Price</header>
                             <type>currency</type>
@@ -62,7 +62,7 @@
                             <sortable>1</sortable>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="sku" name="admin.product.edit.tab.super.config.grid.sku">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sku" name="admin.product.edit.tab.super.config.grid.sku">
                         <arguments>
                             <header translate="true" module="Magento_Core">SKU</header>
                             <type>text</type>
@@ -73,7 +73,7 @@
                             <sortable>1</sortable>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="weight">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="weight">
                         <arguments>
                             <header translate="true" module="Magento_Core">Weight</header>
                             <type>text</type>

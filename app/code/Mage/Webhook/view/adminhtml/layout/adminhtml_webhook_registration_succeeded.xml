@@ -27,7 +27,7 @@
                     <script>mage/adminhtml/tools.js</script>
                 </action>
             </block>
-            <block type="Mage_Backend_Block_Template"
+            <block type="Magento_Backend_Block_Template"
                    name="content" template="Mage_Webhook::registration/succeeded.phtml"/>
         </block>
     </adminhtml_webhook_registration_succeeded>

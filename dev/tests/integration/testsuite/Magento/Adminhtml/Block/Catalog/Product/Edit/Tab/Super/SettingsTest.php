@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extend
             ->getMock();
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
 
-        $urlModel = $this->getMockBuilder('Mage_Backend_Model_Url')
+        $urlModel = $this->getMockBuilder('Magento_Backend_Model_Url')
             ->disableOriginalConstructor()
             ->setMethods(array('getUrl'))
             ->getMock();
@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_SettingsTest extend
 
         Mage::register('current_product', $product);
 
-        $context = Mage::getModel('Mage_Backend_Block_Template_Context', array('urlBuilder' => $urlModel));
+        $context = Mage::getModel('Magento_Backend_Block_Template_Context', array('urlBuilder' => $urlModel));
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Mage::getModel('Magento_Core_Model_Layout');
         /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings */

@@ -81,7 +81,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
             'translator'                    => Mage::helper('Magento_Cms_Helper_Data'),
             'encode_directives'             => true,
             'directives_url'                =>
-                Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),
+                Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),
             'popup_css'                     =>
                 $viewUrl->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
             'content_css'                   =>
@@ -95,7 +95,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends Magento_Object
         if ($this->_authorization->isAllowed('Magento_Cms::media_gallery')) {
             $config->addData(array(
                 'add_images' => true,
-                'files_browser_window_url' => Mage::getSingleton('Mage_Backend_Model_Url')
+                'files_browser_window_url' => Mage::getSingleton('Magento_Backend_Model_Url')
                     ->getUrl('*/cms_wysiwyg_images/index'),
                 'files_browser_window_width' => (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_width'),
                 'files_browser_window_height'=> (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_height'),

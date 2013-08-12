@@ -9,7 +9,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Saas_Saas_Controller_Mage_Backend_Adminhtml_System_Config_SaveTest extends Mage_Backend_Utility_Controller
+class Saas_Saas_Controller_Magento_Backend_Adminhtml_System_Config_SaveTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @param array $restrictedOptions

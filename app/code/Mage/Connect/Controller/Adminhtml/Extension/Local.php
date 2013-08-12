@@ -24,7 +24,7 @@ class Mage_Connect_Controller_Adminhtml_Extension_Local extends Magento_Adminhtm
     public function indexAction()
     {
         $url = Mage::getBaseUrl('web')
-            . 'downloader/?return=' . urlencode(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
+            . 'downloader/?return=' . urlencode(Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl());
         $this->getResponse()->setRedirect($url);
     }
 }

@@ -31,7 +31,7 @@ class Mage_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_Tes
     protected $_objectManager;
 
     /**
-     * @var Mage_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlBuilder;
 
@@ -49,14 +49,14 @@ class Mage_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_Tes
     {
         parent::setUp();
         $this->_objectManager = Mage::getObjectManager();
-        $this->_urlBuilder = $this->getMockBuilder('Mage_Backend_Model_Url')
+        $this->_urlBuilder = $this->getMockBuilder('Magento_Backend_Model_Url')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
         $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
         $this->_block = $this->_blockFactory->createBlock($this->_formClass, array(
             'context' => Mage::getModel(
-                'Mage_Backend_Block_Template_Context',
+                'Magento_Backend_Block_Template_Context',
                 array('urlBuilder' => $this->_urlBuilder)
             )
         ));

@@ -64,7 +64,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
 
         $this->_addElementTypes($fieldset);
 
-        $yesno = Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesno = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         $labels = $attributeObject->getFrontendLabel();
         $fieldset->addField(

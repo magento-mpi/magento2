@@ -11,7 +11,7 @@
 /**
  *  Container for theme grid
  */
-class Mage_Theme_Block_Adminhtml_System_Design_Theme extends Mage_Backend_Block_Widget_Grid_Container
+class Mage_Theme_Block_Adminhtml_System_Design_Theme extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * Initialize grid container and prepare controls

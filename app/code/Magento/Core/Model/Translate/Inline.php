@@ -88,7 +88,7 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
     {
         $this->_parser->setIsJson($isJson);
         if (!$this->isAllowed()) {
-            if ($this->_parser->getDesignPackage()->getArea() == Mage_Backend_Helper_Data::BACKEND_AREA_CODE) {
+            if ($this->_parser->getDesignPackage()->getArea() == Magento_Backend_Helper_Data::BACKEND_AREA_CODE) {
                 $this->_stripInlineTranslations($body);
             }
             return $this;
@@ -129,8 +129,8 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
 
         $store = $this->_parser->getStoreManager()->getStore();
         if ($store->isAdmin()) {
-            $urlPrefix = Mage_Backend_Helper_Data::BACKEND_AREA_CODE;
-            $urlModel = Mage::getObjectManager()->get('Mage_Backend_Model_Url');
+            $urlPrefix = Magento_Backend_Helper_Data::BACKEND_AREA_CODE;
+            $urlModel = Mage::getObjectManager()->get('Magento_Backend_Model_Url');
         } else {
             $urlPrefix = 'core';
             $urlModel = Mage::getObjectManager()->get('Magento_Core_Model_Url');

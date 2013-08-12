@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 class Saas_JobNotification_Block_Adminhtml_Grid_Renderer_Actions
-    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Action
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Action
 {
     /**
      * @var Saas_JobNotification_Block_Adminhtml_Grid_Renderer_Actions_Filter
@@ -14,12 +14,12 @@ class Saas_JobNotification_Block_Adminhtml_Grid_Renderer_Actions
     protected $_filter;
 
     /**
-     * @param Mage_Backend_Block_Context $context
+     * @param Magento_Backend_Block_Context $context
      * @param Saas_JobNotification_Block_Adminhtml_Grid_Renderer_Actions_Filter $filter
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Context $context,
+        Magento_Backend_Block_Context $context,
         Saas_JobNotification_Block_Adminhtml_Grid_Renderer_Actions_Filter $filter,
         array $data = array()
     ) {

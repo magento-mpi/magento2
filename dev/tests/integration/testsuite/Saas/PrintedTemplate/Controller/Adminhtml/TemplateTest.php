@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Saas_PrintedTemplate_Controller_Adminhtml_TemplateTest extends Mage_Backend_Utility_Controller
+class Saas_PrintedTemplate_Controller_Adminhtml_TemplateTest extends Magento_Backend_Utility_Controller
 {
     public function testPrintedTemplateIsInstalled()
     {

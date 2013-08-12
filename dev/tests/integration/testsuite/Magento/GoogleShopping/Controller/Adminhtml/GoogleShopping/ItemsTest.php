@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_GoogleShopping_Controller_Adminhtml_GoogleShopping_ItemsTest extends Mage_Backend_Utility_Controller
+class Magento_GoogleShopping_Controller_Adminhtml_GoogleShopping_ItemsTest extends Magento_Backend_Utility_Controller
 {
     public function testIndexAction()
     {

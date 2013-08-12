@@ -14,7 +14,7 @@
  * @method string getHtml()
  * @method Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive setHtml($html)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive extends Mage_Backend_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive extends Magento_Backend_Block_Template
     implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**

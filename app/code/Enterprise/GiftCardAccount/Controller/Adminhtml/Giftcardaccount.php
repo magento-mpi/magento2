@@ -32,7 +32,7 @@ class Enterprise_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Ma
                 $function = 'addError';
             }
 
-            $url = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/*/generate');
+            $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/*/generate');
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->$function(
                 Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Code Pool used: <b>%.2f%%</b> (free <b>%d</b> of <b>%d</b> total). Generate new code pool <a href="%s">here</a>.', $usage->getPercent(), $usage->getFree(), $usage->getTotal(), $url)
             );
@@ -284,7 +284,7 @@ class Enterprise_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Ma
     {
         $this->loadLayout();
         $fileName = 'giftcardaccounts.xml';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -296,7 +296,7 @@ class Enterprise_GiftCardAccount_Controller_Adminhtml_Giftcardaccount extends Ma
     {
         $this->loadLayout();
         $fileName = 'giftcardaccounts.csv';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
     }

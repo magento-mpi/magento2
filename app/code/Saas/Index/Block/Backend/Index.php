@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Index_Block_Backend_Index extends Mage_Backend_Block_Widget_Container
+class Saas_Index_Block_Backend_Index extends Magento_Backend_Block_Widget_Container
 {
     /**
      * Milliseconds for check task status in queue
@@ -20,12 +20,12 @@ class Saas_Index_Block_Backend_Index extends Mage_Backend_Block_Widget_Container
     protected $_flag;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_Index_Model_FlagFactory $flagFactory
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Saas_Index_Model_FlagFactory $flagFactory,
         array $data = array()
     ) {

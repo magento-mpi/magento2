@@ -15,7 +15,7 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Block_Adminhtml_Export_Edit_Form extends Mage_Backend_Block_Widget_Form
+class Magento_ImportExport_Block_Adminhtml_Export_Edit_Form extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Prepare form before rendering HTML.

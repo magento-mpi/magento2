@@ -11,8 +11,8 @@
 Mage::setCurrentArea('adminhtml');
 /** @var $session Mage_DesignEditor_Model_Session */
 $session = Mage::getModel('Mage_DesignEditor_Model_Session');
-/** @var $auth Mage_Backend_Model_Auth */
-$auth = Mage::getModel('Mage_Backend_Model_Auth');
+/** @var $auth Magento_Backend_Model_Auth */
+$auth = Mage::getModel('Magento_Backend_Model_Auth');
 $auth->setAuthStorage($session);
 $auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
 $session->activateDesignEditor();

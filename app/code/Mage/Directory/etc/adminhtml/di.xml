@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <preference for="Magento_Core_Model_LocaleInterface" type="Mage_Backend_Model_Locale" />
+    <preference for="Magento_Core_Model_LocaleInterface" type="Magento_Backend_Model_Locale" />
 </config>

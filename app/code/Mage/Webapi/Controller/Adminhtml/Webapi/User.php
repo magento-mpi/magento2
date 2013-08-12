@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Controller_Adminhtml_Webapi_User extends Mage_Backend_Controller_ActionAbstract
+class Mage_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Controller_ActionAbstract
 {
     /**
      * Initialize breadcrumbs.

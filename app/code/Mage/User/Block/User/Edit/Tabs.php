@@ -15,7 +15,7 @@
  * @package    Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Block_User_Edit_Tabs extends Mage_Backend_Block_Widget_Tabs
+class Mage_User_Block_User_Edit_Tabs extends Magento_Backend_Block_Widget_Tabs
 {
 
     protected function _construct()

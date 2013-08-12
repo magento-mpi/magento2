@@ -99,7 +99,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_GridTest extends Magento_Test_Bl
         $this->_gridMock->expects($this->exactly(6))
             ->method('addColumn')
             ->will($this->returnCallback(array($this, 'logAddColumArguments')));
-        $columnsSetMock = $this->_makeMock('Mage_Backend_Block_Widget_Grid_ColumnSet');
+        $columnsSetMock = $this->_makeMock('Magento_Backend_Block_Widget_Grid_ColumnSet');
         $this->_setStub($this->_gridMock, 'getChildBlock', $columnsSetMock);
         $this->_gridMock->toHtml();
 

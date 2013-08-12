@@ -31,7 +31,7 @@
                         </orders>
                     </rssList>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="sales.order.grid.massaction" as="grid.massaction">
+                <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="sales.order.grid.massaction" as="grid.massaction">
                     <arguments>
                         <massaction_id_field>entity_id</massaction_id_field>
                         <form_field_name>order_ids</form_field_name>
@@ -73,7 +73,7 @@
                         </options>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_Export" name="sales.order.grid.export" as="grid.export">
+                <block type="Magento_Backend_Block_Widget_Grid_Export" name="sales.order.grid.export" as="grid.export">
                     <arguments>
                         <exportTypes>
                             <csv>
@@ -87,7 +87,7 @@
                         </exportTypes>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="sales.order.grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="sales.order.grid.columnSet">
                     <arguments>
                         <id>sales_order_grid</id>
                         <rowUrl>
@@ -98,7 +98,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="real_order_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="real_order_id">
                         <arguments>
                             <header translate="true" module="Magento_Sales">Order</header>
                             <type>text</type>
@@ -108,7 +108,7 @@
                             <column_css_class>col-order-number</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
                             <header translate="true" module="Magento_Sales">Purchase Point</header>
                             <type>store</type>
@@ -120,7 +120,7 @@
                             <column_css_class>col-from-store</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="created_at">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="created_at">
                         <arguments>
                             <header translate="true" module="Magento_Sales">Purchase Date</header>
                             <type>datetime</type>
@@ -130,7 +130,7 @@
                             <column_css_class>col-period</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="billing_name">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="billing_name">
                         <arguments>
                             <id>billing_name</id>
                             <header translate="true" module="Magento_Sales">Bill-to Name</header>
@@ -139,7 +139,7 @@
                             <column_css_class>col-bill-to-name</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="shipping_name">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="shipping_name">
                         <arguments>
                             <id>shipping_name</id>
                             <header translate="true" module="Magento_Sales">Ship-to Name</header>
@@ -148,7 +148,7 @@
                             <column_css_class>col-ship-to-name</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="base_grand_total">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="base_grand_total">
                         <arguments>
                             <id>base_grand_total</id>
                             <header translate="true" module="Magento_Sales">Grand Total (Base)</header>
@@ -159,7 +159,7 @@
                             <column_css_class>col-gtbase</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="grand_total">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="grand_total">
                         <arguments>
                             <id>grand_total</id>
                             <header translate="true" module="Magento_Sales">Grand Total (Purchased)</header>
@@ -171,7 +171,7 @@
                             <column_css_class>col-gtpurchased</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="status">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="status">
                         <arguments>
                             <id>status</id>
                             <header translate="true" module="Magento_Sales">Status</header>
@@ -183,7 +183,7 @@
                             <column_css_class>col-status</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="action" acl="Magento_Sales::actions_view">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="action" acl="Magento_Sales::actions_view">
                         <arguments>
                             <id>action</id>
                             <header translate="true" module="Magento_Sales">Action</header>

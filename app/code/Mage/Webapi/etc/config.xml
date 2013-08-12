@@ -17,7 +17,7 @@
             <depends>
                 <Magento_Core />
                 <Magento_Oauth />
-                <Mage_Backend />
+                <Magento_Backend />
             </depends>
         </Mage_Webapi>
     </modules>
@@ -104,7 +104,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Mage_Webapi before="Mage_Backend">Mage_Webapi_Adminhtml</Mage_Webapi>
+                        <Mage_Webapi before="Magento_Backend">Mage_Webapi_Adminhtml</Mage_Webapi>
                     </modules>
                 </args>
             </adminhtml>

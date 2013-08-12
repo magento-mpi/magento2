@@ -132,7 +132,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtml_Con
         }
         else {
             try {
-                $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
+                $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
                 $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
                 foreach ($ids as $id) {

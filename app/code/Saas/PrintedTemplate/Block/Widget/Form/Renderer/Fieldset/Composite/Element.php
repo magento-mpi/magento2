@@ -16,7 +16,7 @@
  * @subpackage  Blocks
  */
 class Saas_PrintedTemplate_Block_Widget_Form_Renderer_Fieldset_Composite_Element
-    extends Mage_Backend_Block_Template implements Magento_Data_Form_Element_Renderer_Interface
+    extends Magento_Backend_Block_Template implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
      * Element to render

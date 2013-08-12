@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_AttributeSet extends Mage_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Catalog_Product_Edit_AttributeSet extends Magento_Backend_Block_Widget_Form
 {
 
     /**

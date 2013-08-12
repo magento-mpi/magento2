@@ -14,7 +14,7 @@
  * @method string getMode()
  * @method Mage_DesignEditor_Block_Adminhtml_Editor_Tools setMode($mode)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Backend_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Magento_Backend_Block_Template
 {
     /**
      * Alias of tab handle block in layout
@@ -29,12 +29,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Backend_Block_
     /**
      * Initialize dependencies
      *
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {
@@ -106,7 +106,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools extends Mage_Backend_Block_
      */
     public function getTabHandles()
     {
-        /** @var $tabHandleBlock Mage_Backend_Block_Template */
+        /** @var $tabHandleBlock Magento_Backend_Block_Template */
         $tabHandleBlock = $this->getChildBlock(self::TAB_HANDLE_BLOCK_ALIAS);
         $handles = array();
         foreach ($this->getTabs() as $tab) {

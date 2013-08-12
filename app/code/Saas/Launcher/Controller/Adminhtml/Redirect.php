@@ -15,7 +15,7 @@
  * @package     Saas_Launcher
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Controller_Adminhtml_Redirect extends Mage_Backend_Controller_ActionAbstract
+class Saas_Launcher_Controller_Adminhtml_Redirect extends Magento_Backend_Controller_ActionAbstract
 {
     /**
      * Index action

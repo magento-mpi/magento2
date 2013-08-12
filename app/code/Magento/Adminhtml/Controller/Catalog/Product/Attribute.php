@@ -24,12 +24,12 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
     private $_attributeLabelCache;
 
     /**
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Magento_Cache_FrontendInterface $attributeLabelCache
      * @param string|null $areaCode
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Magento_Cache_FrontendInterface $attributeLabelCache,
         $areaCode = null
     ) {
@@ -205,7 +205,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Attribute extends Magento_Adm
     {
         $data = $this->getRequest()->getPost();
         if ($data) {
-            /** @var $session Mage_Backend_Model_Auth_Session */
+            /** @var $session Magento_Backend_Model_Auth_Session */
             $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
 
             $isNewAttributeSet = false;

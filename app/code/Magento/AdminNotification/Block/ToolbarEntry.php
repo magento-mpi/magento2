@@ -15,7 +15,7 @@
  * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Block_ToolbarEntry extends Mage_Backend_Block_Template
+class Magento_AdminNotification_Block_ToolbarEntry extends Magento_Backend_Block_Template
 {
     /**
      * Collection of latest unread notifications
@@ -25,12 +25,12 @@ class Magento_AdminNotification_Block_ToolbarEntry extends Mage_Backend_Block_Te
     protected $_notificationList;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_AdminNotification_Model_Resource_Inbox_Collection_Unread $notificationList
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_AdminNotification_Model_Resource_Inbox_Collection_Unread $notificationList,
         array $data = array()
     ) {

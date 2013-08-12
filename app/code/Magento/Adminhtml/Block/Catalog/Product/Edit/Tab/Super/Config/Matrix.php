@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
-    extends Mage_Backend_Block_Template
+    extends Magento_Backend_Block_Template
 {
     /** @var Magento_Core_Model_App */
     protected $_application;
@@ -25,13 +25,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     protected $_locale;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_App $application
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_App $application,
         Magento_Core_Model_LocaleInterface $locale,
         array $data = array()

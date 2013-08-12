@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_googleshopping_types_block>
         <reference name="googleshopping.types.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.googleshopping.types.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.googleshopping.types.grid" as="grid">
                 <arguments>
                     <id>types_grid</id>
                     <dataSource type="object">Magento_GoogleShopping_Model_Resource_Grid_Collection</dataSource>
@@ -23,7 +23,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="googleshopping.types.grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="googleshopping.types.grid.columnSet">
                     <arguments>
                         <id>types_grid</id>
                         <rowUrl>
@@ -36,13 +36,13 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="attribute_set_name">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="attribute_set_name">
                         <arguments>
                             <header translate="true" module="Magento_GoogleShopping">Attributes Set</header>
                             <index>attribute_set_name</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="target_country">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="target_country">
                         <arguments>
                             <header translate="true" module="Magento_GoogleShopping">Target Country</header>
                             <index>target_country</index>
@@ -51,7 +51,7 @@
                             <filter>0</filter>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="items_total">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="items_total">
                         <arguments>
                             <header translate="true" module="Magento_Catalog">Total Qty Content Items</header>
                             <index>items_total</index>

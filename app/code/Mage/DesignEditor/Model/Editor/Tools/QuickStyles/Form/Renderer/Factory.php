@@ -50,7 +50,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
             => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite',
 
         'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker'
-            => 'Mage_Backend_Block_Widget_Form_Renderer_Fieldset_Element',
+            => 'Magento_Backend_Block_Widget_Form_Renderer_Fieldset_Element',
 
         'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader'
             => 'Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_BackgroundUploader',

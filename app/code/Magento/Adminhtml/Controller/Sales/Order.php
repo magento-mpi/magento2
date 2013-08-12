@@ -700,7 +700,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
     {
         $this->loadLayout();
         $fileName = 'orders.csv';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -712,7 +712,7 @@ class Magento_Adminhtml_Controller_Sales_Order extends Magento_Adminhtml_Control
     {
         $this->loadLayout();
         $fileName = 'orders.xml';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
         $exportBlock = $this->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }

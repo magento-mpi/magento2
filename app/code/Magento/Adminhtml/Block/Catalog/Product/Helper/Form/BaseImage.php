@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
     /**
      * Model Url instance
      *
-     * @var Mage_Backend_Model_Url
+     * @var Magento_Backend_Model_Url
      */
     protected $_url;
 
@@ -56,7 +56,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends Mage
         $this->_viewUrl = Mage::getModel('Magento_Core_Model_View_Url');
 
         $this->_url = isset($attributes['url']) ? $attributes['url']
-            : Mage::getModel('Mage_Backend_Model_Url');
+            : Mage::getModel('Magento_Backend_Model_Url');
         $this->_coreHelper = isset($attributes['coreHelper']) ? $attributes['coreHelper']
             : Mage::helper('Magento_Core_Helper_Data');
         $this->_catalogHelperData = isset($attributes['catalogHelperData']) ? $attributes['catalogHelperData']

@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main_Renderer_Checkbox
-    extends Mage_Backend_Block_Abstract
+    extends Magento_Backend_Block_Abstract
     implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**

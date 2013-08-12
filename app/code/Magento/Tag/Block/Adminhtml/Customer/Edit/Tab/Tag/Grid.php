@@ -19,7 +19,7 @@
  * @method Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid setCustomerId() setCustomerId(int $customerId)
  * @method Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid setUseAjax() setUseAjax(boolean $useAjax)
  */
-class Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid extends Mage_Backend_Block_Widget_Grid_Extended
+class Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
      * Initialize grid parameters

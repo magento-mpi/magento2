@@ -504,7 +504,7 @@ class Mage_Page_Block_Html_Head extends Magento_Core_Block_Template
      */
     protected function _getFaviconFile()
     {
-        $folderName = Mage_Backend_Model_Config_Backend_Image_Favicon::UPLOAD_DIR;
+        $folderName = Magento_Backend_Model_Config_Backend_Image_Favicon::UPLOAD_DIR;
         $storeConfig = Mage::getStoreConfig('design/head/shortcut_icon');
         $faviconFile = Mage::getBaseUrl('media') . $folderName . '/' . $storeConfig;
         $absolutePath = Mage::getBaseDir('media') . '/' . $folderName . '/' . $storeConfig;

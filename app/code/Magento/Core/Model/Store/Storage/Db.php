@@ -374,7 +374,7 @@ class Magento_Core_Model_Store_Storage_Db implements Magento_Core_Model_Store_St
             }
 
             if (0 == $store->getId()) {
-                $store->setUrlModel(Mage::getSingleton('Mage_Backend_Model_Url_Proxy'));
+                $store->setUrlModel(Mage::getSingleton('Magento_Backend_Model_Url_Proxy'));
             }
         }
 

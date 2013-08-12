@@ -14,13 +14,13 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
 {
     /**
      * @param Magento_Core_Model_Config $config
-     * @param Mage_Backend_Model_Config $backendConfigModel
+     * @param Magento_Backend_Model_Config $backendConfigModel
      * @param string $locale
      * @return Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandler
      */
     protected function _getFlatRateSaveHandlerInstance(
         Magento_Core_Model_Config $config,
-        Mage_Backend_Model_Config $backendConfigModel,
+        Magento_Backend_Model_Config $backendConfigModel,
         $locale
     ) {
         $localeMock = $this->getMockBuilder('Magento_Core_Model_Locale')
@@ -44,12 +44,12 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
 
     /**
      * @param Magento_Core_Model_Config $config
-     * @param Mage_Backend_Model_Config $backendConfigModel
+     * @param Magento_Backend_Model_Config $backendConfigModel
      * @return Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     public function getSaveHandlerInstance(
         Magento_Core_Model_Config $config,
-        Mage_Backend_Model_Config $backendConfigModel
+        Magento_Backend_Model_Config $backendConfigModel
     ) {
         return $this->_getFlatRateSaveHandlerInstance($config, $backendConfigModel, 'en_US');
     }
@@ -146,7 +146,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
      */
     public function testPrepareDataForDifferentLocales(array $data, array $expectedResult, $configSection, $locale)
     {
-        $backendConfigModel = $this->getMockBuilder('Mage_Backend_Model_Config')
+        $backendConfigModel = $this->getMockBuilder('Magento_Backend_Model_Config')
             ->disableOriginalConstructor()
             ->getMock();
 

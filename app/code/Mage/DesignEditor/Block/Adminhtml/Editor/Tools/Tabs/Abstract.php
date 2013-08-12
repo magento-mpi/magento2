@@ -81,7 +81,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Abstract exte
      */
     public function getTabHandles()
     {
-        /** @var $tabHandleBlock Mage_Backend_Block_Template */
+        /** @var $tabHandleBlock Magento_Backend_Block_Template */
         $tabHandleBlock = $this->getChildBlock(self::TAB_HANDLE_BLOCK_ALIAS);
         $handles = array();
         foreach ($this->getTabs() as $tab) {

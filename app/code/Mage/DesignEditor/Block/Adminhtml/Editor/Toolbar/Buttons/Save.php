@@ -16,7 +16,7 @@
  * @method Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save setMode(bool $flag)
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
-    extends Mage_Backend_Block_Widget_Button_Split
+    extends Magento_Backend_Block_Widget_Button_Split
 {
     /**
      * Current theme used for preview
@@ -283,6 +283,6 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save
      */
     protected function _encode($data)
     {
-        return $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode($data));
+        return $this->helper('Magento_Backend_Helper_Data')->escapeHtml(json_encode($data));
     }
 }

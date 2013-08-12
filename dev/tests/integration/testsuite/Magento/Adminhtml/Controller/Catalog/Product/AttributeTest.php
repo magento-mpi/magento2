@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoDataFixture Magento/Catalog/controllers/_files/attribute_system.php
@@ -101,7 +101,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_AttributeTest extends Mage_Ba
         Mage::getDesign()->setDesignTheme(1);
         /** @var Magento_Core_Model_Translate $translate */
         $translate = Mage::getModel('Magento_Core_Model_Translate');
-        $translate->init(Mage_Backend_Helper_Data::BACKEND_AREA_CODE, null);
+        $translate->init(Magento_Backend_Helper_Data::BACKEND_AREA_CODE, null);
         return $translate->translate(array($string));
     }
 

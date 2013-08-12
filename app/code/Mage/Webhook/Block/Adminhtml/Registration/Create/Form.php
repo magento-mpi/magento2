@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webhook_Block_Adminhtml_Registration_Create_Form extends Mage_Backend_Block_Widget_Form
+class Mage_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_Backend_Block_Widget_Form
 {
     /** Constants for API user details */
     const API_KEY_LENGTH = 32;
@@ -34,14 +34,14 @@ class Mage_Webhook_Block_Adminhtml_Registration_Create_Form extends Mage_Backend
     /**
      * @param Magento_Core_Helper_Data $coreHelper
      * @param Magento_Core_Model_Registry $registry
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Data_Form_Factory $formFactory
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreHelper,
         Magento_Core_Model_Registry $registry,
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Data_Form_Factory $formFactory,
         array $data = array()
     ) {
@@ -55,7 +55,7 @@ class Mage_Webhook_Block_Adminhtml_Registration_Create_Form extends Mage_Backend
     /**
      * Prepares registration form
      *
-     * @return Mage_Backend_Block_Widget_Form
+     * @return Magento_Backend_Block_Widget_Form
      */
     protected function _prepareForm()
     {

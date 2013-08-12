@@ -32,14 +32,14 @@ class Magento_Index_Block_Adminhtml_Process_Grid extends Magento_Adminhtml_Block
     protected $_eventRepository;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param Magento_Index_Model_EventRepository $eventRepository
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         Magento_Index_Model_EventRepository $eventRepository,

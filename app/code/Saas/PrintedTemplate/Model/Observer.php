@@ -278,8 +278,8 @@ class Saas_PrintedTemplate_Model_Observer
 
         $block = $observer->getEvent()->getBlock();
         if (!$this->_authorization->isAllowed('Saas_PrintedTemplate::print')) {
-            if ($block instanceof Mage_Backend_Block_Widget_Grid
-                && $block->getMassactionBlock() instanceof Mage_Backend_Block_Widget) {
+            if ($block instanceof Magento_Backend_Block_Widget_Grid
+                && $block->getMassactionBlock() instanceof Magento_Backend_Block_Widget) {
                 $gridBlocks = array('pdfdocs_order','pdfshipments_order','pdfcreditmemos_order','pdfinvoices_order');
                 foreach ($gridBlocks as $_item) {
                     $item = $block->getMassactionBlock()->getItem($_item);
@@ -289,7 +289,7 @@ class Saas_PrintedTemplate_Model_Observer
                 }
             }
 
-            if ($block instanceof Mage_Backend_Block_Widget_Form_Container) {
+            if ($block instanceof Magento_Backend_Block_Widget_Form_Container) {
                 $blocks = array('sales_creditmemo_view', 'sales_invoice_view', 'sales_shipment_view');
                 if (in_array($block->getNameInLayout(), $blocks)) {
                     $block->removeButton('print');
@@ -318,19 +318,19 @@ class Saas_PrintedTemplate_Model_Observer
     /**
      * Replace massaction item URL in the grid block
      *
-     * @param Magento_Adminhtml_Block_Widget_Grid|Mage_Backend_Block_Widget_Grid $block grid block
+     * @param Magento_Adminhtml_Block_Widget_Grid|Magento_Backend_Block_Widget_Grid $block grid block
      * @param string $itemName the name of mass action item
      * @param string $type entity type
      * @return Saas_PrintedTemplate_Model_Observer
      */
-    protected function _setMassactionPrintEntitiesUrl(Mage_Backend_Block_Widget_Grid $block, $itemName, $type)
+    protected function _setMassactionPrintEntitiesUrl(Magento_Backend_Block_Widget_Grid $block, $itemName, $type)
     {
         $item = $block->getMassactionBlock()->getItem($itemName);
         if ($item) {
             if ($type == 'all') {
-                $item->setUrl(Mage::helper('Mage_Backend_Helper_Data')->getUrl('adminhtml/print/allEntities'));
+                $item->setUrl(Mage::helper('Magento_Backend_Helper_Data')->getUrl('adminhtml/print/allEntities'));
             } else {
-                $item->setUrl(Mage::helper('Mage_Backend_Helper_Data')
+                $item->setUrl(Mage::helper('Magento_Backend_Helper_Data')
                     ->getUrl('adminhtml/print/entities', array('type' => $type)));
             }
         }

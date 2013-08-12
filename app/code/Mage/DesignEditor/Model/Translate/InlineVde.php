@@ -171,8 +171,8 @@ class Mage_DesignEditor_Model_Translate_InlineVde implements Magento_Core_Model_
      */
     protected function _getFrameUrl()
     {
-        /** @var Mage_Backend_Model_Session $backendSession */
-        $backendSession = $this->_objectManager->get('Mage_Backend_Model_Session');
+        /** @var Magento_Backend_Model_Session $backendSession */
+        $backendSession = $this->_objectManager->get('Magento_Backend_Model_Session');
 
         /** @var $vdeUrlModel Mage_DesignEditor_Model_Url_NavigationMode */
         $vdeUrlModel = $this->_objectManager->create('Mage_DesignEditor_Model_Url_NavigationMode');

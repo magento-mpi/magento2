@@ -73,7 +73,7 @@ class Magento_Adminhtml_Block_Sitemap_Edit_Form extends Magento_Adminhtml_Block_
                 'value'    => $model->getStoreId(),
                 'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
         }
         else {

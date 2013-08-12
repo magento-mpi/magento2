@@ -35,17 +35,17 @@ abstract class Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
     protected $_config;
 
     /**
-     * @var Mage_Backend_Model_Config
+     * @var Magento_Backend_Model_Config
      */
     protected $_backendConfigModel;
 
     /**
      * @param Magento_Core_Model_Config $config
-     * @param Mage_Backend_Model_Config $backendConfigModel
+     * @param Magento_Backend_Model_Config $backendConfigModel
      */
     public function __construct(
         Magento_Core_Model_Config $config,
-        Mage_Backend_Model_Config $backendConfigModel
+        Magento_Backend_Model_Config $backendConfigModel
     ) {
         $this->_config = $config;
         $this->_backendConfigModel = $backendConfigModel;

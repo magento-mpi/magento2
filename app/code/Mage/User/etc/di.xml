@@ -23,5 +23,5 @@
             <instance type="Magento_Core_Model_Acl_Cache_Proxy" />
         </param>
     </type>
-    <preference for="Mage_Backend_Model_Auth_Credential_StorageInterface" type="Mage_User_Model_User" />
+    <preference for="Magento_Backend_Model_Auth_Credential_StorageInterface" type="Mage_User_Model_User" />
 </config>

@@ -32,7 +32,7 @@ class Saas_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml_Co
     /**
      * Constructor
      *
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Saas_ImportExport_Helper_Export_State $stateHelper
      * @param Saas_ImportExport_Helper_Export_File $fileHelper
      * @param Magento_Core_Helper_Data $coreHelper
@@ -40,7 +40,7 @@ class Saas_ImportExport_Controller_Adminhtml_Export extends Magento_Adminhtml_Co
      * @param string|null $areaCode
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Saas_ImportExport_Helper_Export_State $stateHelper,
         Saas_ImportExport_Helper_Export_File $fileHelper,
         Magento_Core_Helper_Data $coreHelper,

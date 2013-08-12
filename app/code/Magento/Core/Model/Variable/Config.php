@@ -75,6 +75,6 @@ class Magento_Core_Model_Variable_Config
      */
     public function getVariablesWysiwygActionUrl()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/system_variable/wysiwygPlugin');
+        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/system_variable/wysiwygPlugin');
     }
 }

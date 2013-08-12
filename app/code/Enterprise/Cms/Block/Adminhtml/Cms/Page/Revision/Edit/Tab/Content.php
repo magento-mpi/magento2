@@ -64,7 +64,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
 
         // setting current user id for new version functionality.
         // in posted data there will be current user
-        $this->getForm()->getElement('user_id')->setValue(Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId());
+        $this->getForm()->getElement('user_id')->setValue(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId());
 
         return $this;
     }

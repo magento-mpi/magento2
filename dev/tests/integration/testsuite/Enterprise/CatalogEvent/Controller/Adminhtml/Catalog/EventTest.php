@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_EventTest extends Mage_Backend_Utility_Controller
+class Enterprise_CatalogEvent_Controller_Adminhtml_Catalog_EventTest extends Magento_Backend_Utility_Controller
 {
     public function testEditActionSingleStore()
     {

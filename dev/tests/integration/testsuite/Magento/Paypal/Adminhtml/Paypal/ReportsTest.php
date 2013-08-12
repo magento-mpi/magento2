@@ -9,7 +9,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Paypal_Adminhtml_Paypal_ReportsTest extends Mage_Backend_Utility_Controller
+class Magento_Paypal_Adminhtml_Paypal_ReportsTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoConfigFixture current_store paypal/fetch_reports/active 1

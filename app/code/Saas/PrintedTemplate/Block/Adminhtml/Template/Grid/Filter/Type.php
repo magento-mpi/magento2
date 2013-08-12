@@ -16,7 +16,7 @@
  * @subpackage  Blocks
  */
 class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid_Filter_Type extends
-    Mage_Backend_Block_Widget_Grid_Column_Filter_Select
+    Magento_Backend_Block_Widget_Grid_Column_Filter_Select
 {
 
     /**

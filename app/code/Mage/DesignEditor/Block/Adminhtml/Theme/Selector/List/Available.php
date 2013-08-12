@@ -49,8 +49,8 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available
     {
         $themeId = $themeBlock->getTheme()->getId();
 
-        /** @var $assignButton Mage_Backend_Block_Widget_Button */
-        $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        /** @var $assignButton Magento_Backend_Block_Widget_Button */
+        $assignButton = $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button');
         $assignButton->setData(array(
             'label' => $this->__('Edit'),
             'data_attribute' => array(

@@ -9,7 +9,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Saas_Limitation_Magento_Adminhtml_Controller_Catalog_ProductTest extends Mage_Backend_Utility_Controller
+class Saas_Limitation_Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoConfigFixture limitations/catalog_product 1

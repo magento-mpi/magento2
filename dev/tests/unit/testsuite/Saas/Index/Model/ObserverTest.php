@@ -36,7 +36,7 @@ class Saas_Index_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http');
         $this->_responseMock = $this->getMock('Magento_Core_Controller_Response_Http');
-        $this->_modelUrlMock = $this->getMock('Mage_Backend_Model_Url', array('getUrl'), array(), '', false);
+        $this->_modelUrlMock = $this->getMock('Magento_Backend_Model_Url', array('getUrl'), array(), '', false);
         $this->_eventObserverMock = $this->getMock('Magento_Event_Observer');
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);

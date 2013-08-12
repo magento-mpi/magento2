@@ -48,7 +48,7 @@
  */
 class Mage_User_Model_User
     extends Magento_Core_Model_Abstract
-    implements Mage_Backend_Model_Auth_Credential_StorageInterface
+    implements Magento_Backend_Model_Auth_Credential_StorageInterface
 {
     /**
      * Configuration paths for email templates and identities
@@ -439,8 +439,8 @@ class Mage_User_Model_User
      * @param string $password
      * @return boolean
      * @throws Magento_Core_Exception
-     * @throws Mage_Backend_Model_Auth_Exception
-     * @throws Mage_Backend_Model_Auth_Plugin_Exception
+     * @throws Magento_Backend_Model_Auth_Exception
+     * @throws Magento_Backend_Model_Auth_Plugin_Exception
      */
     public function authenticate($username, $password)
     {
@@ -460,12 +460,12 @@ class Mage_User_Model_User
                 && Mage::helper('Magento_Core_Helper_Data')->validateHash($password, $this->getPassword())
             ) {
                 if ($this->getIsActive() != '1') {
-                    throw new Mage_Backend_Model_Auth_Exception(
+                    throw new Magento_Backend_Model_Auth_Exception(
                         Mage::helper('Mage_User_Helper_Data')->__('This account is inactive.')
                     );
                 }
                 if (!$this->hasAssigned2Role($this->getId())) {
-                    throw new Mage_Backend_Model_Auth_Exception(
+                    throw new Magento_Backend_Model_Auth_Exception(
                         Mage::helper('Mage_User_Helper_Data')->__('Access denied.')
                     );
                 }

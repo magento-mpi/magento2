@@ -19,7 +19,7 @@ class Magento_Review_Helper_Action_PagerTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $sessionMock = $this->getMockBuilder('Mage_Backend_Model_Session')
+        $sessionMock = $this->getMockBuilder('Magento_Backend_Model_Session')
             ->disableOriginalConstructor()
             ->setMethods(array('setData', 'getData'))
             ->getMock();

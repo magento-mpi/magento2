@@ -96,7 +96,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_
             array(
                 'header' => Mage::helper('Magento_Sales_Helper_Data')->__('ID'),
                 'index' => 'entity_id',
-                'renderer' => 'Mage_Backend_Block_Widget_Grid_Column_Renderer_Checkbox',
+                'renderer' => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Checkbox',
                 'type' => 'skip-list'
             )
         );

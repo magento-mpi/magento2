@@ -15,7 +15,7 @@
  * @package    Magento_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tag_Block_Adminhtml_Store_Switcher extends Mage_Backend_Block_Store_Switcher
+class Magento_Tag_Block_Adminhtml_Store_Switcher extends Magento_Backend_Block_Store_Switcher
 {
     /**
      * @var bool

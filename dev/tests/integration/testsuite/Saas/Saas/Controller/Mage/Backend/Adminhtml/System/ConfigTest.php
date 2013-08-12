@@ -9,7 +9,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Saas_Saas_Mage_Backend_Controller_Adminhtml_System_ConfigTest extends Mage_Backend_Utility_Controller
+class Saas_Saas_Magento_Backend_Controller_Adminhtml_System_ConfigTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @param $action

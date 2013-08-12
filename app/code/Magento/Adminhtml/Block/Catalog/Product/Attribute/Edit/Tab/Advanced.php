@@ -16,7 +16,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extends Mage_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Adding product form elements for editing attribute
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             )
         );
 
-        $yesno = Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesno = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         $validateClass = sprintf(
             'validate-code validate-length maximum-length-%d',
@@ -142,7 +142,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             }
         }
 
-        $yesnoSource = Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         $scopes = array(
             Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>Mage::helper('Magento_Catalog_Helper_Data')->__('Store View'),

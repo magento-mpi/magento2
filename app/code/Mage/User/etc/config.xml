@@ -15,7 +15,7 @@
             <version>1.6.1.4</version>
             <active>true</active>
             <depends>
-                <Mage_Backend />
+                <Magento_Backend />
             </depends>
         </Mage_User>
     </modules>
@@ -64,7 +64,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Mage_User before="Mage_Backend">Mage_User_Adminhtml</Mage_User>
+                        <Mage_User before="Magento_Backend">Mage_User_Adminhtml</Mage_User>
                     </modules>
                 </args>
             </adminhtml>

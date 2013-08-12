@@ -50,7 +50,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_Fra
             ->will($this->returnValue($helper));
 
         return array(
-            'urlBuilder'    => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
+            'urlBuilder'    => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false),
             'helperFactory' => $helperFactory
         );
     }
@@ -70,7 +70,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_ContainerTest extends PHPUnit_Fra
     public function testGetSetFrameUrl()
     {
         $arguments = array(
-            'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
+            'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false),
         );
 
         /** @var $block Mage_DesignEditor_Block_Adminhtml_Editor_Container */

@@ -56,7 +56,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_GridTest extends PHPUnit_Framewo
 
 
         foreach ($block->getColumns() as $column) {
-            /** @var Mage_Backend_Block_Widget_Grid_Column $column */
+            /** @var Magento_Backend_Block_Widget_Grid_Column $column */
             $columnId = $column->getData('id');
             $this->assertTrue(isset($columns[$columnId]));
             $this->assertEquals($columns[$columnId]['header'], $column->getData('header'));

@@ -92,7 +92,7 @@ class Magento_AdminNotification_Model_System_Message_SecurityTest extends PHPUni
     public function testGetText()
     {
         $messageStart = 'Your web server is configured incorrectly.';
-        $dataHelperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
+        $dataHelperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
         $dataHelperMock->expects($this->atLeastOnce())->method('__')
             ->with($this->stringStartsWith($messageStart))
             ->will($this->returnValue($messageStart . $messageStart));

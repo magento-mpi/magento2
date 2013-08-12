@@ -16,7 +16,7 @@
                 <label>Notifications</label>
                 <field id="use_https" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Use HTTPS to Get Feed</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="frequency" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Update Frequency</label>
@@ -24,7 +24,7 @@
                 </field>
                 <field id="last_update" translate="label" type="label" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Last Update</label>
-                    <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Notification</frontend_model>
+                    <frontend_model>Magento_Backend_Block_System_Config_Form_Field_Notification</frontend_model>
                 </field>
             </group>
         </section>

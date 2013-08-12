@@ -199,7 +199,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Backend_Model_Auth_Exception
+     * @expectedException Magento_Backend_Model_Auth_Exception
      * @magentoDbIsolation enabled
      */
     public function testAuthenticateInactiveUser()
@@ -210,7 +210,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Backend_Model_Auth_Exception
+     * @expectedException Magento_Backend_Model_Auth_Exception
      * @magentoDbIsolation enabled
      */
     public function testAuthenticateUserWithoutRole()

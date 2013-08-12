@@ -12,7 +12,7 @@ class Magento_Adminhtml_Block_Denied extends Magento_Adminhtml_Block_Template
 {
     public function hasAvailableResources()
     {
-        $user = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
+        $user = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
         if ($user && $user->getHasAvailableResources()) {
             return true;
         }

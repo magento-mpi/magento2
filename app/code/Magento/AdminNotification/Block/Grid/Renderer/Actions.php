@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 class Magento_AdminNotification_Block_Grid_Renderer_Actions
-    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Renders grid column

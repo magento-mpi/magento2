@@ -16,7 +16,7 @@
                 <label>CAPTCHA</label>
                 <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable CAPTCHA in Admin</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="font" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Font</label>
@@ -75,7 +75,7 @@
                 </field>
                 <field id="case_sensitive" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Case Sensitive</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                     <depends>
                         <field id="enable">1</field>
                     </depends>
@@ -87,7 +87,7 @@
                 <label>CAPTCHA</label>
                 <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Enable CAPTCHA on Frontend</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="font" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Font</label>
@@ -147,7 +147,7 @@
                 </field>
                 <field id="case_sensitive" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Case Sensitive</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                     <depends>
                         <field id="enable">1</field>
                     </depends>

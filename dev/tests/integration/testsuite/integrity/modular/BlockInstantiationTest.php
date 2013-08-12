@@ -42,9 +42,9 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
             // blocks with abstract constructor arguments
             'Magento_Adminhtml_Block_System_Email_Template',
             'Magento_Adminhtml_Block_System_Email_Template_Edit',
-            'Mage_Backend_Block_System_Config_Edit',
-            'Mage_Backend_Block_System_Config_Form',
-            'Mage_Backend_Block_System_Config_Tabs',
+            'Magento_Backend_Block_System_Config_Edit',
+            'Magento_Backend_Block_System_Config_Form',
+            'Magento_Backend_Block_System_Config_Tabs',
             'Magento_Review_Block_Form',
             // Fails because of of bug in Mage_Webapi_Model_Acl_Loader_Resource_ConfigReader constructor
             'Magento_Adminhtml_Block_Cms_Page',
@@ -104,7 +104,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
             $area = 'install';
         } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '_Adminhtml_')
             || strpos($blockClass, '_Backend_')
-            || $class->isSubclassOf('Mage_Backend_Block_Template')
+            || $class->isSubclassOf('Magento_Backend_Block_Template')
         ) {
             $area = 'adminhtml';
         }

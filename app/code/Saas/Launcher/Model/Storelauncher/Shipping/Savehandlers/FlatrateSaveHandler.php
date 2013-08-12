@@ -30,13 +30,13 @@ class Saas_Launcher_Model_Storelauncher_Shipping_Savehandlers_FlatrateSaveHandle
 
     /**
      * @param Magento_Core_Model_Config $config
-     * @param Mage_Backend_Model_Config $backendConfigModel
+     * @param Magento_Backend_Model_Config $backendConfigModel
      * @param Magento_Core_Model_LocaleInterface $locale
      * @param Magento_Validator_Float $validator
      */
     public function __construct(
         Magento_Core_Model_Config $config,
-        Mage_Backend_Model_Config $backendConfigModel,
+        Magento_Backend_Model_Config $backendConfigModel,
         Magento_Core_Model_LocaleInterface $locale,
         Magento_Validator_Float $validator
     ) {

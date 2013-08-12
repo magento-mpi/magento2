@@ -13,8 +13,8 @@
  *
  */
 class Mage_User_Block_Role_Tab_Info
-    extends Mage_Backend_Block_Widget_Form
-    implements Mage_Backend_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     public function getTabLabel()
     {

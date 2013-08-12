@@ -50,7 +50,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Mage_Backend_Model_Session|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Backend_Model_Session|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_backendSession;
 
@@ -101,7 +101,7 @@ class Mage_DesignEditor_Model_StateTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_backendSession = $this->getMock('Mage_Backend_Model_Session', array('setData', 'getData', 'unsetData'),
+        $this->_backendSession = $this->getMock('Magento_Backend_Model_Session', array('setData', 'getData', 'unsetData'),
             array(), '', false
         );
         $this->_layoutFactory = $this->getMock('Magento_Core_Model_Layout_Factory', array('createLayout'),

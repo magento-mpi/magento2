@@ -85,12 +85,12 @@ class Enterprise_Logging_Model_Handler_Controllers
         $change = Mage::getModel('Enterprise_Logging_Model_Event_Changes');
 
         //Collect skip encrypted fields
-        /** @var Mage_Backend_Model_Config_Structure $configStructure  */
-        $configStructure = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+        /** @var Magento_Backend_Model_Config_Structure $configStructure  */
+        $configStructure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
 
         $encryptedNodePaths = $configStructure->getFieldPathsByAttribute(
             'backend_model',
-            'Mage_Backend_Model_Config_Backend_Encrypted'
+            'Magento_Backend_Model_Config_Backend_Encrypted'
         );
 
         $skipEncrypted = array();

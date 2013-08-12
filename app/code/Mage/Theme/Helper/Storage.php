@@ -70,7 +70,7 @@ class Mage_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
     protected $_filesystem;
 
     /**
-     * @var Mage_Backend_Model_Session
+     * @var Magento_Backend_Model_Session
      */
     protected $_session;
 
@@ -81,13 +81,13 @@ class Mage_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
 
     /**
      * @param Magento_Filesystem $filesystem
-     * @param Mage_Backend_Model_Session $session
+     * @param Magento_Backend_Model_Session $session
      * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
      * @param Magento_Core_Helper_Context $context
      */
     public function __construct(
         Magento_Filesystem $filesystem,
-        Mage_Backend_Model_Session $session,
+        Magento_Backend_Model_Session $session,
         Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
         Magento_Core_Helper_Context $context
     ) {
@@ -329,7 +329,7 @@ class Mage_Theme_Helper_Storage extends Magento_Core_Helper_Abstract
     /**
      * Get session model
      *
-     * @return Mage_Backend_Model_Session
+     * @return Magento_Backend_Model_Session
      */
     public function getSession()
     {

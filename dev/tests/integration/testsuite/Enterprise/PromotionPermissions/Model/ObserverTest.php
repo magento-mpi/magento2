@@ -19,7 +19,7 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Magento_Backend_Helper_Data")->getAreaCode());
         $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
     }
 

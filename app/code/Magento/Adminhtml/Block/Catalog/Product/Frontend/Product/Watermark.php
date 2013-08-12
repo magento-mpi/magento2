@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
-    extends Mage_Backend_Block_Abstract
+    extends Magento_Backend_Block_Abstract
     implements Magento_Data_Form_Element_Renderer_Interface
 {
     const XML_PATH_IMAGE_TYPES = 'global/catalog/product/media/image_types';
@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
     public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $html = $this->_getHeaderHtml($element);
-        $renderer = Mage::getBlockSingleton('Mage_Backend_Block_System_Config_Form_Field');
+        $renderer = Mage::getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
 
         $attributes = Mage::getConfig()->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
 

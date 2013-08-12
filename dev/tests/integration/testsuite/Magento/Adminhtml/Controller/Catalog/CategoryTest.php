@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoDataFixture Magento/Core/_files/store.php

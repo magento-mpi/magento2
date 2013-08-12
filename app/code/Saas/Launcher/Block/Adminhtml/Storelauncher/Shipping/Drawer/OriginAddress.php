@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
-    extends Mage_Backend_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Country Source Model
@@ -40,14 +40,14 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
     protected $_regionModel;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Mage_Directory_Model_Config_Source_Country $countryConfigModel
      * @param Mage_Directory_Model_Country $countryModel
      * @param Mage_Directory_Model_Region $regionModel
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Mage_Directory_Model_Config_Source_Country $countryConfigModel,
         Mage_Directory_Model_Country $countryModel,
         Mage_Directory_Model_Region $regionModel,
@@ -62,7 +62,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Shipping_Drawer_OriginAddress
     /**
      * Prepare Shipping Origin form
      *
-     * @return Mage_Backend_Block_Widget_Form
+     * @return Magento_Backend_Block_Widget_Form
      */
     protected function _prepareForm()
     {

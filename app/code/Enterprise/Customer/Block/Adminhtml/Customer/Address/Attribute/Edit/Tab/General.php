@@ -141,7 +141,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Ge
             'date_format' => $helper->getDateFormat()
         ), 'date_range_min');
 
-        $yesnoSource = Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(
             'legend'    => Mage::helper('Enterprise_Customer_Helper_Data')->__('Frontend Properties')

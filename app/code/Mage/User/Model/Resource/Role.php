@@ -100,7 +100,7 @@ class Mage_User_Model_Resource_Role extends Magento_Core_Model_Resource_Db_Abstr
     {
         $this->_updateRoleUsersAcl($role);
         Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
-            array(Mage_Backend_Block_Menu::CACHE_TAGS));
+            array(Magento_Backend_Block_Menu::CACHE_TAGS));
         return $this;
     }
 

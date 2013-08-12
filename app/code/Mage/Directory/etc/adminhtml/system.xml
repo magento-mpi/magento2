@@ -20,21 +20,21 @@
                 <field id="base" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Base Currency</label>
                     <frontend_model>Mage_Directory_Block_Adminhtml_Frontend_Currency_Base</frontend_model>
-                    <source_model>Mage_Backend_Model_Config_Source_Currency</source_model>
-                    <backend_model>Mage_Backend_Model_Config_Backend_Currency_Base</backend_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Currency</source_model>
+                    <backend_model>Magento_Backend_Model_Config_Backend_Currency_Base</backend_model>
                     <comment>
                         <![CDATA[Base currency is used for all online payment transactions. If you have more than one store view, the base currency scope is defined by the catalog price scope ("Catalog" > "Price" > "Catalog Price Scope").]]>
                     </comment>
                 </field>
                 <field id="default" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Default Display Currency</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Currency</source_model>
-                    <backend_model>Mage_Backend_Model_Config_Backend_Currency_Default</backend_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Currency</source_model>
+                    <backend_model>Magento_Backend_Model_Config_Backend_Currency_Default</backend_model>
                 </field>
                 <field id="allow" translate="label" type="multiselect" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Allowed Currencies</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Currency</source_model>
-                    <backend_model>Mage_Backend_Model_Config_Backend_Currency_Allow</backend_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Currency</source_model>
+                    <backend_model>Magento_Backend_Model_Config_Backend_Currency_Allow</backend_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
             </group>
@@ -48,7 +48,7 @@
                 <label>Scheduled Import Settings</label>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="error_email" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Error Email Recipient</label>
@@ -56,11 +56,11 @@
                 </field>
                 <field id="error_email_identity" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Error Email Sender</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
                 </field>
                 <field id="error_email_template" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Error Email Template</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
                 </field>
                 <field id="frequency" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Frequency</label>
@@ -68,8 +68,8 @@
                 </field>
                 <field id="service" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Service</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Currency_Service</source_model>
-                    <backend_model>Mage_Backend_Model_Config_Backend_Currency_Cron</backend_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Currency_Service</source_model>
+                    <backend_model>Magento_Backend_Model_Config_Backend_Currency_Cron</backend_model>
                 </field>
                 <field id="time" translate="label" type="time" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Start Time</label>
@@ -81,8 +81,8 @@
                 <label>Currency</label>
                 <field id="installed" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Installed Currencies</label>
-                    <backend_model>Mage_Backend_Model_Config_Backend_Locale</backend_model>
-                    <source_model>Mage_Backend_Model_Config_Source_Locale_Currency_All</source_model>
+                    <backend_model>Magento_Backend_Model_Config_Backend_Locale</backend_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Locale_Currency_All</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
             </group>
@@ -103,7 +103,7 @@
                 </field>
                 <field id="display_all" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Allow to Choose State if It is Optional for Country</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
             </group>
         </section>

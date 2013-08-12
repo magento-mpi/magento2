@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Mage_Widget_Controller_Adminhtml_WidgetTest extends Mage_Backend_Utility_Controller
+class Mage_Widget_Controller_Adminhtml_WidgetTest extends Magento_Backend_Utility_Controller
 {
     /**
      * Partially covers Mage_Widget_Block_Adminhtml_Widget_Options::_addField()

@@ -46,7 +46,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_CssTest extends PHPUnit
                  'objectManager'   => $this->_objectManager,
                  'dirs'            => new Magento_Core_Model_Dir(__DIR__),
                  'uploaderService' => $this->getMock('Mage_Theme_Model_Uploader_Service', array(), array(), '', false),
-                 'urlBuilder'      => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
+                 'urlBuilder'      => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
             )
         );
         return $constructArguments;

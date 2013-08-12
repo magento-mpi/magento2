@@ -10,7 +10,7 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Mage_Webhook_Controller_Adminhtml_Webhook_Registration extends Mage_Backend_Controller_ActionAbstract
+class Mage_Webhook_Controller_Adminhtml_Webhook_Registration extends Magento_Backend_Controller_ActionAbstract
 {
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
     const DATA_TOPICS = 'topics';
@@ -40,14 +40,14 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Registration extends Mage_Backen
      * @param Mage_Webhook_Model_Webapi_User_Factory $userFactory
      * @param Mage_Webhook_Service_SubscriptionV1Interface $subscriptionService
      * @param Magento_Core_Model_Registry $registry
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param string $areaCode
      */
     public function __construct(
         Mage_Webhook_Model_Webapi_User_Factory $userFactory,
         Mage_Webhook_Service_SubscriptionV1Interface $subscriptionService,
         Magento_Core_Model_Registry $registry,
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);

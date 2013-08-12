@@ -59,8 +59,8 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $user = new Magento_Object(array(
             'username' => $userName
         ));
-        /** @var $session Mage_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        /** @var $session Magento_Backend_Model_Auth_Session */
+        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
         $session->setUser($user);
 
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';

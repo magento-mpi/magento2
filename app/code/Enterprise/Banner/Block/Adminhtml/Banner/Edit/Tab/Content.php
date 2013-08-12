@@ -55,7 +55,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
     protected $_app;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_App $app
@@ -63,7 +63,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Cms_Model_Wysiwyg_Config $wysiwygConfig,
         Magento_Core_Model_Registry $registry,
         Magento_Core_Model_App $app,
@@ -263,7 +263,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Magento_
             'legend' => $this->getHelper()->__('Store View Specific Content'),
             'class' => 'store-scope',
         ));
-        $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
+        $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
         $fieldset->setRenderer($renderer);
         $this->_getWysiwygConfig()->setUseContainer(true);
         foreach ($this->_app->getWebsites() as $website) {

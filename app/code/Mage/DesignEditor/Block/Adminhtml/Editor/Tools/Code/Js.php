@@ -11,7 +11,7 @@
 /**
  * Block that renders JS tab
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backend_Block_Widget_Form
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_Backend_Block_Widget_Form
 {
     /**
      * @var Mage_Theme_Model_Config_Customization
@@ -24,13 +24,13 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Mage_Backen
     protected $_themeContext;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Mage_Theme_Model_Config_Customization $customizationConfig
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Mage_Theme_Model_Config_Customization $customizationConfig,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()

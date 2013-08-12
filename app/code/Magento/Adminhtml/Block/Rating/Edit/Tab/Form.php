@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Store manager instance
@@ -26,12 +26,12 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Wi
     protected $_storeManager;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
@@ -117,7 +117,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Wi
                 'name' => 'stores[]',
                 'values' => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
 
             if (Mage::registry('rating_data')) {

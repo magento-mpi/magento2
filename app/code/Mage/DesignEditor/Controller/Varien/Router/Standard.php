@@ -56,7 +56,7 @@ class Mage_DesignEditor_Controller_Varien_Router_Standard extends Magento_Core_C
         }
 
         // user must be logged in admin area
-        if (!$this->_objectManager->get('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {
+        if (!$this->_objectManager->get('Magento_Backend_Model_Auth_Session')->isLoggedIn()) {
             return null;
         }
 

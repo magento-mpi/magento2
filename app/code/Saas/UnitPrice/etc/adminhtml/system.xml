@@ -16,7 +16,7 @@
                 <label>Unit Price</label>
                 <field id="enable_ext" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="frontend_label" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Frontend Label</label>
@@ -25,7 +25,7 @@
                 </field>
                 <field id="unit_price_incl_tax" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Calculate the unit product's price based on the base product's price, including tax</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="default_unit_price_unit" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Measurement to be used for the base product</label>
@@ -42,7 +42,7 @@
                 </field>
                 <field id="auto_append_unit_price" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display the unit product's price on the product page in the frontend</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
             </group>
         </section>

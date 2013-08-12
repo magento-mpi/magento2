@@ -15,7 +15,7 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Backend_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Magento_Backend_Block_Template
 {
     /**
      * Website collection
@@ -30,13 +30,13 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
     protected $_customizationConfig;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Resource_Website_Collection $websiteCollection
      * @param Mage_Theme_Model_Config $themeConfig
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Resource_Website_Collection $websiteCollection,
         Mage_Theme_Model_Config_Customization $customizationConfig,
         array $data = array()
@@ -92,8 +92,8 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage_Ba
      */
     public function getAssignNextButtonHtml()
     {
-        /** @var $assignSaveButton Mage_Backend_Block_Widget_Button */
-        $assignSaveButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        /** @var $assignSaveButton Magento_Backend_Block_Widget_Button */
+        $assignSaveButton = $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button');
         $assignSaveButton->setData(array(
             'label'     => $this->__('Assign'),
             'class'     => 'action-save primary',

@@ -15,7 +15,7 @@
  * @package    Magento_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tag_Block_Adminhtml_Report_Popular_Detail extends Mage_Backend_Block_Widget_Grid_Container
+class Magento_Tag_Block_Adminhtml_Report_Popular_Detail extends Magento_Backend_Block_Widget_Grid_Container
 {
     protected function _construct()
     {

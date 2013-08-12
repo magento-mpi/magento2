@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <preference for="Mage_Backend_Model_Config_Structure_Converter" type="Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter" />
+    <preference for="Magento_Backend_Model_Config_Structure_Converter" type="Saas_Saas_Model_DisabledConfiguration_Structure_Converter_Filter" />
 </config>

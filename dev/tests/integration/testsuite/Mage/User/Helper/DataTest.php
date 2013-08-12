@@ -15,7 +15,7 @@
 class Mage_User_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Backend_Helper_Data
+     * @var Magento_Backend_Helper_Data
      */
     protected $_helper;
 

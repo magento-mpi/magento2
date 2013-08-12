@@ -41,7 +41,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected function _prepareCollection()
     {
-        $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
+        $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
 
         /* var $collection Enterprise_Cms_Model_Resource_Version_Collection */
         $collection = Mage::getModel('Enterprise_Cms_Model_Page_Version')->getCollection()

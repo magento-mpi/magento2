@@ -62,7 +62,7 @@ class Enterprise_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_
     {
         $this->loadLayout();
         $fileName = 'log.csv';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
     }
@@ -74,7 +74,7 @@ class Enterprise_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_
     {
         $this->loadLayout();
         $fileName = 'log.xml';
-        /** @var Mage_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }

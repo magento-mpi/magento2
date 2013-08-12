@@ -358,7 +358,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor_Tools extends 
                     $theme->getId()));
             }
 
-            $this->_objectManager->get('Mage_Backend_Model_Config_Backend_Store')
+            $this->_objectManager->get('Magento_Backend_Model_Config_Backend_Store')
                 ->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')
                 ->setValue('')->save();
 

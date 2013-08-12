@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_View extends Magento_Adminhtml
     /**
      * Admin session
      *
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Magento_Backend_Model_Auth_Session
      */
     protected $_session;
 
@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_View extends Magento_Adminhtml
         $this->_objectId    = 'invoice_id';
         $this->_controller  = 'sales_order_invoice';
         $this->_mode        = 'view';
-        $this->_session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        $this->_session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
 
         parent::_construct();
 

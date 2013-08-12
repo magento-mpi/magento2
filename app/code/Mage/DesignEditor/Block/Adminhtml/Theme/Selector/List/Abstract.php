@@ -23,7 +23,7 @@
  */
 // @codingStandardsIgnoreEnd
 abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
-    extends Mage_Backend_Block_Template
+    extends Magento_Backend_Block_Template
 {
     /**
      * Get tab title
@@ -77,7 +77,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
     {
         $themeId = $themeBlock->getTheme()->getId();
 
-        /** @var $assignButton Mage_Backend_Block_Widget_Button */
+        /** @var $assignButton Magento_Backend_Block_Widget_Button */
         $assignButton = $this->getLayout()->createBlock('Mage_DesignEditor_Block_Adminhtml_Theme_Button');
         $assignButton->setData(array(
             'title' => $this->__('Duplicate'),
@@ -111,8 +111,8 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
         }
         $themeId = $themeBlock->getTheme()->getId();
 
-        /** @var $assignButton Mage_Backend_Block_Widget_Button */
-        $assignButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        /** @var $assignButton Magento_Backend_Block_Widget_Button */
+        $assignButton = $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button');
         $assignButton->setData(array(
             'label'   => $this->__('Assign to a Store View'),
             'data_attribute'  => array(
@@ -145,7 +145,7 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Abstract
      */
     protected function _addEditButtonHtml($themeBlock)
     {
-        /** @var $editButton Mage_Backend_Block_Widget_Button */
+        /** @var $editButton Magento_Backend_Block_Widget_Button */
         $editButton = $this->getLayout()->createBlock('Mage_DesignEditor_Block_Adminhtml_Theme_Button');
         $editButton->setData(array(
             'title'  => $this->__('Edit'),

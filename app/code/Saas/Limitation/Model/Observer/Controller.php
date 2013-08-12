@@ -8,7 +8,7 @@
 class Saas_Limitation_Model_Observer_Controller
 {
     /**
-     * @var Mage_Backend_Model_Session
+     * @var Magento_Backend_Model_Session
      */
     private $_session;
 
@@ -28,14 +28,14 @@ class Saas_Limitation_Model_Observer_Controller
     private $_message;
 
     /**
-     * @param Mage_Backend_Model_Session $session
+     * @param Magento_Backend_Model_Session $session
      * @param Saas_Limitation_Model_Limitation_Validator $limitationValidator
      * @param Saas_Limitation_Model_Limitation_LimitationInterface $limitation
      * @param Saas_Limitation_Model_Dictionary $dictionary
      * @param string $messageCode
      */
     public function __construct(
-        Mage_Backend_Model_Session $session,
+        Magento_Backend_Model_Session $session,
         Saas_Limitation_Model_Limitation_Validator $limitationValidator,
         Saas_Limitation_Model_Limitation_LimitationInterface $limitation,
         Saas_Limitation_Model_Dictionary $dictionary,

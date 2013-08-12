@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Blocks
  */
-class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Mage_Backend_Block_Widget
+class Saas_PrintedTemplate_Block_Adminhtml_Template_Edit extends Magento_Backend_Block_Widget
 {
     const MODULE_NAME = 'Saas_PrintedTemplate';
 

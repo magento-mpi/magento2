@@ -181,9 +181,9 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
                 'value' => Mage::app()->getStore(true)->getId()
             ), 'id_path');
         } else {
-            /** @var $renderer Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element */
+            /** @var $renderer Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element */
             $renderer = $this->getLayout()
-                ->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
 
             $storeElement = $fieldset->addField('store_id', 'select', array(
                 'label'    => Mage::helper('Magento_Adminhtml_Helper_Data')->__('Store'),

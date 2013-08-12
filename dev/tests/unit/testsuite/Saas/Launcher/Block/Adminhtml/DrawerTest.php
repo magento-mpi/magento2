@@ -27,7 +27,7 @@ class Saas_Launcher_Block_Adminhtml_DrawerTest extends PHPUnit_Framework_TestCas
             array('save', 'load'), array(), '', false
         );
 
-        $urlBuilder = $this->getMock('Mage_Backend_Model_Url', array('getUrl'), array(), '', false);
+        $urlBuilder = $this->getMock('Magento_Backend_Model_Url', array('getUrl'), array(), '', false);
 
         $arguments = array(
             'urlBuilder' => $urlBuilder,

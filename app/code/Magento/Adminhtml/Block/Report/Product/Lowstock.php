@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock extends Magento_Adminhtml_
     protected function _prepareLayout()
     {
         $this->setChild('store_switcher',
-            $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher')
+            $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher')
                 ->setUseConfirm(false)
                 ->setSwitchUrl($this->getUrl('*/*/*', array('store'=>null)))
                 ->setTemplate('Magento_Reports::store/switcher.phtml')

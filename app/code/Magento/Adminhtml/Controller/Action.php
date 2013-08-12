@@ -11,7 +11,7 @@
 /**
  * Generic backend controller
  */
-class Magento_Adminhtml_Controller_Action extends Mage_Backend_Controller_ActionAbstract
+class Magento_Adminhtml_Controller_Action extends Magento_Backend_Controller_ActionAbstract
 {
     /**
      * Used module name in current adminhtml controller

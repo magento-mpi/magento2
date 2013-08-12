@@ -20,7 +20,7 @@
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Saas_Launcher_Block_Adminhtml_Tile extends Mage_Backend_Block_Template
+class Saas_Launcher_Block_Adminhtml_Tile extends Magento_Backend_Block_Template
 {
     /**
      * Get Tile Code

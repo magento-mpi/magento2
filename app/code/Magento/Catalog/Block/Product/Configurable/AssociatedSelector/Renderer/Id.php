@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Backend
+ * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +17,7 @@
  */
 
 class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Renderer_Id
-    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Render grid row

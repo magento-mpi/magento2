@@ -313,13 +313,13 @@ class Mage_Captcha_Model_Default extends Zend_Captcha_Image implements Mage_Capt
     /**
      * Returns session instance
      *
-     * @return Magento_Customer_Model_Session|Mage_Backend_Model_Auth_Session
+     * @return Magento_Customer_Model_Session|Magento_Backend_Model_Auth_Session
      */
     public function getSession()
     {
         if (empty($this->_session)) {
             $this->_session =  Mage::app()->getStore()->isAdmin()
-                ? Mage::getSingleton('Mage_Backend_Model_Auth_Session')
+                ? Mage::getSingleton('Magento_Backend_Model_Auth_Session')
                 : Mage::getSingleton('Magento_Customer_Model_Session');
         }
         return $this->_session;

@@ -14,7 +14,7 @@
  *
  * @magentoAppArea adminhtml
  */
-class Mage_User_Controller_Adminhtml_AuthTest extends Mage_Backend_Utility_Controller
+class Mage_User_Controller_Adminhtml_AuthTest extends Magento_Backend_Utility_Controller
 {
     /**
      * Test form existence
@@ -36,7 +36,7 @@ class Mage_User_Controller_Adminhtml_AuthTest extends Mage_Backend_Utility_Contr
     {
         $this->getRequest()->setPost('email', 'test@test.com');
         $this->dispatch('backend/admin/auth/forgotpassword');
-        $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
+        $this->assertRedirect($this->equalTo(Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl()));
     }
 
     /**
@@ -105,7 +105,7 @@ class Mage_User_Controller_Adminhtml_AuthTest extends Mage_Backend_Utility_Contr
 
         $this->dispatch('backend/admin/auth/resetpasswordpost');
 
-        $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
+        $this->assertRedirect($this->equalTo(Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl()));
 
         /** @var $user Mage_User_Model_User */
         $user = Mage::getModel('Mage_User_Model_User')->loadByUsername('dummy_username');
@@ -126,7 +126,7 @@ class Mage_User_Controller_Adminhtml_AuthTest extends Mage_Backend_Utility_Contr
         $this->assertSessionMessages(
             $this->equalTo(array('Your password reset link has expired.')), Magento_Core_Model_Message::ERROR
         );
-        $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
+        $this->assertRedirect($this->equalTo(Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl()));
     }
 
     /**

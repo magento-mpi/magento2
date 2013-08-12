@@ -10,7 +10,7 @@
  * @method Magento_Object getApiUser() getApiUser()
  * @method Mage_Webapi_Block_Adminhtml_User_Edit_Tabs setApiUser() setApiUser(Magento_Object $apiUser)
  */
-class Mage_Webapi_Block_Adminhtml_User_Edit_Tabs extends Mage_Backend_Block_Widget_Tabs
+class Mage_Webapi_Block_Adminhtml_User_Edit_Tabs extends Magento_Backend_Block_Widget_Tabs
 {
     /**
      * Internal constructor.

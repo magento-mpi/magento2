@@ -43,7 +43,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision extends Magento_A
             ->addPageFilter($this->getRequest()->getParam('page_id'))
             ->joinVersions()
             ->addNumberSort()
-            ->addVisibilityFilter(Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId(),
+            ->addVisibilityFilter(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId(),
                 Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel());
 
         $revisions = array();

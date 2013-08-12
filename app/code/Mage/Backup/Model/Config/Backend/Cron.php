@@ -28,7 +28,7 @@ class Mage_Backup_Model_Config_Backend_Cron extends Magento_Core_Model_Config_Da
     /**
      * Cron settings after save
      *
-     * @return Mage_Backend_Model_Config_Backend_Log_Cron
+     * @return Magento_Backend_Model_Config_Backend_Log_Cron
      */
     protected function _afterSave()
     {

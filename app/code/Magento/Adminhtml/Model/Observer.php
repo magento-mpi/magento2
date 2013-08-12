@@ -15,8 +15,8 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
- * @deprecated Moved to module Mage_Backend
+ * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Model_Observer extends Mage_Backend_Model_Observer
+class Magento_Adminhtml_Model_Observer extends Magento_Backend_Model_Observer
 {
 }

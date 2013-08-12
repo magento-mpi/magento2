@@ -18,8 +18,8 @@ class Magento_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Frame
     {
         $user = Mage::getModel('Mage_User_Model_User')->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
 
-        /** @var $session Mage_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        /** @var $session Magento_Backend_Model_Auth_Session */
+        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
         $session->setUser($user);
 
         /** @var $layout Magento_Core_Model_Layout */

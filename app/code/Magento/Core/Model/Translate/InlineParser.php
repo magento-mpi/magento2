@@ -186,7 +186,7 @@ class Magento_Core_Model_Translate_InlineParser
         $validStoreId = $this->_storeManager->getStore()->getId();
 
         foreach ($translateParams as $param) {
-            if ($this->_design->getArea() == Mage_Backend_Helper_Data::BACKEND_AREA_CODE) {
+            if ($this->_design->getArea() == Magento_Backend_Helper_Data::BACKEND_AREA_CODE) {
                 $storeId = 0;
             } else if (empty($param['perstore'])) {
                 $this->_resource->deleteTranslate($param['original'], null, false);

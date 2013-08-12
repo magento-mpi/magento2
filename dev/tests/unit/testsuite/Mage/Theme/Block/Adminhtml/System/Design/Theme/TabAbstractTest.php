@@ -25,7 +25,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_TabAbstractTest extends PHP
             'Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js',
             array(
                  'objectManager' => $objectManagerModel,
-                 'urlBuilder'    => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
+                 'urlBuilder'    => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
             )
         );
 

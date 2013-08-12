@@ -15,12 +15,12 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Backend_Block_Widget_Grid
+class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid extends Magento_Backend_Block_Widget_Grid
 {
     /**
      * Prepare collection for grid
      *
-     * @return Mage_Backend_Block_Widget_Grid
+     * @return Magento_Backend_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {

@@ -175,7 +175,7 @@ class Magento_Core_Model_Translate
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
         $this->_translateInline = $this->getInlineObject($initParams)->isAllowed(
-            $area == Mage_Backend_Helper_Data::BACKEND_AREA_CODE ? 'admin' : null);
+            $area == Magento_Backend_Helper_Data::BACKEND_AREA_CODE ? 'admin' : null);
 
         if (!$forceReload) {
             $this->_data = $this->_loadCache();

@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Mage_User_Block_User_Edit_Tab_MainTest extends Mage_Backend_Utility_Controller
+class Mage_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @var Mage_User_Block_User_Edit_Tab_Main

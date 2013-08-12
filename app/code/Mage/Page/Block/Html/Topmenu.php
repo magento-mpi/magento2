@@ -72,14 +72,14 @@ class Mage_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
     /**
      * Count All Subnavigation Items
      *
-     * @param Mage_Backend_Model_Menu $items
+     * @param Magento_Backend_Model_Menu $items
      * @return int
      */
     protected function _countItems($items)
     {
         $total = $items->count();
         foreach ($items as $item) {
-            /** @var $item Mage_Backend_Model_Menu_Item */
+            /** @var $item Magento_Backend_Model_Menu_Item */
             if ($item->hasChildren()) {
                 $total += $this->_countItems($item->getChildren());
             }
@@ -90,7 +90,7 @@ class Mage_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
     /**
      * Building Array with Column Brake Stops
      *
-     * @param Mage_Backend_Model_Menu $items
+     * @param Magento_Backend_Model_Menu $items
      * @param int $limit
      * @return array
      * @todo: Add Depth Level limit, and better logic for columns
@@ -133,7 +133,7 @@ class Mage_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
     /**
      * Add sub menu HTML code for current menu item
      *
-     * @param $menuItem Mage_Backend_Model_Menu_Item
+     * @param $menuItem Magento_Backend_Model_Menu_Item
      * @param $level int
      * @param $limit int
      * @return string HTML code

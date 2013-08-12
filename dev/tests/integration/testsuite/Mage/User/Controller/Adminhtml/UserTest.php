@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Mage_User_Controller_Adminhtml_UserTest extends Mage_Backend_Utility_Controller
+class Mage_User_Controller_Adminhtml_UserTest extends Magento_Backend_Utility_Controller
 {
     public function testIndexAction()
     {

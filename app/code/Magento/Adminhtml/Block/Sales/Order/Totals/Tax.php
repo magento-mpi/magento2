@@ -35,7 +35,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Tax extends Magento_Tax_Block_S
     /**
      * Initialize dependencies
      *
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Tax_Model_Config $taxConfig
      * @param Magento_Tax_Helper_Data $taxHelper
      * @param Magento_Tax_Model_Calculation $taxCalculation
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_Tax extends Magento_Tax_Block_S
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Tax_Model_Config $taxConfig,
         Magento_Tax_Helper_Data $taxHelper,
         Magento_Tax_Model_Calculation $taxCalculation,

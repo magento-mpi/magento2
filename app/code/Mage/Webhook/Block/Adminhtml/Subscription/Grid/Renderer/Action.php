@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 class Mage_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_Action
-    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Render a given html for the subscription grid

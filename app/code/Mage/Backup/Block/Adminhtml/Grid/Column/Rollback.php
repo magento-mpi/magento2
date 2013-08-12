@@ -15,7 +15,7 @@
  * @package    Mage_Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backup_Block_Adminhtml_Grid_Column_Rollback extends Mage_Backend_Block_Widget_Grid_Column
+class Mage_Backup_Block_Adminhtml_Grid_Column_Rollback extends Magento_Backend_Block_Widget_Grid_Column
 {
     /**
      * Check permission for rollback

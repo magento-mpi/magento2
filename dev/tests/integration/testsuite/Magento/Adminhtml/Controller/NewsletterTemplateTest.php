@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Newsletter_TemplateTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_Newsletter_TemplateTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @var Magento_Newsletter_Model_Template
@@ -36,7 +36,7 @@ class Magento_Adminhtml_Controller_Newsletter_TemplateTest extends Mage_Backend_
         /**
          * Unset messages
          */
-        Mage::getSingleton('Mage_Backend_Model_Session')->getMessages(true);
+        Mage::getSingleton('Magento_Backend_Model_Session')->getMessages(true);
         unset($this->_model);
     }
 

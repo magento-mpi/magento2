@@ -159,7 +159,7 @@ class Saas_PrintedTemplate_Model_Wysiwyg_Config extends Magento_Cms_Model_Wysiwy
      */
     protected function getVariablesWysiwygActionUrl()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/template/wysiwygVariables');
+        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/template/wysiwygVariables');
     }
 
     /**

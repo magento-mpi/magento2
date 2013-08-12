@@ -18,7 +18,7 @@
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Saas_Launcher_Controller_BaseDrawer
-    extends Mage_Backend_Controller_ActionAbstract
+    extends Magento_Backend_Controller_ActionAbstract
     implements Saas_Launcher_Controller_Drawer
 {
     /**
@@ -36,12 +36,12 @@ class Saas_Launcher_Controller_BaseDrawer
     protected $_tileBlockName;
 
     /**
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param string $areaCode
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         $areaCode = null,
         array $data = array()
     ) {

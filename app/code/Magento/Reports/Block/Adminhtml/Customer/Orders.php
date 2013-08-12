@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Reports_Block_Adminhtml_Customer_Orders extends Mage_Backend_Block_Widget_Grid_Container
+class Magento_Reports_Block_Adminhtml_Customer_Orders extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * Define children block group

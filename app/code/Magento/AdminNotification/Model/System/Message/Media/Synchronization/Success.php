@@ -35,6 +35,6 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Succe
      */
     public function getText()
     {
-        return $this->_helperFactory->get('Mage_Backend_Helper_Data')->__('Synchronization of media storages has been completed.');
+        return $this->_helperFactory->get('Magento_Backend_Helper_Data')->__('Synchronization of media storages has been completed.');
     }
 }

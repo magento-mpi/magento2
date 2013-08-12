@@ -9,7 +9,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_DashboardTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_DashboardTest extends Magento_Backend_Utility_Controller
 {
     public function testTunnelAction()
     {

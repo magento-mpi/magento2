@@ -328,7 +328,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
                 'adminhtml',
                 'admin',
                 'magento_basic',
-                'Mage_Backend_Controller_Context'
+                'Magento_Backend_Controller_Context'
             ),
         );
     }

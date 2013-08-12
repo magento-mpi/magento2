@@ -27,12 +27,12 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Event_Manager $eventManager,
         array $data = array()
     ) {

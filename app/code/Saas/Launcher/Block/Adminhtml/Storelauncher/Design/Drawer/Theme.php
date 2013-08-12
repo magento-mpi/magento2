@@ -15,7 +15,7 @@
  * @package    Saas_Launcher
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme extends Mage_Backend_Block_Template
+class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme extends Magento_Backend_Block_Template
 {
     /**
      * Get preview url for selected theme

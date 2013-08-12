@@ -43,7 +43,7 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     protected $_controllerMock;
 
-    /** @var  Mage_Backend_Block_Template_Context */
+    /** @var  Magento_Backend_Block_Template_Context */
     protected  $_context;
 
     /** @var  PHPUnit_Framework_MockObject_MockObject */
@@ -93,7 +93,7 @@ class Magento_Test_Block_Adminhtml extends PHPUnit_Framework_TestCase
             ->method('translate')
             ->will($this->returnCallback(array($this, 'translateCallback')));
 
-        $this->_context = new Mage_Backend_Block_Template_Context(
+        $this->_context = new Magento_Backend_Block_Template_Context(
             $this->_requestMock,
             $this->_layoutMock,
             $this->_eventManagerMock,

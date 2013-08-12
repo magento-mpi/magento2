@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Block_Inbox extends Mage_Backend_Block_Widget_Grid_Container
+class Magento_AdminNotification_Block_Inbox extends Magento_Backend_Block_Widget_Grid_Container
 {
     protected function _construct()
     {

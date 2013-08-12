@@ -13,7 +13,7 @@
  * @magentoAppArea adminhtml
  * @magentoDataFixture customerGroupDataFixture
  */
-class Magento_Adminhtml_Controller_Customer_GroupTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_Customer_GroupTest extends Magento_Backend_Utility_Controller
 {
     protected static $_customerGroupId;
 

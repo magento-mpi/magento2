@@ -22,7 +22,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
      *
      * @var string
      */
-    protected $_sessionName = 'Mage_Backend_Model_Auth_Session';
+    protected $_sessionName = 'Magento_Backend_Model_Auth_Session';
 
     /**
      * Array of actions which can be processed without secret key validation
@@ -93,7 +93,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
     {
         /** @var $server Magento_Oauth_Model_Server */
         $server = Mage::getModel('Magento_Oauth_Model_Server');
-        /** @var $session Mage_Backend_Model_Auth_Session */
+        /** @var $session Magento_Backend_Model_Auth_Session */
         $session = Mage::getSingleton($this->_sessionName);
 
         $isException = false;
@@ -141,7 +141,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
         /** @var $helper Magento_Oauth_Helper_Data */
         $helper = Mage::helper('Magento_Oauth_Helper_Data');
 
-        /** @var $session Mage_Backend_Model_Auth_Session */
+        /** @var $session Magento_Backend_Model_Auth_Session */
         $session = Mage::getSingleton($this->_sessionName);
 
         /** @var $user Mage_User_Model_User */
@@ -197,7 +197,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
         /** @var $server Magento_Oauth_Model_Server */
         $server = Mage::getModel('Magento_Oauth_Model_Server');
 
-        /** @var $session Mage_Backend_Model_Auth_Session */
+        /** @var $session Magento_Backend_Model_Auth_Session */
         $session = Mage::getSingleton($this->_sessionName);
 
         $this->loadLayout();
@@ -232,7 +232,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
 
     /**
      * Check is login data has empty login or pass
-     * See Mage_Backend_Model_Auth_Session: there is no any error message if login or password is empty
+     * See Magento_Backend_Model_Auth_Session: there is no any error message if login or password is empty
      *
      * @return boolean
      */

@@ -9,7 +9,7 @@
  */
 
 class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
-    extends Mage_Backend_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
@@ -20,11 +20,11 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
     protected $_storeManager;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
-    public function __construct(Mage_Backend_Block_Template_Context $context,
+    public function __construct(Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
@@ -117,7 +117,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
             'legend' => Mage::helper('Magento_SalesRule_Helper_Data')->__('Store View Specific Labels'),
             'class' => 'store-scope',
         ));
-        $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
+        $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
         $fieldset->setRenderer($renderer);
 
         foreach (Mage::app()->getWebsites() as $website) {

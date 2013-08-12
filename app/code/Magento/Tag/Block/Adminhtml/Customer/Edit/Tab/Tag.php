@@ -10,8 +10,8 @@
  * @method Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag setTitle() setTitle(string $title)
  * @method string getTitle() getTitle()
  */
-class Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Mage_Backend_Block_Template
-    implements Mage_Backend_Block_Widget_Tab_Interface
+class Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Magento_Backend_Block_Template
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * Current customer
@@ -21,10 +21,10 @@ class Magento_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Mage_Backend_Blo
     protected $_customer;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Backend_Block_Template_Context $context, array $data = array())
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setId('tags');

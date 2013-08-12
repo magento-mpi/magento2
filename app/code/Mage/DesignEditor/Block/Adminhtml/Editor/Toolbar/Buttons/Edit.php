@@ -12,7 +12,7 @@
  * Edit button block
  */
 class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
-    extends Mage_Backend_Block_Widget_Button_Split
+    extends Magento_Backend_Block_Widget_Button_Split
 {
     /**
      * @var Mage_DesignEditor_Model_Theme_Context
@@ -30,14 +30,14 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
     protected $_localeModel;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param Mage_DesignEditor_Model_Theme_ChangeFactory $changeFactory
      * @param Magento_Core_Model_LocaleInterface $localeModel
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
         Mage_DesignEditor_Model_Theme_ChangeFactory $changeFactory,
         Magento_Core_Model_LocaleInterface $localeModel,
@@ -174,7 +174,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
                 )
             )
         );
-        return $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode($data));
+        return $this->helper('Magento_Backend_Helper_Data')->escapeHtml(json_encode($data));
     }
 
     /**
@@ -195,7 +195,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
                 )
             )
         );
-        return $this->helper('Mage_Backend_Helper_Data')->escapeHtml(json_encode($data));
+        return $this->helper('Magento_Backend_Helper_Data')->escapeHtml(json_encode($data));
     }
 
     /**

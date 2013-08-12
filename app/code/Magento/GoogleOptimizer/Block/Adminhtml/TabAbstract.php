@@ -8,7 +8,7 @@
  * @license {license_link}
  */
 abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
-    extends Mage_Backend_Block_Widget_Form implements Mage_Backend_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget_Form implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
      * @var Magento_GoogleOptimizer_Helper_Data
@@ -31,7 +31,7 @@ abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
     protected $_formHelper;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_GoogleOptimizer_Helper_Data $helperData
      * @param Magento_Core_Model_Registry $registry
      * @param Magento_GoogleOptimizer_Helper_Code $codeHelper
@@ -40,7 +40,7 @@ abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_GoogleOptimizer_Helper_Data $helperData,
         Magento_Core_Model_Registry $registry,
         Magento_GoogleOptimizer_Helper_Code $codeHelper,
@@ -60,7 +60,7 @@ abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
     /**
      * Prepare form before rendering HTML
      *
-     * @return Mage_Backend_Block_Widget_Form
+     * @return Magento_Backend_Block_Widget_Form
      */
     protected function _prepareForm()
     {

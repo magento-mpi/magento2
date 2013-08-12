@@ -30,7 +30,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
     /**
      * Config data loader
      *
-     * @var Mage_Backend_Model_Config_Loader
+     * @var Magento_Backend_Model_Config_Loader
      */
     protected $_configLoader;
 
@@ -42,7 +42,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
     protected $_configWriter;
 
     /**
-     * @var Mage_Backend_Model_Config_Backend_Image_Logo
+     * @var Magento_Backend_Model_Config_Backend_Image_Logo
      */
     protected $_modelLogo;
 
@@ -58,21 +58,21 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandler
 
     /**
      * @param Magento_Core_Model_Config $config
-     * @param Mage_Backend_Model_Config $backendConfigModel
-     * @param Mage_Backend_Model_Config_Loader $configLoader
+     * @param Magento_Backend_Model_Config $backendConfigModel
+     * @param Magento_Backend_Model_Config_Loader $configLoader
      * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
-     * @param Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo
+     * @param Magento_Backend_Model_Config_Backend_Image_Logo $modelLogo
      * @param Saas_Launcher_Helper_Data $helperLauncher
      * @param Mage_Theme_Model_Config $themeConfig
      * @param Magento_Core_Model_ThemeFactory $themeFactory
      */
     public function __construct(
         Magento_Core_Model_Config $config,
-        Mage_Backend_Model_Config $backendConfigModel,
+        Magento_Backend_Model_Config $backendConfigModel,
         Saas_Launcher_Helper_Data $helperLauncher,
-        Mage_Backend_Model_Config_Loader $configLoader,
+        Magento_Backend_Model_Config_Loader $configLoader,
         Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Mage_Backend_Model_Config_Backend_Image_Logo $modelLogo,
+        Magento_Backend_Model_Config_Backend_Image_Logo $modelLogo,
         Mage_Theme_Model_Config $themeConfig,
         Magento_Core_Model_ThemeFactory $themeFactory
     ) {

@@ -16,7 +16,7 @@
             <block type="Mage_User_Block_User_Edit" name="adminhtml.user.edit"/>
         </reference>
         <reference name="js">
-            <block type="Mage_Backend_Block_Template" name="adminhtml.user.roles.grid.js" template="Mage_User::user/roles_grid_js.phtml"/>
+            <block type="Magento_Backend_Block_Template" name="adminhtml.user.roles.grid.js" template="Mage_User::user/roles_grid_js.phtml"/>
         </reference>
     </adminhtml_user_edit>
 </layout>

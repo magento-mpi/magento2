@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Config_Form_Field_MtdStart extends Mage_Backend_Block_System_Config_Form_Field
+class Magento_Adminhtml_Block_Report_Config_Form_Field_MtdStart extends Magento_Backend_Block_System_Config_Form_Field
 {
 
     protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)

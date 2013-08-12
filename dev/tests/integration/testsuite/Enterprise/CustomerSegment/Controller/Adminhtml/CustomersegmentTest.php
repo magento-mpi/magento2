@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Enterprise_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends Mage_Backend_Utility_Controller
+class Enterprise_CustomerSegment_Controller_Adminhtml_CustomersegmentTest extends Magento_Backend_Utility_Controller
 {
     /**
      * Checks that all important blocks are successfully created and rendered.

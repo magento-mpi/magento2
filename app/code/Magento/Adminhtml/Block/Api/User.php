@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Api_User extends Mage_Backend_Block_Widget_Grid_Container
+class Magento_Adminhtml_Block_Api_User extends Magento_Backend_Block_Widget_Grid_Container
 {
 
     protected function _construct()

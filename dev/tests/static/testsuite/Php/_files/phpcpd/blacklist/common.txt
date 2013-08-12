@@ -1,6 +1,6 @@
 Find/Feed/Block/Adminhtml
 Magento/Adminhtml
-Mage/Backend
+Magento/Backend
 Mage/Bundle
 Magento/Catalog/Block/Product/List
 Magento/Catalog/Model/Category/Attribute/Source

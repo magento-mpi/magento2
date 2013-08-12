@@ -15,7 +15,7 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdaterTest extends PHPUnit_Framework_Test
     protected $_helper;
 
     /**
-     * @var Mage_Backend_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Backend_Helper_Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_backendHelper;
 
@@ -33,7 +33,7 @@ class Mage_Webapi_Model_Acl_Role_UsersUpdaterTest extends PHPUnit_Framework_Test
     {
         $this->_helper = new Magento_Test_Helper_ObjectManager($this);
 
-        $this->_backendHelper = $this->getMockBuilder('Mage_Backend_Helper_Data')
+        $this->_backendHelper = $this->getMockBuilder('Magento_Backend_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('prepareFilterString'))
             ->getMock();

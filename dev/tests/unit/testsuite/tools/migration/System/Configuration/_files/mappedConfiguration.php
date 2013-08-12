@@ -82,7 +82,7 @@ return array(
                                 array('name' => 'frontend_class', '#text' => 'frontend_class_test'),
                                 array('name' => 'validate', '#text' => 'validate_test'),
                                 array('name' => 'can_be_empty', '#text' => '1'),
-                                array('name' => 'if_module_enabled', '#text' => 'Mage_Backend'),
+                                array('name' => 'if_module_enabled', '#text' => 'Magento_Backend'),
                                 array('name' => 'frontend_model', '#text' => 'Mage_Some_Model_Name'),
                                 array('name' => 'backend_model', '#text' => 'Mage_Some_Model_Name'),
                                 array('name' => 'source_model', '#text' => 'Mage_Some_Model_Name'),

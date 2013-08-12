@@ -55,7 +55,7 @@ class Magento_Payment_Model_ObserverTest extends PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->_objectManager->create('Mage_Backend_Model_Config')
+        $this->_objectManager->create('Magento_Backend_Model_Config')
             ->setSection('payment')
             ->setWebsite('base')
             ->setGroups(array('groups' => $data['groups']))

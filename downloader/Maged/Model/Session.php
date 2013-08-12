@@ -20,7 +20,7 @@ class Maged_Model_Session extends Maged_Model
     /**
      * Session
      *
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Magento_Backend_Model_Auth_Session
      */
     protected $_session;
 
@@ -32,7 +32,7 @@ class Maged_Model_Session extends Maged_Model
     public function start()
     {
         if (class_exists('Mage') && Mage::isInstalled()) {
-            $this->_session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+            $this->_session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
         } else {
             session_start();
         }
@@ -200,6 +200,6 @@ class Maged_Model_Session extends Maged_Model
         if (!$this->_session || !$this->_session->isLoggedIn()) {
             return '';
         }
-        return Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl();
+        return Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl();
     }
 }

@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_api_user_block>
         <reference name='adminhtml.api.user.container'>
-            <block type="Mage_Backend_Block_Widget_Grid" name='adminhtml.api.user.grid' as='grid'>
+            <block type="Magento_Backend_Block_Widget_Grid" name='adminhtml.api.user.grid' as='grid'>
                 <arguments>
                     <id>permissionsUserGrid</id>
                     <dataSource type="object">Magento_Api_Model_Resource_User_Collection</dataSource>
@@ -21,7 +21,7 @@
                         <path>*/*/roleGrid</path>
                     </grid_url>
                 </arguments>
-                <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.api.user.grid.columnSet' as='grid.columnSet'>
+                <block type='Magento_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.api.user.grid.columnSet' as='grid.columnSet'>
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -30,7 +30,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='user_id'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='user_id'>
                         <arguments>
                             <header translate='true' module='Magento_Adminhtml'>ID</header>
                             <index>user_id</index>
@@ -39,25 +39,25 @@
                             <width>5</width>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='username'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='username'>
                         <arguments>
                             <header translate='true' module='Magento_Adminhtml'>User Name</header>
                             <index>username</index>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='firstname'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='firstname'>
                         <arguments>
                             <header translate='true' module='Magento_Adminhtml'>First Name</header>
                             <index>firstname</index>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='lastname'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='lastname'>
                         <arguments>
                             <header translate='true' module='Magento_Adminhtml'>Last Name</header>
                             <index>lastname</index>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='email'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='email'>
                         <arguments>
                             <header translate='true' module='Magento_Adminhtml'>Email</header>
                             <index>email</index>
@@ -65,7 +65,7 @@
                             <align>left</align>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='is_active'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='is_active'>
                         <arguments>
                             <header translate='true' module='Magento_Adminhtml'>Status</header>
                             <index>is_active</index>

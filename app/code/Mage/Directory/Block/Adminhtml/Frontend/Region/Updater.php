@@ -9,7 +9,7 @@
  */
 
 class Mage_Directory_Block_Adminhtml_Frontend_Region_Updater
-    extends Mage_Backend_Block_System_Config_Form_Field
+    extends Magento_Backend_Block_System_Config_Form_Field
 {
     protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
     {

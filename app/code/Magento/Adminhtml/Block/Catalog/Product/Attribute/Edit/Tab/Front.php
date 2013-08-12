@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Mage_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Magento_Backend_Block_Widget_Form
 {
     /**
      * @inheritdoc
@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends M
 
         $form = new Magento_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
 
-        $yesnoSource = Mage::getModel('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();;
+        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();;
 
         $fieldset = $form->addFieldset(
             'front_fieldset',

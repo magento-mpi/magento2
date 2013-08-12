@@ -10,7 +10,7 @@
  * @method Magento_Object getApiUser() getApiUser()
  * @method Mage_Webapi_Block_Adminhtml_User_Edit setApiUser() setApiUser(Magento_Object $apiUser)
  */
-class Mage_Webapi_Block_Adminhtml_User_Edit extends Mage_Backend_Block_Widget_Form_Container
+class Mage_Webapi_Block_Adminhtml_User_Edit extends Magento_Backend_Block_Widget_Form_Container
 {
     /**
      * @var string

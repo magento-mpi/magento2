@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_ImportExport_Block_Adminhtml_Export_Result_Download extends Mage_Backend_Block_Widget_Container
+class Saas_ImportExport_Block_Adminhtml_Export_Result_Download extends Magento_Backend_Block_Widget_Container
 {
     /**
      * @var Saas_ImportExport_Helper_Export_File
@@ -15,12 +15,12 @@ class Saas_ImportExport_Block_Adminhtml_Export_Result_Download extends Mage_Back
     protected $_fileHelper;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_ImportExport_Helper_Export_File $fileHelper
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Saas_ImportExport_Helper_Export_File $fileHelper,
         array $data = array()
     ) {

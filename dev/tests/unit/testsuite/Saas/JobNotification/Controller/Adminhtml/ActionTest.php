@@ -50,7 +50,7 @@ class Saas_JobNotification_Controller_Adminhtml_ActionTest extends PHPUnit_Frame
         $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Saas_JobNotification_Helper_Data', array(), array(), '', false);
         $this->_serviceMock = $this->getMock('Saas_JobNotification_Service_Notification', array(), array(), '', false);
-        $this->_sessionMock = $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false);
+        $this->_sessionMock = $this->getMock('Magento_Backend_Model_Session', array(), array(), '', false);
 
         $arguments = array(
             'authorization' => $this->_authorizationMock,

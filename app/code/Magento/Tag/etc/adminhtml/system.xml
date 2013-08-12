@@ -15,7 +15,7 @@
             <group id="catalog" translate="label">
                 <field id="tag" translate="label" type="select" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Tags Products</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Enabledisable</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Enabledisable</source_model>
                 </field>
             </group>
         </section>

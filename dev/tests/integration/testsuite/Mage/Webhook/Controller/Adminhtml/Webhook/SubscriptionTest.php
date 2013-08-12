@@ -13,7 +13,7 @@
  * @license     {license_link}
  *
  */
-class Mage_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends Mage_Backend_Utility_Controller
+class Mage_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends Magento_Backend_Utility_Controller
 {
     /** @var Mage_Webhook_Model_Subscription  */
     private $_subscription;

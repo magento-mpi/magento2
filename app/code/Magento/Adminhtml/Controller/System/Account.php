@@ -31,7 +31,7 @@ class Magento_Adminhtml_Controller_System_Account extends Magento_Adminhtml_Cont
      */
     public function saveAction()
     {
-        $userId = $this->_objectManager->get('Mage_Backend_Model_Auth_Session')->getUser()->getId();
+        $userId = $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->getUser()->getId();
         $password = (string)$this->getRequest()->getParam('password');
         $passwordConfirmation = (string)$this->getRequest()->getParam('password_confirmation');
         $interfaceLocale = (string)$this->getRequest()->getParam('interface_locale', false);
@@ -55,7 +55,7 @@ class Magento_Adminhtml_Controller_System_Account extends Magento_Adminhtml_Cont
         if ($this->_objectManager->get('Magento_Core_Model_Locale_Validator')->isValid($interfaceLocale)) {
 
             $user->setInterfaceLocale($interfaceLocale);
-            $this->_objectManager->get('Mage_Backend_Model_Locale_Manager')
+            $this->_objectManager->get('Magento_Backend_Model_Locale_Manager')
                 ->switchBackendInterfaceLocale($interfaceLocale);
         }
 

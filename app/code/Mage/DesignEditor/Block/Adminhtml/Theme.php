@@ -14,7 +14,7 @@
  * @method Mage_DesignEditor_Block_Adminhtml_Theme setTheme(Magento_Core_Model_Theme $theme)
  * @method Magento_Core_Model_Theme getTheme()
  */
-class Mage_DesignEditor_Block_Adminhtml_Theme extends Mage_Backend_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Theme extends Magento_Backend_Block_Template
 {
     /**
      * Buttons array
@@ -26,7 +26,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme extends Mage_Backend_Block_Templat
     /**
      * Add button
      *
-     * @param Mage_Backend_Block_Widget_Button $button
+     * @param Magento_Backend_Block_Widget_Button $button
      * @return Mage_DesignEditor_Block_Adminhtml_Theme
      */
     public function addButton($button)
@@ -54,7 +54,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme extends Mage_Backend_Block_Templat
     public function getButtonsHtml()
     {
         $output = '';
-        /** @var $button Mage_Backend_Block_Widget_Button */
+        /** @var $button Magento_Backend_Block_Widget_Button */
         foreach ($this->_buttons as $button) {
             $output .= $button->toHtml();
         }
@@ -97,12 +97,12 @@ class Mage_DesignEditor_Block_Adminhtml_Theme extends Mage_Backend_Block_Templat
     /**
      * Get quick save button
      *
-     * @return Mage_Backend_Block_Widget_Button
+     * @return Magento_Backend_Block_Widget_Button
      */
     public function getQuickSaveButton()
     {
-        /** @var $saveButton Mage_Backend_Block_Widget_Button */
-        $saveButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        /** @var $saveButton Magento_Backend_Block_Widget_Button */
+        $saveButton = $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button');
         $saveButton->setData(array(
             'label'     => $this->__('Save'),
             'class'     => 'action-save',

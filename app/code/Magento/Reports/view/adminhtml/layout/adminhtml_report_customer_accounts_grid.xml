@@ -33,7 +33,7 @@
                 <id>gridAccounts</id>
                 <count_totals>1</count_totals>
             </arguments>
-            <block type="Mage_Backend_Block_Widget_Grid_Column" as="accounts">
+            <block type="Magento_Backend_Block_Widget_Grid_Column" as="accounts">
                 <arguments>
                     <header translate="true" module="Magento_Reports">New Accounts</header>
                     <index>accounts</index>

@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 class Magento_AdminNotification_Block_Grid_Renderer_Severity
-    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * @var Magento_AdminNotification_Model_Inbox
@@ -18,12 +18,12 @@ class Magento_AdminNotification_Block_Grid_Renderer_Severity
     protected $_notice;
 
     /**
-     * @param Mage_Backend_Block_Context $context
+     * @param Magento_Backend_Block_Context $context
      * @param Magento_AdminNotification_Model_Inbox $notice
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Context $context,
+        Magento_Backend_Block_Context $context,
         Magento_AdminNotification_Model_Inbox $notice,
         array $data = array()
     ) {

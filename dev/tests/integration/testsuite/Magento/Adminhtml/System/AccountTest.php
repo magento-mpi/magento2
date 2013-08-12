@@ -9,7 +9,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_System_AccountTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_System_AccountTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoDbIsolation enabled

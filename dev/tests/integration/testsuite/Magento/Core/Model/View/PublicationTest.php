@@ -348,10 +348,10 @@ class Magento_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
                 ),
                 'adminhtml/magento_backend/en_US/Magento_Catalog/product/product.css',
                 array(
-                    'url(../../Mage_Backend/images/gallery-image-base-label.png)',
+                    'url(../../Magento_Backend/images/gallery-image-base-label.png)',
                 ),
                 array(
-                    'adminhtml/magento_backend/en_US/Mage_Backend/images/gallery-image-base-label.png',
+                    'adminhtml/magento_backend/en_US/Magento_Backend/images/gallery-image-base-label.png',
                 ),
             ),
             'adminhtml' => array(

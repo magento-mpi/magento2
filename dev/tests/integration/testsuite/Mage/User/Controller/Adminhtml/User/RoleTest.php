@@ -14,7 +14,7 @@
  *
  * @magentoAppArea adminhtml
  */
-class Mage_User_Controller_Adminhtml_User_RoleTest extends Mage_Backend_Utility_Controller
+class Mage_User_Controller_Adminhtml_User_RoleTest extends Magento_Backend_Utility_Controller
 {
     public function testEditRoleAction()
     {

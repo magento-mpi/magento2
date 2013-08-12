@@ -9,7 +9,7 @@
  */
 
 class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
-    extends Mage_Backend_Block_System_Config_Form_Field
+    extends Magento_Backend_Block_System_Config_Form_Field
 {
     protected $_addRowButtonHtml = array();
     protected $_removeRowButtonHtml = array();

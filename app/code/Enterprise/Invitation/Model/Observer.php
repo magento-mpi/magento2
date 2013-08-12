@@ -60,7 +60,7 @@ class Enterprise_Invitation_Model_Observer
      */
     public function postDispatchInvitationMassUpdate($config, $eventModel)
     {
-        $messages = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getMessages();
+        $messages = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getMessages();
         $errors = $messages->getErrors();
         $notices = $messages->getItemsByType(Magento_Core_Model_Message::NOTICE);
         $status = (empty($errors) && empty($notices))

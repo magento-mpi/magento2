@@ -11,7 +11,7 @@
 /**
  * Theme editor container
  */
-class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Mage_Backend_Block_Widget_Form_Container
+class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Magento_Backend_Block_Widget_Form_Container
 {
     /**
      * Prepare layout

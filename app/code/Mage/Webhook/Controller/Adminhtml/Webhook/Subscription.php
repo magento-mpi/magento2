@@ -10,7 +10,7 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backend_Controller_ActionAbstract
+class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Magento_Backend_Controller_ActionAbstract
 {
     /** Param Key for extracting subscription id from Request */
     const PARAM_SUBSCRIPTION_ID = 'id';
@@ -40,13 +40,13 @@ class Mage_Webhook_Controller_Adminhtml_Webhook_Subscription extends Mage_Backen
      *
      * @param Magento_Core_Model_Registry $registry
      * @param Mage_Webhook_Service_SubscriptionV1Interface $subscriptionService
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param string $areaCode
      */
     public function __construct(
         Magento_Core_Model_Registry $registry,
         Mage_Webhook_Service_SubscriptionV1Interface $subscriptionService,
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);

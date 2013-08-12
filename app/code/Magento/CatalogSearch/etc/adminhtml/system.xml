@@ -15,7 +15,7 @@
             <group id="seo">
                 <field id="search_terms" translate="label" module="Magento_CatalogSearch" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Popular Search Terms</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Enabledisable</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Enabledisable</source_model>
                 </field>
             </group>
             <group id="search" translate="label" module="Magento_CatalogSearch" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">

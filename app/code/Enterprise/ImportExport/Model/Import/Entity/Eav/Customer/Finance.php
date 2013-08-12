@@ -121,7 +121,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
         $this->_objectFactory = isset($data['object_factory']) ? $data['object_factory']
             : Mage::app()->getConfig();
         $this->_adminUser = isset($data['admin_user']) ? $data['admin_user']
-            : Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
+            : Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
 
         $this->addMessageTemplate(self::ERROR_FINANCE_WEBSITE_IS_EMPTY,
             $this->_helper('Enterprise_ImportExport_Helper_Data')->__('Finance information website is not specified')

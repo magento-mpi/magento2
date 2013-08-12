@@ -26,13 +26,13 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Magent
     protected $_customizationConfig;
 
     /**
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Mage_Theme_Model_Config $themeConfig
      * @param Mage_Theme_Model_Config_Customization $customizationConfig
      * @param null $areaCode
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Mage_Theme_Model_Config $themeConfig,
         Mage_Theme_Model_Config_Customization $customizationConfig,
         $areaCode = null

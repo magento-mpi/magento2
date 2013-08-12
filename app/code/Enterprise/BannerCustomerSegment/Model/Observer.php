@@ -98,7 +98,7 @@ class Enterprise_BannerCustomerSegment_Model_Observer
         $form = $observer->getEvent()->getForm();
         /** @var Magento_Object $model */
         $model = $observer->getEvent()->getModel();
-        /** @var Mage_Backend_Block_Widget_Form_Element_Dependence $afterFormBlock */
+        /** @var Magento_Backend_Block_Widget_Form_Element_Dependence $afterFormBlock */
         $afterFormBlock = $observer->getEvent()->getAfterFormBlock();
         $this->_segmentHelper->addSegmentFieldsToForm($form, $model, $afterFormBlock);
     }

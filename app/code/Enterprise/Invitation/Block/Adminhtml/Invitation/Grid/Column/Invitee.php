@@ -13,7 +13,7 @@
  *
  */
 class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee
-    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
      * Render invitee email linked to its account edit page
@@ -27,7 +27,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee
             if (!$row->getReferralId()) {
                 return '';
             }
-            return '<a href="' . Mage::getSingleton('Mage_Backend_Model_Url')
+            return '<a href="' . Mage::getSingleton('Magento_Backend_Model_Url')
                 ->getUrl('*/customer/edit', array('id' => $row->getReferralId())) . '">'
                    . $this->escapeHtml($row->getData($this->getColumn()->getIndex())) . '</a>';
         } else {

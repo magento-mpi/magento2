@@ -18,7 +18,7 @@
                     <default_dir>desc</default_dir>
                     <use_ajax>1</use_ajax>>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="adminhtml.newslettrer.subscriber.grid.massaction" as="grid.massaction">
+                <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="adminhtml.newslettrer.subscriber.grid.massaction" as="grid.massaction">
                     <arguments>
                         <massaction_id_field>subscriber_id</massaction_id_field>
                         <form_field_name>subscriber</form_field_name>
@@ -35,7 +35,7 @@
                         </options>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_Export" name="adminhtml.newslettrer.subscriber.grid.export" as="grid.export">
+                <block type="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.newslettrer.subscriber.grid.export" as="grid.export">
                     <arguments>
                         <exportTypes>
                             <csv>
@@ -49,11 +49,11 @@
                         </exportTypes>
                     </arguments>
                 </block>
-                <block type='Mage_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.newslettrer.subscriber.grid.columnSet' as='grid.columnSet'>
+                <block type='Magento_Backend_Block_Widget_Grid_ColumnSet' name='adminhtml.newslettrer.subscriber.grid.columnSet' as='grid.columnSet'>
                     <arguments>
                         <id>problemGrid</id>
                     </arguments>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='subscriber_id'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='subscriber_id'>
                         <arguments>
                             <header translate='true' module='Magento_Newsletter'>ID</header>
                             <index>subscriber_id</index>
@@ -61,7 +61,7 @@
                             <column_css_class>col-id</column_css_class>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='email'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='email'>
                         <arguments>
                             <header translate='true' module='Magento_Newsletter'>Email</header>
                             <index>subscriber_email</index>
@@ -69,7 +69,7 @@
                             <column_css_class>ccol-email</column_css_class>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='type'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='type'>
                         <arguments>
                             <header translate='true' module='Magento_Newsletter'>Type</header>
                             <index>type</index>
@@ -79,7 +79,7 @@
                             <column_css_class>col-type</column_css_class>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='firstname'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='firstname'>
                         <arguments>
                             <header translate='true' module='Magento_Newsletter'>Customer First Name</header>
                             <index>customer_firstname</index>
@@ -88,7 +88,7 @@
                             <column_css_class>col-first-name</column_css_class>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='lastname'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='lastname'>
                         <arguments>
                             <header translate='true' module='Magento_Newsletter'>Customer Last Name</header>
                             <index>customer_lastname</index>
@@ -97,7 +97,7 @@
                             <column_css_class>col-last-name</column_css_class>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column' as='status'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column' as='status'>
                         <arguments>
                             <header translate='true' module='Magento_Newsletter'>Status</header>
                             <index>subscriber_status</index>
@@ -107,17 +107,17 @@
                             <column_css_class>col-status</column_css_class>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column_Multistore' as='website'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column_Multistore' as='website'>
                         <arguments>
                             <header translate='true' module='Magento_Newsletter'>Web Site</header>
                             <index>website_id</index>
                             <type>options</type>
-                            <options type="options">Mage_Backend_Model_Config_Source_Website_OptionHash</options>
+                            <options type="options">Magento_Backend_Model_Config_Source_Website_OptionHash</options>
                             <header_css_class>col-website</header_css_class>
                             <column_css_class>col-website</column_css_class>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column_Multistore' as='group'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column_Multistore' as='group'>
                         <arguments>
                             <header translate='true' module='Magento_Newsletter'>Store</header>
                             <index>group_id</index>
@@ -127,7 +127,7 @@
                             <column_css_class>col-store</column_css_class>
                         </arguments>
                     </block>
-                    <block type='Mage_Backend_Block_Widget_Grid_Column_Multistore' as='store'>
+                    <block type='Magento_Backend_Block_Widget_Grid_Column_Multistore' as='store'>
                         <arguments>
                             <header translate='true' module='Magento_Newsletter'>Store View</header>
                             <index>store_id</index>

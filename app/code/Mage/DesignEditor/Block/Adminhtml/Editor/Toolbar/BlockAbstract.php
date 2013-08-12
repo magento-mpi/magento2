@@ -11,7 +11,7 @@
 /**
  * Abstract toolbar block
  */
-abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstract extends Mage_Backend_Block_Template
+abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstract extends Magento_Backend_Block_Template
 {
     /**
      * Current VDE mode

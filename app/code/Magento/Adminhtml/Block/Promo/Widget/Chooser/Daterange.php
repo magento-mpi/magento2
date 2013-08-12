@@ -12,7 +12,7 @@
  * Date range promo widget chooser
  * Currently works without localized format
  */
-class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Mage_Backend_Block_Abstract
+class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Backend_Block_Abstract
 {
     /**
      * HTML ID of the element that will obtain the joined chosen values

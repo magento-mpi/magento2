@@ -23,7 +23,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
     protected $_requestMock;
 
     /**
-     * @var Mage_Backend_Model_Session|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Backend_Model_Session|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sessionMock;
 
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
         );
         $this->_responseMock->headersSentThrowsException = false;
         $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
-        $this->_sessionMock = $this->getMock('Mage_Backend_Model_Session',
+        $this->_sessionMock = $this->getMock('Magento_Backend_Model_Session',
             array('addError', 'setFormData'), array(), '', false);
         $this->_objectManager = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $registryMock = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false, false);
@@ -59,7 +59,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
             'objectManager' => $this->_objectManager,
         );
 
-        $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
+        $context = $helper->getObject('Magento_Backend_Controller_Context', $arguments);
 
         $this->_controller = $helper->getObject('Magento_Adminhtml_Controller_Sales_Order_Creditmemo',
             array('context' => $context));

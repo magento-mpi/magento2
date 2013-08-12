@@ -59,10 +59,10 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
             return array();
         }
 
-        /** @var Mage_Backend_Model_Config_Structure $configStructure  */
-        $configStructure = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
+        /** @var Magento_Backend_Model_Config_Structure $configStructure  */
+        $configStructure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
         $templatePaths = $configStructure
-            ->getFieldPathsByAttribute('source_model', 'Mage_Backend_Model_Config_Source_Email_Template');
+            ->getFieldPathsByAttribute('source_model', 'Magento_Backend_Model_Config_Source_Email_Template');
 
         if (!count($templatePaths)) {
             return array();

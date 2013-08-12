@@ -498,7 +498,7 @@ final class Maged_Controller
                 }
                 Mage::getObjectManager()->get('Magento_Core_Model_App');
                 if (self::isInstalled()) {
-                    Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
+                    Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
                 }
             }
         }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Block_Adminhtml_Role extends Mage_Backend_Block_Widget_Grid_Container
+class Mage_Webapi_Block_Adminhtml_Role extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * @var string

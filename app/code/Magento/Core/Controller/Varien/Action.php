@@ -501,7 +501,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
                     $session->setSkipSessionIdFlag(true);
                 } elseif ($checkCookie) {
                     if (isset($_GET[$session->getSessionIdQueryParam()]) && Mage::app()->getUseSessionInUrl()
-                        && $this->_sessionNamespace != Mage_Backend_Controller_ActionAbstract::SESSION_NAMESPACE
+                        && $this->_sessionNamespace != Magento_Backend_Controller_ActionAbstract::SESSION_NAMESPACE
                     ) {
                         $session->setCookieShouldBeReceived(true);
                     } else {
@@ -764,7 +764,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         /** @var $session Magento_Core_Model_Session */
         $session = $this->_objectManager->get('Magento_Core_Model_Session');
         if ($session->getCookieShouldBeReceived() && Mage::app()->getUseSessionInUrl()
-            && $this->_sessionNamespace != Mage_Backend_Controller_ActionAbstract::SESSION_NAMESPACE
+            && $this->_sessionNamespace != Magento_Backend_Controller_ActionAbstract::SESSION_NAMESPACE
         ) {
             $arguments += array('_query' => array(
                 $session->getSessionIdQueryParam() => $session->getSessionId()

@@ -44,7 +44,7 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
         $customization = $this->_getCurrentTheme()->getCustomization();
         $customJsFiles = $customization->getFilesByType(Magento_Core_Model_Theme_Customization_File_Js::TYPE);
 
-        /** @var $jsFieldsetRenderer Mage_Backend_Block_Widget_Form_Renderer_Fieldset */
+        /** @var $jsFieldsetRenderer Magento_Backend_Block_Widget_Form_Renderer_Fieldset */
         $jsFieldsetRenderer = $this->getChildBlock('theme_edit_tabs_tab_js_tab_content');
         $jsFieldsetRenderer->setJsFiles($customization->generateFileInfo($customJsFiles));
 

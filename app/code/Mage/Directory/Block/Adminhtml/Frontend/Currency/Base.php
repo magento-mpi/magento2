@@ -14,7 +14,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Directory_Block_Adminhtml_Frontend_Currency_Base extends Mage_Backend_Block_System_Config_Form_Field
+class Mage_Directory_Block_Adminhtml_Frontend_Currency_Base extends Magento_Backend_Block_System_Config_Form_Field
 {
     public function render(Magento_Data_Form_Element_Abstract $element)
     {

@@ -44,14 +44,14 @@
                 <visible>1</visible>
                 <label>Italic</label>
                 <type>select</type>
-                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 <sort_order>15</sort_order>
             </header_font_italic>
             <header_font_bold translate="label">
                 <visible>1</visible>
                 <label>Bold</label>
                 <type>select</type>
-                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 <sort_order>20</sort_order>
             </header_font_bold>
             <hide_table_header>
@@ -88,14 +88,14 @@
                 <visible>1</visible>
                 <label>Italic</label>
                 <type>select</type>
-                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 <sort_order>120</sort_order>
             </row_font_italic>
             <row_font_bold translate="label">
                 <visible>1</visible>
                 <label>Bold</label>
                 <type>select</type>
-                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 <sort_order>125</sort_order>
             </row_font_bold>
             <hide_table_body>
@@ -167,7 +167,7 @@
                 <visible>1</visible>
                 <label>Display Discount Taxes</label>
                 <type>select</type>
-                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 <value>1</value>
                 <sort_order>33</sort_order>
             </enable_discount_taxes>
@@ -201,14 +201,14 @@
                 <visible>1</visible>
                 <label>Italic</label>
                 <type>select</type>
-                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 <sort_order>65</sort_order>
             </header_font_italic>
             <header_font_bold translate="label">
                 <visible>1</visible>
                 <label>Bold</label>
                 <type>select</type>
-                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 <sort_order>70</sort_order>
             </header_font_bold>
 
@@ -240,14 +240,14 @@
                 <visible>1</visible>
                 <label>Italic</label>
                 <type>select</type>
-                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 <sort_order>110</sort_order>
             </row_font_italic>
             <row_font_bold translate="label">
                 <visible>1</visible>
                 <label>Bold</label>
                 <type>select</type>
-                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 <sort_order>120</sort_order>
             </row_font_bold>
         </parameters>

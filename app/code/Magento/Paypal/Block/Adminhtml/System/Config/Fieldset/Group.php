@@ -12,7 +12,7 @@
  * Fieldset renderer for PayPal solutions group
  */
 class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Group
-    extends Mage_Backend_Block_System_Config_Form_Fieldset
+    extends Magento_Backend_Block_System_Config_Form_Fieldset
 {
     /**
      * Return header comment part of html for fieldset
@@ -43,7 +43,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Group
      */
     protected function _isCollapseState($element)
     {
-        $extra = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getExtra();
+        $extra = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getExtra();
         if (isset($extra['configState'][$element->getId()])) {
             return $extra['configState'][$element->getId()];
         }

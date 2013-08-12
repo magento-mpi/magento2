@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webhook_Block_Adminhtml_Subscription_Edit extends Mage_Backend_Block_Widget_Form_Container
+class Mage_Webhook_Block_Adminhtml_Subscription_Edit extends Magento_Backend_Block_Widget_Form_Container
 {
     /** Key used to store subscription data into the registry */
     const REGISTRY_KEY_CURRENT_SUBSCRIPTION = 'current_subscription';
@@ -22,12 +22,12 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit extends Mage_Backend_Block_
 
     /**
      * @param Magento_Core_Model_Registry $registry
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Registry $registry,
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         parent::__construct($context, $data);

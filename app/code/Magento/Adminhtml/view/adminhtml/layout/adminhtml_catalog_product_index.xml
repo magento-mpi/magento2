@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="page-title">
-            <block type="Mage_Backend_Block_Store_Switcher" name="store_switcher">
+            <block type="Magento_Backend_Block_Store_Switcher" name="store_switcher">
                 <action method="setUseConfirm">
                     <params>1</params>
                 </action>

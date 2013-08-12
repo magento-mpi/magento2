@@ -26,14 +26,14 @@ class Magento_Adminhtml_Controller_Cache extends Magento_Adminhtml_Controller_Ac
     private $_cacheFrontendPool;
 
     /**
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Cache $cache
      * @param Magento_Core_Model_Cache_Types $cacheTypes
      * @param Magento_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Cache $cache,
         Magento_Core_Model_Cache_Types $cacheTypes,
         Magento_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,

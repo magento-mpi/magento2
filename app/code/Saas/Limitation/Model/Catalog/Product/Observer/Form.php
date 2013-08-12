@@ -45,7 +45,7 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Form
                 !$product || $product->isObjectNew() ? 2 : 1
             );
             if ($isThresholdReached) {
-                /** @var Mage_Backend_Block_Widget_Button_Split $child */
+                /** @var Magento_Backend_Block_Widget_Button_Split $child */
                 $child = $block->getChildBlock('save-split-button');
                 $restrictedButtons = array('new-button', 'duplicate-button');
                 $filteredOptions = array();

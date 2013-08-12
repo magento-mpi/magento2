@@ -89,8 +89,8 @@ dev/tests/integration/testsuite/Magento/Checkout/Controller/MultishippingTest.ph
 # following tests must be refactored to be applicable in Saas Edition
 # MAGETWO-10542, test requires Magento_Downloadable module,
 dev/tests/integration/testsuite/Magento/Adminhtml/Model/Sales/Order/CreateTest.php
-# MAGETWO-10546, Saas_Saas_Exception: Modification is not permitted in Mage_Backend_Model_ConfigTest::testSaveWithSingleStoreModeEnabled
-dev/tests/integration/testsuite/Mage/Backend/Model/ConfigTest.php
+# MAGETWO-10546, Saas_Saas_Exception: Modification is not permitted in Magento_Backend_Model_ConfigTest::testSaveWithSingleStoreModeEnabled
+dev/tests/integration/testsuite/Magento/Backend/Model/ConfigTest.php
 # MAGETWO-10544, test requires Magento_Downloadable module
 dev/tests/integration/testsuite/Magento/Catalog/Model/Product/TypeTest.php
 # MAGETWO-10543, test requires Magento_Downloadable module

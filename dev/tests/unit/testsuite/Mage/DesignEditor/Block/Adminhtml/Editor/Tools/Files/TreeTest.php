@@ -12,7 +12,7 @@
 class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_TreeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlBuilder;
 
@@ -29,7 +29,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Files_TreeTest extends PHPU
     public function setUp()
     {
         $this->_helperStorage = $this->getMock('Mage_Theme_Helper_Storage', array(), array(), '', false);
-        $this->_urlBuilder = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false);
+        $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $constructArguments =  $objectManagerHelper->getConstructArguments(

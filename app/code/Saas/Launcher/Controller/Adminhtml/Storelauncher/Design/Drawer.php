@@ -26,13 +26,13 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_Design_Drawer
     protected  $_helperFactory;
 
     /**
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Factory_Helper $helperFactory
      * @param string $areaCode
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Factory_Helper $helperFactory,
         $areaCode = null,
         array $data = array()

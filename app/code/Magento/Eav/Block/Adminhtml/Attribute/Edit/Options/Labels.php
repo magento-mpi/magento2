@@ -15,7 +15,7 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Mage_Backend_Block_Template
+class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Magento_Backend_Block_Template
 {
     /** @var Magento_Core_Model_StoreManager */
     protected $_storeManager;
@@ -37,7 +37,7 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels extends Mage_Bac
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Registry $registry,
         array $data = array()

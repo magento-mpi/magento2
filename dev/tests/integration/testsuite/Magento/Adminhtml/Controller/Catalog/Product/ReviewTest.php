@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Catalog_Product_ReviewTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_Catalog_Product_ReviewTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoDataFixture Magento/Review/_files/review_xss.php

@@ -85,7 +85,7 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminh
             'legend' => Mage::helper('Magento_Sales_Helper_Data')->__('Store View Specific Labels'),
             'class' => 'store-scope',
         ));
-        $renderer = $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
+        $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
         $fieldset->setRenderer($renderer);
 
         foreach (Mage::app()->getWebsites() as $website) {

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Backend
+ * @package     Magento_Backend
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -36,11 +36,11 @@ class Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Framework_TestCase
         ;
         $configMock->expects($this->any())
             ->method('getModuleDir')
-            ->with('etc', 'Mage_Backend')
-            ->will($this->returnValue($modulesDir . '/Mage/Backend/etc'))
+            ->with('etc', 'Magento_Backend')
+            ->will($this->returnValue($modulesDir . '/Magento/Backend/etc'))
         ;
         try {
-            $objectManager->create('Mage_Backend_Model_Config_Structure_Reader', array(
+            $objectManager->create('Magento_Backend_Model_Config_Structure_Reader', array(
                 'moduleReader' => $configMock,
                 'runtimeValidation' => true,
             ));

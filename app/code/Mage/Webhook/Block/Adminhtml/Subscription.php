@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webhook_Block_Adminhtml_Subscription extends Mage_Backend_Block_Widget_Grid_Container
+class Mage_Webhook_Block_Adminhtml_Subscription extends Magento_Backend_Block_Widget_Grid_Container
 {
     /**
      * @var string

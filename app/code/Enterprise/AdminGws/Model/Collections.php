@@ -313,8 +313,8 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     protected function _initRssAdminRole()
     {
-        /* @var $session Mage_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        /* @var $session Magento_Backend_Model_Auth_Session */
+        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
         /* @var $adminUser Mage_User_Model_User */
         $adminUser = $session->getUser();
         if ($adminUser) {

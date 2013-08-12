@@ -15,12 +15,12 @@ class Saas_Index_Controller_Adminhtml_Saas_Index extends Magento_Adminhtml_Contr
     protected $_flag;
 
     /**
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Saas_Index_Model_FlagFactory $flagFactory
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Saas_Index_Model_FlagFactory $flagFactory,
         $areaCode = null
     ) {

@@ -33,12 +33,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magento_Adm
     protected $_nodePreviewStoreId;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         array $data = array()
     ) {
@@ -137,7 +137,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magento_Adm
             'value'     => Mage::helper('Enterprise_Cms_Helper_Data')->__('Preview is not available.'),
         ));
 
-        $yesNoOptions = Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesNoOptions = Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
 
         /**
          * Define field set with elements for root nodes

@@ -26,8 +26,8 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest extends 
     protected function setUp()
     {
         // 1. Get helper mock
-        /** @var $helper Mage_Backend_Helper_Data|PHPUnit_Framework_MockObject_MockObject */
-        $helper = $this->getMock('Mage_Backend_Helper_Data', array('escapeHtml'), array(), '', false);
+        /** @var $helper Magento_Backend_Helper_Data|PHPUnit_Framework_MockObject_MockObject */
+        $helper = $this->getMock('Magento_Backend_Helper_Data', array('escapeHtml'), array(), '', false);
         $helper->expects($this->any())
             ->method('escapeHtml')
             ->will($this->returnArgument(0));
@@ -37,12 +37,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_SaveTest extends 
         $layout = $this->getMock('Magento_Core_Model_Layout', array('helper'), array(), '', false);
         $layout->expects($this->any())
             ->method('helper')
-            ->with('Mage_Backend_Helper_Data')
+            ->with('Magento_Backend_Helper_Data')
             ->will($this->returnValue($helper));
 
         // 3. Get service mock
-        /** @var $service Mage_Backend_Helper_Data|PHPUnit_Framework_MockObject_MockObject */
-        $service = $this->getMock('Mage_Backend_Helper_Data', array('escapeHtml'), array(), '', false);
+        /** @var $service Magento_Backend_Helper_Data|PHPUnit_Framework_MockObject_MockObject */
+        $service = $this->getMock('Magento_Backend_Helper_Data', array('escapeHtml'), array(), '', false);
 
         // 4. Get URL model
         /** @var $urlBuilder Magento_Core_Model_Url|PHPUnit_Framework_MockObject_MockObject */

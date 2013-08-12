@@ -50,8 +50,8 @@ abstract class Saas_Launcher_Controller_BasePageTestCaseAbstract extends PHPUnit
         $this->_objectManagerMock = $this->getMock('Magento_ObjectManager', array(), array(), '', false);
         $frontController = $this->getMock('Magento_Core_Controller_Varien_Front', array(), array(), '', false);
         $layoutFactory = $this->getMock('Magento_Core_Model_Layout_Factory', array(), array(), '', false);
-        $backendHelper = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
-        $backendSession = $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false);
+        $backendHelper = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $backendSession = $this->getMock('Magento_Backend_Model_Session', array(), array(), '', false);
 
         $this->_controller = $this->_getMockedPageControllerInstance(
             $request,

@@ -84,7 +84,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends Magento_Te
         );
 
         $this->_formMock =  $this->getMock('Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form', $methods, $arguments);
-        $columnsSetMock = $this->_makeMock('Mage_Backend_Block_Widget_Grid_ColumnSet');
+        $columnsSetMock = $this->_makeMock('Magento_Backend_Block_Widget_Grid_ColumnSet');
         $this->_setStub($this->_formMock, 'getChildBlock', $columnsSetMock);
 
         // Intended to call _prepareColumns

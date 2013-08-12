@@ -36,7 +36,7 @@ class Mage_DesignEditor_Model_State
     /**#@-*/
 
     /**
-     * @var Mage_Backend_Model_Session
+     * @var Magento_Backend_Model_Session
      */
     protected $_backendSession;
 
@@ -73,7 +73,7 @@ class Mage_DesignEditor_Model_State
     protected $_application;
 
     /**
-     * @param Mage_Backend_Model_Session $backendSession
+     * @param Magento_Backend_Model_Session $backendSession
      * @param Magento_Core_Model_Layout_Factory $layoutFactory
      * @param Mage_DesignEditor_Model_Url_Factory $urlModelFactory
      * @param Magento_Core_Model_Cache_Types $cacheTypes
@@ -83,7 +83,7 @@ class Mage_DesignEditor_Model_State
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      */
     public function __construct(
-        Mage_Backend_Model_Session $backendSession,
+        Magento_Backend_Model_Session $backendSession,
         Magento_Core_Model_Layout_Factory $layoutFactory,
         Mage_DesignEditor_Model_Url_Factory $urlModelFactory,
         Magento_Core_Model_Cache_Types $cacheTypes,

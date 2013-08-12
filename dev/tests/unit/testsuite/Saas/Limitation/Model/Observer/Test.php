@@ -34,7 +34,7 @@ class Saas_Limitation_Model_Observer_Test extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_session = $this->getMock('Mage_Backend_Model_Session', array('addNotice'), array(), '', false);
+        $this->_session = $this->getMock('Magento_Backend_Model_Session', array('addNotice'), array(), '', false);
         $this->_limitationValidator = $this->getMock(
             'Saas_Limitation_Model_Limitation_Validator', array('exceedsThreshold'), array(), '', false
         );

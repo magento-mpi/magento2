@@ -14,10 +14,10 @@ class Magento_Adminhtml_Block_Tax_Rate_ImportExport extends Magento_Adminhtml_Bl
     protected $_template = 'tax/importExport.phtml';
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Backend_Block_Template_Context $context, array $data = array())
+    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setUseContainer(true);

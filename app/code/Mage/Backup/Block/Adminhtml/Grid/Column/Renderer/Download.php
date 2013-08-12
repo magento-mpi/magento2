@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backup_Block_Adminhtml_Grid_Column_Renderer_Download
-    extends Mage_Backend_Block_Widget_Grid_Column_Renderer_Text
+    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Text
 {
     /**
      * Renders grid column

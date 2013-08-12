@@ -9,7 +9,7 @@
  */
 
 class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
-    extends Mage_Backend_Block_System_Config_Form_Fieldset
+    extends Magento_Backend_Block_System_Config_Form_Fieldset
 {
     /**
      * @var Magento_Object
@@ -17,7 +17,7 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     protected $_dummyElement;
 
     /**
-     * @var Mage_Backend_Block_System_Config_Form_Field
+     * @var Magento_Backend_Block_System_Config_Form_Field
      */
     protected $_fieldRenderer;
 
@@ -54,12 +54,12 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     }
 
     /**
-     * @return Mage_Backend_Block_System_Config_Form_Field
+     * @return Magento_Backend_Block_System_Config_Form_Field
      */
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
-            $this->_fieldRenderer = Mage::getBlockSingleton('Mage_Backend_Block_System_Config_Form_Field');
+            $this->_fieldRenderer = Mage::getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
         }
         return $this->_fieldRenderer;
     }

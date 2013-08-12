@@ -19,12 +19,12 @@ class Saas_ImportExport_Controller_Adminhtml_Import extends Magento_ImportExport
     /**
      * Constructor
      *
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Saas_ImportExport_Helper_Import_State $stateHelper
      * @param string|null $areaCode
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Saas_ImportExport_Helper_Import_State $stateHelper,
         $areaCode = null
     ) {

@@ -15,7 +15,7 @@
  * @package     Enterprise_ImportExport
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_ImportExport_Block_Adminhtml_System_Config_Clean extends Mage_Backend_Block_System_Config_Form_Field
+class Enterprise_ImportExport_Block_Adminhtml_System_Config_Clean extends Magento_Backend_Block_System_Config_Form_Field
 {
     /**
      * Remove scope label

@@ -77,7 +77,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magen
         $newCategoryCaption = Mage::helper('Magento_Catalog_Helper_Data')->__('New Category');
 
         $button = $this->_layout
-            ->createBlock('Mage_Backend_Block_Widget_Button')
+            ->createBlock('Magento_Backend_Block_Widget_Button')
             ->setData(array(
                 'id'        => 'add_category_button',
                 'label'     => $newCategoryCaption,
@@ -101,7 +101,7 @@ HTML;
     protected function _getSelectorOptions()
     {
         return array(
-            'source' => Mage::helper('Mage_Backend_Helper_Data')
+            'source' => Mage::helper('Magento_Backend_Helper_Data')
                 ->getUrl('adminhtml/catalog_category/suggestCategories'),
             'valueField' => '#' . $this->getHtmlId(),
             'className' => 'category-select',

@@ -8,23 +8,23 @@
  * @license     {license_link}
  */
 
-class Mage_User_Block_Buttons extends Mage_Backend_Block_Template
+class Mage_User_Block_Buttons extends Magento_Backend_Block_Template
 {
 
     protected function _prepareLayout()
     {
-        $this->addChild('backButton', 'Mage_Backend_Block_Widget_Button', array(
+        $this->addChild('backButton', 'Magento_Backend_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_User_Helper_Data')->__('Back'),
             'onclick'   => 'window.location.href=\''.$this->getUrl('*/*/').'\'',
             'class' => 'back'
         ));
 
-        $this->addChild('resetButton', 'Mage_Backend_Block_Widget_Button', array(
+        $this->addChild('resetButton', 'Magento_Backend_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_User_Helper_Data')->__('Reset'),
             'onclick'   => 'window.location.reload()'
         ));
 
-        $this->addChild('saveButton', 'Mage_Backend_Block_Widget_Button', array(
+        $this->addChild('saveButton', 'Magento_Backend_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_User_Helper_Data')->__('Save Role'),
             'class' => 'save',
             'data_attribute'  => array(
@@ -34,7 +34,7 @@ class Mage_User_Block_Buttons extends Mage_Backend_Block_Template
             ),
         ));
 
-        $this->addChild('deleteButton', 'Mage_Backend_Block_Widget_Button', array(
+        $this->addChild('deleteButton', 'Magento_Backend_Block_Widget_Button', array(
             'label'     => Mage::helper('Mage_User_Helper_Data')->__('Delete Role'),
             'onclick'   => 'deleteConfirm(\''
                 . Mage::helper('Mage_User_Helper_Data')->__('Are you sure you want to do this?')

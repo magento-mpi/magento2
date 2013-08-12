@@ -17,7 +17,7 @@
             <depends>
                 <Magento_Core />
                 <Mage_Webapi />
-                <Mage_Backend />
+                <Magento_Backend />
             </depends>
         </Mage_Webhook>
     </modules>

@@ -10,12 +10,12 @@
  * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main setApiRole() setApiRole(Mage_Webapi_Model_Acl_Role $role)
  * @method Mage_Webapi_Model_Acl_Role getApiRole() getApiRole()
  */
-class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
+class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Prepare Form.
      *
-     * @return Mage_Backend_Block_Widget_Form
+     * @return Magento_Backend_Block_Widget_Form
      */
     protected function _prepareForm()
     {

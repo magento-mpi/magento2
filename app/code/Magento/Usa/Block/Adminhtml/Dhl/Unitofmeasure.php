@@ -15,7 +15,7 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Mage_Backend_Block_System_Config_Form_Field
+class Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Magento_Backend_Block_System_Config_Form_Field
 {
 
     /**

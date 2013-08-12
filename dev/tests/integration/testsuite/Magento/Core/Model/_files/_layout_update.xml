@@ -28,7 +28,7 @@
          <block type="Magento_Core_Block_Html_Calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"/>
       </block>
       <block type="Magento_Adminhtml_Block_Page_Header" name="header" as="header"/>
-      <block type="Mage_Backend_Block_Menu" name="menu" as="menu"/>
+      <block type="Magento_Backend_Block_Menu" name="menu" as="menu"/>
       <block type="Magento_Core_Block_Messages" name="messages" as="messages"/>
       <block type="Magento_Core_Block_Text" as="no_name"/>
    </block>

@@ -15,7 +15,7 @@
  * @package    Magento_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tag_Block_Adminhtml_Report_Customer extends Mage_Backend_Block_Widget_Grid_Container
+class Magento_Tag_Block_Adminhtml_Report_Customer extends Magento_Backend_Block_Widget_Grid_Container
 {
     public function _construct()
     {

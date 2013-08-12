@@ -39,14 +39,14 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_Index extends Saas_Launch
     protected  $_launcherHelper;
 
     /**
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Magento_Core_Model_Config $configModel
      * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
      * @param Saas_Launcher_Helper_Data $launcherHelper
      * @param string $areaCode
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Magento_Core_Model_Config $configModel,
         Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
         Saas_Launcher_Helper_Data $launcherHelper,

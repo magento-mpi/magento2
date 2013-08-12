@@ -12,7 +12,7 @@
  * @method Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource setSelectedResources() setSelectedResources(array $srIds)
  * @method array getSelectedResources() getSelectedResources()
  */
-class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Block_Widget_Form
+class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Magento_Backend_Block_Widget_Form
 {
     /**
      * @var Magento_Acl_Loader_Resource_ConfigReaderInterface
@@ -42,14 +42,14 @@ class Mage_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource extends Mage_Backend_Bl
     protected $_rootResource;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Acl_Loader_Resource_ConfigReaderInterface $configReader
      * @param Mage_Webapi_Model_Resource_Acl_Rule $ruleResource
      * @param Magento_Core_Model_Acl_RootResource $rootResource
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Acl_Loader_Resource_ConfigReaderInterface $configReader,
         Mage_Webapi_Model_Resource_Acl_Rule $ruleResource,
         Magento_Core_Model_Acl_RootResource $rootResource,

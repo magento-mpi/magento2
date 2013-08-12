@@ -118,7 +118,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
         $this->assertInstanceOf('Magento_Data_Form_Element_Select', $storeElement);
 
         // Check store selection elements has correct renderer
-        $this->assertInstanceOf('Mage_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element',
+        $this->assertInstanceOf('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element',
             $storeElement->getRenderer());
 
         // Check store elements has expected values

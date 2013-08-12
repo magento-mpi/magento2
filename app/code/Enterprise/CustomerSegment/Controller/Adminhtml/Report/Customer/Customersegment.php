@@ -21,7 +21,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_Report_Customer_Customerse
     /**
      * Admin session
      *
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Magento_Backend_Model_Auth_Session
      */
     protected $_adminSession = null;
 
@@ -236,12 +236,12 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_Report_Customer_Customerse
     /**
      * Retrieve admin session model
      *
-     * @return Mage_Backend_Model_Auth_Session
+     * @return Magento_Backend_Model_Auth_Session
      */
     protected function _getAdminSession()
     {
         if (is_null($this->_adminSession)) {
-            $this->_adminSession = Mage::getModel('Mage_Backend_Model_Auth_Session');
+            $this->_adminSession = Mage::getModel('Magento_Backend_Model_Auth_Session');
         }
         return $this->_adminSession;
     }

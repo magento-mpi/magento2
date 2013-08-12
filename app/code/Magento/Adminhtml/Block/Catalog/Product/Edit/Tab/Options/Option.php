@@ -147,7 +147,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
                 'class' => 'select'
             ))
             ->setName($this->getFieldName() . '[${id}][is_require]')
-            ->setOptions(Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno')->toOptionArray());
+            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray());
 
         return $select->getHtml();
     }

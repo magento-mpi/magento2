@@ -20,7 +20,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         parent::setUp();
-        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Magento_Backend_Helper_Data")->getAreaCode());
         $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
     }
 
@@ -82,7 +82,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     {
         $user = Mage::getModel('Mage_User_Model_User');
         $user->setId(2)->setRole(true);
-        $session = Mage::getModel('Mage_Backend_Model_Auth_Session');
+        $session = Mage::getModel('Magento_Backend_Model_Auth_Session');
         $session->setUpdatedAt(time())->setUser($user);
     }
 }

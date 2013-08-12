@@ -244,8 +244,8 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      */
     public function adminControllerPredispatch($observer)
     {
-        /* @var $session Mage_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        /* @var $session Magento_Backend_Model_Auth_Session */
+        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
 
         if ($session->isLoggedIn()) {
             // load role with true websites and store groups
@@ -305,8 +305,8 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      */
     protected function _denyAclLevelRules($level)
     {
-         /* @var $session Mage_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+         /* @var $session Magento_Backend_Model_Auth_Session */
+        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
 
         /* @var $session Magento_Acl_Builder */
         $builder = Mage::getSingleton('Magento_Acl_Builder');

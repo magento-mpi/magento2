@@ -22,12 +22,12 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Assigned
     protected $_storeManager;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {

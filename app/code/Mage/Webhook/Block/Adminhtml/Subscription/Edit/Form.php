@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_Block_Widget_Form
+class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Magento_Backend_Block_Widget_Form
 {
     /** Key used to store subscription data into the registry */
     const REGISTRY_KEY_CURRENT_SUBSCRIPTION = 'current_subscription';
@@ -34,7 +34,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
     /**
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Model_Registry $registry
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Mage_Webhook_Model_Source_Format $format
      * @param Mage_Webhook_Model_Source_Authentication $authentication
      * @param Mage_Webhook_Model_Source_Hook $hook
@@ -43,7 +43,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
     public function __construct(
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Model_Registry $registry,
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Mage_Webhook_Model_Source_Format $format,
         Mage_Webhook_Model_Source_Authentication $authentication,
         Mage_Webhook_Model_Source_Hook $hook,
@@ -61,7 +61,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
     /**
      * Prepares subscription editor form
      *
-     * @return Mage_Backend_Block_Widget_Form
+     * @return Magento_Backend_Block_Widget_Form
      */
     protected function _prepareForm()
     {

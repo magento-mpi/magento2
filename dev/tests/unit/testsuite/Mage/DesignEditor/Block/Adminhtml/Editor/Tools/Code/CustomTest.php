@@ -17,7 +17,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends PHP
     const TEST_THEME_ID = 15;
 
     /**
-     * @var Mage_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlBuilder;
 
@@ -38,7 +38,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_CustomTest extends PHP
 
     public function setUp()
     {
-        $this->_urlBuilder = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false);
+        $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
         $this->_themeContext = $this->getMock('Mage_DesignEditor_Model_Theme_Context', array(), array(), '', false);
         $this->_theme = $this->getMock('Magento_Core_Model_Theme', array('getId', 'getCustomization'), array(),
             '', false);

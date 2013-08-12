@@ -41,8 +41,8 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
     public static function authenticateAndAuthorizeAdmin(Magento_Core_Controller_Front_Action $controller, $aclResource)
     {
         Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
-        /** @var $auth Mage_Backend_Model_Auth */
-        $auth = Mage::getModel('Mage_Backend_Model_Auth');
+        /** @var $auth Magento_Backend_Model_Auth */
+        $auth = Mage::getModel('Magento_Backend_Model_Auth');
         $session = $auth->getAuthStorage();
 
         // try to login using HTTP-authentication
@@ -51,7 +51,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
                 ->getHttpAuthCredentials($controller->getRequest());
             try {
                 $auth->login($login, $password);
-            } catch (Mage_Backend_Model_Auth_Exception $e) {
+            } catch (Magento_Backend_Model_Auth_Exception $e) {
                 Mage::logException($e);
             }
         }

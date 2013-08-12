@@ -45,7 +45,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
             // Commented this bc now revision are shown in scope of version and not page.
             // So if user has permission to load this version he
             // has permission to see all its versions
-            //->addVisibilityFilter(Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId(),
+            //->addVisibilityFilter(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId(),
             //    Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel());
 
         $this->setCollection($collection);

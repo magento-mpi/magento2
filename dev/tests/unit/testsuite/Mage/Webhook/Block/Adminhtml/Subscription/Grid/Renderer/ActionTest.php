@@ -13,7 +13,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_ActionTest extends
 {
     public function testRenderWrongType()
     {
-        $context = $this->getMockBuilder('Mage_Backend_Block_Context')
+        $context = $this->getMockBuilder('Magento_Backend_Block_Context')
             ->disableOriginalConstructor()
             ->getMock();
         $gridRenderer = new Mage_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_Action($context);
@@ -38,7 +38,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_ActionTest extends
             ->method('getUrl')
             ->will($this->returnArgument(0));
         $translator = $this->getMock('Magento_Core_Model_Translate', array('translate'), array(), '', false);
-        $context = $this->getMockBuilder('Mage_Backend_Block_Context')
+        $context = $this->getMockBuilder('Magento_Backend_Block_Context')
             ->disableOriginalConstructor()
             ->getMock();
         $context->expects($this->once())

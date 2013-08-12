@@ -65,7 +65,7 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_IndexTest
             'frontController' => $frontController,
             'layoutFactory' => $layoutFactory,
         );
-        $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
+        $context = $helper->getObject('Magento_Backend_Controller_Context', $arguments);
 
         return $this->getMock(
             'Saas_Launcher_Controller_Adminhtml_Storelauncher_Index',

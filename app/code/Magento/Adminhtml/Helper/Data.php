@@ -14,9 +14,9 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
- * @deprecated Moved to module Mage_Backend
+ * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Helper_Data extends Mage_Backend_Helper_Data
+class Magento_Adminhtml_Helper_Data extends Magento_Backend_Helper_Data
 {
 
 }

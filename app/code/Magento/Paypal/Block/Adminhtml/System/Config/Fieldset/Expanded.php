@@ -12,7 +12,7 @@
  * Fielset renderer which expanded by default
  */
 class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded
-    extends Mage_Backend_Block_System_Config_Form_Fieldset
+    extends Magento_Backend_Block_System_Config_Form_Fieldset
 {
     /**
      * Return collapse state
@@ -22,7 +22,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Expanded
      */
     protected function _isCollapseState($element)
     {
-        $extra = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getExtra();
+        $extra = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getExtra();
         if (isset($extra['configState'][$element->getId()])) {
             return $extra['configState'][$element->getId()];
         }

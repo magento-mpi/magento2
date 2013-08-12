@@ -32,9 +32,9 @@ class Enterprise_Logging_Model_ProcessorTest extends Magento_Test_TestCase_Contr
         $collection = Mage::getModel('Enterprise_Logging_Model_Event')->getCollection();
         $eventCountBefore = count($collection);
 
-        Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
+        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
 
-        $this->_auth = Mage::getSingleton('Mage_Backend_Model_Auth');
+        $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
         $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
 
         $this->getRequest()->setServer(array('REQUEST_METHOD' => 'POST'));

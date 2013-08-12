@@ -53,7 +53,7 @@
             <admin_system_config_changed_section_admin>
                 <observers>
                     <bind_locale>
-                        <class>Mage_Backend_Model_Config_Backend_Admin_Observer</class>
+                        <class>Magento_Backend_Model_Config_Backend_Admin_Observer</class>
                         <method>afterCustomUrlChanged</method>
                     </bind_locale>
                 </observers>

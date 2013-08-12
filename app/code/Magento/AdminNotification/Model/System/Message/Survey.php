@@ -14,7 +14,7 @@ class Magento_AdminNotification_Model_System_Message_Survey
     protected $_helperFactory;
 
     /**
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Magento_Backend_Model_Auth_Session
      */
     protected $_authSession;
 
@@ -30,13 +30,13 @@ class Magento_AdminNotification_Model_System_Message_Survey
 
     /**
      * @param Magento_Core_Model_Factory_Helper $helperFactory
-     * @param Mage_Backend_Model_Auth_Session $authSession
+     * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_AuthorizationInterface $authorization
      * @param Magento_Core_Model_UrlInterface $urlBuilder
      */
     public function __construct(
         Magento_Core_Model_Factory_Helper $helperFactory,
-        Mage_Backend_Model_Auth_Session $authSession,
+        Magento_Backend_Model_Auth_Session $authSession,
         Magento_AuthorizationInterface $authorization,
         Magento_Core_Model_UrlInterface $urlBuilder
     ) {

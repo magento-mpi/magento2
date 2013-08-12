@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <jobnotification_grid_block>
         <reference name="jobnotification.grid.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="jobnotification.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="jobnotification.grid" as="grid">
                 <arguments>
                     <id>jobnotification_grid</id>
                     <dataSource type="object">Saas_JobNotification_Model_Resource_Notification_Collection</dataSource>
@@ -25,7 +25,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_Massaction" name="jobnotification.grid.massaction" as="grid.massaction">
+                <block type="Magento_Backend_Block_Widget_Grid_Massaction" name="jobnotification.grid.massaction" as="grid.massaction">
                     <arguments>
                         <massaction_id_field>notification_id</massaction_id_field>
                         <form_field_name>notification_ids</form_field_name>
@@ -44,11 +44,11 @@
                         </options>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="jobnotification.grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="jobnotification.grid.columnSet">
                     <arguments>
                         <id>jobnotification_grid</id>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="date_added">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_added">
                         <arguments>
                             <header translate="true" module="Saas_JobNotification">Date Added</header>
                             <type>datetime</type>
@@ -58,7 +58,7 @@
                             <width>150</width>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="title">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="title">
                         <arguments>
                             <header translate="true" module="Saas_JobNotification">Message</header>
                             <type>text</type>
@@ -67,7 +67,7 @@
                             <id>title</id>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="actions">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="actions">
                         <arguments>
                             <header translate="true" module="Saas_JobNotification">Actions</header>
                             <id>actions</id>

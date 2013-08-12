@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_system_design_grid_block>
         <reference name="adminhtml.system.design.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.system.design.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.design.grid" as="grid">
                 <arguments>
                     <id>designGrid</id>
                     <dataSource type="object">Magento_Core_Model_Resource_Design_Collection</dataSource>
@@ -23,7 +23,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.system.design.grid.columnSet" as="grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.system.design.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <id>designGrid</id>
                         <rowUrl>
@@ -33,7 +33,7 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
                             <header translate="true" module="Magento_Catalog">Store</header>
                             <width>100px</width>
@@ -43,14 +43,14 @@
                             <index>store_id</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="package">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="package">
                         <arguments>
                             <header translate="true" module="Magento_Catalog">Design</header>
                             <width>150px</width>
                             <index>design</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="date_from">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_from">
                         <arguments>
                             <header translate="true" module="Magento_CatalogRule">Date From</header>
                             <align>left</align>
@@ -59,7 +59,7 @@
                             <index>date_from</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="date_to">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="date_to">
                         <arguments>
                             <header translate="true" module="Magento_CatalogRule">Date To</header>
                             <align>left</align>

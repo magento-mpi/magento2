@@ -9,7 +9,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Saas_Limitation_Mage_User_Controller_Adminhtml_UserTest extends Mage_Backend_Utility_Controller
+class Saas_Limitation_Mage_User_Controller_Adminhtml_UserTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoConfigFixture limitations/admin_account 1

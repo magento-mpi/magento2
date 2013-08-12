@@ -20,7 +20,7 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
     /**
      * Admin session model
      *
-     * @var null|Mage_Backend_Model_Auth_Session
+     * @var null|Magento_Backend_Model_Auth_Session
      */
     protected $_adminSession = null;
 
@@ -171,12 +171,12 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
     /**
      * Retrieve admin session model
      *
-     * @return Mage_Backend_Model_Auth_Session
+     * @return Magento_Backend_Model_Auth_Session
      */
     protected function _getSession()
     {
         if (is_null($this->_adminSession)) {
-            $this->_adminSession = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+            $this->_adminSession = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
         }
         return $this->_adminSession;
     }

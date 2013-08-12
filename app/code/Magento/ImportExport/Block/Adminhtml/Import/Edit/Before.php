@@ -15,7 +15,7 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Block_Adminhtml_Import_Edit_Before extends Mage_Backend_Block_Template
+class Magento_ImportExport_Block_Adminhtml_Import_Edit_Before extends Magento_Backend_Block_Template
 {
     /**
      * Core helper
@@ -32,13 +32,13 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Before extends Mage_Backe
     protected $_importModel;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Helper_Data $coreHelper
      * @param Magento_ImportExport_Model_Import $importModel
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Helper_Data $coreHelper,
         Magento_ImportExport_Model_Import $importModel,
         array $data = array()

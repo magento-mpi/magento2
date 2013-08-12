@@ -21,7 +21,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid_Extended
+class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
      * Initialize grid
@@ -36,7 +36,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid
     /**
      * Save search results
      *
-     * @return Mage_Backend_Block_Widget_Grid
+     * @return Magento_Backend_Block_Widget_Grid
      */
     protected function _afterLoadCollection()
     {
@@ -91,7 +91,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid
     /**
      * Prepare grid columns
      *
-     * @return Mage_Backend_Block_Widget_Grid
+     * @return Magento_Backend_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
@@ -228,7 +228,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid
     /**
      * Prepare grid mass actions
      *
-     * @return Mage_Backend_Block_Widget_Grid|void
+     * @return Magento_Backend_Block_Widget_Grid|void
      */
     protected function _prepareMassaction()
     {

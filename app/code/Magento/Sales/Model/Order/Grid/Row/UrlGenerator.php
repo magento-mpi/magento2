@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Grid_Row_UrlGenerator extends Mage_Backend_Model_Widget_Grid_Row_UrlGenerator
+class Magento_Sales_Model_Order_Grid_Row_UrlGenerator extends Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
 {
     /**
      * @var Magento_AuthorizationInterface

@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
 
         $this->getUploader()->getConfig()
             ->setUrl(
-                Mage::getModel('Mage_Backend_Model_Url')
+                Mage::getModel('Magento_Backend_Model_Url')
                     ->addSessionParam()
                     ->getUrl('adminhtml/catalog_product_gallery/upload')
             )

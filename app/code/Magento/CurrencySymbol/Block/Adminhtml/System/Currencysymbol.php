@@ -15,7 +15,7 @@
  * @package    Magento_CurrencySymbol
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Block_Adminhtml_System_Currencysymbol extends Mage_Backend_Block_Widget_Form
+class Magento_CurrencySymbol_Block_Adminhtml_System_Currencysymbol extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Constructor. Initialization required variables for class instance.

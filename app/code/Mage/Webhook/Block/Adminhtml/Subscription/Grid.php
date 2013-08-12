@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webhook_Block_Adminhtml_Subscription_Grid extends Mage_Backend_Block_Widget_Grid_Extended
+class Mage_Webhook_Block_Adminhtml_Subscription_Grid extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /** @var \Mage_Webhook_Model_Subscription_Config  */
     private $_subscriptionConfig;
@@ -22,7 +22,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid extends Mage_Backend_Block_
      *
      * @param Mage_Webhook_Model_Subscription_Config $subscriptionConfig
      * @param Mage_Webhook_Model_Subscription_Factory $subscriptionFactory
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
      * @param array $data
@@ -30,7 +30,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid extends Mage_Backend_Block_
     public function __construct(
         Mage_Webhook_Model_Subscription_Config $subscriptionConfig,
         Mage_Webhook_Model_Subscription_Factory $subscriptionFactory,
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
         array $data = array()
@@ -55,7 +55,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid extends Mage_Backend_Block_
     /**
      * Prepare subscription collection
      *
-     * @return Mage_Backend_Block_Widget_Grid
+     * @return Magento_Backend_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {
@@ -68,7 +68,7 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Grid extends Mage_Backend_Block_
     /**
      * Prepare columns for subscription grid
      *
-     * @return Mage_Backend_Block_Widget_Grid_Extended
+     * @return Magento_Backend_Block_Widget_Grid_Extended
      */
     protected function _prepareColumns()
     {

@@ -91,7 +91,7 @@ class Saas_Launcher_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getTmpLogoUrl($fileName = '')
     {
-        return Mage::getBaseUrl('media') . 'tmp/' .  Mage_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR
+        return Mage::getBaseUrl('media') . 'tmp/' .  Magento_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR
             . '/' . $fileName . '?' . md5(time());
     }
 
@@ -104,7 +104,7 @@ class Saas_Launcher_Helper_Data extends Magento_Core_Helper_Data
     public function getTmpLogoPath($name = '')
     {
         $logoDir = Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR
-            . Mage_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
+            . Magento_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
         if (!empty($name)) {
             $logoDir .= DIRECTORY_SEPARATOR . $name;
         }

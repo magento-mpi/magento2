@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Sales_Order_CreateTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_Sales_Order_CreateTest extends Magento_Backend_Utility_Controller
 {
     public function testLoadBlockAction()
     {

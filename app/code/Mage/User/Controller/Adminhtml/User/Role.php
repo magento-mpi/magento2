@@ -15,7 +15,7 @@
  * @package    Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Controller_Adminhtml_User_Role extends Mage_Backend_Controller_ActionAbstract
+class Mage_User_Controller_Adminhtml_User_Role extends Magento_Backend_Controller_ActionAbstract
 {
 
     /**
@@ -113,7 +113,7 @@ class Mage_User_Controller_Adminhtml_User_Role extends Mage_Backend_Controller_A
         $rid = $this->getRequest()->getParam('rid', false);
 
         $currentUser = Mage::getModel('Mage_User_Model_User')->setId(
-            Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId()
+            Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId()
         );
 
         if (in_array($rid, $currentUser->getRoles()) ) {

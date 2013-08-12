@@ -43,7 +43,7 @@ class Mage_Theme_Controller_Adminhtml_System_Design_ThemeControllerTest extends 
             'objectManager' => $this->_objectManagerMock,
 
         );
-        $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
+        $context = $helper->getObject('Magento_Backend_Controller_Context', $arguments);
 
         $this->_model = $this->getMock('Mage_Theme_Controller_Adminhtml_System_Design_Theme',
             array('_forward', '_title', '__', 'loadLayout', 'renderLayout', '_redirect'),

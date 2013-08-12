@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Enterprise_CatalogEvent_Controller_CategoryTest extends Mage_Backend_Utility_Controller
+class Enterprise_CatalogEvent_Controller_CategoryTest extends Magento_Backend_Utility_Controller
 {
     /**
      * Covers Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons::addButtons for Add Event button

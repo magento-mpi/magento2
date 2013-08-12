@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_System_VariableTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_System_VariableTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @covers Magento_Adminhtml_Controller_Action::_addLeft

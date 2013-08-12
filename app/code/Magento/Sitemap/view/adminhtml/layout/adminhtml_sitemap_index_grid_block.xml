@@ -10,13 +10,13 @@
 <layout version="0.1.0">
     <adminhtml_sitemap_index_grid_block>
         <reference name="adminhtml.sitemap.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.sitemap.container.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.sitemap.container.grid" as="grid">
                 <arguments>
                     <id>sitemapGrid</id>
                     <dataSource type="object">Magento_Sitemap_Model_Resource_Sitemap_Collection</dataSource>
                     <default_sort>sitemap_id</default_sort>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.sitemap.container.grid.columnSet" as="grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.sitemap.container.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <id>sitemapGrid</id>
                         <rowUrl>
@@ -26,32 +26,32 @@
                             </extraParamsTemplate>
                         </rowUrl>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="sitemap_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_id">
                         <arguments>
                             <header translate="true" module="Magento_Sitemap">ID</header>
                             <width>50px</width>
                             <index>sitemap_id</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="sitemap_filename">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_filename">
                         <arguments>
                             <header translate="true" module="Magento_Sitemap">Filename</header>
                             <index>sitemap_filename</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="sitemap_path">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_path">
                         <arguments>
                             <header translate="true" module="Magento_Sitemap">Path</header>
                             <index>sitemap_path</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="link">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="link">
                         <arguments>
                             <header translate="true" module="Magento_Sitemap">Link for Google</header>
                             <renderer>Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link</renderer>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="sitemap_time">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="sitemap_time">
                         <arguments>
                             <header translate="true" module="Magento_Sitemap">Last Generated</header>
                             <width>150px</width>
@@ -59,7 +59,7 @@
                             <type>datetime</type>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                         <arguments>
                             <header translate="true" module="Magento_Sitemap">Store View</header>
                             <type>store</type>
@@ -68,7 +68,7 @@
                             <store_view>true</store_view>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
                             <header translate="true" module="Magento_Sitemap">Action</header>
                             <filter>0</filter>

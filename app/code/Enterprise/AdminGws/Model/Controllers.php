@@ -78,12 +78,12 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         // redirect to first allowed website or store scope
         if ($this->_role->getWebsiteIds()) {
-            return $this->_redirect($controller, Mage::getSingleton('Mage_Backend_Model_Url')
+            return $this->_redirect($controller, Mage::getSingleton('Magento_Backend_Model_Url')
                 ->getUrl('adminhtml/system_config/edit',
                      array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode()))
             );
         }
-        $this->_redirect($controller, Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/system_config/edit',
+        $this->_redirect($controller, Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/system_config/edit',
             array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode(),
             'store' => Mage::app()->getAnyStoreView()->getCode()))
         );
@@ -429,13 +429,13 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     {
         $controller->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
-            $url = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/*/denied');
+            $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/*/denied');
         }
         elseif (is_array($url)) {
-            $url = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl(array_shift($url), $url);
+            $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl(array_shift($url), $url);
         }
         elseif (false === strpos($url, 'http', 0)) {
-            $url = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl($url);
+            $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl($url);
         }
         Mage::app()->getResponse()->setRedirect($url);
     }
@@ -1210,7 +1210,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                 return false;
             }
 
-            return $this->_redirect($controller, Mage::getSingleton('Mage_Backend_Model_Url')
+            return $this->_redirect($controller, Mage::getSingleton('Magento_Backend_Model_Url')
                 ->getUrl('adminhtml/rma_item_attribute/edit',
                      array('website' => $allowedWebsitesIds[0], '_current' => true))
             );

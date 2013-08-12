@@ -59,8 +59,8 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_AbstractTest
         );
         /** @var $layoutMock Magento_Core_Model_Layout */
         $layoutMock  = $this->getMock('Magento_Core_Model_Layout', array('createBlock'), array(), '', false);
-        /** @var $buttonMock Mage_Backend_Block_Widget_Button */
-        $buttonMock = $this->getMock('Mage_Backend_Block_Widget_Button', array(), array(), '', false);
+        /** @var $buttonMock Magento_Backend_Block_Widget_Button */
+        $buttonMock = $this->getMock('Magento_Backend_Block_Widget_Button', array(), array(), '', false);
 
         $layoutMock->expects($this->once())
             ->method('createBlock')

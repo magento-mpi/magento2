@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Design_Backend_Exceptions extends Mage_Backend_Model_Config_Backend_Serialized_Array
+class Magento_Core_Model_Design_Backend_Exceptions extends Magento_Backend_Model_Config_Backend_Serialized_Array
 {
     /**
      * Validate value

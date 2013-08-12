@@ -11,7 +11,7 @@
 /**
  * Color-picker form element renderer
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer extends Mage_Backend_Block_Template
+class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Renderer extends Magento_Backend_Block_Template
     implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**

@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_system_email_template_grid_block>
         <reference name="adminhtml.system.email.template.container">
-            <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.system.email.template.grid" as="grid">
+            <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.email.template.grid" as="grid">
                 <arguments>
                     <id>systemEmailTemplateGrid</id>
                     <dataSource type="object">Magento_Core_Model_Resource_Email_Template_Collection</dataSource>
@@ -23,7 +23,7 @@
                         </params>
                     </grid_url>
                 </arguments>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.system.email.template.grid.columnSet" as="grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" name="adminhtml.system.email.template.grid.columnSet" as="grid.columnSet">
                     <arguments>
                         <rowUrl>
                             <path>*/*/edit</path>
@@ -33,19 +33,19 @@
                         </rowUrl>
                         <empty_text translate="true" module="Magento_Adminhtml">No Templates Found</empty_text>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="template_id">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="template_id">
                         <arguments>
                             <header translate="true" module="Magento_Adminhtml">ID</header>
                             <index>template_id</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="code">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
                             <header translate="true" module="Magento_Adminhtml">Template</header>
                             <index>template_code</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="added_at">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="added_at">
                         <arguments>
                             <header translate="true" module="Magento_Adminhtml">Added</header>
                             <index>added_at</index>
@@ -53,7 +53,7 @@
                             <type>datetime</type>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="modified_at">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="modified_at">
                         <arguments>
                             <header translate="true" module="Magento_Adminhtml">Updated</header>
                             <index>modified_at</index>
@@ -61,13 +61,13 @@
                             <type>datetime</type>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="subject">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="subject">
                         <arguments>
                             <header translate="true" module="Magento_Adminhtml">Subject</header>
                             <index>template_subject</index>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="type">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="type">
                         <arguments>
                             <header translate="true" module="Magento_Adminhtml">Template Type</header>
                             <index>template_type</index>
@@ -75,7 +75,7 @@
                             <renderer>Magento_Adminhtml_Block_System_Email_Template_Grid_Renderer_Type</renderer>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="action">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="action">
                         <arguments>
                             <header translate="true" module="Magento_Adminhtml">Action</header>
                             <index>template_id</index>

@@ -21,12 +21,12 @@ class Magento_Adminhtml_Block_Page_Header extends Magento_Adminhtml_Block_Templa
 
     public function getHomeLink()
     {
-        return Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl();
+        return Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl();
     }
 
     public function getUser()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
+        return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
     }
 
     public function getLogoutLink()

@@ -15,7 +15,7 @@
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Block_Adminhtml_Refresh_Statistics extends Mage_Backend_Block_Widget_Grid_Container
+class Magento_Reports_Block_Adminhtml_Refresh_Statistics extends Magento_Backend_Block_Widget_Grid_Container
 {
     /*
      * Modify Header and remove button "Add"

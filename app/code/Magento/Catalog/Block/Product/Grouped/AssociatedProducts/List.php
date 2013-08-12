@@ -15,7 +15,7 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_Grouped_AssociatedProducts_List extends Mage_Backend_Block_Template
+class Magento_Catalog_Block_Product_Grouped_AssociatedProducts_List extends Magento_Backend_Block_Template
 {
     /**
      * Store manager
@@ -34,12 +34,12 @@ class Magento_Catalog_Block_Product_Grouped_AssociatedProducts_List extends Mage
     /**
      * @inheritdoc
      *
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $storeManager
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Registry $registry,
         array $data = array()

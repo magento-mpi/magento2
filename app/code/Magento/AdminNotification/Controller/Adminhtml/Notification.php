@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Controller_Adminhtml_Notification extends Mage_Backend_Controller_ActionAbstract
+class Magento_AdminNotification_Controller_Adminhtml_Notification extends Magento_Backend_Controller_ActionAbstract
 {
     public function indexAction()
     {

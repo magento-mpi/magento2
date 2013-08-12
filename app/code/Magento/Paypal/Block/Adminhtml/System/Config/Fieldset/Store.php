@@ -14,7 +14,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
-    extends Mage_Backend_Block_Template
+    extends Magento_Backend_Block_Template
     implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**

@@ -12,7 +12,7 @@
  * Design editor request data
  */
 class Mage_DesignEditor_Model_Config_Backend_File_RequestData
-    implements Mage_Backend_Model_Config_Backend_File_RequestData_Interface
+    implements Magento_Backend_Model_Config_Backend_File_RequestData_Interface
 {
     /**
      * Retrieve uploaded file tmp name by path

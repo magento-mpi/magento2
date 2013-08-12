@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_JobNotification_Helper_Data extends Mage_Backend_Helper_Data
+class Saas_JobNotification_Helper_Data extends Magento_Backend_Helper_Data
 {
 
 }

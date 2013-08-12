@@ -69,8 +69,8 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
                 'objectManager' => $this->_objectManagerMock,
                 'layout' => $layoutMock,
                 'invokeArgs' => array(
-                    'helper' => $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false),
-                    'session'=> $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false),
+                    'helper' => $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false),
+                    'session'=> $this->getMock('Magento_Backend_Model_Session', array(), array(), '', false),
             ))
         );
 
@@ -174,7 +174,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
         $configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
         $authMock = $this->getMock('Magento_AuthorizationInterface');
         $authMock->expects($this->any())->method('filterAclNodes')->will($this->returnSelf());
-        $backendSession = $this->getMock('Mage_Backend_Model_Session', array('getMessages', 'getEscapeMessages'),
+        $backendSession = $this->getMock('Magento_Backend_Model_Session', array('getMessages', 'getEscapeMessages'),
             array(), '', false);
         $backendSession->expects($this->any())->method('getMessages')->will(
             $this->returnValue($this->getMock('Magento_Core_Model_Message_Collection', array(), array(), '', false))
@@ -193,7 +193,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
             array('Magento_Core_Model_Event_Manager', $eventManager),
             array('Magento_Core_Model_StoreManager', $storeManager),
             array('Magento_AuthorizationInterface', $authMock),
-            array('Mage_Backend_Model_Session', $backendSession),
+            array('Magento_Backend_Model_Session', $backendSession),
             array('Magento_Core_Model_Translate_Inline', $inlineMock),
             array('Magento_Core_Model_Layout_Filter_Acl', $aclFilterMock),
         );

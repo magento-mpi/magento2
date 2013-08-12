@@ -15,7 +15,7 @@
  * @package    Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Block_User_Edit extends Mage_Backend_Block_Widget_Form_Container
+class Mage_User_Block_User_Edit extends Magento_Backend_Block_Widget_Form_Container
 {
     protected function _construct()
     {

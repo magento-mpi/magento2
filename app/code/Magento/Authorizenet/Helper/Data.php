@@ -26,7 +26,7 @@ class Magento_Authorizenet_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getAdminUrl($route, $params)
     {
-        return Mage::getSingleton('Mage_Backend_Model_Url')->getUrl($route, $params);
+        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl($route, $params);
     }
 
     /**

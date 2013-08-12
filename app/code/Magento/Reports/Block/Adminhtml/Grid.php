@@ -15,7 +15,7 @@
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Grid
+class Magento_Reports_Block_Adminhtml_Grid extends Magento_Backend_Block_Widget_Grid
 {
     /**
      * Should Store Switcher block be visible
@@ -87,7 +87,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Gri
     /**
      * Apply sorting and filtering to collection
      *
-     * @return Mage_Backend_Block_Widget_Grid|Magento_Reports_Block_Adminhtml_Grid
+     * @return Magento_Backend_Block_Widget_Grid|Magento_Reports_Block_Adminhtml_Grid
      */
     protected function _prepareCollection()
     {
@@ -192,7 +192,7 @@ class Magento_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Gri
      * Set filter values
      *
      * @param mixed $data
-     * @return Mage_Backend_Block_Widget_Grid|Magento_Reports_Block_Adminhtml_Grid
+     * @return Magento_Backend_Block_Widget_Grid|Magento_Reports_Block_Adminhtml_Grid
      */
     protected function _setFilterValues($data)
     {
@@ -367,8 +367,8 @@ class Magento_Reports_Block_Adminhtml_Grid extends Mage_Backend_Block_Widget_Gri
      */
     protected function _prepareFilterButtons()
     {
-        $this->addChild('refresh_button', 'Mage_Backend_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Refresh'),
+        $this->addChild('refresh_button', 'Magento_Backend_Block_Widget_Button', array(
+            'label'     => Mage::helper('Magento_Backend_Helper_Data')->__('Refresh'),
             'onclick'   => "{$this->getJsObjectName()}.doFilter();",
             'class'     => 'task'
         ));

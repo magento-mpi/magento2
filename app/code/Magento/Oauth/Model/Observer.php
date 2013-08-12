@@ -71,8 +71,8 @@ class Magento_Oauth_Model_Observer
     public function afterAdminLoginFailed(Magento_Event_Observer $observer)
     {
         if (null !== $this->_getOauthToken()) {
-            /** @var $session Mage_Backend_Model_Auth_Session */
-            $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+            /** @var $session Magento_Backend_Model_Auth_Session */
+            $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
             $session->addError($observer->getException()->getMessage());
 
             $userType = Magento_Oauth_Model_Token::USER_TYPE_ADMIN;

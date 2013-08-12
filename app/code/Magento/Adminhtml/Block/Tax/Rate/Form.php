@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
+class Magento_Adminhtml_Block_Tax_Rate_Form extends Magento_Backend_Block_Widget_Form
 {
     const FORM_ELEMENT_ID = 'rate-form';
 

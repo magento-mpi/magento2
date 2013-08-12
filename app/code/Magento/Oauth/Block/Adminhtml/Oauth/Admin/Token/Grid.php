@@ -38,7 +38,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Magento_Admin
     protected function _prepareCollection()
     {
         /** @var $user Mage_User_Model_User */
-        $user = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getData('user');
+        $user = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getData('user');
 
         /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
         $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
@@ -71,8 +71,8 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Magento_Admin
             'escape'    => true,
         ));
 
-        /** @var $sourceYesNo Mage_Backend_Model_Config_Source_Yesno */
-        $sourceYesNo = Mage::getSingleton('Mage_Backend_Model_Config_Source_Yesno');
+        /** @var $sourceYesNo Magento_Backend_Model_Config_Source_Yesno */
+        $sourceYesNo = Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno');
         $this->addColumn('revoked', array(
             'header'    => $this->__('Revoked'),
             'index'     => 'revoked',

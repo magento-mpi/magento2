@@ -155,8 +155,8 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_
     protected function _sendTokenStatusChangeNotification($token, $newStatus)
     {
         if (($adminId = $token->getAdminId())) {
-            /** @var $session Mage_Backend_Model_Auth_Session */
-            $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+            /** @var $session Magento_Backend_Model_Auth_Session */
+            $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
 
             /** @var $admin Mage_User_Model_User */
             $admin = $session->getUser();

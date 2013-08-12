@@ -24,12 +24,12 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     protected $_registryManager;
 
     /**
-     * @var Mage_Backend_Model_Menu_Config
+     * @var Magento_Backend_Model_Menu_Config
      */
     protected $_menuConfig;
 
     /**
-     * @var Mage_Backend_Model_Config_Structure
+     * @var Magento_Backend_Model_Config_Structure
      */
     protected $_configStructure;
 
@@ -41,17 +41,17 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     protected $_template = 'system/email/template/edit.phtml';
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
-     * @param Mage_Backend_Model_Menu_Config $menuConfig
-     * @param Mage_Backend_Model_Config_Structure $configStructure
+     * @param Magento_Backend_Model_Menu_Config $menuConfig
+     * @param Magento_Backend_Model_Config_Structure $configStructure
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
-        Mage_Backend_Model_Menu_Config $menuConfig,
-        Mage_Backend_Model_Config_Structure $configStructure,
+        Magento_Backend_Model_Menu_Config $menuConfig,
+        Magento_Backend_Model_Config_Structure $configStructure,
         array $data = array()
     )
     {
@@ -369,9 +369,9 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit extends Magento_Adminht
     protected function _getSystemConfigPathsParts($paths)
     {
         $result = $urlParams = $prefixParts = array();
-        $scopeLabel = $this->helper('Mage_Backend_Helper_Data')->__('GLOBAL');
+        $scopeLabel = $this->helper('Magento_Backend_Helper_Data')->__('GLOBAL');
         if ($paths) {
-            /** @var $menu Mage_Backend_Model_Menu */
+            /** @var $menu Magento_Backend_Model_Menu */
             $menu = $this->_menuConfig->getMenu();
             $item = $menu->get('Magento_Adminhtml::system');
             // create prefix path parts

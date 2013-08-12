@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader extends Magent
         }
         $this->getConfig()
             ->setUrl(
-                Mage::getModel('Mage_Backend_Model_Url')
+                Mage::getModel('Magento_Backend_Model_Url')
                     ->addSessionParam()
                     ->getUrl('*/*/upload', array('type' => $type)
                 )

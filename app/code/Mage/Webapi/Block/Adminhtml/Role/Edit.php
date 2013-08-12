@@ -10,7 +10,7 @@
  * @method Mage_Webapi_Block_Adminhtml_Role_Edit setApiRole() setApiRole(Mage_Webapi_Model_Acl_Role $role)
  * @method Mage_Webapi_Model_Acl_Role getApiRole() getApiRole()
  */
-class Mage_Webapi_Block_Adminhtml_Role_Edit extends Mage_Backend_Block_Widget_Form_Container
+class Mage_Webapi_Block_Adminhtml_Role_Edit extends Magento_Backend_Block_Widget_Form_Container
 {
     /**
      * @var string

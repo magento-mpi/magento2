@@ -24,7 +24,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit
         $saveHandlerFactory = $this->getMock('Saas_Launcher_Model_Storelauncher_Shipping_ShippingSaveHandlerFactory',
             array(), array(), '', false);
         // Mock backend config model
-        $backendConfigModel = $this->getMock('Mage_Backend_Model_Config', array(), array(), '', false);
+        $backendConfigModel = $this->getMock('Magento_Backend_Model_Config', array(), array(), '', false);
         $this->_saveHandler = new Saas_Launcher_Model_Storelauncher_Shipping_SaveHandler(
             $config,
             $backendConfigModel,
@@ -62,7 +62,7 @@ class Saas_Launcher_Model_Storelauncher_Shipping_SaveHandlerTest extends PHPUnit
         );
 
         // Mock backend config model
-        $backendConfigModel = $this->getMock('Mage_Backend_Model_Config', array(), array(), '', false);
+        $backendConfigModel = $this->getMock('Magento_Backend_Model_Config', array(), array(), '', false);
 
         $shippingSaveHandler->expects($this->once())
             ->method('save')

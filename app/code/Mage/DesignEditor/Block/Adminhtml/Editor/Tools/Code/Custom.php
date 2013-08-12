@@ -11,7 +11,7 @@
 /**
  * Block that renders Custom tab
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Backend_Block_Widget_Form
+class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Upload file element html id
@@ -24,12 +24,12 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Custom extends Mage_Ba
     protected $_themeContext;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()
     ) {

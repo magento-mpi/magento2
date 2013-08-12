@@ -16,6 +16,6 @@ class Magento_Adminhtml_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
-        $this->assertInstanceOf('Mage_Backend_Helper_Data', Mage::helper('Magento_Adminhtml_Helper_Data'));
+        $this->assertInstanceOf('Magento_Backend_Helper_Data', Mage::helper('Magento_Adminhtml_Helper_Data'));
     }
 }

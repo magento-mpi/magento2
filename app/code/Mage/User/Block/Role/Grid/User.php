@@ -15,7 +15,7 @@
  * @package    Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Block_Role_Grid_User extends Mage_Backend_Block_Widget_Grid_Extended
+class Mage_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Grid_Extended
 {
 
     protected function _construct()

@@ -17,13 +17,13 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUnit_
     protected $_model;
 
     /**
-     * @var Mage_Backend_Model_Url
+     * @var Magento_Backend_Model_Url
      */
     protected $_urlBuilder;
 
     protected function setUp()
     {
-        $this->_urlBuilder = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false);
+        $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(

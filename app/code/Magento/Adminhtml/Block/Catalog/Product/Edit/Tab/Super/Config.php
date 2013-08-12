@@ -17,8 +17,8 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
-    extends Mage_Backend_Block_Widget
-    implements Mage_Backend_Block_Widget_Tab_Interface
+    extends Magento_Backend_Block_Widget
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
     protected $_template = 'catalog/product/edit/super/config.phtml';
 
@@ -117,7 +117,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
 
         $this->addChild(
             'generate',
-            'Mage_Backend_Block_Widget_Button',
+            'Magento_Backend_Block_Widget_Button',
             array(
                 'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Generate Variations'),
                 'class' => 'generate',
@@ -137,7 +137,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
         );
         $this->addChild(
             'add_attribute',
-            'Mage_Backend_Block_Widget_Button',
+            'Magento_Backend_Block_Widget_Button',
             array(
                 'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Create New Variation Set'),
                 'class' => 'new-variation-set',
@@ -166,7 +166,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config
         );
         $this->addChild(
             'add_option',
-            'Mage_Backend_Block_Widget_Button',
+            'Magento_Backend_Block_Widget_Button',
             array(
                 'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Add Option'),
                 'class' => 'action- scalable add',

@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Sales_OrderTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_Sales_OrderTest extends Magento_Backend_Utility_Controller
 {
     public function testIndexAction()
     {

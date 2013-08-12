@@ -15,8 +15,8 @@
  * @package     Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
-    implements Mage_Backend_Block_Widget_Tab_Interface
+class Mage_User_Block_Role_Tab_Edit extends Magento_Backend_Block_Widget_Form
+    implements Magento_Backend_Block_Widget_Tab_Interface
 {
 
     protected $_template = 'role/edit.phtml';
@@ -29,12 +29,12 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
     protected $_rootResource;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Acl_RootResource $rootResource
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Acl_RootResource $rootResource,
         array $data = array()
     ) {

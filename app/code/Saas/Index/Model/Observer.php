@@ -20,19 +20,19 @@ class Saas_Index_Model_Observer
     private $_response;
 
     /**
-     * @var Mage_Backend_Model_Url
+     * @var Magento_Backend_Model_Url
      */
     private $_modelUrl;
 
     /**
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_Core_Controller_Response_Http $response
-     * @param Mage_Backend_Model_Url $modelUrl
+     * @param Magento_Backend_Model_Url $modelUrl
      */
     public function __construct(
         Magento_Core_Controller_Request_Http $request,
         Magento_Core_Controller_Response_Http $response,
-        Mage_Backend_Model_Url $modelUrl
+        Magento_Backend_Model_Url $modelUrl
     ) {
         $this->_request = $request;
         $this->_response = $response;

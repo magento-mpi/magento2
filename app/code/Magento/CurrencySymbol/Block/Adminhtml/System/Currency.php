@@ -16,7 +16,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Block_Adminhtml_System_Currency extends Mage_Backend_Block_Template
+class Magento_CurrencySymbol_Block_Adminhtml_System_Currency extends Magento_Backend_Block_Template
 {
     protected $_template = 'system/currency/rates.phtml';
 

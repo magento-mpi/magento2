@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_Adminhtml_Controller_Tax_RateTest extends Mage_Backend_Utility_Controller
+class Magento_Adminhtml_Controller_Tax_RateTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @dataProvider ajaxSaveActionDataProvider

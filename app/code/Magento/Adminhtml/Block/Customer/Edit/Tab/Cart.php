@@ -60,7 +60,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
     }
 
     /**
-     * @return Mage_Backend_Block_Widget_Grid_Extended
+     * @return Magento_Backend_Block_Widget_Grid_Extended
      */
     protected function _prepareColumns()
     {

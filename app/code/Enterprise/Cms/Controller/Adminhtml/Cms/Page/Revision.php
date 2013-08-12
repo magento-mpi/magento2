@@ -49,7 +49,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
         }
 
         $revision = Mage::getModel('Enterprise_Cms_Model_Page_Revision');
-        $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
+        $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
         $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
         if ($revisionId) {
@@ -113,7 +113,7 @@ class Enterprise_Cms_Controller_Adminhtml_Cms_Page_Revision extends Enterprise_C
             // init model and set data
             $revision = $this->_initRevision();
             $revision->setData($data)
-                ->setUserId(Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId());
+                ->setUserId(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId());
 
             if (!$this->_validatePostData($data)) {
                 $this->_redirect('*/*/' . $this->getRequest()->getParam('back'),

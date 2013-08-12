@@ -9,7 +9,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Saas_Launcher_Controller_Adminhtml_Storelauncher_IndexTest extends Mage_Backend_Utility_Controller
+class Saas_Launcher_Controller_Adminhtml_Storelauncher_IndexTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php

@@ -166,7 +166,7 @@ class Enterprise_Cms_Model_Config
      */
     public function isCurrentUserOwner($userId)
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId() == $userId;
+        return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId() == $userId;
     }
 
     /**

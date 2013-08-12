@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webhook_Block_Adminhtml_Registration_Activate extends Mage_Backend_Block_Template
+class Mage_Webhook_Block_Adminhtml_Registration_Activate extends Magento_Backend_Block_Template
 {
     const DATA_NAME = 'name';
     const DATA_TOPICS = 'topics';
@@ -23,12 +23,12 @@ class Mage_Webhook_Block_Adminhtml_Registration_Activate extends Mage_Backend_Bl
     protected $_subscriptionData;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {

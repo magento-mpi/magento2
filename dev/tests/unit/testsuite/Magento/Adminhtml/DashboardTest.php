@@ -113,7 +113,7 @@ class Magento_Adminhtml_DashboardTest extends PHPUnit_Framework_TestCase
             'frontController' => $varienFront,
 
         );
-        $context = $helper->getObject('Mage_Backend_Controller_Context', $arguments);
+        $context = $helper->getObject('Magento_Backend_Controller_Context', $arguments);
         return $this->getMock('Magento_Adminhtml_Controller_Dashboard', array('__'), array($context));
     }
 }

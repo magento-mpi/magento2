@@ -77,7 +77,7 @@ class Mage_Widget_Model_Widget_Config extends Magento_Object
         if (count($skipped) > 0) {
             $params['skip_widgets'] = $this->encodeWidgetsToQuery($skipped);
         }
-        return Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/widget/index', $params);
+        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/widget/index', $params);
     }
 
     /**

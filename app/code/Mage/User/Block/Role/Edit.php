@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Mage_User_Block_Role_Edit extends Mage_Backend_Block_Widget_Tabs
+class Mage_User_Block_Role_Edit extends Magento_Backend_Block_Widget_Tabs
 {
     protected function _construct()
     {

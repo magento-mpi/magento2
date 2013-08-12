@@ -16,7 +16,7 @@
  * @package     Enterprise_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Mage_Backend_Block_Template
+class Enterprise_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_Backend_Block_Template
 {
     /**
      * Getter

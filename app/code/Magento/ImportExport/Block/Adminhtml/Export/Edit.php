@@ -15,7 +15,7 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Block_Adminhtml_Export_Edit extends Mage_Backend_Block_Widget_Form_Container
+class Magento_ImportExport_Block_Adminhtml_Export_Edit extends Magento_Backend_Block_Widget_Form_Container
 {
     /**
      * Internal constructor

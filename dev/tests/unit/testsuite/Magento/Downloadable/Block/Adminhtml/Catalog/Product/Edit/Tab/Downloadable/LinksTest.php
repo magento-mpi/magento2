@@ -23,7 +23,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         $this->_block = $objectManagerHelper->getObject(
             'Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links',
             array(
-                'urlBuilder' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
+                'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
             )
         );
     }

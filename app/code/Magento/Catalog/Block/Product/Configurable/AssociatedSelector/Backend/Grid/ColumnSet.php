@@ -18,7 +18,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSet
-    extends Mage_Backend_Block_Widget_Grid_ColumnSet
+    extends Magento_Backend_Block_Widget_Grid_ColumnSet
 {
     /**
      * Registry instance
@@ -36,23 +36,23 @@ class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid
 
     /**
      * @param Magento_Core_Block_Template_Context $context
-     * @param Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
+     * @param Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory
      * @param Magento_Core_Model_Registry $registryManager
-     * @param Mage_Backend_Model_Widget_Grid_SubTotals $subtotals
-     * @param Mage_Backend_Model_Widget_Grid_Totals $totals
+     * @param Magento_Backend_Model_Widget_Grid_SubTotals $subtotals
+     * @param Magento_Backend_Model_Widget_Grid_Totals $totals
      * @param Magento_Catalog_Model_Product_Type_Configurable $productType
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
-        Mage_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
+        Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory $generatorFactory,
         Magento_Core_Model_Registry $registryManager,
-        Mage_Backend_Model_Widget_Grid_SubTotals $subtotals,
-        Mage_Backend_Model_Widget_Grid_Totals $totals,
+        Magento_Backend_Model_Widget_Grid_SubTotals $subtotals,
+        Magento_Backend_Model_Widget_Grid_Totals $totals,
         Magento_Catalog_Model_Product_Type_Configurable $productType,
         array $data = array()
     ) {
-        parent::__construct($context, $context->getHelperFactory()->get('Mage_Backend_Helper_Data'),
+        parent::__construct($context, $context->getHelperFactory()->get('Magento_Backend_Helper_Data'),
             $generatorFactory, $subtotals, $totals, $data
         );
 
@@ -83,10 +83,10 @@ class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid
         $attributes = $this->_productType->getUsedProductAttributes($product);
         foreach ($attributes as $attribute) {
             /** @var $attribute Magento_Catalog_Model_Entity_Attribute */
-            /** @var $block Mage_Backend_Block_Widget_Grid_Column */
+            /** @var $block Magento_Backend_Block_Widget_Grid_Column */
             $block = $this->addChild(
                 $attribute->getAttributeCode(),
-                'Mage_Backend_Block_Widget_Grid_Column',
+                'Magento_Backend_Block_Widget_Grid_Column',
                 array(
                     'header' => $attribute->getStoreLabel(),
                     'index' => $attribute->getAttributeCode(),

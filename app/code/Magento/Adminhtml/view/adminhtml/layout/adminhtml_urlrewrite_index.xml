@@ -11,13 +11,13 @@
     <adminhtml_urlrewrite_index>
         <reference name="content">
             <block type="Magento_Adminhtml_Block_Urlrewrite" name="adminhtml.block.urlrewrite.grid.container">
-                <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.block.urlrewrite.grid" as="grid">
+                <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.block.urlrewrite.grid" as="grid">
                     <arguments>
                         <id>urlrewriteGrid</id>
                         <dataSource type="object">Magento_Core_Model_Resource_Url_Rewrite_Collection</dataSource>
                         <default_sort>url_rewrite_id</default_sort>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.urlrewrite.grid.columnSet">
+                    <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.urlrewrite.grid.columnSet">
                         <arguments>
                             <rowUrl>
                                 <path>*/*/edit</path>
@@ -26,7 +26,7 @@
                                 </extraParamsTemplate>
                             </rowUrl>
                         </arguments>
-                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="url_rewrite_id">
+                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="url_rewrite_id">
                             <arguments>
                                 <header translate="true" module="Magento_Adminhtml">ID</header>
                                 <width>50px</width>
@@ -35,7 +35,7 @@
                                 <index>url_rewrite_id</index>
                             </arguments>
                         </block>
-                        <block type="Mage_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
+                        <block type="Magento_Backend_Block_Widget_Grid_Column_Multistore" as="store_id">
                             <arguments>
                                 <header translate="true" module="Magento_Adminhtml">Store View</header>
                                 <width>200px</width>
@@ -45,7 +45,7 @@
                                 <store_view>true</store_view>
                             </arguments>
                         </block>
-                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_system">
+                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="is_system">
                             <arguments>
                                 <header translate="true" module="Magento_Adminhtml">Type</header>
                                 <width>50px</width>
@@ -55,7 +55,7 @@
                                 <options type="options">Magento_Adminhtml_Model_UrlRewriteOptions</options>
                             </arguments>
                         </block>
-                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="id_path">
+                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="id_path">
                             <arguments>
                                 <header translate="true" module="Magento_Adminhtml">ID Path</header>
                                 <width>50px</width>
@@ -64,7 +64,7 @@
                                 <index>id_path</index>
                             </arguments>
                         </block>
-                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="request_path">
+                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="request_path">
                             <arguments>
                                 <header translate="true" module="Magento_Adminhtml">Request Path</header>
                                 <width>50px</width>
@@ -73,7 +73,7 @@
                                 <index>request_path</index>
                             </arguments>
                         </block>
-                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="target_path">
+                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="target_path">
                             <arguments>
                                 <header translate="true" module="Magento_Adminhtml">Target Path</header>
                                 <width>50px</width>
@@ -82,7 +82,7 @@
                                 <index>target_path</index>
                             </arguments>
                         </block>
-                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="options">
+                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="options">
                             <arguments>
                                 <header translate="true" module="Magento_Adminhtml">Options</header>
                                 <width>50px</width>
@@ -91,7 +91,7 @@
                                 <index>options</index>
                             </arguments>
                         </block>
-                        <block type="Mage_Backend_Block_Widget_Grid_Column" as="actions">
+                        <block type="Magento_Backend_Block_Widget_Grid_Column" as="actions">
                             <arguments>
                                 <header translate="true" module="Magento_Adminhtml">Action</header>
                                 <sortable>0</sortable>

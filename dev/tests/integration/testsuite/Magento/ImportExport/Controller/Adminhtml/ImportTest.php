@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_ImportExport_Controller_Adminhtml_ImportTest extends Mage_Backend_Utility_Controller
+class Magento_ImportExport_Controller_Adminhtml_ImportTest extends Magento_Backend_Utility_Controller
 {
     public function testGetFilterAction()
     {

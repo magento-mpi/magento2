@@ -26,7 +26,7 @@ class Magento_AdminNotification_Model_Observer
     public function preDispatch(Magento_Event_Observer $observer)
     {
 
-        if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {
+        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->isLoggedIn()) {
 
             $feedModel  = Mage::getModel('Magento_AdminNotification_Model_Feed');
             /* @var $feedModel Magento_AdminNotification_Model_Feed */

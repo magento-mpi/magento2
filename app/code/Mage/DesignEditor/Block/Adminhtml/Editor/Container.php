@@ -13,7 +13,7 @@
  *
  * @method Mage_DesignEditor_Block_Adminhtml_Editor_Container setTheme(Magento_Core_Model_Theme $theme)
  */
-class Mage_DesignEditor_Block_Adminhtml_Editor_Container extends Mage_Backend_Block_Widget_Container
+class Mage_DesignEditor_Block_Adminhtml_Editor_Container extends Magento_Backend_Block_Widget_Container
 {
     /**
      * Frame Url

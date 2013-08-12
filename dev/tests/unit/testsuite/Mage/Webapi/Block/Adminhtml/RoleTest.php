@@ -10,7 +10,7 @@
 class Mage_Webapi_Block_Adminhtml_RoleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlBuilder;
 
@@ -21,7 +21,7 @@ class Mage_Webapi_Block_Adminhtml_RoleTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_urlBuilder = $this->getMockBuilder('Mage_Backend_Model_Url')
+        $this->_urlBuilder = $this->getMockBuilder('Magento_Backend_Model_Url')
             ->disableOriginalConstructor()
             ->getMock();
 

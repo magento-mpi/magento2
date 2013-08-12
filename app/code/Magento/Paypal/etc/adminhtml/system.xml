@@ -109,19 +109,19 @@
                             <field id="pwd" translate="label" type="obscure" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>Password</label>
                                 <config_path>payment/payflow_advanced/pwd</config_path>
-                                <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                <backend_model>Magento_Backend_Model_Config_Backend_Encrypted</backend_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="sandbox_flag" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>Test Mode</label>
                                 <config_path>payment/payflow_advanced/sandbox_flag</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="use_proxy" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>Use Proxy</label>
                                 <config_path>payment/payflow_advanced/use_proxy</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="proxy_host" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1">
@@ -148,7 +148,7 @@
                         <field id="enable_payflow_advanced" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                             <label>Enable this Solution</label>
                             <config_path>payment/payflow_advanced/active</config_path>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                             <requires>
                                 <group id="payments_advanced"/>
                             </requires>
@@ -158,7 +158,7 @@
                         <field id="enable_express_checkout" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                             <config_path>payment/paypaluk_express/active</config_path>
                             <frontend_model>Magento_Paypal_Block_Adminhtml_System_Config_Field_Hidden</frontend_model>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                             <frontend_class>paypal-ec-payflow-enabler</frontend_class>
                             <attribute type="shared">1</attribute>
                             <requires>
@@ -208,25 +208,25 @@
                             <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/payflow_advanced/debug</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/payflow_advanced/verify_peer</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="csc_editable" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>CVV Entry is Editable</label>
                                 <config_path>payment/payflow_advanced/csc_editable</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="csc_required" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>Require CVV Entry</label>
                                 <config_path>payment/payflow_advanced/csc_required</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <depends>
                                     <field id="csc_editable">1</field>
                                 </depends>
@@ -235,7 +235,7 @@
                             <field id="email_confirmation" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>Send Email Confirmation</label>
                                 <config_path>payment/payflow_advanced/email_confirmation</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="url_method" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
@@ -308,7 +308,7 @@
                         <field id="enable_wpp" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                             <label>Enable this Solution</label>
                             <config_path>payment/paypal_direct/active</config_path>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                             <requires>
                                 <group id="wpp_and_express_checkout"/>
                             </requires>
@@ -339,7 +339,7 @@
                         </field>
                         <field id="heading_cc" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1">
                             <label>Credit Card Settings</label>
-                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Magento_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <attribute type="shared">1</attribute>
                         </field>
                         <field id="cctypes" translate="label comment" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1">
@@ -372,43 +372,43 @@
                             <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/paypal_direct/debug</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/paypal_direct/verify_peer</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="line_items_enabled" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Transfer Cart Line Items</label>
                                 <config_path>payment/paypal_direct/line_items_enabled</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="useccv" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>Require CVV Entry</label>
                                 <config_path>payment/paypal_direct/useccv</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="heading_3dsecure" translate="label" sortOrder="55" showInDefault="1" showInWebsite="1">
                                 <label>3D Secure</label>
-                                <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                                <frontend_model>Magento_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="centinel" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>3D Secure Card Validation</label>
                                 <config_path>payment/paypal_direct/centinel</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="centinel_is_mode_strict" translate="label comment" type="select" sortOrder="65" showInDefault="1" showInWebsite="1">
                                 <label>Severe 3D Secure Card Validation</label>
                                 <config_path>payment/paypal_direct/centinel_is_mode_strict</config_path>
                                 <comment>Severe Validation Removes Chargeback Liability on Merchant</comment>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <depends>
                                     <field id="centinel">1</field>
                                 </depends>
@@ -418,7 +418,7 @@
                                 <label>Centinel Custom API URL</label>
                                 <config_path>payment/paypal_direct/centinel_api_url</config_path>
                                 <comment>If empty, a default value will be used. Custom URL may be provided by CardinalCommerce agreement.</comment>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <depends>
                                     <field id="centinel">1</field>
                                 </depends>
@@ -503,7 +503,7 @@
                         <field id="enable_wps" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                             <label>Enable this Solution</label>
                             <config_path>payment/paypal_standard/active</config_path>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                             <requires>
                                 <field id="business_account"/>
                             </requires>
@@ -553,13 +553,13 @@
                             <field id="sandbox_flag" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Sandbox Mode</label>
                                 <config_path>payment/paypal_standard/sandbox_flag</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="line_items_enabled" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Transfer Cart Line Items</label>
                                 <config_path>payment/paypal_standard/line_items_enabled</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="line_items_summary" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -574,13 +574,13 @@
                             <field id="debug" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/paypal_standard/debug</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/paypal_standard/verify_peer</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                         </group>
@@ -608,7 +608,7 @@
                             <field id="user" translate="label" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>User</label>
                                 <config_path>payment/verisign/user</config_path>
-                                <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                <backend_model>Magento_Backend_Model_Config_Backend_Encrypted</backend_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="vendor" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1">
@@ -619,19 +619,19 @@
                             <field id="pwd" translate="label" type="obscure" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>Password</label>
                                 <config_path>payment/verisign/pwd</config_path>
-                                <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                <backend_model>Magento_Backend_Model_Config_Backend_Encrypted</backend_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="sandbox_flag" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>Test Mode</label>
                                 <config_path>payment/verisign/sandbox_flag</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="use_proxy" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>Use Proxy</label>
                                 <config_path>payment/verisign/use_proxy</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="proxy_host" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1">
@@ -654,7 +654,7 @@
                         <field id="enable_paypal_payflow" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                             <label>Enable this Solution</label>
                             <config_path>payment/verisign/active</config_path>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                             <requires>
                                 <group id="paypal_payflow_api_settings"/>
                             </requires>
@@ -685,7 +685,7 @@
                         </field>
                         <field id="heading_cc" translate="label" sortOrder="40" showInDefault="1" showInWebsite="1">
                             <label>Credit Card Settings</label>
-                            <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <frontend_model>Magento_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                             <attribute type="shared">1</attribute>
                         </field>
                         <field id="cctypes" translate="label comment" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1">
@@ -718,37 +718,37 @@
                             <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/verisign/debug</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/verisign/verify_peer</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="useccv" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Require CVV Entry</label>
                                 <config_path>payment/verisign/useccv</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="heading_3dsecure" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>3D Secure</label>
-                                <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                                <frontend_model>Magento_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="centinel" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>3D Secure Card Validation</label>
                                 <config_path>payment/verisign/centinel</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="centinel_is_mode_strict" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
                                 <label>Severe 3D Secure Card Validation</label>
                                 <config_path>payment/verisign/centinel_is_mode_strict</config_path>
                                 <comment>Severe validation removes chargeback liability on merchant.</comment>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <depends>
                                     <field id="centinel">1</field>
                                 </depends>
@@ -758,7 +758,7 @@
                                 <label>Centinel API URL</label>
                                 <config_path>payment/verisign/centinel_api_url</config_path>
                                 <comment>A value is required for live mode. Refer to your CardinalCommerce agreement.</comment>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <depends>
                                     <field id="centinel">1</field>
                                 </depends>
@@ -832,13 +832,13 @@
                             <label>Shortcut on Shopping Cart</label>
                             <comment>Also affects mini-shopping cart.</comment>
                             <config_path>payment/paypaluk_express/visible_on_cart</config_path>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                             <attribute type="shared">1</attribute>
                         </field>
                         <field id="visible_on_product" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Shortcut on Product View</label>
                             <config_path>payment/paypaluk_express/visible_on_product</config_path>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                             <attribute type="shared">1</attribute>
                         </field>
                         <group id="paypal_payflow_express_checkout_advanced" type="text" translate="label" showInDefault="1" showInWebsite="1" sortOrder="60">
@@ -862,19 +862,19 @@
                             <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/paypaluk_express/debug</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/paypaluk_express/verify_peer</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="line_items_enabled" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Transfer Cart Line Items</label>
                                 <config_path>payment/paypaluk_express/line_items_enabled</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                         </group>
@@ -917,19 +917,19 @@
                             <field id="pwd" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Password</label>
                                 <config_path>payment/payflow_link/pwd</config_path>
-                                <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                <backend_model>Magento_Backend_Model_Config_Backend_Encrypted</backend_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="sandbox_flag" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>Test Mode</label>
                                 <config_path>payment/payflow_link/sandbox_flag</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="use_proxy" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>Use Proxy</label>
                                 <config_path>payment/payflow_link/use_proxy</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="proxy_host" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1">
@@ -956,7 +956,7 @@
                         <field id="enable_payflow_link" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                             <label>Enable Payflow Link</label>
                             <config_path>payment/payflow_link/active</config_path>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                             <requires>
                                 <group id="payflow_link_payflow_link"/>
                             </requires>
@@ -966,7 +966,7 @@
                         <field id="enable_express_checkout" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                             <label>Enable Express Checkout</label>
                             <config_path>payment/paypaluk_express/active</config_path>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                             <frontend_class>paypal-ec-payflow-enabler</frontend_class>
                             <attribute type="shared">1</attribute>
                             <requires>
@@ -1016,25 +1016,25 @@
                             <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/payflow_link/debug</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/payflow_link/verify_peer</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="csc_editable" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>CVV Entry is Editable</label>
                                 <config_path>payment/payflow_link/csc_editable</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="csc_required" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>Require CVV Entry</label>
                                 <config_path>payment/payflow_link/csc_required</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <depends>
                                     <field id="csc_editable">1</field>
                                 </depends>
@@ -1043,7 +1043,7 @@
                             <field id="email_confirmation" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1">
                                 <label>Send Email Confirmation</label>
                                 <config_path>payment/payflow_link/email_confirmation</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="url_method" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
@@ -1120,19 +1120,19 @@
                             <field id="api_username" translate="label" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>API Username</label>
                                 <config_path>paypal/wpp/api_username</config_path>
-                                <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                <backend_model>Magento_Backend_Model_Config_Backend_Encrypted</backend_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="api_password" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>API Password</label>
                                 <config_path>paypal/wpp/api_password</config_path>
-                                <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                <backend_model>Magento_Backend_Model_Config_Backend_Encrypted</backend_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="api_signature" translate="label" type="obscure" sortOrder="50" showInDefault="1" showInWebsite="1">
                                 <label>API Signature</label>
                                 <config_path>paypal/wpp/api_signature</config_path>
-                                <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                <backend_model>Magento_Backend_Model_Config_Backend_Encrypted</backend_model>
                                 <attribute type="shared">1</attribute>
                                 <depends>
                                     <field id="api_authentication">0</field>
@@ -1163,13 +1163,13 @@
                             <field id="sandbox_flag" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1">
                                 <label>Sandbox Mode</label>
                                 <config_path>paypal/wpp/sandbox_flag</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="use_proxy" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1">
                                 <label>API Uses Proxy</label>
                                 <config_path>paypal/wpp/use_proxy</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="proxy_host" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1">
@@ -1192,7 +1192,7 @@
                         <field id="enable_express_checkout" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                             <label>Enable this Solution</label>
                             <config_path>payment/paypal_express/active</config_path>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                             <attribute type="shared">1</attribute>
                             <requires>
                                 <group id="express_checkout_required_express_checkout"/>
@@ -1225,13 +1225,13 @@
                             <label>Shortcut on Shopping Cart</label>
                             <config_path>payment/paypal_express/visible_on_cart</config_path>
                             <comment>Also affects mini-shopping cart.</comment>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                             <attribute type="shared">1</attribute>
                         </field>
                         <field id="visible_on_product" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Shortcut on Product View</label>
                             <config_path>payment/paypal_express/visible_on_product</config_path>
-                            <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                            <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                             <attribute type="shared">1</attribute>
                         </field>
                         <field id="authorization_honor_period" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1">
@@ -1282,19 +1282,19 @@
                             <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1">
                                 <label>Debug Mode</label>
                                 <config_path>payment/paypal_express/debug</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="verify_peer" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1">
                                 <label>Enable SSL verification</label>
                                 <config_path>payment/paypal_express/verify_peer</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="line_items_enabled" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                 <label>Transfer Cart Line Items</label>
                                 <config_path>payment/paypal_express/line_items_enabled</config_path>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="transfer_shipping_options" translate="label tooltip comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
@@ -1302,7 +1302,7 @@
                                 <config_path>payment/paypal_express/transfer_shipping_options</config_path>
                                 <tooltip>If this option is enabled, customer can change shipping address and shipping method on PayPal website. In live mode works via HTTPS protocol only.</tooltip>
                                 <comment>Notice that PayPal can handle up to 10 shipping options. That is why Magento will transfer only first 10 cheapest shipping options if there are more than 10 available.</comment>
-                                <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                 <attribute type="shared">1</attribute>
                                 <depends>
                                     <field id="line_items_enabled">1</field>
@@ -1346,7 +1346,7 @@
                                         <![CDATA[Will appear as a payment option only for customers who have at least one active billing agreement.]]>
                                     </comment>
                                     <config_path>payment/paypal_billing_agreement/active</config_path>
-                                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -1384,25 +1384,25 @@
                                 <field id="debug" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1">
                                     <label>Debug Mode</label>
                                     <config_path>payment/paypal_billing_agreement/debug</config_path>
-                                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="verify_peer" translate="label" type="select" sortOrder="75" showInDefault="1" showInWebsite="1">
                                     <label>Enable SSL verification</label>
                                     <config_path>payment/paypal_billing_agreement/verify_peer</config_path>
-                                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="line_items_enabled" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1">
                                     <label>Transfer Cart Line Items</label>
                                     <config_path>payment/paypal_billing_agreement/line_items_enabled</config_path>
-                                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="allow_billing_agreement_wizard" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1">
                                     <label>Allow in Billing Agreement Wizard</label>
                                     <config_path>payment/paypal_billing_agreement/allow_billing_agreement_wizard</config_path>
-                                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
                             </group>
@@ -1410,25 +1410,25 @@
                                 <label>Settlement Report Settings</label>
                                 <field id="heading_sftp" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1">
                                     <label>SFTP Credentials</label>
-                                    <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                                    <frontend_model>Magento_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="settlement_reports_ftp_login" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="1">
                                     <label>Login</label>
                                     <config_path>paypal/fetch_reports/ftp_login</config_path>
-                                    <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                    <backend_model>Magento_Backend_Model_Config_Backend_Encrypted</backend_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="settlement_reports_ftp_password" translate="label" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1">
                                     <label>Password</label>
                                     <config_path>paypal/fetch_reports/ftp_password</config_path>
-                                    <backend_model>Mage_Backend_Model_Config_Backend_Encrypted</backend_model>
+                                    <backend_model>Magento_Backend_Model_Config_Backend_Encrypted</backend_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="settlement_reports_ftp_sandbox" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1">
                                     <label>Sandbox Mode</label>
                                     <config_path>paypal/fetch_reports/ftp_sandbox</config_path>
-                                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="settlement_reports_ftp_ip" translate="label comment tooltip" type="text" sortOrder="50" showInDefault="1" showInWebsite="1">
@@ -1452,13 +1452,13 @@
                                 </field>
                                 <field id="heading_schedule" translate="label" sortOrder="70" showInDefault="1" showInWebsite="1">
                                     <label>Scheduled Fetching</label>
-                                    <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                                    <frontend_model>Magento_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="settlement_reports_active" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1">
                                     <label>Enable Automatic Fetching</label>
                                     <config_path>paypal/fetch_reports/active</config_path>
-                                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="settlement_reports_schedule" translate="label comment" type="select" sortOrder="90" showInDefault="1">
@@ -1485,7 +1485,7 @@
                                 </field>
                                 <field id="paypal_pages" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                                     <label>PayPal Merchant Pages Style</label>
-                                    <frontend_model>Mage_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
+                                    <frontend_model>Magento_Backend_Block_System_Config_Form_Field_Heading</frontend_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="page_style" translate="label tooltip" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">

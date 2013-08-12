@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Blocks
  */
-class Saas_PrintedTemplate_Block_Adminhtml_Template extends Mage_Backend_Block_Template
+class Saas_PrintedTemplate_Block_Adminhtml_Template extends Magento_Backend_Block_Template
 {
     /**
      * Set printed templates grid template

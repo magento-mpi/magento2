@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Backend_Model_Config_Backend_Admin_Robots extends Mage_Backend_Model_Config_Backend_Admin_Robots
+class Saas_Backend_Model_Config_Backend_Admin_Robots extends Magento_Backend_Model_Config_Backend_Admin_Robots
 {
     /**
      * @param Magento_Core_Model_Context $context

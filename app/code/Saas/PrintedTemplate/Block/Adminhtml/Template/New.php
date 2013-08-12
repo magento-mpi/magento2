@@ -15,7 +15,7 @@
  * @package     Saas_PrintedTemplate
  * @subpackage  Blocks
  */
-class Saas_PrintedTemplate_Block_Adminhtml_Template_New extends Mage_Backend_Block_Widget
+class Saas_PrintedTemplate_Block_Adminhtml_Template_New extends Magento_Backend_Block_Widget
 {
     /**
      * Set template

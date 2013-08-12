@@ -45,14 +45,14 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
     /**
      * Session mock instance
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|Mage_Backend_Model_Session
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Backend_Model_Session
      */
     protected $_session;
 
     /**
      * Backend helper mock instance
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|Mage_Backend_Helper_Data
+     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Backend_Helper_Data
      */
     protected $_helper;
 
@@ -83,13 +83,13 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_session = $this->getMockBuilder('Mage_Backend_Model_Session')
+        $this->_session = $this->getMockBuilder('Magento_Backend_Model_Session')
             ->disableOriginalConstructor()
             ->setMethods(array('setIsUrlNotice', 'addSuccess'))
             ->getMock();
         $this->_session->expects($this->any())->method('setIsUrlNotice');
 
-        $this->_helper = $this->getMockBuilder('Mage_Backend_Helper_Data')
+        $this->_helper = $this->getMockBuilder('Magento_Backend_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('getUrl'))
             ->getMock();
@@ -103,7 +103,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
             'getHelper', 'getSession', 'getAuthorization', 'getTranslator', 'getObjectManager', 'getFrontController',
             'getLayoutFactory', 'getEventManager', 'getRequest', 'getResponse'
         );
-        $contextMock = $this->getMockBuilder('Mage_Backend_Controller_Context')
+        $contextMock = $this->getMockBuilder('Magento_Backend_Controller_Context')
             ->disableOriginalConstructor()
             ->setMethods($contextArgs)
             ->getMock();

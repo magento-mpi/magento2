@@ -21,7 +21,7 @@ class Mage_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Frame
     {
         $urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getUrl'), array(), '', false);
 
-        $context = $this->getMockBuilder('Mage_Backend_Block_Template_Context')
+        $context = $this->getMockBuilder('Magento_Backend_Block_Template_Context')
             ->disableOriginalConstructor()
             ->getMock();
         $context->expects($this->once())
@@ -37,7 +37,7 @@ class Mage_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Frame
         $messages->expects($this->any())
             ->method('getLastAddedMessage')
             ->will($this->returnValue($this->_lastMessage));
-        $session = $this->getMockBuilder('Mage_Backend_Model_Session')
+        $session = $this->getMockBuilder('Magento_Backend_Model_Session')
             ->disableOriginalConstructor()
             ->getMock();
         $session->expects($this->once())

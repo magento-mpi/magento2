@@ -15,7 +15,7 @@
  * @package    Mage_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_User_Controller_Adminhtml_Auth extends Mage_Backend_Controller_ActionAbstract
+class Mage_User_Controller_Adminhtml_Auth extends Magento_Backend_Controller_ActionAbstract
 {
     /**
      * Forgot administrator password action
@@ -50,7 +50,7 @@ class Mage_User_Controller_Adminhtml_Auth extends Mage_Backend_Controller_Action
                 $this->_getSession()
                     ->addSuccess(Mage::helper('Mage_User_Helper_Data')->__('If there is an account associated with %s you will receive an email with a link to reset your password.', Mage::helper('Mage_User_Helper_Data')->escapeHtml($email)));
                 // @codingStandardsIgnoreEnd
-                $this->getResponse()->setRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
+                $this->getResponse()->setRedirect(Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl());
                 return;
             } else {
                 $this->_getSession()->addError($this->__('Please correct this email address:'));
@@ -110,7 +110,7 @@ class Mage_User_Controller_Adminhtml_Auth extends Mage_Backend_Controller_Action
             $this->_getSession()->addError(
                 Mage::helper('Mage_User_Helper_Data')->__('Your password reset link has expired.')
             );
-            $this->getResponse()->setRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
+            $this->getResponse()->setRedirect(Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl());
             return;
         }
 
@@ -130,7 +130,7 @@ class Mage_User_Controller_Adminhtml_Auth extends Mage_Backend_Controller_Action
             $this->_getSession()->addSuccess(
                 Mage::helper('Mage_User_Helper_Data')->__('Your password has been updated.')
             );
-            $this->getResponse()->setRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl());
+            $this->getResponse()->setRedirect(Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl());
         } catch (Magento_Core_Exception $exception) {
             $this->_getSession()->addMessages($exception->getMessages());
             $this->_redirect('*/auth/resetpassword', array(

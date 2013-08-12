@@ -14,7 +14,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_AbstractTab
-    extends Mage_Backend_Block_Widget_Form
+    extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Form factory for VDE "Quick Styles" tab
@@ -45,13 +45,13 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Abstra
     protected $_tab = null;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder $formBuilder
      * @param Mage_DesignEditor_Model_Theme_Context $themeContext
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Mage_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Builder $formBuilder,
         Mage_DesignEditor_Model_Theme_Context $themeContext,
         array $data = array()

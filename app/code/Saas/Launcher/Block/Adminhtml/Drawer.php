@@ -20,7 +20,7 @@
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Saas_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_Form
+class Saas_Launcher_Block_Adminhtml_Drawer extends Magento_Backend_Block_Widget_Form
 {
     /**
      * Display value for secret configuration parameters
@@ -33,12 +33,12 @@ class Saas_Launcher_Block_Adminhtml_Drawer extends Mage_Backend_Block_Widget_For
     protected $_linkTracker;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
         array $data = array()
     ) {

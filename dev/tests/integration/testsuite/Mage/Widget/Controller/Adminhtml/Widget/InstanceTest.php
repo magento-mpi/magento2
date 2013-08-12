@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Mage_Widget_Controller_Adminhtml_Widget_InstanceTest extends Mage_Backend_Utility_Controller
+class Mage_Widget_Controller_Adminhtml_Widget_InstanceTest extends Magento_Backend_Utility_Controller
 {
     protected function setUp()
     {

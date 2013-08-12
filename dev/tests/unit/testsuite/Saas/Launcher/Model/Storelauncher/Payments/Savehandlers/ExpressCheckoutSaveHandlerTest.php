@@ -14,12 +14,12 @@ class Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_ExpressCheckoutSav
 {
     /**
      * @param Magento_Core_Model_Config $config
-     * @param Mage_Backend_Model_Config $backendConfigModel
+     * @param Magento_Backend_Model_Config $backendConfigModel
      * @return Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     public function getSaveHandlerInstance(
         Magento_Core_Model_Config $config,
-        Mage_Backend_Model_Config $backendConfigModel
+        Magento_Backend_Model_Config $backendConfigModel
     ) {
         return new Saas_Launcher_Model_Storelauncher_Payments_Savehandlers_ExpressCheckoutSaveHandler(
             $config,

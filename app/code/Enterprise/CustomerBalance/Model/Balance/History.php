@@ -91,7 +91,7 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Magento_Core_Mode
             case self::ACTION_UPDATED:
                 if (!$balance->getUpdatedActionAdditionalInfo()) {
                     if (Mage::getSingleton('Magento_Core_Model_StoreManagerInterface')->getStore()->isAdmin()
-                        && $user = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()
+                        && $user = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()
                     ) {
                         if ($user->getUsername()) {
                             if (!trim($balance->getComment())){

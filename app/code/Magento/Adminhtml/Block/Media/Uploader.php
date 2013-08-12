@@ -29,12 +29,12 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     protected $_viewUrl;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_View_Url $viewUrl
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_View_Url $viewUrl,
         array $data = array()
     ) {
@@ -48,7 +48,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
 
         $this->setId($this->getId() . '_Uploader');
 
-        $this->getConfig()->setUrl(Mage::getModel('Mage_Backend_Model_Url')->addSessionParam()->getUrl('*/*/upload'));
+        $this->getConfig()->setUrl(Mage::getModel('Magento_Backend_Model_Url')->addSessionParam()->getUrl('*/*/upload'));
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('file');
         $this->getConfig()->setFilters(array(

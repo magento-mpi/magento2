@@ -17,7 +17,7 @@
                     <id>gridReport</id>
                     <dataSource type="object">Magento_Reports_Model_Resource_Report_Collection</dataSource>
                 </arguments>
-                <block type="Mage_Backend_Block_Store_Switcher" name="adminhtml.report.grid.store_switcher" as="store_switcher" template="Magento_Reports::store/switcher.phtml">
+                <block type="Magento_Backend_Block_Store_Switcher" name="adminhtml.report.grid.store_switcher" as="store_switcher" template="Magento_Reports::store/switcher.phtml">
                     <arguments>
                         <use_confirm>0</use_confirm>
                         <switch_url type="url">
@@ -28,7 +28,7 @@
                         </switch_url>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_Export" name="adminhtml.report.grid.export" as="grid.export">
+                <block type="Magento_Backend_Block_Widget_Grid_Export" name="adminhtml.report.grid.export" as="grid.export">
                     <arguments>
                         <exportTypes>
                             <csv>
@@ -42,13 +42,13 @@
                         </exportTypes>
                     </arguments>
                 </block>
-                <block type="Mage_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.grid.columnSet">
+                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="adminhtml.report.grid.columnSet">
                     <arguments>
                         <filter_visibility>0</filter_visibility>
                         <empty_text translate="true" module="Magento_Reports">We couldn't find records for this period.</empty_text>
                         <empty_cell_label translate="true" module="Magento_Reports">We couldn't find records for this period.</empty_cell_label>
                     </arguments>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="period">
+                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="period">
                         <arguments>
                             <header translate="true" module="Magento_Reports">Interval</header>
                             <sortable>0</sortable>

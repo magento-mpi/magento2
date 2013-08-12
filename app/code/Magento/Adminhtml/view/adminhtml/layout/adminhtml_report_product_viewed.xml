@@ -16,7 +16,7 @@
         </reference>
         <reference name="content">
             <block type="Magento_Adminhtml_Block_Report_Product_Viewed" template="report/grid/container.phtml" name="product.report.grid.container">
-                <block type="Mage_Backend_Block_Store_Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
+                <block type="Magento_Backend_Block_Store_Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName">
                         <var_name>store_ids</var_name>
                     </action>

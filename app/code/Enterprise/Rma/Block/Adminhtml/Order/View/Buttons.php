@@ -45,7 +45,7 @@ class Enterprise_Rma_Block_Adminhtml_Order_View_Buttons extends Magento_Adminhtm
     protected function _isCreateRmaButtonRequired()
     {
         $parentBlock = $this->getParentBlock();
-        return $parentBlock instanceof Mage_Backend_Block_Template
+        return $parentBlock instanceof Magento_Backend_Block_Template
             && $parentBlock->getOrderId()
             && Mage::helper('Enterprise_Rma_Helper_Data')->canCreateRma($parentBlock->getOrder(), true);
     }

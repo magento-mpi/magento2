@@ -11,7 +11,7 @@ class Magento_Adminhtml_Controller_CacheTest extends PHPUnit_Framework_TestCase
     public function testCleanMediaAction()
     {
         // Wire object with mocks
-        $context = $this->getMock('Mage_Backend_Controller_Context', array(), array(), '', false);
+        $context = $this->getMock('Magento_Backend_Controller_Context', array(), array(), '', false);
 
         $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
         $context->expects($this->any())
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Controller_CacheTest extends PHPUnit_Framework_TestCase
             ->method('getEventManager')
             ->will($this->returnValue($eventManager));
 
-        $backendHelper = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
+        $backendHelper = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
         $context->expects($this->any())
             ->method('getHelper')
             ->will($this->returnValue($backendHelper));

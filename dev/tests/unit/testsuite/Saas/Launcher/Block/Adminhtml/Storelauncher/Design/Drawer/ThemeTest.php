@@ -19,7 +19,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_ThemeTest extend
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
 
         $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
-        $urlBuilder = $this->getMock('Mage_Backend_Model_Url', array('getUrl'), array(), '', false);
+        $urlBuilder = $this->getMock('Magento_Backend_Model_Url', array('getUrl'), array(), '', false);
         $urlBuilder->expects($this->once())
             ->method('getUrl')
             ->with('adminhtml/system_design_editor/preview', array(

@@ -12,7 +12,7 @@
         <update handle="report_sales"/>
         <reference name="content">
             <block type="Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist" template="Magento_Adminhtml::report/grid/container.phtml" name="customer.report.wishlist">
-                <block type="Mage_Backend_Block_Store_Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
+                <block type="Magento_Backend_Block_Store_Switcher" template="Magento_Reports::store/switcher/enhanced.phtml" name="store.switcher">
                     <action method="setStoreVarName">
                         <var_name>store_ids</var_name>
                     </action>

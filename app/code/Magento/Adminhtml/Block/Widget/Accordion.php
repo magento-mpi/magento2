@@ -12,9 +12,9 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
- * @deprecated Moved to module Mage_Backend
+ * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Block_Widget_Accordion extends Mage_Backend_Block_Widget_Accordion
+class Magento_Adminhtml_Block_Widget_Accordion extends Magento_Backend_Block_Widget_Accordion
 {
 
 }

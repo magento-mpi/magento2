@@ -16,8 +16,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method Magento_Data_Form setParent($block)
- * @method Mage_Backend_Block_Widget_Form getParent()
- * @method Mage_Backend_Block_Widget_Form setUseContainer($flag)
+ * @method Magento_Backend_Block_Widget_Form getParent()
+ * @method Magento_Backend_Block_Widget_Form setUseContainer($flag)
  */
 class Magento_Data_Form extends Magento_Data_Form_Abstract
 {

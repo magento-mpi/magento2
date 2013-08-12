@@ -34,14 +34,14 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     protected $_fileSize;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_Theme_Image_Path $themeImagePath
      * @param Magento_File_Size $fileSize
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_ObjectManager $objectManager,
         Magento_Core_Model_Theme_Image_Path $themeImagePath,
         Magento_File_Size $fileSize,
@@ -55,12 +55,12 @@ class Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     /**
      * Create a form element with necessary controls
      *
-     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General|Mage_Backend_Block_Widget_Form
+     * @return Mage_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General|Magento_Backend_Block_Widget_Form
      */
     protected function _prepareForm()
     {
-        /** @var $session Mage_Backend_Model_Session */
-        $session = $this->_objectManager->get('Mage_Backend_Model_Session');
+        /** @var $session Magento_Backend_Model_Session */
+        $session = $this->_objectManager->get('Magento_Backend_Model_Session');
         $formDataFromSession = $session->getThemeData();
         $this->_isThemeEditable = $this->_getCurrentTheme()->isEditable();
         $formData = $this->_getCurrentTheme()->getData();

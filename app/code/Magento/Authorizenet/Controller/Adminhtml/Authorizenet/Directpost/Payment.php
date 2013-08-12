@@ -101,7 +101,7 @@ class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
                     $requestToPaygate->setOrderSendConfirmation($sendConfirmationFlag);
                     $requestToPaygate->setStoreId($this->_getOrderCreateModel()->getQuote()->getStoreId());
 
-                    $adminUrl = Mage::getSingleton('Mage_Backend_Model_Url');
+                    $adminUrl = Mage::getSingleton('Magento_Backend_Model_Url');
                     if ($adminUrl->useSecretKey()) {
                         $requestToPaygate->setKey(
                             $adminUrl->getSecretKey('adminhtml', 'authorizenet_directpost_payment','redirect')
@@ -128,7 +128,7 @@ class Magento_Authorizenet_Controller_Adminhtml_Authorizenet_Directpost_Payment
             if ($isError) {
                 $result['success'] = 0;
                 $result['error'] = 1;
-                $result['redirect'] = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('*/sales_order_create/');
+                $result['redirect'] = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/sales_order_create/');
             }
 
             $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));

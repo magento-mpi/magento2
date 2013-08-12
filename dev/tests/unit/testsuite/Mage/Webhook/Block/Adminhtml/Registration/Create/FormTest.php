@@ -71,7 +71,7 @@ class Mage_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magento_
 
     public function testPrepareColumns()
     {
-        $columnsSetMock = $this->_makeMock('Mage_Backend_Block_Widget_Grid_ColumnSet');
+        $columnsSetMock = $this->_makeMock('Magento_Backend_Block_Widget_Grid_ColumnSet');
         $this->_setStub($this->_formMock, 'getChildBlock', $columnsSetMock);
 
         $this->_dataFormMock->expects($this->exactly(4))

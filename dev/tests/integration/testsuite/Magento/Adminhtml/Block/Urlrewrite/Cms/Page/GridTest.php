@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Frame
         $gridBlock->toHtml();
 
         foreach (array('title', 'identifier', 'is_active') as $key) {
-            $this->assertInstanceOf('Mage_Backend_Block_Widget_Grid_Column', $gridBlock->getColumn($key),
+            $this->assertInstanceOf('Magento_Backend_Block_Widget_Grid_Column', $gridBlock->getColumn($key),
                 'Column with key "' . $key . '" is invalid');
         }
 
@@ -50,7 +50,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Frame
         /** @var Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid $gridBlock */
         $gridBlock = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid');
         $gridBlock->toHtml();
-        $this->assertInstanceOf('Mage_Backend_Block_Widget_Grid_Column', $gridBlock->getColumn('store_id'),
+        $this->assertInstanceOf('Magento_Backend_Block_Widget_Grid_Column', $gridBlock->getColumn('store_id'),
             'When there is more than one store column with key "store_id" should be present');
     }
 }

@@ -15,19 +15,19 @@
             <group id="gift_options">
                 <field id="wrapping_allow_order" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Allow Gift Wrapping on Order Level</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="wrapping_allow_items" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Allow Gift Wrapping for Order Items</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="allow_gift_receipt" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Allow Gift Receipt</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="allow_printed_card" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Allow Printed Card</label>
-                    <source_model>Mage_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
                 </field>
                 <field id="printed_card_price" translate="label" module="Enterprise_GiftWrapping" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Default Price for Printed Card</label>

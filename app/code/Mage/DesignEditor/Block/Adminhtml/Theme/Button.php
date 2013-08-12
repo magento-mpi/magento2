@@ -73,7 +73,7 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Button extends Magento_Core_Block_
      */
     protected function _attributesToHtml($attributes)
     {
-        $helper = $this->helper('Mage_Backend_Helper_Data');
+        $helper = $this->helper('Magento_Backend_Helper_Data');
         $html = '';
         foreach ($attributes as $attributeKey => $attributeValue) {
             if ($attributeValue !== null && $attributeValue !== '') {

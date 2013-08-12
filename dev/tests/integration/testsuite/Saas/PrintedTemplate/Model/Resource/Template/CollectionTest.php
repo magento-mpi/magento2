@@ -32,7 +32,7 @@ class Saas_PrintedTemplate_Model_Resource_Template_CollectionTest extends PHPUni
     protected function tearDown()
     {
         return; // MAGETWO-7075
-        Mage::getConfig()->setCurrentAreaCode(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper('Magento_Backend_Helper_Data')->getAreaCode());
         $this->_model->delete();
         $this->_collection = null;
     }

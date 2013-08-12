@@ -22,7 +22,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
     /**
      * Configuration loader
      *
-     * @var Mage_Backend_Model_Config_Loader|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Backend_Model_Config_Loader|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configLoader;
 
@@ -36,7 +36,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
     /**
      * Logo backend config model
      *
-     * @var Mage_Backend_Model_Config_Backend_Image_Logo|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Backend_Model_Config_Backend_Image_Logo|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_modelLogo;
 
@@ -72,7 +72,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
             ->method('getTmpLogoPath')
             ->will($this->returnArgument(0));
 
-        $this->_configLoader = $this->getMock('Mage_Backend_Model_Config_Loader',
+        $this->_configLoader = $this->getMock('Magento_Backend_Model_Config_Loader',
             array(), array(), '', false, false
         );
         $this->_configLoader->expects($this->any())
@@ -96,7 +96,7 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
                 $this->isEmpty(), Magento_Core_Model_Config::SCOPE_STORES, 1)
             ->will($this->returnSelf());
 
-        $this->_modelLogo = $this->getMockBuilder('Mage_Backend_Model_Config_Backend_Image_Logo')
+        $this->_modelLogo = $this->getMockBuilder('Magento_Backend_Model_Config_Backend_Image_Logo')
             ->disableOriginalConstructor()
             ->setMethods(array(
                 'setPath',
@@ -152,12 +152,12 @@ class Saas_Launcher_Model_Storelauncher_Design_SaveHandlerTest
 
     /**
      * @param Magento_Core_Model_Config $config
-     * @param Mage_Backend_Model_Config $backendConfigModel
+     * @param Magento_Backend_Model_Config $backendConfigModel
      * @return Saas_Launcher_Model_Tile_ConfigBased_SaveHandlerAbstract
      */
     public function getSaveHandlerInstance(
         Magento_Core_Model_Config $config,
-        Mage_Backend_Model_Config $backendConfigModel
+        Magento_Backend_Model_Config $backendConfigModel
     ) {
         return new Saas_Launcher_Model_Storelauncher_Design_SaveHandler(
             $config,

@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_AdminNotification_Block_System_Messages extends Mage_Backend_Block_Template
+class Magento_AdminNotification_Block_System_Messages extends Magento_Backend_Block_Template
 {
     /**
      * Message list
@@ -15,12 +15,12 @@ class Magento_AdminNotification_Block_System_Messages extends Mage_Backend_Block
     protected $_messages;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Block_Template_Context $context,
         Magento_AdminNotification_Model_Resource_System_Message_Collection_Synchronized $messages,
         array $data = array()
     ) {

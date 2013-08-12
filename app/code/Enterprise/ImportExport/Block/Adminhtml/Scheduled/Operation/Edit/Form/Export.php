@@ -56,7 +56,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
         ));
 
         $form->getElement('email_template')
-            ->setValues(Mage::getModel('Mage_Backend_Model_Config_Source_Email_Template')
+            ->setValues(Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template')
                 ->setPath('enterprise_importexport_export_failed')
                 ->toOptionArray()
             );

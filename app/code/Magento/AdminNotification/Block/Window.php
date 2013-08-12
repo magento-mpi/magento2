@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Block_Window extends Mage_Backend_Block_Template
+class Magento_AdminNotification_Block_Window extends Magento_Backend_Block_Template
 {
     /**
      * XML path of Severity icons url
@@ -26,7 +26,7 @@ class Magento_AdminNotification_Block_Window extends Mage_Backend_Block_Template
     /**
      * Authentication
      *
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Magento_Backend_Model_Auth_Session
      */
     protected $_authSession;
 
@@ -43,14 +43,14 @@ class Magento_AdminNotification_Block_Window extends Mage_Backend_Block_Template
     protected $_latestItem;
 
     /**
-     * @param Mage_Backend_Block_Template_Context $context
-     * @param Mage_Backend_Model_Auth_Session $authSession
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Model_Auth_Session $authSession
      * @param Magento_AdminNotification_Model_Resource_Inbox_Collection_Critical $criticalCollection
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Template_Context $context,
-        Mage_Backend_Model_Auth_Session $authSession,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Backend_Model_Auth_Session $authSession,
         Magento_AdminNotification_Model_Resource_Inbox_Collection_Critical $criticalCollection,
         array $data = array()
     ) {

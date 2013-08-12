@@ -34,8 +34,8 @@ class Mage_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned
     {
         $themeId = $themeBlock->getTheme()->getId();
         $themeTitle = $themeBlock->getTheme()->getThemeTitle();
-        /** @var $removeButton Mage_Backend_Block_Widget_Button */
-        $removeButton = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
+        /** @var $removeButton Magento_Backend_Block_Widget_Button */
+        $removeButton = $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button');
 
         $removeButton->setData(array(
             'label'     => $this->__('Remove'),

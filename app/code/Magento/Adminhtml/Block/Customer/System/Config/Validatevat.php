@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Mage_Backend_Block_System_Config_Form_Field
+class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento_Backend_Block_System_Config_Form_Field
 {
     /**
      * Merchant Country Field Name
@@ -133,7 +133,7 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Mage_Ba
         $this->addData(array(
             'button_label' => Mage::helper('Magento_Customer_Helper_Data')->__($buttonLabel),
             'html_id' => $element->getHtmlId(),
-            'ajax_url' => Mage::getSingleton('Mage_Backend_Model_Url')
+            'ajax_url' => Mage::getSingleton('Magento_Backend_Model_Url')
                 ->getUrl('adminhtml/customer_system_config_validatevat/validate')
         ));
 

@@ -22,12 +22,12 @@ class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Magento_Adminht
     protected $_filesystem;
 
     /**
-     * @param Mage_Backend_Block_Context $context
+     * @param Magento_Backend_Block_Context $context
      * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Block_Context $context,
+        Magento_Backend_Block_Context $context,
         Magento_Filesystem $filesystem,
         array $data = array()
     ) {

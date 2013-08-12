@@ -55,7 +55,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         }
 
         $this->setChild('store_switcher',
-            $this->getLayout()->createBlock('Mage_Backend_Block_Store_Switcher')
+            $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher')
                 ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, '_query'=>false, 'store'=>null)))
                 ->setTemplate('store/switcher/enhanced.phtml')
         );
@@ -168,7 +168,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     {
         $params = array('_current'=>true, 'id'=>null,'store'=>null);
         if (
-            (is_null($expanded) && Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getIsTreeWasExpanded())
+            (is_null($expanded) && Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getIsTreeWasExpanded())
             || $expanded == true) {
             $params['expand_all'] = true;
         }
@@ -190,7 +190,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
 
     public function getIsWasExpanded()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getIsTreeWasExpanded();
+        return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getIsTreeWasExpanded();
     }
 
     public function getMoveUrl()

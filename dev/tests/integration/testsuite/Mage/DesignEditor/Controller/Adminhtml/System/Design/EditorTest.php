@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends Mage_Backend_Utility_Controller
+class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @var Magento_Core_Helper_Data

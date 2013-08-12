@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_JobNotification_Controller_Adminhtml_Action extends Mage_Backend_Controller_ActionAbstract
+class Saas_JobNotification_Controller_Adminhtml_Action extends Magento_Backend_Controller_ActionAbstract
 {
     /**
      * @var Saas_JobNotification_Service_Notification
@@ -13,13 +13,13 @@ class Saas_JobNotification_Controller_Adminhtml_Action extends Mage_Backend_Cont
     protected $_service;
 
     /**
-     * @param Mage_Backend_Controller_Context $context
+     * @param Magento_Backend_Controller_Context $context
      * @param Saas_JobNotification_Service_Notification $service
      * @param Saas_JobNotification_Helper_Data $helper
      * @param null $areaCode
      */
     public function __construct(
-        Mage_Backend_Controller_Context $context,
+        Magento_Backend_Controller_Context $context,
         Saas_JobNotification_Service_Notification $service,
         Saas_JobNotification_Helper_Data $helper,
         $areaCode = null

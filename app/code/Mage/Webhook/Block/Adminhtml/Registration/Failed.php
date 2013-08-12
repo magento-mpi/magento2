@@ -9,19 +9,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webhook_Block_Adminhtml_Registration_Failed extends Mage_Backend_Block_Template
+class Mage_Webhook_Block_Adminhtml_Registration_Failed extends Magento_Backend_Block_Template
 {
-    /** @var  Mage_Backend_Model_Session */
+    /** @var  Magento_Backend_Model_Session */
     protected $_session;
 
     /**
-     * @param Mage_Backend_Model_Session $session
-     * @param Mage_Backend_Block_Template_Context $context
+     * @param Magento_Backend_Model_Session $session
+     * @param Magento_Backend_Block_Template_Context $context
      * @param array $data
      */
     public function __construct(
-        Mage_Backend_Model_Session $session,
-        Mage_Backend_Block_Template_Context $context,
+        Magento_Backend_Model_Session $session,
+        Magento_Backend_Block_Template_Context $context,
         array $data = array()
     ) {
         parent::__construct($context, $data);
