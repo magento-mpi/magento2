@@ -34,7 +34,7 @@
             <directory suffix="Test.php">testsuite/Core/Magento/CmsStaticBlocks</directory>
             <directory suffix="Test.php">testsuite/Core/Magento/CmsWidgets</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/CompareProducts</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Newsletter</directory>
+            <directory suffix="Test.php">testsuite/Core/Magento/Newsletter</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Order</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Product</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/ProductAttribute</directory>

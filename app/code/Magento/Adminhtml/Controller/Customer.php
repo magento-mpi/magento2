@@ -467,7 +467,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
     public function newsletterAction()
     {
         $this->_initCustomer();
-        $subscriber = Mage::getModel('Mage_Newsletter_Model_Subscriber')
+        $subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber')
             ->loadByCustomer(Mage::registry('current_customer'));
 
         Mage::register('subscriber', $subscriber);

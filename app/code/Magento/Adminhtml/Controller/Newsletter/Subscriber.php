@@ -29,10 +29,10 @@ class Magento_Adminhtml_Controller_Newsletter_Subscriber extends Magento_Adminht
 
         $this->loadLayout();
 
-        $this->_setActiveMenu('Mage_Newsletter::newsletter_subscriber');
+        $this->_setActiveMenu('Magento_Newsletter::newsletter_subscriber');
 
-        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter'));
-        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Subscribers'));
+        $this->_addBreadcrumb(Mage::helper('Magento_Newsletter_Helper_Data')->__('Newsletter'), Mage::helper('Magento_Newsletter_Helper_Data')->__('Newsletter'));
+        $this->_addBreadcrumb(Mage::helper('Magento_Newsletter_Helper_Data')->__('Subscribers'), Mage::helper('Magento_Newsletter_Helper_Data')->__('Subscribers'));
 
         $this->renderLayout();
     }
@@ -70,12 +70,12 @@ class Magento_Adminhtml_Controller_Newsletter_Subscriber extends Magento_Adminht
     {
         $subscribersIds = $this->getRequest()->getParam('subscriber');
         if (!is_array($subscribersIds)) {
-             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Newsletter_Helper_Data')->__('Please select one or more subscribers.'));
+             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Newsletter_Helper_Data')->__('Please select one or more subscribers.'));
         }
         else {
             try {
                 foreach ($subscribersIds as $subscriberId) {
-                    $subscriber = Mage::getModel('Mage_Newsletter_Model_Subscriber')->load($subscriberId);
+                    $subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber')->load($subscriberId);
                     $subscriber->unsubscribe();
                 }
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
@@ -93,12 +93,12 @@ class Magento_Adminhtml_Controller_Newsletter_Subscriber extends Magento_Adminht
     {
         $subscribersIds = $this->getRequest()->getParam('subscriber');
         if (!is_array($subscribersIds)) {
-             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Mage_Newsletter_Helper_Data')->__('Please select one or more subscribers.'));
+             Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(Mage::helper('Magento_Newsletter_Helper_Data')->__('Please select one or more subscribers.'));
         }
         else {
             try {
                 foreach ($subscribersIds as $subscriberId) {
-                    $subscriber = Mage::getModel('Mage_Newsletter_Model_Subscriber')->load($subscriberId);
+                    $subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber')->load($subscriberId);
                     $subscriber->delete();
                 }
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
@@ -114,6 +114,6 @@ class Magento_Adminhtml_Controller_Newsletter_Subscriber extends Magento_Adminht
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Newsletter::subscriber');
+        return $this->_authorization->isAllowed('Magento_Newsletter::subscriber');
     }
 }

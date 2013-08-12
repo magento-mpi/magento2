@@ -36,6 +36,6 @@ class Magento_Adminhtml_Block_Newsletter_Template extends Magento_Adminhtml_Bloc
 
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Templates');
+        return Mage::helper('Magento_Newsletter_Helper_Data')->__('Newsletter Templates');
     }
 }

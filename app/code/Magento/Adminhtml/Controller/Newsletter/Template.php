@@ -24,7 +24,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
     protected function _isAllowed ()
     {
         return $this->_authorization
-            ->isAllowed('Mage_Newsletter::template');
+            ->isAllowed('Magento_Newsletter::template');
     }
 
     /**
@@ -50,8 +50,8 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
             return;
         }
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Newsletter::newsletter_template');
-        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Templates'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Templates'));
+        $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
+        $this->_addBreadcrumb(Mage::helper('Magento_Newsletter_Helper_Data')->__('Newsletter Templates'), Mage::helper('Magento_Newsletter_Helper_Data')->__('Newsletter Templates'));
         $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Newsletter_Template', 'template'));
         $this->renderLayout();
     }
@@ -85,7 +85,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
     {
         $this->_setTitle();
 
-        $model = Mage::getModel('Mage_Newsletter_Model_Template');
+        $model = Mage::getModel('Magento_Newsletter_Model_Template');
         if ($id = $this->getRequest()->getParam('id')) {
             $model->load($id);
         }
@@ -93,15 +93,15 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
         Mage::register('_current_template', $model);
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Newsletter::newsletter_template');
+        $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
 
         if ($model->getId()) {
-            $breadcrumbTitle = Mage::helper('Mage_Newsletter_Helper_Data')->__('Edit Template');
+            $breadcrumbTitle = Mage::helper('Magento_Newsletter_Helper_Data')->__('Edit Template');
             $breadcrumbLabel = $breadcrumbTitle;
         }
         else {
-            $breadcrumbTitle = Mage::helper('Mage_Newsletter_Helper_Data')->__('New Template');
-            $breadcrumbLabel = Mage::helper('Mage_Newsletter_Helper_Data')->__('Create Newsletter Template');
+            $breadcrumbTitle = Mage::helper('Magento_Newsletter_Helper_Data')->__('New Template');
+            $breadcrumbLabel = Mage::helper('Magento_Newsletter_Helper_Data')->__('Create Newsletter Template');
         }
 
         $this->_title($model->getId() ? $model->getTemplateCode() : $this->__('New Template'));
@@ -140,7 +140,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
         if (!$request->isPost()) {
             $this->getResponse()->setRedirect($this->getUrl('*/newsletter_template'));
         }
-        $template = Mage::getModel('Mage_Newsletter_Model_Template');
+        $template = Mage::getModel('Magento_Newsletter_Model_Template');
 
         if ($id = (int)$request->getParam('id')) {
             $template->load($id);
@@ -157,10 +157,10 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
                 ->setModifiedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
 
             if (!$template->getId()) {
-                $template->setTemplateType(Mage_Newsletter_Model_Template::TYPE_HTML);
+                $template->setTemplateType(Magento_Newsletter_Model_Template::TYPE_HTML);
             }
             if ($this->getRequest()->getParam('_change_type_flag')) {
-                $template->setTemplateType(Mage_Newsletter_Model_Template::TYPE_TEXT);
+                $template->setTemplateType(Magento_Newsletter_Model_Template::TYPE_TEXT);
                 $template->setTemplateStyles('');
             }
             if ($this->getRequest()->getParam('_save_as_flag')) {
@@ -194,7 +194,7 @@ class Magento_Adminhtml_Controller_Newsletter_Template extends Magento_Adminhtml
      */
     public function deleteAction ()
     {
-        $template = Mage::getModel('Mage_Newsletter_Model_Template')
+        $template = Mage::getModel('Magento_Newsletter_Model_Template')
             ->load($this->getRequest()->getParam('id'));
         if ($template->getId()) {
             try {

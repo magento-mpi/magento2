@@ -372,7 +372,7 @@ class Magento_Core_Model_Email_Template extends Magento_Core_Model_Template
             $variables['this'] = $this;
         }
 
-        if (isset($variables['subscriber']) && ($variables['subscriber'] instanceof Mage_Newsletter_Model_Subscriber)) {
+        if (isset($variables['subscriber']) && ($variables['subscriber'] instanceof Magento_Newsletter_Model_Subscriber)) {
             $processor->setStoreId($variables['subscriber']->getStoreId());
         }
 

@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Renderer_Checkbox exten
      */
     public function render(Magento_Object $row)
     {
-        if($row->getSubscriberStatus()==Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED) {
+        if($row->getSubscriberStatus()==Magento_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED) {
             return '<input type="checkbox" name="subscriber[]" value="' . $row->getId() . '" class="subscriberCheckbox"/>';
         } else {
             return '';

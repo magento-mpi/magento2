@@ -15,7 +15,7 @@
 class Magento_Adminhtml_Controller_Newsletter_TemplateTest extends Mage_Backend_Utility_Controller
 {
     /**
-     * @var Mage_Newsletter_Model_Template
+     * @var Magento_Newsletter_Model_Template
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class Magento_Adminhtml_Controller_Newsletter_TemplateTest extends Mage_Backend_
                       'sender_name'=>'Test Sender Name',
                       'text'=>'Template Content');
         $this->getRequest()->setPost($post);
-        $this->_model = Mage::getModel('Mage_Newsletter_Model_Template');
+        $this->_model = Mage::getModel('Magento_Newsletter_Model_Template');
     }
 
     public function tearDown()

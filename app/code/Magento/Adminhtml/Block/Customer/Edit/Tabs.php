@@ -78,7 +78,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tabs extends Magento_Adminhtml_Block
                 'url'       => $this->getUrl('*/*/wishlist', array('_current' => true)),
             ));
 
-            if ($this->_authorization->isAllowed('Mage_Newsletter::subscriber')) {
+            if ($this->_authorization->isAllowed('Magento_Newsletter::subscriber')) {
                 $this->addTab('newsletter', array(
                     'label'     => Mage::helper('Mage_Customer_Helper_Data')->__('Newsletter'),
                     'content'   => $this->getLayout()

@@ -24,11 +24,11 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Filter_Status ex
     {
         self::$_statuses = array(
                 null                                        => null,
-                Mage_Newsletter_Model_Queue::STATUS_SENT    => Mage::helper('Mage_Customer_Helper_Data')->__('Sent'),
-                Mage_Newsletter_Model_Queue::STATUS_CANCEL  => Mage::helper('Mage_Customer_Helper_Data')->__('Cancel'),
-                Mage_Newsletter_Model_Queue::STATUS_NEVER   => Mage::helper('Mage_Customer_Helper_Data')->__('Not Sent'),
-                Mage_Newsletter_Model_Queue::STATUS_SENDING => Mage::helper('Mage_Customer_Helper_Data')->__('Sending'),
-                Mage_Newsletter_Model_Queue::STATUS_PAUSE   => Mage::helper('Mage_Customer_Helper_Data')->__('Paused'),
+                Magento_Newsletter_Model_Queue::STATUS_SENT    => Mage::helper('Mage_Customer_Helper_Data')->__('Sent'),
+                Magento_Newsletter_Model_Queue::STATUS_CANCEL  => Mage::helper('Mage_Customer_Helper_Data')->__('Cancel'),
+                Magento_Newsletter_Model_Queue::STATUS_NEVER   => Mage::helper('Mage_Customer_Helper_Data')->__('Not Sent'),
+                Magento_Newsletter_Model_Queue::STATUS_SENDING => Mage::helper('Mage_Customer_Helper_Data')->__('Sending'),
+                Magento_Newsletter_Model_Queue::STATUS_PAUSE   => Mage::helper('Mage_Customer_Helper_Data')->__('Paused'),
             );
         parent::_construct();
     }

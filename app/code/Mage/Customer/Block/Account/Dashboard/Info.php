@@ -20,7 +20,7 @@ class Mage_Customer_Block_Account_Dashboard_Info extends Magento_Core_Block_Temp
 {
     /**
      * Cached subscription object
-     * @var Mage_Newsletter_Model_Subscriber
+     * @var Magento_Newsletter_Model_Subscriber
      */
     protected $_subscription;
 
@@ -37,12 +37,12 @@ class Mage_Customer_Block_Account_Dashboard_Info extends Magento_Core_Block_Temp
     /**
      * Get Customer Subscription Object Information
      *
-     * @return Mage_Newsletter_Model_Subscriber
+     * @return Magento_Newsletter_Model_Subscriber
      */
     public function getSubscriptionObject()
     {
         if (!$this->_subscription) {
-            $this->_subscription = Mage::getModel('Mage_Newsletter_Model_Subscriber');
+            $this->_subscription = Mage::getModel('Magento_Newsletter_Model_Subscriber');
             $this->_subscription->loadByCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer());
         }
         return $this->_subscription;

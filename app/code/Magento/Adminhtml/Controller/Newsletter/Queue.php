@@ -31,9 +31,9 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
 
         $this->loadLayout();
 
-        $this->_setActiveMenu('Mage_Newsletter::newsletter_queue');
+        $this->_setActiveMenu('Magento_Newsletter::newsletter_queue');
 
-        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Queue'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Queue'));
+        $this->_addBreadcrumb(Mage::helper('Magento_Newsletter_Helper_Data')->__('Newsletter Queue'), Mage::helper('Magento_Newsletter_Helper_Data')->__('Newsletter Queue'));
 
         $this->renderLayout();
     }
@@ -78,18 +78,18 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
 
     public function startAction()
     {
-        $queue = Mage::getModel('Mage_Newsletter_Model_Queue')
+        $queue = Mage::getModel('Magento_Newsletter_Model_Queue')
             ->load($this->getRequest()->getParam('id'));
         if ($queue->getId()) {
             if (!in_array($queue->getQueueStatus(),
-                          array(Mage_Newsletter_Model_Queue::STATUS_NEVER,
-                                 Mage_Newsletter_Model_Queue::STATUS_PAUSE))) {
+                          array(Magento_Newsletter_Model_Queue::STATUS_NEVER,
+                                 Magento_Newsletter_Model_Queue::STATUS_PAUSE))) {
                    $this->_redirect('*/*');
                 return;
             }
 
             $queue->setQueueStartAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
-                ->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_SENDING)
+                ->setQueueStatus(Magento_Newsletter_Model_Queue::STATUS_SENDING)
                 ->save();
         }
 
@@ -98,16 +98,16 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
 
     public function pauseAction()
     {
-        $queue = Mage::getSingleton('Mage_Newsletter_Model_Queue')
+        $queue = Mage::getSingleton('Magento_Newsletter_Model_Queue')
             ->load($this->getRequest()->getParam('id'));
 
         if (!in_array($queue->getQueueStatus(),
-                      array(Mage_Newsletter_Model_Queue::STATUS_SENDING))) {
+                      array(Magento_Newsletter_Model_Queue::STATUS_SENDING))) {
                $this->_redirect('*/*');
             return;
         }
 
-        $queue->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_PAUSE);
+        $queue->setQueueStatus(Magento_Newsletter_Model_Queue::STATUS_PAUSE);
         $queue->save();
 
         $this->_redirect('*/*');
@@ -115,16 +115,16 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
 
     public function resumeAction()
     {
-        $queue = Mage::getSingleton('Mage_Newsletter_Model_Queue')
+        $queue = Mage::getSingleton('Magento_Newsletter_Model_Queue')
             ->load($this->getRequest()->getParam('id'));
 
         if (!in_array($queue->getQueueStatus(),
-                      array(Mage_Newsletter_Model_Queue::STATUS_PAUSE))) {
+                      array(Magento_Newsletter_Model_Queue::STATUS_PAUSE))) {
                $this->_redirect('*/*');
             return;
         }
 
-        $queue->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_SENDING);
+        $queue->setQueueStatus(Magento_Newsletter_Model_Queue::STATUS_SENDING);
         $queue->save();
 
         $this->_redirect('*/*');
@@ -132,16 +132,16 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
 
     public function cancelAction()
     {
-        $queue = Mage::getSingleton('Mage_Newsletter_Model_Queue')
+        $queue = Mage::getSingleton('Magento_Newsletter_Model_Queue')
             ->load($this->getRequest()->getParam('id'));
 
         if (!in_array($queue->getQueueStatus(),
-                      array(Mage_Newsletter_Model_Queue::STATUS_SENDING))) {
+                      array(Magento_Newsletter_Model_Queue::STATUS_SENDING))) {
                $this->_redirect('*/*');
             return;
         }
 
-        $queue->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_CANCEL);
+        $queue->setQueueStatus(Magento_Newsletter_Model_Queue::STATUS_CANCEL);
         $queue->save();
 
         $this->_redirect('*/*');
@@ -153,7 +153,7 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
         $countOfQueue  = 3;
         $countOfSubscritions = 20;
 
-        $collection = Mage::getResourceModel('Mage_Newsletter_Model_Resource_Queue_Collection')
+        $collection = Mage::getResourceModel('Magento_Newsletter_Model_Resource_Queue_Collection')
             ->setPageSize($countOfQueue)
             ->setCurPage(1)
             ->addOnlyForSendingFilter()
@@ -166,7 +166,7 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
     {
         $this->_title($this->__('Newsletter Queue'));
 
-        Mage::register('current_queue', Mage::getSingleton('Mage_Newsletter_Model_Queue'));
+        Mage::register('current_queue', Mage::getSingleton('Magento_Newsletter_Model_Queue'));
 
         $id = $this->getRequest()->getParam('id');
         $templateId = $this->getRequest()->getParam('template_id');
@@ -174,7 +174,7 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
         if ($id) {
             $queue = Mage::registry('current_queue')->load($id);
         } elseif ($templateId) {
-            $template = Mage::getModel('Mage_Newsletter_Model_Template')->load($templateId);
+            $template = Mage::getModel('Magento_Newsletter_Model_Template')->load($templateId);
             $queue = Mage::registry('current_queue')->setTemplateId($template->getId());
         }
 
@@ -182,14 +182,14 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
 
         $this->loadLayout();
 
-        $this->_setActiveMenu('Mage_Newsletter::newsletter_queue');
+        $this->_setActiveMenu('Magento_Newsletter::newsletter_queue');
 
         $this->_addBreadcrumb(
-            Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Queue'), 
-            Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Queue'), 
+            Mage::helper('Magento_Newsletter_Helper_Data')->__('Newsletter Queue'), 
+            Mage::helper('Magento_Newsletter_Helper_Data')->__('Newsletter Queue'), 
             $this->getUrl('*/newsletter_queue')
         );
-        $this->_addBreadcrumb(Mage::helper('Mage_Newsletter_Helper_Data')->__('Edit Queue'), Mage::helper('Mage_Newsletter_Helper_Data')->__('Edit Queue'));
+        $this->_addBreadcrumb(Mage::helper('Magento_Newsletter_Helper_Data')->__('Edit Queue'), Mage::helper('Magento_Newsletter_Helper_Data')->__('Edit Queue'));
 
         $this->renderLayout();
     }
@@ -197,33 +197,33 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
     public function saveAction()
     {
         try {
-            /* @var $queue Mage_Newsletter_Model_Queue */
-            $queue = Mage::getModel('Mage_Newsletter_Model_Queue');
+            /* @var $queue Magento_Newsletter_Model_Queue */
+            $queue = Mage::getModel('Magento_Newsletter_Model_Queue');
 
             $templateId = $this->getRequest()->getParam('template_id');
             if ($templateId) {
-                /* @var $template Mage_Newsletter_Model_Template */
-                $template = Mage::getModel('Mage_Newsletter_Model_Template')->load($templateId);
+                /* @var $template Magento_Newsletter_Model_Template */
+                $template = Mage::getModel('Magento_Newsletter_Model_Template')->load($templateId);
 
                 if (!$template->getId() || $template->getIsSystem()) {
                     Mage::throwException($this->__('Please correct the newsletter template and try again.'));
                 }
 
                 $queue->setTemplateId($template->getId())
-                    ->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_NEVER);
+                    ->setQueueStatus(Magento_Newsletter_Model_Queue::STATUS_NEVER);
             } else {
                 $queue->load($this->getRequest()->getParam('id'));
             }
 
             if (!in_array($queue->getQueueStatus(),
-                   array(Mage_Newsletter_Model_Queue::STATUS_NEVER,
-                         Mage_Newsletter_Model_Queue::STATUS_PAUSE))
+                   array(Magento_Newsletter_Model_Queue::STATUS_NEVER,
+                         Magento_Newsletter_Model_Queue::STATUS_PAUSE))
             ) {
                 $this->_redirect('*/*');
                 return;
             }
 
-            if ($queue->getQueueStatus() == Mage_Newsletter_Model_Queue::STATUS_NEVER) {
+            if ($queue->getQueueStatus() == Magento_Newsletter_Model_Queue::STATUS_NEVER) {
                 $queue->setQueueStartAtByString($this->getRequest()->getParam('start_at'));
             }
 
@@ -234,9 +234,9 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
                 ->setNewsletterText($this->getRequest()->getParam('text'))
                 ->setNewsletterStyles($this->getRequest()->getParam('styles'));
 
-            if ($queue->getQueueStatus() == Mage_Newsletter_Model_Queue::STATUS_PAUSE
+            if ($queue->getQueueStatus() == Magento_Newsletter_Model_Queue::STATUS_PAUSE
                 && $this->getRequest()->getParam('_resume', false)) {
-                $queue->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_SENDING);
+                $queue->setQueueStatus(Magento_Newsletter_Model_Queue::STATUS_SENDING);
             }
 
             $queue->save();
@@ -259,6 +259,6 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Newsletter::queue');
+        return $this->_authorization->isAllowed('Magento_Newsletter::queue');
     }
 }

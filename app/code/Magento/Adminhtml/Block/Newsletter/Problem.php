@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
     {
         parent::_construct();
 
-        $collection = Mage::getResourceSingleton('Mage_Newsletter_Model_Resource_Problem_Collection')
+        $collection = Mage::getResourceSingleton('Magento_Newsletter_Model_Resource_Problem_Collection')
             ->addSubscriberInfo()
             ->addQueueInfo();
 
@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
             $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button','del.button')
                 ->setData(
                     array(
-                        'label' => Mage::helper('Mage_Newsletter_Helper_Data')->__('Delete Selected Problems'),
+                        'label' => Mage::helper('Magento_Newsletter_Helper_Data')->__('Delete Selected Problems'),
                         'onclick' => 'problemController.deleteSelected();'
                     )
                 )
@@ -47,7 +47,7 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
             $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button','unsubscribe.button')
                 ->setData(
                     array(
-                        'label' => Mage::helper('Mage_Newsletter_Helper_Data')->__('Unsubscribe Selected'),
+                        'label' => Mage::helper('Magento_Newsletter_Helper_Data')->__('Unsubscribe Selected'),
                         'onclick' => 'problemController.unsubscribe();'
                     )
                 )
@@ -67,7 +67,7 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
 
     public function getShowButtons()
     {
-        return  Mage::getResourceSingleton('Mage_Newsletter_Model_Resource_Problem_Collection')->getSize() > 0;
+        return  Mage::getResourceSingleton('Magento_Newsletter_Model_Resource_Problem_Collection')->getSize() > 0;
     }
 
 }// Class Magento_Adminhtml_Block_Newsletter_Problem END

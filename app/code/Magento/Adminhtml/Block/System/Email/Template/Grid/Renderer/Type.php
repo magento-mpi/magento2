@@ -20,8 +20,8 @@ class Magento_Adminhtml_Block_System_Email_Template_Grid_Renderer_Type
     extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     protected static $_types = array(
-        Mage_Newsletter_Model_Template::TYPE_HTML    => 'HTML',
-        Mage_Newsletter_Model_Template::TYPE_TEXT    => 'Text',
+        Magento_Newsletter_Model_Template::TYPE_HTML    => 'HTML',
+        Magento_Newsletter_Model_Template::TYPE_TEXT    => 'Text',
     );
     public function render(Magento_Object $row)
     {

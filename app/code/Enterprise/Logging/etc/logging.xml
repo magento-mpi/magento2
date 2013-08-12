@@ -853,7 +853,7 @@
     <newsletter_queue translate="label">
         <label>Newsletter Queue</label>
         <expected_models>
-            <Mage_Newsletter_Model_Queue/>
+            <Magento_Newsletter_Model_Queue/>
         </expected_models>
         <actions>
             <adminhtml_newsletter_queue_edit>
@@ -869,7 +869,7 @@
     <newsletter_templates translate="label">
         <label>Newsletter Templates</label>
         <expected_models>
-            <Mage_Newsletter_Model_Template/>
+            <Magento_Newsletter_Model_Template/>
         </expected_models>
         <actions>
             <adminhtml_newsletter_template_save>
@@ -893,7 +893,7 @@
     <newsletter_subscribers translate="label">
         <label>Newsletter Subscribers</label>
         <expected_models>
-            <Mage_Newsletter_Model_Subscriber/>
+            <Magento_Newsletter_Model_Subscriber/>
         </expected_models>
         <actions>
             <adminhtml_newsletter_subscriber_massUnsubscribe>

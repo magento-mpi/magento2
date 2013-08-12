@@ -157,7 +157,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function customerSubscribed($observer)
     {
-        /* @var $subscriber Mage_Newsletter_Model_Subscriber */
+        /* @var $subscriber Magento_Newsletter_Model_Subscriber */
         $subscriber = $observer->getEvent()->getSubscriber();
         // reward only new subscribtions
         if (!$subscriber->isObjectNew() || !$subscriber->getCustomerId()) {

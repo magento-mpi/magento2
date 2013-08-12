@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Backend_Bl
     {
 
         if ($this->getRequest()->getParam('queue', false)) {
-            $this->getCollection()->useQueue(Mage::getModel('Mage_Newsletter_Model_Queue')
+            $this->getCollection()->useQueue(Mage::getModel('Magento_Newsletter_Model_Queue')
                 ->load($this->getRequest()->getParam('queue')));
         }
 

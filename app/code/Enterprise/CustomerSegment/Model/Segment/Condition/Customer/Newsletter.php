@@ -124,7 +124,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
         $select = $this->getResource()->createSelect()
             ->from(array('main' => $table), array(new Zend_Db_Expr($value)))
             ->where($this->_createCustomerFilter($customer, 'main.customer_id'))
-            ->where('main.subscriber_status = ?', Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
+            ->where('main.subscriber_status = ?', Magento_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
         $select->limit(1);
         $this->_limitByStoreWebsite($select, $website, 'main.store_id');
         if (!$value) {

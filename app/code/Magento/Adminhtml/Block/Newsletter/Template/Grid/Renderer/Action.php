@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends M
     /**
      * Renderer for "Action" column in Newsletter templates grid
      *
-     * @var Mage_Newsletter_Model_Template $row
+     * @var Magento_Newsletter_Model_Template $row
      * @return string
      */
     public function render(Magento_Object $row)
@@ -29,14 +29,14 @@ class Magento_Adminhtml_Block_Newsletter_Template_Grid_Renderer_Action extends M
         if($row->isValidForSend()) {
             $actions[] = array(
                 'url' => $this->getUrl('*/newsletter_queue/edit', array('template_id' => $row->getId())),
-                'caption' => Mage::helper('Mage_Newsletter_Helper_Data')->__('Queue Newsletter...')
+                'caption' => Mage::helper('Magento_Newsletter_Helper_Data')->__('Queue Newsletter...')
             );
         }
 
         $actions[] = array(
             'url'     => $this->getUrl('*/*/preview', array('id'=>$row->getId())),
             'popup'   => true,
-            'caption' => Mage::helper('Mage_Newsletter_Helper_Data')->__('Preview')
+            'caption' => Mage::helper('Magento_Newsletter_Helper_Data')->__('Preview')
         );
 
         $this->getColumn()->setActions($actions);

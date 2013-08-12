@@ -195,7 +195,7 @@
  * @method Core_Magento_ImportExport_Helper|Enterprise_Magento_ImportExport_Helper                           importExportHelper()
  * @method Core_Magento_Installation_Helper                                                               installationHelper()
  * @method Core_Mage_LayeredNavigation_Helper                                                          layeredNavigationHelper()
- * @method Core_Mage_Newsletter_Helper                                                                 newsletterHelper()
+ * @method Core_Magento_Newsletter_Helper                                                                 newsletterHelper()
  * @method Core_Mage_OrderCreditMemo_Helper                                                            orderCreditMemoHelper()
  * @method Core_Mage_OrderInvoice_Helper                                                               orderInvoiceHelper()
  * @method Core_Mage_OrderShipment_Helper                                                              orderShipmentHelper()

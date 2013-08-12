@@ -38,8 +38,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
 
     protected function _prepareCollection()
     {
-        /** @var $collection Mage_Newsletter_Model_Resource_Queue_Collection */
-        $collection = Mage::getResourceModel('Mage_Newsletter_Model_Resource_Queue_Collection')
+        /** @var $collection Magento_Newsletter_Model_Resource_Queue_Collection */
+        $collection = Mage::getResourceModel('Magento_Newsletter_Model_Resource_Queue_Collection')
             ->addTemplateInfo()
             ->addSubscriberFilter(Mage::registry('subscriber')->getId());
 

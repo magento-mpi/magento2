@@ -296,8 +296,8 @@
                     <mage_sales_model_resource_order_shipment_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_shipment_collection>
                     <mage_sales_model_resource_order_creditmemo_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_creditmemo_collection>
                     <mage_checkout_model_resource_agreement_collection>limitCheckoutAgreements</mage_checkout_model_resource_agreement_collection>
-                    <mage_newsletter_model_resource_queue_collection>addStoreFilter</mage_newsletter_model_resource_queue_collection>
-                    <mage_newsletter_model_resource_subscriber_collection>addStoreFilter</mage_newsletter_model_resource_subscriber_collection>
+                    <magento_newsletter_model_resource_queue_collection>addStoreFilter</magento_newsletter_model_resource_queue_collection>
+                    <magento_newsletter_model_resource_subscriber_collection>addStoreFilter</magento_newsletter_model_resource_subscriber_collection>
                     <magento_core_model_resource_design_collection>addStoreFilter</magento_core_model_resource_design_collection>
                     <mage_user_model_resource_role_collection>limitAdminPermissionRoles</mage_user_model_resource_role_collection>
                     <mage_user_model_resource_role_collection>limitAdminPermissionRoles</mage_user_model_resource_role_collection>
@@ -330,7 +330,7 @@
                     <mage_sales_model_order_shipment>salesOrderEntitySaveBefore</mage_sales_model_order_shipment>
                     <mage_sales_model_order_creditmemo>salesOrderEntitySaveBefore</mage_sales_model_order_creditmemo>
                     <mage_sales_model_order_payment_transaction>salesOrderTransactionSaveBefore</mage_sales_model_order_payment_transaction>
-                    <mage_newsletter_model_queue>newsletterQueueSaveBefore</mage_newsletter_model_queue>
+                    <magento_newsletter_model_queue>newsletterQueueSaveBefore</magento_newsletter_model_queue>
                     <magento_catalog_model_product>catalogProductSaveBefore</magento_catalog_model_product>
                     <magento_catalog_model_category>catalogCategorySaveBefore</magento_catalog_model_category>
                     <mage_customer_model_customer>customerSaveBefore</mage_customer_model_customer>
@@ -388,7 +388,7 @@
                     <magento_core_model_store_group>coreStoreGroupLoadAfter</magento_core_model_store_group>
                     <magento_core_model_store>coreStoreGroupLoadAfter</magento_core_model_store>
                     <magento_core_model_url_rewrite>coreUrlRewriteLoadAfter</magento_core_model_url_rewrite>
-                    <mage_newsletter_model_queue>newsletterQueueLoadAfter</mage_newsletter_model_queue>
+                    <magento_newsletter_model_queue>newsletterQueueLoadAfter</magento_newsletter_model_queue>
                     <enterprise_banner_model_banner>bannerLoadAfter</enterprise_banner_model_banner>
                     <mage_widget_model_widget_instance>widgetInstanceLoadAfter</mage_widget_model_widget_instance>
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountLoadAfter</enterprise_giftCardAccount_model_giftcardaccount>

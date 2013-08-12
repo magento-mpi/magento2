@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
     /**
      * Retrieve template object
      *
-     * @return Mage_Newsletter_Model_Template
+     * @return Magento_Newsletter_Model_Template
      */
     public function getModel()
     {
@@ -48,26 +48,26 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
         }
 
         $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Back'),
+            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Back'),
             'onclick'   => "window.location.href = '" . $this->getUrl('*/*') . "'",
             'class'     => 'action-back'
         ));
 
         $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Reset'),
+            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Reset'),
             'onclick'   => 'window.location.href = window.location.href',
             'class'     => 'reset'
         ));
 
         $this->addChild('to_plain_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Convert to Plain Text'),
+            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Convert to Plain Text'),
             'onclick'   => 'templateControl.stripTags();',
             'id'            => 'convert_button',
             'class'     => 'convert'
         ));
 
         $this->addChild('to_html_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Return HTML Version'),
+            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Return HTML Version'),
             'onclick'   => 'templateControl.unStripTags();',
             'id'            => 'convert_button_back',
             'style'     => 'display:none',
@@ -75,25 +75,25 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
         ));
 
         $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Save Template'),
+            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Save Template'),
             'onclick'   => 'templateControl.save();',
             'class'     => 'save primary'
         ));
 
         $this->addChild('save_as_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Save As'),
+            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Save As'),
             'onclick'   => 'templateControl.saveAs();',
             'class'     => 'save-as'
         ));
 
         $this->addChild('preview_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Preview Template'),
+            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Preview Template'),
             'onclick'   => 'templateControl.preview();',
             'class'     => 'preview'
         ));
 
         $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'     => Mage::helper('Mage_Newsletter_Helper_Data')->__('Delete Template'),
+            'label'     => Mage::helper('Magento_Newsletter_Helper_Data')->__('Delete Template'),
             'onclick'   => 'templateControl.deleteTemplate();',
             'class'     => 'delete'
         ));
@@ -211,10 +211,10 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
     public function getHeaderText()
     {
         if ($this->getEditMode()) {
-            return Mage::helper('Mage_Newsletter_Helper_Data')->__('Edit Newsletter Template');
+            return Mage::helper('Magento_Newsletter_Helper_Data')->__('Edit Newsletter Template');
         }
 
-        return  Mage::helper('Mage_Newsletter_Helper_Data')->__('New Newsletter Template');
+        return  Mage::helper('Magento_Newsletter_Helper_Data')->__('New Newsletter Template');
     }
 
     /**

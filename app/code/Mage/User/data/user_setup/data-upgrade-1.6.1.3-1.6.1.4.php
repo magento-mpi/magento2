@@ -20,7 +20,7 @@ if ($tableName) {
     $remove = array(
         'Magento_Catalog::catalog_attributes',
         'Magento_Cms::cms',
-        'Mage_Newsletter::admin_newsletter',
+        'Magento_Newsletter::admin_newsletter',
         'Mage_Review::pending',
         'Mage_Review::reviews',
         'Mage_Review::reviews_ratings',

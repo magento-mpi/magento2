@@ -22,38 +22,38 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage
     {
         $actions = array();
 
-        if($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_NEVER) {
+        if($row->getQueueStatus()==Magento_Newsletter_Model_Queue::STATUS_NEVER) {
                if(!$row->getQueueStartAt() && $row->getSubscribersTotal()) {
                 $actions[] = array(
                     'url' => $this->getUrl('*/*/start', array('id'=>$row->getId())),
-                    'caption'	=> Mage::helper('Mage_Newsletter_Helper_Data')->__('Start')
+                    'caption'	=> Mage::helper('Magento_Newsletter_Helper_Data')->__('Start')
                 );
             }
-        } else if ($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_SENDING) {
+        } else if ($row->getQueueStatus()==Magento_Newsletter_Model_Queue::STATUS_SENDING) {
             $actions[] = array(
                     'url' => $this->getUrl('*/*/pause', array('id'=>$row->getId())),
-                    'caption'	=>	Mage::helper('Mage_Newsletter_Helper_Data')->__('Pause')
+                    'caption'	=>	Mage::helper('Magento_Newsletter_Helper_Data')->__('Pause')
             );
 
             $actions[] = array(
                 'url'		=>	$this->getUrl('*/*/cancel', array('id'=>$row->getId())),
-                'confirm'	=>	Mage::helper('Mage_Newsletter_Helper_Data')->__('Do you really want to cancel the queue?'),
-                'caption'	=>	Mage::helper('Mage_Newsletter_Helper_Data')->__('Cancel')
+                'confirm'	=>	Mage::helper('Magento_Newsletter_Helper_Data')->__('Do you really want to cancel the queue?'),
+                'caption'	=>	Mage::helper('Magento_Newsletter_Helper_Data')->__('Cancel')
             );
 
 
-        } else if ($row->getQueueStatus()==Mage_Newsletter_Model_Queue::STATUS_PAUSE) {
+        } else if ($row->getQueueStatus()==Magento_Newsletter_Model_Queue::STATUS_PAUSE) {
 
             $actions[] = array(
                 'url' => $this->getUrl('*/*/resume', array('id'=>$row->getId())),
-                'caption'	=>	Mage::helper('Mage_Newsletter_Helper_Data')->__('Resume')
+                'caption'	=>	Mage::helper('Magento_Newsletter_Helper_Data')->__('Resume')
             );
 
         }
 
         $actions[] = array(
             'url'       =>  $this->getUrl('*/newsletter_queue/preview',array('id'=>$row->getId())),
-            'caption'   =>  Mage::helper('Mage_Newsletter_Helper_Data')->__('Preview'),
+            'caption'   =>  Mage::helper('Magento_Newsletter_Helper_Data')->__('Preview'),
             'popup'     =>  true
         );
 

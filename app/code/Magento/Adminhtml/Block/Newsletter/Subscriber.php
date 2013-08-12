@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber extends Magento_Adminhtml_Bl
     /**
      * Queue collection
      *
-     * @var Mage_Newsletter_Model_Resource_Queue_Collection
+     * @var Magento_Newsletter_Model_Resource_Queue_Collection
      */
     protected $_queueCollection = null;
 
@@ -40,13 +40,13 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber extends Magento_Adminhtml_Bl
     /**
      * Return queue collection with loaded neversent queues
      *
-     * @return Mage_Newsletter_Model_Resource_Queue_Collection
+     * @return Magento_Newsletter_Model_Resource_Queue_Collection
      */
     public function getQueueCollection()
     {
         if (is_null($this->_queueCollection)) {
-            /** @var $this->_queueCollection Mage_Newsletter_Model_Resource_Queue_Collection */
-            $this->_queueCollection = Mage::getResourceSingleton('Mage_Newsletter_Model_Resource_Queue_Collection')
+            /** @var $this->_queueCollection Magento_Newsletter_Model_Resource_Queue_Collection */
+            $this->_queueCollection = Mage::getResourceSingleton('Magento_Newsletter_Model_Resource_Queue_Collection')
                 ->addTemplateInfo()
                 ->addOnlyUnsentFilter()
                 ->load();

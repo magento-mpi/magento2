@@ -21,7 +21,7 @@ class Mage_Customer_Block_Account_Dashboard_Newsletter extends Magento_Core_Bloc
     public function getSubscriptionObject()
     {
         if(is_null($this->_subscription)) {
-            $this->_subscription = Mage::getModel('Mage_Newsletter_Model_Subscriber')
+            $this->_subscription = Mage::getModel('Magento_Newsletter_Model_Subscriber')
                 ->loadByCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer());
         }
         return $this->_subscription;

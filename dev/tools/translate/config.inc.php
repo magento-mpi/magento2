@@ -186,8 +186,8 @@ $CONFIG['translates'] = array(
     'Magento_Media' => array(
         'app/code/Magento/Media/',
     ),
-    'Mage_Newsletter' => array(
-        'app/code/Mage/Newsletter/',
+    'Magento_Newsletter' => array(
+        'app/code/Magento/Newsletter/',
         'app/design/frontend/base/default/template/newsletter/',
         'app/design/frontend/base/default/layout/newsletter.xml',
         'app/design/frontend/default/modern/template/newsletter/',
@@ -600,7 +600,7 @@ $CONFIG['helpers']  = array(
     'install'           => 'Magento_Install',
     'log'               => 'Magento_Log',
     'media'             => 'Magento_Media',
-    'newsletter'        => 'Mage_Newsletter',
+    'newsletter'        => 'Magento_Newsletter',
     'ogone'             => 'Mage_Ogone',
     'page'              => 'Mage_Page',
     'pagecache'         => 'Mage_PageCache',

@@ -20,11 +20,11 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Preview extends Magento_Adminhtml
 
     protected function _toHtml()
     {
-        /* @var $template Mage_Newsletter_Model_Template */
-        $template = Mage::getModel('Mage_Newsletter_Model_Template');
+        /* @var $template Magento_Newsletter_Model_Template */
+        $template = Mage::getModel('Magento_Newsletter_Model_Template');
 
         if($id = (int)$this->getRequest()->getParam('id')) {
-            $queue = Mage::getModel('Mage_Newsletter_Model_Queue');
+            $queue = Mage::getModel('Magento_Newsletter_Model_Queue');
             $queue->load($id);
             $template->setTemplateType($queue->getNewsletterType());
             $template->setTemplateText($queue->getNewsletterText());
@@ -44,7 +44,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Preview extends Magento_Adminhtml
         Magento_Profiler::start("newsletter_queue_proccessing");
         $vars = array();
 
-        $vars['subscriber'] = Mage::getModel('Mage_Newsletter_Model_Subscriber');
+        $vars['subscriber'] = Mage::getModel('Magento_Newsletter_Model_Subscriber');
 
         $template->emulateDesign($storeId);
         $templateProcessed = $template->getProcessedTemplate($vars, true);

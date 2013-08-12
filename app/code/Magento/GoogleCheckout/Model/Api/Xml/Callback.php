@@ -438,9 +438,9 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
             $customer = $quote->getCustomer();
             if ($customer && $customer->getId()) {
                 $customer->setIsSubscribed(true);
-                Mage::getModel('Mage_Newsletter_Model_Subscriber')->subscribeCustomer($customer);
+                Mage::getModel('Magento_Newsletter_Model_Subscriber')->subscribeCustomer($customer);
             } else {
-                Mage::getModel('Mage_Newsletter_Model_Subscriber')->subscribe($order->getCustomerEmail());
+                Mage::getModel('Magento_Newsletter_Model_Subscriber')->subscribe($order->getCustomerEmail());
             }
         }
 

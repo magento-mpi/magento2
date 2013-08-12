@@ -15,14 +15,14 @@
 class Magento_Adminhtml_Controller_Newsletter_QueueTest extends Mage_Backend_Utility_Controller
 {
     /**
-     * @var Mage_Newsletter_Model_Template
+     * @var Magento_Newsletter_Model_Template
      */
     protected $_model;
 
     public function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('Mage_Newsletter_Model_Template');
+        $this->_model = Mage::getModel('Magento_Newsletter_Model_Template');
     }
     public function tearDown()
     {

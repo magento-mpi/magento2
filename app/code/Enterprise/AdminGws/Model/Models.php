@@ -181,7 +181,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Limit newsletter queue save
      *
-     * @param Mage_Newsletter_Model_Queue $model
+     * @param Magento_Newsletter_Model_Queue $model
      */
     public function newsletterQueueSaveBefore($model)
     {
@@ -199,7 +199,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Prevent loading disallowed queue
      *
-     * @param Mage_Newsletter_Model_Queque $model
+     * @param Magento_Newsletter_Model_Queque $model
      */
     public function newsletterQueueLoadAfter($model)
     {

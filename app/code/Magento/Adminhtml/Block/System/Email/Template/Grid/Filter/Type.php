@@ -21,8 +21,8 @@ class Magento_Adminhtml_Block_System_Email_Template_Grid_Filter_Type
 {
     protected static $_types = array(
         null                                        =>  null,
-        Mage_Newsletter_Model_Template::TYPE_HTML   => 'HTML',
-        Mage_Newsletter_Model_Template::TYPE_TEXT   => 'Text',
+        Magento_Newsletter_Model_Template::TYPE_HTML   => 'HTML',
+        Magento_Newsletter_Model_Template::TYPE_TEXT   => 'Text',
     );
 
     protected function _getOptions()
