@@ -65,7 +65,7 @@ $bundleProduct->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_BUNDLE)
 $product = Mage::getModel('Magento_Catalog_Model_Product');
 $product->load($bundleProduct->getId());
 
-/** @var $typeInstance Mage_Bundle_Model_Product_Type */
+/** @var $typeInstance Magento_Bundle_Model_Product_Type */
 //Load options
 $typeInstance = $product->getTypeInstance();
 $typeInstance->setStoreFilter($product->getStoreId(), $product);
@@ -74,9 +74,9 @@ $selectionCollection = $typeInstance->getSelectionsCollection($typeInstance->get
 
 $bundleOptions = array();
 $bundleOptionsQty = array();
-/** @var $option Mage_Bundle_Model_Option */
+/** @var $option Magento_Bundle_Model_Option */
 foreach ($optionCollection as $option) {
-    /** @var $selection Mage_Bundle_Model_Selection */
+    /** @var $selection Magento_Bundle_Model_Selection */
     $selection = $selectionCollection->getFirstItem();
     $bundleOptions[$option->getId()] = $selection->getSelectionId();
     $bundleOptionsQty[$option->getId()] = 1;

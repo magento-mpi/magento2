@@ -11,7 +11,7 @@ class Design_Frontend_Enterprise_Fixed_Enterprise_GiftRegistry_Magento_Catalog_P
 {
     /**
      * @magentoConfigFixture frontend/design/theme/full_name magento_fixed_width
-     * @magentoDataFixture Mage/Bundle/_files/product.php
+     * @magentoDataFixture Magento/Bundle/_files/product.php
      */
     public function testViewActionBundle()
     {

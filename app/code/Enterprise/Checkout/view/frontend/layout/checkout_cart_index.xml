@@ -34,7 +34,7 @@
                 </action>
                 <action method="addItemRender">
                     <type>bundle</type>
-                    <block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block>
+                    <block>Magento_Bundle_Block_Checkout_Cart_Item_Renderer</block>
                     <template>Magento_Checkout::cart/item/default.phtml</template>
                 </action>
                 <action method="addItemRender">

@@ -222,7 +222,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
 
         $_product = Mage::registry('current_product');
 
-        $typeDynamic = Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend::DYNAMIC;
+        $typeDynamic = Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend::DYNAMIC;
         if (!$_product || $_product->getPriceType() != $typeDynamic) {
             return $this;
         }

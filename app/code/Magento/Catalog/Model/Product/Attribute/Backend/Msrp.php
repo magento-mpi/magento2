@@ -27,7 +27,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Msrp extends Magento_Catal
     {
         if (!($product instanceof Magento_Catalog_Model_Product)
             || $product->getTypeId() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
-            || $product->getPriceType() != Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC
+            || $product->getPriceType() != Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC
         ) {
             return parent::beforeSave($product);
         }

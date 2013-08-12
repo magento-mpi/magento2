@@ -12,7 +12,7 @@ app/code/Magento/Customer
 app/code/Magento/Downloadable
 app/code/Mage/Persistent
 app/code/Magento/Wishlist
-app/code/Mage/Bundle
+app/code/Magento/Bundle
 app/code/Magento/Adminhtml
 app/code/Magento/Payment
 app/code/Magento/Paypal

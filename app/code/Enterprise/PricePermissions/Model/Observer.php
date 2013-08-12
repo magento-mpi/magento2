@@ -664,7 +664,7 @@ class Enterprise_PricePermissions_Model_Observer
             if ($product->isObjectNew()) {
                 // For new products set default price
                 if (!($product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
-                    && $product->getPriceType() == Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC)
+                    && $product->getPriceType() == Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC)
                 ) {
                     $product->setPrice((float) $this->_defaultProductPriceString);
                     // Set default amount for Gift Card product

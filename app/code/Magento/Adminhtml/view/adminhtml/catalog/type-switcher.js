@@ -59,13 +59,13 @@
             this.$is_virtual.on('change click', function() {
                 if ($(this).is(':checked')) {
                     $type.val(self.baseType.virtual).trigger('change');
-                    if ($type.val() != 'bundle') { // @TODO move this check to Mage_Bundle after refactoring as widget
+                    if ($type.val() != 'bundle') { // @TODO move this check to Magento_Bundle after refactoring as widget
                         self.$weight.addClass('ignore-validate').prop('disabled', true);
                     }
                     self.$tab.show().closest('li').removeClass('removed');
                 } else {
                     $type.val(self.baseType.real).trigger('change');
-                    if ($type.val() != 'bundle') { // @TODO move this check to Mage_Bundle after refactoring as widget
+                    if ($type.val() != 'bundle') { // @TODO move this check to Magento_Bundle after refactoring as widget
                         self.$weight.removeClass('ignore-validate').prop('disabled', false);
                     }
                     self.$tab.hide();

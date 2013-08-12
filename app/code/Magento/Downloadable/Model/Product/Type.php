@@ -304,7 +304,7 @@ class Magento_Downloadable_Model_Product_Type extends Magento_Catalog_Model_Prod
      * Check if product can be bought
      *
      * @param Magento_Catalog_Model_Product $product
-     * @return Mage_Bundle_Model_Product_Type
+     * @return Magento_Bundle_Model_Product_Type
      * @throws Magento_Core_Exception
      */
     public function checkProductBuyState($product)

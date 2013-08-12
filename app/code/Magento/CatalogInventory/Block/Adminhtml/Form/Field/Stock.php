@@ -155,7 +155,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends Magento_
                         var hasVariation = $('[data-panel=product-variations]').is('.opened');
                         if ((productType == 'configurable' && hasVariation)
                             || productType == 'grouped'
-                            || productType == 'bundle'//@TODO move this check to Mage_Bundle after refactoring as widget
+                            || productType == 'bundle'//@TODO move this check to Magento_Bundle after refactoring as widget
                             || hasVariation
                         ) {
                             return;

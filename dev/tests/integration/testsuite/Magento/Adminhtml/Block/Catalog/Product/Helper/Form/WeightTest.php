@@ -67,7 +67,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     {
         return array(
             array('Magento_Catalog_Model_Product_Type_Simple'),
-            array('Mage_Bundle_Model_Product_Type'),
+            array('Magento_Bundle_Model_Product_Type'),
         );
     }
 }

@@ -63,21 +63,21 @@ $reportLayoutUpdate    = '<!--<reference name="content">
         <block type="Magento_Catalog_Block_Product_New" name="home.catalog.product.new" alias="product_new" template="product/new.phtml" after="cms_page">
             <action method="addPriceBlockType">
                 <type>bundle</type>
-                <block>Mage_Bundle_Block_Catalog_Product_Price</block>
+                <block>Magento_Bundle_Block_Catalog_Product_Price</block>
                 <template>catalog/product/price.phtml</template>
             </action>
         </block>
         <block type="Magento_Reports_Block_Product_Viewed" name="home.reports.product.viewed" alias="product_viewed" template="home_product_viewed.phtml" after="product_new">
             <action method="addPriceBlockType">
                 <type>bundle</type>
-                <block>Mage_Bundle_Block_Catalog_Product_Price</block>
+                <block>Magento_Bundle_Block_Catalog_Product_Price</block>
                 <template>catalog/product/price.phtml</template>
             </action>
         </block>
         <block type="Magento_Reports_Block_Product_Compared" name="home.reports.product.compared" template="home_product_compared.phtml" after="product_viewed">
             <action method="addPriceBlockType">
                 <type>bundle</type>
-                <block>Mage_Bundle_Block_Catalog_Product_Price</block>
+                <block>Magento_Bundle_Block_Catalog_Product_Price</block>
                 <template>catalog/product/price.phtml</template>
             </action>
         </block>

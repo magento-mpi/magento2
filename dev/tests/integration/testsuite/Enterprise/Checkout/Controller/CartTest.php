@@ -65,7 +65,7 @@ class Enterprise_Checkout_Controller_CartTest extends Magento_Test_TestCase_Cont
     /**
      * Test for Enterprise_Checkout_Controller_Cart::configureFailedAction() with bundle product
      *
-     * @magentoDataFixture Mage/Bundle/_files/product.php
+     * @magentoDataFixture Magento/Bundle/_files/product.php
      */
     public function testConfigureFailedActionWithBundleProduct()
     {

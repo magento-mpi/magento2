@@ -46,7 +46,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     {
         $this->_block->addJs('zero.js', '', null, 'nonexisting_condition')
             ->addJs('varien/js.js')
-            ->addJs('Mage_Bundle::bundle.js')
+            ->addJs('Magento_Bundle::bundle.js')
             ->addCss('tiny_mce/themes/advanced/skins/default/ui.css')
             ->addCss('css/styles.css', 'media="print"')
             ->addRss('RSS Feed', 'http://example.com/feed.xml')
@@ -56,7 +56,7 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             '<script type="text/javascript" src="http://localhost/pub/lib/varien/js.js"></script>' . "\n"
             . '<script type="text/javascript" '
-            . 'src="http://localhost/pub/static/frontend/magento_demo/en_US/Mage_Bundle/bundle.js">'
+            . 'src="http://localhost/pub/static/frontend/magento_demo/en_US/Magento_Bundle/bundle.js">'
             . '</script>' . "\n"
             . '<link rel="stylesheet" type="text/css" media="all"'
             . ' href="http://localhost/pub/lib/tiny_mce/themes/advanced/skins/default/ui.css" />' . "\n"

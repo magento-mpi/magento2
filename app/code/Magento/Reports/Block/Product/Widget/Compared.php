@@ -32,7 +32,7 @@ class Magento_Reports_Block_Product_Widget_Compared
             ->addColumnCountLayoutDepend('three_columns', 3);
         $this->addPriceBlockType(
             'bundle',
-            'Mage_Bundle_Block_Catalog_Product_Price',
+            'Magento_Bundle_Block_Catalog_Product_Price',
             'catalog/product/price.phtml'
         );
     }

@@ -115,7 +115,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
             /**
              * Do not change this tab id
              * @see Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs_Configurable
-             * @see Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tabs
+             * @see Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tabs
              */
             if (!$product->isGrouped()) {
                 $this->addTab('customer_options', array(

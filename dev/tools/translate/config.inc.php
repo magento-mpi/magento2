@@ -22,8 +22,8 @@ $CONFIG['translates'] = array(
     'Magento_Backup' => array(
         'app/code/Magento/Backup/',
     ),
-    'Mage_Bundle' => array(
-        'app/code/Mage/Bundle/',
+    'Magento_Bundle' => array(
+        'app/code/Magento/Bundle/',
         'app/design/frontend/base/default/template/bundle/',
         'app/design/frontend/base/default/layout/bundle.xml',
         'app/design/adminhtml/default/default/template/bundle/',
@@ -567,7 +567,7 @@ $CONFIG['helpers']  = array(
     'oauth'             => 'Magento_Oauth',
     'importexport'      => 'Magento_ImportExport',
     'backup'            => 'Magento_Backup',
-    'bundle'            => 'Mage_Bundle',
+    'bundle'            => 'Magento_Bundle',
     'catalog'           => 'Magento_Catalog',
     'cataloginventory'  => 'Magento_CatalogInventory',
     'catalogrule'       => 'Magento_CatalogRule',

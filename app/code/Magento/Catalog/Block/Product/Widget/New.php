@@ -54,7 +54,7 @@ class Magento_Catalog_Block_Product_Widget_New extends Magento_Catalog_Block_Pro
         parent::_construct();
         $this->addPriceBlockType(
             'bundle',
-            'Mage_Bundle_Block_Catalog_Product_Price',
+            'Magento_Bundle_Block_Catalog_Product_Price',
             'bundle/catalog/product/price.phtml'
         );
     }
