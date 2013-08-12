@@ -3618,7 +3618,7 @@ system_configuration:
                                         mage_tax: //select[@name='groups[modules_disable_output][fields][Mage_Tax][value]']
                                         mage_theme: //select[@id='Mage_Theme']
                                         magento_usa: //select[@name='groups[modules_disable_output][fields][Magento_Usa][value]']
-                                        mage_weee: //select[@name='groups[modules_disable_output][fields][Mage_Weee][value]']
+                                        magento_weee: //select[@name='groups[modules_disable_output][fields][Magento_Weee][value]']
                                         mage_widget: //select[@name='groups[modules_disable_output][fields][Mage_Widget][value]']
                                         mage_wishlist: //select[@name='groups[modules_disable_output][fields][Mage_Wishlist][value]']
                                     checkboxes:
@@ -3681,7 +3681,7 @@ system_configuration:
                                         mage_tax_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Tax][inherit]']
                                         mage_theme_use_default: //input[@id='Mage_Theme_inherit']
                                         magento_usa_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Usa][inherit]']
-                                        mage_weee_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Weee][inherit]']
+                                        magento_weee_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Weee][inherit]']
                                         mage_widget_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Widget][inherit]']
                                         mage_wishlist_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Wishlist][inherit]']
                 -

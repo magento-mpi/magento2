@@ -28,17 +28,17 @@
 
 <?php
 if ($_product->getPriceType() == 1) {
-    $_weeeTaxAmount = Mage::helper('Mage_Weee_Helper_Data')->getAmount($_product);
-    if ($_weeeTaxAmount && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(0, 1, 4))) {
+    $_weeeTaxAmount = Mage::helper('Magento_Weee_Helper_Data')->getAmount($_product);
+    if ($_weeeTaxAmount && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(0, 1, 4))) {
         $_minimalPriceTax += $_weeeTaxAmount;
         $_minimalPriceInclTax += $_weeeTaxAmount;
     }
-    if ($_weeeTaxAmount && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, 2)) {
+    if ($_weeeTaxAmount && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 2)) {
         $_minimalPriceInclTax += $_weeeTaxAmount;
     }
 
-    if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(1,2,4))) {
-        $_weeeTaxAttributes = Mage::helper('Mage_Weee_Helper_Data')->getProductWeeeAttributesForDisplay($_product);
+    if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(1,2,4))) {
+        $_weeeTaxAttributes = Mage::helper('Magento_Weee_Helper_Data')->getProductWeeeAttributesForDisplay($_product);
     }
 }
 ?>
@@ -52,10 +52,10 @@ if ($_product->getPriceType() == 1) {
                         <span class="label"><?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                         <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceTax) ?>
                     </span>
-                    <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
+                    <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
                         <span class="weee">(<small>
                             <?php $_weeeSeparator = ''; foreach ($_weeeTaxAttributes as $_weeeTaxAttribute): ?>
-                                <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
+                                <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
                                     <?php $amount = $_weeeTaxAttribute->getAmount()+$_weeeTaxAttribute->getTaxAmount(); ?>
                                 <?php else: ?>
                                     <?php $amount = $_weeeTaxAttribute->getAmount(); ?>
@@ -73,10 +73,10 @@ if ($_product->getPriceType() == 1) {
                     </span>
             <?php else: ?>
                 <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceTax) ?>
-                <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
+                <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
                     <span class="weee">(<small>
                         <?php $_weeeSeparator = ''; foreach ($_weeeTaxAttributes as $_weeeTaxAttribute): ?>
-                            <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
+                            <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
                                 <?php $amount = $_weeeTaxAttribute->getAmount()+$_weeeTaxAttribute->getTaxAmount(); ?>
                             <?php else: ?>
                                 <?php $amount = $_weeeTaxAttribute->getAmount(); ?>
@@ -88,7 +88,7 @@ if ($_product->getPriceType() == 1) {
                         <?php endforeach; ?>
                     </small>)</span>
                 <?php endif; ?>
-                <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, 2) && $_weeeTaxAmount): ?>
+                <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 2) && $_weeeTaxAmount): ?>
                     <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceInclTax) ?>
                 <?php endif; ?>
             <?php endif; ?>
@@ -102,10 +102,10 @@ if ($_product->getPriceType() == 1) {
                         <span class="label"><?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                         <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceTax) ?>
                     </span>
-                    <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
+                    <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
                         <span class="weee">(<small>
                             <?php $_weeeSeparator = ''; foreach ($_weeeTaxAttributes as $_weeeTaxAttribute): ?>
-                                <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
+                                <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
                                     <?php $amount = $_weeeTaxAttribute->getAmount()+$_weeeTaxAttribute->getTaxAmount(); ?>
                                 <?php else: ?>
                                     <?php $amount = $_weeeTaxAttribute->getAmount(); ?>
@@ -123,10 +123,10 @@ if ($_product->getPriceType() == 1) {
                     </span>
                 <?php else: ?>
                     <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceTax) ?>
-                    <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
+                    <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
                         <span class="weee">(<small>
                             <?php $_weeeSeparator = ''; foreach ($_weeeTaxAttributes as $_weeeTaxAttribute): ?>
-                                <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
+                                <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
                                     <?php $amount = $_weeeTaxAttribute->getAmount()+$_weeeTaxAttribute->getTaxAmount(); ?>
                                 <?php else: ?>
                                     <?php $amount = $_weeeTaxAttribute->getAmount(); ?>
@@ -138,7 +138,7 @@ if ($_product->getPriceType() == 1) {
                             <?php endforeach; ?>
                         </small>)</span>
                     <?php endif; ?>
-                    <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, 2) && $_weeeTaxAmount): ?>
+                    <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 2) && $_weeeTaxAmount): ?>
                         <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceInclTax) ?>
                     <?php endif; ?>
                 <?php endif; ?>
@@ -147,11 +147,11 @@ if ($_product->getPriceType() == 1) {
                 <?php $_maximalPriceInclTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice($_product, $_maximalPrice, true); ?>
                 <?php
                     if ($_product->getPriceType() == 1) {
-                        if ($_weeeTaxAmount && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(0, 1, 4))) {
+                        if ($_weeeTaxAmount && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(0, 1, 4))) {
                             $_maximalPriceTax += $_weeeTaxAmount;
                             $_maximalPriceInclTax += $_weeeTaxAmount;
                         }
-                        if ($_weeeTaxAmount && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, 2)) {
+                        if ($_weeeTaxAmount && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 2)) {
                             $_maximalPriceInclTax += $_weeeTaxAmount;
                         }
                     }
@@ -163,10 +163,10 @@ if ($_product->getPriceType() == 1) {
                             <span class="label"><?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                             <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_maximalPriceTax) ?>
                         </span>
-                        <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
+                        <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
                             <span class="weee">(<small>
                                 <?php $_weeeSeparator = ''; foreach ($_weeeTaxAttributes as $_weeeTaxAttribute): ?>
-                                    <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
+                                    <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
                                         <?php $amount = $_weeeTaxAttribute->getAmount()+$_weeeTaxAttribute->getTaxAmount(); ?>
                                     <?php else: ?>
                                         <?php $amount = $_weeeTaxAttribute->getAmount(); ?>
@@ -184,10 +184,10 @@ if ($_product->getPriceType() == 1) {
                         </span>
                     <?php else: ?>
                         <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_maximalPriceTax) ?>
-                        <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
+                        <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
                             <span class="weee">(<small>
                                 <?php $_weeeSeparator = ''; foreach ($_weeeTaxAttributes as $_weeeTaxAttribute): ?>
-                                    <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
+                                    <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
                                         <?php $amount = $_weeeTaxAttribute->getAmount()+$_weeeTaxAttribute->getTaxAmount(); ?>
                                     <?php else: ?>
                                         <?php $amount = $_weeeTaxAttribute->getAmount(); ?>
@@ -199,7 +199,7 @@ if ($_product->getPriceType() == 1) {
                                 <?php endforeach; ?>
                             </small>)</span>
                         <?php endif; ?>
-                        <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, 2) && $_weeeTaxAmount): ?>
+                        <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 2) && $_weeeTaxAmount): ?>
                             <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_maximalPriceInclTax) ?>
                         <?php endif; ?>
                     <?php endif; ?>
@@ -210,10 +210,10 @@ if ($_product->getPriceType() == 1) {
                         <span class="label"><?php echo Mage::helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                         <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceTax) ?>
                     </span>
-                    <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
+                    <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
                         <span class="weee">(<small>
                             <?php $_weeeSeparator = ''; foreach ($_weeeTaxAttributes as $_weeeTaxAttribute): ?>
-                                <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
+                                <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
                                     <?php $amount = $_weeeTaxAttribute->getAmount()+$_weeeTaxAttribute->getTaxAmount(); ?>
                                 <?php else: ?>
                                     <?php $amount = $_weeeTaxAttribute->getAmount(); ?>
@@ -231,10 +231,10 @@ if ($_product->getPriceType() == 1) {
                     </span>
                 <?php else: ?>
                     <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceTax) ?>
-                    <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
+                    <?php if ($_weeeTaxAmount && $_product->getPriceType() == 1 && Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 1, 4))): ?>
                         <span class="weee">(<small>
                             <?php $_weeeSeparator = ''; foreach ($_weeeTaxAttributes as $_weeeTaxAttribute): ?>
-                                <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
+                                <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(2, 4))): ?>
                                     <?php $amount = $_weeeTaxAttribute->getAmount()+$_weeeTaxAttribute->getTaxAmount(); ?>
                                 <?php else: ?>
                                     <?php $amount = $_weeeTaxAttribute->getAmount(); ?>
@@ -246,7 +246,7 @@ if ($_product->getPriceType() == 1) {
                             <?php endforeach; ?>
                         </small>)</span>
                     <?php endif; ?>
-                    <?php if (Mage::helper('Mage_Weee_Helper_Data')->typeOfDisplay($_product, 2) && $_weeeTaxAmount): ?>
+                    <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 2) && $_weeeTaxAmount): ?>
                         <?php echo Mage::helper('Magento_Core_Helper_Data')->currency($_minimalPriceInclTax) ?>
                     <?php endif; ?>
                 <?php endif; ?>

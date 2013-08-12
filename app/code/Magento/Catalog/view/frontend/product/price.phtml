@@ -18,10 +18,10 @@
 ?>
 <?php
     $_coreHelper = $this->helper('Magento_Core_Helper_Data');
-    $_weeeHelper = $this->helper('Mage_Weee_Helper_Data');
+    $_weeeHelper = $this->helper('Magento_Weee_Helper_Data');
     $_taxHelper  = $this->helper('Mage_Tax_Helper_Data');
     /* @var $_coreHelper Magento_Core_Helper_Data */
-    /* @var $_weeeHelper Mage_Weee_Helper_Data */
+    /* @var $_weeeHelper Magento_Weee_Helper_Data */
     /* @var $_taxHelper Mage_Tax_Helper_Data */
 
     $_product = $this->getProduct();
@@ -35,7 +35,7 @@
 
 <?php if (!$_product->isGrouped()): ?>
     <?php $_weeeTaxAmount = $_weeeHelper->getAmountForDisplay($_product); ?>
-    <?php if ($_weeeHelper->typeOfDisplay($_product, array(Mage_Weee_Model_Tax::DISPLAY_INCL_DESCR, Mage_Weee_Model_Tax::DISPLAY_EXCL_DESCR_INCL, 4))): ?>
+    <?php if ($_weeeHelper->typeOfDisplay($_product, array(Magento_Weee_Model_Tax::DISPLAY_INCL_DESCR, Magento_Weee_Model_Tax::DISPLAY_EXCL_DESCR_INCL, 4))): ?>
         <?php $_weeeTaxAmount = $_weeeHelper->getAmount($_product); ?>
         <?php $_weeeTaxAttributes = $_weeeHelper->getProductWeeeAttributesForDisplay($_product); ?>
     <?php endif; ?>

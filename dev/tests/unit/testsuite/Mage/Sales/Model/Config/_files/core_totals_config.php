@@ -53,7 +53,7 @@ return array(
         'after'  => array('subtotal', 'shipping'),
         'before' => array('grand_total'),
     ),
-    // Totals declared in Mage_Weee
+    // Totals declared in Magento_Weee
     'weee' => array(
         'after'  => array('subtotal', 'tax', 'discount', 'grand_total', 'shipping'),
         'before' => array(),
