@@ -167,7 +167,7 @@ class Magento_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('Vendor_Customer_Controller_Webapi_Customer_Address', array('VendorCustomer', 'Address')),
-            /** Check removal of 'Mage' prefix as well as duplicating parts ('Customer') */
+            /** Check removal of 'Magento' prefix as well as duplicating parts ('Customer') */
             array('Magento_Customer_Controller_Webapi_Customer_Address', array('Customer', 'Address')),
         );
     }
