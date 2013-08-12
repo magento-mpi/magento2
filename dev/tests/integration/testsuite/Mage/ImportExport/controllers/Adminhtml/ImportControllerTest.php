@@ -18,6 +18,6 @@ class Mage_ImportExport_Adminhtml_ImportControllerTest extends Mage_Backend_Util
     {
         $this->dispatch('backend/admin/import/index');
         $body = $this->getResponse()->getBody();
-        $this->assertContains(Mage::helper('Mage_ImportExport_Helper_Data')->getMaxUploadSizeMessage(), $body);
+        $this->assertContains((string)Mage::helper('Mage_ImportExport_Helper_Data')->getMaxUploadSizeMessage(), $body);
     }
 }
