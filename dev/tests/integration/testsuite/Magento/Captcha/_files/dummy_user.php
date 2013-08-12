@@ -12,8 +12,8 @@
 /**
  * Create dummy user
  */
-/** @var $user Mage_User_Model_User */
-$user = Mage::getModel('Mage_User_Model_User');
+/** @var $user Magento_User_Model_User */
+$user = Mage::getModel('Magento_User_Model_User');
 $user->setFirstname('Dummy')
     ->setLastname('Dummy')
     ->setEmail('dummy@dummy.com')

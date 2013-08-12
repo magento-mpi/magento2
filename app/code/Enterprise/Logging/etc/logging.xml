@@ -309,7 +309,7 @@
             <adminhtml_auth_forgotpassword>
                 <action>forgotpassword</action>
                 <expected_models>
-                    <Mage_User_Model_User/>
+                    <Magento_User_Model_User/>
                 </expected_models>
                 <post_dispatch>postDispatchForgotPassword</post_dispatch>
             </adminhtml_auth_forgotpassword>
@@ -831,13 +831,13 @@
     <adminhtml_system_account translate="label">
         <label>Admin My Account</label>
         <expected_models>
-            <Mage_User_Model_User>
+            <Magento_User_Model_User>
                 <skip_data>
                     <password/>
                     <new_password/>
                     <password_confirmation/>
                 </skip_data>
-            </Mage_User_Model_User>
+            </Magento_User_Model_User>
         </expected_models>
         <actions>
             <adminhtml_system_account_index>
@@ -1266,7 +1266,7 @@
     <adminhtml_permission_roles translate="label">
         <label>Admin Permission Roles</label>
         <expected_models>
-            <Mage_User_Model_Role/>
+            <Magento_User_Model_Role/>
         </expected_models>
         <actions>
             <adminhtml_user_role_editrole>
@@ -1289,13 +1289,13 @@
     <adminhtml_permission_users translate="label">
         <label>Admin Permission Users</label>
         <expected_models>
-            <Mage_User_Model_User>
+            <Magento_User_Model_User>
                 <skip_data>
                     <password/>
                     <new_password/>
                     <password_confirmation/>
                 </skip_data>
-            </Mage_User_Model_User>
+            </Magento_User_Model_User>
         </expected_models>
         <actions>
             <adminhtml_user_edit>

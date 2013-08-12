@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Limitation_Model_Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
+class Saas_Limitation_Model_Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoConfigFixture limitations/admin_account 1
@@ -15,8 +15,8 @@ class Saas_Limitation_Model_Mage_User_Model_UserTest extends PHPUnit_Framework_T
      */
     public function testSaveCreateRestriction()
     {
-        /** @var Mage_User_Model_User $model */
-        $model = Mage::getModel('Mage_User_Model_User');
+        /** @var Magento_User_Model_User $model */
+        $model = Mage::getModel('Magento_User_Model_User');
         $model->setData(array(
             'firstname' => 'John',
             'lastname'  => 'Doe',

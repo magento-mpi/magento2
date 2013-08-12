@@ -68,7 +68,7 @@ class Magento_Backend_Model_Auth_Session
     /**
      * Refresh ACL resources stored in session
      *
-     * @param  Mage_User_Model_User $user
+     * @param  Magento_User_Model_User $user
      * @return Magento_Backend_Model_Auth_Session
      */
     public function refreshAcl($user = null)

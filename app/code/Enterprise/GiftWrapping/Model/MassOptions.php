@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Users
+ * @package     Magento_Users
  * @copyright   {copyright}
  * @license     {license_link}
  */

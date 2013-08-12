@@ -251,7 +251,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Filter admin roles collection by allowed stores
      *
-     * @param Mage_User_Model_Resource_Role_Collection $collection
+     * @param Magento_User_Model_Resource_Role_Collection $collection
      */
     public function limitAdminPermissionRoles($collection)
     {
@@ -268,7 +268,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Filter admin users collection by allowed stores
      *
-     * @param Mage_User_Model_Resource_User_Collection $collection
+     * @param Magento_User_Model_Resource_User_Collection $collection
      */
     public function limitAdminPermissionUsers($collection)
     {
@@ -315,7 +315,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     {
         /* @var $session Magento_Backend_Model_Auth_Session */
         $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
-        /* @var $adminUser Mage_User_Model_User */
+        /* @var $adminUser Magento_User_Model_User */
         $adminUser = $session->getUser();
         if ($adminUser) {
             $this->_role->setAdminRole($adminUser->getRole());

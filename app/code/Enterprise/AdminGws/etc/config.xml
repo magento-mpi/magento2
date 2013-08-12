@@ -299,10 +299,10 @@
                     <magento_newsletter_model_resource_queue_collection>addStoreFilter</magento_newsletter_model_resource_queue_collection>
                     <magento_newsletter_model_resource_subscriber_collection>addStoreFilter</magento_newsletter_model_resource_subscriber_collection>
                     <magento_core_model_resource_design_collection>addStoreFilter</magento_core_model_resource_design_collection>
-                    <mage_user_model_resource_role_collection>limitAdminPermissionRoles</mage_user_model_resource_role_collection>
-                    <mage_user_model_resource_role_collection>limitAdminPermissionRoles</mage_user_model_resource_role_collection>
-                    <mage_user_model_resource_user_collection>limitAdminPermissionUsers</mage_user_model_resource_user_collection>
-                    <mage_user_model_resource_role_user_collection>limitAdminPermissionUsers</mage_user_model_resource_role_user_collection>
+                    <magento_user_model_resource_role_collection>limitAdminPermissionRoles</magento_user_model_resource_role_collection>
+                    <magento_user_model_resource_role_collection>limitAdminPermissionRoles</magento_user_model_resource_role_collection>
+                    <magento_user_model_resource_user_collection>limitAdminPermissionUsers</magento_user_model_resource_user_collection>
+                    <magento_user_model_resource_role_user_collection>limitAdminPermissionUsers</magento_user_model_resource_role_user_collection>
                     <magento_reports_model_resource_quote_collection>addStoreFilter</magento_reports_model_resource_quote_collection>
                     <mage_widget_model_resource_widget_instance_collection>addStoreFilter</mage_widget_model_resource_widget_instance_collection>
                     <magento_sales_model_resource_order_payment_transaction_collection>addStoreFilter</magento_sales_model_resource_order_payment_transaction_collection>

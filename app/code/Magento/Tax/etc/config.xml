@@ -17,7 +17,7 @@
             <depends>
                 <Magento_Catalog/>
                 <Magento_Customer/>
-                <Mage_User/>
+                <Magento_User/>
             </depends>
         </Magento_Tax>
     </modules>

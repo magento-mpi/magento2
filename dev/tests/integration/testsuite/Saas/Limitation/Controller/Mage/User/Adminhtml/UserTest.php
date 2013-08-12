@@ -9,7 +9,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Saas_Limitation_Mage_User_Controller_Adminhtml_UserTest extends Magento_Backend_Utility_Controller
+class Saas_Limitation_Magento_User_Controller_Adminhtml_UserTest extends Magento_Backend_Utility_Controller
 {
     /**
      * @magentoConfigFixture limitations/admin_account 1
@@ -30,8 +30,8 @@ class Saas_Limitation_Mage_User_Controller_Adminhtml_UserTest extends Magento_Ba
      */
     public function testSaveActionLimitedUsers()
     {
-        /** @var Mage_User_Model_Resource_User $userModel */
-        $userModel = Mage::getResourceSingleton('Mage_User_Model_Resource_User');
+        /** @var Magento_User_Model_Resource_User $userModel */
+        $userModel = Mage::getResourceSingleton('Magento_User_Model_Resource_User');
         $usersCountBefore = $userModel->countAll();
         $this->getRequest()->setPost(array(
             'username' => 'test',

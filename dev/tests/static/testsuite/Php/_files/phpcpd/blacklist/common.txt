@@ -80,5 +80,5 @@ Magento/SalesRule/Model/Quote/Nominal
 Magento/Connect/Block/Adminhtml/Extension/Custom/Edit
 Magento/Tax/Model/Sales/Total/Quote/Nominal
 Magento/Theme/Block/Adminhtml/System/Design/Theme/Edit
-Mage/User/Block/User/Edit
+Magento/User/Block/User/Edit
 var/generation

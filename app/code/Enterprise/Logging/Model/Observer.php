@@ -156,7 +156,7 @@ class Enterprise_Logging_Model_Observer
         }
         $success = (bool)$userId;
         if (!$userId) {
-            $userId = Mage::getSingleton('Mage_User_Model_User')->loadByUsername($username)->getId();
+            $userId = Mage::getSingleton('Magento_User_Model_User')->loadByUsername($username)->getId();
         }
         $request = Mage::app()->getRequest();
         /** @var Enterprise_Logging_Model_Event $event */

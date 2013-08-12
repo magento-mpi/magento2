@@ -144,7 +144,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
         /** @var $session Magento_Backend_Model_Auth_Session */
         $session = Mage::getSingleton($this->_sessionName);
 
-        /** @var $user Mage_User_Model_User */
+        /** @var $user Magento_User_Model_User */
         $user = $session->getData('user');
         if (!$user) {
             $session->addError($this->__('Please login to proceed authorization.'));

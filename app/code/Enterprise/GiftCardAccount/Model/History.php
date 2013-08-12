@@ -79,7 +79,7 @@ class Enterprise_GiftCardAccount_Model_History extends Magento_Core_Model_Abstra
     /**
      * Get admin user
      *
-     * @return null|Mage_User_Model_User
+     * @return null|Magento_User_Model_User
      */
     protected function _getAdminUser()
     {

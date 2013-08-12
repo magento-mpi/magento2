@@ -76,8 +76,8 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
             'email'     => 'installer_test@example.com',
         );
 
-        /** @var $user Mage_User_Model_User */
-        $user = Mage::getModel('Mage_User_Model_User');
+        /** @var $user Magento_User_Model_User */
+        $user = Mage::getModel('Magento_User_Model_User');
         $user->loadByUsername($userName);
         $this->assertEmpty($user->getId());
 
@@ -91,7 +91,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
             $userPassword, $user->getPassword(),
             'Original password should not be stored/loaded as is for security reasons.'
         );
-        $this->assertInstanceOf('Mage_User_Model_Role', $user->getRole());
+        $this->assertInstanceOf('Magento_User_Model_Role', $user->getRole());
         $this->assertEquals(1, $user->getRole()->getId(), 'User has to have admin privileges.');
     }
 

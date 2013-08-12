@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_System_Account_Edit_Form extends Magento_Adminhtml
     protected function _prepareForm()
     {
         $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
-        $user = Mage::getModel('Mage_User_Model_User')
+        $user = Mage::getModel('Magento_User_Model_User')
             ->load($userId);
         $user->unsetData('password');
 

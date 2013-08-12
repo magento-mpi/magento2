@@ -93,7 +93,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Admin user object
      *
-     * @var Mage_User_Model_User
+     * @var Magento_User_Model_User
      */
     protected $_adminUser;
 

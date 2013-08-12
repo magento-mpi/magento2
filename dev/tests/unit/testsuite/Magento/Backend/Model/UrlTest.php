@@ -106,7 +106,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testFindFirstAvailableMenuDenied()
     {
-        $user = $this->getMock('Mage_User_Model_User', array(), array(), '', false);
+        $user = $this->getMock('Magento_User_Model_User', array(), array(), '', false);
         $user->expects($this->once())
             ->method('setHasAvailableResources')
             ->with($this->equalTo(false));
@@ -132,7 +132,7 @@ class Magento_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testFindFirstAvailableMenu()
     {
-        $user = $this->getMock('Mage_User_Model_User', array(), array(), '', false);
+        $user = $this->getMock('Magento_User_Model_User', array(), array(), '', false);
         $mockSession = $this->getMock('Magento_Backend_Model_Auth_Session',
             array('getUser', 'isAllowed'),
             array(),

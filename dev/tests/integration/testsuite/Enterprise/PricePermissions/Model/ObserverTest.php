@@ -80,7 +80,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
      */
     protected function _initSession()
     {
-        $user = Mage::getModel('Mage_User_Model_User');
+        $user = Mage::getModel('Magento_User_Model_User');
         $user->setId(2)->setRole(true);
         $session = Mage::getModel('Magento_Backend_Model_Auth_Session');
         $session->setUpdatedAt(time())->setUser($user);

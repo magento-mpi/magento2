@@ -27,7 +27,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_WelcomeScreen extends Magento_
     /**
      * Admin user
      *
-     * @var Mage_User_Model_User
+     * @var Magento_User_Model_User
      */
     protected $_adminUser;
 

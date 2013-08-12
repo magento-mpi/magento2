@@ -104,7 +104,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Magento
             return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getUsername();
         }
 
-        $user = Mage::getModel('Mage_User_Model_User')
+        $user = Mage::getModel('Magento_User_Model_User')
             ->load($userId);
 
         if ($user->getId()) {

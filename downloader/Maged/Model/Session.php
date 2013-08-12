@@ -111,7 +111,7 @@ class Maged_Model_Session extends Maged_Model
     /**
      * Check is user logged in and permissions
      *
-     * @param Mage_User_Model_User|null $user
+     * @param Magento_User_Model_User|null $user
      * @return bool
      */
     protected function _checkUserAccess($user = null)

@@ -36,8 +36,8 @@ class Magento_Adminhtml_Controller_System_Account extends Magento_Adminhtml_Cont
         $passwordConfirmation = (string)$this->getRequest()->getParam('password_confirmation');
         $interfaceLocale = (string)$this->getRequest()->getParam('interface_locale', false);
 
-        /** @var $user Mage_User_Model_User */
-        $user = $this->_objectManager->create('Mage_User_Model_User')->load($userId);
+        /** @var $user Magento_User_Model_User */
+        $user = $this->_objectManager->create('Magento_User_Model_User')->load($userId);
 
         $user->setId($userId)
             ->setUsername($this->getRequest()->getParam('username', false))

@@ -158,7 +158,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_
             /** @var $session Magento_Backend_Model_Auth_Session */
             $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
 
-            /** @var $admin Mage_User_Model_User */
+            /** @var $admin Magento_User_Model_User */
             $admin = $session->getUser();
 
             if ($admin->getId() == $adminId) { // skip own tokens

@@ -381,8 +381,8 @@ class Magento_Test_Application
      */
     protected function _createAdminUser($adminUserName, $adminPassword, $adminRoleName)
     {
-        /** @var $user Mage_User_Model_User */
-        $user = mage::getModel('Mage_User_Model_User');
+        /** @var $user Magento_User_Model_User */
+        $user = mage::getModel('Magento_User_Model_User');
         $user->setData(array(
             'firstname' => 'firstname',
             'lastname'  => 'lastname',
@@ -393,16 +393,16 @@ class Magento_Test_Application
         ));
         $user->save();
 
-        /** @var $roleAdmin Mage_User_Model_Role */
-        $roleAdmin = Mage::getModel('Mage_User_Model_Role');
+        /** @var $roleAdmin Magento_User_Model_Role */
+        $roleAdmin = Mage::getModel('Magento_User_Model_Role');
         $roleAdmin->load($adminRoleName, 'role_name');
 
-        /** @var $roleUser Mage_User_Model_Role */
-        $roleUser = Mage::getModel('Mage_User_Model_Role');
+        /** @var $roleUser Magento_User_Model_Role */
+        $roleUser = Mage::getModel('Magento_User_Model_Role');
         $roleUser->setData(array(
             'parent_id'  => $roleAdmin->getId(),
             'tree_level' => $roleAdmin->getTreeLevel() + 1,
-            'role_type'  => Mage_User_Model_Acl_Role_User::ROLE_TYPE,
+            'role_type'  => Magento_User_Model_Acl_Role_User::ROLE_TYPE,
             'user_id'    => $user->getId(),
             'role_name'  => $user->getFirstname(),
         ));

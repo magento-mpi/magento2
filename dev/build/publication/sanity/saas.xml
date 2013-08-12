@@ -91,7 +91,7 @@
         </item>
         <item>
             <!-- Must be refactored to be modular -->
-            <path>app/code/Mage/User/data/user_setup/data-upgrade-1.6.1.1-1.6.1.2.php</path>
+            <path>app/code/Magento/User/data/user_setup/data-upgrade-1.6.1.1-1.6.1.2.php</path>
         </item>
         <item>
             <!-- Must be refactored to be modular to support saas edition -->

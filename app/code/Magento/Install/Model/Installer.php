@@ -274,10 +274,10 @@ class Magento_Install_Model_Installer extends Magento_Object
      */
     public function createAdministrator($data)
     {
-        // Mage_User_Model_User belongs to adminhtml area
+        // Magento_User_Model_User belongs to adminhtml area
         Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
-        /** @var $user Mage_User_Model_User */
-        $user = Mage::getModel('Mage_User_Model_User');
+        /** @var $user Magento_User_Model_User */
+        $user = Mage::getModel('Magento_User_Model_User');
         $user->loadByUsername($data['username']);
         $user->addData($data)
             ->setForceNewPassword(true) // run-time flag to force saving of the entered password

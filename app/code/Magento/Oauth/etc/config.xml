@@ -18,7 +18,7 @@
                 <Magento_Core/>
             </depends>
             <depends>
-                <Mage_User/>
+                <Magento_User/>
             </depends>
         </Magento_Oauth>
     </modules>

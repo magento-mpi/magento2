@@ -104,7 +104,7 @@ app/code/Magento/Reports/Model/Resource/Report/Collection.php
 app/code/Magento/Tag/Block/Adminhtml/Customer/Edit/Tab/Tag.php
 app/code/Magento/Tag/Block/Catalog/Product/Rss/Link.php
 app/code/Magento/Theme
-app/code/Mage/User
+app/code/Magento/User
 app/code/Mage/Webapi
 app/code/Mage/Webhook
 dev/shell

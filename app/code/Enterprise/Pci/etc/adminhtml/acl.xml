@@ -14,7 +14,7 @@
         <resources>
             <resource id="Magento_Adminhtml::admin">
                 <resource id="Magento_Adminhtml::system">
-                    <resource id="Mage_User::acl">
+                    <resource id="Magento_User::acl">
                         <resource id="Enterprise_Pci::locks" module="Enterprise_Pci" title="Locked Users" sortOrder="20" />
                     </resource>
                     <resource id="Magento_Adminhtml::system_other_settings">

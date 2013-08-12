@@ -74,7 +74,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
      */
     protected function _initAcl()
     {
-        $user = Mage::getModel('Mage_User_Model_User');
+        $user = Mage::getModel('Magento_User_Model_User');
         $user->setId(1)->setRole(true);
         Mage::getSingleton('Magento_Backend_Model_Auth_Session')->setUpdatedAt(time())->setUser($user);
         Mage::getModel(

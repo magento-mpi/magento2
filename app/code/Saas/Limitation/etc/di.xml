@@ -111,7 +111,7 @@
             <instance type="Saas_Limitation_Model_User_Limitation" />
         </param>
         <param name="blockClass">
-            <value>Mage_User_Block_User</value>
+            <value>Magento_User_Block_User</value>
         </param>
         <param name="buttonId">
             <value>add</value>

@@ -17,7 +17,7 @@ class Enterprise_AdminGws_Model_Role extends Magento_Object
     /**
      * Store ACL role model instance
      *
-     * @var Mage_User_Model_Role
+     * @var Magento_User_Model_Role
      */
     protected $_adminRole;
 
@@ -55,7 +55,7 @@ class Enterprise_AdminGws_Model_Role extends Magento_Object
     /**
      * Set ACL role and determine its limitations
      *
-     * @param Mage_User_Model_Role $role
+     * @param Magento_User_Model_Role $role
      */
     public function setAdminRole($role)
     {

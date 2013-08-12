@@ -24,7 +24,7 @@ class Saas_Limitation_Model_User_LimitationTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_resource = $this->getMock('Mage_User_Model_Resource_User', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento_User_Model_Resource_User', array(), array(), '', false);
         $this->_config = $this->getMock('Saas_Limitation_Model_Limitation_Config', array(), array(), '', false);
         $this->_model = new Saas_Limitation_Model_User_Limitation($this->_config, $this->_resource);
     }

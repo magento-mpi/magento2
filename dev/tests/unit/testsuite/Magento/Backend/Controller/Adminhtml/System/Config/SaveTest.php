@@ -167,7 +167,7 @@ class Magento_Backend_Controller_Adminhtml_System_Config_SaveTest extends PHPUni
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
         $data = array('some_key' => 'some_value');
 
-        $userMock = $this->getMock('Mage_User_Model_User', array(), array(), '', false, false);
+        $userMock = $this->getMock('Magento_User_Model_User', array(), array(), '', false, false);
         $userMock->expects($this->once())->method('saveExtra')->with(array('configState' => $data));
         $this->_authMock->expects($this->once())->method('getUser')->will($this->returnValue($userMock));
 

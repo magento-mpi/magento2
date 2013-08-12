@@ -32,7 +32,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Backend_Model_Auth_Session */
     protected $_authSessionMock;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_User_Model_User */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_User_Model_User */
     protected $_userMock;
 
     /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Locale_Validator */
@@ -76,7 +76,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('getUser'))
             ->getMock();
 
-        $this->_userMock = $this->getMockBuilder('Mage_User_Model_User')
+        $this->_userMock = $this->getMockBuilder('Magento_User_Model_User')
             ->disableOriginalConstructor()
             ->setMethods(array('load', 'save', 'sendPasswordResetNotificationEmail'))
             ->getMock();
@@ -155,7 +155,7 @@ class Magento_Adminhtml_System_AccountTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_authSessionMock));
         $this->_objectManagerMock->expects($this->at(1))
             ->method('create')
-            ->with($this->equalTo('Mage_User_Model_User'))
+            ->with($this->equalTo('Magento_User_Model_User'))
             ->will($this->returnValue($this->_userMock));
         $this->_objectManagerMock->expects($this->at(2))
             ->method('get')

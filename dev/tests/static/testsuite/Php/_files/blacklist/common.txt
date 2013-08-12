@@ -10,7 +10,7 @@ app/code/Magento/Backend/view
 app/code/Magento/Core/Model/Config/Element.php
 app/code/Magento/DesignEditor/view
 app/code/Magento/Theme/view
-app/code/Mage/User/view
+app/code/Magento/User/view
 app/code/Mage/Webapi/view
 app/code/Mage/Webhook/view
 dev/tests/integration/testsuite/Magento/Code/_files

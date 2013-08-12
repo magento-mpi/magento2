@@ -35,7 +35,7 @@ class Enterprise_Logging_Model_Event extends Magento_Core_Model_Abstract
         if (!$this->getId()) {
             $this->setStatus($this->getIsSuccess() ? self::RESULT_SUCCESS : self::RESULT_FAILURE);
             if (!$this->getUser() && $id = $this->getUserId()) {
-                $this->setUser(Mage::getModel('Mage_User_Model_User')->load($id)->getUserName());
+                $this->setUser(Mage::getModel('Magento_User_Model_User')->load($id)->getUserName());
             }
             if (!$this->hasTime()) {
                 $this->setTime(time());
