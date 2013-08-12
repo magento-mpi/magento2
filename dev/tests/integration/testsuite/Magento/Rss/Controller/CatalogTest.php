@@ -28,7 +28,7 @@ class Magento_Rss_Controller_CatalogTest extends Magento_Test_TestCase_Controlle
     public function actionNoFeedDataProvider()
     {
         $actions = array(array('new'), array('special'), array('salesrule'), array('category'));
-        if (Mage::getSingleton('Magento_Core_Helper_Data')->isModuleEnabled('Mage_Tag')) {
+        if (Mage::getSingleton('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Tag')) {
             $actions[] = array('tag');
         }
         return $actions;
@@ -74,8 +74,8 @@ class Magento_Rss_Controller_CatalogTest extends Magento_Test_TestCase_Controlle
      */
     public function testTagAction()
     {
-        if (!Mage::getSingleton('Magento_Core_Helper_Data')->isModuleEnabled('Mage_Tag')) {
-            $this->markTestSkipped('"Mage_Tag" module is required for this test.');
+        if (!Mage::getSingleton('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Tag')) {
+            $this->markTestSkipped('"Magento_Tag" module is required for this test.');
         }
         $this->dispatch('rss/catalog/tag');
         // this test is also inaccurate without a fixture of product with tags

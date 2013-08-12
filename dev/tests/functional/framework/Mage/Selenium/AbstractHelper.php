@@ -211,7 +211,7 @@
  * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper                           shoppingCartHelper()
  * @method Core_Mage_Store_Helper                                                                      storeHelper()
  * @method Core_Mage_SystemConfiguration_Helper                                                        systemConfigurationHelper()
- * @method Core_Mage_Tags_Helper                                                                       tagsHelper()
+ * @method Core_Magento_Tags_Helper                                                                       tagsHelper()
  * @method Core_Mage_Tax_Helper                                                                        taxHelper()
  * @method Core_Mage_Tax_TaxRule_Helper                                                                taxRuleHelper()
  * @method Core_Mage_TermsAndConditions_Helper                                                         termsAndConditionsHelper()

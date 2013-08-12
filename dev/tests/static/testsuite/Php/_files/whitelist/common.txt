@@ -101,8 +101,8 @@ app/code/Magento/Reports/Block/Adminhtml/Product
 app/code/Magento/Reports/Model/Resource/Accounts
 app/code/Magento/Reports/Model/Resource/Customer
 app/code/Magento/Reports/Model/Resource/Report/Collection.php
-app/code/Mage/Tag/Block/Adminhtml/Customer/Edit/Tab/Tag.php
-app/code/Mage/Tag/Block/Catalog/Product/Rss/Link.php
+app/code/Magento/Tag/Block/Adminhtml/Customer/Edit/Tab/Tag.php
+app/code/Magento/Tag/Block/Catalog/Product/Rss/Link.php
 app/code/Mage/Theme
 app/code/Mage/User
 app/code/Mage/Webapi

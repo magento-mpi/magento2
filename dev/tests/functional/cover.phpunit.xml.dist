@@ -42,7 +42,7 @@
             <directory suffix="Test.php">testsuite/Core/Magento/Rating</directory>
             <directory suffix="Test.php">testsuite/Core/Magento/Review</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Store</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Tags</directory>
+            <directory suffix="Test.php">testsuite/Core/Magento/Tags</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Tax</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Wishlist</directory>
         </testsuite>

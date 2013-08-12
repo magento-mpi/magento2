@@ -24,8 +24,8 @@ if ($tableName) {
         'Magento_Review::pending',
         'Magento_Review::reviews',
         'Magento_Review::reviews_ratings',
-        'Mage_Tag::tag',
-        'Mage_Tag::tag_pending',
+        'Magento_Tag::tag',
+        'Magento_Tag::tag_pending',
     );
     $connection->delete($tableName, array('resource_id IN (?)' => $remove));
 }
