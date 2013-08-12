@@ -23,33 +23,21 @@ class Mage_Eav_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Hel
      *
      * @var array
      */
-    protected $_ddlColumnTypes      = array(
-        Varien_Db_Ddl_Table::TYPE_BOOLEAN       => 'bool',
-        Varien_Db_Ddl_Table::TYPE_SMALLINT      => 'smallint',
-        Varien_Db_Ddl_Table::TYPE_INTEGER       => 'int',
-        Varien_Db_Ddl_Table::TYPE_BIGINT        => 'bigint',
-        Varien_Db_Ddl_Table::TYPE_FLOAT         => 'float',
-        Varien_Db_Ddl_Table::TYPE_DECIMAL       => 'decimal',
-        Varien_Db_Ddl_Table::TYPE_NUMERIC       => 'decimal',
-        Varien_Db_Ddl_Table::TYPE_DATE          => 'date',
-        Varien_Db_Ddl_Table::TYPE_TIMESTAMP     => 'timestamp',
-        Varien_Db_Ddl_Table::TYPE_DATETIME      => 'datetime',
-        Varien_Db_Ddl_Table::TYPE_TEXT          => 'text',
-        Varien_Db_Ddl_Table::TYPE_BLOB          => 'blob',
-        Varien_Db_Ddl_Table::TYPE_VARBINARY     => 'blob'
+    protected $_ddlColumnTypes = array(
+        Magento_DB_Ddl_Table::TYPE_BOOLEAN       => 'bool',
+        Magento_DB_Ddl_Table::TYPE_SMALLINT      => 'smallint',
+        Magento_DB_Ddl_Table::TYPE_INTEGER       => 'int',
+        Magento_DB_Ddl_Table::TYPE_BIGINT        => 'bigint',
+        Magento_DB_Ddl_Table::TYPE_FLOAT         => 'float',
+        Magento_DB_Ddl_Table::TYPE_DECIMAL       => 'decimal',
+        Magento_DB_Ddl_Table::TYPE_NUMERIC       => 'decimal',
+        Magento_DB_Ddl_Table::TYPE_DATE          => 'date',
+        Magento_DB_Ddl_Table::TYPE_TIMESTAMP     => 'timestamp',
+        Magento_DB_Ddl_Table::TYPE_DATETIME      => 'datetime',
+        Magento_DB_Ddl_Table::TYPE_TEXT          => 'text',
+        Magento_DB_Ddl_Table::TYPE_BLOB          => 'blob',
+        Magento_DB_Ddl_Table::TYPE_VARBINARY     => 'blob'
     );
-
-    /**
-     * Returns columns for select
-     *
-     * @param string $tableAlias
-     * @param string $eavType
-     * @return string|array
-     */
-    public function attributeSelectFields($tableAlias, $eavType)
-    {
-        return '*';
-    }
 
     /**
      * Returns DDL type by column type in database
@@ -67,21 +55,11 @@ class Mage_Eav_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Hel
             case 'tinyint':
                 $columnType = 'smallint';
                 break;
+            default:
+                break;
         }
 
         return array_search($columnType, $this->_ddlColumnTypes);
-    }
-
-    /**
-     * Prepares value fields for unions depend on type
-     *
-     * @param string $value
-     * @param string $eavType
-     * @return Zend_Db_Expr
-     */
-    public function prepareEavAttributeValue($value, $eavType)
-    {
-        return $value;
     }
 
     /**
@@ -93,20 +71,9 @@ class Mage_Eav_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Hel
     public function getLoadAttributesSelectGroups($selects)
     {
         $mainGroup  = array();
-        foreach ($selects as $eavType => $selectGroup) {
+        foreach ($selects as $selectGroup) {
             $mainGroup = array_merge($mainGroup, $selectGroup);
         }
         return array($mainGroup);
-    }
-
-    /**
-     * Retrieve 'cast to int' expression
-     *
-     * @param string|Zend_Db_Expr $expression
-     * @return Zend_Db_Expr
-     */
-    public function getCastToIntExpression($expression)
-    {
-        return new Zend_Db_Expr("CAST($expression AS SIGNED)");
     }
 }

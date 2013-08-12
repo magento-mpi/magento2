@@ -185,7 +185,7 @@ class Mage_Sales_Model_Resource_Order_Payment_Transaction extends Mage_Sales_Mod
      * @param int $paymentId
      * @param string $txnId
      * @param string|array|Zend_Db_Expr $columns
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     private function _getLoadByUniqueKeySelect($orderId, $paymentId, $txnId, $columns = '*')
     {

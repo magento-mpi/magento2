@@ -20,7 +20,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
 {
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $fieldset = $form->addFieldset('poll_form', array('legend'=>__('Poll information')));
         $fieldset->addField('poll_title', 'text', array(

@@ -67,9 +67,9 @@ class Mage_Backend_Model_Config_Structure_Element_Group
     /**
      * Populate form fieldset with group data
      *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      */
-    public function populateFieldset(Varien_Data_Form_Element_Fieldset $fieldset)
+    public function populateFieldset(Magento_Data_Form_Element_Fieldset $fieldset)
     {
         $originalData = array();
         foreach ($this->_data as $key => $value) {

@@ -22,7 +22,7 @@
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-abstract class Mage_Core_Block_Abstract extends Varien_Object
+abstract class Mage_Core_Block_Abstract extends Magento_Object
     implements Mage_Core_Block
 {
     /**

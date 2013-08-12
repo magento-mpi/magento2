@@ -33,9 +33,9 @@ class Saas_Limitation_Model_Catalog_Category_Observer_Block
      * Disable the category creation buttons upon reaching the limitation
      * Buttons are disabled in tree and in form on category page and on product edit page
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function disableCreationButtons(Varien_Event_Observer $observer)
+    public function disableCreationButtons(Magento_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getData('block');
         if ($block instanceof Mage_Adminhtml_Block_Catalog_Category_Tree) {

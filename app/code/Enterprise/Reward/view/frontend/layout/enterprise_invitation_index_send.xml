@@ -12,7 +12,7 @@
         <reference name="invitations.form.form.before">
             <block type="Enterprise_Reward_Block_Tooltip" name="reward.tooltip.invitation" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <type>enterprise_reward/action_invitationCustomer</type>
+                    <type>Enterprise_Reward_Model_Action_InvitationCustomer</type>
                 </action>
                 <action method="setWrapperClass">
                     <class>reward-invitation</class>
@@ -29,7 +29,7 @@
             </block>
             <block type="Enterprise_Reward_Block_Tooltip" name="reward.tooltip.invitation.order" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <type>enterprise_reward/action_invitationOrder</type>
+                    <type>Enterprise_Reward_Model_Action_InvitationOrder</type>
                 </action>
                 <action method="setWrapperClass">
                     <class>reward-invitation</class>

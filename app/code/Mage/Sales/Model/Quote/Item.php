@@ -181,14 +181,14 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
      * @param Mage_Core_Model_Context $context
      * @param Mage_Sales_Model_Status_ListFactory $statusListFactory
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
         Mage_Sales_Model_Status_ListFactory $statusListFactory,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_errorInfos = $statusListFactory->create();
@@ -591,7 +591,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     /**
      * Add option to item
      *
-     * @param   Mage_Sales_Model_Quote_Item_Option|Varien_Object $option
+     * @param   Mage_Sales_Model_Quote_Item_Option|Magento_Object $option
      * @return  Mage_Sales_Model_Quote_Item
      */
     public function addOption($option)
@@ -600,7 +600,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             $option = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')->setData($option)
                 ->setItem($this);
         }
-        elseif (($option instanceof Varien_Object) && !($option instanceof Mage_Sales_Model_Quote_Item_Option)) {
+        elseif (($option instanceof Magento_Object) && !($option instanceof Mage_Sales_Model_Quote_Item_Option)) {
             $option = Mage::getModel('Mage_Sales_Model_Quote_Item_Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
@@ -627,11 +627,11 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
      * Exemple: cataloginventory decimal qty validation may change qty to int,
      * so need to change quote item qty option value.
      *
-     * @param Varien_Object $option
+     * @param Magento_Object $option
      * @param int|float|null $value
      * @return Mage_Sales_Model_Quote_Item
      */
-    public function updateQtyOption(Varien_Object $option, $value)
+    public function updateQtyOption(Magento_Object $option, $value)
     {
         $optionProduct  = $option->getProduct();
         $options        = $this->getQtyOptions();
@@ -778,12 +778,12 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
      * Returns formatted buy request - object, holding request received from
      * product view page with keys and options for configured product
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getBuyRequest()
     {
         $option = $this->getOptionByCode('info_buyRequest');
-        $buyRequest = new Varien_Object($option ? unserialize($option->getValue()) : null);
+        $buyRequest = new Magento_Object($option ? unserialize($option->getValue()) : null);
 
         // Overwrite standard buy request qty, because item qty could have changed since adding to quote
         $buyRequest->setOriginalQty($buyRequest->getQty())
@@ -843,7 +843,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
      * @param string|null $origin Usually a name of module, that embeds error
      * @param int|null $code Error code, unique for origin, that sets it
      * @param string|null $message Error message
-     * @param Varien_Object|null $additionalData Any additional data, that caller would like to store
+     * @param Magento_Object|null $additionalData Any additional data, that caller would like to store
      * @return Mage_Sales_Model_Quote_Item
      */
     public function addErrorInfo($origin = null, $code = null, $message = null, $additionalData = null)

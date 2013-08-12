@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid extends Mage_Adminhtm
     /**
      * Return row url for js event handlers
      *
-     * @param Mage_Catalog_Model_Product|Varien_Object
+     * @param Mage_Catalog_Model_Product|Magento_Object
      * @return string
      */
     public function getRowUrl($row)

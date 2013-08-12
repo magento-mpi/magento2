@@ -20,7 +20,7 @@
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class Mage_Core_Model_Layout extends Varien_Simplexml_Config
+class Mage_Core_Model_Layout extends Magento_Simplexml_Config
 {
     /**#@+
      * Supported layout directives
@@ -128,7 +128,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * A variable for transporting output into observer during rendering
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_renderingOutput = null;
 
@@ -207,7 +207,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_translator = $translator;
         $this->_elementClass = 'Mage_Core_Model_Layout_Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
-        $this->_renderingOutput = new Varien_Object;
+        $this->_renderingOutput = new Magento_Object;
         $this->_scheduledStructure = $scheduledStructure;
         $this->_dataServiceGraph = $dataServiceGraph;
     }
@@ -273,6 +273,16 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function getArea()
     {
         return $this->_area;
+    }
+
+    /**
+     * Set area code
+     *
+     * @param string $areaCode
+     */
+    public function setArea($areaCode)
+    {
+        $this->_area = $areaCode;
     }
 
     /**

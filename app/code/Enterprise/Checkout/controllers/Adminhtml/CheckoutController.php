@@ -442,7 +442,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         // Prepare data
         $productId  = (int) $this->getRequest()->getParam('id');
 
-        $configureResult = new Varien_Object();
+        $configureResult = new Magento_Object();
         $configureResult->setOk(true)
             ->setProductId($productId)
             ->setCurrentStoreId($storeId)
@@ -464,7 +464,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     public function configureWishlistItemAction()
     {
         // Prepare data
-        $configureResult = new Varien_Object();
+        $configureResult = new Magento_Object();
         try {
             $this->_initData();
 
@@ -509,7 +509,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
     public function configureOrderedItemAction()
     {
         // Prepare data
-        $configureResult = new Varien_Object();
+        $configureResult = new Magento_Object();
         try {
             $this->_initData();
 
@@ -597,7 +597,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         $this->_initData();
 
         // Prepare data
-        $configureResult = new Varien_Object();
+        $configureResult = new Magento_Object();
         try {
             $quoteItemId = (int) $this->getRequest()->getParam('id');
 
@@ -702,17 +702,17 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      * Returns item info by list and list item id
      * Returns object on success or false on error. Returned object has following keys:
      *  - product_id - null if no item found
-     *  - buy_request - Varien_Object, empty if not buy request stored for this item
+     *  - buy_request - Magento_Object, empty if not buy request stored for this item
      *
      * @param string $listType
      * @param int    $itemId
      *
-     * @return Varien_Object|false
+     * @return Magento_Object|false
      */
     protected function _getListItemInfo($listType, $itemId)
     {
         $productId = null;
-        $buyRequest = new Varien_Object();
+        $buyRequest = new Magento_Object();
         switch ($listType) {
             case 'wishlist':
                 $item = Mage::getModel('Mage_Wishlist_Model_Item')
@@ -735,7 +735,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
                 break;
         }
 
-        return new Varien_Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
+        return new Magento_Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
     }
 
     /**
@@ -746,12 +746,12 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
      * @param string $listType
      * @param int    $itemId
      * @param array  $info
-     * @return Varien_Object|false
+     * @return Magento_Object|false
      */
     protected function _getInfoForListItem($listType, $itemId, $info)
     {
         $productId = null;
-        $buyRequest = new Varien_Object();
+        $buyRequest = new Magento_Object();
         switch ($listType) {
             case Enterprise_Checkout_Block_Adminhtml_Sku_Abstract::LIST_TYPE:
                 $info['sku'] = $itemId;
@@ -770,7 +770,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
             default:
                 return $this->_getListItemInfo($listType, $itemId);
         }
-        return new Varien_Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
+        return new Magento_Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
     }
 
     /**
@@ -922,7 +922,7 @@ class Enterprise_Checkout_Adminhtml_CheckoutController extends Mage_Adminhtml_Co
         /* @var $productHelper Mage_Catalog_Helper_Product */
         $productHelper = Mage::helper('Mage_Catalog_Helper_Product');
         foreach ($items as $id => $item) {
-            $buyRequest = new Varien_Object($item);
+            $buyRequest = new Magento_Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');
             $buyRequest = $productHelper->addParamsToBuyRequest($buyRequest, $params);
             if ($buyRequest->hasData()) {

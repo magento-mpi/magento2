@@ -10,7 +10,7 @@
 
 
 /**
- * Enter description here ...
+ * Enterprise banner catalog rule model
  *
  * @method Enterprise_Banner_Model_Resource_Catalogrule _getResource()
  * @method Enterprise_Banner_Model_Resource_Catalogrule getResource()

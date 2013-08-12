@@ -87,7 +87,7 @@ class Enterprise_ImportExport_Model_Observer
 
                 $direcotryDate = new DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3]);
                 if ($forceRun || $direcotryDate < $dateCompass) {
-                    $fs = new Varien_Io_File();
+                    $fs = new Magento_Io_File();
                     if (!$fs->rmdirRecursive($directory, true)) {
                         $directory = str_replace(Mage::getBaseDir() . DS, '', $directory);
                         Mage::throwException(
@@ -117,7 +117,7 @@ class Enterprise_ImportExport_Model_Observer
         $result = array();
 
         $logPath = rtrim($logPath, DS);
-        $fs = new Varien_Io_File();
+        $fs = new Magento_Io_File();
         $fs->cd($logPath);
 
         foreach ($fs->ls() as $entity) {
@@ -136,7 +136,7 @@ class Enterprise_ImportExport_Model_Observer
     /**
      * Run operation in crontab
      *
-     * @param Mage_Cron_Model_Schedule|Varien_Object $schedule
+     * @param Mage_Cron_Model_Schedule|Magento_Object $schedule
      * @param bool $forceRun
      * @return bool
      */

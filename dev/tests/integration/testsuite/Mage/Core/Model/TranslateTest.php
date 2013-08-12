@@ -31,7 +31,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test', 'default', 'locale', 'en_US',
+        $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test_default', 'locale', 'en_US',
             'translate.csv');
 
         $this->_viewFileSystem = $this->getMock('Mage_Core_Model_View_FileSystem',
@@ -191,7 +191,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             array('', ''),
             array(
                 'Text with different translation on different modules',
-                'Text with different translation on different modules'
+                'Text translation that was last loaded'
             ),
             array(
                 'text_with_no_translation',

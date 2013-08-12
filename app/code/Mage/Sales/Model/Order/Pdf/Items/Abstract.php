@@ -34,7 +34,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     /**
      * Item object
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_item;
 
@@ -79,10 +79,10 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
     /**
      * Set item object
      *
-     * @param  Varien_Object $item
+     * @param  Magento_Object $item
      * @return Mage_Sales_Model_Order_Pdf_Items_Abstract
      */
-    public function setItem(Varien_Object $item)
+    public function setItem(Magento_Object $item)
     {
         $this->_item = $item;
         return $this;
@@ -144,7 +144,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Items_Abstract extends Mage_Core_Model
      * Retrieve item object
      *
      * @throws Mage_Core_Exception
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getItem()
     {

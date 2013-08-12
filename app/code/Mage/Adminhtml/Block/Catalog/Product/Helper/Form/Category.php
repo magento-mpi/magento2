@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Varien_Data_Form_Element_Multiselect
+class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends Magento_Data_Form_Element_Multiselect
 {
     /**
      * @var Mage_Core_Model_Layout

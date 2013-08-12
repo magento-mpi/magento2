@@ -24,7 +24,7 @@ class Mage_Centinel_Model_State_JcbTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_model = new Mage_Centinel_Model_State_Jcb();
-        $this->_model->setDataStorage(new Varien_Object());
+        $this->_model->setDataStorage(new Magento_Object());
     }
 
     /**
@@ -35,8 +35,8 @@ class Mage_Centinel_Model_State_JcbTest extends PHPUnit_Framework_TestCase
      */
     public function testIsAuthenticateAllowed($result, $lookupResults, $params)
     {
-        $this->_model->setLookupResult(new Varien_Object($lookupResults));
-        $this->_model->setAuthenticateResult(new Varien_Object($params));
+        $this->_model->setLookupResult(new Magento_Object($lookupResults));
+        $this->_model->setAuthenticateResult(new Magento_Object($params));
         $this->assertEquals($result, $this->_model->isAuthenticateAllowed());
     }
 
@@ -88,7 +88,7 @@ class Mage_Centinel_Model_State_JcbTest extends PHPUnit_Framework_TestCase
             'payload' => '',
             'error_no' => '0'
         );
-        $this->_model->setLookupResult(new Varien_Object($lookupResults));
+        $this->_model->setLookupResult(new Magento_Object($lookupResults));
 
         $this->_model->setIsModeStrict(true);
         $this->assertEquals(false, $this->_model->isAuthenticateSuccessful());
@@ -113,8 +113,8 @@ class Mage_Centinel_Model_State_JcbTest extends PHPUnit_Framework_TestCase
             'payload' => 'no empty value',
             'error_no' => '0'
         );
-        $this->_model->setLookupResult(new Varien_Object($lookupResult));
-        $this->_model->setAuthenticateResult(new Varien_Object($params));
+        $this->_model->setLookupResult(new Magento_Object($lookupResult));
+        $this->_model->setAuthenticateResult(new Magento_Object($params));
 
         $this->assertEquals($result, $this->_model->isAuthenticateSuccessful());
     }
@@ -438,7 +438,7 @@ class Mage_Centinel_Model_State_JcbTest extends PHPUnit_Framework_TestCase
      */
     public function testIsLookupSuccessful($result, $strictMode, $params)
     {
-        $this->_model->setLookupResult(new Varien_Object($params));
+        $this->_model->setLookupResult(new Magento_Object($params));
         $this->_model->setIsModeStrict($strictMode);
         $this->assertEquals($result, $this->_model->isLookupSuccessful());
     }

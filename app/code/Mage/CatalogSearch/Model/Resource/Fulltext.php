@@ -267,7 +267,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             Mage::dispatchEvent('catalogsearch_reset_search_result');
         } else {
             // Optimized deletion only product-related records
-            /** @var $select Varien_Db_Select */
+            /** @var $select Magento_DB_Select */
             $select  = $adapter->select()
                 ->from(array('r' => $this->getTable('catalogsearch_result')), null)
                 ->join(
@@ -289,7 +289,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $query = $select->deleteFromSelect('res');
             $adapter->query($query);
 
-            /** @var $select Varien_Db_Select */
+            /** @var $select Magento_DB_Select */
             $select  = $adapter->select();
             $subSelect = $adapter->select()->from(array('res' => $this->getTable('catalogsearch_result')), null);
             $select->exists($subSelect, 'res.query_id=' . $this->getTable('catalogsearch_query') . '.query_id', false);
@@ -387,7 +387,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
             $sql = $adapter->insertFromSelect($select,
                 $this->getTable('catalogsearch_result'),
                 array(),
-                Varien_Db_Adapter_Interface::INSERT_ON_DUPLICATE);
+                Magento_DB_Adapter_Interface::INSERT_ON_DUPLICATE);
             $adapter->query($sql, $bind);
 
             $query->setIsProcessed(1);
@@ -492,10 +492,9 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     protected function _unifyField($field, $backendType = 'varchar')
     {
         if ($backendType == 'datetime') {
-            $expr = Mage::getResourceHelper('Mage_CatalogSearch')->castField(
-                $this->_getReadAdapter()->getDateFormatSql($field, '%Y-%m-%d %H:%i:%s'));
+            $expr = $this->_getReadAdapter()->getDateFormatSql($field, '%Y-%m-%d %H:%i:%s');
         } else {
-            $expr = Mage::getResourceHelper('Mage_CatalogSearch')->castField($field);
+            $expr = $field;
         }
         return $expr;
     }
@@ -593,15 +592,15 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
     }
 
     /**
-     * Retrieve Product Emulator (Varien Object)
+     * Retrieve Product Emulator (Magento Object)
      *
      * @param string $typeId
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _getProductEmulator($typeId)
     {
         if (!isset($this->_productEmulators[$typeId])) {
-            $productEmulator = new Varien_Object();
+            $productEmulator = new Magento_Object();
             $productEmulator->setIdFieldName('entity_id')
                 ->setTypeId($typeId);
             $this->_productEmulators[$typeId] = $productEmulator;
@@ -789,7 +788,7 @@ class Mage_CatalogSearch_Model_Resource_Fulltext extends Mage_Core_Model_Resourc
 
         if (!is_empty_date($date)) {
             list($dateObj, $format) = $this->_dates[$storeId];
-            $dateObj->setDate($date, Varien_Date::DATETIME_INTERNAL_FORMAT);
+            $dateObj->setDate($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
 
             return $dateObj->toString($format);
         }

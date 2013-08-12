@@ -28,9 +28,9 @@ class Mage_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPluginSettings()
     {
-        Mage::getDesign()->setDesignTheme('default/basic', 'adminhtml');
+        Mage::getDesign()->setDesignTheme('magento_basic', 'adminhtml');
 
-        $config = new Varien_Object();
+        $config = new Magento_Object();
         $settings = $this->_model->getPluginSettings($config);
 
         $this->assertArrayHasKey('widget_plugin_src', $settings);

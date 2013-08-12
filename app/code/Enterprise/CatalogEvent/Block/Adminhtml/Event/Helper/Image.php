@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_CatalogEvent
  */
-class Enterprise_CatalogEvent_Block_Adminhtml_Event_Helper_Image extends Varien_Data_Form_Element_Image
+class Enterprise_CatalogEvent_Block_Adminhtml_Event_Helper_Image extends Magento_Data_Form_Element_Image
 {
     /**
      * Get url for image

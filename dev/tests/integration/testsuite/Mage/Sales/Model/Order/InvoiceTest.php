@@ -12,7 +12,7 @@
 class Mage_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoConfigFixture frontend/design/theme/full_name default/demo
+     * @magentoConfigFixture frontend/design/theme/full_name magento_demo
      * @magentoDataFixture Mage/Sales/_files/order.php
      */
     public function testSendEmail()

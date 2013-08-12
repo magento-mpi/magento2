@@ -13,7 +13,7 @@
  * @package    Mage_Cardgate
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cardgate_Model_Base extends Varien_Object
+class Mage_Cardgate_Model_Base extends Magento_Object
 {
     /**
      * Store Config object

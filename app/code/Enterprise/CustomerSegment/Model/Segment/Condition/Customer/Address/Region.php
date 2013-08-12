@@ -65,9 +65,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
     public function asHtml()
     {
         $element = $this->getValueElementHtml();
-        return $this->getTypeElementHtml()
-            .__('If Customer Address %1 State/Province specified', $element)
-            .$this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __('If Customer Address %1 State/Province specified', $element)
+            . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -100,22 +99,18 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
      *
      * @param $customer
      * @param $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getConditionsSql($customer, $website)
     {
         $inversion = ((int)$this->getValue() ? '' : ' NOT ');
         $attribute = Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('customer_address', 'region');
         $select = $this->getResource()->createSelect();
-
-        $ifnull = $this->getResource()->getReadConnection()
-                ->getCheckSql("caev.value IS {$inversion} NULL", 0, 1);
-        $select->from(array('caev' => $attribute->getBackendTable()), "({$ifnull})");
+        $ifNull = $this->getResource()->getReadConnection()->getCheckSql("caev.value IS {$inversion} NULL", 0, 1);
+        $select->from(array('caev' => $attribute->getBackendTable()), "({$ifNull})");
         $select->where('caev.attribute_id = ?', $attribute->getId())
             ->where("caev.entity_id = customer_address.entity_id");
-
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
-
+        $select->limit(1);
         return $select;
     }
 }

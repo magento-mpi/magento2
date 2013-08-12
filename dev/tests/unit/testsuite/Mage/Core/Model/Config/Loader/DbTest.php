@@ -70,7 +70,7 @@ class Mage_Core_Model_Config_Loader_DbTest extends PHPUnit_Framework_TestCase
         $this->_resourceMock->expects($this->once())->method('getReadConnection')->will($this->returnValue(true));
         $this->_dbUpdaterMock->expects($this->once())->method('updateScheme');
 
-        $configData = new Varien_Simplexml_Config();
+        $configData = new Magento_Simplexml_Config();
         $configMock = $this->getMock('Mage_Core_Model_Config_Base', array(), array(), '', false, false);
         $this->_modulesConfigMock->expects($this->once())->method('getNode')->will($this->returnValue('config_node'));
         $this->_factoryMock->expects($this->once())->method('create')

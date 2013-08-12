@@ -14,7 +14,7 @@ class Enterprise_WebsiteRestriction_IndexControllerTest extends Magento_Test_Tes
     /**
      * @magentoConfigFixture current_store general/restriction/is_active 1
      * @magentoConfigFixture current_store general/restriction/mode 0
-     * @magentoConfigFixture current_store general/restriction/cms_page page_design_modern
+     * @magentoConfigFixture current_store general/restriction/cms_page page_design_blank
      * @magentoConfigFixture current_store general/restriction/http_status 1
      * @magentoDataFixture Mage/Cms/_files/pages.php
      */
@@ -33,8 +33,8 @@ class Enterprise_WebsiteRestriction_IndexControllerTest extends Magento_Test_Tes
 
         $this->dispatch('restriction/index/stub');
         $body = $this->getResponse()->getBody();
-        $this->assertContains('<h1>Cms Page Design Modern Title</h1>', $body);
-        $this->assertContains('theme/frontend/default/modern/en_US/Mage_Page/favicon.ico', $body);
+        $this->assertContains('<h1>Cms Page Design Blank Title</h1>', $body);
+        $this->assertContains('theme/frontend/default/blank/en_US/Mage_Page/favicon.ico', $body);
         $this->assertHeaderPcre('Http/1.1', '/^503 Service Unavailable$/');
     }
 }

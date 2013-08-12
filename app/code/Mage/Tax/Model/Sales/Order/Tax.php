@@ -9,8 +9,6 @@
  */
 
 /**
- * Enter description here ...
- *
  * @method Mage_Tax_Model_Resource_Sales_Order_Tax _getResource()
  * @method Mage_Tax_Model_Resource_Sales_Order_Tax getResource()
  * @method int getOrderId()

@@ -9,18 +9,18 @@
  */
 
 /**
- * Container for temapltate variable
+ * Container for template variable
  *
  * Container that can restrict access to properties and method
  * with white list. Also formats return values by type
  * with format<Type>() function (if defined).
- * We have to inherit Varien_object for template filter.
+ * We have to inherit Magento_object for template filter.
  *
  * @category   Saas
  * @package    Saas_PrintedTemplate
  * @subpackage Models
  */
-class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
+class Saas_PrintedTemplate_Model_Variable_Abstract extends Magento_Object
 {
     /**
      * Value of contatiner
@@ -268,7 +268,7 @@ class Saas_PrintedTemplate_Model_Variable_Abstract extends Varien_Object
     /**
      * Wrap getData call
      *
-     * @see Varien_Object::getData()
+     * @see Magento_Object::getData()
      * @param string $name Name
      * @param string $index Does not take into account
      * @return mixed

@@ -80,7 +80,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     /**
      * Raw rate request data
      *
-     * @var Varien_Object|null
+     * @var Magento_Object|null
      */
     protected $_rawRequest = null;
 
@@ -153,7 +153,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     {
         $this->_request = $request;
 
-        $r = new Varien_Object();
+        $r = new Magento_Object();
 
         if ($request->getLimitMethod()) {
             $r->setService($request->getLimitMethod());
@@ -795,7 +795,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
      */
     protected function setTrackingReqeust()
     {
-        $r = new Varien_Object();
+        $r = new Magento_Object();
 
         $userId = $this->getConfigData('userid');
         $r->setUserId($userId);
@@ -1211,10 +1211,10 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
      * As integration guide it is important to follow appropriate sequence for tags e.g.: <FromLastName /> must be
      * after <FromFirstName />
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return string
      */
-    protected function _formUsExpressShipmentRequest(Varien_Object $request)
+    protected function _formUsExpressShipmentRequest(Magento_Object $request)
     {
         $packageParams = $request->getPackageParams();
 
@@ -1277,11 +1277,11 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
      * As integration guide it is important to follow appropriate sequence for tags e.g.: <FromLastName /> must be
      * after <FromFirstName />
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @param string $serviceType
      * @return string
      */
-    protected function _formUsSignatureConfirmationShipmentRequest(Varien_Object $request, $serviceType)
+    protected function _formUsSignatureConfirmationShipmentRequest(Magento_Object $request, $serviceType)
     {
         switch ($serviceType) {
             case 'PRIORITY':
@@ -1372,10 +1372,10 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
      * As integration guide it is important to follow appropriate sequence for tags e.g.: <FromLastName /> must be
      * after <FromFirstName />
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return string
      */
-    protected function _formIntlShipmentRequest(Varien_Object $request)
+    protected function _formIntlShipmentRequest(Magento_Object $request)
     {
         $packageParams = $request->getPackageParams();
         $height = $packageParams->getHeight();
@@ -1515,7 +1515,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         $countriesOfManufacture = array();
         $productIds = array();
         foreach ($packageItems as $itemShipment) {
-                $item = new Varien_Object();
+                $item = new Magento_Object();
                 $item->setData($itemShipment);
 
                 $productIds[]= $item->getProductId();
@@ -1531,7 +1531,7 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
         $packagePoundsWeight = $packageOuncesWeight = 0;
         // for ItemDetail
         foreach ($packageItems as $itemShipment) {
-            $item = new Varien_Object();
+            $item = new Magento_Object();
             $item->setData($itemShipment);
 
             $itemWeight = $item->getWeight() * $item->getQty();
@@ -1609,13 +1609,13 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param Varien_Object $request
-     * @return Varien_Object
+     * @param Magento_Object $request
+     * @return Magento_Object
      */
-    protected function _doShipmentRequest(Varien_Object $request)
+    protected function _doShipmentRequest(Magento_Object $request)
     {
         $this->_prepareShipmentRequest($request);
-        $result = new Varien_Object();
+        $result = new Magento_Object();
         $service = $this->getCode('service_to_code', $request->getShippingMethod());
         $recipientUSCountry = $this->_isUSCountry($request->getRecipientAddressCountryCode());
 
@@ -1685,10 +1685,10 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     /**
      * Return container types of carrier
      *
-     * @param Varien_Object|null $params
+     * @param Magento_Object|null $params
      * @return array|bool
      */
-    public function getContainerTypes(Varien_Object $params = null)
+    public function getContainerTypes(Magento_Object $params = null)
     {
         if (is_null($params)) {
             return $this->_getAllowedContainers();
@@ -1719,10 +1719,10 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     /**
      * Return delivery confirmation types of carrier
      *
-     * @param Varien_Object|null $params
+     * @param Magento_Object|null $params
      * @return array
      */
-    public function getDeliveryConfirmationTypes(Varien_Object $params = null)
+    public function getDeliveryConfirmationTypes(Magento_Object $params = null)
     {
         if ($params == null) {
             return array();
@@ -1749,10 +1749,10 @@ class Mage_Usa_Model_Shipping_Carrier_Usps
     /**
      * Return content types of package
      *
-     * @param Varien_Object $params
+     * @param Magento_Object $params
      * @return array
      */
-    public function getContentTypes(Varien_Object $params)
+    public function getContentTypes(Magento_Object $params)
     {
         $countryShipper     = $params->getCountryShipper();
         $countryRecipient   = $params->getCountryRecipient();

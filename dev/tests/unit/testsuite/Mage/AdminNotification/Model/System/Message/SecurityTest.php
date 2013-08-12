@@ -43,7 +43,7 @@ class Mage_AdminNotification_Model_System_Message_SecurityTest extends PHPUnit_F
         $this->_cacheMock = $this->getMock('Mage_Core_Model_CacheInterface');
         $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_Config',
             array('getConfig'), array(), '', false);
-        $this->_curlFactoryMock = $this->getMock('Varien_Http_Adapter_CurlFactory',
+        $this->_curlFactoryMock = $this->getMock('Magento_HTTP_Adapter_CurlFactory',
             array('create'), array(), '', false);
         $this->_helperFactoryMock = $this->getMock('Mage_Core_Model_Factory_Helper', array(), array(), '', false);
 
@@ -71,7 +71,7 @@ class Mage_AdminNotification_Model_System_Message_SecurityTest extends PHPUnit_F
         $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue($cached));
         $this->_cacheMock->expects($this->any())->method('save')->will($this->returnValue(null));
 
-        $httpAdapterMock = $this->getMock('Varien_Http_Adapter_Curl', array(), array(), '', false);
+        $httpAdapterMock = $this->getMock('Magento_HTTP_Adapter_Curl', array(), array(), '', false);
         $httpAdapterMock->expects($this->any())->method('read')->will($this->returnValue($response));
         $this->_curlFactoryMock->expects($this->any())->method('create')->will($this->returnValue($httpAdapterMock));
 

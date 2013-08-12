@@ -33,10 +33,10 @@ class Enterprise_Search_Block_Adminhtml_System_Config_Testconnection
     /**
      * Unset some non-related element parameters
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
         return parent::render($element);
@@ -45,10 +45,10 @@ class Enterprise_Search_Block_Adminhtml_System_Config_Testconnection
     /**
      * Get the button and scripts contents
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         $originalData = $element->getOriginalData();
         $this->addData(array(

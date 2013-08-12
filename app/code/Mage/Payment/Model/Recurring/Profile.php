@@ -81,7 +81,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         // start date, order ref ID, schedule description
         if (!$this->getStartDatetime()) {
             $this->_errors['start_datetime'][] = __('The start date is undefined.');
-        } elseif (!Zend_Date::isDate($this->getStartDatetime(), Varien_Date::DATETIME_INTERNAL_FORMAT)) {
+        } elseif (!Zend_Date::isDate($this->getStartDatetime(), Magento_Date::DATETIME_INTERNAL_FORMAT)) {
             $this->_errors['start_datetime'][] = __('The start date has an invalid format.');
         }
         if (!$this->getScheduleDescription()) {
@@ -186,11 +186,11 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
      * Collect needed information from buy request
      * Then filter data
      *
-     * @param Varien_Object $buyRequest
+     * @param Magento_Object $buyRequest
      * @return Mage_Payment_Model_Recurring_Profile
      * @throws Mage_Core_Exception
      */
-    public function importBuyRequest(Varien_Object $buyRequest)
+    public function importBuyRequest(Magento_Object $buyRequest)
     {
         $startDate = $buyRequest->getData(self::BUY_REQUEST_START_DATETIME);
         if ($startDate) {
@@ -201,7 +201,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
                 Mage::throwException(__('The recurring profile start date has invalid format.'));
             }
             $utcTime = $this->_locale->utcDate($this->_store, $startDate, true, $dateFormat)
-                ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+                ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
             $this->setStartDatetime($utcTime)->setImportedStartDatetime($startDate);
         }
         return $this->_filterValues();
@@ -231,7 +231,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
                 $options = unserialize($options->getValue());
                 if (is_array($options)) {
                     if (isset($options['start_datetime'])) {
-                        $startDatetime = new Zend_Date($options['start_datetime'], Varien_Date::DATETIME_INTERNAL_FORMAT);
+                        $startDatetime = new Zend_Date($options['start_datetime'], Magento_Date::DATETIME_INTERNAL_FORMAT);
                         $this->setNearestStartDatetime($startDatetime);
                     }
                 }
@@ -250,14 +250,14 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
     public function exportScheduleInfo()
     {
         $result = array(
-            new Varien_Object(array(
+            new Magento_Object(array(
                 'title'    => __('Billing Period'),
                 'schedule' => $this->_renderSchedule('period_unit', 'period_frequency', 'period_max_cycles'),
             ))
         );
         $trial = $this->_renderSchedule('trial_period_unit', 'trial_period_frequency', 'trial_period_max_cycles');
         if ($trial) {
-            $result[] = new Varien_Object(array(
+            $result[] = new Magento_Object(array(
                 'title'    => __('Trial Period'),
                 'schedule' => $trial,
             ));
@@ -278,7 +278,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
         if (!$date || $date->getTimestamp() < time()) {
             $date = new Zend_Date(time());
         }
-        $this->setStartDatetime($date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+        $this->setStartDatetime($date->toString(Magento_Date::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
 
@@ -518,7 +518,7 @@ class Mage_Payment_Model_Recurring_Profile extends Mage_Core_Model_Abstract
 
         // automatically determine start date, if not set
         if ($this->getStartDatetime()) {
-            $date = new Zend_Date($this->getStartDatetime(), Varien_Date::DATETIME_INTERNAL_FORMAT);
+            $date = new Zend_Date($this->getStartDatetime(), Magento_Date::DATETIME_INTERNAL_FORMAT);
             $this->setNearestStartDatetime($date);
         } else {
             $this->setNearestStartDatetime();

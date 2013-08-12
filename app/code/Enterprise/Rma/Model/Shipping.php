@@ -71,12 +71,12 @@ class Enterprise_Rma_Model_Shipping extends Mage_Core_Model_Abstract
     /**
      * Prepare and do return of shipment
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function requestToShipment()
     {
         $shipmentStoreId    = $this->getRma()->getStoreId();
-        $storeInfo          = new Varien_Object(Mage::getStoreConfig('general/store_information', $shipmentStoreId));
+        $storeInfo          = new Magento_Object(Mage::getStoreConfig('general/store_information', $shipmentStoreId));
 
         /** @var $order Mage_Sales_Model_Order */
         $order              = Mage::getModel('Mage_Sales_Model_Order')->load($this->getRma()->getOrderId());

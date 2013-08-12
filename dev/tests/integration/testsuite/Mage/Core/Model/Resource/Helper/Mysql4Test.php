@@ -17,53 +17,18 @@ class Mage_Core_Model_Resource_Helper_Mysql4Test extends PHPUnit_Framework_TestC
     protected $_model;
 
     /**
-     * @var Varien_Db_Select
+     * @var Magento_DB_Select
      */
     protected $_select;
 
     protected function setUp()
     {
-        if (Magento_Test_Helper_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestSkipped('Test is designed to run on MySQL only.');
-        }
         $this->_model = Mage::getResourceModel(
             'Mage_Core_Model_Resource_Helper_Mysql4',
             array('modulePrefix' => 'core')
         );
         $collection = Mage::getResourceModel('Mage_Core_Model_Resource_Store_Collection');
         $this->_select = $collection->getSelect();
-    }
-
-    public function testCastField()
-    {
-        $this->assertEquals('test', $this->_model->castField('test'));
-    }
-
-    public function testPrepareColumn()
-    {
-        $column = $this->_model->prepareColumn('test');
-        $this->assertInstanceOf('Zend_Db_Expr', $column);
-        $this->assertEquals('test', (string) $column);
-    }
-
-    public function testGetQueryUsingAnalyticFunction()
-    {
-        $select = $this->_model->getQueryUsingAnalyticFunction($this->_select);
-        $this->assertEquals((string) $this->_select, $select);
-    }
-
-    public function testGetInsertFromSelectUsingAnalytic()
-    {
-        $insert = $this->_model->getInsertFromSelectUsingAnalytic($this->_select, 'core_store', array('store_id'));
-        $this->assertStringStartsWith('INSERT', $insert);
-        $this->assertContains('core_store', $insert);
-        $this->assertContains('store_id', $insert);
-    }
-
-    public function testLimitUnion()
-    {
-        $select = $this->_model->limitUnion($this->_select);
-        $this->assertEquals((string) $this->_select, (string)$select);
     }
 
     public function testPrepareColumnsList()

@@ -58,7 +58,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
             return $this->getUrl('*/*/index');
         }
 
-        $response = new Varien_Object();
+        $response = new Magento_Object();
 
         /**
          * @var Mage_Backup_Helper_Data $helper
@@ -173,7 +173,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
         }
 
         $helper = Mage::helper('Mage_Backup_Helper_Data');
-        $response = new Varien_Object();
+        $response = new Magento_Object();
 
         try {
             /* @var $backup Mage_Backup_Model_Backup */
@@ -289,7 +289,7 @@ class Mage_Adminhtml_System_BackupController extends Mage_Adminhtml_Controller_A
 
         /** @var $backupModel Mage_Backup_Model_Backup */
         $backupModel = Mage::getModel('Mage_Backup_Model_Backup');
-        $resultData = new Varien_Object();
+        $resultData = new Magento_Object();
         $resultData->setIsSuccess(false);
         $resultData->setDeleteResult(array());
         Mage::register('backup_manager', $resultData);

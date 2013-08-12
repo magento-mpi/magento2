@@ -21,9 +21,9 @@ class Enterprise_Search_Model_Observer
      * Add search weight field to attribute edit form (only for quick search)
      * @see Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function eavAttributeEditFormInit(Varien_Event_Observer $observer)
+    public function eavAttributeEditFormInit(Magento_Event_Observer $observer)
     {
         if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
             return;
@@ -51,9 +51,9 @@ class Enterprise_Search_Model_Observer
     /**
      * Save search query relations after save search query
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function searchQueryEditFormAfterSave(Varien_Event_Observer $observer)
+    public function searchQueryEditFormAfterSave(Magento_Event_Observer $observer)
     {
         $searchQuryModel = $observer->getEvent()->getDataObject();
         $queryId         = $searchQuryModel->getId();
@@ -74,9 +74,9 @@ class Enterprise_Search_Model_Observer
      * because there are all combinations of customer groups and websites per price stored at search engine index
      * and there will be no document's price field for customers that belong to new group or data will be not actual.
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function customerGroupSaveAfter(Varien_Event_Observer $observer)
+    public function customerGroupSaveAfter(Magento_Event_Observer $observer)
     {
         if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
             return;
@@ -92,9 +92,9 @@ class Enterprise_Search_Model_Observer
     /**
      * Hold commit at indexation start if needed
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function holdCommit(Varien_Event_Observer $observer)
+    public function holdCommit(Magento_Event_Observer $observer)
     {
         if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
             return;
@@ -119,9 +119,9 @@ class Enterprise_Search_Model_Observer
      * Make index optimization if documents were added to index.
      * Allow commit if it was held.
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function applyIndexChanges(Varien_Event_Observer $observer)
+    public function applyIndexChanges(Magento_Event_Observer $observer)
     {
         if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
             return;
@@ -148,9 +148,9 @@ class Enterprise_Search_Model_Observer
     /**
      * Store searchable attributes at adapter to avoid new collection load there
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function storeSearchableAttributes(Varien_Event_Observer $observer)
+    public function storeSearchableAttributes(Magento_Event_Observer $observer)
     {
         $engine     = $observer->getEvent()->getEngine();
         $attributes = $observer->getEvent()->getAttributes();
@@ -165,7 +165,7 @@ class Enterprise_Search_Model_Observer
 
             $optionCollection = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setAttributeFilter($attribute->getAttributeId())
-                ->setPositionOrder(Varien_Db_Select::SQL_ASC, true)
+                ->setPositionOrder(Magento_DB_Select::SQL_ASC, true)
                 ->load();
 
             $optionsOrder = array();
@@ -184,9 +184,9 @@ class Enterprise_Search_Model_Observer
      * Save store ids for website or store group before deleting
      * because lazy load for this property is used and this info is unavailable after deletion
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function saveStoreIdsBeforeScopeDelete(Varien_Event_Observer $observer)
+    public function saveStoreIdsBeforeScopeDelete(Magento_Event_Observer $observer)
     {
         $object = $observer->getEvent()->getDataObject();
         $object->getStoreIds();
@@ -195,9 +195,9 @@ class Enterprise_Search_Model_Observer
     /**
      * Clear index data for deleted stores
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function clearIndexForStores(Varien_Event_Observer $observer)
+    public function clearIndexForStores(Magento_Event_Observer $observer)
     {
         if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
             return;
@@ -223,9 +223,9 @@ class Enterprise_Search_Model_Observer
     /**
      * Reset search engine if it is enabled for catalog navigation
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function resetCurrentCatalogLayer(Varien_Event_Observer $observer)
+    public function resetCurrentCatalogLayer(Magento_Event_Observer $observer)
     {
         if (Mage::helper('Enterprise_Search_Helper_Data')->getIsEngineAvailableForNavigation()) {
             Mage::register('current_layer', Mage::getSingleton('Enterprise_Search_Model_Catalog_Layer'));
@@ -235,9 +235,9 @@ class Enterprise_Search_Model_Observer
     /**
      * Reset search engine if it is enabled for search navigation
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function resetCurrentSearchLayer(Varien_Event_Observer $observer)
+    public function resetCurrentSearchLayer(Magento_Event_Observer $observer)
     {
         if (Mage::helper('Enterprise_Search_Helper_Data')->getIsEngineAvailableForNavigation(false)) {
             Mage::register('current_layer', Mage::getSingleton('Enterprise_Search_Model_Search_Layer'));
@@ -247,9 +247,9 @@ class Enterprise_Search_Model_Observer
     /**
      * Reindex data after price reindex
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function runFulltextReindexAfterPriceReindex(Varien_Event_Observer $observer)
+    public function runFulltextReindexAfterPriceReindex(Magento_Event_Observer $observer)
     {
         if (!Mage::helper('Enterprise_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
             return;

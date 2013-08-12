@@ -39,10 +39,10 @@ class Saas_Queue_Model_Observer_Cache extends Saas_Queue_Model_ObserverAbstract
     /**
      * Task to refresh cache with defined type
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return Saas_Queue_Model_Worker_Cache
      */
-    public function processRefreshCache(Varien_Event_Observer $observer)
+    public function processRefreshCache(Magento_Event_Observer $observer)
     {
         $cacheTypes = $observer->getEvent()->getCacheTypes();
         if ($cacheTypes) {

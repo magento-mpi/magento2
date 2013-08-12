@@ -21,8 +21,8 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateWithValidData()
     {
-        /** @var $themeMock Varien_Object */
-        $themeMock = new Varien_Object();
+        /** @var $themeMock Magento_Object */
+        $themeMock = new Magento_Object();
         $themeMock->setData($this->_getThemeValidData());
 
         /** @var $validatorMock Mage_Core_Model_Theme_Validator */
@@ -49,8 +49,8 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateWithInvalidData()
     {
-        /** @var $themeMock Varien_Object */
-        $themeMock = new Varien_Object();
+        /** @var $themeMock Magento_Object */
+        $themeMock = new Magento_Object();
         $themeMock->setData($this->_getThemeInvalidData());
 
         /** @var $helper Mage_Core_Helper_Data */
@@ -78,8 +78,7 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
         );
 
         $validatorMock->addDataValidators('theme_code', $codeValidators)
-            ->addDataValidators('theme_version', $versionValidators)
-            ->addDataValidators('magento_version_from', $versionValidators);
+            ->addDataValidators('theme_version', $versionValidators);
         $this->assertEquals(false, $validatorMock->validate($themeMock));
         $this->assertEquals($this->_getErrorMessages(), $validatorMock->getErrorMessages());
     }
@@ -96,9 +95,7 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
             'theme_title'          => 'Iphone',
             'theme_version'        => '2.0.0.0',
             'parent_theme'         => array('default', 'default'),
-            'magento_version_from' => '2.0.0.0-dev1',
-            'magento_version_to'   => '*',
-            'theme_path'           => 'default/iphone',
+            'theme_path'           => 'magento_iphone',
             'preview_image'        => 'images/preview.png',
         );
     }
@@ -115,9 +112,7 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
             'theme_title'          => 'Iphone',
             'theme_version'        => 'last theme version',
             'parent_theme'         => array('default', 'default'),
-            'magento_version_from' => 'new version',
-            'magento_version_to'   => '*',
-            'theme_path'           => 'default/iphone',
+            'theme_path'           => 'magento_iphone',
             'preview_image'        => 'images/preview.png',
         );
     }
@@ -130,7 +125,6 @@ class Mage_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
     protected function _getErrorMessages()
     {
         return array(
-            'magento_version_from' => array('Theme version has not compatible format'),
             'theme_code'           => array('Theme code has not compatible format'),
             'theme_version'        => array('Theme version has not compatible format')
         );

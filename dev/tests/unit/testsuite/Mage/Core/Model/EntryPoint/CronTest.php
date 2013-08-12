@@ -31,17 +31,14 @@ class Mage_Core_Model_EntryPoint_CronTest extends PHPUnit_Framework_TestCase
 
     public function testProcessRequest()
     {
-        $dirVerificationMock = $this->getMock('Mage_Core_Model_Dir_Verification', array(), array(), '', false);
         $appMock = $this->getMock('Mage_Core_Model_App', array(), array(), '', false);
         $eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false);
 
         $map = array(
-            array('Mage_Core_Model_Dir_Verification', $dirVerificationMock),
             array('Mage_Core_Model_App', $appMock),
             array('Mage_Core_Model_Event_Manager', $eventManagerMock),
         );
 
-        $this->_model->expects($this->once())->method('_setGlobalObjectManager');
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValueMap($map));
 
         $appMock->expects($this->once())->method('setUseSessionInUrl')->with(false);

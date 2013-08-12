@@ -23,7 +23,7 @@ class Mage_Core_Model_Translate_InlineTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        Mage::getDesign()->setDesignTheme('default/demo');
+        Mage::getDesign()->setDesignTheme('magento_demo');
     }
 
     public function setUp()

@@ -66,7 +66,7 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
      * Get select to fetch updates by handle
      *
      * @param bool $loadAllUpdates
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getFetchUpdatesByHandleSelect($loadAllUpdates = false)
     {
@@ -81,7 +81,7 @@ class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db
             ->where('link.store_id IN (0, :store_id)')
             ->where('link.theme_id = :theme_id')
             ->where('layout_update.handle = :layout_update_handle')
-            ->order('layout_update.sort_order ' . Varien_Db_Select::SQL_ASC);
+            ->order('layout_update.sort_order ' . Magento_DB_Select::SQL_ASC);
 
         if (!$loadAllUpdates) {
             $select->where('link.is_temporary = 0');

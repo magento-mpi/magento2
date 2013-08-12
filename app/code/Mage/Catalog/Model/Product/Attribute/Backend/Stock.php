@@ -33,7 +33,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Stock extends Mage_Eav_Model_
     /**
      * Set inventory data to custom attribute
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function afterLoad($object)

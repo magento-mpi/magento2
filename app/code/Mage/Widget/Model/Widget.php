@@ -15,7 +15,7 @@
  * @package     Mage_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Widget_Model_Widget extends Varien_Object
+class Mage_Widget_Model_Widget extends Magento_Object
 {
     /**
      * @var Mage_Core_Model_Config_Modules_Reader
@@ -61,16 +61,16 @@ class Mage_Widget_Model_Widget extends Varien_Object
     /**
      * Load Widgets XML config from widget.xml files and cache it
      *
-     * @return Varien_Simplexml_Config
+     * @return Magento_Simplexml_Config
      */
     public function getXmlConfig()
     {
         $cacheId = 'widget_config';
         $cachedXml = $this->_configCacheType->load($cacheId);
         if ($cachedXml) {
-            $xmlConfig = new Varien_Simplexml_Config($cachedXml);
+            $xmlConfig = new Magento_Simplexml_Config($cachedXml);
         } else {
-            $xmlConfig = new Varien_Simplexml_Config();
+            $xmlConfig = new Magento_Simplexml_Config();
             $xmlConfig->loadString('<?xml version="1.0"?><widgets></widgets>');
             $this->_configReader->loadModulesConfiguration('widget.xml', $xmlConfig);
             $this->_configCacheType->save($xmlConfig->getXmlString(), $cacheId);
@@ -82,12 +82,12 @@ class Mage_Widget_Model_Widget extends Varien_Object
      * Return widget XML config element based on its type
      *
      * @param string $type Widget type
-     * @return null|Varien_Simplexml_Element
+     * @return null|Magento_Simplexml_Element
      */
     public function getXmlElementByType($type)
     {
         $elements = $this->getXmlConfig()->getXpath('*[@type="' . $type . '"]');
-        if (is_array($elements) && isset($elements[0]) && $elements[0] instanceof Varien_Simplexml_Element) {
+        if (is_array($elements) && isset($elements[0]) && $elements[0] instanceof Magento_Simplexml_Element) {
             return $elements[0];
         }
         return null;
@@ -97,7 +97,7 @@ class Mage_Widget_Model_Widget extends Varien_Object
      * Wrapper for getXmlElementByType method
      *
      * @param string $type Widget type
-     * @return null|Varien_Simplexml_Element
+     * @return null|Magento_Simplexml_Element
      */
     public function getConfigAsXml($type)
     {
@@ -105,16 +105,16 @@ class Mage_Widget_Model_Widget extends Varien_Object
     }
 
     /**
-     * Return widget XML configuration as Varien_Object and makes some data preparations
+     * Return widget XML configuration as Magento_Object and makes some data preparations
      *
      * @param string $type Widget type
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getConfigAsObject($type)
     {
         $xml = $this->getConfigAsXml($type);
 
-        $object = new Varien_Object();
+        $object = new Magento_Object();
         if ($xml === null) {
             return $object;
         }
@@ -146,7 +146,7 @@ class Mage_Widget_Model_Widget extends Varien_Object
 
                     // prepare helper block object
                     if (isset($data['helper_block'])) {
-                        $helper = new Varien_Object();
+                        $helper = new Magento_Object();
                         if (isset($data['helper_block']['data']) && is_array($data['helper_block']['data'])) {
                             $helper->addData($data['helper_block']['data']);
                         }
@@ -156,7 +156,7 @@ class Mage_Widget_Model_Widget extends Varien_Object
                         $data['helper_block'] = $helper;
                     }
 
-                    $newParams[$key] = new Varien_Object($data);
+                    $newParams[$key] = new Magento_Object($data);
                     $sortOrder++;
                 }
             }
@@ -171,7 +171,7 @@ class Mage_Widget_Model_Widget extends Varien_Object
      * Return filtered list of widgets as SimpleXml object
      *
      * @param array $filters Key-value array of filters for widget node properties
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     public function getWidgetsXml($filters = array())
     {
@@ -292,7 +292,7 @@ class Mage_Widget_Model_Widget extends Varien_Object
     public function getPlaceholderImageUrls()
     {
         $result = array();
-        /** @var Varien_Simplexml_Element $widget */
+        /** @var Magento_Simplexml_Element $widget */
         foreach ($this->getXmlConfig()->getNode() as $widget) {
             $type = (string)$widget->getAttribute('type');
             $result[$type] = $this->getPlaceholderImageUrl($type);
@@ -344,8 +344,8 @@ class Mage_Widget_Model_Widget extends Varien_Object
     /**
      * Widget parameters sort callback
      *
-     * @param Varien_Object $firstElement
-     * @param Varien_Object $secondElement
+     * @param Magento_Object $firstElement
+     * @param Magento_Object $secondElement
      * @return int
      */
     protected function _sortParameters($firstElement, $secondElement)

@@ -9,8 +9,6 @@
  */
 
 /**
- * Enter description here ...
- *
  * @method Mage_Sales_Model_Resource_Order_Creditmemo_Item _getResource()
  * @method Mage_Sales_Model_Resource_Order_Creditmemo_Item getResource()
  * @method int getParentId()
@@ -91,7 +89,7 @@ class Mage_Sales_Model_Order_Creditmemo_Item extends Mage_Core_Model_Abstract
     /**
      * Initialize resource model
      */
-    function _construct()
+    protected function _construct()
     {
         $this->_init('Mage_Sales_Model_Resource_Order_Creditmemo_Item');
     }

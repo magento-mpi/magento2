@@ -10,24 +10,20 @@
 
 /**
  * Abstract resource helper class
- *
- * @category    Mage
- * @package     Mage_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_Core_Model_Resource_Helper_Abstract
 {
     /**
      * Read adapter instance
      *
-     * @var Varien_Db_Adapter_Interface
+     * @var Magento_DB_Adapter_Interface
      */
     protected $_readAdapter;
 
     /**
      * Write adapter instance
      *
-     * @var Varien_Db_Adapter_Interface
+     * @var Magento_DB_Adapter_Interface
      */
     protected $_writeAdapter;
 
@@ -41,7 +37,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
     /**
      * Initialize resource helper instance
      *
-     * @param string $module
+     * @param string $modulePrefix
      */
     public function __construct($modulePrefix)
     {
@@ -51,11 +47,11 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
     /**
      * Retrieve connection for read data
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     protected function _getReadAdapter()
     {
-        if ($this->_readAdapter === null) {
+        if (null === $this->_readAdapter) {
             $this->_readAdapter = $this->_getConnection('read');
         }
 
@@ -65,11 +61,11 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
     /**
      * Retrieve connection for write data
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     protected function _getWriteAdapter()
     {
-        if ($this->_writeAdapter === null) {
+        if (null === $this->_writeAdapter) {
             $this->_writeAdapter = $this->_getConnection('write');
         }
 
@@ -80,7 +76,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
      * Retrieves connection to the resource
      *
      * @param string $name
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     protected function _getConnection($name)
     {
@@ -102,8 +98,8 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
      * $options can contain following flags:
      * - 'allow_symbol_mask' - the '_' symbol will not be escaped
      * - 'allow_string_mask' - the '%' symbol will not be escaped
-     * - 'position' ('any', 'start', 'end') - expression will be formed so that $value will be found at position within string,
-     *     by default when nothing set - string must be fully matched with $value
+     * - 'position' ('any', 'start', 'end') - expression will be formed so that $value will be found at position
+     *      within string, by default when nothing set - string must be fully matched with $value
      *
      * @param string $value
      * @param array $options
@@ -113,18 +109,18 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
     {
         $value = str_replace('\\', '\\\\', $value);
 
-        $from = array();
-        $to = array();
+        $replaceFrom = array();
+        $replaceTo = array();
         if (empty($options['allow_symbol_mask'])) {
-            $from[] = '_';
-            $to[] = '\_';
+            $replaceFrom[] = '_';
+            $replaceTo[] = '\_';
         }
         if (empty($options['allow_string_mask'])) {
-            $from[] = '%';
-            $to[] = '\%';
+            $replaceFrom[] = '%';
+            $replaceTo[] = '\%';
         }
-        if ($from) {
-            $value = str_replace($from, $to, $value);
+        if ($replaceFrom) {
+            $value = str_replace($replaceFrom, $replaceTo, $value);
         }
 
         if (isset($options['position'])) {
@@ -137,6 +133,8 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
                     break;
                 case 'end':
                     $value = '%' . $value;
+                    break;
+                default:
                     break;
             }
         }
@@ -177,10 +175,11 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
      * Converts old pre-MMDB column definition for MySQL to new cross-db column DDL definition.
      * Used to convert data from 3rd party extensions that hasn't been updated to MMDB style yet.
      *
-     * E.g. Converts type 'varchar(255)' to array('type' => Varien_Db_Ddl_Table::TYPE_TEXT, 'length' => 255)
+     * E.g. Converts type 'varchar(255)' to array('type' => Magento_DB_Ddl_Table::TYPE_TEXT, 'length' => 255)
      *
      * @param array $column
      * @return array
+     * @throws Mage_Core_Exception
      */
     public function convertOldColumnDefinition($column)
     {
@@ -199,7 +198,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
         switch (strtolower($matches[1])) {
             case 'bool':
                 $length = null;
-                $type = Varien_Db_Ddl_Table::TYPE_BOOLEAN;
+                $type = Magento_DB_Ddl_Table::TYPE_BOOLEAN;
                 break;
             case 'char':
             case 'varchar':
@@ -208,78 +207,78 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
                 if (!$length) {
                     $length = 255;
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                $type = Magento_DB_Ddl_Table::TYPE_TEXT;
                 break;
             case 'text':
                 $length = $proposedLength;
                 if (!$length) {
                     $length = '64k';
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                $type = Magento_DB_Ddl_Table::TYPE_TEXT;
                 break;
             case 'mediumtext':
                 $length = $proposedLength;
                 if (!$length) {
                     $length = '16M';
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                $type = Magento_DB_Ddl_Table::TYPE_TEXT;
                 break;
             case 'longtext':
                 $length = $proposedLength;
                 if (!$length) {
                     $length = '4G';
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_TEXT;
+                $type = Magento_DB_Ddl_Table::TYPE_TEXT;
                 break;
             case 'blob':
                 $length = $proposedLength;
                 if (!$length) {
                     $length = '64k';
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_BLOB;
+                $type = Magento_DB_Ddl_Table::TYPE_BLOB;
                 break;
             case 'mediumblob':
                 $length = $proposedLength;
                 if (!$length) {
                     $length = '16M';
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_BLOB;
+                $type = Magento_DB_Ddl_Table::TYPE_BLOB;
                 break;
             case 'longblob':
                 $length = $proposedLength;
                 if (!$length) {
                     $length = '4G';
                 }
-                $type = Varien_Db_Ddl_Table::TYPE_BLOB;
+                $type = Magento_DB_Ddl_Table::TYPE_BLOB;
                 break;
             case 'tinyint':
             case 'smallint':
-                $type = Varien_Db_Ddl_Table::TYPE_SMALLINT;
+                $type = Magento_DB_Ddl_Table::TYPE_SMALLINT;
                 break;
             case 'mediumint':
             case 'int':
-                $type = Varien_Db_Ddl_Table::TYPE_INTEGER;
+                $type = Magento_DB_Ddl_Table::TYPE_INTEGER;
                 break;
             case 'bigint':
-                $type = Varien_Db_Ddl_Table::TYPE_BIGINT;
+                $type = Magento_DB_Ddl_Table::TYPE_BIGINT;
                 break;
             case 'float':
-                $type = Varien_Db_Ddl_Table::TYPE_FLOAT;
+                $type = Magento_DB_Ddl_Table::TYPE_FLOAT;
                 break;
             case 'decimal':
             case 'numeric':
                 $length = $proposedLength;
-                $type = Varien_Db_Ddl_Table::TYPE_DECIMAL;
+                $type = Magento_DB_Ddl_Table::TYPE_DECIMAL;
                 break;
             case 'datetime':
-                $type = Varien_Db_Ddl_Table::TYPE_DATETIME;
+                $type = Magento_DB_Ddl_Table::TYPE_DATETIME;
                 break;
             case 'timestamp':
             case 'time':
-                $type = Varien_Db_Ddl_Table::TYPE_TIMESTAMP;
+                $type = Magento_DB_Ddl_Table::TYPE_TIMESTAMP;
                 break;
             case 'date':
-                $type = Varien_Db_Ddl_Table::TYPE_DATE;
+                $type = Magento_DB_Ddl_Table::TYPE_DATE;
                 break;
             default:
                 throw Mage::exception(

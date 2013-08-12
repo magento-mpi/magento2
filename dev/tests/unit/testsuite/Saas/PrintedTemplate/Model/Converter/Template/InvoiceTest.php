@@ -17,7 +17,7 @@ class Saas_PrintedTemplate_Model_Converter_InvoiceTest extends PHPUnit_Framework
     {
         $billingAddress = 'billing address';
         $shippingAddress = 'shipping address';
-        $payment = new Varien_Object;
+        $payment = new Magento_Object;
 
         $invoiceMock = $this->_prepareInvoice($billingAddress, $shippingAddress, $payment);
 

@@ -97,7 +97,7 @@ class Mage_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         /** Unassign themes from store */
-        $configEntity = new Varien_Object(array('value' => 6, 'scope_id' => 8));
+        $configEntity = new Magento_Object(array('value' => 6, 'scope_id' => 8));
 
         $this->_configData->expects($this->once())
             ->method('getCollection')
@@ -136,7 +136,7 @@ class Mage_Theme_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         /** Unassign themes from store */
-        $configEntity = new Varien_Object(array('value' => 6, 'scope_id' => 8));
+        $configEntity = new Magento_Object(array('value' => 6, 'scope_id' => 8));
 
         $this->_configData->expects($this->once())
             ->method('getCollection')

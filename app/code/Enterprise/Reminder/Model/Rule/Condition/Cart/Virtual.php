@@ -11,8 +11,7 @@
 /**
  * Virtual cart condition
  */
-class Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual
-    extends Enterprise_Reminder_Model_Condition_Abstract
+class Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual extends Enterprise_Reminder_Model_Condition_Abstract
 {
     /**
      * @param Mage_Rule_Model_Condition_Context $context
@@ -77,7 +76,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual
      *
      * @param $customer
      * @param int | Zend_Db_Expr $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -90,8 +89,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Virtual
         $select->where('quote.is_active = 1');
         $select->where("quote.is_virtual = ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
-        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
-
+        $select->limit(1);
         return $select;
     }
 }

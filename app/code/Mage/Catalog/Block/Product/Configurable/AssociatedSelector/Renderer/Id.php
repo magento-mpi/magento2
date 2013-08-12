@@ -22,10 +22,10 @@ class Mage_Catalog_Block_Product_Configurable_AssociatedSelector_Renderer_Id
     /**
      * Render grid row
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         $imageUrl = $row->getImage() && $row->getImage() != 'no_selection'
             ? $this->escapeHtml($this->_helperFactory->get('Mage_Catalog_Helper_Product')->getImageUrl($row))

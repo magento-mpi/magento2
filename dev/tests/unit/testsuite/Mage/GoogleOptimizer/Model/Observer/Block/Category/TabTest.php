@@ -44,7 +44,7 @@ class Mage_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPUnit
         $this->_helperMock = $this->getMock('Mage_GoogleOptimizer_Helper_Data', array(), array(), '', false);
         $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
         $this->_tabsMock = $this->getMock('Mage_Adminhtml_Block_Catalog_Category_Tabs', array(), array(), '', false);
-        $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
@@ -68,7 +68,7 @@ class Mage_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPUnit
             'google-experiment-form'
         )->will($this->returnValue($block));
 
-        $event = $this->getMock('Varien_Event', array('getTabs'), array(), '', false);
+        $event = $this->getMock('Magento_Event', array('getTabs'), array(), '', false);
         $event->expects($this->once())->method('getTabs')->will($this->returnValue($this->_tabsMock));
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 

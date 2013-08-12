@@ -68,17 +68,17 @@ class Mage_Catalog_Block_Product_New extends Mage_Catalog_Block_Product_Abstract
     /**
      * Prepare and return product collection
      *
-     * @return Mage_Catalog_Model_Resource_Product_Collection|Object|Varien_Data_Collection
+     * @return Mage_Catalog_Model_Resource_Product_Collection|Object|Magento_Data_Collection
      */
     protected function _getProductCollection()
     {
         $todayStartOfDayDate  = Mage::app()->getLocale()->date()
             ->setTime('00:00:00')
-            ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+            ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
 
         $todayEndOfDayDate  = Mage::app()->getLocale()->date()
             ->setTime('23:59:59')
-            ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+            ->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
 
         /** @var $collection Mage_Catalog_Model_Resource_Product_Collection */
         $collection = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Collection');

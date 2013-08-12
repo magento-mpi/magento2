@@ -19,10 +19,10 @@ interface Mage_Core_Model_StoreManagerInterface extends Mage_Core_Model_Store_Li
     /**
      * Retrieve application store object without Store_Exception
      *
-     * @param string|int|Mage_Core_Model_Store $id
+     * @param string|int|Mage_Core_Model_Store $storeId
      * @return Mage_Core_Model_Store
      */
-    public function getSafeStore($id = null);
+    public function getSafeStore($storeId = null);
 
     /**
      * Check if system is run in the single store mode

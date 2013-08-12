@@ -76,8 +76,8 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
      * Get SQL select
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
-     * @return Varien_Db_Select
+     * @param int|Zend_Db_Expr $website
+     * @return Magento_DB_Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -91,7 +91,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Sharing
             $select->where("list.shared = 0");
         }
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
-        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
+        $select->limit(1);
 
         return $select;
     }

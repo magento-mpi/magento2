@@ -33,7 +33,7 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
      * @param string $field
      * @param mixed $value
      * @param Mage_Core_Model_Abstract $object
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -63,7 +63,7 @@ class Mage_Sales_Model_Resource_Quote extends Mage_Sales_Model_Resource_Abstract
         $adapter = $this->_getReadAdapter();
         $select  = $this->_getLoadSelect('customer_id', $customerId, $quote)
             ->where('is_active = ?', 1)
-            ->order('updated_at ' . Varien_Db_Select::SQL_DESC)
+            ->order('updated_at ' . Magento_DB_Select::SQL_DESC)
             ->limit(1);
 
         $data    = $adapter->fetchRow($select);

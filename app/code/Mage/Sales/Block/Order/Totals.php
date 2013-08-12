@@ -81,7 +81,7 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
         $source = $this->getSource();
 
         $this->_totals = array();
-        $this->_totals['subtotal'] = new Varien_Object(array(
+        $this->_totals['subtotal'] = new Magento_Object(array(
             'code'  => 'subtotal',
             'value' => $source->getSubtotal(),
             'label' => __('Subtotal')
@@ -93,7 +93,7 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
          */
         if (!$source->getIsVirtual() && ((float) $source->getShippingAmount() || $source->getShippingDescription()))
         {
-            $this->_totals['shipping'] = new Varien_Object(array(
+            $this->_totals['shipping'] = new Magento_Object(array(
                 'code'  => 'shipping',
                 'field' => 'shipping_amount',
                 'value' => $this->getSource()->getShippingAmount(),
@@ -110,7 +110,7 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
             } else {
                 $discountLabel = __('Discount');
             }
-            $this->_totals['discount'] = new Varien_Object(array(
+            $this->_totals['discount'] = new Magento_Object(array(
                 'code'  => 'discount',
                 'field' => 'discount_amount',
                 'value' => $source->getDiscountAmount(),
@@ -118,7 +118,7 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
             ));
         }
 
-        $this->_totals['grand_total'] = new Varien_Object(array(
+        $this->_totals['grand_total'] = new Magento_Object(array(
             'code'  => 'grand_total',
             'field'  => 'grand_total',
             'strong'=> true,
@@ -130,7 +130,7 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
          * Base grandtotal
          */
         if ($this->getOrder()->isCurrencyDifferent()) {
-            $this->_totals['base_grandtotal'] = new Varien_Object(array(
+            $this->_totals['base_grandtotal'] = new Magento_Object(array(
                 'code'  => 'base_grandtotal',
                 'value' => $this->getOrder()->formatBasePrice($source->getBaseGrandTotal()),
                 'label' => __('Grand Total to be Charged'),
@@ -143,11 +143,11 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
     /**
      * Add new total to totals array after specific total or before last total by default
      *
-     * @param   Varien_Object $total
+     * @param   Magento_Object $total
      * @param   null|string|last|first $after
      * @return  Mage_Sales_Block_Order_Totals
      */
-    public function addTotal(Varien_Object $total, $after=null)
+    public function addTotal(Magento_Object $total, $after=null)
     {
         if ($after !== null && $after != 'last' && $after != 'first') {
             $totals = array();
@@ -181,11 +181,11 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
     /**
      * Add new total to totals array before specific total or after first total by default
      *
-     * @param   Varien_Object $total
+     * @param   Magento_Object $total
      * @param   null|string $after
      * @return  Mage_Sales_Block_Order_Totals
      */
-    public function addTotalBefore(Varien_Object $total, $before=null)
+    public function addTotalBefore(Magento_Object $total, $before=null)
     {
         if ($before !== null) {
             if (!is_array($before)) {
@@ -219,7 +219,7 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
     /**
      * Get Total object by code
      *
-     * @@return Varien_Object
+     * @@return Magento_Object
      */
     public function getTotal($code)
     {
@@ -282,7 +282,7 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
     /**
      * Format total value based on order currency
      *
-     * @param   Varien_Object $total
+     * @param   Magento_Object $total
      * @return  string
      */
     public function formatValue($total)

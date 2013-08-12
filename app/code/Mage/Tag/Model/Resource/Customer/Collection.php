@@ -125,11 +125,6 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
         $this->getSelect()
             ->group('tr.tag_id');
 
-        /*
-         * Allow analytic functions usage
-         */
-        $this->_useAnalyticFunction = true;
-
         $this->_allowDisableGrouping = true;
         return $this;
     }
@@ -198,7 +193,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     /**
      * Gets number of rows
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getSelectCountSql()
     {
@@ -314,7 +309,7 @@ class Mage_Tag_Model_Resource_Customer_Collection extends Mage_Customer_Model_Re
     {
         if ($attribute == 'name') {
             $where = $this->_getConditionSql('t.name', $condition);
-            $this->getSelect()->where($where, null, Varien_Db_Select::TYPE_CONDITION);
+            $this->getSelect()->where($where, null, Magento_DB_Select::TYPE_CONDITION);
             return $this;
         } else {
             return parent::addFieldToFilter($attribute, $condition);

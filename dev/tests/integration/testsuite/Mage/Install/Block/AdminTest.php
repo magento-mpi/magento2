@@ -20,7 +20,7 @@ class Mage_Install_Block_AdminTest extends PHPUnit_Framework_TestCase
             'password_confirmation' => 'password_with_1_number',
         );
 
-        /** @var $session Mage_Install_Model_Session */
+        /** @var $session Mage_Core_Model_Session_Generic */
         $session = Mage::getSingleton('Mage_Install_Model_Session');
         $session->setAdminData(array_merge($preserve, $omit));
 

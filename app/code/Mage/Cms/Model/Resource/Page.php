@@ -202,7 +202,7 @@ class Mage_Cms_Model_Resource_Page extends Mage_Core_Model_Resource_Db_Abstract
      * @param string $identifier
      * @param int|array $store
      * @param int $isActive
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getLoadByIdentifierSelect($identifier, $store, $isActive = null)
     {

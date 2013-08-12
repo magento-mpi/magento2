@@ -45,7 +45,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Manage extends Mage_Adminhtml
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id'        => 'manage_form',
             'method'    => 'post'
         ));

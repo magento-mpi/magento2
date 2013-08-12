@@ -72,12 +72,12 @@ abstract class Mage_Webapi_Controller_ActionAbstract
     /**
      * Set navigation parameters and apply filters from URL params.
      *
-     * @param Varien_Data_Collection_Db $collection
-     * @return Varien_Data_Collection_Db
+     * @param Magento_Data_Collection_Db $collection
+     * @return Magento_Data_Collection_Db
      * @throws Mage_Webapi_Exception
      */
     // TODO: Check and finish this method (the implementation was migrated from Magento 1)
-    final protected function _applyCollectionModifiers(Varien_Data_Collection_Db $collection)
+    final protected function _applyCollectionModifiers(Magento_Data_Collection_Db $collection)
     {
         $pageNumber = $this->getRequest()->getPageNumber();
         if ($pageNumber != abs($pageNumber)) {

@@ -24,15 +24,15 @@ class Mage_Core_Model_Image_Factory
     }
 
     /**
-     * Return Varien_Image
+     * Return Magento_Image
      *
      * @param string $fileName
      * @param string $adapterType
-     * @return Varien_Image
+     * @return Magento_Image
      */
     public function create($fileName = null, $adapterType = null)
     {
         $adapter = $this->_adapterFactory->create($adapterType);
-        return new Varien_Image($adapter, $fileName);
+        return new Magento_Image($adapter, $fileName);
     }
 }

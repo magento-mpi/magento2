@@ -34,7 +34,7 @@ class Mage_Paypal_Model_Cart
 
     /**
      * Rendered cart items
-     * Array of Varien_Objects
+     * Array of Magento_Objects
      *
      * @var array
      */
@@ -178,12 +178,12 @@ class Mage_Paypal_Model_Cart
      * @param numeric $qty
      * @param float $amount
      * @param string $identifier
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function addItem($name, $qty, $amount, $identifier = null)
     {
         $this->_shouldRender = true;
-        $item = new Varien_Object(array(
+        $item = new Magento_Object(array(
             'name'   => $name,
             'qty'    => $qty,
             'amount' => (float)$amount,
@@ -402,10 +402,10 @@ class Mage_Paypal_Model_Cart
     /**
      * Add a usual line item with amount and qty
      *
-     * @param Varien_Object $salesItem
-     * @return Varien_Object
+     * @param Magento_Object $salesItem
+     * @return Magento_Object
      */
-    protected function _addRegularItem(Varien_Object $salesItem)
+    protected function _addRegularItem(Magento_Object $salesItem)
     {
         if ($this->_salesEntity instanceof Mage_Sales_Model_Order) {
             $qty = (int) $salesItem->getQtyOrdered();

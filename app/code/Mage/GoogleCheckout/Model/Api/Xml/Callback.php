@@ -287,7 +287,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
     /**
      * Apply shipping tax class
      *
-     * @param Varien_Object $qAddress
+     * @param Magento_Object $qAddress
      * @param mixed $shippingTaxClass
      */
     protected function _applyShippingTaxClass($qAddress, $shippingTaxClass)
@@ -453,7 +453,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
      * If tax value differs tax which is setted on magento,
      * apply Google tax and recollect quote
      *
-     * @param Varien_Object $qAddress
+     * @param Magento_Object $qAddress
      * @return string | false
      */
     protected function _applyCustomTax($qAddress)
@@ -507,14 +507,14 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
     /**
      * Import address data from google request to address object
      *
-     * @param array | Varien_Object $gAddress
-     * @param Varien_Object $qAddress
-     * @return Varien_Object
+     * @param array | Magento_Object $gAddress
+     * @param Magento_Object $qAddress
+     * @return Magento_Object
      */
-    protected function _importGoogleAddress($gAddress, Varien_Object $qAddress=null)
+    protected function _importGoogleAddress($gAddress, Magento_Object $qAddress=null)
     {
         if (is_array($gAddress)) {
-            $gAddress = new Varien_Object($gAddress);
+            $gAddress = new Magento_Object($gAddress);
         }
 
         if (!$qAddress) {
@@ -648,7 +648,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
     /**
      * Import totals information from google request to quote address
      *
-     * @param Varien_Object $qAddress
+     * @param Magento_Object $qAddress
      */
     protected function _importGoogleTotals($qAddress)
     {

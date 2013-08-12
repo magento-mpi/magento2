@@ -19,10 +19,10 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_Xml implements
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Xml_Parser $xmlParser
+     * @param Magento_Xml_Parser $xmlParser
      * @param Mage_Core_Model_App $app
      */
-    public function __construct(Mage_Xml_Parser $xmlParser, Mage_Core_Model_App $app)
+    public function __construct(Magento_Xml_Parser $xmlParser, Mage_Core_Model_App $app)
     {
         $this->_xmlParser = $xmlParser;
         $this->_app = $app;

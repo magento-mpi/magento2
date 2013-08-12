@@ -21,9 +21,9 @@ class Mage_AdminNotification_Model_Observer
     /**
      * Predispath admin action controller
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function preDispatch(Varien_Event_Observer $observer)
+    public function preDispatch(Magento_Event_Observer $observer)
     {
 
         if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isLoggedIn()) {

@@ -15,7 +15,7 @@
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class Mage_Core_Model_Abstract extends Varien_Object
+abstract class Mage_Core_Model_Abstract extends Magento_Object
 {
     /**
      * Prefix of model events names
@@ -109,13 +109,13 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     /**
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventDispatcher = $context->getEventDispatcher();

@@ -21,7 +21,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     /**
      * Block config data
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_config;
 
@@ -103,7 +103,7 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
             if ($this->getProduct() && $item->getStoreTitle()) {
                 $tmpSampleItem['store_title'] = $item->getStoreTitle();
             }
-            $samplesArr[] = new Varien_Object($tmpSampleItem);
+            $samplesArr[] = new Magento_Object($tmpSampleItem);
         }
 
         return $samplesArr;
@@ -182,12 +182,12 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     /**
      * Retrieve config object
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getConfig()
     {
         if (is_null($this->_config)) {
-            $this->_config = new Varien_Object();
+            $this->_config = new Magento_Object();
         }
 
         return $this->_config;

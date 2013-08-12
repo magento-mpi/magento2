@@ -158,7 +158,7 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
             $result = array();
             foreach (Mage::app()->getWebsites() as $website) {
                 $websiteId = $website->getId();
-                $result[$websiteId] = new Varien_Object(array(
+                $result[$websiteId] = new Magento_Object(array(
                     'expiration_days' => $this->getGeneralConfig('expiration_days', $websiteId),
                     'expiry_calculation' => $this->getGeneralConfig('expiry_calculation', $websiteId),
                     'expiry_day_before' => $this->getNotificationConfig('expiry_day_before', $websiteId)

@@ -16,7 +16,7 @@
  * @package     Mage_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Catalog_Model_Layer extends Varien_Object
+class Mage_Catalog_Model_Layer extends Magento_Object
 {
     /**
      * Product collections array

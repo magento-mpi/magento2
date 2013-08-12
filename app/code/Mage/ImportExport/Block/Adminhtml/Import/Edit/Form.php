@@ -24,7 +24,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml_
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id'      => 'edit_form',
             'action'  => $this->getUrl('*/*/validate'),
             'method'  => 'post',

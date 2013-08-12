@@ -76,11 +76,11 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     /**
      * Return relation info about used products
      *
-     * @return Varien_Object Object with information data
+     * @return Magento_Object Object with information data
      */
     public function getRelationInfo()
     {
-        $info = new Varien_Object();
+        $info = new Magento_Object();
         $info->setTable('catalog_product_bundle_selection')
             ->setParentFieldName('parent_product_id')
             ->setChildFieldName('product_id');
@@ -410,12 +410,12 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * so need to change quote item qty option value too.
      *
      * @param   array           $options
-     * @param   Varien_Object   $option
+     * @param   Magento_Object   $option
      * @param   mixed           $value
      * @param   Mage_Catalog_Model_Product $product
      * @return  Mage_Bundle_Model_Product_Type
      */
-    public function updateQtyOption($options, Varien_Object $option, $value, $product)
+    public function updateQtyOption($options, Magento_Object $option, $value, $product)
     {
         $optionProduct      = $option->getProduct($product);
         $optionUpdateFlag   = $option->getHasQtyOptionUpdate();
@@ -501,12 +501,12 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and then prepare of bundle selections options.
      *
-     * @param Varien_Object $buyRequest
+     * @param Magento_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product
      * @param string $processMode
      * @return array|string
      */
-    protected function _prepareProduct(Varien_Object $buyRequest, $product, $processMode)
+    protected function _prepareProduct(Magento_Object $buyRequest, $product, $processMode)
     {
         $result = parent::_prepareProduct($buyRequest, $product, $processMode);
 
@@ -913,7 +913,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         $selectionIds       = $product->getCustomOption('bundle_selection_ids');
         $selectionIds       = unserialize($selectionIds->getValue());
         $buyRequest         = $product->getCustomOption('info_buyRequest');
-        $buyRequest         = new Varien_Object(unserialize($buyRequest->getValue()));
+        $buyRequest         = new Magento_Object(unserialize($buyRequest->getValue()));
         $bundleOption       = $buyRequest->getBundleOption();
 
         if (empty($bundleOption)) {
@@ -977,7 +977,7 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      * Prepare selected options for bundle product
      *
      * @param  Mage_Catalog_Model_Product $product
-     * @param  Varien_Object $buyRequest
+     * @param  Magento_Object $buyRequest
      * @return array
      */
     public function processBuyRequest($product, $buyRequest)

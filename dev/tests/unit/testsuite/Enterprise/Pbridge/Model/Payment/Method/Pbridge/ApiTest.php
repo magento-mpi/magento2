@@ -59,7 +59,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_ApiTest extends PHPUnit_Fr
             ->with('pbridge_' . $action);
         Magento_Profiler::add($profilerDriver);
 
-        $request = new Varien_Object();
+        $request = new Magento_Object();
         $request->setData('payment_action', $action);
         $api = $this->_getApiMock($request->getData());
         $api->$method($request);

@@ -20,7 +20,7 @@
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Email_Info extends Varien_Object
+class Mage_Core_Model_Email_Info extends Magento_Object
 {
     /**
      * Name list of "Bcc" recipients

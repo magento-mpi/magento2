@@ -154,9 +154,9 @@ class Mage_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCase
 
         $this->_model->setMediaGallery(array('images' => array(array('file' => 'magento_image.jpg'))));
         $images = $this->_model->getMediaGalleryImages();
-        $this->assertInstanceOf('Varien_Data_Collection', $images);
+        $this->assertInstanceOf('Magento_Data_Collection', $images);
         foreach ($images as $image) {
-            $this->assertInstanceOf('Varien_Object', $image);
+            $this->assertInstanceOf('Magento_Object', $image);
             $image = $image->getData();
             $this->assertArrayHasKey('file', $image);
             $this->assertArrayHasKey('url', $image);
@@ -252,7 +252,7 @@ class Mage_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCase
 
     public function testGetPreconfiguredValues()
     {
-        $this->assertInstanceOf('Varien_Object', $this->_model->getPreconfiguredValues());
+        $this->assertInstanceOf('Magento_Object', $this->_model->getPreconfiguredValues());
         $this->_model->setPreconfiguredValues('test');
         $this->assertEquals('test', $this->_model->getPreconfiguredValues());
     }
@@ -260,6 +260,6 @@ class Mage_Catalog_Model_ProductGettersTest extends PHPUnit_Framework_TestCase
     public static function tearDownAfterClass()
     {
         $mediaDir = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
-        Varien_Io_File::rmdirRecursive($mediaDir);
+        Magento_Io_File::rmdirRecursive($mediaDir);
     }
 }

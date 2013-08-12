@@ -64,7 +64,7 @@ class Mage_Centinel_Adminhtml_Centinel_IndexController extends Mage_Adminhtml_Co
            if ($validator = $this->_getValidator()) {
                 $request = $this->getRequest();
 
-                $data = new Varien_Object();
+                $data = new Magento_Object();
                 $data->setTransactionId($request->getParam('MD'));
                 $data->setPaResPayload($request->getParam('PaRes'));
 

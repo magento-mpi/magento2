@@ -153,7 +153,7 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Index_Mo
     /**
      * Apply price grant on price index select
      *
-     * @param Varien_Object $data
+     * @param Magento_Object $data
      * @param int $customerGroupId
      * @return Enterprise_CatalogPermissions_Model_Permission_Index
      */

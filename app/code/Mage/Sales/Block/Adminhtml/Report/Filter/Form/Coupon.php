@@ -33,10 +33,10 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Mage_Sales_Bl
     {
         parent::_prepareForm();
 
-        /** @var Varien_Data_Form_Element_Fieldset $fieldset */
+        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
         $fieldset = $this->getForm()->getElement('base_fieldset');
 
-        if (is_object($fieldset) && $fieldset instanceof Varien_Data_Form_Element_Fieldset) {
+        if (is_object($fieldset) && $fieldset instanceof Magento_Data_Form_Element_Fieldset) {
 
             $fieldset->addField('price_rule_type', 'select', array(
                 'name'    => 'price_rule_type',

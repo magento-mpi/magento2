@@ -15,20 +15,20 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_Customer_Renderer_Region implements Varien_Data_Form_Element_Renderer_Interface
+class Mage_Adminhtml_Model_Customer_Renderer_Region implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
      * Country region collections
      *
      * array(
-     *      [$countryId] => Varien_Data_Collection_Db
+     *      [$countryId] => Magento_Data_Collection_Db
      * )
      *
      * @var array
      */
     static protected $_regionCollections;
 
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $html = '<div class="field field-region required">'."\n";
 

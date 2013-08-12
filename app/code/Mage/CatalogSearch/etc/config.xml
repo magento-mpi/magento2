@@ -15,7 +15,7 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Catalog/>
+                <Mage_Catalog />
             </depends>
         </Mage_CatalogSearch>
     </modules>
@@ -54,13 +54,6 @@
                 </Mage_CatalogSearch>
             </modules>
         </translate>
-        <di>
-            <Mage_CatalogSearch_Model_Session>
-                <parameters>
-                    <sessionName>frontend</sessionName>
-                </parameters>
-            </Mage_CatalogSearch_Model_Session>
-        </di>
     </frontend>
     <adminhtml>
         <translate>
@@ -72,13 +65,6 @@
                 </Mage_CatalogSearch>
             </modules>
         </translate>
-        <di>
-            <Mage_CatalogSearch_Model_Session>
-                <parameters>
-                    <sessionName>adminhtml</sessionName>
-                </parameters>
-            </Mage_CatalogSearch_Model_Session>
-        </di>
     </adminhtml>
     <default>
         <catalog>

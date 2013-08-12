@@ -21,8 +21,8 @@ class Mage_GoogleShopping_Model_Attribute_Price extends Mage_GoogleShopping_Mode
      * Set current attribute to entry (for specified product)
      *
      * @param Mage_Catalog_Model_Product $product
-     * @param Varien_Gdata_Gshopping_Entry $entry
-     * @return Varien_Gdata_Gshopping_Entry
+     * @param Magento_Gdata_Gshopping_Entry $entry
+     * @return Magento_Gdata_Gshopping_Entry
      */
     public function convertAttribute($product, $entry)
     {
@@ -106,12 +106,12 @@ class Mage_GoogleShopping_Model_Attribute_Price extends Mage_GoogleShopping_Mode
     /**
      * Custom setter for 'price' attribute
      *
-     * @param Varien_Gdata_Gshopping_Entry $entry
+     * @param Magento_Gdata_Gshopping_Entry $entry
      * @param string $attribute Google Content attribute name
      * @param mixed $value Fload price value
      * @param string $type Google Content attribute type
      * @param string $name Google Content attribute name
-     * @return Varien_Gdata_Gshopping_Entry
+     * @return Magento_Gdata_Gshopping_Entry
      */
     protected function _setAttributePrice($entry, $product, $targetCountry, $value, $name = 'price')
     {

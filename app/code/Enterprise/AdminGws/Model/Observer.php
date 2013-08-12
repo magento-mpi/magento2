@@ -33,7 +33,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      * If all permissions are allowed, all possible websites / store groups / stores will be set
      * If only websites selected, all their store groups and stores will be set as well
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return Enterprise_AdminGws_Model_Observer
      */
     public function addDataAfterRoleLoad($observer)
@@ -114,7 +114,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     /**
      * Transform array of website ids and array of store group ids into comma-separated strings
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_AdminGws_Model_Observer
      */
     public function setDataBeforeRoleSave($observer)
@@ -192,7 +192,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     /**
      * Prepare role object permissions data before saving
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_AdminGws_Model_Observer
      */
     public function prepareRoleSave($observer)
@@ -214,7 +214,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     /**
      * Copy permission scopes to new specified website
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function copyWebsiteCopyPermissions($observer)
     {
@@ -240,7 +240,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     /**
      * Reinit stores only with allowed scopes
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function adminControllerPredispatch($observer)
     {
@@ -275,7 +275,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     /**
      * Check access to massaction status block
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_AdminGws_Model_Observer
      */
     public function catalogProductPrepareMassAction($observer)
@@ -320,7 +320,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     /**
      * Limit a collection
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function limitCollection($observer)
     {
@@ -354,7 +354,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     /**
      * Initialize a model after loading it
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return void
      */
     public function validateModelLoadAfter($observer)
@@ -372,7 +372,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     /**
      * Validate a model before delete
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return void
      */
     public function validateModelDeleteBefore($observer)
@@ -391,7 +391,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     /**
      * Validate page by current request (module, controller, action)
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function validateControllerPredispatch($observer)
     {
@@ -445,7 +445,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
     /**
      * Apply restrictions to misc blocks before html
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function restrictBlocks($observer)
     {

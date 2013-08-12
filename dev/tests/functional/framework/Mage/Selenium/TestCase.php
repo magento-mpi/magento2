@@ -846,13 +846,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     break;
             }
         }
-        if (preg_match('/%design_package_theme%/', $value)) {
-            $value = preg_replace('/%design_package_theme%/',
-                $this->_configHelper->getApplicationDesignTheme(), $value);
-        }
         if (preg_match('/%design_theme%/', $value)) {
-            list(, $theme) = explode('/', $this->_configHelper->getApplicationDesignTheme());
-            $value = preg_replace('/%design_theme%/', trim($theme), $value);
+            $value = preg_replace('/%design_theme%/', $this->_configHelper->getApplicationDesignTheme(), $value);
         }
     }
 

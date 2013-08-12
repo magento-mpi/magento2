@@ -32,7 +32,7 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
     /**
      * Check move quote item to wishlist request
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      * @return  Mage_Wishlist_Model_Observer
      */
     public function processCartUpdateBefore($observer)
@@ -126,10 +126,10 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
     /**
      * Customer login processing
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Wishlist_Model_Observer
      */
-    public function customerLogin(Varien_Event_Observer $observer)
+    public function customerLogin(Magento_Event_Observer $observer)
     {
         Mage::helper('Mage_Wishlist_Helper_Data')->calculate();
 
@@ -139,10 +139,10 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
     /**
      * Customer logout processing
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Wishlist_Model_Observer
      */
-    public function customerLogout(Varien_Event_Observer $observer)
+    public function customerLogout(Magento_Event_Observer $observer)
     {
         Mage::getSingleton('Mage_Customer_Model_Session')->setWishlistItemCount(0);
 

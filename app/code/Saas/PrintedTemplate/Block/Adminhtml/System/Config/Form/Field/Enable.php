@@ -25,10 +25,10 @@ class Saas_PrintedTemplate_Block_Adminhtml_System_Config_Form_Field_Enable
      * Result html also contains of js which controlls accessibility of "put_order_id" options
      * On dropdown "change" event it toggles "disabled" attribute for "put_order_id" options
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         $html = parent::_getElementHtml($element);
         $html .= "<script type=\"text/javascript\">

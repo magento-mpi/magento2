@@ -76,7 +76,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
      *
      * @param $customer
      * @param int | Zend_Db_Expr $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -95,7 +95,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Subselection
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
-        Mage::getResourceHelper('Enterprise_Reminder')->setRuleLimit($select, 1);
+        $select->limit(1);
 
         return $select;
     }

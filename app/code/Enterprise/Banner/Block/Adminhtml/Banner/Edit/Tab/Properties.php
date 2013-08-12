@@ -25,7 +25,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $htmlIdPrefix = 'banner_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 

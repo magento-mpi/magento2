@@ -272,7 +272,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid_Ex
     /**
      * Get row url
      *
-     * @param Mage_Review_Model_Review|Varien_Object $row
+     * @param Mage_Review_Model_Review|Magento_Object $row
      * @return string
      */
     public function getRowUrl($row)

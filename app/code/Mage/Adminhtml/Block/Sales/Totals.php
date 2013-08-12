@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
     /**
      * Format total value based on order currency
      *
-     * @param   Varien_Object $total
+     * @param   Magento_Object $total
      * @return  string
      */
     public function formatValue($total)
@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
     protected function _initTotals()
     {
         $this->_totals = array();
-        $this->_totals['subtotal'] = new Varien_Object(array(
+        $this->_totals['subtotal'] = new Magento_Object(array(
             'code'      => 'subtotal',
             'value'     => $this->getSource()->getSubtotal(),
             'base_value'=> $this->getSource()->getBaseSubtotal(),
@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
          */
         if (!$this->getSource()->getIsVirtual() && ((float) $this->getSource()->getShippingAmount() || $this->getSource()->getShippingDescription()))
         {
-            $this->_totals['shipping'] = new Varien_Object(array(
+            $this->_totals['shipping'] = new Magento_Object(array(
                 'code'      => 'shipping',
                 'value'     => $this->getSource()->getShippingAmount(),
                 'base_value'=> $this->getSource()->getBaseShippingAmount(),
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
             } else {
                 $discountLabel = __('Discount');
             }
-            $this->_totals['discount'] = new Varien_Object(array(
+            $this->_totals['discount'] = new Magento_Object(array(
                 'code'      => 'discount',
                 'value'     => $this->getSource()->getDiscountAmount(),
                 'base_value'=> $this->getSource()->getBaseDiscountAmount(),
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
             ));
         }
 
-        $this->_totals['grand_total'] = new Varien_Object(array(
+        $this->_totals['grand_total'] = new Magento_Object(array(
             'code'      => 'grand_total',
             'strong'    => true,
             'value'     => $this->getSource()->getGrandTotal(),

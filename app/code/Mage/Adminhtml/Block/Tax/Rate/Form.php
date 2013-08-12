@@ -34,8 +34,8 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Backend_Block_Widget_Form
 
     protected function _prepareForm()
     {
-        $rateObject = new Varien_Object(Mage::getSingleton('Mage_Tax_Model_Calculation_Rate')->getData());
-        $form = new Varien_Data_Form();
+        $rateObject = new Magento_Object(Mage::getSingleton('Mage_Tax_Model_Calculation_Rate')->getData());
+        $form = new Magento_Data_Form();
 
         $countries = Mage::getModel('Mage_Directory_Model_Config_Source_Country')->toOptionArray(false, 'US');
         unset($countries[0]);

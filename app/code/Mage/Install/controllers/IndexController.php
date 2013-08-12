@@ -11,25 +11,19 @@
 
 /**
  * Install index controller
- *
- * @category   Mage
- * @package    Mage_Install
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Install_IndexController extends Mage_Install_Controller_Action
 {
 
     /**
      * Dispatch event before action
-     *
-     * @return void
      */
     public function preDispatch()
     {
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
         if (!Mage::isInstalled()) {
             foreach (glob(Mage::getBaseDir(Mage_Core_Model_Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
-                Varien_Io_File::rmdirRecursive($dir);
+                Magento_Io_File::rmdirRecursive($dir);
             }
         }
         parent::preDispatch();
@@ -42,5 +36,4 @@ class Mage_Install_IndexController extends Mage_Install_Controller_Action
     {
         $this->_forward('begin', 'wizard', 'install');
     }
-
 }

@@ -20,7 +20,7 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
     /**
      * Form element
      *
-     * @var Varien_Data_Form_Element_Abstract|null
+     * @var Magento_Data_Form_Element_Abstract|null
      */
     protected $_element = null;
 
@@ -84,13 +84,13 @@ class Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends
         return $this->getData('product');
     }
 
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
         return $this->toHtml();
     }
 
-    public function setElement(Varien_Data_Form_Element_Abstract $element)
+    public function setElement(Magento_Data_Form_Element_Abstract $element)
     {
         $this->_element = $element;
         return $this;

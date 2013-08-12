@@ -24,7 +24,7 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
         $product = Mage::getModel('Mage_Catalog_Model_Product')->load($review->getEntityPkValue());
         $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($review->getCustomerId());
 
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'), 'ret' => Mage::registry('ret'))),
             'method'    => 'post'

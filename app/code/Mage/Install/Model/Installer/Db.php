@@ -10,10 +10,6 @@
 
 /**
  * DB Installer
- *
- * @category   Mage
- * @package    Mage_Install
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstract
 {
@@ -52,7 +48,9 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             $dbModel = ($data['db_model']);
 
             if (!$resource = $this->_getDbResource($dbModel)) {
-                Mage::throwException(__('There is no resource for %1 DB model.', $dbModel));
+                Mage::throwException(
+                    __('There is no resource for %1 DB model.', $dbModel)
+                );
             }
 
             $resource->setConfig($data);
@@ -90,12 +88,10 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
             }
 
             // TODO: check user roles
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             Mage::logException($e);
             Mage::throwException(__($e->getMessage()));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::logException($e);
             Mage::throwException(__('Something went wrong while connecting to the database.'));
         }
@@ -116,7 +112,7 @@ class Mage_Install_Model_Installer_Db extends Mage_Install_Model_Installer_Abstr
         }
         //make all table prefix to lower letter
         if ($data['db_prefix'] != '') {
-           $data['db_prefix'] = strtolower($data['db_prefix']);
+            $data['db_prefix'] = strtolower($data['db_prefix']);
         }
         //check table prefix
         if ($data['db_prefix'] != '') {

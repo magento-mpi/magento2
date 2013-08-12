@@ -11,7 +11,7 @@
 /**
  * Catalog product image controls model
  */
-class Mage_Catalog_Model_Product_Image_View extends Varien_Object
+class Mage_Catalog_Model_Product_Image_View extends Magento_Object
 {
     /**
      * Separator between location and suffix

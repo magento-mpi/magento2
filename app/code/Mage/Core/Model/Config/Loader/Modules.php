@@ -140,7 +140,6 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
         Magento_Profiler::stop('load_modules');
         Magento_Profiler::stop('config');
         $this->_resourceConfig->setConfig($config);
-        $this->_objectManager->configure($config->getNode('global/di')->asArray());
         $this->_modulesCache = array();
     }
 
@@ -281,7 +280,7 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
     }
 
     /**
-     * Check extention existance and check version if needed
+     * Check extension existence and check version if needed
      *
      * @param string $extension
      * @param string $minVersion
@@ -308,16 +307,16 @@ class Mage_Core_Model_Config_Loader_Modules implements Mage_Core_Model_Config_Lo
      */
     protected function _checkMutualExclusive($node)
     {
-        $extentions = array();
+        $extensions = array();
         foreach ($node->children() as $any) {
-            $extentions[] = "'" . $any->getName() .
+            $extensions[] = "'" . $any->getName() .
                 ($any->attributes()->min_version ? ' - v.' . $any->attributes()->min_version : '') . "'";
             if ($this->_checkExtension($any->getName(), $any->attributes()->min_version)) {
                 return;
             }
         }
         throw new Magento_Exception(
-            'One of PHP extensions: ' . implode($extentions, ', ') . ' needed.'
+            'One of PHP extensions: ' . implode($extensions, ', ') . ' needed.'
         );
     }
 }

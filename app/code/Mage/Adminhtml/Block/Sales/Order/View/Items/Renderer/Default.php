@@ -208,7 +208,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Mage_
      * @param Mage_Sales_Model_Order_Item $item
      * @return string
      */
-    public function displayPriceInclTax(Varien_Object $item)
+    public function displayPriceInclTax(Magento_Object $item)
     {
         return $this->displayPrices(
             $this->helper('Mage_Checkout_Helper_Data')->getBasePriceInclTax($item),

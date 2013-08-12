@@ -9,7 +9,7 @@
  */
 
 /**
- * Enter description here ...
+ * Enterprise banner model
  *
  * @method Enterprise_Banner_Model_Resource_Banner _getResource()
  * @method Enterprise_Banner_Model_Resource_Banner getResource()

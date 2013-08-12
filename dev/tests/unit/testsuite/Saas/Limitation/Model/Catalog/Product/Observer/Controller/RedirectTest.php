@@ -70,8 +70,8 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Controller_RedirectTest ext
         $request->expects($this->once())->method('getParam')->with('back')->will($this->returnValue('new'));
         $controller->expects($this->once())->method('getRequest')->will($this->returnValue($request));
 
-        $this->_model->restrictNewEntityCreation(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('controller' => $controller))
+        $this->_model->restrictNewEntityCreation(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('controller' => $controller))
         )));
     }
 
@@ -96,8 +96,8 @@ class Saas_Limitation_Model_Catalog_Product_Observer_Controller_RedirectTest ext
         $request->expects($this->any())->method('getParam')->with('back')->will($this->returnValue($redirectTarget));
         $controller->expects($this->any())->method('getRequest')->will($this->returnValue($request));
 
-        $this->_model->restrictNewEntityCreation(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('controller' => $controller))
+        $this->_model->restrictNewEntityCreation(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('controller' => $controller))
         )));
     }
 

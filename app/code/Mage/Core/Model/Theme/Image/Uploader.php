@@ -31,7 +31,7 @@ class Mage_Core_Model_Theme_Image_Uploader
     protected $_transferAdapter;
 
     /**
-     * @var Varien_File_UploaderFactory
+     * @var Magento_File_UploaderFactory
      */
     protected $_uploaderFactory;
 
@@ -41,12 +41,12 @@ class Mage_Core_Model_Theme_Image_Uploader
      *
      * @param Magento_Filesystem $filesystem
      * @param Zend_File_Transfer_Adapter_Http $transferAdapter
-     * @param Varien_File_UploaderFactory $uploaderFactory
+     * @param Magento_File_UploaderFactory $uploaderFactory
      */
     public function __construct(
         Magento_Filesystem $filesystem,
         Zend_File_Transfer_Adapter_Http $transferAdapter,
-        Varien_File_UploaderFactory $uploaderFactory
+        Magento_File_UploaderFactory $uploaderFactory
     ) {
         $this->_filesystem = $filesystem;
         $this->_transferAdapter = $transferAdapter;

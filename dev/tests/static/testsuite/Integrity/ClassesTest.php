@@ -108,9 +108,6 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
      */
     public function testLayoutFile($path)
     {
-        if (strpos($path, 'frontend/magento2/reference') !== false) {
-            $this->markTestIncomplete('MAGETWO-9603, theme view file is broken');
-        }
         $xml = simplexml_load_file($path);
 
         $classes = Utility_Classes::getXmlNodeValues($xml,
@@ -160,6 +157,7 @@ class Integrity_ClassesTest extends PHPUnit_Framework_TestCase
                 }
                 $this->assertTrue(isset(self::$_existingClasses[$class])
                     || Utility_Files::init()->classFileExists($class)
+                    || Utility_Classes::isVirtual($class)
                 );
                 self::$_existingClasses[$class] = 1;
             } catch (PHPUnit_Framework_AssertionFailedError $e) {

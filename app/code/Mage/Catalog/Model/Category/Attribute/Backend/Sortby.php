@@ -21,7 +21,7 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Sortby
     /**
      * Validate process
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return bool
      */
     public function validate($object)
@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Sortby
     /**
      * Before Attribute Save Process
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Catalog_Model_Category_Attribute_Backend_Sortby
      */
     public function beforeSave($object)

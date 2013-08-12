@@ -50,7 +50,7 @@ class Enterprise_GiftRegistry_Model_Observer
      * Customer address data object before load processing
      * Set gift registry item id flag
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftRegistry_Model_Observer
      */
     public function addressDataBeforeLoad($observer)
@@ -71,7 +71,7 @@ class Enterprise_GiftRegistry_Model_Observer
      * Customer address data object after load
      * Check gift registry item id flag and set shipping address data to object
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftRegistry_Model_Observer
      */
     public function addressDataAfterLoad($observer)
@@ -95,7 +95,7 @@ class Enterprise_GiftRegistry_Model_Observer
     /**
      * Hide customer address on the frontend if it is gift registry shipping address
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftRegistry_Model_Observer
      */
     public function addressFormatFront($observer)
@@ -107,7 +107,7 @@ class Enterprise_GiftRegistry_Model_Observer
     /**
      * Hide customer address in admin panel if it is gift registry shipping address
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftRegistry_Model_Observer
      */
     public function addressFormatAdmin($observer)
@@ -121,7 +121,7 @@ class Enterprise_GiftRegistry_Model_Observer
     /**
      * Hide customer address if it is gift registry shipping address
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftRegistry_Model_Observer
      */
     protected function _addressFormat($observer)
@@ -143,7 +143,7 @@ class Enterprise_GiftRegistry_Model_Observer
     /**
      * Copy gift registry item id flag from quote item to order item
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftRegistry_Model_Observer
      */
     public function convertItems($observer)
@@ -166,7 +166,7 @@ class Enterprise_GiftRegistry_Model_Observer
     /**
      * After place order processing, update gift registry items fulfilled qty
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftRegistry_Model_Observer
      */
     public function orderPlaced($observer)
@@ -206,10 +206,10 @@ class Enterprise_GiftRegistry_Model_Observer
     /**
      * Save page body to cache storage
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftRegistry_Model_Observer
      */
-    public function addGiftRegistryQuoteFlag(Varien_Event_Observer $observer)
+    public function addGiftRegistryQuoteFlag(Magento_Event_Observer $observer)
     {
         if (!$this->isGiftregistryEnabled()) {
             return $this;
@@ -232,10 +232,10 @@ class Enterprise_GiftRegistry_Model_Observer
     /**
      * Clean up gift registry items that belongs to the product.
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function deleteProduct(Varien_Event_Observer $observer)
+    public function deleteProduct(Magento_Event_Observer $observer)
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $observer->getEvent()->getProduct();
@@ -276,9 +276,9 @@ class Enterprise_GiftRegistry_Model_Observer
     /**
      * Assign a flag to HTML head block signaling whether GiftRegistry is enabled or not
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function assignHtmlHeadRenderingFlag(Varien_Event_Observer $observer)
+    public function assignHtmlHeadRenderingFlag(Magento_Event_Observer $observer)
     {
         /** @var $layout Mage_Core_Model_Layout */
         $layout = $observer->getEvent()->getLayout();

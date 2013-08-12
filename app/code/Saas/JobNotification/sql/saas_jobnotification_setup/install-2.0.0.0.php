@@ -15,25 +15,25 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('saas_jobnotification_inbox'))
-    ->addColumn('notification_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('notification_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
         'identity'  => true,
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
         ), 'Message id')
-    ->addColumn('date_added', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
+    ->addColumn('date_added', Magento_DB_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
-        'default' => Varien_Db_Ddl_Table::TIMESTAMP_INIT,
+        'default' => Magento_DB_Ddl_Table::TIMESTAMP_INIT,
         ), 'Create date')
-    ->addColumn('title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('title', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
         ), 'Title')
-    ->addColumn('is_read', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_read', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
         ), 'Flag if notification read')
-    ->addColumn('is_remove', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
+    ->addColumn('is_remove', Magento_DB_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',

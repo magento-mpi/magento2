@@ -398,15 +398,15 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param string $fieldset
      * @param string $aspect
-     * @param array|Varien_Object $source
-     * @param array|Varien_Object $target
+     * @param array|Magento_Object $source
+     * @param array|Magento_Object $target
      * @param string $root
      * @return boolean
      */
     public function copyFieldset($fieldset, $aspect, $source, $target, $root='global')
     {
-        if (!(is_array($source) || $source instanceof Varien_Object)
-            || !(is_array($target) || $target instanceof Varien_Object)) {
+        if (!(is_array($source) || $source instanceof Magento_Object)
+            || !(is_array($target) || $target instanceof Magento_Object)) {
 
             return false;
         }
@@ -462,7 +462,7 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
      * *_is_last - if the element is last
      *
      * The respective key/attribute will be set to element, depending on object it is or array.
-     * Varien_Object is supported.
+     * Magento_Object is supported.
      *
      * $forceSetAll true will cause to set all possible values for all elements.
      * When false (default), only non-empty values will be set.
@@ -519,14 +519,14 @@ class Mage_Core_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Mark passed object with specified flag and appropriate value.
      *
-     * @param Varien_Object $element
+     * @param Magento_Object $element
      * @param string $key
      * @param mixed $value
      * @param bool $dontSkip
      */
     private function _decorateArrayObject($element, $key, $value, $dontSkip)
     {
-        if ($dontSkip && $element instanceof Varien_Object) {
+        if ($dontSkip && $element instanceof Magento_Object) {
             $element->setData($key, $value);
         }
     }

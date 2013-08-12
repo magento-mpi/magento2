@@ -34,8 +34,8 @@ class Saas_Queue_Model_Observer_CacheTest extends PHPUnit_Framework_TestCase
      */
     public function testRefreshCacheWithParams($types)
     {
-        $event = new Varien_Event(array('cache_types' => $types));
-        $observer = new Varien_Event_Observer();
+        $event = new Magento_Event(array('cache_types' => $types));
+        $observer = new Magento_Event_Observer();
         $observer->setEvent($event);
 
         $this->_cache->expects($this->exactly(count($types)))->method('cleanType');
@@ -48,8 +48,8 @@ class Saas_Queue_Model_Observer_CacheTest extends PHPUnit_Framework_TestCase
      */
     public function testRefreshCacheWithoutParams($types)
     {
-        $event = new Varien_Event(array('cache_types' => array()));
-        $observer = new Varien_Event_Observer();
+        $event = new Magento_Event(array('cache_types' => array()));
+        $observer = new Magento_Event_Observer();
         $observer->setEvent($event);
 
         $this->_cache

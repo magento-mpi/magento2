@@ -186,8 +186,8 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         $objectFactory->expects($this->any())->method('getModelInstance')
             ->will($this->returnCallback(array($this, 'getModelInstance')));
 
-        /** @var $attributeCollection Varien_Data_Collection */
-        $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
+        /** @var $attributeCollection Magento_Data_Collection */
+        $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
             $arguments = $objectManagerHelper->getConstructArguments('Mage_Eav_Model_Entity_Attribute_Abstract');
@@ -249,11 +249,11 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param Varien_Data_Collection $collection
+     * @param Magento_Data_Collection $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(Varien_Data_Collection $collection, $pageSize, array $callbacks)
+    public function iterate(Magento_Data_Collection $collection, $pageSize, array $callbacks)
     {
         foreach ($collection as $customer) {
             foreach ($callbacks as $callback) {
@@ -282,7 +282,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                 'id'   => $id,
                 'code' => $code,
             );
-            $websites[$id] = new Varien_Object($websiteData);
+            $websites[$id] = new Magento_Object($websiteData);
         }
 
         return $websites;
@@ -653,7 +653,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                 '$behaviors' => array(
                     Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
-                            "Please correct the value for '%s'." => array(
+                            "Please correct the value for '%1'." => array(
                                 array(1, 'store_credit'), array(1, 'reward_points'))
                         ),
                     ),

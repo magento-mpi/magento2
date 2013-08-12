@@ -15,7 +15,7 @@
  * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Model_Search_Catalog extends Varien_Object
+class Mage_Adminhtml_Model_Search_Catalog extends Magento_Object
 {
     /**
      * Load search results

@@ -138,7 +138,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
      */
     public function validateAction()
     {
-        $response = new Varien_Object();
+        $response = new Magento_Object();
         $response->setError(false);
         $attributeId        = $this->getRequest()->getParam('attribute_id');
         if (!$attributeId) {

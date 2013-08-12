@@ -16,20 +16,20 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Backend_Block_Widget_Form_Element_Gallery extends Mage_Backend_Block_Template
-    implements Varien_Data_Form_Element_Renderer_Interface
+    implements Magento_Data_Form_Element_Renderer_Interface
 {
 
     protected $_element = null;
 
     protected $_template = 'Mage_Backend::widget/form/element/gallery.phtml';
 
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
         return $this->toHtml();
     }
 
-    public function setElement(Varien_Data_Form_Element_Abstract $element)
+    public function setElement(Magento_Data_Form_Element_Abstract $element)
     {
         $this->_element = $element;
         return $this;

@@ -71,28 +71,28 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Abstract extends Mage_Co
         switch ($backendType) {
             case 'datetime':
                 $definition = array(
-                    'type'      => Varien_Db_Ddl_Table::TYPE_DATE,
+                    'type'      => Magento_DB_Ddl_Table::TYPE_DATE,
                 );
                 break;
             case 'decimal':
                 $definition = array(
-                    'type'      => Varien_Db_Ddl_Table::TYPE_DECIMAL,
+                    'type'      => Magento_DB_Ddl_Table::TYPE_DECIMAL,
                     'length'    => 12,4,
                 );
                 break;
             case 'int':
                 $definition = array(
-                    'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
+                    'type'      => Magento_DB_Ddl_Table::TYPE_INTEGER,
                 );
                 break;
             case 'text':
                 $definition = array(
-                    'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+                    'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
                 );
                 break;
             case 'varchar':
                 $definition = array(
-                    'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+                    'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
                     'length'    => 255,
                 );
                 break;

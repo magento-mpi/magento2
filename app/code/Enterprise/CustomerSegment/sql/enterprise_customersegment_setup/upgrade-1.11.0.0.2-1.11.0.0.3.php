@@ -12,7 +12,7 @@
 $installer = $this;
 
 $installer->getConnection()->addColumn($installer->getTable('enterprise_customersegment_segment'), 'apply_to', array(
-    'type' => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+    'type' => Magento_DB_Ddl_Table::TYPE_SMALLINT,
     'unsigned' => true,
     'nullable' => false,
     'default' => 0,

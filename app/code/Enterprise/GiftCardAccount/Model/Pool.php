@@ -9,8 +9,6 @@
  */
 
 /**
- * Enter description here ...
- *
  * @method Enterprise_GiftCardAccount_Model_Resource_Pool _getResource()
  * @method Enterprise_GiftCardAccount_Model_Resource_Pool getResource()
  * @method string getCode()
@@ -67,10 +65,10 @@ class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_M
         }
         return $this;
     }
-    
+
     /**
      * Checks pool threshold and call codes generation in case if free codes count is less than threshold value
-     * 
+     *
      * @return Enterprise_GiftCardAccount_Model_Pool
      */
     public function applyCodesGeneration()

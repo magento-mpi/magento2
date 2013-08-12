@@ -41,10 +41,10 @@ class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstrac
     /**
      * Set default shipping to address
      *
-     * @param Varien_Object $address
+     * @param Magento_Object $address
      * @return Mage_Customer_Model_Resource_Address
      */
-    protected function _afterSave(Varien_Object $address)
+    protected function _afterSave(Magento_Object $address)
     {
         if ($address->getIsCustomerSaveTransaction()) {
             return $this;
@@ -67,10 +67,10 @@ class Mage_Customer_Model_Resource_Address extends Mage_Eav_Model_Entity_Abstrac
     /**
      * Check customer address before saving
      *
-     * @param Varien_Object $address
+     * @param Magento_Object $address
      * @return Mage_Customer_Model_Resource_Address
      */
-    protected function _beforeSave(Varien_Object $address)
+    protected function _beforeSave(Magento_Object $address)
     {
         parent::_beforeSave($address);
 

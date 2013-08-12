@@ -31,7 +31,7 @@ abstract class Mage_Backend_Model_Widget_Grid_TotalsAbstract implements Mage_Bac
     /**
      * Factory model
      *
-     * @var Varien_Object_Factory
+     * @var Magento_Object_Factory
      */
     protected $_factory;
 
@@ -43,10 +43,10 @@ abstract class Mage_Backend_Model_Widget_Grid_TotalsAbstract implements Mage_Bac
     protected $_parser;
 
     /**
-     * @param Varien_Object_Factory $factory
+     * @param Magento_Object_Factory $factory
      * @param Mage_Backend_Model_Widget_Grid_Parser $parser
      */
-    public function __construct(Varien_Object_Factory $factory, Mage_Backend_Model_Widget_Grid_Parser $parser)
+    public function __construct(Magento_Object_Factory $factory, Mage_Backend_Model_Widget_Grid_Parser $parser)
     {
         $this->_factory = $factory;
         $this->_parser = $parser;
@@ -57,7 +57,7 @@ abstract class Mage_Backend_Model_Widget_Grid_TotalsAbstract implements Mage_Bac
      *
      * @abstract
      * @param string $index
-     * @param Varien_Data_Collection $collection
+     * @param Magento_Data_Collection $collection
      * @return float|int
      */
     abstract protected function _countSum($index, $collection);
@@ -67,7 +67,7 @@ abstract class Mage_Backend_Model_Widget_Grid_TotalsAbstract implements Mage_Bac
      *
      * @abstract
      * @param string $index
-     * @param Varien_Data_Collection $collection
+     * @param Magento_Data_Collection $collection
      * @return float|int
      */
     abstract protected function _countAverage($index, $collection);
@@ -77,7 +77,7 @@ abstract class Mage_Backend_Model_Widget_Grid_TotalsAbstract implements Mage_Bac
      *
      * @param string $index
      * @param string $expr
-     * @param Varien_Data_Collection $collection
+     * @param Magento_Data_Collection $collection
      * @return float|int
      */
     protected function _count($index, $expr, $collection)
@@ -102,7 +102,7 @@ abstract class Mage_Backend_Model_Widget_Grid_TotalsAbstract implements Mage_Bac
      * Return counted expression accorded parsed string
      *
      * @param string $expr
-     * @param Varien_Data_Collection $collection
+     * @param Magento_Data_Collection $collection
      * @return float|int
      */
     protected function _countExpr($expr, $collection)
@@ -178,7 +178,7 @@ abstract class Mage_Backend_Model_Widget_Grid_TotalsAbstract implements Mage_Bac
      * Check operand is numeric or has already counted
      *
      * @param string $operand
-     * @param Varien_Data_Collection $collection
+     * @param Magento_Data_Collection $collection
      * @return float|int
      */
     protected function _checkOperand($operand, $collection)
@@ -221,8 +221,8 @@ abstract class Mage_Backend_Model_Widget_Grid_TotalsAbstract implements Mage_Bac
     /**
      * Count totals for all columns set
      *
-     * @param Varien_Data_Collection $collection
-     * @return Varien_Object
+     * @param Magento_Data_Collection $collection
+     * @return Magento_Object
      */
     public function countTotals($collection)
     {
@@ -236,7 +236,7 @@ abstract class Mage_Backend_Model_Widget_Grid_TotalsAbstract implements Mage_Bac
     /**
      * Get totals as object
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getTotals()
     {

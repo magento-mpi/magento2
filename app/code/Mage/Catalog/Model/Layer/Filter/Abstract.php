@@ -15,7 +15,7 @@
  * @package    Mage_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
+abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Magento_Object
 {
     /**
      * Request variable name with filter value
@@ -191,7 +191,7 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
     /**
      * Get product collection select object with applied filters
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getBaseCollectionSql()
     {

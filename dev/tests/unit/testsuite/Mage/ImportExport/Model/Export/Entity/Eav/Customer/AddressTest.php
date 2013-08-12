@@ -106,8 +106,8 @@ class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHP
 
         $translator = $this->getMock('stdClass');
 
-        /** @var $attributeCollection Varien_Data_Collection|PHPUnit_Framework_TestCase */
-        $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
+        /** @var $attributeCollection Magento_Data_Collection|PHPUnit_Framework_TestCase */
+        $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
         $attributeCollection->expects($this->once())
             ->method('getEntityTypeCode')
             ->will($this->returnValue('customer_address'));
@@ -126,7 +126,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHP
             ->will($this->returnCallback(array($this, 'iterate')));
 
         $customerCollection = $this->getMock(
-            'Varien_Data_Collection_Db', array('addAttributeToSelect'), array(), '', false
+            'Magento_Data_Collection_Db', array('addAttributeToSelect'), array(), '', false
         );
 
         $customerEntity = $this->getMock('stdClass', array('filterEntityCollection', 'setParameters'));
@@ -173,7 +173,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHP
                 'id'   => $id,
                 'code' => $code,
             );
-            $websites[$id] = new Varien_Object($websiteData);
+            $websites[$id] = new Magento_Object($websiteData);
         }
 
         return $websites;
@@ -184,11 +184,11 @@ class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHP
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param Varien_Data_Collection_Db $collection
+     * @param Magento_Data_Collection_Db $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(Varien_Data_Collection_Db $collection, $pageSize, array $callbacks)
+    public function iterate(Magento_Data_Collection_Db $collection, $pageSize, array $callbacks)
     {
         $arguments = $this->_objectManager->getConstructArguments('Mage_Customer_Model_Customer');
         $arguments['data'] = $this->_customerData;

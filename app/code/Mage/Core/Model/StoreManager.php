@@ -103,21 +103,21 @@ class Mage_Core_Model_StoreManager implements Mage_Core_Model_StoreManagerInterf
     /**
      * Retrieve application store object without Store_Exception
      *
-     * @param string|int|Mage_Core_Model_Store $id
+     * @param string|int|Mage_Core_Model_Store $storeId
      * @return Mage_Core_Model_Store
      */
-    public function getSafeStore($id = null)
+    public function getSafeStore($storeId = null)
     {
         try {
-            return $this->getStore($id);
+            return $this->getStore($storeId);
         } catch (Exception $e) {
             if ($this->_getStorage()->getCurrentStore()) {
                 $this->_request->setActionName('noRoute');
-                return new Varien_Object();
+                return new Magento_Object();
             }
 
             Mage::throwException(
-                __('Requested invalid store "%1"', $id)
+                __('Requested invalid store "%1"', $storeId)
             );
         }
     }
@@ -177,13 +177,13 @@ class Mage_Core_Model_StoreManager implements Mage_Core_Model_StoreManagerInterf
     /**
      * Retrieve application store object
      *
-     * @param null|string|bool|int|Mage_Core_Model_Store $id
+     * @param null|string|bool|int|Mage_Core_Model_Store $storeId
      * @return Mage_Core_Model_Store
      * @throws Mage_Core_Model_Store_Exception
      */
-    public function getStore($id = null)
+    public function getStore($storeId = null)
     {
-        return $this->_getStorage()->getStore($id);
+        return $this->_getStorage()->getStore($storeId);
     }
 
     /**
@@ -201,13 +201,13 @@ class Mage_Core_Model_StoreManager implements Mage_Core_Model_StoreManagerInterf
     /**
      * Retrieve application website object
      *
-     * @param null|bool|int|string|Mage_Core_Model_Website $id
+     * @param null|bool|int|string|Mage_Core_Model_Website $websiteId
      * @return Mage_Core_Model_Website
      * @throws Mage_Core_Exception
      */
-    public function getWebsite($id = null)
+    public function getWebsite($websiteId = null)
     {
-        return $this->_getStorage()->getWebsite($id);
+        return $this->_getStorage()->getWebsite($websiteId);
     }
 
     /**
@@ -243,13 +243,13 @@ class Mage_Core_Model_StoreManager implements Mage_Core_Model_StoreManagerInterf
     /**
      * Retrieve application store group object
      *
-     * @param null|Mage_Core_Model_Store_Group|string $id
+     * @param null|Mage_Core_Model_Store_Group|string $groupId
      * @return Mage_Core_Model_Store_Group
      * @throws Mage_Core_Exception
      */
-    public function getGroup($id = null)
+    public function getGroup($groupId = null)
     {
-        return $this->_getStorage()->getGroup($id);
+        return $this->_getStorage()->getGroup($groupId);
     }
 
     /**
@@ -269,11 +269,11 @@ class Mage_Core_Model_StoreManager implements Mage_Core_Model_StoreManagerInterf
     /**
      *  Unset website by id from app cache
      *
-     * @param null|bool|int|string|Mage_Core_Model_Website $id
+     * @param null|bool|int|string|Mage_Core_Model_Website $websiteId
      */
-    public function clearWebsiteCache($id = null)
+    public function clearWebsiteCache($websiteId = null)
     {
-        $this->_getStorage()->clearWebsiteCache($id);
+        $this->_getStorage()->clearWebsiteCache($websiteId);
     }
 
     /**

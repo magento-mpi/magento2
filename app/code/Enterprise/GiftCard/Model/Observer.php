@@ -47,9 +47,9 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
     /**
      * Set attribute renderer on catalog product edit page
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function setAmountsRendererInForm(Varien_Event_Observer $observer)
+    public function setAmountsRendererInForm(Magento_Event_Observer $observer)
     {
         //adminhtml_catalog_product_edit_prepare_form
         $form = $observer->getEvent()->getForm();
@@ -65,9 +65,9 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
     /**
      * Set giftcard amounts field as not used in mass update
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function updateExcludedFieldList(Varien_Event_Observer $observer)
+    public function updateExcludedFieldList(Magento_Event_Observer $observer)
     {
         //adminhtml_catalog_product_form_prepare_excluded_field_list
 
@@ -80,10 +80,10 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
     /**
      * Append gift card additional data to order item options
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCard_Model_Observer
      */
-    public function appendGiftcardAdditionalData(Varien_Event_Observer $observer)
+    public function appendGiftcardAdditionalData(Magento_Event_Observer $observer)
     {
         //sales_convert_quote_item_to_order_item
 
@@ -149,10 +149,10 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
     /**
      * Generate gift card accounts after order save
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCard_Model_Observer
      */
-    public function generateGiftCardAccounts(Varien_Event_Observer $observer)
+    public function generateGiftCardAccounts(Magento_Event_Observer $observer)
     {
         // sales_order_save_after
 
@@ -219,7 +219,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                     $amount = $item->getBasePrice();
                     $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
 
-                    $data = new Varien_Object();
+                    $data = new Magento_Object();
                     $data->setWebsiteId($websiteId)
                         ->setAmount($amount)
                         ->setLifetime($lifetime)
@@ -230,7 +230,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                     $goodCodes = 0;
                     for ($i = 0; $i < $qty; $i++) {
                         try {
-                            $code = new Varien_Object();
+                            $code = new Magento_Object();
                             Mage::dispatchEvent('enterprise_giftcardaccount_create', array(
                                 'request' => $data, 'code' => $code
                             ));
@@ -309,10 +309,10 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
     /**
      * Process `giftcard_amounts` attribute afterLoad logic on loading by collection
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCard_Model_Observer
      */
-    public function loadAttributesAfterCollectionLoad(Varien_Event_Observer $observer)
+    public function loadAttributesAfterCollectionLoad(Magento_Event_Observer $observer)
     {
         $collection = $observer->getEvent()->getCollection();
 
@@ -330,10 +330,10 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
     /**
      * Initialize product options renderer with giftcard specific params
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCard_Model_Observer
      */
-    public function initOptionRenderer(Varien_Event_Observer $observer)
+    public function initOptionRenderer(Magento_Event_Observer $observer)
     {
         $block = $observer->getBlock();
         $block->addOptionsRenderCfg('giftcard', 'Enterprise_GiftCard_Helper_Catalog_Product_Configuration');

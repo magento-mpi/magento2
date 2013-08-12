@@ -42,8 +42,8 @@ class Enterprise_Queue_Model_Event_Invoker_AsynchronousTest extends PHPUnit_Fram
             '',
             false
         );
-        $this->_eventMock = $this->getMock('Varien_Event', array(), array(), '', false);
-        $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_eventMock = $this->getMock('Magento_Event', array(), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_invokerAsynchronous = $objectManagerHelper->getObject(

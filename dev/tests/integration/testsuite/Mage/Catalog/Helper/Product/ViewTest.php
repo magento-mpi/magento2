@@ -77,6 +77,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      * @magentoAppIsolation enabled
+     * @magentoAppArea frontend
      */
     public function testPrepareAndRender()
     {
@@ -117,6 +118,7 @@ class Mage_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
      * @magentoDataFixture Mage/Catalog/_files/multiple_products.php
      * @magentoAppIsolation enabled
      * @covers Mage_Catalog_Helper_Product_View::_getSessionMessageModels
+     * @magentoAppArea frontend
      */
     public function testGetSessionMessageModels()
     {

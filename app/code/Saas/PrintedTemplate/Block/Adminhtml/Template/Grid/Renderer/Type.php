@@ -21,10 +21,10 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid_Renderer_Type extends
     /**
      * Renders row type value
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         $str = 'Unknown';
         $types = Mage::getSingleton('Saas_PrintedTemplate_Model_Source_Type')->getAllOptions();

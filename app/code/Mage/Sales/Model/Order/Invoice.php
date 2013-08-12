@@ -10,8 +10,6 @@
 
 
 /**
- * Enter description here ...
- *
  * @method Mage_Sales_Model_Resource_Order_Invoice _getResource()
  * @method Mage_Sales_Model_Resource_Order_Invoice getResource()
  * @method int getStoreId()
@@ -494,6 +492,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         return $this->_items;
     }
 
+    /**
+     * @return array
+     */
     public function getAllItems()
     {
         $items = array();
@@ -505,16 +506,24 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         return $items;
     }
 
+    /**
+     * @param int|string $itemId
+     * @return bool|Mage_Sales_Model_Order_Invoice_Item
+     */
     public function getItemById($itemId)
     {
         foreach ($this->getItemsCollection() as $item) {
-            if ($item->getId()==$itemId) {
+            if ($item->getId() == $itemId) {
                 return $item;
             }
         }
         return false;
     }
 
+    /**
+     * @param Mage_Sales_Model_Order_Invoice_Item $item
+     * @return $this
+     */
     public function addItem(Mage_Sales_Model_Order_Invoice_Item $item)
     {
         $item->setInvoice($this)
@@ -534,7 +543,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
      */
     public static function getStates()
     {
-        if (is_null(self::$_states)) {
+        if (null === self::$_states) {
             self::$_states = array(
                 self::STATE_OPEN       => __('Pending'),
                 self::STATE_PAID       => __('Paid'),
@@ -547,7 +556,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
     /**
      * Retrieve invoice state name by state identifier
      *
-     * @param   int $stateId
+     * @param   int|null $stateId
      * @return  string
      */
     public function getStateName($stateId = null)
@@ -556,7 +565,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
             $stateId = $this->getState();
         }
 
-        if (is_null(self::$_states)) {
+        if (null === self::$_states) {
             self::getStates();
         }
         if (isset(self::$_states[$stateId])) {
@@ -570,7 +579,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
      *
      * Apply to order, order items etc.
      *
-     * @return unknown
+     * @return $this
      */
     public function register()
     {
@@ -579,10 +588,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         }
 
         foreach ($this->getAllItems() as $item) {
-            if ($item->getQty()>0) {
+            if ($item->getQty() > 0) {
                 $item->register();
-            }
-            else {
+            } else {
                 $item->isDeleted(true);
             }
         }
@@ -593,13 +601,12 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
             if ($captureCase) {
                 if ($captureCase == self::CAPTURE_ONLINE) {
                     $this->capture();
-                }
-                elseif ($captureCase == self::CAPTURE_OFFLINE) {
+                } elseif ($captureCase == self::CAPTURE_OFFLINE) {
                     $this->setCanVoidFlag(false);
                     $this->pay();
                 }
             }
-        } elseif(!$order->getPayment()->getMethodInstance()->isGateway() || $captureCase == self::CAPTURE_OFFLINE) {
+        } elseif (!$order->getPayment()->getMethodInstance()->isGateway() || $captureCase == self::CAPTURE_OFFLINE) {
             if (!$order->getPayment()->getIsTransactionPending()) {
                 $this->setCanVoidFlag(false);
                 $this->pay();
@@ -630,7 +637,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         $order->setBaseTotalInvoicedCost($order->getBaseTotalInvoicedCost() + $this->getBaseCost());
 
         $state = $this->getState();
-        if (is_null($state)) {
+        if (null === $state) {
             $this->setState(self::STATE_OPEN);
         }
 
@@ -657,12 +664,12 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
      * Adds comment to invoice with additional possibility to send it to customer via email
      * and show it in customer account
      *
+     * @param string $comment
      * @param bool $notify
      * @param bool $visibleOnFront
-     *
      * @return Mage_Sales_Model_Order_Invoice
      */
-    public function addComment($comment, $notify=false, $visibleOnFront=false)
+    public function addComment($comment, $notify = false, $visibleOnFront = false)
     {
         if (!($comment instanceof Mage_Sales_Model_Order_Invoice_Comment)) {
             $comment = Mage::getModel('Mage_Sales_Model_Order_Invoice_Comment')
@@ -680,6 +687,10 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         return $this;
     }
 
+    /**
+     * @param bool $reload
+     * @return Mage_Sales_Model_Resource_Order_Invoice_Comment_Collection
+     */
     public function getCommentsCollection($reload=false)
     {
         if (is_null($this->_comments) || $reload) {
@@ -847,6 +858,10 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         return $this;
     }
 
+    /**
+     * @param $configPath
+     * @return array|bool
+     */
     protected function _getEmails($configPath)
     {
         $data = Mage::getStoreConfig($configPath, $this->getStoreId());
@@ -856,6 +871,9 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         return false;
     }
 
+    /**
+     * @return Mage_Core_Model_Abstract
+     */
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
@@ -915,7 +933,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
         }
 
         if (null !== $this->_comments) {
-            foreach($this->_comments as $comment) {
+            foreach ($this->_comments as $comment) {
                 $comment->save();
             }
         }

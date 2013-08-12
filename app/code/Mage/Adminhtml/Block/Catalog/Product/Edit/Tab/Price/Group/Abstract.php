@@ -18,12 +18,12 @@
  */
 abstract class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abstract
     extends Mage_Adminhtml_Block_Widget
-    implements Varien_Data_Form_Element_Renderer_Interface
+    implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
      * Form element instance
      *
-     * @var Varien_Data_Form_Element_Abstract
+     * @var Magento_Data_Form_Element_Abstract
      */
     protected $_element;
 
@@ -54,10 +54,10 @@ abstract class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abstrac
     /**
      * Render HTML
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
         return $this->toHtml();
@@ -66,10 +66,10 @@ abstract class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abstrac
     /**
      * Set form element instance
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abstract
      */
-    public function setElement(Varien_Data_Form_Element_Abstract $element)
+    public function setElement(Magento_Data_Form_Element_Abstract $element)
     {
         $this->_element = $element;
         return $this;
@@ -78,7 +78,7 @@ abstract class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abstrac
     /**
      * Retrieve form element instance
      *
-     * @return Varien_Data_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     public function getElement()
     {

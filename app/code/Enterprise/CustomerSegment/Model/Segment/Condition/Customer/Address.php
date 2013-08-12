@@ -70,7 +70,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
      *
      * @param $customer
      * @param $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -78,13 +78,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
         $select = $resource->createSelect();
         $addressEntityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer_address');
         $addressTable = $resource->getTable($addressEntityType->getEntityTable());
-
         $select->from(array('customer_address' => $addressTable), array(new Zend_Db_Expr(1)));
         $select->where('customer_address.entity_type_id = ?', $addressEntityType->getId());
         $select->where($this->_createCustomerFilter($customer, 'customer_address.parent_id'));
-
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
-
+        $select->limit(1);
         return $select;
     }
 

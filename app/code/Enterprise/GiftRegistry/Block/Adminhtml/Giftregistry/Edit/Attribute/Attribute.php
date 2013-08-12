@@ -274,7 +274,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
                 }
             }
 
-            $values[] = new Varien_Object($value);
+            $values[] = new Magento_Object($value);
             $innerId++;
         }
         return $values;
@@ -307,12 +307,12 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attrib
     }
 
     /**
-     * Prepare and return static types as Varien_Object
+     * Prepare and return static types as Magento_Object
      *
      * @return array
      */
     public function getStaticTypes()
     {
-        return new Varien_Object($this->getConfig()->getStaticTypes());
+        return new Magento_Object($this->getConfig()->getStaticTypes());
     }
 }

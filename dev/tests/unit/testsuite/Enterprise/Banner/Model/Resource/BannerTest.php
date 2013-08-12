@@ -38,13 +38,13 @@ class Enterprise_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_Test
         $select = new Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
 
         $writeAdapter = $this->getMockForAbstractClass(
-            'Varien_Db_Adapter_Interface', array(), '', false, true, true, array('getTransactionLevel', 'fetchOne')
+            'Magento_DB_Adapter_Interface', array(), '', false, true, true, array('getTransactionLevel', 'fetchOne')
         );
         $writeAdapter->expects($this->once())->method('getTransactionLevel')->will($this->returnValue(0));
         $writeAdapter->expects($this->never())->method('fetchOne');
 
         $this->_readAdapter = $this->getMockForAbstractClass(
-            'Varien_Db_Adapter_Interface', array(), '', false, true, true,
+            'Magento_DB_Adapter_Interface', array(), '', false, true, true,
             array('select', 'prepareSqlCondition', 'fetchOne')
         );
         $this->_readAdapter->expects($this->once())->method('select')->will($this->returnValue($select));

@@ -215,11 +215,6 @@ class Mage_Reports_Model_Resource_Customer_Collection extends Mage_Customer_Mode
               ->where('orders.customer_id IN(?)', $customerIds)
               ->group('orders.customer_id');
 
-            /*
-             * Analytic functions usage
-             */
-            $select = Mage::getResourceHelper('Mage_Core')->getQueryUsingAnalyticFunction($select);
-
             foreach ($this->getConnection()->fetchAll($select) as $ordersInfo) {
                 $this->getItemById($ordersInfo['customer_id'])->addData($ordersInfo);
             }

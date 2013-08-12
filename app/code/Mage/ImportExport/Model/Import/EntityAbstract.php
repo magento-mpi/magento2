@@ -44,7 +44,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
     /**
      * DB connection
      *
-     * @var Varien_Db_Adapter_Interface
+     * @var Magento_DB_Adapter_Interface
      */
     protected $_connection;
 
@@ -597,12 +597,12 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
         }
 
         if (!$valid) {
-            $this->addRowError(__("Please correct the value for '%s'."),
+            $this->addRowError(__("Please correct the value for '%1'."),
                 $rowNumber, $attributeCode
             );
         } elseif (!empty($attributeParams['is_unique'])) {
             if (isset($this->_uniqueAttributes[$attributeCode][$rowData[$attributeCode]])) {
-                $this->addRowError(__("Duplicate Unique Attribute for '%s'"), $rowNumber, $attributeCode);
+                $this->addRowError(__("Duplicate Unique Attribute for '%1'"), $rowNumber, $attributeCode);
                 return false;
             }
             $this->_uniqueAttributes[$attributeCode][$rowData[$attributeCode]] = true;

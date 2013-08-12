@@ -25,7 +25,8 @@ class Magento_Test_ApplicationTest extends PHPUnit_Framework_TestCase
         $object = new Magento_Test_Application(
             $dbInstance,
             $installDir,
-            new Varien_Simplexml_Element('<data/>'),
+            new Magento_Simplexml_Element('<data/>'),
+            array(),
             array(),
             array(),
             $appMode

@@ -168,10 +168,10 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     /**
      * Declare template processing filter
      *
-     * @param   Varien_Filter_Template $filter
+     * @param   Magento_Filter_Template $filter
      * @return  Mage_Core_Model_Email_Template
      */
-    public function setTemplateFilter(Varien_Filter_Template $filter)
+    public function setTemplateFilter(Magento_Filter_Template $filter)
     {
         $this->_templateFilter = $filter;
         return $this;

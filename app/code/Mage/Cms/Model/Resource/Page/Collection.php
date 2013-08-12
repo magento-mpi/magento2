@@ -153,11 +153,6 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
                 'main_table.page_id = store_table.page_id',
                 array()
             )->group('main_table.page_id');
-
-            /*
-             * Allow analytic functions usage because of one field grouping
-             */
-            $this->_useAnalyticFunction = true;
         }
         return parent::_renderFiltersBefore();
     }
@@ -167,7 +162,7 @@ class Mage_Cms_Model_Resource_Page_Collection extends Mage_Core_Model_Resource_D
      * Get SQL for get record count.
      * Extra GROUP BY strip added.
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getSelectCountSql()
     {

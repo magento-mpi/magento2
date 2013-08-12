@@ -20,7 +20,7 @@ $product->load(1);
 $options = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection');
 $option = $options->setAttributeFilter($attribute->getId())->getFirstItem();
 
-$requestInfo = new Varien_Object(array(
+$requestInfo = new Magento_Object(array(
     'qty' => 1,
     'super_attribute' => array(
         $attribute->getId() => $option->getId()

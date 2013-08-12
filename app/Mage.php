@@ -126,7 +126,7 @@ final class Mage
     /**
      * Object cache instance
      *
-     * @var Varien_Object_Cache
+     * @var Magento_Object_Cache
      */
     static private $_objects;
 
@@ -188,9 +188,10 @@ final class Mage
      */
     public static function getVersion()
     {
-        $i = self::getVersionInfo();
-        return trim("{$i['major']}.{$i['minor']}.{$i['revision']}" . ($i['patch'] != '' ? ".{$i['patch']}" : "")
-            . "-{$i['stability']}{$i['number']}", '.-');
+        $info = self::getVersionInfo();
+        return trim("{$info['major']}.{$info['minor']}.{$info['revision']}"
+            . ($info['patch'] != '' ? ".{$info['patch']}" : "")
+            . "-{$info['stability']}{$info['number']}", '.-');
     }
 
     /**
@@ -256,8 +257,7 @@ final class Mage
      */
     public static function resetRegistry()
     {
-        /** @var $value */
-        foreach (self::$_registry as $key => $value) {
+        foreach (array_keys(self::$_registry) as $key) {
             self::unregister($key);
         }
 
@@ -280,7 +280,7 @@ final class Mage
             if ($graceful) {
                 return;
             }
-            self::throwException('Mage registry key "'.$key.'" already exists');
+            self::throwException('Mage registry key "' . $key . '" already exists');
         }
         self::$_registry[$key] = $value;
     }
@@ -337,15 +337,15 @@ final class Mage
     }
 
     /**
-     * Varien Objects Cache
+     * Magento Objects Cache
      *
      * @param string $key optional, if specified will load this key
-     * @return Varien_Object_Cache
+     * @return Magento_Object_Cache
      */
     public static function objects($key = null)
     {
         if (!self::$_objects) {
-            self::$_objects = new Varien_Object_Cache;
+            self::$_objects = new Magento_Object_Cache;
         }
         if (is_null($key)) {
             return self::$_objects;
@@ -499,7 +499,7 @@ final class Mage
      */
     public static function getSingleton($modelClass = '')
     {
-        $registryKey = '_singleton/'.$modelClass;
+        $registryKey = '_singleton/' . $modelClass;
         if (!self::registry($registryKey)) {
             self::register($registryKey, self::getObjectManager()->get($modelClass));
         }
@@ -519,7 +519,9 @@ final class Mage
 
     /**
      * Set application object manager
+     *
      * @param Magento_ObjectManager $objectManager
+     * @throws LogicException
      */
     public static function setObjectManager(Magento_ObjectManager $objectManager)
     {
@@ -553,7 +555,7 @@ final class Mage
      */
     public static function getResourceSingleton($modelClass = '')
     {
-        $registryKey = '_resource_singleton/'.$modelClass;
+        $registryKey = '_resource_singleton/' . $modelClass;
         if (!self::registry($registryKey)) {
             self::register($registryKey, self::getObjectManager()->get($modelClass));
         }
@@ -668,7 +670,7 @@ final class Mage
      */
     public static function isInstalled()
     {
-        return (bool) Mage::getSingleton('Mage_Core_Model_Config_Primary')->getInstallDate();
+        return (bool)Mage::getSingleton('Mage_Core_Model_Config_Primary')->getInstallDate();
     }
 
     /**
@@ -702,11 +704,11 @@ final class Mage
     /**
      * Write exception to log
      *
-     * @param Exception $e
+     * @param Exception $exception
      */
-    public static function logException(Exception $e)
+    public static function logException(Exception $exception)
     {
-        self::$_objectManager->get('Mage_Core_Model_Logger')->logException($e);
+        self::$_objectManager->get('Mage_Core_Model_Logger')->logException($exception);
     }
 
     /**

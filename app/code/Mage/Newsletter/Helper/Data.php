@@ -57,7 +57,7 @@ class Mage_Newsletter_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Retrieve Template processor for Newsletter template
      *
-     * @return Varien_Filter_Template
+     * @return Magento_Filter_Template
      */
     public function getTemplateProcessor()
     {

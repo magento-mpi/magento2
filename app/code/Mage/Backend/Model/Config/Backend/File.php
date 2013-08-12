@@ -39,7 +39,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
      * @param Mage_Backend_Model_Config_Backend_File_RequestData_Interface $requestData
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -47,7 +47,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
         Mage_Backend_Model_Config_Backend_File_RequestData_Interface $requestData,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -143,7 +143,7 @@ class Mage_Backend_Model_Config_Backend_File extends Mage_Core_Model_Config_Data
     protected function _getUploadDir()
     {
         $fieldConfig = $this->getFieldConfig();
-        /* @var $fieldConfig Varien_Simplexml_Element */
+        /* @var $fieldConfig Magento_Simplexml_Element */
 
         if (!array_key_exists('upload_dir', $fieldConfig)) {
             Mage::throwException(

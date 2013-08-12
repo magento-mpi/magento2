@@ -63,7 +63,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_T
             'webapi.user.edit.tabs'
         )->setText('Grid Block Content');
 
-        $apiUser = new Varien_Object(array(
+        $apiUser = new Magento_Object(array(
             'role_id' => 1
         ));
         $this->_block->setApiUser($apiUser);
@@ -73,7 +73,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_T
 
         $tabs = $this->_getProtectedTabsValue($this->_block);
         $this->assertArrayHasKey('main_section', $tabs);
-        $this->assertInstanceOf('Varien_Object', $tabs['main_section']);
+        $this->assertInstanceOf('Magento_Object', $tabs['main_section']);
         $this->assertEquals(array(
             'label' => 'User Info',
             'title' => 'User Info',
@@ -85,7 +85,7 @@ class Mage_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framework_T
         ), $tabs['main_section']->getData());
 
         $this->assertArrayHasKey('roles_section', $tabs);
-        $this->assertInstanceOf('Varien_Object', $tabs['roles_section']);
+        $this->assertInstanceOf('Magento_Object', $tabs['roles_section']);
         $this->assertEquals(array(
             'label' => 'User Role',
             'title' => 'User Role',

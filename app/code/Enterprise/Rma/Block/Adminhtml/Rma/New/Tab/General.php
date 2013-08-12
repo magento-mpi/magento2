@@ -24,7 +24,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_General extends Enterprise_Rma_
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $htmlIdPrefix = 'rma_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 

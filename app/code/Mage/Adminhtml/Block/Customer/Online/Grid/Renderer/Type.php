@@ -18,7 +18,7 @@
 class Mage_Adminhtml_Block_Customer_Online_Grid_Renderer_Type extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
 
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         return ($row->getCustomerId() > 0 ) ? __('Customer') : __('Visitor') ;
     }

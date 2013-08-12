@@ -74,11 +74,11 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Abstract ext
     /**
      * Return items collection
      *
-     * @return Varien_Data_Collection
+     * @return Magento_Data_Collection
      */
     public function getItemsCollection()
     {
-        return new Varien_Data_Collection();
+        return new Magento_Data_Collection();
     }
 
     /**

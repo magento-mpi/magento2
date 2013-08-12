@@ -23,7 +23,7 @@ class Mage_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCase
     /**
      * Paypal sent request
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     static public $request;
 
@@ -208,7 +208,7 @@ class Mage_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCase
         $checkRequest = create_function('$request', 'Mage_Paypal_Model_PayflowadvancedTest::$request = $request;');
         $model->expects($this->any())->method('_postRequest')->will($this->returnCallback($checkRequest));
         Mage_Paypal_Model_PayflowlinkTest::$request = null;
-        $model->initialize(Mage_Paypal_Model_Config::PAYMENT_ACTION_AUTH, new Varien_Object());
+        $model->initialize(Mage_Paypal_Model_Config::PAYMENT_ACTION_AUTH, new Magento_Object());
     }
 
     /**

@@ -98,14 +98,14 @@ class Mage_User_Model_User
      * @param Mage_Core_Model_Sender $sender
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Sender $sender,
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_sender = $sender;
@@ -571,7 +571,7 @@ class Mage_User_Model_User
             );
         }
         $this->setRpToken($newToken);
-        $currentDate = Varien_Date::now();
+        $currentDate = Magento_Date::now();
         $this->setRpTokenCreatedAt($currentDate);
 
         return $this;
@@ -593,9 +593,9 @@ class Mage_User_Model_User
 
         $expirationPeriod = Mage::helper('Mage_User_Helper_Data')->getResetPasswordLinkExpirationPeriod();
 
-        $currentDate = Varien_Date::now();
-        $currentTimestamp = Varien_Date::toTimestamp($currentDate);
-        $tokenTimestamp = Varien_Date::toTimestamp($linkTokenCreatedAt);
+        $currentDate = Magento_Date::now();
+        $currentTimestamp = Magento_Date::toTimestamp($currentDate);
+        $tokenTimestamp = Magento_Date::toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;
         }

@@ -28,7 +28,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_New_Form extends Mage_Adminhtml_Bl
     {
         $model = Mage::registry('current_status');
 
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id' => 'edit_form',
             'action' => $this->getData('action'),
             'method' => 'post'
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_New_Form extends Mage_Adminhtml_Bl
      * Add Fieldset with Store labels
      *
      * @param Mage_Sales_Model_Order_Status $model
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      */
     protected function _addStoresFieldset($model, $form)
     {

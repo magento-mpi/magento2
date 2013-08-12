@@ -20,7 +20,6 @@ class Mage_CatalogSearch_Model_Resource_Query extends Mage_Core_Model_Resource_D
 {
     /**
      * Init resource data
-     *
      */
     protected function _construct()
     {
@@ -42,7 +41,8 @@ class Mage_CatalogSearch_Model_Resource_Query extends Mage_Core_Model_Resource_D
             ->where('store_id=?', $object->getStoreId())
             ->order('synonym_for ASC')
             ->limit(1);
-        if ($data = $this->_getReadAdapter()->fetchRow($select)) {
+        $data = $this->_getReadAdapter()->fetchRow($select);
+        if ($data) {
             $object->setData($data);
             $this->_afterLoad($object);
         }
@@ -64,7 +64,8 @@ class Mage_CatalogSearch_Model_Resource_Query extends Mage_Core_Model_Resource_D
             ->where('query_text = ?', $value)
             ->where('store_id = ?', $object->getStoreId())
             ->limit(1);
-        if ($data = $this->_getReadAdapter()->fetchRow($select)) {
+        $data = $this->_getReadAdapter()->fetchRow($select);
+        if ($data) {
             $object->setData($data);
             $this->_afterLoad($object);
         }
@@ -83,16 +84,13 @@ class Mage_CatalogSearch_Model_Resource_Query extends Mage_Core_Model_Resource_D
     {
         if (is_numeric($value)) {
             return parent::load($object, $value);
-        }
-        else {
-            $this->loadByQuery($object,$value);
+        } else {
+            $this->loadByQuery($object, $value);
         }
         return $this;
     }
 
     /**
-     * Enter description here ...
-     *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_CatalogSearch_Model_Resource_Query
      */

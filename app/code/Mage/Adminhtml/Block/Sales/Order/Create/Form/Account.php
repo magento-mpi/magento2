@@ -85,10 +85,10 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Account extends Mage_Adminhtm
     /**
      * Add additional data to form element
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
      */
-    protected function _addAdditionalFormElementData(Varien_Data_Form_Element_Abstract $element)
+    protected function _addAdditionalFormElementData(Magento_Data_Form_Element_Abstract $element)
     {
         switch ($element->getId()) {
             case 'email':

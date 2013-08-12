@@ -22,7 +22,7 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Urlkey extends Mage_Eav_Mode
     /**
      * Enter description here...
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Catalog_Model_Category_Attribute_Backend_Urlkey
      */
     public function beforeSave($object)
@@ -45,7 +45,7 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Urlkey extends Mage_Eav_Mode
     /**
      * Enter description here...
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      */
     public function afterSave($object)
     {

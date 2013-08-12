@@ -74,7 +74,9 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         }
         if (!$segment->getId() && !$segment->getMassactionIds()) {
             if ($outputMessage) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('You requested the wrong customer segment.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+                    __('You requested the wrong customer segment.')
+                );
             }
             return false;
         }
@@ -138,7 +140,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
                 foreach ($collection as $item) {
                     $segments[] = $item->getName();
                 }
-                /* @translation __('Viewing combined "%s" report from segments: %s') */
+                /* @translation __('Viewing combined "%1" report from segments: %2') */
                 if ($segments) {
                     $viewModeLabel = Mage::helper('Enterprise_CustomerSegment_Helper_Data')->getViewModeLabel(
                         $this->_getAdminSession()->getViewMode()

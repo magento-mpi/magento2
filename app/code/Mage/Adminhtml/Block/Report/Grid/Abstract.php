@@ -203,7 +203,7 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
             $this->_addOrderStatusFilter($totalsCollection, $filterData);
 
             if (count($totalsCollection->getItems()) < 1 || !$filterData->getData('from')) {
-                $this->setTotals(new Varien_Object());
+                $this->setTotals(new Magento_Object());
             } else {
                 foreach ($totalsCollection->getItems() as $item) {
                     $this->setTotals($item);
@@ -262,7 +262,7 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
      * Add order status filter
      *
      * @param Mage_Reports_Model_Resource_Report_Collection_Abstract $collection
-     * @param Varien_Object $filterData
+     * @param Magento_Object $filterData
      * @return Mage_Adminhtml_Block_Report_Grid_Abstract
      */
     protected function _addOrderStatusFilter($collection, $filterData)
@@ -276,7 +276,7 @@ class Mage_Adminhtml_Block_Report_Grid_Abstract extends Mage_Adminhtml_Block_Wid
      * Can be overridden in child classes if custom filter needed
      *
      * @param Mage_Reports_Model_Resource_Report_Collection_Abstract $collection
-     * @param Varien_Object $filterData
+     * @param Magento_Object $filterData
      * @return Mage_Adminhtml_Block_Report_Grid_Abstract
      */
     protected function _addCustomFilter($collection, $filterData)

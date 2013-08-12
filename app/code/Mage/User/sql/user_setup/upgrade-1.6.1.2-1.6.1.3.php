@@ -11,7 +11,7 @@
 $installer = $this;
 
 $tableName = $installer->getTable('admin_rule');
-/** @var Varien_Db_Adapter_Interface $connection */
+/** @var Magento_DB_Adapter_Interface $connection */
 $connection = $installer->getConnection();
 
 $condition = $connection->prepareSqlCondition('resource_id', array(

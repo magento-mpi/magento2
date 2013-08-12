@@ -16,7 +16,7 @@
  * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Source_Email_Template extends Varien_Object
+class Mage_Backend_Model_Config_Source_Email_Template extends Magento_Object
     implements Mage_Core_Model_Option_ArrayInterface
 {
     /**
@@ -39,7 +39,7 @@ class Mage_Backend_Model_Config_Source_Email_Template extends Varien_Object
             Mage_Core_Model_Email_Template::XML_PATH_TEMPLATE_EMAIL . '/' . $nodeName . '/label'
         );
         if ($templateLabelNode) {
-            $templateName = __('%s (Default)', __((string)$templateLabelNode));
+            $templateName = __('%1 (Default)', __((string)$templateLabelNode));
         }
         array_unshift(
             $options,

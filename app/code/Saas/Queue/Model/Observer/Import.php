@@ -56,10 +56,10 @@ class Saas_Queue_Model_Observer_Import extends Saas_Queue_Model_ObserverAbstract
     /**
      * Import entity
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return Saas_Queue_Model_Observer_Import
      */
-    public function processImport(Varien_Event_Observer $observer)
+    public function processImport(Magento_Event_Observer $observer)
     {
         $this->_stateHelper->saveTaskAsProcessing();
         $this->_importModel->importSource();

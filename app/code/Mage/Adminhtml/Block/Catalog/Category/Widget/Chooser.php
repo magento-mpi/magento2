@@ -58,10 +58,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
     /**
      * Prepare chooser element HTML
      *
-     * @param Varien_Data_Form_Element_Abstract $element Form Element
-     * @return Varien_Data_Form_Element_Abstract
+     * @param Magento_Data_Form_Element_Abstract $element Form Element
+     * @return Magento_Data_Form_Element_Abstract
      */
-    public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
+    public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         $uniqId = Mage::helper('Mage_Core_Helper_Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/catalog_category_widget/chooser', array('uniq_id' => $uniqId, 'use_massaction' => false));
@@ -123,7 +123,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
     /**
      * Get JSON of a tree node or an associative array
      *
-     * @param Varien_Data_Tree_Node|array $node
+     * @param Magento_Data_Tree_Node|array $node
      * @param int $level
      * @return string
      */

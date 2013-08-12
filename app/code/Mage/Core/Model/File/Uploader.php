@@ -16,7 +16,7 @@
  * @package    Mage_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_File_Uploader extends Varien_File_Uploader
+class Mage_Core_Model_File_Uploader extends Magento_File_Uploader
 {
     /**
      * Flag, that defines should DB processing be skipped

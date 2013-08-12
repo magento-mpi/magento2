@@ -42,7 +42,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     /**
      * System configuration root node
      *
-     * @var Varien_Simplexml_Element
+     * @var Magento_Simplexml_Element
      */
     protected $_configRoot;
 
@@ -82,9 +82,9 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     protected $_configFactory;
 
     /**
-     * Varien_Data_Form_Factory
+     * Magento_Data_Form_Factory
      *
-     * @var Varien_Data_Form_Factory
+     * @var Magento_Data_Form_Factory
      */
     protected $_formFactory;
 
@@ -119,7 +119,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Mage_Backend_Model_Config_Factory $configFactory
-     * @param Varien_Data_Form_Factory $formFactory
+     * @param Magento_Data_Form_Factory $formFactory
      * @param Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory
      * @param Mage_Backend_Model_Config_Structure $configStructure
      * @param Mage_Backend_Block_System_Config_Form_Fieldset_Factory $fieldsetFactory
@@ -130,7 +130,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Mage_Backend_Model_Config_Factory $configFactory,
-        Varien_Data_Form_Factory $formFactory,
+        Magento_Data_Form_Factory $formFactory,
         Mage_Backend_Model_Config_Clone_Factory $cloneModelFactory,
         Mage_Backend_Model_Config_Structure $configStructure,
         Mage_Backend_Block_System_Config_Form_Fieldset_Factory $fieldsetFactory,
@@ -186,7 +186,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     {
         $this->_initObjects();
 
-        /** @var Varien_Data_Form $form */
+        /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create();
         /** @var $section Mage_Backend_Model_Config_Structure_Element_Section */
         $section = $this->_configStructure->getElement($this->getSectionCode());
@@ -205,11 +205,11 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      *
      * @param Mage_Backend_Model_Config_Structure_Element_Group $group
      * @param Mage_Backend_Model_Config_Structure_Element_Section $section
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      */
     protected function _initGroup(Mage_Backend_Model_Config_Structure_Element_Group $group,
         Mage_Backend_Model_Config_Structure_Element_Section $section,
-        Varien_Data_Form_Abstract $form
+        Magento_Data_Form_Abstract $form
     ) {
         $frontendModelClass = $group->getFrontendModel();
         $fieldsetRenderer = $frontendModelClass ?
@@ -266,7 +266,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     /**
      * Initialize config group fields
      *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param Mage_Backend_Model_Config_Structure_Element_Group $group
      * @param Mage_Backend_Model_Config_Structure_Element_Section $section
      * @param string $fieldPrefix
@@ -274,7 +274,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      * @return Mage_Backend_Block_System_Config_Form
      */
     public function initFields(
-        Varien_Data_Form_Element_Fieldset $fieldset,
+        Magento_Data_Form_Element_Fieldset $fieldset,
         Mage_Backend_Model_Config_Structure_Element_Group $group,
         Mage_Backend_Model_Config_Structure_Element_Section $section,
         $fieldPrefix = '',
@@ -311,14 +311,14 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
      * Initialize form element
      *
      * @param Mage_Backend_Model_Config_Structure_Element_Field $field
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param $path
      * @param string $fieldPrefix
      * @param string $labelPrefix
      */
     protected function _initElement(
         Mage_Backend_Model_Config_Structure_Element_Field $field,
-        Varien_Data_Form_Element_Fieldset $fieldset,
+        Magento_Data_Form_Element_Fieldset $fieldset,
         $path,
         $fieldPrefix = '',
         $labelPrefix = ''
@@ -442,7 +442,7 @@ class Mage_Backend_Block_System_Config_Form extends Mage_Backend_Block_Widget_Fo
     /**
      * Return config root node for current scope
      *
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     public function getConfigRoot()
     {

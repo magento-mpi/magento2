@@ -24,6 +24,7 @@ app/code/Mage/Cardgate
 app/code/Mage/Catalog/Block/Product/Configurable
 app/code/Mage/Catalog/Block/Product/Grouped
 app/code/Mage/Catalog/Block/Product/TemplateSelector.php
+app/code/Mage/Catalog/Block/Product/View/Tabs.php
 app/code/Mage/Catalog/Model/Resource/Product/Collection
 app/code/Mage/Catalog/Model/Product/Type.php
 app/code/Mage/Catalog/Model/Observer/Reindex.php
@@ -103,6 +104,7 @@ app/code/Mage/Tag/Block/Catalog/Product/Rss/Link.php
 app/code/Mage/Theme
 app/code/Mage/User
 app/code/Mage/Webapi
+app/code/Mage/Webhook
 dev/shell
 dev/tests/integration
 dev/tests/js
@@ -111,7 +113,7 @@ dev/tests/static
 dev/tests/unit
 dev/tools
 lib/Magento
-lib/Varien/Convert
-lib/Varien/Date.php
-lib/Varien/Object.php
-lib/Varien/Cache/Core.php
+lib/Magento/Convert
+lib/Magento/Date.php
+lib/Magento/Object.php
+lib/Magento/Cache/Core.php

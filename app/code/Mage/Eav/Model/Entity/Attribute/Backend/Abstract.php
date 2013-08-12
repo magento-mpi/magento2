@@ -158,7 +158,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract
     /**
      * Set entity value id
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @param int $valueId
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
      */
@@ -185,7 +185,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract
     /**
      * Get entity value id
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @return int
      */
     public function getEntityValueId($entity)
@@ -218,7 +218,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract
     /**
      * Validate object
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @throws Mage_Eav_Exception
      * @return boolean
      */
@@ -252,7 +252,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract
     /**
      * After load method
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function afterLoad($object)
@@ -263,7 +263,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract
     /**
      * Before save method
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function beforeSave($object)
@@ -279,7 +279,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract
     /**
      * After save method
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function afterSave($object)
@@ -290,7 +290,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract
     /**
      * Before delete method
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function beforeDelete($object)
@@ -301,7 +301,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract
     /**
      * After delete method
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function afterDelete($object)
@@ -312,7 +312,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract
     /**
      * Retrieve data for update attribute
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return array
      */
     public function getAffectedFields($object)

@@ -16,7 +16,7 @@ $connection = $installer->getConnection();
 $table = $installer->getTable('widget_instance');
 
 $connection->changeColumn($table, 'package_theme', 'theme_id', array(
-    'type'     => Varien_Db_Ddl_Table::TYPE_INTEGER,
+    'type'     => Magento_DB_Ddl_Table::TYPE_INTEGER,
     'unsigned' => true,
     'nullable' => false,
     'comment'  => 'Theme id'
@@ -28,8 +28,8 @@ $connection->addForeignKey(
     'theme_id',
     $installer->getTable('core_theme'),
     'theme_id',
-    Varien_Db_Ddl_Table::ACTION_CASCADE,
-    Varien_Db_Ddl_Table::ACTION_CASCADE
+    Magento_DB_Ddl_Table::ACTION_CASCADE,
+    Magento_DB_Ddl_Table::ACTION_CASCADE
 );
 
 $installer->endSetup();

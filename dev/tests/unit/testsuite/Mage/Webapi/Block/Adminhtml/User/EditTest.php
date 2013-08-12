@@ -70,7 +70,7 @@ class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCa
      */
     public function testGetHeaderText()
     {
-        $apiUser = new Varien_Object();
+        $apiUser = new Magento_Object();
         $this->_block->setApiUser($apiUser);
         $this->assertEquals('New API User', $this->_block->getHeaderText());
 

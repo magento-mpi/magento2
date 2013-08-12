@@ -13,7 +13,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_CategoryTest extends PHPU
 
         $block = new Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Category(array(), $layout);
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $block->setForm($form);
 
         $this->assertRegExp('/<button[^>]*New\sCategory[^>]*>/', $block->getAfterElementHtml());

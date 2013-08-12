@@ -53,10 +53,10 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     /**
      * Authorize
      *
-     * @param   Varien_Object $orderPayment
+     * @param   Magento_Object $orderPayment
      * @return  Mage_GoogleCheckout_Model_Payment
      */
-    public function authorize(Varien_Object $payment, $amount)
+    public function authorize(Magento_Object $payment, $amount)
     {
         $api = Mage::getModel('Mage_GoogleCheckout_Model_Api')->setStoreId($payment->getOrder()->getStoreId());
         $api->authorize($payment->getOrder()->getExtOrderId());
@@ -67,10 +67,10 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     /**
      * Capture payment
      *
-     * @param   Varien_Object $orderPayment
+     * @param   Magento_Object $orderPayment
      * @return  Mage_GoogleCheckout_Model_Payment
      */
-    public function capture(Varien_Object $payment, $amount)
+    public function capture(Magento_Object $payment, $amount)
     {
         /*
         try {
@@ -98,12 +98,12 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     /**
      * Refund money
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @param float $amount
      *
      * @return  Mage_GoogleCheckout_Model_Payment
      */
-    public function refund(Varien_Object $payment, $amount)
+    public function refund(Magento_Object $payment, $amount)
     {
         $reason = $this->getReason() ? $this->getReason() : __('No Reason');
         $comment = $this->getComment() ? $this->getComment() : __('No Comment');
@@ -114,7 +114,7 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
         return $this;
     }
 
-    public function void(Varien_Object $payment)
+    public function void(Magento_Object $payment)
     {
         $this->cancel($payment);
 
@@ -124,11 +124,11 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     /**
      * Void payment
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      *
      * @return Mage_GoogleCheckout_Model_Payment
      */
-    public function cancel(Varien_Object $payment)
+    public function cancel(Magento_Object $payment)
     {
         if (!$payment->getOrder()->getBeingCanceledFromGoogleApi()) {
             $reason = $this->getReason() ? $this->getReason() : __('Unknown Reason');
@@ -162,10 +162,10 @@ class Mage_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstra
     /**
      * Check void availability
      *
-     * @param   Varien_Object $payment
+     * @param   Magento_Object $payment
      * @return  bool
      */
-    public function canVoid(Varien_Object $payment)
+    public function canVoid(Magento_Object $payment)
     {
         if ($payment instanceof Mage_Sales_Model_Order_Invoice
             || $payment instanceof Mage_Sales_Model_Order_Creditmemo

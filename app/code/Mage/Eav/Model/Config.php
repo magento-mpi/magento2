@@ -428,18 +428,18 @@ class Mage_Eav_Model_Config
      * Get codes of all entity type attributes
      *
      * @param  mixed $entityType
-     * @param  Varien_Object $object
+     * @param  Magento_Object $object
      * @return array
      */
     public function getEntityAttributeCodes($entityType, $object = null)
     {
         $entityType     = $this->getEntityType($entityType);
         $attributeSetId = 0;
-        if (($object instanceof Varien_Object) && $object->getAttributeSetId()) {
+        if (($object instanceof Magento_Object) && $object->getAttributeSetId()) {
              $attributeSetId = $object->getAttributeSetId();
         }
         $storeId = 0;
-        if (($object instanceof Varien_Object) && $object->getStoreId()) {
+        if (($object instanceof Magento_Object) && $object->getStoreId()) {
             $storeId = $object->getStoreId();
         }
         $cacheKey = sprintf('%d-%d', $entityType->getId(), $attributeSetId);

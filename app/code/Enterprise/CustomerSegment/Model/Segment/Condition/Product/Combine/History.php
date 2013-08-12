@@ -149,7 +149,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
      *
      * @param $customer
      * @param int | Zend_Db_Expr $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -183,9 +183,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
                 $this->_limitByStoreWebsite($select, $website, 'item.store_id');
                 break;
         }
-
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
-
+        $select->limit(1);
         return $select;
     }
 

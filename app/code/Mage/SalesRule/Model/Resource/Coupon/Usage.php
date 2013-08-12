@@ -71,12 +71,12 @@ class Mage_SalesRule_Model_Resource_Coupon_Usage extends Mage_Core_Model_Resourc
      * Load an object by customer_id & coupon_id
      *
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @param unknown_type $customerId
      * @param unknown_type $couponId
      * @return Mage_SalesRule_Model_Resource_Coupon_Usage
      */
-    public function loadByCustomerCoupon(Varien_Object $object, $customerId, $couponId)
+    public function loadByCustomerCoupon(Magento_Object $object, $customerId, $couponId)
     {
         $read = $this->_getReadAdapter();
         if ($read && $couponId && $customerId) {

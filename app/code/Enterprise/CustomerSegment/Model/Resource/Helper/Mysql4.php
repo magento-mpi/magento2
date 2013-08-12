@@ -62,16 +62,4 @@ class Enterprise_CustomerSegment_Model_Resource_Helper_Mysql4 extends Mage_Core_
                 Mage::throwException(__('Unknown operator specified.'));
         }
     }
-
-    /**
-     * Set Mysql specific limit
-     *
-     * @param Varien_Db_Select $select
-     * @return Enterprise_CustomerSegment_Model_Resource_Helper_Mysql4
-     */
-    public function setOneRowLimit(Varien_Db_Select $select)
-    {
-        $select->limit(1);
-        return $this;
-    }
 }

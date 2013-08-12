@@ -13,9 +13,7 @@
  *
  * All action handlers may take the $config and $eventModel params, which are configuration node for current action and
  * the event model respectively
- *
  * Action will be logged only if the handler returns non-empty value
- *
  */
 class Enterprise_Logging_Model_Handler_Controllers
 {
@@ -23,13 +21,15 @@ class Enterprise_Logging_Model_Handler_Controllers
      * Generic Action handler
      *
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
+     * @param Enterprise_Logging_Model_Processor $processorModel
      * @return Enterprise_Logging_Model_Event
      */
     public function postDispatchGeneric($config, $eventModel, $processorModel)
     {
-        if ($collectedIds = $processorModel->getCollectedIds()) {
+        $collectedIds = $processorModel->getCollectedIds();
+        if ($collectedIds) {
             $eventModel->setInfo(Mage::helper('Enterprise_Logging_Helper_Data')->implodeValues($collectedIds));
             return true;
         }
@@ -43,7 +43,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Simply log action without any id-s
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return bool
      */
@@ -55,24 +55,24 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for config view
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
     public function postDispatchConfigView($config, $eventModel)
     {
-        $id = Mage::app()->getRequest()->getParam('section');
-        if (!$id) {
-            $id = 'general';
+        $sectionId = Mage::app()->getRequest()->getParam('section');
+        if (!$sectionId) {
+            $sectionId = 'general';
         }
-        $eventModel->setInfo($id);
+        $eventModel->setInfo($sectionId);
         return true;
     }
 
     /**
      * Custom handler for config save
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @param Enterprise_Logging_Model_Processor $processor
      * @return Enterprise_Logging_Model_Event
@@ -88,13 +88,13 @@ class Enterprise_Logging_Model_Handler_Controllers
         /** @var Mage_Backend_Model_Config_Structure $configStructure  */
         $configStructure = Mage::getSingleton('Mage_Backend_Model_Config_Structure');
 
-        $encryptedNodeEntriesPaths = $configStructure->getFieldPathsByAttribute(
+        $encryptedNodePaths = $configStructure->getFieldPathsByAttribute(
             'backend_model',
             'Mage_Backend_Model_Config_Backend_Encrypted'
         );
 
         $skipEncrypted = array();
-        foreach ($encryptedNodeEntriesPaths as $path) {
+        foreach ($encryptedNodePaths as $path) {
             $skipEncrypted[] = basename($path);
         }
 
@@ -116,17 +116,17 @@ class Enterprise_Logging_Model_Handler_Controllers
                 $groupFieldsData = array();
             }
         }
-        $id = $request->getParam('section');
-        if (!$id) {
-            $id = 'general';
+        $sectionId = $request->getParam('section');
+        if (!$sectionId) {
+            $sectionId = 'general';
         }
-        return $eventModel->setInfo($id);
+        return $eventModel->setInfo($sectionId);
     }
 
     /**
      * Custom handler for category move
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
@@ -138,7 +138,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for global search
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
@@ -150,9 +150,9 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Handler for forgotpassword
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @return Enterprise_Logging_Model_Event|bool
      */
     public function postDispatchForgotPassword($config, $eventModel)
     {
@@ -175,16 +175,16 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for poll save fail's action
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @return Enterprise_Logging_Model_Event|bool
      */
     public function postDispatchPollValidation($config, $eventModel)
     {
         $out = json_decode(Mage::app()->getResponse()->getBody());
         if (!empty($out->error)) {
-            $id = Mage::app()->getRequest()->getParam('id');
-            return $eventModel->setIsSuccess(false)->setInfo($id == 0 ? '' : $id);
+            $pollId = Mage::app()->getRequest()->getParam('id');
+            return $eventModel->setIsSuccess(false)->setInfo($pollId == 0 ? '' : $pollId);
         } else {
             $poll = Mage::registry('current_poll_model');
             if ($poll && $poll->getId()) {
@@ -197,15 +197,16 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for customer validation fail's action
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @return Enterprise_Logging_Model_Event|bool
      */
-    public function postDispatchCustomerValidate($config, $eventModel) {
+    public function postDispatchCustomerValidate($config, $eventModel)
+    {
         $out = json_decode(Mage::app()->getResponse()->getBody());
         if (!empty($out->error)) {
-            $id = Mage::app()->getRequest()->getParam('id');
-            return $eventModel->setIsSuccess(false)->setInfo($id == 0 ? '' : $id);
+            $customerId = Mage::app()->getRequest()->getParam('id');
+            return $eventModel->setIsSuccess(false)->setInfo($customerId == 0 ? '' : $customerId);
         }
         return false;
     }
@@ -213,9 +214,10 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Handler for reports
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @param Enterprise_Logging_Model_Processor $processor
+     * @return Enterprise_Logging_Model_Event|bool
      */
     public function postDispatchReport($config, $eventModel, $processor)
     {
@@ -257,7 +259,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for catalog price rules apply
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
@@ -270,7 +272,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for catalog price rules save & apply
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @param Enterprise_Logging_Model_Processor $processorModel
      * @return Enterprise_Logging_Model_Event
@@ -290,25 +292,25 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Special handler for newsletter unsubscribe
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
     public function postDispatchNewsletterUnsubscribe($config, $eventModel)
     {
-        $id = Mage::app()->getRequest()->getParam('subscriber');
-        if (is_array($id)) {
-            $id = implode(', ', $id);
+        $subscriberId = Mage::app()->getRequest()->getParam('subscriber');
+        if (is_array($subscriberId)) {
+            $subscriberId = implode(', ', $subscriberId);
         }
-        return $eventModel->setInfo($id);
+        return $eventModel->setInfo($subscriberId);
     }
 
     /**
      * Custom tax import handler
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @return Enterprise_Logging_Model_Event|bool
      */
     public function postDispatchTaxRatesImport($config, $eventModel)
     {
@@ -326,8 +328,9 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for catalog product mass attribute update
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
+     * @param Enterprise_Logging_Model_Processor $processor
      * @return Enterprise_Logging_Model_Event
      */
     public function postDispatchProductUpdateAttributes($config, $eventModel, $processor)
@@ -373,10 +376,10 @@ class Enterprise_Logging_Model_Handler_Controllers
         return $eventModel->setInfo(__('Attributes Updated'));
     }
 
-     /**
+    /**
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
@@ -394,7 +397,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
@@ -413,7 +416,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for creating System Backup
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
@@ -438,7 +441,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for deleting System Backup
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
@@ -458,7 +461,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for creating System Rollback
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
@@ -484,7 +487,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for mass unlocking locked admin users
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
@@ -506,7 +509,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for mass reindex process on index management
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
@@ -522,8 +525,9 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for System Currency save
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
+     * @param Enterprise_Logging_Model_Processor $processor
      * @return Enterprise_Logging_Model_Event
      */
     public function postDispatchSystemCurrencySave($config, $eventModel, $processor)
@@ -559,8 +563,9 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for Cache Settings Save
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
+     * @param Enterprise_Logging_Model_Processor $processor
      * @return Enterprise_Logging_Model_Event
      */
     public function postDispatchSaveCacheSettings($config, $eventModel, $processor)
@@ -587,9 +592,9 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom tax export handler
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
+     * @return Enterprise_Logging_Model_Event|bool
      */
     public function postDispatchTaxRatesExport($config, $eventModel)
     {
@@ -607,7 +612,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for sales archive operations
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
@@ -624,7 +629,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     /**
      * Custom handler for Recurring Profiles status update
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
@@ -645,7 +650,7 @@ class Enterprise_Logging_Model_Handler_Controllers
      * @param Enterprise_Logging_Model_Event $eventModel
      * @param int $classId
      *
-     * @return mixed
+     * @return Enterprise_Logging_Model_Event
      */
     protected function _logTaxClassEvent($classType, $eventModel, $classId)
     {

@@ -83,7 +83,7 @@ class Enterprise_Reward_Model_Action_Salesrule extends Enterprise_Reward_Model_A
     /**
      * Setter for $_entity and add some extra data to history
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @return Enterprise_Reward_Model_Action_Abstract
      */
     public function setEntity($entity)

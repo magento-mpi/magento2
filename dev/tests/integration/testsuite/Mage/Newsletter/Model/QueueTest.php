@@ -13,7 +13,7 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Mage/Newsletter/_files/queue.php
-     * @magentoConfigFixture frontend/design/theme/full_name default/demo_blue
+     * @magentoConfigFixture frontend/design/theme/full_name magento_blank
      * @magentoConfigFixture fixturestore_store general/locale/code  de_DE
      * @magentoAppIsolation enabled
      */
@@ -21,17 +21,17 @@ class Mage_Newsletter_Model_QueueTest extends PHPUnit_Framework_TestCase
     {
         Mage::app()->getArea(Mage_Core_Model_App_Area::AREA_FRONTEND)->load();
         $collection = Mage::getModel('Mage_Core_Model_Resource_Theme_Collection');
-        $themeId = $collection->getThemeByFullPath('frontend/default/demo')->getId();
+        $themeId = $collection->getThemeByFullPath('frontend/magento_demo')->getId();
         Mage::app()->getStore('fixturestore')->setConfig('design/theme/theme_id', $themeId);
 
         $subscriberOne = $this->getMock('Zend_Mail', array('send', 'setBodyHTML'), array('utf-8'));
         $subscriberOne->expects($this->any())->method('send');
         $subscriberTwo = clone $subscriberOne;
         $subscriberOne->expects($this->once())->method('setBodyHTML')->with(
-            $this->stringEndsWith('/static/frontend/default/demo_blue/en_US/images/logo.gif')
+            $this->stringEndsWith('/static/frontend/magento_blank/en_US/images/logo.gif')
         );
         $subscriberTwo->expects($this->once())->method('setBodyHTML')->with(
-            $this->stringEndsWith('/static/frontend/default/demo/de_DE/images/logo.gif')
+            $this->stringEndsWith('/static/frontend/magento_demo/de_DE/images/logo.gif')
         );
 
         $emailTemplate = $this->getMock('Mage_Core_Model_Email_Template',

@@ -17,7 +17,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Backen
     /**
      * Reference to the parent element (optional)
      *
-     * @var Varien_Data_Form_Element_Abstract
+     * @var Magento_Data_Form_Element_Abstract
      */
     protected $_parentElement = null;
 
@@ -44,9 +44,9 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Backen
     /**
      * Setter for parent element
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      */
-    public function setParentElement(Varien_Data_Form_Element_Abstract $element)
+    public function setParentElement(Magento_Data_Form_Element_Abstract $element)
     {
         $this->_parentElement = $element;
         return $this;
@@ -90,11 +90,11 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Backen
     /**
      * Instantiate form and fields
      *
-     * @return Varien_Data_Form
+     * @return Magento_Data_Form
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $form->setFieldsetRenderer(
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
@@ -170,11 +170,11 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Mage_Backen
      * Add a field to the form or fieldset
      * Form and fieldset have same abstract
      *
-     * @param Varien_Data_Form|Varien_Data_Form_Element_Fieldset $formOrFieldset
+     * @param Magento_Data_Form|Magento_Data_Form_Element_Fieldset $formOrFieldset
      * @param string $elementName
      * @param array $options
      * @param string $type
-     * @return Varien_Data_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     protected function _addField($formOrFieldset, $elementName, $options = array(), $type = 'text')
     {

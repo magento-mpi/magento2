@@ -10,15 +10,19 @@
 
 /**
  * Installation event observer
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Install_Model_Observer
 {
+    /**
+     * @param Varien_Event_Observer $observer
+     * @return $this
+     */
     public function bindLocale($observer)
     {
-        if ($locale=$observer->getEvent()->getLocale()) {
-            if ($choosedLocale = Mage::getSingleton('Mage_Install_Model_Session')->getLocale()) {
+        $locale = $observer->getEvent()->getLocale();
+        if ($locale) {
+            $choosedLocale = Mage::getSingleton('Mage_Install_Model_Session')->getLocale();
+            if ($choosedLocale) {
                 $locale->setLocaleCode($choosedLocale);
             }
         }

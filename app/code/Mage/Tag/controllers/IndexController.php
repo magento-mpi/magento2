@@ -32,7 +32,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
         $productId  = (int)$this->getRequest()->getParam('product');
 
         if (strlen($tagName) && $productId) {
-            /** @var $session Mage_Tag_Model_Session */
+            /** @var $session Mage_Core_Model_Session_Generic */
             $session = Mage::getSingleton('Mage_Tag_Model_Session');
             $product = Mage::getModel('Mage_Catalog_Model_Product')
                 ->load($productId);
@@ -117,7 +117,7 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
      */
     protected function _fillMessageBox($counter)
     {
-        /** @var $session Mage_Tag_Model_Session */
+        /** @var $session Mage_Core_Model_Session_Generic */
         $session = Mage::getSingleton('Mage_Tag_Model_Session');
         $helper = Mage::helper('Mage_Core_Helper_Data');
 

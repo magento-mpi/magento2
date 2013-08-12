@@ -46,7 +46,7 @@ class Mage_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_TestCa
     public function testBeforeToHtml()
     {
         // TODO: Move to unit tests after MAGETWO-4015 complete.
-        $apiUser = new Varien_Object();
+        $apiUser = new Magento_Object();
         $this->_block->setApiUser($apiUser);
         $this->_block->toHtml();
         $this->assertSame($apiUser, $this->_block->getChildBlock('form')->getApiUser());

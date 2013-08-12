@@ -18,9 +18,6 @@ class Mage_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        if (Magento_Test_Helper_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestSkipped('Test is designed to run on MySQL only.');
-        }
         $this->_model = Mage::getModel('Mage_Core_Model_Resource');
     }
 
@@ -51,7 +48,7 @@ class Mage_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_model->createConnection('test_false', 'test', 'test'));
         $this->assertInstanceOf(
-            'Varien_Db_Adapter_Pdo_Mysql',
+            'Magento_DB_Adapter_Pdo_Mysql',
             $this->_model->createConnection(
                 'test',
                 'pdo_mysql',

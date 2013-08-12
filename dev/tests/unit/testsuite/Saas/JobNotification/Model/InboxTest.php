@@ -39,8 +39,8 @@ class Saas_JobNotification_Model_InboxTest extends PHPUnit_Framework_TestCase
         );
 
         $this->_configMock = $this->getMock('Saas_JobNotification_Model_Config', array(), array(), '', false);
-        $this->_eventMock = $this->getMock('Varien_Event', array('getTaskName'), array(), '', false);
-        $this->_observerMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_eventMock = $this->getMock('Magento_Event', array('getTaskName'), array(), '', false);
+        $this->_observerMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($this->_eventMock));
 
         $this->_model = new Saas_JobNotification_Model_Inbox($this->_factoryMock, $this->_configMock);
@@ -52,7 +52,7 @@ class Saas_JobNotification_Model_InboxTest extends PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('isNotificationAllowed')
             ->will($this->returnValue(true));
-        $notificationMock = $this->getMock('Varien_Object', array(), array(), '', false);
+        $notificationMock = $this->getMock('Magento_Object', array(), array(), '', false);
         $this->_factoryMock
             ->expects($this->once())
             ->method('create')

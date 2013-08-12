@@ -49,9 +49,9 @@ class Mage_GoogleOptimizer_Model_Observer_Product_SaveTest extends PHPUnit_Frame
         $this->_storeId = 0;
         $this->_productMock->expects($this->atLeastOnce())->method('getStoreId')
             ->will($this->returnValue($this->_storeId));
-        $event = $this->getMock('Varien_Event', array('getProduct'), array(), '', false);
+        $event = $this->getMock('Magento_Event', array('getProduct'), array(), '', false);
         $event->expects($this->once())->method('getProduct')->will($this->returnValue($this->_productMock));
-        $this->_eventObserverMock = $this->getMock('Varien_Event_Observer', array(), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento_Event_Observer', array(), array(), '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $this->_codeMock = $this->getMock('Mage_GoogleOptimizer_Model_Code', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false);

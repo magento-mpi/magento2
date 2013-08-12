@@ -136,7 +136,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Payflowpro
      */
-    public function authorize(Varien_Object $payment, $amount)
+    public function authorize(Magento_Object $payment, $amount)
     {
         $request = $this->_buildPlaceRequest($payment, $amount);
         $request->setTrxtype(self::TRXTYPE_AUTH_ONLY);
@@ -163,7 +163,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Payflowpro
      */
-    public function capture(Varien_Object $payment, $amount)
+    public function capture(Magento_Object $payment, $amount)
     {
         if ($payment->getReferenceTransactionId()) {
             $request = $this->_buildPlaceRequest($payment, $amount);
@@ -200,7 +200,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Payflowpro
      */
-    public function void(Varien_Object $payment)
+    public function void(Magento_Object $payment)
     {
         $request = $this->_buildBasicRequest($payment);
         $request->setTrxtype(self::TRXTYPE_DELAYED_VOID);
@@ -220,10 +220,10 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     /**
      * Attempt to void the authorization on cancelling
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @return Mage_Paypal_Model_Payflowpro
      */
-    public function cancel(Varien_Object $payment)
+    public function cancel(Magento_Object $payment)
     {
         return $this->void($payment);
     }
@@ -234,7 +234,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Paypal_Model_Payflowpro
      */
-    public function refund(Varien_Object $payment, $amount)
+    public function refund(Magento_Object $payment, $amount)
     {
         $request = $this->_buildBasicRequest($payment);
         $request->setTrxtype(self::TRXTYPE_CREDIT);
@@ -312,15 +312,15 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     /**
      * Post request to gateway and return response
      *
-     * @param Varien_Object $request
-     * @return Varien_Object
+     * @param Magento_Object $request
+     * @return Magento_Object
      */
-    protected function _postRequest(Varien_Object $request)
+    protected function _postRequest(Magento_Object $request)
     {
         $debugData = array('request' => $request->getData());
 
-        $client = new Varien_Http_Client();
-        $result = new Varien_Object();
+        $client = new Magento_HTTP_ZendClient();
+        $result = new Magento_Object();
 
         $_config = array(
             'maxredirects' => 5,
@@ -386,9 +386,9 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
       *
       * @param Mage_Sales_Model_Order_Payment $payment
       * @param float $amount
-      * @return Varien_Object
+      * @return Magento_Object
       */
-    protected function _buildPlaceRequest(Varien_Object $payment, $amount)
+    protected function _buildPlaceRequest(Magento_Object $payment, $amount)
     {
         $request = $this->_buildBasicRequest($payment);
         $request->setAmt(round($amount,2));
@@ -399,7 +399,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
         if ($this->getIsCentinelValidationEnabled()){
             $params = array();
             $params = $this->getCentinelValidator()->exportCmpiData($params);
-            $request = Varien_Object_Mapper::accumulateByMap($params, $request, $this->_centinelFieldMap);
+            $request = Magento_Object_Mapper::accumulateByMap($params, $request, $this->_centinelFieldMap);
         }
 
         $order = $payment->getOrder();
@@ -440,11 +440,11 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
       * Return request object with basic information for gateway request
       *
       * @param Mage_Sales_Model_Order_Payment $payment
-      * @return Varien_Object
+      * @return Magento_Object
       */
-    protected function _buildBasicRequest(Varien_Object $payment)
+    protected function _buildBasicRequest(Magento_Object $payment)
     {
-        $request = new Varien_Object();
+        $request = new Magento_Object();
         $request
             ->setUser($this->getConfigData('user'))
             ->setVendor($this->getConfigData('vendor'))
@@ -471,7 +471,7 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
       *
       * @throws Mage_Core_Exception
       */
-    protected function _processErrors(Varien_Object $response)
+    protected function _processErrors(Magento_Object $response)
     {
         if ($response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
             throw new Mage_Paypal_Exception(__('You cannot void a verification transaction.'));
@@ -485,9 +485,9 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
      * Adopt specified address object to be compatible with Paypal
      * Puerto Rico should be as state of USA and not as a country
      *
-     * @param Varien_Object $address
+     * @param Magento_Object $address
      */
-    protected function _applyCountryWorkarounds(Varien_Object $address)
+    protected function _applyCountryWorkarounds(Magento_Object $address)
     {
         if ($address->getCountry() == 'PR') {
             $address->setCountry('US');
@@ -498,11 +498,11 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     /**
      * Set reference transaction data into request
      *
-     * @param Varien_Object $payment
-     * @param Varien_Object $request
+     * @param Magento_Object $payment
+     * @param Magento_Object $request
      * @return Mage_Paypal_Model_Payflowpro
      */
-    protected function _setReferenceTransaction(Varien_Object $payment, $request)
+    protected function _setReferenceTransaction(Magento_Object $payment, $request)
     {
         return $this;
     }

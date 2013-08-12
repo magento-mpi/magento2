@@ -66,7 +66,7 @@ class Mage_Rating_Model_Resource_Rating extends Mage_Core_Model_Resource_Db_Abst
      * @param string $field
      * @param mixed $value
      * @param Mage_Rating_Model_Rating $object
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

@@ -28,7 +28,7 @@ class Mage_Catalog_ProductController
         $categoryId = (int)$this->getRequest()->getParam('category', false);
         $productId  = (int)$this->getRequest()->getParam('id');
 
-        $params = new Varien_Object();
+        $params = new Magento_Object();
         $params->setCategoryId($categoryId);
 
         return Mage::helper('Mage_Catalog_Helper_Product')->initProduct($productId, $this, $params);
@@ -60,7 +60,7 @@ class Mage_Catalog_ProductController
         /** @var Mage_Catalog_Helper_Product_View $viewHelper */
         $viewHelper = Mage::helper('Mage_Catalog_Helper_Product_View');
 
-        $params = new Varien_Object();
+        $params = new Magento_Object();
         $params->setCategoryId($categoryId);
         $params->setSpecifyOptions($specifyOptions);
 

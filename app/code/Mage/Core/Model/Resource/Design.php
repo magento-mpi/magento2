@@ -49,7 +49,7 @@ class Mage_Core_Model_Resource_Design extends Mage_Core_Model_Resource_Db_Abstra
         }
 
         if (!is_null($object->getDateFrom()) && !is_null($object->getDateTo())
-                && Varien_Date::toTimestamp($object->getDateFrom()) > Varien_Date::toTimestamp($object->getDateTo())) {
+                && Magento_Date::toTimestamp($object->getDateFrom()) > Magento_Date::toTimestamp($object->getDateTo())) {
             Mage::throwException(__('Start date cannot be greater than end date.'));
         }
 

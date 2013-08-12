@@ -54,7 +54,7 @@ return array(
     array('_getAmounts', 'Enterprise_GiftCard_Block_Catalog_Product_Price'),
     array('searchSuggestions', 'Enterprise_Search_Model_Client_Solr'),
     array('_registerProductsView', 'Enterprise_PageCache_Model_Container_Viewedproducts'),
-    array('_getForeignKeyName', 'Varien_Db_Adapter_Oracle'),
+    array('_getForeignKeyName', 'Magento_DB_Adapter_Oracle'),
     array('getCacheInstance', 'Enterprise_PageCache_Model_Cache'),
     array('saveCustomerSegments', 'Enterprise_Banner_Model_Resource_Banner'),
     array('saveOptions', 'Enterprise_PageCache_Model_Cache'),
@@ -78,4 +78,10 @@ return array(
     array('_getQuote', 'Enterprise_GiftWrapping_Block_Checkout_Options',
         'Enterprise_GiftWrapping_Block_Checkout_Options::getQuote()'
     ),
+    array('addCustomerSegmentRelationsToCollection', 'Enterprise_TargetRule_Model_Resource_Rule'),
+    array('_getRuleProductsTable', 'Enterprise_TargetRule_Model_Resource_Rule'),
+    array('getCustomerSegmentRelations', 'Enterprise_TargetRule_Model_Resource_Rule'),
+    array('_saveCustomerSegmentRelations', 'Enterprise_TargetRule_Model_Resource_Rule'),
+    array('_prepareRuleProducts', 'Enterprise_TargetRule_Model_Resource_Rule'),
+    array('getInetNtoaExpr', 'Enterprise_Logging_Model_Resource_Helper_Mysql4'),
 );

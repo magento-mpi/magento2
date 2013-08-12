@@ -25,8 +25,6 @@ unset($magentoAfl['php']);
 $config = array(
     ''    => array('php' => 'OSL', '_recursive' => false),
     'app' => array('php' => 'OSL', '_recursive' => false),
-    'app/code/Find'         => $magentoOslAfl,
-    'app/code/Social'       => $magentoOslAfl,
     'app/code/Enterprise'   => $magentoOslAfl,
     'app/code/Mage'         => $magentoOslAfl,
     'app/code/Saas'         => $magentoOslAfl,
@@ -37,9 +35,7 @@ $config = array(
     'downloader'            => $magentoOslAfl,
     'errors'                => $magentoOslAfl,
     'lib/flex'              => array('xml' => 'AFL', 'flex' => 'AFL'),
-    'lib/Mage'              => $magentoOslAfl,
     'lib/Magento'           => $magentoOslAfl,
-    'lib/Varien'            => $magentoOslAfl,
     'pub'                   => $magentoOslAfl,
 );
 

@@ -42,7 +42,7 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Form extends Ma
             $saveUrl = $this->getUrl('*/*/create');
             $showNew = true;
         }
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'id'        => 'edit_form',
             'action'    => $saveUrl,
             'method'    => 'post'

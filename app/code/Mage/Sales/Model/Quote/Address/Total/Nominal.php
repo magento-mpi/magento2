@@ -46,7 +46,7 @@ class Mage_Sales_Model_Quote_Address_Total_Nominal extends Mage_Sales_Model_Quot
                     $isCompounded = false;
                 }
                 if ((float)$itemRowTotal > 0 && $label = $model->getLabel()) {
-                    $totalDetails[] = new Varien_Object(array(
+                    $totalDetails[] = new Magento_Object(array(
                         'label'  => $label,
                         'amount' => $itemRowTotal,
                         'is_compounded' => $isCompounded,

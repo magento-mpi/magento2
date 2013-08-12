@@ -10,8 +10,6 @@
 
 
 /**
- * Enter description here ...
- *
  * @method Mage_Sales_Model_Resource_Quote_Address_Rate _getResource()
  * @method Mage_Sales_Model_Resource_Quote_Address_Rate getResource()
  * @method int getAddressId()
@@ -43,6 +41,9 @@
  */
 class Mage_Sales_Model_Quote_Address_Rate extends Mage_Shipping_Model_Rate_Abstract
 {
+    /**
+     * @var Mage_Sales_Model_Quote_Address
+     */
     protected $_address;
 
     protected function _construct()
@@ -50,6 +51,9 @@ class Mage_Sales_Model_Quote_Address_Rate extends Mage_Shipping_Model_Rate_Abstr
         $this->_init('Mage_Sales_Model_Resource_Quote_Address_Rate');
     }
 
+    /**
+     * @return $this|Mage_Core_Model_Abstract
+     */
     protected function _beforeSave()
     {
         parent::_beforeSave();
@@ -59,36 +63,43 @@ class Mage_Sales_Model_Quote_Address_Rate extends Mage_Shipping_Model_Rate_Abstr
         return $this;
     }
 
+    /**
+     * @param Mage_Sales_Model_Quote_Address $address
+     * @return $this
+     */
     public function setAddress(Mage_Sales_Model_Quote_Address $address)
     {
         $this->_address = $address;
         return $this;
     }
 
+    /**
+     * @return Mage_Sales_Model_Quote_Address
+     */
     public function getAddress()
     {
         return $this->_address;
     }
 
+    /**
+     * @param Mage_Shipping_Model_Rate_Result_Abstract $rate
+     * @return $this
+     */
     public function importShippingRate(Mage_Shipping_Model_Rate_Result_Abstract $rate)
     {
         if ($rate instanceof Mage_Shipping_Model_Rate_Result_Error) {
-            $this
-                ->setCode($rate->getCarrier().'_error')
+            $this->setCode($rate->getCarrier() . '_error')
                 ->setCarrier($rate->getCarrier())
                 ->setCarrierTitle($rate->getCarrierTitle())
-                ->setErrorMessage($rate->getErrorMessage())
-            ;
+                ->setErrorMessage($rate->getErrorMessage());
         } elseif ($rate instanceof Mage_Shipping_Model_Rate_Result_Method) {
-            $this
-                ->setCode($rate->getCarrier().'_'.$rate->getMethod())
+            $this->setCode($rate->getCarrier() . '_' . $rate->getMethod())
                 ->setCarrier($rate->getCarrier())
                 ->setCarrierTitle($rate->getCarrierTitle())
                 ->setMethod($rate->getMethod())
                 ->setMethodTitle($rate->getMethodTitle())
                 ->setMethodDescription($rate->getMethodDescription())
-                ->setPrice($rate->getPrice())
-            ;
+                ->setPrice($rate->getPrice());
         }
         return $this;
     }

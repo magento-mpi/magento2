@@ -74,7 +74,7 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
         } else {
             $genDir = $this->_config->getDirectories()->getDir(Mage_Core_Model_Dir::GENERATION);
             $autoloader = new Magento_Autoload_IncludePath();
-            $generatorIo = new Magento_Code_Generator_Io(new Varien_Io_File(), $autoloader, $genDir);
+            $generatorIo = new Magento_Code_Generator_Io(new Magento_Io_File(), $autoloader, $genDir);
             $generator = new Magento_Code_Generator_Class(
                 new Magento_Code_Generator(null, $autoloader, $generatorIo)
             );
@@ -97,6 +97,21 @@ class Mage_Core_Model_ObjectManager_DefinitionFactory
             return new Magento_ObjectManager_Interception_Definition_Compiled($this->_unpack(file_get_contents($path)));
         } else {
             return new Magento_ObjectManager_Interception_Definition_Runtime();
+        }
+    }
+
+    /**
+     * Retreive class relations list
+     *
+     * @return Mage_Core_Model_ObjectManager_Relations|Magento_ObjectManager_Relations_Runtime
+     */
+    public function createRelations()
+    {
+        $path = $this->_config->getDefinitionPath() . DIRECTORY_SEPARATOR . 'relations.php';
+        if (is_readable($path)) {
+            return new Mage_Core_Model_ObjectManager_Relations($this->_unpack(file_get_contents($path)));
+        } else {
+            return new Magento_ObjectManager_Relations_Runtime();
         }
     }
 

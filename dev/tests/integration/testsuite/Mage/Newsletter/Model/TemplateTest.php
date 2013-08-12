@@ -25,10 +25,10 @@ class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoConfigFixture                    install/design/theme/full_name   default/basic
-     * @magentoConfigFixture                    adminhtml/design/theme/full_name default/basic
-     * @magentoConfigFixture current_store      design/theme/full_name           default/iphone
-     * @magentoConfigFixture fixturestore_store design/theme/full_name           default/demo_blue
+     * @magentoConfigFixture                    install/design/theme/full_name   magento_basic
+     * @magentoConfigFixture                    adminhtml/design/theme/full_name magento_basic
+     * @magentoConfigFixture current_store      design/theme/full_name           magento_iphone
+     * @magentoConfigFixture fixturestore_store design/theme/full_name           magento_blank
      * @magentoAppIsolation  enabled
      * @dataProvider         getProcessedTemplateDataProvider
      */
@@ -36,7 +36,7 @@ class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Test partially fails bc of MAGETWO-557.');
         $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
-        $this->assertStringEndsWith('theme/frontend/default/demo/en_US/Mage_Page/favicon.ico',
+        $this->assertStringEndsWith('theme/frontend/magento_demo/en_US/Mage_Page/favicon.ico',
             $this->_model->getProcessedTemplate()
         );
         $this->_model->emulateDesign($store, $area);
@@ -51,10 +51,10 @@ class Mage_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
     public function getProcessedTemplateDataProvider()
     {
         return array(
-            'install'        => array('install',   'default',      'default/demo'),
-            'backend'        => array('adminhtml', 'admin',        'default/basic'),
-            'frontend'       => array('frontend',  'default',      'default/iphone'),
-            'frontend store' => array('frontend',  'fixturestore', 'default/demo_blue'),
+            'install'        => array('install',   'default',      'magento_demo'),
+            'backend'        => array('adminhtml', 'admin',        'magento_basic'),
+            'frontend'       => array('frontend',  'default',      'magento_iphone'),
+            'frontend store' => array('frontend',  'fixturestore', 'magento_blank'),
         );
     }
 

@@ -521,7 +521,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function validateAction()
     {
-        $response = new Varien_Object();
+        $response = new Magento_Object();
         $response->setError(false);
 
         try {
@@ -588,7 +588,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 //            if (is_array($errors = $product->validate())) {
 //                foreach ($errors as $code => $error) {
 //                    if ($error === true) {
-//                        Mage::throwException(__('Attribute "%s" is invalid.', $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
+//                        Mage::throwException(__('Attribute "%1" is invalid.', $product->getResource()->getAttribute($code)->getFrontend()->getLabel()));
 //                    }
 //                    else {
 //                        Mage::throwException($error);
@@ -1053,7 +1053,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function showUpdateResultAction()
     {
         $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
-        if ($session->hasCompositeProductResult() && $session->getCompositeProductResult() instanceof Varien_Object) {
+        if ($session->hasCompositeProductResult() && $session->getCompositeProductResult() instanceof Magento_Object) {
             /* @var $helper Mage_Adminhtml_Helper_Catalog_Product_Composite */
             $helper = Mage::helper('Mage_Adminhtml_Helper_Catalog_Product_Composite');
             $helper->renderUpdateResult($this, $session->getCompositeProductResult());
@@ -1139,7 +1139,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
             $this->getResponse()->setBody($attribute->toJson());
         } catch (Exception $e) {
-            $response = new Varien_Object();
+            $response = new Magento_Object();
             $response->setError(false);
             $response->setMessage($e->getMessage());
             $this->getResponse()->setBody($response->toJson());

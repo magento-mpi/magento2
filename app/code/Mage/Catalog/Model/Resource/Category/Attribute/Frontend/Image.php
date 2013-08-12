@@ -24,7 +24,7 @@ class Mage_Catalog_Model_Resource_Category_Attribute_Frontend_Image
     /**
      * Return image url
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return string|null
      */
     public function getUrl($object)

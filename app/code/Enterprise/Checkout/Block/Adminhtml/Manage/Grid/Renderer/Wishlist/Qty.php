@@ -21,7 +21,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Wishlist_Qty
     /**
      * Returns whether this qty field must be inactive
      *
-     * @param   Varien_Object $row
+     * @param   Magento_Object $row
      * @return  bool
      */
     protected function _isInactive($row)

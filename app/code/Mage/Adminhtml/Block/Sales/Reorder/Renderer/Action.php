@@ -26,7 +26,7 @@ class Mage_Adminhtml_Block_Sales_Reorder_Renderer_Action
      */
     protected $_actions = array();
 
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         $this->_actions = array();
         if (Mage::helper('Mage_Sales_Helper_Reorder')->canReorder($row)) {
@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Sales_Reorder_Renderer_Action
     protected function _actionsToHtml(array $actions = array())
     {
         $html = array();
-        $attributesObject = new Varien_Object();
+        $attributesObject = new Magento_Object();
 
         if (empty($actions)) {
             $actions = $this->_actions;

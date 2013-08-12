@@ -112,7 +112,7 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid extends Mage_Backend_B
     /**
      * Returns URL for editing of row tag
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return string
      */
     public function getRowUrl($row)

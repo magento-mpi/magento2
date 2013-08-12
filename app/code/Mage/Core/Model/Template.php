@@ -32,7 +32,7 @@ abstract class Mage_Core_Model_Template extends Mage_Core_Model_Abstract
     /**
      * Configuration of desing package for template
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_designConfig;
 
@@ -40,7 +40,7 @@ abstract class Mage_Core_Model_Template extends Mage_Core_Model_Abstract
     /**
      * Configuration of emulated desing package.
      *
-     * @var Varien_Object|boolean
+     * @var Magento_Object|boolean
      */
     protected $_emulatedDesignConfig = false;
 
@@ -48,7 +48,7 @@ abstract class Mage_Core_Model_Template extends Mage_Core_Model_Abstract
      * Initial environment information
      * @see self::_applyDesignConfig()
      *
-     * @var Varien_Object|null
+     * @var Magento_Object|null
      */
     protected $_initialEnvironmentInfo = null;
 
@@ -116,7 +116,7 @@ abstract class Mage_Core_Model_Template extends Mage_Core_Model_Abstract
     /**
      * Get design configuration data
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getDesignConfig()
     {
@@ -127,7 +127,7 @@ abstract class Mage_Core_Model_Template extends Mage_Core_Model_Abstract
             if ($this->_store === null) {
                 $this->_store = Mage::app()->getStore()->getId();
             }
-            $this->_designConfig = new Varien_Object(array(
+            $this->_designConfig = new Magento_Object(array(
                 'area' => $this->_area,
                 'store' => $this->_store
             ));
