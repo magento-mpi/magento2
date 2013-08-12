@@ -13,7 +13,7 @@
             <action method="addPriceBlockType">
                 <type>msrp</type>
                 <block>Magento_Catalog_Block_Product_Price</block>
-                <template>Mage_Wishlist::render/item/price_msrp_item.phtml</template>
+                <template>Magento_Wishlist::render/item/price_msrp_item.phtml</template>
             </action>
         </reference>
     </MAP_price_msrp_wishlist_item>

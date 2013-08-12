@@ -536,15 +536,15 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
             if ($moveTo[0] == 'wishlist') {
                 $wishlist = null;
                 if (!isset($moveTo[1])) {
-                    $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer($this->getCustomer(), true);
+                    $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCustomer($this->getCustomer(), true);
                 } else {
-                    $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->load($moveTo[1]);
+                    $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->load($moveTo[1]);
                     if (!$wishlist->getId() || $wishlist->getCustomerId() != $this->getCustomer()->getId()) {
                         $wishlist = null;
                     }
                 }
                 if (!$wishlist) {
-                    $this->_addResultError(Mage::helper('Mage_Wishlist_Helper_Data')->__("We couldn't find this wish list."));
+                    $this->_addResultError(Mage::helper('Magento_Wishlist_Helper_Data')->__("We couldn't find this wish list."));
                     return $this;
                 }
                 $wishlist->setStore($this->getStore())

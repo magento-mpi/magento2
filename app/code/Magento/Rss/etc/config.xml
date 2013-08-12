@@ -19,7 +19,7 @@
                 <Magento_CatalogInventory/>
                 <Mage_Sales/>
                 <Mage_SalesRule/>
-                <Mage_Wishlist/>
+                <Magento_Wishlist/>
              </depends>
         </Magento_Rss>
     </modules>

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_GiftRegistry_Controller_Mage_Wishlist_IndexTest extends Magento_Test_TestCase_ControllerAbstract
+class Enterprise_GiftRegistry_Controller_Magento_Wishlist_IndexTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
      * @magentoDataFixture Mage/Customer/_files/customer.php

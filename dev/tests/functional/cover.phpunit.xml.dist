@@ -44,7 +44,7 @@
             <directory suffix="Test.php">testsuite/Core/Mage/Store</directory>
             <directory suffix="Test.php">testsuite/Core/Magento/Tags</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Tax</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Wishlist</directory>
+            <directory suffix="Test.php">testsuite/Core/Magento/Wishlist</directory>
         </testsuite>
         -->
     </testsuites>

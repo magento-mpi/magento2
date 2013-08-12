@@ -23,7 +23,7 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Block_T
     /**
      * Enter description here...
      *
-     * @var Mage_Wishlist_Model_Wishlist
+     * @var Magento_Wishlist_Model_Wishlist
      */
     protected $_wishlist;
 
@@ -49,7 +49,7 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Block_T
     public function getWishlist()
     {
         if( !$this->_wishlist ) {
-            $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')
+            $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')
                 ->loadByCustomer(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer());
             $this->_wishlist->getItemCollection()
                 ->addAttributeToSelect('name')

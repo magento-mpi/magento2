@@ -65,7 +65,7 @@ Magento/CatalogRule/Model
 Mage/Tax/Model/Sales/Pdf
 Magento/Usa/Model/Shipping/Carrier
 Mage/Webapi/Model
-Mage/Wishlist/Model
+Magento/Wishlist/Model
 lib/Magento/Archive
 lib/Magento/Connect/Channel
 lib/Magento/HTTP/Client

@@ -75,7 +75,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist
     /**
      * Retrieve product identifier linked with item
      *
-     * @param   Mage_Wishlist_Model_Item $item
+     * @param   Magento_Wishlist_Model_Item $item
      * @return  int
      */
     public function getProductId($item)

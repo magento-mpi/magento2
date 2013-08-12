@@ -141,7 +141,7 @@ class Enterprise_Wishlist_Controller_Search extends Magento_Core_Controller_Fron
         if (!$wishlistId) {
             return $this->norouteAction();
         }
-        $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
+        $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
         $wishlist->load($wishlistId);
         if (!$wishlist->getId()
             || (!$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_getSession()->getCustomerId())) {
@@ -154,7 +154,7 @@ class Enterprise_Wishlist_Controller_Search extends Magento_Core_Controller_Fron
             $block->setRefererUrl($this->_getRefererUrl());
         }
 
-        $this->_initLayoutMessages(array('Mage_Customer_Model_Session', 'Mage_Checkout_Model_Session', 'Mage_Wishlist_Model_Session'));
+        $this->_initLayoutMessages(array('Mage_Customer_Model_Session', 'Mage_Checkout_Model_Session', 'Magento_Wishlist_Model_Session'));
         $this->renderLayout();
     }
 
@@ -175,8 +175,8 @@ class Enterprise_Wishlist_Controller_Search extends Magento_Core_Controller_Fron
         foreach ($qtys as $itemId => $qty) {
             if ($qty && isset($selected[$itemId])) {
                 try {
-                    /** @var Mage_Wishlist_Model_Item $item*/
-                    $item = Mage::getModel('Mage_Wishlist_Model_Item');
+                    /** @var Magento_Wishlist_Model_Item $item*/
+                    $item = Mage::getModel('Magento_Wishlist_Model_Item');
                     $item->loadWithOptions($itemId);
                     $item->unsProduct();
                     $qty = $this->_processLocalizedQty($qty);
@@ -187,9 +187,9 @@ class Enterprise_Wishlist_Controller_Search extends Magento_Core_Controller_Fron
                         $addedItems[] = $item->getProduct();
                     }
                 } catch (Magento_Core_Exception $e) {
-                    if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
+                    if ($e->getCode() == Magento_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
                         $notSalable[] = $item;
-                    } else if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
+                    } else if ($e->getCode() == Magento_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                         $hasOptions[] = $item;
                     } else {
                         $messages[] = $this->__('%s for "%s"', trim($e->getMessage(), '.'), $item->getProduct()->getName());
@@ -212,7 +212,7 @@ class Enterprise_Wishlist_Controller_Search extends Magento_Core_Controller_Fron
             foreach ($notSalable as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = Mage::helper('Mage_Wishlist_Helper_Data')->__('Cannot add the following product(s) to shopping cart: %s.', join(', ', $products));
+            $messages[] = Mage::helper('Magento_Wishlist_Helper_Data')->__('Cannot add the following product(s) to shopping cart: %s.', join(', ', $products));
         }
 
         if ($hasOptions) {
@@ -220,7 +220,7 @@ class Enterprise_Wishlist_Controller_Search extends Magento_Core_Controller_Fron
             foreach ($hasOptions as $item) {
                 $products[] = '"' . $item->getProduct()->getName() . '"';
             }
-            $messages[] = Mage::helper('Mage_Wishlist_Helper_Data')->__('Product(s) %s have required options. Each product can only be added individually.', join(', ', $products));
+            $messages[] = Mage::helper('Magento_Wishlist_Helper_Data')->__('Product(s) %s have required options. Each product can only be added individually.', join(', ', $products));
         }
 
         if ($messages) {
@@ -242,7 +242,7 @@ class Enterprise_Wishlist_Controller_Search extends Magento_Core_Controller_Fron
             }
 
             Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
-                Mage::helper('Mage_Wishlist_Helper_Data')->__('%d product(s) have been added to shopping cart: %s.', count($addedItems), join(', ', $products))
+                Mage::helper('Magento_Wishlist_Helper_Data')->__('%d product(s) have been added to shopping cart: %s.', count($addedItems), join(', ', $products))
             );
         }
 

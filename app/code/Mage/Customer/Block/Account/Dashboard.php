@@ -95,7 +95,7 @@ class Mage_Customer_Block_Account_Dashboard extends Magento_Core_Block_Template
      * Get back url in account dashboard
      *
      * This method is copypasted in:
-     * Mage_Wishlist_Block_Customer_Wishlist  - because of strange inheritance
+     * Magento_Wishlist_Block_Customer_Wishlist  - because of strange inheritance
      * Mage_Customer_Block_Address_Book - because of secure url
      *
      * @return string

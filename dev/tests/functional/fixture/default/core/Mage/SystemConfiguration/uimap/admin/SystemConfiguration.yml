@@ -3620,7 +3620,7 @@ system_configuration:
                                         magento_usa: //select[@name='groups[modules_disable_output][fields][Magento_Usa][value]']
                                         magento_weee: //select[@name='groups[modules_disable_output][fields][Magento_Weee][value]']
                                         mage_widget: //select[@name='groups[modules_disable_output][fields][Mage_Widget][value]']
-                                        mage_wishlist: //select[@name='groups[modules_disable_output][fields][Mage_Wishlist][value]']
+                                        magento_wishlist: //select[@name='groups[modules_disable_output][fields][Magento_Wishlist][value]']
                                     checkboxes:
                                         mage_adminnotification_use_default: //input[@name='groups[modules_disable_output][fields][Mage_AdminNotification][inherit]']
                                         magento_api_use_default: //input[@id='Magento_Api_inherit']
@@ -3683,7 +3683,7 @@ system_configuration:
                                         magento_usa_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Usa][inherit]']
                                         magento_weee_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Weee][inherit]']
                                         mage_widget_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Widget][inherit]']
-                                        mage_wishlist_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Wishlist][inherit]']
+                                        magento_wishlist_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Wishlist][inherit]']
                 -
                     advanced_developer:
                         xpath: //a[contains(@href, 'edit/section/dev/')]

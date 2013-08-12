@@ -11,7 +11,7 @@
 /**
  * Wishlist view block
  */
-class Enterprise_GiftRegistry_Block_Wishlist_View extends Mage_Wishlist_Block_Customer_Wishlist
+class Enterprise_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Customer_Wishlist
 {
     /**
      * Prepare block layout, override wishlist block with different template

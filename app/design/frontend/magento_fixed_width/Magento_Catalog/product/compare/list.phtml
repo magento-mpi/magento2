@@ -57,7 +57,7 @@
                             <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                         <?php endif; ?>
                     <?php endif; ?>
-                    <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
+                    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
                         <p><a href="#" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></p>
                     <?php endif; ?>
                 </td>
@@ -109,7 +109,7 @@
                             <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                         <?php endif; ?>
                     <?php endif; ?>
-                    <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
+                    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
                         <p><a href="#" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></p>
                     <?php endif; ?>
                 </td>

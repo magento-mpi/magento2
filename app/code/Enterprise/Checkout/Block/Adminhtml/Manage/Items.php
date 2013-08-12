@@ -207,12 +207,12 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Magento_Adminhtml
     /**
      * Retrieve collection of customer wishlists
      *
-     * @return Mage_Wishlist_Model_Resource_Wishlist_Collection
+     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
      */
     public function getCustomerWishlists()
     {
-        /* @var Mage_Wishlist_Model_Resource_Wishlist_Collection $wishlistCollection */
-        return Mage::getModel('Mage_Wishlist_Model_Wishlist')->getCollection()
+        /* @var Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlistCollection */
+        return Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection()
             ->filterByCustomerId($this->getCustomerId());
     }
 }

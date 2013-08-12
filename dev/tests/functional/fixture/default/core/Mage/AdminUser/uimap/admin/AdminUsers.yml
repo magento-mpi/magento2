@@ -322,7 +322,7 @@ new_admin_role:
                                         stores-settings-configuration-checkout_section: //*[@data-id='Mage_Checkout::checkout']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-xml_sitemap_section: //*[@data-id='Magento_Sitemap::config_sitemap']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-system_section: //*[@data-id='Magento_Adminhtml::config_system']//*[@class='jstree-checkbox']
-                                        stores-settings-configuration-wishlist_section: //*[@data-id='Mage_Wishlist::config_wishlist']//*[@class='jstree-checkbox']
+                                        stores-settings-configuration-wishlist_section: //*[@data-id='Magento_Wishlist::config_wishlist']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-promotion: //*[@data-id='Mage_SalesRule::config_promo']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-advanced_section: //*[@data-id='Magento_Adminhtml::advanced']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-advanced_admin_section: //*[@data-id='Magento_Adminhtml::config_admin']//*[@class='jstree-checkbox']

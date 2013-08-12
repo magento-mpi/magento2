@@ -43,7 +43,7 @@ class Enterprise_Persistent_Model_Observer
             // apply persistent data to segments
             Mage::register('segment_customer', $customer, true);
             if ($this->_isWishlistPersist()) {
-                Mage::helper('Mage_Wishlist_Helper_Data')->setCustomer($customer);
+                Mage::helper('Magento_Wishlist_Helper_Data')->setCustomer($customer);
             }
         }
         return $this;
@@ -244,7 +244,7 @@ class Enterprise_Persistent_Model_Observer
         }
 
         $controller = $observer->getEvent()->getControllerAction();
-        if ($controller instanceof Mage_Wishlist_Controller_Index) {
+        if ($controller instanceof Magento_Wishlist_Controller_Index) {
             $controller->skipAuthentication();
         }
     }
@@ -390,11 +390,11 @@ class Enterprise_Persistent_Model_Observer
     /**
      * Init persistent wishlist
      *
-     * @return Mage_Wishlist_Model_Wishlist
+     * @return Magento_Wishlist_Model_Wishlist
      */
     protected function _initWishlist()
     {
-        return Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer($this->_getCustomerId() ,true);
+        return Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCustomer($this->_getCustomerId() ,true);
     }
 
     /**

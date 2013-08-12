@@ -117,7 +117,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      */
     public function getAddToWishlistUrl($product)
     {
-        return $this->helper('Mage_Wishlist_Helper_Data')->getAddUrl($product);
+        return $this->helper('Magento_Wishlist_Helper_Data')->getAddUrl($product);
     }
 
     /**

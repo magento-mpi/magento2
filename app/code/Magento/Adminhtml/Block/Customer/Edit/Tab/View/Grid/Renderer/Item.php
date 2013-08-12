@@ -84,7 +84,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
     /**
      * Returns formatted option value for an item
      *
-     * @param Mage_Wishlist_Item_Option
+     * @param Magento_Wishlist_Item_Option
      * @return array
      */
     protected function getFormattedOptionValue($option)

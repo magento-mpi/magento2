@@ -15,7 +15,7 @@
  * @package    Magento_Rss
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
+class Magento_Rss_Block_Wishlist extends Magento_Wishlist_Block_Abstract
 {
     /**
      * Customer instance
@@ -34,12 +34,12 @@ class Magento_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
     /**
      * Retrieve Wishlist model
      *
-     * @return Mage_Wishlist_Model_Wishlist
+     * @return Magento_Wishlist_Model_Wishlist
      */
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
+            $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
@@ -112,7 +112,7 @@ class Magento_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
                 'language'      => $lang
             ));
 
-            /** @var $wishlistItem Mage_Wishlist_Model_Item*/
+            /** @var $wishlistItem Magento_Wishlist_Model_Item*/
             foreach ($this->getWishlistItems() as $wishlistItem) {
                 /* @var $product Magento_Catalog_Model_Product */
                 $product = $wishlistItem->getProduct();
@@ -141,7 +141,7 @@ class Magento_Rss_Block_Wishlist extends Mage_Wishlist_Block_Abstract
                 }
                 $description .= '</p>';
                 if ($this->hasDescription($product)) {
-                    $description .= '<p>' . Mage::helper('Mage_Wishlist_Helper_Data')->__('Comment:')
+                    $description .= '<p>' . Mage::helper('Magento_Wishlist_Helper_Data')->__('Comment:')
                         . ' ' . $this->helper('Magento_Catalog_Helper_Output')
                             ->productAttribute($product, $product->getDescription(), 'description')
                         . '<p>';

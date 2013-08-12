@@ -481,7 +481,7 @@ class Magento_Adminhtml_Controller_Customer extends Magento_Adminhtml_Controller
         $itemId = (int)$this->getRequest()->getParam('delete');
         if ($customer->getId() && $itemId) {
             try {
-                Mage::getModel('Mage_Wishlist_Model_Item')->load($itemId)
+                Mage::getModel('Magento_Wishlist_Model_Item')->load($itemId)
                     ->delete();
             }
             catch (Exception $exception) {

@@ -29,7 +29,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Grid_Renderer_Product extends M
         $listType = $this->getColumn()->getGrid()->getListType();
         if ($row instanceof Magento_Catalog_Model_Product) {
             $product = $row;
-        } else if (($row instanceof Mage_Wishlist_Model_Item) || ($row instanceof Mage_Sales_Model_Order_Item)) {
+        } else if (($row instanceof Magento_Wishlist_Model_Item) || ($row instanceof Mage_Sales_Model_Order_Item)) {
             $product = $row->getProduct();
         }
         if ($product->canConfigure()) {

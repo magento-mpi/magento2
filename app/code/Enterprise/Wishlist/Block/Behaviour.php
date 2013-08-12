@@ -20,7 +20,7 @@ class Enterprise_Wishlist_Block_Behaviour extends Magento_Core_Block_Template
     /**
      * Retrieve wishlists items
      *
-     * @return Mage_Wishlist_Model_Resource_Wishlist_Collection
+     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
      */
     public function getWishlists()
     {
@@ -50,7 +50,7 @@ class Enterprise_Wishlist_Block_Behaviour extends Magento_Core_Block_Template
     /**
      * Retrieve default wishlist for current customer
      *
-     * @return Mage_Wishlist_Model_Wishlist
+     * @return Magento_Wishlist_Model_Wishlist
      */
     public function getDefaultWishlist()
     {
@@ -60,7 +60,7 @@ class Enterprise_Wishlist_Block_Behaviour extends Magento_Core_Block_Template
     /**
      * Check whether customer reached wishlist limit
      *
-     * @param Mage_Wishlist_Model_Resource_Wishlist_Collection
+     * @param Magento_Wishlist_Model_Resource_Wishlist_Collection
      * @return bool
      */
     public function canCreateWishlists($wishlistList)

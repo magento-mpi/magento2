@@ -504,7 +504,7 @@ class Enterprise_PageCache_Model_Observer
         }
 
         $cookieValue = '';
-        foreach (Mage::helper('Mage_Wishlist_Helper_Data')->getWishlistItemCollection() as $item) {
+        foreach (Mage::helper('Magento_Wishlist_Helper_Data')->getWishlistItemCollection() as $item) {
             $cookieValue .= ($cookieValue ? '_' : '') . $item->getId();
         }
 
@@ -513,7 +513,7 @@ class Enterprise_PageCache_Model_Observer
 
         // Wishlist items count hash for top link
         $this->_cookie->setObscure(Enterprise_PageCache_Model_Cookie::COOKIE_WISHLIST_ITEMS,
-            'wishlist_item_count_' . Mage::helper('Mage_Wishlist_Helper_Data')->getItemCount());
+            'wishlist_item_count_' . Mage::helper('Magento_Wishlist_Helper_Data')->getItemCount());
 
         return $this;
     }

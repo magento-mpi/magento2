@@ -83,7 +83,7 @@
             <cache_lifetime>86400</cache_lifetime>
         </account_links>
         <wishlist>
-            <block>Mage_Wishlist_Block_Customer_Sidebar</block>
+            <block>Magento_Wishlist_Block_Customer_Sidebar</block>
             <placeholder>WISHLIST</placeholder>
             <container>Enterprise_PageCache_Model_Container_Wishlist</container>
             <cache_lifetime>86400</cache_lifetime>
@@ -95,7 +95,7 @@
             <cache_lifetime>86400</cache_lifetime>
         </orders>
         <wishlist_links>
-            <block>Mage_Wishlist_Block_Links</block>
+            <block>Magento_Wishlist_Block_Links</block>
             <placeholder>WISHLISTLINKS</placeholder>
             <container>Enterprise_PageCache_Model_Container_Wishlistlinks</container>
             <cache_lifetime>86400</cache_lifetime>

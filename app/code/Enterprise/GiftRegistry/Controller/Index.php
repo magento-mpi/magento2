@@ -131,7 +131,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
         if ($itemId) {
             try {
                 $entity = $this->_initEntity('entity');
-                $wishlistItem = Mage::getModel('Mage_Wishlist_Model_Item')
+                $wishlistItem = Mage::getModel('Magento_Wishlist_Model_Item')
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 $entity->addItem($wishlistItem->getProductId(), $wishlistItem->getBuyRequest());
                 $this->_getSession()->addSuccess(

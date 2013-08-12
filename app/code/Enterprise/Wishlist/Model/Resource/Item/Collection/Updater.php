@@ -27,7 +27,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Collection_Updater
     public function update($argument)
     {
         $adapter = $argument->getConnection();
-        $defaultWishlistName = Mage::helper('Mage_Wishlist_Helper_Data')->getDefaultWishlistName();
+        $defaultWishlistName = Mage::helper('Magento_Wishlist_Helper_Data')->getDefaultWishlistName();
         $argument->getSelect()->columns(
             array('wishlist_name' => $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName)))
         );

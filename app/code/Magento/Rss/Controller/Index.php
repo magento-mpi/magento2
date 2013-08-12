@@ -20,7 +20,7 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
     /**
      * Current wishlist
      *
-     * @var Mage_Wishlist_Model_Wishlist
+     * @var Magento_Wishlist_Model_Wishlist
      */
     protected $_wishlist;
 
@@ -82,12 +82,12 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
     /**
      * Retrieve Wishlist model
      *
-     * @return Mage_Wishlist_Model_Wishlist
+     * @return Magento_Wishlist_Model_Wishlist
      */
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
+            $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);

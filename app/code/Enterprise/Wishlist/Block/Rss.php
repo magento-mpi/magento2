@@ -20,12 +20,12 @@ class Enterprise_Wishlist_Block_Rss extends Magento_Rss_Block_Wishlist
     /**
      * Retrieve Wishlist model
      *
-     * @return Mage_Wishlist_Model_Wishlist
+     * @return Magento_Wishlist_Model_Wishlist
      */
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist');
+            $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);

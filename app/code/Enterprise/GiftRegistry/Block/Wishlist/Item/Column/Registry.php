@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_GiftRegistry_Block_Wishlist_Item_Column_Registry
-    extends Mage_Wishlist_Block_Customer_Wishlist_Item_Column
+    extends Magento_Wishlist_Block_Customer_Wishlist_Item_Column
 {
     /**
      * Check whether module is available

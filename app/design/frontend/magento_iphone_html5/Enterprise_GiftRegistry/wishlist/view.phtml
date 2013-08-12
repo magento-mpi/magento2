@@ -18,8 +18,8 @@ $entityValues = $this->getEntityValues();
 ?>
 <div class="my-wishlist">
     <div class="page-title title-buttons">
-        <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isRssAllow() && $this->hasWishlistItems()): ?>
-            <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getRssUrl(); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
+        <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isRssAllow() && $this->hasWishlistItems()): ?>
+            <a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getRssUrl(); ?>" class="link-rss"><?php echo $this->__('RSS Feed') ?></a>
         <?php endif; ?>
         <h1><?php echo $this->__('My Wish List') ?></h1>
     </div>
@@ -131,10 +131,10 @@ $entityValues = $this->getEntityValues();
     }
 
     function focusComment(obj) {
-        if( obj.value == '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>' ) {
+        if( obj.value == '<?php echo $this->helper('Magento_Wishlist_Helper_Data')->defaultCommentString() ?>' ) {
             obj.value = '';
         } else if( obj.value == '' ) {
-            obj.value = '<?php echo $this->helper('Mage_Wishlist_Helper_Data')->defaultCommentString() ?>';
+            obj.value = '<?php echo $this->helper('Magento_Wishlist_Helper_Data')->defaultCommentString() ?>';
         }
     }
 

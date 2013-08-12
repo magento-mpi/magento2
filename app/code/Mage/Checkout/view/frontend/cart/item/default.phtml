@@ -56,10 +56,10 @@ $canApplyMsrp = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_item
         <a href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo $this->__('Edit item parameters') ?>"><?php echo $this->__('Edit') ?></a>
         <?php endif ?>
     </td>
-    <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllowInCart()) : ?>
+    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllowInCart()) : ?>
     <td class="a-center">
         <?php if ($isVisibleProduct): ?>
-        <a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getMoveFromCartUrl($_item->getId()); ?>" class="link-wishlist use-ajax"><?php echo $this->__('Move'); ?></a>
+        <a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getMoveFromCartUrl($_item->getId()); ?>" class="link-wishlist use-ajax"><?php echo $this->__('Move'); ?></a>
         <?php endif ?>
     </td>
     <?php endif ?>

@@ -156,7 +156,7 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
             ->columns(array('item_qty' => 'qty', 'added_at', 'description', 'product_id'));
 
         $adapter = $this->getSelect()->getAdapter();
-        $defaultWishlistName = Mage::helper('Mage_Wishlist_Helper_Data')->getDefaultWishlistName();
+        $defaultWishlistName = Mage::helper('Magento_Wishlist_Helper_Data')->getDefaultWishlistName();
         $this->getSelect()->join(
             array('wishlist_table' => $this->getTable('wishlist')),
             'main_table.wishlist_id = wishlist_table.wishlist_id',

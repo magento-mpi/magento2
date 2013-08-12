@@ -68,8 +68,8 @@ $_helper = $this->helper('Magento_Catalog_Helper_Output');
                         <?php endif; ?>
                     <?php endif; ?>
                     <ul class="add-to-links" data-role="add-to-links">
-                        <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
-                        <li><a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getAddUrl($_product) ?>"
+                        <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
+                        <li><a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getAddUrl($_product) ?>"
                                class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
                         <?php endif; ?>
                         <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
@@ -123,8 +123,8 @@ $_helper = $this->helper('Magento_Catalog_Helper_Output');
                     <?php endif; ?>
                 <?php endif; ?>
                 <ul class="add-to-links" data-role="add-to-links">
-                    <?php if ($this->helper('Mage_Wishlist_Helper_Data')->isAllow()) : ?>
-                    <li><a href="<?php echo $this->helper('Mage_Wishlist_Helper_Data')->getAddUrl($_product) ?>"
+                    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
+                    <li><a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getAddUrl($_product) ?>"
                            class="link-wishlist" data-action="add-to-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
                     <?php endif; ?>
                     <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>

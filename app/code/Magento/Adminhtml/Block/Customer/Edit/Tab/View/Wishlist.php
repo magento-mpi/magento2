@@ -39,7 +39,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_Wishlist_Model_Item')->getCollection()
+        $collection = Mage::getModel('Magento_Wishlist_Model_Item')->getCollection()
             ->addCustomerIdFilter(Mage::registry('current_customer')->getId())
             ->addDaysInWishlist()
             ->addStoreData()
@@ -109,7 +109,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
     /**
      * Get row url
      *
-     * @param Mage_Wishlist_Model_Item $item
+     * @param Magento_Wishlist_Model_Item $item
      * @return string
      */
     public function getRowUrl($row)

@@ -329,8 +329,8 @@ $CONFIG['translates'] = array(
         'app/code/Magento/Weee/',
         'app/design/frontend/base/default/layout/weee.xml',
     ),
-    'Mage_Wishlist' => array(
-        'app/code/Mage/Wishlist/',
+    'Magento_Wishlist' => array(
+        'app/code/Magento/Wishlist/',
         'app/design/frontend/base/default/template/wishlist/',
         'app/design/frontend/base/default/layout/wishlist.xml',
         'app/design/frontend/default/modern/layout/wishlist.xml',
@@ -629,7 +629,7 @@ $CONFIG['helpers']  = array(
     'tax'               => 'Mage_Tax',
     'usa'               => 'Magento_Usa',
     'weee'              => 'Magento_Weee',
-    'wishlist'          => 'Mage_Wishlist',
+    'wishlist'          => 'Magento_Wishlist',
     'widget'            => 'Mage_Widget',
     'enterprise_admingws'           => 'Enterprise_AdminGws',
     'enterprise_banner'             => 'Enterprise_Banner',

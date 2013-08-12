@@ -20,7 +20,7 @@ class Enterprise_Wishlist_Block_Search_Results extends Magento_Core_Block_Templa
     /**
      * Retrieve wishlist search results
      *
-     * @return Mage_Wishlist_Model_Resource_Collection
+     * @return Magento_Wishlist_Model_Resource_Collection
      */
     public function getSearchResults()
     {
@@ -30,10 +30,10 @@ class Enterprise_Wishlist_Block_Search_Results extends Magento_Core_Block_Templa
     /**
      * Return frontend registry link
      *
-     * @param Mage_Wishlist_Model_Wishlist $item
+     * @param Magento_Wishlist_Model_Wishlist $item
      * @return string
      */
-    public function getWishlistLink(Mage_Wishlist_Model_Wishlist $item)
+    public function getWishlistLink(Magento_Wishlist_Model_Wishlist $item)
     {
         return $this->getUrl('*/search/view', array('wishlist_id' => $item->getId()));
     }

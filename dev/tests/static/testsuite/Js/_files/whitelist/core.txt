@@ -11,7 +11,7 @@ app/code/Mage/Captcha
 app/code/Mage/Customer
 app/code/Magento/Downloadable
 app/code/Mage/Persistent
-app/code/Mage/Wishlist
+app/code/Magento/Wishlist
 app/code/Mage/Bundle
 app/code/Magento/Adminhtml
 app/code/Mage/Payment

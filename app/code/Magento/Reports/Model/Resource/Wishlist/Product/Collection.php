@@ -16,7 +16,7 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wishlist_Model_Resource_Item_Collection
+class Magento_Reports_Model_Resource_Wishlist_Product_Collection extends Magento_Wishlist_Model_Resource_Item_Collection
 {
     /**
      * Resource initialization
@@ -24,7 +24,7 @@ class Magento_Reports_Model_Resource_Wishlist_Product_Collection extends Mage_Wi
      */
     public function _construct()
     {
-        $this->_init('Mage_Wishlist_Model_Wishlist', 'Mage_Wishlist_Model_Resource_Wishlist');
+        $this->_init('Magento_Wishlist_Model_Wishlist', 'Magento_Wishlist_Model_Resource_Wishlist');
     }
 
     /**

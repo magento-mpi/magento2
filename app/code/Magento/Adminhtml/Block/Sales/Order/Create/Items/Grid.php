@@ -382,11 +382,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     /**
      * Retrieve collection of customer wishlists
      *
-     * @return Mage_Wishlist_Model_Resource_Wishlist_Collection
+     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
      */
     public function getCustomerWishlists()
     {
-        return Mage::getModel('Mage_Wishlist_Model_Wishlist')->getCollection()
+        return Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection()
             ->filterByCustomerId($this->getCustomerId());
     }
 }

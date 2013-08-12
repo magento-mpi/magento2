@@ -60,7 +60,7 @@
  * @method Core_Mage_Theme_Helper                                                                      themeHelper()
  * @method Core_Mage_TransactionalEmails_Helper                                                        transactionalEmailsHelper()
  * @method Core_Mage_Vde_Helper                                                                        vdeHelper()
- * @method Core_Mage_Wishlist_Helper|Enterprise_Mage_Wishlist_Helper                                   wishlistHelper()
+ * @method Core_Magento_Wishlist_Helper|Enterprise_Magento_Wishlist_Helper                                   wishlistHelper()
  * @method Core_Mage_XmlSitemap_Helper                                                                 xmlSitemapHelper()
  * @method Enterprise_Mage_AddBySku_Helper                                                             addBySkuHelper()
  * @method Enterprise_Mage_Attributes_Helper                                                           attributesHelper()

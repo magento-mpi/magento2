@@ -48,7 +48,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist
     public function getWishlists()
     {
         $wishlists = array();
-        /* @var $item Mage_Wishlist_Model_Item */
+        /* @var $item Magento_Wishlist_Model_Item */
         foreach ($this->getItemCollection() as $item) {
             $wishlists[$item->getWishlistId()] = $item->getWishlistName();
         }

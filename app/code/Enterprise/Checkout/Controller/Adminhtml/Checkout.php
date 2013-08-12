@@ -236,7 +236,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
 
             // Remove items from wishlist
             if (isset($source['source_wishlist']) && is_array($source['source_wishlist'])) {
-                $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer($customer)
+                $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCustomer($customer)
                     ->setStore($store)
                     ->setSharedStoreIds($store->getWebsite()->getStoreIds());
                 if ($wishlist->getId()) {
@@ -246,7 +246,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
                     }
                     foreach ($source['source_wishlist'] as $productId => $qty) {
                         if (in_array($productId, $quoteProductIds)) {
-                            $wishlistItem = Mage::getModel('Mage_Wishlist_Model_Item')->loadByProductWishlist(
+                            $wishlistItem = Mage::getModel('Magento_Wishlist_Model_Item')->loadByProductWishlist(
                                 $wishlist->getId(),
                                 $productId,
                                 $wishlist->getSharedStoreIds()
@@ -478,7 +478,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
                 Mage::throwException($this->__('The wish list item id is not received.'));
             }
 
-            $item = Mage::getModel('Mage_Wishlist_Model_Item')
+            $item = Mage::getModel('Magento_Wishlist_Model_Item')
                 ->loadWithOptions($itemId, 'info_buyRequest');
             if (!$item->getId()) {
                 Mage::throwException($this->__('The wish list item is not loaded.'));
@@ -715,7 +715,7 @@ class Enterprise_Checkout_Controller_Adminhtml_Checkout extends Magento_Adminhtm
         $buyRequest = new Magento_Object();
         switch ($listType) {
             case 'wishlist':
-                $item = Mage::getModel('Mage_Wishlist_Model_Item')
+                $item = Mage::getModel('Magento_Wishlist_Model_Item')
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 if ($item->getId()) {
                     $productId = $item->getProductId();

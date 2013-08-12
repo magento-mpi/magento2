@@ -27,12 +27,12 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Magento_Cor
     /**
      * Wishlist Collection
      *
-     * @var Mage_Wishlist_Model_Resource_Wishlist_Collection
+     * @var Magento_Wishlist_Model_Resource_Wishlist_Collection
      */
     protected $_collection;
 
     /**
-     * @var Mage_Wishlist_Model_Wishlist
+     * @var Magento_Wishlist_Model_Wishlist
      */
     protected $_current = null;
 
@@ -65,7 +65,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Magento_Cor
     /**
      * Retrieve wishlist collection
      *
-     * @return Mage_Wishlist_Model_Resource_Wishlist_Collection
+     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
      */
     public function getWishlists()
     {
@@ -75,7 +75,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Magento_Cor
     /**
      * Retrieve default wishlist for current customer
      *
-     * @return Mage_Wishlist_Model_Wishlist
+     * @return Magento_Wishlist_Model_Wishlist
      */
     public function getDefaultWishlist()
     {
@@ -85,7 +85,7 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Magento_Cor
     /**
      * Retrieve currently selected wishlist
      *
-     * @return Mage_Wishlist_Model_Wishlist
+     * @return Magento_Wishlist_Model_Wishlist
      */
     public function getCurrentWishlist()
     {
@@ -103,10 +103,10 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Magento_Cor
     /**
      * Build string that displays the number of items in wishlist
      *
-     * @param Mage_Wishlist_Model_Wishlist $wishlist
+     * @param Magento_Wishlist_Model_Wishlist $wishlist
      * @return string
      */
-    public function getItemCount(Mage_Wishlist_Model_Wishlist $wishlist)
+    public function getItemCount(Magento_Wishlist_Model_Wishlist $wishlist)
     {
         $count = Mage::helper('Enterprise_Wishlist_Helper_Data')->getWishlistItemCount($wishlist);
         if ($count == 1) {
@@ -119,10 +119,10 @@ class Enterprise_Wishlist_Block_Customer_Wishlist_Management extends Magento_Cor
     /**
      * Build wishlist management page url
      *
-     * @param Mage_Wishlist_Model_Wishlist $wishlist
+     * @param Magento_Wishlist_Model_Wishlist $wishlist
      * @return string
      */
-    public function getWishlistManagementUrl(Mage_Wishlist_Model_Wishlist $wishlist)
+    public function getWishlistManagementUrl(Magento_Wishlist_Model_Wishlist $wishlist)
     {
         return $this->getUrl('wishlist/*/*', array('wishlist_id' => $wishlist->getId()));
     }

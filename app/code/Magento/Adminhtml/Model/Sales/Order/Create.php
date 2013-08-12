@@ -28,7 +28,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
     /**
      * Quote customer wishlist model object
      *
-     * @var Mage_Wishlist_Model_Wishlist
+     * @var Magento_Wishlist_Model_Wishlist
      */
     protected $_wishlist;
 
@@ -418,7 +418,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
      * Retrieve customer wishlist model object
      *
      * @params bool $cacheReload pass cached wishlist object and get new one
-     * @return Mage_Wishlist_Model_Wishlist
+     * @return Magento_Wishlist_Model_Wishlist
      */
     public function getCustomerWishlist($cacheReload = false)
     {
@@ -427,7 +427,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
 
         if ($this->getSession()->getCustomer()->getId()) {
-            $this->_wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer(
+            $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCustomer(
                 $this->getSession()->getCustomer(), true
             );
             $this->_wishlist->setStore($this->getSession()->getStore())
@@ -561,12 +561,12 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 case 'wishlist':
                     $wishlist = null;
                     if (!isset($moveTo[1])) {
-                        $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->loadByCustomer(
+                        $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCustomer(
                             $this->getSession()->getCustomer(),
                             true
                         );
                     } else {
-                        $wishlist = Mage::getModel('Mage_Wishlist_Model_Wishlist')->load($moveTo[1]);
+                        $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')->load($moveTo[1]);
                         if (!$wishlist->getId()
                             || $wishlist->getCustomerId() != $this->getSession()->getCustomerId()
                         ) {
@@ -574,7 +574,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                         }
                     }
                     if (!$wishlist) {
-                        Mage::throwException(Mage::helper('Mage_Wishlist_Helper_Data')->__('We couldn\'t find this wish list.'));
+                        Mage::throwException(Mage::helper('Magento_Wishlist_Helper_Data')->__('We couldn\'t find this wish list.'));
                     }
                     $wishlist->setStore($this->getSession()->getStore())
                         ->setSharedStoreIds($this->getSession()->getStore()->getWebsite()->getStoreIds());
@@ -631,7 +631,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
         }
         if (isset($data['add_wishlist_item'])) {
             foreach ($data['add_wishlist_item'] as $itemId => $qty) {
-                $item = Mage::getModel('Mage_Wishlist_Model_Item')
+                $item = Mage::getModel('Magento_Wishlist_Model_Item')
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 if ($item->getId()) {
                     $this->addProduct($item->getProduct(), $item->getBuyRequest()->toArray());
@@ -676,7 +676,7 @@ class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implemen
                 break;
             case 'wishlist':
                 if ($wishlist = $this->getCustomerWishlist()) {
-                    $item = Mage::getModel('Mage_Wishlist_Model_Item')->load($itemId);
+                    $item = Mage::getModel('Magento_Wishlist_Model_Item')->load($itemId);
                     $item->delete();
                 }
                 break;
