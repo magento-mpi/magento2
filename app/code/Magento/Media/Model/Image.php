@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Media
+ * @category    Magento
+ * @package     Magento_Media
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,15 +13,15 @@
  * Media library Image model
  *
  * @category   Mage
- * @package    Mage_Media
+ * @package    Magento_Media
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Media_Model_Image extends Magento_Core_Model_Abstract
+class Magento_Media_Model_Image extends Magento_Core_Model_Abstract
 {
     /**
      * Image config instance
      *
-     * @var Mage_Media_Model_Image_Config_Interface
+     * @var Magento_Media_Model_Image_Config_Interface
      */
     protected $_config;
 
@@ -49,16 +49,16 @@ class Mage_Media_Model_Image extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Mage_Media_Model_File_Image');
+        $this->_init('Magento_Media_Model_File_Image');
     }
 
     /**
      * Set media image config instance
      *
-     * @param Mage_Media_Model_Image_Config_Interface $config
+     * @param Magento_Media_Model_Image_Config_Interface $config
      * @return unknown
      */
-    public function setConfig(Mage_Media_Model_Image_Config_Interface $config)
+    public function setConfig(Magento_Media_Model_Image_Config_Interface $config)
     {
         $this->_config = $config;
         return $this;
@@ -67,7 +67,7 @@ class Mage_Media_Model_Image extends Magento_Core_Model_Abstract
     /**
      * Retrive media image config instance
      *
-     * @return Mage_Media_Model_Image_Config_Interface
+     * @return Magento_Media_Model_Image_Config_Interface
      */
     public function getConfig()
     {

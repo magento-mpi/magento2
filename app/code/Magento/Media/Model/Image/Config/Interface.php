@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Media
+ * @category    Magento
+ * @package     Magento_Media
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,10 +13,10 @@
  * Media library image config interface
  *
  * @category   Mage
- * @package    Mage_Media
+ * @package    Magento_Media
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_Media_Model_Image_Config_Interface
+interface Magento_Media_Model_Image_Config_Interface
 {
 
     /**

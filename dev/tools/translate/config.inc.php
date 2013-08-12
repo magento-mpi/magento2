@@ -183,8 +183,8 @@ $CONFIG['translates'] = array(
     'Magento_Log' => array(
         'app/code/Magento/Log/',
     ),
-    'Mage_Media' => array(
-        'app/code/Mage/Media/',
+    'Magento_Media' => array(
+        'app/code/Magento/Media/',
     ),
     'Mage_Newsletter' => array(
         'app/code/Mage/Newsletter/',
@@ -599,7 +599,7 @@ $CONFIG['helpers']  = array(
     'index'             => 'Magento_Index',
     'install'           => 'Magento_Install',
     'log'               => 'Magento_Log',
-    'media'             => 'Mage_Media',
+    'media'             => 'Magento_Media',
     'newsletter'        => 'Mage_Newsletter',
     'ogone'             => 'Mage_Ogone',
     'page'              => 'Mage_Page',

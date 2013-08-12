@@ -3,30 +3,30 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Media
+ * @category    Magento
+ * @package     Magento_Media
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
     <modules>
-        <Mage_Media>
+        <Magento_Media>
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
                 <Magento_Core/>
             </depends>
-        </Mage_Media>
+        </Magento_Media>
     </modules>
     <adminhtml>
         <translate>
             <modules>
-                <Mage_Media>
+                <Magento_Media>
                     <files>
-                        <default>Mage_Media.csv</default>
+                        <default>Magento_Media.csv</default>
                     </files>
-                </Mage_Media>
+                </Magento_Media>
             </modules>
         </translate>
     </adminhtml>
@@ -35,18 +35,18 @@
             <media>
                 <use>standard</use>
                 <args>
-                    <module>Mage_Media</module>
+                    <module>Magento_Media</module>
                     <frontName>media</frontName>
                 </args>
             </media>
         </routers>
         <translate>
             <modules>
-                <Mage_Media>
+                <Magento_Media>
                     <files>
-                        <default>Mage_Media.csv</default>
+                        <default>Magento_Media.csv</default>
                     </files>
-                </Mage_Media>
+                </Magento_Media>
             </modules>
         </translate>
     </frontend>
