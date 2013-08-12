@@ -1567,7 +1567,7 @@
     <googleshopping_types translate="label">
         <label>Google Shopping</label>
         <expected_models>
-            <Mage_GoogleShopping_Model_Type/>
+            <Magento_GoogleShopping_Model_Type/>
         </expected_models>
         <actions>
             <googleshopping_types_edit translate="label">

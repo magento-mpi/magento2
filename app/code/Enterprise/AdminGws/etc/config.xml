@@ -290,8 +290,8 @@
                     <magento_catalog_model_resource_category_collection>limitCatalogCategories</magento_catalog_model_resource_category_collection>
                     <magento_core_model_resource_url_rewrite_collection>limitCoreUrlRewrites</magento_core_model_resource_url_rewrite_collection>
                     <mage_rating_model_resource_rating_collection>limitRatings</mage_rating_model_resource_rating_collection>
-                    <mage_googleShopping_model_resource_item_collection>addStoreFilter</mage_googleShopping_model_resource_item_collection>
-                    <mage_sitemap_model_resource_sitemap_collection>addStoreFilter</mage_sitemap_model_resource_sitemap_collection>
+                    <magento_googleShopping_model_resource_item_collection>addStoreFilter</magento_googleShopping_model_resource_item_collection>
+                    <magento_sitemap_model_resource_sitemap_collection>addStoreFilter</magento_sitemap_model_resource_sitemap_collection>
                     <mage_sales_model_resource_order_invoice_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_invoice_collection>
                     <mage_sales_model_resource_order_shipment_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_shipment_collection>
                     <mage_sales_model_resource_order_creditmemo_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_creditmemo_collection>
