@@ -225,8 +225,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/paybox.xml',
         'app/design/adminhtml/default/default/template/paybox/',
     ),
-    'Mage_Paygate' => array(
-        'app/code/Mage/Paygate/',
+    'Magento_Paygate' => array(
+        'app/code/Magento/Paygate/',
     ),
     'Mage_Payment' => array(
         'app/code/Mage/Payment/',
@@ -606,7 +606,7 @@ $CONFIG['helpers']  = array(
     'pagecache'         => 'Mage_PageCache',
     'captcha'           => 'Mage_Captcha',
     'paybox'            => 'Mage_Paybox',
-    'paygate'           => 'Mage_Paygate',
+    'paygate'           => 'Magento_Paygate',
     'payment'           => 'Mage_Payment',
     'paypal'            => 'Mage_Paypal',
     'paypaluk'          => 'Mage_PaypalUk',

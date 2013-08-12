@@ -15,7 +15,7 @@
             <version>1.5.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Paygate />
+                <Magento_Paygate />
                 <Mage_Sales />
                 <Magento_Checkout />
             </depends>

@@ -15,7 +15,7 @@ lib/Magento/DB
 sql
 data
 Mage/Paypal
-Mage/Paygate
+Magento/Paygate
 Magento/Downloadable
 Magento/Core/Model/Resource/Helper
 Magento/Core/Model/Url/RewriteFactory

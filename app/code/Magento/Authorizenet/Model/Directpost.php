@@ -15,7 +15,7 @@
  * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
+class Magento_Authorizenet_Model_Directpost extends Magento_Paygate_Model_Authorizenet
 {
     protected $_code  = 'authorizenet_directpost';
     protected $_formBlockType = 'Magento_Authorizenet_Block_Directpost_Form';
@@ -51,7 +51,7 @@ class Magento_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorize
      *
      * @param  Magento_Object $payment
      * @param  decimal $amount
-     * @return Mage_Paygate_Model_Authorizenet
+     * @return Magento_Paygate_Model_Authorizenet
      * @throws Magento_Core_Exception
      */
     public function authorize(Magento_Object $payment, $amount)
@@ -70,7 +70,7 @@ class Magento_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorize
     public function capture(Magento_Object $payment, $amount)
     {
         if ($amount <= 0) {
-            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid amount for capture.'));
+            Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('Invalid amount for capture.'));
         }
 
         $payment->setAmount($amount);
@@ -102,7 +102,7 @@ class Magento_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorize
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             default:
-                Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Payment capturing error.'));
+                Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('Payment capturing error.'));
         }
     }
 
@@ -137,7 +137,7 @@ class Magento_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorize
     public function void(Magento_Object $payment)
     {
         if (!$payment->getParentTransactionId()) {
-            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid transaction ID.'));
+            Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('Invalid transaction ID.'));
         }
 
         $payment->setAnetTransType(self::REQUEST_TYPE_VOID);
@@ -163,7 +163,7 @@ class Magento_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorize
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             default:
-                Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Payment voiding error.'));
+                Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('Payment voiding error.'));
         }
     }
 
@@ -222,11 +222,11 @@ class Magento_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorize
     protected function _refund(Magento_Object $payment, $amount)
     {
         if ($amount <= 0) {
-            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid amount for refund.'));
+            Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('Invalid amount for refund.'));
         }
 
         if (!$payment->getParentTransactionId()) {
-            Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Invalid transaction ID.'));
+            Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('Invalid transaction ID.'));
         }
 
         $payment->setAnetTransType(self::REQUEST_TYPE_CREDIT);
@@ -254,7 +254,7 @@ class Magento_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorize
             case self::RESPONSE_CODE_ERROR:
                 Mage::throwException($this->_wrapGatewayError($result->getResponseReasonText()));
             default:
-                Mage::throwException(Mage::helper('Mage_Paygate_Helper_Data')->__('Payment refunding error.'));
+                Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('Payment refunding error.'));
         }
     }
 
