@@ -15,6 +15,7 @@
     * Scripts are converted in the following modules and components: Centinel, Authorize.net, Payflow Link, Payflow Pro, Paygate, Paypal Express, Checkout, Captcha
     * Removing Prototype inclusion in several places
   * Enhanced menu behavior in backend
+  * Refactored Prototype-based implementation of validation in "New Category" dialog to use jQuery
 * VDE improvements:
   * Implemented inline translate tool for VDE
     * Added new dedicated button "T" in interface
@@ -112,6 +113,16 @@
   * Fixed inability to upload a file via File custom option, when ordering a product at frontend
   * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
   * Fixed displaying of "Import Behavior" section in the `System -> Import` page
+  * Removed remains of code pools in JavaScript tests
+  * Fixed JavaScript tests for VDE
+  * Fixed product creation:
+    * Fixed inability to search and select category in IE8, including via mouse
+    * Fixed usability of category search tree field to not hang after entering each symbol
+    * Fixed inability to select/change attribute for product variations (configurable product) in IE8
+    * Fixed field highlighting and error placement after validation on "Create Category" dialog
+      * Fixed validation of parent category to be a require field
+  * Fixed inability to save Shopping Cart Price Rule with Coupon = "No Coupon"
+  * Fixed inability to save Attribute Set in IE8
 
 2.0.0.0-dev44
 =============
