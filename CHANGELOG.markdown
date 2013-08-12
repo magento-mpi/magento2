@@ -85,7 +85,7 @@
   * Fixed inability to save a CMS page
   * Fixed Javascript calendar in backend Customer grid
   * Fixed memory usage measurements in localized Windows (GitHub pull requests #243, #237)
-  * Fixed issues with fields validation at order management page
+  * Fixed issues with fields validation on order management page
   * Fixed taxes on Bundle product page
   * Fixed "Rating isn't available" message on Edit Review page
   * Fixed lack of data in New Order emails, when order is composed at backend
