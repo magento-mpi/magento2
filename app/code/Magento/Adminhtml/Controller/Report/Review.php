@@ -36,7 +36,7 @@ class Magento_Adminhtml_Controller_Report_Review extends Magento_Adminhtml_Contr
         $this->_title($this->__('Customer Reviews Report'));
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Review::report_review_customer')
+            ->_setActiveMenu('Magento_Review::report_review_customer')
             ->_addBreadcrumb(
                 Mage::helper('Magento_Reports_Helper_Data')->__('Customers Report'),
                 Mage::helper('Magento_Reports_Helper_Data')->__('Customers Report')
@@ -72,7 +72,7 @@ class Magento_Adminhtml_Controller_Report_Review extends Magento_Adminhtml_Contr
         $this->_title($this->__('Product Reviews Report'));
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Review::report_review_product')
+            ->_setActiveMenu('Magento_Review::report_review_product')
             ->_addBreadcrumb(
             Mage::helper('Magento_Reports_Helper_Data')->__('Products Report'),
             Mage::helper('Magento_Reports_Helper_Data')->__('Products Report')
@@ -107,7 +107,7 @@ class Magento_Adminhtml_Controller_Report_Review extends Magento_Adminhtml_Contr
         $this->_title($this->__('Details'));
 
         $this->_initAction()
-            ->_setActiveMenu('Mage_Review::report_review')
+            ->_setActiveMenu('Magento_Review::report_review')
             ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Products Report'), Mage::helper('Magento_Reports_Helper_Data')->__('Products Report'))
             ->_addBreadcrumb(Mage::helper('Magento_Reports_Helper_Data')->__('Product Reviews'), Mage::helper('Magento_Reports_Helper_Data')->__('Product Reviews'))
             ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Review_Detail'))

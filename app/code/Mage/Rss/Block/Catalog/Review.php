@@ -37,7 +37,7 @@ class Mage_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
         );
         $rssObj->_addHeader($data);
 
-        $reviewModel = Mage::getModel('Mage_Review_Model_Review');
+        $reviewModel = Mage::getModel('Magento_Review_Model_Review');
 
         $collection = $reviewModel->getProductCollection()
             ->addStatusFilter($reviewModel->getPendingStatus())

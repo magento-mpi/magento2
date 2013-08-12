@@ -124,7 +124,7 @@ class Mage_Rss_Controller_CatalogTest extends Magento_Test_TestCase_ControllerAb
     }
 
     /**
-     * @magentoDataFixture Mage/Review/_files/reviews.php
+     * @magentoDataFixture Magento/Review/_files/reviews.php
      */
     public function testReviewAction()
     {

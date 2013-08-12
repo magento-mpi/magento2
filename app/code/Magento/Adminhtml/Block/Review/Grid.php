@@ -40,8 +40,8 @@ class Magento_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid
      */
     protected function _afterLoadCollection()
     {
-        /** @var $actionPager Mage_Review_Helper_Action_Pager */
-        $actionPager = Mage::helper('Mage_Review_Helper_Action_Pager');
+        /** @var $actionPager Magento_Review_Helper_Action_Pager */
+        $actionPager = Mage::helper('Magento_Review_Helper_Action_Pager');
         $actionPager->setStorageId('reviews');
         $actionPager->setItems($this->getCollection()->getResultingIds());
 
@@ -55,9 +55,9 @@ class Magento_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $model Mage_Review_Model_Review */
-        $model = Mage::getModel('Mage_Review_Model_Review');
-        /** @var $collection Mage_Review_Model_Resource_Review_Product_Collection */
+        /** @var $model Magento_Review_Model_Review */
+        $model = Mage::getModel('Magento_Review_Model_Review');
+        /** @var $collection Magento_Review_Model_Resource_Review_Product_Collection */
         $collection = $model->getProductCollection();
 
         if ($this->getProductId() || $this->getRequest()->getParam('productId', false)) {
@@ -95,8 +95,8 @@ class Magento_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid
      */
     protected function _prepareColumns()
     {
-        /** @var $helper Mage_Review_Helper_Data */
-        $helper = Mage::helper('Mage_Review_Helper_Data');
+        /** @var $helper Magento_Review_Helper_Data */
+        $helper = Mage::helper('Magento_Review_Helper_Data');
         $this->addColumn('review_id', array(
             'header'        => $helper->__('ID'),
             'align'         => 'right',
@@ -232,8 +232,8 @@ class Magento_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid
      */
     protected function _prepareMassaction()
     {
-        /** @var $helper Mage_Review_Helper_Data */
-        $helper = Mage::helper('Mage_Review_Helper_Data');
+        /** @var $helper Magento_Review_Helper_Data */
+        $helper = Mage::helper('Magento_Review_Helper_Data');
 
         $this->setMassactionIdField('review_id');
         $this->setMassactionIdFilter('rt.review_id');
@@ -241,12 +241,12 @@ class Magento_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid
         $this->getMassactionBlock()->setFormFieldName('reviews');
 
         $this->getMassactionBlock()->addItem('delete', array(
-            'label'=> Mage::helper('Mage_Review_Helper_Data')->__('Delete'),
+            'label'=> Mage::helper('Magento_Review_Helper_Data')->__('Delete'),
             'url'  => $this->getUrl(
                 '*/*/massDelete',
                 array('ret' => Mage::registry('usePendingFilter') ? 'pending' : 'index')
             ),
-            'confirm' => Mage::helper('Mage_Review_Helper_Data')->__('Are you sure?')
+            'confirm' => Mage::helper('Magento_Review_Helper_Data')->__('Are you sure?')
         ));
 
         $statuses = $helper->getReviewStatusesOptionArray();
@@ -272,7 +272,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Mage_Backend_Block_Widget_Grid
     /**
      * Get row url
      *
-     * @param Mage_Review_Model_Review|Magento_Object $row
+     * @param Magento_Review_Model_Review|Magento_Object $row
      * @return string
      */
     public function getRowUrl($row)

@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Magento_Core/>
-                <Mage_Review/>
+                <Magento_Review/>
             </depends>
         </Magento_Rating>
     </modules>

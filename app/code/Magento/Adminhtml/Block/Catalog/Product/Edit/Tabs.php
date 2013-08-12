@@ -166,8 +166,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
             }
 
             if ($this->getRequest()->getParam('id')) {
-                if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Mage_Review')) {
-                    if ($this->_authorization->isAllowed('Mage_Review::reviews_all')){
+                if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Review')) {
+                    if ($this->_authorization->isAllowed('Magento_Review::reviews_all')){
                         $this->addTab('product-reviews', array(
                             'label' => Mage::helper('Magento_Catalog_Helper_Data')->__('Product Reviews'),
                             'url'   => $this->getUrl('*/*/reviews', array('_current' => true)),

@@ -228,7 +228,7 @@
     <review translate="label">
         <label>Catalog Reviews</label>
         <expected_models>
-            <Mage_Review_Model_Review/>
+            <Magento_Review_Model_Review/>
         </expected_models>
         <actions>
             <adminhtml_catalog_product_review_edit>

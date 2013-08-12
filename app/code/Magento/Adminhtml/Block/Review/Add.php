@@ -25,7 +25,7 @@ class Magento_Adminhtml_Block_Review_Add extends Magento_Adminhtml_Block_Widget_
         $this->_controller = 'review';
         $this->_mode = 'add';
 
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Review_Helper_Data')->__('Save Review'));
+        $this->_updateButton('save', 'label', Mage::helper('Magento_Review_Helper_Data')->__('Save Review'));
         $this->_updateButton('save', 'id', 'save_button');
 
         $this->_updateButton('reset', 'id', 'reset_button');
@@ -102,6 +102,6 @@ class Magento_Adminhtml_Block_Review_Add extends Magento_Adminhtml_Block_Widget_
 
     public function getHeaderText()
     {
-        return Mage::helper('Mage_Review_Helper_Data')->__('Add New Review');
+        return Mage::helper('Magento_Review_Helper_Data')->__('Add New Review');
     }
 }

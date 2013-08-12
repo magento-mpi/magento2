@@ -54,7 +54,7 @@ Magento/ProductAlert/Model
 Magento/Reports/Block/Product/Widget
 Magento/Reports/Model/Resource/Helper
 Magento/Reports/Model/Resource
-Mage/Review/Block
+Magento/Review/Block
 Mage/Rss/Block/Catalog
 Mage/Rule
 Mage/Sales/Block/Adminhtml

@@ -236,7 +236,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
     protected function _afterDelete(Magento_Core_Model_Abstract $object)
     {
         parent::_afterDelete($object);
-        if (!Mage::helper('Magento_Rating_Helper_Data')->isModuleEnabled('Mage_Review')) {
+        if (!Mage::helper('Magento_Rating_Helper_Data')->isModuleEnabled('Magento_Review')) {
             return $this;
         }
         $data = $this->_getEntitySummaryData($object);
@@ -246,7 +246,7 @@ class Magento_Rating_Model_Resource_Rating extends Magento_Core_Model_Resource_D
             $clone->addData($row);
             $summary[$clone->getStoreId()][$clone->getEntityPkValue()] = $clone;
         }
-        Mage::getResourceModel('Mage_Review_Model_Resource_Review_Summary')->reAggregate($summary);
+        Mage::getResourceModel('Magento_Review_Model_Resource_Review_Summary')->reAggregate($summary);
         return $this;
     }
 

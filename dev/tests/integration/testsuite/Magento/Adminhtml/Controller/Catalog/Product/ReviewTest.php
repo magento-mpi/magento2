@@ -15,7 +15,7 @@
 class Magento_Adminhtml_Controller_Catalog_Product_ReviewTest extends Mage_Backend_Utility_Controller
 {
     /**
-     * @magentoDataFixture Mage/Review/_files/review_xss.php
+     * @magentoDataFixture Magento/Review/_files/review_xss.php
      */
     public function testEditActionProductNameXss()
     {

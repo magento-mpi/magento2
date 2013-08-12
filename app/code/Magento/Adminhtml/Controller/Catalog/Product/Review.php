@@ -36,7 +36,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
         }
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Review::catalog_reviews_ratings_reviews_all');
+        $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_reviews_all');
 
         $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Main'));
 
@@ -69,7 +69,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
         $this->_title($this->__('Edit Review'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Review::catalog_reviews_ratings_reviews_all');
+        $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_reviews_all');
 
         $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Edit'));
 
@@ -83,7 +83,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
         $this->_title($this->__('New Review'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Review::catalog_reviews_ratings_reviews_all');
+        $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_reviews_all');
 
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
@@ -96,7 +96,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
     public function saveAction()
     {
         if (($data = $this->getRequest()->getPost()) && ($reviewId = $this->getRequest()->getParam('id'))) {
-            $review = Mage::getModel('Mage_Review_Model_Review')->load($reviewId);
+            $review = Mage::getModel('Magento_Review_Model_Review')->load($reviewId);
             $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
             if (! $review->getId()) {
                 $session->addError(Mage::helper('Magento_Catalog_Helper_Data')->__('The review was removed by another user or does not exist.'));
@@ -151,7 +151,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
         $session    = Mage::getSingleton('Magento_Adminhtml_Model_Session');
 
         try {
-            Mage::getModel('Mage_Review_Model_Review')->setId($reviewId)
+            Mage::getModel('Magento_Review_Model_Review')->setId($reviewId)
                 ->aggregate()
                 ->delete();
 
@@ -181,7 +181,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
         } else {
             try {
                 foreach ($reviewsIds as $reviewId) {
-                    $model = Mage::getModel('Mage_Review_Model_Review')->load($reviewId);
+                    $model = Mage::getModel('Magento_Review_Model_Review')->load($reviewId);
                     $model->delete();
                 }
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
@@ -209,7 +209,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
             try {
                 $status = $this->getRequest()->getParam('status');
                 foreach ($reviewsIds as $reviewId) {
-                    $model = Mage::getModel('Mage_Review_Model_Review')->load($reviewId);
+                    $model = Mage::getModel('Magento_Review_Model_Review')->load($reviewId);
                     $model->setStatusId($status)
                         ->save()
                         ->aggregate();
@@ -240,7 +240,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
             try {
                 $stores = $this->getRequest()->getParam('stores');
                 foreach ($reviewsIds as $reviewId) {
-                    $model = Mage::getModel('Mage_Review_Model_Review')->load($reviewId);
+                    $model = Mage::getModel('Magento_Review_Model_Review')->load($reviewId);
                     $model->setSelectStores($stores);
                     $model->save();
                 }
@@ -301,7 +301,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
                 $data['stores'] = $data['select_stores'];
             }
 
-            $review = Mage::getModel('Mage_Review_Model_Review')->setData($data);
+            $review = Mage::getModel('Magento_Review_Model_Review')->setData($data);
 
             $product = Mage::getModel('Magento_Catalog_Model_Product')
                 ->load($productId);
@@ -356,10 +356,10 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
     {
         switch ($this->getRequest()->getActionName()) {
             case 'pending':
-                return $this->_authorization->isAllowed('Mage_Review::pending');
+                return $this->_authorization->isAllowed('Magento_Review::pending');
                 break;
             default:
-                return $this->_authorization->isAllowed('Mage_Review::reviews_all');
+                return $this->_authorization->isAllowed('Magento_Review::reviews_all');
                 break;
         }
     }

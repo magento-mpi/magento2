@@ -110,7 +110,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit reviews collection
      *
-     * @param Mage_Review_Model_Resource_Review_Collection $collection
+     * @param Magento_Review_Model_Resource_Review_Collection $collection
      */
     public function limitReviews($collection)
     {
@@ -120,7 +120,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit product reviews collection
      *
-     * @param Mage_Review_Model_Resource_Review_Product_Collection $collection
+     * @param Magento_Review_Model_Resource_Review_Product_Collection $collection
      */
     public function limitProductReviews($collection)
     {

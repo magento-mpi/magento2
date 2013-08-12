@@ -21,9 +21,9 @@ if ($tableName) {
         'Magento_Catalog::catalog_attributes',
         'Magento_Cms::cms',
         'Magento_Newsletter::admin_newsletter',
-        'Mage_Review::pending',
-        'Mage_Review::reviews',
-        'Mage_Review::reviews_ratings',
+        'Magento_Review::pending',
+        'Magento_Review::reviews',
+        'Magento_Review::reviews_ratings',
         'Mage_Tag::tag',
         'Mage_Tag::tag_pending',
     );

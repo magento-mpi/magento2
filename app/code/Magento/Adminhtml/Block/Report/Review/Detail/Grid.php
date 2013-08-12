@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Report_Review_Detail_Grid extends Magento_Adminhtm
     protected function _prepareCollection()
     {
 
-        //$collection = Mage::getModel('Mage_Review_Model_Review')->getProductCollection();
+        //$collection = Mage::getModel('Magento_Review_Model_Review')->getProductCollection();
 
         //$collection->getSelect()
         //    ->where('rt.entity_pk_value='.(int)$this->getRequest()->getParam('id'));

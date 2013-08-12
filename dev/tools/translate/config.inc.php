@@ -271,8 +271,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/reports/',
         'app/design/frontend/base/default/layout/reports.xml',
     ),
-    'Mage_Review' => array(
-        'app/code/Mage/Review/',
+    'Magento_Review' => array(
+        'app/code/Magento/Review/',
         'app/design/frontend/base/default/template/review/',
         'app/design/frontend/base/default/layout/review.xml',
         'app/design/frontend/default/modern/layout/review.xml',
@@ -616,7 +616,7 @@ $CONFIG['helpers']  = array(
     'protx'             => 'Mage_Protx',
     'rating'            => 'Magento_Rating',
     'reports'           => 'Magento_Reports',
-    'review'            => 'Mage_Review',
+    'review'            => 'Magento_Review',
     'rss'               => 'Mage_Rss',
     'rule'              => 'Mage_Rule',
     'sales'             => 'Mage_Sales',

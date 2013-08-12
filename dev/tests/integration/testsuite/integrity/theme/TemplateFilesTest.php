@@ -22,7 +22,7 @@ class Integrity_Theme_TemplateFilesTest extends Magento_Test_TestCase_IntegrityA
 
             if ($area === 'frontend' && in_array($module . '::' . $file, array(
                 'Magento_Reports::Magento_Catalog::product/list/items.phtml',
-                'Mage_Review::redirect.phtml',
+                'Magento_Review::redirect.phtml',
                 'Mage_Page::blank.phtml',
             ))) {
                 continue; // $this->markTestIncomplete('MAGETWO-9806');

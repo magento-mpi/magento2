@@ -233,7 +233,7 @@
                     <catalog_product>Magento_Catalog_Model_Product</catalog_product>
                     <catalog_category>Magento_Catalog_Model_Category</catalog_category>
                     <catalog_eav_attribute>Magento_Catalog_Model_Resource_Eav_Attribute</catalog_eav_attribute>
-                    <review>Mage_Review_Model_Review</review>
+                    <review>Magento_Review_Model_Review</review>
                     <cms_hierarchy_node>Enterprise_Cms_Model_Hierarchy_Node</cms_hierarchy_node>
                     <banner>Enterprise_Banner_Model_Banner</banner>
                     <core_store_group>Magento_Core_Model_Store_Group</core_store_group>
@@ -242,7 +242,7 @@
                 <delete>
                     <catalog_category>Magento_Catalog_Model_Category</catalog_category>
                     <catalog_eav_attribute>Magento_Catalog_Model_Resource_Eav_Attribute</catalog_eav_attribute>
-                    <review>Mage_Review_Model_Review</review>
+                    <review>Magento_Review_Model_Review</review>
                     <cms_hierarchy_node>Enterprise_Cms_Model_Hierarchy_Node</cms_hierarchy_node>
                     <banner>Enterprise_Banner_Model_Banner</banner>
                     <core_store_group>Magento_Core_Model_Store_Group</core_store_group>

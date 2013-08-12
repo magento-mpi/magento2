@@ -131,7 +131,7 @@ class Enterprise_Reward_Model_Observer
      */
     public function reviewSubmit($observer)
     {
-        /* @var $review Mage_Review_Model_Review */
+        /* @var $review Magento_Review_Model_Review */
         $review = $observer->getEvent()->getObject();
         $websiteId = Mage::app()->getStore($review->getStoreId())->getWebsiteId();
         if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($websiteId)) {

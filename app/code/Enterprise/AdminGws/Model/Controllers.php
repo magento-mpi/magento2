@@ -121,7 +121,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validateCatalogProductReview($controller)
     {
-        $reviewStores = Mage::getModel('Mage_Review_Model_Review')
+        $reviewStores = Mage::getModel('Magento_Review_Model_Review')
             ->load($controller->getRequest()->getParam('id'))
             ->getStores();
 

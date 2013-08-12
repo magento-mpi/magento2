@@ -25,8 +25,8 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
         $this->_objectId = 'id';
         $this->_controller = 'review';
 
-        /** @var $actionPager Mage_Review_Helper_Action_Pager */
-        $actionPager = Mage::helper('Mage_Review_Helper_Action_Pager');
+        /** @var $actionPager Magento_Review_Helper_Action_Pager */
+        $actionPager = Mage::helper('Magento_Review_Helper_Action_Pager');
         $actionPager->setStorageId('reviews');
 
         $reviewId = $this->getRequest()->getParam('id');
@@ -34,12 +34,12 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
         $nextId = $actionPager->getNextItemId($reviewId);
         if ($prevId !== false) {
             $this->addButton('previous', array(
-                'label' => Mage::helper('Mage_Review_Helper_Data')->__('Previous'),
+                'label' => Mage::helper('Magento_Review_Helper_Data')->__('Previous'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('*/*/*', array('id' => $prevId)) . '\')'
             ), 3, 10);
 
             $this->addButton('save_and_previous', array(
-                'label'   => Mage::helper('Mage_Review_Helper_Data')->__('Save and Previous'),
+                'label'   => Mage::helper('Magento_Review_Helper_Data')->__('Save and Previous'),
                 'class'   => 'save',
                 'data_attribute'  => array(
                     'mage-init' => array(
@@ -58,7 +58,7 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
         }
         if ($nextId !== false) {
             $this->addButton('save_and_next', array(
-                'label'   => Mage::helper('Mage_Review_Helper_Data')->__('Save and Next'),
+                'label'   => Mage::helper('Magento_Review_Helper_Data')->__('Save and Next'),
                 'class'   => 'save',
                 'data_attribute'  => array(
                     'mage-init' => array(
@@ -76,13 +76,13 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
             ), 3, 100);
 
             $this->addButton('next', array(
-                'label' => Mage::helper('Mage_Review_Helper_Data')->__('Next'),
+                'label' => Mage::helper('Magento_Review_Helper_Data')->__('Next'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('*/*/*', array('id' => $nextId)) . '\')'
             ), 3, 105);
         }
-        $this->_updateButton('save', 'label', Mage::helper('Mage_Review_Helper_Data')->__('Save Review'));
+        $this->_updateButton('save', 'label', Mage::helper('Magento_Review_Helper_Data')->__('Save Review'));
         $this->_updateButton('save', 'id', 'save_button');
-        $this->_updateButton('delete', 'label', Mage::helper('Mage_Review_Helper_Data')->__('Delete Review'));
+        $this->_updateButton('delete', 'label', Mage::helper('Magento_Review_Helper_Data')->__('Delete Review'));
 
         if( $this->getRequest()->getParam('productId', false) ) {
             $this->_updateButton(
@@ -116,7 +116,7 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
                 'delete',
                 'onclick',
                 'deleteConfirm('
-                    . '\'' . Mage::helper('Mage_Review_Helper_Data')->__('Are you sure you want to do this?').'\' '
+                    . '\'' . Mage::helper('Magento_Review_Helper_Data')->__('Are you sure you want to do this?').'\' '
                     . '\'' . $this->getUrl(
                         '*/*/delete',
                         array(
@@ -130,7 +130,7 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
         }
 
         if( $this->getRequest()->getParam($this->_objectId) ) {
-            $reviewData = Mage::getModel('Mage_Review_Model_Review')
+            $reviewData = Mage::getModel('Magento_Review_Model_Review')
                 ->load($this->getRequest()->getParam($this->_objectId));
             Mage::register('review_data', $reviewData);
         }
@@ -163,9 +163,9 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
     public function getHeaderText()
     {
         if( Mage::registry('review_data') && Mage::registry('review_data')->getId() ) {
-            return Mage::helper('Mage_Review_Helper_Data')->__("Edit Review '%s'", $this->escapeHtml(Mage::registry('review_data')->getTitle()));
+            return Mage::helper('Magento_Review_Helper_Data')->__("Edit Review '%s'", $this->escapeHtml(Mage::registry('review_data')->getTitle()));
         } else {
-            return Mage::helper('Mage_Review_Helper_Data')->__('New Review');
+            return Mage::helper('Magento_Review_Helper_Data')->__('New Review');
         }
     }
 }

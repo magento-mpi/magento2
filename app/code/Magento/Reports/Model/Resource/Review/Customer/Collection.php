@@ -16,7 +16,7 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Review_Customer_Collection extends Mage_Review_Model_Resource_Review_Collection
+class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_Review_Model_Resource_Review_Collection
 {
     /**
      * Init Select

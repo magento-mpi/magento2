@@ -16,7 +16,7 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Review_Collection extends Mage_Review_Model_Resource_Review_Collection
+class Magento_Reports_Model_Resource_Review_Collection extends Magento_Review_Model_Resource_Review_Collection
 {
     /**
      * Resource initialization
@@ -24,7 +24,7 @@ class Magento_Reports_Model_Resource_Review_Collection extends Mage_Review_Model
      */
     protected function _construct()
     {
-        $this->_init('Mage_Review_Model_Review', 'Mage_Review_Model_Resource_Review');
+        $this->_init('Magento_Review_Model_Review', 'Magento_Review_Model_Resource_Review');
     }
 
     /**

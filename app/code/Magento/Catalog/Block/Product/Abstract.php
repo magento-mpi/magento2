@@ -273,10 +273,10 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
     protected function _initReviewsHelperBlock()
     {
         if (!$this->_reviewsHelperBlock) {
-            if (!Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Mage_Review')) {
+            if (!Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Review')) {
                 return false;
             } else {
-                $this->_reviewsHelperBlock = $this->getLayout()->createBlock('Mage_Review_Block_Helper');
+                $this->_reviewsHelperBlock = $this->getLayout()->createBlock('Magento_Review_Block_Helper');
             }
         }
 

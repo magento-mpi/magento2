@@ -23,7 +23,7 @@ class Magento_Adminhtml_Controller_Rating extends Magento_Adminhtml_Controller_A
         $this->_initEnityId();
         $this->loadLayout();
 
-        $this->_setActiveMenu('Mage_Review::catalog_reviews_ratings_ratings');
+        $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_ratings');
         $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Manage Ratings'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Manage Ratings'));
 
         $this->renderLayout();
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Controller_Rating extends Magento_Adminhtml_Controller_A
 
         $this->_title($ratingModel->getId() ? $ratingModel->getRatingCode() : $this->__('New Rating'));
 
-        $this->_setActiveMenu('Mage_Review::catalog_reviews_ratings_ratings');
+        $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_ratings');
         $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Manage Ratings'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Manage Ratings'));
 
         $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Rating_Edit'))

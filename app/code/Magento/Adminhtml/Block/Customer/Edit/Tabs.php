@@ -86,7 +86,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tabs extends Magento_Adminhtml_Block
                 ));
             }
 
-            if ($this->_authorization->isAllowed('Mage_Review::reviews_all')) {
+            if ($this->_authorization->isAllowed('Magento_Review::reviews_all')) {
                 $this->addTab('reviews', array(
                     'label'     => Mage::helper('Mage_Customer_Helper_Data')->__('Product Reviews'),
                     'class'     => 'ajax',

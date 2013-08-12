@@ -28,44 +28,44 @@ class Magento_Adminhtml_Block_Review_Product_Grid extends Magento_Adminhtml_Bloc
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
-                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('ID'),
+                'header'    => Mage::helper('Magento_Review_Helper_Data')->__('ID'),
                 'width'     => '50px',
                 'index'     => 'entity_id',
         ));
 
         $this->addColumn('name', array(
-                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Name'),
+                'header'    => Mage::helper('Magento_Review_Helper_Data')->__('Name'),
                 'index'     => 'name',
         ));
 
         if ((int)$this->getRequest()->getParam('store', 0)) {
             $this->addColumn('custom_name', array(
-                    'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Product Store Name'),
+                    'header'    => Mage::helper('Magento_Review_Helper_Data')->__('Product Store Name'),
                     'index'     => 'custom_name'
             ));
         }
 
         $this->addColumn('sku', array(
-                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('SKU'),
+                'header'    => Mage::helper('Magento_Review_Helper_Data')->__('SKU'),
                 'width'     => '80px',
                 'index'     => 'sku'
         ));
 
         $this->addColumn('price', array(
-                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Price'),
+                'header'    => Mage::helper('Magento_Review_Helper_Data')->__('Price'),
                 'type'      => 'currency',
                 'index'     => 'price'
         ));
 
         $this->addColumn('qty', array(
-                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Quantity'),
+                'header'    => Mage::helper('Magento_Review_Helper_Data')->__('Quantity'),
                 'width'     => '130px',
                 'type'      => 'number',
                 'index'     => 'qty'
         ));
 
         $this->addColumn('status', array(
-                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Status'),
+                'header'    => Mage::helper('Magento_Review_Helper_Data')->__('Status'),
                 'width'     => '90px',
                 'index'     => 'status',
                 'type'      => 'options',
@@ -79,7 +79,7 @@ class Magento_Adminhtml_Block_Review_Product_Grid extends Magento_Adminhtml_Bloc
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('websites',
                 array(
-                    'header'=> Mage::helper('Mage_Review_Helper_Data')->__('Websites'),
+                    'header'=> Mage::helper('Magento_Review_Helper_Data')->__('Websites'),
                     'width' => '100px',
                     'sortable'  => false,
                     'index'     => 'websites',

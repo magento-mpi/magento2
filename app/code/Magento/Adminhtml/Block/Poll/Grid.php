@@ -83,7 +83,7 @@ class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_G
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
-                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Visibility'),
+                'header'    => Mage::helper('Magento_Review_Helper_Data')->__('Visibility'),
                 'index'     => 'stores',
                 'type'      => 'store',
                 'store_view' => true,

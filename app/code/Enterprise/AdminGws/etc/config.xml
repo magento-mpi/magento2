@@ -280,7 +280,7 @@
                     <mage_sales_model_resource_order_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_collection>
                     <magento_catalog_model_resource_product_collection>limitProducts</magento_catalog_model_resource_product_collection>
                     <mage_customer_model_resource_customer_collection>limitCustomers</mage_customer_model_resource_customer_collection>
-                    <mage_review_model_resource_review_collection>limitReviews</mage_review_model_resource_review_collection>
+                    <magento_review_model_resource_review_collection>limitReviews</magento_review_model_resource_review_collection>
                     <magento_catalogSearch_model_resource_query_collection>addStoreFilter</magento_catalogSearch_model_resource_query_collection>
                     <enterprise_invitation_model_resource_invitation_collection>addStoreFilter</enterprise_invitation_model_resource_invitation_collection>
                     <magento_log_model_resource_visitor_online_collection>limitOnlineCustomers</magento_log_model_resource_visitor_online_collection>
@@ -313,7 +313,7 @@
                     <enterprise_customerBalance_model_resource_balance_history_collection>limitStoreCreditsHistory</enterprise_customerBalance_model_resource_balance_history_collection>
                     <enterprise_customerBalance_model_resource_balance_history_collection>limitStoreCredits</enterprise_customerBalance_model_resource_balance_history_collection>
                     <enterprise_giftRegistry_model_resource_entity_collection>limitGiftRegistryEntityWebsites</enterprise_giftRegistry_model_resource_entity_collection>
-                    <mage_review_model_resource_review_product_collection>limitProductReviews</mage_review_model_resource_review_product_collection>
+                    <magento_review_model_resource_review_product_collection>limitProductReviews</magento_review_model_resource_review_product_collection>
                     <enterprise_rma_model_resource_rma_grid_collection>addStoreAttributeToFilter</enterprise_rma_model_resource_rma_grid_collection>
                     <magento_catalogRule_model_resource_rule_collection>limitRuleEntityCollection</magento_catalogRule_model_resource_rule_collection>
                     <mage_salesRule_model_resource_rule_collection>limitRuleEntityCollection</mage_salesRule_model_resource_rule_collection>
@@ -349,7 +349,7 @@
                     <enterprise_giftRegistry_model_type>giftRegistryTypeSaveBefore</enterprise_giftRegistry_model_type>
                     <enterprise_giftWrapping_model_wrapping>giftWrappingSaveBefore</enterprise_giftWrapping_model_wrapping>
                     <enterprise_reward_model_reward_rate>rewardRateSaveBefore</enterprise_reward_model_reward_rate>
-                    <mage_review_model_review>catalogProductReviewSaveBefore</mage_review_model_review>
+                    <magento_review_model_review>catalogProductReviewSaveBefore</magento_review_model_review>
                     <magento_rating_model_rating>ratingSaveBefore</magento_rating_model_rating>
                 </model_save_before>
                 <model_delete_before>
@@ -373,7 +373,7 @@
                     <enterprise_banner_model_banner>bannerDeleteBefore</enterprise_banner_model_banner>
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountDeleteBefore</enterprise_giftCardAccount_model_giftcardaccount>
                     <enterprise_giftRegistry_model_type>giftRegistryTypeDeleteBefore</enterprise_giftRegistry_model_type>
-                    <mage_review_model_review>catalogProductReviewDeleteBefore</mage_review_model_review>
+                    <magento_review_model_review>catalogProductReviewDeleteBefore</magento_review_model_review>
                     <enterprise_reward_model_reward_rate>rewardRateDeleteBefore</enterprise_reward_model_reward_rate>
                 </model_delete_before>
                 <model_load_after>
