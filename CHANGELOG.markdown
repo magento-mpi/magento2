@@ -30,10 +30,14 @@
   * Created adapters factory instead of class `Varien_Image_Adapter`
   * Refactored ImageMagick and GD adapters to make them testable
   * Added feature of generating image from text
+* Support of Google services:
+  * Implemented support of Google Content Experiment as a replacement for Google Optimizer
+  * Implemented support of Google AdWords on the checkout success page
 * Various improvements:
   * Added configuration for limits on sending wishlist emails
   * Refactored default theme fixture in integration tests in order to divide it into smaller and easier to understand fixtures
   * Removed Currency Symbol module files from Adminhtml module to the module itself
+  * "Contact Us" page is available through HTTPS only
 * Bug fixes:
   * Fixed absence of a product for store view created after the product
   * Fixed incorrectly displayed or absent product image on configurable product pages
@@ -107,6 +111,7 @@
   * Fixed issue with a State field being required in countries, where it is not mandatory
   * Fixed inability to upload a file via File custom option, when ordering a product at frontend
   * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), customers, taxes and tax rules
+  * Fixed displaying of "Import Behavior" section in the `System -> Import` page
 
 2.0.0.0-dev44
 =============
