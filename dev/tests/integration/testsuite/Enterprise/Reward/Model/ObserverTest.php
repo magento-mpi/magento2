@@ -12,7 +12,7 @@
 class Enterprise_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Mage/ImportExport/_files/customer.php
+     * @magentoDataFixture Magento/ImportExport/_files/customer.php
      * @dataProvider saveRewardPointsDataProvider
      *
      * @param integer $pointsDelta

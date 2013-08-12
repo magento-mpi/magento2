@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Mage/ImportExport/_files/import_data.php
+ * @magentoDataFixture Magento/ImportExport/_files/import_data.php
  */
 class Magento_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
 {

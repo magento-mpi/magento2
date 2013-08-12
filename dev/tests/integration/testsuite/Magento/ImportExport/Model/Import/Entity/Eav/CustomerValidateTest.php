@@ -12,7 +12,7 @@
 /**
  * Test for class Magento_ImportExport_Model_Import_Entity_Eav_Customer which covers validation logic
  *
- * @magentoDataFixture Mage/ImportExport/_files/customers.php
+ * @magentoDataFixture Magento/ImportExport/_files/customers.php
  */
 class Magento_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends PHPUnit_Framework_TestCase
 {

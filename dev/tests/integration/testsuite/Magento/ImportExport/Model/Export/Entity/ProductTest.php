@@ -52,7 +52,7 @@ class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Frame
     }
 
     /**
-     * @magentoDataFixture Mage/ImportExport/_files/product.php
+     * @magentoDataFixture Magento/ImportExport/_files/product.php
      */
     public function testExport()
     {
@@ -64,7 +64,7 @@ class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Frame
      * Verify that all stock item attribute values are exported (aren't equal to empty string)
      *
      * @covers Magento_ImportExport_Model_Export_Entity_Product::export
-     * @magentoDataFixture Mage/ImportExport/_files/product.php
+     * @magentoDataFixture Magento/ImportExport/_files/product.php
      */
     public function testExportStockItemAttributesAreFilled()
     {

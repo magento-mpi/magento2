@@ -12,7 +12,7 @@
 /**
  * Test for customer address export model
  *
- * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+ * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
  */
 class Magento_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
 {

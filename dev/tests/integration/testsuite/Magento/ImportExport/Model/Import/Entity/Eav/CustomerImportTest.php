@@ -36,7 +36,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
      * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer::_saveCustomerEntity
      * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer::_saveCustomerAttributes
      *
-     * @magentoDataFixture Mage/ImportExport/_files/customer.php
+     * @magentoDataFixture Magento/ImportExport/_files/customer.php
      */
     public function testImportData()
     {
@@ -100,7 +100,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PH
      * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer::_importData
      * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer::_deleteCustomers
      *
-     * @magentoDataFixture Mage/ImportExport/_files/customers.php
+     * @magentoDataFixture Magento/ImportExport/_files/customers.php
      */
     public function testDeleteData()
     {

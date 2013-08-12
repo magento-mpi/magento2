@@ -86,7 +86,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Test constructor
      *
-     * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
      */
     public function testConstruct()
     {
@@ -123,7 +123,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Test _initAddresses
      *
-     * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
      * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_initAddresses
      */
     public function testInitAddresses()
@@ -173,7 +173,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Test _saveAddressEntity
      *
-     * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
      * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_saveAddressEntities
      */
     public function testSaveAddressEntities()
@@ -225,7 +225,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Test _saveAddressAttributes
      *
-     * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
      * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_saveAddressAttributes
      */
     public function testSaveAddressAttributes()
@@ -268,7 +268,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Test _saveCustomerDefaults
      *
-     * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @magentoDataFixture Magento/ImportExport/_files/customer_with_addresses.php
      * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_saveCustomerDefaults
      */
     public function testSaveCustomerDefaults()
@@ -337,7 +337,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Test import data method with add/update behaviour
      *
-     * @magentoDataFixture Mage/ImportExport/_files/customers_for_address_import.php
+     * @magentoDataFixture Magento/ImportExport/_files/customers_for_address_import.php
      * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_importData
      */
     public function testImportDataAddUpdate()
@@ -419,7 +419,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Test import data method with delete behaviour
      *
-     * @magentoDataFixture Mage/ImportExport/_files/customers_for_address_import.php
+     * @magentoDataFixture Magento/ImportExport/_files/customers_for_address_import.php
      * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_importData
      */
     public function testImportDataDelete()

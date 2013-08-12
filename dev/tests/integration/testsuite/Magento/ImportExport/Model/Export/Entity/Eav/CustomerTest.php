@@ -27,7 +27,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     /**
      * Test export method
      *
-     * @magentoDataFixture Mage/ImportExport/_files/customers.php
+     * @magentoDataFixture Magento/ImportExport/_files/customers.php
      */
     public function testExport()
     {
@@ -132,7 +132,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     /**
      * Test for method filterEntityCollection()
      *
-     * @magentoDataFixture Mage/ImportExport/_files/customers.php
+     * @magentoDataFixture Magento/ImportExport/_files/customers.php
      */
     public function testFilterEntityCollection()
     {

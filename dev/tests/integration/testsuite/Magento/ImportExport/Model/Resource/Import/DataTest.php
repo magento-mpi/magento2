@@ -12,7 +12,7 @@
 /**
  * Test Import Data resource model
  *
- * @magentoDataFixture Mage/ImportExport/_files/import_data.php
+ * @magentoDataFixture Magento/ImportExport/_files/import_data.php
  */
 class Magento_ImportExport_Model_Resource_Import_DataTest extends PHPUnit_Framework_TestCase
 {
