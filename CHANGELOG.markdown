@@ -10,7 +10,7 @@
   * `Ajax.Autocompleter` is replaced with jQuery suggest widget for search on backend
   * `jsTree` jQuery plugin is utilized for User Roles, Api Roles, CMS Pages and URL Rewrites management pages on backend
   * Improved jQuery validation for credit cards
-  * Added support of `$.mage.component` in different frontend themes
+  * Added support of `$.mage.component` in some frontend themes
   * Further refactoring of JavaScript to use JQuery library:
     * Scripts are converted in the following modules and components: Centinel, Authorize.net, Payflow Link, Payflow Pro, Paygate, Paypal Express, Standard checkout, Captcha
     * Removing Prototype inclusion in several places
@@ -103,6 +103,7 @@
   * Fixed editable multiselect control - new value was not shown there, when added
   * Fixed exception, when saving a configurable product without associated products
   * Fixed inability to properly save system configuration, when submitting files there
+  * Fixed performance issue with excessive generation of category menu on "Add to Cart" page
   * Fixed other bugs in management of categories, products, product attributes, product templates (attribute sets), taxes and tax rules
 
 2.0.0.0-dev44
