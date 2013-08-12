@@ -162,7 +162,10 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionController extends Mage_Backend
         try {
             $subscriptionData = $this->_initSubscriptionData();
             if ($this->_isCreatedByUser($subscriptionData)) {
-                $this->_subscriptionService->delete($subscriptionData[self::DATA_SUBSCRIPTION_ID]);
+                $subscriptionId = isset($subscriptionData[self::DATA_SUBSCRIPTION_ID])
+                    ? $subscriptionData[self::DATA_SUBSCRIPTION_ID]
+                    : 0;
+                $this->_subscriptionService->delete($subscriptionId);
                 $this->_getSession()->addSuccess(
                     $this->__('The subscription \'%s\' has been removed.',
                     $subscriptionData[self::DATA_NAME])

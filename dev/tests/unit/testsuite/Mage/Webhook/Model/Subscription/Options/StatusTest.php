@@ -18,7 +18,7 @@ class Mage_Webhook_Model_Subscription_Options_StatusTest extends PHPUnit_Framewo
             ->getMock();
         $webhookHelperMock->expects($this->any())
             ->method('__')
-            ->will($this->returnCallback(array($this, 'translateCallback')));
+            ->will($this->returnArgument(0));
         $object = new Mage_Webhook_Model_Subscription_Options_Status($webhookHelperMock);
         $expectedArray = array(
             Mage_Webhook_Model_Subscription::STATUS_ACTIVE => 'Active',
@@ -26,16 +26,5 @@ class Mage_Webhook_Model_Subscription_Options_StatusTest extends PHPUnit_Framewo
             Mage_Webhook_Model_Subscription::STATUS_INACTIVE => 'Inactive',
         );
         $this->assertEquals($expectedArray, $object->toOptionArray());
-    }
-
-    /**
-     * Translates array of errors into string
-     *
-     * @param $string
-     * @return string
-     */
-    public static function translateCallback($string)
-    {
-        return $string;
     }
 }

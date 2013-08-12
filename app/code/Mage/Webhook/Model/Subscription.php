@@ -122,7 +122,7 @@ class Mage_Webhook_Model_Subscription
      */
     protected function _afterDelete()
     {
-        $this->_getEndpoint()->delete();
+        $this->getEndpoint()->delete();
 
         return parent::_afterDelete();
     }
@@ -189,7 +189,7 @@ class Mage_Webhook_Model_Subscription
      *
      * @return Mage_Webhook_Model_Endpoint
      */
-    private function _getEndpoint()
+    public function getEndpoint()
     {
         if (!$this->_endpointLoaded && $this->getEndpointId() !== null) {
             $this->_endpoint->load($this->getEndpointId());
@@ -246,7 +246,7 @@ class Mage_Webhook_Model_Subscription
      */
     public function setEndpointUrl($url)
     {
-        $this->_getEndpoint()->setEndpointUrl($url);
+        $this->getEndpoint()->setEndpointUrl($url);
         $this->setDataChanges(true);
         return $this;
     }
@@ -259,7 +259,7 @@ class Mage_Webhook_Model_Subscription
      */
     public function setTimeoutInSecs($timeout)
     {
-        $this->_getEndpoint()->setTimeoutInSecs($timeout);
+        $this->getEndpoint()->setTimeoutInSecs($timeout);
         $this->setDataChanges(true);
         return $this;
     }
@@ -272,7 +272,7 @@ class Mage_Webhook_Model_Subscription
      */
     public function setFormat($format)
     {
-        $this->_getEndpoint()->setFormat($format);
+        $this->getEndpoint()->setFormat($format);
         $this->setDataChanges(true);
         return $this;
     }
@@ -285,7 +285,7 @@ class Mage_Webhook_Model_Subscription
      */
     public function setApiUserId($userId)
     {
-        $this->_getEndpoint()->setApiUserId($userId);
+        $this->getEndpoint()->setApiUserId($userId);
         $this->setDataChanges(true);
         return $this;
     }
@@ -298,7 +298,7 @@ class Mage_Webhook_Model_Subscription
      */
     public function setAuthenticationType($authType)
     {
-        $this->_getEndpoint()->setAuthenticationType($authType);
+        $this->getEndpoint()->setAuthenticationType($authType);
         $this->setDataChanges(true);
         return $this;
     }
@@ -310,7 +310,7 @@ class Mage_Webhook_Model_Subscription
      */
     public function getUser()
     {
-        return $this->_getEndpoint()->getUser();
+        return $this->getEndpoint()->getUser();
     }
 
     /**
@@ -320,7 +320,7 @@ class Mage_Webhook_Model_Subscription
      */
     public function getAuthenticationType()
     {
-        return $this->_getEndpoint()->getAuthenticationType();
+        return $this->getEndpoint()->getAuthenticationType();
     }
 
     /**
@@ -330,7 +330,7 @@ class Mage_Webhook_Model_Subscription
      */
     public function getFormat()
     {
-        return $this->_getEndpoint()->getFormat();
+        return $this->getEndpoint()->getFormat();
     }
 
     /**
@@ -340,7 +340,7 @@ class Mage_Webhook_Model_Subscription
      */
     public function getApiUserId()
     {
-        return $this->_getEndpoint()->getApiUserId();
+        return $this->getEndpoint()->getApiUserId();
     }
 
     /**
@@ -350,7 +350,7 @@ class Mage_Webhook_Model_Subscription
      */
     public function getEndpointUrl()
     {
-        return $this->_getEndpoint()->getEndpointUrl();
+        return $this->getEndpoint()->getEndpointUrl();
     }
 
     /**
@@ -360,7 +360,7 @@ class Mage_Webhook_Model_Subscription
      */
     public function getTimeoutInSecs()
     {
-        return $this->_getEndpoint()->getTimeoutInSecs();
+        return $this->getEndpoint()->getTimeoutInSecs();
     }
 
     /**

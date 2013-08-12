@@ -16,9 +16,6 @@
             <version>0.0.1</version>
             <active>true</active>
             <codePool>community</codePool>
-            <!--depends>
-                <Mage_Webhook/>
-            </depends-->
         </Acme_Subscriber>
     </modules>
     <global>

@@ -108,7 +108,7 @@ class Mage_Webhook_Adminhtml_Webhook_SubscriptionControllerTest extends Mage_Bac
         $this->dispatch('backend/admin/webhook_subscription/delete');
 
         $this->assertSessionMessages(
-            $this->equalTo(array("Subscription with ID '' doesn't exist.")),
+            $this->equalTo(array("Subscription with ID '0' doesn't exist.")),
             Mage_Core_Model_Message::ERROR
         );
         $this->assertRedirect($this->stringContains('backend/admin/webhook_subscription/index/'));

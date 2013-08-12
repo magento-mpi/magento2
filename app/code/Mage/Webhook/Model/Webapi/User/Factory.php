@@ -72,6 +72,11 @@ class Mage_Webhook_Model_Webapi_User_Factory
      */
     public function createUser(array $userContext, array $topics)
     {
+        // Company is an optional variable
+        $userContext[self::CONTEXT_COMPANY] = isset($userContext[self::CONTEXT_COMPANY])
+            ? $userContext[self::CONTEXT_COMPANY]
+            : null;
+
         $role = $this->_createWebapiRole($userContext[self::CONTEXT_EMAIL], $userContext[self::CONTEXT_COMPANY]);
 
         try {
@@ -121,7 +126,11 @@ class Mage_Webhook_Model_Webapi_User_Factory
     {
         $resources = array();
         foreach ($topics as $topic) {
-            $resources[] = $this->_topicMapping[$topic];
+            if (isset($this->_topicMapping[$topic])) {
+                $resources[] = $this->_topicMapping[$topic];
+            } else {
+                $resources[] = $topic;
+            }
         }
         array_unique($resources);
 

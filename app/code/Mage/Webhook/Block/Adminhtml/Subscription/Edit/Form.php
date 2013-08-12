@@ -67,12 +67,15 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_Form extends Mage_Backend_B
     {
         $subscriptionData = $this->_registry->registry(self::REGISTRY_KEY_CURRENT_SUBSCRIPTION);
 
+        $subscriptionId = isset($subscriptionData[self::DATA_SUBSCRIPTION_ID])
+            ? $subscriptionData[self::DATA_SUBSCRIPTION_ID]
+            : 0;
         $form = $this->_formFactory->create(
             array(
                  'id'     => 'edit_form',
                  'action' => $this->getUrl(
                      '*/*/save',
-                     array('id' => $subscriptionData[self::DATA_SUBSCRIPTION_ID])
+                     array('id' => $subscriptionId)
                  ),
                  'method' => 'post'
             )

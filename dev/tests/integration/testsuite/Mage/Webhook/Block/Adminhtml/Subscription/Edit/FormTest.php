@@ -27,7 +27,8 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit_Fr
             'format' => 'JSON',
             'authentication_type' => 'manual',
             'version' => '1.0',
-            'topics' => 'customer/created'
+            'topics' => 'customer/created',
+            'subscription_id' => '4'
         );
         $registry
             ->register(
@@ -45,7 +46,6 @@ class Mage_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit_Fr
 
         $this->assertInstanceOf('Magento_Data_Form', $form);
         $this->assertEquals('post', $form->getData('method'));
-        $this->assertEquals($block->getUrl('*/*/save'), $form->getData('action'));
         $this->assertEquals('edit_form', $form->getId());
         $this->assertTrue($form->getUseContainer());
 

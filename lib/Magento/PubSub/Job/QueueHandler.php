@@ -57,7 +57,7 @@ class Magento_PubSub_Job_QueueHandler
     {
         $job = $this->_jobQueueReader->poll();
         while (!is_null($job)) {
-            $message = $this->_messageFactory->create($job->getSubscription(), $job->getEvent());
+            $message = $this->_messageFactory->create($job->getSubscription()->getEndpoint(), $job->getEvent());
             $response = $this->_transport->dispatch($message);
             if ($response->isSuccessful()) {
                 $job->complete();
