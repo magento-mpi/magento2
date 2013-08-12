@@ -12,7 +12,7 @@
   * Improved jQuery validation for credit cards
   * Added support of `$.mage.component` in some frontend themes
   * Further refactoring of JavaScript to use JQuery library:
-    * Scripts are converted in the following modules and components: Centinel, Authorize.net, Payflow Link, Payflow Pro, Paygate, Paypal Express, Standard checkout, Captcha
+    * Scripts are converted in the following modules and components: Centinel, Authorize.net, Payflow Link, Payflow Pro, Paygate, Paypal Express, Checkout, Captcha
     * Removing Prototype inclusion in several places
   * Enhanced menu behavior in backend
 * VDE improvements:
@@ -21,7 +21,7 @@
     * 3 different modes: Page Text, Variable Text (for script texts), Alternative Text (for attributes)
     * Independent enabling of inline translation on frontend and in VDE
   * Modified some text messages in VDE and in themes management
-  * Added ability to upload, browse and delete images and fonts, which can be used in custom CSS
+  * Added ability to upload, browse and delete images and fonts that can be used in custom CSS
   * Improved theme's background image handling
   * Added alert, when deleting a block
 * HTML improvements:
@@ -57,7 +57,7 @@
   * Fixed incorrect message during checkout via Authorize.Net
   * Fixed unexpected alert during one-page checkout
   * Fixed bug with broken RSS link on some pages
-  * Fixed impossibility of deleting non-empty customer groups
+  * Fixed inability to delete non-empty customer groups
   * Fixed bug with absent tracking number in notification email
   * Fixed JS bug in bundle products
   * Fixed bug with missing product configuration in bundle products
