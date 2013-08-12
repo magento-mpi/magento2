@@ -328,7 +328,10 @@ ProductConfigure.prototype = {
             this.beforeSubmitCallback[this.current.listType]();
         }
         this.blockForm.submit();
-        varienLoaderHandler.handler.onCreate({options: {loaderArea: true}});
+
+        // Show loader
+        jQuery(this.blockForm).trigger('processStart');
+
         return this;
     },
 
@@ -374,7 +377,9 @@ ProductConfigure.prototype = {
 
             document.fire(this.current.listType + ':afterIFrameLoaded');
         }
-        varienLoaderHandler.handler.onComplete();
+
+        // Hide loader
+        jQuery(this.blockForm).trigger('processStop');
 
         this.clean('current');
     },
