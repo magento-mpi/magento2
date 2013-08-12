@@ -157,6 +157,10 @@ class Mage_Webhook_Model_Subscription_Config
             'registration_mechanism' => Mage_Webhook_Model_Subscription::REGISTRATION_MECHANISM_MANUAL,
         );
 
+        if (isset($configData['topics'])) {
+            $configData['topics'] = $this->_getTopicsFlatList($configData['topics']);
+        }
+
         return array_merge($defaultData, $configData);
     }
 
