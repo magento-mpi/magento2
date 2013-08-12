@@ -212,8 +212,8 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/pagecache/',
         'app/design/adminhtml/default/default/layout/pagecache.xml'
     ),
-    'Mage_Captcha' => array(
-        'app/code/Mage/Captcha/',
+    'Magento_Captcha' => array(
+        'app/code/Magento/Captcha/',
         'app/design/frontend/base/default/template/captcha/',
         'app/design/frontend/base/default/layout/captcha.xml',
         'app/design/adminhtml/default/default/template/captcha/',
@@ -604,7 +604,7 @@ $CONFIG['helpers']  = array(
     'ogone'             => 'Magento_Ogone',
     'page'              => 'Mage_Page',
     'pagecache'         => 'Mage_PageCache',
-    'captcha'           => 'Mage_Captcha',
+    'captcha'           => 'Magento_Captcha',
     'paybox'            => 'Mage_Paybox',
     'paygate'           => 'Magento_Paygate',
     'payment'           => 'Magento_Payment',

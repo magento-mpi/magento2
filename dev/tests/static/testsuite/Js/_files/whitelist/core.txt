@@ -7,7 +7,7 @@ app/code/Mage/PageCache
 app/code/Magento/Poll
 app/code/Magento/CatalogSearch
 app/code/Magento/Checkout
-app/code/Mage/Captcha
+app/code/Magento/Captcha
 app/code/Magento/Customer
 app/code/Magento/Downloadable
 app/code/Mage/Persistent

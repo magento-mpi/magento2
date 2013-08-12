@@ -60,7 +60,7 @@
                 <directory>../app/code/Magento/Api/Model/Acl/Assert</directory>
                 <directory>../app/code/Magento/Index</directory>
                 <directory>../app/code/Mage/Cybersource</directory>
-                <file>../app/code/Mage/Captcha/Model/Captcha.php</file>
+                <file>../app/code/Magento/Captcha/Model/Captcha.php</file>
                 <file>../app/code/Magento/Payment/Model/Paygate/Request.php</file>
                 <file>../app/code/Magento/Sales/Model/Mysql4/Report/Abstract.php</file>
                 <file>../app/code/Magento/Sales/Model/Mysql4/Abstract.php</file>
