@@ -26,7 +26,7 @@ class Enterprise_Banner_Model_Resource_Salesrule_Collection extends Mage_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('Varien_Object', 'Mage_SalesRule_Model_Resource_Rule');
+        $this->_init('Magento_Object', 'Mage_SalesRule_Model_Resource_Rule');
         $this->setMainTable('enterprise_banner_salesrule');
     }
 

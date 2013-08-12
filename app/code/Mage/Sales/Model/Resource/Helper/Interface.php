@@ -25,7 +25,7 @@ interface Mage_Sales_Model_Resource_Helper_Interface
      * @param array $aggregationAliases
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return Mage_Sales_Model_Resource_Helper_Abstract
+     * @return Mage_Sales_Model_Resource_Helper_Mysql4
      */
     public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
         $mainTable, $aggregationTable

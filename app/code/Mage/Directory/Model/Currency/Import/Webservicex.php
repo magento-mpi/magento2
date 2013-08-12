@@ -23,13 +23,13 @@ class Mage_Directory_Model_Currency_Import_Webservicex extends Mage_Directory_Mo
      /**
      * HTTP client
      *
-     * @var Varien_Http_Client
+     * @var Magento_HTTP_ZendClient
      */
     protected $_httpClient;
 
     public function __construct()
     {
-        $this->_httpClient = new Varien_Http_Client();
+        $this->_httpClient = new Magento_HTTP_ZendClient();
     }
 
     protected function _convert($currencyFrom, $currencyTo, $retry=0)

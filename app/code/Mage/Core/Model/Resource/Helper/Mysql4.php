@@ -9,7 +9,7 @@
  */
 
 /**
- * Resource helper class for MySql Varien DB Adapter
+ * Resource helper class for MySql Magento DB Adapter
  *
  * @category    Mage
  * @package     Mage_Core
@@ -18,73 +18,13 @@
 class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_Helper_Abstract
 {
     /**
-     * Returns expresion for field unification
-     *
-     * @param string $field
-     * @return Zend_Db_Expr
-     */
-    public function castField($field)
-    {
-        return $field;
-    }
-    /**
-     * Returns analytic expression for database column
-     *
-     * @param string $column
-     * @param string $groupAliasName OPTIONAL
-     * @param string $orderBy OPTIONAL
-     * @return Zend_Db_Expr
-     */
-    public function prepareColumn($column, $groupAliasName = null, $orderBy = null)
-    {
-        return new Zend_Db_Expr((string)$column);
-    }
-
-    /**
-     * Returns select query with analytic functions
-     *
-     * @param Varien_Db_Select $select
-     * @return Varien_Db_Select
-     */
-    public function getQueryUsingAnalyticFunction(Varien_Db_Select $select)
-    {
-        return $select;
-    }
-
-    /**
-     *
-     * Returns Insert From Select On Duplicate query with analytic functions
-     *
-     * @param Varien_Db_Select $select
-     * @param string $table
-     * @param array $table
-     * @return string
-     */
-    public function getInsertFromSelectUsingAnalytic(Varien_Db_Select $select, $table, $fields)
-    {
-        return $select->insertFromSelect($table, $fields);
-    }
-
-    /**
-     * Correct limitation of queries with UNION
-     * No need to do additional actions on MySQL
-     *
-     * @param Varien_Db_Select $select
-     * @return Varien_Db_Select
-     */
-    public function limitUnion($select)
-    {
-        return $select;
-    }
-
-    /**
      * Returns array of quoted orders with direction
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param bool $autoReset
      * @return array
      */
-    protected function _prepareOrder(Varien_Db_Select $select, $autoReset = false)
+    protected function _prepareOrder(Magento_DB_Select $select, $autoReset = false)
     {
         $selectOrders = $select->getPart(Zend_Db_Select::ORDER);
         if (!$selectOrders) {
@@ -95,7 +35,7 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
         foreach ($selectOrders as $term) {
             if (is_array($term)) {
                 if (!is_numeric($term[0])) {
-                    $orders[]   = sprintf('%s %s', $this->_getReadAdapter()->quoteIdentifier($term[0], true), $term[1]);
+                    $orders[] = sprintf('%s %s', $this->_getReadAdapter()->quoteIdentifier($term[0], true), $term[1]);
                 }
             } else {
                 if (!is_numeric($term)) {
@@ -140,11 +80,11 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
     /**
      * Returns quoted group by fields
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param bool $autoReset
      * @return array
      */
-    protected function _prepareGroup(Varien_Db_Select $select, $autoReset = false)
+    protected function _prepareGroup(Magento_DB_Select $select, $autoReset = false)
     {
         $selectGroups = $select->getPart(Zend_Db_Select::GROUP);
         if (!$selectGroups) {
@@ -166,12 +106,12 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
     /**
      * Prepare and returns having array
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param bool $autoReset
      * @return array
      * @throws Zend_Db_Exception
      */
-    protected function _prepareHaving(Varien_Db_Select $select, $autoReset = false)
+    protected function _prepareHaving(Magento_DB_Select $select, $autoReset = false)
     {
         $selectHavings = $select->getPart(Zend_Db_Select::HAVING);
         if (!$selectHavings) {
@@ -194,7 +134,9 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
                          */
                         $havings[] = str_replace($correlationName, $column, $having);
                     } else {
-                        throw new Zend_Db_Exception(sprintf("Can't prepare expression without column alias: '%s'", $correlationName));
+                        throw new Zend_Db_Exception(
+                            sprintf("Can't prepare expression without column alias: '%s'", $correlationName)
+                        );
                     }
                 }
             }
@@ -220,12 +162,12 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
         if ($limitCount !== null) {
               $limitCount = intval($limitCount);
             if ($limitCount <= 0) {
-//                throw new Exception("LIMIT argument count={$limitCount} is not valid");
+                //throw new Exception("LIMIT argument count={$limitCount} is not valid");
             }
 
             $limitOffset = intval($limitOffset);
             if ($limitOffset < 0) {
-//                throw new Exception("LIMIT argument offset={$limitOffset} is not valid");
+                //throw new Exception("LIMIT argument offset={$limitOffset} is not valid");
             }
 
             if ($limitOffset + $limitCount != $limitOffset + 1) {
@@ -233,7 +175,6 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
                 foreach ($columnList as $columnEntry) {
                     $columns[] = $columnEntry[2] ? $columnEntry[2] : $columnEntry[1];
                 }
-
                 $query = sprintf('%s LIMIT %s, %s', $query, $limitCount, $limitOffset);
             }
         }
@@ -244,12 +185,12 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
     /**
      * Prepare select column list
      *
-     * @param Varien_Db_Select $select
-     * @param $groupByCondition OPTIONAL
+     * @param Magento_DB_Select $select
+     * @param string|null $groupByCondition OPTIONAL
      * @return array
      * @throws Zend_Db_Exception
      */
-    public function prepareColumnsList(Varien_Db_Select $select, $groupByCondition = null)
+    public function prepareColumnsList(Magento_DB_Select $select, $groupByCondition = null)
     {
         if (!count($select->getPart(Zend_Db_Select::FROM))) {
             return $select->getPart(Zend_Db_Select::COLUMNS);
@@ -263,8 +204,8 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
             list($correlationName, $column, $alias) = $columnEntry;
             if ($column instanceof Zend_Db_Expr) {
                 if ($alias !== null) {
-                    if (preg_match('/(^|[^a-zA-Z_])^(SELECT)?(SUM|MIN|MAX|AVG|COUNT)\s*\(/i', $column, $matches)) {
-                        $column = $this->prepareColumn($column, $groupByCondition);
+                    if (preg_match('/(^|[^a-zA-Z_])^(SELECT)?(SUM|MIN|MAX|AVG|COUNT)\s*\(/i', $column)) {
+                        $column = new Zend_Db_Expr($column);
                     }
                     $preparedColumns[strtoupper($alias)] = array(null, $column, $alias);
                 } else {
@@ -273,10 +214,12 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
             } else {
                 if ($column == Zend_Db_Select::SQL_WILDCARD) {
                     if ($tables[$correlationName]['tableName'] instanceof Zend_Db_Expr) {
-                        throw new Zend_Db_Exception("Can't prepare expression when tableName is instance of Zend_Db_Expr");
+                        throw new Zend_Db_Exception(
+                            "Can't prepare expression when tableName is instance of Zend_Db_Expr"
+                        );
                     }
                     $tableColumns = $this->_getReadAdapter()->describeTable($tables[$correlationName]['tableName']);
-                    foreach(array_keys($tableColumns) as $col) {
+                    foreach (array_keys($tableColumns) as $col) {
                         $preparedColumns[strtoupper($col)] = array($correlationName, $col, null);
                     }
                 } else {
@@ -286,25 +229,23 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
             }
         }
 
-//        $select->reset(Zend_Db_Select::COLUMNS);
-//        $select->setPart(Zend_Db_Select::COLUMNS, array_values($preparedColumns));
-
         return $preparedColumns;
     }
 
     /**
      * Add prepared column group_concat expression
      *
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param string $fieldAlias Field alias which will be added with column group_concat expression
      * @param string $fields
      * @param string $groupConcatDelimiter
      * @param string $fieldsDelimiter
      * @param string $additionalWhere
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
-    public function addGroupConcatColumn($select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '', $additionalWhere = '')
-    {
+    public function addGroupConcatColumn(
+        $select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '', $additionalWhere = ''
+    ) {
         if (is_array($fields)) {
             $fieldExpr = $this->_getReadAdapter()->getConcatSql($fields, $fieldsDelimiter);
         } else {
@@ -315,11 +256,9 @@ class Mage_Core_Model_Resource_Helper_Mysql4 extends Mage_Core_Model_Resource_He
         }
         $separator = '';
         if ($groupConcatDelimiter) {
-            $separator = sprintf(" SEPARATOR '%s'",  $groupConcatDelimiter);
+            $separator = sprintf(" SEPARATOR '%s'", $groupConcatDelimiter);
         }
-
         $select->columns(array($fieldAlias => new Zend_Db_Expr(sprintf('GROUP_CONCAT(%s%s)', $fieldExpr, $separator))));
-
         return $select;
     }
 

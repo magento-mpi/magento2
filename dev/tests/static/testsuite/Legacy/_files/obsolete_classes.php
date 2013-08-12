@@ -732,7 +732,7 @@ return array(
     array('Varien_Convert_Validator_Column'),
     array('Varien_Convert_Validator_Dryrun'),
     array('Varien_Convert_Validator_Interface'),
-    array('Varien_File_Uploader_Image'),
+    array('Magento_File_Uploader_Image'),
     array('Varien_Profiler', 'Magento_Profiler'),
     array('Mage_Adminhtml_Block_Notification_Window', 'Mage_AdminNotification_Block_Window'),
     array('Mage_Adminhtml_Block_Notification_Toolbar'),
@@ -751,4 +751,9 @@ return array(
     array('Mage_AdminNotification_Block_Grid'),
     array('Mage_Core_Model_Design_Package'),
     array('Mage_Core_Model_Design_PackageInterface'),
+    array('Mage_Core_Model_Resource_Type_Db_Mysqli_Setup'),
+    array('Mage_Core_Model_Resource_Type_Db_Mysqli'),
+    array('Varien_Db_Adapter_Mysqli'),
+    array('Mage_DB_Mysqli'),
+    array('Mage_DB_Exception'),
 );

@@ -17,7 +17,7 @@ class Mage_Payment_Block_Info extends Mage_Core_Block_Template
     /**
      * Payment rendered specific information
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_paymentSpecificInformation = null;
 
@@ -132,16 +132,16 @@ class Mage_Payment_Block_Info extends Mage_Core_Block_Template
     /**
      * Prepare information specific to current payment method
      *
-     * @param Varien_Object|array $transport
-     * @return Varien_Object
+     * @param Magento_Object|array $transport
+     * @return Magento_Object
      */
     protected function _prepareSpecificInformation($transport = null)
     {
         if (null === $this->_paymentSpecificInformation) {
             if (null === $transport) {
-                $transport = new Varien_Object;
+                $transport = new Magento_Object;
             } elseif (is_array($transport)) {
-                $transport = new Varien_Object($transport);
+                $transport = new Magento_Object($transport);
             }
             Mage::dispatchEvent('payment_info_block_prepare_specific_information', array(
                 'transport' => $transport,

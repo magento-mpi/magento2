@@ -133,7 +133,7 @@ class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
     public function setImage($value)
     {
         //in the current version should be used instance of Mage_Core_Model_File_Uploader
-        if ($value instanceof Varien_File_Uploader) {
+        if ($value instanceof Magento_File_Uploader) {
             $value->save($this->_getImageFolderAbsolutePath());
             $value = $value->getUploadedFileName();
         }
@@ -179,7 +179,7 @@ class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
     public function setTmpImage($value)
     {
         //in the current version should be used instance of Mage_Core_Model_File_Uploader
-        if ($value instanceof Varien_File_Uploader) {
+        if ($value instanceof Magento_File_Uploader) {
             // Delete previous temporary image if exists
             $this->unsTmpImage();
             $value->save($this->_getTmpImageFolderAbsolutePath());
@@ -237,7 +237,7 @@ class Enterprise_GiftWrapping_Model_Wrapping extends Mage_Core_Model_Abstract
     {
         $path = Mage::getBaseDir('media') . DS . strtr(self::IMAGE_PATH, '/', DS);
         if (!is_dir($path)) {
-            $ioAdapter = new Varien_Io_File();
+            $ioAdapter = new Magento_Io_File();
             $ioAdapter->checkAndCreateFolder($path);
         }
         return $path;

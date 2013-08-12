@@ -13,7 +13,7 @@ interface Mage_Core_Model_Event_InvokerInterface
      * Dispatch event
      *
      * @param array $configuration
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function dispatch(array $configuration, Varien_Event_Observer $observer);
+    public function dispatch(array $configuration, Magento_Event_Observer $observer);
 }

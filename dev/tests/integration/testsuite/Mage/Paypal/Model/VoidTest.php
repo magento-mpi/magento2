@@ -22,7 +22,7 @@ class Mage_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $order->loadByIncrementId('100000001');
         $payment = $order->getPayment();
         $instance = $this->getMock('Mage_Paypal_Model_Payflowpro', array('_postRequest'));
-        $response = new Varien_Object(array(
+        $response = new Magento_Object(array(
             'result' => '0',
             'pnref' => 'V19A3D27B61E',
             'respmsg' => 'Approved',
@@ -37,7 +37,7 @@ class Mage_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($response));
 
         $payment->setMethodInstance($instance);
-        $payment->void(new Varien_Object);
+        $payment->void(new Magento_Object);
         $order->save();
         $order = Mage::getModel('Mage_Sales_Model_Order');
         $order->loadByIncrementId('100000001');

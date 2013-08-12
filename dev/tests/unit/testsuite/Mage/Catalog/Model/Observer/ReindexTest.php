@@ -53,9 +53,9 @@ class Mage_Catalog_Model_Observer_ReindexTest extends PHPUnit_Framework_TestCase
             ->with('Mage_CatalogSearch_Model_Resource_Fulltext')
             ->will($this->returnValue($fulltextReindex));
 
-        $observer = new Varien_Event_Observer(
+        $observer = new Magento_Event_Observer(
             array(
-                'data_object' => new Varien_Object(
+                'data_object' => new Magento_Object(
                     array('affected_product_ids' => $affectedProduct)
                 )
             )

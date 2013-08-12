@@ -44,7 +44,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
     /**
      * DB connection
      *
-     * @var Varien_Db_Adapter_Interface
+     * @var Magento_DB_Adapter_Interface
      */
     protected $_connection;
 

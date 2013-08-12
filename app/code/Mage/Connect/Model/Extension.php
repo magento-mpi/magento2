@@ -15,7 +15,7 @@
  * @package     Mage_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Connect_Model_Extension extends Varien_Object
+class Mage_Connect_Model_Extension extends Magento_Object
 {
     /**
      * Cache for targets
@@ -27,7 +27,7 @@ class Mage_Connect_Model_Extension extends Varien_Object
     /**
      * Internal cache for package
      *
-     * @var Mage_Connect_Package
+     * @var Magento_Connect_Package
      */
     protected $_package;
 
@@ -49,12 +49,12 @@ class Mage_Connect_Model_Extension extends Varien_Object
     /**
      * Return package object
      *
-     * @return Mage_Connect_Package
+     * @return Magento_Connect_Package
      */
     protected function getPackage()
     {
-        if (!$this->_package instanceof Mage_Connect_Package) {
-            $this->_package = new Mage_Connect_Package();
+        if (!$this->_package instanceof Magento_Connect_Package) {
+            $this->_package = new Magento_Connect_Package();
         }
         return $this->_package;
     }
@@ -252,7 +252,7 @@ class Mage_Connect_Model_Extension extends Varien_Object
             $this->unsPackageXml();
             $this->unsTargets();
             $xml = Mage::helper('Mage_Core_Helper_Data')->assocToXml($this->getData());
-            $xml = new Varien_Simplexml_Element($xml->asXML());
+            $xml = new Magento_Simplexml_Element($xml->asXML());
 
             // prepare dir to save
             $parts = explode(DS, $fileName);
@@ -332,7 +332,7 @@ class Mage_Connect_Model_Extension extends Varien_Object
     public function getLabelTargets()
     {
         if (!is_array($this->_targets)) {
-            $objectTarget = new Mage_Connect_Package_Target();
+            $objectTarget = new Magento_Connect_Package_Target();
             $this->_targets = $objectTarget->getLabelTargets();
         }
         return $this->_targets;

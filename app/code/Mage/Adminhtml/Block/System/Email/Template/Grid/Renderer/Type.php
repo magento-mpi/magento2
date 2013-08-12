@@ -23,7 +23,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Grid_Renderer_Type
         Mage_Newsletter_Model_Template::TYPE_HTML    => 'HTML',
         Mage_Newsletter_Model_Template::TYPE_TEXT    => 'Text',
     );
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
 
         $str = __('Unknown');

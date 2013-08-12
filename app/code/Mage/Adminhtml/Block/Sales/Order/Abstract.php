@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Sales_Order_Abstract extends Mage_Adminhtml_Block_Wid
     /**
      * Retrieve subtotal price include tax html formated content
      *
-     * @param Varien_Object $item
+     * @param Magento_Object $item
      * @return string
      */
     public function displayShippingPriceInclTax($order)

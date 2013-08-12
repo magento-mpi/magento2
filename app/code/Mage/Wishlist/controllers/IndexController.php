@@ -187,7 +187,7 @@ class Mage_Wishlist_IndexController
                 $requestParams = $session->getBeforeWishlistRequest();
                 $session->unsBeforeWishlistRequest();
             }
-            $buyRequest = new Varien_Object($requestParams);
+            $buyRequest = new Magento_Object($requestParams);
 
             $result = $wishlist->addNewItem($product, $buyRequest);
             if (is_string($result)) {
@@ -252,7 +252,7 @@ class Mage_Wishlist_IndexController
 
             Mage::register('wishlist_item', $item);
 
-            $params = new Varien_Object();
+            $params = new Magento_Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
             $buyRequest = $item->getBuyRequest();
@@ -307,7 +307,7 @@ class Mage_Wishlist_IndexController
                 return;
             }
 
-            $buyRequest = new Varien_Object($this->getRequest()->getParams());
+            $buyRequest = new Magento_Object($this->getRequest()->getParams());
 
             $wishlist->updateItem($id, $buyRequest)
                 ->save();
@@ -483,7 +483,7 @@ class Mage_Wishlist_IndexController
             $item->setQty($qty);
         }
 
-        /* @var $session Mage_Wishlist_Model_Session */
+        /* @var $session Mage_Core_Model_Session_Generic */
         $session    = Mage::getSingleton('Mage_Wishlist_Model_Session');
         $cart       = Mage::getSingleton('Mage_Checkout_Model_Cart');
 

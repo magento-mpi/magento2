@@ -50,7 +50,7 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
         /** @var $layoutMock Mage_Core_Model_Layout */
         $layoutMock->expects($this->any())->method('generateXml')->will($this->returnSelf());
         $layoutMock->expects($this->any())->method('getNode')
-            ->will($this->returnValue(new Varien_Simplexml_Element('<root />')));
+            ->will($this->returnValue(new Magento_Simplexml_Element('<root />')));
         $blockMessage = $this->getMock('Mage_Core_Block_Messages',
             array('addMessages', 'setEscapeMessageFlag', 'addStorageType'), array(), '', false);
         $layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMessage));
@@ -63,16 +63,12 @@ class Mage_DesignEditor_Controller_Adminhtml_System_Design_EditorControllerTest 
         $layoutMock->expects($this->any())->method('getBlock')->will($this->returnValue($blockMock));
         $layoutMock->expects($this->any())->method('getUpdate')->will($this->returnSelf());
 
-        $layoutFactory = $this->getMock('Mage_Core_Model_Layout_Factory', array('createLayout'), array(), '', false);
-        $layoutFactory->expects($this->any())->method('createLayout')->will($this->returnValue($layoutMock));
-
-
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Mage_DesignEditor_Adminhtml_System_Design_EditorController',
             array(
                 'request' => $request,
                 'objectManager' => $this->_objectManagerMock,
-                'layoutFactory' => $layoutFactory,
+                'layout' => $layoutMock,
                 'invokeArgs' => array(
                     'helper' => $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false),
                     'session'=> $this->getMock('Mage_Backend_Model_Session', array(), array(), '', false),

@@ -12,7 +12,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
     /**
      * Create resource model.
      *
-     * @param Varien_Db_Select $selectMock
+     * @param Magento_DB_Select $selectMock
      * @return Mage_Webapi_Model_Resource_Acl_Rule
      */
     protected function _createModel($selectMock = null)
@@ -27,7 +27,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
             ->withAnyParameters()
             ->will($this->returnArgument(0));
 
-        $this->_adapter = $this->getMockBuilder('Varien_Db_Adapter_Pdo_Mysql')
+        $this->_adapter = $this->getMockBuilder('Magento_DB_Adapter_Pdo_Mysql')
             ->disableOriginalConstructor()
             ->setMethods(array('select', 'fetchCol', 'fetchAll',
                 'beginTransaction', 'commit', 'rollback', 'insertArray', 'delete'))
@@ -44,8 +44,8 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
             ->will($this->returnValue(array(array('key' => 'value'))));
 
         if (!$selectMock) {
-            $selectMock = new Varien_Db_Select(
-                $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false));
+            $selectMock = new Magento_DB_Select(
+                $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false));
         }
 
         $this->_adapter->expects($this->any())
@@ -84,8 +84,8 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
      */
     public function testGetRuleList()
     {
-        $selectMock = $this->getMockBuilder('Varien_Db_Select')
-            ->setConstructorArgs(array($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)))
+        $selectMock = $this->getMockBuilder('Magento_DB_Select')
+            ->setConstructorArgs(array($this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false)))
             ->setMethods(array('from'))
             ->getMock();
 
@@ -104,8 +104,8 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
      */
     public function testGetResourceIdsByRole()
     {
-        $selectMock = $this->getMockBuilder('Varien_Db_Select')
-            ->setConstructorArgs(array($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)))
+        $selectMock = $this->getMockBuilder('Magento_DB_Select')
+            ->setConstructorArgs(array($this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false)))
             ->setMethods(array('from', 'where'))
             ->getMock();
 
@@ -143,7 +143,7 @@ class Mage_Webapi_Model_Resource_Acl_RuleTest extends Mage_Webapi_Model_Resource
         $ruleResource->expects($this->any())
             ->method('getReadConnection')
             ->withAnyParameters()
-            ->will($this->returnValue($this->getMock('Varien_Db_Adapter_Pdo_Mysql', array(), array(), '', false)));
+            ->will($this->returnValue($this->getMock('Magento_DB_Adapter_Pdo_Mysql', array(), array(), '', false)));
 
         // Init rule.
         $rule = $this->getMockBuilder('Mage_Webapi_Model_Acl_Rule')

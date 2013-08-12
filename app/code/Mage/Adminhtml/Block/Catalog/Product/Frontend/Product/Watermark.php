@@ -17,11 +17,11 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
     extends Mage_Backend_Block_Abstract
-    implements Varien_Data_Form_Element_Renderer_Interface
+    implements Magento_Data_Form_Element_Renderer_Interface
 {
     const XML_PATH_IMAGE_TYPES = 'global/catalog/product/media/image_types';
 
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $html = $this->_getHeaderHtml($element);
         $renderer = Mage::getBlockSingleton('Mage_Backend_Block_System_Config_Form_Field');
@@ -32,7 +32,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             /**
              * Watermark size field
              */
-            $field = new Varien_Data_Form_Element_Text();
+            $field = new Magento_Data_Form_Element_Text();
             $field->setName("groups[watermark][fields][{$key}_size][value]")
                 ->setForm( $this->getForm() )
                 ->setLabel(__('Size for %1', $attribute['title']))
@@ -42,7 +42,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             /**
              * Watermark upload field
              */
-            $field = new Varien_Data_Form_Element_Imagefile();
+            $field = new Magento_Data_Form_Element_Imagefile();
             $field->setName("groups[watermark][fields][{$key}_image][value]")
                 ->setForm( $this->getForm() )
                 ->setLabel(__('Watermark File for %1', $attribute['title']))
@@ -52,7 +52,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
             /**
              * Watermark position field
              */
-            $field = new Varien_Data_Form_Element_Select();
+            $field = new Magento_Data_Form_Element_Select();
             $field->setName("groups[watermark][fields][{$key}_position][value]")
                 ->setForm( $this->getForm() )
                 ->setLabel(__('Position of Watermark for %1', $attribute['title']))

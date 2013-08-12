@@ -26,7 +26,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Mage_Core_Model_
     public function processData($type)
     {
         if ($data = $type->getAttributes()) {
-            $xmlObj = new Varien_Simplexml_Element('<config></config>');
+            $xmlObj = new Magento_Simplexml_Element('<config></config>');
             $typeXml = $xmlObj->addChild(self::XML_PROTOTYPE_NODE);
             if (is_array($data)) {
                 $groups = array();
@@ -51,7 +51,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Mage_Core_Model_
     /**
      * Process attribute types as xml
      *
-     * @param Varien_Simplexml_Element $typeXml
+     * @param Magento_Simplexml_Element $typeXml
      * @param string $group
      * @return array $attributes
      */
@@ -86,7 +86,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Mage_Core_Model_
      * Add select type options to attribute node
      *
      * @param array $attribute
-     * @param Varien_Simplexml_Element $itemXml
+     * @param Magento_Simplexml_Element $itemXml
      */
     public function addSelectOptions($attribute, $itemXml)
     {
@@ -108,7 +108,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Mage_Core_Model_
      * Add date type options to attribute node
      *
      * @param array $attribute
-     * @param Varien_Simplexml_Element $itemXml
+     * @param Magento_Simplexml_Element $itemXml
      */
     public function addDateOptions($attribute, $itemXml)
     {
@@ -120,7 +120,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Mage_Core_Model_
      * Add region type options to attribute node
      *
      * @param array $attribute
-     * @param Varien_Simplexml_Element $itemXml
+     * @param Magento_Simplexml_Element $itemXml
      */
     public function addCountryOptions($attribute, $itemXml)
     {
@@ -132,7 +132,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Mage_Core_Model_
      * Add frontend params to attribute node
      *
      * @param array $attribute
-     * @param Varien_Simplexml_Element $itemXml
+     * @param Magento_Simplexml_Element $itemXml
      */
     public function addFrontendParams($attribute, $itemXml)
     {
@@ -153,7 +153,7 @@ class Enterprise_GiftRegistry_Model_Attribute_Processor extends Mage_Core_Model_
     public function processXml($xmlString = '')
     {
         if ($xmlString) {
-            $xmlObj = new Varien_Simplexml_Element($xmlString);
+            $xmlObj = new Magento_Simplexml_Element($xmlString);
             $attributes = $xmlObj->asArray();
             if (isset($attributes[self::XML_PROTOTYPE_NODE])) {
                 return $attributes[self::XML_PROTOTYPE_NODE];

@@ -56,10 +56,10 @@ class Mage_Adminhtml_Block_Page_System_Config_Robots_Reset extends Mage_Backend_
     /**
      * Render button
      *
-     * @param  Varien_Data_Form_Element_Abstract $element
+     * @param  Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         // Remove scope label
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
@@ -69,11 +69,11 @@ class Mage_Adminhtml_Block_Page_System_Config_Robots_Reset extends Mage_Backend_
     /**
      * Return element html
      *
-     * @param  Varien_Data_Form_Element_Abstract $element
+     * @param  Magento_Data_Form_Element_Abstract $element
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    protected function _getElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         return $this->_toHtml();
     }

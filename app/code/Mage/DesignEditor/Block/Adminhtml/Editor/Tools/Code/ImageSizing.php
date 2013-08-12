@@ -66,7 +66,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(array(
+        $form = new Magento_Data_Form(array(
             'action'   => '#',
             'method'   => 'post'
         ));
@@ -103,7 +103,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
      * Initialize form elements
      *
      * @param Mage_DesignEditor_Model_Editor_Tools_Controls_Configuration $controlsConfig
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
      */
     protected function _initFormElements($controlsConfig, $form)
@@ -161,7 +161,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
      */
     protected function _addWhiteBorderElement($control)
     {
-        /** @var $form Varien_Data_Form */
+        /** @var $form Magento_Data_Form */
         $form = $this->getForm();
         $fieldMessage = __('Add white borders to images that are smaller than the container.');
         foreach ($control['components'] as $name => $component) {
@@ -194,7 +194,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
      */
     protected function _addImageSizeFieldset($name, $control)
     {
-        /** @var $form Varien_Data_Form */
+        /** @var $form Magento_Data_Form */
         $form = $this->getForm();
         $fieldset = $form->addFieldset($name, array(
             'name'   => $name,
@@ -216,7 +216,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     /**
      * Add image size form element by component type
      *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param array $component
      * @param string $componentName
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
@@ -243,7 +243,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     /**
      * Add image type form element to fieldset
      *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param array $component
      * @param string $componentName
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
@@ -261,7 +261,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     /**
      * Add image width form element to fieldset
      *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param array $component
      * @param string $componentName
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
@@ -280,7 +280,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     /**
      * Add image height form element to fieldset
      *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param array $component
      * @param string $componentName
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
@@ -299,7 +299,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     /**
      * Add image ratio form element to fieldset
      *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param array $component
      * @param string $componentName
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing
@@ -323,7 +323,7 @@ class Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing extends Ma
     /**
      * Add reset button to fieldset
      *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param array $defaultValues
      * @param string $name
      * @return Mage_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing

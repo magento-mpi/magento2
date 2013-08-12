@@ -14,10 +14,10 @@ class Enterprise_GiftCardAccount_Model_Observer
      * Charge all gift cards applied to the order
      * used for event: sales_order_place_after
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCardAccount_Model_Observer
      */
-    public function processOrderPlace(Varien_Event_Observer $observer)
+    public function processOrderPlace(Magento_Event_Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
         $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($order);
@@ -42,10 +42,10 @@ class Enterprise_GiftCardAccount_Model_Observer
     /**
      * Process order place before
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return
      */
-    public function processOrderCreateBefore(Varien_Event_Observer $observer)
+    public function processOrderCreateBefore(Magento_Event_Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $cards = Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->getCards($quote);
@@ -68,10 +68,10 @@ class Enterprise_GiftCardAccount_Model_Observer
      * Charge specified Gift Card (using code)
      * used for event: enterprise_giftcardaccount_charge_by_code
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCardAccount_Model_Observer
      */
-    public function chargeByCode(Varien_Event_Observer $observer)
+    public function chargeByCode(Magento_Event_Observer $observer)
     {
         $id = $observer->getEvent()->getGiftcardaccountCode();
         $amount = $observer->getEvent()->getAmount();
@@ -89,10 +89,10 @@ class Enterprise_GiftCardAccount_Model_Observer
      * Charge specified Gift Card (using id)
      * used for event: enterprise_giftcardaccount_charge
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCardAccount_Model_Observer
      */
-    public function chargeById(Varien_Event_Observer $observer)
+    public function chargeById(Magento_Event_Observer $observer)
     {
         $id = $observer->getEvent()->getGiftcardaccountId();
         $amount = $observer->getEvent()->getAmount();
@@ -110,10 +110,10 @@ class Enterprise_GiftCardAccount_Model_Observer
      * Increase order giftcards_amount_invoiced attribute based on created invoice
      * used for event: sales_order_invoice_register
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCardAccount_Model_Observer
      */
-    public function increaseOrderGiftCardInvoicedAmount(Varien_Event_Observer $observer)
+    public function increaseOrderGiftCardInvoicedAmount(Magento_Event_Observer $observer)
     {
         $invoice = $observer->getEvent()->getInvoice();
         $order = $invoice->getOrder();
@@ -128,10 +128,10 @@ class Enterprise_GiftCardAccount_Model_Observer
      * Create gift card account on event
      * used for event: enterprise_giftcardaccount_create
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCardAccount_Model_Observer
      */
-    public function create(Varien_Event_Observer $observer)
+    public function create(Magento_Event_Observer $observer)
     {
         $data = $observer->getEvent()->getRequest();
         $code = $observer->getEvent()->getCode();
@@ -155,10 +155,10 @@ class Enterprise_GiftCardAccount_Model_Observer
      * Save history on gift card account model save event
      * used for event: enterprise_giftcardaccount_save_after
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCardAccount_Model_Observer
      */
-    public function giftcardaccountSaveAfter(Varien_Event_Observer $observer)
+    public function giftcardaccountSaveAfter(Magento_Event_Observer $observer)
     {
         $gca = $observer->getEvent()->getGiftcardaccount();
 
@@ -175,9 +175,9 @@ class Enterprise_GiftCardAccount_Model_Observer
     /**
      * Process post data and set usage of GC into order creation model
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function processOrderCreationData(Varien_Event_Observer $observer)
+    public function processOrderCreationData(Magento_Event_Observer $observer)
     {
         $model = $observer->getEvent()->getOrderCreateModel();
         $request = $observer->getEvent()->getRequest();
@@ -224,10 +224,10 @@ class Enterprise_GiftCardAccount_Model_Observer
     /**
      * Set flag that giftcard applied on payment step in checkout process
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCardAccount_Model_Observer
      */
-    public function paymentDataImport(Varien_Event_Observer $observer)
+    public function paymentDataImport(Magento_Event_Observer $observer)
     {
         /* @var $quote Mage_Sales_Model_Quote */
         $quote = $observer->getEvent()->getPayment()->getQuote();
@@ -256,7 +256,7 @@ class Enterprise_GiftCardAccount_Model_Observer
     /**
      * Force Zero Subtotal Checkout if the grand total is completely covered by SC and/or GC
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return void
      */
     public function togglePaymentMethods($observer)
@@ -282,9 +282,9 @@ class Enterprise_GiftCardAccount_Model_Observer
     /**
      * Set the flag that we need to collect overall totals
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function quoteCollectTotalsBefore(Varien_Event_Observer $observer)
+    public function quoteCollectTotalsBefore(Magento_Event_Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $quote->setGiftCardsTotalCollected(false);
@@ -294,9 +294,9 @@ class Enterprise_GiftCardAccount_Model_Observer
     /**
      * Set the source gift card accounts into new quote
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function quoteMergeAfter(Varien_Event_Observer $observer)
+    public function quoteMergeAfter(Magento_Event_Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $source = $observer->getEvent()->getSource();
@@ -310,10 +310,10 @@ class Enterprise_GiftCardAccount_Model_Observer
      * Set refund amount to creditmemo
      * used for event: sales_order_creditmemo_refund
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCardAccount_Model_Observer
      */
-    public function refund(Varien_Event_Observer $observer)
+    public function refund(Magento_Event_Observer $observer)
     {
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $order = $creditmemo->getOrder();
@@ -347,10 +347,10 @@ class Enterprise_GiftCardAccount_Model_Observer
      * Set refund flag to creditmemo based on user input
      * used for event: adminhtml_sales_order_creditmemo_register_before
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCardAccount_Model_Observer
      */
-    public function creditmemoDataImport(Varien_Event_Observer $observer)
+    public function creditmemoDataImport(Magento_Event_Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
         $creditmemo = $observer->getEvent()->getCreditmemo();
@@ -368,10 +368,10 @@ class Enterprise_GiftCardAccount_Model_Observer
      * Set forced canCreditmemo flag
      * used for event: sales_order_load_after
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCardAccount_Model_Observer
      */
-    public function salesOrderLoadAfter(Varien_Event_Observer $observer)
+    public function salesOrderLoadAfter(Magento_Event_Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
 
@@ -394,10 +394,10 @@ class Enterprise_GiftCardAccount_Model_Observer
     /**
      * Updating price for Google Checkout internal discount item.
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_GiftCardAccount_Model_Observer
      */
-    public function googleCheckoutDiscoutItem(Varien_Event_Observer $observer)
+    public function googleCheckoutDiscoutItem(Magento_Event_Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $discountItem = $observer->getEvent()->getDiscountItem();
@@ -410,9 +410,9 @@ class Enterprise_GiftCardAccount_Model_Observer
     /**
      * Merge gift card amount into discount of PayPal checkout totals
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function addPaypalGiftCardItem(Varien_Event_Observer $observer)
+    public function addPaypalGiftCardItem(Magento_Event_Observer $observer)
     {
         $paypalCart = $observer->getEvent()->getPaypalCart();
         if ($paypalCart) {
@@ -469,10 +469,10 @@ class Enterprise_GiftCardAccount_Model_Observer
     /**
      * Revert authorized amounts for all order's gift cards
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      * @return  Enterprise_GiftCardAccount_Model_Observer
      */
-    public function revertGiftCardAccountBalance(Varien_Event_Observer $observer)
+    public function revertGiftCardAccountBalance(Magento_Event_Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
         if ($order) {
@@ -485,10 +485,10 @@ class Enterprise_GiftCardAccount_Model_Observer
     /**
      * Revert gift cards for all orders
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      * @return  Enterprise_GiftCardAccount_Model_Observer
      */
-    public function revertGiftCardsForAllOrders(Varien_Event_Observer $observer)
+    public function revertGiftCardsForAllOrders(Magento_Event_Observer $observer)
     {
         $orders = $observer->getEvent()->getOrders();
 
@@ -502,10 +502,10 @@ class Enterprise_GiftCardAccount_Model_Observer
     /**
      * Return funds to store credit
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      * @return  Enterprise_GiftCardAccount_Model_Observer
      */
-    public function returnFundsToStoreCredit(Varien_Event_Observer $observer)
+    public function returnFundsToStoreCredit(Magento_Event_Observer $observer)
     {
         /** @var Mage_Sales_Model_Order $order */
         $order = $observer->getEvent()->getOrder();
@@ -534,14 +534,14 @@ class Enterprise_GiftCardAccount_Model_Observer
     /**
      * Extend sales amount expression with gift card refunded value
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return void
      */
-    public function extendSalesAmountExpression(Varien_Event_Observer $observer)
+    public function extendSalesAmountExpression(Magento_Event_Observer $observer)
     {
-        /** @var $expressionTransferObject Varien_Object */
+        /** @var $expressionTransferObject Magento_Object */
         $expressionTransferObject = $observer->getEvent()->getExpressionObject();
-        /** @var $adapter Varien_Db_Adapter_Interface */
+        /** @var $adapter Magento_DB_Adapter_Interface */
         $adapter = $observer->getEvent()->getCollection()->getConnection();
         $expressionTransferObject->setExpression($expressionTransferObject->getExpression() . ' - (%s)');
         $arguments = $expressionTransferObject->getArguments();

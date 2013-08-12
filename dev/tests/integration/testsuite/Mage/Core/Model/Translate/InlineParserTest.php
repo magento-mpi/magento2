@@ -21,7 +21,7 @@ class Mage_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_TestC
 
     public static function setUpBeforeClass()
     {
-        Mage::getDesign()->setDesignTheme('default/demo');
+        Mage::getDesign()->setDesignTheme('magento_demo');
     }
 
     public function setUp()

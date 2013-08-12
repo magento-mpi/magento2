@@ -16,7 +16,7 @@ include_once '3Dsecure/CentinelClient.php';
 /**
  * 3D Secure Validation Api
  */
-class Mage_Centinel_Model_Api extends Varien_Object
+class Mage_Centinel_Model_Api extends Magento_Object
 {
     /**
      * Fields that should be replaced in debug with '***'
@@ -178,7 +178,7 @@ class Mage_Centinel_Model_Api extends Varien_Object
      */
     public function callLookup($data)
     {
-        $result = new Varien_Object();
+        $result = new Magento_Object();
 
         $month = strlen($data->getCardExpMonth()) == 1 ? '0' . $data->getCardExpMonth() : $data->getCardExpMonth();
         $currencyCode = $data->getCurrencyCode();
@@ -216,7 +216,7 @@ class Mage_Centinel_Model_Api extends Varien_Object
      */
     public function callAuthentication($data)
     {
-        $result = new Varien_Object();
+        $result = new Magento_Object();
 
         $clientResponse = $this->_call('cmpi_authenticate', array(
             'TransactionId' => $data->getTransactionId(),

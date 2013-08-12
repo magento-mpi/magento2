@@ -15,7 +15,7 @@
 class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Varien_Event_Observer
+     * @var Magento_Event_Observer
      */
     protected $_eventObserver;
 
@@ -65,14 +65,14 @@ class Mage_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * Create event observer for theme registration
      *
-     * @return Varien_Event_Observer
+     * @return Magento_Event_Observer
      */
     protected function _createEventObserverForThemeRegistration()
     {
-        $response = $this->_objectManager->create('Varien_Object', array(
+        $response = $this->_objectManager->create('Magento_Object', array(
             'data' => array('additional_options' => array())
         ));
-        $event = $this->_objectManager->create('Varien_Event', array('data' => array('response_object' => $response)));
-        return $this->_objectManager->create('Varien_Event_Observer', array('data' => array('event' => $event)));
+        $event = $this->_objectManager->create('Magento_Event', array('data' => array('response_object' => $response)));
+        return $this->_objectManager->create('Magento_Event_Observer', array('data' => array('event' => $event)));
     }
 }

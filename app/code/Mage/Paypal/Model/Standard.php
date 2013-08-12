@@ -43,7 +43,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      * Get paypal session namespace
      *
-     * @return Mage_Paypal_Model_Session
+     * @return Mage_Core_Model_Session_Generic
      */
     public function getSession()
     {
@@ -136,7 +136,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      * Instantiate state and set it to state object
      * @param string $paymentAction
-     * @param Varien_Object
+     * @param Magento_Object
      */
     public function initialize($paymentAction, $stateObject)
     {

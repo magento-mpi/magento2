@@ -15,7 +15,7 @@
  * @package    Mage_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_GoogleShopping_Model_Service extends Varien_Object
+class Mage_GoogleShopping_Model_Service extends Magento_Object
 {
     /**
      * Client instance identifier in registry
@@ -43,7 +43,7 @@ class Mage_GoogleShopping_Model_Service extends Varien_Object
         try {
             if (!Mage::registry($this->_clientRegistryId)) {
                 $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass,
-                    Varien_Gdata_Gshopping_Content::AUTH_SERVICE_NAME, null, '', $loginToken, $loginCaptcha,
+                    Magento_Gdata_Gshopping_Content::AUTH_SERVICE_NAME, null, '', $loginToken, $loginCaptcha,
                     Zend_Gdata_ClientLogin::CLIENTLOGIN_URI, $type
                 );
                 $configTimeout = array('timeout' => 60);
@@ -78,7 +78,7 @@ class Mage_GoogleShopping_Model_Service extends Varien_Object
      * Return Google Content Service Instance
      *
      * @param int $storeId
-     * @return Varien_Gdata_Gshopping_Content
+     * @return Magento_Gdata_Gshopping_Content
      */
     public function getService($storeId = null)
     {
@@ -98,7 +98,7 @@ class Mage_GoogleShopping_Model_Service extends Varien_Object
     /**
      * Set Google Content Service Instance
      *
-     * @param Varien_Gdata_Gshopping_Content $service
+     * @param Magento_Gdata_Gshopping_Content $service
      * @return Mage_GoogleShopping_Model_Service
      */
     public function setService($service)
@@ -121,13 +121,13 @@ class Mage_GoogleShopping_Model_Service extends Varien_Object
      * Authorize Google Account
      *
      * @param int $storeId
-     * @return Varien_Gdata_Gshopping_Content service
+     * @return Magento_Gdata_Gshopping_Content service
      */
     protected function _connect($storeId = null)
     {
         $accountId = $this->getConfig()->getAccountId($storeId);
         $client = $this->getClient($storeId);
-        $service = new Varien_Gdata_Gshopping_Content($client, $accountId);
+        $service = new Magento_Gdata_Gshopping_Content($client, $accountId);
         return $service;
     }
 }

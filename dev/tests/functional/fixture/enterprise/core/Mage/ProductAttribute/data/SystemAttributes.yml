@@ -21,15 +21,11 @@ custom_design:
     option_3:
         admin_option_name: Magento Demo
     option_4:
-        admin_option_name: Magento Demo Blue
+        admin_option_name: Magento Fixed Width
     option_5:
-        admin_option_name: Magento Fixed Design
-    option_6:
         admin_option_name: Magento Iphone (HTML5)
-    option_7:
-        admin_option_name: Magento Modern
     default_value: '-- Please Select --'
-    set_default_value: Magento Fixed Design
+    set_default_value: Magento Fixed Width
 
 allow_open_amount:
     attribute_properties:

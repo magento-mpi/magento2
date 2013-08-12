@@ -36,7 +36,7 @@ class Mage_Eav_Model_Resource_Form_Element extends Mage_Core_Model_Resource_Db_A
      * @param string $field
      * @param mixed $value
      * @param Mage_Eav_Model_Form_Element $object
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

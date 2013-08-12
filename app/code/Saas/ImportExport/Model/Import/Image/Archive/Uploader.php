@@ -15,17 +15,17 @@ class Saas_ImportExport_Model_Import_Image_Archive_Uploader
     protected $_configuration;
 
     /**
-     * @var Varien_File_UploaderFactory
+     * @var Magento_File_UploaderFactory
      */
     protected $_uploaderFactory;
 
     /**
      * @param Saas_ImportExport_Helper_Import_Image_Configuration $configuration
-     * @param Varien_File_UploaderFactory $uploaderFactory
+     * @param Magento_File_UploaderFactory $uploaderFactory
      */
     public function __construct(
         Saas_ImportExport_Helper_Import_Image_Configuration $configuration,
-        Varien_File_UploaderFactory $uploaderFactory
+        Magento_File_UploaderFactory $uploaderFactory
     ) {
         $this->_configuration = $configuration;
         $this->_uploaderFactory = $uploaderFactory;
@@ -39,7 +39,7 @@ class Saas_ImportExport_Model_Import_Image_Archive_Uploader
      */
     public function upload()
     {
-        /** @var Varien_File_Uploader $uploader */
+        /** @var Magento_File_Uploader $uploader */
         $uploader = $this->_uploaderFactory->create(array(
             'fileId' => $this->_configuration->getFileFieldName(),
         ));

@@ -31,10 +31,10 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
      * Update product index when product data updated
      *
      * @deprecated since 1.11
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_CatalogSearch_Model_Fulltext_Observer
      */
-    public function refreshProductIndex(Varien_Event_Observer $observer)
+    public function refreshProductIndex(Magento_Event_Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
 
@@ -49,10 +49,10 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
      * Clean product index when product deleted or marked as unsearchable/invisible
      *
      * @deprecated since 1.11
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_CatalogSearch_Model_Fulltext_Observer
      */
-    public function cleanProductIndex(Varien_Event_Observer $observer)
+    public function cleanProductIndex(Magento_Event_Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
 
@@ -66,10 +66,10 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     /**
      * Update all attribute-dependant index
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_CatalogSearch_Model_Fulltext_Observer
      */
-    public function eavAttributeChange(Varien_Event_Observer $observer)
+    public function eavAttributeChange(Magento_Event_Observer $observer)
     {
         $attribute = $observer->getEvent()->getAttribute();
         /* @var $attribute Mage_Eav_Model_Entity_Attribute */
@@ -120,10 +120,10 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     /**
      * Refresh fulltext index when we add new store
      *
-     * @param   Varien_Event_Observer $observer
+     * @param   Magento_Event_Observer $observer
      * @return  Mage_CatalogSearch_Model_Fulltext_Observer
      */
-    public function refreshStoreIndex(Varien_Event_Observer $observer)
+    public function refreshStoreIndex(Magento_Event_Observer $observer)
     {
         $storeId = $observer->getEvent()->getStore()->getId();
         $this->_getFulltextModel()->rebuildIndex($storeId);
@@ -134,10 +134,10 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
      * Catalog Product mass website update
      *
      * @deprecated since 1.11
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_CatalogSearch_Model_Fulltext_Observer
      */
-    public function catalogProductWebsiteUpdate(Varien_Event_Observer $observer)
+    public function catalogProductWebsiteUpdate(Magento_Event_Observer $observer)
     {
         $websiteIds = $observer->getEvent()->getWebsiteIds();
         $productIds = $observer->getEvent()->getProductIds();
@@ -164,10 +164,10 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
     /**
      * Store delete processing
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_CatalogSearch_Model_Fulltext_Observer
      */
-    public function cleanStoreIndex(Varien_Event_Observer $observer)
+    public function cleanStoreIndex(Magento_Event_Observer $observer)
     {
         $store = $observer->getEvent()->getStore();
         /* @var $store Mage_Core_Model_Store */

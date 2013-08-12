@@ -77,7 +77,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
      *
      * @param $customer
      * @param int | Zend_Db_Expr $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -88,22 +88,20 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
         $extraAddressTable  = $this->getResource()->getTable('enterprise_customer_sales_flat_order_address');
         $orderTable         = $this->getResource()->getTable('sales_flat_order');
 
-        $select
-            ->from(array('order_address' => $mainAddressTable), array(new Zend_Db_Expr(1)))
+        $select->from(array('order_address' => $mainAddressTable), array(new Zend_Db_Expr(1)))
             ->join(
                 array('order_address_order' => $orderTable),
                 'order_address.parent_id = order_address_order.entity_id',
-                array())
+                array()
+            )
             ->joinLeft(
                 array('extra_order_address' => $extraAddressTable),
                 'order_address.entity_id = extra_order_address.entity_id',
-                array())
+                array()
+            )
             ->where($this->_createCustomerFilter($customer, 'order_address_order.customer_id'));
-
-        Mage::getResourceHelper('Enterprise_CustomerSegment')->setOneRowLimit($select);
-
+        $select->limit(1);
         $this->_limitByStoreWebsite($select, $website, 'order_address_order.store_id');
-
         return $select;
     }
 

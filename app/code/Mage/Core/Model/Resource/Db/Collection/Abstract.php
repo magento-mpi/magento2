@@ -16,7 +16,7 @@
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Data_Collection_Db
+abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Magento_Data_Collection_Db
 {
     /**
      * Model name
@@ -96,21 +96,13 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     protected $_eventObject = '';
 
     /**
-     * Use analytic function flag
-     * If true - allows to prepare final select with analytic function
-     *
-     * @var bool
-     */
-    protected $_useAnalyticFunction         = false;
-
-    /**
      * Collection constructor
      *
-     * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Mage_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Core_Model_Resource_Db_Abstract $resource = null
     ) {
         parent::__construct($fetchStrategy);
@@ -178,7 +170,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
     /**
      * Get Zend_Db_Select instance and applies fields to select if needed
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getSelect()
     {
@@ -416,7 +408,7 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
      * Get model instance
      *
      * @param array $args
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getModelName($args = array())
     {
@@ -484,27 +476,6 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
         return $this->getConnection()->fetchCol($idsSelect, $this->_bindParams);
     }
 
-    /**
-     * Prepare select for load
-     *
-     * @param Zend_Db_Select $select
-     * @return Zend_Db_Select
-     */
-    protected function _prepareSelect(Zend_Db_Select $select)
-    {
-        $helper = Mage::getResourceHelper('Mage_Core');
-
-        $unionParts = $select->getPart(Zend_Db_Select::UNION);
-        if (!empty($unionParts)) {
-            $select = $helper->limitUnion($select);
-        }
-
-        if ($this->_useAnalyticFunction) {
-            $select = $helper->getQueryUsingAnalyticFunction($select);
-        }
-
-        return $select;
-    }
     /**
      * Join table to collection select
      *
@@ -624,6 +595,6 @@ abstract class Mage_Core_Model_Resource_Db_Collection_Abstract extends Varien_Da
      */
     public function formatDate($date, $includeTime = true)
     {
-        return Varien_Date::formatDate($date, $includeTime);
+        return Magento_Date::formatDate($date, $includeTime);
     }
 }

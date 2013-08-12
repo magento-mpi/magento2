@@ -49,12 +49,12 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     /**
      * Send authorize request to gateway
      *
-     * @param  Varien_Object $payment
+     * @param  Magento_Object $payment
      * @param  decimal $amount
      * @return Mage_Paygate_Model_Authorizenet
      * @throws Mage_Core_Exception
      */
-    public function authorize(Varien_Object $payment, $amount)
+    public function authorize(Magento_Object $payment, $amount)
     {
         $payment->setAdditionalInformation('payment_type', $this->getConfigData('payment_action'));
     }
@@ -62,12 +62,12 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     /**
      * Send capture request to gateway
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @param decimal $amount
      * @return Mage_Authorizenet_Model_Directpost
      * @throws Mage_Core_Exception
      */
-    public function capture(Varien_Object $payment, $amount)
+    public function capture(Magento_Object $payment, $amount)
     {
         if ($amount <= 0) {
             Mage::throwException(__('Invalid amount for capture.'));
@@ -119,10 +119,10 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     /**
      * Check void availability
      *
-     * @param   Varien_Object $invoicePayment
+     * @param   Magento_Object $invoicePayment
      * @return  bool
      */
-    public function canVoid(Varien_Object $payment)
+    public function canVoid(Magento_Object $payment)
     {
         return $this->_canVoid;
     }
@@ -130,11 +130,11 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     /**
      * Void the payment through gateway
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @return Mage_Authorizenet_Model_Directpost
      * @throws Mage_Core_Exception
      */
-    public function void(Varien_Object $payment)
+    public function void(Magento_Object $payment)
     {
         if (!$payment->getParentTransactionId()) {
             Mage::throwException(__('Invalid transaction ID.'));
@@ -193,12 +193,12 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      * Refund the amount
      * Need to decode Last 4 digits for request.
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      * @param decimal $amount
      * @return Mage_Authorizenet_Model_Directpost
      * @throws Mage_Core_Exception
      */
-    public function refund(Varien_Object $payment, $amount)
+    public function refund(Magento_Object $payment, $amount)
     {
         $last4 = $payment->getCcLast4();
         $payment->setCcLast4($payment->decrypt($last4));
@@ -215,11 +215,11 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     /**
      * refund the amount with transaction id
      *
-     * @param string $payment Varien_Object object
+     * @param string $payment Magento_Object object
      * @return Mage_Authorizenet_Model_Directpost
      * @throws Mage_Core_Exception
      */
-    protected function _refund(Varien_Object $payment, $amount)
+    protected function _refund(Magento_Object $payment, $amount)
     {
         if ($amount <= 0) {
             Mage::throwException(__('Invalid amount for refund.'));
@@ -309,7 +309,7 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
      * Instantiate state and set it to state object
      *
      * @param string $paymentAction
-     * @param Varien_Object
+     * @param Magento_Object
      */
     public function initialize($paymentAction, $stateObject)
     {
@@ -439,9 +439,9 @@ class Mage_Authorizenet_Model_Directpost extends Mage_Paygate_Model_Authorizenet
     /**
      * Fill payment with credit card data from response from Authorize.net.
      *
-     * @param Varien_Object $payment
+     * @param Magento_Object $payment
      */
-    protected function _fillPaymentByResponse(Varien_Object $payment)
+    protected function _fillPaymentByResponse(Magento_Object $payment)
     {
         $response = $this->getResponse();
         $payment->setTransactionId($response->getXTransId())

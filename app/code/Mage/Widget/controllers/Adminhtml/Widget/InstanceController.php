@@ -118,7 +118,7 @@ class Mage_Widget_Adminhtml_Widget_InstanceController extends Mage_Adminhtml_Con
      */
     public function validateAction()
     {
-        $response = new Varien_Object();
+        $response = new Magento_Object();
         $response->setError(false);
         $widgetInstance = $this->_initWidgetInstance();
         $result = $widgetInstance->validate();

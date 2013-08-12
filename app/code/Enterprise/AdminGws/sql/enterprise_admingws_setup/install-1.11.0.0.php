@@ -22,19 +22,19 @@ $installer->startSetup();
 $tableRoles = $installer->getTable('admin_role');
 $columns = array(
     'gws_is_all' => array(
-        'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
+        'type'      => Magento_DB_Ddl_Table::TYPE_INTEGER,
         'length'    => '1',
         'nullable'  => false,
         'default'   => '1',
         'comment'   => 'Yes/No Flag'
     ),
     'gws_websites' => array(
-        'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
         'length'    => '255',
         'comment'   => 'Comma-separated Website Ids',
     ),
     'gws_store_groups' => array(
-        'type'      => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'type'      => Magento_DB_Ddl_Table::TYPE_TEXT,
         'length'    => '255',
         'comment'   => 'Comma-separated Store Groups Ids',
     ),

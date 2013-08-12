@@ -65,7 +65,7 @@ class Enterprise_GiftRegistry_ViewController extends Mage_Core_Controller_Front_
         }
         /* @var Mage_Checkout_Model_Cart */
         $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
-        /* @var $session Mage_Wishlist_Model_Session */
+        /* @var $session Mage_Core_Model_Session_Generic */
         $session    = Mage::getSingleton('Mage_Customer_Model_Session');
         $success = false;
 

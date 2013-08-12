@@ -18,7 +18,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Form extends Mage_Adminhtml_
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(
+        $form = new Magento_Data_Form(
             array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
         );
 

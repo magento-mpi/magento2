@@ -116,7 +116,7 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
      * Get SQL for get record count.
      * Reset left join, group and having parts
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getSelectCountSql()
     {
@@ -149,8 +149,6 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
                 array('customer_count' => new Zend_Db_Expr('COUNT(customer_count_table.customer_id)'))
             )
             ->group('main_table.segment_id');
-        $this->_useAnalyticFunction = true;
-
         return $this;
     }
 
@@ -180,11 +178,10 @@ class Enterprise_CustomerSegment_Model_Resource_Segment_Collection
         $idsSelect->reset(Zend_Db_Select::ORDER);
         $idsSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $idsSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $query  = $this->_prepareSelect($idsSelect);
-        $select = $this->getConnection()->select()->from(array('t' => new Zend_Db_Expr(sprintf('(%s)', $query))), array(
-            't.' . $this->getResource()->getIdFieldName()
-        ));
-
+        $select = $this->getConnection()->select()->from(
+            array('t' => new Zend_Db_Expr(sprintf('(%s)', $idsSelect))),
+            array('t.' . $this->getResource()->getIdFieldName())
+        );
         return $this->getConnection()->fetchCol($select, $this->_bindParams);
     }
 }

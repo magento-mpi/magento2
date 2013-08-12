@@ -20,7 +20,7 @@ class Mage_Catalog_Helper_Output extends Mage_Core_Helper_Abstract
     /**
      * Template processor instance
      *
-     * @var Varien_Filter_Template
+     * @var Magento_Filter_Template
      */
     protected $_templateProcessor = null;
 

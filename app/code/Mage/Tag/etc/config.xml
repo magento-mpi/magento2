@@ -15,10 +15,10 @@
             <version>1.6.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Catalog/>
-                <Mage_Customer/>
-                <Mage_Rss/>
-                <Mage_Reports/>
+                <Mage_Catalog />
+                <Mage_Customer />
+                <Mage_Rss />
+                <Mage_Reports />
             </depends>
         </Mage_Tag>
     </modules>
@@ -76,13 +76,6 @@
         <secure_url>
             <tag_customer>/tag/customer/</tag_customer>
         </secure_url>
-        <di>
-            <Mage_Tag_Model_Session>
-                <parameters>
-                    <sessionName>frontend</sessionName>
-                </parameters>
-            </Mage_Tag_Model_Session>
-        </di>
     </frontend>
     <admin>
         <routers>
@@ -116,12 +109,5 @@
                 </Mage_Tag>
             </modules>
         </translate>
-        <di>
-            <Mage_Tag_Model_Session>
-                <parameters>
-                    <sessionName>adminhtml</sessionName>
-                </parameters>
-            </Mage_Tag_Model_Session>
-        </di>
     </adminhtml>
 </config>

@@ -15,7 +15,7 @@
  * @category   Mage
  * @package    Mage_Core
  */
-class Mage_Core_Model_Config_Element extends Varien_Simplexml_Element
+class Mage_Core_Model_Config_Element extends Magento_Simplexml_Element
 {
 
     /**

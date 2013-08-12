@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
     protected function _prepareForm()
     {
         $rule = Mage::registry('current_promo_quote_rule');
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset = $form->addFieldset('default_label_fieldset', array(
@@ -107,9 +107,9 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
     /**
      * Create store specific fieldset
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @param array $labels
-     * @return Varien_Data_Form_Element_Fieldset mixed
+     * @return Magento_Data_Form_Element_Fieldset mixed
      */
     protected function _createStoreSpecificFieldset($form, $labels)
     {

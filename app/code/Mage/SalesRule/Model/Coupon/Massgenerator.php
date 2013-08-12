@@ -134,7 +134,7 @@ class Mage_SalesRule_Model_Coupon_Massgenerator extends Mage_Core_Model_Abstract
 
             $expirationDate = $this->getToDate();
             if ($expirationDate instanceof Zend_Date) {
-                $expirationDate = $expirationDate->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+                $expirationDate = $expirationDate->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
             }
 
             $coupon->setId(null)

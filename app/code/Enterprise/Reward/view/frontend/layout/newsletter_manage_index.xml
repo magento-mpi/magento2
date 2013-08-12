@@ -12,7 +12,7 @@
         <reference name="customer.newsletter.form.before">
             <block type="Enterprise_Reward_Block_Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml">
                 <action method="initRewardType">
-                    <type>enterprise_reward/action_newsletter</type>
+                    <type>Enterprise_Reward_Model_Action_Newsletter</type>
                 </action>
                 <action method="setWrapperClass">
                     <class>reward-newsletter</class>

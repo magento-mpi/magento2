@@ -156,7 +156,7 @@ class Mage_GoogleShopping_Model_MassOperations
                     $item->save();
                     // The item was updated successfully
                     $totalUpdated++;
-                } catch (Varien_Gdata_Gshopping_HttpException $e) {
+                } catch (Magento_Gdata_Gshopping_HttpException $e) {
                     if (in_array('notfound', $e->getCodes())) {
                         $item->delete();
                         $totalDeleted++;

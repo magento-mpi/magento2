@@ -14,7 +14,7 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         // preapre
         $type = uniqid();
-        $model = new Varien_Object(array('id' => uniqid()));
+        $model = new Magento_Object(array('id' => uniqid()));
         $helper = $this->getMock('Saas_PrintedTemplate_Helper_Data',
             array('_registry', '_getBackendHelper'), array(), '', false
         );
@@ -137,11 +137,11 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
      * Returns menu config mock
      *
      * @param Mage_Backend_Model_Menu $menu
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function menuConfigMock(Mage_Backend_Model_Menu $menu)
     {
-        return new Varien_Object(array('menu' => $menu));
+        return new Magento_Object(array('menu' => $menu));
     }
 
     /**
@@ -205,6 +205,6 @@ class Saas_PrintedTemplate_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function elementMock($label)
     {
-        return new Varien_Object(array('label' => $label));
+        return new Magento_Object(array('label' => $label));
     }
 }

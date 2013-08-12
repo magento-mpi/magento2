@@ -30,7 +30,7 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
     /**
      * Perform actions after object load
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Enterprise_Reward_Model_Resource_Reward_History
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
@@ -188,7 +188,7 @@ class Enterprise_Reward_Model_Resource_Reward_History extends Mage_Core_Model_Re
         $update = array();
         if ($days) {
             $update['expired_at_dynamic'] = $adapter->getDateAddSql(
-                'created_at', $days, Varien_Db_Adapter_Interface::INTERVAL_DAY
+                'created_at', $days, Magento_DB_Adapter_Interface::INTERVAL_DAY
             );
         } else {
             $update['expired_at_dynamic'] = new Zend_Db_Expr('NULL');

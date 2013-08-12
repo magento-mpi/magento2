@@ -120,10 +120,10 @@ XML;
         );
         /** Mock request getAcceptTypes method to return specified value. */
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue($acceptTypes));
-        /** Mock object to return Varien_Object */
+        /** Mock object to return Magento_Object */
         $this->_objectManagerMock->expects($this->once())->method('get')->with(
             'Mage_Webapi_Controller_Response_Rest_Renderer_Json'
-        )->will($this->returnValue(new Varien_Object()));
+        )->will($this->returnValue(new Magento_Object()));
 
         $this->setExpectedException(
             'LogicException',

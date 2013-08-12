@@ -711,7 +711,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
      * Returns formatted buy request - object, holding request received from
      * product view page with keys and options for configured product
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getBuyRequest()
     {
@@ -719,7 +719,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         if (!$option) {
             $option = array();
         }
-        $buyRequest = new Varien_Object($option);
+        $buyRequest = new Magento_Object($option);
         $buyRequest->setQty($this->getQtyOrdered() * 1);
         return $buyRequest;
     }

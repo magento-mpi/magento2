@@ -28,30 +28,27 @@ class Mage_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
             )
         ));
         $this->_model = Mage::getObjectManager()->create('Mage_Core_Model_View_FileSystem');
-        Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface')->setDesignTheme('test/default');
+        Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface')->setDesignTheme('test_default');
     }
 
     public function testGetFilename()
     {
-        $expected = '%s/frontend/test/default/Mage_Catalog/theme_template.phtml';
+        $expected = '%s/frontend/test_default/Mage_Catalog/theme_template.phtml';
         $actual = $this->_model->getFilename('Mage_Catalog::theme_template.phtml', array());
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
     public function testGetLocaleFileName()
     {
-        $expected = '%s/frontend/test/default/locale/en_US/translate.csv';
+        $expected = '%s/frontend/test_default/locale/en_US/translate.csv';
         $actual = $this->_model->getLocaleFileName('translate.csv', array());
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
     public function testGetViewFile()
     {
-        $expected = '%s/frontend/package/custom_theme/Fixture_Module/fixture_script.js';
-        $params = array(
-            'package' => 'package',
-            'theme' => 'custom_theme'
-        );
+        $expected = '%s/frontend/vendor_custom_theme/Fixture_Module/fixture_script.js';
+        $params = array('theme' => 'vendor_custom_theme');
         $actual = $this->_model->getViewFile('Fixture_Module::fixture_script.js', $params);
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }

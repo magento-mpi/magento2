@@ -58,7 +58,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist_Quantity
      *
      * @param $customer
      * @param int | Zend_Db_Expr $website
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getConditionsSql($customer, $website)
     {

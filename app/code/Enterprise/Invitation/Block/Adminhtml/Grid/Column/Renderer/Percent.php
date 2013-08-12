@@ -20,10 +20,10 @@ class Enterprise_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent
     /**
      * Renders grid column
      *
-     * @param   Varien_Object $row
+     * @param   Magento_Object $row
      * @return  string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         if ($this->getColumn()->getEditable()) {
             return parent::render($row);

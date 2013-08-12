@@ -22,13 +22,13 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     /**
      * Data Form object
      *
-     * @var Varien_Data_Form
+     * @var Magento_Data_Form
      */
     protected $_form;
 
     /**
      * Prepare global layout
-     * Add renderers to Varien_Data_Form
+     * Add renderers to Magento_Data_Form
      *
      * @return Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
      */
@@ -36,19 +36,19 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     {
         parent::_prepareLayout();
 
-        Varien_Data_Form::setElementRenderer(
+        Magento_Data_Form::setElementRenderer(
             $this->getLayout()->createBlock(
                 'Mage_Adminhtml_Block_Widget_Form_Renderer_Element',
                 $this->getNameInLayout() . '_element'
             )
         );
-        Varien_Data_Form::setFieldsetRenderer(
+        Magento_Data_Form::setFieldsetRenderer(
             $this->getLayout()->createBlock(
                 'Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset',
                 $this->getNameInLayout() . '_fieldset'
             )
         );
-        Varien_Data_Form::setFieldsetElementRenderer(
+        Magento_Data_Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element',
                 $this->getNameInLayout() . '_fieldset_element'
@@ -61,12 +61,12 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     /**
      * Return Form object
      *
-     * @return Varien_Data_Form
+     * @return Magento_Data_Form
      */
     public function getForm()
     {
         if (is_null($this->_form)) {
-            $this->_form = new Varien_Data_Form();
+            $this->_form = new Magento_Data_Form();
             $this->_prepareForm();
         }
 
@@ -109,10 +109,10 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     /**
      * Add additional data to form element
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
      */
-    protected function _addAdditionalFormElementData(Varien_Data_Form_Element_Abstract $element)
+    protected function _addAdditionalFormElementData(Magento_Data_Form_Element_Abstract $element)
     {
         return $this;
     }
@@ -120,11 +120,11 @@ abstract class Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
     /**
      * Add rendering EAV attributes to Form element
      *
-     * @param array|Varien_Data_Collection $attributes
-     * @param Varien_Data_Form_Abstract $form
+     * @param array|Magento_Data_Collection $attributes
+     * @param Magento_Data_Form_Abstract $form
      * @return Mage_Adminhtml_Block_Sales_Order_Create_Form_Abstract
      */
-    protected function _addAttributesToForm($attributes, Varien_Data_Form_Abstract $form)
+    protected function _addAttributesToForm($attributes, Magento_Data_Form_Abstract $form)
     {
         // add additional form types
         $types = $this->_getAdditionalFormElementTypes();

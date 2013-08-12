@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist
     /**
      * Retrieve identifier of block item
      *
-     * @param   Varien_Object $item
+     * @param   Magento_Object $item
      * @return  int
      */
     public function getIdentifierId($item)

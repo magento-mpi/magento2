@@ -43,9 +43,9 @@ class Mage_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_TestCas
     {
         $this->_filesystemMock = $this->getMock('Magento_Filesystem', array(), array(), '', false);
         $this->_transferAdapterMock = $this->getMock('Zend_File_Transfer_Adapter_Http', array(), array(), '', false);
-        $this->_fileUploader = $this->getMock('Varien_File_Uploader', array(), array(), '', false);
+        $this->_fileUploader = $this->getMock('Magento_File_Uploader', array(), array(), '', false);
 
-        $uploaderFactory = $this->getMock('Varien_File_UploaderFactory', array('create'), array(), '', false);
+        $uploaderFactory = $this->getMock('Magento_File_UploaderFactory', array('create'), array(), '', false);
         $uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($this->_fileUploader));
 
         $this->_model = new Mage_Core_Model_Theme_Image_Uploader(
@@ -70,7 +70,7 @@ class Mage_Core_Model_Theme_Image_UploaderTest extends PHPUnit_Framework_TestCas
         $this->assertNotEmpty(new Mage_Core_Model_Theme_Image_Uploader(
             $this->getMock('Magento_Filesystem', array(), array(), '', false),
             $this->getMock('Zend_File_Transfer_Adapter_Http', array(), array(), '', false),
-            $this->getMock('Varien_File_UploaderFactory', array('create'), array(), '', false)
+            $this->getMock('Magento_File_UploaderFactory', array('create'), array(), '', false)
         ));
     }
 

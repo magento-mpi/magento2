@@ -29,7 +29,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     /**
      * WYSIWYG config data
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_wysiwygConfig;
 
@@ -116,7 +116,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $form->setHtmlIdPrefix('banner_content_');
 
         $model = $this->_registryManager->registry('current_banner');
@@ -146,9 +146,9 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     /**
      * Create default content fieldset
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @param string $fieldsetHtmlClass
-     * @return Varien_Data_Form_Element_Fieldset
+     * @return Magento_Data_Form_Element_Fieldset
      */
     protected function _createDefaultContentFieldset($form, $fieldsetHtmlClass)
     {
@@ -162,7 +162,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     /**
      * Get Wysiwyg Config
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _getWysiwygConfig()
     {
@@ -180,10 +180,10 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     /**
      * Create Store default content field
      *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param Enterprise_Banner_Model_Banner $model
-     * @param Varien_Data_Form $form
-     * @return Varien_Data_Form_Element_Abstract
+     * @param Magento_Data_Form $form
+     * @return Magento_Data_Form_Element_Abstract
      */
     protected function _createStoreDefaultContentField($fieldset, $model, $form)
     {
@@ -209,10 +209,10 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     /**
      * Create default content for stores field
      *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form $form
      * @param Enterprise_Banner_Model_Banner $model
-     * @return Varien_Data_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     protected function _createDefaultContentForStoresField($fieldset, $form, $model)
     {
@@ -242,9 +242,9 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     /**
      * Create fieldset that provides ability to change content per store view
      *
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @param Enterprise_Banner_Model_Banner $model
-     * @return Varien_Data_Form_Element_Fieldset
+     * @return Magento_Data_Form_Element_Fieldset
      */
     protected function _createStoresContentFieldset($form, $model)
     {

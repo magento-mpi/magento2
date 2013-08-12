@@ -96,16 +96,16 @@ class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
         return array(
             'theme file' => array(
                 'css/styles.css',
-                'static/frontend/test/default/en_US/css/styles.css',
+                'static/frontend/test_default/en_US/css/styles.css',
             ),
             'theme localized file' => array(
                 'logo.gif',
-                'static/frontend/test/default/fr_FR/logo.gif',
+                'static/frontend/test_default/fr_FR/logo.gif',
                 'fr_FR',
             ),
             'modular file' => array(
                 'Namespace_Module::favicon.ico',
-                'static/frontend/test/default/en_US/Namespace_Module/favicon.ico',
+                'static/frontend/test_default/en_US/Namespace_Module/favicon.ico',
             ),
             'lib folder' => array(
                 'varien',
@@ -133,15 +133,15 @@ class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
         return array(
             'theme css file' => array(
                 'css/styles.css',
-                'static/frontend/test/default/en_US/css/styles.css',
+                'static/frontend/test_default/en_US/css/styles.css',
             ),
             'theme file' => array(
                 'images/logo.gif',
-                'static/frontend/test/default/images/logo.gif',
+                'static/frontend/test_default/images/logo.gif',
             ),
             'theme localized file' => array(
                 'logo.gif',
-                'static/frontend/test/default/locale/fr_FR/logo.gif',
+                'static/frontend/test_default/locale/fr_FR/logo.gif',
                 'fr_FR',
             )
         );
@@ -193,19 +193,19 @@ class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('area' => 'frontend', 'package' => 'package', 'theme' => 'default'),
+                array('area' => 'frontend', 'theme' => 'vendor_default'),
                 'access_violation.php'
             ),
             array(
-                array('area' => 'frontend', 'package' => 'package', 'theme' => 'default'),
+                array('area' => 'frontend', 'theme' => 'vendor_default'),
                 'theme.xml'
             ),
             array(
-                array('area' => 'frontend', 'package' => 'test', 'theme' => 'default', 'module' => 'Mage_Catalog'),
+                array('area' => 'frontend', 'theme' => 'test_default', 'module' => 'Mage_Catalog'),
                 'layout.xml'
             ),
             array(
-                array('area' => 'frontend', 'package' => 'test', 'theme' => 'default', 'module' => 'Mage_Core'),
+                array('area' => 'frontend', 'theme' => 'test_default', 'module' => 'Mage_Core'),
                 'test.phtml'
             ),
         );
@@ -250,20 +250,19 @@ class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
     {
         $designParams = array(
             'area'    => 'frontend',
-            'package' => 'test',
-            'theme'   => 'default',
+            'theme'   => 'test_default',
             'locale'  => 'en_US'
         );
         return array(
             'view file' => array(
                 'images/logo_email.gif',
                 $designParams,
-                'frontend/test/default/en_US/images/logo_email.gif',
+                'frontend/test_default/en_US/images/logo_email.gif',
             ),
             'view modular file' => array(
                 'Mage_Page::favicon.ico',
                 $designParams,
-                'frontend/test/default/en_US/Mage_Page/favicon.ico',
+                'frontend/test_default/en_US/Mage_Page/favicon.ico',
             ),
         );
     }
@@ -289,11 +288,10 @@ class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
             'Namespace_Module/absolute_valid_module.gif',
             'Mage_Page/favicon.ico', // non-fixture file from real module
         );
-        $publishedDir = $this->_viewService->getPublicDir() . '/frontend/package/default/en_US';
+        $publishedDir = $this->_viewService->getPublicDir() . '/frontend/vendor_default/en_US';
         $this->assertFileNotExists($publishedDir, 'Please verify isolation from previous test(s).');
         $this->_viewUrl->getViewFileUrl('css/file.css', array(
-            'package' => 'package',
-            'theme'   => 'default',
+            'theme'   => 'vendor_default',
             'locale'  => 'en_US'
         ));
         foreach ($expectedFiles as $file) {
@@ -344,36 +342,34 @@ class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
                 'product/product.css',
                 array(
                     'area'    => 'adminhtml',
-                    'package' => 'default',
-                    'theme'   => 'backend',
+                    'theme'   => 'magento_backend',
                     'locale'  => 'en_US',
                     'module'  => 'Mage_Catalog',
                 ),
-                'adminhtml/default/backend/en_US/Mage_Catalog/product/product.css',
+                'adminhtml/magento_backend/en_US/Mage_Catalog/product/product.css',
                 array(
                     'url(../../Mage_Backend/images/gallery-image-base-label.png)',
                 ),
                 array(
-                    'adminhtml/default/backend/en_US/Mage_Backend/images/gallery-image-base-label.png',
+                    'adminhtml/magento_backend/en_US/Mage_Backend/images/gallery-image-base-label.png',
                 ),
             ),
             'adminhtml' => array(
                 'Mage_Paypal::styles.css',
                 array(
                     'area'    => 'adminhtml',
-                    'package' => 'package',
-                    'theme'   => 'test',
+                    'theme'   => 'vendor_test',
                     'locale'  => 'en_US',
                     'module'  => false,
                 ),
-                'adminhtml/package/test/en_US/Mage_Paypal/styles.css',
+                'adminhtml/vendor_test/en_US/Mage_Paypal/styles.css',
                 array(
                     'url(images/paypal-logo.png)',
                     'url(images/pp-allinone.png)',
                 ),
                 array(
-                    'adminhtml/package/test/en_US/Mage_Paypal/images/paypal-logo.png',
-                    'adminhtml/package/test/en_US/Mage_Paypal/images/pp-allinone.png',
+                    'adminhtml/vendor_test/en_US/Mage_Paypal/images/paypal-logo.png',
+                    'adminhtml/vendor_test/en_US/Mage_Paypal/images/pp-allinone.png',
                 ),
             ),
         );
@@ -422,7 +418,7 @@ class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
         ));
 
         $this->_model = Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface');
-        $this->_model->setDesignTheme('test/default');
+        $this->_model->setDesignTheme('test_default');
 
         $this->_viewService = Mage::getModel('Mage_Core_Model_View_Service');
         $this->_fileSystem = Mage::getModel('Mage_Core_Model_View_FileSystem');
@@ -504,7 +500,7 @@ class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
         ));
 
         $this->_model = Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface');
-        $this->_model->setDesignTheme('test/default');
+        $this->_model->setDesignTheme('test_default');
 
         $this->_viewService = Mage::getModel('Mage_Core_Model_View_Service');
         $this->_fileSystem = Mage::getModel('Mage_Core_Model_View_FileSystem');
@@ -546,7 +542,7 @@ class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
 
         // Reinit model with new directories
         $this->_model = Mage::getObjectManager()->get('Mage_Core_Model_View_DesignInterface');
-        $this->_model->setDesignTheme('test/default');
+        $this->_model->setDesignTheme('test_default');
 
         $this->_viewService = Mage::getModel('Mage_Core_Model_View_Service');
         $this->_fileSystem = Mage::getModel('Mage_Core_Model_View_FileSystem');
@@ -571,15 +567,14 @@ class Mage_Core_Model_View_PublicationTest extends PHPUnit_Framework_TestCase
         /** @var $themeCollection Mage_Core_Model_Theme_Collection */
         $themeCollection = Mage::getObjectManager()->create('Mage_Core_Model_Theme_Collection');
         $theme = $themeCollection->setBaseDir(dirname(__DIR__) . '/_files/design/')
-            ->addTargetPattern(implode(DIRECTORY_SEPARATOR, array('frontend', 'package', 'default', 'theme.xml')))
+            ->addTargetPattern(implode(DIRECTORY_SEPARATOR, array('frontend', 'vendor_default', 'theme.xml')))
             ->getFirstItem()
             ->save();
 
-        $publishedPath = $this->_viewService->getPublicDir() . '/frontend/package/default/en_US';
+        $publishedPath = $this->_viewService->getPublicDir() . '/frontend/vendor_default/en_US';
         $params =  array(
             'area'    => 'frontend',
-            'package' => 'package',
-            'theme'   => 'default',
+            'theme'   => 'vendor_default',
             'locale'  => 'en_US',
             'themeModel' => $theme
         );

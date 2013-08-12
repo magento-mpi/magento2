@@ -62,10 +62,10 @@ class Saas_PrintedTemplate_Model_Observer
     /**
      * Save order detailed tax information on event sales_order_save_after
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Saas_PrintedTemplate_Model_Observer
      */
-    public function saveOrderTaxDetails(Varien_Event_Observer $observer)
+    public function saveOrderTaxDetails(Magento_Event_Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
         if (!$order->getConvertingFromQuote() || $order->getAppliedTaxDetailsIsSaved()) {
@@ -106,10 +106,10 @@ class Saas_PrintedTemplate_Model_Observer
      * Remove printed template widgets from wysiwyg editors
      * observes cms_wysiwyg_config_prepare event
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Saas_PrintedTemplate_Model_Observer
      */
-    public function removeWidgetsFromWysiwyg(Varien_Event_Observer $observer)
+    public function removeWidgetsFromWysiwyg(Magento_Event_Observer $observer)
     {
         $config = $observer->getEvent()->getConfig();
         $skipTemplate = true;
@@ -170,11 +170,11 @@ class Saas_PrintedTemplate_Model_Observer
     /**
      * Remove printed template widgets from widget instance edit form
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Saas_PrintedTemplate_Model_Observer
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function removeWidgetsFromWidgetInstanceForm(Varien_Event_Observer $observer)
+    public function removeWidgetsFromWidgetInstanceForm(Magento_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getBlock();
         if (!($block instanceof Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
@@ -231,10 +231,10 @@ class Saas_PrintedTemplate_Model_Observer
     /**
      * Remove printed template widgets from widget instances grid filter
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Saas_PrintedTemplate_Model_Observer
      */
-    public function removeWidgetsFromWidgetInstanceGridFilter(Varien_Event_Observer $observer)
+    public function removeWidgetsFromWidgetInstanceGridFilter(Magento_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getBlock();
         if (!($block->getNameInLayout() == 'adminhtml.widget.instance.grid.container' &&
@@ -266,11 +266,11 @@ class Saas_PrintedTemplate_Model_Observer
      *
      * Observe adminhtml_block_html_before event
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Saas_PrintedTemplate_Model_Observer
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function updatePrintTemplateAction(Varien_Event_Observer $observer)
+    public function updatePrintTemplateAction(Magento_Event_Observer $observer)
     {
         if (!Mage::getStoreConfig('sales_pdf/general/enable_printed_templates')) {
             return $this;
@@ -342,7 +342,7 @@ class Saas_PrintedTemplate_Model_Observer
      * Adds to config array of widgets to skip
      *
      * @param array $widgetsToSkip
-     * @param Varien_Object $config
+     * @param Magento_Object $config
      */
     protected function _addWidgetsToSkip(array $widgetsToSkip, $config)
     {

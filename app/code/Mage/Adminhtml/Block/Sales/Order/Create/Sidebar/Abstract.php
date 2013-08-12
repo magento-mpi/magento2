@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
     /**
      * Retrieve identifier of block item
      *
-     * @param   Varien_Object $item
+     * @param   Magento_Object $item
      * @return  int
      */
     public function getIdentifierId($item)
@@ -137,7 +137,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract extends Mage_Admi
                 } else {
                     $type = '';
                     // Maybe some item, that can give us product via getProduct()
-                    if (($item instanceof Varien_Object) || method_exists($item, 'getProduct')) {
+                    if (($item instanceof Magento_Object) || method_exists($item, 'getProduct')) {
                         $product = $item->getProduct();
                         if ($product && ($product instanceof Mage_Catalog_Model_Product)) {
                             $type = $product->getTypeId();

@@ -24,12 +24,12 @@ class Mage_AdminNotification_Model_Resource_System_Message_Collection
     protected $_countBySeverity = array();
 
     /**
-     * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Mage_AdminNotification_Model_System_MessageList $messageList
      * @param Mage_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_AdminNotification_Model_System_MessageList $messageList,
         Mage_Core_Model_Resource_Db_Abstract $resource = null
     ) {

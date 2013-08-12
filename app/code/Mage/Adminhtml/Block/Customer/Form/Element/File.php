@@ -16,7 +16,7 @@
  * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Customer_Form_Element_File extends Varien_Data_Form_Element_Abstract
+class Mage_Adminhtml_Block_Customer_Form_Element_File extends Magento_Data_Form_Element_Abstract
 {
     /**
      * @var Mage_Core_Model_View_Url

@@ -24,7 +24,7 @@ class Mage_Sales_Model_Resource_Report_Shipping_Collection_Shipment
      *
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Sales_Model_Resource_Report $resource
     ) {
         $resource->init('sales_shipping_aggregated');

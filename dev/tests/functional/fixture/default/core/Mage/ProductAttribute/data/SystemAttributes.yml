@@ -20,10 +20,6 @@ custom_design:
         admin_option_name: Magento Blank
     option_3:
         admin_option_name: Magento Demo
-    option_4:
-        admin_option_name: Magento Demo Blue
-    option_5:
-        admin_option_name: Magento Modern
     default_value: '-- Please Select --'
     set_default_value: Magento Blank
 

@@ -40,7 +40,7 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
     protected $_titleModel = null;
 
     /**
-     * Varien model constructor
+     * Magento model constructor
      */
     protected function _construct()
     {

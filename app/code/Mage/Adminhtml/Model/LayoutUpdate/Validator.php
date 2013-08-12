@@ -24,9 +24,9 @@ class Mage_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstract
     const PROTECTED_ATTR_HELPER_IN_TAG_ACTION_VAR = 'protectedAttrHelperInActionVar';
 
     /**
-     * The Varien SimpleXml object
+     * The Magento SimpleXml object
      *
-     * @var Varien_Simplexml_Element
+     * @var Magento_Simplexml_Element
      */
     protected $_value;
 
@@ -72,8 +72,8 @@ class Mage_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstract
      * validation failed.
      *
      * @throws Exception            Throw exception when xml object is not
-     *                              instance of Varien_Simplexml_Element
-     * @param Varien_Simplexml_Element|string $value
+     *                              instance of Magento_Simplexml_Element
+     * @param Magento_Simplexml_Element|string $value
      * @return bool
      */
     public function isValid($value)
@@ -83,12 +83,12 @@ class Mage_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstract
             try {
                 //wrap XML value in the "config" tag because config cannot
                 //contain multiple root tags
-                $value = new Varien_Simplexml_Element('<config>' . $value . '</config>');
+                $value = new Magento_Simplexml_Element('<config>' . $value . '</config>');
             } catch (Exception $e) {
                 $this->_error(self::XML_INVALID);
                 return false;
             }
-        } elseif (!($value instanceof Varien_Simplexml_Element)) {
+        } elseif (!($value instanceof Magento_Simplexml_Element)) {
             throw new Exception(
                 __('XML object is not instance of "Varien_Simplexml_Element".'));
         }

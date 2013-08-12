@@ -23,7 +23,7 @@ class Mage_Sales_Model_Observer_Backend_BillingAgreement
     /**
      * Block admin ability to use customer billing agreements
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
     public function dispatch($observer)
     {

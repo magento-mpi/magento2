@@ -45,7 +45,7 @@ class Enterprise_Rma_Model_Resource_Rma_Grid_Collection extends Enterprise_Rma_M
     /**
      * Get SQL for get record count
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function getSelectCountSql()
     {

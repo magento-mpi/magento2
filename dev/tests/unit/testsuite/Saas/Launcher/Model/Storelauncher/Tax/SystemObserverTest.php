@@ -14,7 +14,7 @@ class Saas_Launcher_Model_Storelauncher_Tax_SystemObserverTest extends PHPUnit_F
     public function testHandleTaxRuleSave()
     {
         $model = $this->_getModelForHandleTaxRuleSaveTest();
-        $observer = new Varien_Event_Observer();
+        $observer = new Magento_Event_Observer();
         $model->handleTaxRuleSave($observer);
     }
 

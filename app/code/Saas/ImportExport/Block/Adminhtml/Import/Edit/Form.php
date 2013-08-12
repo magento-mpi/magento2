@@ -46,7 +46,7 @@ class Saas_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_ImportExpo
     {
         parent::_prepareForm();
 
-        /** @var Varien_Data_Form_Element_Fieldset $fieldset */
+        /** @var Magento_Data_Form_Element_Fieldset $fieldset */
         $fieldset = $this->getForm()->getElement('upload_file_fieldset');
 
         $note = __('Allowed file type: ZIP. Max file size: %1M', $this->_helper->getMaxFileSizeInMb());

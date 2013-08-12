@@ -10,9 +10,9 @@
 
 /** @var $installer Mage_Eav_Model_Entity_Setup */
 $installer = $this;
-/** @var $connection Varien_Db_Adapter_Pdo_Mysql */
+/** @var $connection Magento_DB_Adapter_Pdo_Mysql */
 $connection = $installer->getConnection();
 $connection->changeTableEngine(
     $installer->getTable('cataloginventory_stock_status_tmp'),
-    Varien_Db_Adapter_Pdo_Mysql::ENGINE_MEMORY
+    Magento_DB_Adapter_Pdo_Mysql::ENGINE_MEMORY
 );

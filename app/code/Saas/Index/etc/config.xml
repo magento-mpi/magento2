@@ -13,8 +13,8 @@
             <version>2.0.0.0</version>
             <active>false</active>
             <depends>
-                <Mage_Core/>
-                <Mage_Index/>
+                <Mage_Core />
+                <Mage_Index />
             </depends>
         </Saas_Index>
     </modules>
@@ -41,16 +41,4 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>
-        <di>
-            <Mage_AdminNotification_Model_System_MessageList>
-                <parameters>
-                    <messages>
-                        <refresh_index_finished>Saas_Index_Model_System_Message_IndexRefreshed</refresh_index_finished>
-                        <indexer>Saas_Index_Model_System_Message_Decorator_IndexOutdated</indexer>
-                    </messages>
-                </parameters>
-            </Mage_AdminNotification_Model_System_MessageList>
-        </di>
-    </adminhtml>
 </config>

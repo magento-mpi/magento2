@@ -52,7 +52,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
      * @param string $field
      * @param mixed $value
      * @param Mage_CatalogInventory_Model_Stock_Item $object
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -102,7 +102,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item extends Mage_Core_Model_Re
      * @param string $table
      * @return array
      */
-    protected function _prepareDataForTable(Varien_Object $object, $table)
+    protected function _prepareDataForTable(Magento_Object $object, $table)
     {
         $data = parent::_prepareDataForTable($object, $table);
         $ifNullSql = $this->_getWriteAdapter()->getIfNullSql('qty');

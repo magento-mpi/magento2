@@ -94,7 +94,7 @@ class Mage_Adminhtml_PollController extends Mage_Adminhtml_Controller_Action
 
     public function validateAction()
     {
-        $response = new Varien_Object();
+        $response = new Magento_Object();
         $response->setError(false);
 
         if ( $this->getRequest()->getPost() ) {

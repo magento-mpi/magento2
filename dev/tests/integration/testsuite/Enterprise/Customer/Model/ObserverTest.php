@@ -40,15 +40,15 @@ class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $address = Mage::getModel('Mage_Sales_Model_Order_Address');
         $address->load('admin@example.com', 'email');
 
-        $entity = new Varien_Object(array('id' => $address->getId()));
-        $collection = $this->getMock('Varien_Data_Collection_Db', array('getItems'), array(), '', false);
+        $entity = new Magento_Object(array('id' => $address->getId()));
+        $collection = $this->getMock('Magento_Data_Collection_Db', array('getItems'), array(), '', false);
         $collection
             ->expects($this->any())
             ->method('getItems')
             ->will($this->returnValue(array($entity)))
         ;
-        $observer = new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array(
+        $observer = new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array(
                 'order_address_collection' => $collection,
             ))
         ));
@@ -64,8 +64,8 @@ class Enterprise_Customer_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $arguments = $this->_prepareConstructorArguments();
         $arguments[] = array('id' => $address->getId());
         $entity = $this->getMockForAbstractClass('Mage_Core_Model_Abstract', $arguments);
-        $observer = new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array(
+        $observer = new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array(
                 'address' => $entity,
             ))
         ));

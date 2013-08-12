@@ -76,7 +76,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Groupprice_AbstractTest exten
 
         $this->_model->setAttribute($attribute);
 
-        $object = new Varien_Object();
+        $object = new Magento_Object();
         $object->setGroupPrice(array(array(
             'price_id' => 10
         )));

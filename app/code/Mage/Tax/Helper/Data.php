@@ -584,7 +584,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getShippingPrice($price, $includingTax = null, $shippingAddress = null, $ctc = null, $store = null)
     {
-        $pseudoProduct = new Varien_Object();
+        $pseudoProduct = new Magento_Object();
         $pseudoProduct->setTaxClassId($this->getShippingTaxClass($store));
 
         $billingAddress = false;
@@ -658,7 +658,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Join tax class
-     * @param Varien_Db_Select $select
+     * @param Magento_DB_Select $select
      * @param int $storeId
      * @param string $priceTable
      * @return Mage_Tax_Helper_Data

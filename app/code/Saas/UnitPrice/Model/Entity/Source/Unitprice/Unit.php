@@ -77,7 +77,7 @@ class Saas_UnitPrice_Model_Entity_Source_Unitprice_Unit
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return Varien_Db_Select|null
+     * @return Magento_DB_Select|null
      */
     public function getFlatUpdateSelect($store)
     {

@@ -47,40 +47,9 @@ abstract class Mage_Core_Model_EntryPointAbstract
      */
     protected function _init()
     {
-        $this->_initObjectManager();
-        $this->_verifyDirectories();
-    }
-
-    /**
-     * Initialize object manager for the application
-     */
-    protected function _initObjectManager()
-    {
         if (!$this->_objectManager) {
             $this->_objectManager = new Mage_Core_Model_ObjectManager($this->_config);
         }
-
-        $this->_setGlobalObjectManager();
-    }
-
-    /**
-     * Set globally-available variable
-     *
-     * The method is isolated in order to make safe testing possible, by mocking this method in the tests.
-     */
-    protected function _setGlobalObjectManager()
-    {
-        Mage::setObjectManager($this->_objectManager);
-    }
-
-    /**
-     * Verify existence and write access to the application directories
-     */
-    protected function _verifyDirectories()
-    {
-        /** @var $verification Mage_Core_Model_Dir_Verification */
-        $verification = $this->_objectManager->get('Mage_Core_Model_Dir_Verification');
-        $verification->createAndVerifyDirectories();
     }
 
     /**

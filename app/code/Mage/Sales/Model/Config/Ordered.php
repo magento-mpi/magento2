@@ -59,7 +59,7 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
 
     /**
      * @param Mage_Core_Model_Cache_Type_Config $configCacheType
-     * @param Varien_Simplexml_Element $sourceData
+     * @param Magento_Simplexml_Element $sourceData
      */
     public function __construct(Mage_Core_Model_Cache_Type_Config $configCacheType, $sourceData = null)
     {

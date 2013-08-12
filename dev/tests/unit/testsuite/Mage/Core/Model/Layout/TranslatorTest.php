@@ -47,7 +47,7 @@ class Mage_Core_Model_Layout_TranslatorTest extends PHPUnit_Framework_TestCase
 </layout>
 XML;
 
-        $this->_xmlDocument = simplexml_load_string($string, 'Varien_Simplexml_Element');
+        $this->_xmlDocument = simplexml_load_string($string, 'Magento_Simplexml_Element');
 
         $this->_object = new Mage_Core_Model_Layout_Translator();
     }

@@ -17,7 +17,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     /**
      * Add custom css class
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
     protected function _getFrontendClass($element)
@@ -29,7 +29,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     /**
      * Check whether current payment method is enabled
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return bool
      */
     protected function _isPaymentEnabled($element)
@@ -49,7 +49,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     /**
      * Return header title part of html for payment solution
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
     protected function _getHeaderTitleHtml($element)
@@ -94,7 +94,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     /**
      * Return header comment part of html for payment solution
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
     protected function _getHeaderCommentHtml($element)
@@ -105,7 +105,7 @@ class Mage_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
     /**
      * Get collapsed state on-load
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return bool
      */
     protected function _isCollapseState($element)

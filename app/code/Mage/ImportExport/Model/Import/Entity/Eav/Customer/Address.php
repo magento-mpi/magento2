@@ -397,7 +397,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address
                     $value = $attributeParams['options'][strtolower($rowData[$attributeAlias])];
                 } elseif ('datetime' == $attributeParams['type']) {
                     $value = new DateTime('@' . strtotime($rowData[$attributeAlias]));
-                    $value = $value->format(Varien_Date::DATETIME_PHP_FORMAT);
+                    $value = $value->format(Magento_Date::DATETIME_PHP_FORMAT);
                 } else {
                     $value = $rowData[$attributeAlias];
                 }

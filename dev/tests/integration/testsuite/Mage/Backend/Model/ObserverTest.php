@@ -82,7 +82,7 @@ class Mage_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * Builds a dummy observer for testing adminPreDispatch method
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _buildObserver()
     {
@@ -95,9 +95,9 @@ class Mage_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $controller = new Varien_Object(array('request' => $request));
-        $event = new Varien_Object(array('controller_action' => $controller));
-        $observer = new Varien_Object(array('event' => $event));
+        $controller = new Magento_Object(array('request' => $request));
+        $event = new Magento_Object(array('controller_action' => $controller));
+        $observer = new Magento_Object(array('event' => $event));
         return $observer;
     }
 }

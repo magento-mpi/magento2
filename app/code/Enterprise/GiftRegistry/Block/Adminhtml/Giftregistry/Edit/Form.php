@@ -32,7 +32,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form extends Mag
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        $form = new Magento_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();

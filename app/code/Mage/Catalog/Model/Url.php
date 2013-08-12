@@ -63,7 +63,7 @@ class Mage_Catalog_Model_Url
     /**
      * Current url rewrite rule
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_rewrite;
 
@@ -101,12 +101,12 @@ class Mage_Catalog_Model_Url
      * Sometimes attribute 'url_path' can be empty, because url_path hasn't been generated yet,
      * in this case category is loaded with empty url_path and we should generate it manually.
      *
-     * @param Varien_Object $category
+     * @param Magento_Object $category
      * @return void
      */
     protected function _addCategoryUrlPath($category)
     {
-        if (!($category instanceof Varien_Object) || $category->getUrlPath()) {
+        if (!($category instanceof Magento_Object) || $category->getUrlPath()) {
             return;
         }
 
@@ -176,7 +176,7 @@ class Mage_Catalog_Model_Url
      * Returns store root category, uses caching for it
      *
      * @param int $storeId
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getStoreRootCategory($storeId) {
         if (!array_key_exists($storeId, $this->_rootCategories)) {
@@ -245,12 +245,12 @@ class Mage_Catalog_Model_Url
     /**
      * Refresh category rewrite
      *
-     * @param Varien_Object $category
+     * @param Magento_Object $category
      * @param string $parentPath
      * @param bool $refreshProducts
      * @return Mage_Catalog_Model_Url
      */
-    protected function _refreshCategoryRewrites(Varien_Object $category, $parentPath = null, $refreshProducts = true)
+    protected function _refreshCategoryRewrites(Magento_Object $category, $parentPath = null, $refreshProducts = true)
     {
         if ($category->getId() != $this->getStores($category->getStoreId())->getRootCategoryId()) {
             if ($category->getUrlKey() == '') {
@@ -310,11 +310,11 @@ class Mage_Catalog_Model_Url
     /**
      * Refresh product rewrite
      *
-     * @param Varien_Object $product
-     * @param Varien_Object $category
+     * @param Magento_Object $product
+     * @param Magento_Object $category
      * @return Mage_Catalog_Model_Url
      */
-    protected function _refreshProductRewrite(Varien_Object $product, Varien_Object $category)
+    protected function _refreshProductRewrite(Magento_Object $product, Magento_Object $category)
     {
         if ($category->getId() == $category->getPath()) {
             return $this;
@@ -368,10 +368,10 @@ class Mage_Catalog_Model_Url
     /**
      * Refresh products for catwgory
      *
-     * @param Varien_Object $category
+     * @param Magento_Object $category
      * @return Mage_Catalog_Model_Url
      */
-    protected function _refreshCategoryProductRewrites(Varien_Object $category)
+    protected function _refreshCategoryProductRewrites(Magento_Object $category)
     {
         $originalRewrites = $this->_rewrites;
         $process = true;
@@ -676,7 +676,7 @@ class Mage_Catalog_Model_Url
     /**
      * Get unique category request path
      *
-     * @param Varien_Object $category
+     * @param Magento_Object $category
      * @param string $parentPath
      * @return string
      */
@@ -742,8 +742,8 @@ class Mage_Catalog_Model_Url
     /**
      * Get unique product request path
      *
-     * @param   Varien_Object $product
-     * @param   Varien_Object $category
+     * @param   Magento_Object $product
+     * @param   Magento_Object $category
      * @return  string
      */
     public function getProductRequestPath($product, $category)
@@ -831,8 +831,8 @@ class Mage_Catalog_Model_Url
      * $parentPath used only for generating category path
      *
      * @param string $type
-     * @param Varien_Object $product
-     * @param Varien_Object $category
+     * @param Magento_Object $product
+     * @param Magento_Object $category
      * @param string $parentPath
      * @return string
      * @throws Mage_Core_Exception
@@ -936,12 +936,12 @@ class Mage_Catalog_Model_Url
      * It will perform permanent redirect from old URL to new URL
      *
      * @param array $rewriteData New rewrite data
-     * @param Varien_Object $rewrite Rewrite model
+     * @param Magento_Object $rewrite Rewrite model
      * @return Mage_Catalog_Model_Url
      */
     protected function _saveRewriteHistory($rewriteData, $rewrite)
     {
-        if ($rewrite instanceof Varien_Object && $rewrite->getId()) {
+        if ($rewrite instanceof Magento_Object && $rewrite->getId()) {
             $rewriteData['target_path'] = $rewriteData['request_path'];
             $rewriteData['request_path'] = $rewrite->getRequestPath();
             $rewriteData['id_path'] = $this->generateUniqueIdPath();

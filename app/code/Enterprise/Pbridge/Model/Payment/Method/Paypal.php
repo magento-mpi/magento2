@@ -180,16 +180,16 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_D
         return $this;
     }
 
-    public function authorize(Varien_Object $payment, $amount)
+    public function authorize(Magento_Object $payment, $amount)
     {
-        $result = new Varien_Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
+        $result = new Magento_Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
         $order = $payment->getOrder();
         $result->setEmail($order->getCustomerEmail());
         $this->_importResultToPayment($result, $payment);
         return $this;
     }
 
-    public function capture(Varien_Object $payment, $amount)
+    public function capture(Magento_Object $payment, $amount)
     {
         if (false === $this->_pro->capture($payment, $amount)) {
             $this->authorize($payment, $amount);
@@ -197,13 +197,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Paypal extends Mage_Paypal_Model_D
         return $this;
     }
 
-    public function refund(Varien_Object $payment, $amount)
+    public function refund(Magento_Object $payment, $amount)
     {
         $this->_pro->refund($payment, $amount);
         return $this;
     }
 
-    public function void(Varien_Object $payment)
+    public function void(Magento_Object $payment)
     {
         $this->_pro->void($payment);
         return $this;

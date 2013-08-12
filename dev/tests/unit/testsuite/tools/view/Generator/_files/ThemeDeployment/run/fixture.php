@@ -77,7 +77,7 @@ $expectedRelPaths = array(
 $expectedFileContent = array(
     'frontend/package1/inherited_theme/overwritten.css' => 'Overwritten by next theme',
     'frontend/package1/inherited_theme/public.css' => 'a {background:url(Mage_Catalog/resource.png)}',
-    'frontend/package1/inherited_theme/subdir/subdir.css' => "div {background:url(images/somefile.png)}" . PHP_EOL
+    'frontend/package1/inherited_theme/subdir/subdir.css' => "div {background:url(images/somefile.png)}\n"
         . 'a {background:url(../Mage_Catalog/resource.png)}'
 );
 

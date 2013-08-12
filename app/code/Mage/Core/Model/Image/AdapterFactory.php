@@ -57,8 +57,8 @@ class Mage_Core_Model_Image_AdapterFactory
         $this->_configWriter = $configWriter;
         $this->_config = $configModel;
         $this->_adapterClasses = array(
-            self::ADAPTER_GD2 => 'Varien_Image_Adapter_Gd2',
-            self::ADAPTER_IM => 'Varien_Image_Adapter_ImageMagick',
+            self::ADAPTER_GD2 => 'Magento_Image_Adapter_Gd2',
+            self::ADAPTER_IM => 'Magento_Image_Adapter_ImageMagick',
         );
     }
 
@@ -66,7 +66,7 @@ class Mage_Core_Model_Image_AdapterFactory
      * Return specified image adapter
      *
      * @param string $adapterType
-     * @return Varien_Image_Adapter_Abstract
+     * @return Magento_Image_Adapter_Abstract
      * @throws InvalidArgumentException
      * @throws Exception if some of dependecies are missing
      */

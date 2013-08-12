@@ -20,19 +20,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends Ma
     /**
      * Config of create new attribute
      *
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_config = null;
 
     /**
      * Retrive config of new attribute creation
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getConfig()
     {
         if (is_null($this->_config)) {
-           $this->_config = new Varien_Object();
+           $this->_config = new Magento_Object();
         }
 
         return $this->_config;

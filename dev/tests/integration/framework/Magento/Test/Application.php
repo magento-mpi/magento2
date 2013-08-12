@@ -31,7 +31,7 @@ class Magento_Test_Application
     protected $_db;
 
     /**
-     * @var Varien_Simplexml_Element
+     * @var Magento_Simplexml_Element
      */
     protected $_localXml;
 
@@ -41,6 +41,13 @@ class Magento_Test_Application
      * @var array
      */
     protected $_globalEtcFiles;
+
+    /**
+     * Global DI configuration files
+     *
+     * @var array
+     */
+    protected $_globalDiFiles;
 
     /**
      * Module declaration *.xml configuration files
@@ -85,22 +92,31 @@ class Magento_Test_Application
     protected $_appArea = null;
 
     /**
+     * Primary DI Config
+     *
+     * @var array
+     */
+    protected $_primaryConfig = array();
+
+    /**
      * Constructor
      *
      * @param Magento_Test_Db_DbAbstract $dbInstance
      * @param string $installDir
-     * @param Varien_Simplexml_Element $localXml
+     * @param Magento_Simplexml_Element $localXml
      * @param array $globalEtcFiles
+     * @param array $globalDiFiles
      * @param array $moduleEtcFiles
      * @param string $appMode
      */
     public function __construct(
-        Magento_Test_Db_DbAbstract $dbInstance, $installDir, Varien_Simplexml_Element $localXml,
-        array $globalEtcFiles, array $moduleEtcFiles, $appMode
+        Magento_Test_Db_DbAbstract $dbInstance, $installDir, Magento_Simplexml_Element $localXml,
+        array $globalEtcFiles, array $globalDiFiles, array $moduleEtcFiles, $appMode
     ) {
         $this->_db              = $dbInstance;
         $this->_localXml        = $localXml;
         $this->_globalEtcFiles  = $globalEtcFiles;
+        $this->_globalDiFiles   = $globalDiFiles;
         $this->_moduleEtcFiles  = $moduleEtcFiles;
         $this->_appMode = $appMode;
 
@@ -172,12 +188,15 @@ class Magento_Test_Application
         $config = new Mage_Core_Model_Config_Primary(BP, $this->_customizeParams($overriddenParams));
         if (!Mage::getObjectManager()) {
             $objectManager = new Magento_Test_ObjectManager($config, new Magento_Test_ObjectManager_Config());
-            Mage::setObjectManager($objectManager);
+            $primaryLoader = new Mage_Core_Model_ObjectManager_ConfigLoader_Primary($config->getDirectories());
+            $this->_primaryConfig = $primaryLoader->load();
+
         } else {
             $objectManager = Mage::getObjectManager();
             $config->configure($objectManager);
             $objectManager->addSharedInstance($config, 'Mage_Core_Model_Config_Primary');
             $objectManager->addSharedInstance($config->getDirectories(), 'Mage_Core_Model_Dir');
+            $objectManager->loadPrimaryConfig($this->_primaryConfig);
         }
 
         $objectManager->get('Mage_Core_Model_Resource')
@@ -212,7 +231,7 @@ class Magento_Test_Application
     public function run(Magento_Test_Request $request, Magento_Test_Response $response)
     {
         $composer = Mage::getObjectManager();
-        $handler = $composer->get('Magento_Http_Handler_Composite');
+        $handler = $composer->get('Magento_HTTP_Handler_Composite');
         $handler->handle($request, $response);
     }
 
@@ -243,6 +262,7 @@ class Magento_Test_Application
         /* Copy configuration files */
         $etcDirsToFilesMap = array(
             $this->_installEtcDir              => $this->_globalEtcFiles,
+            $this->_installEtcDir . '/di'      => $this->_globalDiFiles,
             $this->_installEtcDir . '/modules' => $this->_moduleEtcFiles,
         );
         foreach ($etcDirsToFilesMap as $targetEtcDir => $sourceEtcFiles) {
@@ -317,9 +337,9 @@ class Magento_Test_Application
 
         Mage::reset();
         Mage::setObjectManager($objectManager);
-        Varien_Data_Form::setElementRenderer(null);
-        Varien_Data_Form::setFieldsetRenderer(null);
-        Varien_Data_Form::setFieldsetElementRenderer(null);
+        Magento_Data_Form::setElementRenderer(null);
+        Magento_Data_Form::setFieldsetRenderer(null);
+        Magento_Data_Form::setFieldsetElementRenderer(null);
         $this->_appArea = null;
 
         if ($resource) {
@@ -349,7 +369,7 @@ class Magento_Test_Application
      */
     protected function _cleanupFilesystem()
     {
-        Varien_Io_File::rmdirRecursive($this->_installDir);
+        Magento_Io_File::rmdirRecursive($this->_installDir);
     }
 
     /**

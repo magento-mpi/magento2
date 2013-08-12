@@ -347,7 +347,7 @@ class Enterprise_GiftRegistry_Model_Type extends Mage_Core_Model_Abstract
     /**
      * Custom handler for giftregistry type save action
      *
-     * @param Varien_Simplexml_Element $config
+     * @param Magento_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */

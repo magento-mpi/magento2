@@ -47,7 +47,7 @@ class Mage_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Widge
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $this->setForm($form);
 
         $fieldset = $form->addFieldset('rating_form', array(

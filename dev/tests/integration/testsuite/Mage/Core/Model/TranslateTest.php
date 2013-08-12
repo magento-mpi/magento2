@@ -31,7 +31,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test', 'default', 'locale', 'en_US',
+        $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test_default', 'locale', 'en_US',
             'translate.csv');
 
         $this->_viewFileSystem = $this->getMock('Mage_Core_Model_View_FileSystem',

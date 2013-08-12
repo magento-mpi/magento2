@@ -21,7 +21,7 @@ class Saas_ImportExport_Model_Import_Image_Archive_Extractor
     protected $_adapter;
 
     /**
-     * @var Varien_Data_Collection_FilesystemFactory
+     * @var Magento_Data_Collection_FilesystemFactory
      */
     protected $_collectionFilesystemFactory;
 
@@ -33,13 +33,13 @@ class Saas_ImportExport_Model_Import_Image_Archive_Extractor
     /**
      * @param Saas_ImportExport_Helper_Import_Image_Configuration $configuration
      * @param Saas_ImportExport_Model_Import_Image_Archive_Adapter_Zip $adapter
-     * @param Varien_Data_Collection_FilesystemFactory $collectionFilesystemFactory
+     * @param Magento_Data_Collection_FilesystemFactory $collectionFilesystemFactory
      * @param Saas_ImportExport_Model_Import_Image_FileSystem $fileSystem
      */
     public function __construct(
         Saas_ImportExport_Helper_Import_Image_Configuration $configuration,
         Saas_ImportExport_Model_Import_Image_Archive_Adapter_Zip $adapter,
-        Varien_Data_Collection_FilesystemFactory $collectionFilesystemFactory,
+        Magento_Data_Collection_FilesystemFactory $collectionFilesystemFactory,
         Saas_ImportExport_Model_Import_Image_FileSystem $fileSystem
     ) {
         $this->_configuration = $configuration;
@@ -83,7 +83,7 @@ class Saas_ImportExport_Model_Import_Image_Archive_Extractor
      */
     public function getFiles()
     {
-        /** @var Varien_Data_Collection_Filesystem $collection */
+        /** @var Magento_Data_Collection_Filesystem $collection */
         $collection = $this->_collectionFilesystemFactory->create();
         $collection->addTargetDir($this->_configuration->getWorkingUnZipDir())
             ->setCollectDirs(false)

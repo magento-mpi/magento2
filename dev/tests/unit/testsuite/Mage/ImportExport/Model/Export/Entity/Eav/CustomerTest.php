@@ -97,7 +97,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
         $translator = $this->getMock('stdClass');
 
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
-        $attributeCollection = new Varien_Data_Collection();
+        $attributeCollection = new Magento_Data_Collection();
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments('Mage_Eav_Model_Entity_Attribute_Abstract');
             $arguments['data'] = $attributeData;
@@ -141,7 +141,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
                 'id'   => $id,
                 'code' => $code,
             );
-            $websites[$id] = new Varien_Object($websiteData);
+            $websites[$id] = new Magento_Object($websiteData);
         }
 
         return $websites;
@@ -167,7 +167,7 @@ class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Fra
                 'id'   => $id,
                 'code' => $code,
             );
-            $stores[$id] = new Varien_Object($storeData);
+            $stores[$id] = new Magento_Object($storeData);
         }
 
         return $stores;

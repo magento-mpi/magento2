@@ -40,12 +40,12 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
     /**
      * Collection constructor
      *
-     * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Mage_Core_Model_App $application
      * @param Mage_Core_Model_Resource_Db_Abstract $resource
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Mage_Core_Model_App $application,
         Mage_Core_Model_Resource_Db_Abstract $resource = null
     ) {
@@ -203,8 +203,6 @@ class Enterprise_CatalogEvent_Model_Resource_Event_Collection extends Mage_Core_
             'event_image_default.event_id = main_table.event_id AND event_image_default.store_id = 0',
             array()
         );
-
-        //$this->_useAnalyticFunction = true;
 
         return $this;
     }

@@ -9,7 +9,7 @@
  */
 
 
-abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
+abstract class Mage_Shipping_Model_Carrier_Abstract extends Magento_Object
 {
     /**
      * Carrier's code
@@ -114,11 +114,11 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
      * Implementation must be in overridden method
      *
      * @param Mage_Shipping_Model_Shipment_Request $request
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function requestToShipment(Mage_Shipping_Model_Shipment_Request $request)
     {
-        return new Varien_Object();
+        return new Magento_Object();
     }
 
     /**
@@ -126,20 +126,20 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
      * Implementation must be in overridden method
      *
      * @param $request
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function returnOfShipment($request)
     {
-        return new Varien_Object();
+        return new Magento_Object();
     }
 
     /**
      * Return container types of carrier
      *
-     * @param Varien_Object|null $params
+     * @param Magento_Object|null $params
      * @return array
      */
-    public function getContainerTypes(Varien_Object $params = null)
+    public function getContainerTypes(Magento_Object $params = null)
     {
         return array();
     }
@@ -147,10 +147,10 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     /**
      * Get allowed containers of carrier
      *
-     * @param Varien_Object|null $params
+     * @param Magento_Object|null $params
      * @return array|bool
      */
-    protected function _getAllowedContainers(Varien_Object $params = null)
+    protected function _getAllowedContainers(Magento_Object $params = null)
     {
         $containersAll = $this->getContainerTypesAll();
         if (empty($containersAll)) {
@@ -210,10 +210,10 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     /**
      * Return delivery confirmation types of carrier
      *
-     * @param Varien_Object|null $params
+     * @param Magento_Object|null $params
      * @return array
      */
-    public function getDeliveryConfirmationTypes(Varien_Object $params = null)
+    public function getDeliveryConfirmationTypes(Magento_Object $params = null)
     {
         return array();
     }
@@ -560,10 +560,10 @@ abstract class Mage_Shipping_Model_Carrier_Abstract extends Varien_Object
     /**
      * Return content types of package
      *
-     * @param Varien_Object $params
+     * @param Magento_Object $params
      * @return array
      */
-    public function getContentTypes(Varien_Object $params)
+    public function getContentTypes(Magento_Object $params)
     {
         return array();
     }

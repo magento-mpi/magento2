@@ -73,7 +73,7 @@ class Mage_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Mage_Backend_Bloc
      */
     public function getFilebrowserSetupObject()
     {
-        $setupObject = new Varien_Object();
+        $setupObject = new Magento_Object();
 
         $setupObject->setData(array(
             'newFolderPrompt'                 => __('New Folder Name:'),

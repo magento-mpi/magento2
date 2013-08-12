@@ -176,7 +176,7 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
                 $event->addNewData('category_ids', $product->getCategoryIds());
             }
         } else if ($eventType == Mage_Index_Model_Event::TYPE_MASS_ACTION) {
-            /* @var $actionObject Varien_Object */
+            /* @var $actionObject Magento_Object */
             $actionObject = $event->getDataObject();
             $attributes   = array('status', 'visibility');
             $rebuildIndex = false;

@@ -61,8 +61,8 @@ class Enterprise_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCa
         $cmsHelper = $this->getMock('Mage_Cms_Helper_Data', array('getPageTemplateProcessor'), array(), '', false);
         $cmsHelper->expects($this->any())->method('getPageTemplateProcessor')->will($this->returnValue($filter));
 
-        $currentStore = new Varien_Object(array('id' => 42));
-        $currentWebsite = new Varien_Object(array('id' => 57));
+        $currentStore = new Magento_Object(array('id' => 42));
+        $currentWebsite = new Magento_Object(array('id' => 57));
         $storeManager = $this->getMockForAbstractClass(
             'Mage_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('getStore', 'getWebsite')
         );
@@ -147,7 +147,7 @@ class Enterprise_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCa
             'display_mode' => Enterprise_Banner_Block_Widget_Banner::BANNER_WIDGET_DISPLAY_SALESRULE,
         ));
 
-        $quote = new Varien_Object(array('applied_rule_ids' => '15,11,12'));
+        $quote = new Magento_Object(array('applied_rule_ids' => '15,11,12'));
         $this->_checkoutSession->expects($this->once())->method('getQuoteId')->will($this->returnValue(8000));
         $this->_checkoutSession->expects($this->once())->method('getQuote')->will($this->returnValue($quote));
 

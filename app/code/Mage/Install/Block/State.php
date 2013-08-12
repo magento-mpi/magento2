@@ -17,9 +17,14 @@
  */
 class Mage_Install_Block_State extends Mage_Core_Block_Template
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'state.phtml';
 
+    /**
+     * Assign steps
+     */
     protected function _construct()
     {
         $this->assign('steps', Mage::getSingleton('Mage_Install_Model_Wizard')->getSteps());

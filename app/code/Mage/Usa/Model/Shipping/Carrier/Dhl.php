@@ -45,7 +45,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Raw rate request data
      *
-     * @var Varien_Object|null
+     * @var Magento_Object|null
      */
     protected $_rawRequest = null;
 
@@ -180,14 +180,14 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Prepare and set request in property of current instance
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return Mage_Usa_Model_Shipping_Carrier_Dhl
      */
-    public function setRequest(Varien_Object $request)
+    public function setRequest(Magento_Object $request)
     {
         $this->_request = $request;
 
-        $r = new Varien_Object();
+        $r = new Magento_Object();
 
         if ($request->getAction() == 'GenerateLabel') {
             $r->setAction('GenerateLabel');
@@ -458,7 +458,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Get xml quotes
      *
-     * @return Mage_Core_Model_Abstract|Varien_Object
+     * @return Mage_Core_Model_Abstract|Magento_Object
      */
     protected function _getXmlQuotes()
     {
@@ -468,7 +468,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Do rate request and handle errors
      *
-     * @return Mage_Shipping_Model_Rate_Result|Varien_Object
+     * @return Mage_Shipping_Model_Rate_Result|Magento_Object
      */
     protected function _doRequest()
     {
@@ -774,7 +774,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
      * Parse xml response and return result
      *
      * @param string $response
-     * @return Mage_Shipping_Model_Rate_Result|Varien_Object
+     * @return Mage_Shipping_Model_Rate_Result|Magento_Object
      */
     protected function _parseXmlResponse($response)
     {
@@ -827,7 +827,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
         }
 
         if ($this->_rawRequest->getAction() == 'GenerateLabel') {
-            $result = new Varien_Object();
+            $result = new Magento_Object();
             if (!empty($this->_errors)) {
                 $result->setErrors(implode($this->_errors, '; '));
             } else {
@@ -1023,7 +1023,7 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
      */
     protected function setTrackingReqeust()
     {
-        $r = new Varien_Object();
+        $r = new Magento_Object();
 
         $id = $this->getConfigData('id');
         $r->setId($id);
@@ -1335,10 +1335,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Map request to shipment
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return null
      */
-    protected function _mapRequestToShipment(Varien_Object $request)
+    protected function _mapRequestToShipment(Magento_Object $request)
     {
         $customsValue = $request->getPackageParams()->getCustomsValue();
         $request->setOrigPersonName($request->getShipperContactPersonName());
@@ -1374,10 +1374,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param Varien_Object $request
-     * @return Varien_Object
+     * @param Magento_Object $request
+     * @return Magento_Object
      */
-    protected function _doShipmentRequest(Varien_Object $request)
+    protected function _doShipmentRequest(Magento_Object $request)
     {
         $this->_prepareShipmentRequest($request);
         $request->setAction('GenerateLabel');
@@ -1390,10 +1390,10 @@ class Mage_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Return container types of carrier
      *
-     * @param Varien_Object|null $params
+     * @param Magento_Object|null $params
      * @return array|bool
      */
-    public function getContainerTypes(Varien_Object $params = null)
+    public function getContainerTypes(Magento_Object $params = null)
     {
         return $this->getCode('shipment_type');
     }

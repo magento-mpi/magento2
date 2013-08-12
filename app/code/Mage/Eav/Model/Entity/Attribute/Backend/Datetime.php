@@ -16,7 +16,7 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Datetime extends Mage_Eav_Model_En
      * Should set (bool, string) correct type for empty value from html form,
      * necessary for further process, else date string
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @throws Mage_Eav_Exception
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Datetime
      */
@@ -72,6 +72,6 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Datetime extends Mage_Eav_Model_En
                null, false
             );
         }
-        return $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+        return $date->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
     }
 }

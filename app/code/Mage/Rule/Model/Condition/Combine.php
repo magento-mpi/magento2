@@ -123,7 +123,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
             'value_name' => $this->getAggregatorName(),
         ))->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Editable'));
     }
-/* end aggregator methods */
+    /* end aggregator methods */
 
     /**
      * @return $this
@@ -320,10 +320,10 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     }
 
     /**
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return bool
      */
-    public function validate(Varien_Object $object)
+    public function validate(Magento_Object $object)
     {
         if (!$this->getConditions()) {
             return true;
@@ -345,7 +345,7 @@ class Mage_Rule_Model_Condition_Combine extends Mage_Rule_Model_Condition_Abstra
     }
 
     /**
-     * @param Varien_Data_Form $form
+     * @param Magento_Data_Form $form
      * @return $this
      */
     public function setJsFormObject($form)

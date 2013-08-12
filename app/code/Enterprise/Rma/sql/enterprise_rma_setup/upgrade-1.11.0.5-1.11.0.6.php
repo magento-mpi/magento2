@@ -19,7 +19,7 @@ $installer->getConnection()
         $installer->getTable('enterprise_rma_shipping_label'),
         'is_admin',
         array(
-            'TYPE' => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+            'TYPE' => Magento_DB_Ddl_Table::TYPE_SMALLINT,
             'LENGTH' => 6,
             'COMMENT' => 'Is this Label Created by Merchant',
         )
@@ -33,7 +33,7 @@ $installer->getConnection()
         $installer->getTable('enterprise_rma'),
         'protect_code',
         array(
-            'TYPE' => Varien_Db_Ddl_Table::TYPE_TEXT,
+            'TYPE' => Magento_DB_Ddl_Table::TYPE_TEXT,
             'LENGTH' => 255,
             'COMMENT' => 'Protect Code',
         )

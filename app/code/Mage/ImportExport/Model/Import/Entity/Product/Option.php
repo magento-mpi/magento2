@@ -148,7 +148,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     /**
      * DB connection
      *
-     * @var Varien_Db_Adapter_Interface
+     * @var Magento_DB_Adapter_Interface
      */
     protected $_connection;
 
@@ -1202,7 +1202,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             'entity_id'        => $productId,
             'has_options'      => 1,
             'required_options' => 0,
-            'updated_at'       => Varien_Date::now(),
+            'updated_at'       => Magento_Date::now(),
         );
 
         if (!empty($rowData[self::COLUMN_IS_REQUIRED])) {

@@ -66,8 +66,8 @@ class Saas_Limitation_Model_Observer_EntityTest extends PHPUnit_Framework_TestCa
         ;
         $model = $this->getMock('Mage_Core_Model_Abstract', array('isObjectNew'), array(), '', false);
         $model->expects($this->once())->method('isObjectNew')->will($this->returnValue($isObjectNew));
-        $this->_model->restrictCreation(new Varien_Event_Observer(array(
-            'event' => new Varien_Object(array('data_object' => $model))
+        $this->_model->restrictCreation(new Magento_Event_Observer(array(
+            'event' => new Magento_Object(array('data_object' => $model))
         )));
     }
 

@@ -627,7 +627,7 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
         }
         try {
             $order->getPayment()->void(
-                new Varien_Object() // workaround for backwards compatibility
+                new Magento_Object() // workaround for backwards compatibility
             );
             $order->save();
             $this->_getSession()->addSuccess(__('The payment has been voided.'));

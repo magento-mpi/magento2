@@ -12,13 +12,12 @@ require_once "Varien/Pear/Package.php";
 
 /**
  * PEAR Packages Download Manager
- *
- * @category   Mage
- * @package    Mage_Install
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Install_Model_Installer_Pear extends Mage_Install_Model_Installer_Abstract
 {
+    /**
+     * @return array
+     */
     public function getPackages()
     {
         $packages = array(
@@ -34,9 +33,12 @@ class Mage_Install_Model_Installer_Pear extends Mage_Install_Model_Installer_Abs
         return $packages;
     }
 
+    /**
+     * @return bool
+     */
     public function checkDownloads()
     {
-        $pear = new Varien_Pear;
+        $pear = new Magento_Pear;
         $pkg = new PEAR_PackageFile($pear->getConfig(), false);
         $result = true;
         foreach ($this->getPackages() as $package) {
@@ -52,7 +54,6 @@ class Mage_Install_Model_Installer_Pear extends Mage_Install_Model_Installer_Abs
                     }
                 } else {
                     print_r($obj->getUserInfo());
-                    #Mage::getSingleton('Mage_Install_Model_Session')->addError($message);
                 }
                 $result = false;
             }

@@ -58,7 +58,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     /**
      * Raw rate request data
      *
-     * @var Varien_Object|null
+     * @var Magento_Object|null
      */
     protected $_rawRequest = null;
 
@@ -197,7 +197,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     {
         $this->_request = $request;
 
-        $r = new Varien_Object();
+        $r = new Magento_Object();
 
         if ($request->getLimitMethod()) {
             $r->setService($request->getLimitMethod());
@@ -948,7 +948,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
      */
     protected function setTrackingReqeust()
     {
-        $r = new Varien_Object();
+        $r = new Magento_Object();
 
         $account = $this->getConfigData('account');
         $r->setAccount($account);
@@ -1194,10 +1194,10 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     /**
      * Form array with appropriate structure for shipment request
      *
-     * @param Varien_Object $request
+     * @param Magento_Object $request
      * @return array
      */
-    protected function _formShipmentRequest(Varien_Object $request)
+    protected function _formShipmentRequest(Magento_Object $request)
     {
         if ($request->getReferenceData()) {
             $referenceData = $request->getReferenceData() . $request->getPackageId();
@@ -1221,7 +1221,7 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         $productIds = array();
         $packageItems = $request->getPackageItems();
         foreach ($packageItems as $itemShipment) {
-                $item = new Varien_Object();
+                $item = new Magento_Object();
                 $item->setData($itemShipment);
 
                 $unitPrice  += $item->getPrice();
@@ -1372,13 +1372,13 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param Varien_Object $request
-     * @return Varien_Object
+     * @param Magento_Object $request
+     * @return Magento_Object
      */
-    protected function _doShipmentRequest(Varien_Object $request)
+    protected function _doShipmentRequest(Magento_Object $request)
     {
         $this->_prepareShipmentRequest($request);
-        $result = new Varien_Object();
+        $result = new Magento_Object();
         $client = $this->_createShipSoapClient();
         $requestClient = $this->_formShipmentRequest($request);
         $response = $client->processShipment($requestClient);
@@ -1438,10 +1438,10 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     /**
      * Return container types of carrier
      *
-     * @param Varien_Object|null $params
+     * @param Magento_Object|null $params
      * @return array|bool
      */
-    public function getContainerTypes(Varien_Object $params = null)
+    public function getContainerTypes(Magento_Object $params = null)
     {
         if ($params == null) {
             return $this->_getAllowedContainers($params);
@@ -1495,10 +1495,10 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
     /**
      * Return delivery confirmation types of carrier
      *
-     * @param Varien_Object|null $params
+     * @param Magento_Object|null $params
      * @return array
      */
-    public function getDeliveryConfirmationTypes(Varien_Object $params = null)
+    public function getDeliveryConfirmationTypes(Magento_Object $params = null)
     {
         return $this->getCode('delivery_confirmation_types');
     }

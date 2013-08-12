@@ -70,7 +70,7 @@ class Mage_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price
      * Retrieve select for flat attribute update
      *
      * @param int $store
-     * @return Varien_Db_Select|null
+     * @return Magento_DB_Select|null
      */
     public function getFlatUpdateSelect($store)
     {

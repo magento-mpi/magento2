@@ -31,7 +31,7 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
         $this->assertGreaterThan(0, $accountId);
 
         $testModel->load($accountId);
-        // Convert dates to Y-m-d format from Oracle
+        // Convert dates to Y-m-d format
         $testModel->setDateCreated(date('Y-m-d', strtotime($testModel->getDateCreated())));
         $testModel->setDateExpires(date('Y-m-d', strtotime($testModel->getDateExpires())));
         $this->_testDataCorrect($createData, $testModel);
@@ -47,7 +47,7 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
         unset($createData['status']);
         unset($createData['website_id']);
         $info['date_expires'] = date('Y-m-d', strtotime($info['expire_date']));
-        $this->_testDataCorrect($createData, new Varien_Object($info));
+        $this->_testDataCorrect($createData, new Magento_Object($info));
 
         //Test update
         $updateData = Magento_Test_Helper_Api::simpleXmlToArray($accountFixture->update);
@@ -103,7 +103,7 @@ class Enterprise_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCas
      * Test that data in db and webservice are equals
      *
      * @param array $data
-     * @param Varien_Object $testModel
+     * @param Magento_Object $testModel
      */
     protected function _testDataCorrect($data, $testModel)
     {

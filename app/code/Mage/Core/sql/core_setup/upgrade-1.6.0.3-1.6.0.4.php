@@ -18,24 +18,24 @@ $installer->startSetup();
  */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('core_theme'))
-    ->addColumn('theme_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('theme_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array(
         'identity' => true,
         'unsigned' => true,
         'nullable' => false,
         'primary'  => true,
     ), 'Theme identifier')
-    ->addColumn('parent_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array('nullable' => true), 'Parent Id')
-    ->addColumn('theme_path', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => true), 'Theme Path')
-    ->addColumn('theme_version', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Version')
-    ->addColumn('theme_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Title')
-    ->addColumn('preview_image', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => true), 'Preview Image')
-    ->addColumn('magento_version_from', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('parent_id', Magento_DB_Ddl_Table::TYPE_INTEGER, null, array('nullable' => true), 'Parent Id')
+    ->addColumn('theme_path', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array('nullable' => true), 'Theme Path')
+    ->addColumn('theme_version', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Version')
+    ->addColumn('theme_title', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Title')
+    ->addColumn('preview_image', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array('nullable' => true), 'Preview Image')
+    ->addColumn('magento_version_from', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable' => false
     ), 'Magento Version From')
-    ->addColumn('magento_version_to', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+    ->addColumn('magento_version_to', Magento_DB_Ddl_Table::TYPE_TEXT, 255, array(
         'nullable' => false
     ), 'Magento Version To')
-    ->addColumn('is_featured', Varien_Db_Ddl_Table::TYPE_BOOLEAN, null, array(
+    ->addColumn('is_featured', Magento_DB_Ddl_Table::TYPE_BOOLEAN, null, array(
         'nullable' => false,
         'default'  => 0
     ), 'Is Theme Featured')

@@ -175,7 +175,6 @@ class Utility_Files
      *     'namespace'      => 'namespace_name',
      *     'module'         => 'module_name',
      *     'area'           => 'area_name',
-     *     'package'        => 'package_name',
      *     'theme'          => 'theme_name',
      *     'include_code'   => true|false,
      *     'include_design' => true|false,
@@ -191,7 +190,6 @@ class Utility_Files
             'namespace' => '*',
             'module' => '*',
             'area' => '*',
-            'package' => '*',
             'theme' => '*',
             'include_code' => true,
             'include_design' => true
@@ -213,7 +211,7 @@ class Utility_Files
                 );
             }
             if ($params['include_design']) {
-                $themeLayoutDir = "{$this->_path}/app/design/{$params['area']}/{$params['package']}/{$params['theme']}"
+                $themeLayoutDir = "{$this->_path}/app/design/{$params['area']}/{$params['theme']}"
                     . "/{$params['namespace']}_{$params['module']}/layout";
                 $dirPatterns = array(
                     $themeLayoutDir,
@@ -357,6 +355,18 @@ class Utility_Files
             $result = array_merge($result, $filesInDir, $filesInSubDir);
         }
         return $result;
+    }
+
+    /**
+     * Look for DI config through the system
+     * @return array
+     */
+    public function getDiConfigs()
+    {
+        $primaryConfigs = glob($this->_path . '/app/etc/di/*.xml');
+        $moduleConfigs = glob($this->_path . '/app/code/*/*/etc/{di,*/di}.xml', GLOB_BRACE);
+        $configs = array_merge($primaryConfigs, $moduleConfigs);
+        return $configs;
     }
 
     /**

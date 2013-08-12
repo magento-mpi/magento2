@@ -15,7 +15,7 @@
  * @package    Mage_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backup_Model_Fs_Collection extends Varien_Data_Collection_Filesystem
+class Mage_Backup_Model_Fs_Collection extends Magento_Data_Collection_Filesystem
 {
     /**
      * Folder, where all backups are stored

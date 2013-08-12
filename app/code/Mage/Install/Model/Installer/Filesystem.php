@@ -29,6 +29,9 @@ class Mage_Install_Model_Installer_Filesystem extends Mage_Install_Model_Install
      */
     protected $_filesystem;
 
+    /**
+     * @param Magento_Filesystem $filesystem
+     */
     public function __construct(Magento_Filesystem $filesystem)
     {
         $this->_filesystem = $filesystem;

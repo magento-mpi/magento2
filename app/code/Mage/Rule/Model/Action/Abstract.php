@@ -12,7 +12,7 @@
 /**
  * Quote rule action abstract
  */
-abstract class Mage_Rule_Model_Action_Abstract extends Varien_Object implements Mage_Rule_Model_Action_Interface
+abstract class Mage_Rule_Model_Action_Abstract extends Magento_Object implements Mage_Rule_Model_Action_Interface
 {
     /**
      * @var Mage_Core_Model_View_Url

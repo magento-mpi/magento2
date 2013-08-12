@@ -45,7 +45,7 @@ class Mage_User_Block_Role_Tab_Info
 
     protected function _initForm()
     {
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $fieldset = $form->addFieldset(
             'base_fieldset',

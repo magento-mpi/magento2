@@ -21,10 +21,10 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Tex
     /**
      * Renders quantity as integer
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return int|string
      */
-    public function _getValue(Varien_Object $row)
+    public function _getValue(Magento_Object $row)
     {
         $quantity = parent::_getValue($row);
         if (!$row->getIsQtyDecimal()) {
@@ -36,10 +36,10 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Tex
     /**
      * Renders column as input when it is editable
      *
-     * @param   Varien_Object $row
+     * @param   Magento_Object $row
      * @return  string
      */
-    protected function _getEditableView(Varien_Object $row)
+    protected function _getEditableView(Magento_Object $row)
     {
         $value = $row->getData($this->getColumn()->getIndex());
         if (!$row->getIsQtyDecimal() && !is_null($value)) {

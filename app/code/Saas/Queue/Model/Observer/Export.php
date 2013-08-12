@@ -46,10 +46,10 @@ class Saas_Queue_Model_Observer_Export extends Saas_Queue_Model_ObserverAbstract
     /**
      * Export entity
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return Saas_Queue_Model_Observer_Export
      */
-    public function processExport(Varien_Event_Observer $observer)
+    public function processExport(Magento_Event_Observer $observer)
     {
         $exportParams = $observer->getEvent()->getExportParams();
         if (!isset($exportParams['page'])) {

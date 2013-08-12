@@ -9,8 +9,6 @@
  */
 
 /**
- * Enter description here ...
- *
  * @method Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount _getResource()
  * @method Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount getResource()
  * @method string getCode()
@@ -78,7 +76,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
         if (!$this->getId()) {
             $now = Mage::app()->getLocale()->date()
                 ->setTimezone(Mage::DEFAULT_TIMEZONE)
-                ->toString(Varien_Date::DATE_INTERNAL_FORMAT);
+                ->toString(Magento_Date::DATE_INTERNAL_FORMAT);
 
             $this->setDateCreated($now);
             if (!$this->hasCode()) {
@@ -104,10 +102,10 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
         } else {
             if ($this->getDateExpires()) {
                 $expirationDate =  Mage::app()->getLocale()->date(
-                    $this->getDateExpires(), Varien_Date::DATE_INTERNAL_FORMAT,
+                    $this->getDateExpires(), Magento_Date::DATE_INTERNAL_FORMAT,
                     null, false);
                 $currentDate = Mage::app()->getLocale()->date(
-                    null, Varien_Date::DATE_INTERNAL_FORMAT,
+                    null, Magento_Date::DATE_INTERNAL_FORMAT,
                     null, false);
                 if ($expirationDate < $currentDate) {
                     Mage::throwException(__('An expiration date must be in the future.'));

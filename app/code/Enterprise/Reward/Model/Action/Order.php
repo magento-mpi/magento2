@@ -33,7 +33,7 @@ class Enterprise_Reward_Model_Action_Order extends Enterprise_Reward_Model_Actio
      *
      * Setter for $_entity and add some extra data to history
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @return Enterprise_Reward_Model_Action_Abstract
      */
     public function setEntity($entity)

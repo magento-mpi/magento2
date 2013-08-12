@@ -56,7 +56,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
         }
 
         $userName = 'TestAdmin';
-        $user = new Varien_Object(array(
+        $user = new Magento_Object(array(
             'username' => $userName
         ));
         /** @var $session Mage_Backend_Model_Auth_Session */

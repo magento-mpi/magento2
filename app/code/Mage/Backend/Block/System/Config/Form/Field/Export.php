@@ -15,7 +15,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Block_System_Config_Form_Field_Export extends Varien_Data_Form_Element_Abstract
+class Mage_Backend_Block_System_Config_Form_Field_Export extends Magento_Data_Form_Element_Abstract
 {
     /**
      * @var Mage_Core_Model_Factory_Helper

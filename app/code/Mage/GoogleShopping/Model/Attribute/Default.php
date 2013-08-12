@@ -31,8 +31,8 @@ class Mage_GoogleShopping_Model_Attribute_Default extends Mage_GoogleShopping_Mo
      * Set current attribute to entry (for specified product)
      *
      * @param Mage_Catalog_Model_Product $product
-     * @param Varien_Gdata_Gshopping_Entry $entry
-     * @return Varien_Gdata_Gshopping_Entry
+     * @param Magento_Gdata_Gshopping_Entry $entry
+     * @return Magento_Gdata_Gshopping_Entry
      */
     public function convertAttribute($product, $entry)
     {
@@ -106,12 +106,12 @@ class Mage_GoogleShopping_Model_Attribute_Default extends Mage_GoogleShopping_Mo
     /**
      * Insert/update attribute in the entry
      *
-     * @param Varien_Gdata_Gshopping_Entry $entry
+     * @param Magento_Gdata_Gshopping_Entry $entry
      * @param string $name
      * @param string $type
      * @param string $value
      * @param string $unit
-     * @return Varien_Gdata_Gshopping_Entry
+     * @return Magento_Gdata_Gshopping_Entry
      */
     protected function _setAttribute($entry, $name, $type = self::ATTRIBUTE_TYPE_TEXT, $value = '', $unit = null)
     {
@@ -121,7 +121,7 @@ class Mage_GoogleShopping_Model_Attribute_Default extends Mage_GoogleShopping_Mo
             );
         }
         $attribute = $entry->getContentAttributeByName($name);
-        if ($attribute instanceof Varien_Gdata_Gshopping_Extension_Attribute) {
+        if ($attribute instanceof Magento_Gdata_Gshopping_Extension_Attribute) {
             $attribute->text = (string) $value;
             $attribute->type = $type;
             if (!is_null($unit)) {

@@ -25,27 +25,6 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
     protected $_definitions;
 
     /**
-     * List of configured arguments
-     *
-     * @var array
-     */
-    protected $_arguments = array();
-
-    /**
-     * List of non-shared types
-     *
-     * @var array
-     */
-    protected $_nonShared = array();
-
-    /**
-     * List of virtual types
-     *
-     * @var array
-     */
-    protected $_virtualTypes = array();
-
-    /**
      * List of classes being created
      *
      * @var array
@@ -76,27 +55,6 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
         $this->_definitions = $definitions ?: new Magento_ObjectManager_Definition_Runtime();
         $this->_globalArguments = $globalArguments;
     }
-
-    /**
-     * Retrieve class definitions
-     *
-     * @return Magento_ObjectManager_Definition
-     */
-    public function getDefinitions()
-    {
-        return $this->_definitions;
-    }
-
-    /**
-     * Set Object manager config
-     *
-     * @param Magento_ObjectManager_Config $config
-     */
-    public function setConfig(Magento_ObjectManager_Config $config)
-    {
-        $this->_config = $config;
-    }
-
 
     /**
      * Resolve constructor arguments
@@ -131,7 +89,7 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
             } else {
                 $argument = $paramDefault;
             }
-            if ($paramRequired && $paramType && !is_object($argument)) {
+            if ($paramType && !is_object($argument) && $argument !== $paramDefault) {
                 if (!is_array($argument) || !isset($argument['instance'])) {
                     throw new InvalidArgumentException(
                         'Invalid parameter configuration provided for $' . $paramName . ' argument in ' . $requestedType
@@ -146,13 +104,13 @@ class Magento_ObjectManager_Factory_Factory implements Magento_ObjectManager_Fac
                 $this->_creationStack[$requestedType] = 1;
 
                 $isShared = (!isset($argument['shared']) && $this->_config->isShared($argumentType))
-                    || (isset($argument['shared']) && $argument['shared'] && $argument['shared'] != 'false');
+                    || (isset($argument['shared']) && $argument['shared']);
                 $argument = $isShared
                     ? $this->_objectManager->get($argumentType)
                     : $this->_objectManager->create($argumentType);
                 unset($this->_creationStack[$requestedType]);
             } else if (is_array($argument) && isset($argument['argument'])) {
-                $argKey = constant($argument['argument']);
+                $argKey = $argument['argument'];
                 $argument = isset($this->_globalArguments[$argKey]) ? $this->_globalArguments[$argKey] : $paramDefault;
             }
             $resolvedArguments[] = $argument;

@@ -10,13 +10,6 @@
 class Mage_Core_Model_ObjectManager_Relations implements Magento_ObjectManager_Relations
 {
     /**
-     * Relations file
-     *
-     * @var string
-     */
-    protected $_filePath;
-
-    /**
      * List of class relations
      *
      * @var array
@@ -24,21 +17,23 @@ class Mage_Core_Model_ObjectManager_Relations implements Magento_ObjectManager_R
     protected $_relations;
 
     /**
-     * @param Mage_Core_Model_Dir $dirs
+     * Default relation list
+     *
+     * @var array
      */
-    public function __construct(Mage_Core_Model_Dir $dirs)
-    {
-        $this->_filePath = $dirs->getDir(Mage_Core_Model_Dir::DI) . DIRECTORY_SEPARATOR . 'relations.php';
-    }
+    protected $_default = array();
 
     /**
-     * Serialize relations data
-     *
-     * @return array
+     * @param array $relations
      */
-    public function __sleep()
+    public function __construct(array $relations)
     {
-        return array();
+        $this->_relations = $relations;
+    }
+
+    public function has($type)
+    {
+        return isset($this->_relations[$type]);
     }
 
     /**
@@ -49,9 +44,6 @@ class Mage_Core_Model_ObjectManager_Relations implements Magento_ObjectManager_R
      */
     public function getParents($type)
     {
-        if (!$this->_relations) {
-            $this->_relations = unserialize(file_get_contents($this->_filePath));
-        }
-        return isset($this->_relations[$type]) ? $this->_relations[$type] : array();
+        return $this->_relations[$type];
     }
 }

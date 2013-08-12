@@ -16,7 +16,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Catalog_Category_Helper_Pricestep extends Varien_Data_Form_Element_Text
+class Mage_Adminhtml_Block_Catalog_Category_Helper_Pricestep extends Magento_Data_Form_Element_Text
 {
     /**
      * Returns js code that is used instead of default toggle code for "Use default config" checkbox

@@ -62,16 +62,16 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
      * );
      *
      * @param string $itemId
-     * @param array|Varien_Object $item
+     * @param array|Magento_Object $item
      * @return Mage_Backend_Block_Widget_Grid_Massaction_Abstract
      */
     public function addItem($itemId, $item)
     {
         if (is_array($item)) {
-            $item = new Varien_Object($item);
+            $item = new Magento_Object($item);
         }
 
-        if ($item instanceof Varien_Object) {
+        if ($item instanceof Magento_Object) {
             $item->setId($itemId);
             $item->setUrl($this->getUrl($item->getUrl()));
             $this->_items[$itemId] = $item;

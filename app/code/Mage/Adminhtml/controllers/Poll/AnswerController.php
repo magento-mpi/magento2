@@ -66,7 +66,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
 
     public function jsonSaveAction()
     {
-        $response = new Varien_Object();
+        $response = new Magento_Object();
         $response->setError(0);
 
         if ( $post = $this->getRequest()->getPost() ) {
@@ -88,7 +88,7 @@ class Mage_Adminhtml_Poll_AnswerController extends Mage_Adminhtml_Controller_Act
 
     public function jsonDeleteAction()
     {
-        $response = new Varien_Object();
+        $response = new Magento_Object();
         $response->setError(0);
 
         if ( $id = $this->getRequest()->getParam('id') ) {

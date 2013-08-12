@@ -8,6 +8,12 @@
 class Mage_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit_Framework_TestCase
 {
     /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_helperFactoryMock;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
+    protected $_apiHelperMock;
+
+    /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_xmlParserMock;
 
     /** @var Mage_Webapi_Controller_Request_Rest_Interpreter_Xml */
@@ -18,7 +24,7 @@ class Mage_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $this->_xmlParserMock = $this->getMock('Mage_Xml_Parser', array('xmlToArray', 'loadXML'));
+        $this->_xmlParserMock = $this->getMock('Magento_Xml_Parser', array('xmlToArray', 'loadXML'));
         $this->_appMock = $this->getMockBuilder('Mage_Core_Model_App')
             ->setMethods(array('isDeveloperMode'))
             ->disableOriginalConstructor()

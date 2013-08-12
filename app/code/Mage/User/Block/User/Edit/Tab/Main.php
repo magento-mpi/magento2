@@ -29,7 +29,7 @@ class Mage_User_Block_User_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
         /** @var $model Mage_User_Model_User */
         $model = Mage::registry('permissions_user');
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
 
         $form->setHtmlIdPrefix('user_');
 
@@ -132,13 +132,13 @@ class Mage_User_Block_User_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
     /**
      * Add password input fields
      *
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param string $passwordLabel
      * @param string $confirmationLabel
      * @param bool $isRequired
      */
     protected function _addPasswordFields(
-        Varien_Data_Form_Element_Fieldset $fieldset, $passwordLabel, $confirmationLabel, $isRequired = false
+        Magento_Data_Form_Element_Fieldset $fieldset, $passwordLabel, $confirmationLabel, $isRequired = false
     ) {
         $requiredFieldClass = ($isRequired ? ' required-entry' : '');
         $fieldset->addField('password', 'password', array(

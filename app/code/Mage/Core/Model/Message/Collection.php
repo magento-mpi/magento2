@@ -10,10 +10,6 @@
 
 /**
  * Messages collection
- *
- * @category   Mage
- * @package    Mage_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Message_Collection
 {
@@ -23,6 +19,10 @@ class Mage_Core_Model_Message_Collection
      * @var array
      */
     protected $_messages = array();
+
+    /**
+     * @var string
+     */
     protected $_lastAddedMessage;
 
     /**
@@ -90,8 +90,8 @@ class Mage_Core_Model_Message_Collection
      */
     public function getMessageByIdentifier($identifier)
     {
-        foreach ($this->_messages as $type => $messages) {
-            foreach ($messages as $id => $message) {
+        foreach ($this->_messages as $messages) {
+            foreach ($messages as $message) {
                 if ($identifier === $message->getIdentifier()) {
                     return $message;
                 }
@@ -99,6 +99,11 @@ class Mage_Core_Model_Message_Collection
         }
     }
 
+    /**
+     * Delete message by id
+     *
+     * @param string $identifier
+     */
     public function deleteMessageByIdentifier($identifier)
     {
         foreach ($this->_messages as $type => $messages) {
@@ -119,14 +124,14 @@ class Mage_Core_Model_Message_Collection
      * @param   string $type
      * @return  array
      */
-    public function getItems($type=null)
+    public function getItems($type = null)
     {
         if ($type) {
             return isset($this->_messages[$type]) ? $this->_messages[$type] : array();
         }
 
         $arrRes = array();
-        foreach ($this->_messages as $messageType => $messages) {
+        foreach ($this->_messages as $messages) {
             $arrRes = array_merge($arrRes, $messages);
         }
 
@@ -154,12 +159,15 @@ class Mage_Core_Model_Message_Collection
         return $this->getItemsByType(Mage_Core_Model_Message::ERROR);
     }
 
+    /**
+     * @return string
+     */
     public function toString()
     {
         $out = '';
         $arrItems = $this->getItems();
         foreach ($arrItems as $item) {
-            $out.= $item->toString();
+            $out .= $item->toString();
         }
 
         return $out;
@@ -168,9 +176,10 @@ class Mage_Core_Model_Message_Collection
     /**
      * Retrieve messages count
      *
+     * @param null|string $type
      * @return int
      */
-    public function count($type=null)
+    public function count($type = null)
     {
         if ($type) {
             if (isset($this->_messages[$type])) {

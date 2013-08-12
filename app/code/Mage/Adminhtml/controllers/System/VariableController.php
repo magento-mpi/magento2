@@ -96,7 +96,7 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
      */
     public function validateAction()
     {
-        $response = new Varien_Object(array('error' => false));
+        $response = new Magento_Object(array('error' => false));
         $variable = $this->_initVariable();
         $variable->addData($this->getRequest()->getPost('variable'));
         $result = $variable->validate();

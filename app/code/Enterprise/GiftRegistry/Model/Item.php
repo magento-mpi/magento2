@@ -106,7 +106,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
             if (!isset($urlData[$product->getId()])) {
                 return false;
             }
-            $product->setUrlDataObject(new Varien_Object($urlData));
+            $product->setUrlDataObject(new Magento_Object($urlData));
             $visibility = $product->getUrlDataObject()->getVisibility();
             if (!in_array($visibility, $product->getVisibleInSiteVisibilities())) {
                 return false;
@@ -363,7 +363,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
                ->setCode($option->getCode())
                ->setValue($option->getValue())
                ->setItem($this);
-        } elseif (($option instanceof Varien_Object)
+        } elseif (($option instanceof Magento_Object)
             && !($option instanceof Enterprise_GiftRegistry_Model_Item_Option)
         ) {
             $option = Mage::getModel('Enterprise_GiftRegistry_Model_Item_Option')->setData($option->getData())
@@ -420,12 +420,12 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
      * Returns formatted buy request - object, holding request received from
      * product view page with keys and options for configured product
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getBuyRequest()
     {
         $option = $this->getOptionByCode('info_buyRequest');
-        $buyRequest = new Varien_Object($option ? unserialize($option->getValue()) : null);
+        $buyRequest = new Magento_Object($option ? unserialize($option->getValue()) : null);
         $buyRequest->setOriginalQty($buyRequest->getQty())
             ->setQty($this->getQty() * 1); // Qty value that is stored in buyRequest can be out-of-date
         return $buyRequest;
@@ -452,7 +452,7 @@ class Enterprise_GiftRegistry_Model_Item extends Mage_Core_Model_Abstract
      * Needed to implement Mage_Catalog_Model_Product_Configuration_Item_Interface.
      * Currently returns null, as far as we don't show file options and don't need controllers to give file.
      *
-     * @return null|Varien_Object
+     * @return null|Magento_Object
      */
     public function getFileDownloadParams()
     {

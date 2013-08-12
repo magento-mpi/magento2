@@ -18,13 +18,13 @@ class Saas_Queue_Model_Event_HandlerTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var Varien_Event
+     * @var Magento_Event
      */
     protected $_eventMock;
 
     protected function setUp()
     {
-        $this->_eventMock = $this->getMock('Varien_Event');
+        $this->_eventMock = $this->getMock('Magento_Event');
         $this->_queueMock = $this->getMock('Enterprise_Queue_Model_QueueInterface');
         $this->_model = new Saas_Queue_Model_Event_Handler($this->_queueMock);
     }

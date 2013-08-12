@@ -193,17 +193,18 @@ class Mage_Core_Helper_Theme extends Mage_Core_Helper_Abstract
         $relativePath = substr($file['path'], strlen($designDir));
 
         $area = strtok($relativePath, Magento_Filesystem::DIRECTORY_SEPARATOR);
-        $package = strtok(Magento_Filesystem::DIRECTORY_SEPARATOR);
         $theme = strtok(Magento_Filesystem::DIRECTORY_SEPARATOR);
 
-        if ($area === false || $package === false || $theme === false) {
-            throw new LogicException(__('Theme path "%1/%2/%3" is incorrect', $area, $package, $theme));
+        if ($area === false || $theme === false) {
+            throw new LogicException(__('Theme path "%1/%2" is incorrect', $area, $theme));
         }
-        $themeModel = $this->_themeCollection->getThemeByFullPath($area . '/' . $package . '/' . $theme);
+        $themeModel = $this->_themeCollection->getThemeByFullPath(
+            $area . Mage_Core_Model_Theme::PATH_SEPARATOR . $theme
+        );
 
         if (!$themeModel || !$themeModel->getThemeId()) {
             throw new LogicException(
-                __('Invalid theme loaded by theme path "%1/%2/%3"', $area, $package, $theme)
+                __('Invalid theme loaded by theme path "%1/%2"', $area, $theme)
             );
         }
 

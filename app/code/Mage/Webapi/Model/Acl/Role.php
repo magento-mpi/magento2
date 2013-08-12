@@ -10,6 +10,13 @@
 class Mage_Webapi_Model_Acl_Role extends Mage_Core_Model_Abstract
 {
     /**
+     * Prefix of model events names.
+     *
+     * @var string
+     */
+    protected $_eventPrefix = 'webapi_role';
+
+    /**
      * Initialize resource.
      */
     protected function _construct()

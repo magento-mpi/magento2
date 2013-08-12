@@ -16,13 +16,6 @@
                 <template>Mage_Checkout::cart/sidebar/default.phtml</template>
             </action>
         </reference>
-        <reference name="wishlist_sidebar">
-            <action method="addPriceBlockType">
-                <type>bundle</type>
-                <block>Mage_Bundle_Block_Catalog_Product_Price</block>
-                <template>catalog/product/price.phtml</template>
-            </action>
-        </reference>
         <reference name="catalog_product_price_template">
             <action method="addPriceBlockType">
                 <type>bundle</type>

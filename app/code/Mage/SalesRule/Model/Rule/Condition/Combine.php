@@ -49,7 +49,7 @@ class Mage_SalesRule_Model_Rule_Condition_Combine extends Mage_Rule_Model_Condit
             array('label' => __('Cart Attribute'), 'value' => $attributes),
         ));
 
-        $additional = new Varien_Object();
+        $additional = new Magento_Object();
         Mage::dispatchEvent('salesrule_rule_condition_combine', array('additional' => $additional));
         $additionalConditions = $additional->getConditions();
         if ($additionalConditions) {

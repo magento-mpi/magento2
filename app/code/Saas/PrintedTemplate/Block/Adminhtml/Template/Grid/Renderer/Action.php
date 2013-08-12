@@ -21,10 +21,10 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid_Renderer_Action extends
     /**
      * Renders available actions
      *
-     * @param  Varien_Object $row
+     * @param  Magento_Object $row
      * @return string
      */
-    public function render(Varien_Object $row)
+    public function render(Magento_Object $row)
     {
         $actions = array();
 
@@ -48,10 +48,10 @@ class Saas_PrintedTemplate_Block_Adminhtml_Template_Grid_Renderer_Action extends
      * Every actions is a link
      *
      * @param array $actions
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return  string
      */
-    protected function _actionsToHtml(array $actions, Varien_Object $row)
+    protected function _actionsToHtml(array $actions, Magento_Object $row)
     {
         $links = array();
         foreach ($actions as $action) {

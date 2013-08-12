@@ -17,7 +17,7 @@ class Enterprise_Enterprise_Model_Observer
     /**
      * Set hide survey question to session
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Enterprise_Enterprise_Model_Observer
      */
     public function setHideSurveyQuestion($observer)

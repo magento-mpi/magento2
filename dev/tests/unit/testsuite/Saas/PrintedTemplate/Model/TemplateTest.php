@@ -109,7 +109,7 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $file = file_get_contents(__DIR__ . '/../_files/config.xml');
-        $xml = simplexml_load_string($file, 'Varien_Simplexml_Element');
+        $xml = simplexml_load_string($file, 'Magento_Simplexml_Element');
         $array = $xml->asArray();
 
         $template->expects($this->any())
@@ -171,7 +171,7 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
         $template->expects($this->any())
             ->method('getDesignConfig')
-            ->will($this->returnValue(new Varien_Object(array(
+            ->will($this->returnValue(new Magento_Object(array(
                 'area' => 'frontend',
                 'store' => '1'
             ))));
@@ -196,7 +196,7 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
         $template->expects($this->any())
             ->method('getDesignConfig')
-            ->will($this->returnValue(new Varien_Object(array(
+            ->will($this->returnValue(new Magento_Object(array(
                 'area' => 'frontend',
                 'store' => '1'
             ))));
@@ -236,7 +236,7 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
         $template->expects($this->any())
             ->method('getDesignConfig')
-            ->will($this->returnValue(new Varien_Object(array(
+            ->will($this->returnValue(new Magento_Object(array(
                 'area' => 'frontend',
                 'store' => '1'
             ))));

@@ -21,10 +21,10 @@ class Mage_Backup_Block_Adminhtml_Grid_Column_Renderer_Download
     /**
      * Renders grid column
      *
-     * @param Varien_Object $row
+     * @param Magento_Object $row
      * @return mixed
      */
-    public function _getValue(Varien_Object $row)
+    public function _getValue(Magento_Object $row)
     {
         $url7zip = __('The archive can be uncompressed with <a href="%1">%2</a> on Windows systems.', 'http://www.7-zip.org/',
             '7-Zip');

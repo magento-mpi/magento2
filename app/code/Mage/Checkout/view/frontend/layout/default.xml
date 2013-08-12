@@ -35,7 +35,7 @@
                     <block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block>
                     <template>cart/sidebar/default.phtml</template>
                 </action>
-                <container name="cart_sidebar.extra_actions" as="extra_actions" label="Shopping Cart Sidebar Extra Actions"/>
+                <container name="cart_sidebar.extra_actions" as="extra_actions" label="My Cart Extra Actions"/>
             </block>
         </reference>
     </default>

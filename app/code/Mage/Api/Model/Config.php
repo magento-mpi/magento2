@@ -15,12 +15,12 @@
  * @package    Mage_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api_Model_Config extends Varien_Simplexml_Config
+class Mage_Api_Model_Config extends Magento_Simplexml_Config
 {
     /**
      * Constructor
      *
-     * @see Varien_Simplexml_Config
+     * @see Magento_Simplexml_Config
      */
     public function __construct($sourceData=null)
     {
@@ -80,7 +80,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
     {
         $adapters = array();
         foreach ($this->getNode('adapters')->children() as $adapterName => $adapter) {
-            /* @var $adapter Varien_SimpleXml_Element */
+            /* @var $adapter Magento_Simplexml_Element */
             if (isset($adapter->use)) {
                 $adapter = $this->getNode('adapters/' . (string) $adapter->use);
             }
@@ -119,7 +119,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
     /**
      * Retrieve handlers
      *
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     public function getHandlers()
     {
@@ -129,7 +129,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
     /**
      * Retrieve resources
      *
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     public function getResources()
     {
@@ -139,7 +139,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
     /**
      * Retrieve resources alias
      *
-     * @return Varien_Simplexml_Element
+     * @return Magento_Simplexml_Element
      */
     public function getResourcesAlias()
     {
@@ -231,7 +231,7 @@ class Mage_Api_Model_Config extends Varien_Simplexml_Config
         } else {
             $faultsNode = $this->getResources()->$resourceName->faults;
         }
-        /* @var $faultsNode Varien_Simplexml_Element */
+        /* @var $faultsNode Magento_Simplexml_Element */
 
         $faults = array();
         foreach ($faultsNode->children() as $faultName => $fault) {

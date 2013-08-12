@@ -16,7 +16,7 @@
  * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Config_Source_Email_Template extends Varien_Object
+class Mage_Backend_Model_Config_Source_Email_Template extends Magento_Object
     implements Mage_Core_Model_Option_ArrayInterface
 {
     /**

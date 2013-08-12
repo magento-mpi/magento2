@@ -37,7 +37,7 @@ class Enterprise_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framewo
             $this->_layout->getChildBlock($childBlock, 'banners_grid_serializer')
         );
         Mage::getConfig()->setNode('modules/Enterprise_Banner/active', '1');
-        $event = new Varien_Event_Observer();
+        $event = new Magento_Event_Observer();
         $event->setBlock($block);
         $observer = Mage::getModel('Enterprise_PromotionPermissions_Model_Observer');
         $observer->adminhtmlBlockHtmlBefore($event);

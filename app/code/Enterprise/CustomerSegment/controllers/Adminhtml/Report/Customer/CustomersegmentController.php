@@ -74,7 +74,9 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         }
         if (!$segment->getId() && !$segment->getMassactionIds()) {
             if ($outputMessage) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(__('You requested the wrong customer segment.'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError(
+                    __('You requested the wrong customer segment.')
+                );
             }
             return false;
         }

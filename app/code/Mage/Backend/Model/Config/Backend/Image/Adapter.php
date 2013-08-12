@@ -27,14 +27,14 @@ class Mage_Backend_Model_Config_Backend_Image_Adapter extends Mage_Core_Model_Co
      * @param Mage_Core_Model_Context $context
      * @param Mage_Core_Model_Image_AdapterFactory $imageFactory
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Mage_Core_Model_Context $context,
         Mage_Core_Model_Image_AdapterFactory $imageFactory,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);

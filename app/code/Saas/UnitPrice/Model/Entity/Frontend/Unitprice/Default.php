@@ -21,10 +21,10 @@ class Saas_UnitPrice_Model_Entity_Frontend_Unitprice_Default
     /**
      * Returns default value based on store config
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return mixed
      */
-    public function getValue(Varien_Object $object)
+    public function getValue(Magento_Object $object)
     {
         $value = $object->getData($this->getAttribute()->getAttributeCode());
         if (!isset($value) || !$value) {

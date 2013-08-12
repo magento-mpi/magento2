@@ -198,12 +198,12 @@ class Mage_User_Model_Resource_User extends Mage_Core_Model_Resource_Db_Abstract
         if ($parentId > 0) {
             $parentRole = Mage::getModel('Mage_User_Model_Role')->load($parentId);
         } else {
-            $role = new Varien_Object();
+            $role = new Magento_Object();
             $role->setTreeLevel(0);
         }
 
         if ($parentRole->getId()) {
-            $data = new Varien_Object(array(
+            $data = new Magento_Object(array(
                 'parent_id'  => $parentRole->getId(),
                 'tree_level' => $parentRole->getTreeLevel() + 1,
                 'sort_order' => 0,

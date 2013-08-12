@@ -32,9 +32,9 @@ class Saas_JobNotification_Model_Inbox
     /**
      * Add notification
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      */
-    public function addNotification(Varien_Event_Observer $observer)
+    public function addNotification(Magento_Event_Observer $observer)
     {
         $taskName = $observer->getEvent()->getTaskName();
         if ($this->_config->isNotificationAllowed($taskName)) {

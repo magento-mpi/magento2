@@ -199,10 +199,10 @@ class Enterprise_Rma_Helper_Eav extends Enterprise_Eav_Helper_Data
     /**
      * Retrieve additional style classes for text-based RMA attributes (represented by text input or textarea)
      *
-     * @param Varien_Object $attribute
+     * @param Magento_Object $attribute
      * @return array
      */
-    public function getAdditionalTextElementClasses(Varien_Object $attribute)
+    public function getAdditionalTextElementClasses(Magento_Object $attribute)
     {
         $additionalClasses = array();
 

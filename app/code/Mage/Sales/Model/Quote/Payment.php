@@ -101,7 +101,7 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
      */
     public function importData(array $data)
     {
-        $data = new Varien_Object($data);
+        $data = new Magento_Object($data);
         Mage::dispatchEvent(
             $this->_eventPrefix . '_import_data_before',
             array(

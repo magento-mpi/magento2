@@ -52,10 +52,10 @@ class Mage_Paypal_Model_Observer
     /**
      * Save order into registry to use it in the overloaded controller.
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Paypal_Model_Observer
      */
-    public function saveOrderAfterSubmit(Varien_Event_Observer $observer)
+    public function saveOrderAfterSubmit(Magento_Event_Observer $observer)
     {
         /* @var $order Mage_Sales_Model_Order */
         $order = $observer->getEvent()->getData('order');
@@ -67,10 +67,10 @@ class Mage_Paypal_Model_Observer
     /**
      * Set data for response of frontend saveOrder action
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @return Mage_Paypal_Model_Observer
      */
-    public function setResponseAfterSaveOrder(Varien_Event_Observer $observer)
+    public function setResponseAfterSaveOrder(Magento_Event_Observer $observer)
     {
         /* @var $order Mage_Sales_Model_Order */
         $order = Mage::registry('hss_order');

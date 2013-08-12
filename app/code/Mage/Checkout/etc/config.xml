@@ -15,8 +15,8 @@
             <version>1.6.0.0</version>
             <active>true</active>
             <depends>
-                <Mage_Sales/>
-                <Mage_CatalogInventory/>
+                <Mage_Sales />
+                <Mage_CatalogInventory />
             </depends>
         </Mage_Checkout>
     </modules>
@@ -97,13 +97,6 @@
                 </Mage_Checkout>
             </modules>
         </translate>
-        <di>
-            <Mage_Checkout_Model_Session>
-                <parameters>
-                    <sessionName>frontend</sessionName>
-                </parameters>
-            </Mage_Checkout_Model_Session>
-        </di>
     </frontend>
     <adminhtml>
         <translate>
@@ -115,13 +108,6 @@
                 </Mage_Checkout>
             </modules>
         </translate>
-        <di>
-            <Mage_Checkout_Model_Session>
-                <parameters>
-                    <sessionName>adminhtml</sessionName>
-                </parameters>
-            </Mage_Checkout_Model_Session>
-        </di>
     </adminhtml>
     <default>
         <checkout>

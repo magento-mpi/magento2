@@ -25,7 +25,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader extends Mage
      * @param Mage_DesignEditor_Model_Config_Backend_File_RequestData $requestData
      * @param Magento_Filesystem $filesystem
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -33,7 +33,7 @@ class Mage_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader extends Mage
         Mage_DesignEditor_Model_Config_Backend_File_RequestData $requestData,
         Magento_Filesystem $filesystem,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(

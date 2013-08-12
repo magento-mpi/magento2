@@ -95,8 +95,8 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
      * Save store templates
      *
      * @param Enterprise_Reminder_Model_Rule $rule
-     *
      * @return Enterprise_Reminder_Model_Resource_Rule
+     * @throws Exception
      */
     protected function _saveStoreData($rule)
     {
@@ -133,11 +133,8 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
         } catch (Exception $e) {
             $adapter->rollback();
             throw $e;
-
         }
         $adapter->commit();
-
-
         return $this;
     }
 
@@ -222,8 +219,8 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
      * @param Mage_SalesRule_Model_Rule $salesRule
      * @param int $websiteId
      * @param int $threshold
-     *
      * @return Enterprise_Reminder_Model_Resource_Rule
+     * @throws Exception
      */
     public function saveMatchedCustomers($rule, $salesRule, $websiteId, $threshold = null)
     {
@@ -240,7 +237,6 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
             $select->where('c.emails_failed IS NULL OR c.emails_failed < ? ', $threshold);
         }
 
-        $i = 0;
         $ruleId = $rule->getId();
         $adapter = $this->_getWriteAdapter();
         $couponsTable = $this->getTable('enterprise_reminder_rule_coupon');
@@ -251,7 +247,8 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
 
         $adapter->beginTransaction();
         try {
-            while ($row = $stmt->fetch()) {
+            $i = 0;
+            while (true == ($row = $stmt->fetch())) {
                 if (empty($row['coupon_id']) && $salesRule) {
                     $coupon = $salesRule->acquireCoupon();
                     $couponId = ($coupon !== null) ? $coupon->getId() : null;
@@ -280,9 +277,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
             $adapter->rollBack();
             throw $e;
         }
-
         $adapter->commit();
-
         return $this;
     }
 
@@ -330,21 +325,18 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
             'log_sent_at_min' => 'MIN(l.sent_at)'
         ));
 
-        /** @var $_helper Mage_Core_Model_Resource_Helper_Abstract */
-        $_helper = Mage::getResourceHelper('Enterprise_Reminder');
-        $findInSetSql = $adapter->prepareSqlCondition(
-            'schedule',
-            array('finset' => $_helper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate)))
-        );
+        /** @var $helper Mage_Core_Model_Resource_Helper_Mysql4 */
+        $helper = Mage::getResourceHelper('Mage_Core');
+        $findInSetSql = $adapter->prepareSqlCondition('schedule', array(
+            'finset' => $helper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))
+        ));
         $select->having('log_sent_at_max IS NULL OR (' . $findInSetSql . ' AND '
-            . $_helper->getDateDiff('log_sent_at_max', $adapter->formatDate($currentDate)) . ' = 0)');
+            . $helper->getDateDiff('log_sent_at_max', $adapter->formatDate($currentDate)) . ' = 0)');
 
         if ($limit) {
             $select->limit($limit);
         }
-
-        $sql = $_helper->getQueryUsingAnalyticFunction($select);
-        return $adapter->fetchAll($sql);
+        return $adapter->fetchAll($select);
     }
 
     /**
@@ -395,11 +387,10 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
     public function getAssignedRulesCount($salesRuleId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from(
-                array('r' => $this->getTable('enterprise_reminder_rule')),
-                array(new Zend_Db_Expr('count(1)'))
-            );
+        $select = $adapter->select()->from(
+            array('r' => $this->getTable('enterprise_reminder_rule')),
+            array(new Zend_Db_Expr('count(1)'))
+        );
         $select->where('r.salesrule_id = :salesrule_id');
 
         return $adapter->fetchOne($select, array('salesrule_id' => $salesRuleId));
@@ -512,8 +503,8 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
     /**
      * Save customer data by matched customer coupons
      *
-      * @deprecated after 1.11.2.0
-      *
+     * @deprecated after 1.11.2.0
+     *
      * @param array $data
      */
     protected function _saveMatchedCustomerData($data)
@@ -550,7 +541,7 @@ class Enterprise_Reminder_Model_Resource_Rule extends Mage_Rule_Model_Resource_A
      *
      * @deprecated after 1.11.2.0
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function createSelect()
     {

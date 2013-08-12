@@ -39,7 +39,7 @@ class Enterprise_CatalogEvent_Block_Catalog_Category_Event extends Enterprise_Ca
     /**
      * Return category url
      *
-     * @param Varien_Data_Tree_Node $category
+     * @param Magento_Data_Tree_Node $category
      * @return string
      */
     public function getCategoryUrl($category = null)

@@ -27,7 +27,7 @@ class Mage_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release
     {
         parent::_prepareForm();
 
-        $form = new Varien_Data_Form();
+        $form = new Magento_Data_Form();
         $form->setHtmlIdPrefix('_release');
 
         $fieldset = $form->addFieldset('release_fieldset', array(

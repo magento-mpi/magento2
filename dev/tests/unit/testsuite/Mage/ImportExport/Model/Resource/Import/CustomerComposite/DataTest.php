@@ -30,16 +30,16 @@ class Mage_ImportExport_Model_Resource_Import_CustomerComposite_DataTest extends
      */
     protected function _getDependencies($entityType, $bunchData)
     {
-        /** @var $statementMock Varien_Db_Statement_Pdo_Mysql */
-        $statementMock = $this->getMock('Varien_Db_Statement_Pdo_Mysql', array('setFetchMode', 'getIterator'), array(),
+        /** @var $statementMock Magento_DB_Statement_Pdo_Mysql */
+        $statementMock = $this->getMock('Magento_DB_Statement_Pdo_Mysql', array('setFetchMode', 'getIterator'), array(),
             '', false
         );
         $statementMock->expects($this->any())
             ->method('getIterator')
             ->will($this->returnValue(new ArrayIterator($bunchData)));
 
-        /** @var $selectMock Varien_Db_Select */
-        $selectMock = $this->getMock('Varien_Db_Select', array('from', 'order'),
+        /** @var $selectMock Magento_DB_Select */
+        $selectMock = $this->getMock('Magento_DB_Select', array('from', 'order'),
             array(), '', false
         );
         $selectMock->expects($this->any())
@@ -49,8 +49,8 @@ class Mage_ImportExport_Model_Resource_Import_CustomerComposite_DataTest extends
             ->method('order')
             ->will($this->returnSelf());
 
-        /** @var $adapterMock Varien_Db_Adapter_Pdo_Mysql */
-        $adapterMock = $this->getMock('Varien_Db_Adapter_Pdo_Mysql', array('select', 'from', 'order', 'query'),
+        /** @var $adapterMock Magento_DB_Adapter_Pdo_Mysql */
+        $adapterMock = $this->getMock('Magento_DB_Adapter_Pdo_Mysql', array('select', 'from', 'order', 'query'),
             array(), '', false
         );
         $adapterMock->expects($this->any())

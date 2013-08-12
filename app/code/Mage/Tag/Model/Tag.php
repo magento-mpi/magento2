@@ -102,10 +102,10 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
     /**
      * Product event tags collection getter
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return Mage_Tag_Model_Resource_Tag_Collection
      */
-    protected function _getProductEventTagsCollection(Varien_Event_Observer $observer)
+    protected function _getProductEventTagsCollection(Magento_Event_Observer $observer)
     {
         return $this->getResourceCollection()
                         ->joinRel()
@@ -149,7 +149,7 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
     /**
      * Product delete event action
      *
-     * @param  Varien_Event_Observer $observer
+     * @param  Magento_Event_Observer $observer
      * @return Mage_Tag_Model_Tag
      */
     public function productDeleteEventAction($observer)

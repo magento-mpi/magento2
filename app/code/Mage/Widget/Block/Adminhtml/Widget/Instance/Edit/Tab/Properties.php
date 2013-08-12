@@ -85,8 +85,8 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
     /**
      * Add field to Options form based on option configuration
      *
-     * @param Varien_Object $parameter
-     * @return Varien_Data_Form_Element_Abstract
+     * @param Magento_Object $parameter
+     * @return Magento_Data_Form_Element_Abstract
      */
     protected function _addField($parameter)
     {

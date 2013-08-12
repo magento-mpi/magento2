@@ -28,12 +28,12 @@ class Saas_Launcher_Model_Resource_Tile_Collection extends Mage_Core_Model_Resou
     /**
      * Class constructor
      *
-     * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
+     * @param Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
      * @param Saas_Launcher_Model_TileFactory $tileFactory
      * @param Mage_Core_Model_Resource_Db_Abstract|null $resource
      */
     public function __construct(
-        Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
+        Magento_Data_Collection_Db_FetchStrategyInterface $fetchStrategy,
         Saas_Launcher_Model_TileFactory $tileFactory,
         Mage_Core_Model_Resource_Db_Abstract $resource = null
     ) {

@@ -44,7 +44,7 @@ class Mage_Catalog_Model_Layer_Filter_Price_AlgorithmBaseTest extends PHPUnit_Fr
         $this->_filter = Mage::getModel('Mage_Catalog_Model_Layer_Filter_Price');
         $this->_filter
             ->setLayer($this->_layer)
-            ->setAttributeModel(new Varien_Object(array('attribute_code' => 'price')));
+            ->setAttributeModel(new Magento_Object(array('attribute_code' => 'price')));
     }
 
     /**

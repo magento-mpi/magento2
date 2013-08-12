@@ -29,7 +29,7 @@
  * @method Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract setLegend($legend)
  */
 abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
-    extends Varien_Data_Form_Element_Fieldset
+    extends Magento_Data_Form_Element_Fieldset
     implements Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_ContainerInterface
 {
     /**
@@ -89,14 +89,14 @@ abstract class Mage_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_A
      * @param array $config
      * @param boolean $after
      * @param boolean $isAdvanced
-     * @return Varien_Data_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     public function addField($elementId, $type, $config, $after = false, $isAdvanced = false)
     {
         if (isset($this->_types[$type])) {
             $className = $this->_types[$type];
         } else {
-            $className = 'Varien_Data_Form_Element_' . ucfirst(strtolower($type));
+            $className = 'Magento_Data_Form_Element_' . ucfirst(strtolower($type));
         }
         $element = $this->_elementsFactory->create($className, $config);
         $element->setId($elementId);

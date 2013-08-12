@@ -80,7 +80,7 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
      * Needed to implement Mage_Catalog_Model_Product_Configuration_Item_Interface.
      * Return null, as quote item needs no additional configuration.
      *
-     * @return null|Varien_Object
+     * @return null|Magento_Object
      */
     public function getFileDownloadParams()
     {

@@ -65,22 +65,6 @@
                             <column_css_class>theme-version</column_css_class>
                         </arguments>
                     </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="magento_version_from">
-                        <arguments>
-                            <header translate="true">Magento Version From</header>
-                            <index>magento_version_from</index>
-                            <filter_index>main_table.magento_version_from</filter_index>
-                            <column_css_class>magento-version-from</column_css_class>
-                        </arguments>
-                    </block>
-                    <block type="Mage_Backend_Block_Widget_Grid_Column" as="magento_version_to">
-                        <arguments>
-                            <header translate="true">Magento Version To</header>
-                            <index>magento_version_to</index>
-                            <filter_index>main_table.magento_version_to</filter_index>
-                            <column_css_class>magento-version-to</column_css_class>
-                        </arguments>
-                    </block>
                 </block>
             </block>
         </reference>

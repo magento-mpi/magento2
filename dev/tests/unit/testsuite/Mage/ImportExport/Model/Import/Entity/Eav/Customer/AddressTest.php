@@ -160,14 +160,14 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
 
         $customerEntity = $this->_createCustomerEntityMock();
 
-        $addressCollection = new Varien_Data_Collection();
+        $addressCollection = new Magento_Data_Collection();
         foreach ($this->_addresses as $address) {
-            $addressCollection->addItem(new Varien_Object($address));
+            $addressCollection->addItem(new Magento_Object($address));
         }
 
-        $regionCollection = new Varien_Data_Collection();
+        $regionCollection = new Magento_Data_Collection();
         foreach ($this->_regions as $region) {
-            $regionCollection->addItem(new Varien_Object($region));
+            $regionCollection->addItem(new Magento_Object($region));
         }
 
         $data = array(
@@ -197,11 +197,11 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
     /**
      * Create mock of attribute collection, so it can be used for tests
      *
-     * @return PHPUnit_Framework_MockObject_MockObject|Varien_Data_Collection
+     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Data_Collection
      */
     protected function _createAttrCollectionMock()
     {
-        $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
+        $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments('Mage_Eav_Model_Entity_Attribute_Abstract');
@@ -277,7 +277,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
                 'id'   => $id,
                 'code' => $code,
             );
-            $websites[$id] = new Varien_Object($websiteData);
+            $websites[$id] = new Magento_Object($websiteData);
         }
 
         return $websites;
@@ -288,11 +288,11 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param Varien_Data_Collection $collection
+     * @param Magento_Data_Collection $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(Varien_Data_Collection $collection, $pageSize, array $callbacks)
+    public function iterate(Magento_Data_Collection $collection, $pageSize, array $callbacks)
     {
         foreach ($collection as $customer) {
             foreach ($callbacks as $callback) {

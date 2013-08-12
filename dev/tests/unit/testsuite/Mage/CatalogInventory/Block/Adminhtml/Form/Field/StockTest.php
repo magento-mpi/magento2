@@ -19,13 +19,13 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPUnit
     protected $_model;
 
     /**
-     * @var Varien_Data_Form_Element_Text
+     * @var Magento_Data_Form_Element_Text
      */
     protected $_qty;
 
     protected function setUp()
     {
-        $this->_qty = $this->getMock('Varien_Data_Form_Element_Text',
+        $this->_qty = $this->getMock('Magento_Data_Form_Element_Text',
             array('getElementHtml', 'setForm', 'setValue', 'setName')
         );
         $this->_model = $this->getMock('Mage_CatalogInventory_Block_Adminhtml_Form_Field_Stock',
@@ -43,8 +43,8 @@ class Mage_CatalogInventory_Block_Adminhtml_Form_Field_StockTest extends PHPUnit
     public function testSetForm()
     {
         $this->_qty->expects($this->once())->method('setForm')
-            ->with($this->isInstanceOf('Varien_Data_Form_Element_Abstract'));
-        $this->_model->setForm(new Varien_Data_Form_Element_Text());
+            ->with($this->isInstanceOf('Magento_Data_Form_Element_Abstract'));
+        $this->_model->setForm(new Magento_Data_Form_Element_Text());
     }
 
     public function testSetValue()

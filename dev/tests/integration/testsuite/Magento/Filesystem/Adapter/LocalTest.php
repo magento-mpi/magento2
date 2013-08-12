@@ -18,13 +18,13 @@ class Magento_Filesystem_Adapter_LocalTest extends PHPUnit_Framework_TestCase
     {
         $this->_adapter = new Magento_Filesystem_Adapter_Local();
 
-        Varien_Io_File::rmdirRecursive(self::_getTmpDir());
+        Magento_Io_File::rmdirRecursive(self::_getTmpDir());
         mkdir(self::_getTmpDir());
     }
 
     protected function tearDown()
     {
-        Varien_Io_File::rmdirRecursive(self::_getTmpDir());
+        Magento_Io_File::rmdirRecursive(self::_getTmpDir());
     }
 
     protected static function _getTmpDir()

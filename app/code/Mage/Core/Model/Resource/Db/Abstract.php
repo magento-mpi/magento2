@@ -273,7 +273,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
      * Get connection by name or type
      *
      * @param string $connectionName
-     * @return Varien_Db_Adapter_Interface|bool
+     * @return Magento_DB_Adapter_Interface|bool
      */
     protected function _getConnection($connectionName)
     {
@@ -292,7 +292,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     /**
      * Retrieve connection for read data
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     protected function _getReadAdapter()
     {
@@ -307,7 +307,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     /**
      * Retrieve connection for write data
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     protected function _getWriteAdapter()
     {
@@ -317,7 +317,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     /**
      * Temporary resolving collection compatibility
      *
-     * @return Varien_Db_Adapter_Interface
+     * @return Magento_DB_Adapter_Interface
      */
     public function getReadConnection()
     {
@@ -577,7 +577,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
                 ));
             }
 
-            $data = new Varien_Object($this->_prepareDataForSave($object));
+            $data = new Magento_Object($this->_prepareDataForSave($object));
             $select = $this->_getWriteAdapter()->select()
                 ->from($this->getMainTable());
 
@@ -627,7 +627,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     /**
      * Perform actions after object load
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
@@ -638,7 +638,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     /**
      * Perform actions before object save
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
@@ -649,7 +649,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     /**
      * Perform actions after object save
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
@@ -660,7 +660,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     /**
      * Perform actions before object delete
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _beforeDelete(Mage_Core_Model_Abstract $object)
@@ -671,7 +671,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
     /**
      * Perform actions after object delete
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Core_Model_Resource_Db_Abstract
      */
     protected function _afterDelete(Mage_Core_Model_Abstract $object)

@@ -96,7 +96,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
                 }
 
                 if (isset($products[$product->getId()])) {
-                    $object = new Varien_Object($products[$product->getId()]);
+                    $object = new Magento_Object($products[$product->getId()]);
                     $item->getProduct()->setUrlDataObject($object);
                 }
             }

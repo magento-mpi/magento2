@@ -27,9 +27,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
     {
         parent::_prepareForm();
         $attributeObject = $this->getAttributeObject();
-        /* @var $form Varien_Data_Form */
+        /* @var $form Magento_Data_Form */
         $form = $this->getForm();
-        /* @var $fieldset Varien_Data_Form_Element_Fieldset */
+        /* @var $fieldset Magento_Data_Form_Element_Fieldset */
         $fieldset = $form->getElement('base_fieldset');
         $fiedsToRemove = array(
             'attribute_code',
@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
         );
 
         foreach ($fieldset->getElements() as $element) {
-            /** @var Varien_Data_Form_Abstract $element  */
+            /** @var Magento_Data_Form_Abstract $element  */
             if (substr($element->getId(), 0, strlen('default_value')) == 'default_value') {
                 $fiedsToRemove[] = $element->getId();
             }
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             );
         }
 
-        $response = new Varien_Object();
+        $response = new Magento_Object();
         $response->setTypes(array());
         Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
         $_disabledTypes = array();

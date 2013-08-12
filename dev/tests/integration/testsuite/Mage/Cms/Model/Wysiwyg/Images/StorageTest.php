@@ -26,7 +26,7 @@ class Mage_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCa
 
     public static function tearDownAfterClass()
     {
-        Varien_Io_File::rmdirRecursive(self::$_baseDir);
+        Magento_Io_File::rmdirRecursive(self::$_baseDir);
     }
 
     /**
@@ -34,16 +34,16 @@ class Mage_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_TestCa
      */
     public function testGetFilesCollection()
     {
-        Mage::getDesign()->setDesignTheme('default/basic', 'adminhtml');
+        Mage::getDesign()->setDesignTheme('magento_basic', 'adminhtml');
         /** @var $model Mage_Cms_Model_Wysiwyg_Images_Storage */
         $model = Mage::getModel('Mage_Cms_Model_Wysiwyg_Images_Storage');
         $collection = $model->getFilesCollection(self::$_baseDir, 'media');
         $this->assertInstanceOf('Mage_Cms_Model_Wysiwyg_Images_Storage_Collection', $collection);
         foreach ($collection as $item) {
-            $this->assertInstanceOf('Varien_Object', $item);
+            $this->assertInstanceOf('Magento_Object', $item);
             $this->assertStringEndsWith('/1.swf', $item->getUrl());
             $this->assertStringMatchesFormat(
-                'http://%s/static/adminhtml/%s/%s/%s/Mage_Cms/images/placeholder_thumbnail.jpg',
+                'http://%s/static/adminhtml/%s/%s/Mage_Cms/images/placeholder_thumbnail.jpg',
                 $item->getThumbUrl()
             );
             return;

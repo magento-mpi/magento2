@@ -52,7 +52,7 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract implements Mag
      * @param Mage_Core_Model_Theme_FlyweightFactory $themeFactory
      * @param Mage_Core_Model_Theme_Customization_FileServiceFactory $fileServiceFactory
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Varien_Data_Collection_Db $resourceCollection
+     * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
@@ -60,7 +60,7 @@ class Mage_Core_Model_Theme_File extends Mage_Core_Model_Abstract implements Mag
         Mage_Core_Model_Theme_FlyweightFactory $themeFactory,
         Mage_Core_Model_Theme_Customization_FileServiceFactory $fileServiceFactory,
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Varien_Data_Collection_Db $resourceCollection = null,
+        Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);

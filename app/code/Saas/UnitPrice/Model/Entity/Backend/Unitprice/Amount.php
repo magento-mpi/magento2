@@ -21,7 +21,7 @@ class Saas_UnitPrice_Model_Entity_Backend_Unitprice_Amount
     /**
      * Before save method
      *
-     * @param Varien_Object $object
+     * @param Magento_Object $object
      * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
      */
     public function beforeSave($object)

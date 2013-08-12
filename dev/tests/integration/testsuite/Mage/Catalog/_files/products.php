@@ -32,5 +32,5 @@ $product->setTypeId('simple')
     ->save();
 
 $customDesignProduct = Mage::getModel('Mage_Catalog_Model_Product', array('data' => $product->getData()));
-$customDesignProduct->setId(2)->setCustomDesign('default/demo_blue')
+$customDesignProduct->setId(2)->setCustomDesign('magento_blank')
     ->save();

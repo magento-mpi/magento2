@@ -338,7 +338,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     public function exportPostAction()
     {
         /** start csv content and set template */
-        $headers = new Varien_Object(array(
+        $headers = new Magento_Object(array(
             'code'         => __('Code'),
             'country_name' => __('Country'),
             'region_name'  => __('State'),

@@ -15,7 +15,7 @@ $installer->getConnection()->addColumn(
     $installer->getTable('catalog_category_anc_products_index_tmp'),
     'position',
     array(
-        'type'      => Varien_Db_Ddl_Table::TYPE_INTEGER,
+        'type'      => Magento_DB_Ddl_Table::TYPE_INTEGER,
         'unsigned'  => true,
         'nullable'  => true,
         'comment'   => 'Position'

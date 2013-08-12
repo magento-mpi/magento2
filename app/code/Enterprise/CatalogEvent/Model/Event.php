@@ -152,7 +152,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     public function setImage($value)
     {
         //in the current version should be used instance of Mage_Core_Model_File_Uploader
-        if ($value instanceof Varien_File_Uploader) {
+        if ($value instanceof Magento_File_Uploader) {
             $value->save(Mage::getBaseDir('media') . DS
                          . strtr(self::IMAGE_PATH, '/', DS));
 
@@ -384,8 +384,8 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
      */
     public function setStoreDateStart($value, $store = null)
     {
-        $date = Mage::app()->getLocale()->utcDate($store, $value, true, Varien_Date::DATETIME_INTERNAL_FORMAT);
-        $this->setData('date_start', $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+        $date = Mage::app()->getLocale()->utcDate($store, $value, true, Magento_Date::DATETIME_INTERNAL_FORMAT);
+        $this->setData('date_start', $date->toString(Magento_Date::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
 
@@ -399,8 +399,8 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
      */
     public function setStoreDateEnd($value, $store = null)
     {
-        $date = Mage::app()->getLocale()->utcDate($store, $value, true, Varien_Date::DATETIME_INTERNAL_FORMAT);
-        $this->setData('date_end', $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+        $date = Mage::app()->getLocale()->utcDate($store, $value, true, Magento_Date::DATETIME_INTERNAL_FORMAT);
+        $this->setData('date_end', $date->toString(Magento_Date::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
 
@@ -420,7 +420,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
                 return null;
             }
             $date = Mage::app()->getLocale()->storeDate($store, $value, true);
-            return $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+            return $date->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return $this->getData('date_start');
@@ -442,7 +442,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
                 return null;
             }
             $date = Mage::app()->getLocale()->storeDate($store, $value, true);
-            return $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+            return $date->toString(Magento_Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return $this->getData('date_end');

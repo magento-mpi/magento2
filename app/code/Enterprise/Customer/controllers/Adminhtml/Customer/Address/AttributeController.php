@@ -152,7 +152,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
      */
     public function validateAction()
     {
-        $response = new Varien_Object();
+        $response = new Magento_Object();
         $response->setError(false);
         $attributeId        = $this->getRequest()->getParam('attribute_id');
         if (!$attributeId) {

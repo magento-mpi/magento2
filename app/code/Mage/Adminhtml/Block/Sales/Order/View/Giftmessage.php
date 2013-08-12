@@ -81,10 +81,10 @@ class Mage_Adminhtml_Block_Sales_Order_View_Giftmessage extends Mage_Adminhtml_B
     /**
      * Set entity for form
      *
-     * @param Varien_Object $entity
+     * @param Magento_Object $entity
      * @return Mage_Adminhtml_Block_Sales_Order_View_Giftmessage
      */
-    public function setEntity(Varien_Object $entity)
+    public function setEntity(Magento_Object $entity)
     {
         $this->_entity  = $entity;
         return $this;
@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Giftmessage extends Mage_Adminhtml_B
     /**
      * Retrive entity for form
      *
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getEntity()
     {

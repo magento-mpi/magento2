@@ -35,7 +35,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
 
         Mage::helper('Enterprise_Cms_Helper_Data')->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
 
-        /* @var $fieldset Varien_Data_Form_Element_Fieldset */
+        /* @var $fieldset Magento_Data_Form_Element_Fieldset */
         $fieldset = $this->getForm()->getElement('content_fieldset');
 
         if ($model->getPageId()) {

@@ -25,7 +25,7 @@ class Mage_Cardgate_Block_Form_Ideal extends Mage_Payment_Block_Form
     /**
      * Form Factory
      *
-     * @var Varien_Data_FormFactory
+     * @var Magento_Data_FormFactory
      */
     protected $_formFactory;
 
@@ -33,12 +33,12 @@ class Mage_Cardgate_Block_Form_Ideal extends Mage_Payment_Block_Form
      * Constructor
      *
      * @param Mage_Core_Block_Template_Context $context
-     * @param Varien_Data_FormFactory $formFactory
+     * @param Magento_Data_FormFactory $formFactory
      * @param array $data
      */
     public function __construct(
         Mage_Core_Block_Template_Context $context,
-        Varien_Data_FormFactory $formFactory,
+        Magento_Data_FormFactory $formFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -80,7 +80,7 @@ class Mage_Cardgate_Block_Form_Ideal extends Mage_Payment_Block_Form
 
         $_code = $this->getMethodCode();
 
-        /** @var Varien_Data_Form $order */
+        /** @var Magento_Data_Form $order */
         $form =$this->_formFactory->create();
         $form->addField($_code . '_ideal_issuer', 'select', array(
             'name'      => 'payment[additional_information][ideal_issuer_id]',

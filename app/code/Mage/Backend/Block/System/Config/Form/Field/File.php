@@ -16,7 +16,7 @@
  * @package    Mage_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Block_System_Config_Form_Field_File extends Varien_Data_Form_Element_File
+class Mage_Backend_Block_System_Config_Form_Field_File extends Magento_Data_Form_Element_File
 {
     /**
      * Get element html

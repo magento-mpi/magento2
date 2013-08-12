@@ -14,10 +14,10 @@
  * @method Mage_Widget_Model_Widget_Instance getWidgetInstance()
  */
 class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
-    extends Mage_Adminhtml_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
+    extends Mage_Adminhtml_Block_Template implements Magento_Data_Form_Element_Renderer_Interface
 {
     /**
-     * @var Varien_Data_Form_Element_Abstract
+     * @var Magento_Data_Form_Element_Abstract
      */
     protected $_element = null;
 
@@ -28,7 +28,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
      *
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
         return $this->toHtml();
@@ -37,10 +37,10 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
     /**
      * Setter
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return
      */
-    public function setElement(Varien_Data_Form_Element_Abstract $element)
+    public function setElement(Magento_Data_Form_Element_Abstract $element)
     {
         $this->_element = $element;
         return $this;
@@ -49,7 +49,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout
     /**
      * Getter
      *
-     * @return Varien_Data_Form_Element_Abstract
+     * @return Magento_Data_Form_Element_Abstract
      */
     public function getElement()
     {

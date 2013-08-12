@@ -13,7 +13,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     extends Mage_Backend_Block_System_Config_Form_Fieldset
 {
     /**
-     * @var Varien_Object
+     * @var Magento_Object
      */
     protected $_dummyElement;
 
@@ -29,16 +29,16 @@ class Mage_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     protected $_values;
 
     /**
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $html = $this->_getHeaderHtml($element);
 
         $modules = array_keys((array)Mage::getConfig()->getNode('modules')->children());
 
-        $dispatchResult = new Varien_Object($modules);
+        $dispatchResult = new Magento_Object($modules);
         $this->_eventManager->dispatch('adminhtml_system_config_advanced_disableoutput_render_before',
             array('modules' => $dispatchResult)
         );
@@ -58,12 +58,12 @@ class Mage_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     }
 
     /**
-     * @return Varien_Object
+     * @return Magento_Object
      */
     protected function _getDummyElement()
     {
         if (empty($this->_dummyElement)) {
-            $this->_dummyElement = new Varien_Object(array('showInDefault' => 1, 'showInWebsite' => 1));
+            $this->_dummyElement = new Magento_Object(array('showInDefault' => 1, 'showInWebsite' => 1));
         }
         return $this->_dummyElement;
     }
@@ -94,7 +94,7 @@ class Mage_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     }
 
     /**
-     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Magento_Data_Form_Element_Fieldset $fieldset
      * @param string $moduleName
      * @return mixed
      */

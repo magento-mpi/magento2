@@ -1,0 +1,18 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<theme>
+    <title>Magento Blank</title>
+    <version>2.0.0.0</version>
+    <parent>magento_demo</parent>
+    <media>
+        <preview_image>media/preview_image.jpg</preview_image>
+    </media>
+</theme>

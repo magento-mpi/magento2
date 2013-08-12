@@ -49,10 +49,10 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Found
     /**
      * validate
      *
-     * @param Varien_Object $object Quote
+     * @param Magento_Object $object Quote
      * @return boolean
      */
-    public function validate(Varien_Object $object)
+    public function validate(Magento_Object $object)
     {
         $all = $this->getAggregator() === 'all';
         $true = (bool)$this->getValue();

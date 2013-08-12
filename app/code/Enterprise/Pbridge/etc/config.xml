@@ -15,7 +15,7 @@
             <version>1.8.0.0.0</version>
             <active>false</active>
             <depends>
-                <Enterprise_Enterprise/>
+                <Enterprise_Enterprise />
             </depends>
         </Enterprise_Pbridge>
     </modules>
@@ -62,13 +62,6 @@
                 </Enterprise_Pbridge>
             </modules>
         </translate>
-        <di>
-            <Enterprise_Pbridge_Model_Session>
-                <parameters>
-                    <sessionName>frontend</sessionName>
-                </parameters>
-            </Enterprise_Pbridge_Model_Session>
-        </di>
     </frontend>
     <adminhtml>
         <events>
@@ -81,13 +74,6 @@
                 </observers>
             </admin_system_config_changed_section_payment>
         </events>
-        <di>
-            <Enterprise_Pbridge_Model_Session>
-                <parameters>
-                    <sessionName>adminhtml</sessionName>
-                </parameters>
-            </Enterprise_Pbridge_Model_Session>
-        </di>
     </adminhtml>
     <admin>
         <routers>
@@ -144,9 +130,9 @@
             <pbridge_ogone_direct>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Ogone</model>
                 <title>Ogone Direct Link</title>
-                <userid backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
-                <password backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
-                <passphrase backend_model="Mage_Backend_Model_Config_Backend_Encrypted"/>
+                <userid backend_model="Mage_Backend_Model_Config_Backend_Encrypted" />
+                <password backend_model="Mage_Backend_Model_Config_Backend_Encrypted" />
+                <passphrase backend_model="Mage_Backend_Model_Config_Backend_Encrypted" />
                 <payment_action>authorize</payment_action>
                 <useccv>1</useccv>
             </pbridge_ogone_direct>

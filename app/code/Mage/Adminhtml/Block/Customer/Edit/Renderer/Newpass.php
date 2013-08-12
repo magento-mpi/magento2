@@ -17,10 +17,10 @@
  */
 class Mage_Adminhtml_Block_Customer_Edit_Renderer_Newpass
     extends Mage_Backend_Block_Abstract
-    implements Varien_Data_Form_Element_Renderer_Interface
+    implements Magento_Data_Form_Element_Renderer_Interface
 {
 
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $html = '<div class="field field-'.$element->getHtmlId().'">';
         $html.= $element->getLabelHtml();

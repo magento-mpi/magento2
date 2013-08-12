@@ -60,10 +60,10 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
     /**
      * Prepare columns editor html element
      *
-     * @param Varien_Data_Form_Element_Abstract $element
-     * @return Varien_Data_Form_Element_Abstract
+     * @param Magento_Data_Form_Element_Abstract $element
+     * @return Magento_Data_Form_Element_Abstract
      */
-    public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
+    public function prepareElementHtml(Magento_Data_Form_Element_Abstract $element)
     {
         $element->setRenderer($this);
         return $element;
@@ -128,7 +128,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
     /**
      * Obtain existing data from form element
      *
-     * Each row will be instance of Varien_Object
+     * Each row will be instance of Magento_Object
      *
      * @return array
      */
@@ -152,7 +152,7 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
         }
 
         foreach ($parameters['columns_editor'] as $rowId => $columns) {
-            $row = new Varien_Object(array('_id' => $rowId));
+            $row = new Magento_Object(array('_id' => $rowId));
             foreach ($columns as $columnName => $columnValue) {
                 $row->setData($columnName, $this->escapeHtml($columnValue));
             }
@@ -168,10 +168,10 @@ class Saas_PrintedTemplate_Block_Widget_Field_Backend_Columns
     /**
      * Render field
      *
-     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Magento_Data_Form_Element_Abstract $element
      * @return string
      */
-    public function render(Varien_Data_Form_Element_Abstract $element)
+    public function render(Magento_Data_Form_Element_Abstract $element)
     {
         $elementId = $element->getHtmlId();
         $html = '<tr id="row_' . $elementId . '">';

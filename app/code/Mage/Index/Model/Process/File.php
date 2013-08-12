@@ -11,7 +11,7 @@
 /**
  * Process file entity
  */
-class Mage_Index_Model_Process_File extends Varien_Io_File
+class Mage_Index_Model_Process_File extends Magento_Io_File
 {
     /**
      * Process lock flag:

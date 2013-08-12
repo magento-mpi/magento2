@@ -42,10 +42,10 @@ class Saas_Limitation_Model_Observer_Entity
     /**
      * Restrict creation of new entities upon reaching the limitation
      *
-     * @param Varien_Event_Observer $observer
+     * @param Magento_Event_Observer $observer
      * @throws Mage_Core_Exception
      */
-    public function restrictCreation(Varien_Event_Observer $observer)
+    public function restrictCreation(Magento_Event_Observer $observer)
     {
         /** @var Mage_Core_Model_Abstract $model */
         $model = $observer->getEvent()->getData('data_object');

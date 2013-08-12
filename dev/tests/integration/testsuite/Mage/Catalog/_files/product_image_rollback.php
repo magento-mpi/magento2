@@ -11,5 +11,5 @@
 
 /** @var $config Mage_Catalog_Model_Product_Media_Config */
 $config = Mage::getSingleton('Mage_Catalog_Model_Product_Media_Config');
-Varien_Io_File::rmdirRecursive($config->getBaseMediaPath());
-Varien_Io_File::rmdirRecursive($config->getBaseTmpMediaPath());
+Magento_Io_File::rmdirRecursive($config->getBaseMediaPath());
+Magento_Io_File::rmdirRecursive($config->getBaseTmpMediaPath());

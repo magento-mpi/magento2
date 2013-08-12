@@ -17,11 +17,6 @@
                     <method>purchaseorder</method>
                     <template>Mage_Payment::form/purchaseorder.phtml</template>
                 </action>
-                <!--<block type="Mage_Checkout_Block_Multishipping_Billing_Items" name="checkout_billing_items" template="multishipping/billing/items.phtml">
-                    <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>multishipping/item/default.phtml</template></action>
-                    <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>multishipping/item/default.phtml</template></action>
-                    <action method="addItemRender"><type>configurable</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Configurable</block><template>multishipping/item/default.phtml</template></action>
-                </block>-->
             </block>
         </reference>
     </checkout_multishipping_billing>

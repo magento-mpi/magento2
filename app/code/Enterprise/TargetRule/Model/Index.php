@@ -188,10 +188,10 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     /**
      * Set Product data object
      *
-     * @param Varien_Object $product
+     * @param Magento_Object $product
      * @return Enterprise_TargetRule_Model_Index
      */
-    public function setProduct(Varien_Object $product)
+    public function setProduct(Magento_Object $product)
     {
         return $this->setData('product', $product);
     }
@@ -200,12 +200,12 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
      * Retrieve Product data object
      *
      * @throws Mage_Core_Exception
-     * @return Varien_Object
+     * @return Magento_Object
      */
     public function getProduct()
     {
         $product = $this->getData('product');
-        if (!$product instanceof Varien_Object) {
+        if (!$product instanceof Magento_Object) {
             Mage::throwException(__('Please define a product data object.'));
         }
         return $product;
@@ -270,7 +270,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     /**
      * Retrieve SELECT instance for conditions
      *
-     * @return Varien_Db_Select
+     * @return Magento_DB_Select
      */
     public function select()
     {
@@ -295,7 +295,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
             $date  = Mage::app()->getLocale()->storeDate($store);
             if ($date->equals(0, Zend_Date::HOUR)) {
                 $indexer->logEvent(
-                    new Varien_Object(array('type_id' => null, 'store' => $website->getStoreIds())),
+                    new Magento_Object(array('type_id' => null, 'store' => $website->getStoreIds())),
                     self::ENTITY_TARGETRULE,
                     self::EVENT_TYPE_CLEAN_TARGETRULES
                 );
@@ -377,7 +377,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Index_Model_Indexer_Abstrac
     /**
      * Reindex targetrules
      *
-     * @param Varien_Object $product
+     * @param Magento_Object $product
      * @return Enterprise_TargetRule_Model_Index
      */
     protected function _reindex($product)
