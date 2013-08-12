@@ -80,7 +80,7 @@ class Community_UnitPrice_Helper_DataTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo($data['base_price']))
             ->will($this->returnArgument(0));
 
-        $taxHelper = $this->getMockBuilder('Mage_Tax_Helper_Data')
+        $taxHelper = $this->getMockBuilder('Magento_Tax_Helper_Data')
             ->disableOriginalConstructor()
             ->setMethods(array('getPrice'))
             ->getMock();
@@ -93,7 +93,7 @@ class Community_UnitPrice_Helper_DataTest extends PHPUnit_Framework_TestCase
             )->will($this->returnValue($data['unit_price_incl_tax']));
         $helper->expects($this->any())
             ->method('getHelperModel')
-            ->with($this->equalTo('Mage_Tax_Helper_Data'))
+            ->with($this->equalTo('Magento_Tax_Helper_Data'))
             ->will($this->returnValue($taxHelper));
 
         $result = $helper->getUnitPriceLabel($product);

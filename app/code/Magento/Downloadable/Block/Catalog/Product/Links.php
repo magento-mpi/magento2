@@ -75,12 +75,12 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
             return '';
         }
 
-        $taxCalculation = Mage::getSingleton('Mage_Tax_Model_Calculation');
+        $taxCalculation = Mage::getSingleton('Magento_Tax_Model_Calculation');
         if (!$taxCalculation->getCustomer() && Mage::registry('current_customer')) {
             $taxCalculation->setCustomer(Mage::registry('current_customer'));
         }
 
-        $taxHelper = Mage::helper('Mage_Tax_Helper_Data');
+        $taxHelper = Mage::helper('Magento_Tax_Helper_Data');
         $coreHelper = $this->helper('Magento_Core_Helper_Data');
         $_priceInclTax = $taxHelper->getPrice($link->getProduct(), $price, true);
         $_priceExclTax = $taxHelper->getPrice($link->getProduct(), $price);

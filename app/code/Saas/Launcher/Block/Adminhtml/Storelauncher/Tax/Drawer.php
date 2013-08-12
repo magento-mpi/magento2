@@ -22,20 +22,20 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_Drawer extends Saas_Launch
     /**
      * Tax rule collection
      *
-     * @var Mage_Tax_Model_Resource_Calculation_Rule_Collection
+     * @var Magento_Tax_Model_Resource_Calculation_Rule_Collection
      */
     protected $_taxRuleCollection;
 
     /**
      * @param Mage_Backend_Block_Template_Context $context
      * @param Saas_Launcher_Model_LinkTracker $linkTracker
-     * @param Mage_Tax_Model_Resource_Calculation_Rule_Collection $taxRuleCollection
+     * @param Magento_Tax_Model_Resource_Calculation_Rule_Collection $taxRuleCollection
      * @param array $data
      */
     public function __construct(
         Mage_Backend_Block_Template_Context $context,
         Saas_Launcher_Model_LinkTracker $linkTracker,
-        Mage_Tax_Model_Resource_Calculation_Rule_Collection $taxRuleCollection,
+        Magento_Tax_Model_Resource_Calculation_Rule_Collection $taxRuleCollection,
         array $data = array()
     ) {
         parent::__construct($context, $linkTracker, $data);

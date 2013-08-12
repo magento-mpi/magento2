@@ -50,7 +50,7 @@ class Enterprise_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
                         Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                            Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $product->getFinalPrice(), true)
+                            Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
                     $product->setAddToCartUrl($this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product));

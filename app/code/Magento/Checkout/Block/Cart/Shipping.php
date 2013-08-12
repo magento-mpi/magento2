@@ -174,7 +174,7 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
      */
     public function getShippingPrice($price, $flag)
     {
-        return $this->formatPrice($this->helper('Mage_Tax_Helper_Data')->getShippingPrice(
+        return $this->formatPrice($this->helper('Magento_Tax_Helper_Data')->getShippingPrice(
             $price,
             $flag,
             $this->getAddress(),

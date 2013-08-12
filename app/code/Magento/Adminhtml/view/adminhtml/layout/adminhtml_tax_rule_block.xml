@@ -13,7 +13,7 @@
             <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.block.tax.rule.grid" as="grid">
                 <arguments>
                     <id>taxRuleGrid</id>
-                    <dataSource type="object">Mage_Tax_Model_Resource_Rule_Grid_Collection</dataSource>
+                    <dataSource type="object">Magento_Tax_Model_Resource_Rule_Grid_Collection</dataSource>
                     <default_sort>tax_rule_id</default_sort>
                     <default_dir>ASC</default_dir>
                     <save_parameters_in_session>1</save_parameters_in_session>
@@ -29,7 +29,7 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="code">
                         <arguments>
-                            <header translate='true' module='Mage_Tax'>Name</header>
+                            <header translate='true' module='Magento_Tax'>Name</header>
                             <index>code</index>
                             <align>left</align>
                             <type>longtext</type>
@@ -38,43 +38,43 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="customer_tax_classes">
                         <arguments>
-                            <header translate='true' module='Mage_Tax'>Customer Tax Class</header>
+                            <header translate='true' module='Magento_Tax'>Customer Tax Class</header>
                             <sortable>0</sortable>
                             <align>left</align>
                             <index>customer_tax_classes</index>
                             <filter_index>ctc.customer_tax_class_id</filter_index>
                             <show_missing_option_values>1</show_missing_option_values>
                             <type>options</type>
-                            <options type="options">Mage_Tax_Model_Resource_Rule_Grid_Options_CustomerTaxClass</options>
+                            <options type="options">Magento_Tax_Model_Resource_Rule_Grid_Options_CustomerTaxClass</options>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="product_tax_classes">
                         <arguments>
-                            <header translate='true' module='Mage_Tax'>Product Tax Class</header>
+                            <header translate='true' module='Magento_Tax'>Product Tax Class</header>
                             <sortable>0</sortable>
                             <align>left</align>
                             <index>product_tax_classes</index>
                             <filter_index>ptc.product_tax_class_id</filter_index>
                             <show_missing_option_values>1</show_missing_option_values>
                             <type>options</type>
-                            <options type="options">Mage_Tax_Model_Resource_Rule_Grid_Options_ProductTaxClass</options>
+                            <options type="options">Magento_Tax_Model_Resource_Rule_Grid_Options_ProductTaxClass</options>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="tax_rates">
                         <arguments>
-                            <header translate='true' module='Mage_Tax'>Tax Rate</header>
+                            <header translate='true' module='Magento_Tax'>Tax Rate</header>
                             <sortable>0</sortable>
                             <align>left</align>
                             <index>tax_rates</index>
                             <filter_index>rate.tax_calculation_rate_id</filter_index>
                             <show_missing_option_values>1</show_missing_option_values>
                             <type>options</type>
-                            <options type="options">Mage_Tax_Model_Resource_Rule_Grid_Options_HashOptimized</options>
+                            <options type="options">Magento_Tax_Model_Resource_Rule_Grid_Options_HashOptimized</options>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="priority">
                         <arguments>
-                            <header translate='true' module='Mage_Tax'>Priority</header>
+                            <header translate='true' module='Magento_Tax'>Priority</header>
                             <index>priority</index>
                             <width>50</width>
                             <type>text</type>
@@ -82,7 +82,7 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="position">
                         <arguments>
-                            <header translate='true' module='Mage_Tax'>Sort Order</header>
+                            <header translate='true' module='Magento_Tax'>Sort Order</header>
                             <index>position</index>
                             <width>50</width>
                             <type>text</type>

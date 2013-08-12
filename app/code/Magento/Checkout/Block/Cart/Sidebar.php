@@ -100,7 +100,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
     {
         $subtotal = 0;
         $totals = $this->getTotals();
-        $config = Mage::getSingleton('Mage_Tax_Model_Config');
+        $config = Mage::getSingleton('Magento_Tax_Model_Config');
         if (isset($totals['subtotal'])) {
             if ($config->displayCartSubtotalBoth()) {
                 if ($skipTax) {
@@ -128,7 +128,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      */
     public function getSubtotalInclTax()
     {
-        if (!Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalBoth()) {
+        if (!Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalBoth()) {
             return 0;
         }
         return $this->getSubtotal(false);
@@ -185,7 +185,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      */
     public function getIncExcTax($flag)
     {
-        $text = Mage::helper('Mage_Tax_Helper_Data')->getIncExcText($flag);
+        $text = Mage::helper('Magento_Tax_Helper_Data')->getIncExcText($flag);
         return $text ? ' ('.$text.')' : '';
     }
 

@@ -138,8 +138,8 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
     public function displayCartWrappingIncludeTaxPrice($store = null)
     {
         $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, $store);
-        return ($configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH
-            || $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
+        return ($configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH
+            || $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
     }
 
     /**
@@ -151,7 +151,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
     public function displayCartWrappingExcludeTaxPrice($store = null)
     {
         $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, $store);
-        return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
+        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
     /**
@@ -163,7 +163,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
     public function displayCartWrappingBothPrices($store = null)
     {
         $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, $store);
-        return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
     }
 
     /**
@@ -175,8 +175,8 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
     public function displayCartCardIncludeTaxPrice($store = null)
     {
         $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD, $store);
-        return ($configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH
-            || $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
+        return ($configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH
+            || $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
     }
 
     /**
@@ -188,7 +188,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
     public function displayCartCardBothPrices($store = null)
     {
         $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD, $store);
-        return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
     }
 
     /**
@@ -200,8 +200,8 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
     public function displaySalesWrappingIncludeTaxPrice($store = null)
     {
         $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
-        return ($configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH
-            || $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
+        return ($configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH
+            || $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
     }
 
     /**
@@ -213,7 +213,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
     public function displaySalesWrappingExcludeTaxPrice($store = null)
     {
         $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
-        return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
+        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
     /**
@@ -225,7 +225,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
     public function displaySalesWrappingBothPrices($store = null)
     {
         $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
-        return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
     }
 
     /**
@@ -237,8 +237,8 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
     public function displaySalesCardIncludeTaxPrice($store = null)
     {
         $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD, $store);
-        return ($configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH
-            || $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
+        return ($configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH
+            || $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
     }
 
     /**
@@ -250,7 +250,7 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
     public function displaySalesCardBothPrices($store = null)
     {
         $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD, $store);
-        return $configValue == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
     }
 
     /**
@@ -419,13 +419,13 @@ class Enterprise_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
         $store = Mage::app()->getStore($store);
         $taxClassId = $item->getTaxClassId();
         if ($taxClassId && $includeTax) {
-            $request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest(
+            $request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest(
                 $shippingAddress,
                 $billingAddress,
                 $ctc,
                 $store
             );
-            $percent = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($request->setProductClassId($taxClassId));
+            $percent = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($request->setProductClassId($taxClassId));
             if ($percent) {
                 $price = $price * (1 + ($percent / 100));
             }

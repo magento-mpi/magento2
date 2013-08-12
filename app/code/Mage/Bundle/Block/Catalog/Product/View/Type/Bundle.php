@@ -75,8 +75,8 @@ class Mage_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Catalog
         $coreHelper   = Mage::helper('Magento_Core_Helper_Data');
         /* @var $catalogHelper Magento_Catalog_Helper_Data */
         $catalogHelper = Mage::helper('Magento_Catalog_Helper_Data');
-        /* @var $taxHelper Mage_Tax_Helper_Data */
-        $taxHelper = Mage::helper('Mage_Tax_Helper_Data');
+        /* @var $taxHelper Magento_Tax_Helper_Data */
+        $taxHelper = Mage::helper('Magento_Tax_Helper_Data');
         /* @var $bundlePriceModel Mage_Bundle_Model_Product_Price */
         $bundlePriceModel = Mage::getModel('Mage_Bundle_Model_Product_Price');
 

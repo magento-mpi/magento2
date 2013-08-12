@@ -740,7 +740,7 @@ class Magento_SalesRule_Model_Validator extends Magento_Core_Model_Abstract
      */
     protected function _getItemOriginalPrice($item)
     {
-        return Mage::helper('Mage_Tax_Helper_Data')->getPrice($item, $item->getOriginalPrice(), true);
+        return Mage::helper('Magento_Tax_Helper_Data')->getPrice($item, $item->getOriginalPrice(), true);
     }
 
     /**
@@ -763,7 +763,7 @@ class Magento_SalesRule_Model_Validator extends Magento_Core_Model_Abstract
      */
     protected function _getItemBaseOriginalPrice($item)
     {
-        return Mage::helper('Mage_Tax_Helper_Data')->getPrice($item, $item->getBaseOriginalPrice(), true);
+        return Mage::helper('Magento_Tax_Helper_Data')->getPrice($item, $item->getBaseOriginalPrice(), true);
     }
 
     /**

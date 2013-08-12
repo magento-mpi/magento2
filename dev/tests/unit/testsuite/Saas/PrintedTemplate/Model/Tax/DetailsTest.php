@@ -270,11 +270,11 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * @param array $rates
      * @param Magento_Object $rateRequest
      *
-     * @return Mage_Tax_Model_Calculation
+     * @return Magento_Tax_Model_Calculation
      */
     protected function _prepareTaxCalculatorMock($rates, $rateRequest)
     {
-        $calculator = $this->getMockBuilder('Mage_Tax_Model_Calculation')
+        $calculator = $this->getMockBuilder('Magento_Tax_Model_Calculation')
             ->setMethods(array('getRateRequest','getAppliedRates'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -361,11 +361,11 @@ class Saas_PrintedTemplate_Model_Tax_DetailsTest extends PHPUnit_Framework_TestC
      * @param bool $isTaxAfterDiscount
      * @param bool $isDiscountOnInclTax
      *
-     * @return Mage_Tax_Model_Config
+     * @return Magento_Tax_Model_Config
      */
     protected function _prepareTaxConfigMock($shippingTaxClass, $isTaxAfterDiscount, $isDiscountOnInclTax)
     {
-        $config = $this->getMockBuilder('Mage_Tax_Model_Config')
+        $config = $this->getMockBuilder('Magento_Tax_Model_Config')
             ->setMethods(array('applyTaxAfterDiscount','discountTax','getShippingTaxClass'))
             ->getMock();
 

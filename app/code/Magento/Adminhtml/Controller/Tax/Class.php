@@ -29,7 +29,7 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
                 'class_type' => $this->_processClassType((string)$this->getRequest()->getPost('class_type')),
                 'class_name' => $this->_processClassName((string)$this->getRequest()->getPost('class_name'))
             );
-            $class = Mage::getModel('Mage_Tax_Model_Class')
+            $class = Mage::getModel('Magento_Tax_Model_Class')
                 ->setData($classData)
                 ->save();
             $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
@@ -48,7 +48,7 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
         } catch (Exception $e) {
             $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error_message' => Mage::helper('Mage_Tax_Helper_Data') ->__('Something went wrong saving this tax class.'),
+                'error_message' => Mage::helper('Magento_Tax_Helper_Data') ->__('Something went wrong saving this tax class.'),
                 'class_id' => '',
                 'class_name' => ''
             ));
@@ -63,8 +63,8 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
     {
         $classId = (int)$this->getRequest()->getParam('class_id');
         try {
-            /** @var $classModel Mage_Tax_Model_Class */
-            $classModel = $this->_objectManager->create('Mage_Tax_Model_Class')->load($classId);
+            /** @var $classModel Magento_Tax_Model_Class */
+            $classModel = $this->_objectManager->create('Magento_Tax_Model_Class')->load($classId);
             $classModel->checkClassCanBeDeleted();
             $classModel->delete();
             $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
@@ -79,7 +79,7 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
         } catch (Exception $e) {
             $responseContent = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
                 'success' => false,
-                'error_message' => Mage::helper('Mage_Tax_Helper_Data')->__('Something went wrong deleting this tax class.')
+                'error_message' => Mage::helper('Magento_Tax_Helper_Data')->__('Something went wrong deleting this tax class.')
             ));
         }
         $this->getResponse()->setBody($responseContent);
@@ -95,11 +95,11 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
     protected function _processClassType($classType)
     {
         $validClassTypes = array(
-            Mage_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER,
-            Mage_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT
+            Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER,
+            Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT
         );
         if (!in_array($classType, $validClassTypes)) {
-            Mage::throwException(Mage::helper('Mage_Tax_Helper_Data') ->__('Invalid type of tax class specified.'));
+            Mage::throwException(Mage::helper('Magento_Tax_Helper_Data') ->__('Invalid type of tax class specified.'));
         }
         return $classType;
     }
@@ -113,9 +113,9 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
      */
     protected function _processClassName($className)
     {
-        $className = trim(Mage::helper('Mage_Tax_Helper_Data')->escapeHtml($className));
+        $className = trim(Mage::helper('Magento_Tax_Helper_Data')->escapeHtml($className));
         if ($className == '') {
-            Mage::throwException(Mage::helper('Mage_Tax_Helper_Data') ->__('Invalid name of tax class specified.'));
+            Mage::throwException(Mage::helper('Magento_Tax_Helper_Data') ->__('Invalid name of tax class specified.'));
         }
         return $className;
     }
@@ -127,6 +127,6 @@ class Magento_Adminhtml_Controller_Tax_Class extends Magento_Adminhtml_Controlle
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Tax::manage_tax');
+        return $this->_authorization->isAllowed('Magento_Tax::manage_tax');
     }
 }

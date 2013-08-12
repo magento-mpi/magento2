@@ -35,9 +35,9 @@
 
         <?php else: ?>
 
-        <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
             <tr>
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
                 <th><?php echo $this->__('Excl. Tax'); ?></th>
             <?php else: ?>
                 <th><?php echo $this->__('Price'); ?></th>
@@ -87,10 +87,10 @@
 
 
 
-        <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
             <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
             <tr>
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
                 <th><?php echo $this->__('Incl. Tax'); ?></th>
             <?php else: ?>
                 <th><?php echo $this->__('Price'); ?></th>

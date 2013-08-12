@@ -132,8 +132,8 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
         $data['oldPrice']   = Mage::helper('Magento_Core_Helper_Data')->currency($option->getPrice(false), false, false);
         $data['priceValue'] = $option->getPrice(false);
         $data['type']       = $option->getPriceType();
-        $data['excludeTax'] = $price = Mage::helper('Mage_Tax_Helper_Data')->getPrice($option->getProduct(), $data['price'], false);
-        $data['includeTax'] = $price = Mage::helper('Mage_Tax_Helper_Data')->getPrice($option->getProduct(), $data['price'], true);
+        $data['excludeTax'] = $price = Mage::helper('Magento_Tax_Helper_Data')->getPrice($option->getProduct(), $data['price'], false);
+        $data['includeTax'] = $price = Mage::helper('Magento_Tax_Helper_Data')->getPrice($option->getProduct(), $data['price'], true);
         return $data;
     }
 

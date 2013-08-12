@@ -413,7 +413,7 @@ EOT;
             Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ADDRESS_CATEGORY,
             $storeId
         );
-        $defPrice = (float) Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($defPrice, false, false);
+        $defPrice = (float) Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($defPrice, false, false);
 
         $this->getQuote()->getShippingAddress()
             ->setCountryId($country)
@@ -538,7 +538,7 @@ EOT;
             $title         = Mage::getStoreConfig('google/checkout_shipping_flatrate/title_' . $i, $storeId);
             $price         = (float)Mage::getStoreConfig('google/checkout_shipping_flatrate/price_' . $i, $storeId);
             $price         = number_format($price, 2, '.', '');
-            $price         = (float)Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($price, false, false);
+            $price         = (float)Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($price, false, false);
             $allowSpecific = Mage::getStoreConfigFlag(
                 'google/checkout_shipping_flatrate/sallowspecific_' . $i,
                 $storeId
@@ -624,7 +624,7 @@ EOT;
 
         $xml           = '';
         $methods       = unserialize($methods);
-        $taxHelper     = Mage::helper('Mage_Tax_Helper_Data');
+        $taxHelper     = Mage::helper('Magento_Tax_Helper_Data');
         $shippingModel = Mage::getModel('Magento_Shipping_Model_Shipping');
 
         foreach ($methods['method'] as $i => $method) {
@@ -682,7 +682,7 @@ EOT;
 
         $title = Mage::getStoreConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_TITLE, $storeId);
         $price = Mage::getStoreConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_PRICE, $storeId);
-        $price = (float) Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($price, false, false);
+        $price = (float) Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($price, false, false);
 
         $xml = <<<EOT
                 <pickup name="{$title}">
@@ -892,13 +892,13 @@ EOT;
     {
         $customerTaxClass = $this->_getCustomerTaxClass();
         $shippingTaxClass = Mage::getStoreConfig(
-            Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS,
+            Magento_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS,
             $this->getQuote()->getStoreId()
         );
-        $taxCalculationModel = Mage::getSingleton('Mage_Tax_Model_Calculation');
+        $taxCalculationModel = Mage::getSingleton('Magento_Tax_Model_Calculation');
 
         if ($shippingTaxClass) {
-            if (Mage::helper('Mage_Tax_Helper_Data')->getTaxBasedOn() == 'origin') {
+            if (Mage::helper('Magento_Tax_Helper_Data')->getTaxBasedOn() == 'origin') {
                 $request = $taxCalculationModel->getRateRequest();
                 $request
                     ->setCustomerClassId($customerTaxClass)
@@ -929,9 +929,9 @@ EOT;
     protected function _getTaxRules()
     {
         $customerTaxClass    = $this->_getCustomerTaxClass();
-        $taxCalculationModel = Mage::getSingleton('Mage_Tax_Model_Calculation');
+        $taxCalculationModel = Mage::getSingleton('Magento_Tax_Model_Calculation');
 
-        if (Mage::helper('Mage_Tax_Helper_Data')->getTaxBasedOn() == 'origin') {
+        if (Mage::helper('Magento_Tax_Helper_Data')->getTaxBasedOn() == 'origin') {
             $request = $taxCalculationModel->getRateRequest()->setCustomerClassId($customerTaxClass);
             return $taxCalculationModel->getRatesForAllProductTaxClasses($request);
         }

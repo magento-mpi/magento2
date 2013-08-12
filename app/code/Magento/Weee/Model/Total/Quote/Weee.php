@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quote_Tax
+class Magento_Weee_Model_Total_Quote_Weee extends Magento_Tax_Model_Sales_Total_Quote_Tax
 {
     /**
      * Weee module helper object
@@ -22,7 +22,7 @@ class Magento_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quo
     /**
      * Tax configuration object
      *
-     * @var Mage_Tax_Model_Config
+     * @var Magento_Tax_Model_Config
      */
     protected $_config;
 
@@ -40,7 +40,7 @@ class Magento_Weee_Model_Total_Quote_Weee extends Mage_Tax_Model_Sales_Total_Quo
     {
         $this->setCode('weee');
         $this->_helper = Mage::helper('Magento_Weee_Helper_Data');
-        $this->_config = Mage::getSingleton('Mage_Tax_Model_Config');
+        $this->_config = Mage::getSingleton('Magento_Tax_Model_Config');
     }
 
     /**

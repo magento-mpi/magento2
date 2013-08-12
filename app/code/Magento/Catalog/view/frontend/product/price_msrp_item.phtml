@@ -29,7 +29,7 @@ $_msrpPrice = '';
 $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElementIdPrefix() : 'product-price-';
 ?>
 <div class="price-box map-info">
-    <?php $_price = $this->helper('Mage_Tax_Helper_Data')->getPrice($_product, $_product->getMsrp()) ?>
+    <?php $_price = $this->helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getMsrp()) ?>
     <?php if ($_product->getMsrp()): ?>
     <?php $_msrpPrice = $_coreHelper->currency($_product->getMsrp(), true, true) ?>
     <span class="old-price"><?php echo $_msrpPrice ?></span>

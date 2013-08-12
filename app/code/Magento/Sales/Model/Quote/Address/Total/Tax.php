@@ -33,8 +33,8 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
         }
         $custTaxClassId = $address->getQuote()->getCustomerTaxClassId();
 
-        $taxCalculationModel = Mage::getSingleton('Mage_Tax_Model_Calculation');
-        /* @var $taxCalculationModel Mage_Tax_Model_Calculation */
+        $taxCalculationModel = Mage::getSingleton('Magento_Tax_Model_Calculation');
+        /* @var $taxCalculationModel Magento_Tax_Model_Calculation */
         $request = $taxCalculationModel->getRateRequest(
             $address,
             $address->getQuote()->getBillingAddress(),
@@ -138,14 +138,14 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
         }
 
 
-        $shippingTaxClass = Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
+        $shippingTaxClass = Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
 
         $shippingTax      = 0;
         $shippingBaseTax  = 0;
 
         if ($shippingTaxClass) {
             if ($rate = $taxCalculationModel->getRate($request->setProductClassId($shippingTaxClass))) {
-                if (!Mage::helper('Mage_Tax_Helper_Data')->shippingPriceIncludesTax()) {
+                if (!Mage::helper('Magento_Tax_Helper_Data')->shippingPriceIncludesTax()) {
                     $shippingTax    = $address->getShippingAmount() * $rate/100;
                     $shippingBaseTax= $address->getBaseShippingAmount() * $rate/100;
                 } else {
@@ -169,7 +169,7 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
             }
         }
 
-        if (!Mage::helper('Mage_Tax_Helper_Data')->shippingPriceIncludesTax()) {
+        if (!Mage::helper('Magento_Tax_Helper_Data')->shippingPriceIncludesTax()) {
             $address->setShippingTaxAmount($shippingTax);
             $address->setBaseShippingTaxAmount($shippingBaseTax);
         }
@@ -224,7 +224,7 @@ class Magento_Sales_Model_Quote_Address_Total_Tax extends Magento_Sales_Model_Qu
         $store = $address->getQuote()->getStore();
         $amount = $address->getTaxAmount();
 
-        if (($amount!=0) || (Mage::helper('Mage_Tax_Helper_Data')->displayZeroTax($store))) {
+        if (($amount!=0) || (Mage::helper('Magento_Tax_Helper_Data')->displayZeroTax($store))) {
             $address->addTotal(array(
                 'code'=>$this->getCode(),
                 'title'=>Mage::helper('Magento_Sales_Helper_Data')->__('Tax'),

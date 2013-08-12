@@ -28,6 +28,6 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Subtotal extends Magento
         /**
          * Check without store parameter - we wil get admin configuration value
          */
-        return Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalBoth();
+        return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalBoth();
     }
 }

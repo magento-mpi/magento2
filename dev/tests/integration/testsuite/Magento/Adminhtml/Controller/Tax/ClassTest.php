@@ -33,8 +33,8 @@ class Magento_Adminhtml_Controller_Tax_ClassTest extends Mage_Backend_Utility_Co
         $this->assertArrayHasKey('class_id', $result);
 
         $classId = $result['class_id'];
-        /** @var $rate Mage_Tax_Model_Class */
-        $class = Mage::getModel('Mage_Tax_Model_Class')->load($classId, 'class_id');
+        /** @var $rate Magento_Tax_Model_Class */
+        $class = Mage::getModel('Magento_Tax_Model_Class')->load($classId, 'class_id');
         $this->assertEquals($expectedData['class_name'], $class->getClassName());
     }
 

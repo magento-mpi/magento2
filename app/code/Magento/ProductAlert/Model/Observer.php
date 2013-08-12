@@ -138,8 +138,8 @@ class Magento_ProductAlert_Model_Observer
                     $product->setCustomerGroupId($customer->getGroupId());
                     if ($alert->getPrice() > $product->getFinalPrice()) {
                         $productPrice = $product->getFinalPrice();
-                        $product->setFinalPrice(Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $productPrice));
-                        $product->setPrice(Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $product->getPrice()));
+                        $product->setFinalPrice(Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $productPrice));
+                        $product->setPrice(Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $product->getPrice()));
                         $email->addPriceProduct($product);
 
                         $alert->setPrice($productPrice);

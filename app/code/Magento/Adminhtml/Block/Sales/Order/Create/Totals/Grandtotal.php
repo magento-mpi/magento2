@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Grandtotal extends Magen
 
     public function includeTax()
     {
-        return Mage::getSingleton('Mage_Tax_Model_Config')->displayCartTaxWithGrandTotal();
+        return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartTaxWithGrandTotal();
     }
 
     public function getTotalExclTax()

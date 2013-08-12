@@ -224,7 +224,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     public function renderTotals($totals, $colspan=null)
     {
         if ($colspan === null) {
-            $colspan = $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices() ? 5 : 3;
+            $colspan = $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices() ? 5 : 3;
         }
         $totals = $this->getChildBlock('totals')->setTotals($totals)->renderTotals('', $colspan)
             . $this->getChildBlock('totals')->setTotals($totals)->renderTotals('footer', $colspan);

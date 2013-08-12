@@ -39,22 +39,22 @@
             <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllowInCart()) : ?>
                 <col width="1" />
             <?php endif ?>
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
                 <col width="1" />
             <?php endif; ?>
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
                 <col width="1" />
             <?php endif; ?>
                 <col width="1" />
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
                 <col width="1" />
             <?php endif; ?>
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
                 <col width="1" />
             <?php endif; ?>
                 <col width="1" />
 
-            <?php $mergedCells = ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices() ? 2 : 1); ?>
+            <?php $mergedCells = ($this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices() ? 2 : 1); ?>
                 <thead>
                     <tr>
                         <th rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>
@@ -68,12 +68,12 @@
                         <th class="a-center" colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Subtotal') ?></th>
                         <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Remove') ?></th>
                     </tr>
-                    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+                    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
                     <tr>
-                        <th class="a-right"><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(false) ?></th>
-                        <th><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(true) ?></th>
-                        <th class="a-right"><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(false) ?></th>
-                        <th><?php echo $this->helper('Mage_Tax_Helper_Data')->getIncExcTaxLabel(true) ?></th>
+                        <th class="a-right"><?php echo $this->helper('Magento_Tax_Helper_Data')->getIncExcTaxLabel(false) ?></th>
+                        <th><?php echo $this->helper('Magento_Tax_Helper_Data')->getIncExcTaxLabel(true) ?></th>
+                        <th class="a-right"><?php echo $this->helper('Magento_Tax_Helper_Data')->getIncExcTaxLabel(false) ?></th>
+                        <th><?php echo $this->helper('Magento_Tax_Helper_Data')->getIncExcTaxLabel(true) ?></th>
                     </tr>
                     <?php endif; ?>
                 </thead>

@@ -65,7 +65,7 @@ $canApplyMsrp = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_item
     <?php endif ?>
 
     <?php if ($canApplyMsrp): ?>
-        <td class="a-right"<?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?> colspan="2"<?php endif; ?>>
+        <td class="a-right"<?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?> colspan="2"<?php endif; ?>>
             <span class="cart-price">
                 <span class="cart-msrp-unit"><?php echo $this->__('See price before order confirmation.'); ?></span>
                 <?php $helpLinkId = 'cart-msrp-help-' . $_item->getId(); ?>
@@ -89,7 +89,7 @@ $canApplyMsrp = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_item
         </td>
     <?php else: ?>
 
-        <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
         <td class="a-right">
             <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                 <span class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#eunit-item-tax-details<?php echo $_item->getId(); ?>"}'>
@@ -131,7 +131,7 @@ $canApplyMsrp = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_item
             <?php endif; ?>
         </td>
         <?php endif; ?>
-        <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
         <td>
             <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
             <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
@@ -177,7 +177,7 @@ $canApplyMsrp = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_item
     <td class="a-center">
         <input name="cart[<?php echo $_item->getId() ?>][qty]" value="<?php echo $this->getQty() ?>" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" data-validate="{required:true,'validate-greater-than-zero':true}"/>
     </td>
-    <?php if (($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
+    <?php if (($this->helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
     <td class="a-right">
         <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
             <span class="cart-tax-total" data-tax-toggle='{"itemTaxId" : "#esubtotal-item-tax-details<?php echo $_item->getId(); ?>"}'>
@@ -222,7 +222,7 @@ $canApplyMsrp = Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_item
         <?php endif; ?>
     </td>
     <?php endif; ?>
-    <?php if (($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
+    <?php if (($this->helper('Magento_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
     <td>
         <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getSubtotalInclTax($_item); ?>
         <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>

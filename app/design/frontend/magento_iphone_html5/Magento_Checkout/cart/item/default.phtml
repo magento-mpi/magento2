@@ -87,7 +87,7 @@ $_options = $this->getOptionList();
                     </span>
     <?php else: ?>
 
-    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
+    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()): ?>
 
         <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                             <span class="cart-tax-total" onclick="taxToggle('eunit-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
@@ -129,7 +129,7 @@ $_options = $this->getOptionList();
             <?php endif; ?>
 
         <?php endif; ?>
-    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax()): ?>
+    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceInclTax()): ?>
 
         <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
         <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
@@ -177,7 +177,7 @@ $_options = $this->getOptionList();
 
 <div class="cart-price-box">
 
-    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartPriceExclTax() && !$_item->getNoSubtotal()): ?>
+    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayCartPriceExclTax() && !$_item->getNoSubtotal()): ?>
 
     <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>
                         <span class="cart-tax-total" onclick="taxToggle('esubtotal-item-tax-details<?php echo $_item->getId(); ?>', this, 'cart-tax-total-expanded');">
@@ -223,7 +223,7 @@ $_options = $this->getOptionList();
 
     <?php endif; ?>
 
-    <?php if (($this->helper('Mage_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
+    <?php if (($this->helper('Magento_Tax_Helper_Data')->displayCartPriceInclTax() || $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices()) && !$_item->getNoSubtotal()): ?>
 
     <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getSubtotalInclTax($_item); ?>
     <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(1, 4), 'sales') && $_item->getWeeeTaxAppliedAmount()): ?>

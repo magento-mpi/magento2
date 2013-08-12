@@ -51,10 +51,10 @@
                                         <input type="radio" name="shipping_method[<?php echo $_address->getId() ?>]" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_address->getId() ?>_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod($_address)) echo ' checked="checked"' ?> class="radio" />
                                         <?php endif; ?>
                                         <label for="s_method_<?php echo $_address->getId() ?>_<?php echo $_rate->getCode() ?>"><?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
-                                        <?php $_excl = $this->getShippingPrice($_address, $_rate->getPrice(), $this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()); ?>
+                                        <?php $_excl = $this->getShippingPrice($_address, $_rate->getPrice(), $this->helper('Magento_Tax_Helper_Data')->displayShippingPriceIncludingTax()); ?>
                                         <?php $_incl = $this->getShippingPrice($_address, $_rate->getPrice(), true); ?>
                                         <?php echo $_excl; ?>
-                                        <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
                                             (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
                                         <?php endif; ?>
                                         </label>

@@ -42,7 +42,7 @@
                 <?php if ($_order->getShippingDescription()): ?>
                     <strong><?php echo $this->escapeHtml($_order->getShippingDescription()) ?></strong>
 
-                    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
+                    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayShippingPriceIncludingTax()): ?>
                         <?php $_excl = $this->displayShippingPriceInclTax($_order); ?>
                     <?php else: ?>
                         <?php $_excl = $this->displayPriceAttribute('shipping_amount', false, ' '); ?>
@@ -50,7 +50,7 @@
                     <?php $_incl = $this->displayShippingPriceInclTax($_order); ?>
 
                     <?php echo $_excl; ?>
-                    <?php if ($this->helper('Mage_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                    <?php if ($this->helper('Magento_Tax_Helper_Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
                         (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
                     <?php endif; ?>
                 <?php else: ?>

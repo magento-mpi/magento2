@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Grouped extends
         $this->_block = 'Magento_Adminhtml_Block_Catalog_Product_Price';
         $this->_useLinkForAsLowAs = false;
 
-        $taxCalculation = Mage::getSingleton('Mage_Tax_Model_Calculation');
+        $taxCalculation = Mage::getSingleton('Magento_Tax_Model_Calculation');
         if (!$taxCalculation->getCustomer() && Mage::registry('current_customer')) {
             $taxCalculation->setCustomer(Mage::registry('current_customer'));
         }

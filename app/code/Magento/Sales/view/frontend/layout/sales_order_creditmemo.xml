@@ -34,7 +34,7 @@
                         <action method="setValueProperties">
                             <value>class="a-right"</value>
                         </action>
-                        <block type="Mage_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
+                        <block type="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
                     </block>
                     <block type="Magento_Sales_Block_Order_Comments" name="creditmemo_comments" template="order/comments.phtml"/>
                 </block>

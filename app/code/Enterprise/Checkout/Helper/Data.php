@@ -288,7 +288,7 @@ class Enterprise_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
                                 Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                                    Mage::helper('Mage_Tax_Helper_Data')->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
+                                    Mage::helper('Magento_Tax_Helper_Data')->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
                                 ))
                             );
                             $itemProduct->setAddToCartUrl(Mage::helper('Magento_Checkout_Helper_Cart')->getAddUrl($itemProduct));

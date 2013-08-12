@@ -58,9 +58,9 @@
         <?php endif; ?>
         <td class="col-price">
             <?php if ($this->canShowPriceInfo($_item)): ?>
-                <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
+                <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Magento_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
                     <span class="price-excl-tax">
-                        <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()): ?>
+                        <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                             <span class="label"><?php echo $this->__('Excl. Tax'); ?>:</span>
                         <?php endif; ?>
 
@@ -111,9 +111,9 @@
                     </span>
                     <br />
                 <?php endif; ?>
-                <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
+                <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Magento_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
                     <span class="price-incl-tax">
-                        <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()): ?>
+                        <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                             <span class="label"><?php echo $this->__('Incl. Tax'); ?>:</span>
                         <?php endif; ?>
                         <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
@@ -165,9 +165,9 @@
         </td>
         <td class="col-subtotal">
             <?php if ($this->canShowPriceInfo($_item)): ?>
-                <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
+                <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Magento_Tax_Helper_Data')->displaySalesPriceExclTax()): ?>
                     <span class="price-excl-tax">
-                        <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()): ?>
+                        <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                             <span class="label"><?php echo $this->__('Excl. Tax'); ?>:</span>
                         <?php endif; ?>
 
@@ -216,9 +216,9 @@
                     </span>
                     <br />
                 <?php endif; ?>
-                <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Mage_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
+                <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices() || $this->helper('Magento_Tax_Helper_Data')->displaySalesPriceInclTax()): ?>
                     <span class="price-incl-tax">
-                        <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()): ?>
+                        <?php if ($this->helper('Magento_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                             <span class="label"><?php echo $this->__('Incl. Tax'); ?>:</span>
                         <?php endif; ?>
                         <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getSubtotalInclTax($_item); ?>

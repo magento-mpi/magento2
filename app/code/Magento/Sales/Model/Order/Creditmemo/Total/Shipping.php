@@ -28,7 +28,7 @@ class Magento_Sales_Model_Order_Creditmemo_Total_Shipping extends Magento_Sales_
         $shippingInclTax        = $order->getShippingInclTax();
         $baseShippingInclTax    = $order->getBaseShippingInclTax();
 
-        $isShippingInclTax = Mage::getSingleton('Mage_Tax_Model_Config')->displaySalesShippingInclTax($order->getStoreId());
+        $isShippingInclTax = Mage::getSingleton('Magento_Tax_Model_Config')->displaySalesShippingInclTax($order->getStoreId());
 
         /**
          * Check if shipping amount was specified (from invoice or another source).

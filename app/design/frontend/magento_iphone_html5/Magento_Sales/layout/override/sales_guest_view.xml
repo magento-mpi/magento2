@@ -38,7 +38,7 @@
                         <action method="setValueProperties">
                             <value>class="last a-right"</value>
                         </action>
-                        <block type="Mage_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
+                        <block type="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
                     </block>
                 </block>
             </block>

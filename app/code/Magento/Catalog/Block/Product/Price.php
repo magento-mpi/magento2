@@ -83,12 +83,12 @@ class Magento_Catalog_Block_Product_Price extends Magento_Core_Block_Template
                     $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
 
                     $tierPrice = Mage::app()->getStore()->convertPrice(
-                        Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $price['website_price'])
+                        Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $price['website_price'])
                     );
                     $price['formated_price'] = Mage::app()->getStore()->formatPrice($tierPrice);
                     $price['formated_price_incl_tax'] = Mage::app()->getStore()->formatPrice(
                         Mage::app()->getStore()->convertPrice(
-                            Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $price['website_price'], true)
+                            Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $price['website_price'], true)
                         )
                     );
 

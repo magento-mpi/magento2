@@ -114,7 +114,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
         $attributes = array();
         $options    = array();
         $store      = $this->getCurrentStore();
-        $taxHelper  = Mage::helper('Mage_Tax_Helper_Data');
+        $taxHelper  = Mage::helper('Magento_Tax_Helper_Data');
         $currentProduct = $this->getProduct();
 
         $preconfiguredFlag = $currentProduct->hasPreconfiguredValues();
@@ -213,7 +213,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
             }
         }
 
-        $taxCalculation = Mage::getSingleton('Mage_Tax_Model_Calculation');
+        $taxCalculation = Mage::getSingleton('Magento_Tax_Model_Calculation');
         if (!$taxCalculation->getCustomer() && Mage::registry('current_customer')) {
             $taxCalculation->setCustomer(Mage::registry('current_customer'));
         }

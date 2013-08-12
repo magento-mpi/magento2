@@ -69,7 +69,7 @@ class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_C
     public function getShippingPrice($price, $flag)
     {
         return $this->getQuote()->getStore()->convertPrice(
-            Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($price, $flag, $this->getAddress()),
+            Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($price, $flag, $this->getAddress()),
             true
         );
     }

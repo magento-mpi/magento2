@@ -54,8 +54,8 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Items extends Magento_Adminhtml
      */
     public function displayTotalsIncludeTax()
     {
-        $res = Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalInclTax($this->getStore())
-            || Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalBoth($this->getStore());
+        $res = Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalInclTax($this->getStore())
+            || Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalBoth($this->getStore());
 
         return $res;
     }

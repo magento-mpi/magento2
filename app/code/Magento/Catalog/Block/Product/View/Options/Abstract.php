@@ -99,7 +99,7 @@ abstract class Magento_Catalog_Block_Product_View_Options_Abstract extends Magen
             return '';
         }
 
-        $taxHelper = Mage::helper('Mage_Tax_Helper_Data');
+        $taxHelper = Mage::helper('Magento_Tax_Helper_Data');
         $store = $this->getProduct()->getStore();
 
         $sign = '+';
@@ -140,9 +140,9 @@ abstract class Magento_Catalog_Block_Product_View_Options_Abstract extends Magen
     public function getPrice($price, $includingTax = null)
     {
         if (!is_null($includingTax)) {
-            $price = Mage::helper('Mage_Tax_Helper_Data')->getPrice($this->getProduct(), $price, true);
+            $price = Mage::helper('Magento_Tax_Helper_Data')->getPrice($this->getProduct(), $price, true);
         } else {
-            $price = Mage::helper('Mage_Tax_Helper_Data')->getPrice($this->getProduct(), $price);
+            $price = Mage::helper('Magento_Tax_Helper_Data')->getPrice($this->getProduct(), $price);
         }
         return $price;
     }

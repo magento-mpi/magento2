@@ -20,6 +20,6 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Discount extends Magento
 
     public function displayBoth()
     {
-        return Mage::getSingleton('Mage_Tax_Model_Config')->displayCartSubtotalBoth();
+        return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalBoth();
     }
 }

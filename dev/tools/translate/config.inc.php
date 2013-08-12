@@ -319,8 +319,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/tag.xml',
         'app/design/frontend/default/modern/layout/tag.xml',
     ),
-    'Mage_Tax' => array(
-        'app/code/Mage/Tax/',
+    'Magento_Tax' => array(
+        'app/code/Magento/Tax/',
     ),
     'Magento_Usa' => array(
         'app/code/Magento/Usa/',
@@ -626,7 +626,7 @@ $CONFIG['helpers']  = array(
     'sitemap'           => 'Magento_Sitemap',
     'strikeiron'        => 'Mage_Strikeiron',
     'tag'               => 'Magento_Tag',
-    'tax'               => 'Mage_Tax',
+    'tax'               => 'Magento_Tax',
     'usa'               => 'Magento_Usa',
     'weee'              => 'Magento_Weee',
     'wishlist'          => 'Magento_Wishlist',

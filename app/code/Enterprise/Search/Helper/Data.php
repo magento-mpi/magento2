@@ -351,7 +351,7 @@ class Enterprise_Search_Helper_Data extends Magento_Core_Helper_Abstract
     public function getTaxInfluence()
     {
         if (is_null($this->_taxInfluence)) {
-            $this->_taxInfluence = (bool) Mage::helper('Mage_Tax_Helper_Data')->getPriceTaxSql('price', 'tax');
+            $this->_taxInfluence = (bool) Mage::helper('Magento_Tax_Helper_Data')->getPriceTaxSql('price', 'tax');
         }
 
         return $this->_taxInfluence;

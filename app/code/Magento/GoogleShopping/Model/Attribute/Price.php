@@ -36,9 +36,9 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
         $isSalePriceAllowed = ($targetCountry == 'US');
 
         // get tax settings
-        $taxHelp = Mage::helper('Mage_Tax_Helper_Data');
+        $taxHelp = Mage::helper('Magento_Tax_Helper_Data');
         $priceDisplayType = $taxHelp->getPriceDisplayType($product->getStoreId());
-        $inclTax = ($priceDisplayType == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
+        $inclTax = ($priceDisplayType == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
 
         // calculate sale_price attribute value
         $salePriceAttribute = $this->getGroupAttributeSalePrice();
@@ -64,7 +64,7 @@ class Magento_GoogleShopping_Model_Attribute_Price extends Magento_GoogleShoppin
         } else if ($isSalePriceAllowed) {
             $price = Mage::helper('Magento_GoogleShopping_Helper_Price')->getCatalogRegularPrice($product, $store);
         } else {
-            $inclTax = ($priceDisplayType != Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX);
+            $inclTax = ($priceDisplayType != Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX);
             $price = Mage::helper('Magento_GoogleShopping_Helper_Price')->getCatalogPrice($product, $store, $inclTax);
         }
         if ($product->getTypeId() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {

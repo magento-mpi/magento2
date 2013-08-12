@@ -23,7 +23,7 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_Tax_Drawer
      */
     public function loadAction()
     {
-        $ruleModel = Mage::getModel('Mage_Tax_Model_Calculation_Rule');
+        $ruleModel = Mage::getModel('Magento_Tax_Model_Calculation_Rule');
         Mage::register('tax_rule', $ruleModel);
         parent::loadAction();
     }
@@ -35,11 +35,11 @@ class Saas_Launcher_Controller_Adminhtml_Storelauncher_Tax_Drawer
     {
         $responseContent = '';
         try {
-            /** @var $importHandler Mage_Tax_Model_Rate_CsvImportHandler */
-            $importHandler = $this->_objectManager->create('Mage_Tax_Model_Rate_CsvImportHandler');
+            /** @var $importHandler Magento_Tax_Model_Rate_CsvImportHandler */
+            $importHandler = $this->_objectManager->create('Magento_Tax_Model_Rate_CsvImportHandler');
             $importHandler->importFromCsvFile($this->getRequest()->getFiles('import_rates_file'));
 
-            Mage::register('tax_rule', Mage::getModel('Mage_Tax_Model_Calculation_Rule'));
+            Mage::register('tax_rule', Mage::getModel('Magento_Tax_Model_Calculation_Rule'));
             $this->loadLayout();
             /** @var $editRuleFormBlock Magento_Adminhtml_Block_Tax_Rule_Edit_Form */
             $editRuleFormBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Tax_Rule_Edit_Form');

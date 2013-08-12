@@ -38,27 +38,27 @@
             <group id="classes">
                 <field id="wrapping_tax_class" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Tax Class for Gift Options</label>
-                    <source_model>Mage_Tax_Model_Config_Source_Class_Product</source_model>
+                    <source_model>Magento_Tax_Model_Config_Source_Class_Product</source_model>
                 </field>
             </group>
             <group id="cart_display">
                 <field id="gift_wrapping" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display Gift Wrapping Prices</label>
-                    <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
+                    <source_model>Magento_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                 </field>
                 <field id="printed_card" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display Printed Card Prices</label>
-                    <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
+                    <source_model>Magento_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                 </field>
             </group>
             <group id="sales_display">
                 <field id="gift_wrapping" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display Gift Wrapping Prices</label>
-                    <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
+                    <source_model>Magento_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                 </field>
                 <field id="printed_card" translate="label" module="Enterprise_GiftWrapping" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display Printed Card Prices</label>
-                    <source_model>Mage_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
+                    <source_model>Magento_Tax_Model_System_Config_Source_Tax_Display_Type</source_model>
                 </field>
             </group>
         </section>

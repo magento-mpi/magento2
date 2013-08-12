@@ -19,10 +19,10 @@
 <?php
     $_coreHelper = $this->helper('Magento_Core_Helper_Data');
     $_weeeHelper = $this->helper('Magento_Weee_Helper_Data');
-    $_taxHelper  = $this->helper('Mage_Tax_Helper_Data');
+    $_taxHelper  = $this->helper('Magento_Tax_Helper_Data');
     /* @var $_coreHelper Magento_Core_Helper_Data */
     /* @var $_weeeHelper Magento_Weee_Helper_Data */
-    /* @var $_taxHelper Mage_Tax_Helper_Data */
+    /* @var $_taxHelper Magento_Tax_Helper_Data */
 
     $_product = $this->getProduct();
     $_storeId = $_product->getStoreId();
@@ -55,26 +55,26 @@
         <?php if ($_taxHelper->displayBothPrices()): ?>
             <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 0)): // including ?>
                 <span class="price-excluding-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                     <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_price + $_weeeTaxAmount, true, false) ?>
                     </span>
                 </span>
                 <span class="price-including-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_finalPriceInclTax + $_weeeTaxAmountInclTaxes, true, false) ?>
                     </span>
                 </span>
             <?php elseif ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 1)): // incl. + weee ?>
                 <span class="price-excluding-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                     <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_price + $_weeeTaxAmount, true, false) ?>
                     </span>
                 </span>
                 <span class="price-including-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_finalPriceInclTax + $_weeeTaxAmountInclTaxes, true, false) ?>
                     </span>
@@ -88,13 +88,13 @@
                 </span>
             <?php elseif ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 4)): // incl. + weee ?>
                 <span class="price-excluding-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                     <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_price + $_weeeTaxAmount, true, false) ?>
                     </span>
                 </span>
                 <span class="price-including-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_finalPriceInclTax + $_weeeTaxAmountInclTaxes, true, false) ?>
                     </span>
@@ -108,7 +108,7 @@
                 </span>
             <?php elseif ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 2)): // excl. + weee + final ?>
                 <span class="price-excluding-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                     <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_price, true, false) ?>
                     </span>
@@ -119,14 +119,14 @@
                     </span>
                 <?php endforeach; ?>
                 <span class="price-including-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_finalPriceInclTax + $_weeeTaxAmountInclTaxes, true, false) ?>
                     </span>
                 </span>
             <?php else: ?>
                 <span class="price-excluding-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                     <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php if ($_finalPrice == $_price): ?>
                             <?php echo $_coreHelper->currency($_price, true, false) ?>
@@ -136,7 +136,7 @@
                     </span>
                 </span>
                 <span class="price-including-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_finalPriceInclTax, true, false) ?>
                     </span>
@@ -204,13 +204,13 @@
                 <p class="special-price">
                     <span class="price-label"><?php echo $this->__('Special Price:') ?></span>
                     <span class="price-excluding-tax">
-                        <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                        <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                         <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                             <?php echo $_coreHelper->currency($_finalPrice + $_weeeTaxAmount, true, false) ?>
                         </span>
                     </span>
                 <span class="price-including-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_finalPriceInclTax + $_weeeTaxAmountInclTaxes, true, false) ?>
                     </span>
@@ -236,7 +236,7 @@
             <p class="special-price">
                 <span class="price-label"><?php echo $this->__('Special Price:') ?></span>
                 <span class="price-excluding-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                     <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_finalPrice + $_weeeTaxAmount, true, false) ?>
                     </span>
@@ -249,7 +249,7 @@
                 <?php endforeach; ?>
                 )</span>
             <span class="price-including-tax">
-                <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->currency($_finalPriceInclTax + $_weeeTaxAmountInclTaxes, true, false) ?>
                 </span>
@@ -266,7 +266,7 @@
             <p class="special-price">
                 <span class="price-label"><?php echo $this->__('Special Price:') ?></span>
                 <span class="price-excluding-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                     <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_finalPrice + $_weeeTaxAmount, true, false) ?>
                     </span>
@@ -279,7 +279,7 @@
                 <?php endforeach; ?>
                 )</span>
             <span class="price-including-tax">
-                <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                 <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                     <?php echo $_coreHelper->currency($_finalPriceInclTax + $_weeeTaxAmountInclTaxes, true, false) ?>
                 </span>
@@ -296,7 +296,7 @@
             <p class="special-price">
                 <span class="price-label"><?php echo $this->__('Special Price:') ?></span>
                 <span class="price-excluding-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                     <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_finalPrice, true, false) ?>
                     </span>
@@ -307,7 +307,7 @@
                     </span>
                 <?php endforeach; ?>
                 <span class="price-including-tax">
-                    <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                    <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                     <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                         <?php echo $_coreHelper->currency($_finalPriceInclTax + $_weeeTaxAmountInclTaxes, true, false) ?>
                     </span>
@@ -325,13 +325,13 @@
                 <p class="special-price">
                     <span class="price-label"><?php echo $this->__('Special Price:') ?></span>
                     <span class="price-excluding-tax">
-                        <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                        <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                         <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                             <?php echo $_coreHelper->currency($_finalPrice, true, false) ?>
                         </span>
                     </span>
                     <span class="price-including-tax">
-                        <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                        <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                         <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                             <?php echo $_coreHelper->currency($_finalPriceInclTax, true, false) ?>
                         </span>
@@ -394,13 +394,13 @@
                 <?php endif ?>
                 <?php if ($_taxHelper->displayBothPrices()): ?>
                     <span class="price-excluding-tax">
-                        <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
+                        <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Excl. Tax:') ?></span>
                         <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                             <?php echo $_coreHelper->currency($_exclTax, true, false) ?>
                         </span>
                     </span>
                     <span class="price-including-tax">
-                        <span class="label"><?php echo $this->helper('Mage_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
+                        <span class="label"><?php echo $this->helper('Magento_Tax_Helper_Data')->__('Incl. Tax:') ?></span>
                         <span class="price" id="price-including-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
                             <?php echo $_coreHelper->currency($_inclTax, true, false) ?>
                         </span>

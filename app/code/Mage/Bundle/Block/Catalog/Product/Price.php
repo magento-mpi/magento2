@@ -20,13 +20,13 @@ class Mage_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_Prod
 
     public function isRatesGraterThenZero()
     {
-        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest(false, false, false);
+        $_request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest(false, false, false);
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $defaultTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
+        $defaultTax = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($_request);
 
-        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest();
+        $_request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest();
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $currentTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
+        $currentTax = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($_request);
 
         return (floatval($defaultTax) > 0 || floatval($currentTax) > 0);
     }
@@ -44,7 +44,7 @@ class Mage_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_Prod
             $product->getPriceModel()->getIsPricesCalculatedByIndex() !== false) {
             return false;
         }
-        return $this->helper('Mage_Tax_Helper_Data')->displayBothPrices();
+        return $this->helper('Magento_Tax_Helper_Data')->displayBothPrices();
     }
 
     /**

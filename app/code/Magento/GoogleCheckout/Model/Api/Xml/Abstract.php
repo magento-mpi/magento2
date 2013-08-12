@@ -237,6 +237,6 @@ abstract class Magento_GoogleCheckout_Model_Api_Xml_Abstract extends Magento_Obj
      */
     protected function _getTaxClassForShipping($quote)
     {
-        return Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $quote->getStoreId());
+        return Mage::getStoreConfig(Magento_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $quote->getStoreId());
     }
 }

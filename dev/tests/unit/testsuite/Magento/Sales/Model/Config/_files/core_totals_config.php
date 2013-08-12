@@ -40,7 +40,7 @@ return array(
         'after'  => array('subtotal', 'shipping'),
         'before' => array('grand_total'),
     ),
-    // Totals declared in Mage_Tax
+    // Totals declared in Magento_Tax
     'tax_subtotal' => array(
         'after'  => array('freeshipping'),
         'before' => array('tax', 'discount'),

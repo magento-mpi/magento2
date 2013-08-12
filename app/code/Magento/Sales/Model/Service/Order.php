@@ -264,7 +264,7 @@ class Magento_Sales_Model_Service_Order
         $this->_initCreditmemoData($creditmemo, $data);
         if (!isset($data['shipping_amount'])) {
             $order = $invoice->getOrder();
-            $isShippingInclTax = Mage::getSingleton('Mage_Tax_Model_Config')->displaySalesShippingInclTax($order->getStoreId());
+            $isShippingInclTax = Mage::getSingleton('Magento_Tax_Model_Config')->displaySalesShippingInclTax($order->getStoreId());
             if ($isShippingInclTax) {
                 $baseAllowedAmount = $order->getBaseShippingInclTax()
                         - $order->getBaseShippingRefunded()

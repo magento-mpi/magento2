@@ -29,8 +29,8 @@ class Magento_Adminhtml_Controller_Tax_RateTest extends Mage_Backend_Utility_Con
         $this->assertArrayHasKey('tax_calculation_rate_id', $result);
 
         $rateId = $result['tax_calculation_rate_id'];
-        /** @var $rate Mage_Tax_Model_Calculation_Rate */
-        $rate = Mage::getModel('Mage_Tax_Model_Calculation_Rate')->load($rateId, 'tax_calculation_rate_id');
+        /** @var $rate Magento_Tax_Model_Calculation_Rate */
+        $rate = Mage::getModel('Magento_Tax_Model_Calculation_Rate')->load($rateId, 'tax_calculation_rate_id');
 
         $this->assertEquals($expectedData['zip_is_range'], $rate->getZipIsRange());
         $this->assertEquals($expectedData['zip_from'], $rate->getZipFrom());

@@ -70,7 +70,7 @@
                         <?php else: ?>
                         <span
                             class="label"><?php echo $this->__('Cart Subtotal:') ?></span> <?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($this->getSubtotal()) ?><?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
-                            / <?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('Mage_Tax_Helper_Data')->getIncExcText(true) ?><?php endif; ?>
+                            / <?php echo Mage::helper('Magento_Checkout_Helper_Data')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('Magento_Tax_Helper_Data')->getIncExcText(true) ?><?php endif; ?>
                         <?php endif; ?>
                     </p>
                     <?php endif ?>

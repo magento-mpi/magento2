@@ -79,7 +79,7 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
 
         $aliases = array(
             'sales'       => 'Magento_Sales_Model_Resource_Report_Order',
-            'tax'         => 'Mage_Tax_Model_Resource_Report_Tax',
+            'tax'         => 'Magento_Tax_Model_Resource_Report_Tax',
             'shipping'    => 'Magento_Sales_Model_Resource_Report_Shipping',
             'invoiced'    => 'Magento_Sales_Model_Resource_Report_Invoiced',
             'refunded'    => 'Magento_Sales_Model_Resource_Report_Refunded',

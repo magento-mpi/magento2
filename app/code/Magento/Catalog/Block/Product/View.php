@@ -129,34 +129,34 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
             return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
         }
 
-        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest(false, false, false);
+        $_request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest(false, false, false);
         /* @var $product Magento_Catalog_Model_Product */
         $product = $this->getProduct();
         $_request->setProductClassId($product->getTaxClassId());
-        $defaultTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
+        $defaultTax = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($_request);
 
-        $_request = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRateRequest();
+        $_request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest();
         $_request->setProductClassId($product->getTaxClassId());
-        $currentTax = Mage::getSingleton('Mage_Tax_Model_Calculation')->getRate($_request);
+        $currentTax = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($_request);
 
         $_regularPrice = $product->getPrice();
         $_finalPrice = $product->getFinalPrice();
-        $_priceInclTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $_finalPrice, true);
-        $_priceExclTax = Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $_finalPrice);
+        $_priceInclTax = Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $_finalPrice, true);
+        $_priceExclTax = Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $_finalPrice);
         $_tierPrices = array();
         $_tierPricesInclTax = array();
         foreach ($product->getTierPrice() as $tierPrice) {
             $_tierPrices[] = Mage::helper('Magento_Core_Helper_Data')->currency($tierPrice['website_price'], false, false);
             $_tierPricesInclTax[] = Mage::helper('Magento_Core_Helper_Data')->currency(
-                Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, (int)$tierPrice['website_price'], true),
+                Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, (int)$tierPrice['website_price'], true),
                 false, false);
         }
         $config = array(
             'productId'           => $product->getId(),
             'priceFormat'         => Mage::app()->getLocale()->getJsPriceFormat(),
-            'includeTax'          => Mage::helper('Mage_Tax_Helper_Data')->priceIncludesTax() ? 'true' : 'false',
-            'showIncludeTax'      => Mage::helper('Mage_Tax_Helper_Data')->displayPriceIncludingTax(),
-            'showBothPrices'      => Mage::helper('Mage_Tax_Helper_Data')->displayBothPrices(),
+            'includeTax'          => Mage::helper('Magento_Tax_Helper_Data')->priceIncludesTax() ? 'true' : 'false',
+            'showIncludeTax'      => Mage::helper('Magento_Tax_Helper_Data')->displayPriceIncludingTax(),
+            'showBothPrices'      => Mage::helper('Magento_Tax_Helper_Data')->displayBothPrices(),
             'productPrice'        => Mage::helper('Magento_Core_Helper_Data')->currency($_finalPrice, false, false),
             'productOldPrice'     => Mage::helper('Magento_Core_Helper_Data')->currency($_regularPrice, false, false),
             'priceInclTax'        => Mage::helper('Magento_Core_Helper_Data')->currency($_priceInclTax, false, false),

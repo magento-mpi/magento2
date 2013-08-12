@@ -239,7 +239,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
                                 $quote->getStoreId()
                             );
                             $price = number_format($price, 2, '.','');
-                            $price = (float) Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($price, false, false);
+                            $price = (float) Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($price, false, false);
                             $address->setShippingMethod(null);
                             $address->setCollectShippingRates(true)->collectTotals();
                             $billingAddress->setCollectShippingRates(true)->collectTotals();
@@ -297,11 +297,11 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         }
 
         $quote = $qAddress->getQuote();
-        $taxCalculationModel = Mage::getSingleton('Mage_Tax_Model_Calculation');
+        $taxCalculationModel = Mage::getSingleton('Magento_Tax_Model_Calculation');
         $request = $taxCalculationModel->getRateRequest($qAddress);
         $rate = $taxCalculationModel->getRate($request->setProductClassId($shippingTaxClass));
 
-        if (!Mage::helper('Mage_Tax_Helper_Data')->shippingPriceIncludesTax()) {
+        if (!Mage::helper('Magento_Tax_Helper_Data')->shippingPriceIncludesTax()) {
             $shippingTax    = $qAddress->getShippingAmount() * $rate/100;
             $shippingBaseTax= $qAddress->getBaseShippingAmount() * $rate/100;
         } else {
@@ -671,7 +671,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
         }
 
         if ($method) {
-            Mage::getSingleton('Mage_Tax_Model_Config')->setShippingPriceIncludeTax(false);
+            Mage::getSingleton('Magento_Tax_Model_Config')->setShippingPriceIncludeTax(false);
             $rate = $this->_createShippingRate($method)
                 ->setMethodTitle($shipping['shipping-name']['VALUE'])
                 ->setPrice($shipping['shipping-cost']['VALUE']);
@@ -681,8 +681,8 @@ class Magento_GoogleCheckout_Model_Api_Xml_Callback extends Magento_GoogleChecko
             // We get from Google price with discounts applied via merchant calculations
             $qAddress->setShippingAmountForDiscount(0);
 
-            /*if (!Mage::helper('Mage_Tax_Helper_Data')->shippingPriceIncludesTax($quote->getStore())) {
-                $includingTax = Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice(
+            /*if (!Mage::helper('Magento_Tax_Helper_Data')->shippingPriceIncludesTax($quote->getStore())) {
+                $includingTax = Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice(
                     $excludingTax, true, $qAddress, $quote->getCustomerTaxClassId()
                 );
                 $shippingTax = $includingTax - $excludingTax;

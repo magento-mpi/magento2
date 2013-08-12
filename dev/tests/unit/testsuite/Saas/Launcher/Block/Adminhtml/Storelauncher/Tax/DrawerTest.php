@@ -26,7 +26,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Tax_DrawerTest extends PHPUnit
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         // mock tax rule collection instance
         $taxRuleCollection = $this->getMock(
-            'Mage_Tax_Model_Resource_Calculation_Rule_Collection',
+            'Magento_Tax_Model_Resource_Calculation_Rule_Collection',
             array('getSize'),
             array(),
             '',

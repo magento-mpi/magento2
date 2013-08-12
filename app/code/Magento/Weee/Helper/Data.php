@@ -308,10 +308,10 @@ class Magento_Weee_Helper_Data extends Magento_Core_Helper_Abstract
         $store = Mage::app()->getStore();
         foreach ($tierPrices as $index => &$tier) {
             $html = $store->formatPrice($store->convertPrice(
-                Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $tier['website_price'], true)+$weeeAmount), false);
+                Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $tier['website_price'], true)+$weeeAmount), false);
             $tier['formated_price_incl_weee'] = '<span class="price tier-' . $index . '-incl-tax">' . $html . '</span>';
             $html = $store->formatPrice($store->convertPrice(
-                Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $tier['website_price'])+$weeeAmount), false);
+                Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $tier['website_price'])+$weeeAmount), false);
             $tier['formated_price_incl_weee_only'] = '<span class="price tier-' . $index . '">' . $html . '</span>';
             $tier['formated_weee'] = $store->formatPrice($store->convertPrice($weeeAmount));
         }

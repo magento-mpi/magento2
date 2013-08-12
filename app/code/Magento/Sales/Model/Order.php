@@ -2158,8 +2158,8 @@ class Magento_Sales_Model_Order extends Magento_Sales_Model_Abstract
 
     public function getFullTaxInfo()
     {
-        $rates = Mage::getModel('Mage_Tax_Model_Sales_Order_Tax')->getCollection()->loadByOrder($this)->toArray();
-        return Mage::getSingleton('Mage_Tax_Model_Calculation')->reproduceProcess($rates['items']);
+        $rates = Mage::getModel('Magento_Tax_Model_Sales_Order_Tax')->getCollection()->loadByOrder($this)->toArray();
+        return Mage::getSingleton('Magento_Tax_Model_Calculation')->reproduceProcess($rates['items']);
     }
 
     /**

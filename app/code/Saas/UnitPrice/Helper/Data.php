@@ -58,7 +58,7 @@ class Saas_UnitPrice_Helper_Data extends Magento_Core_Helper_Abstract
         $productUnit = $product->getUnitPriceUnit();
         $referenceUnit = $product->getUnitPriceBaseUnit();
 
-        $productPrice = $this->getHelperModel('Mage_Tax_Helper_Data')
+        $productPrice = $this->getHelperModel('Magento_Tax_Helper_Data')
             ->getPrice($product, $productPrice, $this->getConfig('unit_price_incl_tax'));
         $basePriceModel = $this->getModel(
             'Saas_UnitPrice_Model_Unitprice',

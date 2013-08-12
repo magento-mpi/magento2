@@ -13,7 +13,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments extends 
     /**
      * Initialize creditmemo agjustment totals
      *
-     * @return Mage_Tax_Block_Sales_Order_Tax
+     * @return Magento_Tax_Block_Sales_Order_Tax
      */
     public function initTotals()
     {
@@ -41,7 +41,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments extends 
      */
     public function getShippingAmount()
     {
-        $config = Mage::getSingleton('Mage_Tax_Model_Config');
+        $config = Mage::getSingleton('Magento_Tax_Model_Config');
         $source = $this->getSource();
         if ($config->displaySalesShippingInclTax($source->getOrder()->getStoreId())) {
             $shipping = $source->getBaseShippingInclTax();
@@ -57,7 +57,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Adjustments extends 
      */
     public function getShippingLabel()
     {
-        $config = Mage::getSingleton('Mage_Tax_Model_Config');
+        $config = Mage::getSingleton('Magento_Tax_Model_Config');
         $source = $this->getSource();
         if ($config->displaySalesShippingInclTax($source->getOrder()->getStoreId())) {
             $label = $this->helper('Magento_Sales_Helper_Data')->__('Refund Shipping (Incl. Tax)');

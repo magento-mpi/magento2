@@ -24,7 +24,7 @@ class Magento_Adminhtml_Block_Tax_Rate_Toolbar_Add extends Magento_Adminhtml_Blo
     protected function _prepareLayout()
     {
         $this->addChild('addButton', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Tax_Helper_Data')->__('Add New Tax Rate'),
+            'label' => Mage::helper('Magento_Tax_Helper_Data')->__('Add New Tax Rate'),
             'onclick' => 'window.location.href=\''.$this->getUrl('*/tax_rate/add').'\'',
             'class' => 'add'
         ));

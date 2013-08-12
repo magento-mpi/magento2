@@ -750,8 +750,8 @@ class Magento_Paypal_Model_Express_Checkout
                     continue;
                 }
                 $isDefault = $address->getShippingMethod() === $rate->getCode();
-                $amountExclTax = Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($amount, false, $address);
-                $amountInclTax = Mage::helper('Mage_Tax_Helper_Data')->getShippingPrice($amount, true, $address);
+                $amountExclTax = Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($amount, false, $address);
+                $amountInclTax = Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($amount, true, $address);
 
                 $options[$i] = new Magento_Object(array(
                     'is_default' => $isDefault,

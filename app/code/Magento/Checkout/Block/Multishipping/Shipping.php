@@ -106,6 +106,6 @@ class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_
 
     public function getShippingPrice($address, $price, $flag)
     {
-        return $address->getQuote()->getStore()->convertPrice($this->helper('Mage_Tax_Helper_Data')->getShippingPrice($price, $flag, $address), true);
+        return $address->getQuote()->getStore()->convertPrice($this->helper('Magento_Tax_Helper_Data')->getShippingPrice($price, $flag, $address), true);
     }
 }

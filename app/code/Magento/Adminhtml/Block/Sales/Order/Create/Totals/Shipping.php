@@ -26,7 +26,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Shipping
      */
     public function displayBoth()
     {
-        return Mage::getSingleton('Mage_Tax_Model_Config')->displayCartShippingBoth();
+        return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartShippingBoth();
     }
 
     /**
@@ -36,7 +36,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Shipping
      */
     public function displayIncludeTax()
     {
-        return Mage::getSingleton('Mage_Tax_Model_Config')->displayCartShippingInclTax();
+        return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartShippingInclTax();
     }
 
     /**
@@ -67,7 +67,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Shipping
      */
     public function getIncludeTaxLabel()
     {
-        return $this->helper('Mage_Tax_Helper_Data')->__('Shipping Incl. Tax (%s)', $this->escapeHtml($this->getTotal()->getAddress()->getShippingDescription()));
+        return $this->helper('Magento_Tax_Helper_Data')->__('Shipping Incl. Tax (%s)', $this->escapeHtml($this->getTotal()->getAddress()->getShippingDescription()));
     }
 
     /**
@@ -77,6 +77,6 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Shipping
      */
     public function getExcludeTaxLabel()
     {
-        return $this->helper('Mage_Tax_Helper_Data')->__('Shipping Excl. Tax (%s)', $this->escapeHtml($this->getTotal()->getAddress()->getShippingDescription()));
+        return $this->helper('Magento_Tax_Helper_Data')->__('Shipping Excl. Tax (%s)', $this->escapeHtml($this->getTotal()->getAddress()->getShippingDescription()));
     }
 }

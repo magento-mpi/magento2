@@ -31,11 +31,11 @@ class Magento_GoogleShopping_Model_Attribute_Tax extends Magento_GoogleShopping_
     public function convertAttribute($product, $entry)
     {
         $entry->cleanTaxes();
-        if (Mage::helper('Mage_Tax_Helper_Data')->getConfig()->priceIncludesTax()) {
+        if (Mage::helper('Magento_Tax_Helper_Data')->getConfig()->priceIncludesTax()) {
             return $entry;
         }
 
-        $calc = Mage::helper('Mage_Tax_Helper_Data')->getCalculator();
+        $calc = Mage::helper('Magento_Tax_Helper_Data')->getCalculator();
         $customerTaxClass = $calc->getDefaultCustomerTaxClass($product->getStoreId());
         $rates = $calc->getRatesByCustomerAndProductTaxClasses($customerTaxClass, $product->getTaxClassId());
         $targetCountry = Mage::getSingleton('Magento_GoogleShopping_Model_Config')->getTargetCountry($product->getStoreId());

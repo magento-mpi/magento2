@@ -382,7 +382,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
         if ($item->getTaxPercent() && $item->getTaxString() == '') {
             $percents = array($item->getTaxPercent());
         } else if ($item->getTaxString()) {
-            $percents = explode(Mage_Tax_Model_Config::CALCULATION_STRING_SEPARATOR, $item->getTaxString());
+            $percents = explode(Magento_Tax_Model_Config::CALCULATION_STRING_SEPARATOR, $item->getTaxString());
         } else {
             return '0%';
         }

@@ -20,17 +20,17 @@
 class Magento_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
 {
     /**
-     * @var Mage_Tax_Helper_Data
+     * @var Magento_Tax_Helper_Data
      */
     protected $_taxHelper;
 
     /**
-     * @var Mage_Tax_Model_Calculation
+     * @var Magento_Tax_Model_Calculation
      */
     protected $_taxCalculation;
 
     /**
-     * @var Mage_Tax_Model_Sales_Order_Tax
+     * @var Magento_Tax_Model_Sales_Order_Tax
      */
     protected $_taxOrder;
 
@@ -38,21 +38,21 @@ class Magento_Sales_Model_Order_Pdf_Total_Default extends Magento_Object
      * Initialize dependencies
      *
      * @param Magento_Core_Block_Template_Context $context
-     * @param Mage_Tax_Helper_Data $taxHelper
-     * @param Mage_Tax_Model_Calculation $taxCalculation
+     * @param Magento_Tax_Helper_Data $taxHelper
+     * @param Magento_Tax_Model_Calculation $taxCalculation
      * @param Magento_ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
-        Mage_Tax_Helper_Data $taxHelper,
-        Mage_Tax_Model_Calculation $taxCalculation,
+        Magento_Tax_Helper_Data $taxHelper,
+        Magento_Tax_Model_Calculation $taxCalculation,
         Magento_ObjectManager $objectManager,
         array $data = array()
     ){
         $this->_taxHelper = $taxHelper;
         $this->_taxCalculation = $taxCalculation;
-        $this->_taxOrder = $objectManager->create('Mage_Tax_Model_Sales_Order_Tax');
+        $this->_taxOrder = $objectManager->create('Magento_Tax_Model_Sales_Order_Tax');
         parent::__construct($context, $data);
     }
 

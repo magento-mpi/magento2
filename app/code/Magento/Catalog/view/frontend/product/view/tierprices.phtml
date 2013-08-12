@@ -15,7 +15,7 @@
  */
 $_product = $this->getProduct();
 $_tierPrices = $this->getTierPrices();
-$_finalPriceInclTax = $this->helper('Mage_Tax_Helper_Data')->getPrice($_product, $_product->getFinalPrice(), true);
+$_finalPriceInclTax = $this->helper('Magento_Tax_Helper_Data')->getPrice($_product, $_product->getFinalPrice(), true);
 
 /** @var $_catalogHelper Magento_Catalog_Helper_Data */
 $_catalogHelper = Mage::helper('Magento_Catalog_Helper_Data');
@@ -42,7 +42,7 @@ if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(1,2
             <?php endif; ?>
         <?php else: ?>
 
-        <?php if ($this->helper('Mage_Tax_Helper_Data')->displayBothPrices()): ?>
+        <?php if ($this->helper('Magento_Tax_Helper_Data')->displayBothPrices()): ?>
             <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 0)): ?>
                 <?php echo $this->__('Buy %1$s for %2$s (%3$s incl. tax) each', $_price['price_qty'], $_price['formated_price_incl_weee_only'], $_price['formated_price_incl_weee']) ?>
             <?php elseif(Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 1)): ?>
@@ -84,7 +84,7 @@ if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, array(1,2
                     <?php echo $this->__('Buy %1$s for %2$s (%3$s incl. tax) each', $_price['price_qty'], $_price['formated_price'], $_price['formated_price_incl_tax']) ?>
             <?php endif; ?>
         <?php else: ?>
-            <?php if ($this->helper('Mage_Tax_Helper_Data')->displayPriceIncludingTax()): ?>
+            <?php if ($this->helper('Magento_Tax_Helper_Data')->displayPriceIncludingTax()): ?>
                 <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 0)): ?>
                         <?php echo $this->__('Buy %1$s for %2$s each', $_price['price_qty'], $_price['formated_price_incl_weee']) ?>
                 <?php elseif(Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_product, 1)): ?>

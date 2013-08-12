@@ -21,14 +21,14 @@ class Saas_PrintedTemplate_Model_Tax_Details
     /**
      * Tax calculation model
      *
-     * @var Mage_Tax_Model_Calculation
+     * @var Magento_Tax_Model_Calculation
      */
     protected $_calculator;
 
     /**
      * Tax configuration object
      *
-     * @var Mage_Tax_Model_Config
+     * @var Magento_Tax_Model_Config
      */
     protected $_config;
 
@@ -40,8 +40,8 @@ class Saas_PrintedTemplate_Model_Tax_Details
     public function __construct($data = array())
     {
         $this->_calculator = isset($data['calculator']) ? $data['calculator']
-            : Mage::getSingleton('Mage_Tax_Model_Calculation');
-        $this->_config = isset($data['config']) ? $data['config'] : Mage::getSingleton('Mage_Tax_Model_Config');
+            : Mage::getSingleton('Magento_Tax_Model_Calculation');
+        $this->_config = isset($data['config']) ? $data['config'] : Mage::getSingleton('Magento_Tax_Model_Config');
     }
 
     /**

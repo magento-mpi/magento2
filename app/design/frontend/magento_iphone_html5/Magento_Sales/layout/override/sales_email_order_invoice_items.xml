@@ -27,7 +27,7 @@
                 <action method="setValueProperties">
                     <value>align="right" style="padding:3px 9px"</value>
                 </action>
-                <block type="Mage_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
+                <block type="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
             </block>
         </block>
         <container name="additional.product.info" label="Additional Product Info"/>
