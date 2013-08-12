@@ -746,7 +746,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
             'googlecheckout'    => 'Magento_GoogleCheckout',
             'importexport'      => 'Magento_ImportExport',
             'paypaluk'          => 'Mage_PaypalUk',
-            'productalert'      => 'Mage_ProductAlert',
+            'productalert'      => 'Magento_ProductAlert',
             'salesrule'         => 'Mage_SalesRule',
         );
     }

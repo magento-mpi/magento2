@@ -50,7 +50,7 @@ Magento/Install/Block/Db
 Mage/Payment/Block/Form
 Mage/Payment/Model/Method
 Mage/Payment/Model/Config
-Mage/ProductAlert/Model
+Magento/ProductAlert/Model
 Magento/Reports/Block/Product/Widget
 Magento/Reports/Model/Resource/Helper
 Magento/Reports/Model/Resource

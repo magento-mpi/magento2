@@ -28,7 +28,7 @@ return array(
             array(
                 'table' => 'table',
                 'field' => 'field',
-                'to'    => '<p>{{widget type="Mage_ProductAlert_Block_Product_View"}}</p>',
+                'to'    => '<p>{{widget type="Magento_ProductAlert_Block_Product_View"}}</p>',
                 'from'  => array('`field` = ?' => '<p>{{widget type="productalert/product_view"}}</p>')
             ),
             array(
@@ -40,7 +40,7 @@ return array(
         ),
         'aliases_map' => array(
             Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK => array(
-                'productalert/product_view' => 'Mage_ProductAlert_Block_Product_View',
+                'productalert/product_view' => 'Magento_ProductAlert_Block_Product_View',
                 'catalogSearch/result'      => 'Magento_CatalogSearch_Block_Result',
             )
         )

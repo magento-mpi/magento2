@@ -117,8 +117,8 @@ class Enterprise_Checkout_Block_Sku_Products_Info extends Magento_Core_Block_Tem
                         . $this->__("Specify the product's options")
                         . '</a>';
             case Enterprise_Checkout_Helper_Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                /** @var $helper Mage_ProductAlert_Helper_Data */
-                $helper = Mage::helper('Mage_ProductAlert_Helper_Data');
+                /** @var $helper Magento_ProductAlert_Helper_Data */
+                $helper = Mage::helper('Magento_ProductAlert_Helper_Data');
 
                 if (!$helper->isStockAlertAllowed()) {
                     return '';

@@ -37,8 +37,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Price extends Mage
         if ($store = $this->getRequest()->getParam('store')) {
             $websiteId = Mage::app()->getStore($store)->getWebsiteId();
         }
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Mage_ProductAlert')) {
-            $collection = Mage::getModel('Mage_ProductAlert_Model_Price')
+        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_ProductAlert')) {
+            $collection = Mage::getModel('Magento_ProductAlert_Model_Price')
                 ->getCustomerCollection()
                 ->join($productId, $websiteId);
             $this->setCollection($collection);
