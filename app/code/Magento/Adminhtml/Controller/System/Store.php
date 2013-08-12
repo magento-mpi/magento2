@@ -437,14 +437,14 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
             return $this;
         }
         try {
-            $backupDb = Mage::getModel('Mage_Backup_Model_Db');
-            $backup   = Mage::getModel('Mage_Backup_Model_Backup')
+            $backupDb = Mage::getModel('Magento_Backup_Model_Db');
+            $backup   = Mage::getModel('Magento_Backup_Model_Backup')
                 ->setTime(time())
                 ->setType('db')
                 ->setPath(Mage::getBaseDir('var') . DS . 'backups');
 
             $backupDb->createBackup($backup);
-            $this->_getSession()->addSuccess(Mage::helper('Mage_Backup_Helper_Data')->__('The database was backed up.'));
+            $this->_getSession()->addSuccess(Mage::helper('Magento_Backup_Helper_Data')->__('The database was backed up.'));
         }
         catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -452,7 +452,7 @@ class Magento_Adminhtml_Controller_System_Store extends Magento_Adminhtml_Contro
             return ;
         }
         catch (Exception $e) {
-            $this->_getSession()->addException($e, Mage::helper('Mage_Backup_Helper_Data')->__('We couldn\'t create a backup right now. Please try again later.'));
+            $this->_getSession()->addException($e, Mage::helper('Magento_Backup_Helper_Data')->__('We couldn\'t create a backup right now. Please try again later.'));
             $this->_redirect($failPath, $arguments);
             return ;
         }

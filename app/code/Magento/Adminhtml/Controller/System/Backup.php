@@ -30,7 +30,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
         }
 
         $this->loadLayout();
-        $this->_setActiveMenu('Mage_Backup::system_tools_backup');
+        $this->_setActiveMenu('Magento_Backup::system_tools_backup');
         $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('System'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('System'));
         $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Tools'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Tools'));
         $this->_addBreadcrumb(Mage::helper('Magento_Adminhtml_Helper_Data')->__('Backups'), Mage::helper('Magento_Adminhtml_Helper_Data')->__('Backup'));
@@ -61,20 +61,20 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
         $response = new Magento_Object();
 
         /**
-         * @var Mage_Backup_Helper_Data $helper
+         * @var Magento_Backup_Helper_Data $helper
          */
-        $helper = Mage::helper('Mage_Backup_Helper_Data');
+        $helper = Mage::helper('Magento_Backup_Helper_Data');
 
         try {
             $type = $this->getRequest()->getParam('type');
 
-            if ($type == Mage_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT
+            if ($type == Magento_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT
                 && $this->getRequest()->getParam('exclude_media')
             ) {
-                $type = Mage_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA;
+                $type = Magento_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA;
             }
 
-            $backupManager = Mage_Backup::getBackupInstance($type)
+            $backupManager = Magento_Backup::getBackupInstance($type)
                 ->setBackupExtension($helper->getExtensionByType($type))
                 ->setTime(time())
                 ->setBackupsDir($helper->getBackupsDir());
@@ -88,15 +88,15 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
 
                 if (!$turnedOn) {
                     $response->setError(
-                        Mage::helper('Mage_Backup_Helper_Data')->__('You need more permissions to activate maintenance mode right now.')
-                            . ' ' . Mage::helper('Mage_Backup_Helper_Data')->__('To continue with the backup, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
+                        Mage::helper('Magento_Backup_Helper_Data')->__('You need more permissions to activate maintenance mode right now.')
+                            . ' ' . Mage::helper('Magento_Backup_Helper_Data')->__('To continue with the backup, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
                     );
-                    $backupManager->setErrorMessage(Mage::helper('Mage_Backup_Helper_Data')->__("Something went wrong putting your store into maintenance mode."));
+                    $backupManager->setErrorMessage(Mage::helper('Magento_Backup_Helper_Data')->__("Something went wrong putting your store into maintenance mode."));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }
 
-            if ($type != Mage_Backup_Helper_Data::TYPE_DB) {
+            if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
                 $backupManager->setRootDir(Mage::getBaseDir())
                     ->addIgnorePaths($helper->getBackupIgnorePaths());
             }
@@ -108,14 +108,14 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             $this->_getSession()->addSuccess($successMessage);
 
             $response->setRedirectUrl($this->getUrl('*/*/index'));
-        } catch (Mage_Backup_Exception_NotEnoughFreeSpace $e) {
-            $errorMessage = Mage::helper('Mage_Backup_Helper_Data')->__('You need more free space to create a backup.');
-        } catch (Mage_Backup_Exception_NotEnoughPermissions $e) {
+        } catch (Magento_Backup_Exception_NotEnoughFreeSpace $e) {
+            $errorMessage = Mage::helper('Magento_Backup_Helper_Data')->__('You need more free space to create a backup.');
+        } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
             Mage::log($e->getMessage());
-            $errorMessage = Mage::helper('Mage_Backup_Helper_Data')->__('You need more permissions to create a backup.');
+            $errorMessage = Mage::helper('Magento_Backup_Helper_Data')->__('You need more permissions to create a backup.');
         } catch (Exception  $e) {
             Mage::log($e->getMessage());
-            $errorMessage = Mage::helper('Mage_Backup_Helper_Data')->__('Something went wrong creating the backup.');
+            $errorMessage = Mage::helper('Magento_Backup_Helper_Data')->__('Something went wrong creating the backup.');
         }
 
         if (!empty($errorMessage)) {
@@ -137,8 +137,8 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
      */
     public function downloadAction()
     {
-        /* @var $backup Mage_Backup_Model_Backup */
-        $backup = Mage::getModel('Mage_Backup_Model_Backup')->loadByTimeAndType(
+        /* @var $backup Magento_Backup_Model_Backup */
+        $backup = Mage::getModel('Magento_Backup_Model_Backup')->loadByTimeAndType(
             $this->getRequest()->getParam('time'),
             $this->getRequest()->getParam('type')
         );
@@ -147,7 +147,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->_redirect('*/*');
         }
 
-        $fileName = Mage::helper('Mage_Backup_Helper_Data')->generateBackupDownloadName($backup);
+        $fileName = Mage::helper('Magento_Backup_Helper_Data')->generateBackupDownloadName($backup);
 
         $this->_prepareDownloadResponse($fileName, null, 'application/octet-stream', $backup->getSize());
 
@@ -164,7 +164,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
      */
     public function rollbackAction()
     {
-        if (!Mage::helper('Mage_Backup_Helper_Data')->isRollbackAllowed()){
+        if (!Mage::helper('Magento_Backup_Helper_Data')->isRollbackAllowed()){
             return $this->_forward('denied');
         }
 
@@ -172,12 +172,12 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->getUrl('*/*/index');
         }
 
-        $helper = Mage::helper('Mage_Backup_Helper_Data');
+        $helper = Mage::helper('Magento_Backup_Helper_Data');
         $response = new Magento_Object();
 
         try {
-            /* @var $backup Mage_Backup_Model_Backup */
-            $backup = Mage::getModel('Mage_Backup_Model_Backup')->loadByTimeAndType(
+            /* @var $backup Magento_Backup_Model_Backup */
+            $backup = Mage::getModel('Magento_Backup_Model_Backup')->loadByTimeAndType(
                 $this->getRequest()->getParam('time'),
                 $this->getRequest()->getParam('type')
             );
@@ -187,27 +187,27 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             }
 
             if (!$backup->getTime()) {
-                throw new Mage_Backup_Exception_CantLoadSnapshot();
+                throw new Magento_Backup_Exception_CantLoadSnapshot();
             }
 
             $type = $backup->getType();
 
-            $backupManager = Mage_Backup::getBackupInstance($type)
+            $backupManager = Magento_Backup::getBackupInstance($type)
                 ->setBackupExtension($helper->getExtensionByType($type))
                 ->setTime($backup->getTime())
                 ->setBackupsDir($helper->getBackupsDir())
                 ->setName($backup->getName(), false)
-                ->setResourceModel(Mage::getResourceModel('Mage_Backup_Model_Resource_Db'));
+                ->setResourceModel(Mage::getResourceModel('Magento_Backup_Model_Resource_Db'));
 
             Mage::register('backup_manager', $backupManager);
 
-            $passwordValid = Mage::getModel('Mage_Backup_Model_Backup')->validateUserPassword(
+            $passwordValid = Mage::getModel('Magento_Backup_Model_Backup')->validateUserPassword(
                 $this->getRequest()->getParam('password')
             );
 
             if (!$passwordValid) {
-                $response->setError(Mage::helper('Mage_Backup_Helper_Data')->__('Please correct the password.'));
-                $backupManager->setErrorMessage(Mage::helper('Mage_Backup_Helper_Data')->__('Please correct the password.'));
+                $response->setError(Mage::helper('Magento_Backup_Helper_Data')->__('Please correct the password.'));
+                $backupManager->setErrorMessage(Mage::helper('Magento_Backup_Helper_Data')->__('Please correct the password.'));
                 return $this->getResponse()->setBody($response->toJson());
             }
 
@@ -216,15 +216,15 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
 
                 if (!$turnedOn) {
                     $response->setError(
-                        Mage::helper('Mage_Backup_Helper_Data')->__('You need more permissions to activate maintenance mode right now.')
-                            . ' ' . Mage::helper('Mage_Backup_Helper_Data')->__('To continue with the rollback, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
+                        Mage::helper('Magento_Backup_Helper_Data')->__('You need more permissions to activate maintenance mode right now.')
+                            . ' ' . Mage::helper('Magento_Backup_Helper_Data')->__('To continue with the rollback, you need to either deselect "Put store on the maintenance mode" or update your permissions.')
                     );
-                    $backupManager->setErrorMessage(Mage::helper('Mage_Backup_Helper_Data')->__("Something went wrong putting your store into maintenance mode."));
+                    $backupManager->setErrorMessage(Mage::helper('Magento_Backup_Helper_Data')->__("Something went wrong putting your store into maintenance mode."));
                     return $this->getResponse()->setBody($response->toJson());
                 }
             }
 
-            if ($type != Mage_Backup_Helper_Data::TYPE_DB) {
+            if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
 
                 $backupManager->setRootDir(Mage::getBaseDir())
                     ->addIgnorePaths($helper->getRollbackIgnorePaths());
@@ -248,18 +248,18 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             $adminSession->getCookie()->delete($adminSession->getSessionName());
 
             $response->setRedirectUrl($this->getUrl('*'));
-        } catch (Mage_Backup_Exception_CantLoadSnapshot $e) {
-            $errorMsg = Mage::helper('Mage_Backup_Helper_Data')->__('The backup file was not found.');
-        } catch (Mage_Backup_Exception_FtpConnectionFailed $e) {
-            $errorMsg = Mage::helper('Mage_Backup_Helper_Data')->__('We couldn\'t connect to the FTP.');
-        } catch (Mage_Backup_Exception_FtpValidationFailed $e) {
-            $errorMsg = Mage::helper('Mage_Backup_Helper_Data')->__('Failed to validate FTP');
-        } catch (Mage_Backup_Exception_NotEnoughPermissions $e) {
+        } catch (Magento_Backup_Exception_CantLoadSnapshot $e) {
+            $errorMsg = Mage::helper('Magento_Backup_Helper_Data')->__('The backup file was not found.');
+        } catch (Magento_Backup_Exception_FtpConnectionFailed $e) {
+            $errorMsg = Mage::helper('Magento_Backup_Helper_Data')->__('We couldn\'t connect to the FTP.');
+        } catch (Magento_Backup_Exception_FtpValidationFailed $e) {
+            $errorMsg = Mage::helper('Magento_Backup_Helper_Data')->__('Failed to validate FTP');
+        } catch (Magento_Backup_Exception_NotEnoughPermissions $e) {
             Mage::log($e->getMessage());
-            $errorMsg = Mage::helper('Mage_Backup_Helper_Data')->__('You need more permissions to create a backup.');
+            $errorMsg = Mage::helper('Magento_Backup_Helper_Data')->__('You need more permissions to create a backup.');
         } catch (Exception $e) {
             Mage::log($e->getMessage());
-            $errorMsg = Mage::helper('Mage_Backup_Helper_Data')->__('Failed to rollback');
+            $errorMsg = Mage::helper('Magento_Backup_Helper_Data')->__('Failed to rollback');
         }
 
         if (!empty($errorMsg)) {
@@ -287,14 +287,14 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             return $this->_redirect('*/*/index');
         }
 
-        /** @var $backupModel Mage_Backup_Model_Backup */
-        $backupModel = Mage::getModel('Mage_Backup_Model_Backup');
+        /** @var $backupModel Magento_Backup_Model_Backup */
+        $backupModel = Mage::getModel('Magento_Backup_Model_Backup');
         $resultData = new Magento_Object();
         $resultData->setIsSuccess(false);
         $resultData->setDeleteResult(array());
         Mage::register('backup_manager', $resultData);
 
-        $deleteFailMessage = Mage::helper('Mage_Backup_Helper_Data')->__('We couldn\'t delete one or more backups.');
+        $deleteFailMessage = Mage::helper('Magento_Backup_Helper_Data')->__('We couldn\'t delete one or more backups.');
 
         try {
             $allBackupsDeleted = true;
@@ -320,7 +320,7 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
             $resultData->setIsSuccess(true);
             if ($allBackupsDeleted) {
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_Backup_Helper_Data')->__('The selected backup(s) has been deleted.')
+                    Mage::helper('Magento_Backup_Helper_Data')->__('The selected backup(s) has been deleted.')
                 );
             }
             else {
@@ -341,6 +341,6 @@ class Magento_Adminhtml_Controller_System_Backup extends Magento_Adminhtml_Contr
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Backup::backup');
+        return $this->_authorization->isAllowed('Magento_Backup::backup');
     }
 }

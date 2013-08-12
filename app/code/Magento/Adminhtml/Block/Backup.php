@@ -28,18 +28,18 @@ class Magento_Adminhtml_Block_Backup extends Magento_Adminhtml_Block_Template
     {
         parent::_prepareLayout();
         $this->addChild('createButton', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Backup_Helper_Data')->__('Database Backup'),
-            'onclick' => "return backup.backup('" . Mage_Backup_Helper_Data::TYPE_DB . "')",
+            'label' => Mage::helper('Magento_Backup_Helper_Data')->__('Database Backup'),
+            'onclick' => "return backup.backup('" . Magento_Backup_Helper_Data::TYPE_DB . "')",
             'class'  => 'task'
         ));
         $this->addChild('createSnapshotButton', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Backup_Helper_Data')->__('System Backup'),
-            'onclick' => "return backup.backup('" . Mage_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT . "')",
+            'label' => Mage::helper('Magento_Backup_Helper_Data')->__('System Backup'),
+            'onclick' => "return backup.backup('" . Magento_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT . "')",
             'class'  => ''
         ));
         $this->addChild('createMediaBackupButton', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label' => Mage::helper('Mage_Backup_Helper_Data')->__('Database and Media Backup'),
-            'onclick' => "return backup.backup('" . Mage_Backup_Helper_Data::TYPE_MEDIA . "')",
+            'label' => Mage::helper('Magento_Backup_Helper_Data')->__('Database and Media Backup'),
+            'onclick' => "return backup.backup('" . Magento_Backup_Helper_Data::TYPE_MEDIA . "')",
             'class'  => ''
         ));
 

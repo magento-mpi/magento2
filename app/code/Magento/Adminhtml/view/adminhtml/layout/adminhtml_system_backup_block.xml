@@ -13,7 +13,7 @@
             <block type="Magento_Backend_Block_Widget_Grid" name="adminhtml.system.backup.grid" as="grid">
                 <arguments>
                     <id>backupsGrid</id>
-                    <dataSource type="object">Mage_Backup_Model_Fs_Collection</dataSource>
+                    <dataSource type="object">Magento_Backup_Model_Fs_Collection</dataSource>
                     <default_sort>time</default_sort>
                     <default_dir>desc</default_dir>
                 </arguments>
@@ -26,7 +26,7 @@
                             <delete>
                                 <label translate="true" module="Magento_Adminhtml">Delete</label>
                                 <url>*/*/massDelete</url>
-                                <confirm translate="true" module="Mage_Backup">Are you sure you want to delete the selected backup(s)?</confirm>
+                                <confirm translate="true" module="Magento_Backup">Are you sure you want to delete the selected backup(s)?</confirm>
                             </delete>
                         </options>
                     </arguments>
@@ -37,7 +37,7 @@
                     </arguments>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="time">
                         <arguments>
-                            <header translate="true" module="Mage_Backup">Time</header>
+                            <header translate="true" module="Magento_Backup">Time</header>
                             <index>date_object</index>
                             <type>datetime</type>
                             <width>200px</width>
@@ -45,7 +45,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="display_name">
                         <arguments>
-                            <header translate="true" module="Mage_Backup">Name</header>
+                            <header translate="true" module="Magento_Backup">Name</header>
                             <index>display_name</index>
                             <filter>0</filter>
                             <sortable>1</sortable>
@@ -54,7 +54,7 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="size">
                         <arguments>
-                            <header translate="true" module="Mage_Backup">Size(bytes)</header>
+                            <header translate="true" module="Magento_Backup">Size(bytes)</header>
                             <index>size</index>
                             <type>number</type>
                             <filter>0</filter>
@@ -63,26 +63,26 @@
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="type">
                         <arguments>
-                            <header translate="true" module="Mage_Backup">Type</header>
+                            <header translate="true" module="Magento_Backup">Type</header>
                             <index>type</index>
                             <type>options</type>
-                            <options type="options">Mage_Backup_Model_Grid_Options</options>
+                            <options type="options">Magento_Backup_Model_Grid_Options</options>
                             <width>300px</width>
                         </arguments>
                     </block>
                     <block type="Magento_Backend_Block_Widget_Grid_Column" as="download">
                         <arguments>
-                            <header translate="true" module="Mage_Backup">Download</header>
+                            <header translate="true" module="Magento_Backup">Download</header>
                             <index>type</index>
                             <filter>0</filter>
                             <sortable>0</sortable>
                             <type>action</type>
-                            <renderer>Mage_Backup_Block_Adminhtml_Grid_Column_Renderer_Download</renderer>
+                            <renderer>Magento_Backup_Block_Adminhtml_Grid_Column_Renderer_Download</renderer>
                         </arguments>
                     </block>
-                    <block type="Mage_Backup_Block_Adminhtml_Grid_Column_Rollback" as="action">
+                    <block type="Magento_Backup_Block_Adminhtml_Grid_Column_Rollback" as="action">
                         <arguments>
-                            <header translate="true" module="Mage_Backup">Action</header>
+                            <header translate="true" module="Magento_Backup">Action</header>
                             <index>type</index>
                             <width>80px</width>
                             <filter>0</filter>
@@ -90,7 +90,7 @@
                             <type>action</type>
                             <actions>
                                 <rollback_action>
-                                    <caption translate="true" module="Mage_Backup">Rollback</caption>
+                                    <caption translate="true" module="Magento_Backup">Rollback</caption>
                                     <url>
                                         <base>#</base>
                                     </url>
