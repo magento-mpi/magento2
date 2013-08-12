@@ -7,11 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Promo_Catalog_Model_Resource_Grid_Collection
+class Magento_Promo_Catalog_Model_Resource_Grid_Collection
     extends Magento_CatalogRule_Model_Resource_Rule_Collection
 {
     /**
-     * @return Mage_Promo_Catalog_Model_Resource_Grid_Collection
+     * @return Magento_Promo_Catalog_Model_Resource_Grid_Collection
      */
     protected function _initSelect()
     {
