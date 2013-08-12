@@ -83,7 +83,7 @@ class Mage_GoogleShopping_Model_Attribute_Tax extends Mage_GoogleShopping_Model_
         if (strpos($zip, '-') == -1) {
             return array($zip);
         } else {
-            return Mage::helper('Mage_GoogleCheckout_Helper_Data')->zipRangeToZipPattern($zip);
+            return Mage::helper('Magento_GoogleCheckout_Helper_Data')->zipRangeToZipPattern($zip);
         }
     }
 }

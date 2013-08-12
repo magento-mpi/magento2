@@ -307,7 +307,7 @@ new_admin_role:
                                         stores-settings-configuration-shipping_settings_section: //*[@data-id='Mage_Shipping::config_shipping']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-shipping_methods_section: //*[@data-id='Mage_Shipping::carriers']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-newsletter_section: //*[@data-id='Mage_Newsletter::newsletter']//*[@class='jstree-checkbox']
-                                        stores-settings-configuration-google_api: //*[@data-id='Mage_GoogleCheckout::google']//*[@class='jstree-checkbox']
+                                        stores-settings-configuration-google_api: //*[@data-id='Magento_GoogleCheckout::google']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-general_section: //*[@data-id='Magento_Adminhtml::config_general']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-web_section: //*[@data-id='Magento_Adminhtml::web']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-design_section: //*[@data-id='Magento_Adminhtml::config_design']//*[@class='jstree-checkbox']

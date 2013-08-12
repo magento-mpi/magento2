@@ -320,7 +320,7 @@ class Mage_Persistent_Model_Observer
                 Mage::helper('Mage_Persistent_Helper_Data')->__('To check out, please log in using your email address.')
             );
             $controllerAction->redirectLogin();
-            if ($controllerAction instanceof Mage_GoogleCheckout_Controller_Redirect
+            if ($controllerAction instanceof Magento_GoogleCheckout_Controller_Redirect
                 || $controllerAction instanceof Mage_Paypal_Controller_Express_Abstract
             ) {
                 Mage::getSingleton('Mage_Customer_Model_Session')

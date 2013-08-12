@@ -743,7 +743,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
             'giftmessage'       => 'Mage_GiftMessage',
             'googleanalytics'   => 'Magento_GoogleAnalytics',
             'googlebase'        => 'Mage_GoogleBase',
-            'googlecheckout'    => 'Mage_GoogleCheckout',
+            'googlecheckout'    => 'Magento_GoogleCheckout',
             'importexport'      => 'Mage_ImportExport',
             'paypaluk'          => 'Mage_PaypalUk',
             'productalert'      => 'Mage_ProductAlert',

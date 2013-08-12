@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_GoogleAnalytics
+ * @package     Magento_GoogleCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +16,7 @@
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Magento_GoogleCheckout::google" module="Magento_GoogleAnalytics" title="Google API" />
+                            <resource id="Magento_GoogleCheckout::google" module="Magento_GoogleCheckout" title="Google API" />
                         </resource>
                     </resource>
                 </resource>
