@@ -154,8 +154,8 @@ $CONFIG['translates'] = array(
         'app/code/Magento/GoogleCheckout/',
         'app/design/frontend/base/default/layout/googlecheckout.xml'
     ),
-    'Mage_GoogleOptimizer' => array(
-        'app/code/Mage/GoogleOptimizer/',
+    'Magento_GoogleOptimizer' => array(
+        'app/code/Magento/GoogleOptimizer/',
         'app/design/frontend/base/default/layout/googleoptimizer.xml',
         'app/design/adminhtml/default/default/layout/googleoptimizer.xml',
         'app/design/adminhtml/default/default/template/googleoptimizer/',
@@ -593,7 +593,7 @@ $CONFIG['helpers']  = array(
     'googleanalytics'   => 'Magento_GoogleAnalytics',
     'googlebase'        => 'Mage_GoogleBase',
     'googlecheckout'    => 'Magento_GoogleCheckout',
-    'googleoptimizer'   => 'Mage_GoogleOptimizer',
+    'googleoptimizer'   => 'Magento_GoogleOptimizer',
     'googleshopping'    => 'Mage_GoogleShopping',
     'ideal'             => 'Mage_Ideal',
     'index'             => 'Mage_Index',
