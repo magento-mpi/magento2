@@ -55,8 +55,8 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/centinel.xml',
         'app/design/adminhtml/default/default/template/centinel/',
     ),
-    'Mage_Checkout' => array(
-        'app/code/Mage/Checkout/',
+    'Magento_Checkout' => array(
+        'app/code/Magento/Checkout/',
         'app/design/frontend/base/default/template/checkout/',
         'app/design/frontend/base/default/layout/checkout.xml',
         'app/design/frontend/default/modern/template/checkout/',
@@ -573,7 +573,7 @@ $CONFIG['helpers']  = array(
     'catalogrule'       => 'Magento_CatalogRule',
     'catalogsearch'     => 'Magento_CatalogSearch',
     'centinel'          => 'Magento_Centinel',
-    'checkout'          => 'Mage_Checkout',
+    'checkout'          => 'Magento_Checkout',
     'chronopay'         => 'Mage_Chronopay',
     'cms'               => 'Magento_Cms',
     'compiler'          => 'Mage_Compiler',

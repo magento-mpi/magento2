@@ -35,7 +35,7 @@ class Magento_Wishlist_Controller_Shared extends Magento_Wishlist_Controller_Abs
             return false;
         }
 
-        Mage::getSingleton('Mage_Checkout_Model_Session')->setSharedWishlist($code);
+        Mage::getSingleton('Magento_Checkout_Model_Session')->setSharedWishlist($code);
 
         return $wishlist;
     }
@@ -57,7 +57,7 @@ class Magento_Wishlist_Controller_Shared extends Magento_Wishlist_Controller_Abs
         Mage::register('shared_wishlist', $wishlist);
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Checkout_Model_Session');
+        $this->_initLayoutMessages('Magento_Checkout_Model_Session');
         $this->_initLayoutMessages('Magento_Wishlist_Model_Session');
         $this->renderLayout();
     }
@@ -79,7 +79,7 @@ class Magento_Wishlist_Controller_Shared extends Magento_Wishlist_Controller_Abs
 
         /* @var $session Magento_Core_Model_Session_Generic */
         $session    = Mage::getSingleton('Magento_Wishlist_Model_Session');
-        $cart       = Mage::getSingleton('Mage_Checkout_Model_Cart');
+        $cart       = Mage::getSingleton('Magento_Checkout_Model_Cart');
 
         $redirectUrl = $this->_getRefererUrl();
 
@@ -91,8 +91,8 @@ class Magento_Wishlist_Controller_Shared extends Magento_Wishlist_Controller_Abs
             $item->addToCart($cart);
             $cart->save()->getQuote()->collectTotals();
 
-            if (Mage::helper('Mage_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
-                $redirectUrl = Mage::helper('Mage_Checkout_Helper_Cart')->getCartUrl();
+            if (Mage::helper('Magento_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
+                $redirectUrl = Mage::helper('Magento_Checkout_Helper_Cart')->getCartUrl();
             }
         } catch (Magento_Core_Exception $e) {
             if ($e->getCode() == Magento_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {

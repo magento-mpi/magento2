@@ -19,7 +19,7 @@
                 <Magento_Catalog/>
                 <Magento_CatalogSearch/>
                 <Mage_Sales/>
-                <Mage_Checkout/>
+                <Magento_Checkout/>
                 <Enterprise_WebsiteRestriction/>
             </depends>
         </Enterprise_CatalogPermissions>

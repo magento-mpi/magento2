@@ -38,7 +38,7 @@ class Mage_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Block_T
     {
         if( !$this->_cartItemsCount ) {
             $this->_cartItemsCount = Mage::getModel('Mage_Sales_Model_Quote')
-                ->setId(Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->getId())
+                ->setId(Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getId())
                 ->getItemsCollection()
                 ->getSize();
         }

@@ -34,15 +34,15 @@ class Enterprise_Reward_Controller_Cart extends Magento_Core_Controller_Front_Ac
             return $this->_redirect('customer/account/');
         }
 
-        $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
 
         if ($quote->getUseRewardPoints()) {
             $quote->setUseRewardPoints(false)->collectTotals()->save();
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
                 $this->__('You removed the reward points from this order.')
             );
         } else {
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addError(
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addError(
                 $this->__('Reward points will not be used in this order.')
             );
         }

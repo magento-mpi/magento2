@@ -18,7 +18,7 @@
 class Saas_Launcher_Controller_Testtransaction extends Magento_Core_Controller_Front_Action
 {
     /**
-     * @var Mage_Checkout_Model_Cart
+     * @var Magento_Checkout_Model_Cart
      */
     protected $_cartModel;
 
@@ -28,7 +28,7 @@ class Saas_Launcher_Controller_Testtransaction extends Magento_Core_Controller_F
     protected $_productModel;
 
     /**
-     * @var Mage_Checkout_Model_Session
+     * @var Magento_Checkout_Model_Session
      */
     protected $_checkoutSession;
 
@@ -41,17 +41,17 @@ class Saas_Launcher_Controller_Testtransaction extends Magento_Core_Controller_F
      * Constructor
      *
      * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Mage_Checkout_Model_Cart $cartModel
+     * @param Magento_Checkout_Model_Cart $cartModel
      * @param Magento_Catalog_Model_Product $productModel
-     * @param Mage_Checkout_Model_Session $checkoutSession
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Saas_Launcher_Helper_Data $launcherHelper
      * @param string $areaCode
      */
     public function __construct(
         Magento_Core_Controller_Varien_Action_Context $context,
-        Mage_Checkout_Model_Cart $cartModel,
+        Magento_Checkout_Model_Cart $cartModel,
         Magento_Catalog_Model_Product $productModel,
-        Mage_Checkout_Model_Session $checkoutSession,
+        Magento_Checkout_Model_Session $checkoutSession,
         Saas_Launcher_Helper_Data $launcherHelper,
         $areaCode = null
     ) {

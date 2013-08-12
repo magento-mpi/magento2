@@ -67,7 +67,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
      */
     public function getLastAddedProductId()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session')->getLastAddedProductId(true);
+        return Mage::getSingleton('Magento_Checkout_Model_Session')->getLastAddedProductId(true);
     }
 
     /**
@@ -96,7 +96,7 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Enterprise_Tar
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
     }
 
     /**

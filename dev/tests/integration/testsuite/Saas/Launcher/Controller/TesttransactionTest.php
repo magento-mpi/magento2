@@ -12,14 +12,14 @@
 class Saas_Launcher_Controller_TesttransactionTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * @var Mage_Checkout_Model_Cart
+     * @var Magento_Checkout_Model_Cart
      */
     protected $_cart;
 
     public function setUp()
     {
         parent::setUp();
-        $this->_cart = $this->_objectManager->get('Mage_Checkout_Model_Cart');
+        $this->_cart = $this->_objectManager->get('Magento_Checkout_Model_Cart');
     }
 
     public function testEmptyStore()
@@ -41,7 +41,7 @@ class Saas_Launcher_Controller_TesttransactionTest extends Magento_Test_TestCase
         $this->assertSessionMessages(
             $this->equalTo(array("You need to have at least one Simple or Virtual Product to run test transaction.")),
             Magento_Core_Model_Message::NOTICE,
-            'Mage_Checkout_Model_Session'
+            'Magento_Checkout_Model_Session'
         );
     }
 

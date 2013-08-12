@@ -314,11 +314,11 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      * Return false for disabled or unvisible products
      *
      * @throws Magento_Core_Exception
-     * @param Mage_Checkout_Model_Cart $cart
+     * @param Magento_Checkout_Model_Cart $cart
      * @param bool $delete  delete the item after successful add to cart
      * @return bool
      */
-    public function addToCart(Mage_Checkout_Model_Cart $cart, $delete = false)
+    public function addToCart(Magento_Checkout_Model_Cart $cart, $delete = false)
     {
         $product = $this->getProduct();
 

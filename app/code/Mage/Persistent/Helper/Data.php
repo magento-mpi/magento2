@@ -156,7 +156,7 @@ class Mage_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getCreateAccountUrl($url)
     {
-        if (Mage::helper('Mage_Checkout_Helper_Data')->isContextCheckout()) {
+        if (Mage::helper('Magento_Checkout_Helper_Data')->isContextCheckout()) {
             $url = Mage::helper('Magento_Core_Helper_Url')->addRequestParam($url, array('context' => 'checkout'));
         }
         return $url;

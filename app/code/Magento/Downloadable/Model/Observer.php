@@ -164,7 +164,7 @@ class Magento_Downloadable_Model_Observer
      */
     public function setHasDownloadableProducts($observer)
     {
-        $session = Mage::getSingleton('Mage_Checkout_Model_Session');
+        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
         if (!$session->getHasDownloadableProducts()) {
             $order = $observer->getEvent()->getOrder();
             foreach ($order->getAllItems() as $item) {

@@ -75,7 +75,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
     /**
      * Checkout redirect URL getter for onepage checkout (hardcode)
      *
-     * @see Mage_Checkout_Controller_Onepage::savePaymentAction()
+     * @see Magento_Checkout_Controller_Onepage::savePaymentAction()
      * @see Mage_Sales_Model_Quote_Payment::getCheckoutRedirectUrl()
      * @return string
      */

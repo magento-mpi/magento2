@@ -161,8 +161,8 @@ class Mage_Captcha_Model_Observer
     {
         $formId = 'guest_checkout';
         $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
-        $checkoutMethod = Mage::getSingleton('Mage_Checkout_Model_Type_Onepage')->getQuote()->getCheckoutMethod();
-        if ($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_GUEST) {
+        $checkoutMethod = Mage::getSingleton('Magento_Checkout_Model_Type_Onepage')->getQuote()->getCheckoutMethod();
+        if ($checkoutMethod == Magento_Checkout_Model_Type_Onepage::METHOD_GUEST) {
             if ($captchaModel->isRequired()) {
                 $controller = $observer->getControllerAction();
                 if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
@@ -185,8 +185,8 @@ class Mage_Captcha_Model_Observer
     {
         $formId = 'register_during_checkout';
         $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha($formId);
-        $checkoutMethod = Mage::getSingleton('Mage_Checkout_Model_Type_Onepage')->getQuote()->getCheckoutMethod();
-        if ($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER) {
+        $checkoutMethod = Mage::getSingleton('Magento_Checkout_Model_Type_Onepage')->getQuote()->getCheckoutMethod();
+        if ($checkoutMethod == Magento_Checkout_Model_Type_Onepage::METHOD_REGISTER) {
             if ($captchaModel->isRequired()) {
                 $controller = $observer->getControllerAction();
                 if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {

@@ -102,7 +102,7 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
             }
 
             $this->_initLayoutMessages('Magento_Catalog_Model_Session');
-            $this->_initLayoutMessages('Mage_Checkout_Model_Session');
+            $this->_initLayoutMessages('Magento_Checkout_Model_Session');
             $this->renderLayout();
         } elseif (!$this->getResponse()->isRedirect()) {
             $this->_forward('noRoute');

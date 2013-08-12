@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_CustomerBalance_Model_Quote_Api extends Mage_Checkout_Model_Api_Resource
+class Enterprise_CustomerBalance_Model_Quote_Api extends Magento_Checkout_Model_Api_Resource
 {
 
     /**

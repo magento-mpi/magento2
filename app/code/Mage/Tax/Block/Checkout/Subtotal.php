@@ -14,7 +14,7 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Tax_Block_Checkout_Subtotal extends Mage_Checkout_Block_Total_Default
+class Mage_Tax_Block_Checkout_Subtotal extends Magento_Checkout_Block_Total_Default
 {
     protected $_template = 'checkout/subtotal.phtml';
 

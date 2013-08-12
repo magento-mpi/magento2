@@ -60,7 +60,7 @@ class Magento_CatalogSearch_Controller_Result extends Magento_Core_Controller_Fr
 
             $this->loadLayout();
             $this->_initLayoutMessages('Magento_Catalog_Model_Session');
-            $this->_initLayoutMessages('Mage_Checkout_Model_Session');
+            $this->_initLayoutMessages('Magento_Checkout_Model_Session');
             $this->renderLayout();
 
             if (!Mage::helper('Magento_CatalogSearch_Helper_Data')->isMinQueryLength()) {

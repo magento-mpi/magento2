@@ -26,7 +26,7 @@ class Mage_Paypal_Controller_PayflowTest extends Magento_Test_TestCase_Controlle
         $order->setQuoteId($quote->getId());
         $order->save();
 
-        $session = Mage::getSingleton('Mage_Checkout_Model_Session');
+        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
         $session->setLastRealOrderId($order->getRealOrderId())
             ->setLastQuoteId($order->getQuoteId());
     }
@@ -82,7 +82,7 @@ class Mage_Paypal_Controller_PayflowTest extends Magento_Test_TestCase_Controlle
     public function testCancelAction()
     {
         $order = $this->_objectManager->create('Mage_Sales_Model_Order');
-        $session = $this->_objectManager->get('Mage_Checkout_Model_Session');
+        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
 
         $quote = $this->_objectManager->create('Mage_Sales_Model_Quote');
         $quote->load('test02', 'reserved_order_id');

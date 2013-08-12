@@ -156,7 +156,7 @@
             <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="back-link"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
             <button type="submit" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
         </div>
-        <?php if (Mage::helper('Mage_Checkout_Helper_Data')->isContextCheckout()): ?>
+        <?php if (Mage::helper('Magento_Checkout_Helper_Data')->isContextCheckout()): ?>
             <input name="context" type="hidden" value="checkout" />
         <?php endif; ?>
     </form>
@@ -167,7 +167,7 @@
                 "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>",
                 "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
                 "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
-                "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
+                "<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
                 <?php if ($_dob->isEnabled()): ?>
                 "<?php echo $this->getViewFileUrl('mage/validation/dob-rule.js') ?>",
                 <?php endif ?>

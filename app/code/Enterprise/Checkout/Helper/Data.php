@@ -263,7 +263,7 @@ class Enterprise_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
             if ($ids) {
                 $collection->addIdFilter($ids);
 
-                $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+                $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
                 $emptyQuoteItem = Mage::getModel('Mage_Sales_Model_Quote_Item');
 
                 /** @var $itemProduct Magento_Catalog_Model_Product */
@@ -291,7 +291,7 @@ class Enterprise_Checkout_Helper_Data extends Magento_Core_Helper_Abstract
                                     Mage::helper('Mage_Tax_Helper_Data')->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
                                 ))
                             );
-                            $itemProduct->setAddToCartUrl(Mage::helper('Mage_Checkout_Helper_Cart')->getAddUrl($itemProduct));
+                            $itemProduct->setAddToCartUrl(Mage::helper('Magento_Checkout_Helper_Cart')->getAddUrl($itemProduct));
                         } else {
                             $quoteItem->setCanApplyMsrp(false);
                         }

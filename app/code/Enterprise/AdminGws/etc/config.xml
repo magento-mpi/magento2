@@ -295,7 +295,7 @@
                     <mage_sales_model_resource_order_invoice_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_invoice_collection>
                     <mage_sales_model_resource_order_shipment_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_shipment_collection>
                     <mage_sales_model_resource_order_creditmemo_collection>addStoreAttributeToFilter</mage_sales_model_resource_order_creditmemo_collection>
-                    <mage_checkout_model_resource_agreement_collection>limitCheckoutAgreements</mage_checkout_model_resource_agreement_collection>
+                    <magento_checkout_model_resource_agreement_collection>limitCheckoutAgreements</magento_checkout_model_resource_agreement_collection>
                     <magento_newsletter_model_resource_queue_collection>addStoreFilter</magento_newsletter_model_resource_queue_collection>
                     <magento_newsletter_model_resource_subscriber_collection>addStoreFilter</magento_newsletter_model_resource_subscriber_collection>
                     <magento_core_model_resource_design_collection>addStoreFilter</magento_core_model_resource_design_collection>

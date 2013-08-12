@@ -76,11 +76,11 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
     public function processAddToCart($observer)
     {
         $request = $observer->getEvent()->getRequest();
-        $sharedWishlist = Mage::getSingleton('Mage_Checkout_Model_Session')->getSharedWishlist();
-        $messages = Mage::getSingleton('Mage_Checkout_Model_Session')->getWishlistPendingMessages();
-        $urls = Mage::getSingleton('Mage_Checkout_Model_Session')->getWishlistPendingUrls();
-        $wishlistIds = Mage::getSingleton('Mage_Checkout_Model_Session')->getWishlistIds();
-        $singleWishlistId = Mage::getSingleton('Mage_Checkout_Model_Session')->getSingleWishlistId();
+        $sharedWishlist = Mage::getSingleton('Magento_Checkout_Model_Session')->getSharedWishlist();
+        $messages = Mage::getSingleton('Magento_Checkout_Model_Session')->getWishlistPendingMessages();
+        $urls = Mage::getSingleton('Magento_Checkout_Model_Session')->getWishlistPendingUrls();
+        $wishlistIds = Mage::getSingleton('Magento_Checkout_Model_Session')->getWishlistIds();
+        $singleWishlistId = Mage::getSingleton('Magento_Checkout_Model_Session')->getSingleWishlistId();
 
         if ($singleWishlistId) {
             $wishlistIds = array($singleWishlistId);
@@ -105,21 +105,21 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
                 if ($wishlistItem->getId() == $wishlistId)
                     $wishlistItem->delete();
             }
-            Mage::getSingleton('Mage_Checkout_Model_Session')->setWishlistIds($wishlistIds);
-            Mage::getSingleton('Mage_Checkout_Model_Session')->setSingleWishlistId(null);
+            Mage::getSingleton('Magento_Checkout_Model_Session')->setWishlistIds($wishlistIds);
+            Mage::getSingleton('Magento_Checkout_Model_Session')->setSingleWishlistId(null);
         }
 
         if ($request->getParam('wishlist_next') && count($urls)) {
             $url = array_shift($urls);
             $message = array_shift($messages);
 
-            Mage::getSingleton('Mage_Checkout_Model_Session')->setWishlistPendingUrls($urls);
-            Mage::getSingleton('Mage_Checkout_Model_Session')->setWishlistPendingMessages($messages);
+            Mage::getSingleton('Magento_Checkout_Model_Session')->setWishlistPendingUrls($urls);
+            Mage::getSingleton('Magento_Checkout_Model_Session')->setWishlistPendingMessages($messages);
 
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($message);
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addError($message);
 
             $observer->getEvent()->getResponse()->setRedirect($url);
-            Mage::getSingleton('Mage_Checkout_Model_Session')->setNoCartRedirect(true);
+            Mage::getSingleton('Magento_Checkout_Model_Session')->setNoCartRedirect(true);
         }
     }
 

@@ -48,7 +48,7 @@ class Enterprise_Banner_Block_Widget_BannerTest extends PHPUnit_Framework_TestCa
         );
 
         $this->_checkoutSession = $this->getMock(
-            'Mage_Checkout_Model_Session', array('getQuoteId', 'getQuote'), array(), '', false
+            'Magento_Checkout_Model_Session', array('getQuoteId', 'getQuote'), array(), '', false
         );
 
         $this->_customerSession = $this->getMock(

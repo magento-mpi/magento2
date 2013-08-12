@@ -71,7 +71,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
                     $entity->addItem($request->getParam('product'), new Magento_Object($request->getParams()));
                     $count = ($request->getParam('qty')) ? $request->getParam('qty') : 1;
                 } else {//Adding from cart
-                    $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
+                    $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
                     foreach ($cart->getQuote()->getAllVisibleItems() as $item) {
                         if (!Mage::helper('Enterprise_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item)) {
                             $skippedItems++;
@@ -85,16 +85,16 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
                 }
 
                 if ($count > 0) {
-                    Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
+                    Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
                         Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('%d item(s) have been added to the gift registry.', $count)
                     );
                 } else {
-                    Mage::getSingleton('Mage_Checkout_Model_Session')->addNotice(
+                    Mage::getSingleton('Magento_Checkout_Model_Session')->addNotice(
                         Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('We have nothing to add to this gift registry.')
                     );
                 }
                 if (!empty($skippedItems)) {
-                    Mage::getSingleton('Mage_Checkout_Model_Session')->addNotice(
+                    Mage::getSingleton('Magento_Checkout_Model_Session')->addNotice(
                         Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__("You can't add virtual products, digital products or gift cards to gift registries.")
                     );
                 }
@@ -109,7 +109,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
             }
             return;
         } catch (Exception $e) {
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($this->__('Failed to add shopping cart items to gift registry.'));
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addError($this->__('Failed to add shopping cart items to gift registry.'));
         }
 
         if ($entity->getId()) {
@@ -219,7 +219,7 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
             Mage::register('current_entity', $this->_initEntity());
             $this->loadLayout();
             $this->_initLayoutMessages('Mage_Customer_Model_Session');
-            $this->_initLayoutMessages('Mage_Checkout_Model_Session');
+            $this->_initLayoutMessages('Magento_Checkout_Model_Session');
             $headBlock = $this->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry Items'));
@@ -312,11 +312,11 @@ class Enterprise_GiftRegistry_Controller_Index extends Magento_Core_Controller_F
     /**
      * Get current checkout session
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 
     /**

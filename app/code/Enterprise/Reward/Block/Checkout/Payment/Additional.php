@@ -35,7 +35,7 @@ class Enterprise_Reward_Block_Checkout_Payment_Additional extends Magento_Core_B
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
     }
 
     /**

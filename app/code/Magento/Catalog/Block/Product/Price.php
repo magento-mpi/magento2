@@ -122,7 +122,7 @@ class Magento_Catalog_Block_Product_Price extends Magento_Core_Block_Template
      */
     public function getAddToCartUrl($product, $additional = array())
     {
-        return $this->helper('Mage_Checkout_Helper_Cart')->getAddUrl($product, $additional);
+        return $this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product, $additional);
     }
 
     /**

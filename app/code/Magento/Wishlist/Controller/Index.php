@@ -149,7 +149,7 @@ class Magento_Wishlist_Controller_Index
         }
 
         $this->_initLayoutMessages('Mage_Customer_Model_Session');
-        $this->_initLayoutMessages('Mage_Checkout_Model_Session');
+        $this->_initLayoutMessages('Magento_Checkout_Model_Session');
         $this->_initLayoutMessages('Magento_Catalog_Model_Session');
         $this->_initLayoutMessages('Magento_Wishlist_Model_Session');
 
@@ -485,7 +485,7 @@ class Magento_Wishlist_Controller_Index
 
         /* @var $session Magento_Core_Model_Session_Generic */
         $session    = Mage::getSingleton('Magento_Wishlist_Model_Session');
-        $cart       = Mage::getSingleton('Mage_Checkout_Model_Cart');
+        $cart       = Mage::getSingleton('Magento_Checkout_Model_Cart');
 
         $redirectUrl = Mage::getUrl('*/*');
 
@@ -506,8 +506,8 @@ class Magento_Wishlist_Controller_Index
 
             Mage::helper('Magento_Wishlist_Helper_Data')->calculate();
 
-            if (Mage::helper('Mage_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
-                $redirectUrl = Mage::helper('Mage_Checkout_Helper_Cart')->getCartUrl();
+            if (Mage::helper('Magento_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
+                $redirectUrl = Mage::helper('Magento_Checkout_Helper_Cart')->getCartUrl();
             } else if ($this->_getRefererUrl()) {
                 $redirectUrl = $this->_getRefererUrl();
             }
@@ -542,9 +542,9 @@ class Magento_Wishlist_Controller_Index
         }
         $itemId = (int) $this->getRequest()->getParam('item');
 
-        /* @var Mage_Checkout_Model_Cart $cart */
-        $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
-        $session = Mage::getSingleton('Mage_Checkout_Model_Session');
+        /* @var Magento_Checkout_Model_Cart $cart */
+        $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
+        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
 
         try{
             $item = $cart->getQuote()->getItemById($itemId);
@@ -575,7 +575,7 @@ class Magento_Wishlist_Controller_Index
             $session->addException($e, Mage::helper('Magento_Wishlist_Helper_Data')->__('We can\'t move the item to the wish list.'));
         }
 
-        return $this->_redirectUrl(Mage::helper('Mage_Checkout_Helper_Cart')->getCartUrl());
+        return $this->_redirectUrl(Mage::helper('Magento_Checkout_Helper_Cart')->getCartUrl());
     }
 
     /**

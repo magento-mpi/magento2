@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Mage_Customer />
-                <Mage_Checkout />
+                <Magento_Checkout />
                 <Magento_Adminhtml />
             </depends>
         </Mage_Captcha>

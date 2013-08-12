@@ -18,11 +18,11 @@
 class Magento_Authorizenet_Controller_Directpost_Payment extends Magento_Core_Controller_Front_Action
 {
     /**
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 
     /**

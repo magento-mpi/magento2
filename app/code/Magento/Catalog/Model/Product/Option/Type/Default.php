@@ -163,7 +163,7 @@ class Magento_Catalog_Model_Product_Option_Type_Default extends Magento_Object
      */
     public function validateUserValue($values)
     {
-        Mage::getSingleton('Mage_Checkout_Model_Session')->setUseNotice(false);
+        Mage::getSingleton('Magento_Checkout_Model_Session')->setUseNotice(false);
 
         $this->setIsValid(false);
 

@@ -20,7 +20,7 @@ class Mage_Paypal_Controller_Hostedpro extends Magento_Core_Controller_Front_Act
      */
     public function returnAction()
     {
-        $session = $this->_objectManager->get('Mage_Checkout_Model_Session');;
+        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');;
         //TODO: some actions with order
         if ($session->getLastRealOrderId()) {
             $this->_redirect('checkout/onepage/success');

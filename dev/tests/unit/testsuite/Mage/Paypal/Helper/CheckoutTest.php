@@ -12,7 +12,7 @@
 class Mage_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Checkout_Model_Session|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Checkout_Model_Session|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_session;
 
@@ -32,7 +32,7 @@ class Mage_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_session = $this->getMockBuilder('Mage_Checkout_Model_Session')
+        $this->_session = $this->getMockBuilder('Magento_Checkout_Model_Session')
             ->disableOriginalConstructor()
             ->setMethods(array('getLastRealOrder', 'replaceQuote', 'unsLastRealOrderId'))
             ->getMock();

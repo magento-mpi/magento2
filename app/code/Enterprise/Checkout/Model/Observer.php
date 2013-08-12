@@ -193,7 +193,7 @@ class Enterprise_Checkout_Model_Observer
     public function addCartLink($observer)
     {
         $block = $observer->getEvent()->getBlock();
-        if (!$block instanceof Mage_Checkout_Block_Cart_Sidebar) {
+        if (!$block instanceof Magento_Checkout_Block_Cart_Sidebar) {
             return;
         }
 

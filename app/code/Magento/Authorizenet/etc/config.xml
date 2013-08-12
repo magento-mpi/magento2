@@ -17,7 +17,7 @@
             <depends>
                 <Mage_Paygate />
                 <Mage_Sales />
-                <Mage_Checkout />
+                <Magento_Checkout />
             </depends>
         </Magento_Authorizenet>
     </modules>

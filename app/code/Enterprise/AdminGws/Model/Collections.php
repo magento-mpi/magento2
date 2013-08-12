@@ -241,7 +241,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Filter checkout agreements collection by allowed stores
      *
-     * @param Mage_Checkout_Model_Resource_Agreement_Collection $collection
+     * @param Magento_Checkout_Model_Resource_Agreement_Collection $collection
      */
     public function limitCheckoutAgreements($collection)
     {

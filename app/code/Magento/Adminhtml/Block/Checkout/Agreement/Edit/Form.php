@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Admin
         parent::_construct();
 
         $this->setId('checkoutAgreementForm');
-        $this->setTitle(Mage::helper('Mage_Checkout_Helper_Data')->__('Terms and Conditions Information'));
+        $this->setTitle(Mage::helper('Magento_Checkout_Helper_Data')->__('Terms and Conditions Information'));
     }
 
     /**
@@ -44,7 +44,7 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Admin
         ));
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('Mage_Checkout_Helper_Data')->__('Terms and Conditions Information'),
+            'legend'    => Mage::helper('Magento_Checkout_Helper_Data')->__('Terms and Conditions Information'),
             'class'     => 'fieldset-wide',
         ));
 
@@ -55,38 +55,38 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Admin
         }
         $fieldset->addField('name', 'text', array(
             'name'      => 'name',
-            'label'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Condition Name'),
-            'title'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Condition Name'),
+            'label'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Condition Name'),
+            'title'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Condition Name'),
             'required'  => true,
         ));
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Status'),
-            'title'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Status'),
+            'label'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Status'),
+            'title'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Status'),
             'name'      => 'is_active',
             'required'  => true,
             'options'   => array(
-                '1' => Mage::helper('Mage_Checkout_Helper_Data')->__('Enabled'),
-                '0' => Mage::helper('Mage_Checkout_Helper_Data')->__('Disabled'),
+                '1' => Mage::helper('Magento_Checkout_Helper_Data')->__('Enabled'),
+                '0' => Mage::helper('Magento_Checkout_Helper_Data')->__('Disabled'),
             ),
         ));
 
         $fieldset->addField('is_html', 'select', array(
-            'label'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Show Content as'),
-            'title'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Show Content as'),
+            'label'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Show Content as'),
+            'title'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Show Content as'),
             'name'      => 'is_html',
             'required'  => true,
             'options'   => array(
-                0 => Mage::helper('Mage_Checkout_Helper_Data')->__('Text'),
-                1 => Mage::helper('Mage_Checkout_Helper_Data')->__('HTML'),
+                0 => Mage::helper('Magento_Checkout_Helper_Data')->__('Text'),
+                1 => Mage::helper('Magento_Checkout_Helper_Data')->__('HTML'),
             ),
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',
-                'label'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Store View'),
-                'title'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Store View'),
+                'label'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Store View'),
+                'title'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Store View'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
             ));
@@ -103,8 +103,8 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Admin
 
         $fieldset->addField('checkbox_text', 'editor', array(
             'name'      => 'checkbox_text',
-            'label'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Checkbox Text'),
-            'title'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Checkbox Text'),
+            'label'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Checkbox Text'),
+            'title'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Checkbox Text'),
             'rows'      => '5',
             'cols'      => '30',
             'wysiwyg'   => false,
@@ -113,8 +113,8 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Admin
 
         $fieldset->addField('content', 'editor', array(
             'name'      => 'content',
-            'label'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Content'),
-            'title'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Content'),
+            'label'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Content'),
+            'title'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Content'),
             'style'     => 'height:24em;',
             'wysiwyg'   => false,
             'required'  => true,
@@ -122,8 +122,8 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Admin
 
         $fieldset->addField('content_height', 'text', array(
             'name'      => 'content_height',
-            'label'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Content Height (css)'),
-            'title'     => Mage::helper('Mage_Checkout_Helper_Data')->__('Content Height'),
+            'label'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Content Height (css)'),
+            'title'     => Mage::helper('Magento_Checkout_Helper_Data')->__('Content Height'),
             'maxlength' => 25,
             'class'     => 'validate-css-length',
         ));

@@ -113,7 +113,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
         $addUrlValue = Mage::getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
         $additional[$addUrlKey] = Mage::helper('Magento_Core_Helper_Data')->urlEncode($addUrlValue);
 
-        return $this->helper('Mage_Checkout_Helper_Cart')->getAddUrl($product, $additional);
+        return $this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product, $additional);
     }
 
     /**

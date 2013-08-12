@@ -22,7 +22,7 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
      */
     protected function _getApi ()
     {
-        $session = Mage::getSingleton('Mage_Checkout_Model_Session');
+        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
         $api = Mage::getModel('Magento_GoogleCheckout_Model_Api');
         /* @var $quote Mage_Sales_Model_Quote */
         $quote = $session->getQuote();
@@ -62,11 +62,11 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
 
             $response = $api->getResponse();
             if ($api->getError()) {
-                Mage::getSingleton('Mage_Checkout_Model_Session')->addError($api->getError());
+                Mage::getSingleton('Magento_Checkout_Model_Session')->addError($api->getError());
             } else {
                 $quote->setIsActive(false)->save();
                 $session->replaceQuote($storeQuote);
-                Mage::getModel('Mage_Checkout_Model_Cart')->init()->save();
+                Mage::getModel('Magento_Checkout_Model_Cart')->init()->save();
                 if (Mage::getStoreConfigFlag('google/checkout/hide_cart_contents')) {
                     $session->setGoogleCheckoutQuoteId($session->getQuoteId());
                     $session->setQuoteId(null);
@@ -78,7 +78,7 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
 
     public function checkoutAction()
     {
-        $session = Mage::getSingleton('Mage_Checkout_Model_Session');
+        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
         $this->_eventManager->dispatch('googlecheckout_checkout_before', array('quote' => $session->getQuote()));
         $api = $this->_getApi();
 
@@ -112,7 +112,7 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
     public function cartAction()
     {
         if (Mage::getStoreConfigFlag('google/checkout/hide_cart_contents')) {
-            $session = Mage::getSingleton('Mage_Checkout_Model_Session');
+            $session = Mage::getSingleton('Magento_Checkout_Model_Session');
             if ($session->getQuoteId()) {
                 $session->getQuote()->delete();
             }
@@ -125,7 +125,7 @@ class Magento_GoogleCheckout_Controller_Redirect extends Magento_Core_Controller
 
     public function continueAction()
     {
-        $session = Mage::getSingleton('Mage_Checkout_Model_Session');
+        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
 
         if ($quoteId = $session->getGoogleCheckoutQuoteId()) {
             $quote = Mage::getModel('Mage_Sales_Model_Quote')->load($quoteId)

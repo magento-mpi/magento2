@@ -70,8 +70,8 @@
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                     <span class="label"><?php echo $this->__('Incl. Tax'); ?>:</span>
                 <?php endif; ?>
-                <?php $_incl = $this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
-                <?php $_baseIncl = $this->helper('Mage_Checkout_Helper_Data')->getBasePriceInclTax($_item); ?>
+                <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getPriceInclTax($_item); ?>
+                <?php $_baseIncl = $this->helper('Magento_Checkout_Helper_Data')->getBasePriceInclTax($_item); ?>
 
                 <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
                     <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedAmount(), $_incl+$_item->getWeeeTaxAppliedAmount()); ?>
@@ -172,8 +172,8 @@
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displaySalesBothPrices()): ?>
                     <span class="label"><?php echo $this->__('Incl. Tax'); ?>:</span>
                 <?php endif; ?>
-                <?php $_incl = $this->helper('Mage_Checkout_Helper_Data')->getSubtotalInclTax($_item); ?>
-                <?php $_baseIncl = $this->helper('Mage_Checkout_Helper_Data')->getBaseSubtotalInclTax($_item); ?>
+                <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getSubtotalInclTax($_item); ?>
+                <?php $_baseIncl = $this->helper('Magento_Checkout_Helper_Data')->getBaseSubtotalInclTax($_item); ?>
                 <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
                     <?php echo $this->displayPrices($_baseIncl+$_item->getBaseWeeeTaxAppliedRowAmnt(), $_incl+$_item->getWeeeTaxAppliedRowAmount()); ?>
                 <?php else: ?>

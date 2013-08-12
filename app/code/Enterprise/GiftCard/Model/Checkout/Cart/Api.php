@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Mage_Checkout_Model_Api_Resource
+class Enterprise_GiftCard_Model_Checkout_Cart_Api extends Magento_Checkout_Model_Api_Resource
 {
     /**
      * List gift cards account belonging to quote

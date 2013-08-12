@@ -57,7 +57,7 @@ class Magento_Centinel_Block_Authentication extends Magento_Core_Block_Template
      */
     protected function _toHtml()
     {
-        $method = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote()->getPayment()->getMethodInstance();
+        $method = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment()->getMethodInstance();
         if ($method->getIsCentinelValidationEnabled()) {
             $centinel = $method->getCentinelValidator();
             if ($centinel && $centinel->shouldAuthenticate()) {

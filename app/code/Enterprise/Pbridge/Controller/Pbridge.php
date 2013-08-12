@@ -132,7 +132,7 @@ class Enterprise_Pbridge_Controller_Pbridge extends Magento_Core_Controller_Fron
     {
         $result = array();
         $result['success'] = true;
-        $requiredAgreements = Mage::helper('Mage_Checkout_Helper_Data')->getRequiredAgreementIds();
+        $requiredAgreements = Mage::helper('Magento_Checkout_Helper_Data')->getRequiredAgreementIds();
         if ($requiredAgreements) {
             $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
             $diff = array_diff($requiredAgreements, $postedAgreements);

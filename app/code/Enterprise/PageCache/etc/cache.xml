@@ -38,7 +38,7 @@
             <cache_lifetime>86400</cache_lifetime>
         </catalog_breadcrumbs>
         <cart_sidebar>
-            <block>Mage_Checkout_Block_Cart_Sidebar</block>
+            <block>Magento_Checkout_Block_Cart_Sidebar</block>
             <placeholder>CART_SIDEBAR</placeholder>
             <container>Enterprise_PageCache_Model_Container_Sidebar_Cart</container>
             <cache_lifetime>86400</cache_lifetime>

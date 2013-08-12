@@ -70,7 +70,7 @@ class Saas_Backend_Model_Cache_ObserverTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('index', 'Magento_Adminhtml'),
-            array('cache', 'Mage_Checkout'),
+            array('cache', 'Magento_Checkout'),
             array('unknown', 'unknown'),
         );
     }

@@ -5,9 +5,9 @@ pub/lib/mage/captcha.js
 pub/lib/mage/directpost.js
 pub/lib/mage/jquery-no-conflict.js
 app/code/Mage/Page/view/frontend/menu.js
-app/code/Mage/Checkout/view/frontend/multishipping/payment.js
-app/code/Mage/Checkout/view/frontend/onepage/accordion.js
-app/code/Mage/Checkout/view/frontend/opcheckout.js
+app/code/Magento/Checkout/view/frontend/multishipping/payment.js
+app/code/Magento/Checkout/view/frontend/onepage/accordion.js
+app/code/Magento/Checkout/view/frontend/opcheckout.js
 app/code/Mage/Captcha/view/frontend/onepage.js
 app/code/Magento/Adminhtml/view/adminhtml/catalog/category/edit.js
 app/code/Magento/Adminhtml/view/adminhtml/catalog/product/composite/configure.js

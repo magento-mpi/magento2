@@ -31,7 +31,7 @@ class Magento_Cardgate_Controller_CardgateTest extends Magento_Test_TestCase_Con
         $order->setBaseTotalPaid(0);
         $order->save();
 
-        $session = Mage::getSingleton('Mage_Checkout_Model_Session');
+        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
         $session->setLastRealOrderId($order->getRealOrderId())
             ->setLastQuoteId($order->getQuoteId());
     }

@@ -8,7 +8,7 @@
 class Mage_Paypal_Controller_StandardTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
-     * @var Mage_Checkout_Model_Session
+     * @var Magento_Checkout_Model_Session
      */
     protected $_session;
 
@@ -21,7 +21,7 @@ class Mage_Paypal_Controller_StandardTest extends Magento_Test_TestCase_Controll
     {
         parent::setUp();
         $this->_order = $this->_objectManager->create('Mage_Sales_Model_Order');
-        $this->_session = $this->_objectManager->get('Mage_Checkout_Model_Session');
+        $this->_session = $this->_objectManager->get('Magento_Checkout_Model_Session');
     }
 
     /**

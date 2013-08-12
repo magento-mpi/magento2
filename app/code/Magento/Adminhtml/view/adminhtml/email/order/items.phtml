@@ -66,7 +66,7 @@
                 <?php if ($this->helper('Mage_Tax_Helper_Data')->displayCartBothPrices()): ?>
                     <br /><span class="label"><?php echo $this->__('Incl. Tax'); ?>:</span>
                 <?php endif; ?>
-                <?php $_incl = $this->helper('Mage_Checkout_Helper_Data')->getSubtotalInclTax($_item); ?>
+                <?php $_incl = $this->helper('Magento_Checkout_Helper_Data')->getSubtotalInclTax($_item); ?>
                     <?php if (Mage::helper('Magento_Weee_Helper_Data')->typeOfDisplay($_item, array(0, 1, 4), 'email', $_order->getStore())): ?>
                         <?php echo $_order->formatPrice($_incl+$_item->getWeeeTaxAppliedRowAmount()); ?>
                     <?php else: ?>

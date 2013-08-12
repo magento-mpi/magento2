@@ -74,7 +74,7 @@ class Enterprise_Banner_Block_Widget_Banner
     protected $_coreSession;
 
     /**
-     * @var Mage_Checkout_Model_Session
+     * @var Magento_Checkout_Model_Session
      */
     protected $_checkoutSession;
 
@@ -108,7 +108,7 @@ class Enterprise_Banner_Block_Widget_Banner
         Magento_Core_Block_Template_Context $context,
         Enterprise_Banner_Model_Resource_Banner $resource,
         Magento_Core_Model_Session $coreSession,
-        Mage_Checkout_Model_Session $checkoutSession,
+        Magento_Checkout_Model_Session $checkoutSession,
         Mage_Customer_Model_Session $customerSession,
         Magento_Cms_Helper_Data $cmsHelper,
         Magento_Core_Model_StoreManagerInterface $storeManager,

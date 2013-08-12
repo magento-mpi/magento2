@@ -15,7 +15,7 @@
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Model_Api extends Mage_Checkout_Model_Api_Resource_Product
+class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_Product
 {
     /**
      * Return an Array of attributes.

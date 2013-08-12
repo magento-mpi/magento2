@@ -22,7 +22,7 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Mode
     /**
      * Checkout Session
      *
-     * @var Mage_Checkout_Model_Session
+     * @var Magento_Checkout_Model_Session
      */
     protected $_checkoutSession;
 
@@ -119,7 +119,7 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Mode
     /**
      * Constructor
      *
-     * @param Mage_Checkout_Model_Session $checkoutSession
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Mage_Sales_Model_OrderFactory $orderFactory
      * @param Magento_Core_Model_Url $urlGenerator
      * @param Magento_Core_Model_Store_Config $storeConfig
@@ -127,7 +127,7 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Mode
      * @param Magento_Cardgate_Helper_Data $helper
      */
     public function __construct(
-        Mage_Checkout_Model_Session $checkoutSession,
+        Magento_Checkout_Model_Session $checkoutSession,
         Mage_Sales_Model_OrderFactory $orderFactory,
         Magento_Core_Model_Url $urlGenerator,
         Magento_Core_Model_Store_Config $storeConfig,

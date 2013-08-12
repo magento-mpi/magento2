@@ -126,25 +126,25 @@ abstract class Mage_Sales_Controller_Abstract extends Magento_Core_Controller_Fr
         }
         $order = Mage::registry('current_order');
 
-        $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
+        $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
         $cartTruncated = false;
-        /* @var $cart Mage_Checkout_Model_Cart */
+        /* @var $cart Magento_Checkout_Model_Cart */
 
         $items = $order->getItemsCollection();
         foreach ($items as $item) {
             try {
                 $cart->addOrderItem($item);
             } catch (Magento_Core_Exception $e){
-                if (Mage::getSingleton('Mage_Checkout_Model_Session')->getUseNotice(true)) {
-                    Mage::getSingleton('Mage_Checkout_Model_Session')->addNotice($e->getMessage());
+                if (Mage::getSingleton('Magento_Checkout_Model_Session')->getUseNotice(true)) {
+                    Mage::getSingleton('Magento_Checkout_Model_Session')->addNotice($e->getMessage());
                 }
                 else {
-                    Mage::getSingleton('Mage_Checkout_Model_Session')->addError($e->getMessage());
+                    Mage::getSingleton('Magento_Checkout_Model_Session')->addError($e->getMessage());
                 }
                 $this->_redirect('*/*/history');
             } catch (Exception $e) {
-                Mage::getSingleton('Mage_Checkout_Model_Session')->addException($e,
-                    Mage::helper('Mage_Checkout_Helper_Data')->__('We cannot add this item to your shopping cart.')
+                Mage::getSingleton('Magento_Checkout_Model_Session')->addException($e,
+                    Mage::helper('Magento_Checkout_Helper_Data')->__('We cannot add this item to your shopping cart.')
                 );
                 $this->_redirect('checkout/cart');
             }

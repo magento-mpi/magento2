@@ -84,10 +84,10 @@ class Mage_Persistent_Helper_Session extends Magento_Core_Helper_Data
     {
         if (is_null($this->_isRememberMeChecked)) {
             //Try to get from checkout session
-            $isRememberMeChecked = Mage::getSingleton('Mage_Checkout_Model_Session')->getRememberMeChecked();
+            $isRememberMeChecked = Mage::getSingleton('Magento_Checkout_Model_Session')->getRememberMeChecked();
             if (!is_null($isRememberMeChecked)) {
                 $this->_isRememberMeChecked = $isRememberMeChecked;
-                Mage::getSingleton('Mage_Checkout_Model_Session')->unsRememberMeChecked();
+                Mage::getSingleton('Magento_Checkout_Model_Session')->unsRememberMeChecked();
                 return $isRememberMeChecked;
             }
 

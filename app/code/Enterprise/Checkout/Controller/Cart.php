@@ -23,17 +23,17 @@ class Enterprise_Checkout_Controller_Cart
     /**
      * Get checkout session model instance
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 
     /**
      * Get customer session model instance
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getCustomerSession()
     {
@@ -53,11 +53,11 @@ class Enterprise_Checkout_Controller_Cart
     /**
      * Get cart model instance
      *
-     * @return Mage_Checkout_Model_Cart
+     * @return Magento_Checkout_Model_Cart
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Cart');
+        return Mage::getSingleton('Magento_Checkout_Model_Cart');
     }
 
     /**

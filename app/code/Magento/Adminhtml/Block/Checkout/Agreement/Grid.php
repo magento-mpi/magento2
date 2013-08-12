@@ -21,7 +21,7 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Grid extends Magento_Adminhtml_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Mage_Checkout_Model_Agreement')
+        $collection = Mage::getModel('Magento_Checkout_Model_Agreement')
             ->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Grid extends Magento_Adminhtml_
     {
         $this->addColumn('agreement_id',
             array(
-                'header'=>Mage::helper('Mage_Checkout_Helper_Data')->__('ID'),
+                'header'=>Mage::helper('Magento_Checkout_Helper_Data')->__('ID'),
                 'index' => 'agreement_id',
                 'header_css_class'  => 'col-id',
                 'column_css_class'  => 'col-id'
@@ -40,7 +40,7 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Grid extends Magento_Adminhtml_
 
         $this->addColumn('name',
             array(
-                'header'=>Mage::helper('Mage_Checkout_Helper_Data')->__('Condition'),
+                'header'=>Mage::helper('Magento_Checkout_Helper_Data')->__('Condition'),
                 'index' => 'name',
                 'header_css_class'  => 'col-name',
                 'column_css_class'  => 'col-name'

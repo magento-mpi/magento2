@@ -13,7 +13,7 @@
             <action method="addItemRender">
                 <type>bundle</type>
                 <block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block>
-                <template>Mage_Checkout::cart/sidebar/default.phtml</template>
+                <template>Magento_Checkout::cart/sidebar/default.phtml</template>
             </action>
         </reference>
         <reference name="wishlist_sidebar">

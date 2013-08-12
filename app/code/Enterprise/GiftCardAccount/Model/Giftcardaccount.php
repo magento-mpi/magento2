@@ -242,11 +242,11 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Magento_Core_Mode
     /**
      * Return checkout/session model singleton
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getCheckoutSession()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 
     /**

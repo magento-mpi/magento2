@@ -12,7 +12,7 @@
 class Mage_Paypal_Helper_Checkout extends Magento_Core_Helper_Abstract
 {
     /**
-     * @var Mage_Checkout_Model_SessionFactory
+     * @var Magento_Checkout_Model_SessionFactory
      */
     protected $_session;
 
@@ -22,11 +22,11 @@ class Mage_Paypal_Helper_Checkout extends Magento_Core_Helper_Abstract
     protected $_quoteFactory;
 
     /**
-     * @param Mage_Checkout_Model_Session $session
+     * @param Magento_Checkout_Model_Session $session
      * @param Mage_Sales_Model_QuoteFactory $quoteFactory
      */
     public function __construct(
-        Mage_Checkout_Model_Session $session,
+        Magento_Checkout_Model_Session $session,
         Mage_Sales_Model_QuoteFactory $quoteFactory
     ) {
         $this->_session = $session;

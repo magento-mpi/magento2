@@ -41,11 +41,11 @@ class Magento_Catalog_Block_Product_List_Upsell extends Magento_Catalog_Block_Pr
             ->setPositionOrder()
             ->addStoreFilter()
         ;
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Mage_Checkout')) {
-            Mage::getResourceSingleton('Mage_Checkout_Model_Resource_Cart')
+        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Checkout')) {
+            Mage::getResourceSingleton('Magento_Checkout_Model_Resource_Cart')
                 ->addExcludeProductFilter(
                     $this->_itemCollection,
-                     Mage::getSingleton('Mage_Checkout_Model_Session')->getQuoteId()
+                     Mage::getSingleton('Magento_Checkout_Model_Session')->getQuoteId()
             );
 
             $this->_addProductAttributesAndPrices($this->_itemCollection);

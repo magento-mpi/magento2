@@ -16,7 +16,7 @@ class Mage_Paypal_Controller_ExpressTest extends Magento_Test_TestCase_Controlle
     {
         $quote = Mage::getModel('Mage_Sales_Model_Quote');
         $quote->load('test01', 'reserved_order_id');
-        Mage::getSingleton('Mage_Checkout_Model_Session')->setQuoteId($quote->getId());
+        Mage::getSingleton('Magento_Checkout_Model_Session')->setQuoteId($quote->getId());
 
         $this->dispatch('paypal/express/review');
 
@@ -36,7 +36,7 @@ class Mage_Paypal_Controller_ExpressTest extends Magento_Test_TestCase_Controlle
         $quote->load('test02', 'reserved_order_id');
         $order = $this->_objectManager->create('Mage_Sales_Model_Order');
         $order->load('100000002', 'increment_id');
-        $session = $this->_objectManager->get('Mage_Checkout_Model_Session');
+        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
         $session->setLastRealOrderId($order->getRealOrderId())
             ->setLastOrderId($order->getId())
             ->setLastQuoteId($order->getQuoteId())

@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Mage_Payment />
-                <Mage_Checkout />
+                <Magento_Checkout />
             </depends>
         </Magento_Centinel>
     </modules>

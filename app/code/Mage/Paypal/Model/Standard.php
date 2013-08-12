@@ -53,11 +53,11 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     /**
      * Get checkout session namespace
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 
     /**

@@ -15,7 +15,7 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
-class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
+class Enterprise_Checkout_Block_Sku_Products extends Magento_Checkout_Block_Cart
 {
     /**
      * Return list of product items
@@ -111,7 +111,7 @@ class Enterprise_Checkout_Block_Sku_Products extends Mage_Checkout_Block_Cart
      */
     public function getItemHtml(Mage_Sales_Model_Quote_Item $item)
     {
-        /** @var $renderer Mage_Checkout_Block_Cart_Item_Renderer */
+        /** @var $renderer Magento_Checkout_Block_Cart_Item_Renderer */
         $renderer = $this->getItemRenderer($item->getProductType())->setQtyMode(false);
         if ($item->getProductType() == 'undefined') {
             $renderer->overrideProductThumbnail($this->helper('Magento_Catalog_Helper_Image')->init($item, 'thumbnail'));

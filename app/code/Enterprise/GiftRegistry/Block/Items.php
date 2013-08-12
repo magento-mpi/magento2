@@ -11,7 +11,7 @@
 /**
  * Front end helper block to show giftregistry items
  */
-class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
+class Enterprise_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
 {
 
     /**
@@ -53,7 +53,7 @@ class Enterprise_GiftRegistry_Block_Items extends Mage_Checkout_Block_Cart
                             Mage::helper('Mage_Tax_Helper_Data')->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
-                    $product->setAddToCartUrl($this->helper('Mage_Checkout_Helper_Cart')->getAddUrl($product));
+                    $product->setAddToCartUrl($this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product));
                 } else {
                     $quoteItem->setGiftRegistryPrice($product->getFinalPrice());
                     $quoteItem->setCanApplyMsrp(false);

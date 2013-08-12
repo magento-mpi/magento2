@@ -19,7 +19,7 @@
                 <Magento_Catalog />
                 <Magento_Cms />
                 <Mage_Sales />
-                <Mage_Checkout />
+                <Magento_Checkout />
             </depends>
         </Enterprise_CatalogEvent>
     </modules>

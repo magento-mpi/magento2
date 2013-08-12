@@ -12,7 +12,7 @@ class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
     /**
      * Test setting gift message fot the whole shopping cart.
      *
-     * @magentoDataFixture Mage/Checkout/_files/quote_with_simple_product.php
+     * @magentoDataFixture Magento/Checkout/_files/quote_with_simple_product.php
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      */
@@ -40,7 +40,7 @@ class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
     /**
      * Test setting gift message fot the specific quote item.
      *
-     * @magentoDataFixture Mage/Checkout/_files/quote_with_simple_product.php
+     * @magentoDataFixture Magento/Checkout/_files/quote_with_simple_product.php
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      */
@@ -71,7 +71,7 @@ class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
     /**
      * Test setting gift message fot the specified products in shopping cart.
      *
-     * @magentoDataFixture Mage/Checkout/_files/quote_with_simple_product.php
+     * @magentoDataFixture Magento/Checkout/_files/quote_with_simple_product.php
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      */
@@ -142,8 +142,8 @@ class Magento_GiftMessage_Model_ApiTest extends PHPUnit_Framework_TestCase
      */
     protected function _getQuote()
     {
-        /** @var $session Mage_Checkout_Model_Session */
-        $session = Mage::getModel('Mage_Checkout_Model_Session');
+        /** @var $session Magento_Checkout_Model_Session */
+        $session = Mage::getModel('Magento_Checkout_Model_Session');
         /** @var Mage_Sales_Model_Quote $quote */
         $quote = $session->getQuote();
         return $quote;

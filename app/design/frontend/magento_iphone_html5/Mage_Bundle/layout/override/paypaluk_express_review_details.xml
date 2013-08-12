@@ -13,7 +13,7 @@
             <action method="addItemRender">
                 <type>bundle</type>
                 <block>Mage_Bundle_Block_Checkout_Cart_Item_Renderer</block>
-                <template>Mage_Checkout::onepage/review/item.phtml</template>
+                <template>Magento_Checkout::onepage/review/item.phtml</template>
             </action>
         </reference>
     </paypaluk_express_review_details>

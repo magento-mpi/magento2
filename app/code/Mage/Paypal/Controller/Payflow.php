@@ -35,7 +35,7 @@ class Mage_Paypal_Controller_Payflow extends Magento_Core_Controller_Front_Actio
         $this->loadLayout(false);
         $redirectBlock = $this->getLayout()->getBlock('payflow.link.iframe');
 
-        $session = $this->_objectManager->get('Mage_Checkout_Model_Session');
+        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
         if ($session->getLastRealOrderId()) {
             $order = $this->_objectManager->create('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
 

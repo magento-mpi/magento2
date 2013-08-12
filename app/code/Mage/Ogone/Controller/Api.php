@@ -21,11 +21,11 @@ class Mage_Ogone_Controller_Api extends Magento_Core_Controller_Front_Action
     /**
      * Get checkout session namespace
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getCheckout()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 
     /**

@@ -33,7 +33,7 @@ class Mage_Sales_Block_Items_Abstract extends Magento_Core_Block_Template
     protected function _construct()
     {
         parent::_construct();
-        $this->addItemRender('default', 'Mage_Checkout_Block_Cart_Item_Renderer', 'cart/item/default.phtml');
+        $this->addItemRender('default', 'Magento_Checkout_Block_Cart_Item_Renderer', 'cart/item/default.phtml');
     }
 
     /**
@@ -42,7 +42,7 @@ class Mage_Sales_Block_Items_Abstract extends Magento_Core_Block_Template
      * @param   string $type
      * @param   string $block
      * @param   string $template
-     * @return  Mage_Checkout_Block_Cart_Abstract
+     * @return  Magento_Checkout_Block_Cart_Abstract
      */
     public function addItemRender($type, $block, $template)
     {

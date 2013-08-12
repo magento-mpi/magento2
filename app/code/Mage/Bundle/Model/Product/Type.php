@@ -655,7 +655,7 @@ class Mage_Bundle_Model_Product_Type extends Magento_Catalog_Model_Product_Type_
                 }
 
                 if (!isset($_result[0])) {
-                    return Mage::helper('Mage_Checkout_Helper_Data')->__('We cannot add this item to your shopping cart.');
+                    return Mage::helper('Magento_Checkout_Helper_Data')->__('We cannot add this item to your shopping cart.');
                 }
 
                 $result[] = $_result[0]->setParentProductId($product->getId())

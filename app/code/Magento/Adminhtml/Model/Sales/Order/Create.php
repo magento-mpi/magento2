@@ -16,7 +16,7 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implements Mage_Checkout_Model_Cart_Interface
+class Magento_Adminhtml_Model_Sales_Order_Create extends Magento_Object implements Magento_Checkout_Model_Cart_Interface
 {
     /**
      * Quote session object

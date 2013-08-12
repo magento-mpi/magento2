@@ -31,7 +31,7 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
      */
     protected function _getQuote()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
     }
 
     /**

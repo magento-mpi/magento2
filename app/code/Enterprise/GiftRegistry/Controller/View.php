@@ -63,8 +63,8 @@ class Enterprise_GiftRegistry_Controller_View extends Magento_Core_Controller_Fr
             $this->_redirect('*/*', array('_current' => true));
             return;
         }
-        /* @var Mage_Checkout_Model_Cart */
-        $cart = Mage::getSingleton('Mage_Checkout_Model_Cart');
+        /* @var Magento_Checkout_Model_Cart */
+        $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
         /* @var $session Magento_Core_Model_Session_Generic */
         $session    = Mage::getSingleton('Mage_Customer_Model_Session');
         $success = false;

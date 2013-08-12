@@ -37,7 +37,7 @@
             </td>
             <?php if ($isFirst): ?>
                 <td style="<?php echo $_style ?>" class="a-right" rowspan="<?php echo count($rates); ?>">
-                    <?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($amount); ?>
+                    <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($amount); ?>
                 </td>
             <?php endif; ?>
         </tr>
@@ -54,5 +54,5 @@
             <?php echo $this->getTotal()->getTitle() ?>
         <?php endif;?>
     </td>
-    <td style="<?php echo $_style ?>" class="a-right"><?php echo $this->helper('Mage_Checkout_Helper_Data')->formatPrice($_value) ?></td>
+    <td style="<?php echo $_style ?>" class="a-right"><?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_value) ?></td>
 </tr>

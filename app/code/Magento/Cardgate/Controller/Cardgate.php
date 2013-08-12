@@ -34,7 +34,7 @@ class Magento_Cardgate_Controller_Cardgate extends Magento_Core_Controller_Front
     /**
      * Checkout Session
      *
-     * @var Mage_Checkout_Model_Session
+     * @var Magento_Checkout_Model_Session
      */
     protected $_checkoutSession;
 
@@ -65,7 +65,7 @@ class Magento_Cardgate_Controller_Cardgate extends Magento_Core_Controller_Front
      * @param Magento_Core_Controller_Varien_Action_Context $context
      * @param Magento_Cardgate_Model_Base $base
      * @param Magento_Cardgate_Model_BaseFactory $baseFactory
-     * @param Mage_Checkout_Model_Session $checkoutSession
+     * @param Magento_Checkout_Model_Session $checkoutSession
      * @param Mage_Sales_Model_Order $salesOrder
      * @param Magento_Core_Model_Registry $registry
      * @param string $areaCode
@@ -74,7 +74,7 @@ class Magento_Cardgate_Controller_Cardgate extends Magento_Core_Controller_Front
         Magento_Core_Controller_Varien_Action_Context $context,
         Magento_Cardgate_Model_Base $base,
         Magento_Cardgate_Model_BaseFactory $baseFactory,
-        Mage_Checkout_Model_Session $checkoutSession,
+        Magento_Checkout_Model_Session $checkoutSession,
         Mage_Sales_Model_Order $salesOrder,
         Magento_Core_Model_Registry $registry,
         $areaCode = null

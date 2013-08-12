@@ -67,7 +67,7 @@
                 </div>
             </div>
         </div>
-        <?php if (Mage::helper('Mage_Checkout_Helper_Data')->isContextCheckout()): ?>
+        <?php if (Mage::helper('Magento_Checkout_Helper_Data')->isContextCheckout()): ?>
             <input name="context" type="hidden" value="checkout" />
         <?php endif; ?>
     </form>

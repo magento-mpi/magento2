@@ -595,7 +595,7 @@ class Magento_Catalog_Model_Product_Type_Configurable extends Magento_Catalog_Mo
                     }
 
                     if (!isset($_result[0])) {
-                        return Mage::helper('Mage_Checkout_Helper_Data')->__('Cannot add the item to shopping cart');
+                        return Mage::helper('Magento_Checkout_Helper_Data')->__('Cannot add the item to shopping cart');
                     }
 
                     /**

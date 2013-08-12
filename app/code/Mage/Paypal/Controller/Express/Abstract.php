@@ -177,10 +177,10 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Magento_Core_Cont
             return;
         }
         catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($e->getMessage());
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($this->__('We can\'t process Express Checkout approval.'));
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addError($this->__('We can\'t process Express Checkout approval.'));
             Mage::logException($e);
         }
         $this->_redirect('checkout/cart');
@@ -206,10 +206,10 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Magento_Core_Cont
             return;
         }
         catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addError($e->getMessage());
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addError($e->getMessage());
         }
         catch (Exception $e) {
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addError(
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addError(
                 $this->__('We can\'t initialize Express Checkout review.')
             );
             Mage::logException($e);
@@ -321,7 +321,7 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Magento_Core_Cont
     public function placeOrderAction()
     {
         try {
-            $requiredAgreements = Mage::helper('Mage_Checkout_Helper_Data')->getRequiredAgreementIds();
+            $requiredAgreements = Mage::helper('Magento_Checkout_Helper_Data')->getRequiredAgreementIds();
             if ($requiredAgreements) {
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 if (array_diff($requiredAgreements, $postedAgreements)) {
@@ -449,11 +449,11 @@ abstract class Mage_Paypal_Controller_Express_Abstract extends Magento_Core_Cont
     /**
      * Return checkout session object
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     private function _getCheckoutSession()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 
     /**

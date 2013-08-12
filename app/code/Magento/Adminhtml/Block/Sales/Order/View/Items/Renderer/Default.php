@@ -197,8 +197,8 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Ma
     public function displaySubtotalInclTax($item)
     {
         return $this->displayPrices(
-            $this->helper('Mage_Checkout_Helper_Data')->getBaseSubtotalInclTax($item),
-            $this->helper('Mage_Checkout_Helper_Data')->getSubtotalInclTax($item)
+            $this->helper('Magento_Checkout_Helper_Data')->getBaseSubtotalInclTax($item),
+            $this->helper('Magento_Checkout_Helper_Data')->getSubtotalInclTax($item)
         );
     }
 
@@ -211,8 +211,8 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Ma
     public function displayPriceInclTax(Magento_Object $item)
     {
         return $this->displayPrices(
-            $this->helper('Mage_Checkout_Helper_Data')->getBasePriceInclTax($item),
-            $this->helper('Mage_Checkout_Helper_Data')->getPriceInclTax($item)
+            $this->helper('Magento_Checkout_Helper_Data')->getBasePriceInclTax($item),
+            $this->helper('Magento_Checkout_Helper_Data')->getPriceInclTax($item)
         );
     }
 

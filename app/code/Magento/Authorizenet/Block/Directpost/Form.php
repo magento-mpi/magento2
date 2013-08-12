@@ -41,7 +41,7 @@ class Magento_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form
      */
     public function setMethodInfo()
     {
-        $payment = Mage::getSingleton('Mage_Checkout_Model_Type_Onepage')
+        $payment = Mage::getSingleton('Magento_Checkout_Model_Type_Onepage')
             ->getQuote()
             ->getPayment();
         $this->setMethod($payment->getMethodInstance());

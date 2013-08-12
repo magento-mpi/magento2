@@ -59,9 +59,9 @@
         </resources>
         <acl>
             <resources>
-                <giftmessage translate="title" module="Mage_Checkout">
+                <giftmessage translate="title" module="Magento_Checkout">
                     <title>Gift Message</title>
-                    <set translate="title" module="Mage_Checkout">
+                    <set translate="title" module="Magento_Checkout">
                         <title>Add gift messages to shopping cart</title>
                     </set>
                 </giftmessage>

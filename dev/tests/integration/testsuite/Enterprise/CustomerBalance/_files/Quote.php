@@ -73,7 +73,7 @@ $quote->addProduct($product);
 
 //Assign customer to cart
 $quote->setCustomer($customer)
-    ->setCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)
+    ->setCheckoutMethod(Magento_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)
     ->setPasswordHash($customer->encryptPassword($customer->getPassword()));
 
 //Create billing/shipping address

@@ -84,7 +84,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
 
             return $this->getProductUrl($product, $additional);
         }
-        return $this->helper('Mage_Checkout_Helper_Cart')->getAddUrl($product, $additional);
+        return $this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product, $additional);
     }
 
     /**

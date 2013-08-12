@@ -107,7 +107,7 @@ class Enterprise_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
         if ($quote && $quote instanceof Mage_Sales_Model_Quote) {
             return $quote;
         }
-        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
     }
 
     /**
@@ -339,7 +339,7 @@ class Enterprise_Pbridge_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getReviewButtonTemplate($name, $block)
     {
-        $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
         if ($quote) {
             $payment = $quote->getPayment();
             if ($payment->getMethodInstance()->getIsDeferred3dCheck()) {

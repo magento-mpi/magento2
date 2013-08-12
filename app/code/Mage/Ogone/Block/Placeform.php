@@ -15,11 +15,11 @@ class Mage_Ogone_Block_Placeform extends Magento_Core_Block_Template
     /**
      * Get checkout session namespace
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 
     /**

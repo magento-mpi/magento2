@@ -23,7 +23,7 @@ class Enterprise_Pbridge_Block_Checkout_Payment_Review_Container extends Magento
      */
     protected function _toHtml()
     {
-        $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
         if ($quote) {
             $payment = $quote->getPayment();
             if ($payment->getMethodInstance()->getIsDeferred3dCheck()) {

@@ -124,7 +124,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     {
         $expectedMessages = array(
             'Magento_Catalog_Model_Session'  => 'catalog message',
-            'Mage_Checkout_Model_Session' => 'checkout message',
+            'Magento_Checkout_Model_Session' => 'checkout message',
         );
 
         // add messages

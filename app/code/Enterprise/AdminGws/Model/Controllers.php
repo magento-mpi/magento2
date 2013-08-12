@@ -753,7 +753,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     {
         $id = $this->_request->getParam('id');
         if ($id) {
-            $object = Mage::getModel('Mage_Checkout_Model_Agreement')->load($id);
+            $object = Mage::getModel('Magento_Checkout_Model_Agreement')->load($id);
             if ($object && $object->getId()) {
                 $stores = $object->getStoreId();
                 foreach ($stores as $store) {

@@ -148,7 +148,7 @@ class Mage_Persistent_Model_Observer_Session
                 $controllerAction->getFullActionName() == 'checkout_onepage_saveBilling'
                     || $controllerAction->getFullActionName() == 'customer_account_createpost'
             ) {
-                Mage::getSingleton('Mage_Checkout_Model_Session')->setRememberMeChecked((bool)$rememberMeCheckbox);
+                Mage::getSingleton('Magento_Checkout_Model_Session')->setRememberMeChecked((bool)$rememberMeCheckbox);
             }
         }
     }

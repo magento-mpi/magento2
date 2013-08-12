@@ -69,7 +69,7 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
         $notSalable = array();
         $hasOptions = array();
 
-        $cart       = Mage::getSingleton('Mage_Checkout_Model_Cart');
+        $cart       = Mage::getSingleton('Magento_Checkout_Model_Cart');
         $collection = $wishlist->getItemCollection()
                 ->setVisibilityFilter();
 
@@ -112,8 +112,8 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
         } else {
             $indexUrl = Mage::getUrl('wishlist/shared', array('code' => $wishlist->getSharingCode()));
         }
-        if (Mage::helper('Mage_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
-            $redirectUrl = Mage::helper('Mage_Checkout_Helper_Cart')->getCartUrl();
+        if (Mage::helper('Magento_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
+            $redirectUrl = Mage::helper('Magento_Checkout_Helper_Cart')->getCartUrl();
         } else if ($this->_getRefererUrl()) {
             $redirectUrl = $this->_getRefererUrl();
         } else {
@@ -168,7 +168,7 @@ abstract class Magento_Wishlist_Controller_Abstract extends Magento_Core_Control
                 $products[] = '"' . $product->getName() . '"';
             }
 
-            Mage::getSingleton('Mage_Checkout_Model_Session')->addSuccess(
+            Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
                 Mage::helper('Magento_Wishlist_Helper_Data')->__('%d product(s) have been added to shopping cart: %s.', count($addedItems), join(', ', $products))
             );
         }

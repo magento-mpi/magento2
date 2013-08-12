@@ -74,7 +74,7 @@ class Magento_Tag_Controller_Customer extends Magento_Core_Controller_Front_Acti
                 $navigationBlock->setActive('tag/customer');
             }
 
-            $this->_initLayoutMessages('Mage_Checkout_Model_Session');
+            $this->_initLayoutMessages('Magento_Checkout_Model_Session');
             $this->getLayout()->getBlock('head')->setTitle(Mage::helper('Magento_Tag_Helper_Data')->__('My Tags'));
             $this->renderLayout();
         }

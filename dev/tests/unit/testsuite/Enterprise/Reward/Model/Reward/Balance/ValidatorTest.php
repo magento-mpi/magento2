@@ -43,7 +43,7 @@ class Enterprise_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Frame
         $this->_helperMock = $this->getMock('Enterprise_Reward_Helper_Data', array(), array(), '', false);
         $this->_modelFactoryMock =
             $this->getMock('Enterprise_Reward_Model_RewardFactory', array('create'), array(), '', false);
-        $this->_sessionMock = $this->getMock('Mage_Checkout_Model_Session',
+        $this->_sessionMock = $this->getMock('Magento_Checkout_Model_Session',
             array('setUpdateSection', 'setGotoSection'), array(), '', false);
         $this->_orderMock =
             $this->getMock('Mage_Sales_Model_Order', array('getRewardPointsBalance'), array(), '', false);

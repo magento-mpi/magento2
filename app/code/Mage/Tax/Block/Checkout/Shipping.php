@@ -14,7 +14,7 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Tax_Block_Checkout_Shipping extends Mage_Checkout_Block_Total_Default
+class Mage_Tax_Block_Checkout_Shipping extends Magento_Checkout_Block_Total_Default
 {
     protected $_template = 'checkout/shipping.phtml';
 

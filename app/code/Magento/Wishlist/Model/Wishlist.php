@@ -543,7 +543,7 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
              * Error message
              */
             if (is_string($resultItem)) {
-                Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__($resultItem));
+                Mage::throwException(Mage::helper('Magento_Checkout_Helper_Data')->__($resultItem));
             }
 
             if ($resultItem->getId() != $itemId) {
@@ -557,7 +557,7 @@ class Magento_Wishlist_Model_Wishlist extends Magento_Core_Model_Abstract
                 $resultItem->setOrigData('qty', 0);
             }
         } else {
-            Mage::throwException(Mage::helper('Mage_Checkout_Helper_Data')->__('The product does not exist.'));
+            Mage::throwException(Mage::helper('Magento_Checkout_Helper_Data')->__('The product does not exist.'));
         }
         return $this;
     }

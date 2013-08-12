@@ -89,10 +89,10 @@ class Enterprise_Checkout_Controller_Sku extends Magento_Core_Controller_Front_A
     /**
      * Get checkout session model instance
      *
-     * @return Mage_Checkout_Model_Session
+     * @return Magento_Checkout_Model_Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session');
+        return Mage::getSingleton('Magento_Checkout_Model_Session');
     }
 }

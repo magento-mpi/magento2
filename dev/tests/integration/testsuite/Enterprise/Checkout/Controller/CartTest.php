@@ -21,8 +21,8 @@ class Enterprise_Checkout_Controller_CartTest extends Magento_Test_TestCase_Cont
      */
     public function testConfigureActionWithGiftCardProduct()
     {
-        /** @var $session Mage_Checkout_Model_Session  */
-        $session = Mage::getModel('Mage_Checkout_Model_Session');
+        /** @var $session Magento_Checkout_Model_Session  */
+        $session = Mage::getModel('Magento_Checkout_Model_Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
 
@@ -32,7 +32,7 @@ class Enterprise_Checkout_Controller_CartTest extends Magento_Test_TestCase_Cont
         $this->assertSessionMessages(
             $this->isEmpty(),
             Magento_Core_Model_Message::ERROR,
-            'Mage_Checkout_Model_Session'
+            'Magento_Checkout_Model_Session'
         );
 
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -55,7 +55,7 @@ class Enterprise_Checkout_Controller_CartTest extends Magento_Test_TestCase_Cont
         $this->assertSessionMessages(
             $this->isEmpty(),
             Magento_Core_Model_Message::ERROR,
-            'Mage_Checkout_Model_Session'
+            'Magento_Checkout_Model_Session'
         );
 
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -75,7 +75,7 @@ class Enterprise_Checkout_Controller_CartTest extends Magento_Test_TestCase_Cont
         $this->assertSessionMessages(
             $this->isEmpty(),
             Magento_Core_Model_Message::ERROR,
-            'Mage_Checkout_Model_Session'
+            'Magento_Checkout_Model_Session'
         );
 
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -95,7 +95,7 @@ class Enterprise_Checkout_Controller_CartTest extends Magento_Test_TestCase_Cont
         $this->assertSessionMessages(
             $this->isEmpty(),
             Magento_Core_Model_Message::ERROR,
-            'Mage_Checkout_Model_Session'
+            'Magento_Checkout_Model_Session'
         );
 
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -118,7 +118,7 @@ class Enterprise_Checkout_Controller_CartTest extends Magento_Test_TestCase_Cont
         $this->assertSessionMessages(
             $this->isEmpty(),
             Magento_Core_Model_Message::ERROR,
-            'Mage_Checkout_Model_Session'
+            'Magento_Checkout_Model_Session'
         );
 
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -141,7 +141,7 @@ class Enterprise_Checkout_Controller_CartTest extends Magento_Test_TestCase_Cont
         $this->assertSessionMessages(
             $this->isEmpty(),
             Magento_Core_Model_Message::ERROR,
-            'Mage_Checkout_Model_Session'
+            'Magento_Checkout_Model_Session'
         );
 
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),

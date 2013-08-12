@@ -30,7 +30,7 @@ class Magento_Tag_Controller_Product extends Magento_Core_Controller_Front_Actio
         Mage::register('current_tag', $tag);
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Mage_Checkout_Model_Session');
+        $this->_initLayoutMessages('Magento_Checkout_Model_Session');
         $this->_initLayoutMessages('Magento_Tag_Model_Session');
         $this->renderLayout();
     }

@@ -142,7 +142,7 @@ class Mage_Persistent_Model_Observer
             return;
         }
 
-        /** @var $action Mage_Checkout_Controller_Onepage */
+        /** @var $action Magento_Checkout_Controller_Onepage */
         $action = $observer->getEvent()->getControllerAction();
         $actionName = $action->getFullActionName();
 
@@ -150,8 +150,8 @@ class Mage_Persistent_Model_Observer
             return;
         }
 
-        /** @var $checkoutSession Mage_Checkout_Model_Session */
-        $checkoutSession = Mage::getSingleton('Mage_Checkout_Model_Session');
+        /** @var $checkoutSession Magento_Checkout_Model_Session */
+        $checkoutSession = Mage::getSingleton('Magento_Checkout_Model_Session');
         if ($this->_isShoppingCartPersist()) {
             $checkoutSession->setCustomer($this->_getPersistentCustomer());
             if (!$checkoutSession->hasQuote()) {
@@ -194,7 +194,7 @@ class Mage_Persistent_Model_Observer
             return;
         }
 
-        /** @var $checkoutSession Mage_Checkout_Model_Session */
+        /** @var $checkoutSession Magento_Checkout_Model_Session */
         $checkoutSession = $observer->getEvent()->getCheckoutSession();
         if ($checkoutSession) {
             $checkoutSession->setLoadInactive();
@@ -411,13 +411,13 @@ class Mage_Persistent_Model_Observer
     public function setQuoteGuest($checkQuote = false)
     {
         /** @var $quote Mage_Sales_Model_Quote */
-        $quote = Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
         if ($quote && $quote->getId()) {
             if ($checkQuote
                 && !Mage::helper('Mage_Persistent_Helper_Data')->isShoppingCartPersist()
                 && !$quote->getIsPersistent()
             ) {
-                Mage::getSingleton('Mage_Checkout_Model_Session')->unsetAll();
+                Mage::getSingleton('Magento_Checkout_Model_Session')->unsetAll();
                 return;
             }
 
@@ -459,8 +459,8 @@ class Mage_Persistent_Model_Observer
         if (Mage::helper('Mage_Persistent_Helper_Data')->isEnabled()
             && !$this->_isPersistent()
             && !$customerSession->isLoggedIn()
-            && Mage::getSingleton('Mage_Checkout_Model_Session')->getQuoteId()
-            && !($observer->getControllerAction() instanceof Mage_Checkout_Controller_Onepage)
+            && Mage::getSingleton('Magento_Checkout_Model_Session')->getQuoteId()
+            && !($observer->getControllerAction() instanceof Magento_Checkout_Controller_Onepage)
             // persistent session does not expire on onepage checkout page to not spoil customer group id
         ) {
             Mage::dispatchEvent('persistent_session_expired');
@@ -471,8 +471,8 @@ class Mage_Persistent_Model_Observer
 
     protected function _expirePersistentSession()
     {
-        /** @var $checkoutSession Mage_Checkout_Model_Session */
-        $checkoutSession = Mage::getSingleton('Mage_Checkout_Model_Session');
+        /** @var $checkoutSession Magento_Checkout_Model_Session */
+        $checkoutSession = Mage::getSingleton('Magento_Checkout_Model_Session');
 
         $quote = $checkoutSession->setLoadInactive()->getQuote();
         if ($quote->getIsActive() && $quote->getCustomerId()) {

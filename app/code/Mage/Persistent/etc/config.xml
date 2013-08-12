@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Magento_Adminhtml />
-                <Mage_Checkout />
+                <Magento_Checkout />
             </depends>
         </Mage_Persistent>
     </modules>

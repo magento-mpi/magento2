@@ -18,7 +18,7 @@
  * @category   Enterprise
  * @package    Enterprise_Checkout
  */
-class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Checkout_Model_Cart_Interface
+class Enterprise_Checkout_Model_Cart extends Magento_Object implements Magento_Checkout_Model_Cart_Interface
 {
     /**
      * Context of the cart - admin order
@@ -78,7 +78,7 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Cart instance
      *
-     * @var Mage_Checkout_Model_Cart
+     * @var Magento_Checkout_Model_Cart
      */
     protected $_cart;
 
@@ -1190,12 +1190,12 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Add products previously successfully processed by prepareAddProductsBySku() to cart
      *
-     * @param Mage_Checkout_Model_Cart_Interface|null $cart                 Custom cart model (different from
+     * @param Magento_Checkout_Model_Cart_Interface|null $cart                 Custom cart model (different from
      *                                                                      checkout/cart)
      * @param bool                                    $saveQuote            Whether cart quote should be saved
      * @return Enterprise_Checkout_Model_Cart
      */
-    public function saveAffectedProducts(Mage_Checkout_Model_Cart_Interface $cart = null, $saveQuote = true)
+    public function saveAffectedProducts(Magento_Checkout_Model_Cart_Interface $cart = null, $saveQuote = true)
     {
         $cart = $cart ? $cart : $this->_getCart();
         $affectedItems = $this->getAffectedItems();
@@ -1216,12 +1216,12 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
      * Safely add product to cart, revert cart in error case
      *
      * @param array                              $item
-     * @param Mage_Checkout_Model_Cart_Interface $cart                 If we need to add product to different cart from
+     * @param Magento_Checkout_Model_Cart_Interface $cart                 If we need to add product to different cart from
      *                                                                 checkout/cart
      * @param bool                               $suppressSuperMode
      * @return Enterprise_Checkout_Model_Cart
      */
-    protected function _safeAddProduct(&$item, Mage_Checkout_Model_Cart_Interface $cart, $suppressSuperMode = false)
+    protected function _safeAddProduct(&$item, Magento_Checkout_Model_Cart_Interface $cart, $suppressSuperMode = false)
     {
         $quote = $cart->getQuote();
 
@@ -1521,11 +1521,11 @@ class Enterprise_Checkout_Model_Cart extends Magento_Object implements Mage_Chec
     /**
      * Retrieve shopping cart model object
      *
-     * @return Mage_Checkout_Model_Cart
+     * @return Magento_Checkout_Model_Cart
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Cart');
+        return Mage::getSingleton('Magento_Checkout_Model_Cart');
     }
 
     /**

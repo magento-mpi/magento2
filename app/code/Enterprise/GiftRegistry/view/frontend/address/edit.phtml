@@ -105,7 +105,7 @@
 </div>
 <script type="text/javascript">
     head.js(
-        "<?php echo $this->getViewFileUrl('Mage_Checkout::js/region-updater.js') ?>",
+        "<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
         function() {
             jQuery('#address\\:country_id').regionUpdater({
                 optionalRegionAllowed: <?php echo (Mage::getStoreConfig('general/region/display_all')? 'true' : 'false'); ?>,

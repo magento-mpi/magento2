@@ -493,8 +493,8 @@ class Mage_Paypal_Model_Express_Checkout
      */
     public function updateOrder($data)
     {
-        /** @var $checkout Mage_Checkout_Model_Type_Onepage */
-        $checkout = Mage::getModel('Mage_Checkout_Model_Type_Onepage');
+        /** @var $checkout Magento_Checkout_Model_Type_Onepage */
+        $checkout = Mage::getModel('Magento_Checkout_Model_Type_Onepage');
 
         $this->_quote->setTotalsCollectedFlag(true);
         $checkout->setQuote($this->_quote);
@@ -532,10 +532,10 @@ class Mage_Paypal_Model_Express_Checkout
 
         $isNewCustomer = false;
         switch ($this->getCheckoutMethod()) {
-            case Mage_Checkout_Model_Type_Onepage::METHOD_GUEST:
+            case Magento_Checkout_Model_Type_Onepage::METHOD_GUEST:
                 $this->_prepareGuestQuote();
                 break;
-            case Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER:
+            case Magento_Checkout_Model_Type_Onepage::METHOD_REGISTER:
                 $this->_prepareNewCustomerQuote();
                 $isNewCustomer = true;
                 break;
@@ -652,13 +652,13 @@ class Mage_Paypal_Model_Express_Checkout
     public function getCheckoutMethod()
     {
         if ($this->getCustomerSession()->isLoggedIn()) {
-            return Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER;
+            return Magento_Checkout_Model_Type_Onepage::METHOD_CUSTOMER;
         }
         if (!$this->_quote->getCheckoutMethod()) {
-            if (Mage::helper('Mage_Checkout_Helper_Data')->isAllowedGuestCheckout($this->_quote)) {
-                $this->_quote->setCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_GUEST);
+            if (Mage::helper('Magento_Checkout_Helper_Data')->isAllowedGuestCheckout($this->_quote)) {
+                $this->_quote->setCheckoutMethod(Magento_Checkout_Model_Type_Onepage::METHOD_GUEST);
             } else {
-                $this->_quote->setCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER);
+                $this->_quote->setCheckoutMethod(Magento_Checkout_Model_Type_Onepage::METHOD_REGISTER);
             }
         }
         return $this->_quote->getCheckoutMethod();

@@ -1335,7 +1335,7 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
         if (Mage::app()->getStore()->isAdmin()) {
             return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
         } else {
-            return Mage::getSingleton('Mage_Checkout_Model_Session');
+            return Mage::getSingleton('Magento_Checkout_Model_Session');
         }
     }
 

@@ -60,7 +60,7 @@ class Mage_Paypal_Controller_Payflowadvanced extends Mage_Paypal_Controller_Expr
         $this->loadLayout(false);
         $redirectBlock = $this->getLayout()->getBlock('payflow.advanced.iframe');;
 
-        $session = $this->_objectManager->get('Mage_Checkout_Model_Session');
+        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
         if ($session->getLastRealOrderId()) {
             $order = Mage::getModel('Mage_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
 

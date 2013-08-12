@@ -84,7 +84,7 @@ dev/tests/integration/testsuite/Magento/Adminhtml/Controller/NewsletterQueueTest
 dev/tests/integration/testsuite/Magento/Adminhtml/Controller/NewsletterTemplateTest.php
 dev/tests/integration/testsuite/Magento/Adminhtml/Controller/System/DesignTest.php
 # multi-address checkout is disabled
-dev/tests/integration/testsuite/Mage/Checkout/Controller/MultishippingTest.php
+dev/tests/integration/testsuite/Magento/Checkout/Controller/MultishippingTest.php
 ########################################################################################################################
 # following tests must be refactored to be applicable in Saas Edition
 # MAGETWO-10542, test requires Magento_Downloadable module,
@@ -94,4 +94,4 @@ dev/tests/integration/testsuite/Mage/Backend/Model/ConfigTest.php
 # MAGETWO-10544, test requires Magento_Downloadable module
 dev/tests/integration/testsuite/Magento/Catalog/Model/Product/TypeTest.php
 # MAGETWO-10543, test requires Magento_Downloadable module
-dev/tests/integration/testsuite/Mage/Checkout/Controller/CartTest.php
+dev/tests/integration/testsuite/Magento/Checkout/Controller/CartTest.php

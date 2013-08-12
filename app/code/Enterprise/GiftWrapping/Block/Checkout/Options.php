@@ -63,7 +63,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Mage_Checkout_Model_Session')->getQuote();
+        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
     }
 
     /**
@@ -317,7 +317,7 @@ class Enterprise_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_
      */
     public function canDisplayGiftWrapping()
     {
-        $cartItems      = Mage::getModel('Mage_Checkout_Model_Cart')->getItems();
+        $cartItems      = Mage::getModel('Magento_Checkout_Model_Cart')->getItems();
         $productModel   = Mage::getModel('Magento_Catalog_Model_Product');
         foreach ($cartItems as $item) {
             $product = $productModel->load($item->getProductId());
