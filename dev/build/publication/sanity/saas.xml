@@ -122,7 +122,7 @@
         <item>
             <!-- Must be removed, when Oauth is removed as well -->
             <word>CatalogEvent</word>
-            <path>app/design/frontend/magento_fixed_width/Mage_Oauth/layout/override/oauth_root_handle.xml</path>
+            <path>app/design/frontend/magento_fixed_width/Magento_Oauth/layout/override/oauth_root_handle.xml</path>
         </item>
         <item>
             <!-- Must be refactored to be modular -->

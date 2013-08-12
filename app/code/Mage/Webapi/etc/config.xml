@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Magento_Core />
-                <Mage_Oauth />
+                <Magento_Oauth />
                 <Mage_Backend />
             </depends>
         </Mage_Webapi>

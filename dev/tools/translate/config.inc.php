@@ -540,8 +540,8 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/webapi/',
         'app/design/adminhtml/default/default/layout/webapi.xml',
     ),
-    'Mage_Oauth' => array(
-        'app/code/Mage/Oauth/',
+    'Magento_Oauth' => array(
+        'app/code/Magento/Oauth/',
         'app/design/adminhtml/default/default/template/oauth/',
         'app/design/adminhtml/default/default/layout/oauth.xml',
         'app/design/frontend/base/default/template/oauth/',
@@ -564,7 +564,7 @@ $CONFIG['helpers']  = array(
     'adminnotification' => 'Mage_AdminNotification',
     'api'               => 'Magento_Api',
     'webapi'              => 'Mage_Webapi',
-    'oauth'             => 'Mage_Oauth',
+    'oauth'             => 'Magento_Oauth',
     'importexport'      => 'Magento_ImportExport',
     'backup'            => 'Mage_Backup',
     'bundle'            => 'Mage_Bundle',

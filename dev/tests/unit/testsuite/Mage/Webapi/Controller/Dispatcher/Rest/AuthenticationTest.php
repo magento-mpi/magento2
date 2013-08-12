@@ -70,7 +70,7 @@ class Mage_Webapi_Controller_Dispatcher_Rest_AuthenticationTest extends PHPUnit_
             ->expects($this->once())
             ->method('authenticateTwoLegged')
             ->will($this->throwException(
-                Mage::exception('Mage_Oauth', 'Exception message.', Mage_Oauth_Model_Server::HTTP_BAD_REQUEST)
+                Mage::exception('Magento_Oauth', 'Exception message.', Magento_Oauth_Model_Server::HTTP_BAD_REQUEST)
             ));
         $this->setExpectedException(
             'Mage_Webapi_Exception',

@@ -30,14 +30,14 @@ class Mage_Webapi_Model_Rest_Oauth_ServerTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('getHeader', 'getScheme', 'getHttpHost', 'getRequestUri'))
             ->disableOriginalConstructor()
             ->getMock();
-        $tokenFactory = $this->getMockBuilder('Mage_Oauth_Model_Token_Factory')
+        $tokenFactory = $this->getMockBuilder('Magento_Oauth_Model_Token_Factory')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_consumerFactoryMock = $this->getMockBuilder('Mage_Webapi_Model_Acl_User_Factory')
             ->setMethods(array('create'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_nonceFactory = $this->getMockBuilder('Mage_Oauth_Model_Nonce_Factory')
+        $this->_nonceFactory = $this->getMockBuilder('Magento_Oauth_Model_Nonce_Factory')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -64,11 +64,11 @@ class Mage_Webapi_Model_Rest_Oauth_ServerTest extends PHPUnit_Framework_TestCase
             'oauth_nonce' => $utility->generateNonce(),
             'oauth_timestamp' => $utility->generateTimestamp(),
             'oauth_version' => '1.0',
-            'oauth_signature_method' => Mage_Oauth_Model_Server::SIGNATURE_PLAIN,
+            'oauth_signature_method' => Magento_Oauth_Model_Server::SIGNATURE_PLAIN,
         );
         $params['oauth_signature'] = $utility->sign(
             $params,
-            Mage_Oauth_Model_Server::SIGNATURE_PLAIN,
+            Magento_Oauth_Model_Server::SIGNATURE_PLAIN,
             $testUserSecret,
             '',
             'GET',

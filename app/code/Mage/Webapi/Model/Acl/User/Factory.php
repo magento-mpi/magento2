@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Webapi_Model_Acl_User_Factory extends Mage_Oauth_Model_Consumer_Factory
+class Mage_Webapi_Model_Acl_User_Factory extends Magento_Oauth_Model_Consumer_Factory
 {
     const CLASS_NAME = 'Mage_Webapi_Model_Acl_User';
 
