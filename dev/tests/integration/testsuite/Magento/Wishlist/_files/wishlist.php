@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../Customer/_files/customer.php';
+require __DIR__ . '/../../../Mage/Customer/_files/customer.php';
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 
 $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
