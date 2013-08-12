@@ -930,7 +930,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
                     $stockItem->loadByProduct($model->getProductId());
                     // not Mage_Core_Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
-                        throw new Mage_Exception(__('Please correct the  gift registry item quantity.'));
+                        throw new Magento_Exception(__('Please correct the  gift registry item quantity.'));
                     }
                 }
             } else {

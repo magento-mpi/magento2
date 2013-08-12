@@ -90,7 +90,7 @@ class Mage_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstract
             }
         } elseif (!($value instanceof Magento_Simplexml_Element)) {
             throw new Exception(
-                __('XML object is not instance of "Varien_Simplexml_Element".'));
+                __('XML object is not instance of "Magento_Simplexml_Element".'));
         }
 
         $this->_setValue($value);
