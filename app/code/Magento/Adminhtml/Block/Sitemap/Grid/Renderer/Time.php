@@ -12,7 +12,7 @@
  * Sitemap grid link column renderer
  *
  * @category   Magento
- * @package    Mage_Sitemap
+ * @package    Magento_Sitemap
  */
 class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Time extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {

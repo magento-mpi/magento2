@@ -1543,7 +1543,7 @@
     <google_sitemap translate="label">
         <label>XML Sitemap</label>
         <expected_models>
-            <Mage_Sitemap_Model_Sitemap/>
+            <Magento_Sitemap_Model_Sitemap/>
         </expected_models>
         <actions>
             <adminhtml_sitemap_edit>

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Saas_Mage_Sitemap_GoogleVerificationCodeTest extends Saas_Mage_TestCase
+class Saas_Magento_Sitemap_GoogleVerificationCodeTest extends Saas_Mage_TestCase
 {
     protected function assertPreConditions()
     {

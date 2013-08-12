@@ -307,8 +307,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/shipping/',
         'app/design/frontend/base/default/layout/shipping.xml',
     ),
-    'Mage_Sitemap' => array(
-        'app/code/Mage/Sitemap/',
+    'Magento_Sitemap' => array(
+        'app/code/Magento/Sitemap/',
     ),
     'Mage_Strikeiron' => array(
         'app/code/Mage/Strikeiron/',
@@ -623,7 +623,7 @@ $CONFIG['helpers']  = array(
     'salesrule'         => 'Mage_SalesRule',
     'sendfriend'        => 'Mage_Sendfriend',
     'shipping'          => 'Mage_Shipping',
-    'sitemap'           => 'Mage_Sitemap',
+    'sitemap'           => 'Magento_Sitemap',
     'strikeiron'        => 'Mage_Strikeiron',
     'tag'               => 'Mage_Tag',
     'tax'               => 'Mage_Tax',

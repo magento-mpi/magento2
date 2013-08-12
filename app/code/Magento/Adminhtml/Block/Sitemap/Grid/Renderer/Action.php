@@ -12,7 +12,7 @@
  * Sitemap grid action column renderer
  *
  * @category   Magento
- * @package    Mage_Sitemap
+ * @package    Magento_Sitemap
  */
 class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Action extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
 {
@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Action extends Magento_Admin
     {
         $this->getColumn()->setActions(array(array(
             'url'     => $this->getUrl('*/sitemap/generate', array('sitemap_id' => $row->getSitemapId())),
-            'caption' => Mage::helper('Mage_Sitemap_Helper_Data')->__('Generate'),
+            'caption' => Mage::helper('Magento_Sitemap_Helper_Data')->__('Generate'),
         )));
         return parent::render($row);
     }

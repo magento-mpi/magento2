@@ -56,10 +56,10 @@ class Magento_Adminhtml_Block_Sitemap_Edit extends Magento_Adminhtml_Block_Widge
     public function getHeaderText()
     {
         if (Mage::registry('sitemap_sitemap')->getId()) {
-            return Mage::helper('Mage_Sitemap_Helper_Data')->__('Edit Sitemap');
+            return Mage::helper('Magento_Sitemap_Helper_Data')->__('Edit Sitemap');
         }
         else {
-            return Mage::helper('Mage_Sitemap_Helper_Data')->__('New Sitemap');
+            return Mage::helper('Magento_Sitemap_Helper_Data')->__('New Sitemap');
         }
     }
 }

@@ -12,7 +12,7 @@
  * Sitemap grid link column renderer
  *
  * @category   Magento
- * @package    Mage_Sitemap
+ * @package    Magento_Sitemap
  */
 class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
@@ -43,8 +43,8 @@ class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Magento_Adminht
      */
     public function render(Magento_Object $row)
     {
-        /** @var $sitemap Mage_Sitemap_Model_Sitemap */
-        $sitemap = Mage::getModel('Mage_Sitemap_Model_Sitemap');
+        /** @var $sitemap Magento_Sitemap_Model_Sitemap */
+        $sitemap = Mage::getModel('Magento_Sitemap_Model_Sitemap');
         $url = $this->escapeHtml($sitemap->getSitemapUrl($row->getSitemapPath(), $row->getSitemapFilename()));
 
         $fileName = preg_replace('/^\//', '', $row->getSitemapPath() . $row->getSitemapFilename());
