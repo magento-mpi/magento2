@@ -31,7 +31,7 @@ class Enterprise_ImportExport_Model_Import extends Magento_ImportExport_Model_Im
 
         $indexers = self::$_entityInvalidatedIndexes[$this->getEntity()];
         foreach ($indexers as $indexer) {
-            $indexProcess = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode($indexer);
+            $indexProcess = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode($indexer);
             if ($indexProcess) {
                 $indexProcess->reindexEverything();
             }

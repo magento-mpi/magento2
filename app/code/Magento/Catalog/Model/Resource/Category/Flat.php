@@ -16,7 +16,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Flat extends Mage_Index_Model_Resource_Abstract
+class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_Resource_Abstract
 {
     /**
      * Store id

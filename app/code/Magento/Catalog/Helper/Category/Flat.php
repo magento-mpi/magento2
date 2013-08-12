@@ -37,7 +37,7 @@ class Magento_Catalog_Helper_Category_Flat extends Magento_Catalog_Helper_Flat_A
     /**
      * Store catalog Category Flat index process instance
      *
-     * @var Mage_Index_Model_Process|null
+     * @var Magento_Index_Model_Process|null
      */
     protected $_process = null;
 

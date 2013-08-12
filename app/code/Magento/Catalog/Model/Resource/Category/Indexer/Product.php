@@ -16,7 +16,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index_Model_Resource_Abstract
+class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Magento_Index_Model_Resource_Abstract
 {
     /**
      * Category table
@@ -79,10 +79,10 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index
      * Method is responsible for index support
      * when product was saved and assigned categories was changed.
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Resource_Category_Indexer_Product
      */
-    public function catalogProductSave(Mage_Index_Model_Event $event)
+    public function catalogProductSave(Magento_Index_Model_Event $event)
     {
         $productId = $event->getEntityPk();
         $data      = $event->getNewData();
@@ -133,10 +133,10 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index
     /**
      * Process Catalog Product mass action
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Resource_Category_Indexer_Product
      */
-    public function catalogProductMassAction(Mage_Index_Model_Event $event)
+    public function catalogProductMassAction(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
 
@@ -205,9 +205,9 @@ class Magento_Catalog_Model_Resource_Category_Indexer_Product extends Mage_Index
     /**
      * Process category index after category save
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    public function catalogCategorySave(Mage_Index_Model_Event $event)
+    public function catalogCategorySave(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
 

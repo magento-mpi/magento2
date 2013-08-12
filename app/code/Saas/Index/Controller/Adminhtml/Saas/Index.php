@@ -101,6 +101,6 @@ class Saas_Index_Controller_Adminhtml_Saas_Index extends Magento_Adminhtml_Contr
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Index::index');
+        return $this->_authorization->isAllowed('Magento_Index::index');
     }
 }

@@ -14,7 +14,7 @@
             <active>false</active>
             <depends>
                 <Magento_Core />
-                <Mage_Index />
+                <Magento_Index />
             </depends>
         </Saas_Index>
     </modules>

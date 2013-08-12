@@ -108,8 +108,8 @@ class Mage_Customer_Model_Group extends Magento_Core_Model_Abstract
     protected function _afterSave()
     {
         parent::_afterSave();
-        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
-            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
+        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+            $this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE
         );
         return $this;
     }

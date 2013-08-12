@@ -84,8 +84,8 @@ class Enterprise_Search_Model_Observer
 
         $object = $observer->getEvent()->getDataObject();
         if ($object->isObjectNew() || $object->getTaxClassId() != $object->getOrigData('tax_class_id')) {
-            Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext')
-                ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext')
+                ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
     }
 
@@ -256,7 +256,7 @@ class Enterprise_Search_Model_Observer
         }
 
         /* @var Enterprise_Search_Model_Indexer_Indexer $indexer */
-        $indexer = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext');
+        $indexer = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext');
         if (empty($indexer)) {
             return;
         }
@@ -264,7 +264,7 @@ class Enterprise_Search_Model_Observer
         if ('process' == strtolower(Mage::app()->getRequest()->getControllerName())) {
             $indexer->reindexAll();
         } else {
-            $indexer->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            $indexer->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
     }
 }

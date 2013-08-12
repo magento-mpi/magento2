@@ -30,10 +30,10 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Magento_Catalog_Model_Reso
     /**
      * Process tag save
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Mage_Tag_Model_Resource_Indexer_Summary
      */
-    public function tagSave(Mage_Index_Model_Event $event)
+    public function tagSave(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['tag_reindex_tag_id'])) {
@@ -45,10 +45,10 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Magento_Catalog_Model_Reso
     /**
      * Process tag relation save
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Mage_Tag_Model_Resource_Indexer_Summary
      */
-    public function tagRelationSave(Mage_Index_Model_Event $event)
+    public function tagRelationSave(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['tag_reindex_tag_id'])) {
@@ -61,10 +61,10 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Magento_Catalog_Model_Reso
      * Process product save.
      * Method is responsible for index support when product was saved.
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Mage_Tag_Model_Resource_Indexer_Summary
      */
-    public function catalogProductSave(Mage_Index_Model_Event $event)
+    public function catalogProductSave(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['tag_reindex_required'])) {
@@ -82,10 +82,10 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Magento_Catalog_Model_Reso
      * Process product delete.
      * Method is responsible for index support when product was deleted
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Mage_Tag_Model_Resource_Indexer_Summary
      */
-    public function catalogProductDelete(Mage_Index_Model_Event $event)
+    public function catalogProductDelete(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['tag_reindex_tag_ids'])) {
@@ -97,10 +97,10 @@ class Mage_Tag_Model_Resource_Indexer_Summary extends Magento_Catalog_Model_Reso
     /**
      * Process product massaction
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Mage_Tag_Model_Resource_Indexer_Summary
      */
-    public function catalogProductMassAction(Mage_Index_Model_Event $event)
+    public function catalogProductMassAction(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['tag_reindex_tag_ids'])) {

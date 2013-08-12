@@ -764,12 +764,12 @@ class Magento_CatalogInventory_Model_Stock_Item extends Magento_Core_Model_Abstr
     {
         parent::_afterSave();
 
-        /** @var $indexer Mage_Index_Model_Indexer */
-        $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
+        /** @var $indexer Magento_Index_Model_Indexer */
+        $indexer = Mage::getSingleton('Magento_Index_Model_Indexer');
         if ($this->_processIndexEvents) {
-            $indexer->processEntityAction($this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE);
+            $indexer->processEntityAction($this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE);
         } else {
-            $indexer->logEvent($this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE);
+            $indexer->logEvent($this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE);
         }
         return $this;
     }

@@ -241,7 +241,7 @@ class Magento_CatalogRule_Model_Rule extends Mage_Rule_Model_Abstract
         $this->getResourceCollection()->walk(array($this->_getResource(), 'updateRuleProductData'));
         $this->_getResource()->applyAllRulesForDateRange();
         $this->_invalidateCache();
-        $indexProcess = Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_product_price');
+        $indexProcess = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalog_product_price');
         if ($indexProcess) {
             $indexProcess->reindexAll();
         }
@@ -265,7 +265,7 @@ class Magento_CatalogRule_Model_Rule extends Mage_Rule_Model_Abstract
         }
 
         if ($productId) {
-            Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
+            Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
                 new Magento_Object(array('id' => $productId)),
                 Magento_Catalog_Model_Product::ENTITY,
                 Magento_Catalog_Model_Product_Indexer_Price::EVENT_TYPE_REINDEX_PRICE

@@ -11,7 +11,7 @@ class Saas_Index_Model_System_Message_Decorator_IndexOutdated
     implements Mage_AdminNotification_Model_System_MessageInterface
 {
     /**
-     * @var Mage_Index_Model_System_Message_IndexOutdated
+     * @var Magento_Index_Model_System_Message_IndexOutdated
      */
     protected $_message;
 
@@ -31,13 +31,13 @@ class Saas_Index_Model_System_Message_Decorator_IndexOutdated
     protected $_flag;
 
     /**
-     * @param Mage_Index_Model_System_Message_IndexOutdated $message
+     * @param Magento_Index_Model_System_Message_IndexOutdated $message
      * @param Saas_Index_Helper_Data $helper
      * @param Magento_Core_Model_UrlInterface $urlBuilder
      * @param Saas_Index_Model_FlagFactory $flagFactory
      */
     public function __construct(
-        Mage_Index_Model_System_Message_IndexOutdated $message,
+        Magento_Index_Model_System_Message_IndexOutdated $message,
         Saas_Index_Helper_Data $helper,
         Magento_Core_Model_UrlInterface $urlBuilder,
         Saas_Index_Model_FlagFactory $flagFactory

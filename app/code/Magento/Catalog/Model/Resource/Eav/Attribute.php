@@ -130,8 +130,8 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity
          * Fix saving attribute in admin
          */
         Mage::getSingleton('Mage_Eav_Model_Config')->clear();
-        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
-            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
+        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+            $this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE
         );
         return parent::_afterSave();
     }
@@ -146,8 +146,8 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity
         if ($this->_getResource()->isUsedBySuperProducts($this)) {
             Mage::throwException(Mage::helper('Magento_Catalog_Helper_Data')->__('This attribute is used in configurable products.'));
         }
-        Mage::getSingleton('Mage_Index_Model_Indexer')->logEvent(
-            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
+        Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
+            $this, self::ENTITY, Magento_Index_Model_Event::TYPE_DELETE
         );
         return parent::_beforeDelete();
     }
@@ -160,8 +160,8 @@ class Magento_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity
     protected function _afterDeleteCommit()
     {
         parent::_afterDeleteCommit();
-        Mage::getSingleton('Mage_Index_Model_Indexer')->indexEvents(
-            self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
+        Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
+            self::ENTITY, Magento_Index_Model_Event::TYPE_DELETE
         );
         return $this;
     }

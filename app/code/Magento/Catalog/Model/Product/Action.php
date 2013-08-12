@@ -61,8 +61,8 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
         ));
 
         // register mass action indexer event
-        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
-            $this, Magento_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
+        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+            $this, Magento_Catalog_Model_Product::ENTITY, Magento_Index_Model_Event::TYPE_MASS_ACTION
         );
         return $this;
     }
@@ -99,8 +99,8 @@ class Magento_Catalog_Model_Product_Action extends Magento_Core_Model_Abstract
         ));
 
         // register mass action indexer event
-        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
-            $this, Magento_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
+        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+            $this, Magento_Catalog_Model_Product::ENTITY, Magento_Index_Model_Event::TYPE_MASS_ACTION
         );
 
         // add back compatibility system event

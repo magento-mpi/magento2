@@ -572,9 +572,9 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price_Default
     /**
      * Register data required by product type process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    public function registerEvent(Mage_Index_Model_Event $event)
+    public function registerEvent(Magento_Index_Model_Event $event)
     {
 
     }

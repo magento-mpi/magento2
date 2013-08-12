@@ -17,7 +17,7 @@
             <depends>
                 <Mage_Eav />
                 <Mage_Cms />
-                <Mage_Index />
+                <Magento_Index />
                 <Mage_Customer />
             </depends>
         </Magento_Catalog>

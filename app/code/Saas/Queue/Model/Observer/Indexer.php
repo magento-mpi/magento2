@@ -20,7 +20,7 @@ class Saas_Queue_Model_Observer_Indexer extends Saas_Queue_Model_ObserverAbstrac
     /**
      * Instance of indexer model
      *
-     * @var Mage_Index_Model_Indexer
+     * @var Magento_Index_Model_Indexer
      */
     protected $_indexer;
 
@@ -30,10 +30,10 @@ class Saas_Queue_Model_Observer_Indexer extends Saas_Queue_Model_ObserverAbstrac
     protected $_flag;
 
     /**
-     * @param Mage_Index_Model_Indexer $indexer
+     * @param Magento_Index_Model_Indexer $indexer
      * @param Saas_Index_Model_FlagFactory $flagFactory
      */
-    public function __construct(Mage_Index_Model_Indexer $indexer, Saas_Index_Model_FlagFactory $flagFactory)
+    public function __construct(Magento_Index_Model_Indexer $indexer, Saas_Index_Model_FlagFactory $flagFactory)
     {
         $this->_indexer = $indexer;
         $this->_flag = $flagFactory->create();

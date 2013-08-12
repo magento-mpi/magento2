@@ -39,7 +39,7 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
     /**
      * Catalog Product Flat index process instance
      *
-     * @var Mage_Index_Model_Process|null
+     * @var Magento_Index_Model_Process|null
      */
     protected $_process = null;
 

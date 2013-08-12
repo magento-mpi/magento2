@@ -33,7 +33,7 @@ class Saas_Queue_Model_Observer_IndexerTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_indexerMock = $this->getMockBuilder('Mage_Index_Model_Indexer')
+        $this->_indexerMock = $this->getMockBuilder('Magento_Index_Model_Indexer')
             ->disableOriginalConstructor()->getMock();
         $this->_flagMock = $this->getMock('Saas_Index_Model_Flag',
             array('getState', 'loadSelf', 'setState', 'save'), array(), '', false
@@ -62,7 +62,7 @@ class Saas_Queue_Model_Observer_IndexerTest extends PHPUnit_Framework_TestCase
     /**
      * Test for method processRefreshCatalog
      *
-     * Checks that Mage_Index_Model_Indexer::reindexAll() is called
+     * Checks that Magento_Index_Model_Indexer::reindexAll() is called
      */
     public function testProcessReindexAll()
     {
@@ -80,7 +80,7 @@ class Saas_Queue_Model_Observer_IndexerTest extends PHPUnit_Framework_TestCase
     /**
      * Test for method processReindexRequired
      *
-     * Checks that Mage_Index_Model_Indexer::reindexRequired() is called
+     * Checks that Magento_Index_Model_Indexer::reindexRequired() is called
      */
     public function testProcessReindexRequired()
     {

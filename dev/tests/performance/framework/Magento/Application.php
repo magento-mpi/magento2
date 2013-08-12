@@ -152,9 +152,9 @@ class Magento_Application
     {
         $this->_bootstrap();
 
-        /** @var $indexer Mage_Index_Model_Indexer */
-        $indexer = Mage::getModel('Mage_Index_Model_Indexer');
-        /** @var $process Mage_Index_Model_Process */
+        /** @var $indexer Magento_Index_Model_Indexer */
+        $indexer = Mage::getModel('Magento_Index_Model_Indexer');
+        /** @var $process Magento_Index_Model_Process */
         foreach ($indexer->getProcessesCollection() as $process) {
             if ($process->getIndexer()->isVisible()) {
                 $process->reindexEverything();

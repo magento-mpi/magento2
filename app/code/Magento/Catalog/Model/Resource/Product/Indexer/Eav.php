@@ -71,10 +71,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
      * Method is responsible for index support
      * when product was saved and assigned categories was changed.
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
      */
-    public function catalogProductSave(Mage_Index_Model_Event $event)
+    public function catalogProductSave(Magento_Index_Model_Event $event)
     {
         $productId = $event->getEntityPk();
         $data = $event->getNewData();
@@ -97,10 +97,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     /**
      * Process Product Delete
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
      */
-    public function catalogProductDelete(Mage_Index_Model_Event $event)
+    public function catalogProductDelete(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_eav_parent_ids'])) {
@@ -118,10 +118,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     /**
      * Process Product Mass Update
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
      */
-    public function catalogProductMassAction(Mage_Index_Model_Event $event)
+    public function catalogProductMassAction(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_eav_product_ids'])) {
@@ -139,10 +139,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Eav extends Magento_Catalog
     /**
      * Process Catalog Eav Attribute Save
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Resource_Product_Indexer_Eav
      */
-    public function catalogEavAttributeSave(Mage_Index_Model_Event $event)
+    public function catalogEavAttributeSave(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_attribute'])) {

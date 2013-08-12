@@ -77,7 +77,7 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
         // set real time indexer mode
         $process = self::_getCategoryIndexerProcess();
         self::$_indexerMode = $process->getMode();
-        $process->setMode(Mage_Index_Model_Process::MODE_REAL_TIME);
+        $process->setMode(Magento_Index_Model_Process::MODE_REAL_TIME);
         $process->save();
     }
 
@@ -106,12 +106,12 @@ class Magento_Catalog_Model_CategoryTest extends PHPUnit_Framework_TestCase
 
     /**
      * @static
-     * @return Mage_Index_Model_Process
+     * @return Magento_Index_Model_Process
      */
     protected static function _getCategoryIndexerProcess()
     {
-        /** @var $process Mage_Index_Model_Process */
-        $process = self::$_objectManager->create('Mage_Index_Model_Process');
+        /** @var $process Magento_Index_Model_Process */
+        $process = self::$_objectManager->create('Magento_Index_Model_Process');
         $process->load(Magento_Catalog_Helper_Category_Flat::CATALOG_CATEGORY_FLAT_PROCESS_CODE, 'indexer_code');
         return $process;
     }

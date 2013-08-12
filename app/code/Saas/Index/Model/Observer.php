@@ -48,7 +48,7 @@ class Saas_Index_Model_Observer
      */
     public function redefineIndex(Magento_Event_Observer $observer)
     {
-        if ($this->_request->getControllerModule() == 'Mage_Index_Adminhtml'
+        if ($this->_request->getControllerModule() == 'Magento_Index_Adminhtml'
             && $this->_request->getControllerName() == 'process'
         ) {
             $this->_forward('list' == $this->_request->getActionName() ? 'index' : 'noroute');

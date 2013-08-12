@@ -26,7 +26,7 @@
     </type>
     <virtualType name="Mage_Backend_Model_Cache_Resource_Grid_Options_Statuses" type="Mage_Backend_Model_Config_Source_Statuses_Options">
         <param name="helper">
-            <instance type="Mage_Index_Helper_Data" />
+            <instance type="Magento_Index_Helper_Data" />
         </param>
     </virtualType>
 </config>

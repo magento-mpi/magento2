@@ -20,7 +20,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
     protected $_model = null;
 
     /**
-     * @var Mage_Index_Model_Event
+     * @var Magento_Index_Model_Event
      */
     protected $_event = null;
 
@@ -28,7 +28,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
     {
         $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento_Catalog_Model_Product_Indexer_Flat');
-        $this->_event = $this->getMock('Mage_Index_Model_Event',
+        $this->_event = $this->getMock('Magento_Index_Model_Event',
             array('getFlatHelper', 'getEntity', 'getType', 'getDataObject'), array(), '', false
         );
     }
@@ -114,7 +114,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
         $this->_event->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue(Mage_Index_Model_Event::TYPE_DELETE));
+            ->will($this->returnValue(Magento_Index_Model_Event::TYPE_DELETE));
 
         $this->assertTrue($this->_model->matchEvent($this->_event));
     }
@@ -125,7 +125,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
         $this->_event->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue(Mage_Index_Model_Event::TYPE_SAVE));
+            ->will($this->returnValue(Magento_Index_Model_Event::TYPE_SAVE));
 
         $this->_event->expects($this->any())
             ->method('getDataObject')
@@ -140,7 +140,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
         $this->_event->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue(Mage_Index_Model_Event::TYPE_SAVE));
+            ->will($this->returnValue(Magento_Index_Model_Event::TYPE_SAVE));
 
         $store = $this->getMockBuilder('Magento_Core_Model_Store')
             ->disableOriginalConstructor()
@@ -163,7 +163,7 @@ class Magento_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_T
 
         $this->_event->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue(Mage_Index_Model_Event::TYPE_SAVE));
+            ->will($this->returnValue(Magento_Index_Model_Event::TYPE_SAVE));
 
         $store = $this->getMockBuilder('Magento_Core_Model_Store')
             ->disableOriginalConstructor()

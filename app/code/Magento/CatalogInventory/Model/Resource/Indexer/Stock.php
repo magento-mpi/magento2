@@ -45,10 +45,10 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
     /**
      * Process stock item save action
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock
      */
-    public function cataloginventoryStockItemSave(Mage_Index_Model_Event $event)
+    public function cataloginventoryStockItemSave(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['product_id'])) {
@@ -111,10 +111,10 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
     /**
      * Processing parent products after child product deleted
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock
      */
-    public function catalogProductDelete(Mage_Index_Model_Event $event)
+    public function catalogProductDelete(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_stock_parent_ids'])) {
@@ -146,10 +146,10 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
     /**
      * Process product mass update action
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock
      */
-    public function catalogProductMassAction(Mage_Index_Model_Event $event)
+    public function catalogProductMassAction(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_stock_product_ids'])) {

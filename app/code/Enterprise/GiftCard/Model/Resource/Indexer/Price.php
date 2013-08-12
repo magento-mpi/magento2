@@ -21,9 +21,9 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_M
     /**
      * Register data required by product type process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    public function registerEvent(Mage_Index_Model_Event $event)
+    public function registerEvent(Magento_Index_Model_Event $event)
     {
         $attributes = array(
             'allow_open_amount',
@@ -34,7 +34,7 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_M
         $entity = $event->getEntity();
         if ($entity == Magento_Catalog_Model_Product::ENTITY) {
             switch ($event->getType()) {
-                case Mage_Index_Model_Event::TYPE_SAVE:
+                case Magento_Index_Model_Event::TYPE_SAVE:
                     /* @var $product Magento_Catalog_Model_Product */
                     $product      = $event->getDataObject();
                     $reindexPrice = $product->getAmountsHasChanged();
@@ -52,7 +52,7 @@ class Enterprise_GiftCard_Model_Resource_Indexer_Price extends Magento_Catalog_M
 
                     break;
 
-                case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+                case Magento_Index_Model_Event::TYPE_MASS_ACTION:
                     /* @var $actionObject Magento_Object */
                     $actionObject = $event->getDataObject();
                     $reindexPrice = false;

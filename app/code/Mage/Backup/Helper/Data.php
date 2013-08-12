@@ -279,8 +279,8 @@ class Mage_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function invalidateIndexer()
     {
-        foreach (Mage::getResourceModel('Mage_Index_Model_Resource_Process_Collection') as $process) {
-            $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+        foreach (Mage::getResourceModel('Magento_Index_Model_Resource_Process_Collection') as $process) {
+            $process->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
         return $this;
     }

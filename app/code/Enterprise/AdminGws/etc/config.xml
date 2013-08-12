@@ -518,8 +518,8 @@
                     <magento_adminhtml_block_poll_edit>removePollButtons</magento_adminhtml_block_poll_edit>
                     <enterprise_reward_block_adminhtml_reward_rate_edit>removeRewardRateButtons</enterprise_reward_block_adminhtml_reward_rate_edit>
                     <magento_adminhtml_block_sales_order_grid>removeNotAllowedMassactionsForOrders</magento_adminhtml_block_sales_order_grid>
-                    <mage_index_block_adminhtml_process_grid>removeProcessListButtons</mage_index_block_adminhtml_process_grid>
-                    <mage_index_block_adminhtml_process_edit>removeProcessEditButtons</mage_index_block_adminhtml_process_edit>
+                    <magento_index_block_adminhtml_process_grid>removeProcessListButtons</magento_index_block_adminhtml_process_grid>
+                    <magento_index_block_adminhtml_process_edit>removeProcessEditButtons</magento_index_block_adminhtml_process_edit>
                     <enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>removeGiftWrappingEditButtons</enterprise_giftWrapping_block_adminhtml_giftwrapping_edit>
                     <enterprise_cms_block_adminhtml_cms_page_revision_edit>removeRevisionEditButtons</enterprise_cms_block_adminhtml_cms_page_revision_edit>
                     <enterprise_cms_block_adminhtml_cms_page_preview_buttons>removePreviewPublishButton</enterprise_cms_block_adminhtml_cms_page_preview_buttons>

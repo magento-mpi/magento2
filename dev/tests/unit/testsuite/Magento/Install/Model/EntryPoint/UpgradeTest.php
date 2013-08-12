@@ -50,7 +50,7 @@ class Magento_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_Tes
         $update->expects($this->once())->method('updateData');
 
         $this->_indexer = $this->getMock(
-            'Mage_Index_Model_Indexer', array('reindexAll', 'reindexRequired'), array(), '', false
+            'Magento_Index_Model_Indexer', array('reindexAll', 'reindexRequired'), array(), '', false
         );
 
         $this->_objectManager = $this->getMock('Magento_ObjectManager');
@@ -58,7 +58,7 @@ class Magento_Install_Model_EntryPoint_UpgradeTest extends PHPUnit_Framework_Tes
             array('Magento_Core_Model_Cache_Frontend_Pool', $cacheFrontendPool),
             array('Magento_Core_Model_Db_Updater', $update),
             array('Magento_Core_Model_Config_Primary', $this->_config),
-            array('Mage_Index_Model_Indexer', $this->_indexer),
+            array('Magento_Index_Model_Indexer', $this->_indexer),
             array('Magento_Core_Model_Dir_Verification', $dirVerification),
         )));
     }

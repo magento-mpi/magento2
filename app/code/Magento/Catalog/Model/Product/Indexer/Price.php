@@ -32,7 +32,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_Abstract
+class Magento_Catalog_Model_Product_Indexer_Price extends Magento_Index_Model_Indexer_Abstract
 {
     /**
      * Data key for matching result to be saved in
@@ -51,16 +51,16 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Index
      */
     protected $_matchedEntities = array(
         Magento_Catalog_Model_Product::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE,
-            Mage_Index_Model_Event::TYPE_DELETE,
-            Mage_Index_Model_Event::TYPE_MASS_ACTION,
+            Magento_Index_Model_Event::TYPE_SAVE,
+            Magento_Index_Model_Event::TYPE_DELETE,
+            Magento_Index_Model_Event::TYPE_MASS_ACTION,
             self::EVENT_TYPE_REINDEX_PRICE,
         ),
         Magento_Core_Model_Config_Data::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Mage_Customer_Model_Group::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         )
     );
 
@@ -121,10 +121,10 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Index
      * Check if event can be matched by process.
      * Rewrited for checking configuration settings save (like price scope).
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return bool
      */
-    public function matchEvent(Mage_Index_Model_Event $event)
+    public function matchEvent(Magento_Index_Model_Event $event)
     {
         $data       = $event->getNewData();
         if (isset($data[self::EVENT_MATCH_RESULT_KEY])) {
@@ -152,9 +152,9 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Index
     /**
      * Register data required by catalog product delete process
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerCatalogProductDeleteEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductDeleteEvent(Magento_Index_Model_Event $event)
     {
         /* @var $product Magento_Catalog_Model_Product */
         $product = $event->getDataObject();
@@ -168,9 +168,9 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Index
     /**
      * Register data required by catalog product save process
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerCatalogProductSaveEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductSaveEvent(Magento_Index_Model_Event $event)
     {
         /* @var $product Magento_Catalog_Model_Product */
         $product      = $event->getDataObject();
@@ -191,9 +191,9 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Index
     }
 
     /**
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerCatalogProductMassActionEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductMassActionEvent(Magento_Index_Model_Event $event)
     {
         /* @var $actionObject Magento_Object */
         $actionObject = $event->getDataObject();
@@ -225,25 +225,25 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Index
     /**
      * Register data required by process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerEvent(Mage_Index_Model_Event $event)
+    protected function _registerEvent(Magento_Index_Model_Event $event)
     {
         $event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
         $entity = $event->getEntity();
 
         if ($entity == Magento_Core_Model_Config_Data::ENTITY || $entity == Mage_Customer_Model_Group::ENTITY) {
             $process = $event->getProcess();
-            $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            $process->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         } else if ($entity == Magento_Catalog_Model_Product::ENTITY) {
             switch ($event->getType()) {
-                case Mage_Index_Model_Event::TYPE_DELETE:
+                case Magento_Index_Model_Event::TYPE_DELETE:
                     $this->_registerCatalogProductDeleteEvent($event);
                     break;
-                case Mage_Index_Model_Event::TYPE_SAVE:
+                case Magento_Index_Model_Event::TYPE_SAVE:
                     $this->_registerCatalogProductSaveEvent($event);
                     break;
-                case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+                case Magento_Index_Model_Event::TYPE_MASS_ACTION:
                     $this->_registerCatalogProductMassActionEvent($event);
                     break;
                 case self::EVENT_TYPE_REINDEX_PRICE:
@@ -264,9 +264,9 @@ class Magento_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Index
     /**
      * Process event
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _processEvent(Mage_Index_Model_Event $event)
+    protected function _processEvent(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if ($event->getType() == self::EVENT_TYPE_REINDEX_PRICE) {

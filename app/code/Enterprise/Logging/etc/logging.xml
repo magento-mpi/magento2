@@ -1609,7 +1609,7 @@
     <index_management translate="label">
         <label>Index Management</label>
         <expected_models>
-            <Mage_Index_Model_Process/>
+            <Magento_Index_Model_Process/>
         </expected_models>
         <actions>
             <adminhtml_process_edit>

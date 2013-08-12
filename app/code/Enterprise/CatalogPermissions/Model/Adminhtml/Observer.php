@@ -134,8 +134,8 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     public function reindexPermissions()
     {
         if (!empty($this->_indexQueue)) {
-            /** @var $indexer Mage_Index_Model_Indexer */
-            $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
+            /** @var $indexer Magento_Index_Model_Indexer */
+            $indexer = Mage::getSingleton('Magento_Index_Model_Indexer');
             foreach ($this->_indexQueue as $item) {
                 $indexer->logEvent(
                     new Magento_Object(array('id' => $item)),
@@ -152,8 +152,8 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         }
 
         if (!empty($this->_indexProductQueue)) {
-            /** @var $indexer Mage_Index_Model_Indexer */
-            $indexer = Mage::getSingleton('Mage_Index_Model_Indexer');
+            /** @var $indexer Magento_Index_Model_Indexer */
+            $indexer = Mage::getSingleton('Magento_Index_Model_Indexer');
             foreach ($this->_indexProductQueue as $item) {
                 $indexer->logEvent(
                     new Magento_Object(array('id' => $item)),
@@ -179,10 +179,10 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     public function cleanCacheOnConfigChange()
     {
         Mage::app()->cleanCache(array(Magento_Catalog_Model_Category::CACHE_TAG));
-        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
+        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
             new Magento_Object(),
             Enterprise_CatalogPermissions_Model_Permission_Index::ENTITY_CONFIG,
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         );
         return $this;
     }
@@ -272,6 +272,6 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function applyPermissionsAfterReindex(Magento_Event_Observer $observer)
     {
-        Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalogpermissions')->reindexEverything();
+        Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalogpermissions')->reindexEverything();
     }
 }

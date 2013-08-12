@@ -50,8 +50,8 @@ class Magento_Install_Model_EntryPoint_Upgrade extends Magento_Core_Model_EntryP
         $config = $this->_objectManager->get('Magento_Core_Model_Config_Primary');
         $reindexMode = $config->getParam(self::REINDEX);
         if ($reindexMode) {
-            /** @var $indexer Mage_Index_Model_Indexer */
-            $indexer = $this->_objectManager->get('Mage_Index_Model_Indexer');
+            /** @var $indexer Magento_Index_Model_Indexer */
+            $indexer = $this->_objectManager->get('Magento_Index_Model_Indexer');
             if (self::REINDEX_ALL == $reindexMode) {
                 $indexer->reindexAll();
             } elseif (self::REINDEX_INVALID == $reindexMode) {

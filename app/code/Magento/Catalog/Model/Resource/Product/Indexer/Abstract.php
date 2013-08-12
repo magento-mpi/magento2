@@ -16,7 +16,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Catalog_Model_Resource_Product_Indexer_Abstract extends Mage_Index_Model_Resource_Abstract
+abstract class Magento_Catalog_Model_Resource_Product_Indexer_Abstract extends Magento_Index_Model_Resource_Abstract
 {
     /**
      * Retrieve catalog_product attribute instance by attribute code

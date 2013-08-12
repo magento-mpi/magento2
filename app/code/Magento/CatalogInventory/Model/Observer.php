@@ -851,8 +851,8 @@ class Magento_CatalogInventory_Model_Observer
      */
     public function reindexProductsMassAction($observer)
     {
-        Mage::getSingleton('Mage_Index_Model_Indexer')->indexEvents(
-            Magento_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
+        Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
+            Magento_Catalog_Model_Product::ENTITY, Magento_Index_Model_Event::TYPE_MASS_ACTION
         );
     }
 

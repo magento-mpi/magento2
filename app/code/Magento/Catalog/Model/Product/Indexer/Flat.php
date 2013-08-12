@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_Abstract
+class Magento_Catalog_Model_Product_Indexer_Flat extends Magento_Index_Model_Indexer_Abstract
 {
     /**
      * Data key for matching result to be saved in
@@ -21,19 +21,19 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexe
      */
     protected $_matchedEntities = array(
         Magento_Catalog_Model_Product::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE,
-            Mage_Index_Model_Event::TYPE_MASS_ACTION,
+            Magento_Index_Model_Event::TYPE_SAVE,
+            Magento_Index_Model_Event::TYPE_MASS_ACTION,
         ),
         Magento_Catalog_Model_Resource_Eav_Attribute::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE,
-            Mage_Index_Model_Event::TYPE_DELETE,
+            Magento_Index_Model_Event::TYPE_SAVE,
+            Magento_Index_Model_Event::TYPE_DELETE,
         ),
         Magento_Core_Model_Store::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE,
-            Mage_Index_Model_Event::TYPE_DELETE
+            Magento_Index_Model_Event::TYPE_SAVE,
+            Magento_Index_Model_Event::TYPE_DELETE
         ),
         Magento_Core_Model_Store_Group::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Magento_Catalog_Model_Product_Flat_Indexer::ENTITY => array(
             Magento_Catalog_Model_Product_Flat_Indexer::EVENT_TYPE_REBUILD,
@@ -87,10 +87,10 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexe
      * Overwrote for check is flat catalog product is enabled and specific save
      * attribute, store, store_group
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return bool
      */
-    public function matchEvent(Mage_Index_Model_Event $event)
+    public function matchEvent(Magento_Index_Model_Event $event)
     {
         /** @var $productFlatHelper Magento_Catalog_Helper_Product_Flat */
         $productFlatHelper = $event->getFlatHelper() ?: Mage::helper('Magento_Catalog_Helper_Product_Flat');
@@ -130,10 +130,10 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexe
     /**
      * Whether a store group available for matching or not
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return bool
      */
-    protected function _matchStoreGroupEvent(Mage_Index_Model_Event $event)
+    protected function _matchStoreGroupEvent(Magento_Index_Model_Event $event)
      {
          /* @var $storeGroup Magento_Core_Model_Store_Group */
          $storeGroup = $event->getDataObject();
@@ -146,12 +146,12 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexe
     /**
      * Whether a store available for matching or not
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return bool
      */
-    protected function _matchStoreEvent(Mage_Index_Model_Event $event)
+    protected function _matchStoreEvent(Magento_Index_Model_Event $event)
     {
-        if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
+        if ($event->getType() == Magento_Index_Model_Event::TYPE_DELETE) {
             return true;
         } else {
             /* @var $store Magento_Core_Model_Store */
@@ -167,11 +167,11 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexe
     /**
      * Whether an attribute available for matching or not
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @param $productFlatHelper
      * @return bool
      */
-    protected function _matchAttributeEvent(Mage_Index_Model_Event $event, $productFlatHelper)
+    protected function _matchAttributeEvent(Magento_Index_Model_Event $event, $productFlatHelper)
     {
         $attribute = $event->getDataObject();
         if (!$attribute) {
@@ -181,9 +181,9 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexe
         $enableBefore = $this->_isAttributeEnabled($attribute, $productFlatHelper);
         $enableAfter = $this->_isAttributeEnabled($attribute, $productFlatHelper, false);
 
-        if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
+        if ($event->getType() == Magento_Index_Model_Event::TYPE_DELETE) {
             return $enableBefore;
-        } elseif ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE && ($enableAfter || $enableBefore)) {
+        } elseif ($event->getType() == Magento_Index_Model_Event::TYPE_SAVE && ($enableAfter || $enableBefore)) {
             return true;
         }
 
@@ -212,9 +212,9 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexe
     /**
      * Register data required by process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerEvent(Mage_Index_Model_Event $event)
+    protected function _registerEvent(Magento_Index_Model_Event $event)
     {
         $event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
         switch ($event->getEntity()) {
@@ -222,7 +222,7 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexe
                 $this->_registerCatalogProductEvent($event);
                 break;
             case Magento_Core_Model_Store::ENTITY:
-                if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
+                if ($event->getType() == Magento_Index_Model_Event::TYPE_DELETE) {
                     $this->_registerCoreStoreEvent($event);
                     break;
                 }
@@ -230,7 +230,7 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexe
             case Magento_Core_Model_Store_Group::ENTITY:
                 $event->addNewData('catalog_product_flat_skip_call_event_handler', true);
                 $process = $event->getProcess();
-                $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                $process->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                 break;
             case Magento_Catalog_Model_Product_Flat_Indexer::ENTITY:
                 switch ($event->getType()) {
@@ -244,19 +244,19 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexe
     /**
      * Register data required by catalog product process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Product_Indexer_Flat
      */
-    protected function _registerCatalogProductEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductEvent(Magento_Index_Model_Event $event)
     {
         switch ($event->getType()) {
-            case Mage_Index_Model_Event::TYPE_SAVE:
+            case Magento_Index_Model_Event::TYPE_SAVE:
                 /* @var $product Magento_Catalog_Model_Product */
                 $product = $event->getDataObject();
                 $event->addNewData('catalog_product_flat_product_id', $product->getId());
                 break;
 
-            case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+            case Magento_Index_Model_Event::TYPE_MASS_ACTION:
                 /* @var $actionObject Magento_Object */
                 $actionObject = $event->getDataObject();
 
@@ -303,12 +303,12 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexe
     /**
      * Register core store delete process
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Product_Indexer_Flat
      */
-    protected function _registerCoreStoreEvent(Mage_Index_Model_Event $event)
+    protected function _registerCoreStoreEvent(Magento_Index_Model_Event $event)
     {
-        if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
+        if ($event->getType() == Magento_Index_Model_Event::TYPE_DELETE) {
             /* @var $store Magento_Core_Model_Store */
             $store = $event->getDataObject();
             $event->addNewData('catalog_product_flat_delete_store_id', $store->getId());
@@ -319,9 +319,9 @@ class Magento_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexe
     /**
      * Process event
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _processEvent(Mage_Index_Model_Event $event)
+    protected function _processEvent(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if ($event->getType() == Magento_Catalog_Model_Product_Flat_Indexer::EVENT_TYPE_REBUILD) {

@@ -16,7 +16,7 @@
  * @package     Enterprise_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_TargetRule_Model_Resource_Index extends Mage_Index_Model_Resource_Abstract
+class Enterprise_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resource_Abstract
 {
     /**
      * Increment value for generate unique bind names

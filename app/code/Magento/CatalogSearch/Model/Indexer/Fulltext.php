@@ -12,7 +12,7 @@
 /**
  * CatalogSearch fulltext indexer model
  */
-class Magento_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer_Abstract
+class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_Indexer_Abstract
 {
     /**
      * Data key for matching result to be saved in
@@ -43,26 +43,26 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Inde
      */
     protected $_matchedEntities = array(
         Magento_Catalog_Model_Product::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE,
-            Mage_Index_Model_Event::TYPE_MASS_ACTION,
-            Mage_Index_Model_Event::TYPE_DELETE
+            Magento_Index_Model_Event::TYPE_SAVE,
+            Magento_Index_Model_Event::TYPE_MASS_ACTION,
+            Magento_Index_Model_Event::TYPE_DELETE
         ),
         Magento_Catalog_Model_Resource_Eav_Attribute::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE,
-            Mage_Index_Model_Event::TYPE_DELETE,
+            Magento_Index_Model_Event::TYPE_SAVE,
+            Magento_Index_Model_Event::TYPE_DELETE,
         ),
         Magento_Core_Model_Store::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE,
-            Mage_Index_Model_Event::TYPE_DELETE
+            Magento_Index_Model_Event::TYPE_SAVE,
+            Magento_Index_Model_Event::TYPE_DELETE
         ),
         Magento_Core_Model_Store_Group::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Magento_Core_Model_Config_Data::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Magento_Catalog_Model_Category::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         )
     );
 
@@ -110,10 +110,10 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Inde
      * Overwrote for check is flat catalog product is enabled and specific save
      * attribute, store, store_group
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return bool
      */
-    public function matchEvent(Mage_Index_Model_Event $event)
+    public function matchEvent(Magento_Index_Model_Event $event)
     {
         $data       = $event->getNewData();
         if (isset($data[self::EVENT_MATCH_RESULT_KEY])) {
@@ -127,15 +127,15 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Inde
 
             if (!$attribute) {
                 $result = false;
-            } elseif ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
+            } elseif ($event->getType() == Magento_Index_Model_Event::TYPE_SAVE) {
                 $result = $attribute->dataHasChangedFor('is_searchable');
-            } elseif ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
+            } elseif ($event->getType() == Magento_Index_Model_Event::TYPE_DELETE) {
                 $result = $attribute->getIsSearchable();
             } else {
                 $result = false;
             }
         } else if ($entity == Magento_Core_Model_Store::ENTITY) {
-            if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
+            if ($event->getType() == Magento_Index_Model_Event::TYPE_DELETE) {
                 $result = true;
             } else {
                 /* @var $store Magento_Core_Model_Store */
@@ -173,9 +173,9 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Inde
     /**
      * Register data required by process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerEvent(Mage_Index_Model_Event $event)
+    protected function _registerEvent(Magento_Index_Model_Event $event)
     {
         $event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
         switch ($event->getEntity()) {
@@ -189,7 +189,7 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Inde
             case Magento_Core_Model_Store_Group::ENTITY:
                 $event->addNewData('catalogsearch_fulltext_skip_call_event_handler', true);
                 $process = $event->getProcess();
-                $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                $process->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                 break;
             case Magento_Catalog_Model_Category::ENTITY:
                 $this->_registerCatalogCategoryEvent($event);
@@ -202,13 +202,13 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Inde
     /**
      * Get data required for category'es products reindex
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_CatalogSearch_Model_Indexer_Search
      */
-    protected function _registerCatalogCategoryEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogCategoryEvent(Magento_Index_Model_Event $event)
     {
         switch ($event->getType()) {
-            case Mage_Index_Model_Event::TYPE_SAVE:
+            case Magento_Index_Model_Event::TYPE_SAVE:
                 /* @var $category Magento_Catalog_Model_Category */
                 $category   = $event->getDataObject();
                 $productIds = $category->getAffectedProductIds();
@@ -233,25 +233,25 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Inde
     /**
      * Register data required by catatalog product process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_CatalogSearch_Model_Indexer_Search
      */
-    protected function _registerCatalogProductEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductEvent(Magento_Index_Model_Event $event)
     {
         switch ($event->getType()) {
-            case Mage_Index_Model_Event::TYPE_SAVE:
+            case Magento_Index_Model_Event::TYPE_SAVE:
                 /* @var $product Magento_Catalog_Model_Product */
                 $product = $event->getDataObject();
 
                 $event->addNewData('catalogsearch_update_product_id', $product->getId());
                 break;
-            case Mage_Index_Model_Event::TYPE_DELETE:
+            case Magento_Index_Model_Event::TYPE_DELETE:
                 /* @var $product Magento_Catalog_Model_Product */
                 $product = $event->getDataObject();
 
                 $event->addNewData('catalogsearch_delete_product_id', $product->getId());
                 break;
-            case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+            case Magento_Index_Model_Event::TYPE_MASS_ACTION:
                 /* @var $actionObject Magento_Object */
                 $actionObject = $event->getDataObject();
 
@@ -332,9 +332,9 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Inde
     /**
      * Process event
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _processEvent(Mage_Index_Model_Event $event)
+    protected function _processEvent(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
 

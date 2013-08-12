@@ -29,7 +29,7 @@
  * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer_Abstract
+class Magento_CatalogInventory_Model_Indexer_Stock extends Magento_Index_Model_Indexer_Abstract
 {
     /**
      * Data key for matching result to be saved in
@@ -41,21 +41,21 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Inde
      */
     protected $_matchedEntities = array(
         Magento_CatalogInventory_Model_Stock_Item::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Magento_Catalog_Model_Product::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE,
-            Mage_Index_Model_Event::TYPE_MASS_ACTION,
-            Mage_Index_Model_Event::TYPE_DELETE
+            Magento_Index_Model_Event::TYPE_SAVE,
+            Magento_Index_Model_Event::TYPE_MASS_ACTION,
+            Magento_Index_Model_Event::TYPE_DELETE
         ),
         Magento_Core_Model_Store::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Magento_Core_Model_Store_Group::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Magento_Core_Model_Config_Data::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
     );
 
@@ -112,10 +112,10 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Inde
      * Check if event can be matched by process.
      * Overwrote for specific config save, store and store groups save matching
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return bool
      */
-    public function matchEvent(Mage_Index_Model_Event $event)
+    public function matchEvent(Magento_Index_Model_Event $event)
     {
         $data       = $event->getNewData();
         if (isset($data[self::EVENT_MATCH_RESULT_KEY])) {
@@ -158,9 +158,9 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Inde
     /**
      * Register data required by process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerEvent(Mage_Index_Model_Event $event)
+    protected function _registerEvent(Magento_Index_Model_Event $event)
     {
         $event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
         switch ($event->getEntity()) {
@@ -177,15 +177,15 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Inde
             case Magento_Core_Model_Config_Data::ENTITY:
                 $event->addNewData('cataloginventory_stock_skip_call_event_handler', true);
                 $process = $event->getProcess();
-                $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                $process->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
 
                 if ($event->getEntity() == Magento_Core_Model_Config_Data::ENTITY) {
                     $configData = $event->getDataObject();
                     if ($configData->getPath() == Magento_CatalogInventory_Helper_Data::XML_PATH_SHOW_OUT_OF_STOCK) {
-                        Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_product_price')
-                            ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
-                        Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_product_attribute')
-                            ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                        Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalog_product_price')
+                            ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                        Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalog_product_attribute')
+                            ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                     }
                 }
                 break;
@@ -195,22 +195,22 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Inde
     /**
      * Register data required by catalog product processes in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerCatalogProductEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductEvent(Magento_Index_Model_Event $event)
     {
         switch ($event->getType()) {
-            case Mage_Index_Model_Event::TYPE_SAVE:
+            case Magento_Index_Model_Event::TYPE_SAVE:
                 $product = $event->getDataObject();
                 if ($product && $product->getStockData()) {
                     $product->setForceReindexRequired(true);
                 }
                 break;
-            case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+            case Magento_Index_Model_Event::TYPE_MASS_ACTION:
                 $this->_registerCatalogProductMassActionEvent($event);
                 break;
 
-            case Mage_Index_Model_Event::TYPE_DELETE:
+            case Magento_Index_Model_Event::TYPE_DELETE:
                 $this->_registerCatalogProductDeleteEvent($event);
                 break;
         }
@@ -219,12 +219,12 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Inde
     /**
      * Register data required by cataloginventory stock item processes in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerCatalogInventoryStockItemEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogInventoryStockItemEvent(Magento_Index_Model_Event $event)
     {
         switch ($event->getType()) {
-            case Mage_Index_Model_Event::TYPE_SAVE:
+            case Magento_Index_Model_Event::TYPE_SAVE:
                 $this->_registerStockItemSaveEvent($event);
                 break;
         }
@@ -233,10 +233,10 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Inde
     /**
      * Register data required by stock item save process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_CatalogInventory_Model_Indexer_Stock
      */
-    protected function _registerStockItemSaveEvent(Mage_Index_Model_Event $event)
+    protected function _registerStockItemSaveEvent(Magento_Index_Model_Event $event)
     {
         /* @var $object Magento_CatalogInventory_Model_Stock_Item */
         $object      = $event->getDataObject();
@@ -250,8 +250,8 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Inde
             $massObject = new Magento_Object();
             $massObject->setAttributesData(array('force_reindex_required' => 1));
             $massObject->setProductIds(array($object->getProductId()));
-            Mage::getSingleton('Mage_Index_Model_Indexer')->logEvent(
-                $massObject, Magento_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
+            Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
+                $massObject, Magento_Catalog_Model_Product::ENTITY, Magento_Index_Model_Event::TYPE_MASS_ACTION
             );
         }
 
@@ -261,10 +261,10 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Inde
     /**
      * Register data required by product delete process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_CatalogInventory_Model_Indexer_Stock
      */
-    protected function _registerCatalogProductDeleteEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductDeleteEvent(Magento_Index_Model_Event $event)
     {
         /* @var $product Magento_Catalog_Model_Product */
         $product = $event->getDataObject();
@@ -280,10 +280,10 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Inde
     /**
      * Register data required by product mass action process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_CatalogInventory_Model_Indexer_Stock
      */
-    protected function _registerCatalogProductMassActionEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductMassActionEvent(Magento_Index_Model_Event $event)
     {
         /* @var $actionObject Magento_Object */
         $actionObject = $event->getDataObject();
@@ -319,9 +319,9 @@ class Magento_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Inde
     /**
      * Process event
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _processEvent(Mage_Index_Model_Event $event)
+    protected function _processEvent(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (!empty($data['cataloginventory_stock_reindex_all'])) {

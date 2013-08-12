@@ -144,15 +144,15 @@ class Mage_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Magento_Adm
 
         $block->setFormFieldName('items');
         $block->addItem('enable', array(
-            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Enable'),
+            'label' => Mage::helper('Magento_Index_Helper_Data')->__('Enable'),
             'url'   => $this->getUrl('*/*/revoke', array('status' => 0)),
         ));
         $block->addItem('revoke', array(
-            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Revoke'),
+            'label' => Mage::helper('Magento_Index_Helper_Data')->__('Revoke'),
             'url'   => $this->getUrl('*/*/revoke', array('status' => 1)),
         ));
         $block->addItem('delete', array(
-            'label' => Mage::helper('Mage_Index_Helper_Data')->__('Delete'),
+            'label' => Mage::helper('Magento_Index_Helper_Data')->__('Delete'),
             'url'   => $this->getUrl('*/*/delete'),
         ));
 

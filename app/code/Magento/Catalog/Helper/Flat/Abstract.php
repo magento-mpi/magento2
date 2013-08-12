@@ -27,7 +27,7 @@ abstract class Magento_Catalog_Helper_Flat_Abstract extends Magento_Core_Helper_
     /**
      * Store catalog Flat index process instance
      *
-     * @var Mage_Index_Model_Process|null
+     * @var Magento_Index_Model_Process|null
      */
     protected $_process = null;
 
@@ -55,18 +55,18 @@ abstract class Magento_Catalog_Helper_Flat_Abstract extends Magento_Core_Helper_
     public function isAvailable()
     {
         return $this->isEnabled() && !$this->getProcess()->isLocked()
-            && $this->getProcess()->getStatus() != Mage_Index_Model_Process::STATUS_RUNNING;
+            && $this->getProcess()->getStatus() != Magento_Index_Model_Process::STATUS_RUNNING;
     }
 
     /**
      * Retrieve Catalog Flat index process
      *
-     * @return Mage_Index_Model_Process
+     * @return Magento_Index_Model_Process
      */
     public function getProcess()
     {
         if (is_null($this->_process)) {
-            $this->_process = Mage::getModel('Mage_Index_Model_Process')
+            $this->_process = Mage::getModel('Magento_Index_Model_Process')
                 ->load($this->_indexerCode, 'indexer_code');
         }
         return $this->_process;

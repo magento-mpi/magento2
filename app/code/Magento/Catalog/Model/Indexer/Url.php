@@ -17,7 +17,7 @@
  *  - Store group save (changed root category or group website) - require reindex all data
  *  - Seo config settings change - require reindex all data
  */
-class Magento_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstract
+class Magento_Catalog_Model_Indexer_Url extends Magento_Index_Model_Indexer_Abstract
 {
     /**
      * Data key for matching result to be saved in
@@ -32,19 +32,19 @@ class Magento_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstrac
      */
     protected $_matchedEntities = array(
         Magento_Catalog_Model_Product::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Magento_Catalog_Model_Category::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Magento_Core_Model_Store::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Magento_Core_Model_Store_Group::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Magento_Core_Model_Config_Data::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
     );
 
@@ -78,10 +78,10 @@ class Magento_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstrac
      * Check if event can be matched by process.
      * Overwrote for specific config save, store and store groups save matching
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return bool
      */
-    public function matchEvent(Mage_Index_Model_Event $event)
+    public function matchEvent(Magento_Index_Model_Event $event)
     {
         $data       = $event->getNewData();
         if (isset($data[self::EVENT_MATCH_RESULT_KEY])) {
@@ -124,9 +124,9 @@ class Magento_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstrac
     /**
      * Register data required by process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerEvent(Mage_Index_Model_Event $event)
+    protected function _registerEvent(Magento_Index_Model_Event $event)
     {
         $event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
         $entity = $event->getEntity();
@@ -143,7 +143,7 @@ class Magento_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstrac
             case Magento_Core_Model_Store_Group::ENTITY:
             case Magento_Core_Model_Config_Data::ENTITY:
                 $process = $event->getProcess();
-                $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                $process->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                 break;
         }
         return $this;
@@ -152,9 +152,9 @@ class Magento_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstrac
     /**
      * Register event data during product save process
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerProductEvent(Mage_Index_Model_Event $event)
+    protected function _registerProductEvent(Magento_Index_Model_Event $event)
     {
         $product = $event->getDataObject();
         $dataChange = $product->dataHasChangedFor('url_key')
@@ -169,9 +169,9 @@ class Magento_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstrac
     /**
      * Register event data during category save process
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerCategoryEvent(Mage_Index_Model_Event $event)
+    protected function _registerCategoryEvent(Magento_Index_Model_Event $event)
     {
         $category = $event->getDataObject();
         if (!$category->getInitialSetupFlag() && $category->getLevel() > 1) {
@@ -190,9 +190,9 @@ class Magento_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstrac
     /**
      * Process event
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _processEvent(Mage_Index_Model_Event $event)
+    protected function _processEvent(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (!empty($data['catalog_url_reindex_all'])) {

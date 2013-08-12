@@ -21,8 +21,8 @@ class Magento_Catalog_Model_System_Config_Backend_Catalog_Product_Flat extends M
     protected function _afterSave()
     {
         if ($this->isValueChanged() && $this->getValue()) {
-            Mage::getSingleton('Mage_Index_Model_Indexer')->getProcessByCode('catalog_product_flat')
-                ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalog_product_flat')
+                ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         }
 
         return $this;

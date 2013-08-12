@@ -26,19 +26,19 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Abstract
+class Magento_Catalog_Model_Product_Indexer_Eav extends Magento_Index_Model_Indexer_Abstract
 {
     /**
      * @var array
      */
     protected $_matchedEntities = array(
         Magento_Catalog_Model_Product::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE,
-            Mage_Index_Model_Event::TYPE_DELETE,
-            Mage_Index_Model_Event::TYPE_MASS_ACTION,
+            Magento_Index_Model_Event::TYPE_SAVE,
+            Magento_Index_Model_Event::TYPE_DELETE,
+            Magento_Index_Model_Event::TYPE_MASS_ACTION,
         ),
         Magento_Catalog_Model_Resource_Eav_Attribute::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE,
+            Magento_Index_Model_Event::TYPE_SAVE,
         ),
     );
 
@@ -74,29 +74,29 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer
     /**
      * Register data required by process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerEvent(Mage_Index_Model_Event $event)
+    protected function _registerEvent(Magento_Index_Model_Event $event)
     {
         $entity = $event->getEntity();
 
         if ($entity == Magento_Catalog_Model_Product::ENTITY) {
             switch ($event->getType()) {
-                case Mage_Index_Model_Event::TYPE_DELETE:
+                case Magento_Index_Model_Event::TYPE_DELETE:
                     $this->_registerCatalogProductDeleteEvent($event);
                     break;
 
-                case Mage_Index_Model_Event::TYPE_SAVE:
+                case Magento_Index_Model_Event::TYPE_SAVE:
                     $this->_registerCatalogProductSaveEvent($event);
                     break;
 
-                case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+                case Magento_Index_Model_Event::TYPE_MASS_ACTION:
                     $this->_registerCatalogProductMassActionEvent($event);
                     break;
             }
         } else if ($entity == Magento_Catalog_Model_Resource_Eav_Attribute::ENTITY) {
             switch ($event->getType()) {
-                case Mage_Index_Model_Event::TYPE_SAVE:
+                case Magento_Index_Model_Event::TYPE_SAVE:
                     $this->_registerCatalogAttributeSaveEvent($event);
                     break;
             }
@@ -122,10 +122,10 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer
     /**
      * Register data required by process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Product_Indexer_Eav
      */
-    protected function _registerCatalogProductSaveEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductSaveEvent(Magento_Index_Model_Event $event)
     {
         /* @var $product Magento_Catalog_Model_Product */
         $product    = $event->getDataObject();
@@ -149,10 +149,10 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer
     /**
      * Register data required by process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Product_Indexer_Eav
      */
-    protected function _registerCatalogProductDeleteEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductDeleteEvent(Magento_Index_Model_Event $event)
     {
         /* @var $product Magento_Catalog_Model_Product */
         $product    = $event->getDataObject();
@@ -168,10 +168,10 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer
     /**
      * Register data required by process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Product_Indexer_Eav
      */
-    protected function _registerCatalogProductMassActionEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductMassActionEvent(Magento_Index_Model_Event $event)
     {
         $reindexEav = false;
 
@@ -204,10 +204,10 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer
     /**
      * Register data required by process attribute save in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Product_Indexer_Eav
      */
-    protected function _registerCatalogAttributeSaveEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogAttributeSaveEvent(Magento_Index_Model_Event $event)
     {
         /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
         $attribute = $event->getDataObject();
@@ -232,9 +232,9 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer
     /**
      * Process event
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _processEvent(Mage_Index_Model_Event $event)
+    protected function _processEvent(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (!empty($data['catalog_product_eav_reindex_all'])) {

@@ -30,7 +30,7 @@
  * @package     Enterprise_CatalogPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Index_Model_Indexer_Abstract
+class Enterprise_CatalogPermissions_Model_Permission_Index extends Magento_Index_Model_Indexer_Abstract
 {
     /**
      * Reindex products permissions event type
@@ -60,7 +60,7 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Index_Mo
     protected $_matchedEntities = array(
         self::ENTITY_PRODUCT  => array(self::EVENT_TYPE_REINDEX_PRODUCTS),
         self::ENTITY_CATEGORY => array(self::EVENT_TYPE_REINDEX_PRODUCTS),
-        self::ENTITY_CONFIG   => array(Mage_Index_Model_Event::TYPE_SAVE),
+        self::ENTITY_CONFIG   => array(Magento_Index_Model_Event::TYPE_SAVE),
     );
 
     /**
@@ -227,9 +227,9 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Index_Mo
     /**
      * Register indexer required data inside event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerEvent(Mage_Index_Model_Event $event)
+    protected function _registerEvent(Magento_Index_Model_Event $event)
     {
         switch ($event->getType()) {
             case self::EVENT_TYPE_REINDEX_PRODUCTS:
@@ -248,9 +248,9 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Index_Mo
     /**
      * Process event based on event state data
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _processEvent(Mage_Index_Model_Event $event)
+    protected function _processEvent(Magento_Index_Model_Event $event)
     {
         switch ($event->getType()) {
             case self::EVENT_TYPE_REINDEX_PRODUCTS:
@@ -269,7 +269,7 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Index_Mo
                         break;
                 }
                 break;
-            case Mage_Index_Model_Event::TYPE_SAVE:
+            case Magento_Index_Model_Event::TYPE_SAVE:
                 switch ($event->getEntity()) {
                     case self::ENTITY_CONFIG:
                         $this->reindexProductsStandalone();

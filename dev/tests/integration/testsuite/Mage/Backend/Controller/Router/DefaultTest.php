@@ -106,8 +106,8 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
     {
         return array(
             array('Magento_Adminhtml', 'index', 'Magento_Adminhtml_Controller_Index'),
-            array('Mage_Index', 'process', 'Mage_Index_Controller_Adminhtml_Process'),
-            array('Mage_Index_Adminhtml', 'process', 'Mage_Index_Controller_Adminhtml_Process'),
+            array('Magento_Index', 'process', 'Magento_Index_Controller_Adminhtml_Process'),
+            array('Magento_Index_Adminhtml', 'process', 'Magento_Index_Controller_Adminhtml_Process'),
         );
     }
 }

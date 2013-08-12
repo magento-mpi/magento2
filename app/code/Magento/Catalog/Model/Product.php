@@ -492,8 +492,8 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
 
         $result = parent::_afterSave();
 
-        Mage::getSingleton('Mage_Index_Model_Indexer')->processEntityAction(
-            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
+        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
+            $this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE
         );
         return $result;
     }
@@ -508,8 +508,8 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     {
         $this->_protectFromNonAdmin();
         $this->cleanCache();
-        Mage::getSingleton('Mage_Index_Model_Indexer')->logEvent(
-            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
+        Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
+            $this, self::ENTITY, Magento_Index_Model_Event::TYPE_DELETE
         );
         return parent::_beforeDelete();
     }
@@ -522,8 +522,8 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
     protected function _afterDeleteCommit()
     {
         parent::_afterDeleteCommit();
-        Mage::getSingleton('Mage_Index_Model_Indexer')->indexEvents(
-            self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
+        Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
+            self::ENTITY, Magento_Index_Model_Event::TYPE_DELETE
         );
     }
 

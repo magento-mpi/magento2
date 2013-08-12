@@ -16,7 +16,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Model_Resource_Abstract
+class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Magento_Index_Model_Resource_Abstract
 {
     /**
      * Default Product Type Price indexer resource model
@@ -66,10 +66,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Mo
      * Process produce delete
      * If the deleted product was found in a composite product(s) update it
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Resource_Product_Indexer_Price
      */
-    public function catalogProductDelete(Mage_Index_Model_Event $event)
+    public function catalogProductDelete(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_price_parent_ids'])) {
@@ -130,10 +130,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Mo
      * Method is responsible for index support
      * when product was saved and changed attribute(s) has an effect on price.
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Resource_Product_Indexer_Price
      */
-    public function catalogProductSave(Mage_Index_Model_Event $event)
+    public function catalogProductSave(Magento_Index_Model_Event $event)
     {
         $productId = $event->getEntityPk();
         $data = $event->getNewData();
@@ -188,10 +188,10 @@ class Magento_Catalog_Model_Resource_Product_Indexer_Price extends Mage_Index_Mo
     /**
      * Process product mass update action
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return Magento_Catalog_Model_Resource_Product_Indexer_Price
      */
-    public function catalogProductMassAction(Mage_Index_Model_Event $event)
+    public function catalogProductMassAction(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_price_product_ids'])) {

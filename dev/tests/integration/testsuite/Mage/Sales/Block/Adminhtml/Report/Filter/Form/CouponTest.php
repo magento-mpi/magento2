@@ -10,7 +10,7 @@
  */
 
 /**
- * Test for Mage_Index_Model_Lock_Storage
+ * Test for Magento_Index_Model_Lock_Storage
  */
 
 /**

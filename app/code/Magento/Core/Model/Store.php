@@ -1198,8 +1198,8 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
-        Mage::getSingleton('Mage_Index_Model_Indexer')
-            ->logEvent($this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE);
+        Mage::getSingleton('Magento_Index_Model_Indexer')
+            ->logEvent($this, self::ENTITY, Magento_Index_Model_Event::TYPE_DELETE);
         return parent::_beforeDelete();
     }
 
@@ -1223,7 +1223,7 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     protected function _afterDeleteCommit()
     {
         parent::_afterDeleteCommit();
-        Mage::getSingleton('Mage_Index_Model_Indexer')->indexEvents(self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE);
+        Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(self::ENTITY, Magento_Index_Model_Event::TYPE_DELETE);
         return $this;
     }
 

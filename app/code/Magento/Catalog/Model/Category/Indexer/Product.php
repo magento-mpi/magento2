@@ -35,7 +35,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Indexer_Abstract
+class Magento_Catalog_Model_Category_Indexer_Product extends Magento_Index_Model_Indexer_Abstract
 {
     /**
      * Data key for matching result to be saved in
@@ -47,17 +47,17 @@ class Magento_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_In
      */
     protected $_matchedEntities = array(
         Magento_Catalog_Model_Product::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE,
-            Mage_Index_Model_Event::TYPE_MASS_ACTION
+            Magento_Index_Model_Event::TYPE_SAVE,
+            Magento_Index_Model_Event::TYPE_MASS_ACTION
         ),
         Magento_Catalog_Model_Category::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Magento_Core_Model_Store::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Magento_Core_Model_Store_Group::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
     );
 
@@ -93,10 +93,10 @@ class Magento_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_In
      * Check if event can be matched by process.
      * Overwrote for specific config save, store and store groups save matching
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      * @return bool
      */
-    public function matchEvent(Mage_Index_Model_Event $event)
+    public function matchEvent(Magento_Index_Model_Event $event)
     {
         $data      = $event->getNewData();
         if (isset($data[self::EVENT_MATCH_RESULT_KEY])) {
@@ -134,9 +134,9 @@ class Magento_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_In
      * Register data required by process in event object
      * Check if category ids was changed
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerEvent(Mage_Index_Model_Event $event)
+    protected function _registerEvent(Magento_Index_Model_Event $event)
     {
         $event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
         $entity = $event->getEntity();
@@ -152,7 +152,7 @@ class Magento_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_In
             case Magento_Core_Model_Store::ENTITY:
             case Magento_Core_Model_Store_Group::ENTITY:
                 $process = $event->getProcess();
-                $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                $process->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                 break;
         }
         return $this;
@@ -161,12 +161,12 @@ class Magento_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_In
     /**
      * Register event data during product save process
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerProductEvent(Mage_Index_Model_Event $event)
+    protected function _registerProductEvent(Magento_Index_Model_Event $event)
     {
         $eventType = $event->getType();
-        if ($eventType == Mage_Index_Model_Event::TYPE_SAVE) {
+        if ($eventType == Magento_Index_Model_Event::TYPE_SAVE) {
             $product = $event->getDataObject();
             /**
              * Check if product categories data was changed
@@ -175,7 +175,7 @@ class Magento_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_In
                 || $product->dataHasChangedFor('visibility') || $product->getIsChangedWebsites()) {
                 $event->addNewData('category_ids', $product->getCategoryIds());
             }
-        } else if ($eventType == Mage_Index_Model_Event::TYPE_MASS_ACTION) {
+        } else if ($eventType == Magento_Index_Model_Event::TYPE_MASS_ACTION) {
             /* @var $actionObject Magento_Object */
             $actionObject = $event->getDataObject();
             $attributes   = array('status', 'visibility');
@@ -207,9 +207,9 @@ class Magento_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_In
     /**
      * Register event data during category save process
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerCategoryEvent(Mage_Index_Model_Event $event)
+    protected function _registerCategoryEvent(Magento_Index_Model_Event $event)
     {
         $category = $event->getDataObject();
         /**
@@ -229,9 +229,9 @@ class Magento_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_In
     /**
      * Process event data and save to index
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _processEvent(Mage_Index_Model_Event $event)
+    protected function _processEvent(Magento_Index_Model_Event $event)
     {
         $data = $event->getNewData();
         if (!empty($data['catalog_category_product_reindex_all'])) {

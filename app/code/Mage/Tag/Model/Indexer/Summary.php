@@ -35,22 +35,22 @@
  * @package     Mage_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
+class Mage_Tag_Model_Indexer_Summary extends Magento_Index_Model_Indexer_Abstract
 {
     /**
      * @var array
      */
     protected $_matchedEntities = array(
         Magento_Catalog_Model_Product::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE,
-            Mage_Index_Model_Event::TYPE_DELETE,
-            Mage_Index_Model_Event::TYPE_MASS_ACTION,
+            Magento_Index_Model_Event::TYPE_SAVE,
+            Magento_Index_Model_Event::TYPE_DELETE,
+            Magento_Index_Model_Event::TYPE_MASS_ACTION,
         ),
         Mage_Tag_Model_Tag::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         ),
         Mage_Tag_Model_Tag_Relation::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Magento_Index_Model_Event::TYPE_SAVE
         )
     );
 
@@ -100,9 +100,9 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
     /**
      * Register data required by process in event object
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerEvent(Mage_Index_Model_Event $event)
+    protected function _registerEvent(Magento_Index_Model_Event $event)
     {
         if ($event->getEntity() == Magento_Catalog_Model_Product::ENTITY) {
             $this->_registerCatalogProduct($event);
@@ -116,9 +116,9 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
     /**
      * Register data required by catalog product save process
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerCatalogProductSaveEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductSaveEvent(Magento_Index_Model_Event $event)
     {
         /* @var $product Magento_Catalog_Model_Product */
         $product = $event->getDataObject();
@@ -136,9 +136,9 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
     /**
      * Register data required by catalog product delete process
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerCatalogProductDeleteEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductDeleteEvent(Magento_Index_Model_Event $event)
     {
         $tagIds = Mage::getModel('Mage_Tag_Model_Tag_Relation')
             ->setProductId($event->getEntityPk())
@@ -151,9 +151,9 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
     /**
      * Register data required by catalog product massaction process
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _registerCatalogProductMassActionEvent(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProductMassActionEvent(Magento_Index_Model_Event $event)
     {
         /* @var $actionObject Magento_Object */
         $actionObject = $event->getDataObject();
@@ -187,33 +187,33 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
         }
     }
 
-    protected function _registerCatalogProduct(Mage_Index_Model_Event $event)
+    protected function _registerCatalogProduct(Magento_Index_Model_Event $event)
     {
         switch ($event->getType()) {
-            case Mage_Index_Model_Event::TYPE_SAVE:
+            case Magento_Index_Model_Event::TYPE_SAVE:
                 $this->_registerCatalogProductSaveEvent($event);
                 break;
 
-            case Mage_Index_Model_Event::TYPE_DELETE:
+            case Magento_Index_Model_Event::TYPE_DELETE:
                 $this->_registerCatalogProductDeleteEvent($event);
                 break;
 
-            case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+            case Magento_Index_Model_Event::TYPE_MASS_ACTION:
                 $this->_registerCatalogProductMassActionEvent($event);
                 break;
         }
     }
 
-    protected function _registerTag(Mage_Index_Model_Event $event)
+    protected function _registerTag(Magento_Index_Model_Event $event)
     {
-        if ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
+        if ($event->getType() == Magento_Index_Model_Event::TYPE_SAVE) {
             $event->addNewData('tag_reindex_tag_id', $event->getEntityPk());
         }
     }
 
-    protected function _registerTagRelation(Mage_Index_Model_Event $event)
+    protected function _registerTagRelation(Magento_Index_Model_Event $event)
     {
-        if ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
+        if ($event->getType() == Magento_Index_Model_Event::TYPE_SAVE) {
             $event->addNewData('tag_reindex_tag_id', $event->getDataObject()->getTagId());
         }
     }
@@ -221,9 +221,9 @@ class Mage_Tag_Model_Indexer_Summary extends Mage_Index_Model_Indexer_Abstract
     /**
      * Process event
      *
-     * @param Mage_Index_Model_Event $event
+     * @param Magento_Index_Model_Event $event
      */
-    protected function _processEvent(Mage_Index_Model_Event $event)
+    protected function _processEvent(Magento_Index_Model_Event $event)
     {
         $this->callEventHandler($event);
     }

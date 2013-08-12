@@ -58,7 +58,7 @@
                 <directory>../app/code/Magento/Install</directory>
                 <directory>../app/code/Mage/Reports</directory>
                 <directory>../app/code/Mage/Api/Model/Acl/Assert</directory>
-                <directory>../app/code/Mage/Index</directory>
+                <directory>../app/code/Magento/Index</directory>
                 <directory>../app/code/Mage/Cybersource</directory>
                 <file>../app/code/Mage/Captcha/Model/Captcha.php</file>
                 <file>../app/code/Mage/Payment/Model/Paygate/Request.php</file>
