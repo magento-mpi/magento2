@@ -49,6 +49,7 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
         $this->_subscriptionMockA = $this->getMockBuilder('Mage_Webhook_Model_Subscription')
             ->disableOriginalConstructor()
             ->getMock();
+
         $this->_subscriptionMockB = clone $this->_subscriptionMockA;
 
         $this->_eventMockA = $this->getMockBuilder('Mage_Webhook_Model_Event')
@@ -81,10 +82,24 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
 
     public function testHandle()
     {
+        $endpointA = $this->getMockBuilder('Magento_Outbound_EndpointInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_subscriptionMockA->expects($this->any())
+            ->method('getEndpoint')
+            ->will($this->returnValue($endpointA));
+
+        $endpointB = $this->getMockBuilder('Magento_Outbound_EndpointInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_subscriptionMockB->expects($this->any())
+            ->method('getEndpoint')
+            ->will($this->returnValue($endpointB));
+
         // Resources for stubs
         $jobMsgMap = array(
-            array($this->_subscriptionMockA, $this->_eventMockA, $this->_messageMockA),
-            array($this->_subscriptionMockB, $this->_eventMockB, $this->_messageMockB),
+            array($endpointA, $this->_eventMockA, $this->_messageMockA),
+            array($endpointB, $this->_eventMockB, $this->_messageMockB),
         );
 
         $responseA = $this->getMockBuilder('Magento_Outbound_Transport_Http_Response')
