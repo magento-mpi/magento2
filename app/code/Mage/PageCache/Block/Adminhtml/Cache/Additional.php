@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_PageCache
+ * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * System cache management additional block
  *
  * @category    Mage
- * @package     Mage_PageCache
+ * @package     Magento_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PageCache_Block_Adminhtml_Cache_Additional extends Magento_Adminhtml_Block_Template
+class Magento_PageCache_Block_Adminhtml_Cache_Additional extends Magento_Adminhtml_Block_Template
 {
     /**
      * Get clean cache url
@@ -34,7 +34,7 @@ class Mage_PageCache_Block_Adminhtml_Cache_Additional extends Magento_Adminhtml_
      */
     public function canShowButton()
     {
-        return Mage::helper('Mage_PageCache_Helper_Data')->isEnabled()
-            && $this->_authorization->isAllowed('Mage_PageCache::page_cache');
+        return Mage::helper('Magento_PageCache_Helper_Data')->isEnabled()
+            && $this->_authorization->isAllowed('Magento_PageCache::page_cache');
     }
 }

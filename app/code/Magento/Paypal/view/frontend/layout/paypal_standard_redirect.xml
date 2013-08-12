@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <paypal_standard_redirect translate="label" type="fragment" owner="checkout_onepage_index">
         <label>Paypal Standard Redirect</label>
-        <block type="Mage_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
             <block type="Magento_Paypal_Block_Standard_Redirect" name="standard.redirect"/>
         </block>
     </paypal_standard_redirect>

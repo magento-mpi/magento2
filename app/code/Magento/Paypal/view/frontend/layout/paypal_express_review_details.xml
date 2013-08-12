@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <paypal_express_review_details translate="label" type="fragment" owner="checkout_onepage_index">
         <label>Paypal Express Review Details</label>
-        <block type="Mage_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
             <block type="Magento_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" template="express/review/details.phtml">
                 <action method="addItemRender">
                     <type>default</type>

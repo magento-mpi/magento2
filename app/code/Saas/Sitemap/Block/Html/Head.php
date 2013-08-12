@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Saas_Sitemap_Block_Html_Head extends Mage_Page_Block_Html_Head
+class Saas_Sitemap_Block_Html_Head extends Magento_Page_Block_Html_Head
 {
     /**
      * @var Saas_Sitemap_Helper_Data

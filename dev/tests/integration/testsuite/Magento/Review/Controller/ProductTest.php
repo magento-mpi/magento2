@@ -20,7 +20,7 @@ class Magento_Review_Controller_ProductTest extends Magento_Test_TestCase_Contro
         $this->getRequest()->setParam('id', $productId);
         $this->dispatch('review/product/list');
         $result = $this->getResponse()->getBody();
-        $this->assertContains("static/frontend/{$expectedDesign}/en_US/Mage_Page/favicon.ico", $result);
+        $this->assertContains("static/frontend/{$expectedDesign}/en_US/Magento_Page/favicon.ico", $result);
     }
 
     /**

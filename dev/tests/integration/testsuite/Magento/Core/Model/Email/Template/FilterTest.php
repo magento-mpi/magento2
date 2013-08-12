@@ -27,9 +27,9 @@ class Magento_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_Tes
     public function testViewDirective()
     {
         $url = $this->_model->viewDirective(array(
-            '{{view url="Mage_Page::favicon.ico"}}',
+            '{{view url="Magento_Page::favicon.ico"}}',
             'view',
-            ' url="Mage_Page::favicon.ico"', // note leading space
+            ' url="Magento_Page::favicon.ico"', // note leading space
         ));
         $this->assertStringEndsWith('favicon.ico', $url);
     }

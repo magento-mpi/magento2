@@ -16,7 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Guest_Links extends Mage_Page_Block_Template_Links_Block
+class Magento_Sales_Block_Guest_Links extends Magento_Page_Block_Template_Links_Block
 {
     /**
      * Set link title, label and url

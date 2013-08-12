@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends PHPUni
     private $_resetRobotsBlock;
 
     /**
-     * @var Mage_Page_Helper_Robots|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Page_Helper_Robots|PHPUnit_Framework_MockObject_MockObject
      */
     private $_mockRobotsHelper;
 
@@ -34,15 +34,15 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends PHPUni
                 'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
             )
         );
-        $this->_mockRobotsHelper = $this->getMock('Mage_Page_Helper_Robots',
+        $this->_mockRobotsHelper = $this->getMock('Magento_Page_Helper_Robots',
             array('getRobotsDefaultCustomInstructions'), array(), '', false, false
         );
-        Mage::register('_helper/Mage_Page_Helper_Robots', $this->_mockRobotsHelper);
+        Mage::register('_helper/Magento_Page_Helper_Robots', $this->_mockRobotsHelper);
     }
 
     protected function tearDown()
     {
-        Mage::unregister('_helper/Mage_Page_Helper_Robots');
+        Mage::unregister('_helper/Magento_Page_Helper_Robots');
     }
 
     /**

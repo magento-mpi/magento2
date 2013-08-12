@@ -15,7 +15,7 @@
  * @package     Magento_GoogleCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleCheckout_Block_Redirect extends Mage_Page_Block_Redirect
+class Magento_GoogleCheckout_Block_Redirect extends Magento_Page_Block_Redirect
 {
     /**
      *  Get target URL

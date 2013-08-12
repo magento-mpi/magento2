@@ -20,7 +20,7 @@ class Magento_Catalog_Model_Category_Attribute_Source_Layout extends Magento_Eav
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getSingleton('Mage_Page_Model_Source_Layout')->toOptionArray();
+            $this->_options = Mage::getSingleton('Magento_Page_Model_Source_Layout')->toOptionArray();
             array_unshift($this->_options, array('value'=>'', 'label'=>Mage::helper('Magento_Catalog_Helper_Data')->__('No layout updates')));
         }
         return $this->_options;

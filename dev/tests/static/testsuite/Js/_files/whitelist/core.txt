@@ -2,8 +2,8 @@ pub/lib/mage
 app/code/Magento/Install
 app/code/Magento/Catalog
 app/code/Magento/Newsletter
-app/code/Mage/Page
-app/code/Mage/PageCache
+app/code/Magento/Page
+app/code/Magento/PageCache
 app/code/Magento/Poll
 app/code/Magento/CatalogSearch
 app/code/Magento/Checkout

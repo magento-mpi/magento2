@@ -94,8 +94,8 @@ app/code/Magento/Log/Model/Resource/Helper
 app/code/Magento/Log/Model/Resource/Shell.php
 app/code/Magento/Log/Model/Shell.php
 app/code/Magento/Log/Model/Shell
-app/code/Mage/Page/Helper/Robots.php
-app/code/Mage/Page/Model/Asset
+app/code/Magento/Page/Helper/Robots.php
+app/code/Magento/Page/Model/Asset
 app/code/Magento/Reports/Block/Adminhtml/Customer
 app/code/Magento/Reports/Block/Adminhtml/Product
 app/code/Magento/Reports/Model/Resource/Accounts

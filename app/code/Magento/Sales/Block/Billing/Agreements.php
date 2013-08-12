@@ -37,7 +37,7 @@ class Magento_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager')
+        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager')
             ->setCollection($this->getBillingAgreements())->setIsOutputRequired(false);
         $this->setChild('pager', $pager)
             ->setBackUrl($this->getUrl('customer/account/'));

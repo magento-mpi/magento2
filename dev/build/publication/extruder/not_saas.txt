@@ -22,7 +22,7 @@ app/code/Enterprise/TargetRule
 app/code/Enterprise/Wishlist
 app/code/Magento/Authorizenet
 app/code/Magento/Ogone
-app/code/Mage/PageCache
+app/code/Magento/PageCache
 app/design/frontend/magento_fixed_width/Enterprise_GiftRegistry
 app/design/frontend/magento_fixed_width/Magento_Downloadable
 app/design/frontend/magento_iphone_html5/Magento_Downloadable
@@ -51,7 +51,7 @@ dev/tests/integration/testsuite/integrity/modular/_files/view_files_ee.php
 dev/tests/integration/testsuite/Magento/Authorizenet
 dev/tests/integration/testsuite/Magento/Connect
 dev/tests/integration/testsuite/Magento/Downloadable
-dev/tests/integration/testsuite/Mage/PageCache
+dev/tests/integration/testsuite/Magento/PageCache
 dev/tests/integration/testsuite/Mage/Webapi
 dev/tests/integration/testsuite/Mage/Webhook
 dev/tests/integration/testsuite/Phoenix

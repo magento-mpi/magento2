@@ -147,7 +147,7 @@ class Enterprise_Reward_Block_Customer_Reward_History extends Magento_Core_Block
     protected function _prepareLayout()
     {
         if ($this->_isEnabled()) {
-            $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'reward.history.pager')
+            $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager', 'reward.history.pager')
                 ->setCollection($this->_getCollection())->setIsOutputRequired(false)
             ;
             $this->setChild('pager', $pager);

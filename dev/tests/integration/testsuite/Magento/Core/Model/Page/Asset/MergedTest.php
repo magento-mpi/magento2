@@ -155,7 +155,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
                     'h1.gif',
                     'images/h2.gif',
                     'Namespace_Module/absolute_valid_module.gif',
-                    'Mage_Page/favicon.ico', // non-fixture file from real module
+                    'Magento_Page/favicon.ico', // non-fixture file from real module
                 ),
             ),
             array(

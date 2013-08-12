@@ -282,7 +282,7 @@ class Enterprise_GiftRegistry_Model_Observer
     {
         /** @var $layout Magento_Core_Model_Layout */
         $layout = $observer->getEvent()->getLayout();
-        /** @var $blockHead Mage_Page_Block_Html_Head */
+        /** @var $blockHead Magento_Page_Block_Html_Head */
         $blockHead = $layout->getBlock('head');
         if ($blockHead && $this->isGiftregistryEnabled()) {
             $blockHead->setData('giftregistry_enabled', true);

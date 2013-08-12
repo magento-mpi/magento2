@@ -79,7 +79,7 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
             $handle = ($page->getCustomRootTemplate()
                         && $page->getCustomRootTemplate() != 'empty'
                         && $inRange) ? $page->getCustomRootTemplate() : $page->getRootTemplate();
-            $action->getLayout()->helper('Mage_Page_Helper_Layout')->applyHandle($handle);
+            $action->getLayout()->helper('Magento_Page_Helper_Layout')->applyHandle($handle);
         }
 
         Mage::dispatchEvent('cms_page_render', array('page' => $page, 'controller_action' => $action));
@@ -99,7 +99,7 @@ class Magento_Cms_Helper_Page extends Magento_Core_Helper_Abstract
         }
 
         if ($page->getRootTemplate()) {
-            $action->getLayout()->helper('Mage_Page_Helper_Layout')
+            $action->getLayout()->helper('Magento_Page_Helper_Layout')
                 ->applyTemplate($page->getRootTemplate());
         }
 

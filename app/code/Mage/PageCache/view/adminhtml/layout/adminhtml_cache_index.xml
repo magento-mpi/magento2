@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <adminhtml_cache_index>
         <reference name="cache.additional">
-            <block type="Mage_PageCache_Block_Adminhtml_Cache_Additional" name="page.cache.additional" template="cache/additional.phtml"/>
+            <block type="Magento_PageCache_Block_Adminhtml_Cache_Additional" name="page.cache.additional" template="cache/additional.phtml"/>
         </reference>
     </adminhtml_cache_index>
 </layout>

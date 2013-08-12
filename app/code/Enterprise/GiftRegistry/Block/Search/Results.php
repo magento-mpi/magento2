@@ -22,7 +22,7 @@ class Enterprise_GiftRegistry_Block_Search_Results extends Magento_Core_Block_Te
     public function setSearchResults($results)
     {
         $this->setData('search_results', $results);
-        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'giftregistry.search.pager')
+        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager', 'giftregistry.search.pager')
             ->setCollection($results)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
     }

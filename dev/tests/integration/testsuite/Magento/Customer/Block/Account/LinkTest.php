@@ -17,7 +17,7 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
     protected $_block;
 
     /**
-     * @var Mage_Page_Block_Template_Links
+     * @var Magento_Page_Block_Template_Links
      */
     protected $_links;
 
@@ -27,7 +27,7 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Mage::getModel('Magento_Core_Model_Layout');
         $this->_block->setLayout($layout);
-        $layout->addBlock('Mage_Page_Block_Template_Links', 'links');
+        $layout->addBlock('Magento_Page_Block_Template_Links', 'links');
         $this->_links = $layout->getBlock('links');
     }
 

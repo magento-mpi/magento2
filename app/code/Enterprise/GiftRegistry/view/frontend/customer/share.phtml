@@ -87,7 +87,7 @@
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Mage_Page::js/row-builder.js')?>", function() {
+            "<?php echo $this->getViewFileUrl('Magento_Page::js/row-builder.js')?>", function() {
                 var formDataPost;
                 <?php if (is_array($this->getFormData('recipients'))): ?>
                 formDataPost = <?php echo json_encode($this->getFormData('recipients')); ?>;

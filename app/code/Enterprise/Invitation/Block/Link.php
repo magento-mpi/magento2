@@ -27,7 +27,7 @@ class Enterprise_Invitation_Block_Link extends Magento_Core_Block_Template
         if (Mage::getSingleton('Enterprise_Invitation_Model_Config')->isEnabledOnFront()
             && Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
         ) {
-            /** @var $blockInstance Mage_Page_Block_Template_Links */
+            /** @var $blockInstance Magento_Page_Block_Template_Links */
             $blockInstance = $this->getLayout()->getBlock('account.links');
             if ($blockInstance) {
                 $blockInstance->addLink(

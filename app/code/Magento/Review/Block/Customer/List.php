@@ -62,7 +62,7 @@ class Magento_Review_Block_Customer_List extends Magento_Customer_Block_Account_
      */
     protected function _prepareLayout()
     {
-        $toolbar = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'customer_review_list.toolbar')
+        $toolbar = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager', 'customer_review_list.toolbar')
             ->setCollection($this->getCollection());
 
         $this->setChild('toolbar', $toolbar);

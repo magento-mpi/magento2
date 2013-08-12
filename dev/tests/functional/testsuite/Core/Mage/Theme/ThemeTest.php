@@ -377,7 +377,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
             array('Magento_Catalog__zoom.css', 'magento_catalog_zoom'),
             array('Magento_Cms__widgets.css', 'magento_cms_widgets'),
             array('Magento_Oauth--css-oauth-simple.css', 'magento_oauth_css_oauth_simple'),
-            array('Mage_Page__css_tabs.css', 'mage_page_css_tabs'),
+            array('Magento_Page__css_tabs.css', 'magento_page_css_tabs'),
             array('Magento_Reports__widgets.css', 'magento_reports_widgets'),
             array('Mage_Widget__widgets.css', 'mage_widget_widgets'),
             array('mage-calendar.css', 'mage_calendar'),

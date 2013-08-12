@@ -185,7 +185,7 @@ new_admin_role:
                                 role_resources:
                                     xpath: //fieldset[legend/span='Roles Resources']
                                     checkboxes:
-                                        external_page_cache: //*[@data-id='Mage_PageCache::page_cache']//*[@class='jstree-checkbox']
+                                        external_page_cache: //*[@data-id='Magento_PageCache::page_cache']//*[@class='jstree-checkbox']
                                         dashboard: //*[@data-id='Magento_Adminhtml::dashboard']//*[@class='jstree-checkbox']
                                         sales: //*[@data-id='Magento_Sales::sales']//*[@class='jstree-checkbox']
                                         sales-operations: //*[@data-id='Magento_Sales::sales_operation']//*[@class='jstree-checkbox']

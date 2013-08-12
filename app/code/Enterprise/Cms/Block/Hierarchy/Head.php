@@ -26,7 +26,7 @@ class Enterprise_Cms_Block_Hierarchy_Head extends Magento_Core_Block_Abstract
     {
         /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
         $node      = Mage::registry('current_cms_hierarchy_node');
-        /* @var $head Mage_Page_Block_Html_Head */
+        /* @var $head Magento_Page_Block_Html_Head */
         $head      = $this->getLayout()->getBlock('head');
 
         if (Mage::helper('Enterprise_Cms_Helper_Hierarchy')->isMetadataEnabled() && $node && $head) {

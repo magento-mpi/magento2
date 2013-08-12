@@ -22,8 +22,8 @@ class Magento_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testCleanJs($area, $designMode, $expectedAssets)
     {
         $layout = Mage::app()->getLayout();
-        /** @var $headBlock Mage_Page_Block_Html_Head */
-        $headBlock = $layout->createBlock('Mage_Page_Block_Html_Head', 'head');
+        /** @var $headBlock Magento_Page_Block_Html_Head */
+        $headBlock = $layout->createBlock('Magento_Page_Block_Html_Head', 'head');
         $headBlock->setData('vde_design_mode', $designMode);
 
         $objectManager = Mage::getObjectManager();
@@ -31,7 +31,7 @@ class Magento_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         /** @var $page Magento_Core_Model_Page */
         $page = $objectManager->get('Magento_Core_Model_Page');
 
-        /** @var $pageAssets Mage_Page_Model_Asset_GroupedCollection */
+        /** @var $pageAssets Magento_Page_Model_Asset_GroupedCollection */
         $pageAssets = $page->getAssets();
 
         $fixtureAssets = array(

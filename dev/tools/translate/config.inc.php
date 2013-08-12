@@ -198,15 +198,15 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/ogone.xml',
         'app/design/frontend/base/default/template/ogone/',
     ),
-    'Mage_Page' => array(
-        'app/code/Mage/Page/',
+    'Magento_Page' => array(
+        'app/code/Magento/Page/',
         'app/design/frontend/base/default/template/page/',
         'app/design/frontend/base/default/layout/page.xml',
         'app/design/frontend/default/modern/template/page/',
         'app/design/frontend/default/modern/layout/page.xml',
     ),
-    'Mage_PageCache' => array(
-        'app/code/Mage/PageCache/',
+    'Magento_PageCache' => array(
+        'app/code/Magento/PageCache/',
         'app/design/frontend/base/default/template/pagecache/',
         'app/design/frontend/base/default/layout/pagecache.xml',
         'app/design/adminhtml/default/default/template/pagecache/',
@@ -602,8 +602,8 @@ $CONFIG['helpers']  = array(
     'media'             => 'Magento_Media',
     'newsletter'        => 'Magento_Newsletter',
     'ogone'             => 'Magento_Ogone',
-    'page'              => 'Mage_Page',
-    'pagecache'         => 'Mage_PageCache',
+    'page'              => 'Magento_Page',
+    'pagecache'         => 'Magento_PageCache',
     'captcha'           => 'Magento_Captcha',
     'paybox'            => 'Mage_Paybox',
     'paygate'           => 'Magento_Paygate',

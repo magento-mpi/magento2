@@ -31,7 +31,7 @@
             <cache_lifetime>86400</cache_lifetime>
         </catalog_navigation>
         <catalog_breadcrumbs>
-            <block>Mage_Page_Block_Html_Breadcrumbs</block>
+            <block>Magento_Page_Block_Html_Breadcrumbs</block>
             <name>breadcrumbs</name>
             <placeholder>PAGE_BREADCRUMBS</placeholder>
             <container>Enterprise_PageCache_Model_Container_Breadcrumbs</container>
@@ -70,13 +70,13 @@
             <cache_lifetime>86400</cache_lifetime>
         </recently_compared_sidebar>
         <welcome_message>
-            <block>Mage_Page_Block_Html_Welcome</block>
+            <block>Magento_Page_Block_Html_Welcome</block>
             <placeholder>WELCOME</placeholder>
             <container>Enterprise_PageCache_Model_Container_Welcome</container>
             <cache_lifetime>86400</cache_lifetime>
         </welcome_message>
         <account_links>
-            <block>Mage_Page_Block_Template_Links</block>
+            <block>Magento_Page_Block_Template_Links</block>
             <name>account.links</name>
             <placeholder>ACCLINKS</placeholder>
             <container>Enterprise_PageCache_Model_Container_Accountlinks</container>

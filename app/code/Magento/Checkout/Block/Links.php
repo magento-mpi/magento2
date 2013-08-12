@@ -24,7 +24,7 @@ class Magento_Checkout_Block_Links extends Magento_Core_Block_Template
      */
     public function addCartLink()
     {
-        /** @var $parentBlock Mage_Page_Block_Template_Links */
+        /** @var $parentBlock Magento_Page_Block_Template_Links */
         $parentBlock = $this->getParentBlock();
         if ($parentBlock && Mage::helper('Magento_Core_Helper_Data')->isModuleOutputEnabled('Magento_Checkout')) {
             $count = $this->getSummaryQty() ? $this->getSummaryQty()
@@ -49,7 +49,7 @@ class Magento_Checkout_Block_Links extends Magento_Core_Block_Template
     public function removeParentCartLink()
     {
         $parentBlock = $this->getParentBlock();
-        if ($parentBlock and $parentBlock instanceof Mage_Page_Block_Template_Links) {
+        if ($parentBlock and $parentBlock instanceof Magento_Page_Block_Template_Links) {
             $parentBlock->removeLinkByUrl($this->getUrl('checkout/cart'));
         }
     }
@@ -65,7 +65,7 @@ class Magento_Checkout_Block_Links extends Magento_Core_Block_Template
             return $this;
         }
 
-        /** @var $parentBlock Mage_Page_Block_Template_Links */
+        /** @var $parentBlock Magento_Page_Block_Template_Links */
         $parentBlock = $this->getParentBlock();
         if ($parentBlock && Mage::helper('Magento_Core_Helper_Data')->isModuleOutputEnabled('Magento_Checkout')) {
             $text = $this->__('Checkout');

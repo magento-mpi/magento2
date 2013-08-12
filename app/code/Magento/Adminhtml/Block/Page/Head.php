@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Page_Head extends Mage_Page_Block_Html_Head
+class Magento_Adminhtml_Block_Page_Head extends Magento_Page_Block_Html_Head
 {
     protected $_template = 'page/head.phtml';
 

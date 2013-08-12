@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_PageCache
+ * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Page cache admin controller
  *
  * @category    Mage
- * @package     Mage_PageCache
+ * @package     Magento_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PageCache_Controller_Adminhtml_PageCache extends Magento_Adminhtml_Controller_Action
+class Magento_PageCache_Controller_Adminhtml_PageCache extends Magento_Adminhtml_Controller_Action
 {
     /**
      * Clean external cache action
@@ -25,10 +25,10 @@ class Mage_PageCache_Controller_Adminhtml_PageCache extends Magento_Adminhtml_Co
     public function cleanAction()
     {
         try {
-            if (Mage::helper('Mage_PageCache_Helper_Data')->isEnabled()) {
-                Mage::helper('Mage_PageCache_Helper_Data')->getCacheControlInstance()->clean();
+            if (Mage::helper('Magento_PageCache_Helper_Data')->isEnabled()) {
+                Mage::helper('Magento_PageCache_Helper_Data')->getCacheControlInstance()->clean();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('Mage_PageCache_Helper_Data')->__('The external full page cache has been cleaned.')
+                    Mage::helper('Magento_PageCache_Helper_Data')->__('The external full page cache has been cleaned.')
                 );
             }
         }
@@ -38,7 +38,7 @@ class Mage_PageCache_Controller_Adminhtml_PageCache extends Magento_Adminhtml_Co
         catch (Exception $e) {
             $this->_getSession()->addException(
                 $e,
-                Mage::helper('Mage_PageCache_Helper_Data')
+                Mage::helper('Magento_PageCache_Helper_Data')
                     ->__('Something went wrong while clearing the external full page cache.')
             );
         }
@@ -52,6 +52,6 @@ class Mage_PageCache_Controller_Adminhtml_PageCache extends Magento_Adminhtml_Co
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_PageCache::page_cache');
+        return $this->_authorization->isAllowed('Magento_PageCache::page_cache');
     }
 }

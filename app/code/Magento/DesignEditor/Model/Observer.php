@@ -53,7 +53,7 @@ class Magento_DesignEditor_Model_Observer
         /** @var $page Magento_Core_Model_Page */
         $page = $this->_objectManager->get('Magento_Core_Model_Page');
 
-        /** @var $pageAssets Mage_Page_Model_Asset_GroupedCollection */
+        /** @var $pageAssets Magento_Page_Model_Asset_GroupedCollection */
         $pageAssets = $page->getAssets();
 
         $vdeAssets = array();

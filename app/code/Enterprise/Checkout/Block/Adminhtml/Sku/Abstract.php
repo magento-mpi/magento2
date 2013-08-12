@@ -50,7 +50,7 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Abstract extends Magento_
      */
     protected function _prepareLayout()
     {
-        /* @var $headBlock Mage_Page_Block_Html_Head */
+        /* @var $headBlock Magento_Page_Block_Html_Head */
         $headBlock = parent::_prepareLayout()->getLayout()->getBlock('head');
         if ($headBlock) {
             // Head block is not defined on AJAX request

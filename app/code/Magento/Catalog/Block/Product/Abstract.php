@@ -536,7 +536,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      */
     public function getPageLayout()
     {
-        return $this->helper('Mage_Page_Helper_Layout')->getCurrentPageLayout();
+        return $this->helper('Magento_Page_Helper_Layout')->getCurrentPageLayout();
     }
 
     /**

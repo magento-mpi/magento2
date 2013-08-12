@@ -52,11 +52,11 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'name'     => 'root_template',
             'label'    => Mage::helper('Magento_Cms_Helper_Data')->__('Layout'),
             'required' => true,
-            'values'   => Mage::getSingleton('Mage_Page_Model_Source_Layout')->toOptionArray(),
+            'values'   => Mage::getSingleton('Magento_Page_Model_Source_Layout')->toOptionArray(),
             'disabled' => $isElementDisabled
         ));
         if (!$model->getId()) {
-            $model->setRootTemplate(Mage::getSingleton('Mage_Page_Model_Source_Layout')->getDefaultValue());
+            $model->setRootTemplate(Mage::getSingleton('Magento_Page_Model_Source_Layout')->getDefaultValue());
         }
 
         $layoutFieldset->addField('layout_update_xml', 'textarea', array(
@@ -105,7 +105,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
         $designFieldset->addField('custom_root_template', 'select', array(
             'name'      => 'custom_root_template',
             'label'     => Mage::helper('Magento_Cms_Helper_Data')->__('Custom Layout'),
-            'values'    => Mage::getSingleton('Mage_Page_Model_Source_Layout')->toOptionArray(true),
+            'values'    => Mage::getSingleton('Magento_Page_Model_Source_Layout')->toOptionArray(true),
             'disabled'  => $isElementDisabled
         ));
 

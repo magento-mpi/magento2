@@ -139,7 +139,7 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
      */
     public function getStoreLogoUrl()
     {
-        return Mage::getBlockSingleton('Mage_Page_Block_Html')->getPrintLogoUrl();
+        return Mage::getBlockSingleton('Magento_Page_Block_Html')->getPrintLogoUrl();
     }
 
     /**
@@ -148,6 +148,6 @@ class Saas_PrintedTemplate_Model_Variable_Config extends Saas_PrintedTemplate_Mo
      */
     public function getStoreAddress()
     {
-        return nl2br(Mage::getBlockSingleton('Mage_Page_Block_Html')->getPrintLogoText());
+        return nl2br(Mage::getBlockSingleton('Magento_Page_Block_Html')->getPrintLogoText());
     }
 }

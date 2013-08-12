@@ -3,31 +3,31 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_PageCache
+ * @package     Magento_PageCache
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_PageCache_Helper_DataTest extends PHPUnit_Framework_TestCase
+class Magento_PageCache_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_PageCache_Helper_Data
+     * @var Magento_PageCache_Helper_Data
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Mage_PageCache_Helper_Data');
+        $this->_helper = Mage::helper('Magento_PageCache_Helper_Data');
     }
 
     public function testSetNoCacheCookie()
     {
         /** @var $cookie Magento_Core_Model_Cookie */
         $cookie = Mage::getSingleton('Magento_Core_Model_Cookie');
-        $this->assertEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
+        $this->assertEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
         $this->_helper->setNoCacheCookie();
-        $this->assertNotEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
+        $this->assertNotEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
     }
 
     public function testRemoveNoCacheCookie()
@@ -36,7 +36,7 @@ class Mage_PageCache_Helper_DataTest extends PHPUnit_Framework_TestCase
         $cookie = Mage::getSingleton('Magento_Core_Model_Cookie');
         $this->_helper->setNoCacheCookie();
         $this->_helper->removeNoCacheCookie();
-        $this->assertEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
+        $this->assertEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
     }
 
     public function testLockUnlockNoCacheCookie()
@@ -44,18 +44,18 @@ class Mage_PageCache_Helper_DataTest extends PHPUnit_Framework_TestCase
         /** @var $cookie Magento_Core_Model_Cookie */
         $cookie = Mage::getSingleton('Magento_Core_Model_Cookie');
         $this->_helper->setNoCacheCookie();
-        $this->assertNotEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
+        $this->assertNotEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
 
         $this->_helper->lockNoCacheCookie();
         $this->_helper->removeNoCacheCookie();
-        $this->assertNotEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
+        $this->assertNotEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
 
         $this->_helper->unlockNoCacheCookie();
         $this->_helper->removeNoCacheCookie();
-        $this->assertEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
+        $this->assertEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
 
         $this->_helper->lockNoCacheCookie();
         $this->_helper->setNoCacheCookie();
-        $this->assertEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
+        $this->assertEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
     }
 }

@@ -3,22 +3,22 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_PageCache
+ * @package     Magento_PageCache
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
+class Magento_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_PageCache_Model_Observer
+     * @var Magento_PageCache_Model_Observer
      */
     protected $_observer;
 
     protected function setUp()
     {
-        $this->_observer = Mage::getModel('Mage_PageCache_Model_Observer');
+        $this->_observer = Mage::getModel('Magento_PageCache_Model_Observer');
     }
 
     /**
@@ -28,9 +28,9 @@ class Mage_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         /** @var $cookie Magento_Core_Model_Cookie */
         $cookie = Mage::getSingleton('Magento_Core_Model_Cookie');
-        $this->assertEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
+        $this->assertEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
         $this->_observer->setNoCacheCookie(new Magento_Event_Observer());
-        $this->assertNotEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
+        $this->assertNotEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
     }
 
     /**
@@ -40,8 +40,8 @@ class Mage_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
     {
         /** @var $cookie Magento_Core_Model_Cookie */
         $cookie = Mage::getSingleton('Magento_Core_Model_Cookie');
-        $cookie->set(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE, '1');
+        $cookie->set(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE, '1');
         $this->_observer->deleteNoCacheCookie(new Magento_Event_Observer());
-        $this->assertEmpty($cookie->get(Mage_PageCache_Helper_Data::NO_CACHE_COOKIE));
+        $this->assertEmpty($cookie->get(Magento_PageCache_Helper_Data::NO_CACHE_COOKIE));
     }
 }

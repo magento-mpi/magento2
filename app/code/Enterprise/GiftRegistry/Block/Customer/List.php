@@ -24,7 +24,7 @@ class Enterprise_GiftRegistry_Block_Customer_List
      */
     protected function _prepareLayout()
     {
-        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'giftregistry.list.pager')
+        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager', 'giftregistry.list.pager')
             ->setCollection($this->getEntityCollection())->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
         return parent::_prepareLayout();

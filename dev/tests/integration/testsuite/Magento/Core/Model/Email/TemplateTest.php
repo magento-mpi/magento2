@@ -90,8 +90,8 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     {
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_setBlankThemeForFixtureStore();
-        $expectedViewUrl = 'static/frontend/magento_blank/en_US/Mage_Page/favicon.ico';
-        $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
+        $expectedViewUrl = 'static/frontend/magento_blank/en_US/Magento_Page/favicon.ico';
+        $this->_model->setTemplateText('{{view url="Magento_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplate());
         $this->_model->setDesignConfig(array(
             'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()
@@ -118,9 +118,9 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     public function testGetProcessedTemplateDesignChange()
     {
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $this->_model->setTemplateText('{{view url="Mage_Page::favicon.ico"}}');
+        $this->_model->setTemplateText('{{view url="Magento_Page::favicon.ico"}}');
         $this->assertStringEndsWith(
-            'static/frontend/magento_blank/en_US/Mage_Page/favicon.ico',
+            'static/frontend/magento_blank/en_US/Magento_Page/favicon.ico',
             $this->_model->getProcessedTemplate()
         );
     }
@@ -133,8 +133,8 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
     {
         Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
         $this->_setBlankThemeForFixtureStore();
-        $expectedViewUrl = 'static/frontend/magento_blank/en_US/Mage_Page/favicon.ico';
-        $this->_model->setTemplateSubject('{{view url="Mage_Page::favicon.ico"}}');
+        $expectedViewUrl = 'static/frontend/magento_blank/en_US/Magento_Page/favicon.ico';
+        $this->_model->setTemplateSubject('{{view url="Magento_Page::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
         $this->_model->setDesignConfig(array(
             'area' => 'frontend', 'store' => Mage::app()->getStore('fixturestore')->getId()

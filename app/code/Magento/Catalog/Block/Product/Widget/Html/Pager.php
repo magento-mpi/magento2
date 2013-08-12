@@ -15,7 +15,7 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_Widget_Html_Pager extends Mage_Page_Block_Html_Pager
+class Magento_Catalog_Block_Product_Widget_Html_Pager extends Magento_Page_Block_Html_Pager
 {
     /**
      * Collection size

@@ -95,7 +95,7 @@ class Magento_Tag_Block_Customer_View extends Magento_Catalog_Block_Product_Abst
     protected function _prepareLayout()
     {
         $toolbar = $this->getLayout()
-            ->createBlock('Mage_Page_Block_Html_Pager', 'customer_tag_list.toolbar')
+            ->createBlock('Magento_Page_Block_Html_Pager', 'customer_tag_list.toolbar')
             ->setCollection($this->_getCollection());
 
         $this->setChild('toolbar', $toolbar);

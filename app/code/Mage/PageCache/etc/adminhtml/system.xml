@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_PageCache
+ * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,7 +27,7 @@
                 </field>
                 <field id="control" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>External Cache Control</label>
-                    <source_model>Mage_PageCache_Model_System_Config_Source_Controls</source_model>
+                    <source_model>Magento_PageCache_Model_System_Config_Source_Controls</source_model>
                     <depends>
                         <field id="enabled">1</field>
                     </depends>

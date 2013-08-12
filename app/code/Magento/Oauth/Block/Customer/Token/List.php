@@ -68,8 +68,8 @@ class Magento_Oauth_Block_Customer_Token_List extends Magento_Customer_Block_Acc
      */
     protected function _prepareLayout()
     {
-        /** @var $toolbar Mage_Page_Block_Html_Pager */
-        $toolbar = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'customer_token.toolbar');
+        /** @var $toolbar Magento_Page_Block_Html_Pager */
+        $toolbar = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager', 'customer_token.toolbar');
         $toolbar->setCollection($this->_collection);
         $this->setChild('toolbar', $toolbar);
         parent::_prepareLayout();

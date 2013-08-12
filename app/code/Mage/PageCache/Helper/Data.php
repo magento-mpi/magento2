@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_PageCache
+ * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Page cache data helper
  *
  * @category    Mage
- * @package     Mage_PageCache
+ * @package     Magento_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
+class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
 {
     /**
      * Paths to external cache config options
@@ -90,7 +90,7 @@ class Mage_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
      * Initialize proper external cache control model
      *
      * @throws Magento_Core_Exception
-     * @return Mage_PageCache_Model_Control_Interface
+     * @return Magento_PageCache_Model_Control_Interface
      */
     public function getCacheControlInstance()
     {
@@ -109,7 +109,7 @@ class Mage_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
      * Disable caching on external storage side by setting special cookie, if the cookie has not been locked
      *
      * @param int|null $lifetime
-     * @return Mage_PageCache_Helper_Data
+     * @return Magento_PageCache_Helper_Data
      */
     public function setNoCacheCookie($lifetime = null)
     {
@@ -128,7 +128,7 @@ class Mage_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Remove the 'no cache' cookie, if it has not been locked
      *
-     * @return Mage_PageCache_Helper_Data
+     * @return Magento_PageCache_Helper_Data
      */
     public function removeNoCacheCookie()
     {
@@ -141,7 +141,7 @@ class Mage_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Disable modification of the 'no cache' cookie
      *
-     * @return Mage_PageCache_Helper_Data
+     * @return Magento_PageCache_Helper_Data
      */
     public function lockNoCacheCookie()
     {
@@ -153,7 +153,7 @@ class Mage_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Enable modification of the 'no cache' cookie
      *
-     * @return Mage_PageCache_Helper_Data
+     * @return Magento_PageCache_Helper_Data
      */
     public function unlockNoCacheCookie()
     {

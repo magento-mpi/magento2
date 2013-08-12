@@ -81,7 +81,7 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
 
         // Apply custom layout (page) template once the blocks are generated
         if ($settings->getPageLayout()) {
-            $controller->getLayout()->helper('Mage_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
+            $controller->getLayout()->helper('Magento_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
         }
 
         $currentCategory = Mage::registry('current_category');

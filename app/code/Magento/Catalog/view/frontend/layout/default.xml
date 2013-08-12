@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="left">
-            <block type="Magento_Core_Block_Template" name="left.permanent.callout" template="Mage_Page::callouts/left_col.phtml">
+            <block type="Magento_Core_Block_Template" name="left.permanent.callout" template="Magento_Page::callouts/left_col.phtml">
                 <action method="setImgSrc">
                     <src>Magento_Catalog::images/media/col_left_callout.jpg</src>
                 </action>
@@ -29,7 +29,7 @@
         </reference>
         <reference name="right">
             <block type="Magento_Catalog_Block_Product_Compare_Sidebar" before="cart_sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
-            <block type="Magento_Core_Block_Template" name="right.permanent.callout" template="Mage_Page::callouts/right_col.phtml">
+            <block type="Magento_Core_Block_Template" name="right.permanent.callout" template="Magento_Page::callouts/right_col.phtml">
                 <action method="setImgSrc">
                     <src>Magento_Catalog::images/media/col_right_callout.jpg</src>
                 </action>

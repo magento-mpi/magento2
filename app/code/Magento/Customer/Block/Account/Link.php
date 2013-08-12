@@ -149,7 +149,7 @@ class Magento_Customer_Block_Account_Link extends Magento_Core_Block_Abstract
      */
     protected function _addLink($target, $text, $url, $title, $position, $textBefore='', $textAfter='')
     {
-        /** @var $target Mage_Page_Block_Template_Links */
+        /** @var $target Magento_Page_Block_Template_Links */
         $target = $this->getLayout()->getBlock($target);
         if ($target && method_exists($target, 'addLink')) {
             $target->addLink($text, $url, $title, true, array(), $position, null, null, $textBefore, $textAfter);
@@ -183,7 +183,7 @@ class Magento_Customer_Block_Account_Link extends Magento_Core_Block_Abstract
      */
     protected function _removeLink($target, $url)
     {
-        /** @var $target Mage_Page_Block_Template_Links */
+        /** @var $target Magento_Page_Block_Template_Links */
         $target = $this->getLayout()->getBlock($target);
         if ($target && method_exists($target, 'removeLinkByUrl')) {
             $target->removeLinkByUrl($url);

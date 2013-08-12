@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Magento_Adminhtml />
-                <Mage_Page />
+                <Magento_Page />
                 <Mage_Theme />
             </depends>
         </Magento_DesignEditor>

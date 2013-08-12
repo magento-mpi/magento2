@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_PageCache
+ * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Zend server page cache control model
  *
  * @category    Mage
- * @package     Mage_PageCache
+ * @package     Magento_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_PageCache_Model_Control_Zend implements Mage_PageCache_Model_Control_Interface
+class Magento_PageCache_Model_Control_Zend implements Magento_PageCache_Model_Control_Interface
 {
     /**
      * Clean zend server page cache

@@ -58,7 +58,7 @@ class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widg
             'header'    => Mage::helper('Magento_Cms_Helper_Data')->__('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Mage_Page_Model_Source_Layout')->getOptions(),
+            'options'   => Mage::getSingleton('Magento_Page_Model_Source_Layout')->getOptions(),
         ));
 
         /**

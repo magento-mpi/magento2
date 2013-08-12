@@ -14,7 +14,7 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Customer_Helper_Data */
     protected $_helper;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Mage_Page_Block_Template_Links */
+    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Page_Block_Template_Links */
     protected $_targetBlock;
 
     /** @var Magento_Customer_Block_Account_Link */
@@ -32,7 +32,7 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
             ->with('Magento_Customer_Helper_Data')
             ->will($this->returnValue($this->_helper));
 
-        $this->_targetBlock = $this->getMock('Mage_Page_Block_Template_Links', array(), array(), '', false);
+        $this->_targetBlock = $this->getMock('Magento_Page_Block_Template_Links', array(), array(), '', false);
 
         $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
         $layout->expects($this->any())

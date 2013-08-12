@@ -33,7 +33,7 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_Reset extends Magento_Ba
      */
     public function getRobotsDefaultCustomInstructions()
     {
-        return Mage::helper('Mage_Page_Helper_Robots')->getRobotsDefaultCustomInstructions();
+        return Mage::helper('Magento_Page_Helper_Robots')->getRobotsDefaultCustomInstructions();
     }
 
     /**

@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Magento_Core/>
-                <Mage_Page/>
+                <Magento_Page/>
             </depends>
         </Magento_Cms>
     </modules>

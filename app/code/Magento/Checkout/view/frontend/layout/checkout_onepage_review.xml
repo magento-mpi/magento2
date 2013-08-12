@@ -10,7 +10,7 @@
 <layout version="0.1.0">
     <checkout_onepage_review translate="label" type="fragment" owner="checkout_onepage_index">
         <label>One Page Checkout Overview</label>
-        <block type="Mage_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+        <block type="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
             <block type="Magento_Checkout_Block_Onepage_Review_Info" name="order_review" template="onepage/review/info.phtml">
                 <action method="addItemRender">
                     <type>default</type>

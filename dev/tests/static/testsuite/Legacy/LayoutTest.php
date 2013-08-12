@@ -96,7 +96,7 @@ class Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             $layoutXml->xpath(
                 '//*[' . $selectorHeadBlock . ']/action[@method="addItem"]'
             ),
-            'Mage_Page_Block_Html_Head::addItem is obsolete. Use addCss()/addJs() instead.'
+            'Magento_Page_Block_Html_Head::addItem is obsolete. Use addCss()/addJs() instead.'
         );
         $this->assertSame(array(),
             $layoutXml->xpath(

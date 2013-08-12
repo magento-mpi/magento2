@@ -16,7 +16,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block type="Magento_GoogleCheckout_Block_Redirect" name="googlecheckout_redirect" template="Mage_Page::redirect.phtml"/>
+            <block type="Magento_GoogleCheckout_Block_Redirect" name="googlecheckout_redirect" template="Magento_Page::redirect.phtml"/>
         </reference>
     </googlecheckout_redirect_redirect>
 </layout>

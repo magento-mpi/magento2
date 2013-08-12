@@ -270,8 +270,8 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 Magento_Core_Model_App_State::MODE_DEFAULT,
-                'Mage_Page::favicon.ico',
-                'http://localhost/pub/static/frontend/test_default/en_US/Mage_Page/favicon.ico',
+                'Magento_Page::favicon.ico',
+                'http://localhost/pub/static/frontend/test_default/en_US/Magento_Page/favicon.ico',
             ),
             array(
                 Magento_Core_Model_App_State::MODE_DEFAULT,
@@ -280,13 +280,13 @@ class Magento_Core_Model_View_DesignTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 Magento_Core_Model_App_State::MODE_DEVELOPER,
-                'Mage_Page::menu.js',
-                'http://localhost/pub/static/frontend/test_default/en_US/Mage_Page/menu.js'
+                'Magento_Page::menu.js',
+                'http://localhost/pub/static/frontend/test_default/en_US/Magento_Page/menu.js'
             ),
             array(
                 Magento_Core_Model_App_State::MODE_DEFAULT,
-                'Mage_Page::menu.js',
-                'http://localhost/pub/static/frontend/test_default/en_US/Mage_Page/menu.js'
+                'Magento_Page::menu.js',
+                'http://localhost/pub/static/frontend/test_default/en_US/Magento_Page/menu.js'
             ),
             array(
                 Magento_Core_Model_App_State::MODE_DEFAULT,

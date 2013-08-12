@@ -59,7 +59,7 @@ class Magento_Downloadable_Block_Customer_Products_List extends Magento_Core_Blo
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('Mage_Page_Block_Html_Pager', 'downloadable.customer.products.pager')
+        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager', 'downloadable.customer.products.pager')
             ->setCollection($this->getItems());
         $this->setChild('pager', $pager);
         $this->getItems()->load();

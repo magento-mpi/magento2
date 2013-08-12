@@ -797,7 +797,7 @@ class Magento_Catalog_Block_Product_List_Toolbar extends Magento_Core_Block_Temp
 
         if ($pagerBlock instanceof Magento_Object) {
 
-            /* @var $pagerBlock Mage_Page_Block_Html_Pager */
+            /* @var $pagerBlock Magento_Page_Block_Html_Pager */
             $pagerBlock->setAvailableLimit($this->getAvailableLimit());
 
             $pagerBlock->setUseContainer(false)

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_PageCache
+ * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Page cache control interface
  *
  * @category    Mage
- * @package     Mage_PageCache
+ * @package     Magento_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_PageCache_Model_Control_Interface
+interface Magento_PageCache_Model_Control_Interface
 {
     /**
      * Clean external cache

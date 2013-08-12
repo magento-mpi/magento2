@@ -43,7 +43,7 @@ class Enterprise_PageCache_Model_Container_Accountlinks extends Enterprise_PageC
      */
     protected function _renderBlock()
     {
-        /** @var $block Mage_Page_Block_Template_Links */
+        /** @var $block Magento_Page_Block_Template_Links */
         $block = $this->_getPlaceHolderBlock();
         $block->setNameInLayout($this->_placeholder->getAttribute('name'));
 

@@ -68,7 +68,7 @@ class Enterprise_PageCache_Model_Container_Breadcrumbs extends Enterprise_PageCa
             return '';
         }
 
-        /** @var $breadcrumbsBlock Mage_Page_Block_Html_Breadcrumbs */
+        /** @var $breadcrumbsBlock Magento_Page_Block_Html_Breadcrumbs */
         $breadcrumbsBlock = $this->_getPlaceHolderBlock();
         $breadcrumbsBlock->setNameInLayout($this->_placeholder->getAttribute('name'));
         $crumbs = $this->_placeholder->getAttribute('crumbs');

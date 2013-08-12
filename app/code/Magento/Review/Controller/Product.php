@@ -270,13 +270,13 @@ class Magento_Review_Controller_Product extends Magento_Core_Controller_Front_Ac
         );
 
         if ($product->getPageLayout()) {
-            $this->getLayout()->helper('Mage_Page_Helper_Layout')
+            $this->getLayout()->helper('Magento_Page_Helper_Layout')
                 ->applyHandle($product->getPageLayout());
         }
         $this->loadLayoutUpdates();
 
         if ($product->getPageLayout()) {
-            $this->getLayout()->helper('Mage_Page_Helper_Layout')
+            $this->getLayout()->helper('Magento_Page_Helper_Layout')
                 ->applyTemplate($product->getPageLayout());
         }
         $update->addUpdate($product->getCustomLayoutUpdate());
