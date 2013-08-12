@@ -1,11 +1,11 @@
   <?php
 /**
- * Mage_Webhook_Model_Formatter_Factory
+ * Magento_Webhook_Model_Formatter_Factory
  *
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Webhook
+ * @package     Magento_Webhook
  * @copyright   {copyright}
  * @license     {license_link}
  */

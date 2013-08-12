@@ -106,7 +106,7 @@ app/code/Magento/Tag/Block/Catalog/Product/Rss/Link.php
 app/code/Magento/Theme
 app/code/Magento/User
 app/code/Magento/Webapi
-app/code/Mage/Webhook
+app/code/Magento/Webhook
 dev/shell
 dev/tests/integration
 dev/tests/js
