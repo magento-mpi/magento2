@@ -14,7 +14,7 @@ class Magento_Phrase_Renderer_Translate implements Magento_Phrase_RendererInterf
      *
      * @var Mage_Core_Model_Translate
      */
-    protected $_translator;
+    protected $translator;
 
     /**
      * Renderer construct
@@ -23,7 +23,7 @@ class Magento_Phrase_Renderer_Translate implements Magento_Phrase_RendererInterf
      */
     public function __construct(Mage_Core_Model_Translate $translator)
     {
-        $this->_translator = $translator;
+        $this->translator = $translator;
     }
 
     /**
@@ -33,6 +33,6 @@ class Magento_Phrase_Renderer_Translate implements Magento_Phrase_RendererInterf
     {
         array_unshift($arguments, $text);
 
-        return call_user_func(array($this->_translator, 'translate'), $arguments);
+        return call_user_func(array($this->translator, 'translate'), $arguments);
     }
 }

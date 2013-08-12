@@ -14,21 +14,21 @@ class Magento_Phrase
      *
      * @var Magento_Phrase_RendererInterface
      */
-    private static $_renderer;
+    private static $renderer;
 
     /**
      * String for rendering
      *
      * @var string
      */
-    private $_text;
+    private $text;
 
     /**
      * Arguments for placeholder values
      *
      * @var array
      */
-    private $_arguments;
+    private $arguments;
 
     /**
      * Set default Phrase renderer
@@ -37,7 +37,7 @@ class Magento_Phrase
      */
     public static function setRenderer(Magento_Phrase_RendererInterface $renderer)
     {
-        self::$_renderer = $renderer;
+        self::$renderer = $renderer;
     }
 
     /**
@@ -48,8 +48,8 @@ class Magento_Phrase
      */
     public function __construct($text, array $arguments = array())
     {
-        $this->_text = (string)$text;
-        $this->_arguments = $arguments;
+        $this->text = (string)$text;
+        $this->arguments = $arguments;
     }
 
     /**
@@ -59,7 +59,7 @@ class Magento_Phrase
      */
     public function render()
     {
-        return self::$_renderer ? self::$_renderer->render($this->_text, $this->_arguments) : $this->_text;
+        return self::$renderer ? self::$renderer->render($this->text, $this->arguments) : $this->text;
     }
 
     /**

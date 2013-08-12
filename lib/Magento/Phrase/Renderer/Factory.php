@@ -14,7 +14,7 @@ class Magento_Phrase_Renderer_Factory
      *
      * @var Magento_ObjectManager
      */
-    protected $_objectManager;
+    protected $objectManager;
 
     /**
      * Constructor
@@ -23,7 +23,7 @@ class Magento_Phrase_Renderer_Factory
      */
     public function __construct(Magento_ObjectManager $objectManager)
     {
-        $this->_objectManager = $objectManager;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -35,7 +35,7 @@ class Magento_Phrase_Renderer_Factory
      */
     public function create($className)
     {
-        $renderer = $this->_objectManager->get($className);
+        $renderer = $this->objectManager->get($className);
 
         if (!$renderer instanceof Magento_Phrase_RendererInterface) {
             throw new InvalidArgumentException('Wrong renderer ' . $className);
