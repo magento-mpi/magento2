@@ -191,7 +191,7 @@ class Mage_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             array('', ''),
             array(
                 'Text with different translation on different modules',
-                'Text with different translation on different modules'
+                'Text translation that was last loaded'
             ),
             array(
                 'text_with_no_translation',
