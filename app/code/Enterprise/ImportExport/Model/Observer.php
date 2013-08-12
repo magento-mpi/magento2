@@ -50,7 +50,7 @@ class Enterprise_ImportExport_Model_Observer
     /**
      * Clear old log files and folders
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Magento_Cron_Model_Schedule $schedule
      * @param bool $forceRun
      * @return bool
      */
@@ -136,7 +136,7 @@ class Enterprise_ImportExport_Model_Observer
     /**
      * Run operation in crontab
      *
-     * @param Mage_Cron_Model_Schedule|Magento_Object $schedule
+     * @param Magento_Cron_Model_Schedule|Magento_Object $schedule
      * @param bool $forceRun
      * @return bool
      */

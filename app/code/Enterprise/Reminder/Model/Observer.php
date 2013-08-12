@@ -60,9 +60,9 @@ class Enterprise_Reminder_Model_Observer
     public function getCronFrequencyTypes()
     {
         return array(
-            self::CRON_MINUTELY => Mage::helper('Mage_Cron_Helper_Data')->__('Minute Intervals'),
-            self::CRON_HOURLY   => Mage::helper('Mage_Cron_Helper_Data')->__('Hourly'),
-            self::CRON_DAILY    => Mage::helper('Mage_Cron_Helper_Data')->__('Daily')
+            self::CRON_MINUTELY => Mage::helper('Magento_Cron_Helper_Data')->__('Minute Intervals'),
+            self::CRON_HOURLY   => Mage::helper('Magento_Cron_Helper_Data')->__('Hourly'),
+            self::CRON_DAILY    => Mage::helper('Magento_Cron_Helper_Data')->__('Daily')
         );
     }
 
@@ -74,11 +74,11 @@ class Enterprise_Reminder_Model_Observer
     public function getCronMinutes()
     {
         return array(
-            5  => Mage::helper('Mage_Cron_Helper_Data')->__('5 minutes'),
-            10 => Mage::helper('Mage_Cron_Helper_Data')->__('10 minutes'),
-            15 => Mage::helper('Mage_Cron_Helper_Data')->__('15 minutes'),
-            20 => Mage::helper('Mage_Cron_Helper_Data')->__('20 minutes'),
-            30 => Mage::helper('Mage_Cron_Helper_Data')->__('30 minutes')
+            5  => Mage::helper('Magento_Cron_Helper_Data')->__('5 minutes'),
+            10 => Mage::helper('Magento_Cron_Helper_Data')->__('10 minutes'),
+            15 => Mage::helper('Magento_Cron_Helper_Data')->__('15 minutes'),
+            20 => Mage::helper('Magento_Cron_Helper_Data')->__('20 minutes'),
+            30 => Mage::helper('Magento_Cron_Helper_Data')->__('30 minutes')
         );
     }
 

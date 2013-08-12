@@ -489,10 +489,10 @@ class Mage_Persistent_Model_Observer
     /**
      * Clear expired persistent sessions
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Magento_Cron_Model_Schedule $schedule
      * @return Mage_Persistent_Model_Observer_Cron
      */
-    public function clearExpiredCronJob(Mage_Cron_Model_Schedule $schedule)
+    public function clearExpiredCronJob(Magento_Cron_Model_Schedule $schedule)
     {
         $websiteIds = Mage::getResourceModel('Magento_Core_Model_Resource_Website_Collection')->getAllIds();
         if (!is_array($websiteIds)) {

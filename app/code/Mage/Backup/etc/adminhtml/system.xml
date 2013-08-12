@@ -36,7 +36,7 @@
                     <depends>
                         <field id="enabled">1</field>
                     </depends>
-                    <source_model>Mage_Cron_Model_Config_Source_Frequency</source_model>
+                    <source_model>Magento_Cron_Model_Config_Source_Frequency</source_model>
                     <backend_model>Mage_Backup_Model_Config_Backend_Cron</backend_model>
                 </field>
                 <field id="maintenance" translate="label comment" module="Mage_Backup" type="select" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">

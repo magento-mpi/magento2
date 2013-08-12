@@ -26,7 +26,7 @@
                 </field>
                 <field id="frequency" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Frequency</label>
-                    <source_model>Mage_Cron_Model_Config_Source_Frequency</source_model>
+                    <source_model>Magento_Cron_Model_Config_Source_Frequency</source_model>
                     <backend_model>Mage_Backend_Model_Config_Backend_Log_Cron</backend_model>
                 </field>
                 <field id="error_email" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">

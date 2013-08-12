@@ -32,8 +32,8 @@ class Mage_Backend_Model_Config_Backend_Log_Cron extends Magento_Core_Model_Conf
         $time       = $this->getData('groups/log/fields/time/value');
         $frequncy   = $this->getData('groups/log/fields/frequency/value');
 
-        $frequencyWeekly    = Mage_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
-        $frequencyMonthly   = Mage_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
+        $frequencyWeekly    = Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
+        $frequencyMonthly   = Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
 
         if ($enabled) {
             $cronExprArray = array(

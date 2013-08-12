@@ -182,9 +182,9 @@ class Magento_Catalog_Model_Observer
     /**
      * Cron job method for product prices to reindex
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Magento_Cron_Model_Schedule $schedule
      */
-    public function reindexProductPrices(Mage_Cron_Model_Schedule $schedule)
+    public function reindexProductPrices(Magento_Cron_Model_Schedule $schedule)
     {
         $indexProcess = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalog_product_price');
         if ($indexProcess) {

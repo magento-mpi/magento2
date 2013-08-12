@@ -73,7 +73,7 @@ class Mage_SalesRule_Model_Observer
     /**
      * Refresh sales coupons report statistics for last day
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Magento_Cron_Model_Schedule $schedule
      * @return Mage_SalesRule_Model_Observer
      */
     public function aggregateSalesReportCouponsData($schedule)

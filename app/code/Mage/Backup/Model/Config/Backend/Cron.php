@@ -36,8 +36,8 @@ class Mage_Backup_Model_Config_Backend_Cron extends Magento_Core_Model_Config_Da
         $time      = $this->getData(self::XML_PATH_BACKUP_TIME);
         $frequency = $this->getData(self::XML_PATH_BACKUP_FREQUENCY);
 
-        $frequencyWeekly  = Mage_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
-        $frequencyMonthly = Mage_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
+        $frequencyWeekly  = Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
+        $frequencyMonthly = Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
 
         if ($enabled) {
             $cronExprArray = array(

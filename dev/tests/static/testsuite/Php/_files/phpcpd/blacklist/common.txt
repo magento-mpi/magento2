@@ -39,7 +39,7 @@ Mage/Tag/Block
 Mage/Tag/Model/Resource
 Magento/Catalog/Model/Resource/Product
 Magento/Core/Model/Store
-Mage/Cron/Model/Config/Backend/Product
+Magento/Cron/Model/Config/Backend/Product
 Mage/DesignEditor/Block/Adminhtml/Editor/Tools/Code
 Mage/DesignEditor/Block/Adminhtml/Theme/Selector/Tab
 Mage/DesignEditor/Model/Url
@@ -74,7 +74,7 @@ lib/PEAR
 lib/phpseclib
 lib/Twig
 lib/Magento/Convert
-Mage/Cron/Model
+Magento/Cron/Model
 Mage/SalesRule/Model/Resource/Report/Rule
 Mage/SalesRule/Model/Quote/Nominal
 Mage/Connect/Block/Adminhtml/Extension/Custom/Edit

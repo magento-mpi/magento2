@@ -28,7 +28,7 @@ class Mage_Sales_Model_Observer
     /**
      * Clean expired quotes (cron process)
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Magento_Cron_Model_Schedule $schedule
      * @return Mage_Sales_Model_Observer
      */
     public function cleanExpiredQuotes($schedule)
@@ -80,7 +80,7 @@ class Mage_Sales_Model_Observer
     /**
      * Refresh sales order report statistics for last day
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Magento_Cron_Model_Schedule $schedule
      * @return Mage_Sales_Model_Observer
      */
     public function aggregateSalesReportOrderData($schedule)
@@ -96,7 +96,7 @@ class Mage_Sales_Model_Observer
     /**
      * Refresh sales shipment report statistics for last day
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Magento_Cron_Model_Schedule $schedule
      * @return Mage_Sales_Model_Observer
      */
     public function aggregateSalesReportShipmentData($schedule)
@@ -112,7 +112,7 @@ class Mage_Sales_Model_Observer
     /**
      * Refresh sales invoiced report statistics for last day
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Magento_Cron_Model_Schedule $schedule
      * @return Mage_Sales_Model_Observer
      */
     public function aggregateSalesReportInvoicedData($schedule)
@@ -128,7 +128,7 @@ class Mage_Sales_Model_Observer
     /**
      * Refresh sales refunded report statistics for last day
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Magento_Cron_Model_Schedule $schedule
      * @return Mage_Sales_Model_Observer
      */
     public function aggregateSalesReportRefundedData($schedule)
@@ -144,7 +144,7 @@ class Mage_Sales_Model_Observer
     /**
      * Refresh bestsellers report statistics for last day
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Magento_Cron_Model_Schedule $schedule
      * @return Mage_Sales_Model_Observer
      */
     public function aggregateSalesReportBestsellersData($schedule)

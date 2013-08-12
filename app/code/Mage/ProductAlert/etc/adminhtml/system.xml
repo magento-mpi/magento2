@@ -39,8 +39,8 @@
                 <label>Product Alerts Run Settings</label>
                 <field id="frequency" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Frequency</label>
-                    <source_model>Mage_Cron_Model_Config_Source_Frequency</source_model>
-                    <backend_model>Mage_Cron_Model_Config_Backend_Product_Alert</backend_model>
+                    <source_model>Magento_Cron_Model_Config_Source_Frequency</source_model>
+                    <backend_model>Magento_Cron_Model_Config_Backend_Product_Alert</backend_model>
                 </field>
                 <field id="time" translate="label" type="time" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Start Time</label>

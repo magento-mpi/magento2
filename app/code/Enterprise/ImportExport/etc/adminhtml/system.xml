@@ -30,7 +30,7 @@
                 </field>
                 <field id="frequency" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Frequency</label>
-                    <source_model>Mage_Cron_Model_Config_Source_Frequency</source_model>
+                    <source_model>Magento_Cron_Model_Config_Source_Frequency</source_model>
                 </field>
                 <field id="error_email" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Error Email Recipient</label>

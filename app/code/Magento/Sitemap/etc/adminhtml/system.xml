@@ -75,8 +75,8 @@
                 </field>
                 <field id="frequency" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Frequency</label>
-                    <source_model>Mage_Cron_Model_Config_Source_Frequency</source_model>
-                    <backend_model>Mage_Cron_Model_Config_Backend_Sitemap</backend_model>
+                    <source_model>Magento_Cron_Model_Config_Source_Frequency</source_model>
+                    <backend_model>Magento_Cron_Model_Config_Backend_Sitemap</backend_model>
                 </field>
                 <field id="time" translate="label" type="time" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Start Time</label>

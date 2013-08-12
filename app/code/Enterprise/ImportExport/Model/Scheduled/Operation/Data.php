@@ -83,11 +83,11 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     public function getFrequencyOptionArray()
     {
         return array(
-            Mage_Cron_Model_Config_Source_Frequency::CRON_DAILY
+            Magento_Cron_Model_Config_Source_Frequency::CRON_DAILY
                 => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Daily'),
-            Mage_Cron_Model_Config_Source_Frequency::CRON_WEEKLY
+            Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY
                 => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Weekly'),
-            Mage_Cron_Model_Config_Source_Frequency::CRON_MONTHLY
+            Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY
                 => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Monthly'),
         );
     }

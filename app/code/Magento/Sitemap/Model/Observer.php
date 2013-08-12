@@ -47,7 +47,7 @@ class Magento_Sitemap_Model_Observer
     /**
      * Generate sitemaps
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Magento_Cron_Model_Schedule $schedule
      */
     public function scheduledGenerateSitemaps($schedule)
     {

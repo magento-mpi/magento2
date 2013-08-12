@@ -237,9 +237,9 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Magento_Core_Mod
         $cronExprArray = array(
             intval($time[1]),
             intval($time[0]),
-            ($frequency == Mage_Cron_Model_Config_Source_Frequency::CRON_MONTHLY) ? '1' : '*',
+            ($frequency == Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY) ? '1' : '*',
             '*',
-            ($frequency == Mage_Cron_Model_Config_Source_Frequency::CRON_WEEKLY) ? '1' : '*'
+            ($frequency == Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY) ? '1' : '*'
         );
 
         $cronExprString = join(' ', $cronExprArray);
@@ -258,7 +258,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Magento_Core_Mod
                 ->setPath($modelPath)
                 ->save();
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('We were unable to save the cron expression.'));
+            Mage::throwException(Mage::helper('Magento_Cron_Helper_Data')->__('We were unable to save the cron expression.'));
             Mage::logException($e);
         }
         return $this;
@@ -280,7 +280,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Magento_Core_Mod
                 ->load($this->getModelConfigPath(), 'path')
                 ->delete();
         } catch (Exception $e) {
-            Mage::throwException(Mage::helper('Mage_Cron_Helper_Data')->__('Unable to delete the cron task.'));
+            Mage::throwException(Mage::helper('Magento_Cron_Helper_Data')->__('Unable to delete the cron task.'));
             Mage::logException($e);
         }
         return $this;

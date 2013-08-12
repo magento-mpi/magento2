@@ -125,7 +125,7 @@ class Magento_Core_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('getBackend')
             ->will($this->returnValue($cacheBackendMock))
         ;
-        $cronScheduleMock = $this->getMock('Mage_Cron_Model_Schedule', array(), array(), '', false);
+        $cronScheduleMock = $this->getMock('Magento_Cron_Model_Schedule', array(), array(), '', false);
         $this->_model->cleanCache($cronScheduleMock);
     }
 

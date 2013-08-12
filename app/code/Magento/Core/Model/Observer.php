@@ -72,10 +72,10 @@ class Magento_Core_Model_Observer
     /**
      * Cron job method to clean old cache resources
      *
-     * @param Mage_Cron_Model_Schedule $schedule
+     * @param Magento_Cron_Model_Schedule $schedule
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function cleanCache(Mage_Cron_Model_Schedule $schedule)
+    public function cleanCache(Magento_Cron_Model_Schedule $schedule)
     {
         /** @var $cacheFrontend Magento_Cache_FrontendInterface */
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {

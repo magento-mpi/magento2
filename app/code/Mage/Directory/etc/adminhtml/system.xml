@@ -64,7 +64,7 @@
                 </field>
                 <field id="frequency" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Frequency</label>
-                    <source_model>Mage_Cron_Model_Config_Source_Frequency</source_model>
+                    <source_model>Magento_Cron_Model_Config_Source_Frequency</source_model>
                 </field>
                 <field id="service" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Service</label>

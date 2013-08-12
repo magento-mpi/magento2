@@ -95,8 +95,8 @@ $CONFIG['translates'] = array(
         'app/code/Magento/Core/view/frontend/layout.xml',
         'lib/Zend/Validate/',
     ),
-    'Mage_Cron' => array(
-        'app/code/Mage/Cron/',
+    'Magento_Cron' => array(
+        'app/code/Magento/Cron/',
     ),
     'Mage_Customer' => array(
         'app/code/Mage/Customer/',
@@ -580,7 +580,7 @@ $CONFIG['helpers']  = array(
     'connect'           => 'Mage_Connect',
     'contacts'          => 'Magento_Contacts',
     'core'              => 'Magento_Core',
-    'cron'              => 'Mage_Cron',
+    'cron'              => 'Magento_Cron',
     'customer'          => 'Mage_Customer',
     'cybermut'          => 'Mage_Cybermut',
     'cybersource'       => 'Mage_Cybersource',

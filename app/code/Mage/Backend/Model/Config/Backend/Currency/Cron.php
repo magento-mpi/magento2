@@ -25,8 +25,8 @@ class Mage_Backend_Model_Config_Backend_Currency_Cron extends Magento_Core_Model
         $time = $this->getData('groups/import/fields/time/value');
         $frequency = $this->getData('groups/import/fields/frequency/value');
 
-        $frequencyWeekly = Mage_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
-        $frequencyMonthly = Mage_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
+        $frequencyWeekly = Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
+        $frequencyMonthly = Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
 
         $cronExprArray = array(
             intval($time[1]),                                   # Minute
@@ -45,7 +45,7 @@ class Mage_Backend_Model_Config_Backend_Currency_Cron extends Magento_Core_Model
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
         } catch (Exception $e) {
-            throw new Exception(Mage::helper('Mage_Cron_Helper_Data')->__('We can\'t save the Cron expression.'));
+            throw new Exception(Mage::helper('Magento_Cron_Helper_Data')->__('We can\'t save the Cron expression.'));
         }
     }
 
