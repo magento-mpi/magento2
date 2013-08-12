@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogRule_Model_Resource_Rule_Collection extends Mage_Rule_Model_Resource_Rule_Collection_Abstract
+class Magento_CatalogRule_Model_Resource_Rule_Collection extends Magento_Rule_Model_Resource_Rule_Collection_Abstract
 {
     /**
      * Store associated with rule entities information map

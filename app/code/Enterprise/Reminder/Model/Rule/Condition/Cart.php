@@ -20,12 +20,12 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     protected $_dateModel;
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param Magento_Core_Model_Date $dateModel
      * @param array $data
      */
     public function __construct(
-        Mage_Rule_Model_Condition_Context $context,
+        Magento_Rule_Model_Condition_Context $context,
         Magento_Core_Model_Date $dateModel,
         array $data = array()
     ) {
@@ -74,9 +74,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '==' => Mage::helper('Mage_Rule_Helper_Data')->__('for'),
-            '>'  => Mage::helper('Mage_Rule_Helper_Data')->__('for greater than'),
-            '>=' => Mage::helper('Mage_Rule_Helper_Data')->__('for or greater than')
+            '==' => Mage::helper('Magento_Rule_Helper_Data')->__('for'),
+            '>'  => Mage::helper('Magento_Rule_Helper_Data')->__('for greater than'),
+            '>=' => Mage::helper('Magento_Rule_Helper_Data')->__('for or greater than')
         ));
         return $this;
     }

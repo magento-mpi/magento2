@@ -161,7 +161,7 @@ class Enterprise_CustomerSegment_Controller_Adminhtml_Customersegment extends Ma
             $model->setAttribute($typeArr[1]);
         }
 
-        if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
+        if ($model instanceof Magento_Rule_Model_Condition_Abstract) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {

@@ -27,10 +27,10 @@ class Enterprise_CustomerSegment_Model_Resource_Helper_Mysql4 extends Magento_Co
     public function getSqlOperator($operator)
     {
         /*
-            '{}'  => Mage::helper('Mage_Rule_Helper_Data')->__('contains'),
-            '!{}' => Mage::helper('Mage_Rule_Helper_Data')->__('does not contain'),
-            '()'  => Mage::helper('Mage_Rule_Helper_Data')->__('is one of'),
-            '!()' => Mage::helper('Mage_Rule_Helper_Data')->__('is not one of'),
+            '{}'  => Mage::helper('Magento_Rule_Helper_Data')->__('contains'),
+            '!{}' => Mage::helper('Magento_Rule_Helper_Data')->__('does not contain'),
+            '()'  => Mage::helper('Magento_Rule_Helper_Data')->__('is one of'),
+            '!()' => Mage::helper('Magento_Rule_Helper_Data')->__('is not one of'),
             requires custom selects
         */
 

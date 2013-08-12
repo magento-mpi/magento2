@@ -16,7 +16,7 @@
  * @package     Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abstract
+class Magento_CatalogRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abstract
 {
     /**
      * Store number of seconds in a day

@@ -46,7 +46,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condit
             'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
             'title' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Conditions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Conditions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Conditions'));
 
         if (Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED == $model->getApplyTo()) {
             $fieldset->addField('conditions-label', 'label', array(

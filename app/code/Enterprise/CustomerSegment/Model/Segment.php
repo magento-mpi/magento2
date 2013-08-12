@@ -29,7 +29,7 @@
  * @package     Enterprise_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Abstract
+class Enterprise_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
 {
     /**
      * Customer segment view modes
@@ -100,11 +100,11 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Abstract
     /**
      * Getter for rule actions collection instance
      *
-     * @return Mage_Rule_Model_Action_Collection
+     * @return Magento_Rule_Model_Action_Collection
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('Mage_Rule_Model_Action_Collection');
+        return Mage::getModel('Magento_Rule_Model_Action_Collection');
     }
 
     /**
@@ -146,7 +146,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Abstract
     /**
      * Get list of all models which are used in segment conditions
      *
-     * @param  null|Mage_Rule_Model_Condition_Combine $conditions
+     * @param  null|Magento_Rule_Model_Condition_Combine $conditions
      *
      * @return array
      */

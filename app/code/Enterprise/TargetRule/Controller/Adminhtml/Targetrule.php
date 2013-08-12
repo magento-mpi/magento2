@@ -230,7 +230,7 @@ class Enterprise_TargetRule_Controller_Adminhtml_Targetrule extends Magento_Admi
             $model->setAttribute($typeArr[1]);
         }
 
-        if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
+        if ($model instanceof Magento_Rule_Model_Condition_Abstract) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {

@@ -294,7 +294,7 @@ class Magento_CatalogRule_Model_Observer
             if ($condition instanceof Magento_CatalogRule_Model_Rule_Condition_Combine) {
                 $this->_removeAttributeFromConditions($condition, $attributeCode);
             }
-            if ($condition instanceof Mage_Rule_Model_Condition_Product_Abstract) {
+            if ($condition instanceof Magento_Rule_Model_Condition_Product_Abstract) {
                 if ($condition->getAttribute() == $attributeCode) {
                     unset($conditions[$conditionId]);
                 }

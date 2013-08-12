@@ -71,7 +71,7 @@
  * @package     Mage_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_SalesRule_Model_Rule extends Mage_Rule_Model_Abstract
+class Mage_SalesRule_Model_Rule extends Magento_Rule_Model_Abstract
 {
     /**
      * Free Shipping option "For matching items only"

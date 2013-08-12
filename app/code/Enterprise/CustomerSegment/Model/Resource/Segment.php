@@ -16,7 +16,7 @@
  * @package     Enterprise_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_CustomerSegment_Model_Resource_Segment extends Mage_Rule_Model_Resource_Abstract
+class Enterprise_CustomerSegment_Model_Resource_Segment extends Magento_Rule_Model_Resource_Abstract
 {
     /**
      * @var Magento_Customer_Model_Config_Share

@@ -1045,7 +1045,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             return true;
         }
 
-        /** @var $model Mage_Rule_Model_Rule */
+        /** @var $model Magento_Rule_Model_Rule */
         $model = Mage::registry($registryKey);
         if ($model) {
             $websiteIds = $model->getWebsiteIds();

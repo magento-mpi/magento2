@@ -324,7 +324,7 @@
                     <magento_cms_model_page>cmsPageSaveBefore</magento_cms_model_page>
                     <magento_cms_model_block>cmsBlockSaveBefore</magento_cms_model_block>
                     <magento_poll_model_poll>pollSaveBefore</magento_poll_model_poll>
-                    <mage_rule_model_abstract>ruleSaveBefore</mage_rule_model_abstract>
+                    <magento_rule_model_abstract>ruleSaveBefore</magento_rule_model_abstract>
                     <mage_sales_model_order>salesOrderSaveBefore</mage_sales_model_order>
                     <mage_sales_model_order_invoice>salesOrderEntitySaveBefore</mage_sales_model_order_invoice>
                     <mage_sales_model_order_shipment>salesOrderEntitySaveBefore</mage_sales_model_order_shipment>
@@ -356,7 +356,7 @@
                     <magento_cms_model_page>cmsPageDeleteBefore</magento_cms_model_page>
                     <magento_cms_model_block>cmsBlockDeleteBefore</magento_cms_model_block>
                     <magento_poll_model_poll>pollDeleteBefore</magento_poll_model_poll>
-                    <mage_rule_model_abstract>ruleDeleteBefore</mage_rule_model_abstract>
+                    <magento_rule_model_abstract>ruleDeleteBefore</magento_rule_model_abstract>
                     <magento_catalog_model_product>catalogProductDeleteBefore</magento_catalog_model_product>
                     <magento_catalog_model_category>catalogCategoryDeleteBefore</magento_catalog_model_category>
                     <magento_customer_model_customer>customerDeleteBefore</magento_customer_model_customer>
@@ -383,7 +383,7 @@
                     <magento_customer_model_customer>customerLoadAfter</magento_customer_model_customer>
                     <mage_sales_model_order>salesOrderLoadAfter</mage_sales_model_order>
                     <mage_sales_model_order_payment_transaction>salesOrderTransactionLoadAfter</mage_sales_model_order_payment_transaction>
-                    <mage_rule_model_abstract>ruleLoadAfter</mage_rule_model_abstract>
+                    <magento_rule_model_abstract>ruleLoadAfter</magento_rule_model_abstract>
                     <magento_core_model_website>coreWebsiteLoadAfter</magento_core_model_website>
                     <magento_core_model_store_group>coreStoreGroupLoadAfter</magento_core_model_store_group>
                     <magento_core_model_store>coreStoreGroupLoadAfter</magento_core_model_store>

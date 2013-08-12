@@ -213,7 +213,7 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
             $model->setAttribute($typeArr[1]);
         }
 
-        if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
+        if ($model instanceof Magento_Rule_Model_Condition_Abstract) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {
@@ -250,7 +250,7 @@ class Magento_Adminhtml_Controller_Promo_Catalog extends Magento_Adminhtml_Contr
             $model->setAttribute($typeArr[1]);
         }
 
-        if ($model instanceof Mage_Rule_Model_Action_Abstract) {
+        if ($model instanceof Magento_Rule_Model_Action_Abstract) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {

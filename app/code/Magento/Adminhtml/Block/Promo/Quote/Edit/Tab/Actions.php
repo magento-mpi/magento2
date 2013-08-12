@@ -141,7 +141,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
             'label' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Apply To'),
             'title' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Apply To'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Actions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Actions'));
 
         Mage::dispatchEvent('adminhtml_block_salesrule_actions_prepareform', array('form' => $form));
 

@@ -80,7 +80,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Limit Rule entity saving
      *
-     * @param Mage_Rule_Model_Rule $model
+     * @param Magento_Rule_Model_Rule $model
      *
      * @return void
      */
@@ -142,7 +142,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Validate rule before delete
      *
-     * @param Mage_Rule_Model_Rule $model
+     * @param Magento_Rule_Model_Rule $model
      * @return void
      */
     public function ruleDeleteBefore($model)
@@ -159,7 +159,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Limit rule entity model on after load
      *
-     * @param Mage_Rule_Model_Rule $model
+     * @param Magento_Rule_Model_Rule $model
      *
      * @return void
      */

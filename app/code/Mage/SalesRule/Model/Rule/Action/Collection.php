@@ -9,7 +9,7 @@
  */
 
 
-class Mage_SalesRule_Model_Rule_Action_Collection extends Mage_Rule_Model_Action_Collection
+class Mage_SalesRule_Model_Rule_Action_Collection extends Magento_Rule_Model_Action_Collection
 {
     /**
      * @param Magento_Core_Model_View_Url $viewUrl

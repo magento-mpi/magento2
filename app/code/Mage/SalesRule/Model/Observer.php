@@ -122,14 +122,14 @@ class Mage_SalesRule_Model_Observer
     /**
      * Remove catalog attribute condition by attribute code from rule conditions
      *
-     * @param Mage_Rule_Model_Condition_Combine $combine
+     * @param Magento_Rule_Model_Condition_Combine $combine
      * @param string $attributeCode
      */
     protected function _removeAttributeFromConditions($combine, $attributeCode)
     {
         $conditions = $combine->getConditions();
         foreach ($conditions as $conditionId => $condition) {
-            if ($condition instanceof Mage_Rule_Model_Condition_Combine) {
+            if ($condition instanceof Magento_Rule_Model_Condition_Combine) {
                 $this->_removeAttributeFromConditions($condition, $attributeCode);
             }
             if ($condition instanceof Mage_SalesRule_Model_Rule_Condition_Product) {

@@ -38,7 +38,7 @@
  * @package     Enterprise_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Abstract
+class Enterprise_Reminder_Model_Rule extends Magento_Rule_Model_Abstract
 {
     const XML_PATH_EMAIL_TEMPLATE  = 'enterprise_reminder_email_template';
 
@@ -112,11 +112,11 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Abstract
     /**
      * Getter for rule actions collection instance
      *
-     * @return Mage_Rule_Model_Action_Collection
+     * @return Magento_Rule_Model_Action_Collection
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('Mage_Rule_Model_Action_Collection');
+        return Mage::getModel('Magento_Rule_Model_Action_Collection');
     }
 
     /**

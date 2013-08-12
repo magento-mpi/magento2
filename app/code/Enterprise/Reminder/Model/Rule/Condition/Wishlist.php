@@ -15,10 +15,10 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     extends Enterprise_Reminder_Model_Condition_Combine_Abstract
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_Reminder_Model_Rule_Condition_Wishlist');
@@ -64,9 +64,9 @@ class Enterprise_Reminder_Model_Rule_Condition_Wishlist
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '==' => Mage::helper('Mage_Rule_Helper_Data')->__('for'),
-            '>'  => Mage::helper('Mage_Rule_Helper_Data')->__('for greater than'),
-            '>=' => Mage::helper('Mage_Rule_Helper_Data')->__('for or greater than')
+            '==' => Mage::helper('Magento_Rule_Helper_Data')->__('for'),
+            '>'  => Mage::helper('Magento_Rule_Helper_Data')->__('for greater than'),
+            '>=' => Mage::helper('Magento_Rule_Helper_Data')->__('for or greater than')
         ));
         return $this;
     }

@@ -20,12 +20,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
     protected $_configShare;
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param Magento_Customer_Model_Config_Share $configShare
      * @param array $data
      */
     public function __construct(
-        Mage_Rule_Model_Condition_Context $context,
+        Magento_Rule_Model_Condition_Context $context,
         Magento_Customer_Model_Config_Share $configShare,
         array $data = array()
     ) {

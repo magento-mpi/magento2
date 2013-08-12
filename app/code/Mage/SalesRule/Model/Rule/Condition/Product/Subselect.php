@@ -13,10 +13,10 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
     extends Mage_SalesRule_Model_Rule_Condition_Product_Combine
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Mage_SalesRule_Model_Rule_Condition_Product_Subselect')
@@ -75,14 +75,14 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Subselect
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
-            '=='  => Mage::helper('Mage_Rule_Helper_Data')->__('is'),
-            '!='  => Mage::helper('Mage_Rule_Helper_Data')->__('is not'),
-            '>='  => Mage::helper('Mage_Rule_Helper_Data')->__('equals or greater than'),
-            '<='  => Mage::helper('Mage_Rule_Helper_Data')->__('equals or less than'),
-            '>'   => Mage::helper('Mage_Rule_Helper_Data')->__('greater than'),
-            '<'   => Mage::helper('Mage_Rule_Helper_Data')->__('less than'),
-            '()'  => Mage::helper('Mage_Rule_Helper_Data')->__('is one of'),
-            '!()' => Mage::helper('Mage_Rule_Helper_Data')->__('is not one of'),
+            '=='  => Mage::helper('Magento_Rule_Helper_Data')->__('is'),
+            '!='  => Mage::helper('Magento_Rule_Helper_Data')->__('is not'),
+            '>='  => Mage::helper('Magento_Rule_Helper_Data')->__('equals or greater than'),
+            '<='  => Mage::helper('Magento_Rule_Helper_Data')->__('equals or less than'),
+            '>'   => Mage::helper('Magento_Rule_Helper_Data')->__('greater than'),
+            '<'   => Mage::helper('Magento_Rule_Helper_Data')->__('less than'),
+            '()'  => Mage::helper('Magento_Rule_Helper_Data')->__('is one of'),
+            '!()' => Mage::helper('Magento_Rule_Helper_Data')->__('is not one of'),
         ));
         return $this;
     }

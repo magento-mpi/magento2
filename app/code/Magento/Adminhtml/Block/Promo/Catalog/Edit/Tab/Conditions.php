@@ -82,7 +82,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions
             'label' => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Conditions'),
             'title' => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Conditions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Conditions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Conditions'));
 /*
         $fieldset = $form->addFieldset('actions_fieldset', array('legend'=>Mage::helper('Magento_CatalogRule_Helper_Data')->__('Actions')));
 
@@ -91,7 +91,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Conditions
             'label' => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Actions'),
             'title' => Mage::helper('Magento_CatalogRule_Helper_Data')->__('Actions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Actions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Actions'));
 
         $fieldset = $form->addFieldset('options_fieldset', array('legend'=>Mage::helper('Magento_CatalogRule_Helper_Data')->__('Options')));
 

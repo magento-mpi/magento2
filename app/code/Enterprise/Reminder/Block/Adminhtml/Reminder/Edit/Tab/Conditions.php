@@ -35,7 +35,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
         $fieldset->addField('conditions', 'text', array(
             'name' => 'conditions',
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Conditions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Conditions'));
 
         $form->setValues($model->getData());
         $this->setForm($form);

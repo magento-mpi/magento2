@@ -9,7 +9,7 @@
  */
 
 
-class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condition_Abstract
+class Mage_SalesRule_Model_Rule_Condition_Address extends Magento_Rule_Model_Condition_Abstract
 {
     public function loadAttributeOptions()
     {

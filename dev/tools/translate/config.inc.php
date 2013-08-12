@@ -283,8 +283,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/rss.xml',
         'app/design/frontend/default/modern/layout/rss.xml',
     ),
-    'Mage_Rule' => array(
-        'app/code/Mage/Rule/',
+    'Magento_Rule' => array(
+        'app/code/Magento/Rule/',
     ),
     'Mage_Sales' => array(
         'app/code/Mage/Sales/',
@@ -618,7 +618,7 @@ $CONFIG['helpers']  = array(
     'reports'           => 'Magento_Reports',
     'review'            => 'Magento_Review',
     'rss'               => 'Magento_Rss',
-    'rule'              => 'Mage_Rule',
+    'rule'              => 'Magento_Rule',
     'sales'             => 'Mage_Sales',
     'salesrule'         => 'Mage_SalesRule',
     'sendfriend'        => 'Magento_Sendfriend',

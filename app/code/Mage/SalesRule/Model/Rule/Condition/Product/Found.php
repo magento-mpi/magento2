@@ -13,10 +13,10 @@ class Mage_SalesRule_Model_Rule_Condition_Product_Found
     extends Mage_SalesRule_Model_Rule_Condition_Product_Combine
 {
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Mage_SalesRule_Model_Rule_Condition_Product_Found');

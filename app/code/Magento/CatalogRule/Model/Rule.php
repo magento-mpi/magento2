@@ -44,7 +44,7 @@
  * @package     Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogRule_Model_Rule extends Mage_Rule_Model_Abstract
+class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
 {
     /**
      * Related cache types config path

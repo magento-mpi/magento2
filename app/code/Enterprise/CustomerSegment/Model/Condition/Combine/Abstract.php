@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_Rule_Model_Condition_Combine
+abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Magento_Rule_Model_Condition_Combine
 {
     /**
      * Flag of using condition combine (for conditions of Product_Attribute)

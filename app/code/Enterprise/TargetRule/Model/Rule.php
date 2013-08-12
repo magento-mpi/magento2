@@ -42,7 +42,7 @@
  * @package     Enterprise_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Abstract
+class Enterprise_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
 {
     /**
      * Position behavior selectors

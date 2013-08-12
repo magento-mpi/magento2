@@ -31,7 +31,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
      * Define action type and default value
      *
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes');
@@ -185,7 +185,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
             'value'         => $this->getValueType(),
             'value_name'    => $this->getValueTypeName(),
             'class'         => 'value-type-chooser',
-        ))->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Editable'));
+        ))->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Editable'));
         return $element;
     }
 

@@ -25,10 +25,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
     protected $_inputType = 'select';
 
     /**
-     * @param Mage_Rule_Model_Condition_Context $context
+     * @param Magento_Rule_Model_Condition_Context $context
      * @param array $data
      */
-    public function __construct(Mage_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->setType('Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status');

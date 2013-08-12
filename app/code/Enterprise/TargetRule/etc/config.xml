@@ -17,7 +17,7 @@
             <depends>
                 <Magento_Adminhtml/>
                 <Magento_Catalog/>
-                <Mage_Rule/>
+                <Magento_Rule/>
             </depends>
         </Enterprise_TargetRule>
     </modules>

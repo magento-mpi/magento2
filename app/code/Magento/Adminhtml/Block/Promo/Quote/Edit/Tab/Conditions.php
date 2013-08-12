@@ -81,7 +81,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions
             'name' => 'conditions',
             'label' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Conditions'),
             'title' => Mage::helper('Mage_SalesRule_Helper_Data')->__('Conditions'),
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Mage_Rule_Block_Conditions'));
+        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Conditions'));
 
         $form->setValues($model->getData());
         $this->setForm($form);

@@ -20,7 +20,7 @@
                 <Magento_Adminhtml/>
                 <Magento_Catalog/>
                 <Magento_CatalogRule/>
-                <Mage_Rule/>
+                <Magento_Rule/>
                 <Magento_Log/>
             </depends>
         </Enterprise_CustomerSegment>

@@ -11,7 +11,7 @@
 /**
  * Segment condition for sales rules
  */
-class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Rule_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Rule_Model_Condition_Abstract
 {
     /**
      * @var string
@@ -44,7 +44,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
         return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
             . $this->_viewUrl->getViewFileUrl('images/rule_chooser_trigger.gif')
             . '" alt="" class="v-middle rule-chooser-trigger" title="'
-            . Mage::helper('Mage_Rule_Helper_Data')->__('Open Chooser') . '" /></a>';
+            . Mage::helper('Magento_Rule_Helper_Data')->__('Open Chooser') . '" /></a>';
     }
 
     /**

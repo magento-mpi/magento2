@@ -16,7 +16,7 @@
  * @package     Enterprise_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_TargetRule_Model_Resource_Rule extends Mage_Rule_Model_Resource_Abstract
+class Enterprise_TargetRule_Model_Resource_Rule extends Magento_Rule_Model_Resource_Abstract
 {
     /**
      * Store associated with rule entities information map
