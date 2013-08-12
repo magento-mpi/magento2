@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_Sales_Invoice_Abstract
+class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_Sales_Invoice_InvoiceAbstract
 {
     /**
      * Export invoice grid to CSV format

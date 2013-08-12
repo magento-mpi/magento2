@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Controller_Sales_Shipment extends Mage_Adminhtml_Controller_Sales_Shipment_Abstract
+class Mage_Adminhtml_Controller_Sales_Shipment extends Mage_Adminhtml_Controller_Sales_Shipment_ShipmentAbstract
 {
     /**
      * Export shipment grid to CSV format

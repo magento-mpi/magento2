@@ -15,7 +15,8 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Controller_Sales_Order_Creditmemo extends Mage_Adminhtml_Controller_Sales_Creditmemo_Abstract
+class Mage_Adminhtml_Controller_Sales_Order_Creditmemo
+    extends Mage_Adminhtml_Controller_Sales_Creditmemo_CreditmemoAbstract
 {
     /**
      * Get requested items qtys and return to stock flags

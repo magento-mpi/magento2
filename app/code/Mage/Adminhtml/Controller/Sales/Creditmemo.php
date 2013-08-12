@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Controller_Sales_Creditmemo extends Mage_Adminhtml_Controller_Sales_Creditmemo_Abstract
+class Mage_Adminhtml_Controller_Sales_Creditmemo extends Mage_Adminhtml_Controller_Sales_Creditmemo_CreditmemoAbstract
 {
     /**
      * Export credit memo grid to CSV format

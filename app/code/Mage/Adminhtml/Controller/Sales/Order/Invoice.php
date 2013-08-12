@@ -15,7 +15,7 @@
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Controller_Sales_Order_Invoice extends Mage_Adminhtml_Controller_Sales_Invoice_Abstract
+class Mage_Adminhtml_Controller_Sales_Order_Invoice extends Mage_Adminhtml_Controller_Sales_Invoice_InvoiceAbstract
 {
     /**
      * Get requested items qty's from request

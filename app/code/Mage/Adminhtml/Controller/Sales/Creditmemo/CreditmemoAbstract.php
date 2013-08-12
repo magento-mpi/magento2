@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Controller_Sales_Creditmemo_Abstract extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Controller_Sales_Creditmemo_CreditmemoAbstract extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Additional initialization

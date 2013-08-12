@@ -13,7 +13,8 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Controller_Sales_Invoice_Abstract extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Controller_Sales_Invoice_InvoiceAbstract
+    extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Additional initialization
