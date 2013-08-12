@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Connect
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */

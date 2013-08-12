@@ -27,7 +27,7 @@
         <Enterprise_Queue><active>true</active></Enterprise_Queue>
         <Enterprise_SalesArchive><active>true</active></Enterprise_SalesArchive>
         <Enterprise_Search><active>true</active></Enterprise_Search>
-        <Mage_Connect><active>false</active></Mage_Connect>
+        <Magento_Connect><active>false</active></Magento_Connect>
         <Magento_Downloadable><active>false</active></Magento_Downloadable>
         <Magento_Oauth><active>false</active></Magento_Oauth>
         <Mage_Webapi><active>false</active></Mage_Webapi>

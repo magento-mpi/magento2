@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Connect
+ * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +12,7 @@
  * Class config
  *
  * @category   Mage
- * @package    Mage_Connect
+ * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 interface Maged_Model_Config_Interface

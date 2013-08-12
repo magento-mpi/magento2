@@ -77,8 +77,8 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/compiler/',
         'app/design/adminhtml/default/default/layout/compiler.xml',
     ),
-    'Mage_Connect' => array(
-        'app/code/Mage/Connect/',
+    'Magento_Connect' => array(
+        'app/code/Magento/Connect/',
         'app/design/adminhtml/default/default/template/connect/',
         'app/design/adminhtml/default/default/layout/connect.xml',
     ),
@@ -577,7 +577,7 @@ $CONFIG['helpers']  = array(
     'chronopay'         => 'Mage_Chronopay',
     'cms'               => 'Magento_Cms',
     'compiler'          => 'Mage_Compiler',
-    'connect'           => 'Mage_Connect',
+    'connect'           => 'Magento_Connect',
     'contacts'          => 'Magento_Contacts',
     'core'              => 'Magento_Core',
     'cron'              => 'Magento_Cron',

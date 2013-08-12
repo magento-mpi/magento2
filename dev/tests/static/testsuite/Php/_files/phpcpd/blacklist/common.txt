@@ -29,7 +29,7 @@ Magento/Centinel/Controller
 Magento/Centinel/Model/State
 Magento/Checkout/Block/Multishipping/Payment
 Magento/Checkout/Model/Type
-Mage/Connect/Block/Adminhtml/Extension/Custom/Edit/Tab
+Magento/Connect/Block/Adminhtml/Extension/Custom/Edit/Tab
 Magento/Catalog/Model/Template
 Magento/Oauth/Controller
 Magento/Sales/Block/Order
@@ -77,7 +77,7 @@ lib/Magento/Convert
 Magento/Cron/Model
 Magento/SalesRule/Model/Resource/Report/Rule
 Magento/SalesRule/Model/Quote/Nominal
-Mage/Connect/Block/Adminhtml/Extension/Custom/Edit
+Magento/Connect/Block/Adminhtml/Extension/Custom/Edit
 Magento/Tax/Model/Sales/Total/Quote/Nominal
 Mage/Theme/Block/Adminhtml/System/Design/Theme/Edit
 Mage/User/Block/User/Edit

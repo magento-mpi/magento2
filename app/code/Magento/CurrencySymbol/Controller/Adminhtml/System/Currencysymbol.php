@@ -52,7 +52,7 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends 
 
         try {
             Mage::getModel('Magento_CurrencySymbol_Model_System_Currencysymbol')->setCurrencySymbolsData($symbolsDataArray);
-            Mage::getSingleton('Mage_Connect_Model_Session')->addSuccess(
+            Mage::getSingleton('Magento_Connect_Model_Session')->addSuccess(
                 Mage::helper('Magento_CurrencySymbol_Helper_Data')->__('The custom currency symbols were applied.')
             );
         } catch (Exception $e) {

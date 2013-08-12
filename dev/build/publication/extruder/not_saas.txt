@@ -49,7 +49,7 @@ dev/tests/integration/testsuite/Enterprise/TargetRule
 dev/tests/integration/testsuite/Enterprise/Wishlist
 dev/tests/integration/testsuite/integrity/modular/_files/view_files_ee.php
 dev/tests/integration/testsuite/Magento/Authorizenet
-dev/tests/integration/testsuite/Mage/Connect
+dev/tests/integration/testsuite/Magento/Connect
 dev/tests/integration/testsuite/Magento/Downloadable
 dev/tests/integration/testsuite/Mage/PageCache
 dev/tests/integration/testsuite/Mage/Webapi
