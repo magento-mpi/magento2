@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_system_design_editor_index>
+        <reference name="head">
+            <action method="addJs">
+                <file>Magento_DesignEditor::js/dialog.js</file>
+            </action>
+            <action method="addJs">
+                <file>Magento_DesignEditor::js/infinitescroll.js</file>
+            </action>
+            <action method="addJs">
+                <file>Magento_DesignEditor::js/theme-selector.js</file>
+            </action>
+            <action method="addJs">
+                <file>Magento_DesignEditor::js/theme-assign.js</file>
+            </action>
+            <action method="addJs">
+                <file>Magento_DesignEditor::js/theme-delete.js</file>
+            </action>
+            <action method="addJs">
+                <file>Magento_DesignEditor::js/theme-edit.js</file>
+            </action>
+            <action method="addCss">
+                <file>Magento_DesignEditor::css/styles.css</file>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tabs" name="theme.selector.tabs">
+                <action method="addTab">
+                    <name>available_themes</name>
+                    <block>available.themes.tab</block>
+                </action>
+                <action method="addTab">
+                    <name>customizations</name>
+                    <block>customizations.themes.tab</block>
+                </action>
+                <block type="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Available" name="available.themes.tab">
+                    <block type="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Available" name="available.theme.list" template="Magento_DesignEditor::theme/list/available.phtml">
+                        <block type="Magento_DesignEditor_Block_Adminhtml_Theme" name="available.theme.item" as="item" template="Magento_DesignEditor::theme/available.phtml"/>
+                    </block>
+                </block>
+                <block type="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tab_Customizations" name="customizations.themes.tab" template="Magento_DesignEditor::theme/selector/my_customizations_tab.phtml">
+                    <block type="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Assigned" name="assigned.theme.list" template="Magento_DesignEditor::theme/list/customized.phtml">
+                        <block type="Magento_DesignEditor_Block_Adminhtml_Theme" name="assigned.theme" as="theme" template="Magento_DesignEditor::theme/customized.phtml"/>
+                    </block>
+                    <block type="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_List_Unassigned" name="unassigned.theme.list" template="Magento_DesignEditor::theme/list/customized.phtml">
+                        <block type="Magento_DesignEditor_Block_Adminhtml_Theme" name="unassigned.theme" as="theme" template="Magento_DesignEditor::theme/customized.phtml"/>
+                    </block>
+                </block>
+            </block>
+            <block type="Magento_Backend_Block_Template" name="theme.dialog" template="Magento_DesignEditor::dialog.phtml"/>
+            <block type="Magento_Backend_Block_Template" name="theme.dialog.edit" template="Magento_DesignEditor::theme/selector/theme_edit.phtml"/>
+            <block type="Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView" name="theme.selector.storeview" template="Magento_DesignEditor::theme/selector/storeview.phtml"/>
+        </reference>
+    </adminhtml_system_design_editor_index>
+</layout>

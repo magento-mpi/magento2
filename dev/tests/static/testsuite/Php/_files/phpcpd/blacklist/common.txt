@@ -40,9 +40,9 @@ Magento/Tag/Model/Resource
 Magento/Catalog/Model/Resource/Product
 Magento/Core/Model/Store
 Magento/Cron/Model/Config/Backend/Product
-Mage/DesignEditor/Block/Adminhtml/Editor/Tools/Code
-Mage/DesignEditor/Block/Adminhtml/Theme/Selector/Tab
-Mage/DesignEditor/Model/Url
+Magento/DesignEditor/Block/Adminhtml/Editor/Tools/Code
+Magento/DesignEditor/Block/Adminhtml/Theme/Selector/Tab
+Magento/DesignEditor/Model/Url
 Magento/GiftMessage/Block/Adminhtml/Sales/Order
 Magento/ImportExport/Model
 Magento/Index/Model/Process

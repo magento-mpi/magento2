@@ -24,7 +24,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_ThemeTest extend
             ->method('getUrl')
             ->with('adminhtml/system_design_editor/preview', array(
                 'theme_id' => 4,
-                'mode' => Mage_DesignEditor_Model_State::MODE_NAVIGATION
+                'mode' => Magento_DesignEditor_Model_State::MODE_NAVIGATION
             ))
             ->will($this->returnValue('admin/system_design_editor/preview/theme_id/4/mode/navigation'));
 

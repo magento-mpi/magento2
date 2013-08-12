@@ -254,7 +254,7 @@ new_admin_role:
                                         content-elements-polls: //*[@data-id='Magento_Poll::poll']//*[@class='jstree-checkbox']
                                         content-elements-media_gallery: //*[@data-id='Magento_Cms::media_gallery']//*[@class='jstree-checkbox']
                                         content-design: //*[@data-id='Magento_Adminhtml::design']//*[@class='jstree-checkbox']
-                                        content-design-the_designer: //*[@data-id='Mage_DesignEditor::editor']//*[@class='jstree-checkbox']
+                                        content-design-the_designer: //*[@data-id='Magento_DesignEditor::editor']//*[@class='jstree-checkbox']
                                         content-design-themes: //*[@data-id='Mage_Theme::theme']//*[@class='jstree-checkbox']
                                         content-design-schedule: //*[@data-id='Magento_Adminhtml::schedule']//*[@class='jstree-checkbox']
                                         reports: //*[@data-id='Magento_Reports::report']//*[@class='jstree-checkbox']

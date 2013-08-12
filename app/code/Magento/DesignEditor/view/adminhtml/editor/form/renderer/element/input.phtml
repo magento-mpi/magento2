@@ -1,0 +1,22 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Magento_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /** @var $this Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive */ ?>
+<?php
+/** @var $element Magento_Data_Form_Element_Abstract */
+$element = $this->getElement();
+?>
+
+<input id="<?php echo $element->getHtmlId() ?>"
+    name="<?php echo $element->getName() ?>"
+    <?php echo $this->getUiId($element->getType(), $element->getName()) ?>
+    value="<?php echo $element->getEscapedValue() ?>"
+    type="<?php echo $element->getType() ? $element->getType() : 'text' ?>"
+    <?php echo $element->serialize($element->getHtmlAttributes()) ?> />

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_DesignEditor
+ * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */

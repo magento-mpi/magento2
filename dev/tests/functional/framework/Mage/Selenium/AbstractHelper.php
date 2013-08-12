@@ -189,7 +189,7 @@
  * @method Core_Mage_Csv_Helper                                                                        csvHelper()
  * @method Core_Magento_CustomerGroups_Helper                                                             customerGroupsHelper()
  * @method Core_Magento_Customer_Helper|Enterprise_Magento_Customer_Helper                                   customerHelper()
- * @method Core_Mage_DesignEditor_Helper                                                               designEditorHelper()
+ * @method Core_Magento_DesignEditor_Helper                                                               designEditorHelper()
  * @method Core_Mage_AdminGlobalSearch_Helper                                                          adminGlobalSearchHelper()
  * @method Core_Mage_Grid_Helper                                                                       gridHelper()
  * @method Core_Magento_ImportExport_Helper|Enterprise_Magento_ImportExport_Helper                           importExportHelper()

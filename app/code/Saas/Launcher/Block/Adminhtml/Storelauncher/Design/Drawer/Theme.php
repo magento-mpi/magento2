@@ -27,7 +27,7 @@ class Saas_Launcher_Block_Adminhtml_Storelauncher_Design_Drawer_Theme extends Ma
     {
         return $this->getUrl('adminhtml/system_design_editor/preview', array(
             'theme_id' => $themeId,
-            'mode' => Mage_DesignEditor_Model_State::MODE_NAVIGATION
+            'mode' => Magento_DesignEditor_Model_State::MODE_NAVIGATION
         ));
     }
 }
