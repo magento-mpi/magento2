@@ -104,7 +104,7 @@ class Magento_Catalog_Block_Product_Compare_List extends Magento_Catalog_Block_P
             } elseif ($this->_customerId) {
                 $this->_items->setCustomerId($this->_customerId);
             } else {
-                $this->_items->setVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
+                $this->_items->setVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
             }
 
             $this->_items

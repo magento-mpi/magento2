@@ -64,7 +64,7 @@ class Magento_Catalog_Controller_Product_Compare extends Magento_Core_Controller
     {
         $productId = (int)$this->getRequest()->getParam('product');
         if ($productId
-            && (Mage::getSingleton('Mage_Log_Model_Visitor')->getId()
+            && (Mage::getSingleton('Magento_Log_Model_Visitor')->getId()
                 || Mage::getSingleton('Mage_Customer_Model_Session')->isLoggedIn())
         ) {
             $product = Mage::getModel('Magento_Catalog_Model_Product')
@@ -107,7 +107,7 @@ class Magento_Catalog_Controller_Product_Compare extends Magento_Core_Controller
                         Mage::getModel('Mage_Customer_Model_Customer')->load($this->_customerId)
                     );
                 } else {
-                    $item->addVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
+                    $item->addVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
                 }
 
                 $item->loadByProduct($product);
@@ -142,7 +142,7 @@ class Magento_Catalog_Controller_Product_Compare extends Magento_Core_Controller
         } elseif ($this->_customerId) {
             $items->setCustomerId($this->_customerId);
         } else {
-            $items->setVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
+            $items->setVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
         }
 
         /** @var $session Magento_Catalog_Model_Session */

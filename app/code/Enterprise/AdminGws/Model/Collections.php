@@ -130,7 +130,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit online visitor log collection
      *
-     * @param Mage_Log_Model_Resource_Visitor_Collection $collection
+     * @param Magento_Log_Model_Resource_Visitor_Collection $collection
      */
     public function limitOnlineCustomers($collection)
     {

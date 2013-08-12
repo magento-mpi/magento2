@@ -30,8 +30,8 @@ class Mage_Customer_Model_Resource_Customer_CustomersTypeOptions implements Mage
     public function toOptionArray()
     {
         return array(
-            Mage_Log_Model_Visitor::VISITOR_TYPE_CUSTOMER  => $this->_helper->__('Customer'),
-            Mage_Log_Model_Visitor::VISITOR_TYPE_VISITOR => $this->_helper->__('Visitor'),
+            Magento_Log_Model_Visitor::VISITOR_TYPE_CUSTOMER  => $this->_helper->__('Customer'),
+            Magento_Log_Model_Visitor::VISITOR_TYPE_VISITOR => $this->_helper->__('Visitor'),
         );
     }
 }

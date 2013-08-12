@@ -37,7 +37,7 @@ class Mage_Reports_Model_Event_Observer
                 $subjectId = $customer->getId();
             }
             else {
-                $subjectId = Mage::getSingleton('Mage_Log_Model_Visitor')->getId();
+                $subjectId = Mage::getSingleton('Magento_Log_Model_Visitor')->getId();
                 $subtype = 1;
             }
         }
@@ -67,7 +67,7 @@ class Mage_Reports_Model_Event_Observer
             return $this;
         }
 
-        $visitorId  = Mage::getSingleton('Mage_Log_Model_Visitor')->getId();
+        $visitorId  = Mage::getSingleton('Magento_Log_Model_Visitor')->getId();
         $customerId = Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId();
         $eventModel = Mage::getModel('Mage_Reports_Model_Event');
         $eventModel->updateCustomerType($visitorId, $customerId);

@@ -44,12 +44,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     /**
      * Load Customer Log model
      *
-     * @return Mage_Log_Model_Customer
+     * @return Magento_Log_Model_Customer
      */
     public function getCustomerLog()
     {
         if (!$this->_customerLog) {
-            $this->_customerLog = Mage::getModel('Mage_Log_Model_Customer')
+            $this->_customerLog = Mage::getModel('Magento_Log_Model_Customer')
                 ->loadByCustomer($this->getCustomer()->getId());
         }
         return $this->_customerLog;
@@ -126,7 +126,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     {
         $log = $this->getCustomerLog();
         if ($log->getLogoutAt() ||
-            strtotime(now())-strtotime($log->getLastVisitAt())>Mage_Log_Model_Visitor::getOnlineMinutesInterval()*60) {
+            strtotime(now())-strtotime($log->getLastVisitAt())>Magento_Log_Model_Visitor::getOnlineMinutesInterval()*60) {
             return Mage::helper('Mage_Customer_Helper_Data')->__('Offline');
         }
         return Mage::helper('Mage_Customer_Helper_Data')->__('Online');

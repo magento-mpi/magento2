@@ -62,7 +62,7 @@ abstract class Mage_Reports_Model_Product_Index_Abstract extends Magento_Core_Mo
         if ($this->hasData('visitor_id')) {
             return $this->getData('visitor_id');
         }
-        return Mage::getSingleton('Mage_Log_Model_Visitor')->getId();
+        return Mage::getSingleton('Magento_Log_Model_Visitor')->getId();
     }
 
     /**

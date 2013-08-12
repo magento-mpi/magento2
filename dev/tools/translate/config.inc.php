@@ -180,8 +180,8 @@ $CONFIG['translates'] = array(
         'app/design/install/default/default/layout/',
         'app/design/install/default/default/template/',
     ),
-    'Mage_Log' => array(
-        'app/code/Mage/Log/',
+    'Magento_Log' => array(
+        'app/code/Magento/Log/',
     ),
     'Mage_Media' => array(
         'app/code/Mage/Media/',
@@ -598,7 +598,7 @@ $CONFIG['helpers']  = array(
     'ideal'             => 'Mage_Ideal',
     'index'             => 'Magento_Index',
     'install'           => 'Magento_Install',
-    'log'               => 'Mage_Log',
+    'log'               => 'Magento_Log',
     'media'             => 'Mage_Media',
     'newsletter'        => 'Mage_Newsletter',
     'ogone'             => 'Mage_Ogone',

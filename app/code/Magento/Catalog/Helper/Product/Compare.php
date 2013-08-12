@@ -183,7 +183,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
             } elseif ($this->_customerId) {
                 $this->_itemCollection->setCustomerId($this->_customerId);
             } else {
-                $this->_itemCollection->setVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
+                $this->_itemCollection->setVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
             }
 
             $this->_itemCollection->setVisibility(
@@ -224,7 +224,7 @@ class Magento_Catalog_Helper_Product_Compare extends Magento_Core_Helper_Url
             } elseif ($this->_customerId) {
                 $collection->setCustomerId($this->_customerId);
             } else {
-                $collection->setVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
+                $collection->setVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
             }
 
             /* Price data is added to consider item stock status using price index */

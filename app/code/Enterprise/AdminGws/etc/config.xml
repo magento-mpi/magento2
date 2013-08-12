@@ -283,7 +283,7 @@
                     <mage_review_model_resource_review_collection>limitReviews</mage_review_model_resource_review_collection>
                     <magento_catalogSearch_model_resource_query_collection>addStoreFilter</magento_catalogSearch_model_resource_query_collection>
                     <enterprise_invitation_model_resource_invitation_collection>addStoreFilter</enterprise_invitation_model_resource_invitation_collection>
-                    <mage_log_model_resource_visitor_online_collection>limitOnlineCustomers</mage_log_model_resource_visitor_online_collection>
+                    <magento_log_model_resource_visitor_online_collection>limitOnlineCustomers</magento_log_model_resource_visitor_online_collection>
                     <enterprise_giftCardAccount_model_resource_giftcardaccount_collection>limitGiftCardAccounts</enterprise_giftCardAccount_model_resource_giftcardaccount_collection>
                     <enterprise_catalogEvent_model_resource_event_collection>limitCatalogEvents</enterprise_catalogEvent_model_resource_event_collection>
                     <enterprise_cms_model_resource_hierarchy_node_collection>addStoreFilter</enterprise_cms_model_resource_hierarchy_node_collection>

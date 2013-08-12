@@ -207,7 +207,7 @@ class Magento_Catalog_Model_Product_Compare_Item extends Magento_Core_Model_Abst
     public function getVisitorId()
     {
         if (!$this->hasData('visitor_id')) {
-            $visitorId = Mage::getSingleton('Mage_Log_Model_Visitor')->getId();
+            $visitorId = Mage::getSingleton('Magento_Log_Model_Visitor')->getId();
             $this->setData('visitor_id', $visitorId);
         }
         return $this->getData('visitor_id');

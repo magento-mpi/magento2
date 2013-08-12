@@ -185,7 +185,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Abstract
         $website = Mage::app()->getWebsite();
         if ($object instanceof Mage_Customer_Model_Customer) {
             if (!$object->getId()) {
-                $this->setVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
+                $this->setVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
             }
             return $this->validateCustomer($object, $website);
         }
@@ -225,7 +225,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Abstract
         }
         if (strpos($sql, ':quote_id')) {
             if (!$customerId) {
-                $params['quote_id'] = Mage::getModel('Mage_Log_Model_Visitor')
+                $params['quote_id'] = Mage::getModel('Magento_Log_Model_Visitor')
                     ->load($this->getVisitorId())->getQuoteId();
             } else {
                 $params['quote_id'] = 0;

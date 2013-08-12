@@ -32,7 +32,7 @@ class Mage_Backup_Model_Observer
     /**
      * Create Backup
      *
-     * @return Mage_Log_Model_Cron
+     * @return Magento_Log_Model_Cron
      */
     public function scheduledBackup()
     {

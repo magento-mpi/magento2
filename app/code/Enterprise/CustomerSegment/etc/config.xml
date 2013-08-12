@@ -21,7 +21,7 @@
                 <Magento_Catalog/>
                 <Magento_CatalogRule/>
                 <Mage_Rule/>
-                <Mage_Log/>
+                <Magento_Log/>
             </depends>
         </Enterprise_CustomerSegment>
     </modules>

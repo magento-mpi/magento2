@@ -177,7 +177,7 @@ class Enterprise_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstr
                 if ($segment->getApplyTo() == Enterprise_CustomerSegment_Model_Segment::APPLY_TO_REGISTERED) {
                     continue;
                 }
-                $segment->setVisitorId(Mage::getSingleton('Mage_Log_Model_Visitor')->getId());
+                $segment->setVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
             } else {
                 // Skip segment if it cannot be applied to customer
                 if ($segment->getApplyTo() == Enterprise_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {

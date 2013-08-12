@@ -99,7 +99,7 @@ abstract class Mage_Reports_Model_Resource_Product_Index_Collection_Abstract
         } elseif ($this->_customerId) {
             $condition['customer_id'] = $this->_customerId;
         } else {
-            $condition['visitor_id'] = Mage::getSingleton('Mage_Log_Model_Visitor')->getId();
+            $condition['visitor_id'] = Mage::getSingleton('Magento_Log_Model_Visitor')->getId();
         }
 
         return $condition;

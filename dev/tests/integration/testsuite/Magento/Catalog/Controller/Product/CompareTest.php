@@ -115,8 +115,8 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_Test_TestCa
 
     protected function _prepareCompareListWithProductNameXss()
     {
-        /** @var $visitor Mage_Log_Model_Visitor */
-        $visitor = Mage::getModel('Mage_Log_Model_Visitor');
+        /** @var $visitor Magento_Log_Model_Visitor */
+        $visitor = Mage::getModel('Magento_Log_Model_Visitor');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
             ->setLastVisitAt(now())
             ->save();
@@ -125,26 +125,26 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_Test_TestCa
         $item->setVisitorId($visitor->getId())
             ->setProductId(1)
             ->save();
-        Mage::getSingleton('Mage_Log_Model_Visitor')->load($visitor->getId());
+        Mage::getSingleton('Magento_Log_Model_Visitor')->load($visitor->getId());
     }
 
     protected function _requireVisitorWithNoProducts()
     {
-        /** @var $visitor Mage_Log_Model_Visitor */
-        $visitor = Mage::getModel('Mage_Log_Model_Visitor');
+        /** @var $visitor Magento_Log_Model_Visitor */
+        $visitor = Mage::getModel('Magento_Log_Model_Visitor');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
             ->setLastVisitAt(now())
             ->save();
 
-        Mage::getSingleton('Mage_Log_Model_Visitor')->load($visitor->getId());
+        Mage::getSingleton('Magento_Log_Model_Visitor')->load($visitor->getId());
 
         $this->_assertCompareListEquals(array());
     }
 
     protected function _requireVisitorWithTwoProducts()
     {
-        /** @var $visitor Mage_Log_Model_Visitor */
-        $visitor = Mage::getModel('Mage_Log_Model_Visitor');
+        /** @var $visitor Magento_Log_Model_Visitor */
+        $visitor = Mage::getModel('Magento_Log_Model_Visitor');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
             ->setLastVisitAt(now())
             ->save();
@@ -161,7 +161,7 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_Test_TestCa
             ->setProductId(2)
             ->save();
 
-        Mage::getSingleton('Mage_Log_Model_Visitor')->load($visitor->getId());
+        Mage::getSingleton('Magento_Log_Model_Visitor')->load($visitor->getId());
 
         $this->_assertCompareListEquals(array(1, 2));
     }
@@ -177,7 +177,7 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_Test_TestCa
         $compareItems = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Compare_Item_Collection');
         $compareItems->useProductItem(true); // important
         $compareItems->setVisitorId(
-            Mage::getSingleton('Mage_Log_Model_Visitor')->getId()
+            Mage::getSingleton('Magento_Log_Model_Visitor')->getId()
         );
         $actualProductIds = array();
         foreach ($compareItems as $compareItem) {
