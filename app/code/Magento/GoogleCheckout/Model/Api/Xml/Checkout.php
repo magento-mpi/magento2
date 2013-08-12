@@ -728,7 +728,7 @@ EOT;
                                         <tax-areas>
 
 EOT;
-                        if ($rate['country'] === Mage_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID) {
+                        if ($rate['country'] === Magento_Usa_Model_Shipping_Carrier_Abstract::USA_COUNTRY_ID) {
                             if (!empty($rate['postcode']) && $rate['postcode'] !== '*') {
                                 $rate['postcode'] = Mage::helper('Magento_GoogleCheckout_Helper_Data')
                                     ->zipRangeToZipPattern($rate['postcode']);
@@ -1078,41 +1078,41 @@ EOT;
             'ups' => array(
                 'googleCarrierCompany' => 'UPS',
                 'methods' => array(
-                    'GND' => Mage::helper('Mage_Usa_Helper_Data')->__('Ground'),
-                    '1DA' => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air'),
-                    '1DM' => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air Early AM'),
-                    '1DP' => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air Saver'),
-                    '2DA' => Mage::helper('Mage_Usa_Helper_Data')->__('2nd Day Air'),
-                    '2DM' => Mage::helper('Mage_Usa_Helper_Data')->__('2nd Day Air AM'),
-                    '3DS' => Mage::helper('Mage_Usa_Helper_Data')->__('3 Day Select'),
-                    '03'  => Mage::helper('Mage_Usa_Helper_Data')->__('Ground'),
-                    '01'  => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air'),
-                    '14'  => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air Early AM'),
-                    '13'  => Mage::helper('Mage_Usa_Helper_Data')->__('Next Day Air Saver'),
-                    '02'  => Mage::helper('Mage_Usa_Helper_Data')->__('2nd Day Air'),
-                    '59'  => Mage::helper('Mage_Usa_Helper_Data')->__('2nd Day Air AM'),
-                    '12'  => Mage::helper('Mage_Usa_Helper_Data')->__('3 Day Select')
+                    'GND' => Mage::helper('Magento_Usa_Helper_Data')->__('Ground'),
+                    '1DA' => Mage::helper('Magento_Usa_Helper_Data')->__('Next Day Air'),
+                    '1DM' => Mage::helper('Magento_Usa_Helper_Data')->__('Next Day Air Early AM'),
+                    '1DP' => Mage::helper('Magento_Usa_Helper_Data')->__('Next Day Air Saver'),
+                    '2DA' => Mage::helper('Magento_Usa_Helper_Data')->__('2nd Day Air'),
+                    '2DM' => Mage::helper('Magento_Usa_Helper_Data')->__('2nd Day Air AM'),
+                    '3DS' => Mage::helper('Magento_Usa_Helper_Data')->__('3 Day Select'),
+                    '03'  => Mage::helper('Magento_Usa_Helper_Data')->__('Ground'),
+                    '01'  => Mage::helper('Magento_Usa_Helper_Data')->__('Next Day Air'),
+                    '14'  => Mage::helper('Magento_Usa_Helper_Data')->__('Next Day Air Early AM'),
+                    '13'  => Mage::helper('Magento_Usa_Helper_Data')->__('Next Day Air Saver'),
+                    '02'  => Mage::helper('Magento_Usa_Helper_Data')->__('2nd Day Air'),
+                    '59'  => Mage::helper('Magento_Usa_Helper_Data')->__('2nd Day Air AM'),
+                    '12'  => Mage::helper('Magento_Usa_Helper_Data')->__('3 Day Select')
                 )
             ),
             'usps' => array(
                 'googleCarrierCompany' => 'USPS',
                 'methods' => array(
-                    'Express Mail'  => Mage::helper('Mage_Usa_Helper_Data')->__('Express Mail'),
-                    'Priority Mail' => Mage::helper('Mage_Usa_Helper_Data')->__('Priority Mail'),
-                    'Parcel Post'   => Mage::helper('Mage_Usa_Helper_Data')->__('Parcel Post'),
-                    'Media Mail'    => Mage::helper('Mage_Usa_Helper_Data')->__('Media Mail')
+                    'Express Mail'  => Mage::helper('Magento_Usa_Helper_Data')->__('Express Mail'),
+                    'Priority Mail' => Mage::helper('Magento_Usa_Helper_Data')->__('Priority Mail'),
+                    'Parcel Post'   => Mage::helper('Magento_Usa_Helper_Data')->__('Parcel Post'),
+                    'Media Mail'    => Mage::helper('Magento_Usa_Helper_Data')->__('Media Mail')
                 )
             ),
             'fedex' => array(
                 'googleCarrierCompany' => 'FedEx',
                 'methods' => array(
-                    'FEDEX_GROUND'        => Mage::helper('Mage_Usa_Helper_Data')->__('Ground'),
-                    'GROUND_HOME_DELIVERY' => Mage::helper('Mage_Usa_Helper_Data')->__('Home Delivery'),
-                    'FEDEX_EXPRESS_SAVER'  => Mage::helper('Mage_Usa_Helper_Data')->__('Express Saver'),
-                    'FIRST_OVERNIGHT'     => Mage::helper('Mage_Usa_Helper_Data')->__('First Overnight'),
-                    'PRIORITY_OVERNIGHT'  => Mage::helper('Mage_Usa_Helper_Data')->__('Priority Overnight'),
-                    'STANDARD_OVERNIGHT'  => Mage::helper('Mage_Usa_Helper_Data')->__('Standard Overnight'),
-                    'FEDEX_2_DAY'          => Mage::helper('Mage_Usa_Helper_Data')->__('2Day')
+                    'FEDEX_GROUND'        => Mage::helper('Magento_Usa_Helper_Data')->__('Ground'),
+                    'GROUND_HOME_DELIVERY' => Mage::helper('Magento_Usa_Helper_Data')->__('Home Delivery'),
+                    'FEDEX_EXPRESS_SAVER'  => Mage::helper('Magento_Usa_Helper_Data')->__('Express Saver'),
+                    'FIRST_OVERNIGHT'     => Mage::helper('Magento_Usa_Helper_Data')->__('First Overnight'),
+                    'PRIORITY_OVERNIGHT'  => Mage::helper('Magento_Usa_Helper_Data')->__('Priority Overnight'),
+                    'STANDARD_OVERNIGHT'  => Mage::helper('Magento_Usa_Helper_Data')->__('Standard Overnight'),
+                    'FEDEX_2_DAY'          => Mage::helper('Magento_Usa_Helper_Data')->__('2Day')
                 )
             )
         );

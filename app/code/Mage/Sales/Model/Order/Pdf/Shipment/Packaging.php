@@ -101,7 +101,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
 
             $package = new Magento_Object($package);
             $params = new Magento_Object($package->getParams());
-            $dimensionUnits = Mage::helper('Mage_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits());
+            $dimensionUnits = Mage::helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getDimensionUnits());
 
             $typeText = Mage::helper('Mage_Sales_Helper_Data')->__('Type') . ' : '
                 . $packaging->getContainerTypeByCode($params->getContainer());
@@ -153,7 +153,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
             $this->y = $this->y - 10;
 
             $weightText = Mage::helper('Mage_Sales_Helper_Data')->__('Total Weight') . ' : ' . $params->getWeight() .' '
-                . Mage::helper('Mage_Usa_Helper_Data')->getMeasureWeightName($params->getWeightUnits());
+                . Mage::helper('Magento_Usa_Helper_Data')->getMeasureWeightName($params->getWeightUnits());
             $page->drawText($weightText, 35, $this->y , 'UTF-8');
 
             if ($params->getHeight() != null) {
@@ -171,7 +171,7 @@ class Mage_Sales_Model_Order_Pdf_Shipment_Packaging extends Mage_Sales_Model_Ord
                 $page->drawText($sizeText, 35, $this->y , 'UTF-8');
             }
             if ($params->getGirth() != null) {
-                $dimensionGirthUnits = Mage::helper('Mage_Usa_Helper_Data')->getMeasureDimensionName($params->getGirthDimensionUnits());
+                $dimensionGirthUnits = Mage::helper('Magento_Usa_Helper_Data')->getMeasureDimensionName($params->getGirthDimensionUnits());
                 $girthText = Mage::helper('Mage_Sales_Helper_Data')->__('Girth')
                              . ' : ' . $params->getGirth() . ' ' . $dimensionGirthUnits;
                 $page->drawText($girthText, 200, $this->y , 'UTF-8');

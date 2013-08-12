@@ -322,8 +322,8 @@ $CONFIG['translates'] = array(
     'Mage_Tax' => array(
         'app/code/Mage/Tax/',
     ),
-    'Mage_Usa' => array(
-        'app/code/Mage/Usa/',
+    'Magento_Usa' => array(
+        'app/code/Magento/Usa/',
     ),
     'Mage_Weee' => array(
         'app/code/Mage/Weee/',
@@ -627,7 +627,7 @@ $CONFIG['helpers']  = array(
     'strikeiron'        => 'Mage_Strikeiron',
     'tag'               => 'Mage_Tag',
     'tax'               => 'Mage_Tax',
-    'usa'               => 'Mage_Usa',
+    'usa'               => 'Magento_Usa',
     'weee'              => 'Mage_Weee',
     'wishlist'          => 'Mage_Wishlist',
     'widget'            => 'Mage_Widget',

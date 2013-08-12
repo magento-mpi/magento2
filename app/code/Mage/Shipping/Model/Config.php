@@ -66,7 +66,7 @@ class Mage_Shipping_Model_Config extends Magento_Object
      *
      * @param   string $carrierCode
      * @param   mixed $store
-     * @return  Mage_Usa_Model_Shipping_Carrier_Abstract
+     * @return  Magento_Usa_Model_Shipping_Carrier_Abstract
      */
     public function getCarrierInstance($carrierCode, $store = null)
     {

@@ -353,7 +353,7 @@ class Enterprise_Rma_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param string $code Shipping method code
      * @param mixed $storeId
-     * @return false|Mage_Usa_Model_Shipping_Carrier_Abstract
+     * @return false|Magento_Usa_Model_Shipping_Carrier_Abstract
      */
     public function getCarrier($code, $storeId = null)
     {

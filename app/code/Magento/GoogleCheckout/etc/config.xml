@@ -17,7 +17,7 @@
             <depends>
                 <Mage_Sales/>
                 <Mage_Payment/>
-                <Mage_Usa/>
+                <Magento_Usa/>
             </depends>
         </Magento_GoogleCheckout>
     </modules>

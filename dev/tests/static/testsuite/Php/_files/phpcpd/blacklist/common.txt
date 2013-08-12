@@ -63,7 +63,7 @@ Mage/Sales/Model/Quote/Address/Total
 Mage/Sales/Model/Resource/Report/Order
 Magento/CatalogRule/Model
 Mage/Tax/Model/Sales/Pdf
-Mage/Usa/Model/Shipping/Carrier
+Magento/Usa/Model/Shipping/Carrier
 Mage/Webapi/Model
 Mage/Wishlist/Model
 lib/Magento/Archive
