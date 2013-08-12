@@ -108,7 +108,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
     /**
      * Create new image for product and return image filename
      *
-     * @throws Mage_Api_Exception
+     * @throws Magento_Api_Exception
      * @param int|string $productId
      * @param array $data
      * @param string|int $store

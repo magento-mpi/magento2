@@ -18,7 +18,7 @@
 
 class Mage_Checkout_Model_Cart_Api extends Mage_Checkout_Model_Api_Resource
 {
-    public function __construct(Mage_Api_Helper_Data $apiHelper)
+    public function __construct(Magento_Api_Helper_Data $apiHelper)
     {
         parent::__construct($apiHelper);
         $this->_storeIdSessionField = "cart_store_id";

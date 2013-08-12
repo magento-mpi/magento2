@@ -15,7 +15,7 @@
  * @package    Mage_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Checkout_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
+class Mage_Checkout_Model_Api_Resource extends Magento_Api_Model_Resource_Abstract
 {
     /**
      * Attributes map array per entity type
@@ -42,15 +42,15 @@ class Mage_Checkout_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
      */
     protected $_storeIdSessionField = 'store_id';
 
-    /** @var Mage_Api_Helper_Data */
+    /** @var Magento_Api_Helper_Data */
     protected $_apiHelper;
 
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Api_Helper_Data $apiHelper
+     * @param Magento_Api_Helper_Data $apiHelper
      */
-    public function __construct(Mage_Api_Helper_Data $apiHelper)
+    public function __construct(Magento_Api_Helper_Data $apiHelper)
     {
         $this->_apiHelper = $apiHelper;
     }
@@ -69,7 +69,7 @@ class Mage_Checkout_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
 
         try {
             $quote = $this->_getQuote($quoteId);
-        } catch (Mage_Api_Exception $e) {
+        } catch (Magento_Api_Exception $e) {
             return false;
         }
 

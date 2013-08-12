@@ -15,7 +15,7 @@
  * @package     Mage_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Downloadable_Model_Link_Api_Validator //extends Mage_Api_Model_Resource_Abstract
+class Mage_Downloadable_Model_Link_Api_Validator //extends Magento_Api_Model_Resource_Abstract
 {
     /**
      * Acceptable resourceTypes array

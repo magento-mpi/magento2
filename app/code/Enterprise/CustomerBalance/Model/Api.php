@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Enterprise_CustomerBalance_Model_Api extends Mage_Api_Model_Resource_Abstract
+class Enterprise_CustomerBalance_Model_Api extends Magento_Api_Model_Resource_Abstract
 {
     /**
      * Retrieve customer store credit balance information

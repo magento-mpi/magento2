@@ -57,7 +57,7 @@
                 <directory>../app/code/Magento/Adminhtml/Block</directory>
                 <directory>../app/code/Magento/Install</directory>
                 <directory>../app/code/Magento/Reports</directory>
-                <directory>../app/code/Mage/Api/Model/Acl/Assert</directory>
+                <directory>../app/code/Magento/Api/Model/Acl/Assert</directory>
                 <directory>../app/code/Magento/Index</directory>
                 <directory>../app/code/Mage/Cybersource</directory>
                 <file>../app/code/Mage/Captcha/Model/Captcha.php</file>

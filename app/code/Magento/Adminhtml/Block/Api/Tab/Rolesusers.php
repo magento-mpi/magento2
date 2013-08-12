@@ -16,7 +16,7 @@ class Magento_Adminhtml_Block_Api_Tab_Rolesusers extends Magento_Adminhtml_Block
 
         $roleId = $this->getRequest()->getParam('rid', false);
 
-        $users = Mage::getModel('Mage_Api_Model_User')->getCollection()->load();
+        $users = Mage::getModel('Magento_Api_Model_User')->getCollection()->load();
         $this->setTemplate('api/rolesusers.phtml')
             ->assign('users', $users->getItems())
             ->assign('roleId', $roleId);

@@ -20,7 +20,7 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
     /**
      * Initialize attributes map
      */
-    public function __construct(Mage_Api_Helper_Data $apiHelper)
+    public function __construct(Magento_Api_Helper_Data $apiHelper)
     {
         parent::__construct($apiHelper);
         $this->_attributesMap = array(
@@ -49,8 +49,8 @@ class Mage_Sales_Model_Order_Invoice_Api extends Mage_Sales_Model_Api_Resource
             ->addAttributeToSelect('grand_total')
             ->addAttributeToSelect('order_currency_code');
 
-        /** @var $apiHelper Mage_Api_Helper_Data */
-        $apiHelper = Mage::helper('Mage_Api_Helper_Data');
+        /** @var $apiHelper Magento_Api_Helper_Data */
+        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
         try {
             $filters = $apiHelper->parseFilters($filters, $this->_attributesMap['invoice']);
             foreach ($filters as $field => $value) {

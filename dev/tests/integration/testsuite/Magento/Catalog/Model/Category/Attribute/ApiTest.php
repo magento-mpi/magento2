@@ -74,7 +74,7 @@ class Magento_Catalog_Model_Category_Attribute_ApiTest extends PHPUnit_Framework
     }
 
     /**
-     * @expectedException Mage_Api_Exception
+     * @expectedException Magento_Api_Exception
      */
     public function testFault()
     {

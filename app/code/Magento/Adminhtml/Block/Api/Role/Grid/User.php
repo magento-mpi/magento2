@@ -54,7 +54,7 @@ class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block
     {
         $roleId = $this->getRequest()->getParam('rid');
         Mage::register('RID', $roleId);
-        $collection = Mage::getModel('Mage_Api_Model_Roles')->getUsersCollection();
+        $collection = Mage::getModel('Magento_Api_Model_Roles')->getUsersCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -144,7 +144,7 @@ class Magento_Adminhtml_Block_Api_Role_Grid_User extends Magento_Adminhtml_Block
             return $this->getRequest()->getParam('in_role_user');
         }
         $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ? $this->getRequest()->getParam('rid') : Mage::registry('RID');
-        $users  = Mage::getModel('Mage_Api_Model_Roles')->setId($roleId)->getRoleUsers();
+        $users  = Mage::getModel('Magento_Api_Model_Roles')->setId($roleId)->getRoleUsers();
         if (sizeof($users) > 0) {
             if ( $json ) {
                 $jsonUsers = Array();

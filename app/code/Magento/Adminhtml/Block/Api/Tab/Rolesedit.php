@@ -18,9 +18,9 @@ class Magento_Adminhtml_Block_Api_Tab_Rolesedit extends Magento_Adminhtml_Block_
 
         $rid = Mage::app()->getRequest()->getParam('rid', false);
 
-        $resources = Mage::getModel('Mage_Api_Model_Roles')->getResourcesList();
+        $resources = Mage::getModel('Magento_Api_Model_Roles')->getResourcesList();
 
-        $rules_set = Mage::getResourceModel('Mage_Api_Model_Resource_Rules_Collection')->getByRoles($rid)->load();
+        $rules_set = Mage::getResourceModel('Magento_Api_Model_Resource_Rules_Collection')->getByRoles($rid)->load();
 
         $selrids = array();
 
@@ -57,7 +57,7 @@ class Magento_Adminhtml_Block_Api_Tab_Rolesedit extends Magento_Adminhtml_Block_
      */
     public function getTree()
     {
-        $resource = Mage::getModel('Mage_Api_Model_Roles')->getResourcesTree();
+        $resource = Mage::getModel('Magento_Api_Model_Roles')->getResourcesTree();
         $rootArray = $this->_mapResources($resource);
         return $rootArray['children'];
     }

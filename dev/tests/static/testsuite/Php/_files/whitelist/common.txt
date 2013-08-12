@@ -19,7 +19,7 @@ app/code/Magento/Adminhtml/Controller/Report/Customer.php
 app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Report/Product.php
 app/code/Magento/Adminhtml/Controller/Urlrewrite.php
-app/code/Mage/Api/Model/Cache/Type.php
+app/code/Magento/Api/Model/Cache/Type.php
 app/code/Mage/Backend
 app/code/Mage/Cardgate
 app/code/Magento/Catalog/Block/Product/Configurable

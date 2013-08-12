@@ -13,7 +13,7 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('Mage_Api::system_legacy_api_users')
+            ->_setActiveMenu('Magento_Api::system_legacy_api_users')
             ->_addBreadcrumb($this->__('Web Services'), $this->__('Web Services'))
             ->_addBreadcrumb($this->__('Permissions'), $this->__('Permissions'))
             ->_addBreadcrumb($this->__('Users'), $this->__('Users'))
@@ -39,7 +39,7 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
         $this->_title($this->__('Users'));
 
         $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('Mage_Api_Model_User');
+        $model = Mage::getModel('Magento_Api_Model_User');
 
         if ($id) {
             $model->load($id);
@@ -78,7 +78,7 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
     {
         if ($data = $this->getRequest()->getPost()) {
             $id = $this->getRequest()->getPost('user_id', false);
-            $model = Mage::getModel('Mage_Api_Model_User')->load($id);
+            $model = Mage::getModel('Magento_Api_Model_User')->load($id);
             if (!$model->getId() && $id) {
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($this->__('This user no longer exists.'));
                 $this->_redirect('*/*/');
@@ -121,7 +121,7 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
         if ($id = $this->getRequest()->getParam('user_id')) {
 
             try {
-                $model = Mage::getModel('Mage_Api_Model_User')->load($id);
+                $model = Mage::getModel('Magento_Api_Model_User')->load($id);
                 $model->delete();
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess($this->__('You deleted the user.'));
                 $this->_redirect('*/*/');
@@ -140,7 +140,7 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
     public function rolesGridAction()
     {
         $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('Mage_Api_Model_User');
+        $model = Mage::getModel('Magento_Api_Model_User');
 
         if ($id) {
             $model->load($id);
@@ -160,7 +160,7 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Api::users');
+        return $this->_authorization->isAllowed('Magento_Api::users');
     }
 
 }

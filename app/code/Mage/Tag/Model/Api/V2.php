@@ -28,7 +28,7 @@ class Mage_Tag_Model_Api_V2 extends Mage_Tag_Model_Api
     {
         $result = parent::items($productId, $store);
         foreach ($result as $key => $tag) {
-            $result[$key] = Mage::helper('Mage_Api_Helper_Data')->wsiArrayPacker($tag);
+            $result[$key] = Mage::helper('Magento_Api_Helper_Data')->wsiArrayPacker($tag);
         }
         return array_values($result);
     }
@@ -60,7 +60,7 @@ class Mage_Tag_Model_Api_V2 extends Mage_Tag_Model_Api
     public function info($tagId, $store)
     {
         $result = parent::info($tagId, $store);
-        $result = Mage::helper('Mage_Api_Helper_Data')->wsiArrayPacker($result);
+        $result = Mage::helper('Magento_Api_Helper_Data')->wsiArrayPacker($result);
         foreach ($result->products as $key => $value) {
             $result->products[$key] = array('key' => $key, 'value' => $value);
         }
@@ -75,7 +75,7 @@ class Mage_Tag_Model_Api_V2 extends Mage_Tag_Model_Api
      */
     protected function _prepareDataForAdd($data)
     {
-        Mage::helper('Mage_Api_Helper_Data')->toArray($data);
+        Mage::helper('Magento_Api_Helper_Data')->toArray($data);
         return parent::_prepareDataForAdd($data);
     }
 
@@ -87,7 +87,7 @@ class Mage_Tag_Model_Api_V2 extends Mage_Tag_Model_Api
      */
     protected function _prepareDataForUpdate($data)
     {
-        Mage::helper('Mage_Api_Helper_Data')->toArray($data);
+        Mage::helper('Magento_Api_Helper_Data')->toArray($data);
         return parent::_prepareDataForUpdate($data);
     }
 }

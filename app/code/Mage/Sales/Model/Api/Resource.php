@@ -15,7 +15,7 @@
  * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
+class Mage_Sales_Model_Api_Resource extends Magento_Api_Model_Resource_Abstract
 {
     /**
      * Default ignored attribute codes per entity type
@@ -35,15 +35,15 @@ class Mage_Sales_Model_Api_Resource extends Mage_Api_Model_Resource_Abstract
         'global'    => array()
     );
 
-    /** @var Mage_Api_Helper_Data */
+    /** @var Magento_Api_Helper_Data */
     protected $_apiHelper;
 
     /**
      * Initialize dependencies.
      *
-     * @param Mage_Api_Helper_Data $apiHelper
+     * @param Magento_Api_Helper_Data $apiHelper
      */
-    public function __construct(Mage_Api_Helper_Data $apiHelper)
+    public function __construct(Magento_Api_Helper_Data $apiHelper)
     {
         $this->_apiHelper = $apiHelper;
     }

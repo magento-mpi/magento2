@@ -77,8 +77,8 @@ class Magento_Catalog_Model_Product_Api extends Magento_Catalog_Model_Api_Resour
             ->addStoreFilter($this->_getStoreId($store))
             ->addAttributeToSelect('name');
 
-        /** @var $apiHelper Mage_Api_Helper_Data */
-        $apiHelper = Mage::helper('Mage_Api_Helper_Data');
+        /** @var $apiHelper Magento_Api_Helper_Data */
+        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
         $filters = $apiHelper->parseFilters($filters, $this->_filtersMap);
         try {
             foreach ($filters as $field => $value) {
@@ -487,7 +487,7 @@ class Magento_Catalog_Model_Product_Api extends Magento_Catalog_Model_Api_Resour
      * Check if product type exists
      *
      * @param  $productType
-     * @throw Mage_Api_Exception
+     * @throw Magento_Api_Exception
      * @return void
      */
     protected function _checkProductTypeExists($productType)
@@ -501,7 +501,7 @@ class Magento_Catalog_Model_Product_Api extends Magento_Catalog_Model_Api_Resour
      * Check if attributeSet is exits and in catalog_product entity group type
      *
      * @param  $attributeSetId
-     * @throw Mage_Api_Exception
+     * @throw Magento_Api_Exception
      * @return void
      */
     protected function _checkProductAttributeSet($attributeSetId)

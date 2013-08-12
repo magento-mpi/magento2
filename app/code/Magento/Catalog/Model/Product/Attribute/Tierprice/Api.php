@@ -82,7 +82,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api extends Magento_Cata
             }
 
             $product->save();
-        } catch (Mage_Api_Exception $e) {
+        } catch (Magento_Api_Exception $e) {
             throw $e;
         }catch (Magento_Core_Exception $e) {
             $this->_fault('not_updated', $e->getMessage());

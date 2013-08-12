@@ -112,7 +112,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Fram
 
     /**
      * @dataProvider createFaultDataProvider
-     * @expectedException Mage_Api_Exception
+     * @expectedException Magento_Api_Exception
      */
     public function testCreateFault($data)
     {
@@ -135,7 +135,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Fram
 
     /**
      * @depends testItemsAndInfo
-     * @expectedException Mage_Api_Exception
+     * @expectedException Magento_Api_Exception
      */
     public function testRemove($file)
     {

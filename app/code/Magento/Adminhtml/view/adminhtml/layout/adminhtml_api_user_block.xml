@@ -13,7 +13,7 @@
             <block type="Mage_Backend_Block_Widget_Grid" name='adminhtml.api.user.grid' as='grid'>
                 <arguments>
                     <id>permissionsUserGrid</id>
-                    <dataSource type="object">Mage_Api_Model_Resource_User_Collection</dataSource>
+                    <dataSource type="object">Magento_Api_Model_Resource_User_Collection</dataSource>
                     <default_sort>username</default_sort>
                     <default_dir>asc</default_dir>
                     <use_ajax>1</use_ajax>
@@ -70,7 +70,7 @@
                             <header translate='true' module='Magento_Adminhtml'>Status</header>
                             <index>is_active</index>
                             <type>options</type>
-                            <options type="options">Mage_Api_Model_Resource_User_Options_Statuses</options>
+                            <options type="options">Magento_Api_Model_Resource_User_Options_Statuses</options>
                         </arguments>
                     </block>
                 </block>

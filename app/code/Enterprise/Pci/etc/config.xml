@@ -17,7 +17,7 @@
             <depends>
                 <Magento_Adminhtml />
                 <Mage_Customer />
-                <Mage_Api />
+                <Magento_Api />
             </depends>
         </Enterprise_Pci>
     </modules>

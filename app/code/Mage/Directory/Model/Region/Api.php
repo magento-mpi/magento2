@@ -15,7 +15,7 @@
  * @package    Mage_Directory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Directory_Model_Region_Api extends Mage_Api_Model_Resource_Abstract
+class Mage_Directory_Model_Region_Api extends Magento_Api_Model_Resource_Abstract
 {
     /**
      * Retrieve regions list

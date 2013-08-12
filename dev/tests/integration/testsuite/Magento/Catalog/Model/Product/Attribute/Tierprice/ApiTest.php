@@ -47,7 +47,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_ApiTest extends PHPUnit_
     }
 
     /**
-     * @expectedException Mage_Api_Exception
+     * @expectedException Magento_Api_Exception
      */
     public function testPrepareTierPricesInvalidData()
     {

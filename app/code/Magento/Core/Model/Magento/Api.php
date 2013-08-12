@@ -15,7 +15,7 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Magento_Api extends Mage_Api_Model_Resource_Abstract
+class Magento_Core_Model_Magento_Api extends Magento_Api_Model_Resource_Abstract
 {
     /**
      * Retrieve information about current Magento installation

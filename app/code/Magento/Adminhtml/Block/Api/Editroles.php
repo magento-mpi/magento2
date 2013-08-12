@@ -20,7 +20,7 @@ class Magento_Adminhtml_Block_Api_Editroles extends Magento_Adminhtml_Block_Widg
     protected function _beforeToHtml()
     {
         $roleId = $this->getRequest()->getParam('rid', false);
-        $role = Mage::getModel('Mage_Api_Model_Roles')
+        $role = Mage::getModel('Magento_Api_Model_Roles')
            ->load($roleId);
 
         $this->addTab('info', array(

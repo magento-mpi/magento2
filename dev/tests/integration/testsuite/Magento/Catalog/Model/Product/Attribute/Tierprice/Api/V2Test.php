@@ -25,7 +25,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2Test extends PHPUn
     }
 
     /**
-     * @expectedException Mage_Api_Exception
+     * @expectedException Magento_Api_Exception
      */
     public function testPrepareTierPricesInvalidData()
     {

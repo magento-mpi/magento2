@@ -99,8 +99,8 @@ class Mage_Customer_Model_Customer_Api extends Mage_Customer_Model_Api_Resource
     public function items($filters)
     {
         $collection = Mage::getModel('Mage_Customer_Model_Customer')->getCollection()->addAttributeToSelect('*');
-        /** @var $apiHelper Mage_Api_Helper_Data */
-        $apiHelper = Mage::helper('Mage_Api_Helper_Data');
+        /** @var $apiHelper Magento_Api_Helper_Data */
+        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
         $filters = $apiHelper->parseFilters($filters, $this->_mapAttributes);
         try {
             foreach ($filters as $field => $value) {

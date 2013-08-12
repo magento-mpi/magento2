@@ -15,7 +15,7 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Set_Api extends Mage_Api_Model_Resource_Abstract
+class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_Resource_Abstract
 {
     /**
      * Retrieve attribute set list

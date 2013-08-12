@@ -190,7 +190,7 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
         foreach ($productIds as $index => $productId) {
             try {
                 $this->update($productId, $productData[$index], $store, $identifierType);
-            } catch (Mage_Api_Exception $e) {
+            } catch (Magento_Api_Exception $e) {
                 $failMessages[] = sprintf("Product ID %d:\n %s", $productId, $e->getMessage());
             }
         }
@@ -286,8 +286,8 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
              $product->setData(Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2::ATTRIBUTE_CODE, $tierPrices);
         }
 
-        /** @var $helper Mage_Api_Helper_Data */
-        $helper = Mage::helper('Mage_Api_Helper_Data');
+        /** @var $helper Magento_Api_Helper_Data */
+        $helper = Mage::helper('Magento_Api_Helper_Data');
         $helper->v2AssociativeArrayUnpacker($productData);
         $helper->toArray($productData);
         $this->_prepareConfigurableAttributes($product, $productData);
