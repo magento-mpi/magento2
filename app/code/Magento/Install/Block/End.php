@@ -40,10 +40,10 @@ class Magento_Install_Block_End extends Magento_Install_Block_Abstract
      */
     public function getIframeSourceUrl()
     {
-        if (!Mage_AdminNotification_Model_Survey::isSurveyUrlValid()
+        if (!Magento_AdminNotification_Model_Survey::isSurveyUrlValid()
             || Mage::getSingleton('Magento_Install_Model_Installer')->getHideIframe()) {
             return null;
         }
-        return Mage_AdminNotification_Model_Survey::getSurveyUrl();
+        return Magento_AdminNotification_Model_Survey::getSurveyUrl();
     }
 }

@@ -8,7 +8,7 @@
  * @license   {license_link}
  */
 class Saas_Index_Model_System_Message_Decorator_IndexOutdated
-    implements Mage_AdminNotification_Model_System_MessageInterface
+    implements Magento_AdminNotification_Model_System_MessageInterface
 {
     /**
      * @var Magento_Index_Model_System_Message_IndexOutdated

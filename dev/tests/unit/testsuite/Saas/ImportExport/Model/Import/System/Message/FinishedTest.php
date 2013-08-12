@@ -62,7 +62,7 @@ class Saas_ImportExport_Model_Import_System_Message_FinishedTest extends PHPUnit
     public function testGetSeverity()
     {
         $this->assertEquals(
-            Mage_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR,
+            Magento_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR,
             $this->_model->getSeverity()
         );
     }

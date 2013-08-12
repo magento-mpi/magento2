@@ -734,7 +734,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
     public static function getCompositeModules()
     {
         return array(
-            'adminnotification' => 'Mage_AdminNotification',
+            'adminnotification' => 'Magento_AdminNotification',
             'catalogindex'      => 'Magento_CatalogIndex',
             'cataloginventory'  => 'Magento_CatalogInventory',
             'catalogrule'       => 'Magento_CatalogRule',

@@ -293,7 +293,7 @@ class Magento_GoogleShopping_Model_MassOperations
      */
     protected function _getNotifier()
     {
-        return Mage::getModel('Mage_AdminNotification_Model_Inbox');
+        return Mage::getModel('Magento_AdminNotification_Model_Inbox');
     }
 
     /**

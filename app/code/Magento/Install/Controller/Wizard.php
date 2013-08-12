@@ -423,7 +423,7 @@ class Magento_Install_Controller_Wizard extends Magento_Install_Controller_Actio
 
         $this->_getInstaller()->finish();
 
-        Mage_AdminNotification_Model_Survey::saveSurveyViewed(true);
+        Magento_AdminNotification_Model_Survey::saveSurveyViewed(true);
 
         $this->_prepareLayout();
         $this->_initLayoutMessages('Magento_Install_Model_Session');

@@ -16,8 +16,8 @@ $CONFIG['paths'] = array(
 );
 
 $CONFIG['translates'] = array(
-    'Mage_AdminNotification' => array(
-        'app/code/Mage/AdminNotification/',
+    'Magento_AdminNotification' => array(
+        'app/code/Magento/AdminNotification/',
     ),
     'Mage_Backup' => array(
         'app/code/Mage/Backup/',
@@ -561,7 +561,7 @@ $CONFIG['translates'] = array(
 
 $CONFIG['helpers']  = array(
     'adminhtml'         => 'Magento_Adminhtml',
-    'adminnotification' => 'Mage_AdminNotification',
+    'adminnotification' => 'Magento_AdminNotification',
     'api'               => 'Magento_Api',
     'webapi'              => 'Mage_Webapi',
     'oauth'             => 'Magento_Oauth',

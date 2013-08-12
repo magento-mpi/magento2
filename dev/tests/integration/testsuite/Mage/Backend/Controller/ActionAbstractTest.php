@@ -67,8 +67,8 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Backend_Utility_Co
      */
     public function testAclInNodes($blockName, $resource, $isLimitedAccess)
     {
-        /** @var $noticeInbox Mage_AdminNotification_Model_Inbox */
-        $noticeInbox = Mage::getModel('Mage_AdminNotification_Model_Inbox');
+        /** @var $noticeInbox Magento_AdminNotification_Model_Inbox */
+        $noticeInbox = Mage::getModel('Magento_AdminNotification_Model_Inbox');
         if (!$noticeInbox->loadLatestNotice()->getId()) {
             $noticeInbox->addCritical('Test notice', 'Test description');
         }
@@ -102,8 +102,8 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Backend_Utility_Co
     public function nodesWithAcl()
     {
         return array(
-            array('notification_window', 'Mage_AdminNotification::show_toolbar', true),
-            array('notification_window', 'Mage_AdminNotification::show_toolbar', false),
+            array('notification_window', 'Magento_AdminNotification::show_toolbar', true),
+            array('notification_window', 'Magento_AdminNotification::show_toolbar', false),
         );
     }
 }

@@ -18,7 +18,7 @@
                 <Magento_Cms />
                 <Magento_Install />
                 <Magento_Adminhtml />
-                <Mage_AdminNotification />
+                <Magento_AdminNotification />
                 <Mage_Widget />
             </depends>
         </Enterprise_Enterprise>

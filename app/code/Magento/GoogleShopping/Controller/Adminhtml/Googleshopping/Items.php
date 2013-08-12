@@ -110,7 +110,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
 
         $storeId = $this->_getStore()->getId();
         $productIds = $this->getRequest()->getParam('product', null);
-        $notifier = Mage::getModel('Mage_AdminNotification_Model_Inbox');
+        $notifier = Mage::getModel('Magento_AdminNotification_Model_Inbox');
 
         try {
             $flag->lock();
@@ -165,7 +165,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
             return;
         } catch (Exception $e) {
             $flag->unlock();
-            Mage::getModel('Mage_AdminNotification_Model_Inbox')->addMajor(
+            Mage::getModel('Magento_AdminNotification_Model_Inbox')->addMajor(
                 Mage::helper('Magento_GoogleShopping_Helper_Data')->__('An error has occurred while deleting products from google shopping account.'),
                 Mage::helper('Magento_GoogleShopping_Helper_Data')->__('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );
@@ -205,7 +205,7 @@ class Magento_GoogleShopping_Controller_Adminhtml_Googleshopping_Items extends M
             return;
         } catch (Exception $e) {
             $flag->unlock();
-            Mage::getModel('Mage_AdminNotification_Model_Inbox')->addMajor(
+            Mage::getModel('Magento_AdminNotification_Model_Inbox')->addMajor(
                 Mage::helper('Magento_GoogleShopping_Helper_Data')->__('An error has occurred while deleting products from google shopping account.'),
                 Mage::helper('Magento_GoogleShopping_Helper_Data')->__('One or more products were not deleted from google shopping account. Refer to the log file for details.')
             );

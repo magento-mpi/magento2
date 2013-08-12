@@ -59,7 +59,7 @@ class Integrity_Modular_BlockInstantiationTest extends Magento_Test_TestCase_Int
             // Fails only in SAAS, could be something wrong list of classes being deleted
             'Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit',
             'Magento_Adminhtml_Block_Sales_Order_Invoice_View',
-            'Mage_AdminNotification_Block_Window',
+            'Magento_AdminNotification_Block_Window',
             'Saas_Launcher_Block_Adminhtml_Storelauncher_Payments_Drawer',
             'Saas_Launcher_Block_Adminhtml_Storelauncher_WelcomeScreen',
         );

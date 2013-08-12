@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Saas_Index_Model_System_Message_IndexRefreshed implements Mage_AdminNotification_Model_System_MessageInterface
+class Saas_Index_Model_System_Message_IndexRefreshed implements Magento_AdminNotification_Model_System_MessageInterface
 {
     /**
      * Message Identity
