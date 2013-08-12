@@ -275,7 +275,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
                 'column_css_class'  => 'col-action'
         ));
 
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Mage_Rss')) {
+        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Rss')) {
             $this->addRssList('rss/catalog/notifystock', Mage::helper('Magento_Catalog_Helper_Data')->__('Notify Low Stock RSS'));
         }
 

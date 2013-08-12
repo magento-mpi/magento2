@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Block_Rss extends Mage_Rss_Block_Wishlist
+class Enterprise_Wishlist_Block_Rss extends Magento_Rss_Block_Wishlist
 {
     /**
      * Retrieve Wishlist model

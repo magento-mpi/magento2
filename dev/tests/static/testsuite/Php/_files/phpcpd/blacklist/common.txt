@@ -55,7 +55,7 @@ Magento/Reports/Block/Product/Widget
 Magento/Reports/Model/Resource/Helper
 Magento/Reports/Model/Resource
 Magento/Review/Block
-Mage/Rss/Block/Catalog
+Magento/Rss/Block/Catalog
 Mage/Rule
 Mage/Sales/Block/Adminhtml
 Mage/Sales/Model/Resource

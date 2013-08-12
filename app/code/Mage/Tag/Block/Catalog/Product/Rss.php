@@ -15,7 +15,7 @@
  * @package    Mage_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Block_Catalog_Product_Rss extends Mage_Rss_Block_Catalog_Abstract
+class Mage_Tag_Block_Catalog_Product_Rss extends Magento_Rss_Block_Catalog_Abstract
 {
     protected function _construct()
     {
@@ -38,7 +38,7 @@ class Mage_Tag_Block_Catalog_Product_Rss extends Mage_Rss_Block_Catalog_Abstract
         $title = Mage::helper('Mage_Tag_Helper_Data')->__('Products tagged with %s', $tagModel->getName());
         $lang = Mage::getStoreConfig('general/locale/code');
 
-        $rssObj = Mage::getModel('Mage_Rss_Model_Rss');
+        $rssObj = Mage::getModel('Magento_Rss_Model_Rss');
         $data = array('title' => $title,
             'description' => $title,
             'link'        => $newurl,

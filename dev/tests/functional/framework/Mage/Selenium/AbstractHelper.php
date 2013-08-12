@@ -207,7 +207,7 @@
  * @method Core_Magento_Rating_Helper                                                                     ratingHelper()
  * @method Core_Magento_Reports_Helper                                                                    reportsHelper()
  * @method Core_Magento_Review_Helper                                                                     reviewHelper()
- * @method Core_Mage_RssFeeds_Helper                                                                   rssFeedsHelper()
+ * @method Core_Magento_RssFeeds_Helper                                                                   rssFeedsHelper()
  * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper                           shoppingCartHelper()
  * @method Core_Mage_Store_Helper                                                                      storeHelper()
  * @method Core_Mage_SystemConfiguration_Helper                                                        systemConfigurationHelper()

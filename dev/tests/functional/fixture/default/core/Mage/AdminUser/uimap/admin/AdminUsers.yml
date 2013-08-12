@@ -329,7 +329,7 @@ new_admin_role:
                                         stores-settings-configuration-store_email_addresses_section: //*[@data-id='Magento_Adminhtml::trans_email']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-developer_section: //*[@data-id='Magento_Adminhtml::dev']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-currency_setup_section: //*[@data-id='Magento_Adminhtml::currency']//*[@class='jstree-checkbox']
-                                        stores-settings-configuration-rss_feeds_section: //*[@data-id='Mage_Rss::rss']//*[@class='jstree-checkbox']
+                                        stores-settings-configuration-rss_feeds_section: //*[@data-id='Magento_Rss::rss']//*[@class='jstree-checkbox']
                                         stores-settings-configuration-email_to_a_friend: //*[@data-id='Magento_Adminhtml::sendfriend']//*[@class='jstree-checkbox']
                                         stores-settings-terms_conditions: //*[@data-id='Mage_Checkout::checkoutagreement']//*[@class='jstree-checkbox']
                                         stores-settings-order_status: //*[@data-id='Mage_Sales::order_statuses']//*[@class='jstree-checkbox']

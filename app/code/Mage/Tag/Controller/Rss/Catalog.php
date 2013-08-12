@@ -15,7 +15,7 @@
  * @package    Mage_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Controller_Rss_Catalog extends Mage_Rss_Controller_Catalog
+class Mage_Tag_Controller_Rss_Catalog extends Magento_Rss_Controller_Catalog
 {
     /**
      * Tag rss action

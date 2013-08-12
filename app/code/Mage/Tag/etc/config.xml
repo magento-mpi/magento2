@@ -17,7 +17,7 @@
             <depends>
                 <Magento_Catalog />
                 <Mage_Customer />
-                <Mage_Rss />
+                <Magento_Rss />
                 <Magento_Reports />
             </depends>
         </Mage_Tag>
@@ -52,7 +52,7 @@
             <rss>
                 <args>
                     <modules>
-                        <tag before="Mage_Rss">Mage_Tag_Rss</tag>
+                        <tag before="Magento_Rss">Mage_Tag_Rss</tag>
                     </modules>
                 </args>
             </rss>
