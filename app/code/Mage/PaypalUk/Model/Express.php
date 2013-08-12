@@ -44,7 +44,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Paypal_Model_Express
             return false;
         }
         if (!$this->_ecInstance) {
-            $this->_ecInstance = Mage::helper('Mage_Payment_Helper_Data')
+            $this->_ecInstance = Mage::helper('Magento_Payment_Helper_Data')
                 ->getMethodInstance(Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS);
         }
         if ($quote && $this->_ecInstance) {

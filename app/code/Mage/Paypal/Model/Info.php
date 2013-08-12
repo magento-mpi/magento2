@@ -147,11 +147,11 @@ class Mage_Paypal_Model_Info
     /**
      * All available payment info getter
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param bool $labelValuesOnly
      * @return array
      */
-    public function getPaymentInfo(Mage_Payment_Model_Info $payment, $labelValuesOnly = false)
+    public function getPaymentInfo(Magento_Payment_Model_Info $payment, $labelValuesOnly = false)
     {
         // collect paypal-specific info
         $result = $this->_getFullInfo(array_values($this->_paymentMap), $payment, $labelValuesOnly);
@@ -171,11 +171,11 @@ class Mage_Paypal_Model_Info
     /**
      * Public payment info getter
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param bool $labelValuesOnly
      * @return array
      */
-    public function getPublicPaymentInfo(Mage_Payment_Model_Info $payment, $labelValuesOnly = false)
+    public function getPublicPaymentInfo(Magento_Payment_Model_Info $payment, $labelValuesOnly = false)
     {
         return $this->_getFullInfo($this->_paymentPublicMap, $payment, $labelValuesOnly);
     }
@@ -184,9 +184,9 @@ class Mage_Paypal_Model_Info
      * Grab data from source and map it into payment
      *
      * @param array|Magento_Object|callback $from
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      */
-    public function importToPayment($from, Mage_Payment_Model_Info $payment)
+    public function importToPayment($from, Magento_Payment_Model_Info $payment)
     {
         $fullMap = array_merge($this->_paymentMap, $this->_systemMap);
         if (is_object($from)) {
@@ -198,12 +198,12 @@ class Mage_Paypal_Model_Info
     /**
      * Grab data from payment and map it into target
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param array|Magento_Object|callback $to
      * @param array $map
      * @return array|Magento_Object
      */
-    public function &exportFromPayment(Mage_Payment_Model_Info $payment, $to, array $map = null)
+    public function &exportFromPayment(Magento_Payment_Model_Info $payment, $to, array $map = null)
     {
         $fullMap = array_merge($this->_paymentMap, $this->_systemMap);
         Magento_Object_Mapper::accumulateByMap(array($payment, 'getAdditionalInformation'), $to,
@@ -215,10 +215,10 @@ class Mage_Paypal_Model_Info
     /**
      * Check whether the payment is in review state
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @return bool
      */
-    public static function isPaymentReviewRequired(Mage_Payment_Model_Info $payment)
+    public static function isPaymentReviewRequired(Magento_Payment_Model_Info $payment)
     {
         $paymentStatus = $payment->getAdditionalInformation(self::PAYMENT_STATUS_GLOBAL);
         if (self::PAYMENTSTATUS_PENDING === $paymentStatus) {
@@ -231,10 +231,10 @@ class Mage_Paypal_Model_Info
     /**
      * Check whether fraud order review detected and can be reviewed
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @return bool
      */
-    public static function isFraudReviewAllowed(Mage_Payment_Model_Info $payment)
+    public static function isFraudReviewAllowed(Magento_Payment_Model_Info $payment)
     {
         return self::isPaymentReviewRequired($payment)
             && 1 == $payment->getAdditionalInformation(self::IS_FRAUD_GLOBAL);
@@ -243,10 +243,10 @@ class Mage_Paypal_Model_Info
     /**
      * Check whether the payment is completed
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @return bool
      */
-    public static function isPaymentCompleted(Mage_Payment_Model_Info $payment)
+    public static function isPaymentCompleted(Magento_Payment_Model_Info $payment)
     {
         $paymentStatus = $payment->getAdditionalInformation(self::PAYMENT_STATUS_GLOBAL);
         return self::PAYMENTSTATUS_COMPLETED === $paymentStatus;
@@ -255,10 +255,10 @@ class Mage_Paypal_Model_Info
     /**
      * Check whether the payment was processed successfully
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @return bool
      */
-    public static function isPaymentSuccessful(Mage_Payment_Model_Info $payment)
+    public static function isPaymentSuccessful(Magento_Payment_Model_Info $payment)
     {
         $paymentStatus = $payment->getAdditionalInformation(self::PAYMENT_STATUS_GLOBAL);
         if (in_array($paymentStatus, array(
@@ -275,10 +275,10 @@ class Mage_Paypal_Model_Info
     /**
      * Check whether the payment was processed unsuccessfully or failed
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @return bool
      */
-    public static function isPaymentFailed(Mage_Payment_Model_Info $payment)
+    public static function isPaymentFailed(Magento_Payment_Model_Info $payment)
     {
         $paymentStatus = $payment->getAdditionalInformation(self::PAYMENT_STATUS_GLOBAL);
         return in_array($paymentStatus, array(
@@ -391,10 +391,10 @@ class Mage_Paypal_Model_Info
      * Render info item
      *
      * @param array $keys
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param bool $labelValuesOnly
      */
-    protected function _getFullInfo(array $keys, Mage_Payment_Model_Info $payment, $labelValuesOnly)
+    protected function _getFullInfo(array $keys, Magento_Payment_Model_Info $payment, $labelValuesOnly)
     {
         $result = array();
         foreach ($keys as $key) {

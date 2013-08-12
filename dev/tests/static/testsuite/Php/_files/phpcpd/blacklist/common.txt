@@ -47,9 +47,9 @@ Magento/GiftMessage/Block/Adminhtml/Sales/Order
 Magento/ImportExport/Model
 Magento/Index/Model/Process
 Magento/Install/Block/Db
-Mage/Payment/Block/Form
-Mage/Payment/Model/Method
-Mage/Payment/Model/Config
+Magento/Payment/Block/Form
+Magento/Payment/Model/Method
+Magento/Payment/Model/Config
 Magento/ProductAlert/Model
 Magento/Reports/Block/Product/Widget
 Magento/Reports/Model/Resource/Helper

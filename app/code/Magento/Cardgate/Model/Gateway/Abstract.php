@@ -13,11 +13,11 @@
  * @package    Magento_Cardgate
  * @author     Magento Core Team <core@magentocommerce.com>
  *
- * Suppress the rules as the class extends Mage_Payment_Model_Method_Abstract which is not refactored
+ * Suppress the rules as the class extends Magento_Payment_Model_Method_Abstract which is not refactored
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-abstract class Magento_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Model_Method_Abstract
+abstract class Magento_Cardgate_Model_Gateway_Abstract extends Magento_Payment_Model_Method_Abstract
 {
     /**
      * Checkout Session
@@ -105,7 +105,7 @@ abstract class Magento_Cardgate_Model_Gateway_Abstract extends Mage_Payment_Mode
     );
 
     /**
-     * Mage_Payment_Model settings
+     * Magento_Payment_Model settings
      *
      * @var bool
      */

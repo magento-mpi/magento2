@@ -52,7 +52,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
+class Mage_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
 {
     protected $_eventPrefix = 'sales_quote_payment';
     protected $_eventObject = 'payment';
@@ -183,7 +183,7 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
     /**
      * Retrieve payment method model object
      *
-     * @return Mage_Payment_Model_Method_Abstract
+     * @return Magento_Payment_Model_Method_Abstract
      */
     public function getMethodInstance()
     {

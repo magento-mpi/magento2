@@ -36,7 +36,7 @@
                     <block type="Magento_Checkout_Block_Onepage_Payment_Methods" name="checkout.payment.methods" as="methods" template="onepage/payment/methods.phtml">
                         <action method="setMethodFormTemplate">
                             <method>purchaseorder</method>
-                            <template>Mage_Payment::form/purchaseorder.phtml</template>
+                            <template>Magento_Payment::form/purchaseorder.phtml</template>
                         </action>
                     </block>
                 </block>

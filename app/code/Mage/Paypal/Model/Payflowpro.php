@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
+class Mage_Paypal_Model_Payflowpro extends  Magento_Payment_Model_Method_Cc
 {
     /**
      * Transaction action codes
@@ -124,9 +124,9 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     {
         switch ($this->getConfigData('payment_action')) {
             case Mage_Paypal_Model_Config::PAYMENT_ACTION_AUTH:
-                return Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
+                return Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
             case Mage_Paypal_Model_Config::PAYMENT_ACTION_SALE:
-                return Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
+                return Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
         }
     }
 
@@ -253,11 +253,11 @@ class Mage_Paypal_Model_Payflowpro extends  Mage_Payment_Model_Method_Cc
     /**
      * Fetch transaction details info
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param string $transactionId
      * @return array
      */
-    public function fetchTransactionInfo(Mage_Payment_Model_Info $payment, $transactionId)
+    public function fetchTransactionInfo(Magento_Payment_Model_Info $payment, $transactionId)
     {
         $request = $this->_buildBasicRequest($payment);
         $request->setTrxtype(self::TRXTYPE_DELAYED_INQUIRY);

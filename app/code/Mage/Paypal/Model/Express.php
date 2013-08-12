@@ -12,8 +12,8 @@
  *
  * PayPal Express Module
  */
-class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
-    implements Mage_Payment_Model_Recurring_Profile_MethodInterface
+class Mage_Paypal_Model_Express extends Magento_Payment_Model_Method_Abstract
+    implements Magento_Payment_Model_Recurring_Profile_MethodInterface
 {
     protected $_code  = Mage_Paypal_Model_Config::METHOD_WPP_EXPRESS;
     protected $_formBlockType = 'Mage_Paypal_Block_Express_Form';
@@ -373,7 +373,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return bool
      */
-    public function canReviewPayment(Mage_Payment_Model_Info $payment)
+    public function canReviewPayment(Magento_Payment_Model_Info $payment)
     {
         return parent::canReviewPayment($payment) && $this->_pro->canReviewPayment($payment);
     }
@@ -384,7 +384,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return bool
      */
-    public function acceptPayment(Mage_Payment_Model_Info $payment)
+    public function acceptPayment(Magento_Payment_Model_Info $payment)
     {
         parent::acceptPayment($payment);
         return $this->_pro->reviewPayment($payment, Mage_Paypal_Model_Pro::PAYMENT_REVIEW_ACCEPT);
@@ -396,7 +396,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return bool
      */
-    public function denyPayment(Mage_Payment_Model_Info $payment)
+    public function denyPayment(Magento_Payment_Model_Info $payment)
     {
         parent::denyPayment($payment);
         return $this->_pro->reviewPayment($payment, Mage_Paypal_Model_Pro::PAYMENT_REVIEW_DENY);
@@ -417,11 +417,11 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     /**
      * Fetch transaction details info
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param string $transactionId
      * @return array
      */
-    public function fetchTransactionInfo(Mage_Payment_Model_Info $payment, $transactionId)
+    public function fetchTransactionInfo(Magento_Payment_Model_Info $payment, $transactionId)
     {
         return $this->_pro->fetchTransactionInfo($payment, $transactionId);
     }
@@ -429,9 +429,9 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     /**
      * Validate RP data
      *
-     * @param Mage_Payment_Model_Recurring_Profile $profile
+     * @param Magento_Payment_Model_Recurring_Profile $profile
      */
-    public function validateRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    public function validateRecurringProfile(Magento_Payment_Model_Recurring_Profile $profile)
     {
         return $this->_pro->validateRecurringProfile($profile);
     }
@@ -439,11 +439,11 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     /**
      * Submit RP to the gateway
      *
-     * @param Mage_Payment_Model_Recurring_Profile $profile
-     * @param Mage_Payment_Model_Info $paymentInfo
+     * @param Magento_Payment_Model_Recurring_Profile $profile
+     * @param Magento_Payment_Model_Info $paymentInfo
      */
-    public function submitRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile,
-        Mage_Payment_Model_Info $paymentInfo
+    public function submitRecurringProfile(Magento_Payment_Model_Recurring_Profile $profile,
+        Magento_Payment_Model_Info $paymentInfo
     ) {
         $token = $paymentInfo->
             getAdditionalInformation(Mage_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_TOKEN);
@@ -473,9 +473,9 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     /**
      * Update RP data
      *
-     * @param Mage_Payment_Model_Recurring_Profile $profile
+     * @param Magento_Payment_Model_Recurring_Profile $profile
      */
-    public function updateRecurringProfile(Mage_Payment_Model_Recurring_Profile $profile)
+    public function updateRecurringProfile(Magento_Payment_Model_Recurring_Profile $profile)
     {
         return $this->_pro->updateRecurringProfile($profile);
     }
@@ -483,9 +483,9 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     /**
      * Manage status
      *
-     * @param Mage_Payment_Model_Recurring_Profile $profile
+     * @param Magento_Payment_Model_Recurring_Profile $profile
      */
-    public function updateRecurringProfileStatus(Mage_Payment_Model_Recurring_Profile $profile)
+    public function updateRecurringProfileStatus(Magento_Payment_Model_Recurring_Profile $profile)
     {
         return $this->_pro->updateRecurringProfileStatus($profile);
     }
@@ -494,7 +494,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
      * Assign data to info model instance
      *
      * @param   mixed $data
-     * @return  Mage_Payment_Model_Info
+     * @return  Magento_Payment_Model_Info
      */
     public function assignData($data)
     {

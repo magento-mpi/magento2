@@ -497,10 +497,10 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge_Ipn
      * Map payment information from IPN to payment object
      * Returns true if there were changes in information
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @return bool
      */
-    protected function _importPaymentInformation(Mage_Payment_Model_Info $payment)
+    protected function _importPaymentInformation(Magento_Payment_Model_Info $payment)
     {
         $was = $payment->getAdditionalInformation();
 

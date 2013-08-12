@@ -11,10 +11,10 @@
 -->
 <config>
     <system>
-        <section id="payment_services" translate="label" module="Mage_Payment" type="text" sortOrder="450" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="payment_services" translate="label" module="Magento_Payment" type="text" sortOrder="450" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Payment Services</label>
             <tab>sales</tab>
-            <resource>Mage_Payment::payment_services</resource>
+            <resource>Magento_Payment::payment_services</resource>
             <group id="centinel" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>3D Secure Credit Card Validation</label>
                 <field id="processor_id" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">

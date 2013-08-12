@@ -119,7 +119,7 @@ class Mage_Paypal_Model_Payflowlink extends Mage_Paypal_Model_Payflowpro
     {
         $storeId = Mage::app()->getStore($this->getStore())->getId();
         $config = Mage::getModel('Mage_Paypal_Model_Config')->setStoreId($storeId);
-        if (Mage_Payment_Model_Method_Abstract::isAvailable($quote) && $config->isMethodAvailable($this->getCode())) {
+        if (Magento_Payment_Model_Method_Abstract::isAvailable($quote) && $config->isMethodAvailable($this->getCode())) {
             return true;
         }
         return false;

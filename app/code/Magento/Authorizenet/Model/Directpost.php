@@ -19,7 +19,7 @@ class Magento_Authorizenet_Model_Directpost extends Magento_Paygate_Model_Author
 {
     protected $_code  = 'authorizenet_directpost';
     protected $_formBlockType = 'Magento_Authorizenet_Block_Directpost_Form';
-    protected $_infoBlockType = 'Mage_Payment_Block_Info';
+    protected $_infoBlockType = 'Magento_Payment_Block_Info';
 
     /**
      * Availability options
@@ -171,22 +171,22 @@ class Magento_Authorizenet_Model_Directpost extends Magento_Paygate_Model_Author
      * Set capture transaction ID to invoice for informational purposes
      * @param Mage_Sales_Model_Order_Invoice $invoice
      * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Payment_Model_Method_Abstract
+     * @return Magento_Payment_Model_Method_Abstract
      */
     public function processInvoice($invoice, $payment)
     {
-        return Mage_Payment_Model_Method_Abstract::processInvoice($invoice, $payment);
+        return Magento_Payment_Model_Method_Abstract::processInvoice($invoice, $payment);
     }
 
     /**
      * Set transaction ID into creditmemo for informational purposes
      * @param Mage_Sales_Model_Order_Creditmemo $creditmemo
      * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Payment_Model_Method_Abstract
+     * @return Magento_Payment_Model_Method_Abstract
      */
     public function processCreditmemo($creditmemo, $payment)
     {
-        return Mage_Payment_Model_Method_Abstract::processCreditmemo($creditmemo, $payment);
+        return Magento_Payment_Model_Method_Abstract::processCreditmemo($creditmemo, $payment);
     }
 
     /**

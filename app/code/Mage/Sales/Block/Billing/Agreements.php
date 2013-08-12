@@ -99,7 +99,7 @@ class Mage_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->helper('Mage_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->helper('Magento_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
@@ -114,7 +114,7 @@ class Mage_Sales_Block_Billing_Agreements extends Magento_Core_Block_Template
     public function getWizardPaymentMethodOptions()
     {
         $paymentMethodOptions = array();
-        foreach ($this->helper('Mage_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
+        foreach ($this->helper('Magento_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
             if ($paymentMethod->getConfigData('allow_billing_agreement_wizard') == 1) {
                 $paymentMethodOptions[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }

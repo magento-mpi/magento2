@@ -118,9 +118,9 @@ class Mage_Paypal_Model_Hostedpro extends Mage_Paypal_Model_Direct
     /**
      * Sends API request to PayPal to get form URL, then sets this URL to $payment object.
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      */
-    protected function _setPaymentFormUrl(Mage_Payment_Model_Info $payment)
+    protected function _setPaymentFormUrl(Magento_Payment_Model_Info $payment)
     {
         $request = $this->_buildFormUrlRequest($payment);
         $response = $this->_sendFormUrlRequest($request);
@@ -134,10 +134,10 @@ class Mage_Paypal_Model_Hostedpro extends Mage_Paypal_Model_Direct
     /**
      * Returns request object with needed data for API request to PayPal to get form URL.
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @return Mage_Paypal_Model_Hostedpro_Request
      */
-    protected function _buildFormUrlRequest(Mage_Payment_Model_Info $payment)
+    protected function _buildFormUrlRequest(Magento_Payment_Model_Info $payment)
     {
         $request = $this->_buildBasicRequest()
             ->setOrder($payment->getOrder())

@@ -122,7 +122,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
+class Mage_Sales_Model_Order_Payment extends Magento_Payment_Model_Info
 {
     /**
      * Actions for payment when it triggered review state
@@ -274,14 +274,14 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             } else {
                 $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
                 switch ($action) {
-                    case Mage_Payment_Model_Method_Abstract::ACTION_ORDER:
+                    case Magento_Payment_Model_Method_Abstract::ACTION_ORDER:
                         $this->_order($order->getBaseTotalDue());
                         break;
-                    case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE:
+                    case Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE:
                         $this->_authorize(true, $order->getBaseTotalDue()); // base amount will be set inside
                         $this->setAmountAuthorized($order->getTotalDue());
                         break;
-                    case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE:
+                    case Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE:
                         $this->setAmountAuthorized($order->getTotalDue());
                         $this->setBaseAmountAuthorized($order->getBaseTotalDue());
                         $this->capture(null);

@@ -15,7 +15,7 @@
  * @package    Mage_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Block_Iframe extends Mage_Payment_Block_Form
+class Mage_Paypal_Block_Iframe extends Magento_Payment_Block_Form
 {
     /**
      * Whether the block should be eventually rendered
@@ -41,7 +41,7 @@ class Mage_Paypal_Block_Iframe extends Mage_Payment_Block_Form
     /**
      * Current iframe block instance
      *
-     * @var Mage_Payment_Block_Form
+     * @var Magento_Payment_Block_Form
      */
     protected $_block;
 

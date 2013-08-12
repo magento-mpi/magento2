@@ -13,7 +13,7 @@
  * @package    Magento_Cardgate
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cardgate_Model_System_Config_Source_Cctype extends Mage_Payment_Model_Source_Cctype
+class Magento_Cardgate_Model_System_Config_Source_Cctype extends Magento_Payment_Model_Source_Cctype
 {
     /**
      * Return allowed cc types for CardGate

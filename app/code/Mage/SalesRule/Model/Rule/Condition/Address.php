@@ -78,7 +78,7 @@ class Mage_SalesRule_Model_Rule_Condition_Address extends Mage_Rule_Model_Condit
                     break;
 
                 case 'payment_method':
-                    $options = Mage::getModel('Mage_Payment_Model_Config_Source_Allmethods')
+                    $options = Mage::getModel('Magento_Payment_Model_Config_Source_Allmethods')
                         ->toOptionArray();
                     break;
 

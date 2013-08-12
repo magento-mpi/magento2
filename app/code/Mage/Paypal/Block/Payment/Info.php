@@ -12,7 +12,7 @@
  * PayPal common payment info block
  * Uses default templates
  */
-class Mage_Paypal_Block_Payment_Info extends Mage_Payment_Block_Info_Cc
+class Mage_Paypal_Block_Payment_Info extends Magento_Payment_Block_Info_Cc
 {
     /**
      * Don't show CC type for non-CC methods

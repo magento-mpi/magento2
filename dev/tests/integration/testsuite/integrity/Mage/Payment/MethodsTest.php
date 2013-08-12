@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Payment
+ * @package     Magento_Payment
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -12,7 +12,7 @@
 /**
  * Locate all payment methods in the system and verify declaration of their blocks
  */
-class Integrity_Mage_Payment_MethodsTest extends PHPUnit_Framework_TestCase
+class Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param string $methodClass
@@ -25,7 +25,7 @@ class Integrity_Mage_Payment_MethodsTest extends PHPUnit_Framework_TestCase
         /** @var $blockFactory Magento_Core_Model_BlockFactory */
         $blockFactory = Mage::getObjectManager()->get('Magento_Core_Model_BlockFactory');
         $storeId = Mage::app()->getStore()->getId();
-        /** @var $model Mage_Payment_Model_Method_Abstract */
+        /** @var $model Magento_Payment_Model_Method_Abstract */
         if (empty($methodClass)) {
             /**
              * Note that $code is not whatever the payment method getCode() returns
@@ -59,8 +59,8 @@ class Integrity_Mage_Payment_MethodsTest extends PHPUnit_Framework_TestCase
      */
     public function paymentMethodDataProvider()
     {
-        /** @var $helper Mage_Payment_Helper_Data */
-        $helper = Mage::helper('Mage_Payment_Helper_Data');
+        /** @var $helper Magento_Payment_Helper_Data */
+        $helper = Mage::helper('Magento_Payment_Helper_Data');
         $result = array();
         foreach ($helper->getPaymentMethods() as $code => $method) {
             $result[] = array($code, $method['model']);

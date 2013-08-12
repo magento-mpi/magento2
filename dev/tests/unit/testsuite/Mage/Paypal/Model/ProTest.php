@@ -27,7 +27,7 @@ class Mage_Paypal_Model_ProTest extends PHPUnit_Framework_TestCase
         $pro->expects($this->any())
             ->method('_isPaymentReviewRequired')
             ->will($this->returnValue($isReviewRequired));
-        $payment = $this->getMockBuilder('Mage_Payment_Model_Info')
+        $payment = $this->getMockBuilder('Magento_Payment_Model_Info')
             ->disableOriginalConstructor()
             ->setMethods(array('getAdditionalInformation'))
             ->getMock();

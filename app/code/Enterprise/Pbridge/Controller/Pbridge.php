@@ -53,7 +53,7 @@ class Enterprise_Pbridge_Controller_Pbridge extends Magento_Core_Controller_Fron
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($methodCode);
+            $methodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
                 $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
@@ -78,7 +78,7 @@ class Enterprise_Pbridge_Controller_Pbridge extends Magento_Core_Controller_Fron
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($methodCode);
+            $methodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
                 $block = $this->getLayout()->createBlock('Enterprise_Pbridge_Block_Checkout_Payment_Review_Iframe');
                 $block->setMethod($methodInstance);

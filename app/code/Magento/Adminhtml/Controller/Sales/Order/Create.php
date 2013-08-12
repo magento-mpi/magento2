@@ -463,11 +463,11 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
             $this->_processActionData('save');
             $paymentData = $this->getRequest()->getPost('payment');
             if ($paymentData) {
-                $paymentData['checks'] = Mage_Payment_Model_Method_Abstract::CHECK_USE_INTERNAL
-                    | Mage_Payment_Model_Method_Abstract::CHECK_USE_FOR_COUNTRY
-                    | Mage_Payment_Model_Method_Abstract::CHECK_USE_FOR_CURRENCY
-                    | Mage_Payment_Model_Method_Abstract::CHECK_ORDER_TOTAL_MIN_MAX
-                    | Mage_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL;
+                $paymentData['checks'] = Magento_Payment_Model_Method_Abstract::CHECK_USE_INTERNAL
+                    | Magento_Payment_Model_Method_Abstract::CHECK_USE_FOR_COUNTRY
+                    | Magento_Payment_Model_Method_Abstract::CHECK_USE_FOR_CURRENCY
+                    | Magento_Payment_Model_Method_Abstract::CHECK_ORDER_TOTAL_MIN_MAX
+                    | Magento_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL;
                 $this->_getOrderCreateModel()->setPaymentData($paymentData);
                 $this->_getOrderCreateModel()->getQuote()->getPayment()->addData($paymentData);
             }
@@ -484,7 +484,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Create extends Magento_Adminhtml_
             } else {
                 $this->_redirect('*/sales_order/index');
             }
-        } catch (Mage_Payment_Model_Info_Exception $e) {
+        } catch (Magento_Payment_Model_Info_Exception $e) {
             $this->_getOrderCreateModel()->saveQuote();
             $message = $e->getMessage();
             if( !empty($message) ) {

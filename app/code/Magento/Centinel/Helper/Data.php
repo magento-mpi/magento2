@@ -126,7 +126,7 @@ class Magento_Centinel_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return centinel block for payment form with logos
      *
-     * @param Mage_Payment_Model_Method_Abstract $method
+     * @param Magento_Payment_Model_Method_Abstract $method
      * @return Magento_Centinel_Block_Logo
      */
     public function getMethodFormBlock($method)

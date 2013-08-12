@@ -16,7 +16,7 @@
             <active>true</active>
             <depends>
                 <Mage_Sales/>
-                <Mage_Payment/>
+                <Magento_Payment/>
                 <Magento_Usa/>
             </depends>
         </Magento_GoogleCheckout>

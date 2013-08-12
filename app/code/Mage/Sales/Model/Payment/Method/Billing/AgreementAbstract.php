@@ -13,7 +13,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract extends Mage_Payment_Model_Method_Abstract
+abstract class Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract extends Magento_Payment_Model_Method_Abstract
 {
     /**
      * Transport billing agreement id
@@ -59,7 +59,7 @@ abstract class Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract extends
      * Assign data to info model instance
      *
      * @param   mixed $data
-     * @return  Mage_Payment_Model_Info
+     * @return  Magento_Payment_Model_Info
      */
     public function assignData($data)
     {

@@ -13,7 +13,7 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Block_Payment_Info_Billing_Agreement extends Mage_Payment_Block_Info
+class Mage_Sales_Block_Payment_Info_Billing_Agreement extends Magento_Payment_Block_Info
 {
 /**
      * Add reference id to payment method information

@@ -26,17 +26,17 @@ class Magento_Paygate_Model_Authorizenet_Cards
     /**
      * Payment instance
      *
-     * @var Mage_Payment_Model_Info
+     * @var Magento_Payment_Model_Info
      */
     protected $_payment = null;
 
     /**
      * Set payment instance for storing credit card information and partial authorizations
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @return Magento_Paygate_Model_Authorizenet_Cards
      */
-    public function setPayment(Mage_Payment_Model_Info $payment)
+    public function setPayment(Magento_Payment_Model_Info $payment)
     {
         $this->_payment = $payment;
         $paymentCardsInformation = $this->_payment->getAdditionalInformation(self::CARDS_NAMESPACE);

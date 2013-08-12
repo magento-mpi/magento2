@@ -430,7 +430,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
             if ($redirectUrl) {
                 $result['redirect'] = $redirectUrl;
             }
-        } catch (Mage_Payment_Exception $e) {
+        } catch (Magento_Payment_Exception $e) {
             if ($e->getFields()) {
                 $result['fields'] = $e->getFields();
             }
@@ -448,7 +448,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
      * Get Order by quoteId
      *
      * @return Mage_Sales_Model_Order
-     * @throws Mage_Payment_Model_Info_Exception
+     * @throws Magento_Payment_Model_Info_Exception
      */
     protected function _getOrder()
     {
@@ -456,7 +456,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
             $this->_order = Mage::getModel('Mage_Sales_Model_Order');
             $this->_order->load($this->getOnepage()->getQuote()->getId(), 'quote_id');
             if (!$this->_order->getId()) {
-                throw new Mage_Payment_Model_Info_Exception(
+                throw new Magento_Payment_Model_Info_Exception(
                     Mage::helper('Magento_Core_Helper_Data')->__('Can not create invoice. Order was not found.')
                 );
             }
@@ -511,11 +511,11 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
 
             $data = $this->getRequest()->getPost('payment', array());
             if ($data) {
-                $data['checks'] = Mage_Payment_Model_Method_Abstract::CHECK_USE_CHECKOUT
-                    | Mage_Payment_Model_Method_Abstract::CHECK_USE_FOR_COUNTRY
-                    | Mage_Payment_Model_Method_Abstract::CHECK_USE_FOR_CURRENCY
-                    | Mage_Payment_Model_Method_Abstract::CHECK_ORDER_TOTAL_MIN_MAX
-                    | Mage_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL;
+                $data['checks'] = Magento_Payment_Model_Method_Abstract::CHECK_USE_CHECKOUT
+                    | Magento_Payment_Model_Method_Abstract::CHECK_USE_FOR_COUNTRY
+                    | Magento_Payment_Model_Method_Abstract::CHECK_USE_FOR_CURRENCY
+                    | Magento_Payment_Model_Method_Abstract::CHECK_ORDER_TOTAL_MIN_MAX
+                    | Magento_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL;
                 $this->getOnepage()->getQuote()->getPayment()->importData($data);
             }
 
@@ -524,7 +524,7 @@ class Magento_Checkout_Controller_Onepage extends Magento_Checkout_Controller_Ac
             $redirectUrl = $this->getOnepage()->getCheckout()->getRedirectUrl();
             $result['success'] = true;
             $result['error']   = false;
-        } catch (Mage_Payment_Model_Info_Exception $e) {
+        } catch (Magento_Payment_Model_Info_Exception $e) {
             $message = $e->getMessage();
             if (!empty($message)) {
                 $result['error_messages'] = $message;

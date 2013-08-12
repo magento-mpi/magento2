@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Paygate_Block_Authorizenet_Info_Cc extends Mage_Payment_Block_Info_Cc
+class Magento_Paygate_Block_Authorizenet_Info_Cc extends Magento_Payment_Block_Info_Cc
 {
     /**
      * Checkout progress information block flag

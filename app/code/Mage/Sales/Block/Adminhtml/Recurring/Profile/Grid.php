@@ -91,7 +91,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Adminhtm
         ));
 
         $methods = array();
-        foreach (Mage::helper('Mage_Payment_Helper_Data')->getRecurringProfileMethods() as $method) {
+        foreach (Mage::helper('Magento_Payment_Helper_Data')->getRecurringProfileMethods() as $method) {
             $methods[$method->getCode()] = $method->getTitle();
         }
         $this->addColumn('method_code', array(

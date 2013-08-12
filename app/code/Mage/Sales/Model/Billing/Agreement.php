@@ -34,7 +34,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_AgreementAbstract
+class Mage_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billing_AgreementAbstract
 {
     const STATUS_ACTIVE     = 'active';
     const STATUS_CANCELED   = 'canceled';
@@ -189,10 +189,10 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
     {
         $result = parent::isValid();
         if (!$this->getCustomerId()) {
-            $this->_errors[] = Mage::helper('Mage_Payment_Helper_Data')->__('The customer ID is not set.');
+            $this->_errors[] = Mage::helper('Magento_Payment_Helper_Data')->__('The customer ID is not set.');
         }
         if (!$this->getStatus()) {
-            $this->_errors[] = Mage::helper('Mage_Payment_Helper_Data')->__('The Billing Agreement status is not set.');
+            $this->_errors[] = Mage::helper('Magento_Payment_Helper_Data')->__('The Billing Agreement status is not set.');
         }
         return $result && empty($this->_errors);
     }
@@ -212,7 +212,7 @@ class Mage_Sales_Model_Billing_Agreement extends Mage_Payment_Model_Billing_Agre
         $baData = $payment->getBillingAgreementData();
 
         $this->_paymentMethodInstance = (isset($baData['method_code']))
-            ? Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($baData['method_code'])
+            ? Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($baData['method_code'])
             : $payment->getMethodInstance();
         if ($this->_paymentMethodInstance) {
             $this->_paymentMethodInstance->setStore($payment->getMethodInstance()->getStore());

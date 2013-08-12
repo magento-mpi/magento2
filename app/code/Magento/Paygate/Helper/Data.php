@@ -27,7 +27,7 @@ class Magento_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return message for gateway transaction request
      *
-     * @param  Mage_Payment_Model_Info $payment
+     * @param  Magento_Payment_Model_Info $payment
      * @param  string $requestType
      * @param  string $lastTransactionId
      * @param  Magento_Object $card
@@ -46,7 +46,7 @@ class Magento_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return message for gateway transaction request
      *
-     * @param  Mage_Payment_Model_Info $payment
+     * @param  Magento_Payment_Model_Info $payment
      * @param  string $requestType
      * @param  string $lastTransactionId
      * @param  Magento_Object $card
@@ -120,7 +120,7 @@ class Magento_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
 
     /**
      * Format price with currency sign
-     * @param  Mage_Payment_Model_Info $payment
+     * @param  Magento_Payment_Model_Info $payment
      * @param float $amount
      * @return string
      */

@@ -14,7 +14,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
+class Mage_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
 {
     protected $_code  = Mage_Paypal_Model_Config::METHOD_WPP_DIRECT;
     protected $_infoBlockType = 'Mage_Paypal_Block_Payment_Info';
@@ -219,7 +219,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return bool
      */
-    public function canReviewPayment(Mage_Payment_Model_Info $payment)
+    public function canReviewPayment(Magento_Payment_Model_Info $payment)
     {
         return parent::canReviewPayment($payment) && $this->_pro->canReviewPayment($payment);
     }
@@ -230,7 +230,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return bool
      */
-    public function acceptPayment(Mage_Payment_Model_Info $payment)
+    public function acceptPayment(Magento_Payment_Model_Info $payment)
     {
         parent::acceptPayment($payment);
         return $this->_pro->reviewPayment($payment, Mage_Paypal_Model_Pro::PAYMENT_REVIEW_ACCEPT);
@@ -242,7 +242,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return bool
      */
-    public function denyPayment(Mage_Payment_Model_Info $payment)
+    public function denyPayment(Magento_Payment_Model_Info $payment)
     {
         parent::denyPayment($payment);
         return $this->_pro->reviewPayment($payment, Mage_Paypal_Model_Pro::PAYMENT_REVIEW_DENY);
@@ -265,11 +265,11 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     /**
      * Fetch transaction details info
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param string $transactionId
      * @return array
      */
-    public function fetchTransactionInfo(Mage_Payment_Model_Info $payment, $transactionId)
+    public function fetchTransactionInfo(Magento_Payment_Model_Info $payment, $transactionId)
     {
         return $this->_pro->fetchTransactionInfo($payment, $transactionId);
     }

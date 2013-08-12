@@ -106,7 +106,7 @@ class Mage_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Adminhtm
             'header'            => Mage::helper('Mage_Sales_Helper_Data')->__('Payment Method'),
             'index'             => 'method_code',
             'type'              => 'options',
-            'options'           => Mage::helper('Mage_Payment_Helper_Data')->getAllBillingAgreementMethods(),
+            'options'           => Mage::helper('Magento_Payment_Helper_Data')->getAllBillingAgreementMethods(),
             'header_css_class'  => 'col-payment',
             'column_css_class'  => 'col-payment'
         ));

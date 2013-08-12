@@ -255,12 +255,12 @@ class Mage_Paypal_Model_Config
     /**
      * Method code setter
      *
-     * @param string|Mage_Payment_Model_Method_Abstract $method
+     * @param string|Magento_Payment_Model_Method_Abstract $method
      * @return Mage_Paypal_Model_Config
      */
     public function setMethod($method)
     {
-        if ($method instanceof Mage_Payment_Model_Method_Abstract) {
+        if ($method instanceof Magento_Payment_Model_Method_Abstract) {
             $this->_methodCode = $method->getCode();
         } elseif (is_string($method)) {
             $this->_methodCode = $method;
@@ -895,11 +895,11 @@ class Mage_Paypal_Model_Config
     {
         switch ($this->paymentAction) {
             case self::PAYMENT_ACTION_AUTH:
-                return Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
+                return Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
             case self::PAYMENT_ACTION_SALE:
-                return Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
+                return Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
             case self::PAYMENT_ACTION_ORDER:
-                return Mage_Payment_Model_Method_Abstract::ACTION_ORDER;
+                return Magento_Payment_Model_Method_Abstract::ACTION_ORDER;
         }
     }
 
@@ -996,7 +996,7 @@ class Mage_Paypal_Model_Config
      */
     public function getWppCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Mage_Payment_Model_Source_Cctype');
+        $model = Mage::getModel('Magento_Payment_Model_Source_Cctype');
         return $model->setAllowedTypes(array('AE', 'VI', 'MC', 'SM', 'SO', 'DI'))->toOptionArray();
     }
 
@@ -1007,7 +1007,7 @@ class Mage_Paypal_Model_Config
      */
     public function getWppPeCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Mage_Payment_Model_Source_Cctype');
+        $model = Mage::getModel('Magento_Payment_Model_Source_Cctype');
         return $model->setAllowedTypes(array('VI', 'MC', 'SM', 'SO', 'OT', 'AE'))->toOptionArray();
     }
 
@@ -1018,7 +1018,7 @@ class Mage_Paypal_Model_Config
      */
     public function getPayflowproCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Mage_Payment_Model_Source_Cctype');
+        $model = Mage::getModel('Magento_Payment_Model_Source_Cctype');
         return $model->setAllowedTypes(array('AE', 'VI', 'MC', 'JCB', 'DI'))->toOptionArray();
     }
 

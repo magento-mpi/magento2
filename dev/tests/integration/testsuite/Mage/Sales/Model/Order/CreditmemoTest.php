@@ -26,7 +26,7 @@ class Mage_Sales_Model_Order_CreditmemoTest extends PHPUnit_Framework_TestCase
         $creditmemo->setOrder($order);
 
         $payment = $order->getPayment();
-        $paymentInfoBlock = Mage::helper('Mage_Payment_Helper_Data')->getInfoBlock($payment);
+        $paymentInfoBlock = Mage::helper('Magento_Payment_Helper_Data')->getInfoBlock($payment);
         $paymentInfoBlock->setArea('invalid-area');
         $payment->setBlockMock($paymentInfoBlock);
 

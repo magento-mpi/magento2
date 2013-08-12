@@ -62,7 +62,7 @@
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Payment from applicable countries</label>
-                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Payment from Specific countries</label>
@@ -84,7 +84,7 @@
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Payment from applicable countries</label>
-                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Payment from Specific countries</label>
@@ -106,7 +106,7 @@
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Payment from applicable countries</label>
-                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Payment from Specific countries</label>
@@ -128,7 +128,7 @@
                 </field>
                 <field id="allowspecific" translate="label" type="allowspecific" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Payment from applicable countries</label>
-                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                 </field>
                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Payment from Specific countries</label>

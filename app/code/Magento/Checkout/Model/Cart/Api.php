@@ -127,7 +127,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
     /**
      * Check whether we can use this payment method with current quote
      *
-     * @param Mage_Payment_Model_Method_Abstract $method
+     * @param Magento_Payment_Model_Method_Abstract $method
      * @param Mage_Sales_Model_Quote $quote
      * @return bool
      */
@@ -287,10 +287,10 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
             }
 
             $total = $quote->getBaseSubtotal();
-            $methods = Mage::helper('Mage_Payment_Helper_Data')->getStoreMethods($store, $quote);
+            $methods = Mage::helper('Magento_Payment_Helper_Data')->getStoreMethods($store, $quote);
             foreach ($methods as $key => $method) {
                 if ($method->getCode() == $paymentData['method']) {
-                    /** @var $method Mage_Payment_Model_Method_Abstract */
+                    /** @var $method Magento_Payment_Model_Method_Abstract */
                     if (!($this->_canUsePaymentMethod($method, $quote) && ($total != 0 || $method->getCode() == 'free'
                         || ($quote->hasRecurringItems() && $method->canManageRecurringProfiles())))
                     ) {

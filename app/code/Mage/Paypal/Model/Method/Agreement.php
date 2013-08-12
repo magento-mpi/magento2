@@ -14,7 +14,7 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method_Billing_AgreementAbstract
-    implements Mage_Payment_Model_Billing_Agreement_MethodInterface
+    implements Magento_Payment_Model_Billing_Agreement_MethodInterface
 {
     /**
      * Method code
@@ -80,10 +80,10 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
     /**
      * Init billing agreement
      *
-     * @param Mage_Payment_Model_Billing_AgreementAbstract $agreement
+     * @param Magento_Payment_Model_Billing_AgreementAbstract $agreement
      * @return Mage_Paypal_Model_Method_Agreement
      */
-    public function initBillingAgreementToken(Mage_Payment_Model_Billing_AgreementAbstract $agreement)
+    public function initBillingAgreementToken(Magento_Payment_Model_Billing_AgreementAbstract $agreement)
     {
         $api = $this->_pro->getApi()
             ->setReturnUrl($agreement->getReturnUrl())
@@ -100,10 +100,10 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
     /**
      * Retrieve billing agreement customer details by token
      *
-     * @param Mage_Payment_Model_Billing_AgreementAbstract $agreement
+     * @param Magento_Payment_Model_Billing_AgreementAbstract $agreement
      * @return array
      */
-    public function getBillingAgreementTokenInfo(Mage_Payment_Model_Billing_AgreementAbstract $agreement)
+    public function getBillingAgreementTokenInfo(Magento_Payment_Model_Billing_AgreementAbstract $agreement)
     {
         $api = $this->_pro->getApi()
             ->setToken($agreement->getToken());
@@ -121,10 +121,10 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
     /**
      * Create billing agreement by token specified in request
      *
-     * @param Mage_Payment_Model_Billing_AgreementAbstract $agreement
+     * @param Magento_Payment_Model_Billing_AgreementAbstract $agreement
      * @return Mage_Paypal_Model_Method_Agreement
      */
-    public function placeBillingAgreement(Mage_Payment_Model_Billing_AgreementAbstract $agreement)
+    public function placeBillingAgreement(Magento_Payment_Model_Billing_AgreementAbstract $agreement)
     {
         $api = $this->_pro->getApi()
             ->setToken($agreement->getToken());
@@ -136,10 +136,10 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
     /**
      * Update billing agreement status
      *
-     * @param Mage_Payment_Model_Billing_AgreementAbstract $agreement
+     * @param Magento_Payment_Model_Billing_AgreementAbstract $agreement
      * @return Mage_Paypal_Model_Method_Agreement
      */
-    public function updateBillingAgreementStatus(Mage_Payment_Model_Billing_AgreementAbstract $agreement)
+    public function updateBillingAgreementStatus(Magento_Payment_Model_Billing_AgreementAbstract $agreement)
     {
         $targetStatus = $agreement->getStatus();
         $api = $this->_pro->getApi()
@@ -227,7 +227,7 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return bool
      */
-    public function canReviewPayment(Mage_Payment_Model_Info $payment)
+    public function canReviewPayment(Magento_Payment_Model_Info $payment)
     {
         return parent::canReviewPayment($payment) && $this->_pro->canReviewPayment($payment);
     }
@@ -238,7 +238,7 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return bool
      */
-    public function acceptPayment(Mage_Payment_Model_Info $payment)
+    public function acceptPayment(Magento_Payment_Model_Info $payment)
     {
         parent::acceptPayment($payment);
         return $this->_pro->reviewPayment($payment, Mage_Paypal_Model_Pro::PAYMENT_REVIEW_ACCEPT);
@@ -250,7 +250,7 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return bool
      */
-    public function denyPayment(Mage_Payment_Model_Info $payment)
+    public function denyPayment(Magento_Payment_Model_Info $payment)
     {
         parent::denyPayment($payment);
         return $this->_pro->reviewPayment($payment, Mage_Paypal_Model_Pro::PAYMENT_REVIEW_DENY);
@@ -259,11 +259,11 @@ class Mage_Paypal_Model_Method_Agreement extends Mage_Sales_Model_Payment_Method
     /**
      * Fetch transaction details info
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param string $transactionId
      * @return array
      */
-    public function fetchTransactionInfo(Mage_Payment_Model_Info $payment, $transactionId)
+    public function fetchTransactionInfo(Magento_Payment_Model_Info $payment, $transactionId)
     {
         return $this->_pro->fetchTransactionInfo($payment, $transactionId);
     }

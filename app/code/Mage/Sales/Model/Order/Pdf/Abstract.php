@@ -297,7 +297,7 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Magento_Object
         $billingAddress = $this->_formatAddress($order->getBillingAddress()->format('pdf'));
 
         /* Payment */
-        $paymentInfo = Mage::helper('Mage_Payment_Helper_Data')->getInfoBlock($order->getPayment())
+        $paymentInfo = Mage::helper('Magento_Payment_Helper_Data')->getInfoBlock($order->getPayment())
             ->setIsSecureMode(true)
             ->toPdf();
         $paymentInfo = htmlspecialchars_decode($paymentInfo, ENT_QUOTES);

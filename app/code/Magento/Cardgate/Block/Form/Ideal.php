@@ -13,7 +13,7 @@
  * @package    Magento_Cardgate
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cardgate_Block_Form_Ideal extends Mage_Payment_Block_Form
+class Magento_Cardgate_Block_Form_Ideal extends Magento_Payment_Block_Form
 {
     /**
      * Banks list
@@ -59,7 +59,7 @@ class Magento_Cardgate_Block_Form_Ideal extends Mage_Payment_Block_Form
     /**
      * Return information payment object
      *
-     * @return Mage_Payment_Model_Info
+     * @return Magento_Payment_Model_Info
      */
     public function getInfoInstance()
     {

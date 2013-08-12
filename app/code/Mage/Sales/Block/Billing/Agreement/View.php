@@ -122,7 +122,7 @@ class Mage_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Templat
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->helper('Mage_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->helper('Magento_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }

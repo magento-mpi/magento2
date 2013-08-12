@@ -15,12 +15,12 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Payment_Info extends Mage_Payment_Block_Info_ContainerAbstract
+class Magento_Checkout_Block_Multishipping_Payment_Info extends Magento_Payment_Block_Info_ContainerAbstract
 {
     /**
      * Retrieve payment info model
      *
-     * @return Mage_Payment_Model_Info
+     * @return Magento_Payment_Model_Info
      */
     public function getPaymentInfo()
     {

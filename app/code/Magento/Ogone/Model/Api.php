@@ -11,7 +11,7 @@
 /**
  * Ogone payment method model
  */
-class Magento_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
+class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
 {
     /**
      * Ogone payment method code
@@ -369,9 +369,9 @@ class Magento_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
     protected function _getOgonePaymentOperation()
     {
         $value = $this->getPaymentAction();
-        if ($value==Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE) {
+        if ($value==Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE) {
             $value = Magento_Ogone_Model_Api::OGONE_AUTHORIZE_ACTION;
-        } elseif ($value==Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE) {
+        } elseif ($value==Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE) {
             $value = Magento_Ogone_Model_Api::OGONE_AUTHORIZE_CAPTURE_ACTION;
         }
         return $value;

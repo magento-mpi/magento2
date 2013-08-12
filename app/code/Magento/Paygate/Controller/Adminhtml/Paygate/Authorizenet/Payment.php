@@ -25,7 +25,7 @@ class Magento_Paygate_Controller_Adminhtml_Paygate_Authorizenet_Payment extends 
     {
         $result['success'] = false;
         try {
-            $paymentMethod = Mage::helper('Mage_Payment_Helper_Data')
+            $paymentMethod = Mage::helper('Magento_Payment_Helper_Data')
                 ->getMethodInstance(Magento_Paygate_Model_Authorizenet::METHOD_CODE);
             if ($paymentMethod) {
                 $paymentMethod->setStore(Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getStoreId());

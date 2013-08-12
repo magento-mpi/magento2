@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
+class Magento_Paygate_Block_Authorizenet_Form_Cc extends Magento_Payment_Block_Form
 {
     protected $_template = 'Magento_Paygate::form/cc.phtml';
 
@@ -19,7 +19,7 @@ class Magento_Paygate_Block_Authorizenet_Form_Cc extends Mage_Payment_Block_Form
      */
     public function getMethodFormBlock()
     {
-        return $this->getLayout()->createBlock('Mage_Payment_Block_Form_Cc')
+        return $this->getLayout()->createBlock('Magento_Payment_Block_Form_Cc')
             ->setMethod($this->getMethod());
     }
 

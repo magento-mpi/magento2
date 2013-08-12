@@ -449,7 +449,7 @@ class Magento_Checkout_Model_Type_Multishipping extends Magento_Checkout_Model_T
             Mage::throwException(Mage::helper('Magento_Checkout_Helper_Data')->__('Invalid checkout type'));
         }
 
-        /** @var $paymentMethod Mage_Payment_Model_Method_Abstract */
+        /** @var $paymentMethod Magento_Payment_Model_Method_Abstract */
         $paymentMethod = $quote->getPayment()->getMethodInstance();
         if (!empty($paymentMethod) && !$paymentMethod->isAvailable($quote)) {
             Mage::throwException(Mage::helper('Magento_Checkout_Helper_Data')->__('Please specify a payment method.'));

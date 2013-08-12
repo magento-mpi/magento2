@@ -15,7 +15,7 @@
  * @package     Magento_Paygate
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paygate_Model_Authorizenet_Source_Cctype extends Mage_Payment_Model_Source_Cctype
+class Magento_Paygate_Model_Authorizenet_Source_Cctype extends Magento_Payment_Model_Source_Cctype
 {
     public function getAllowedTypes()
     {

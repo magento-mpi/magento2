@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Ogone_Block_Form extends Mage_Payment_Block_Form_Cc
+class Magento_Ogone_Block_Form extends Magento_Payment_Block_Form_Cc
 {
     protected $_template = 'form.phtml';
 

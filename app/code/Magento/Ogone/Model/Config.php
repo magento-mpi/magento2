@@ -11,7 +11,7 @@
 /**
  * Config model
  */
-class Magento_Ogone_Model_Config extends Mage_Payment_Model_Config
+class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
 {
     const OGONE_PAYMENT_PATH = 'payment/ogone/';
 

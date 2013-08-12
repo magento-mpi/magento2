@@ -13,7 +13,7 @@
  * @package    Magento_Cardgate
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cardgate_Block_Form_Creditcard extends Mage_Payment_Block_Form
+class Magento_Cardgate_Block_Form_Creditcard extends Magento_Payment_Block_Form
 {
     /**
      * Path to template file in theme.
@@ -25,7 +25,7 @@ class Magento_Cardgate_Block_Form_Creditcard extends Mage_Payment_Block_Form
     /**
      * Form Factory
      *
-     * @var Mage_Payment_Model_Config
+     * @var Magento_Payment_Model_Config
      */
     protected $_paymentConfig;
 
@@ -33,12 +33,12 @@ class Magento_Cardgate_Block_Form_Creditcard extends Mage_Payment_Block_Form
      * Constructor
      *
      * @param Magento_Core_Block_Template_Context $context
-     * @param Mage_Payment_Model_Config $paymentConfig
+     * @param Magento_Payment_Model_Config $paymentConfig
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
-        Mage_Payment_Model_Config $paymentConfig,
+        Magento_Payment_Model_Config $paymentConfig,
         array $data = array()
     ) {
         parent::__construct($context, $data);

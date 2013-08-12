@@ -15,7 +15,7 @@
  * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Authorizenet_Block_Directpost_Form extends Mage_Payment_Block_Form_Cc
+class Magento_Authorizenet_Block_Directpost_Form extends Magento_Payment_Block_Form_Cc
 {
     protected $_template = 'directpost/info.phtml';
 

@@ -95,8 +95,8 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Payment Method'),
             'index' => 'method',
             'type' => 'options',
-            'options' => Mage::helper('Mage_Payment_Helper_Data')->getPaymentMethodList(true),
-            'option_groups' => Mage::helper('Mage_Payment_Helper_Data')->getPaymentMethodList(true, true, true),
+            'options' => Mage::helper('Magento_Payment_Helper_Data')->getPaymentMethodList(true),
+            'option_groups' => Mage::helper('Magento_Payment_Helper_Data')->getPaymentMethodList(true, true, true),
             'header_css_class' => 'col-method',
             'column_css_class' => 'col-method'
         ));

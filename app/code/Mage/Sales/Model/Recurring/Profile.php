@@ -83,7 +83,7 @@
  * @package     Mage_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Profile
+class Mage_Sales_Model_Recurring_Profile extends Magento_Payment_Model_Recurring_Profile
 {
     /**
      * Available states
@@ -538,7 +538,7 @@ class Mage_Sales_Model_Recurring_Profile extends Mage_Payment_Model_Recurring_Pr
     /**
      * Automatically set "unknown" state if not defined
      *
-     * @return Mage_Payment_Model_Recurring_Profile
+     * @return Magento_Payment_Model_Recurring_Profile
      */
     protected function _filterValues()
     {

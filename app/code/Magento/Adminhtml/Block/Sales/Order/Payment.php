@@ -31,7 +31,7 @@ class Magento_Adminhtml_Block_Sales_Order_Payment extends Magento_Adminhtml_Bloc
 
     public function setPayment($payment)
     {
-        $paymentInfoBlock = Mage::helper('Mage_Payment_Helper_Data')->getInfoBlock($payment);
+        $paymentInfoBlock = Mage::helper('Magento_Payment_Helper_Data')->getInfoBlock($payment);
         $this->setChild('info', $paymentInfoBlock);
         $this->setData('payment', $payment);
         return $this;

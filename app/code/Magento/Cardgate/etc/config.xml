@@ -15,7 +15,7 @@
             <version>0.0.0.1</version>
             <active>true</active>
             <depends>
-                <Mage_Payment/>
+                <Magento_Payment/>
                 <Magento_Checkout/>
             </depends>
         </Magento_Cardgate>

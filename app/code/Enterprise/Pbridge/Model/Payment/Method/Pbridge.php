@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model_Method_Abstract
+class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Magento_Payment_Model_Method_Abstract
 {
     /**
      * Config path for system default country
@@ -33,7 +33,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Payment method instance wrapped by Payment Bridge
      *
-     * @var Mage_Payment_Model_Method_Abstract
+     * @var Magento_Payment_Model_Method_Abstract
      */
     protected $_originalMethodInstance = null;
 
@@ -111,7 +111,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Mage_Payment_Model_Info
+     * @return Magento_Payment_Model_Info
      */
     public function assignData($data)
     {
@@ -174,7 +174,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Setter
      *
-     * @param Mage_Payment_Model_Method_Abstract $methodInstance
+     * @param Magento_Payment_Model_Method_Abstract $methodInstance
      * @return Enterprise_Pbridge_Model_Payment_Method_Pbridge
      */
     public function setOriginalMethodInstance($methodInstance)
@@ -187,7 +187,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      * Getter.
      * Retrieve the wrapped payment method instance
      *
-     * @return Mage_Payment_Model_Method_Abstract
+     * @return Magento_Payment_Model_Method_Abstract
      */
     public function getOriginalMethodInstance()
     {
@@ -196,7 +196,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
             if (null === $this->_originalMethodCode) {
                 return null;
             }
-            $this->_originalMethodInstance = Mage::helper('Mage_Payment_Helper_Data')
+            $this->_originalMethodInstance = Mage::helper('Magento_Payment_Helper_Data')
                  ->getMethodInstance($this->_originalMethodCode);
         }
         return $this->_originalMethodInstance;
@@ -205,7 +205,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
     /**
      * Retrieve payment iformation model object
      *
-     * @return Mage_Payment_Model_Info
+     * @return Magento_Payment_Model_Info
      */
     public function getInfoInstance()
     {
@@ -237,7 +237,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      *
      * @param   Magento_Object $payment
      * @param   float $amount
-     * @return  Mage_Payment_Model_Abstract
+     * @return  Magento_Payment_Model_Abstract
      */
     public function authorize(Magento_Object $payment, $amount)
     {
@@ -292,7 +292,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      * Cancel payment
      *
      * @param   Magento_Object $payment
-     * @return  Mage_Payment_Model_Abstract
+     * @return  Magento_Payment_Model_Abstract
      */
     public function cancel(Magento_Object $payment)
     {
@@ -305,7 +305,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      *
      * @param   Magento_Object $payment
      * @param   float $amount
-     * @return  Mage_Payment_Model_Abstract
+     * @return  Magento_Payment_Model_Abstract
      */
     public function capture(Magento_Object $payment, $amount)
     {
@@ -346,7 +346,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      *
      * @param   Magento_Object $payment
      * @param   float $amount
-     * @return  Mage_Payment_Model_Abstract
+     * @return  Magento_Payment_Model_Abstract
      */
     public function refund(Magento_Object $payment, $amount)
     {
@@ -390,7 +390,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
      * Void payment
      *
      * @param   Magento_Object $payment
-     * @return  Mage_Payment_Model_Abstract
+     * @return  Magento_Payment_Model_Abstract
      */
     public function void(Magento_Object $payment)
     {

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_GoogleCheckout_Model_Payment extends Mage_Payment_Model_Method_Abstract
+class Magento_GoogleCheckout_Model_Payment extends Magento_Payment_Model_Method_Abstract
 {
     const ACTION_AUTHORIZE = 0;
     const ACTION_AUTHORIZE_CAPTURE = 1;

@@ -9,7 +9,7 @@
  */
 
 
-class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
+class Magento_Paygate_Model_Authorizenet extends Magento_Payment_Model_Method_Cc
 {
     /*
      * AIM gateway url
@@ -302,7 +302,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Send authorize request to gateway
      *
-     * @param  Mage_Payment_Model_Info $payment
+     * @param  Magento_Payment_Model_Info $payment
      * @param  decimal $amount
      * @return Magento_Paygate_Model_Authorizenet
      */
@@ -328,7 +328,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Send capture request to gateway
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param decimal $amount
      * @return Magento_Paygate_Model_Authorizenet
      */
@@ -352,7 +352,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Void the payment through gateway
      *
-     * @param  Mage_Payment_Model_Info $payment
+     * @param  Magento_Payment_Model_Info $payment
      * @return Magento_Paygate_Model_Authorizenet
      */
     public function void(Magento_Object $payment)
@@ -386,7 +386,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Cancel the payment through gateway
      *
-     * @param  Mage_Payment_Model_Info $payment
+     * @param  Magento_Payment_Model_Info $payment
      * @return Magento_Paygate_Model_Authorizenet
      */
     public function cancel(Magento_Object $payment)
@@ -397,7 +397,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Refund the amount with transaction id
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param decimal $amount
      * @return Magento_Paygate_Model_Authorizenet
      * @throws Magento_Core_Exception
@@ -454,9 +454,9 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Cancel partial authorizations and flush current split_tender_id record
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      */
-    public function cancelPartialAuthorization(Mage_Payment_Model_Info $payment) {
+    public function cancelPartialAuthorization(Magento_Payment_Model_Info $payment) {
         if (!$payment->getAdditionalInformation($this->_splitTenderIdKey)) {
             Mage::throwException(Mage::helper('Magento_Paygate_Helper_Data')->__('This is an invalid split tenderId ID.'));
         }
@@ -485,7 +485,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Send request with new payment to gateway
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param decimal $amount
      * @param string $requestType
      * @return Magento_Paygate_Model_Authorizenet
@@ -575,7 +575,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Send request with new payment to gateway during partial authorization process
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param decimal $amount
      * @param string $requestType
      * @return Magento_Paygate_Model_Authorizenet
@@ -598,7 +598,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                 $this->_clearAssignedData($quotePayment);
                 $this->setPartialAuthorizationLastActionState(self::PARTIAL_AUTH_DATA_CHANGED);
                 $quotePayment->setAdditionalInformation($payment->getAdditionalInformation());
-                throw new Mage_Payment_Model_Info_Exception(
+                throw new Magento_Payment_Model_Info_Exception(
                     Mage::helper('Magento_Paygate_Helper_Data')->__('The shopping cart contents and/or address has been changed.')
                 );
             }
@@ -645,7 +645,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Return true if there are authorized transactions
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @return bool
      */
     protected function _isPreauthorizeCapture($payment)
@@ -667,7 +667,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Send capture request to gateway for capture authorized transactions
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param decimal $amount
      * @return Magento_Paygate_Model_Authorizenet
      */
@@ -722,7 +722,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Send capture request to gateway for capture authorized transactions of card
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param decimal $amount
      * @param Magento_Object $card
      * @return Mage_Sales_Model_Order_Payment_Transaction
@@ -780,7 +780,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Void the card transaction through gateway
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param Magento_Object $card
      * @return Mage_Sales_Model_Order_Payment_Transaction
      */
@@ -876,7 +876,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Refund the card transaction through gateway
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param Magento_Object $card
      * @return Mage_Sales_Model_Order_Payment_Transaction
      */
@@ -946,7 +946,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Init cards storage model
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      */
     protected function _initCardsStorage($payment)
     {
@@ -956,7 +956,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Return cards storage model
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @return Magento_Paygate_Model_Authorizenet_Cards
      */
     public function getCardsStorage($payment = null)
@@ -973,7 +973,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * If parial authorization is started method will returne true
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @return bool
      */
     public function isPartialAuthorization($payment = null)
@@ -989,7 +989,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      *
      * @param Mage_Sales_Model_Order_Invoice $invoice
      * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Payment_Model_Method_Abstract
+     * @return Magento_Payment_Model_Method_Abstract
      */
     public function processInvoice($invoice, $payment)
     {
@@ -1001,7 +1001,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * Set transaction ID into creditmemo for informational purposes
      * @param Mage_Sales_Model_Order_Creditmemo $creditmemo
      * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Payment_Model_Method_Abstract
+     * @return Magento_Payment_Model_Method_Abstract
      */
     public function processCreditmemo($creditmemo, $payment)
     {
@@ -1014,11 +1014,11 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      *
      * Update transaction info if there is one placing transaction only
      *
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @param string $transactionId
      * @return array
      */
-    public function fetchTransactionInfo(Mage_Payment_Model_Info $payment, $transactionId)
+    public function fetchTransactionInfo(Magento_Payment_Model_Info $payment, $transactionId)
     {
         $cardsStorage = $this->getCardsStorage($payment);
         if ($cardsStorage->getCardsCount() != 1) {
@@ -1102,7 +1102,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
             $exceptionMessage = $e->getMessage();
         }
 
-        throw new Mage_Payment_Model_Info_Exception($exceptionMessage);
+        throw new Magento_Payment_Model_Info_Exception($exceptionMessage);
     }
 
     /**
@@ -1127,7 +1127,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
      * Prepare request to gateway
      *
      * @link http://www.authorize.net/support/AIM_guide.pdf
-     * @param Mage_Payment_Model_Info $payment
+     * @param Magento_Payment_Model_Info $payment
      * @return Magento_Paygate_Model_Authorizenet_Request
      */
     protected function _buildRequest(Magento_Object $payment)
@@ -1372,7 +1372,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Reset assigned data in payment info model
      *
-     * @param Mage_Payment_Model_Info
+     * @param Magento_Payment_Model_Info
      * @return Magento_Paygate_Model_Authorizenet
      */
     private function _clearAssignedData($payment)
@@ -1442,7 +1442,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * If gateway actions are locked return true
      *
-     * @param  Mage_Payment_Model_Info $payment
+     * @param  Magento_Payment_Model_Info $payment
      * @return bool
      */
     protected function _isGatewayActionsLocked($payment)
@@ -1453,7 +1453,7 @@ class Magento_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     /**
      * Process exceptions for gateway action with a lot of transactions
      *
-     * @param  Mage_Payment_Model_Info $payment
+     * @param  Magento_Payment_Model_Info $payment
      * @param  string $messages
      * @param  bool $isSuccessfulTransactions
      */

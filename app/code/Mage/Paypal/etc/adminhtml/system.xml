@@ -193,7 +193,7 @@
                             <field id="allowspecific" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/payflow_advanced/allowspecific</config_path>
-                                <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1">
@@ -357,7 +357,7 @@
                             <field id="allowspecific" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1">
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/paypal_direct/allowspecific</config_path>
-                                <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1">
@@ -538,7 +538,7 @@
                             <field id="allowspecific" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1">
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/paypal_standard/allowspecific</config_path>
-                                <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1">
@@ -703,7 +703,7 @@
                             <field id="allowspecific" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1">
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/verisign/allowspecific</config_path>
-                                <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1">
@@ -847,7 +847,7 @@
                             <field id="allowspecific" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1">
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/paypaluk_express/allowspecific</config_path>
-                                <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1">
@@ -1001,7 +1001,7 @@
                             <field id="allowspecific" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1">
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/payflow_link/allowspecific</config_path>
-                                <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1">
@@ -1267,7 +1267,7 @@
                             <field id="allowspecific" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1">
                                 <label>Payment Applicable From</label>
                                 <config_path>payment/paypal_express/allowspecific</config_path>
-                                <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                                 <attribute type="shared">1</attribute>
                             </field>
                             <field id="specificcountry" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1">
@@ -1369,7 +1369,7 @@
                                 <field id="allowspecific" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1">
                                     <label>Payment Applicable From</label>
                                     <config_path>payment/paypal_billing_agreement/allowspecific</config_path>
-                                    <source_model>Mage_Payment_Model_Config_Source_Allspecificcountries</source_model>
+                                    <source_model>Magento_Payment_Model_Config_Source_Allspecificcountries</source_model>
                                     <attribute type="shared">1</attribute>
                                 </field>
                                 <field id="specificcountry" translate="label" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1">

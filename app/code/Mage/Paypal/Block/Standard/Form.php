@@ -11,7 +11,7 @@
 /**
  * PayPal Standard payment "form"
  */
-class Mage_Paypal_Block_Standard_Form extends Mage_Payment_Block_Form
+class Mage_Paypal_Block_Standard_Form extends Magento_Payment_Block_Form
 {
     /**
      * Payment method code

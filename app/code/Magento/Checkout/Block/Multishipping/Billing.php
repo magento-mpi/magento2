@@ -15,7 +15,7 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Billing extends Mage_Payment_Block_Form_Container
+class Magento_Checkout_Block_Multishipping_Billing extends Magento_Payment_Block_Form_Container
 {
     /**
      * Prepare children blocks
@@ -34,7 +34,7 @@ class Magento_Checkout_Block_Multishipping_Billing extends Mage_Payment_Block_Fo
     /**
      * Check payment method model
      *
-     * @param Mage_Payment_Model_Method_Abstract|null $method
+     * @param Magento_Payment_Model_Method_Abstract|null $method
      * @return bool
      */
     protected function _canUseMethod($method)

@@ -11,7 +11,7 @@
 /**
  * Braintree payment method model
  */
-class Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic extends Mage_Payment_Model_Method_Cc
+class Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic extends Magento_Payment_Model_Method_Cc
 {
     /**
      * Payment method code
@@ -74,7 +74,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic extends Mage_Payme
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
             if ($this->_pbridgeMethodInstance) {
                 $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
             }
@@ -101,7 +101,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic extends Mage_Payme
     public function isAvailable($quote = null)
     {
         return Mage::helper('Enterprise_Pbridge_Helper_Data')->isEnabled($quote ? $quote->getStoreId() : null)
-            && Mage_Payment_Model_Method_Abstract::isAvailable($quote);
+            && Magento_Payment_Model_Method_Abstract::isAvailable($quote);
     }
 
     /**
@@ -124,7 +124,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic extends Mage_Payme
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Mage_Payment_Model_Info
+     * @return Magento_Payment_Model_Info
      */
     public function assignData($data)
     {

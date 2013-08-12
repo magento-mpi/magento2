@@ -16,7 +16,7 @@
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Block_Form
+abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Magento_Payment_Block_Form
 {
     /**
      * Default iframe width

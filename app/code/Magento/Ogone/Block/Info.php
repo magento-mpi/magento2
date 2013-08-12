@@ -11,7 +11,7 @@
 /**
  * Ogone payment iformation block
  */
-class Magento_Ogone_Block_Info extends Mage_Payment_Block_Info_Cc
+class Magento_Ogone_Block_Info extends Magento_Payment_Block_Info_Cc
 {
     protected $_template = 'info.phtml';
 }

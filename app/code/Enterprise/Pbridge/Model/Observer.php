@@ -110,12 +110,12 @@ class Enterprise_Pbridge_Model_Observer
      * Return system config value by key for specified payment method
      *
      * @param string $key
-     * @param Mage_Payment_Model_Method_Abstract $method
+     * @param Magento_Payment_Model_Method_Abstract $method
      * @param int $storeId
      *
      * @return string
      */
-    protected function _getMethodConfigData($key, Mage_Payment_Model_Method_Abstract $method, $storeId = null)
+    protected function _getMethodConfigData($key, Magento_Payment_Model_Method_Abstract $method, $storeId = null)
     {
         if (!$method->getCode()) {
             return null;

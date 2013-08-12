@@ -14,7 +14,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
+class Mage_Paypal_Model_Standard extends Magento_Payment_Model_Method_Abstract
 {
     protected $_code  = Mage_Paypal_Model_Config::METHOD_WPS;
     protected $_formBlockType = 'Mage_Paypal_Block_Standard_Form';

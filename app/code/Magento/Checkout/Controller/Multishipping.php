@@ -416,11 +416,11 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
 
         try {
             $payment = $this->getRequest()->getPost('payment', array());
-            $payment['checks'] = Mage_Payment_Model_Method_Abstract::CHECK_USE_FOR_MULTISHIPPING
-                | Mage_Payment_Model_Method_Abstract::CHECK_USE_FOR_COUNTRY
-                | Mage_Payment_Model_Method_Abstract::CHECK_USE_FOR_CURRENCY
-                | Mage_Payment_Model_Method_Abstract::CHECK_ORDER_TOTAL_MIN_MAX
-                | Mage_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL;
+            $payment['checks'] = Magento_Payment_Model_Method_Abstract::CHECK_USE_FOR_MULTISHIPPING
+                | Magento_Payment_Model_Method_Abstract::CHECK_USE_FOR_COUNTRY
+                | Magento_Payment_Model_Method_Abstract::CHECK_USE_FOR_CURRENCY
+                | Magento_Payment_Model_Method_Abstract::CHECK_ORDER_TOTAL_MIN_MAX
+                | Magento_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL;
             $this->_getCheckout()->setPaymentMethod($payment);
 
             $this->_getState()->setCompleteStep(
@@ -482,7 +482,7 @@ class Magento_Checkout_Controller_Multishipping extends Magento_Checkout_Control
             $this->_getCheckout()->getCheckoutSession()->clear();
             $this->_getCheckout()->getCheckoutSession()->setDisplaySuccess(true);
             $this->_redirect('*/*/success');
-        } catch (Mage_Payment_Model_Info_Exception $e) {
+        } catch (Magento_Payment_Model_Info_Exception $e) {
             $message = $e->getMessage();
             if (!empty($message)) {
                 $this->_getCheckoutSession()->addError($message);
