@@ -18,7 +18,7 @@
 
 class Magento_Cms_Block_Widget_Page_Link
     extends Magento_Core_Block_Html_Link
-    implements Mage_Widget_Block_Interface
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Prepared href attribute

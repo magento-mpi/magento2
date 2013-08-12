@@ -17,7 +17,7 @@
  */
 class Saas_PrintedTemplate_Block_Widget_Field_Heading
     extends Magento_Core_Block_Template
-    implements Mage_Widget_Block_Interface
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Prepare heading html element

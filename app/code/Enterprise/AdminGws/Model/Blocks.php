@@ -765,7 +765,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeWidgetInstanceButtons($observer)
     {
-        /* @var $block Mage_Widget_Block_Adminhtml_Widget_Instance_Edit */
+        /* @var $block Magento_Widget_Block_Adminhtml_Widget_Instance_Edit */
         $block = $observer->getEvent()->getBlock();
         $widgetInstance = $block->getWidgetInstance();
         if ($widgetInstance->getId()) {

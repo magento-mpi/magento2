@@ -17,7 +17,7 @@
  */
 class Enterprise_Cms_Block_Widget_Node
     extends Magento_Core_Block_Html_Link
-    implements Mage_Widget_Block_Interface
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Current Hierarchy Node Page Instance

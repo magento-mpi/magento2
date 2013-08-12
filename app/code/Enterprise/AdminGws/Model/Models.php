@@ -1145,7 +1145,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Validate widget instance availability after load
      *
-     * @param Mage_Widget_Model_Widget_Instance $model
+     * @param Magento_Widget_Model_Widget_Instance $model
      */
     public function widgetInstanceLoadAfter($model)
     {
@@ -1160,7 +1160,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Validate widget instance before save
      *
-     * @param Mage_Widget_Model_Widget_Instance $model
+     * @param Magento_Widget_Model_Widget_Instance $model
      */
     public function widgetInstanceSaveBefore($model)
     {
@@ -1179,7 +1179,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Validate widget instance before delete
      *
-     * @param Mage_Widget_Model_Widget_Instance $model
+     * @param Magento_Widget_Model_Widget_Instance $model
      */
     public function widgetInstanceDeleteBefore($model)
     {

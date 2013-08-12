@@ -16,7 +16,7 @@
  */
 class Enterprise_GiftRegistry_Block_Search_Widget_Form
     extends Enterprise_GiftRegistry_Block_Search_Quick
-    implements Mage_Widget_Block_Interface
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Search form select options

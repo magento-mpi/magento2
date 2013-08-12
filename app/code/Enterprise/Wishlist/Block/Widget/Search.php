@@ -15,7 +15,7 @@
  * @package     Enterprise_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Wishlist_Block_Widget_Search extends Magento_Core_Block_Template implements Mage_Widget_Block_Interface
+class Enterprise_Wishlist_Block_Widget_Search extends Magento_Core_Block_Template implements Magento_Widget_Block_Interface
 {
     /**
      * Search form select options

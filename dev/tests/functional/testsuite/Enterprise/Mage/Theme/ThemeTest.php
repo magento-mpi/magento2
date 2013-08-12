@@ -66,7 +66,7 @@ class Enterprise_Magento_Theme_ThemeTest extends Core_Magento_Theme_ThemeTest
             array('Enterprise_Default_Cms__widgets.css', 'magento_cms_widgets'),
             array('Enterprise_Default_Page__css_tabs.css', 'magento_page_css_tabs'),
             array('Enterprise_Default_Reports__widgets.css', 'magento_reports_widgets'),
-            array('Enterprise_Default_Widget__widgets.css', 'mage_widget_widgets'),
+            array('Enterprise_Default_Widget__widgets.css', 'magento_widget_widgets'),
         );
     }
 }

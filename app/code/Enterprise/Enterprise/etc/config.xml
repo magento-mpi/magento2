@@ -19,7 +19,7 @@
                 <Magento_Install />
                 <Magento_Adminhtml />
                 <Magento_AdminNotification />
-                <Mage_Widget />
+                <Magento_Widget />
             </depends>
         </Enterprise_Enterprise>
     </modules>

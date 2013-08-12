@@ -325,7 +325,7 @@ preview_theme_in_design:
                                         magento_cms: //span[contains(text(), 'Magento_Cms::widgets.css')]
                                         magento_page: //span[contains(text(), 'Magento_Page::css/tabs.css')]
                                         magento_reports: //span[contains(text(), 'Magento_Reports::widgets.css')]
-                                        mage_widget: //span[contains(text(), 'Mage_Widget::widgets.css')]
+                                        magento_widget: //span[contains(text(), 'Magento_Widget::widgets.css')]
                                     links:
                                         css_print_download: //li[@class='item' and contains (., 'css/print.css')]/a[@class='action-download']
                                         css_styles_ie_download: //li[@class='item' and contains (., 'css/styles-ie.css')]/a[@class='action-download']
@@ -334,7 +334,7 @@ preview_theme_in_design:
                                         magento_cms_download: //li[@class='item' and contains (., 'Magento_Cms::widgets.css')]/a[@class='action-download']
                                         magento_page_download: //li[@class='item' and contains (., 'Magento_Page::css/tabs.css')]/a[@class='action-download']
                                         magento_reports_download: //li[@class='item' and contains (., 'Magento_Reports::widgets.css')]/a[@class='action-download']
-                                        mage_widget_download: //li[@class='item' and contains (., 'Mage_Widget::widgets.css')]/a[@class='action-download']
+                                        magento_widget_download: //li[@class='item' and contains (., 'Magento_Widget::widgets.css')]/a[@class='action-download']
                 -
                     js:
                         xpath: //div[@id='vde-tab-code']//a[contains(@href, '#vde-tab-js')]

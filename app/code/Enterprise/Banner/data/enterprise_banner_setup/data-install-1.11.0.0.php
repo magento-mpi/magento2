@@ -38,7 +38,7 @@ foreach ($banners as $sortOrder => $bannerData) {
         ->setStoreContents(array(0 => $bannerData[2]))
         ->save();
 
-    $widgetInstance = Mage::getModel('Mage_Widget_Model_Widget_Instance')
+    $widgetInstance = Mage::getModel('Magento_Widget_Model_Widget_Instance')
         ->setData('page_groups', array(
             array(
                 'page_group' => 'pages',

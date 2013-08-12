@@ -167,7 +167,7 @@ class Saas_PrintedTemplate_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
         $template->expects($this->any())
             ->method('getTemplateFilter')
-            ->will($this->returnValue(new Mage_Widget_Model_Template_Filter($viewUrl)));
+            ->will($this->returnValue(new Magento_Widget_Model_Template_Filter($viewUrl)));
 
         $template->expects($this->any())
             ->method('getDesignConfig')

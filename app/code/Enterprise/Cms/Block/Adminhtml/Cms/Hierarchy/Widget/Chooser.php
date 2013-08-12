@@ -31,7 +31,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Magent
         $uniqueId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId));
 
-        $chooser = $this->getLayout()->createBlock('Mage_Widget_Block_Adminhtml_Widget_Chooser')
+        $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
             ->setElement($element)
             ->setTranslationHelper($this->getTranslationHelper())
             ->setConfig($this->getConfig())

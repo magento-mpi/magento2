@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Widget
+ * @package     Magento_Widget
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Integrity_Mage_Widget_TemplateFilesTest extends PHPUnit_Framework_TestCase
+class Integrity_Magento_Widget_TemplateFilesTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Check if all the declared widget templates actually exist
@@ -37,11 +37,11 @@ class Integrity_Mage_Widget_TemplateFilesTest extends PHPUnit_Framework_TestCase
     public function widgetTemplatesDataProvider()
     {
         $result = array();
-        /** @var $model Mage_Widget_Model_Widget */
-        $model = Mage::getModel('Mage_Widget_Model_Widget');
+        /** @var $model Magento_Widget_Model_Widget */
+        $model = Mage::getModel('Magento_Widget_Model_Widget');
         foreach ($model->getWidgetsArray() as $row) {
-            /** @var $instance Mage_Widget_Model_Widget_Instance */
-            $instance = Mage::getModel('Mage_Widget_Model_Widget_Instance');
+            /** @var $instance Magento_Widget_Model_Widget_Instance */
+            $instance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
             $config = $instance->setType($row['type'])->getWidgetConfig();
             $class = $row['type'];
             if (is_subclass_of($class, 'Magento_Core_Block_Template')) {

@@ -16,7 +16,7 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template implements Mage_Widget_Block_Interface
+class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template implements Magento_Widget_Block_Interface
 {
     /**
      * Storage for used widgets

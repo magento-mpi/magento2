@@ -18,7 +18,7 @@
 
 class Magento_Catalog_Block_Widget_Link
     extends Magento_Core_Block_Html_Link
-    implements Mage_Widget_Block_Interface
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Entity model name which must be used to retrieve entity specific data.

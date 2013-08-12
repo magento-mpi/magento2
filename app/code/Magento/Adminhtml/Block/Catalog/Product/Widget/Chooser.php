@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
             'use_massaction' => false,
         ));
 
-        $chooser = $this->getLayout()->createBlock('Mage_Widget_Block_Adminhtml_Widget_Chooser')
+        $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
             ->setElement($element)
             ->setTranslationHelper($this->getTranslationHelper())
             ->setConfig($this->getConfig())

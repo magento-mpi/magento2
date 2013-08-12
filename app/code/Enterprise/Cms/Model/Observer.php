@@ -378,13 +378,13 @@ class Enterprise_Cms_Model_Observer
         $nodeModel = Mage::getModel('Enterprise_Cms_Model_Hierarchy_Node');
         $nodeModel->deleteByScope($storeScope, $storeId);
 
-        /* @var $widgetModel Mage_Widget_Model_Widget_Instance */
-        $widgetModel = Mage::getModel('Mage_Widget_Model_Widget_Instance');
+        /* @var $widgetModel Magento_Widget_Model_Widget_Instance */
+        $widgetModel = Mage::getModel('Magento_Widget_Model_Widget_Instance');
         $widgets = $widgetModel->getResourceCollection()
                 ->addStoreFilter(array($storeId, false))
                 ->addFieldToFilter('instance_type', 'Enterprise_Cms_Block_Widget_Node');
 
-        /* @var $widgetInstance Mage_Widget_Model_Widget_Instance */
+        /* @var $widgetInstance Magento_Widget_Model_Widget_Instance */
         foreach ($widgets as $widgetInstance) {
             $storeIds = $widgetInstance->getStoreIds();
             foreach ($storeIds as $key => $value) {

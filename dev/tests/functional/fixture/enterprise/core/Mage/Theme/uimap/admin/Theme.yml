@@ -35,7 +35,7 @@ edit_theme:
                                         enterprise_catalog_event_widgets: //*[@id='theme_css_view_Framework files']/a[contains(text(), 'Enterprise_CatalogEvent::widgets.css')]
                                         magento_page_css_tabs: //*[@id='theme_css_view_']/a[contains(text(), 'Magento_Page::css/tabs.css')]
                                         magento_reports_widgets: //*[@id='theme_css_view_']/a[contains(text(), 'Magento_Reports::widgets.css')]
-                                        mage_widget_widgets: //*[@id='theme_css_view_']/a[contains(text(), 'Mage_Widget::widgets.css')]
+                                        magento_widget_widgets: //*[@id='theme_css_view_']/a[contains(text(), 'Magento_Widget::widgets.css')]
                                         framework_files: //*[@id='theme_css_view_Framework files']//a
                                         library_files: //*[@id='theme_css_view_Library files']//a
                                         theme_files: //*[@id='theme_css_view_']//a

@@ -17,7 +17,7 @@
  */
 class Magento_Reports_Block_Product_Widget_Viewed
     extends Magento_Reports_Block_Product_Viewed
-    implements Mage_Widget_Block_Interface
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Internal constructor

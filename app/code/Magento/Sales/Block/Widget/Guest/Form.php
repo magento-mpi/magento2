@@ -18,7 +18,7 @@
 
 class Magento_Sales_Block_Widget_Guest_Form
     extends Magento_Core_Block_Template
-    implements Mage_Widget_Block_Interface
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Check whether module is available

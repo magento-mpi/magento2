@@ -15,7 +15,7 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Template_Filter extends Mage_Widget_Model_Template_Filter
+class Magento_Newsletter_Model_Template_Filter extends Magento_Widget_Model_Template_Filter
 {
     /**
      * Generate widget HTML if template variables are assigned

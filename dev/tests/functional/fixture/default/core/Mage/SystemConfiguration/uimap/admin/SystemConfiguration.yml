@@ -3619,7 +3619,7 @@ system_configuration:
                                         magento_theme: //select[@id='Magento_Theme']
                                         magento_usa: //select[@name='groups[modules_disable_output][fields][Magento_Usa][value]']
                                         magento_weee: //select[@name='groups[modules_disable_output][fields][Magento_Weee][value]']
-                                        mage_widget: //select[@name='groups[modules_disable_output][fields][Mage_Widget][value]']
+                                        magento_widget: //select[@name='groups[modules_disable_output][fields][Magento_Widget][value]']
                                         magento_wishlist: //select[@name='groups[modules_disable_output][fields][Magento_Wishlist][value]']
                                     checkboxes:
                                         magento_adminnotification_use_default: //input[@name='groups[modules_disable_output][fields][Magento_AdminNotification][inherit]']
@@ -3682,7 +3682,7 @@ system_configuration:
                                         magento_theme_use_default: //input[@id='Magento_Theme_inherit']
                                         magento_usa_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Usa][inherit]']
                                         magento_weee_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Weee][inherit]']
-                                        mage_widget_use_default: //input[@name='groups[modules_disable_output][fields][Mage_Widget][inherit]']
+                                        magento_widget_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Widget][inherit]']
                                         magento_wishlist_use_default: //input[@name='groups[modules_disable_output][fields][Magento_Wishlist][inherit]']
                 -
                     advanced_developer:

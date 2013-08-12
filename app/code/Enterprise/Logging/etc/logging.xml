@@ -1588,7 +1588,7 @@
     <widget_instance translate="label">
         <label>Frontend App Instance</label>
         <expected_models>
-            <Mage_Widget_Model_Widget_Instance/>
+            <Magento_Widget_Model_Widget_Instance/>
         </expected_models>
         <actions>
             <adminhtml_widget_instance_edit>

@@ -304,7 +304,7 @@
                     <magento_user_model_resource_user_collection>limitAdminPermissionUsers</magento_user_model_resource_user_collection>
                     <magento_user_model_resource_role_user_collection>limitAdminPermissionUsers</magento_user_model_resource_role_user_collection>
                     <magento_reports_model_resource_quote_collection>addStoreFilter</magento_reports_model_resource_quote_collection>
-                    <mage_widget_model_resource_widget_instance_collection>addStoreFilter</mage_widget_model_resource_widget_instance_collection>
+                    <magento_widget_model_resource_widget_instance_collection>addStoreFilter</magento_widget_model_resource_widget_instance_collection>
                     <magento_sales_model_resource_order_payment_transaction_collection>addStoreFilter</magento_sales_model_resource_order_payment_transaction_collection>
                     <enterprise_banner_model_resource_banner_collection>addStoreFilter</enterprise_banner_model_resource_banner_collection>
                     <enterprise_reward_model_resource_reward_history_collection>limitRewardHistoryWebsites</enterprise_reward_model_resource_reward_history_collection>
@@ -343,7 +343,7 @@
                     <magento_eav_model_entity_attribute_set>eavEntityAttributeSetSaveBefore</magento_eav_model_entity_attribute_set>
                     <magento_eav_model_entity_attribute_group>eavEntityAttributeGroupSaveBefore</magento_eav_model_entity_attribute_group>
                     <magento_eav_model_entity_attribute_option>eavEntityAttributeOptionSaveBefore</magento_eav_model_entity_attribute_option>
-                    <mage_widget_model_widget_instance>widgetInstanceSaveBefore</mage_widget_model_widget_instance>
+                    <magento_widget_model_widget_instance>widgetInstanceSaveBefore</magento_widget_model_widget_instance>
                     <enterprise_banner_model_banner>bannerSaveBefore</enterprise_banner_model_banner>
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountSaveBefore</enterprise_giftCardAccount_model_giftcardaccount>
                     <enterprise_giftRegistry_model_type>giftRegistryTypeSaveBefore</enterprise_giftRegistry_model_type>
@@ -369,7 +369,7 @@
                     <magento_eav_model_entity_attribute_set>eavEntityAttributeSetDeleteBefore</magento_eav_model_entity_attribute_set>
                     <magento_eav_model_entity_attribute_group>eavEntityAttributeGroupDeleteBefore</magento_eav_model_entity_attribute_group>
                     <magento_eav_model_entity_attribute_option>eavEntityAttributeOptionDeleteBefore</magento_eav_model_entity_attribute_option>
-                    <mage_widget_model_widget_instance>widgetInstanceDeleteBefore</mage_widget_model_widget_instance>
+                    <magento_widget_model_widget_instance>widgetInstanceDeleteBefore</magento_widget_model_widget_instance>
                     <enterprise_banner_model_banner>bannerDeleteBefore</enterprise_banner_model_banner>
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountDeleteBefore</enterprise_giftCardAccount_model_giftcardaccount>
                     <enterprise_giftRegistry_model_type>giftRegistryTypeDeleteBefore</enterprise_giftRegistry_model_type>
@@ -390,7 +390,7 @@
                     <magento_core_model_url_rewrite>coreUrlRewriteLoadAfter</magento_core_model_url_rewrite>
                     <magento_newsletter_model_queue>newsletterQueueLoadAfter</magento_newsletter_model_queue>
                     <enterprise_banner_model_banner>bannerLoadAfter</enterprise_banner_model_banner>
-                    <mage_widget_model_widget_instance>widgetInstanceLoadAfter</mage_widget_model_widget_instance>
+                    <magento_widget_model_widget_instance>widgetInstanceLoadAfter</magento_widget_model_widget_instance>
                     <enterprise_giftCardAccount_model_giftcardaccount>giftCardAccountLoadAfter</enterprise_giftCardAccount_model_giftcardaccount>
                 </model_load_after>
                 <controller_predispatch>
@@ -532,7 +532,7 @@
                     <enterprise_targetRule_block_adminhtml_product>removeTargetRuleGridButtons</enterprise_targetRule_block_adminhtml_product>
                     <enterprise_targetRule_block_adminhtml_product>removeTargetRuleEditButtons</enterprise_targetRule_block_adminhtml_product>
                     <enterprise_catalogPermissions_block_adminhtml_catalog_category_tab_permissions>validateCatalogPermissions</enterprise_catalogPermissions_block_adminhtml_catalog_category_tab_permissions>
-                    <mage_widget_block_adminhtml_widget_instance_edit>removeWidgetInstanceButtons</mage_widget_block_adminhtml_widget_instance_edit>
+                    <magento_widget_block_adminhtml_widget_instance_edit>removeWidgetInstanceButtons</magento_widget_block_adminhtml_widget_instance_edit>
                     <enterprise_banner_block_adminhtml_banner_edit>validateBannerPermissions</enterprise_banner_block_adminhtml_banner_edit>
                     <enterprise_cms_block_adminhtml_cms_hierarchy_edit>removeCmsHierarchyFormButtons</enterprise_cms_block_adminhtml_cms_hierarchy_edit>
                     <enterprise_cms_block_adminhtml_cms_page_edit_tab_hierarchy>prepareCmsHierarchyNodes</enterprise_cms_block_adminhtml_cms_page_edit_tab_hierarchy>

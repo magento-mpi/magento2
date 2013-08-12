@@ -17,7 +17,7 @@
  */
 class Enterprise_Banner_Block_Widget_Banner
     extends Magento_Core_Block_Template
-    implements Mage_Widget_Block_Interface
+    implements Magento_Widget_Block_Interface
 {
     /**
      * Display mode "fixed" flag

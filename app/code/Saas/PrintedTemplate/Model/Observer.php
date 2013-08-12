@@ -177,8 +177,8 @@ class Saas_PrintedTemplate_Model_Observer
     public function removeWidgetsFromWidgetInstanceForm(Magento_Event_Observer $observer)
     {
         $block = $observer->getEvent()->getBlock();
-        if (!($block instanceof Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
-            || $block instanceof Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main)) {
+        if (!($block instanceof Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
+            || $block instanceof Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main)) {
             return $this;
         }
 
@@ -352,7 +352,7 @@ class Saas_PrintedTemplate_Model_Observer
         }
         $config->setSkipWidgets(array_merge($currentWidgetsToSkip, $widgetsToSkip));
         if ($config->hasWidgetWindowUrl()) {
-            $config->setWidgetWindowUrl(Mage::getModel('Mage_Widget_Model_Widget_Config')->getWidgetWindowUrl($config));
+            $config->setWidgetWindowUrl(Mage::getModel('Magento_Widget_Model_Widget_Config')->getWidgetWindowUrl($config));
         }
     }
 }

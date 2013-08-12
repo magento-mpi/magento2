@@ -345,7 +345,7 @@ class Saas_PrintedTemplate_Model_Template extends Magento_Core_Model_Template
     public function getTemplateFilter()
     {
         if (empty($this->_templateFilter)) {
-            $this->_templateFilter = Mage::getModel('Mage_Widget_Model_Template_Filter');
+            $this->_templateFilter = Mage::getModel('Magento_Widget_Model_Template_Filter');
         }
 
         return $this->_templateFilter;
