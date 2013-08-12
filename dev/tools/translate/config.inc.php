@@ -296,8 +296,8 @@ $CONFIG['translates'] = array(
     'Mage_SalesRule' => array(
         'app/code/Mage/SalesRule/',
     ),
-    'Mage_Sendfriend' => array(
-        'app/code/Mage/Sendfriend/',
+    'Magento_Sendfriend' => array(
+        'app/code/Magento/Sendfriend/',
         'app/design/frontend/base/default/template/sendfriend/',
         'app/design/frontend/base/default/layout/sendfriend.xml',
         'app/design/frontend/default/modern/layout/sendfriend.xml',
@@ -621,7 +621,7 @@ $CONFIG['helpers']  = array(
     'rule'              => 'Mage_Rule',
     'sales'             => 'Mage_Sales',
     'salesrule'         => 'Mage_SalesRule',
-    'sendfriend'        => 'Mage_Sendfriend',
+    'sendfriend'        => 'Magento_Sendfriend',
     'shipping'          => 'Mage_Shipping',
     'sitemap'           => 'Magento_Sitemap',
     'strikeiron'        => 'Mage_Strikeiron',
