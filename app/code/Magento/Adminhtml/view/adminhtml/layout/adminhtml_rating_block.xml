@@ -13,7 +13,7 @@
             <block type="Mage_Backend_Block_Widget_Grid" name="adminhtml.rating.grid" as="grid">
                 <arguments>
                     <id>ratingsGrid</id>
-                    <dataSource type="object">Mage_Rating_Model_Resource_Rating_Grid_Collection</dataSource>
+                    <dataSource type="object">Magento_Rating_Model_Resource_Rating_Grid_Collection</dataSource>
                     <default_sort>rating_code</default_sort>
                     <default_dir>ASC</default_dir>
                     <save_parameters_in_session>1</save_parameters_in_session>
@@ -29,7 +29,7 @@
                     </arguments>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="rating_id">
                         <arguments>
-                            <header translate="true" module="Mage_Rating">ID</header>
+                            <header translate="true" module="Magento_Rating">ID</header>
                             <align>right</align>
                             <width>50px</width>
                             <index>rating_id</index>
@@ -37,13 +37,13 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="rating_code">
                         <arguments>
-                            <header translate="true" module="Mage_Rating">Rating</header>
+                            <header translate="true" module="Magento_Rating">Rating</header>
                             <index>rating_code</index>
                         </arguments>
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="position">
                         <arguments>
-                            <header translate="true" module="Mage_Rating">Sort Order</header>
+                            <header translate="true" module="Magento_Rating">Sort Order</header>
                             <align>left</align>
                             <width>100px</width>
                             <index>position</index>
@@ -51,11 +51,11 @@
                     </block>
                     <block type="Mage_Backend_Block_Widget_Grid_Column" as="is_active">
                         <arguments>
-                            <header translate="true" module="Mage_Rating">Is Active</header>
+                            <header translate="true" module="Magento_Rating">Is Active</header>
                             <align>left</align>
                             <index>is_active</index>
                             <type>options</type>
-                            <options type="options">Mage_Rating_Model_Resource_Rating_Grid_Statuses</options>
+                            <options type="options">Magento_Rating_Model_Resource_Rating_Grid_Statuses</options>
                         </arguments>
                     </block>
                 </block>

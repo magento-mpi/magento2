@@ -287,7 +287,7 @@ class Mage_Review_Model_Resource_Review extends Magento_Core_Model_Resource_Db_A
             $object->load($object->getReviewId());
         }
 
-        $ratingModel    = Mage::getModel('Mage_Rating_Model_Rating');
+        $ratingModel    = Mage::getModel('Magento_Rating_Model_Rating');
         $ratingSummaries= $ratingModel->getEntitySummary($object->getEntityPkValue(), false);
 
         foreach ($ratingSummaries as $ratingSummaryObject) {
@@ -370,7 +370,7 @@ class Mage_Review_Model_Resource_Review extends Magento_Core_Model_Resource_Db_A
             $ratingIds = array((int)$ratingIds);
         }
         if ($ratingIds && $entityPkValue
-            && ($resource = Mage::getResourceSingleton('Mage_Rating_Model_Resource_Rating_Option'))
+            && ($resource = Mage::getResourceSingleton('Magento_Rating_Model_Resource_Rating_Option'))
             ) {
             foreach ($ratingIds as $ratingId) {
                 $resource->aggregateEntityByRatingId(

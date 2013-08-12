@@ -221,7 +221,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     /**
      * Limit ratings collection
      *
-     * @param Mage_Rating_Model_Resource_Rating_Collection $collection
+     * @param Magento_Rating_Model_Resource_Rating_Collection $collection
      */
     public function limitRatings($collection)
     {

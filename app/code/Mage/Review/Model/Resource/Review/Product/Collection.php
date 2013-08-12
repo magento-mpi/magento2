@@ -226,7 +226,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Magento_Catal
     public function addReviewSummary()
     {
         foreach ($this->getItems() as $item) {
-            $model = Mage::getModel('Mage_Rating_Model_Rating');
+            $model = Mage::getModel('Magento_Rating_Model_Rating');
             $model->getReviewSummary($item->getReviewId());
             $item->addData($model->getData());
         }
@@ -241,7 +241,7 @@ class Mage_Review_Model_Resource_Review_Product_Collection extends Magento_Catal
     public function addRateVotes()
     {
         foreach ($this->getItems() as $item) {
-            $votesCollection = Mage::getModel('Mage_Rating_Model_Rating_Option_Vote')
+            $votesCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
                 ->getResourceCollection()
                 ->setEntityPkFilter($item->getEntityId())
                 ->setStoreFilter(Mage::app()->getStore()->getId())

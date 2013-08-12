@@ -46,7 +46,7 @@
  * @method Core_Mage_PriceRules_Helper|Enterprise_Mage_PriceRules_Helper                               priceRulesHelper()
  * @method Core_Mage_ProductAttribute_Helper|Saas_Mage_ProductAttribute_Helper                         productAttributeHelper()
  * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper|Saas_Mage_Product_Helper            productHelper()
- * @method Core_Mage_Rating_Helper                                                                     ratingHelper()
+ * @method Core_Magento_Rating_Helper                                                                     ratingHelper()
  * @method Core_Magento_Reports_Helper                                                                    reportsHelper()
  * @method Core_Mage_Review_Helper                                                                     reviewHelper()
  * @method Core_Mage_RssFeeds_Helper                                                                   rssFeedsHelper()

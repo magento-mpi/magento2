@@ -34,7 +34,7 @@ class Magento_Adminhtml_Controller_Rating extends Magento_Adminhtml_Controller_A
         $this->_initEnityId();
         $this->loadLayout();
 
-        $ratingModel = Mage::getModel('Mage_Rating_Model_Rating');
+        $ratingModel = Mage::getModel('Magento_Rating_Model_Rating');
         if ($this->getRequest()->getParam('id')) {
             $ratingModel->load($this->getRequest()->getParam('id'));
         }
@@ -63,7 +63,7 @@ class Magento_Adminhtml_Controller_Rating extends Magento_Adminhtml_Controller_A
 
         if ($this->getRequest()->getPost()) {
             try {
-                $ratingModel = Mage::getModel('Mage_Rating_Model_Rating');
+                $ratingModel = Mage::getModel('Magento_Rating_Model_Rating');
 
                 $stores = $this->getRequest()->getParam('stores');
                 $position = (int)$this->getRequest()->getParam('position');
@@ -83,7 +83,7 @@ class Magento_Adminhtml_Controller_Rating extends Magento_Adminhtml_Controller_A
                 if (is_array($options)) {
                     $i = 1;
                     foreach ($options as $key => $optionCode) {
-                        $optionModel = Mage::getModel('Mage_Rating_Model_Rating_Option');
+                        $optionModel = Mage::getModel('Magento_Rating_Model_Rating_Option');
                         if (!preg_match("/^add_([0-9]*?)$/", $key)) {
                             $optionModel->setId($key);
                         }
@@ -116,8 +116,8 @@ class Magento_Adminhtml_Controller_Rating extends Magento_Adminhtml_Controller_A
     {
         if( $this->getRequest()->getParam('id') > 0 ) {
             try {
-                $model = Mage::getModel('Mage_Rating_Model_Rating');
-                /* @var $model Mage_Rating_Model_Rating */
+                $model = Mage::getModel('Magento_Rating_Model_Rating');
+                /* @var $model Magento_Rating_Model_Rating */
                 $model->load($this->getRequest()->getParam('id'))
                     ->delete();
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(Mage::helper('Magento_Adminhtml_Helper_Data')->__('You deleted the rating.'));
@@ -134,12 +134,12 @@ class Magento_Adminhtml_Controller_Rating extends Magento_Adminhtml_Controller_A
     {
         $this->_title($this->__('Ratings'));
 
-        Mage::register('entityId', Mage::getModel('Mage_Rating_Model_Rating_Entity')->getIdByCode('product'));
+        Mage::register('entityId', Mage::getModel('Magento_Rating_Model_Rating_Entity')->getIdByCode('product'));
     }
 
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Mage_Rating::ratings');
+        return $this->_authorization->isAllowed('Magento_Rating::ratings');
     }
 
 }

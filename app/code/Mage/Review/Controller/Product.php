@@ -167,7 +167,7 @@ class Mage_Review_Controller_Product extends Magento_Core_Controller_Front_Actio
                         ->save();
 
                     foreach ($rating as $ratingId => $optionId) {
-                        Mage::getModel('Mage_Rating_Model_Rating')
+                        Mage::getModel('Magento_Rating_Model_Rating')
                         ->setRatingId($ratingId)
                         ->setReviewId($review->getId())
                         ->setCustomerId(Mage::getSingleton('Mage_Customer_Model_Session')->getCustomerId())

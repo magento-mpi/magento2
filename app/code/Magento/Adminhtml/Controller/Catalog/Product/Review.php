@@ -105,7 +105,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
                     $review->addData($data)->save();
 
                     $arrRatingId = $this->getRequest()->getParam('ratings', array());
-                    $votes = Mage::getModel('Mage_Rating_Model_Rating_Option_Vote')
+                    $votes = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
                         ->getResourceCollection()
                         ->setReviewFilter($reviewId)
                         ->addOptionInfo()
@@ -113,12 +113,12 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
                         ->addRatingOptions();
                     foreach ($arrRatingId as $ratingId=>$optionId) {
                         if($vote = $votes->getItemByColumnValue('rating_id', $ratingId)) {
-                            Mage::getModel('Mage_Rating_Model_Rating')
+                            Mage::getModel('Magento_Rating_Model_Rating')
                                 ->setVoteId($vote->getId())
                                 ->setReviewId($review->getId())
                                 ->updateOptionVote($optionId);
                         } else {
-                            Mage::getModel('Mage_Rating_Model_Rating')
+                            Mage::getModel('Magento_Rating_Model_Rating')
                                 ->setRatingId($ratingId)
                                 ->setReviewId($review->getId())
                                 ->addOptionVote($optionId, $review->getEntityPkValue());
@@ -316,7 +316,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
 
                 $arrRatingId = $this->getRequest()->getParam('ratings', array());
                 foreach ($arrRatingId as $ratingId=>$optionId) {
-                    Mage::getModel('Mage_Rating_Model_Rating')
+                    Mage::getModel('Magento_Rating_Model_Rating')
                        ->setRatingId($ratingId)
                        ->setReviewId($review->getId())
                        ->addOptionVote($optionId, $productId);

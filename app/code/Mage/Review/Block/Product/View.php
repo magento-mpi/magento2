@@ -43,7 +43,7 @@ class Mage_Review_Block_Product_View extends Magento_Catalog_Block_Product_View
     public function getReviewsSummaryHtml(Magento_Catalog_Model_Product $product, $templateType = false, $displayIfNoReviews = false)
     {
         return
-            $this->getLayout()->createBlock('Mage_Rating_Block_Entity_Detailed')
+            $this->getLayout()->createBlock('Magento_Rating_Block_Entity_Detailed')
                 ->setEntityId($this->getProduct()->getId())
                 ->toHtml()
             .

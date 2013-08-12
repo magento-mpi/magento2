@@ -208,7 +208,7 @@
     <rating translate="label">
         <label>Catalog Ratings</label>
         <expected_models>
-            <Mage_Rating_Model_Rating/>
+            <Magento_Rating_Model_Rating/>
         </expected_models>
         <actions>
             <adminhtml_rating_edit>

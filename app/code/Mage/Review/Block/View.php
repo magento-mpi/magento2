@@ -54,12 +54,12 @@ class Mage_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
     /**
      * Retrieve collection of ratings
      *
-     * @return Mage_Rating_Model_Resource_Rating_Option_Vote_Collection
+     * @return Magento_Rating_Model_Resource_Rating_Option_Vote_Collection
      */
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
-            $ratingCollection = Mage::getModel('Mage_Rating_Model_Rating_Option_Vote')
+            $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
                 ->setStoreFilter(Mage::app()->getStore()->getId())
@@ -78,7 +78,7 @@ class Mage_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
     public function getRatingSummary()
     {
         if( !$this->getRatingSummaryCache() ) {
-            $this->setRatingSummaryCache(Mage::getModel('Mage_Rating_Model_Rating')->getEntitySummary($this->getProductData()->getId()));
+            $this->setRatingSummaryCache(Mage::getModel('Magento_Rating_Model_Rating')->getEntitySummary($this->getProductData()->getId()));
         }
         return $this->getRatingSummaryCache();
     }

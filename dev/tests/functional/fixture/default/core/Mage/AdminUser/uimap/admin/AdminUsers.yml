@@ -341,7 +341,7 @@ new_admin_role:
                                         stores-attributes-product: //*[@data-id='Magento_Catalog::attributes_attributes']//*[@class='jstree-checkbox']
                                         stores-attributes-update_attributes: //*[@data-id='Magento_Catalog::update_attributes']//*[@class='jstree-checkbox']
                                         stores-attributes-product_template: //*[@data-id='Magento_Catalog::sets']//*[@class='jstree-checkbox']
-                                        stores-attributes-ratings: //*[@data-id='Mage_Rating::ratings']//*[@class='jstree-checkbox']
+                                        stores-attributes-ratings: //*[@data-id='Magento_Rating::ratings']//*[@class='jstree-checkbox']
                                         stores-other_settings: //*[@data-id='Magento_Adminhtml::stores_other_settings']//*[@class='jstree-checkbox']
                                         stores-other_settings-customer_groups: //*[@data-id='Mage_Customer::group']//*[@class='jstree-checkbox']
                                         system: //*[@data-id='Magento_Adminhtml::system']//*[@class='jstree-checkbox']

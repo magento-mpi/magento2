@@ -51,12 +51,12 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Wi
         $this->setForm($form);
 
         $fieldset = $form->addFieldset('rating_form', array(
-            'legend'=>Mage::helper('Mage_Rating_Helper_Data')->__('Rating Title')
+            'legend'=>Mage::helper('Magento_Rating_Helper_Data')->__('Rating Title')
         ));
 
         $fieldset->addField('rating_code', 'text', array(
             'name' => 'rating_code',
-            'label' => Mage::helper('Mage_Rating_Helper_Data')->__('Default Value'),
+            'label' => Mage::helper('Magento_Rating_Helper_Data')->__('Default Value'),
             'class' => 'required-entry',
             'required' => true,
         ));
@@ -83,7 +83,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Wi
         }
 
         if (Mage::registry('rating_data')) {
-            $collection = Mage::getModel('Mage_Rating_Model_Rating_Option')
+            $collection = Mage::getModel('Magento_Rating_Model_Rating_Option')
                 ->getResourceCollection()
                 ->addRatingFilter(Mage::registry('rating_data')->getId())
                 ->load();
@@ -109,11 +109,11 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Wi
         }
 
         $fieldset = $form->addFieldset('visibility_form', array(
-            'legend' => Mage::helper('Mage_Rating_Helper_Data')->__('Rating Visibility')
+            'legend' => Mage::helper('Magento_Rating_Helper_Data')->__('Rating Visibility')
         ));
         if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField('stores', 'multiselect', array(
-                'label' => Mage::helper('Mage_Rating_Helper_Data')->__('Visible In'),
+                'label' => Mage::helper('Magento_Rating_Helper_Data')->__('Visible In'),
                 'name' => 'stores[]',
                 'values' => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
             ));
@@ -126,13 +126,13 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Wi
         }
 
         $fieldset->addField('is_active', 'checkbox', array(
-            'label' => Mage::helper('Mage_Rating_Helper_Data')->__('Is Active'),
+            'label' => Mage::helper('Magento_Rating_Helper_Data')->__('Is Active'),
             'name' => 'is_active',
             'value' => 1,
         ));
 
         $fieldset->addField('position', 'text', array(
-            'label' => Mage::helper('Mage_Rating_Helper_Data')->__('Sort Order'),
+            'label' => Mage::helper('Magento_Rating_Helper_Data')->__('Sort Order'),
             'name' => 'position',
         ));
 
@@ -163,7 +163,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Mage_Backend_Block_Wi
 <ul class="messages">
     <li class="notice-msg">
         <ul>
-            <li>'.Mage::helper('Mage_Rating_Helper_Data')->__('Please specify a rating title for a store, or we\'ll just use the default value.').'</li>
+            <li>'.Mage::helper('Magento_Rating_Helper_Data')->__('Please specify a rating title for a store, or we\'ll just use the default value.').'</li>
         </ul>
     </li>
 </ul>

@@ -262,8 +262,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/protx/',
         'app/design/frontend/base/default/layout/protx.xml',
     ),
-    'Mage_Rating' => array(
-        'app/code/Mage/Rating/',
+    'Magento_Rating' => array(
+        'app/code/Magento/Rating/',
         'app/design/frontend/base/default/template/rating/',
     ),
     'Magento_Reports' => array(
@@ -614,7 +614,7 @@ $CONFIG['helpers']  = array(
     'poll'              => 'Magento_Poll',
     'productalert'      => 'Magento_ProductAlert',
     'protx'             => 'Mage_Protx',
-    'rating'            => 'Mage_Rating',
+    'rating'            => 'Magento_Rating',
     'reports'           => 'Magento_Reports',
     'review'            => 'Mage_Review',
     'rss'               => 'Mage_Rss',

@@ -68,7 +68,7 @@ class Mage_Review_Block_Form extends Magento_Core_Block_Template
 
     public function getRatings()
     {
-        $ratingCollection = Mage::getModel('Mage_Rating_Model_Rating')
+        $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating')
             ->getResourceCollection()
             ->addEntityFilter('product')
             ->setPositionOrder()

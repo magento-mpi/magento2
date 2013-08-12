@@ -458,7 +458,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * Save correct store list in rating (while Managing Ratings)
      *
-     * @param Mage_Rating_Model_Rating $model
+     * @param Magento_Rating_Model_Rating $model
      * @return Enterprise_AdminGws_Model_Models
      */
     public function ratingSaveBefore($model)
