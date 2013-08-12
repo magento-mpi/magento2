@@ -28,7 +28,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Giftmessage object
      *
-     * @var Mage_GiftMessage_Model_Message
+     * @var Magento_GiftMessage_Model_Message
      */
     protected $_giftMessage;
 
@@ -229,7 +229,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage(
+        $this->_giftMessage = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage(
                                    $this->getEntity()->getGiftMessageId()
                               );
         return $this;
@@ -238,7 +238,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Retrive gift message for entity
      *
-     * @return Mage_GiftMessage_Model_Message
+     * @return Magento_GiftMessage_Model_Message
      */
     public function getMessage()
     {

@@ -69,7 +69,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
      */
     protected function _saveOne($entityId, $giftmessage) {
         /* @var $giftmessageModel Mage_Giftmessage_Model_Message */
-        $giftmessageModel = Mage::getModel('Mage_GiftMessage_Model_Message');
+        $giftmessageModel = Mage::getModel('Magento_GiftMessage_Model_Message');
         $entityType = $this->_getMappedType($giftmessage['type']);
 
         switch($entityType) {
@@ -116,14 +116,14 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
     /**
      * Delete a single gift message from entity
      *
-     * @param Mage_GiftMessage_Model_Message|null $giftmessageModel
+     * @param Magento_GiftMessage_Model_Message|null $giftmessageModel
      * @param Magento_Object $entityModel
      * @return Magento_Adminhtml_Model_Giftmessage_Save
      */
     protected function _deleteOne($entityModel, $giftmessageModel=null)
     {
         if(is_null($giftmessageModel)) {
-            $giftmessageModel = Mage::getModel('Mage_GiftMessage_Model_Message')
+            $giftmessageModel = Mage::getModel('Magento_GiftMessage_Model_Message')
                 ->load($entityModel->getGiftMessageId());
         }
         $giftmessageModel->delete();
@@ -220,7 +220,7 @@ class Magento_Adminhtml_Model_Giftmessage_Save extends Magento_Object
      */
     public function isGiftMessagesAvailable($item)
     {
-        return Mage::helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable(
+        return Mage::helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
             'item', $item, $item->getStore()
         );
     }

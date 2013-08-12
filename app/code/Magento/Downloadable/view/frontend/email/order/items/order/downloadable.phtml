@@ -33,7 +33,7 @@
         </dl>
         <?php endif; ?>
         <?php echo $this->escapeHtml($_item->getDescription()) ?>
-        <?php if ($_item->getGiftMessageId() && $_giftMessage = $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage($_item->getGiftMessageId())): ?>
+        <?php if ($_item->getGiftMessageId() && $_giftMessage = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage($_item->getGiftMessageId())): ?>
         <br /><strong><?php echo $this->__('Gift Message') ?></strong>
         <br /><?php echo $this->__('From:'); ?> <?php echo $this->escapeHtml($_giftMessage->getSender()) ?>
         <br /><?php echo $this->__('To:'); ?> <?php echo $this->escapeHtml($_giftMessage->getRecipient()) ?>

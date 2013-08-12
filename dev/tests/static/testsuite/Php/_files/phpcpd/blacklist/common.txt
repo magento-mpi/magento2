@@ -43,7 +43,7 @@ Magento/Cron/Model/Config/Backend/Product
 Mage/DesignEditor/Block/Adminhtml/Editor/Tools/Code
 Mage/DesignEditor/Block/Adminhtml/Theme/Selector/Tab
 Mage/DesignEditor/Model/Url
-Mage/GiftMessage/Block/Adminhtml/Sales/Order
+Magento/GiftMessage/Block/Adminhtml/Sales/Order
 Magento/ImportExport/Model
 Magento/Index/Model/Process
 Magento/Install/Block/Db

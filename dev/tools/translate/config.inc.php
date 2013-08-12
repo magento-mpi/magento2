@@ -138,8 +138,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/template/flo2cash/',
         'app/design/adminhtml/default/default/template/flo2cash/',
     ),
-    'Mage_GiftMessage' => array(
-        'app/code/Mage/GiftMessage/',
+    'Magento_GiftMessage' => array(
+        'app/code/Magento/GiftMessage/',
         'app/design/frontend/base/default/template/giftmessage/'
     ),
     'Magento_GoogleAnalytics' => array(
@@ -589,7 +589,7 @@ $CONFIG['helpers']  = array(
     'eav'               => 'Magento_Eav',
     'eway'              => 'Mage_Eway',
     'flo2cash'          => 'Mage_Flo2Cash',
-    'giftmessage'       => 'Mage_GiftMessage',
+    'giftmessage'       => 'Magento_GiftMessage',
     'googleanalytics'   => 'Magento_GoogleAnalytics',
     'googlebase'        => 'Mage_GoogleBase',
     'googlecheckout'    => 'Magento_GoogleCheckout',

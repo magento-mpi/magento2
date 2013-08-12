@@ -16,7 +16,7 @@
             <active>false</active>
             <depends>
                 <Magento_Adminhtml/>
-                <Mage_GiftMessage/>
+                <Magento_GiftMessage/>
             </depends>
         </Enterprise_GiftWrapping>
     </modules>

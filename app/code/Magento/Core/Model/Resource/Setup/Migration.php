@@ -740,7 +740,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
             'catalogrule'       => 'Magento_CatalogRule',
             'catalogsearch'     => 'Magento_CatalogSearch',
             'currencysymbol'    => 'Magento_CurrencySymbol',
-            'giftmessage'       => 'Mage_GiftMessage',
+            'giftmessage'       => 'Magento_GiftMessage',
             'googleanalytics'   => 'Magento_GoogleAnalytics',
             'googlebase'        => 'Mage_GoogleBase',
             'googlecheckout'    => 'Magento_GoogleCheckout',

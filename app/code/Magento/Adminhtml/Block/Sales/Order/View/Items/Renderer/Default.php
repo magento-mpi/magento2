@@ -56,7 +56,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Ma
     /**
      * Giftmessage object
      *
-     * @var Mage_GiftMessage_Model_Message
+     * @var Magento_GiftMessage_Model_Message
      */
     protected $_giftMessage = array();
 
@@ -125,7 +125,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Ma
     protected function _initMessage()
     {
         $this->_giftMessage[$this->getItem()->getGiftMessageId()] =
-            $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage($this->getItem()->getGiftMessageId());
+            $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage($this->getItem()->getGiftMessageId());
 
         // init default values for giftmessage form
         if(!$this->getMessage()->getSender()) {
@@ -141,7 +141,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Ma
     /**
      * Retrive gift message for entity
      *
-     * @return Mage_GiftMessage_Model_Message
+     * @return Magento_GiftMessage_Model_Message
      */
     public function getMessage()
     {
@@ -183,7 +183,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default extends Ma
      */
     public function canDisplayGiftmessage()
     {
-        return $this->helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable(
+        return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
             'order_item', $this->getItem(), $this->getItem()->getOrder()->getStoreId()
         );
     }

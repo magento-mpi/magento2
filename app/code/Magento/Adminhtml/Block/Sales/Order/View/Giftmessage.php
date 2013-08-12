@@ -37,7 +37,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
     /**
      * Giftmessage object
      *
-     * @var Mage_GiftMessage_Model_Message
+     * @var Magento_GiftMessage_Model_Message
      */
     protected $_giftMessage;
 
@@ -57,7 +57,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
     protected function _prepareLayout()
     {
         $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
-            'label'   => Mage::helper('Mage_GiftMessage_Helper_Data')->__('Save Gift Message'),
+            'label'   => Mage::helper('Magento_GiftMessage_Helper_Data')->__('Save Gift Message'),
             'class'   => 'save'
         ));
 
@@ -98,7 +98,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
     public function getEntity()
     {
         if(is_null($this->_entity)) {
-            $this->setEntity(Mage::getModel('Mage_GiftMessage_Model_Message')->getEntityModelByType('order'));
+            $this->setEntity(Mage::getModel('Magento_GiftMessage_Model_Message')->getEntityModelByType('order'));
             $this->getEntity()->load($this->getRequest()->getParam('entity'));
         }
         return $this->_entity;
@@ -189,7 +189,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('Mage_GiftMessage_Helper_Message')->getGiftMessage(
+        $this->_giftMessage = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage(
                                    $this->getEntity()->getGiftMessageId()
                               );
 
@@ -207,7 +207,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
     /**
      * Retrive gift message for entity
      *
-     * @return Mage_GiftMessage_Model_Message
+     * @return Magento_GiftMessage_Model_Message
      */
     public function getMessage()
     {
@@ -246,7 +246,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Giftmessage extends Magento_Admin
      */
     public function canDisplayGiftmessage()
     {
-        return $this->helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable(
+        return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
             'order', $this->getEntity(), $this->getEntity()->getStoreId()
         );
     }

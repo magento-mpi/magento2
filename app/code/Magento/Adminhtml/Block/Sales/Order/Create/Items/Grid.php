@@ -91,12 +91,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid extends Magento_Admi
     public function isGiftMessagesAvailable($item=null)
     {
         if(is_null($item)) {
-            return $this->helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable(
+            return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
                 'items', $this->getQuote(), $this->getStore()
             );
         }
 
-        return $this->helper('Mage_GiftMessage_Helper_Message')->getIsMessagesAvailable(
+        return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable(
             'item', $item, $this->getStore()
         );
     }
